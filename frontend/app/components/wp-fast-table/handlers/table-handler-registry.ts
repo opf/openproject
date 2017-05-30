@@ -48,8 +48,6 @@ export class TableHandlerRegistry {
   ];
 
   static attachTo(table: WorkPackageTable) {
-    let container = jQuery(table.container);
-
     this.stateTransformers.map((cls) => {
       return new cls(table);
     });

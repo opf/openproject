@@ -25,21 +25,21 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {States} from "../../states.service";
-import {RenderInfo} from "./wp-timeline";
-import {WorkPackageTimelineTableController} from "./container/wp-timeline-container.directive";
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
+import {States} from "../../../states.service";
+import {RenderInfo} from "../wp-timeline";
+import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
+import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
 import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
-import {TimelineMilestoneCellRenderer} from "./cell-renderer/timeline-milestone-cell-renderer";
-import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
-import {Observable, Subscription} from "rxjs";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
+import {TimelineMilestoneCellRenderer} from "../cells/timeline-milestone-cell-renderer";
+import {TimelineCellRenderer} from "../cells/timeline-cell-renderer";
+import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import * as moment from "moment";
-import { injectorBridge } from "../../angular/angular-injector-bridge.functions";
+import { injectorBridge } from "../../../angular/angular-injector-bridge.functions";
 import IScope = angular.IScope;
 import Moment = moment.Moment;
-import {WorkPackageTableRefreshService} from "../wp-table-refresh-request.service";
-import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
+import {WorkPackageTableRefreshService} from "../../wp-table-refresh-request.service";
+import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
+import {timelineRowId} from "../../../wp-fast-table/builders/timeline/timeline-row-builder";
 
 export class WorkPackageTimelineCell {
   public wpCacheService: WorkPackageCacheService;
@@ -47,44 +47,17 @@ export class WorkPackageTimelineCell {
   public states: States;
   public loadingIndicator: LoadingIndicatorService;
 
-  private subscription: Subscription;
-
-  public latestRenderInfo: RenderInfo;
-
   private wpElement: HTMLDivElement|null = null;
 
   private elementShape: string;
 
-  private renderers:{ milestone: TimelineMilestoneCellRenderer, generic: TimelineCellRenderer };
+  private timelineCell:JQuery;
 
-  constructor(private workPackageTimeline: WorkPackageTimelineTableController,
-              private workPackageId: string,
-              public timelineCell: HTMLElement) {
+  constructor(public workPackageTimeline: WorkPackageTimelineTableController,
+              public renderers:{ milestone: TimelineMilestoneCellRenderer, generic: TimelineCellRenderer },
+              public latestRenderInfo: RenderInfo,
+              public workPackageId: string) {
     injectorBridge(this);
-
-    this.renderers = {
-      milestone: new TimelineMilestoneCellRenderer(this.workPackageTimeline),
-      generic: new TimelineCellRenderer(this.workPackageTimeline)
-    };
-  }
-
-  activate() {
-    this.subscription = Observable.combineLatest(
-      this.workPackageTimeline.addWorkPackage(this.workPackageId),
-      this.states.table.timelineVisible.values$().takeUntil(this.states.table.stopAllSubscriptions)
-    )
-      .filter(([renderInfo, timelineState]) => timelineState.isVisible)
-      .map(([renderInfo, _visible]) => renderInfo)
-      .subscribe(renderInfo => {
-        this.updateView(renderInfo);
-        this.workPackageTimeline.cells[this.workPackageId] = this;
-      });
-  }
-
-  deactivate() {
-    this.clear();
-    delete this.workPackageTimeline.cells[this.workPackageId];
-    this.subscription && this.subscription.unsubscribe();
   }
 
   getLeftmostPosition(): number {
@@ -106,17 +79,28 @@ export class WorkPackageTimelineCell {
     return !_.isNil(wp.startDate) || !_.isNil(wp.dueDate);
   }
 
-  private clear() {
+  public clear() {
     this.timelineCell.innerHTML = "";
     this.wpElement = null;
   }
 
-  private lazyInit(renderer: TimelineCellRenderer, renderInfo: RenderInfo) {
-    const wasRendered = this.wpElement !== null && this.wpElement.parentNode;
+  private get cellContainer() {
+    return this.workPackageTimeline.timelineBody;
+  }
+
+  private get cellElement() {
+    return this.cellContainer.find(`#${timelineRowId(this.workPackageId)}`);
+  }
+
+  private lazyInit(renderer: TimelineCellRenderer, renderInfo: RenderInfo):JQuery {
+    const body = this.workPackageTimeline.timelineBody[0];
+    const cell = this.cellElement;
+
+    const wasRendered = this.wpElement !== null && body.contains(this.wpElement);
 
     // If already rendered with correct shape, ignore
     if (wasRendered && (this.elementShape === renderer.type)) {
-      return;
+      return cell;
     }
 
     // Remove the element first if we're redrawing
@@ -129,7 +113,7 @@ export class WorkPackageTimelineCell {
     this.elementShape = renderer.type;
 
     // Register the element
-    this.timelineCell.appendChild(this.wpElement);
+    cell.append(this.wpElement);
 
     // Allow editing if editable
     if (renderInfo.workPackage.isEditable) {
@@ -141,11 +125,13 @@ export class WorkPackageTimelineCell {
         this.wpCacheService,
         this.wpTableRefresh,
         this.loadingIndicator,
-        this.timelineCell,
+        cell[0],
         this.wpElement,
         renderer,
         renderInfo);
     }
+
+    return cell;
   }
 
   private cellRenderer(workPackage: WorkPackageResourceInterface): TimelineCellRenderer {
@@ -156,15 +142,15 @@ export class WorkPackageTimelineCell {
     return this.renderers.generic;
   }
 
-  private updateView(renderInfo: RenderInfo) {
+  public refreshView(renderInfo: RenderInfo) {
     this.latestRenderInfo = renderInfo;
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
     // Render initial element if necessary
-    this.lazyInit(renderer, renderInfo);
+    const cell = this.lazyInit(renderer, renderInfo);
 
     // Render the upgrade from renderInfo
-    const shouldBeDisplayed = renderer.update(this.timelineCell, this.wpElement as HTMLDivElement, renderInfo);
+    const shouldBeDisplayed = renderer.update(cell[0], this.wpElement as HTMLDivElement, renderInfo);
     if (!shouldBeDisplayed) {
       this.clear();
     }

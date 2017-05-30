@@ -25,17 +25,17 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {timelineElementCssClass, RenderInfo} from "./wp-timeline";
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
-import {WorkPackageTimelineTableController} from "./container/wp-timeline-container.directive";
-import {TimelineCellRenderer} from "./cell-renderer/timeline-cell-renderer";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {keyCodes} from "../../common/keyCodes.enum";
+import {timelineElementCssClass, RenderInfo} from "../wp-timeline";
+import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
+import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
+import {TimelineCellRenderer} from "./timeline-cell-renderer";
+import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {keyCodes} from "../../../common/keyCodes.enum";
 import IScope = angular.IScope;
 import * as moment from 'moment';
 import Moment = moment.Moment;
-import {WorkPackageTableRefreshService} from "../wp-table-refresh-request.service";
-import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
+import {WorkPackageTableRefreshService} from "../../wp-table-refresh-request.service";
+import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 
 const classNameBar = "bar";
 export const classNameLeftHandle = "leftHandle";

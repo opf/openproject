@@ -36,14 +36,15 @@ import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-t
 import {WorkPackageTableTimelineState} from "../../../wp-fast-table/wp-table-timeline";
 import {WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
 import {WorkPackagesTableController} from "../../wp-table.directive";
-import {RenderInfo, timelineMarkerSelectionStartClass, TimelineViewParameters} from "../wp-timeline";
-import {WorkPackageTimelineCell} from "../wp-timeline-cell";
-import {WorkPackageTable} from '../../../wp-fast-table/wp-fast-table';
-import {WorkPackageTableHierarchiesService} from '../../../wp-fast-table/state/wp-table-hierarchy.service.ts';
+import {timelineMarkerSelectionStartClass, TimelineViewParameters} from "../wp-timeline";
+import {WorkPackageTable} from "../../../wp-fast-table/wp-fast-table";
+import {WorkPackageTableHierarchiesService} from "../../../wp-fast-table/state/wp-table-hierarchy.service";
 
-import * as angular from 'angular';
-import {BehaviorSubject, Observable} from "rxjs";
-import {selectorTimelineSide} from '../../wp-table-scroll-sync';
+import * as angular from "angular";
+import {selectorTimelineSide} from "../../wp-table-scroll-sync";
+import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pass";
+import {WorkPackageTimelineCellsRenderer} from "../cells/wp-timeline-cells-renderer";
+import {WorkPackageTimelineCell} from "../cells/wp-timeline-cell";
 
 export class WorkPackageTimelineTableController {
 
@@ -53,17 +54,16 @@ export class WorkPackageTimelineTableController {
 
   private _viewParameters: TimelineViewParameters = new TimelineViewParameters();
 
-  private workPackagesInView: {[id: string]: WorkPackageResourceInterface} = {};
-
-  private updateAllWorkPackagesSubject = new BehaviorSubject<boolean>(true);
-
   public disableViewParamsCalculation = false;
 
-  public cells:{[id: string]:WorkPackageTimelineCell} = {};
+  public workPackageIdOrder:RenderedRow[] = [];
 
   private renderers:{ [name:string]: (vp:TimelineViewParameters) => void } = {};
 
-  private outerContainer:JQuery;
+  private cellsRenderer = new WorkPackageTimelineCellsRenderer(this);
+
+  public outerContainer:JQuery;
+  public timelineBody:JQuery;
 
   private selectionParams = {
     notification: null
@@ -92,6 +92,7 @@ export class WorkPackageTimelineTableController {
 
     // Get the outer container for width computation
     this.outerContainer = this.$element.find('.wp-table-timeline--outer');
+    this.timelineBody = this.$element.find('.wp-table-timeline--body');
 
     // Debounced refresh function
     this.debouncedRefresh = _.debounce(
@@ -106,11 +107,18 @@ export class WorkPackageTimelineTableController {
     // Register this instance to the table
     this.wpTableDirective.registerTimeline(this, this.timelineBody[0]);
 
+    // Refresh on changes to work packages
+    this.updateOnWorkPackageChanges();
+
     // Refresh timeline view after table rendered
     this.states.table.rendered.values$()
+      .takeUntil(this.states.table.stopAllSubscriptions)
       .filter(() => this.initialized)
-      .take(1)
-      .subscribe(() => this.debouncedRefresh());
+      .map(rendered => rendered.renderedOrder)
+      .subscribe((orderedRows) => {
+        this.workPackageIdOrder = orderedRows;
+        this.refreshView();
+      });
 
     // Refresh timeline view when becoming visible
     this.states.table.timelineVisible.values$()
@@ -133,18 +141,16 @@ export class WorkPackageTimelineTableController {
       });
   }
 
+  workPackageInView(wpId:string):boolean {
+    return this.cellsRenderer.hasCell(wpId);
+  }
+
+  workPackageCell(wpId:string):WorkPackageTimelineCell {
+    return this.cellsRenderer.cells[wpId];
+  }
+
   onRefreshRequested(name:string, callback:(vp:TimelineViewParameters) => void) {
     this.renderers[name] = callback;
-  }
-
-  public updateWorkPackageInfo(cell: WorkPackageTimelineCell) {
-    this.cells[cell.latestRenderInfo.workPackage.id] = cell;
-    this.refreshView();
-  }
-
-  public removeWorkPackageInfo(id: string) {
-    delete this.cells[id];
-    this.refreshView();
   }
 
   getAbsoluteLeftCoordinates():number {
@@ -153,14 +159,6 @@ export class WorkPackageTimelineTableController {
 
   get viewParameters(): TimelineViewParameters {
     return this._viewParameters;
-  }
-
-  get viewParameterSettings() {
-    return this._viewParameters.settings;
-  }
-
-  get timelineBody():ng.IAugmentedJQuery {
-    return this.$element.find('.wp-table-timeline--body');
   }
 
   get inHierarchyMode():boolean {
@@ -183,7 +181,9 @@ export class WorkPackageTimelineTableController {
     this.outerContainer.css('width', 'auto');
 
     this.calculateViewParams(this._viewParameters);
-    this.updateAllWorkPackagesSubject.next(true);
+
+    // Update all cells
+    this.cellsRenderer.refreshAllCells();
 
     _.each(this.renderers, (cb, key) => {
       debugLog(`Refreshing timeline member ${key}`);
@@ -196,40 +196,22 @@ export class WorkPackageTimelineTableController {
     this.outerContainer.width(currentWidth);
   }
 
-  addWorkPackage(wpId: string): Observable<RenderInfo> {
-    const wpObs = this.states.workPackages.get(wpId).values$()
+  updateOnWorkPackageChanges() {
+    this.states.workPackages.observeChange()
+      .withLatestFrom(this.states.table.timelineVisible.values$())
       .takeUntil(scopeDestroyed$(this.$scope))
-      .filter(() => this.initialized)
-      .map((wp: any) => {
-        this.workPackagesInView[wp.id] = wp;
+      .filter(([,timelineState]) => this.initialized && timelineState.isVisible)
+      .map(([[wpId],]) => wpId)
+      .filter((wpId) => this.cellsRenderer.hasCell(wpId))
+      .subscribe((wpId) => {
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
         if (viewParamsChanged) {
           this.debouncedRefresh();
+        } else {
+          // Refresh the single cell
+          this.cellsRenderer.refreshCellFor(wpId);
         }
-
-        return {
-          viewParams: this._viewParameters,
-          workPackage: wp
-        };
-      })
-      .distinctUntilChanged((v1, v2) => {
-        return v1 === v2;
-      }, renderInfo => {
-        return ""
-          + renderInfo.viewParams.dateDisplayStart
-          + renderInfo.viewParams.dateDisplayEnd
-          + renderInfo.workPackage.date
-          + renderInfo.workPackage.startDate
-          + renderInfo.workPackage.dueDate;
       });
-
-    return Observable.combineLatest(
-        wpObs,
-        this.updateAllWorkPackagesSubject,
-        (renderInfo: RenderInfo) => {
-          return renderInfo;
-        }
-      );
   }
 
   startAddRelationPredecessor(start: WorkPackageResourceInterface) {
@@ -286,8 +268,19 @@ export class WorkPackageTimelineTableController {
     let changed = false;
 
     // Calculate view parameters
-    for (const wpId in this.workPackagesInView) {
-      const workPackage = this.workPackagesInView[wpId];
+    this.workPackageIdOrder.forEach((renderedRow) => {
+      const wpId = renderedRow.workPackageId;
+
+      // Not all rendered rows are work packages
+      if (!wpId) {
+        return;
+      }
+
+      // We may still have a reference to a row that, e.g., just got deleted
+      const workPackage = this.states.workPackages.get(wpId).value;
+      if (!workPackage) {
+        return;
+      }
 
       const startDate = workPackage.startDate ? moment(workPackage.startDate) : currentParams.now;
       const dueDate = workPackage.dueDate ? moment(workPackage.dueDate) : currentParams.now;
@@ -306,7 +299,7 @@ export class WorkPackageTimelineTableController {
         currentParams.now,
         dueDate,
         date);
-    }
+    });
 
     // left spacing
     newParams.dateDisplayStart.subtract(3, "days");
