@@ -138,6 +138,10 @@ module OpenProject::Backlogs
     patch_with_namespace :DemoData, :ProjectSeeder
 
     extend_api_response(:v3, :work_packages, :work_package) do
+      property :position,
+               render_nil: true,
+               if: ->(*) { backlogs_enabled? && type && type.passes_attribute_constraint?(:position) }
+
       property :story_points,
                render_nil: true,
                if: ->(*) { backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points) }
@@ -153,6 +157,10 @@ module OpenProject::Backlogs
     end
 
     extend_api_response(:v3, :work_packages, :work_package_payload) do
+      property :position,
+               render_nil: true,
+               if: ->(*) { backlogs_enabled? && type && type.passes_attribute_constraint?(:position) }
+
       property :story_points,
                render_nil: true,
                if: ->(*) { backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points) }
@@ -174,6 +182,15 @@ module OpenProject::Backlogs
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
+      schema :position,
+             type: 'Integer',
+             required: false,
+             writable: false,
+             show_if: -> (*) {
+               represented.project && represented.project.backlogs_enabled? &&
+                 (!represented.type || represented.type.passes_attribute_constraint?(:position))
+             }
+
       schema :story_points,
              type: 'Integer',
              required: false,
@@ -190,6 +207,14 @@ module OpenProject::Backlogs
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_sums_schema) do
+      schema :position,
+             type: 'Integer',
+             required: false,
+             writable: false,
+             show_if: -> (*) {
+               ::Setting.work_package_list_summable_columns.include?('position')
+             }
+
       schema :story_points,
              type: 'Integer',
              required: false,
@@ -208,6 +233,12 @@ module OpenProject::Backlogs
     end
 
     extend_api_response(:v3, :work_packages, :work_package_sums) do
+      property :position,
+               render_nil: true,
+               if: -> (*) {
+                 ::Setting.work_package_list_summable_columns.include?('position')
+               }
+
       property :story_points,
                render_nil: true,
                if: -> (*) {
@@ -253,8 +284,16 @@ module OpenProject::Backlogs
     end
 
     config.to_prepare do
-      ::Type.add_constraint :story_points, ->(type, project: nil) do
+      ::Type.add_constraint :position, ->(type, project: nil) do
+        if project.present?
+          project.backlogs_enabled? && type.story?
+        else
+          # Allow globally configuring the attribute if story
+          type.story?
+        end
+      end
 
+      ::Type.add_constraint :story_points, ->(type, project: nil) do
         if project.present?
           project.backlogs_enabled? && type.story?
         else
@@ -268,6 +307,7 @@ module OpenProject::Backlogs
       end
 
       ::Type.add_default_mapping(:estimates_and_time, :story_points, :remaining_time)
+      ::Type.add_default_mapping(:other, :position)
 
       Queries::Register.filter Query, OpenProject::Backlogs::WorkPackageFilter
     end
