@@ -142,8 +142,7 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
       end
 
       if query.grouped? && (group = query.group_by_column.value(work_package)) != previous_group
-        label = (group.blank? ? 'None' : group.to_s) +
-          " (#{results.work_package_count_for(group)})"
+        label = make_group_label(group)
         previous_group = group
 
         result.insert 0, [
@@ -168,6 +167,16 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
   def make_field_value(work_package, column_name)
     pdf.make_cell field_value(work_package, column_name),
                   padding: cell_padding
+  end
+
+  def make_group_label(group)
+    if group.blank?
+      I18n.t(:label_none_parentheses)
+    elsif group.is_a? Array
+      group.join(', ')
+    else
+      group.to_s
+    end
   end
 
   def make_custom_field_value(work_package, column)
