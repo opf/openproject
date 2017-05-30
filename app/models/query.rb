@@ -288,10 +288,6 @@ class Query < ActiveRecord::Base
     filter
   end
 
-  def filtered?
-    filters.any?
-  end
-
   def normalized_name
     name.parameterize.underscore
   end
