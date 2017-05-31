@@ -27,7 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= stylesheet_link_tag 'auth_plugins/auth_plugins' %>
+<% unless OpenProject::Plugins::AuthPlugin.providers.empty? %>
+  <%= stylesheet_link_tag 'auth_plugins/auth_plugins' %>
+<% end %>
 
 <% OpenProject::Plugins::AuthPlugin.providers.each do |pro| %>
   <%
