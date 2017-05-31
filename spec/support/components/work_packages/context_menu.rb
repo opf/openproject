@@ -49,6 +49,13 @@ module Components
         find("#{selector} a", text: target).click
       end
 
+      def expect_no_options(*options)
+        expect_open
+        options.each do |text|
+          expect(page).to have_no_selector("#{selector} a", text: text)
+        end
+      end
+
       def expect_options(options)
         expect_open
         options.each do |text|

@@ -5,6 +5,7 @@ describe 'Work package table context menu', js: true do
   let(:work_package) { FactoryGirl.create(:work_package) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new }
+  let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
   let(:menu) { Components::WorkPackages::ContextMenu.new }
 
   def goto_context_menu
@@ -75,6 +76,21 @@ describe 'Work package table context menu', js: true do
 
     find('#work-packages--edit-actions-cancel').click
     expect(page).to have_no_selector('.wp-edit-field.subject input')
+
+    # Timeline actions only shown when open
+    wp_timeline.expect_timeline!(open: false)
+
+    goto_context_menu
+    menu.expect_no_options 'Add predecessor', 'Add follower'
+
+    # Open timeline
+    wp_timeline.toggle_timeline
+    wp_timeline.expect_timeline!(open: true)
+
+    # Open context menu
+    menu.expect_closed
+    menu.open_for(work_package)
+    menu.expect_options ['Add predecessor', 'Add follower']
   end
 
   context 'multiple selected' do
