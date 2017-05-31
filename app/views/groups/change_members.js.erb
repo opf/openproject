@@ -27,9 +27,11 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-var tab = jQuery('#tab-content-users')
+var tab = jQuery('#tab-content-users');
 <% content = escape_javascript render(partial: 'users') %>
-tab.html('<%= content %>');
+var compiledContent = OpenProject.Helpers.Angular.compile('<%= content %>');
+
+tab.html(compiledContent);
 
 <% flash_message = escape_javascript render(partial: "members/common_notice",
                                             locals: { message: l(:notice_successful_update) }) %>

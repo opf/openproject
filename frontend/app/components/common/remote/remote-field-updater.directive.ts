@@ -97,7 +97,7 @@ function remoteFieldUpdater($http:ng.IHttpService) {
         if (keyCodesArray.indexOf(event.keyCode) == -1 && event.keyCode != undefined) {
           updater();
         }
-        }, 1000)
+        }, 200)
       );
     }
   };
