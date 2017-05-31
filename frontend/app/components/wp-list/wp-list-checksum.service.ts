@@ -34,9 +34,9 @@ export class WorkPackagesListChecksumService {
               protected $state:ng.ui.IStateService) {
   }
 
-  public id:number|null;
-  public checksum:string|null;
-  public visibleChecksum:string|null;
+  public id:number | null;
+  public checksum:string | null;
+  public visibleChecksum:string | null;
 
   public updateIfDifferent(query:QueryResource,
                            pagination:WorkPackageTablePagination) {
@@ -82,7 +82,7 @@ export class WorkPackagesListChecksumService {
     }
   }
 
-  private set(id:number|null, checksum:string) {
+  private set(id:number | null, checksum:string) {
     this.id = id;
     this.checksum = checksum;
   }
@@ -97,7 +97,7 @@ export class WorkPackagesListChecksumService {
     return !this.id && !this.checksum;
   }
 
-  private isIdDifferent(otherId:number|null) {
+  private isIdDifferent(otherId:number | null) {
     return this.id !== otherId;
   }
 
@@ -105,21 +105,36 @@ export class WorkPackagesListChecksumService {
     return this.checksum && otherChecksum !== this.checksum;
   }
 
-  private isOutdated(otherId:number|null, otherChecksum:string|null) {
-    return ((this.id || this.checksum) &&
-      ((this.id !== otherId) ||
-      (this.id === otherId && (otherChecksum && (otherChecksum !== this.checksum))) ||
-       (!this.id && this.checksum && !otherChecksum && this.visibleChecksum)));
+  private isOutdated(otherId:number | null, otherChecksum:string | null) {
+    const hasCurrentQueryID = !!this.id;
+    const hasCurrentChecksum = !!this.checksum;
+    const idChanged = (this.id !== otherId);
+
+    const checksumChanged = (otherChecksum !== this.checksum);
+    const visibleChecksumChanged = (this.checksum && !otherChecksum && this.visibleChecksum);
+
+    return (
+      // Can only be outdated if either ID or props set
+      (hasCurrentQueryID || hasCurrentChecksum) &&
+      (
+        // Query ID changed
+        idChanged ||
+        // Query ID same + query props changed
+        (!idChanged && checksumChanged) ||
+        // No query ID set
+        (!hasCurrentQueryID && visibleChecksumChanged)
+      )
+    );
   }
 
   private getNewChecksum(query:QueryResource, pagination:WorkPackageTablePagination) {
     return this.UrlParamsHelper.encodeQueryJsonParams(query, _.pick(pagination, ['page', 'perPage']));
   }
 
-  private maintainUrlQueryState(id:string|number|null, checksum:string|null) {
+  private maintainUrlQueryState(id:string | number | null, checksum:string | null) {
     this.visibleChecksum = checksum;
 
-    this.$state.go('.', { query_props: checksum, query_id: id }, { notify: false });
+    this.$state.go('.', {query_props: checksum, query_id: id}, {notify: false});
   };
 }
 
