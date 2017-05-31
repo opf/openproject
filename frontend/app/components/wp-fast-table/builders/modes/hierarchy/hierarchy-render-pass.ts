@@ -150,9 +150,13 @@ export class HierarchyRenderPass extends TableRenderPass {
 
         // Remember we just added this extra ancestor row
         this.additionalParents[ancestor.id] = ancestor;
-        // Push the correct ancestor groups for identifiying a hierarchy group
-        ancestorGroups.push(hierarchyGroupClass(ancestor.id));
       }
+
+      // Push the correct ancestor groups for identifiying a hierarchy group
+      ancestorGroups.push(hierarchyGroupClass(ancestor.id));
+      ancestors.slice(0, index).forEach((previousAncestor) => {
+        ancestorGroups.push(hierarchyGroupClass(previousAncestor.id));
+      });
     });
 
     // Insert this row to parent
