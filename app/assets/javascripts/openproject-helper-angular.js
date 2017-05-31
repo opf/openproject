@@ -32,7 +32,6 @@ jQuery.extend(OpenProject.Helpers.Angular, {
   memoizedCompileScope: null,
   compile: function(htmlCode) {
     var compile = this.injector.get('$compile');
-    var newScope = this.injector.get('$rootScope').$new();
 
     return compile(htmlCode)(this.compileScope);
   }
