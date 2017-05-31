@@ -27,6 +27,7 @@
 //++
 import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from "../../states.service";
+import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 
 angular
   .module('openproject.workPackages.helpers')
@@ -35,6 +36,7 @@ angular
 function WorkPackageContextMenuHelper(
   HookService:any,
   UrlParamsHelper:any,
+  wpTableTimeline:WorkPackageTableTimelineService,
   PathHelper:any,
   I18n: op.I18n,
   states: States) {
@@ -131,7 +133,7 @@ function WorkPackageContextMenuHelper(
       }
     });
 
-    if (workPackage.addRelation && states.table.timelineVisible.value) {
+    if (workPackage.addRelation && wpTableTimeline.isVisible) {
       allowedActions.push({
         icon: "relation-precedes",
         text: I18n.t("js.relation_buttons.add_predecessor"),
@@ -142,15 +144,14 @@ function WorkPackageContextMenuHelper(
         text: I18n.t("js.relation_buttons.add_follower"),
         link: "addRelation"
       });
+    }
 
-      if (!!workPackage.addChild) {
-        allowedActions.push({
-          icon: "relation-new-child",
-          text: I18n.t("js.relation_buttons.add_new_child"),
-          link: "addChild"
-        });
-      }
-
+    if (!!workPackage.addChild) {
+      allowedActions.push({
+        icon: "relation-new-child",
+        text: I18n.t("js.relation_buttons.add_new_child"),
+        link: "addChild"
+      });
     }
 
     return allowedActions;
