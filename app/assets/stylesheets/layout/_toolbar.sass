@@ -87,30 +87,38 @@
         margin: 0
         padding: 0
 
-  // The following two button rules take care of the icon alignment.
-  // It is a bit hacky but for now the only solution that works across browsers and OS.
-  .toolbar-item .button:not(button)
-    line-height: 38px
-    .button--text
-      vertical-align: 2px
-
   button,
   .button
+    // Overwrite Foundastion's default padding. Let line-height fix vertical
+    // center
     padding-top: 0
     padding-bottom: 0
 
-    .op-icon--wrapper
-      vertical-align: middle
-      line-height: 42px
     .button--icon
       font-size: 14px
-    .button--text,
     .badge
       font-size: 14px
       vertical-align: 1px
 
-  .toolbar-icon
-    width: 40px
+    &.toolbar-icon
+      // Make sure that icon only toolbar items are squared
+      width: 40px
+
+      font-size: 14px
+      line-height: 1
+      i
+        font-size: 14px
+        line-height: 1
+        &::before
+          font-size: 14px
+          line-height: 1
+
+  a.button
+    // For links the total height adds borders to line-height (== 40px)
+    line-height: 38px
+    // Reset Foundation's default padding.
+    // padding-top: 0
+    // padding-bottom: 0
 
   button,
   .button,
