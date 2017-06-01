@@ -139,6 +139,12 @@
             self.open($(this));
           }
         });
+        $(it).on('touchstart', function(e) {
+          // This shall avoid the hover event is fired,
+          // which would otherwise lead to menu being closed directly after its opened.
+          e.preventDefault();
+          $(this).click();
+        });
       });
     },
 
