@@ -33,6 +33,7 @@ import {States} from "../../states.service";
 import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
 import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
 import {KeepTabService} from "../../wp-panels/keep-tab/keep-tab.service";
+import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 
 export class WorkPackageViewController {
 
@@ -46,6 +47,7 @@ export class WorkPackageViewController {
   protected WorkPackageService:any;
   protected PathHelper:op.PathHelper;
   protected I18n:op.I18n;
+  protected wpTableRefresh:WorkPackageTableRefreshService;
 
   // Helper promise to detect when the controller has been initialized
   // (when a WP has loaded).
@@ -66,7 +68,7 @@ export class WorkPackageViewController {
     public $scope:ng.IScope,
     protected workPackageId:string) {
     this.$inject('$q', '$state', 'keepTab', 'wpCacheService', 'WorkPackageService',
-                 'states', 'wpEditModeState', 'PathHelper', 'I18n');
+                 'states', 'wpEditModeState', 'PathHelper', 'I18n', 'wpTableRefresh');
 
     this.initialized = this.$q.defer();
     this.initializeTexts();
@@ -135,6 +137,10 @@ export class WorkPackageViewController {
 
   public canViewWorkPackageWatchers() {
     return !!(this.workPackage && this.workPackage.watchers);
+  }
+
+  public onWorkPackageSave() {
+    this.wpTableRefresh.request(false, `Work package ${this.workPackage.id} saved by user.`);
   }
 }
 

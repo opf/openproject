@@ -32,7 +32,6 @@ import {UserResource} from "../../api/api-v3/hal-resources/user-resource.service
 import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
 import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
-import {WorkPackageTableRefreshService} from "../../wp-table/wp-table-refresh-request.service";
 import {WorkPackageMoreMenuService} from '../../work-packages/work-package-more-menu.service'
 
 export class WorkPackageShowController extends WorkPackageViewController {
