@@ -1613,7 +1613,8 @@ en:
           tb: "TB"
 
   onboarding:
-    text_getting_started: "This video provides you an overview of OpenProject. It helps you to set up your first project and to start collaborating with your team members."
+    heading_getting_started: "Get an overview"
+    text_getting_started_description: "Get a quick overview of project management and team collaboration with OpenProject."
     text_show_again: "You can restart this video from the help menu"
     welcome: "Welcome to OpenProject"
 
