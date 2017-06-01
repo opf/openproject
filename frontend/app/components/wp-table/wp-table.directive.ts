@@ -70,13 +70,6 @@ function wpTable(
         event.pageY -= topMenuHeight;
       };
 
-      scope.sumsLoaded = function() {
-        return scope.displaySums &&
-          scope.resource.sumsSchema &&
-          scope.resource.sumsSchema.$loaded &&
-          scope.resource.totalSums;
-      };
-
       // Set and keep the current details tab state remembered
       // for the open-in-details button in each WP row.
       scope.desiredSplitViewState = keepTab.currentDetailsState;
@@ -154,8 +147,6 @@ export class WorkPackagesTableController {
       $scope.displaySums = sum.current;
       $scope.groupBy = groupBy.current;
       $scope.columns = columns.current;
-      // Total columns = all available columns + id + checkbox
-      $scope.numTableColumns = $scope.columns.length + 2;
 
       if ($scope.timelineVisible !== timelines.current) {
         this.scrollSyncUpdate(timelines.current);
