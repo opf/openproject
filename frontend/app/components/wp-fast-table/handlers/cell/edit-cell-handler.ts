@@ -71,11 +71,11 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     return false;
   }
 
-  private setClickPosition(element:ng.IAugmentedJQuery, offset:number) {
-    if (element.length) {
+  private setClickPosition(element:ng.IAugmentedJQuery, offset:number):void {
+    try {
       (element[0] as HTMLInputElement).setSelectionRange(offset, offset);
-    } else {
-      debugLog('Unable to set position on Element.', element);
+    } catch(e) {
+      debugLog('Failed to set click position for edit field.', e);
     }
   }
 
