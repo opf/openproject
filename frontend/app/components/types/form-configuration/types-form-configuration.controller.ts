@@ -164,7 +164,7 @@ function typesFormConfigurationCtrl(
         newAttrVisibility[key] = 'default';
         if (angular.element('input[type=checkbox]', attr)) {
           let checkbox:HTMLInputElement = angular.element('input[type=checkbox]', attr)[0] as HTMLInputElement;
-          if (checkbox.checked) {
+          if (checkbox && checkbox.checked) {
             newAttrVisibility[key] = 'visible';
           }
         }

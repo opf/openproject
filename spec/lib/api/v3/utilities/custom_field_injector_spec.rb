@@ -68,7 +68,25 @@ describe ::API::V3::Utilities::CustomFieldInjector do
         let(:name) { custom_field.name }
         let(:required) { true }
         let(:writable) { true }
-        let(:has_default) { true }
+        let(:has_default) { false }
+      end
+
+      context 'with default set' do
+        let(:custom_field) do
+          FactoryGirl.build(:custom_field,
+                            id: 1,
+                            field_format: 'string',
+                            default_value: 'foo',
+                            is_required: true)
+        end
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'String' }
+          let(:name) { custom_field.name }
+          let(:required) { true }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
       end
 
       it 'indicates no regular expression' do

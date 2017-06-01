@@ -1967,6 +1967,7 @@ en:
     Fields that are 'Always displayed' will be visibile even
     if they don't have a value.
   text_form_configuration_drag_to_activate: "Drag fields from here to activate them"
+  text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_caracters_maximum: "%{count} characters maximum."
   text_caracters_minimum: "Must be at least %{count} characters long."
   text_comma_separated: "Multiple values allowed (comma separated)."
