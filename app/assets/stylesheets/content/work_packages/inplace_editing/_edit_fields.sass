@@ -91,8 +91,13 @@
       padding-right: 0
 
 // Full width container
-td.subject .wp-table--cell-container .wp-edit-field:not(.wp-table--cell-span)
-  display: inline-block
+td.subject .wp-table--cell-container
+  max-width: inherit
+
+  .wp-edit-field:not(.wp-table--cell-span)
+    display: inline-block
+    width: 100%
+    max-width: inherit
 
 // Editable fields cursor
 .-editable .wp-table--cell-span,
