@@ -86,6 +86,10 @@ openprojectModule
     $stateProvider
       .state('work-packages', {
         url: '',
+        params: {
+          query_id: {value: null},
+          query_props: {value: null}
+        },
         abstract: true,
         templateUrl: '/components/routing/main/work-packages.html',
         controller: 'WorkPackagesController'
