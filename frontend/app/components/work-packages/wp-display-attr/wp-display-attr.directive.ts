@@ -57,11 +57,6 @@ export class WorkPackageDisplayAttributeController {
               protected wpDisplayField: WorkPackageDisplayFieldService,
               protected wpCacheService: WorkPackageCacheService,
               protected $scope: ng.IScope) {
-
-    // Update the attribute initially
-    if (this.workPackage && this.customSchema && this.schema[this.attribute]) {
-      this.updateAttribute(this.workPackage);
-    }
   }
 
   public get placeholder() {
@@ -139,9 +134,15 @@ function wpDisplayAttrDirective(wpCacheService:WorkPackageCacheService) {
       scopedObservable(
         scope,
         wpCacheService.loadWorkPackage(scope.$ctrl.workPackage.id).values$())
-        .subscribe((wp: WorkPackageResource) => {
+        .subscribe((wp:WorkPackageResource) => {
           scope.$ctrl.updateAttribute(wp);
         });
+    } else {
+      scope.$watch('$ctrl.workPackage', (newValue:any) => {
+        if (newValue) {
+          scope.$ctrl.updateAttribute(scope.$ctrl.workPackage);
+        }
+      });
     }
   }
 

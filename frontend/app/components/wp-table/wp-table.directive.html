@@ -58,15 +58,16 @@
              table="table">
       </tbody>
       <tfoot>
-      <tr ng-if="sumsLoaded()"
-          class="sum group all issue work_package">
+      <tr ng-if="displaySums"
+        class="sum group all issue work_package">
         <td ng-repeat="column in columns track by column.href">
           <div class="generic-table--footer-outer">
             <span ng-if="$first">{{ text.sumFor }} {{ text.allWorkPackages }}</span>
             <wp-display-attr
               attribute="column.id"
               custom-schema="resource.sumsSchema"
-              work-package="resource.totalSums">
+              work-package="resource.totalSums"
+              ng-if="resource.sumsSchema && resource.sumsSchema[column.id]">
             </wp-display-attr>
           </div>
         </td>
