@@ -101,13 +101,17 @@ a.button
 .button--icon
   @include icon-common
 
-
-
 .button--icon + .button--text,
 .button--text + .button--icon,
 .op-icon--wrapper + .button--text,
 .button--text + .op-icon--wrapper
   margin: 0 0 0 $button--text-icon-spacing
+
+// Hack as Lato font on Win Chrome draws about a pixel too highligh
+html.-browser-windows.-browser-chrome
+  .button--text,
+  .button--icon
+    vertical-align: -1px
 
 .button--dropdown-indicator
   @include icon-common
