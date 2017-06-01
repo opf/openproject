@@ -33,6 +33,7 @@ const screenfull:any = require('screenfull/dist/screenfull.js');
 
 export class WorkPackageZenModeButtonController extends WorkPackageButtonController {
   public buttonId:string = 'work-packages-zen-mode-toggle-button';
+  public buttonClass:string = 'toolbar-icon';
   public iconClass:string = 'icon-zen-mode';
 
   static inZenMode:boolean = false;

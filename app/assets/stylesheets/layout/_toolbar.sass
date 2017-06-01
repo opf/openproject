@@ -87,13 +87,46 @@
         margin: 0
         padding: 0
 
-  button, .button, input[type=text], input[type=number], select
+  // The following two button rules take care of the icon alignment.
+  // It is a bit hacky but for now the only solution that works across browsers and OS.
+  .toolbar-item .button:not(button)
+    line-height: 38px
+    .button--text
+      vertical-align: 2px
+
+  button,
+  .button
+    padding-top: 0
+    padding-bottom: 0
+
+    .op-icon--wrapper
+      vertical-align: middle
+      line-height: 42px
+    .button--icon
+      font-size: 14px
+    .button--text,
+    .badge
+      font-size: 14px
+      vertical-align: 1px
+
+  .toolbar-icon
+    width: 40px
+
+  button,
+  .button,
+  input[type=text],
+  input[type=number],
+  select
     @include toolbar-element-sizing
     border: 1px solid $toolbar-item--border-color
-  button, .button, .toolbar-input--affix
+
+  button,
+  .button,
+  .toolbar-input--affix
     background: $toolbar-item--bg-color
 
-    &.-pressed, &:active
+    &.-pressed,
+    &:active
       background: $toolbar-item--bg-color-pressed
       box-shadow: inset 0 2px 3px rgba(0,0,0,.125)
 
@@ -108,7 +141,8 @@
       color: transparent
       text-shadow: 0 0 0 #000
 
-  a.last, .last
+  a.last,
+  .last
     margin-right: 0
 
   #repository-checkout-url
@@ -172,7 +206,8 @@
 .toolbar-input-group
   display: flex
 
-  input, .select2-container
+  input,
+  .select2-container
     flex: 1
     flex-basis: 150px
 
@@ -273,5 +308,8 @@
         width: 100%
         white-space: nowrap
 
-      .button, input, label, div
+      .button,
+      input,
+      label,
+      div
         margin-top: 0
