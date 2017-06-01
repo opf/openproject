@@ -131,10 +131,11 @@ class AccountController < ApplicationController
   def allow_registration?
     allow = Setting.self_registration? && !OpenProject::Configuration.disable_password_login?
 
+    invited = session[:invitation_token].present?
     get = request.get? && allow
     post = (request.post? || request.patch?) && (session[:auth_source_registration] || allow)
 
-    get || post
+    invited || get || post
   end
 
   def allow_lost_password_recovery?

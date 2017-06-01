@@ -323,6 +323,24 @@ describe AccountController, type: :controller do
 
       it_behaves_like 'registration disabled'
     end
+
+    context 'with self registration off but an ongoing invitation activation' do
+      let(:token) { FactoryGirl.create :token }
+
+      before do
+        allow(Setting).to receive(:self_registration).and_return('0')
+        allow(Setting).to receive(:self_registration?).and_return(false)
+        session[:invitation_token] = token.value
+
+        get :register
+      end
+
+      it 'is successful' do
+        is_expected.to respond_with :success
+        expect(response).to render_template :register
+        expect(assigns[:user]).not_to be_nil
+      end
+    end
   end
 
   # See integration/account_test.rb for the full test
