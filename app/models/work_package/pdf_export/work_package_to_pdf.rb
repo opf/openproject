@@ -280,7 +280,7 @@ class WorkPackage::PdfExport::WorkPackageToPdf
       data = work_package.attachments.map do |attachment|
         [
           attachment.filename,
-          number_to_human_size(attachment.filesize),
+          number_to_human_size(attachment.filesize, precision: 3),
           format_date(attachment.created_on),
           attachment.author.name
         ]
