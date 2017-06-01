@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <td>
             <%= link_to_attachment attachment, class: 'icon icon-attachment' -%>
             <%= h(" - #{attachment.description}") unless attachment.description.blank? %>
-            <span class="size">(<%= number_to_human_size attachment.filesize %>)</span>
+            <span class="size">(<%= number_to_human_size attachment.filesize, precision: 3 %>)</span>
             <% if options[:deletable] %>
               <%= link_to icon_wrapper('icon-context icon-delete', l(:button_delete)),
                           attachment,
