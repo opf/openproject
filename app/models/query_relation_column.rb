@@ -28,40 +28,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Columns
-        class QueryColumnRepresenter < ::API::Decorators::Single
-          self_link path: 'query_column',
-                    id_attribute: ->(*) { converted_name },
-                    title_getter: ->(*) { represented.caption }
+class QueryRelationColumn < QueryColumn
+  attr_accessor :type
 
-          def initialize(model, *_)
-            super(model, current_user: nil, embed_links: true)
-          end
+  def initialize(type)
+    super
 
-          property :id,
-                   exec_context: :decorator
+    set_name! type
+    self.type = type
+  end
 
-          property :caption,
-                   as: :name
+  def set_name!(type)
+    self.name = "relations_to_type_#{type.id}".to_sym
+  end
 
-          def converted_name
-            convert_attribute(represented.name)
-          end
-
-          alias :id :converted_name
-
-          def _type
-            'QueryColumn'
-          end
-
-          def convert_attribute(attribute)
-            ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
-          end
-        end
-      end
-    end
+  def caption
+    I18n.t(:'activerecord.attributes.query.relations_to_type_column',
+           type: type.name)
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,40 +26,48 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Columns
-        class QueryColumnRepresenter < ::API::Decorators::Single
-          self_link path: 'query_column',
-                    id_attribute: ->(*) { converted_name },
-                    title_getter: ->(*) { represented.caption }
+require 'spec_helper'
 
-          def initialize(model, *_)
-            super(model, current_user: nil, embed_links: true)
-          end
+describe ::API::V3::Queries::Columns::QueryRelationColumnRepresenter do
+  include ::API::V3::Utilities::PathHelper
 
-          property :id,
-                   exec_context: :decorator
+  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:column) { QueryRelationColumn.new(type) }
+  let(:representer) { described_class.new(column) }
 
-          property :caption,
-                   as: :name
+  subject { representer.to_json }
 
-          def converted_name
-            convert_attribute(represented.name)
-          end
-
-          alias :id :converted_name
-
-          def _type
-            'QueryColumn'
-          end
-
-          def convert_attribute(attribute)
-            ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
-          end
-        end
+  describe 'generation' do
+    describe '_links' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.query_column "relationsToType#{type.id}" }
+        let(:title) { "Relations to #{type.name}" }
       end
+
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'type' }
+        let(:href) { api_v3_paths.type type.id }
+        let(:title) { type.name }
+      end
+    end
+
+    it 'has _type QueryColumn::Relation' do
+      is_expected
+        .to be_json_eql('QueryColumn::Relation'.to_json)
+        .at_path('_type')
+    end
+
+    it 'has id attribute' do
+      is_expected
+        .to be_json_eql("relationsToType#{type.id}".to_json)
+        .at_path('id')
+    end
+
+    it 'has name attribute' do
+      is_expected
+        .to be_json_eql("Relations to #{type.name}".to_json)
+        .at_path('name')
     end
   end
 end

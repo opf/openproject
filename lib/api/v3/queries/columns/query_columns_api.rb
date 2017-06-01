@@ -36,6 +36,15 @@ module API
               def convert_to_ar(attribute)
                 ::API::Utilities::WpPropertyNameConverter.to_ar_name(attribute)
               end
+
+              def representer_class(column)
+                case column
+                when QueryRelationColumn
+                  ::API::V3::Queries::Columns::QueryRelationColumnRepresenter
+                else
+                  ::API::V3::Queries::Columns::QueryColumnRepresenter
+                end
+              end
             end
 
             params do
@@ -52,7 +61,7 @@ module API
                 column = Query.all_columns.detect { |candidate| candidate.name == ar_id }
 
                 if column
-                  ::API::V3::Queries::Columns::QueryColumnRepresenter.new(column)
+                  representer_class(column).new(column)
                 else
                   raise API::Errors::NotFound
                 end

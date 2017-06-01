@@ -32,33 +32,16 @@ module API
   module V3
     module Queries
       module Columns
-        class QueryColumnRepresenter < ::API::Decorators::Single
-          self_link path: 'query_column',
-                    id_attribute: ->(*) { converted_name },
-                    title_getter: ->(*) { represented.caption }
-
-          def initialize(model, *_)
-            super(model, current_user: nil, embed_links: true)
+        class QueryRelationColumnRepresenter < QueryColumnRepresenter
+          link :type do
+            {
+              href: api_v3_paths.type(represented.type.id),
+              title: represented.type.name
+            }
           end
-
-          property :id,
-                   exec_context: :decorator
-
-          property :caption,
-                   as: :name
-
-          def converted_name
-            convert_attribute(represented.name)
-          end
-
-          alias :id :converted_name
 
           def _type
-            'QueryColumn'
-          end
-
-          def convert_attribute(attribute)
-            ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+            'QueryColumn::Relation'
           end
         end
       end

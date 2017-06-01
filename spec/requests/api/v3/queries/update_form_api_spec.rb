@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -35,7 +36,7 @@ describe "POST /api/v3/queries/form", type: :request do
   let(:path) { api_v3_paths.query_form(query.id) }
   let(:user) { FactoryGirl.create(:admin) }
   let(:role) { FactoryGirl.create :existing_role, permissions: permissions }
-  let(:permissions) { [:view_work_packages, :manage_public_queries] }
+  let(:permissions) { %i(view_work_packages manage_public_queries) }
 
   let!(:project) { FactoryGirl.create(:project_with_types) }
 
@@ -48,6 +49,7 @@ describe "POST /api/v3/queries/form", type: :request do
       user: user
     )
   end
+  let(:additional_setup) {}
 
   let(:parameters) { {} }
   let(:override_params) { {} }
@@ -57,6 +59,8 @@ describe "POST /api/v3/queries/form", type: :request do
     project.add_member! user, role
 
     login_as(user)
+
+    additional_setup
 
     post path,
          params: parameters.merge(override_params).to_json,
@@ -104,6 +108,112 @@ describe "POST /api/v3/queries/form", type: :request do
 
       it "has the correct method" do
         expect(form.dig("_links", "commit", "method")).to eq "patch"
+      end
+    end
+
+    describe 'columns' do
+      let(:custom_field) do
+        cf = FactoryGirl.create(:list_wp_custom_field)
+        project.work_package_custom_fields << cf
+        cf.types << project.types.first
+
+        cf
+      end
+
+      let(:non_project_type) do
+        FactoryGirl.create(:type)
+      end
+
+      let(:additional_setup) do
+        custom_field
+
+        non_project_type
+      end
+
+      context 'within a project' do
+        it 'has the static, custom field and relation columns' do
+          expected_columns = (%w(id project assignee author
+                                 category createdAt dueDate estimatedTime
+                                 parent percentageDone priority responsible
+                                 spentTime startDate status subject type
+                                 updatedAt version) + ["customField#{custom_field.id}"]).map do |id|
+            {
+              '_type': 'QueryColumn',
+              'id': id
+            }
+          end
+
+          expected_columns += project.types.map do |type|
+            {
+              '_type': 'QueryColumn::Relation',
+              'id': "relationsToType#{type.id}"
+            }
+          end
+
+          actual_columns = form.dig('_embedded',
+                                    'schema',
+                                    'columns',
+                                    '_embedded',
+                                    'allowedValues')
+                               .map do |column|
+                                 {
+                                   '_type': column['_type'],
+                                   'id': column['id']
+                                 }
+                               end
+
+          non_project_type_hash = {
+            '_type': 'QueryColumn::Relation',
+            'id': "relationsToType#{non_project_type.id}"
+          }
+
+          expect(actual_columns).to include(*expected_columns)
+          expect(actual_columns).not_to include(non_project_type_hash)
+        end
+      end
+
+      context 'globally (no project)' do
+        let(:additional_setup) do
+          custom_field
+
+          non_project_type
+
+          query.update_attribute(:project, nil)
+        end
+
+        it 'has the static, custom field and relation columns' do
+          expected_columns = (%w(id project assignee author
+                                 category createdAt dueDate estimatedTime
+                                 parent percentageDone priority responsible
+                                 spentTime startDate status subject type
+                                 updatedAt version) + ["customField#{custom_field.id}"]).map do |id|
+            {
+              '_type': 'QueryColumn',
+              'id': id
+            }
+          end
+
+          expected_columns += Type.all.map do |type|
+            {
+              '_type': 'QueryColumn::Relation',
+              'id': "relationsToType#{type.id}"
+            }
+          end
+
+          actual_columns = form.dig('_embedded',
+                                    'schema',
+                                    'columns',
+                                    '_embedded',
+                                    'allowedValues')
+                               .map do |column|
+                                 {
+                                   '_type': column['_type'],
+                                   'id': column['id']
+                                 }
+                               end
+
+          expect(actual_columns).to include(*expected_columns)
+        end
       end
     end
   end

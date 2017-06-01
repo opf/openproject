@@ -301,7 +301,9 @@ class Query < ActiveRecord::Base
     end
 
     @available_columns_project = project && project.cache_key || 0
-    @available_columns = ::Query.available_columns + custom_field_columns
+    @available_columns = ::Query.available_columns +
+                         custom_field_columns +
+                         relation_columns
 
     # have to use this instead of
     # #select! as #select! can return nil
@@ -313,10 +315,15 @@ class Query < ActiveRecord::Base
   end
 
   def self.all_columns
-    WorkPackageCustomField
-      .all
-      .map { |cf| ::QueryCustomFieldColumn.new(cf) }
-      .concat(available_columns)
+    custom_field_columns = WorkPackageCustomField
+                           .all
+                           .map { |cf| ::QueryCustomFieldColumn.new(cf) }
+
+    type_columns = Type
+                   .all
+                   .map { |type| ::QueryRelationColumn.new(type) }
+
+    available_columns + custom_field_columns + type_columns
   end
 
   def self.groupable_columns
@@ -540,6 +547,14 @@ class Query < ActiveRecord::Base
     else
       WorkPackageCustomField.all
     end.map { |cf| ::QueryCustomFieldColumn.new(cf) }
+  end
+
+  def relation_columns
+    if project
+      project.types
+    else
+      Type.all
+    end.map { |type| ::QueryRelationColumn.new(type) }
   end
 
   def statement_filters
