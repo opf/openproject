@@ -76,11 +76,16 @@ describe 'form configuration', type: :feature, js: true do
     checkbox.set checked
   end
 
-  def expect_attribute(key:, checked: nil, translation: nil)
+  def expect_attribute(key:, checked: nil, translation: nil, required: nil)
     attribute = page.find(attribute_selector(key))
 
     unless translation.nil?
       expect(attribute).to have_selector('.attribute-name', text: translation)
+    end
+
+    unless required.nil?
+      expect(attribute).to have_no_selector('input[type=checkbox]')
+      expect(attribute).to have_selector('.visibility-check span', text: I18n.t(:label_always_visible))
     end
 
     unless checked.nil?
@@ -342,6 +347,37 @@ describe 'form configuration', type: :feature, js: true do
         loading_indicator_saveguard
       end
     end
+
+    describe 'required custom field' do
+      let(:custom_fields) { [custom_field] }
+      let(:custom_field) { FactoryGirl.create(:integer_issue_custom_field, is_required: true, name: 'MyNumber') }
+      let(:cf_identifier) { "custom_field_#{custom_field.id}" }
+      let(:cf_identifier_api) { "customField#{custom_field.id}" }
+
+      before do
+        project
+        custom_field
+
+        login_as(admin)
+        visit edit_type_tab_path(id: type.id, tab: "form_configuration")
+      end
+
+      it 'shows the field without a checkbox' do
+        # Should be initially disabled
+        expect_inactive(cf_identifier)
+
+        # Add into new group
+        add_group('New Group')
+        move_to(cf_identifier, 'New Group')
+
+        # Make visible
+        expect_attribute(key: cf_identifier, required: true)
+
+        page.execute_script('jQuery(".form-configuration--save").click()')
+        expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
+      end
+    end
+
 
     describe 'custom fields' do
       let(:project_settings_page) { ProjectSettingsPage.new(project) }

@@ -142,11 +142,15 @@ See doc/COPYRIGHT.rdoc for more details.
                       <% end %>
                     </span>
                     <div class="visibility-check">
-                      <%= check_box_tag "",
-                        'visible',
-                        attribute[:always_visible],
-                        title: t('tooltip.attribute_visibility.visible'),
-                        'ng-click': "updateHiddenFields()" %>
+                      <% if attribute[:is_required] %>
+                        <%= content_tag(:span, t(:label_always_visible), title: t(:text_form_configuration_required_attribute)) %>
+                      <% else %>
+                        <%= check_box_tag "",
+                          'visible',
+                          attribute[:always_visible],
+                          title: t('tooltip.attribute_visibility.visible'),
+                          'ng-click': "updateHiddenFields()" %>
+                      <% end %>
                     </div>
                     <span class="delete-attribute icon icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
                   </div>
@@ -174,11 +178,15 @@ See doc/COPYRIGHT.rdoc for more details.
                 </span>
 
                 <div class="visibility-check">
+                  <% if inactive_attribute[:is_required] %>
+                      <%= content_tag(:span, t(:label_always_visible), title: t(:text_form_configuration_required_attribute)) %>
+                  <% else %>
                   <%= check_box_tag "",
                                     'hidden',
                                     false,
                                     title: t('tooltip.attribute_visibility.visible'),
                                     'ng-click': "updateHiddenFields()" %>
+                  <% end %>
                 </div>
                 <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
               </div>
