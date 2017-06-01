@@ -18,6 +18,7 @@ webfontsGenerator({
   "htmlTemplate": "openproject-icon-font.template.lsg",
   "types": ['woff2', 'woff'],
   "fixedWidth": true,
+  "descent": 100,
   dest: ''
 }, function(error) {
   if (error) {
