@@ -1,0 +1,124 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+wiki_contents_001:
+  text: |-
+    h1. CookBook documentation
+
+    {{child_pages}}
+
+    Some updated [[documentation]] here with gzipped history
+  updated_on: 2007-03-07 00:10:51 +01:00
+  page_id: 1
+  id: 1
+  lock_version: 3
+  author_id: 1
+wiki_contents_002:
+  text: |-
+    h1. Another page
+
+    This is a link to a ticket: #2
+    And this is an included page:
+    {{include(Page with an inline image)}}
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 2
+  id: 2
+  lock_version: 1
+  author_id: 1
+wiki_contents_003:
+  text: |-
+    h1. Start page
+
+    E-commerce web site start page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 3
+  id: 3
+  lock_version: 1
+  author_id: 1
+wiki_contents_004:
+  text: |-
+    h1. Page with an inline image
+
+    This is an inline image:
+
+    !logo.gif!
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 4
+  id: 4
+  lock_version: 1
+  author_id: 1
+wiki_contents_005:
+  text: |-
+    h1. Child page 1
+
+    This is a child page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 5
+  id: 5
+  lock_version: 1
+  author_id: 1
+wiki_contents_006:
+  text: |-
+    h1. Child page 2
+
+    This is a child page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 6
+  id: 6
+  lock_version: 1
+  author_id: 1
+wiki_contents_007:
+  text: This is a child page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 7
+  id: 7
+  lock_version: 1
+  author_id: 1
+wiki_contents_008:
+  text: This is a parent page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 8
+  id: 8
+  lock_version: 1
+  author_id: 1
+wiki_contents_009:
+  text: This is a child page
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 9
+  id: 9
+  lock_version: 1
+  author_id: 1
+wiki_contents_010:
+  text: Page with cyrillic title
+  updated_on: 2007-03-08 00:18:07 +01:00
+  page_id: 10
+  id: 10
+  lock_version: 1
+  author_id: 1
+

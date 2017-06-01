@@ -1,0 +1,55 @@
+<div class="ng-modal-window">
+  <div class="ng-modal-inner modal-content">
+    <div class="modal-header">
+      <a><op-icon icon-classes="icon-close" ng-click="$ctrl.closeMe()" title="{{ ::I18n.t('js.close_popup_title') }}"></op-icon></a></div>
+
+    <h3>{{ ::I18n.t('js.label_sorting') }}</h3>
+
+    <form name="modalSortingForm">
+      <div id="modal-sorting"
+           class="modal-content-container loading-indicator--location"
+           data-indicator-name="sorting-modal">
+        <div class="form--row" ng-repeat="sort in sortationObjects">
+          <div class="form--field -full-width">
+            <label
+                for="modal-sorting-attribute-{{$index}}"
+                class="form--label hidden-for-sighted">
+              {{ I18n.t('js.filter.sorting.criteria.' + { 1: 'one', 2: 'two', 3: 'three'}[$index + 1]) }}
+            </label>
+            <div class="form--field-container">
+              <div class="form--select-container">
+                <select
+                    id="modal-sorting-attribute-{{$index}}"
+                    ng-model="sort.column"
+                    focus="!$index"
+                    class="form--select"
+                    ng-options="column.name for column in availableColumnsAndCurrent(sort.column) | orderBy:'name' track by column.$href">
+                  <option value="">{{::I18n.t('js.placeholders.default')}}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form--field -full-width">
+            <div class="form--field-container">
+              <label class="option-label" ng-repeat="availableDirection in availableDirections">
+                <input type="radio"
+                       ng-model="sort.direction"
+                       ng-value="availableDirection.$href"
+                       name="modal-sorting-attribute-{{sort.column.name}}--sort-direction">
+                {{availableDirection.name}}
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <button class="button -highlight"
+              ng-disabled="modalSortingForm.$invalid"
+              ng-click="updateSortation()">
+        {{ ::I18n.t('js.modals.button_apply') }}
+      </button>
+      <button class="button" ng-click="$ctrl.closeMe()">
+        {{ ::I18n.t('js.modals.button_cancel') }}
+      </button>
+    </form>
+  </div>
+</div>

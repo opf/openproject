@@ -1,0 +1,90 @@
+<div class="relation-row"
+     ng-class="['relation-row-{{ $ctrl.relatedWorkPackage.id }}']"
+     focus-within="'.wp-relations-controls-section accessible-by-keyboard'">
+    <div class="grid-block hierarchy-item">
+
+        <div class="grid-content medium-3 collapse">
+            <span class="relation-row--type"
+                  ng-click="$ctrl.userInputs.showRelationTypesForm = true"
+                  tabindex="0"
+                  ng-if="!$ctrl.userInputs.showRelationTypesForm">
+
+
+              <span ng-if="$ctrl.groupByWorkPackageType"
+                    ng-bind="$ctrl.normalizedRelationType"></span>
+              <span ng-if="!$ctrl.groupByWorkPackageType"
+                    ng-bind="$ctrl.relatedWorkPackage.type.name"></span>
+              <span class="hidden-for-sighted" ng-bind="::$ctrl.text.updateRelation"></span>
+            </span>
+            <div class="wp-edit-field inplace-edit"
+                 ng-if="$ctrl.userInputs.showRelationTypesForm">
+                <select class="wp-inline-edit--field form--select"
+                        ng-model="$ctrl.selectedRelationType"
+                        role="listbox"
+                        focus
+                        ng-options="relationType.name for relationType in $ctrl.availableRelationTypes"
+                        ng-change="$ctrl.saveRelationType()"></select>
+            </div>
+        </div>
+
+        <div class="grid-content medium-5 collapse" wp-single-relation
+             ng-if="$ctrl.relatedWorkPackage">
+            <a ui-sref=".({ workPackageId: $ctrl.relatedWorkPackage.id})"
+               class="wp-relations--subject-field"
+               aria-label="{{ $ctrl.normalizedRelationType + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}">
+                {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage, true) }}
+            </a>
+        </div>
+
+        <div class="grid-content medium-2 collapse wp-relations-status-field">
+            <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relatedWorkPackage">
+                <div wp-edit-field="'status'"></div>
+            </div>
+        </div>
+
+        <div class="grid-content medium-2 collapse wp-relations-controls-section"
+             ng-class="{'-expanded': $ctrl.userInputs.showRelationInfo }">
+            <accessible-by-keyboard link-aria-label="{{ ::$ctrl.text.description_label }}"
+                                    link-title="{{ ::$ctrl.text.description_label }}"
+                                    link-class="wp-relations--description-btn"
+                                    ng-class="{'-visible': $ctrl.showDescriptionInfo }"
+                                    execute="$ctrl.userInputs.showRelationInfo = !$ctrl.userInputs.showRelationInfo">
+                <op-icon icon-classes="icon-info1 wp-relations--icon wp-relations--description-icon" icon-title="{{ ::$ctrl.text.toggleDescription }}"></op-icon>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard ng-if="$ctrl.relation.delete"
+                                    execute="$ctrl.removeRelation($ctrl.relation)"
+                                    aria-hidden="false"
+                                    link-aria-label="{{ ::$ctrl.text.remove }}"
+                                    link-title="{{ ::$ctrl.text.remove }}"
+                                    link-class="relation-row--remove-btn">
+                <op-icon icon-classes="icon-remove wp-relations--icon" icon-title="{{ ::$ctrl.text.removeButton }}"></op-icon>
+            </accessible-by-keyboard>
+        </div>
+    </div>
+
+    <div class="grid-block hierarchy-item description-container"
+         ng-show="$ctrl.userInputs.showRelationInfo">
+        <div class="wp-relation--description-read-value"
+             ng-class="{'-placeholder': !$ctrl.relation.description }"
+             ng-click="$ctrl.startDescriptionEdit()"
+             ng-hide="$ctrl.userInputs.showDescriptionEditForm"
+             ng-bind="$ctrl.relation.description || $ctrl.text.placeholder.description">
+        </div>
+        <div class="wp-relation--description-wrapper textarea-wrapper"
+             ng-show="$ctrl.userInputs.showDescriptionEditForm">
+          <textarea
+                  msd-elastic="\n"
+                  autofocus
+                  class="wp-relation--description-textarea"
+                  name="description"
+                  ng-keyup="$ctrl.handleDescriptionKey($event)"
+                  ng-model="$ctrl.userInputs.newRelationText"></textarea>
+            <wp-edit-field-controls field-controller="$ctrl.fieldController"
+                                    on-save="$ctrl.saveDescription()"
+                                    on-cancel="$ctrl.cancelDescriptionEdit()"
+                                    save-title="{{ vm.field.text.save }}"
+                                    cancel-title="{{ vm.field.text.cancel }}">
+            </wp-edit-field-controls>
+        </div>
+    </div>
+</div>

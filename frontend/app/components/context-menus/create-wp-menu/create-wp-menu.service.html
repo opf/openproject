@@ -1,0 +1,10 @@
+<div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar" id="createWpDropdown">
+  <ul class="dropdown-menu" ng-class="{ '-empty': !queryCustomFields && !configureFormLink }">
+    <li ng-if="queryCustomFields"><a class="menu-item" href="{{queryCustomFields.href}}">
+      <i class="icon-action-menu icon-custom-fields"></i>{{ queryCustomFields.name }}</a>
+    </li>
+    <li ng-if="configureFormLink"><a class="menu-item" href="{{configureFormLink.href}}">
+      <i class="icon-action-menu icon-settings3"></i>{{ configureFormLink.name }}</a>
+    </li>
+  </ul>
+</div>

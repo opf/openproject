@@ -1,0 +1,61 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+default:
+  rails_cache_store: <%= ENV.fetch('RAILS_CACHE_STORE') { :memcache }.to_sym %>
+  session_store: <%= ENV.fetch('SESSION_STORE') { :cache_store }.to_sym %>
+  email_delivery_method: <%= ENV.fetch('EMAIL_DELIVERY_METHOD') { :sendmail } %>
+  smtp_address: <%= ENV['SMTP_HOST'] %>
+  smtp_port: <%= ENV.fetch('SMTP_PORT') { 25 }.to_i %>
+  smtp_domain: <%= ENV.fetch('SMTP_DOMAIN') { ENV['HOSTNAME'] } %>
+  smtp_authentication: <%= ENV.fetch('SMTP_AUTHENTICATION') { :login }.to_sym %>
+  smtp_user_name: <%= ENV['SMTP_USERNAME'] %>
+  smtp_password: <%= ENV['SMTP_PASSWORD'] %>
+  smtp_enable_starttls_auto: <%= ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO') { "false" } %>
+  attachments_storage_path: <%= ENV.fetch('ATTACHMENTS_STORAGE_PATH') { "/var/db/_APP_NAME_/files" } %>
+<% git_configured = ENV['GIT_REPOSITORIES'].present? %>
+<% svn_configured = ENV['SVN_REPOSITORIES'].present? %>
+<% if git_configured || svn_configured %>
+  scm:
+  <% if git_configured %>
+    git:
+      manages: <%= ENV['GIT_REPOSITORIES'] %>
+      mode: 0770
+      group: <%= ENV['SERVER_GROUP'] %>
+  <% end %>
+  <% if svn_configured %>
+    subversion:
+      # SVN uses Apache repository wrapper due to permission errors in multi-user operation
+      manages: <%= ENV['SVN_REPOMAN_URL'] %>
+      # Do noot verify SSL certificates when SERVER_PROTOCOL is 'https'.
+      # As we currently only support local repoman installations with packager,
+      # this option is set to true by default.
+      insecure: true
+      access_token: <%= ENV['SVN_REPOMAN_TOKEN'] %>
+  <% end %>
+<% end %>

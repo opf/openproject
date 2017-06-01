@@ -1,0 +1,39 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-openproject') %>
+  <span class="widget-box--header-title"><%= l('homescreen.blocks.community') %></span>
+</h3>
+
+<ul class="widget-box--arrow-links">
+  <li>
+    <%= static_link_to :user_guides %>
+  </li>
+  <li>
+    <a title="<%= l('homescreen.links.shortcuts') %>"
+       onClick="modalHelperInstance.createModal('/help/keyboard_shortcuts');">
+      <%= l('homescreen.links.shortcuts') %>
+    </a>
+  </li>
+  <li>
+    <%= static_link_to :boards %></li>
+  <li>
+    <%= static_link_to :professional_support %>
+  </li>
+  <li>
+    <%= static_link_to :blog %>
+  </li>
+  <li>
+    <%= static_link_to :release_notes %>
+  </li>
+  <li>
+    <%= static_link_to :report_bug %>
+  </li>
+  <li>
+    <%= static_link_to :roadmap %>
+  </li>
+  <li>
+    <%= static_link_to :crowdin %>
+  </li>
+  <li>
+    <%= static_link_to :api_docs %>
+  </li>
+</ul>

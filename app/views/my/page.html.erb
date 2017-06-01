@@ -1,0 +1,52 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% breadcrumb_paths(l(:label_my_page)) %>
+<%= toolbar title: l(:label_my_page) do %>
+  <li class="toolbar-item" title="<%= l(:label_personalize_page) %>">
+    <%= link_to({ action: 'page_layout' }, accesskey: accesskey(:edit), class: 'button') do %>
+      <%= op_icon('button--icon icon-settings') %>
+      <span class="hidden-for-sighted"><%= l(:label_personalize_page) %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<div class="my-page--container">
+  <div id="top" class="widget-boxes">
+    <%= render partial: 'block_container', locals: { edit: false, blocks: @blocks['top'] } %>
+  </div>
+  <div class="grid-block widget-boxes">
+  <% %w(left right).each do |position| %>
+    <div id="<%= position %>">
+      <%= render partial: 'block_container', locals: { edit: false, blocks: @blocks[position] } %>
+    </div>
+  <% end %>
+  </div>
+</div>
+
+<% html_title(l(:label_my_page)) -%>

@@ -1,0 +1,363 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+#logo
+  @include varprop(width, main-menu-width)
+  @include varprop(height, header-height)
+  position: absolute
+  left: calc(50% - #{$main-menu-width} / 2)
+
+  .home-link
+    margin-top: 13px
+    display: block
+    background: $header-home-link-bg
+    background-size: 140px
+    height: 42px
+    text-indent: -9999em
+
+#top-menu
+  @include varprop(background-color, header-bg-color)
+  height: $header-height
+  width: 100%
+  padding: 0
+  z-index: 22
+  position: relative
+  border-bottom-style: solid
+  @include varprop(border-bottom-width, header-border-bottom-width)
+  @include varprop(border-bottom-color, header-border-bottom-color)
+
+  %absolute-layout-mode &
+    position: absolute
+
+  ::-webkit-input-placeholder
+    color: $header-search-field-font-color
+  :-moz-placeholder
+    color: $header-search-field-font-color
+  ul
+    margin: 0
+    padding: 0
+    float: left
+    height: $header-height
+    border-top: 0
+    position: relative
+  li
+    float: left
+    list-style-type: none
+    white-space: nowrap
+    position: relative
+    z-index: 5
+    padding: 0
+    > a
+      height: $header-height
+      line-height: $header-height
+      zoom: 1
+      @include default-font($header-item-font-color, $header-item-font-size)
+      text-decoration: none
+      padding: 0 15px 0 15px
+
+    > a:hover
+      @include varprop(background, header-item-bg-hover-color)
+
+      color: $header-item-font-hover-color
+    > ul
+      top: $header-height + $header-border-bottom-width
+      display: none
+      position: absolute
+      height: auto
+      min-width: 270px
+      left: -1px
+      z-index: 20
+      border: 2px solid $header-drop-down-border-color
+      border-top: 0
+      background-color: $header-drop-down-bg-color
+      li
+        float: none
+        white-space: nowrap
+        a
+          height: 32px
+          line-height: 32px
+          font-size: 1rem
+  li.open > a
+    position: relative
+    top: 0
+    z-index: 21
+
+  li.drop-down
+    select
+      width: 100%
+
+    .button--dropdown-indicator
+      &:before
+        @include icon-font-common
+        font-size: 10px
+        padding: 0 0 0 9px
+        @extend .icon-pulldown:before
+    &:hover
+      @include varprop(background-color, header-item-bg-hover-color)
+    &.open
+      @include varprop(background-color, header-item-bg-hover-color)
+      color: $header-item-font-hover-color
+
+      .button--dropdown-indicator
+        &:before
+          @extend .icon-pulldown-up:before
+
+    li
+      > a
+        color: $header-drop-down-item-font-color
+        padding: 0 15px
+        &:hover
+          @include varprop(background, drop-down-hover-bg-color)
+          @include varprop(color, drop-down-hover-font-color)
+
+    > ul
+      padding: 6px 0
+
+  li.last-child > ul,
+  .drop-down--help,
+  .drop-down--modules
+    left: auto
+    right: 0
+
+  .drop-down--projects
+    > li
+      &:nth-last-child(2)
+        margin-bottom: 6px
+
+  .drop-down--help
+    .form--separator
+      margin-bottom: 5px
+    .drop-down--help-headline
+      padding-left: 15px
+      color: $gray-dark
+      text-transform: uppercase
+
+  #loggedas
+    float: right
+    margin-right: 0.5em
+    color: #fff
+  #nav-login-content
+    width: 506px
+    position: relative
+    position-top: 44px
+    float: right
+    background: #FFFFFF
+    border: 0 solid #194E60
+    border-top: 0
+    line-height: 19px
+    padding: 15px 10px 15px 15px
+    @include default-font(#555555, 13px)
+
+    a
+      display: inline
+      padding: 0
+      font-weight: normal
+    table td
+      padding: 3px
+
+  .skip-navigation-link:focus
+    top: 40px
+    left: 260px
+    @include varprop(color, font-color-on-primary)
+
+.top-menu-search
+  display: inline-block
+  &:not(.-collapsed) > div
+    position: relative
+    padding-top: 9px
+
+.top-menu-search--wrapper
+  float: left
+
+.top-menu-search--button
+  line-height: $header-height
+  height: $header-height
+  @include default-font($header-item-font-color, $header-item-font-size)
+  background: transparent
+  &:hover
+    text-decoration: none
+
+  .top-menu-search:not(.-collapsed) &
+    position: absolute
+    top: 0
+    right: 0
+    color: $header-drop-down-item-font-color
+    -webkit-transform: scaleX(-1)
+    -moz-transform: scaleX(-1)
+    -o-transform: scaleX(-1)
+    -ms-transform: scaleX(-1)
+    transform: scaleX(-1)
+
+  .top-menu-search.-collapsed &
+    display: block
+    &:hover
+      @include varprop(background, header-item-bg-hover-color)
+      color: $header-item-font-hover-color
+
+input.top-menu-search--input
+  margin: 0
+  padding: 0 20px 0 10px
+  display: inline-block
+  border: $header-search-field-border
+  border-radius: 25px
+  width: 180px
+  outline: 0
+  font-size: 0.75rem
+  &::-ms-clear
+    margin-right: 5px
+    width: 20px
+  .top-menu-search.-collapsed &
+    display: none
+
+  &:hover, &:focus
+    border: $header-search-field-border
+
+#quick-search
+  float: right
+
+#top-menu-items
+  padding-top: 0
+  .top-menu-items-right
+    float: right
+#top-menu.open
+  z-index: 5
+
+#select2-drop.project-search-results
+  margin: 0 0 0 -2px
+  border: 2px solid $header-drop-down-border-color
+  border-top: 0
+  @include default-font($header-drop-down-projects-search-font-color, 13px)
+  li
+    padding: 0 10px
+    font-size: 15px
+
+  .select2-search
+    margin: 1px 0 0 0
+    color: #b3b3b3
+    border-top: 1px solid #D9D9D9
+    border-bottom: 1px solid #D9D9D9
+
+    &:before
+      color: #b3b3b3
+      top: 21px
+      right: 25px
+      font-size: 14px
+
+  .select2-search input.select2-input
+    margin: 12px 10px
+    padding: 0px 32px 0px 10px
+    border: 1px solid #D9D9D9
+    box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.1)
+    width: 92%
+    background: $header-drop-down-projects-search-input-bg-color
+
+  .select2-results
+    margin: 6px 0
+    padding: 0
+
+    .select2-highlighted
+      @include varprop(background, drop-down-selected-bg-color, !important)
+      border-radius: 0 !important
+      font-weight: bold !important
+      @include varprop(color, drop-down-selected-font-color)
+      &:hover
+        @include varprop(background, drop-down-hover-bg-color, !important)
+        @include varprop(color, drop-down-hover-font-color, !important)
+
+#header
+  min-width: 840px
+  .chzn-container .chzn-results .highlighted
+    background-color:  #24b3e7
+
+.account-nav
+  display: block
+  li
+    a
+      display: block
+      padding: 0 9px 0
+    > ul > li
+      max-width: 350px
+
+#account-nav-left
+  .drop-down
+    max-width: 230px
+
+  #projects-menu
+    padding-right: 34px
+    font-weight: bold
+
+    .button--dropdown-text
+      float: left
+      max-width: 180px // 230px from sidebar minus margins
+      text-overflow: ellipsis
+      overflow: hidden
+
+    &:after
+      position: absolute
+      right: 15px
+      top: calc(50% - 10px / 2)
+
+#account-nav-right
+  .drop-down.last-child
+    .avatar
+      // To accommodate the padding of the help icon which exisits because of the circle
+      margin-top: -5px
+  .icon-help:before
+    border: 2px solid $header-item-font-color
+    border-radius: 50%
+    width: 26px
+    height: 26px
+    display: inline-block
+
+  .icon-help:hover:before
+    @include varprop(border-color, header-item-font-hover-color)
+  .icon-user
+    font-size: 18px
+  [class*="icon-"]:before
+    padding: 0.25rem
+
+// Temporary overwrite searchfield styles for mobile view
+// until we have a full responsive layout
+input.top-menu-search--input
+  margin: 0 0 0 20px
+  position: absolute
+  right: 0
+  top: 6px
+  z-index: 10
+
+.top-menu-search:not(.-collapsed) .top-menu-search--button
+  top: -3px
+  z-index: 10
+
+@media only screen and (max-width: 18.75rem)
+  #logo
+    max-width: 170px
+
+@media only screen and (max-width: 15rem)
+  #logo
+    display: none

@@ -1,0 +1,45 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title(l(:label_my_account), l(:label_settings)) %>
+
+<% breadcrumb_paths(l(:label_my_account), l(:label_settings)) %>
+<%= toolbar title: l(:label_settings) %>
+
+<%= error_messages_for 'user' %>
+<%= labelled_tabular_form_for @user, as: :user, url: { action: 'settings' },
+                              lang: current_language,
+                              html: { id: 'my_account_form', class: 'form -wide-labels' } do |f| %>
+  <fieldset class="form--fieldset">
+      <div class="form--field"><%= f.select :language, lang_options_for_select,  container_class: '-middle' %></div>
+      <%= render partial: 'users/preferences', locals: { input_size: :middle } %>
+  </fieldset>
+  <%= call_hook(:view_my_settings, user: @user, form: f) %>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

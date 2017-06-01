@@ -1,0 +1,103 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+#content
+  .mypage-box
+    @include content-box
+    i
+      float: left
+      padding: 7px 10px 0 0
+
+    .generic-table--container
+      margin-top: 45px
+      table, td, th
+        border: none
+
+.my-page--container
+  #right,
+  #left
+    flex: 0 0 50%
+    max-width: 50%
+
+  .widget-boxes
+    margin: 0 -10px
+
+    .widget-box
+      margin-bottom: 20px
+      overflow: auto
+
+      &:last-child
+        margin-bottom: 10px
+
+@include breakpoint(680px down)
+  .my-page--container .grid-block.widget-boxes
+    flex-wrap: wrap
+
+    #right,
+    #left
+      flex: 0 0 100%
+      max-width: 100%
+
+    #left
+      margin-bottom: 0
+
+div.box-actions
+  float: right
+  z-index: 500
+
+#my_project_blocks .handle
+  cursor: move
+
+#visible-grid
+  .handle
+    cursor: move
+  &.my-page--container .widget-boxes
+    margin: 0
+
+.block-receiver
+  border-width: 1px
+  border-style: dashed
+  @include varprop(border-color , my-page-edit-box-border-color)
+  margin-bottom: 20px
+  padding: 8px
+
+  #visible-grid &
+    min-height: 32px
+
+  div.mypage-box
+    margin-top: 8px
+    padding-bottom: 8px
+
+div.mypage-box p.summary
+  font-style: normal
+
+div.mypage-box div.overview p.author
+  margin-bottom: 7px
+
+div.mypage-box .hascontextmenu
+  cursor: auto

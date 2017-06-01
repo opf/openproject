@@ -1,0 +1,116 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset class="form--fieldset" id="project_types">
+  <legend class="form--fieldset-legend"><%=l(:label_enabled_project_activities)%></legend>
+
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
+              <col highlight-col>
+          <% end %>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Enumeration.human_attribute_name(:active) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Enumeration.human_attribute_name(:name) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= l(:enumeration_system_activity) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <% TimeEntryActivity.new.available_custom_fields.each do |value| %>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span <% if value.is_required? %> class="-required" <%end%>>
+                        <%= h value.name %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+              <% end %>
+            </tr>
+          </thead>
+          <% @project.activities(true).each do |enumeration| %>
+           <%= fields_for "enumerations[#{enumeration.id}]", enumeration do |ff| %>
+              <tr>
+                <td>
+                  <%= label_tag "enumerations_#{enumeration.id}_active", "#{h(enumeration.name)} #{l(:description_active)}", class: "hidden-for-sighted" %>
+                  <%= ff.check_box :active %>
+                </td>
+                <td>
+                  <%= ff.hidden_field :parent_id, value: enumeration.id unless enumeration.project %>
+                  <%= h(enumeration) %>
+                </td>
+                <td><%= checked_image !enumeration.project %></td>
+                <% enumeration.custom_field_values.each do |value| %>
+                  <td>
+                    <%= hidden_custom_field_label_tag "enumerations[#{enumeration.id}]", value %>
+                    <%= custom_field_tag "enumerations[#{enumeration.id}]", value %>
+                  </td>
+                <% end %>
+              </tr>
+            <% end %>
+          <% end %>
+        </table>
+        
+    </div>
+  </div>
+  <% if withControlls == true %>
+    <div class="generic-table--action-buttons">
+      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    </div>
+  <% end %>
+</fieldset>

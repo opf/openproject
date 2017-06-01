@@ -1,0 +1,182 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+users_004:
+  created_on: 2006-07-19 19:34:07 +02:00
+  status: 1
+  last_login_on:
+  language: en
+  updated_on: 2006-07-19 19:34:07 +02:00
+  admin: false
+  mail: rhill@somenet.foo
+  lastname: Hill
+  firstname: Robert
+  id: 4
+  auth_source_id:
+  mail_notification: all
+  login: rhill
+  type: User
+  first_login: false
+users_001:
+  created_on: 2006-07-19 19:12:21 +02:00
+  status: 1
+  last_login_on: 2006-07-19 22:57:52 +02:00
+  language: en
+  updated_on: 2006-07-19 22:57:52 +02:00
+  admin: true
+  mail: admin@somenet.foo
+  lastname: Admin
+  firstname: redMine
+  id: 1
+  auth_source_id:
+  mail_notification: all
+  login: admin
+  type: User
+  first_login: false
+users_002:
+  created_on: 2006-07-19 19:32:09 +02:00
+  status: 1
+  last_login_on: 2006-07-19 22:42:15 +02:00
+  language: en
+  updated_on: 2006-07-19 22:42:15 +02:00
+  admin: false
+  mail: jsmith@somenet.foo
+  lastname: Smith
+  firstname: John
+  id: 2
+  auth_source_id:
+  mail_notification: all
+  login: jsmith
+  type: User
+  first_login: false
+users_003:
+  created_on: 2006-07-19 19:33:19 +02:00
+  status: 1
+  last_login_on:
+  language: en
+  updated_on: 2006-07-19 19:33:19 +02:00
+  admin: false
+  mail: dlopper@somenet.foo
+  lastname: Lopper
+  firstname: Dave
+  id: 3
+  auth_source_id:
+  mail_notification: all
+  login: dlopper
+  type: User
+  first_login: false
+users_005:
+  id: 5
+  created_on: 2006-07-19 19:33:19 +02:00
+  # Locked
+  status: 3
+  last_login_on:
+  language: en
+  updated_on: 2006-07-19 19:33:19 +02:00
+  admin: false
+  mail: dlopper2@somenet.foo
+  lastname: Lopper2
+  firstname: Dave2
+  auth_source_id:
+  mail_notification: all
+  login: dlopper2
+  type: User
+  first_login: false
+users_006:
+  id: 6
+  created_on: 2006-07-19 19:33:19 +02:00
+  status: 0
+  last_login_on:
+  language: ''
+  updated_on: 2006-07-19 19:33:19 +02:00
+  admin: false
+  mail: ''
+  lastname: Anonymous
+  firstname: ''
+  auth_source_id:
+  mail_notification: only_my_events
+  login: ''
+  type: AnonymousUser
+  first_login: false
+users_007:
+  id: 7
+  created_on: 2006-07-19 19:33:19 +02:00
+  status: 1
+  last_login_on:
+  language: ''
+  updated_on: 2006-07-19 19:33:19 +02:00
+  admin: false
+  mail: someone@foo.bar
+  lastname: One
+  firstname: Some
+  auth_source_id:
+  mail_notification: only_my_events
+  login: someone
+  type: User
+  first_login: false
+users_008:
+  id: 8
+  created_on: 2006-07-19 19:33:19 +02:00
+  status: 1
+  last_login_on:
+  language: 'de'
+  updated_on: 2006-07-19 19:33:19 +02:00
+  admin: false
+  mail: miscuser8@foo.bar
+  lastname: Misc
+  firstname: User
+  auth_source_id:
+  mail_notification: only_my_events
+  login: miscuser8
+  type: User
+  first_login: false
+users_009:
+  id: 9
+  created_on: 2006-07-19 19:33:19 +02:00
+  status: 1
+  last_login_on:
+  language: 'de'
+  updated_on: 2006-07-19 19:33:19 +02:00
+  admin: false
+  mail: miscuser9@foo.bar
+  lastname: Misc
+  firstname: User
+  auth_source_id:
+  mail_notification: only_my_events
+  login: miscuser9
+  type: User
+  first_login: false
+groups_010:
+  id: 10
+  lastname: A Team
+  type: Group
+groups_011:
+  id: 11
+  lastname: B Team
+  type: Group

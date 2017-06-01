@@ -1,0 +1,93 @@
+<div class="pagination" ng-if="totalEntries">
+  <nav class="pagination--pages">
+    <ul class="pagination--items">
+
+      <li ng-show="paginationOptions.page != 1" class="pagination--item">
+        <a ng-click="showPage(paginationOptions.page - 1)"
+           rel="prev start"
+           aria-label="{{ ::text.label_previous }}"
+           data-click-on-keypress="[13, 32]"
+           id= "pagination--prev-link"
+           role="link"
+           href="">&#60;</a>
+      </li>
+
+      <li ng-if="prePageNumbers.length" ng-repeat="pageNumber in prePageNumbers"
+        class="pagination--item">
+        <a ng-click="showPage(pageNumber)"
+           rel="next"
+           data-click-on-keypress="[13, 32]"
+           role="link"
+           href=""
+           ng-bind="pageNumber"></a>
+      </li>
+      <li ng-if="prePageNumbers.length" class="pagination--space">…</li>
+
+      <li ng-if="pageNumbers.length > 1"
+          ng-repeat="pageNumber in pageNumbers"
+          ng-class="{ '-current': pageNumber == paginationOptions.page }"
+          class="pagination--item pagination-number">
+        <em ng-if="pageNumber == paginationOptions.page">{{ pageNumber }}</em>
+        <a ng-if="pageNumber != paginationOptions.page"
+           ng-click="showPage(pageNumber)"
+           data-click-on-keypress="[13, 32]"
+           rel="next"
+           role="link"
+           href=""
+           ng-bind="pageNumber"></a>
+      </li>
+
+      <li ng-if="postPageNumbers.length" class="pagination--space">…</li>
+
+      <li ng-if="postPageNumbers" ng-repeat="pageNumber in postPageNumbers" class="pagination--item pagination-number">
+        <a ng-click="showPage(pageNumber)"
+           rel="next"
+           data-click-on-keypress="[13, 32]"
+           role="link"
+           href=""
+           ng-bind="pageNumber"></a>
+      </li>
+      <li ng-show="totalEntries && paginationOptions.page < pageNumbers[pageNumbers.length - 1]"
+        class="pagination--item">
+        <a ng-click="showPage(paginationOptions.page + 1)"
+           rel="next"
+           class="pagination--next-link"
+           aria-label="{{ ::text.label_next }}"
+           data-click-on-keypress="[13, 32]"
+           id="pagination--next-link"
+           role="link"
+           href="">&#62;</a>
+      </li>
+
+      <li class="pagination--range">
+        <span ng-bind="currentRange"></span>
+        <span ng-if="pageNumbers.length === 1"
+              id="pagination-empty-text"
+              tabindex="0"
+              class="hidden-for-sighted"
+              ng-bind="::text.no_other_page"></span>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="pagination--options" ng-if="totalEntries > perPageOptions[0]">
+    <ul class="pagination--items">
+      <li class="pagination--label" ng-bind="::text.per_page" title="{{ ::text.per_page }}"></li>
+
+      <li ng-repeat="perPageOption in perPageOptions"
+          ng-class="{ '-current': perPageOption == paginationOptions.perPage }"
+          class="pagination--item">
+
+       <span ng-if="perPageOption != paginationOptions.perPage">
+         <a ng-click="selectPerPage(perPageOption)"
+            data-click-on-keypress="[13, 32]"
+            role="link"
+            href=""
+            ng-bind="perPageOption"></a>
+       </span>
+
+       <span ng-if="perPageOption == paginationOptions.perPage">{{ perPageOption }}</span>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,22 @@
+<div id="detail-panel-watchers">
+  <div class="notification-box -error" ng-show="vm.error">
+    <div class="notification-box--content">
+      <p>{{ ::vm.text.loadingError }}</p>
+    </div>
+  </div>
+  <div ng-hide="vm.error">
+    <div class="work-package--watchers work-package--details--long-field"
+         ng-class="{'-read-only': !vm.allowedToRemove}">
+      <wp-watcher watcher="watcher"
+                  ng-repeat="watcher in vm.watching track by watcher.id"></wp-watcher>
+    </div>
+    <div class="work-package--watchers-lookup" ng-show="vm.allowedToAdd">
+      <form name="watcherForm" novalidate>
+        <input type="text"
+               class="wp-watcher--autocomplete ui-autocomplete--input"
+               ng-class="{ '-error': noResults }"
+               placeholder="{{ ::vm.text.autocomplete.placeholder }}">
+      </form>
+    </div>
+  </div>
+</div>

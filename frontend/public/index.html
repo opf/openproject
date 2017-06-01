@@ -1,0 +1,98 @@
+<!---- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>OpenProject Testing</title>
+
+  <meta name="description" content="OpenProject" />
+  <meta name="keywords" content="issue,bug,type" />
+  <meta name="app_base_path" content="" />
+  <meta name="current_menu_item" content="work_packages" />
+  <meta name="accessibility-mode" content="false" />
+  <meta content="authenticity_token" name="csrf-param" />
+  <meta content="" name="csrf-token" />
+  <base href="/" />
+
+  <link href="/assets/css/default.css.css" media="all" rel="stylesheet" />
+
+  <script>
+  window.gon = {};
+  gon.settings = {};
+  </script>
+
+  <script src="/assets/bundles/openproject-global.js"></script>
+
+  <script src="/assets/lib/jquery.trap.js"></script>
+  <script src="/assets/autocompleter.js"></script>
+  <script src="/assets/members_select_boxes.js"></script>
+  <script src="/assets/openproject.js"></script>
+  <script src="/assets/timelines_select_boxes.js"></script>
+  <script src="/assets/date-en-US.js"></script>
+
+  <script src="/assets/jstoolbar/jstoolbar.js"></script>
+  <script src="/assets/jstoolbar/translations.js"></script>
+  <script src="/assets/jstoolbar/textile.js"></script>
+  <script src="/assets/jstoolbar.js"></script>
+
+  <!-- Webpack-bundled assets -->
+  <script src="/assets/bundles/openproject-core-app.js"></script>
+
+  <script type="text/javascript">
+  window.openProject = new OpenProject({
+    urlRoot : '',
+    loginUrl: '/login?layout=false'
+  });
+  I18n.defaultLocale = "en";
+  I18n.locale = "en";
+  </script>
+</head>
+<body class="theme-default controller-work_packages action-index" ng-app="openproject" data-relative_url_root="/">
+  <div id="wrapper" class="nomenus"
+    ng-class="{ 'hidden-navigation': !showNavigation }">
+
+    <div id="main" class="nomenus">
+      <div class="nomenus" id="content"
+        ng-class="{ 'hidden-navigation': !showNavigation }">
+
+        <h1 class="hidden-for-sighted">Content</h1>
+
+        <div ui-view></div>
+
+        <div style="clear:both;">&nbsp;</div>
+      </div>
+    </div>
+
+    <div id="ajax-indicator" style="display:none;"><span>Loading...</span></div>
+  </div>
+  <notifications></notifications>
+</body>
+</html>

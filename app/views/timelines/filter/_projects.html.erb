@@ -1,0 +1,217 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="project_filters" class="form--fieldset -collapsible collapsed">
+  <legend class="form--fieldset-legend" title="<%=l(:description_filter_toggle)%>" onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.project_filters') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <%= f.fields_for :options, timeline_options do |ff| %>
+      <div class="form--field">
+        <%= ff.check_box :exclude_reporters, { label: l('timelines.filter.exclude_reporters') }, "yes", "no" %>
+      </div>
+      <div class="form--field">
+        <%= ff.check_box :exclude_empty, { label: l('timelines.filter.exclude_empty') }, "yes", "no" %>
+      </div>
+      <div class="form--field">
+        <% if User.current.impaired? %>
+          <%= ff.select :project_types,
+                        filter_select_with_none(
+                          timeline.available_project_types,
+                          :name, :id
+                        ),
+                        { selected: timeline.selected_project_types.map(&:id), label: l("timelines.filter.project_types") },
+                        multiple: true
+                        %>
+        <% else %>
+           <%= ff.select(:project_types,
+                   options_for_select([]),
+                   { label: l("timelines.filter.project_types"),
+                     container_class: '-wide' },
+                   { :'data-ajaxURL' => api_v2_paginate_project_types_path,
+                     multiple: true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_project_types,
+                                           :name, :id).to_json
+                   }) %>
+        <% end %>
+      </div>
+      <div class="form--field">
+        <% if User.current.impaired? %>
+          <%= ff.select(:project_status,
+                     filter_select_with_none(
+                       timeline.available_project_status,
+                       :name, :id),
+                     {selected: timeline.selected_project_status.map(&:id), label: l("timelines.filter.project_status") },
+                     {multiple: true,
+                      size: 12}) %>
+        <% else %>
+          <%= ff.select(:project_status,
+                   options_for_select([]),
+                   { label:  l("timelines.filter.project_status"),
+                     container_class: '-wide' },
+                   { :'data-ajaxURL' => api_v2_paginate_reported_project_statuses_path,
+                     multiple: true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_project_status,
+                                           :name, :id).to_json
+                   }) %>
+        <% end %>
+      </div>
+      <div class="form--field">
+         <% if User.current.impaired? %>
+          <%= ff.select(:project_responsibles,
+                     filter_select_with_none(
+                       timeline.available_responsibles,
+                       :name, :id),
+                     {selected: timeline.selected_project_responsibles.map(&:id), label: l("timelines.filter.project_responsible") },
+                     {multiple: true,
+                      size: 12}) %>
+        <% else %>
+          <%= ff.select(:project_responsibles,
+                   options_for_select([]),
+                   { label: l("timelines.filter.project_responsible"),
+                     container_class: '-wide' },
+                   { :'data-ajaxURL' => api_v2_paginate_users_path,
+                    multiple: true,
+                    :'data-selected' => filter_select(
+                                           timeline.selected_project_responsibles,
+                                           :name, :id).to_json
+                   }) %>
+        <% end %>
+      </div>
+      <div class="form--field">
+         <% if User.current.impaired? %>
+          <%= ff.select(:parents,
+                     filter_select_with_none(
+                       timeline.available_parents,
+                       :name, :id),
+                     {selected: timeline.selected_parents.map(&:id), label: l("timelines.filter.parent") },
+                     {multiple: true,
+                      size: 12}) %>
+        <% else %>
+          <%= ff.select(:parents,
+                   options_for_select([]),
+                   { label: l("timelines.filter.parent"),
+                     container_class: '-wide' },
+                   { :'data-ajaxURL' => api_v2_paginate_projects_path,
+                     multiple: true,
+                     :'data-selected' => filter_select(
+                                         timeline.selected_parents,
+                                         :name, :id).to_json
+                   }) %>
+        <% end %>
+      </div>
+
+      <div class="form--field">
+         <% if User.current.impaired? %>
+          <%= ff.select(:planning_element_time_types,
+                   filter_select_with_none(
+                     timeline.available_planning_element_types,
+                     :name, :id),
+                   {selected: timeline.selected_planning_element_time_types.map(&:id), label: l('timelines.filter.project_time_filter') },
+                   {multiple: true,
+                    size: 12}) %>
+        <% else %>
+          <%= ff.select(:planning_element_time_types,
+                     options_for_select([]),
+                     { label: l('timelines.filter.project_time_filter'),
+                       container_class: '-wide' },
+                     { :'data-ajaxURL' => api_v2_paginate_types_path,
+                       multiple: true,
+                       :'data-selected' => filter_select(
+                                             timeline.selected_planning_element_time_types,
+                                             :name, :id).to_json
+                     }) %>
+        <% end %>
+      </div>
+
+      <div class="form--grouping" role="group" aria-labelledby="timeline--form--project-filter-timeframe">
+
+        <div id="timeline--form--project-filter-timeframe"
+             class="form--grouping-label">
+          <%= l('timelines.filter.project_time_filter_timeframe') %>
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field -trailing-label">
+            <%= ff.radio_button :planning_element_time, 'absolute', label:  l('timelines.filter.comparison.absolute') %>
+          </div>
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field">
+            <%= ff.text_field :planning_element_time_absolute_one, label: l('timelines.filter.project_time_filter_historical_from') %>
+            <%= calendar_for :timeline_options_planning_element_time_absolute_one %>
+          </div>
+          <div class="form--field">
+            <%= ff.text_field :planning_element_time_absolute_two, label: l('timelines.filter.project_time_filter_historical_to') %>
+            <%= calendar_for :timeline_options_planning_element_time_absolute_two %>
+          </div>
+        </div>
+
+        <div class="form--grouping-row">
+          <hr class="form--separator" />
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field -trailing-label">
+            <%= ff.radio_button :planning_element_time, 'relative', label: l('timelines.filter.comparison.relative') %>
+          </div>
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field -wide-label">
+            <%= ff.text_field :planning_element_time_relative_one, label: l('timelines.filter.project_time_filter_historical_from') %>
+          </div>
+          <div class="form--field">
+            <%= ff.select :planning_element_time_relative_one_unit,
+                          options_for_timeunits(timeline.options['planning_element_time_relative_one_unit']),
+                          no_label: true %>
+            <span class="form--field-affix -transparent">
+              <%=l('timelines.filter.comparison.compare_relative_suffix')%>
+            </span>
+          </div>
+          <div class="form--field -wide-label">
+            <%= ff.text_field :planning_element_time_relative_two, label: l('timelines.filter.project_time_filter_historical_to') %>
+          </div>
+          <div class="form--field">
+            <%= ff.select :planning_element_time_relative_two_unit,
+                          options_for_timeunits(timeline.options['planning_element_time_relative_two_unit']),
+                          no_label: true %>
+            <span class="form--field-affix -transparent">
+              <%=l('timelines.filter.comparison.compare_relative_suffix')%>
+            </span>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</fieldset>

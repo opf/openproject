@@ -1,0 +1,11 @@
+<% url = ENV.fetch('DATABASE_URL') %>
+production:
+  url: <%= url %>
+  <% if url.start_with? 'mysql' %>
+  reconnect: true
+  variables:
+    # These are the default MySql Modes for rails 5.0 only excluding
+    # ONLY_FULL_GROUP_BY which would interfere with the current implementation
+    # of the query grouping by custom fields.
+    sql_mode: "no_auto_value_on_zero,strict_trans_tables,strict_all_tables,no_zero_in_date,no_zero_date,error_for_division_by_zero,no_auto_create_user,no_engine_substitution"
+  <% end %>

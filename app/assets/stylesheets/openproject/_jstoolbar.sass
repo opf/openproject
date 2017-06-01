@@ -1,0 +1,154 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$jstoolbar--icon-background: #fff
+$jstoolbar--icon-hover-border: #ccc
+$jstoolbar--icon-border: #fff
+$jstoolbar--icon-active-border: #bbb
+$jstoolbar--icon-active-background: #eee
+
+.jstEditor
+  padding-left: 0
+  clear: both
+
+  textarea, iframe
+    margin: 0
+
+  textarea
+    min-height: 200px
+
+  textarea.-small
+    min-height: 50px
+
+.jstHandle
+  height: 10px
+  font-size: 0.1em
+  cursor: s-resize
+
+.jstElements
+  background: #fff
+  float: right
+  line-height: 1.6rem
+  margin-bottom: 0.25rem
+  text-align: right
+
+  button
+    @include icon-common
+    padding: 0.25rem
+    margin-left: 0.125rem
+    height: 1.625rem
+    width: 1.625rem
+    max-width: 1.625rem
+    border: 1px solid $jstoolbar--icon-border
+    background-color: $jstoolbar--icon-background
+    color: $body-font-color
+    border-radius: 2px
+    overflow-y: hidden
+    display: inline-block
+
+    &:hover
+      border-color: $jstoolbar--icon-hover-border
+      cursor: pointer
+
+    &:focus
+      border-color: $jstoolbar--icon-hover-border
+
+    &.-active
+      border-color: $jstoolbar--icon-hover-border
+      box-shadow: inset 0px 0px 3px $jstoolbar--icon-active-border
+      background: $jstoolbar--icon-active-background
+
+    &:before
+      display: block
+
+    span
+      display: none
+
+  .jstb_help
+    font-size: 0.8125rem
+    padding: 0.35rem
+    line-height: 1rem
+    @extend .icon-help1
+
+    &:before
+      color: $body-font-color
+      padding: 0
+
+  span
+    display: inline
+
+
+.jstSpacer
+  width: 0
+  font-size: 1px
+  margin-right: 4px
+
+.jstb_strong
+  @extend .icon-bold
+
+.jstb_em
+  @extend .icon-italic
+
+.jstb_ins
+  @extend .icon-underline
+
+.jstb_del
+  @extend .icon-strike-through
+
+.jstb_code
+  @extend .icon-code-tag
+
+.jstb_h1
+  @extend .icon-headline1
+
+.jstb_h2
+  @extend .icon-headline2
+
+.jstb_h3
+  @extend .icon-headline3
+
+.jstb_ul
+  @extend .icon-unordered-list
+
+.jstb_ol
+  @extend .icon-ordered-list
+
+.jstb_bq
+  @extend .icon-paragraph-right
+
+.jstb_unbq
+  @extend .icon-paragraph-left
+
+.jstb_pre
+  @extend .icon-pre
+
+.jstb_link
+  @extend .icon-link
+
+.jstb_img
+  @extend .icon-image1

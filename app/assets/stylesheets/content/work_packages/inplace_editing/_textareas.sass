@@ -1,0 +1,105 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+
+// Avoid overlapping text selection in FF
+// https://community.openproject.com/work_packages/23742
+.inplace-edit--textarea
+  line-height: normal
+
+.inplace-edit--write-value
+  textarea
+    font-size: 1rem
+    line-height: 1.6
+
+.textarea-wrapper
+  // Leave room below textarea for inplace edit controls
+  position: relative
+  margin-bottom: 50px
+
+  // Don't show all jstb buttons in inplace-edit textareas
+  .jstHandle, .jstSpacer
+    display: none
+  .jstElements
+    button
+      display: none
+    .jstb_strong,
+    .jstb_em,
+    .jstb_ins,
+    .jstb_del,
+    .jstb_ul,
+    .jstb_ol,
+    .jstb_preview,
+    .jstb_help
+      display: inline-flex
+      justify-content: center
+
+  &.inline-label .inplace-edit--controls
+    right: 33px
+
+// Styles for the Save | Cancel controls below textareas
+.inplace-edit--controls
+  position: absolute
+  right: 0
+  width: 80px
+  height: 40px
+  bottom: -39px // 40px - border
+  background: $inplace-edit--dark-background
+  border: 1px solid $inplace-edit--color--very-dark
+  box-shadow: 2px 2px 4px $inplace-edit--border-color
+  text-align: center
+  // Align controls via flex
+  display: flex
+
+// Disabled submit styles when not applicable
+.inplace-edit--control--save[disabled] a,
+.inplace-edit--control--send[disabled] a
+  background-color: $inplace-edit--bg-color--disabled
+  color: $inplace-edit--color--disabled
+  cursor: not-allowed
+
+// A single save/cancel control
+.inplace-edit--control
+  font-size: 0.9rem
+  flex: 1
+  padding: 5px
+  a
+    // Center save/cancel links
+    width: 100%
+    line-height: 27px
+    border: 1px solid transparent
+    display: inline-block
+    color: $body-font-color
+    text-decoration: none
+
+    &:hover, &:active
+      border-color: $inplace-edit--border-color
+
+  .icon-context:before
+    padding: 0
+

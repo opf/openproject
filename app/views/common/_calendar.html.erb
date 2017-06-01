@@ -1,0 +1,74 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<table class="cal">
+  <thead>
+    <tr>
+      <th scope="col" title="<%= l(:label_week) %>" class="week-number"></th>
+      <% 7.times do |i| %>
+        <th scope="col"><%= day_name( (calendar.first_wday+i)%7 ) %></th>
+      <% end %></tr>
+  </thead>
+  <tbody>
+    <tr>
+      <% day = calendar.startdt
+while day <= calendar.enddt %>
+        <%= "<td class='week-number' title='#{ l(:label_week) }'>#{(day+(11-day.cwday)%7).cweek}</td>".html_safe if day.cwday == calendar.first_wday %>
+        <td class="<%= day.month==calendar.month ? 'even' : 'odd' %><%= ' today' if Date.today == day %>">
+          <p class="day-num"><%= day.day %></p>
+          <% calendar.events_on(day).each do |i| %>
+            <% if i.is_a? WorkPackage %>
+              <div class="<%= work_package_css_classes(i) %> tooltip">
+                <%= h("#{i.project} -") unless @project && @project == i.project %>
+                <% if day == i.start_date and day == i.due_date %>
+                  <% classes = " icon icon-milestone diamond" %>
+                <% elsif day == i.start_date %>
+                  <% classes = " icon icon-arrow-right4 starting" %>
+                  <% title = t('timelines.start') + ' ' + i.subject %>
+                <% elsif day == i.due_date %>
+                  <% classes = " icon icon-arrow-right4 ending" %>
+                  <% title = t('timelines.end') + ' ' + i.subject %>
+                <% end %>
+                <span class="hidden-for-sighted"><%= title %></span>
+                <%= link_to_work_package i, { truncate: 30, class: classes.to_s, title: title } %>
+                <span class="tip"><%= render_issue_tooltip i %></span>
+              </div>
+            <% else %>
+              <div>
+                <%= h("#{i.project} -") unless @project && @project == i.project %>
+                <%= link_to_version i, {}, {before_text: icon_wrapper('icon-context icon-modules', Version.model_name.human) }%>
+              </div>
+            <% end %>
+          <% end %>
+        </td>
+        <%= '</tr><tr>'.html_safe if day.cwday==calendar.last_wday and day!=calendar.enddt %>
+        <% day = day + 1
+end %>
+      </tr>
+    </tbody>
+  </table>

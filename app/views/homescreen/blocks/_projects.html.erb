@@ -1,0 +1,31 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-projects') %>
+  <span class="widget-box--header-title"><%= l(:label_project_plural) %></span>
+</h3>
+
+<% unless @newest_projects.empty? %>
+  <p class="widget-box--additional-info"><%= l('homescreen.additional.projects') %></p>
+  <ul class="widget-box--arrow-links">
+    <% @newest_projects.each do |project| %>
+    <li>
+      <%= link_to project, project_path(project), title: project.short_description %>
+      <small>(<%= format_date(project.created_on) %>)</small>
+    </li>
+    <% end %>
+  </ul>
+<% end %>
+
+<div class="widget-box--blocks--buttons">
+  <% if User.current.allowed_to?(:add_project, nil, global: true) %>
+    <%= link_to new_project_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_project_new)},
+            title: t(:label_project_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= Project.model_name.human %></span>
+    <% end %>
+  <% end %>
+  <%= link_to l(:label_project_view_all), projects_path,
+              class: 'button -highlight',
+              title: l(:label_project_view_all) %>
+</div>

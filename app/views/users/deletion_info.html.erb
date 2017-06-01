@@ -1,0 +1,72 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% html_title(l(:label_administration), "#{ l('account.deletion_info.heading', name: @user.name)}") -%>
+<%= labelled_tabular_form_for :user, url: user_path(@user), html: { method: :delete, class: 'confirm_required form danger-zone' } do %>
+  <div class='wiki'>
+    <section class="form--section">
+      <h3 class="form--section-title">
+        <%= l('account.deletion_info.heading', name: "<em>#{h(@user.name)}</em>").html_safe %>
+      </h3>
+
+      <p>
+        <%= l("account.deletion_info.login_consequences.#{User.current == @user ? 'self' : 'other'}") %>
+      </p>
+
+      <p>
+        <%= l("account.deletion_info.data_consequences.#{User.current == @user ? 'self' : 'other'}") %>
+      </p>
+      <p class="danger-zone--warning">
+        <span class="icon icon-error"></span>
+        <span><%= l("account.deletion_info.info.#{User.current == @user ? 'self' : 'other'}") %></span>
+      </p>
+      <p>
+        <%= l("account.deletion_info.login_verification.#{User.current == @user ? 'self' : 'other'}",
+              name: "<em class=\"danger-zone--expected-value\">#{h(@user.login)}</em>").html_safe %>
+      </p>
+      <div class="danger-zone--verification">
+        <input type="text" name="login_verification"/>
+        <%= styled_button_tag '', class: '-highlight', disabled: true do
+          concat content_tag :i, '', class: 'button--icon icon-delete'
+          concat content_tag :span, l(:button_delete), class: 'button--text'
+          end %>
+        <%= link_to edit_user_path(@user),
+          title: l(:button_cancel),
+          class: 'button -with-icon icon-cancel' do %>
+            <%= l(:button_cancel) %>
+          <% end %>
+      </div>
+    </section>
+  </div>
+<% end %>
+
+<%= javascript_tag do -%>
+  jQuery(document).ready(function() {
+    SubmitConfirm.init(jQuery('.confirm_required'), '<%= l('account.delete_confirmation') %>');
+  });
+<% end -%>

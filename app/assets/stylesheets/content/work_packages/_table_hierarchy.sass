@@ -1,0 +1,89 @@
+
+// Style the hierarchy group indicator arrow
+// default: open arrow down
+// collapsed: left arrow
+.wp-table--hierarchy-indicator
+  @include varprop(color, body-font-color)
+
+  &:hover
+    text-decoration: none
+
+// Toggle the indicator accessibility texts
+// accordingly
+.wp-table--hierarchy-indicator-collapsed
+  display: none
+
+.-hierarchy-collapsed
+  .wp-table--hierarchy-indicator-expanded
+    display: none
+  .wp-table--hierarchy-indicator-collapsed
+    display: inline
+
+.wp-table--hierarchy-span
+  text-align: end
+  display: inline-block
+  margin-left: 5px
+  padding-right: 8px
+
+.wp-table--hierarchy-indicator-icon
+  @include icon-common
+  @extend .icon-arrow-down1
+  font-size: 0.6rem
+
+  .-hierarchy-collapsed &
+    @extend .icon-arrow-right2
+
+.wp--row[class*="__collapsed-group-"]
+  display: none
+
+.wp-table--hierarchy-td
+  min-width: 0px !important
+
+// Highlight the additional hierarchy
+// so it becomes clear they're not part of the sort
+body:not(.accessibility-mode ) .wp-table--hierarchy-aditional-row
+  @include varprop(color, gray-dark)
+  .wp-table--hierarchy-indicator
+    @include varprop(color, gray-dark)
+
+  // Fix padding on additional row/id field
+  // since we don't have the edit-span's padding here
+  .hierarchy-row--id-cell
+    padding-left: 5px !important
+
+
+.hierarchy-header--outer-span
+  & > .dropdown-indicator
+    width: 1em
+    text-align: right
+    overflow: visible
+    min-width: 1em
+    visibility: hidden
+
+  &:hover > .dropdown-indicator
+    visibility: visible
+
+// Style hierarchy column differently
+.hierarchy-header--sort-title
+  width: calc(100% - 48px)
+  display: inline-block
+
+// Padding for the hierarchy mode
+.wp-table--cell-td.subject:not(.-with-hierarchy)
+  padding-left: 25px !important
+
+.wp-table--cell-td.subject.-with-hierarchy
+  .wp-table--cell-span
+    padding-left: 0
+
+.hierarchy-header--icon
+  cursor: pointer
+  display: inline-block
+  width: 20px
+
+  i:before
+    padding: 0
+    // Align the botched verticality of the hierarchy icons.
+    vertical-align: middle
+    font-size: 20px
+    @include varprop(color, body-font-color)

@@ -1,0 +1,81 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% html_title t(:label_member_plural) -%>
+
+<% any_members = @members.any? %>
+
+<%= toolbar title: t(:label_member_plural) do %>
+  <% if any_members %>
+    <li class="toolbar-item">
+      <button id="filter-member-button" focus title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
+        <%= op_icon('button--icon icon-filter') %>
+      </button>
+    </li>
+  <% end %>
+  <% if authorize_for(:members, :new) %>
+    <li class="toolbar-item">
+      <button id="add-member-button"
+              aria-label="<%= I18n.t(:button_add_member) %>"
+              title="<%= I18n.t(:button_add_member) %>"
+              onClick="showAddMemberForm()"
+              class="button -alt-highlight"
+              <%= params[:show_add_members] ? 'data-trigger-initially="true"' : '' %> >
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t('activerecord.models.member') %></span>
+      </button>
+    </li>
+  <% end %>
+<% end %>
+
+<%= javascript_include_tag "members_form.js" %>
+
+<%= error_messages_for 'member' %>
+
+<div>
+  <% if @roles.any? %>
+    <%= render partial: "members/member_form",
+               locals: { project: @project, roles: @roles } %>
+  <% else %>
+    <p>
+      <%= I18n.t('text_no_roles_defined') %>
+    </p>
+    <%= link_to I18n.t('button_back'), :back, class: 'button' %>
+  <% end %>
+</div>
+
+<div>
+  <%= cell Members::UserFilterCell, params, @members_filter_options %>
+  <% if any_members %>
+    <%= cell Members::TableCell, @members, @members_table_options %>
+  <% elsif @is_filtered %>
+    <%= no_results_box custom_title: t(:notice_no_principals_found) %>
+  <% else %>
+    <%= no_results_box %>
+  <% end %>
+</div>

@@ -1,0 +1,92 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@mixin setCalendarIconValues()
+  display: inline-flex
+  &:before
+    padding: 0 10px 0 10px
+  &.ending:before
+    transform: rotate(180deg)
+    color: #F5827E
+  &.diamond:before
+    color: #F5827E
+  &.starting:before
+    color: #A2C57A
+
+
+table.cal
+  border-collapse: collapse
+  width: 100%
+  margin: 0 0 6px 0
+  border: $content-calendar-border-width solid $content-calendar-border-color
+
+  thead th
+    width: 14%
+    background-color: $content-calendar-head-cell-bg-color
+    padding: 4px
+    &.week-number
+      width: auto
+
+  tbody tr
+    height: 100px
+  td
+    border: $content-calendar-cell-border-width solid $content-calendar-cell-border-color
+    vertical-align: top
+    font-size: 0.9em
+
+    &.week-number
+      background-color: $content-calendar-head-cell-bg-color
+      padding: 4px
+      border: none
+      font-size: 1em
+
+    p.day-num
+      font-size: 1.1em
+      text-align: right
+      font-weight: bold
+      padding-right: 2px
+    &.odd p.day-num
+      color: $content-calendar-inactive-day-font-color
+      background-color: $content-calendar-inactive-day-bg-color
+    &.today
+      background: $content-calendar-cell-today-bg-color
+
+  .icon,
+  .icon-context
+    @include setCalendarIconValues()
+    vertical-align: middle
+
+  .issue
+    vertical-align: middle
+
+p.legend.cal
+  margin-bottom: 0
+  .icon
+    @include setCalendarIconValues()
+    vertical-align: middle
+

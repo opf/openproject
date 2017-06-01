@@ -1,0 +1,153 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <sort-link sort-attr="spent_on" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:spent_on) %>
+                  </sort-link>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <sort-link sort-attr="user" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:user) %>
+                  </sort-link>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <sort-link sort-attr="activity" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:activity) %>
+                  </sort-link>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <sort-link sort-attr="project" sort-func="loadTimeEntries()">
+                  <%= TimeEntry.human_attribute_name(:project) %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <sort-link sort-attr="work_package" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:issue) %>
+                  </sort-link>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <sort-link sort-attr="comments" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:comments) %>
+                  </sort-link>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <sort-link sort-attr="hours" sort-func="loadTimeEntries()">
+                    <%= TimeEntry.human_attribute_name(:hours) %>
+                  </sort-link>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th><div class="generic-table--empty-header"></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="time-entry" ng-repeat="timeEntry in timeEntries" >
+          <td class="spent_on"><op-date date-value="timeEntry.spent_on"></op-date></td>
+          <td class="user"><a ng-href="{{PathHelper.userPath(timeEntry.user.id)}}">{{timeEntry.user.name}}</a></td>
+          <td class="activity">{{timeEntry.activity.name}}</td>
+          <td class="project"><a ng-href="{{PathHelper.projectPath(timeEntry.project.id)}}">{{timeEntry.project.name}}</a></td>
+          <td class="subject">
+            <div ng-if="timeEntry.work_package !== undefined" style="width:150px;overflow:hidden;text-overflow:ellipsis;">
+              <a ng-if="timeEntry.work_package.isVisible == true" ng-href="{{PathHelper.workPackagePath(timeEntry.work_package.id)}}">{{timeEntry.work_package.subject}}</a>
+              <span ng-if="timeEntry.work_package.isVisible == false">#{{timeEntry.work_package.id}}</span>
+            </div>
+          </td>
+          <td class="comments">{{timeEntry.comments}}</td>
+          <td class="hours">{{timeEntry.hours.toFixed(2)}}</td>
+          <td class="buttons">
+            <span ng-if="timeEntry.isEditable == true">
+              <a ng-href="{{PathHelper.timeEntryEditPath(timeEntry.id)}}" class="no-decoration-on-hover">
+                <op-icon icon-classes="icon-edit" icon-title="{{I18n.t('js.button_edit')}}"></op-icon>
+              </a>
+              <a ng-click="deleteTimeEntry(timeEntry.id)" href="" class="no-decoration-on-hover">
+                <op-icon icon-classes="icon-delete" icon-title="{{I18n.t('js.button_delete')}}"></op-icon>
+              </a>
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</div>

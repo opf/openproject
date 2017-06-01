@@ -1,0 +1,57 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%#
+  needs locals:
+  f: labelled form builder
+%>
+
+<%= error_messages_for :auth_source %>
+
+<section class="form--section">
+  <div class="form--field"><%= f.text_field 'name', required: true %></div>
+  <div class="form--field"><%= f.text_field 'host', required: true %></div>
+  <div class="form--field"><%= f.text_field 'port', required: true, size: 6 %></div>
+  <div class="form--field"><%= f.check_box 'tls', label: 'LDAPS' %> </div>
+  <div class="form--field"><%= f.text_field 'account'  %></div>
+  <div class="form--field"><%= f.password_field 'account_password',
+            label: AuthSource.human_attribute_name(:password),
+            placeholder: ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('●'*15)) %></div>
+  <div class="form--field"><%= f.text_field 'base_dn', size: 60 %></div>
+  <div class="form--field"><%= f.check_box 'onthefly_register', label: AuthSource.human_attribute_name(:onthefly) %></div>
+</section>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend"><%=l(:label_attribute_plural)%></legend>
+  <div class="form--field"><%= f.text_field 'attr_login', label: AuthSource.human_attribute_name(:login), required: true, size: 20  %></div>
+  <div class="form--field"><%= f.text_field 'attr_firstname', label: AuthSource.human_attribute_name(:firstname), size: 20  %></div>
+  <div class="form--field"><%= f.text_field 'attr_lastname', label: AuthSource.human_attribute_name(:lastname), size: 20  %></div>
+  <div class="form--field"><%= f.text_field 'attr_mail', label: AuthSource.human_attribute_name(:mail), size: 20  %></div>
+  <div class="form--field"><%= f.text_field 'attr_admin', label: AuthSource.human_attribute_name(:admin), size: 20  %></div>
+</fieldset>

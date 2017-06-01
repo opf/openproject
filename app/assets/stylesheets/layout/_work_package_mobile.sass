@@ -1,0 +1,131 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@include breakpoint(1248px down)
+  body.controller-work_packages
+
+    // ------------- FULL SCREEN -------------------
+    &.action-show
+      overflow: auto !important
+      overflow-y: scroll !important
+
+      #main,
+      #content
+        position: relative !important
+
+      #main
+        padding-bottom: 0
+
+      #content
+        height: 100% !important
+        overflow: visible
+
+      .work-packages--show-view
+        padding: 0 0 0 5px
+
+        &.edit-all-mode
+          .work-packages-full-view--split-right
+            display: none
+
+        ul#toolbar-items li .wp-create-button .dropdown
+          left: 0 !important
+
+      .work-packages-full-view--split-container
+        flex-direction: column
+        // Safari
+        height: initial
+        .work-packages-full-view--split-left
+          padding-left: 15px
+          margin: 0
+          width: initial
+          border: none
+
+        .work-packages-full-view--split-right
+          width: initial
+          margin-bottom: 55px
+          .tabrow
+            margin: 0.75rem 0 2.5rem 0
+
+          .work-packages--panel-inner
+            padding: 0 20px 0 15px
+
+    // --------------- ALL WP VIEWS ---------------
+    .work-packages-tabletimeline--table-side
+      contain: none
+
+    .toolbar-container
+      margin-bottom: 1em
+      min-height: 0
+
+    .attributes-key-value--key,
+    .attributes-key-value--value-container
+      @include grid-size(6)
+      font-size: 1rem
+      margin-bottom: 20px
+
+      .inplace-edit--read-value
+        padding: 0
+
+      .inplace-editing--container
+        border: none
+
+    .attributes-key-value--key
+      padding: 0 !important
+
+    .work-packages--panel-inner > .attributes-group:first-child
+      .attributes-group--header
+        border-bottom: none
+        padding-top: 4px
+
+    // Reset margin for mobile, since the wiki toolbar is hidden on mobile
+    .inplace-edit.attribute-description
+      .inplace-edit--write
+        margin-top: 0
+
+    div[class*='work-packages--details--']
+      width: 100%
+
+      .inplace-edit--read-value span
+        white-space: normal
+
+    .work-package-details-activities-messages
+      font-size: 0.9rem
+
+    .work-package--new-state
+      overflow: auto
+      height: 100%
+      padding-right: 0
+
+      .work-packages--edit-actions
+        bottom: 0px !important
+
+    .detail-panel-description-content .relation h3
+      margin: 0 !important
+      padding: 8px 0 !important
+      font-size: 1rem
+

@@ -1,0 +1,59 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <title><%=h @wiki.project.name %></title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <style>
+      body { font:80% Verdana,Tahoma,Arial,sans-serif; }
+      h1, h2, h3, h4 {  font-family: "Trebuchet MS",Georgia,"Times New Roman",serif; }
+      ul.toc { padding: 4px; margin-left: 0; }
+      ul.toc li { list-style-type:none; }
+      ul.toc li.heading2 { margin-left: 1em; }
+      ul.toc li.heading3 { margin-left: 2em; }
+      a.wiki-anchor { display: none; margin-left: 6px; text-decoration: none; }
+      a.wiki-anchor:hover { color: #aaa !important; text-decoration: none; }
+      h1:hover a.wiki-anchor, h2:hover a.wiki-anchor, h3:hover a.wiki-anchor { display: inline; color: #ddd; }
+    </style>
+  </head>
+  <body>
+    <strong><%= l(:label_index_by_title) %></strong>
+    <ul>
+      <% @pages.each do |page| %>
+        <li><a href="#<%= h(page.to_param) %>"><%= h(page.title) %></a></li>
+      <% end %>
+    </ul>
+    <% @pages.each do |page| %>
+      <hr />
+      <a name="<%= h(page.to_param) %>" />
+        <%= format_text page.content ,:text, wiki_links: :anchor %>
+      <% end %>
+    </body>
+  </html>

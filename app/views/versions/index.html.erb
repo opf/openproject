@@ -1,0 +1,90 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= toolbar title: l(:label_roadmap) %>
+<% if @versions.empty? %>
+  <%= no_results_box %>
+<% else %>
+  <div id="roadmap">
+    <% @versions.each do |version| %>
+      <h3 class="version icon-context icon-modules">
+        <%= link_to_version version, name: h(version.name) %>
+      </h3>
+      <%= render partial: 'versions/overview', locals: {version: version} %>
+      <%= render(partial: "wiki/content", locals: {content: version.wiki_page.content}) if version.wiki_page %>
+      <% if (issues = @issues_by_version[version]) && issues.size > 0 %>
+      <form>
+        <fieldset class="form--fieldset -collapsible">
+          <legend class="form--fieldset-legend" onClick="toggleFieldset(this);"><%= l(:label_related_work_packages) %></legend>
+          <div>
+            <ul>
+              <%- issues.each do |issue| -%>
+                <li><%= link_to_work_package(issue, project: (@project != issue.project)) %></li>
+              <%- end -%>
+            </ul>
+          </div>
+        </fieldset>
+      </form>
+      <% end %>
+      <%= call_hook :view_projects_roadmap_version_bottom, version: version %>
+    <% end %>
+  </div>
+<% end %>
+<% content_for :sidebar do %>
+  <%= form_tag({}, method: :get) do %>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= l(:description_filter) %></legend>
+      <div class="form--field">
+        <p>
+          <% @types.each do |type| %>
+            <%= check_box_tag "type_ids[]", type.id, (@selected_type_ids.include? type.id.to_s), id: "type-#{type.name}" %>
+            <label for="type-<%=type.name%>"><%=h type.name %></label><br />
+            <label class="hidden-for-sighted" for= "type-<%=type.name%>" ><%=h type.name %></label>
+          <% end %>
+        </p>
+        <p>
+          <%= check_box_tag "completed", 1, params[:completed] %>
+          <label for="completed"> <%= l(:label_show_completed_versions) %></label>
+        </p>
+        <% if @project.descendants.active.any? %>
+          <%= hidden_field_tag 'with_subprojects', 0 %>
+          <p>
+            <%= check_box_tag 'with_subprojects', 1, @with_subprojects %>
+            <label><%=l(:label_subproject_plural)%></label>
+          </p>
+        <% end %>
+      </div>
+      <div><%= submit_tag l(:button_apply), class: 'button -small -highlight', name: nil %></div>
+    </fieldset>
+  <% end %>
+      <h3><%= l(:label_version_plural) %></h3>
+      <% @versions.each do |version| %>
+        <%= link_to format_version_name(version), "#{project_roadmap_url}##{version.name}" %><br />
+      <% end %>
+<% end %>
+<% html_title(l(:label_roadmap)) %>

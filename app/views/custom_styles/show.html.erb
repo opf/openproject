@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2013 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title t(:label_administration), t(:label_custom_style) %>
+
+<%= toolbar title: t(:label_custom_style) %>
+
+<%= error_messages_for 'custom_style' %>
+
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_logo) %></legend>
+
+      <% if @custom_style.id && @custom_style.logo.present? %>
+        <div>
+          <%= tag('img', src: custom_style_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: 'custom-logo-preview') %>
+          <%= link_to l(:button_delete),
+          custom_style_logo_delete_path,
+          method: :delete,
+          class: 'icon icon-delete confirm-form-submit' %>
+        </div>
+      <% end %>
+
+      <div class="grid-block">
+        <div class="form--field -required">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= f.file_field :logo, required: true, class: "attachment_choose_file", size: "15" %>
+            </div>
+          </div>
+          <div class="form--field-instructions">
+            <%= t('text_custom_logo_instructions') %>
+          </div>
+        </div>
+      </div>
+
+      <%= styled_button_tag l(@custom_style.logo.present? ? :button_replace : :button_upload), class: "button #{@custom_style.logo.blank? ? '-with-icon icon-add' : ''}" %>
+
+    </fieldset>
+  </section>
+<% end %>
+
+<%= form_tag update_design_colors_path, method: :post, class: "form" do %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.custom_colors') %></legend>
+
+      <% DesignColor.setables.each do |design_color|  %>
+        <div class="form--field -required">
+          <label class="form--label"><%= design_color.variable %>:</label>
+          <span class="form--field-container">
+            <span class="form--text-field-container">
+              <%= styled_text_field_tag "design_colors[]" + design_color.variable, design_color.hexcode, placeholder: DesignColor.defaults[design_color.variable] %>
+            </span>
+          </span>
+          <%= icon_for_color(OpenStruct.new( variable: design_color.variable, hexcode: design_color.get_hexcode ), class: 'timelines-x-update-color timelines-color-properties-preview', data: { target: '#color_hexcode' }) %>
+          <div class="form--field-instructions">
+            <% if design_color.variable == "primary-color" %>
+              <%= t("admin.custom_styles.instructions.primary_color") %>
+            <% elsif design_color.variable == "primary-color-dark" %>
+              <%= t("admin.custom_styles.instructions.primary_color_dark") %>
+            <% elsif design_color.variable == "alternative-color" %>
+              <%= t("admin.custom_styles.instructions.alternative_color") %>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+
+      <button type="submit" class="button">Save</button>
+
+    </fieldset>
+  </section>
+<% end %>

@@ -1,0 +1,20 @@
+<%= toolbar(title: l("timelines.reporting_for_project.show",
+              title: link_to_project(@reporting.reporting_to_project)).html_safe) do %>
+    <% if show_actions %>
+      <% if authorize_for :reportings, :edit %>
+        <li class="toolbar-item">
+          <%= link_to edit_project_reporting_path(@project, @reporting), class: 'button' do %>
+            <%= op_icon('button--icon icon-edit') %>
+            <span class="button--text"><%= l(:button_edit) %></span>
+          <% end %>
+        </li>
+      <% end %>
+      <% if authorize_for :reportings, :destroy %>
+        <%= link_to confirm_destroy_project_reporting_path(@project, @reporting), class: 'button' do %>
+            <%= op_icon('button--icon icon-delete') %>
+            <span class="button--text"><%= l(:button_delete) %></span>
+          <% end %>
+      <% end %>
+    <% end %>
+
+<% end %>

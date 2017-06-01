@@ -1,0 +1,15 @@
+<div class="title-container">
+  <div class="text">
+    <h2>
+      <span has-dropdown-menu
+            target="wpQuerySelectService"
+            collision-container="#content"
+            locals="selectedTitle">
+        <accessible-by-keyboard link-title="{{ I18n.t('js.toolbar.search_query_title') }}" >
+          <op-icon icon-classes="icon-pulldown icon-button icon-small hide-when-print"></op-icon>
+          {{ selectedTitle | characters:50 }}
+        </accessible-by-keyboard>
+      </span>
+    </h2>
+  </div>
+</div>

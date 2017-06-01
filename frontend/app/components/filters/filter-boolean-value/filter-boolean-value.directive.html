@@ -1,0 +1,10 @@
+<div id="div-values-{{$ctrl.filter.name}}">
+
+  <select ng-model="$ctrl.value"
+          ng-options="$ctrl.text[value] for value in $ctrl.availableOptions"
+          class="advanced-filters--select-field"
+          id="values-{{$ctrl.filter.name}}"
+          name="v[{{$ctrl.filter.name}}]" >
+    <option value="" disabled ng-bind="::$ctrl.text.placeholder" ng-if="$ctrl.hasNoValue"></option>
+  </select>
+</div>

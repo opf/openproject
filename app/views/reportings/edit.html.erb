@@ -1,0 +1,75 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+
+<% unless User.current.impaired? %>
+  <%# TODO: Require autocompleter inside select_boxes.js
+    For lack of a requiring policy (such as requirejs), just include the
+    autocompleter on its own.
+  %>
+  <%= javascript_include_tag "autocompleter.js" %>
+  <%= javascript_include_tag "timelines_select_boxes.js" %>
+<% end %>
+
+<% html_title l('timelines.reporting_for_project.show',
+                title: h(@reporting.reporting_to_project.name)) %>
+<%= render partial: 'toolbar', locals: { show_actions: false } %>
+
+<%= labelled_tabular_form_for :reporting,
+            url: project_reporting_path(@project, @reporting),
+            html: {method: 'put'} do |f| %>
+
+  <%= error_messages_for 'project' %>
+
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
+    <div class="form--field -required">
+      <%= f.select :reported_project_status_id,
+                   @reporting.possible_reported_project_statuses.map { |s|
+                      [s.name, s.id]
+                    }.unshift(["-",""]), label: Reporting.human_attribute_name(:reported_project_status_id) %>
+    </div>
+
+    <div class="form--field">
+      <%= f.text_area(:reported_project_status_comment,
+                      class: 'wiki-edit',
+                      rows: 10,
+                      label: Reporting.human_attribute_name(:reported_project_status_comment)) %>
+    </div>
+    <%= wikitoolbar_for 'reporting_reported_project_status_comment' %>
+  </fieldset>
+  <hr class="form--separator" />
+  <%= f.button l(:button_save), name: nil, class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= link_to l(:button_cancel), project_reportings_path(@project), class: 'button' %>
+<% end %>
+
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'timelines.css', media: "all" %>
+<% end %>

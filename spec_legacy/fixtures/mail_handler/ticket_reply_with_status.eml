@@ -1,0 +1,80 @@
+Return-Path: <jsmith@somenet.foo>
+Received: from osiris ([127.0.0.1])
+	by OSIRIS
+	with hMailServer ; Sat, 21 Jun 2008 18:41:39 +0200
+Message-ID: <006a01c8d3bd$ad9baec0$0a00a8c0@osiris>
+From: "John Smith" <jsmith@somenet.foo>
+To: <openproject@somenet.foo>
+References: <485d0ad366c88_d7014663a025f@osiris.tmail>
+Subject: Re: [Cookbook - Feature #2] (New) Add ingredients categories
+Date: Sat, 21 Jun 2008 18:41:39 +0200
+MIME-Version: 1.0
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_000_0067_01C8D3CE.711F9CC0"
+X-Priority: 3
+X-MSMail-Priority: Normal
+X-Mailer: Microsoft Outlook Express 6.00.2900.2869
+X-MimeOLE: Produced By Microsoft MimeOLE V6.00.2900.2869
+
+This is a multi-part message in MIME format.
+
+------=_NextPart_000_0067_01C8D3CE.711F9CC0
+Content-Type: text/plain;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+This is reply
+
+Status: Resolved
+due date: 2010-12-31
+Start Date:2010-01-01
+Assigned to: jsmith@somenet.foo
+float field: 52.6
+
+------=_NextPart_000_0067_01C8D3CE.711F9CC0
+Content-Type: text/html;
+	charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+=EF=BB=BF<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD>
+<META http-equiv=3DContent-Type content=3D"text/html; charset=3Dutf-8">
+<STYLE>BODY {
+	FONT-SIZE: 0.8em; COLOR: #484848; FONT-FAMILY: Verdana, sans-serif
+}
+BODY H1 {
+	FONT-SIZE: 1.2em; MARGIN: 0px; FONT-FAMILY: "Trebuchet MS", Verdana, =
+sans-serif
+}
+A {
+	COLOR: #2a5685
+}
+A:link {
+	COLOR: #2a5685
+}
+A:visited {
+	COLOR: #2a5685
+}
+A:hover {
+	COLOR: #c61a1a
+}
+A:active {
+	COLOR: #c61a1a
+}
+HR {
+	BORDER-RIGHT: 0px; BORDER-TOP: 0px; BACKGROUND: #ccc; BORDER-LEFT: 0px; =
+WIDTH: 100%; BORDER-BOTTOM: 0px; HEIGHT: 1px
+}
+.footer {
+	FONT-SIZE: 0.8em; FONT-STYLE: italic
+}
+</STYLE>
+
+<META content=3D"MSHTML 6.00.2900.2883" name=3DGENERATOR></HEAD>
+<BODY bgColor=3D#ffffff>
+<DIV><SPAN class=3Dfooter><FONT face=3DArial color=3D#000000 =
+size=3D2>This is=20
+reply Status: Resolved</FONT></DIV></SPAN></BODY></HTML>
+
+------=_NextPart_000_0067_01C8D3CE.711F9CC0--
+

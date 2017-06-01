@@ -1,0 +1,98 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+.timelines-contextual-fieldset {
+  float: right;
+  white-space: nowrap;
+  margin-right: 24px;
+  padding-left: 10px;
+}
+
+.timelines-milestone, .timelines-phase {
+  border: 1px solid #000;
+  display: inline-block;
+  height: 12px;
+  width: 12px;
+  margin-right: 5px;
+}
+
+.timelines-milestone {
+  transform: rotate(45deg);
+}
+
+.timelines-phase {
+  border-radius: 4px;
+}
+
+//HACK: Use a min-height to ensure that the timeline_select select2 is not cropped at the bottom
+.controller-timelines #content {
+  min-height: 700px;
+}
+
+table.timelines-dates {
+  tbody.timelines-current-dates td {
+    font-weight: bold;
+    height: 3em;
+    vertical-align: middle;
+    padding: 0 1em;
+  }
+}
+
+.timelines-pet-properties {
+  margin-bottom: 1em;
+  p {
+    margin-left: 1em;
+    line-height: 2em;
+  }
+  label {
+    display: inline-block;
+    width: 10em;
+  }
+}
+
+.timelines-color-properties-preview {
+  margin-left: -22px;
+}
+
+.timelines-pet-properties .timelines-value {
+  margin-left: 0.4em;
+}
+
+.contextual.timelines-for_previous_heading {
+  margin-top: -2.6em;
+}
+
+a.tl-discreet-link:hover, input.icon:hover {
+  @include varprop(color, --primary-color-dark);
+  text-decoration: underline;
+}
+
+a.tl-discreet-link, input.tl-discreet-link {
+  color: $body-font-color;
+  font-weight: normal;
+}

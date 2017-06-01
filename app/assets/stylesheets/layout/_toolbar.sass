@@ -1,0 +1,315 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@mixin query-select-dropdown-filter-select($color)
+  text-decoration: underline
+  color: $color
+
+@mixin query-selection-link($color)
+  a
+    color: $color
+    font-weight: normal
+    text-decoration: none
+
+@mixin toolbar-element-sizing
+  margin: 0.625rem 0 0
+  @extend %input--sizing
+
+.toolbar-container
+  padding: 0
+  margin-bottom: 12px
+  min-height: 50px
+
+  > .subtitle
+    font-size: rem-calc(14px)
+    font-style: italic
+    margin-top: rem-calc(5px)
+    margin-bottom: 10px
+
+  &.-with-dropdown .toolbar-item.drop-down
+    position: relative
+
+.toolbar
+  ul
+    margin:  0
+    padding: 0
+    float: right
+
+  li
+    list-style-type: none
+
+// automatically clear the toolbar
+.toolbar:after
+  clear: both
+  content: ""
+  display: table
+
+.toolbar-items
+  .toolbar-item,
+  .toolbar-button-group > li
+    float: left
+    &.toolbar-item
+      margin: 0 5px //$drop-nav-spacing // spacing between nav items
+
+      &:last-child
+        margin-right: 0
+
+      // hack around the old watchers_link implementation
+      // remove once all watcher_links in plugins have no button wrappers anymore
+      .button .button
+        background: transparent
+        border: none
+        margin: 0
+        padding: 0
+
+  // The following two button rules take care of the icon alignment.
+  // It is a bit hacky but for now the only solution that works across browsers and OS.
+  .toolbar-item .button:not(button)
+    line-height: 38px
+    .button--text
+      vertical-align: 2px
+
+  button,
+  .button
+    padding-top: 0
+    padding-bottom: 0
+
+    .op-icon--wrapper
+      vertical-align: middle
+      line-height: 42px
+    .button--icon
+      font-size: 14px
+    .button--text,
+    .badge
+      font-size: 14px
+      vertical-align: 1px
+
+  .toolbar-icon
+    width: 40px
+
+  button,
+  .button,
+  input[type=text],
+  input[type=number],
+  select
+    @include toolbar-element-sizing
+    border: 1px solid $toolbar-item--border-color
+
+  button,
+  .button,
+  .toolbar-input--affix
+    background: $toolbar-item--bg-color
+
+    &.-pressed,
+    &:active
+      background: $toolbar-item--bg-color-pressed
+      box-shadow: inset 0 2px 3px rgba(0,0,0,.125)
+
+  select
+    //extend forms select
+    @extend .form--select
+    //hack vertical text alignment for select (for all browsers)
+    padding-top: 5px
+    padding-bottom: 11px
+    //firefox hack, outline fix for select, remove to see why
+    &:-moz-focusring
+      color: transparent
+      text-shadow: 0 0 0 #000
+
+  a.last,
+  .last
+    margin-right: 0
+
+  #repository-checkout-url
+    min-width: 350px
+
+  .toolbar-item
+    &.-icon-only
+      .button
+        text-align: center
+      .button--icon
+        font-size: 1.1rem
+        position: relative
+        left: 0
+        right: 1px
+        vertical-align: text-top
+
+.title-container
+  @include clearfix
+  float:   left
+  height:  auto
+  padding: 0
+
+  h2
+    border: 0
+    padding: 12px 0
+    color: $toolbar-title-color
+    @include breakpoint(medium down)
+      font-size: $h2-font-size
+
+  span
+    @include varprop(color, content-link-color)
+
+    &:hover
+      text-decoration: underline
+
+  ul
+    margin:  0
+    padding: 0
+    float: left
+
+  li
+    float: none
+
+  span.filter-selection
+    @include query-select-dropdown-filter-select($primary-color)
+
+  .dropdown-scrollable
+    overflow-y: auto
+    max-height: 500px
+
+/** Allow select2 to display correctly in the toolbar */
+.toolbar .select2-container
+  padding: 0
+
+  .select2-choice
+    min-width: 150px
+
+  .select2-arrow
+    border-color: $toolbar-item--border-color
+
+.toolbar-input-group
+  display: flex
+
+  input,
+  .select2-container
+    flex: 1
+    flex-basis: 150px
+
+  > div
+    @include toolbar-element-sizing
+    display: flex
+    align-items: center
+    padding: 0 5px
+
+  label
+    margin: 0
+    font-size: 1.05rem
+    flex-grow: 1
+
+  .toolbar-input-group--affix
+    background: $toolbar-item--bg-color
+    border: 1px solid $toolbar-item--border-color
+    color: $inlinelabel-color
+    border-radius: 2px
+
+    &.-prepend
+      border-right: none !important
+
+    &.-append
+      border-left: none !important
+
+
+#querySelectDropdown
+  min-width: 250px
+  border: 1px solid #dddddd
+  box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+  background: #ffffff
+  padding: 3px 0
+  .query-menu-container
+    float: left
+    clear: both
+    width: 100%
+    display: block
+  .search-query-wrapper
+    padding: 15px
+  .query-select-dropdown--no-results
+    padding: 15px 15px 0
+  .ui-menu-item
+    cursor: pointer
+  input
+    box-sizing: border-box
+    margin: 0 auto
+    width: 100%
+    min-width: 250px
+    height: 30px
+    line-height: 30px
+    background: #ffffff
+    border: 1px solid #cacaca
+    color: #222222
+    border-radius: 2px
+  .title-group-header
+    padding: 0 15px 0 15px
+    font-weight: bold
+    text-transform: uppercase
+  #magnifier
+    position: absolute
+    top:   24px
+    right: 22px
+    color: #999999
+
+  input[type="search"]::-webkit-search-cancel-button
+    display: none
+
+.text
+  cursor: pointer
+  i
+    float: right
+    color: #333333
+    padding-left: 5px
+  &:hover
+    text-decoration: none
+
+.toolbar
+  *
+    outline: none
+
+@include breakpoint(680px down)
+  .toolbar-container .toolbar-items
+    background: #fff
+    display: flex
+    margin-bottom: 20px
+    width: calc(100% + 5px)
+
+    > li
+      -webkit-flex: 1 0 0
+      flex: 1 0 0
+
+      &:first-child
+        -webkit-flex: 3 0 0
+        flex: 3 0 0
+
+      .button
+        width: 100%
+        white-space: nowrap
+
+      .button,
+      input,
+      label,
+      div
+        margin-top: 0

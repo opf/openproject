@@ -1,0 +1,112 @@
+# Group UserPreferences
+
+## Linked Properties
+|  Link     | Description                                              | Type           | Constraints           | Supported operations |
+|:---------:|----------------------------------------------------------| -------------- | --------------------- | -------------------- |
+| self      | This UserPreferences                                     | UserPreferences| not null              | READ                 |
+| user      | The user that this preference belongs to                 | User           | not null              | READ                 |
+
+## Local Properties
+| Property               | Description                                                | Type       | Constraints | Supported operations |
+|:----------------------:| -----------------------------------------------------------| ---------- | ----------- | -------------------- |
+| hideMail               | Hide mail address from other users                         | Boolean    |             | READ / WRITE         |
+| timeZone               | Current selected time zone                                 | String     |             | READ / WRITE         |
+| commentSortDescending  | Sort comments in descending order                          | Boolean    |             | READ / WRITE         |
+| warnOnLeavingUnsaved   | Issue warning when leaving a page with unsaved text        | Boolean    |             | READ / WRITE         |
+| accessibilityMode      | Enable accessibility mode                                  | Boolean    |             | READ / WRITE         |
+
+## UserPreferences [/api/v3/my_preferences]
+
++ Model
+    + Body
+
+            {
+                "_type" : "UserPreferences",
+                "_links" : {
+                    "self" : {
+                        "href" : "/api/v3/my_preferences",
+                    },
+                    "user": {
+                        "href": "/api/v3/users/1",
+                        "title": "John Sheppard"
+                    }
+                },
+                "hideMail" : false,
+                "timeZone" : "Europe/Berlin",
+                "commentSortDescending" : true,
+                "warnOnLeavingUnsaved" : true,
+                "accessibilityMode" : false
+            }
+
+
+## Show my preferences [GET]
+
++ Response 200 (application/hal+json)
+
+    [UserPreferences][]
+
++ Response 401 (application/hal+json)
+
+    Returned if no user is currently authenticated
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:Unauthenticated",
+                "message": "You need to be authenticated to access this resource."
+            }
+
+## Update UserPreferences [PATCH]
+
+When calling this endpoint the client provides a single object, containing the properties that it wants to change, in the body.
+
++ Request (application/json)
+
+        {
+            "accessibilityMode": true,
+            "timeZone": "Europe/Paris"
+        }
+
++ Response 200 (application/hal+json)
+
+    [UserPreferences][]
+
++ Response 400 (application/hal+json)
+
+    Occurs when the client did not send a valid JSON object in the request body.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidRequestBody",
+                "message": "The request body was not a single JSON object."
+            }
+
++ Response 401 (application/hal+json)
+
+    Returned if no user is currently authenticated
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:Unauthenticated",
+                "message": "You need to be authenticated to access this resource."
+            }
+
++ Response 422 (application/hal+json)
+
+    Returned if the update contains invalid properties.
+    Reasons are:
+    * Specifying an invalid type
+    * Using an unknown time zone
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:PropertyConstraintViolation",
+                "message": "Time zone is not set to one of the allowed values."
+            }

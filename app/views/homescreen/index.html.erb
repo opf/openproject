@@ -1,0 +1,69 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% breadcrumb_paths(nil) %>
+<div class="widget-boxes--screen-header">
+  <h2>
+    <span><%= organization_icon %></span>
+    <%= organization_name %>
+  </h2>
+</div>
+
+<% if show_onboarding_modal? %>
+  <modal-wrapper initialize="true" iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>" modal-params="{ appendClassName: 'onboarding-modal modal-wrapper' }">
+    <%= render partial: '/onboarding/starting_video_modal' %>
+  </modal-wrapper>
+<% end %>
+
+<%= render partial: 'announcements/show' %>
+
+<% if @homescreen[:blocks].any? %>
+  <section class="widget-boxes -flex">
+  <% @homescreen[:blocks].each do |block| %>
+    <% if block[:if].nil? || instance_eval(&block[:if]) %>
+      <div class="widget-box">
+      <%= render partial: "homescreen/blocks/#{block[:partial]}", locals: (block[:locals] || {}) %>
+      </div>
+    <% end %>
+  <% end %>
+  </section>
+<% end %>
+
+<% if @homescreen[:links].any? %>
+  <section class="homescreen--links">
+  <% @homescreen[:links].each do |link| %>
+    <% title = I18n.t(link[:label], scope: 'homescreen.links') %>
+    <a class="homescreen--links--item" href="<%= link[:url] %>" target="_blank" title="<%= title %>">
+      <%= op_icon(link[:icon]) %>
+      <%= title %>
+    </a>
+  <% end %>
+  </section>
+<% end %>
+
+<%= call_hook :homescreen_after_links %>

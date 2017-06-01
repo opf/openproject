@@ -1,0 +1,7 @@
+#!/bin/sh
+#
+# Deletes bundled javascript assets and rebuilds them.
+# Useful for when your frontend doesn't work (jQuery not defined etc.) for seemingly no reason at all.
+rm -rf app/assets/javascripts/bundles/*
+bundle install && npm install && npm run webpack
+

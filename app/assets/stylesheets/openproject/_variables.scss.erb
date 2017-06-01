@@ -1,0 +1,41 @@
+<%#
+Depend on the design file so that this is recompiled on core changes.
+Doesn't work for theme plugins, sorry :-/ just update the core design.rb as well to reload!
+%>
+<% depend_on Rails.root.join('lib', 'open_project', 'design.rb') %>
+
+<%#
+Set defaults for the following variables
+primary-color
+primary-color-dark
+alternative-color
+This allows us to dynamically define CSS4 + Sass variables from a single map
+%>
+<%  ::OpenProject::Design.variables.each do |var, hexcode| %>
+$<%= var %>: <%= hexcode %>;
+<% end %>
+
+:root {
+<% ::OpenProject::Design.variables.each do |var, definition| %>
+  <% css4definition = definition.gsub(/\$([\w-]+)/, 'var(--\1)') %>
+  --<%= var %>: <%= css4definition %>;
+<% end %>
+}
+
+<%# Construct a sass map to lookup variables in the mixin below %>
+$variable-map: (
+<%  ::OpenProject::Design.variables.each do |var, definition| %>
+  <%= var %>: #{<%= definition %>},
+<% end %>
+);
+
+
+// use CSS4 + Sass variable fallback for the given property
+// e.g., @include varprop(background-color, primary-color)
+@mixin varprop($prop, $name, $suffix:"") {
+  #{$prop}: map-get($variable-map, $name) unquote($suffix);
+  #{$prop}: var(--#{$name}) unquote($suffix);
+}
+
+// Other variables
+$work-package-details--tab-height: 40px

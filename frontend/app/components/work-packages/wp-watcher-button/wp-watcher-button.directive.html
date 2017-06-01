@@ -1,0 +1,7 @@
+<button ng-click="vm.toggleWatch()" title="{{ vm.buttonTitle }}" ng-disabled="vm.disabled"
+        class="button toolbar-icon" ng-class="vm.buttonClass" id="{{ vm.buttonId }}">
+
+  <op-icon icon-classes="button--icon {{vm.watchIconClass}}"></op-icon>
+
+  <span class="button--text" ng-if="vm.showText" ng-bind="vm.buttonText"></span>
+</button>

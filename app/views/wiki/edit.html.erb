@@ -1,0 +1,62 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= toolbar title: @page.title %>
+<% html_title t(:label_edit), @page.title %>
+<%= labelled_tabular_form_for @content, as: :content, url: {action: 'update', id: @page}, html: {method: :put, multipart: true, id: 'wiki_form'} do |f| %>
+  <%= f.hidden_field :lock_version %>
+  <%= error_messages_for 'content' %>
+
+  <div class="attributes-group">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"><%= WikiPage.human_attribute_name(:text) %></h3>
+       </div>
+     </div>
+    <%= f.text_area :text, :cols => 100, :rows => 25, :class => 'wiki-edit op-auto-complete', :accesskey => accesskey(:edit) %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :comments, size: 120 %>
+  </div>
+
+  <%= render partial: 'attachments/form' %>
+
+  <hr class="form--separator" />
+  <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= link_to t(:button_cancel),
+      { controller: '/wiki', action: 'show', project_id: @project, id: @page },
+      class: 'button' %>
+  <%= preview_link preview_project_wiki_path(@project, @page), 'wiki_form-preview' %>
+  <%= wikitoolbar_for 'content_text' %>
+<% end %>
+<div id="preview"></div>
+<% content_for :header_tags do %>
+  <%= robot_exclusion_tag %>
+<% end %>
+

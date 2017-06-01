@@ -1,0 +1,70 @@
+/***** Media print specific styles *****/
+@media print
+  #top-menu,
+  #header,
+  #main-menu,
+  #sidebar,
+  #footer,
+  #breadcrumb,
+  .contextual,
+  .other-formats
+    display: none
+
+  #main
+    background: #fff
+
+  #content
+    width: 99%
+    margin: 0
+    padding: 0
+    border: 0
+    background: #fff
+    overflow: visible !important
+
+  #wiki_add_attachment
+    display:none
+
+  .hide-when-print
+    display: none
+
+  .autoscroll
+    overflow-x: visible
+
+  table.list
+    margin-top: 0.5em
+
+    th, td
+      border: 1px solid #aaa
+
+  // Sizes from user agent stylesheet
+  h1
+    font-size: 2em
+  h2
+    font-size: 1.5em
+  h3
+    font-size: 1.17em
+
+  //
+  // WORK PACKAGE table
+  //
+  .controller-work_packages.action-index,
+  .controller-work_packages.action-show,
+  .controller-work_packages.full-create
+    .wp-timeline--slider-wrapper
+      display: none !important
+    #content
+      margin: 0
+      width: 100%
+      height: 100%
+      padding: 10px
+    #main
+      top: 0
+      padding: 0
+      border: none
+    .work-packages--list-table-area
+      height: 100%
+    .work-package-table--container,
+    .generic-table--results-container
+      overflow: hidden
+    .wp-timeline--scroll-wrapper
+      border-left-width: 3px

@@ -1,0 +1,14 @@
+<span class="user-avatar--container">
+  <img class="user-avatar--avatar"
+       ng-if="userName && user.avatar"
+       ng-src="{{user.avatar}}" alt="Avatar" title="{{userName}}" />
+  <span class="user-avatar--user-with-role">
+    <span class="user-avatar--user" ng-if="userName">
+      <a ng-if="user.subtype !== 'Group'" ng-href="{{ userPath(user.id) }}" ng-bind="user.name"
+         class="user-field-user-link"/>
+      <span ng-if="user.subtype == 'Group'" ng-bind="user.name" class="user-field-user-link"/>
+    </span>
+    <span class="user-avatar--user" ng-if="!userName"> - </span>
+    <span class="user-avatar--role" ng-if="user.role" ng-bind="user.role"/>
+  </span>
+</span>

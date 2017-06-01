@@ -1,0 +1,46 @@
+<div class="notification-box{{' -' + content.type}}"  tabindex="0">
+  <div class="notification-box--content" role="alert" aria-atomic="true">
+    <p>
+      <span>{{::content.message}}</span>
+      <a class="notification-box--target-link"
+         ng-click="executeTarget()"
+         ng-if="!!content.link"
+         ng-bind="content.link.text">
+      </a>
+    </p>
+    <div data-ng-switch="content.type" data-ng-if="typeable()">
+      <div data-ng-switch-when="upload">
+        <div data-ng-show="canBeHidden()">
+          <a data-ng-click="show = true" data-ng-hide="show">
+            <op-icon icon-classes="icon-arrow-right2"></op-icon>
+          </a>
+          <a data-ng-click="show = false" data-ng-show="show">
+            <op-icon icon-classes="icon-arrow-down1"></op-icon>
+          </a>
+          <span>
+            {{::I18n.t('js.label_upload_counter', { done: uploadCount, count: content.uploads.length})}}
+          </span>
+        </div>
+        <div data-ng-show="show || !canBeHidden()">
+          <ul class="notification-box--uploads" data-ng-show="content.uploads.length > 0">
+            <upload-progress data-upload="upload" data-ng-repeat="upload in content.uploads"></upload-progress>
+          </ul>
+        </div>
+      </div>
+      <div data-ng-switch-when="success">
+        <!-- "create another" button -->
+      </div>
+      <div data-ng-switch-when="error">
+        <ul class="notification-box--errors">
+          <li data-ng-repeat="error in content.errors track by $index">{{error}}</li>
+        </ul>
+        <!-- "continue editing" button -->
+      </div>
+    </div>
+  </div>
+  <accessible-by-keyboard ng-if="removable()"
+                          execute="remove()"
+                          link-title="{{ ::I18n.t('js.close_popup_title') }}"
+                          link-class="notification-box--close icon-context icon-close">
+  </accessible-by-keyboard>
+</div>

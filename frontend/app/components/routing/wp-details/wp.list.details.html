@@ -1,0 +1,65 @@
+<div class="work-packages--details loading-indicator--location"
+      data-indicator-name="wpDetails">
+  <div wp-edit-form="$ctrl.workPackage"
+       class="work-packages--details-edit-form"
+       wp-edit-form-on-save="$ctrl.onWorkPackageSave()"
+       has-edit-mode="true"
+       ng-if="$ctrl.workPackage">
+    <div id="tabs">
+      <ul class="tabrow">
+        <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+        properly. Thus, don't remove the hrefs or the empty URLs! -->
+        <li ui-sref="work-packages.list.details.overview({})"
+            ui-sref-active="selected">
+          <a href="" ng-bind="::$ctrl.text.tabs.overview"/>
+        </li>
+        <li ui-sref="work-packages.list.details.activity({})"
+            ui-sref-active="selected">
+          <a href="" ng-bind="::$ctrl.text.tabs.activity"/>
+        </li>
+        <li ui-sref="work-packages.list.details.relations({})"
+            ui-sref-active="selected">
+          <a href="" ng-bind="::$ctrl.text.tabs.relations"/>
+        </li>
+        <li ng-if="$ctrl.canViewWorkPackageWatchers()"
+            ui-sref="work-packages.list.details.watchers({})"
+            ui-sref-active="selected">
+          <a href="" ng-bind="::$ctrl.text.tabs.watchers"/>
+        </li>
+        <li class="tab-icon">
+          <accessible-by-keyboard execute="$ctrl.switchToFullscreen()"
+                                  link-aria-label="{{ ::$ctrl.text.goTofullScreen }}"
+                                  link-title="{{ ::$ctrl.text.goTofullScreen }}"
+                                  link-class="work-packages--details-fullscreen-icon"
+                                  span-class="icon-context icon-to-fullscreen">
+          </accessible-by-keyboard>
+        </li>
+        <li class="tab-icon">
+          <accessible-by-keyboard execute="$ctrl.close()"
+                                  link-aria-label="{{ ::$ctrl.text.closeDetailsView }}"
+                                  link-title="{{ ::$ctrl.text.closeDetailsView }}"
+                                  link-class="work-packages--details-close-icon"
+                                  span-class="icon-context icon-close">
+          </accessible-by-keyboard>
+        </li>
+      </ul>
+    </div>
+    <div class="work-packages--details-content">
+    <span class="hidden-for-sighted" tabindex="-1" focus="$ctrl.shouldFocus" ng-bind="$ctrl.focusAnchorLabel">
+    </span>
+
+      <wp-subject></wp-subject>
+
+      <div class="work-package-details-tab" ui-view></div>
+    </div>
+
+    <div class="work-packages--details-toolbar-container" ng-if="$ctrl.workPackage">
+      <wp-details-toolbar ng-show="!$ctrl.wpEditModeState.active" work-package='$ctrl.workPackage'></wp-details-toolbar>
+      <edit-actions-bar
+          ng-show="$ctrl.wpEditModeState.active"
+          on-save="$ctrl.wpEditModeState.save()"
+          on-cancel="$ctrl.wpEditModeState.cancel()"
+      ></edit-actions-bar>
+    </div>
+  </div>
+</div

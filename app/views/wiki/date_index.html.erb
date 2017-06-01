@@ -1,0 +1,57 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% content_for :action_menu_specific do %>
+  <%= watcher_link(@wiki, User.current) %>
+<% end %>
+<h2 class="legacy-heading"><%= l(:label_index_by_date) %></h2>
+<%= render partial: 'layouts/action_menu_specific' %>
+<% if @pages.empty? %>
+  <%= no_results_box %>
+<% end %>
+<% @pages_by_date.keys.sort.reverse.each do |date| %>
+  <h3><%= format_date(date) %></h3>
+  <ul>
+    <% @pages_by_date[date].each do |page| %>
+      <li><%= link_to page.title, project_wiki_path(page.project, page) %></li>
+    <% end %>
+  </ul>
+<% end %>
+<% content_for :sidebar do %>
+  <%= render partial: 'sidebar' %>
+<% end %>
+<% if @pages.any? %>
+  <%= other_formats_links do |f| %>
+    <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', show_wiki_edits: 1, key: User.current.rss_key} %>
+    <%= f.link_to('HTML', url: {action: 'export'}) if User.current.allowed_to?(:export_wiki_pages, @project) %>
+  <% end %>
+<% end %>
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, controller: '/activities', action: 'index', id: @project, show_wiki_edits: 1, format: 'atom', key: User.current.rss_key) %>
+<% end %>

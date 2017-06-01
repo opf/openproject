@@ -1,0 +1,59 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% action_menu_key = action_menu_key ? action_menu_key : :action_menu_main %>
+<%
+   # TODO FIXME OMG! this is the ugliest hack I ever performed
+   # We need to hide the clearfix in the wiki to avoid additional spacing in the wiki
+   # THIS HACK NEEDS TO BE REPLACED BY AN ENGINEERS SOLUTION!
+   @no_clearfix ||= false
+%>
+<div class="toolbar-container">
+  <div class="toolbar">
+    <ul class="toolbar-items <%= action_menu_key %> <%= action_menu_key.to_s.gsub('action_menu_', 'legacy-actions-') %>">
+      <%= content_for action_menu_key %>
+      <% if content_for?(:action_menu_more) %>
+        <li class="drop-down toolbar-item">
+          <a href="javascript:" class="button"
+             accesskey="<%= OpenProject::AccessKeys.key_for(:more_menu) %>">
+            <span class="button--text"><%= l(:label_more) %></span>
+            <%= op_icon('button--dropdown-indicator') %>
+          </a>
+          <ul class="legacy-actions-more" style="display:none;">
+            <%= content_for :action_menu_more %>
+          </ul>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<% unless @no_clearfix %>
+  <div class="clearfix"></div>
+<% end %>

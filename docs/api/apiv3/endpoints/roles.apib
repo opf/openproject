@@ -1,0 +1,132 @@
+# Group Roles
+
+When principals (groups or users) are assigned to a project, they are receive roles in that project. Roles regulate access to specific resources by having permissions configured for them.
+
+Currently, this is only a stub.
+
+## Linked Properties
+| Link                  | Description                               | Type          | Constraints                    | Supported operations |
+| :-------------------: | ----------------------------------------- | ------------- | -------------------------------| -------------------- |
+| self                  | This role                                 | Role          | not null                       | READ                 |
+
+## Local Properties
+| Property    | Description                                   | Type        | Constraints | Supported operations |
+| :---------: | --------------------------------------------- | ----------- | ----------- | -------------------- |
+| id          | Role id                                       | Integer     | x > 0       | READ                 |
+| name        | Role name                                     | String      | not null    | READ                 |
+
+
+## Role [/api/v3/roles/{id}]
+
++ Model
+    + Body
+
+            {
+              "_type": "Role",
+              "id": 3,
+              "name": "Manager",
+              "_links": {
+                "self": {
+                  "href": "/api/v3/roles/3",
+                  "title": "Manager"
+                }
+              }
+            }
+
+## View role [GET]
+
+Fetch an individual role.
+
++ Parameters
+    + id (required, integer, `1`) ... role id
+
++ Response 200 (application/hal+json)
+
+    [Role][]
+
+## Roles [/api/v3/roles]
+
++ Model
+    + Body
+
+            {
+              "_type": "Collection",
+              "total": 5,
+              "count": 5,
+              "_embedded": {
+                "elements": [
+                  {
+                    "_type": "Role",
+                    "id": 3,
+                    "name": "Manager",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/roles/3",
+                        "title": "Manager"
+                      }
+                    }
+                  },
+                  {
+                    "_type": "Role",
+                    "id": 2,
+                    "name": "Anonymous",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/roles/2",
+                        "title": "Anonymous"
+                      }
+                    }
+                  },
+                  {
+                    "_type": "Role",
+                    "id": 5,
+                    "name": "Reader",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/roles/5",
+                        "title": "Reader"
+                      }
+                    }
+                  },
+                  {
+                    "_type": "Role",
+                    "id": 4,
+                    "name": "Member",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/roles/4",
+                        "title": "Member"
+                      }
+                    }
+                  },
+                  {
+                    "_type": "Role",
+                    "id": 1,
+                    "name": "Non member",
+                    "_links": {
+                      "self": {
+                        "href": "/api/v3/roles/1",
+                        "title": "Non member"
+                      }
+                    }
+                  }
+                ]
+              },
+              "_links": {
+                "self": {
+                  "href": "/api/v3/roles"
+                }
+              }
+            }
+
+## List roles [GET]
+
+List all defined roles. This includes built in roles like 'Anonymous' and 'Non member'.
+
++ Response 200 (application/hal+json)
+
+    [Roles][]
+
+
+
+

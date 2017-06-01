@@ -1,0 +1,83 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= javascript_include_tag "members_select_boxes.js" %>
+
+<%= labelled_tabular_form_for(:member, url: {controller: 'members', action: 'create', project_id: project},
+                     method: :post,
+                     html: {id: "members_add_form", class: "form -vertical -bordered -medium-compressed"}) do |f| %>
+
+  <a title="{{ ::I18n.t('js.close_form_title') }}" class="form--close icon-context icon-close" onClick="hideAddMemberForm()"></a>
+  <div id="new-member-message"></div>
+  <div class="grid-block">
+    <div class="grid-content medium-5 small-12 collapse -flex">
+      <div class="form--field">
+        <%
+           user_id_title = I18n.t(:label_principal_search)
+
+           if current_user.admin?
+             user_id_title += I18n.t(:label_principal_invite_via_email)
+           end
+        %>
+        <%= styled_label_tag :member_user_ids, user_id_title %>
+        <%= select_tag "member[user_ids]", options_for_select([]),
+                         title: user_id_title,
+                         multiple: true,
+                         autofocus: true,
+                         :'data-ajaxURL' => url_for(controller: "/members", action: "autocomplete_for_member"),
+                         :'data-projectId' => project.id,
+                         no_label: true,
+                         placeholder: I18n.t(:button_add_member),
+                         class: "select2-select remote" %>
+      </div>
+    </div>
+    <div class="grid-content medium-8 small-12 -flex -with-button">
+      <div class="form--field">
+        <%= styled_label_tag :member_role_ids, l(:label_role_search) %>
+        <div class="form--field-container">
+          <div class="form--select-container -auto">
+            <% options = roles.collect { |obj| [obj.name, obj.id] } %>
+            <%= select_tag 'member[role_ids][]', options_for_select(options),
+                                                 multiple: false,
+                                                 no_label: true,
+                                                 title:    l(:label_role_search),
+                                                 tabIndex: 0,
+                                                 class:    'form--select',
+                                                 id:       'member_role_ids' %>
+          </div>
+        </div>
+      </div>
+      <div id="member-add-submit-button--container">
+        <%= f.button l(:button_add),
+                     class: 'button -highlight -with-icon icon-checkmark',
+                     id: 'add-member--submit-button' %>
+      </div>
+    </div>
+  </div>
+<% end %>

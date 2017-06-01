@@ -1,0 +1,49 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= toolbar title: l(:label_revision_plural) do %>
+  <%= form_tag({ action: 'revision', id: @project }, { method: :get }) do %>
+    <li class="toolbar-item">
+      <%= label_tag :rev, l(:label_revision), class: 'hidden-for-sighted' %>
+      <%= text_field_tag :rev, @rev, size: 8, placeholder: l(:label_revision) %>
+    </li>
+    <li class="toolbar-item">
+      <%= submit_tag 'OK', class: 'button -highlight' %>
+    </li>
+  <% end %>
+<% end %>
+<%= render partial: 'revisions', locals: {project: @project, path: '', revisions: @changesets, entry: nil }%>
+<%= pagination_links_full @changesets %>
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, params.merge({format: 'atom', page: nil, key: User.current.rss_key})) %>
+<% end %>
+<%= other_formats_links do |f| %>
+  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
+<% end %>
+
+<% html_title(l(:label_revision_plural)) -%>

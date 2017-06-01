@@ -1,0 +1,96 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% if @repository.managed? %>
+  <%= styled_form_tag(project_repository_path(@project), method: :delete, class: 'danger-zone') do %>
+    <section class="form--section">
+      <h3 class="form--section-title">
+        <%= l('repositories.destroy.title', repository_type: "<em>#{h(@repository.repository_type)} - #{l(:project_module_repository)}</em>").html_safe %>
+      </h3>
+      <p>
+        <%= l('repositories.destroy.subtitle', repository_type: "#{h(@repository.repository_type)} - #{l(:project_module_repository)}", project_name: h(@project.identifier)).html_safe %> <br />
+        <%= l('repositories.destroy.confirmation') %>
+        <br/>
+        <%= l('repositories.destroy.managed_path_note', path: @repository.root_url) %>
+      </p>
+      <p class="danger-zone--warning">
+        <span class="icon icon-error"></span>
+        <span><%= l('repositories.destroy.info') %></span>
+      </p>
+      <p>
+        <%= l('repositories.destroy.repository_verification', identifier: "<em class=\"danger-zone--expected-value\">#{h(@project.identifier)}</em>").html_safe %>
+      </p>
+      <div class="danger-zone--verification">
+        <input type="text"></input>
+        <%= styled_button_tag project_repository_path(@project),
+          method: :delete,
+          title: l(:button_delete),
+          disabled: true,
+          class: '-highlight' do %>
+            <%= op_icon('button--icon icon-delete') %>
+            <span class="button--text"><%= l(:button_delete) %></span>
+        <% end %>
+        <%= link_to settings_repository_tab_path,
+          title: l(:button_cancel),
+          class: 'button -with-icon icon-cancel' do %>
+            <%= l(:button_cancel) %>
+        <% end %>
+      </div>
+    </section>
+  <% end %>
+<% else %>
+  <div class="notification-box -warning">
+    <div class="notification-box--content">
+      <p><strong><%= l('repositories.destroy.title_not_managed', repository_type: "<em>#{h(@repository.repository_type)} - #{l(:project_module_repository)}</em>").html_safe %></strong><br /></p>
+      <p>
+        <%= l('repositories.destroy.subtitle_not_managed',
+            repository_type: "#{h(@repository.repository_type)} - #{l(:project_module_repository)}",
+            project_name: h(@project.identifier),
+            url: h(@repository.url)).html_safe %> <br />
+      </p>
+      <p>
+        <span><%= l('repositories.destroy.info_not_managed') %></span>
+      </p>
+      <p>
+        <%= link_to project_repository_path(@project),
+          title: l(:button_delete),
+          method: :delete,
+          class: 'button' do %>
+          <%= op_icon('button--icon icon-remove') %>
+          <span class="button--text"><%= l(:button_remove) %></span>
+        <% end %>
+        <%= link_to settings_repository_tab_path,
+          title: l(:button_cancel),
+          class: 'button -with-icon icon-cancel' do %>
+            <%= l(:button_cancel) %>
+        <% end %>
+      </p>
+    </div>
+  </div>
+<% end %>
+

@@ -1,0 +1,72 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% breadcrumb_paths(nil) %>
+<div class="grid-block medium-up-2">
+  <div class="grid-content">
+    <div class="wiki"><%= format_text Setting.welcome_text %></div>
+    <% if @news.any? %>
+      <div class="news mypage-box">
+        <%= op_icon('icon-context icon-news') %>
+        <h3><%=l(:label_news_latest)%></h3>
+        <div class="overview">
+          <%= render partial: 'news/news', collection: @news %>
+          <%= link_to l(:label_news_view_all), controller: '/news' %>
+        </div>
+      </div>
+    <% end %>
+    <%= call_hook(:view_welcome_index_left, projects: @projects) %>
+  </div>
+
+  <div class="grid-content">
+    <% if @projects.any? %>
+      <div class="projects mypage-box overview">
+        <%= op_icon('icon-context icon-projects') %>
+        <h3><%=l(:label_project_latest)%></h3>
+        <ul>
+          <% for project in @projects %>
+            <% @project = project %>
+            <li>
+              <%= link_to_project project %> (<%= format_time(project.created_on) %>)
+          <%= format_text project.short_description, project: project %>
+            </li>
+          <% end %>
+          <% @project = nil %>
+        </ul>
+      </div>
+    <% end %>
+    <%= call_hook(:view_welcome_index_right, projects: @projects) %>
+  </div>
+</div>
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {controller: '/news', action: 'index', key: User.current.rss_key, format: 'atom'},
+                                   title: "#{Setting.app_title}: #{l(:label_news_latest)}") %>
+  <%= auto_discovery_link_tag(:atom, {controller: '/activities', action: 'index', key: User.current.rss_key, format: 'atom'},
+                                   title: "#{Setting.app_title}: #{l(:label_activity)}") %>
+<% end %>

@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= labelled_tabular_form_for(:member,
+             url: {controller: '/members', action: 'create', project_id: project},
+             method: :post,
+             loading: 'jQuery(\'#member-add-submit\').disable();',
+             complete: 'jQuery(\'#member-add-submit\').enable(); activateFlashError();',
+             html: {id: "members_add_form", class: "form -vertical"}) do |f| %>
+  <div class="form--section">
+    <remote-field-updater url="<%= url_for(controller: '/members', action: 'autocomplete_for_member', project_id: project) %>">
+      <div id="new-member-message"></div>
+      <div class="grid-block">
+        <div class="grid-block medium-6">
+          <div class="form--field">
+            <%
+               user_id_title = I18n.t(:label_principal_search)
+
+               if current_user.admin?
+                 user_id_title += I18n.t(:label_principal_invite_via_email)
+               end
+            %>
+            <%= styled_label_tag :principal_search, user_id_title %>
+            <%= styled_text_field_tag :principal_search,
+                                      nil,
+                                      data: { :'remote-field-key' => 'q' },
+                                      class: 'remote-field--input',
+                                      onkeypress: "return event.keyCode != 13;" %>
+          </div>
+        </div>
+      </div>
+      <div class="remote-field--target">
+            <%= render partial: 'members/autocomplete_for_member', locals: { principals: principals, roles: roles } %>
+      </div>
+    </remote-field-updater>
+  </div>
+
+<% end %>

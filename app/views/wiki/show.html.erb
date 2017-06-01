@@ -1,0 +1,155 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= call_hook :wiki_navigation %>
+<% if @content.version != @page.content.version %>
+  <% title = link_to(h(@page.title), {action: 'show', id: @page, project_id: @page.project}).html_safe %>
+<% else %>
+  <% title = h(@page.title) %>
+<% end %>
+<%= toolbar title: title, html: {class: '-with-dropdown'} do %>
+  <% if @editable %>
+    <% if User.current.allowed_to? :edit_wiki_pages, @project %>
+      <% if @page %>
+        <li class="toolbar-item">
+            <%= link_to({controller: '/wiki', action: 'new_child', project_id: @project.identifier, id: @page},
+                { class: 'button -alt-highlight',
+                  aria: {label: t('wiki.index.no_results_content_text')},
+                  title: t('wiki.index.no_results_content_text')}) do %>
+              <%= op_icon('button--icon icon-add') %>
+              <span class="button--text"><%= t(:create_new_page) %></span>
+            <% end %>
+        </li>
+      <% end %>
+    <% end %>
+    <% if @content.version == @page.content.version %>
+      <li class="toolbar-item">
+        <%= link_to_if_authorized(l(:button_edit), {action: 'edit', id: @page}, class: 'button icon-edit', accesskey: accesskey(:edit)) %>
+      </li>
+    <% end %>
+    <% if Setting.notified_events.include?("wiki_content_added") or Setting.notified_events.include?("wiki_content_updated") %>
+      <li class="toolbar-item">
+        <%= watcher_link(@page, User.current) %>
+      </li>
+    <% end %>
+    <% if @content.version != @page.content.version %>
+      <li class="toolbar-item">
+        <%= link_to(l(:label_history), {action: 'history', id: @page}, class: 'button icon-wiki') %>
+      </li>
+    <% end %>
+  <% end %>
+  <li class="toolbar-item drop-down">
+    <a href="javascript:" aria-haspopup="true" title="<%= t(:label_more) %>" class="button">
+      <span class="button--text"><%= t(:label_more) %></span>
+      <%= op_icon('button--dropdown-indicator') %>
+    </a>
+    <ul style="display:none;" class="legacy-actions-more">
+      <% if @editable %>
+        <%= li_unless_nil(link_to_if_authorized(l(:button_lock), {action: 'protect', id: @page, protected: 1}, method: :post, class: 'icon-context icon-locked')) if !@page.protected? %>
+        <%= li_unless_nil(link_to_if_authorized(l(:button_unlock), {action: 'protect', id: @page, protected: 0}, method: :post, class: 'icon-context icon-unlocked')) if @page.protected? %>
+        <% if @content.version == @page.content.version %>
+          <%= li_unless_nil(link_to_if_authorized(t(:button_rename),
+                                                  {action: 'rename', id: @page},
+                                                  class: 'icon-context icon-rename')) %>
+          <%= li_unless_nil(link_to_if_authorized(t(:button_change_parent_page),
+                                                  {action: 'edit_parent_page', id: @page},
+                                                  class: 'icon-context icon-link')) %>
+        <% end %>
+        <%= li_unless_nil(link_to_if_authorized(l(:button_delete), {action: 'destroy', id: @page}, method: :delete, data: { confirm: l(:text_are_you_sure) }, class: 'icon-context icon-delete')) %>
+        <%= li_unless_nil(link_to_if_authorized(l(:button_rollback), {action: 'edit', id: @page, version: @content.version }, class: 'icon-context icon-cancel')) if @content.version < @page.content.version %>
+      <% end %>
+      <%= li_unless_nil(link_to_if_authorized(l(:label_history), {action: 'history', id: @page}, class: 'icon-context icon-wiki')) %>
+      <%= li_unless_nil(link_to_if_authorized(l(:button_manage_menu_entry), {controller: '/wiki_menu_items', action: 'edit', project_id: @project.identifier, id: @page}, class: 'icon-context icon-settings')) %>
+      <%= li_unless_nil(link_to_if_authorized(l(:label_table_of_contents), {controller: '/wiki', action: 'index', project_id: @project.identifier, id: @page}, class: 'icon-context icon-view-list')) %>
+    </ul>
+  </li>
+<% end %>
+
+
+<% breadcrumb_paths(*(@page.ancestors.reverse.collect {|parent| link_to h(parent.breadcrumb_title), {id: parent, project_id: parent.project}} + [h(@page.breadcrumb_title)])) %>
+
+<% if params[:version] %>
+  <hr />
+  <div class="wiki-version--details">
+    <div>
+      <%= link_to(l(:label_previous), { action: 'show', id: @page, project_id: @page.project, version: (@content.version - 1) }, class: 'button navigate-left') if @content.version > 1 %>
+      <span><%= "#{Version.model_name.human} #{@content.version}/#{@page.content.version}" %> &#x2014;</span>
+      <span><em><%= @content.author ? link_to_user(@content.author) : l(:label_user_anonymous) %></em> &#x2014; <%= format_time(@content.updated_on) %></span>
+      <%= link_to(l(:label_next), { action: 'show', id: @page, project_id: @page.project, version: (@content.version + 1) }, class: 'button navigate-right') if @content.version < @page.content.version %>
+    </div>
+    <hr />
+  </div>
+<% end %>
+
+<%= render(partial: "wiki/content", locals: {content: @content}) %>
+<%= link_to_attachments @page %>
+<% if @editable && authorize_for('wiki', 'add_attachment') %>
+  <div id="wiki_add_attachment" class="hide-when-print">
+    <p>
+      <%= link_to_function l(:label_attachment_new),
+                           %{
+                             jQuery('#add_attachment_form').show();
+                             jQuery(this).hide();
+                             jQuery('#add_attachment_form')[0].scrollIntoView();
+                           },
+                           id: 'attach_files_link' %>
+    </p>
+    <%= form_tag({ controller: '/wiki', action: 'add_attachment', project_id: @project, id: @page }, multipart: true, id: "add_attachment_form", style: "display:none;") do %>
+      <div class="box">
+        <p><%= render partial: 'attachments/form' %></p>
+      </div>
+      <%= submit_tag l(:button_add), class: 'button -highlight' %>
+      <%= link_to_function l(:button_cancel),
+                           %{
+                             jQuery('#add_attachment_form').hide();
+                             jQuery('#attach_files_link').show()
+                           },
+                           class: 'button' %>
+    <% end %>
+  </div>
+<% end %>
+<%= other_formats_links do |f| %>
+  <%= f.link_to 'Atom', url: { controller: '/activities',
+                                  action: 'index',
+                                  show_wiki_edits: 1,
+                                  key: User.current.rss_key } %>
+  <%= f.link_to 'HTML', url: { version: @content.version, id: @page } %>
+  <%= f.link_to 'TXT', url: { version: @content.version, id: @page } %>
+  <%= call_hook(:view_wiki_show_other_formats, {link_builder: f, url_params: {id: @page, version: @content.version}}) %>
+<% end if User.current.allowed_to?(:export_wiki_pages, @project) %>
+
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, controller: '/activities', action: 'index', id: @project, show_wiki_edits: 1, format: 'atom', key: User.current.rss_key) %>
+<% end %>
+
+<% content_for :sidebar do %>
+  <%= render partial: 'wiki/sidebar' %>
+<% end %>
+
+<% html_title h(@page.title) %>

@@ -1,0 +1,69 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<html>
+  <head>
+    <style>
+      body {
+        font-family: Verdana, sans-serif;
+        font-size: 0.8em;
+        color:#484848;
+      }
+      h1, h2, h3 { font-family: "Trebuchet MS", Verdana, sans-serif; margin: 0px; }
+      h1 { font-size: 1.2em; }
+      h2, h3 { font-size: 1.1em; }
+      a, a:link, a:visited { color: #2A5685;}
+      a:hover, a:active { color: #c61a1a; }
+      a.wiki-anchor { display: none; }
+      hr {
+        width: 100%;
+        height: 1px;
+        background: #ccc;
+        border: 0;
+      }
+      blockquote {
+        border-left: 3px solid #E0E0E0;
+        font-style: italic;
+        margin-left: 2.4em;
+        padding-left: 0.6em;
+      }
+      .footer {
+        font-size: 0.8em;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <span class="header"><%=raw Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.localized_emails_header) %></span>
+    <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
+    <%= yield %>
+    <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
+    <hr />
+    <span class="footer"><%=raw Redmine::WikiFormatting.to_html(Setting.text_formatting, Setting.localized_emails_footer) %></span>
+  </body>
+</html>

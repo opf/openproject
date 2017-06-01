@@ -1,0 +1,5 @@
+<label for="{{ ::ctrl.sliderId }}" class="hidden-for-sighted"
+  ng-bind="::labelText"></label>
+<input type="range" id="{{ ::ctrl.sliderId }}"
+  min="{{ ::ctrl.minValue }}" max="{{ ::ctrl.maxValue }}"
+  value="{{ ctrl.selectedScaleIndex + 1 }}">

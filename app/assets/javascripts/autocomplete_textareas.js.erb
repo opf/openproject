@@ -1,0 +1,73 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+function enable_textarea_auto_completion(textareas) {
+  textareas.each(function(){
+    var url = jQuery(this).data('wp_autocomplete_url');
+    if (url !== undefined) {
+      jQuery(this).atwho({
+        at: '#',
+        startWithSpace: false,
+        searchKey: 'id_subject',
+        displayTpl: '<li data-value="${atwho-at}${id}">${to_s}</li>',
+        insertTpl: "${atwho-at}${id}",
+        limit: 10,
+        callbacks: {
+          /*
+           It function is given, At.js will invoke it if local filter can not find any data
+           @param query [String] matched query
+           @param callback [Function] callback to render page.
+          */
+          remoteFilter: function(query, callback) {
+            jQuery.getJSON(url, {q: query, scope: 'all'}, function(data) {
+              // atjs needs the search key to be a string
+              for (var i = data.length - 1; i >= 0; i--) {
+                data[i]['id_subject'] = data[i]['id'].toString() + ' ' + data[i]['subject'];
+              }
+              callback(data);
+            });
+          },
+          /* Sorter data of course.
+             @param query [String] matched string
+             @param items [Array] data that was refactored
+             @param search_key [String] at char to search
+             @return [Array] sorted data
+          */
+          sorter: function(query, items, search_key) {
+            return items; // we do not sort
+          }
+        }
+      });
+    }
+  });
+}
+
+jQuery(function($){
+  enable_textarea_auto_completion($('textarea.wiki-edit'));
+});

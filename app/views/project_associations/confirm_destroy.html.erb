@@ -1,0 +1,46 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= labelled_tabular_form_for @project_association,
+            url: project_project_association_path(@project, @project_association),
+            html: {method: 'delete'} do |f| %>
+
+  <div class='flash warning'>
+    <%= l('timelines.really_delete_project_association_between_project_a_and_project_b',
+          project_a: @project, project_b: @project_association.project(@project)) %>
+    <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
+      <%= op_icon('icon-close') %>
+    </span>
+  </div>
+
+  <%= format_text @project_association, :description %>
+
+  <%= submit_tag l(:button_delete), class: 'button -highlight' %>
+  <%= link_to l(:button_cancel), project_project_associations_path(@project), class: 'button' %>
+<% end %>

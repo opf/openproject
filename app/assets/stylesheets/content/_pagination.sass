@@ -1,0 +1,113 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$pagination--font-size: 0.8125rem
+
+.pagination
+  display: flex
+  justify-content: space-between
+  width: 100%
+
+.pagination--pages
+  flex-grow: 2
+  flex-shrink: 2
+  margin: 10px 5px 10px 0
+
+.pagination--options
+  flex-grow: 1
+  flex-shrink: 1
+  margin: 10px 0 0 5px
+
+.pagination--items
+  list-style-type: none
+  display: flex
+  margin: 0
+  padding: 0
+  font-size: $pagination--font-size
+
+  .pagination--pages &
+    justify-content: flex-start
+
+  .pagination--options &
+    justify-content: flex-end
+
+.pagination--item
+  min-width: 25px
+  margin: 0 5px 0 0
+  white-space: nowrap
+
+  &.-prev,
+  &.-next
+    min-width: 25px
+
+  &.-current
+    background: #ffffff
+    border: 1px solid #ffffff
+    padding: 3px 3px
+    font-style: italic
+    text-align: center
+
+  a
+    margin: 0
+    display: block
+    min-width: 25px
+    text-align: center
+    padding: 3px 3px
+    background: #f8f8f8
+    border-radius: 2px
+    border: 1px solid #cccccc
+    color: $body-font-color
+    font-weight: normal
+    cursor: pointer
+    text-decoration: none
+    &:hover
+      background: #eaeaea
+
+.pagination--space
+  background: #ffffff
+  border: 1px solid #ffffff
+  font-style: italic
+  padding: 3px 0
+  margin: 0 5px 0 0
+
+.pagination--label
+  flex: 1
+  padding: 3px 0
+  margin-right: 5px
+  white-space: nowrap
+  text-align: right
+  overflow: hidden
+  text-overflow: ellipsis
+
+.pagination--range
+  flex: 1
+  margin: 0 0 0 5px
+  padding: 3px 0
+  display: block
+  overflow: hidden
+  text-overflow: ellipsis

@@ -1,0 +1,12 @@
+<button id="{{ ::vm.buttonId }}"
+        class="button"
+        title="{{ vm.label }}"
+        ng-click="vm.performAction()"
+        ng-attr-accesskey="{{ ::vm.accessKey }}"
+        ng-disabled="vm.disabled"
+        ng-class="{ '-active': vm.isActive() }"
+        aria-label="{{ vm.label }}">
+  <op-icon icon-classes="{{ ::vm.iconClass }} button--icon"></op-icon>
+  <span class="button--text" ng-bind="::vm.buttonText"></span>
+  <span class="badge -secondary" ng-if="vm.initialized">{{ vm.filterCount }}</span>
+</button>

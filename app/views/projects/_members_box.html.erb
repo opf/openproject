@@ -1,0 +1,52 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% if @users_by_role.any? %>
+  <div class="members widget-box">
+    <h3 class="widget-box--header">
+      <%= op_icon('icon-context icon-group') %>
+      <span class="widget-box--header-title"><%=l(:label_member_plural)%></span>
+    </h3>
+    <p>
+      <% @users_by_role.sort.each do |role, users| %>
+        <%= role %>: <%= users.sort.collect{ |u| link_to_user u }.join(", ").html_safe %><br />
+      <% end %>
+    </p>
+
+    <% if current_user.allowed_to?(:manage_members, @project) %>
+      <%= link_to project_members_path(project_id: @project.identifier),
+                  class: 'button -alt-highlight',
+                  aria: { label: t(:button_add_member) },
+                  title: t(:button_add_member) do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= l('activerecord.models.member') %></span>
+      <% end %>
+    <% end %>
+  </div>
+<% end %>

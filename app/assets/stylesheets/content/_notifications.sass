@@ -1,0 +1,374 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+// NOTE: these are demo ski
+
+//nm - notification messages
+//pb - progress bar
+
+$nm-font-size: rem-calc(13px)
+$nm-border-radius: rem-calc(2px)
+$nm-box-padding: rem-calc(10px 35px 10px 35px)
+$nm-font-color: $body-font-color
+$nm-notification-width: rem-calc(550)
+
+$nm-color-error-border: $content-form-danger-zone-bg-color
+$nm-color-error-icon: $content-form-danger-zone-bg-color
+$nm-color-error-background: #fedada
+
+$nm-color-success-border: #35c53f
+$nm-color-success-icon: #35c53f
+$nm-color-success-background: #d8fdd1
+
+$nm-color-warning-border: #b5b078
+$nm-color-warning-icon: #333
+$nm-color-warning-background: #f4f4aa
+
+$nm-color-info-icon: #333
+
+$nm-color-border: #8fc0db
+$nm-color-background: #e3f5ff
+$nm-padding-box: rem-calc(10px)
+
+$nm-pb-border-color: $nm-color-border
+$nm-pb-color: $primary-color-dark
+$nm-pb-regress-color: whiteSmoke
+$nm-pb-border-radius: rem-calc(6)
+$nm-pb-height: rem-calc(20)
+
+$nm-upload-status-font-size: rem-calc(18)
+$nm-upload-file-status-icon-size: rem-calc(12)
+
+$nm-upload-box-padding: rem-calc(15) rem-calc(25)
+
+%nm-icon-error
+  @extend .icon-error:before
+  color: $nm-color-error-icon
+
+%nm-icon-success
+  @extend .icon-checkmark:before
+  color: $nm-color-success-icon
+
+%nm-icon-warning
+  @extend .icon-attention:before
+  color: $nm-color-warning-icon
+
+%nm-icon-info
+  @extend .icon-info1:before
+  color: $nm-color-info-icon
+
+%error-placeholder
+  background-color: $nm-color-error-background
+  border-color: $nm-color-error-border
+
+%success-placeholder
+  background-color: $nm-color-success-background
+  border-color: $nm-color-success-border
+
+%warning-placeholder
+  background-color: $nm-color-warning-background
+  border-color: $nm-color-warning-border
+
+%info-placeholder
+  background-color: $nm-color-background
+  border-color: $nm-color-border
+
+@mixin messages-icon($top:rem-calc(11), $left:rem-calc(10), $size:rem-calc(18))
+  @include icon-font-common
+  position: absolute
+  top: $top
+  left: $left
+  font-size: $size
+
+.notification-box
+  @extend %notification
+  z-index: 21
+  +notification-layout($x: left, $y: top, $size: auto, $offset: rem-calc(0))
+  +notification-style($background: $nm-color-background, $color: $nm-font-color, $padding: $nm-padding-box, $radius: $nm-border-radius)
+  .notification-icon
+    +notification-icon($size: $notification-icon-size, $margin: $notification-icon-margin, $align: $notification-icon-align)
+  display: flex
+  box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
+  border: rem-calc(1px) solid $nm-color-border
+  font-size: $nm-font-size
+  word-wrap: break-word
+  & .button
+    margin: rem-calc(10px 10px 0 0)
+
+  .notification-box--close
+    position: absolute
+    top: rem-calc(12px)
+    right: rem-calc(12px)
+    background-color: rgba(0, 0, 0, 0)
+    border-radius: rem-calc(50px)
+    width: 1rem
+    height: 1rem
+    text-align: center
+    font-size: 1rem
+    line-height: rem-calc(20px)
+    &:hover
+      text-decoration: none
+
+  &.-error,
+  &.-success,
+  &.-warning,
+  &.-info,
+    padding: $nm-box-padding
+
+  &.-error
+    @extend %error-placeholder
+    &::before
+      @include messages-icon
+      @extend %nm-icon-error
+
+  &.-success
+    @extend %success-placeholder
+    &::before
+      @include messages-icon
+      @extend %nm-icon-success
+
+  &.-warning
+    @extend %warning-placeholder
+    &::before
+      @include messages-icon
+      @extend %nm-icon-warning
+
+  &.-info::before
+    @extend %info-placeholder
+    @include messages-icon
+    @extend %nm-icon-info
+
+  &.-upload
+    padding: $nm-upload-box-padding
+
+  //@hack adapting to provided styles
+  //messy I dont have all the details for a magic resolve, this might change
+  & p, & ul
+    margin-bottom: 0
+  & p, & ul>li, & .button
+    font-size: $nm-font-size
+
+
+[class^="icon-"]
+  &.-error
+    color: $nm-color-error-icon
+  &.-success
+    color: $nm-color-success-icon
+  &.-warning
+    color: $nm-color-warning-icon
+  &.-info
+    color: $nm-color-info-icon
+
+.notification-box--wrapper
+  position: absolute
+  width: $nm-notification-width
+  margin-left: -($nm-notification-width / 2)
+  left: 50%
+  z-index: 200
+
+  .notification-box--casing
+    position: relative
+    .notification-box
+      margin-bottom: rem-calc(3px)
+
+// awesome animations
+.notification-box
+  &.ng-enter
+    transition: opacity 0.5s ease
+    opacity: 0
+  &.ng-enter.ng-enter-active
+    opacity: 1
+  &.ng-leave
+    transition: opacity 2s ease
+    opacity: 1
+  &.ng-leave.ng-leave-active
+    opacity: 0
+
+  .notification-box--content
+    width: 100%
+
+    > p
+      margin-bottom: 0
+
+    progress[value]
+      @extend %progress-styles
+      &::-moz-progress-bar
+        border-radius: $nm-pb-border-radius
+      &::-webkit-progress-bar
+        background-color: $nm-pb-regress-color
+        border-radius: $nm-pb-border-radius
+      &::-webkit-progress-value
+        border-radius: $nm-pb-border-radius
+
+// upload notification styles
+%progress-styles
+  appearance: none
+  border-radius: $nm-pb-border-radius
+  height: $nm-pb-height
+  animation: animate-stripes 5s linear infinite
+  background-color: $nm-pb-regress-color
+  border: rem-calc(1) solid $nm-pb-border-color
+  color: $nm-pb-color
+  margin: 0
+
+.notification-box--toggle-message
+  font-size: rem-calc(16)
+  margin: rem-calc(5 0 15 0)
+
+.notification-box--uploads
+  list-style: none
+  padding: 0
+  margin: 0
+
+.notification-box--uploads-element
+  margin: rem-calc(5 0)
+  .filename
+    font-weight: bold
+  [class^="icon-"]
+    font-size: $nm-upload-file-status-icon-size
+
+.notification-box--upload-status
+  font-size: $nm-upload-status-font-size !important
+  line-height: $nm-upload-status-font-size !important
+
+.notification-box--notice
+  border-radius: $nm-border-radius
+  border-style: solid
+  border-width: rem-calc(1)
+  padding: rem-calc(5)
+  margin: rem-calc(5 0)
+  &.-error
+    @extend %error-placeholder
+  &.-success
+    @extend %success-placeholder
+  &.-warning
+    @extend %warning-placeholder
+
+
+// Use same styles for flash messages
+.flash, #errorExplanation
+  position: absolute
+  width: $nm-notification-width
+  margin-left: -($nm-notification-width / 2)
+  left: 50%
+  border-radius: $nm-border-radius
+  border-style: solid
+  border-width: rem-calc(1)
+  font-size: $nm-font-size
+  line-height: 1.6
+  padding: $nm-box-padding
+  box-shadow: rem-calc(1px 2px 3px) rgba(0, 0, 0, 0.2)
+  margin-bottom: 0.1875rem
+  margin-top: 0.5rem
+  z-index: 15
+
+  &.ng-leave
+    @include animation(0.5s fade-out)
+
+  a
+    text-decoration: none
+    cursor: default
+
+  ul
+    font-size: $nm-font-size
+    margin: 0 0 0 30px
+
+  h2, p
+    @extend .hidden-for-sighted
+
+  .close-handler
+    float: none
+    position: absolute
+    top: rem-calc(11)
+    right: rem-calc(11)
+    font-size: 1rem
+    cursor: pointer
+
+  &::before
+    @include messages-icon
+    padding: 0 !important
+
+  &.notice
+    @extend %success-placeholder
+
+    &::before
+      @extend %nm-icon-success
+      color: $nm-color-success-icon
+
+  &.error, &.nodata
+    @extend %error-placeholder
+
+    &::before
+      @extend %nm-icon-error
+      color: $nm-color-error-icon
+
+  &.info
+    @extend %info-placeholder
+
+    &::before
+      @include messages-icon
+      @extend %nm-icon-info
+
+    &::before
+      @extend %nm-icon-info
+      color: $nm-color-info-icon
+
+  &.warning
+    @extend %warning-placeholder
+
+    &::before
+      @extend %nm-icon-warning
+      color: $nm-color-warning-icon
+
+#errorExplanation
+  @extend %error-placeholder
+  top: rem-calc(68px)
+
+  &::before
+    color: $nm-color-error-icon !important
+
+a.impaired--empty-link,
+a.impaired--empty-link:link,
+.impaired--empty-link
+  @include varprop(color, body-font-color)
+
+a.notification-box--target-link
+  cursor: pointer
+  text-decoration: underline
+
+.flash,
+#errorExplanation,
+.notification-box--wrapper
+  top: 4.25rem
+
+  %absolute-layout-mode &
+    top: rem-calc(12px)
+
+.flash + .notification-box--wrapper
+  %absolute-layout-mode &
+    top: 3.85rem

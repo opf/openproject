@@ -1,0 +1,122 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% if @project.boards.any? %>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend">
+      <%= l(:label_available_project_boards) %>
+    </legend>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col>
+            </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Board.model_name.human %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Board.human_attribute_name(:description) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%=l(:button_sort)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th><div class="generic-table--empty-header"></div></th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @project.boards.each do |board|
+              next if board.new_record? %>
+              <tr>
+                <td><%=h board.name %></td>
+                <td><%= format_text(board.description) %></td>
+                <td class="small-icons">
+                  <% if authorize_for 'boards', 'edit' %>
+                    <%= reorder_links 'board', controller: '/boards',
+                                               action: 'move',
+                                               project_id: @project,
+                                               id: board %>
+                  <% end %>
+                </td>
+                <td class="buttons">
+                  <%= link_to_if_authorized l(:button_edit),
+                                            { controller: '/boards', action: 'edit', project_id: @project, id: board },
+                                            class: 'icon icon-edit' %>
+                  <%= link_to_if_authorized l(:button_delete),
+                                            { controller: '/boards', action: 'destroy', project_id: @project, id: board },
+                                            data: { confirm: l(:text_are_you_sure) },
+                                            method: :delete,
+                                            class: 'icon icon-delete' %>
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+    <% if @project.boards.any? %>
+      <div class="generic-table--action-buttons">
+        <%= link_to_if_authorized({ controller: '/boards', action: 'new', project_id: @project },
+                                  { class: 'button -alt-highlight',
+                                    aria: {label: t(:label_board_new)},
+                                    title: t(:label_board_new)}) do %>
+          <%= op_icon('button--icon icon-add') %>
+          <span class="button--text"><%= t('activerecord.models.board') %></span>
+        <% end %>
+      </div>
+    <% end %>
+  <% else %>
+    <%= no_results_box(action_url: new_project_board_path(@project), display_action: authorize_for('boards', 'new')) %>
+  <% end %>
+</fieldset>
+

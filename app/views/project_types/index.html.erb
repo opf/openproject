@@ -1,0 +1,114 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title l(:label_administration), l("timelines.admin_menu.project_types") %>
+
+<%= toolbar title: l("timelines.admin_menu.project_types") do %>
+  <li class="toolbar-item">
+    <%= link_to new_project_type_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t('timelines.new_project_type')},
+            title: t('timelines.new_project_type')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('activerecord.attributes.project.project_type') %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<% if @project_types.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= ProjectType.human_attribute_name(:name) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= ProjectType.human_attribute_name(:position) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= ProjectType.human_attribute_name(:allows_association) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th><div class="generic-table--empty-header"></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @project_types.each do |type| %>
+            <tr>
+              <td class="timelines-pt-name">
+                <%= link_to(h(type.name), edit_project_type_path(type)) %>
+              </td>
+              <td class="timelines-pt-reorder">
+                <%= reorder_links('project_type', {action: 'move', id: type}) %>
+              </td>
+              <td class="timelines-pt-allows_association">
+                <%= checked_image(type.allows_association) %>
+              </td>
+              <td class="timelines-pt-actions buttons">
+                <%= link_to(confirm_destroy_project_type_path(type),
+                           class: 'icon icon-delete') do %>
+                  <%= l(:button_delete) %>
+                  <span class="hidden-for-sighted"><%=h type.name %></span>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      
+    </div>
+  </div>
+<% else %>
+  <%= no_results_box(action_url: new_project_type_path, display_action: true) %>
+<% end %>

@@ -1,0 +1,184 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%# TODO Remove when not needed any more %>
+<script type="text/javascript">
+  //<![CDATA[
+  function add_filter() {
+    var select = jQuery('#add_filter_select');
+    var field = select.val();
+    var check_box = jQuery('#cb_' + field);
+
+    jQuery('#tr_' + field).show();
+    jQuery('#filter_spacer').show();
+    check_box.prop('checked', true);
+    toggle_filter(field);
+    select.selectedIndex = 0;
+
+    select.find('options[value=' + field + ']').prop('disabled', true);
+  }
+
+  function toggle_filter(field) {
+    var check_box = jQuery('#cb_' + field);
+    var values = jQuery('#values_' + field);
+    var filter = jQuery('#div_values_' + field);
+    var operator = jQuery("#operators_" + field);
+
+    if (check_box.prop('checked')) {
+      operator.show().prop('disabled', false);
+      values.show().prop('disabled', false);
+      toggle_operator(field);
+    } else {
+      operator.hide();
+      filter.hide();
+      operator.prop('disabled', true);
+      values.prop('disabled', true);
+    }
+  }
+
+  function toggle_operator(field) {
+    var operator = jQuery("#operators_" + field);
+    switch (operator.val()) {
+      case "!*":
+      case "*":
+      case "t":
+      case "w":
+      case "o":
+      case "c":
+        jQuery("#div_values_" + field).hide();
+        break;
+      default:
+        jQuery("#div_values_" + field).show();
+        break;
+    }
+  }
+
+  function toggle_multi_select(field) {
+    var select = jQuery('#values_' + field);
+    var isMulti = select.prop('multiple');
+    select.prop('multiple', !isMulti);
+  }
+
+  function apply_filters_observer() {
+    jQuery('#query_form input[type=text]').each(function (index, filter) {
+      jQuery(filter).on('keypress', function (e) {
+        if ((e.keyCode || e.which) == 13) {
+          selectAllOptions("selected_columns");
+          jQuery.ajax({
+            type: 'GET',
+            url: '<%= url_for(set_filter: 1) %>',
+            data: jQuery('#query_form').serialize()
+          })
+        }
+      });
+    });
+  }
+
+  jQuery(apply_filters_observer);
+
+  //]]>
+</script>
+<ul class="advanced-filters--filters">
+  <% query.available_filters.sort { |a, b| a[:order]<=>b[:order] }.each do |filter| %>
+      <% field = filter.name
+         options = filter %>
+      <li <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter advanced-filters--filter">
+        <% label_value = filter.human_name || WorkPackage.human_attribute_name(filter.class.key) %>
+        <label class="advanced-filters--filter-name" title="<%= label_value %>">
+          <%= check_box_tag 'f[]', field, query.has_filter?(field), onclick: "toggle_filter('#{field}');", id: "cb_#{field}" %>
+          <%= label_value %>
+        </label>
+        <div class="advanced-filters--filter-operator">
+          <%= label_tag "op_#{field}", l(:description_filter), class: "hidden-for-sighted" %>
+          <%= select_tag "op[#{field}]",
+                         options_for_select(operators_for_select(filter),
+                                            query.filter_for(field).try(:operator)),
+                         id:       "operators_#{field}",
+                         onchange: "toggle_operator('#{field}');",
+                         class:    "advanced-filters--select" %>
+
+        </div>
+        <div id="div_values_<%= field %>" style="display:none;" class="advanced-filters--filter-value">
+          <% field_values = query.filter_for(field).try(:values) || [] %>
+
+          <% case filter.type
+             when :list, :list_optional %>
+           <span class="inline-label">
+             <select <%= "multiple=true" if field_values and field_values.length > 1 %>
+                     name="v[<%= field %>][]"
+                     id="values_<%= field %>"
+                     class="form--select -small">
+
+               <%= options_for_select filter.allowed_values, field_values %>
+
+             </select>
+             <%= link_to_function icon_wrapper('icon-context icon-plus', l(:label_enable_multi_select)),
+                                  "toggle_multi_select('#{field}');",
+                                  title: l(:label_enable_multi_select),
+                                  class: 'form-label no-decoration-on-hover -transparent' %>
+           </span>
+          <% when :date, :date_past %>
+             <span class="inline-label">
+               <%= text_field_tag "v[#{field}][]", field_values, id: "values_#{field}", size: 3, class: "advanced-filters--text-field" %>
+               <label for='<%= "values_#{field}" %>' class="form-label -transparent"><%= l(:label_day_plural) %></label>
+           </span>
+          <% when :string, :text %>
+              <%= text_field_tag "v[#{field}][]", field_values, id: "values_#{field}", size: 30, class: "advanced-filters--text-field" %>
+              <label for='<%= "values_#{field}" %>' class='hidden-for-sighted'><%= l(:description_enter_text) %></label>
+          <% when :integer %>
+              <%= text_field_tag "v[#{field}][]", field_values, id: "values_#{field}", size: 3, class: "advanced-filters--number-field" %>
+              <label for='<%= "values_#{field}" %>' class='hidden-for-sighted'><%= l(:description_enter_number) %></label>
+          <% end %>
+        </div>
+        <script type="text/javascript">
+          toggle_filter('<%= field %>');
+        </script>
+      </li>
+  <% end %>
+
+  <li style="display:none" id="filter_spacer" class="advanced-filters--spacer"></li>
+
+  <li class="advanced-filters--add-filter">
+    <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label">
+      <%= op_icon('icon-add icon4') %>
+      <%= l(:label_filter_add) %>
+    </label>
+    <label for="add_filter_select" class="hidden-for-sighted">
+      {{ I18n.t('js.work_packages.label_filter_add') }}
+      {{ I18n.t('js.filter.description.text_open_filter') }}
+      {{ I18n.t('js.filter.description.text_close_filter') }}
+    </label>
+    <div class="advanced-filters--add-filter-value">
+      <%= select_tag 'add_filter_select',
+                     options_for_select(entries_for_filter_select_sorted(query)),
+                     onchange: "add_filter();",
+                     class:    "advanced-filters--select",
+                     name:     nil %>
+    </div>
+  </li>
+</ul>

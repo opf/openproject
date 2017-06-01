@@ -1,0 +1,51 @@
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-settings') %>
+  <span class="widget-box--header-title"><%= l(:label_administration) %></span>
+</h3>
+
+<ul class="widget-box--arrow-links">
+  <li>
+    <%= link_to l(:label_project_plural), projects_admin_index_path,
+               title: l(:label_project_plural) %>
+  </li>
+  <li>
+    <%= link_to l(:label_user_plural), users_path,
+               title: l(:label_user_plural) %>
+  </li>
+  <li>
+    <%= link_to l(:label_group_plural), groups_path,
+                title: l(:label_group_plural) %>
+  </li>
+  <li>
+    <%= link_to l(:label_role_and_permissions), roles_path,
+               title: l(:label_role_and_permissions) %>
+
+  </li>
+	<li>
+    <%= link_to l(:label_work_package_types), types_path,
+               title: l(:label_work_package_types) %>
+  </li>
+	<li>
+    <%= link_to l(:label_work_package_status), statuses_path,
+               title: l(:label_work_package_status) %>
+  </li>
+	<li>
+    <%= link_to l(:label_workflow_plural), workflows_path,
+               title: l(:label_workflow_plural) %>
+
+  </li>
+	<li>
+    <%= link_to l('attributes.custom_values'), custom_fields_path,
+               title: l('attributes.custom_values') %>
+
+  </li>
+  <li>
+    <%= link_to l(:label_system_settings), settings_path,
+               title: l(:label_system_settings) %>
+  </li>
+  <li>
+    <%= link_to t(:label_custom_style), custom_style_path,
+               title: t(:label_custom_style) %>
+  </li>
+  <%= call_hook(:homescreen_administration_links) %>
+</ul>

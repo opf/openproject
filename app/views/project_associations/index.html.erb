@@ -1,0 +1,157 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+
+<% html_title(l('timelines.associations')) %>
+
+<% content_for :action_menu_specific do %>
+  <%= link_to_if_authorized(l("timelines.new_association"),
+                            { action: :new },
+                            { title: l("timelines.new_association"),
+                              class: ("icon icon-add")
+                            }) %>
+<% end %>
+<h2><%= l('timelines.associations') %></h2>
+<%= render partial: 'layouts/action_menu_specific' %>
+<% @project_types.each do |project_type| %>
+  <% project_assocs = @project_associations_by_type[project_type] %>
+  <% next if project_assocs.blank? %>
+    <div class="container">
+      <h3>
+        <% if project_type.present? %>
+          <%= h(project_type.name) %>
+        <% else %>
+          <em><%= l('timelines.without_project_type') %></em>
+        <% end %>
+      </h3>
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table timelines-project_associations">
+            <colgroup>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="timelines-pa-identifier">
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= Project.human_attribute_name(:identifier) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th class="timelines-pa-name">
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= Project.human_attribute_name(:name) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th class="timelines-pa-responsible">
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= Project.human_attribute_name(:responsible) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th class="timelines-pa-description">
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= ProjectAssociation.human_attribute_name(:description) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th class="timelines-pa-actions">
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <% reset_cycle('rows') %>
+              <% project_assocs.each do |association| %>
+                <% other = association.project(@project) %>
+                <tr>
+                  <td class="timelines-pa-identifier">
+                    <%= link_to(h(other.identifier), project_path(other, jump: 'project_associations')) %>
+                  </td>
+                  <td class="timelines-pa-name">
+                    <%= link_to(h(other.name), project_path(other, jump: 'project_associations')) %>
+                  </td>
+                  <td class="timelines-pa-responsible">
+                    <% if other.responsible.present? %>
+                      <%= avatar(other.responsible, class: 'avatar-mini') %>
+                      <%= link_to_user(other.responsible) %>
+                    <% else %>
+                      -
+                <% end %>
+                  </td>
+                  <td class="timelines-pa-description" ng-non-bindable>
+                    <%= format_text association, :description %>
+                  </td>
+                  <td class="timelines-pa-actions buttons">
+                    <%= link_to_if_authorized({controller: '/project_associations',
+                                          action: 'edit',
+                                          project_id: @project,
+                                          id: association},
+                                          {class: 'icon icon-edit'}) do %>
+                      <%= l('timelines.edit_thing') %>
+                      <span class="hidden-for-sighted">
+                        <%= h(other.name) %>
+                      </span>
+                    <% end %>
+                    <%= link_to_if_authorized({controller: '/project_associations',
+                                          action: 'confirm_destroy',
+                                          project_id: @project,
+                                          id: association},
+                                         {class: 'icon icon-delete'}) do %>
+                      <%= l('timelines.delete_thing') %>
+                      <span class="hidden-for-sighted">
+                        <%= h(other.name) %>
+                      </span>
+                    <% end %>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+          
+      </div>
+    </div>
+    </div>
+  <% end %>

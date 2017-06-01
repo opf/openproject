@@ -1,0 +1,109 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title "#{t('timelines.project_menu.timelines')}: #{h @timeline.name}" %>
+
+<%= toolbar title: @timeline.name do %>
+  <% if timeline_action_authorized?(:new) %>
+    <li class="toolbar-item">
+      <%= new_timeline_link @project do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t('timelines.timeline') %></span>
+      <% end %>
+    </li>
+  <% end %>
+
+
+  <% if timeline_action_authorized?(:edit) %>
+    <li class="toolbar-item">
+      <%= edit_timeline_link @project, @timeline do %>
+        <%= op_icon('button--icon icon-edit') %>
+        <span class="button--text"><%= t(:button_edit) %></span>
+        <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
+      <% end %>
+    </li>
+  <% end %>
+
+  <% if timeline_action_authorized?(:destroy) %>
+    <li class="toolbar-item">
+      <%= destroy_timeline_link @project, @timeline do %>
+        <%= op_icon('button--icon icon-delete') %>
+        <span class="button--text"><%= t(:button_delete) %></span>
+        <span class='hidden-for-sighted'><%= h(@timeline.name) %></span>
+      <% end %>
+    </li>
+  <% end %>
+
+  <li class="toolbar-item">
+    <%= link_to url_for(controller: '/reportings', action: 'index', project_id: @project.id), class: 'button' do %>
+      <%= op_icon('button--icon icon-status-reporting') %>
+      <span class="button--text"><%= t('timelines.project_menu.reportings') %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<div class="notification-box -warning">
+  <a title="close" class="notification-box--close icon-context icon-close"></a>
+  <div class="notification-box--content">
+    <p><%= t('deprecations.old_timeline.replacement')%></p>
+    <p><%= t('deprecations.old_timeline.removal')%></p>
+    <p>
+      <%= t('deprecations.old_timeline.further_information_before')%>
+      <a href="https://www.openproject.org/old-timeline-view-discontinued-please-migrate-timeline-openproject-7-0">
+        <%= t('deprecations.old_timeline.link_name')%>
+      </a>
+      <%= t('deprecations.old_timeline.further_information_after')%>
+    </p>
+  </div>
+</div>
+
+
+<div id="timeline">
+  <%= form_tag '', {id: "specialForm", 'ng-controller' => 'TimelineSelectionController'} do %>
+    <div class="form--field">
+      <%= label_tag 'timeline_select', t("timelines.timeline"), class: "form--label -transparent" %>
+      <div class="form--field-container">
+        <div class="form--select-container">
+          <select
+              ng-model="vm.currentTimeline"
+              ng-change="vm.switchTimeline()"
+              id="timeline_select"
+              class="form--select"
+              ng-options="timeline.name for timeline in vm.timelines | filter: { name: $select.search } track by timeline.id">
+          </select>
+        </div>
+      </div>
+    </div>
+  <% end %>
+
+  <% push_visible_timelines @visible_timelines %>
+  <% push_current_timeline_id @timeline.id %>
+
+  <%= render partial: "timeline", locals: {timeline: @timeline} %>
+</div>

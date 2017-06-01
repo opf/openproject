@@ -1,0 +1,28 @@
+<div class="attributes-group">
+    <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+            <h3 class="attributes-group--header-text relation-group--header">
+                {{ $ctrl.header }}
+            </h3>
+        </div>
+        <div class="attributes-group--header-toggle" ng-if="$ctrl.firstGroup">
+          <div id="wp-relation-group-by-toggle"
+               class="panel-toggler ng-scope ng-isolate-scope">
+              <accessible-by-keyboard link-class="icon-context icon-small icon-group-by button -transparent"
+                                      execute="$ctrl.toggleButton()">
+                  <span ng-if="!$ctrl.groupByWorkPackageType" ng-bind="::$ctrl.text.groupByType"></span>
+                  <span ng-if="$ctrl.groupByWorkPackageType" ng-bind="::$ctrl.text.groupByRelation"></span>
+              </accessible-by-keyboard>
+            </div>
+        </div>
+    </div>
+
+    <div class="content" ng-if="$ctrl.relatedWorkPackages">
+        <wp-relation-row
+                work-package="$ctrl.workPackage"
+                group-by-work-package-type="$ctrl.groupByWorkPackageType"
+                related-work-package="relatedWorkPackage"
+                ng-repeat="relatedWorkPackage in $ctrl.relatedWorkPackages"></wp-relation-row>
+    </div>
+</div>
+

@@ -1,0 +1,52 @@
+<table style="border-collapse: collapse; border:0;">
+  <tbody>
+    <tr>
+      <td style="padding-left:3px">
+        <label for="available_columns">{{ I18n.t('js.description_available_columns') }}</label>
+        <br/>
+        <select id="available_columns"
+                multiple="multiple"
+                name="available_columns[]"
+                ng-model="markedAvailableColumns"
+                ng-options="column.name as column.title for column in availableUnusedColumns"
+                size="10"
+                style="width:150px">
+        </select>
+      </td>
+      <td class="table-buttons" align="center" valign="middle">
+        <label class="hidden-for-sighted" for="add_selected_columns">{{ I18n.t('js.label_add_selected_columns') }}</label>
+        <input id="add_selected_columns"
+               type="button"
+               value="→"
+               ng-click="showColumns(markedAvailableColumns)"
+               title="{{ I18n.t('js.label_add_selected_columns') }}"
+               ng-disabled="loading"><br>
+        <label class="hidden-for-sighted" for="add_selected_columns">{{ I18n.t('js.label_remove_columns') }}</label>
+        <input type="button"
+               value="←"
+               ng-click="hideColumns(markedSelectedColumns)"
+               title="{{ I18n.t('js.label_remove_columns') }}"
+               ng-disabled="loading">
+      </td>
+      <td>
+        <label for="selected_columns">{{ I18n.t('js.description_selected_columns') }}</label>
+        <br/>
+        <select id="selected_columns"
+                name="c[]"
+                multiple="multiple"
+                ng-model="markedSelectedColumns"
+                name="c[]"
+                size="10"
+                style="width:150px">
+          <option ng-repeat="column in columns" value="{{ column.name }}">{{ column.title }}</option>
+        </select>
+      </td>
+      <td class="table-buttons" align="center" valign="middle">
+        <label class="hidden-for-sighted" for="move_up">{{ I18n.t('js.label_sort_higher') }}</label>
+        <input id="move_up" type="button" value="↑" ng-click="moveSelectedColumnBy(-1);" title="{{ I18n.t('js.label_sort_higher') }}" ng-disabled="loading"><br>
+        <label class="hidden-for-sighted" for="move_up">{{ I18n.t('js.label_sort_lower') }}</label>
+        <input id="move_down" type="button" value="↓" ng-click="moveSelectedColumnBy(1);" title="{{ I18n.t('js.label_sort_lower') }}" ng-disabled="loading">
+      </td>
+    </tr>
+  </tbody>
+</table>

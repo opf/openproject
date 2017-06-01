@@ -1,0 +1,248 @@
+# Table component
+
+## style emulation from
+[WP tables](http://localhost:8080/assets/css/styleguide.html#with-work-packages)
+
+```
+<div class="generic-table--container">
+  <div class="generic-table--results-container" style="max-height: 340px;">
+    <table class="generic-table" interactive-table>
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  First
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  Second
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Third
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fourth
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fifth
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </div>
+</div>
+
+```
+
+## with footer
+
+```
+
+<div class="generic-table--container -with-footer">
+  <div class="generic-table--results-container" style="max-height: 340px;">
+    <table class="generic-table" interactive-table>
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+        <col highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  First
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort asc">
+                  Second
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Third
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fourth
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span class="sort desc">
+                  Fifth
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+        <tr>
+          <td>Nullam a sem et metus congue placerat.</td>
+          <td>Mauris ut augue viverra, consequat eros eu, maximus quam.</td>
+          <td>Lorem ipsum dolor sit amet, consectetur adipiscing elit</td>
+          <td>Maecenas elementum orci a varius suscipit.</td>
+          <td>Nunc molestie neque sit amet eros semper dapibus.</td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum1
+            </div>
+          </td>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum2
+            </div>
+          </td>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum3
+            </div>
+          </td>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum4
+            </div>
+          </td>
+          <td>
+            <div class="generic-table--footer-outer">
+              Sum5
+            </div>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+    
+    <div class="generic-table--footer-background"></div>
+  </div>
+</div>
+
+```
+
+
+## with no content
+
+```
+<div class="generic-table--container" style="height:150px">
+  <div class="generic-table--no-results-container">
+    <i class="icon-info1"></i>
+    <h2 class="generic-table--no-results-title">
+      Nothing to display
+    </h2>
+    <div class="generic-table--no-results-description">
+      <p>Either nothing have been created or everything is filtered out.</p>
+    </div>
+  </div>
+</div>
+```

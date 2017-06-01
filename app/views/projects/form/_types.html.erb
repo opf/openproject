@@ -1,0 +1,143 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= javascript_include_tag 'types_checkboxes' %>
+
+<%= render_flash_message :notice,
+                         l(:notice_automatic_set_of_standard_type),
+                         style: "display:none;",
+                         id: "types_flash_notice",
+                         class: "ignored-by-flash-activation" %>
+
+<fieldset class="form--fieldset" id="project_types">
+  <legend class="form--fieldset-legend"><%=l(:label_enabled_project_types)%></legend>
+  <div class="form--fieldset-control">
+    <span class="form--fieldset-control-container">
+      (<%= check_all_links 'types-form' %>)
+    </span>
+  </div>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table types" id="types-form">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:active) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:name) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:in_aggregation) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:is_in_roadmap) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Type.human_attribute_name(:is_milestone) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <% projects_types_id = project.types.pluck(:id) %>
+          <% Type.includes(:color).each do |type| %>
+            <tr>
+              <td class='center'>
+                <% type_id = "project_planning_element_type_ids_#{type.id}" %>
+                <%= label_tag type_id, l('timelines.enable_type_in_project', type: type.name), class: 'hidden-for-sighted' %>
+                <%= check_box_tag "project[type_ids][]",
+                                  type.id,
+                                  projects_types_id.include?(type.id),
+                                  id: type_id,
+                                  :'data-standard' => type.is_standard %>
+                <%= hidden_field_tag 'project[type_ids][]', '', :'data-for' => type_id %>
+              </td>
+              <td>
+                <%= icon_for_type(type) %>
+                <%=h type.name %>
+              </td>
+              <td class='center'>
+                <%= checked_image(type.in_aggregation) %>
+              </td>
+              <td class='center'>
+                <%= checked_image(type.is_in_roadmap) %>
+              </td>
+              <td class='center'>
+                <%= checked_image(type.is_milestone) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      
+    </div>
+  </div>
+  <% if withControlls == true %>
+    <div class="generic-table--action-buttons">
+      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+    </div>
+  <% end %>
+</fieldset>

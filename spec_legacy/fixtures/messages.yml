@@ -1,0 +1,106 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+messages_001:
+  created_on: 2007-05-12 17:15:32 +02:00
+  updated_on: 2007-05-12 17:15:32 +02:00
+  subject: First post
+  id: 1
+  replies_count: 2
+  last_reply_id: 3
+  content: "This is the very first post\n\nin the forum"
+  author_id: 1
+  parent_id:
+  board_id: 1
+messages_002:
+  created_on: 2007-05-12 17:18:00 +02:00
+  updated_on: 2007-05-12 17:18:00 +02:00
+  subject: First reply
+  id: 2
+  replies_count: 0
+  last_reply_id:
+  content: "Reply to the first post"
+  author_id: 1
+  parent_id: 1
+  board_id: 1
+messages_003:
+  created_on: 2007-05-12 17:18:02 +02:00
+  updated_on: 2007-05-12 17:18:02 +02:00
+  subject: "RE: First post"
+  id: 3
+  replies_count: 0
+  last_reply_id:
+  content: "An other reply"
+  author_id: 2
+  parent_id: 1
+  board_id: 1
+messages_004:
+  created_on: 2007-08-12 17:15:32 +02:00
+  updated_on: 2007-08-12 17:15:32 +02:00
+  subject: Post 2
+  id: 4
+  replies_count: 2
+  last_reply_id: 6
+  content: "This is an other post"
+  author_id: 1
+  parent_id:
+  board_id: 1
+messages_005:
+  created_on: <%= 3.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 3.days.ago.to_date.to_s(:db) %>
+  subject: 'RE: post 2'
+  id: 5
+  replies_count: 0
+  last_reply_id:
+  content: "Reply to the second post"
+  author_id: 1
+  parent_id: 4
+  board_id: 1
+messages_006:
+  created_on: <%= 2.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 2.days.ago.to_date.to_s(:db) %>
+  subject: 'RE: post 2'
+  id: 6
+  replies_count: 0
+  last_reply_id:
+  content: "Another reply to the second post"
+  author_id: 3
+  parent_id: 4
+  board_id: 1
+messages_007:
+  created_on: <%= 2.days.ago.to_date.to_s(:db) %>
+  updated_on: <%= 2.days.ago.to_date.to_s(:db) %>
+  subject: 'Message on a private project'
+  id: 7
+  replies_count: 0
+  last_reply_id:
+  content: "This is a private message"
+  author_id: 1
+  parent_id:
+  board_id: 3

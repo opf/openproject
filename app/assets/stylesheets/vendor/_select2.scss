@@ -1,0 +1,342 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+.project-search-results {
+  box-sizing:         content-box; /* Opera/IE 8+ */
+
+  /* Fixing select2's positioning errors for results*/
+  margin-left: -1px;
+
+  /* Disabling rounded corners and drop shadow on result list */
+  border-radius        : 0;
+  box-shadow        : none;
+
+  .select2-results {
+    max-height: 55vh !important;
+  }
+}
+
+/* Hide upper half of select2-select widget */
+#project-search-container .select2-choice {
+  display: none;
+}
+
+
+/* Make no results a bit look like results */
+.select2-results .select2-no-results,
+.select2-results .select2-searching,
+.select2-results .select2-more-results
+{
+  background-color: #fff;
+  margin: 3px 6px 3px 6px;
+}
+.select2-results .select2-searching,
+.select2-results .select2-more-results
+{
+  background: image-url('select2/select2-spinner.gif') no-repeat scroll 100% center #fff;
+}
+
+
+/* Selected elements should be bold, have inverted colors and rounded corners */
+.select2-results .select2-highlighted {
+  border-radius: 5px;
+
+  @include varprop(background-color, drop-down-selected-bg-color);
+  font-weight:bold;
+}
+.select2-results .select2-result-unselectable {
+  color: #999;
+  background:transparent;
+}
+
+
+/* Shorten overlong project names */
+.select2-results .select2-result-label {
+  overflow: hidden;
+  white-space: nowrap;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+}
+
+.controller-work_packages.action-index .select2-drop:not(.project-search-results) .select2-results .select2-result-selectable {
+  color: #000;
+}
+
+.controller-work_packages.action-index .select2-drop:not(.project-search-results) .select2-results .select2-result-selectable.select2-highlighted {
+  color: #fff;
+  font-weight: bold;
+}
+
+.select2-drop {
+  z-index: 30001;
+}
+
+.select2-drop-mask {
+  z-index: 30000;
+}
+
+.select2-display-none {
+  display: none;
+}
+
+.ui-select-container {
+  // HACK. TODO: Remove ul overrides in various places.
+  // See: https://community.openproject.org/work_packages/18330
+
+  ul {
+    margin-left: 0;
+  }
+}
+
+//$se2- select2 var prefix
+$se2-theme-selectable-color: #f8f8f8;
+
+$se2-element-height: 33px;
+$se2-input-height: rem-calc(34px);
+$se2-line-height: $se2-element-height;
+$se2-button-width: 28px;
+$se2-arrow-button-height: 20px;
+$se2-arrow-button-width: 17px;
+$se2-results-max-height: 200px;
+
+$se-multiple-input-line-height: 19px;
+$se-multiple-tags-line-height: 12px;
+
+$se2-width: 100%;
+
+.select2-container {
+  //Indirectly styling size of result list
+  width: $se2-width;
+
+  .select2-choice {
+    border-radius: 0;
+    box-shadow: none;
+    background: none;
+    height: $se2-element-height;
+    line-height: $se2-line-height;
+
+    .select2-chosen {
+      line-height: $se2-line-height;
+    }
+
+    .select2-arrow {
+      @include varprop(background, se2-theme-selectable-color);
+      border-radius: 0;
+      line-height: $se2-line-height;
+      text-align: center;
+      width: $se2-button-width;
+
+      > b {
+        display: inline-block;
+        height: $se2-arrow-button-height;
+        width: $se2-arrow-button-width;
+      }
+    }
+  }
+
+  &.select2-container-multi {
+    .select2-choices {
+      min-height: 34px;
+      padding: 5px 0 0 6px;
+    }
+    .select2-search-field {
+      margin: 0 6px 6px 0;
+
+      input {
+        height: auto;
+        padding: 0;
+      }
+    }
+    .select2-search-choice {
+      font-size: 0.875rem;
+      line-height: 12px;
+      margin: 0 6px 5px 0;
+      padding: 4px 5px 4px 18px;
+    }
+  }
+
+  &.ui-select-multiple {
+
+    .ui-select-search {
+      line-height: $se-multiple-input-line-height;
+    }
+
+    .ui-select-match-item {
+      line-height: $se-multiple-tags-line-height;
+    }
+
+  }
+
+  &.select2-dropdown-open {
+
+    .select2-choice {
+      background-color: $se2-theme-selectable-color;
+    }
+  }
+}
+
+.select2-drop {
+  .select2-search {
+    &:before {
+      @extend .icon-search:before;
+      font-family: "openproject-icon-font";
+      color: #E0E0E0;
+      position: absolute;
+      top: 6px;
+      right: 16px;
+    }
+
+    .select2-input {
+      background-image: none !important;
+      padding-right: 32px;
+      height: $se2-input-height !important;
+    }
+  }
+
+  .select2-results {
+    max-height: $se2-results-max-height;
+    overflow: auto;
+    margin: 4px 9px 9px 0;
+    padding: 0 0 0 9px;
+
+    .select2-highlighted {
+      @include varprop(background-color, drop-down-selected-bg-color);
+      @include varprop(color, drop-down-selected-font-color);
+      &:hover {
+        @include varprop(background-color, drop-down-hover-bg-color);
+        @include varprop(color, drop-down-hover-font-color);
+      }
+    }
+  }
+}
+
+.select2-drop:not(.project-search-results) {
+  input[type="text"].select2-input {
+    height: $se2-input-height !important;
+  }
+
+  .select2-search {
+    margin: 10px 0 6px 0;
+    padding: 0 9px;
+
+    input {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.select2-modal-content {
+  .select2-container {
+    max-width: calc(100% - 45px);
+  }
+}
+
+// MOVE SEARCHFIELD INSIDE SELECTFIELD (overwrites)
+$se2-element-height: 34px;
+$se2-button-width: 32px;
+$se2-arrow-button-width: 32px;
+
+.select2-container.ui-select-container {
+  .select2-choice {
+    height: $se2-element-height;
+    line-height: $se2-element-height;
+
+    .select2-arrow {
+      width: $se2-button-width;
+
+      &:focus { outline: none; }
+      > b {
+        background-position: 7px 4px;
+        height: $se2-arrow-button-width;
+        width: $se2-arrow-button-width;
+      }
+    }
+  }
+  &.select2-dropdown-open {
+    .select2-choice {
+      border-bottom: 1px solid #ccc;
+
+      .select2-arrow {
+        border-left: 1px solid #aaa;
+
+        > b { background-position: -11px 4px; }
+      }
+    }
+  }
+}
+
+.select2:not(.select2-container-multi) {
+  .select2-drop:not(.project-search-results):not(.select2-display-none) {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    left: 0;
+    margin-top: -33px;
+    right: 32px;
+    width: auto;
+
+    input[type="text"].select2-input {
+      height: 33px !important;
+    }
+
+    .select2-search {
+      border-left: 1px solid #5897fb;
+      display: block;
+      margin: 0;
+      padding: 0;
+
+      &:before {
+        right: 12px;
+        top: 5px;
+      }
+
+      input {
+        border: none;
+        border-bottom: 1px solid #ccc;
+        border-right: 1px solid #aaa;
+      }
+
+      .select2-input { padding-right: 32px; }
+    }
+
+    .select2-results {
+      background: #fff;
+      border-top: none;
+      border: 1px solid #5897fb;
+      box-shadow: 0 4px 5px rgba(0,0,0,0.15);
+      margin: 0 -32px 0 0;
+      min-height: 38px;
+      padding: 9px;
+    }
+  }
+}
+
+.select2-search-choice-close {
+  top: 3px;
+}

@@ -1,0 +1,24 @@
+<div class="ng-modal-window">
+  <div class="ng-modal-inner">
+    <div class="modal-header">
+      <a>
+        <i
+            class="icon-close"
+            ng-click="$ctrl.closeMe()"
+            title="{{ ::I18n.t('js.close_popup_title') }}">
+        </i>
+      </a>
+    </div>
+
+    <h3>{{ ::I18n.t('js.label_export') }}</h3>
+
+    <ul class="export-options">
+      <li ng-repeat="option in $ctrl.exportOptions">
+        <a ng-href="{{ ::option.url }}" focus="$first" id="export-{{ ::option.identifier }}">
+          <op-icon icon-classes="icon-export-{{ ::option.identifier }} icon-big"></op-icon>
+          <span class="export-label">{{ ::option.label }}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+</div>

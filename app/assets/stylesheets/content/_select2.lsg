@@ -1,0 +1,82 @@
+# Select2
+
+## select2 (jQuery)
+
+```
+<div style="min-height: 100px">
+  <select id="select2-example">
+    <option>one</option>
+    <option>two</option>
+    <option>three</option>
+  </select>
+</div>
+```
+
+```
+@javascript
+
+jQuery(function($) {
+  $('#select2-example').select2();
+});
+```
+
+## ui-select (Angular)
+
+```
+<div ng-controller="UiSelectExample" style="min-height: 100px">
+  <ui-select ng-model="person.selected" theme="select2" ng-disabled="disabled" style="min-width: 300px;">
+    <ui-select-match placeholder="Select a person in the list or search their name">{{$select.selected.name}}</ui-select-match>
+    <ui-select-choices repeat="person in people | filter: $select.search">
+      <div ng-bind-html="person.name | highlight: $select.search"></div>
+      <small>
+        email: {{person.email}}
+      </small>
+    </ui-select-choices>
+  </ui-select>
+</div>
+```
+
+## ui-select (Angular): multiple
+
+```
+<div ng-controller="UiSelectExample" style="min-height: 100px">
+  <ui-select multiple ng-model="selectedPeople" theme="select2" ng-disabled="disabled" style="min-width: 300px;">
+    <ui-select-match placeholder="Select a person in the list or search their name">{{$item.name}}</ui-select-match>
+    <ui-select-choices repeat="person in people | filter: $select.search">
+      <div ng-bind-html="person.name | highlight: $select.search"></div>
+      <small>
+        email: {{person.email}}
+      </small>
+    </ui-select-choices>
+  </ui-select>
+</div>
+```
+
+```
+@javascript
+
+angular.module('openproject').controller('UiSelectExample', ['$scope', function($scope) {
+  $scope.disabled = undefined;
+
+  $scope.enable = function() {
+    $scope.disabled = false;
+  };
+
+  $scope.disable = function() {
+    $scope.disabled = true;
+  };
+
+  $scope.person = {};
+  $scope.people = [
+    { name: 'Adam',      email: 'adam@email.com'      },
+    { name: 'Amalie',    email: 'amalie@email.com'    },
+    { name: 'Wladimir',  email: 'wladimir@email.com'  },
+    { name: 'Samantha',  email: 'samantha@email.com'  },
+    { name: 'Estefanía', email: 'estefanía@email.com' },
+    { name: 'Natasha',   email: 'natasha@email.com'   },
+    { name: 'Nicole',    email: 'nicole@email.com'    },
+    { name: 'Adrian',    email: 'adrian@email.com'    }
+  ];
+  $scope.selectedPeople = [$scope.people[5], $scope.people[4]];
+}]);
+```

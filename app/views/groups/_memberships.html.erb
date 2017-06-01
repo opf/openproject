@@ -1,0 +1,128 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% roles = Role.find_all_givable %>
+<% projects = Project.active.order('lft') %>
+
+<div class="grid-block">
+  <div class="grid-content">
+    <% if @group.memberships.any? %>
+      <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table memberships">
+            <colgroup>
+              <col highlight-col>
+              <col highlight-col>
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= Project.model_name.human %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= l(:label_role_plural) %>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th><div class="generic-table--empty-header"></div></th>
+              </tr>
+            </thead>
+            <tbody>
+              <% @group.memberships.each do |membership| %>
+                <% next if membership.new_record? %>
+                  <tr id="member-<%= membership.id %>" class="class">
+                    <td class="project"><%=h membership.project %></td>
+                    <td class="roles">
+                      <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
+                      <%= form_tag(membership_of_group_path(@group, membership),
+                       method: :put,
+                       remote: true,
+                       id: "member-#{membership.id}-roles-form",
+                       style: 'display:none;') do %>
+                        <p><% roles.each do |role| %>
+                            <label><%= check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role) %> <%=h role %></label>
+                          <% end %></p>
+                        <p class="generic-table--cell-controls">
+                          <%= submit_tag l(:button_change), class: 'button -highlight -small' %>
+                          <%= link_to_function l(:button_cancel), "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
+                                                                  class: 'button -small' %>
+                        </p>
+                      <% end %>
+                    </td>
+                    <td class="buttons">
+                      <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
+                                           "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();" do %>
+                      <% end %>
+                      <%= link_to l(:button_remove), membership_of_group_path(@group, membership),
+                                           method: :delete,
+                                           remote: true,
+                                           class: 'icon icon-remove' %>
+                    </td>
+                  </tr>
+            </tbody>
+            <% end %>
+          </table>
+          
+        </div>
+      </div>
+    <% else %>
+      <%= no_results_box %>
+    <% end %>
+  </div>
+  <div class="grid-content">
+    <% if projects.any? %>
+      <%= styled_form_tag(memberships_of_group_path(@group),
+                                             method: :post,
+                                             remote: true) do %>
+         <fieldset class="form--fieldset">
+            <legend class="form--fieldset-legend"><%=l(:label_project_new)%></legend>
+            <%= label_tag "membership_project_id", l(:description_choose_project), class: "hidden-for-sighted" %>
+            <%= styled_select_tag 'membership[project_id]', options_for_membership_project_select(@group, projects) %>
+            <div class="form--field -vertical">
+              <%= styled_label_tag nil, "#{l(:label_role_plural)}:" %>
+              <div class="form--field-container -vertical">
+                <%= labeled_check_box_tags 'membership[role_ids][]', roles %>
+              </div>
+            </div>
+            <div><%= styled_button_tag l(:button_add), class: '-highlight -with-icon icon-checkmark' %></div>
+          </fieldset>
+        <% end %>
+      <% end %>
+    </div>
+</div>

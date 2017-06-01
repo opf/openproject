@@ -1,0 +1,96 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<div id="workflow_form_<%= name %>" class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table workflow-table transitions-<%= name %>">
+      <colgroup>
+        <col>
+        <col>
+        <col span="<%= @statuses.length%>" highlight-col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th></th>
+          <th><div class="generic-table--empty-header"></div></th>
+          <th colspan="<%= @statuses.length%>">
+            <div class="generic-table--sort-header-outer -border">
+              <div class="generic-table--sort-header workflow-table--header">
+                <span>
+                  <%=l(:label_new_statuses_allowed)%>
+                </span>
+                <span class="workflow-table--check-all">
+                  (<%= check_all_links 'workflow_form_' + name %>)
+                </span>
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="-no-border">
+            <span class="workflow-table--turned-header">
+              <%=l(:label_current_status)%>
+            </span>
+          </td>
+          <td class="-border-right"></td>
+          <% for new_status in @statuses %>
+            <td class="workflow-table--current-status">
+              <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_column)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.new-status-#{new_status.id}')",
+                               class: 'no-decoration-on-hover',
+                               title: "#{l(:label_check_uncheck_all_in_column)}",
+                               alt: "#{l(:label_check_uncheck_all_in_column)}") %>
+              <%=h new_status.name %>
+            </td>
+          <% end %>
+        </tr>
+        <% for old_status in @statuses %>
+          <tr>
+            <td class="-no-border -border-right"></td>
+            <td class="workflow-table--current-status -border-right">
+              <%= link_to_function(icon_wrapper('icon-context icon-checkmark',"#{l(:label_check_uncheck_all_in_row)}"), "toggleCheckboxesBySelector('table.transitions-#{name} input.old-status-#{old_status.id}')",
+                                         class: 'no-decoration-on-hover',
+                                         title: "#{l(:label_check_uncheck_all_in_row)}",
+                                         alt: "#{l(:label_check_uncheck_all_in_row)}") %>
+              <%=h old_status.name %>
+            </td>
+            <% for new_status in @statuses -%>
+              <td>
+                <%= check_box_tag "status[#{ old_status.id }][#{new_status.id}][]", name, workflows.detect {|w| w.old_status_id == old_status.id && w.new_status_id == new_status.id},
+                class: "old-status-#{old_status.id} new-status-#{new_status.id}" %>
+              </td>
+            <% end -%>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div class="generic-table--header-background -no-border"></div>
+  </div>
+</div>
+

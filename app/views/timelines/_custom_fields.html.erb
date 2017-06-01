@@ -1,0 +1,69 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%
+available_filter_types = ["bool", "list"]
+
+custom_fields.each do |custom_field|
+  if available_filter_types.include?(custom_field.field_format) && custom_field.is_filter
+%>
+  <div class="form--field">
+
+    <% id = "timeline_options_custom_fields_#{custom_field.id}" %>
+    <%= styled_label_tag id, custom_field.name %>
+
+    <% if custom_field.field_format == 'bool' %>
+      <%= styled_select_tag "timeline[options][custom_fields][#{custom_field.id}]",
+                            options_for_select(
+                              [
+                                ['', ''],
+                                [l('timelines.filter.noneElement'), '-1'],
+                                [l('general_text_Yes'), CustomValue::BoolStrategy::DB_VALUE_TRUE],
+                                [l('general_text_No'), CustomValue::BoolStrategy::DB_VALUE_FALSE]
+                              ],
+                              timeline.custom_fields_filter[custom_field.id.to_s]),
+                              class: "cf_boolean_select",
+                              container_class: '-wide'
+      %>
+    <% elsif custom_field.field_format == 'list' %>
+      <span class="form--select-container -wide">
+        <%= hidden_field_tag("timeline[options][custom_fields][#{custom_field.id.to_s}][]",
+              timeline.custom_field_list_value(custom_field.id.to_s),
+              {
+                :"data-values" => list_to_select_object_with_none(custom_field.possible_values).to_json,
+                class: "cf_list_select"
+              }
+            ) %>
+      </span>
+    <% end %>
+  </div>
+  <%
+  end
+end
+%>

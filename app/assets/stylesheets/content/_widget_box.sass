@@ -1,0 +1,151 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$widget-box--enumeration-width: 20px
+
+.widget-boxes--screen-header
+  margin-left: 10px
+
+.widget-boxes
+
+  &.-flex
+    display: flex
+    flex-flow: row wrap
+
+    .widget-box
+      flex: 1
+      flex-basis: 32%
+      display: flex
+      flex-direction: column
+
+    .widget-box--enumeration,
+    .widget-box--arrow-links,
+    .widget-box--feature-list
+      flex-grow: 2
+
+  .icon-context:before
+    padding-right: 5px
+
+  &.grid-content
+    padding-left: 10px
+    padding-right: 10px
+
+    .widget-box
+      margin-left: 0
+      margin-right: 0
+
+  .widget-box
+    position: relative
+    @include widget-box--style
+    padding: 10px 20px 30px 20px
+    min-height: 250px
+    word-wrap: break-word
+    overflow: hidden
+
+    .widget-box--header
+      font-weight: bold
+      font-size: 1.25rem
+      border: none
+
+      .widget-box--header-title
+        vertical-align: middle
+      .icon:before,
+      .icon-context:before
+        display: inline-block
+        padding-top: 0
+        vertical-align: middle
+
+
+    .widget-box--additional-info
+      margin: 0
+      font-size: 0.9rem
+      font-style: italic
+
+    .widget-box--enumeration
+      margin-left: 1.5rem
+      margin-top: 0.5rem
+
+    .widget-box--arrow-links
+      list-style: none
+      margin: 0.5rem 0 1rem 0
+
+      &:last-child
+        margin-bottom: 0
+
+      li:before
+        @include icon-font-common
+        @extend .icon-context
+        @extend .icon-arrow-right2:before
+        display: inline-block
+        font-size: 0.6rem
+        color: $content-icon-link-color
+        width: $widget-box--enumeration-width
+
+      .-widget-box--arrow-multiline
+        &:before
+          float: left
+
+        &:after
+          clear: both
+          content: ""
+          display: table
+
+        > div
+          float: left
+          margin-bottom: 10px
+          //necessary for correct alignment even with long texts
+          width: calc(100% - #{$widget-box--enumeration-width})
+
+    .widget-box--feature-list
+      list-style: none
+      margin: 0.5rem 0 1rem 0
+
+      &:last-child
+        margin-bottom: 0
+
+      li:before
+        @include icon-common
+        @extend .icon-notice
+        @extend .icon-notice:before
+        display: inline-block
+        font-size: 0.6rem
+        color: $alternative-color
+        @include varprop(color, alternative-color)
+        width: $widget-box--enumeration-width
+
+
+    .widget-box--teaser-image
+      height: 100px
+      margin-left: auto
+      margin-right: auto
+
+@include breakpoint(680px down)
+  .widget-boxes
+    &.-flex
+      .widget-box
+        flex-basis: 100%

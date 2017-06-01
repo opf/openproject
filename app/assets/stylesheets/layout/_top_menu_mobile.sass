@@ -1,0 +1,113 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+@include breakpoint(680px down)
+  #logo
+    background-color: transparent
+
+  #top-menu
+    position: relative !important
+    height: $header-height-mobile
+
+    #nav-login-content
+      float: none
+      padding: 15px 20px
+      width: 100%
+
+      .grid-block
+        display: block
+
+        .form--field
+          padding-right: 0
+
+      .login-auth-providers
+        width: 100% !important
+        white-space: normal
+
+      h3.login-auth-providers-title:before
+        border: none !important
+
+      .button
+        margin-right: 0
+    ul,
+    li > a
+      height: $header-height-mobile
+      line-height: $header-height-mobile
+    li > a:before
+      font-size: 1.25rem !important
+      vertical-align: text-bottom
+
+  #account-nav-right
+    > li
+      display: none
+
+      &.drop-down,
+      &:last-child
+        display: block
+
+      &.last-child
+        > a
+          display: block
+          text-align: center
+
+          &:not(.login):before
+            @include icon-mixin-user
+            padding: 0.25rem
+            @include icon-font-common
+
+          img, i
+            display: none
+
+      > ul
+        top: $header-height-mobile
+        width: 100vw
+        box-shadow: 1px 1px 4px #cccccc
+        border: solid 1px rgba(0, 0, 0, 0.2)
+
+        li
+          max-width: none
+
+    #more-menu.drop-down--modules
+      // 58 = Width of one menu item
+      right: -58px
+
+  #account-nav-left
+    #projects-menu
+      font-size: 15px
+    .drop-down
+      max-width: 180px
+      ul
+        width: 100vw
+        border: none
+        top: $header-height-mobile
+
+  #select2-drop.project-search-results
+    width: 100vw !important
+    left: 0 !important
+    .select2-search:before
+      right: 44px

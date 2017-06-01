@@ -1,0 +1,50 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= styled_form_tag({action: 'edit', tab: 'work_packages'}) do %>
+  <section class="form--section">
+    <div class="form--field"><%= setting_check_box :cross_project_work_package_relations %></div>
+    <div class="form--field"><%= setting_check_box :work_package_group_assignment %></div>
+    <div class="form--field"><%= setting_check_box :display_subprojects_work_packages %></div>
+    <div class="form--field"><%= setting_check_box :work_package_startdate_is_adddate %></div>
+    <div class="form--field"><%= setting_select :work_package_done_ratio, WorkPackage::DONE_RATIO_OPTIONS.collect {|i| [l("setting_work_package_done_ratio_#{i}"), i]} %></div>
+    <div class="form--field"><%= setting_text_field :work_packages_export_limit, size: 6 %></div>
+  </section>
+  <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:setting_column_options) %></legend>
+    <%
+       column_choices = Query.new.available_columns.map { |column|
+         choice = { caption: column.caption, value: column.name.to_s }
+         choice[:except] = :work_package_list_summable_columns unless column.summable?
+         choice
+       }
+    %>
+    <%= settings_matrix([:work_package_list_default_columns, :work_package_list_summable_columns],
+                        column_choices, label_choices: :setting_work_package_properties) %>
+  </fieldset>
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

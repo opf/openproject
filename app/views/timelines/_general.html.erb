@@ -1,0 +1,116 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="filter_general" class="form--fieldset -collapsible">
+  <legend class="form--fieldset-legend" title="<%=l(:description_filter_toggle)%>" onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.timeline') %></a>
+  </legend>
+
+  <div>
+    <div class="form--field">
+      <%= f.text_field :name, required: true %>
+    </div>
+    <%= f.fields_for :options, timeline_options do |ff| %>
+      <%= ff.hidden_field :exist %>
+      <div class="form--field">
+        <%= styled_label_tag :timeline_options_hide_chart,
+                       l('timelines.filter.hide_chart') %>
+
+        <span class="form--field-container">
+          <%# need to use check_box_tag as form.check_box would create
+              a hidden field to send the value when the check box is not set.
+              The backend is written so that it expects no value when the checkbox is disabled %>
+          <%= styled_check_box_tag ff.object_name + "[hide_chart]",
+                                   :yes,
+                                   ff.object.hide_chart.present? %>
+        </span>
+      </div>
+
+      <div class="form--field">
+        <%= ff.select(:zoom_factor,
+                   filter_select_i18n_array_with_index_and_none(
+                     timeline.available_zoom_factors,
+                     'timelines.zoom.'), label: l("timelines.filter.zoom")) %>
+      </div>
+
+      <div class="form--field">
+        <%= ff.select(:initial_outline_expansion,
+                   filter_select_i18n_array_with_index_and_none(
+                     timeline.available_initial_outline_expansions,
+                     'timelines.outlines.'),
+                   label: l("timelines.filter.outline")) %>
+
+      </div>
+      <div class="form--grouping" role="group" aria-labelledby="timeline--form--timeframe">
+        <div id="timeline--form--timeframe"
+             class="form--grouping-label"
+             title="<%= l('timelines.filter.timeframe') %>">
+          <%= l('timelines.filter.timeframe') %>
+        </div>
+        <div class="form--grouping-row">
+          <div class="form--field">
+            <%= ff.text_field :timeframe_start, label: l('timelines.filter.timeframe_start') %>
+            <%= calendar_for('timeline_options_timeframe_start') %>
+          </div>
+          <div class="form--field">
+            <%= ff.text_field :timeframe_end, label: l('timelines.filter.timeframe_end') %>
+            <%= calendar_for('timeline_options_timeframe_end') %>
+          </div>
+        </div>
+      </div>
+      <div class="form--field">
+        <%= ff.label :columns,
+                     l("timelines.filter.columns"),
+                     for: "timeline_options_columns_",
+                     class: "form--label" %>
+        <div class="form--field-container">
+          <div class="form--select-container -wide">
+            <% if User.current.impaired? %>
+              <%= ff.select :columns, internationalized_columns_select(timeline.available_columns),
+                            { selected: timeline.selected_columns,
+                              no_label: true },
+                            { multiple: true,
+                              size: 12,
+                              id: "timeline_options_columns_" } %>
+            <% else %>
+              <%= ff.hidden_field :columns,
+                                  name: "timeline[options][columns][]",
+                                  id: "timeline_options_columns_",
+                                  value: timeline.selected_columns.join(","),
+                                  :"data-values" => internationalized_columns_select_object(timeline.available_columns).concat(timeline.custom_field_columns).sort_by { |column| column[:name] }.to_json %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="form--field">
+        <%= ff.select  :project_sort, [[l('timelines.filter.sort.date'), 0], [l('timelines.filter.sort.alphabet'), '1']], label: l('timelines.filter.sort.project_sortation') %>
+      </div>
+    <% end %>
+  </div>
+</fieldset>

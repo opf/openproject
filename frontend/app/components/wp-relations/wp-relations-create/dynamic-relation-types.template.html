@@ -1,0 +1,58 @@
+<div class="wp-relations-create">
+    <div class="wp-relations-create-button"
+         ng-if="!$ctrl.showRelationsCreateForm">
+        <div class="grid-block">
+            <div class="grid-content collapse wp-inline-create-button">
+                <a class="wp-inline-create--add-link relation-create -focus-after-save"
+                   ng-click="$ctrl.toggleRelationsCreateForm()"
+                   href
+                   id="relation--add-relation">
+                    <op-icon icon-classes="icon icon-add"></op-icon>
+                    <span>{{ ::$ctrl.text.addNewRelation }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="loading-indicator--location"
+         data-indicator-name="relationAddDynamic">
+        <div class="grid-block v-align wp-relations-create--form" ng-if="$ctrl.showRelationsCreateForm">
+            <div class="grid-content collapse medium-3">
+                <label class="hidden-for-sighted" for="relation-type--select">{{ ::$ctrl.text.relationType }}</label>
+                <select class="form--select relationTypeSelect"
+                        id="relation-type--select"
+                        role="listbox"
+                        ng-model="$ctrl.selectedRelationType"
+                        ng-options="type.name as type.label for type in $ctrl.relationTypes"
+                        focus>
+                </select>
+            </div>
+            <div class="grid-content medium-7">
+                <wp-relations-autocomplete
+                        work-package="$ctrl.workPackage"
+                        loading-promise-name="relationAddDynamic"
+                        selected-wp-id="$ctrl.selectedWpId"
+                        selected-relation-type="$ctrl.selectedRelationType">
+                </wp-relations-autocomplete>
+            </div>
+            <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+                <accessible-by-keyboard
+                        execute="$ctrl.createRelation()"
+                        is-disabled="$ctrl.isDisabled || !$ctrl.selectedWpId"
+                        link-class="wp-create-relation--save"
+                        aria-hidden="false">
+                    <op-icon icon-classes="icon-checkmark" icon-title="{{ ::$ctrl.text.save }}"></op-icon>
+                </accessible-by-keyboard>
+                <accessible-by-keyboard
+                        execute="$ctrl.toggleRelationsCreateForm()"
+                        link-class="wp-create-relation--cancel"
+                        aria-hidden="false">
+                    <op-icon icon-classes="icon-remove" icon-title="{{ ::$ctrl.text.abort }}"></op-icon>
+                </accessible-by-keyboard>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

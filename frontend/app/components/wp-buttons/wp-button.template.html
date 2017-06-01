@@ -1,0 +1,9 @@
+<button id="{{ ::vm.buttonId }}"
+        class="button {{ ::vm.buttonClass }}"
+        title="{{ vm.label }}"
+        ng-click="vm.performAction()"
+        ng-attr-accesskey="{{ ::vm.accessKey }}"
+        ng-disabled="vm.disabled || (!vm.isToggle() && vm.isActive())"
+        ng-class="{ '-active': vm.isActive() }">
+  <op-icon icon-classes="{{ ::vm.iconClass }} button--icon"></op-icon>
+</button>

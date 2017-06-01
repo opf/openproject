@@ -1,0 +1,63 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% news = News.limit(10)
+              .order("#{News.table_name}.created_on DESC")
+              .where("#{News.table_name}.project_id in (#{@user.projects.collect{|m| m.id}.join(',')})")
+              .includes(:project, :author) unless @user.projects.empty? %>
+
+<% if defined? block_name %>
+  <%= content_for "#{block_name}-remove-block" %>
+<% end %>
+
+<h3 class="widget-box--header">
+  <%= op_icon('icon-context icon-news') %>
+  <span class="widget-box--header-title"><%= l(:label_news_latest) %></span>
+</h3>
+
+<% news = News.latest(count: 3) %>
+
+<% if news.empty? %>
+  <%= no_results_box(custom_title: t('news.my_page.no_results_title_text')) %>
+<% end %>
+
+<% unless news.empty? %>
+  <ul class="widget-box--arrow-links">
+  <% news.each do |news| %>
+    <li class="-widget-box--arrow-multiline">
+      <div>
+        <%= avatar(news.author, {class: 'avatar-mini'}) %>
+        <%= link_to_project(news.project) + ': ' %>
+        <%= link_to h(news.title), news_path(news) %>
+        <br/>
+        <p class="widget-box--additional-info"><%= authoring news.created_on, news.author %></p>
+      </div>
+    </li>
+  <% end %>
+  </ul>
+<% end %>

@@ -1,0 +1,35 @@
+<div class="request-for-confirmation--modal">
+  <div>
+    <div class="modal--header">
+      <span class="icon-context icon-locked"></span>
+      <h2 ng-bind="::text.title_confirmation"></h2>
+    </div>
+
+    <div class="modal--main">
+      <form class="request-for-confirmation--form form -vertical" ng-submit="closeThisDialog()">
+        <div class="form--field -required">
+          <label class="form--label"
+                 for="request_for_confirmation_password"
+                 ng-attr-aria-label="::text.field_description"
+                 ng-bind="::text.password">
+          </label>
+          <div class="form--field-container">
+            <div class="form--text-field-container">
+              <input type="password" ng-model="dialog.password_value" id="request_for_confirmation_password" class="form--text-field">
+            </div>
+          </div>
+          <div class="form--field-instructions" ng-bind="::text.field_description"></div>
+        </div>
+      </form>
+    </div>
+
+    <div class="modal--footer">
+      <button class="request-for-confirmation--submit-button button -highlight"
+              ng-click="closeThisDialog()"
+              ng-bind="::text.confirm_button"
+              ng-attr-title="::text.confirm_button"
+              ng-disabled="dialog.password_value == null || dialog.password_value.length === 0">
+      </button>
+    </div>
+  </div>
+</div>

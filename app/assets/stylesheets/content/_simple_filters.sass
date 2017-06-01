@@ -1,0 +1,162 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$filters--background-color: $gray-light !default
+$filters--border-color: $gray !default
+
+%filters--container
+  background-color: $filters--background-color
+  border: 1px solid $filters--border-color
+
+  legend
+    @extend .hidden-for-sighted
+
+.simple-filters--container
+  @extend %filters--container
+  padding: 1rem 1rem 1rem 1rem
+  margin: 0.6em 0
+  position: relative
+
+  .simple-filter--trailing-labels
+    list-style-type: none
+    display: flex
+    margin-left: 0
+
+    .simple-filters--filter
+      flex-basis: 33.33%
+      max-width: 33.33%
+      padding: 0 1rem 0 0
+
+    &.-label-columns-3
+      .simple-filters--filter
+        flex-basis: 25%
+        max-width: 25%
+
+  &.collapsed
+    display: none
+
+  .simple-filters--close
+    position: absolute
+    top: 0.75rem
+    right: 0.75rem
+    width: 1rem
+    z-index: 2
+
+.simple-filters--filters
+  @extend .advanced-filters--filters
+  @include grid-block
+  @include grid-layout(1)
+  justify-content: flex-start
+
+  @include breakpoint(large)
+    @include grid-layout(3)
+
+  // Cancel out foundations padding which breaks in IE. IE seems to calculate
+  // the padding on top of the flex-basis size. That means when the flex-basis
+  // is 50% and two elements should be within a row and padding is anything but
+  // 0. The elements will in sum take up more than 100% and thus the second
+  // element will move to the next row.
+  .simple-filters--filter
+    padding: 0 1rem 0 0
+    display: flex
+    align-items: center
+    @include breakpoint(large)
+    max-width: 33.33%
+
+    @media only screen and (max-width: 1200px)
+      margin-bottom: 1rem
+      max-width: 100%
+
+    .simple-filters--filter-name
+      flex-basis: 25%
+      max-width: 25%
+      padding-right: 0
+      margin-right: 1rem
+      overflow: hidden
+      text-overflow: ellipsis
+    .simple-filters--filter-value
+      flex-basis: 70%
+      max-width: 70%
+      // important for consistent padding between input and select fields
+      padding-right: 0.375rem
+
+    .form--radio-button-container
+      margin-right: 20px
+
+  .simple-filters--controls
+    padding: 0 0 0 1rem
+    align-self: center
+    @include breakpoint(large)
+      flex: 1
+    max-width: 33.33%
+
+    @media only screen and (max-width: 1200px)
+      padding: 0
+
+    button,
+    .button
+      margin-bottom: 0rem
+
+.simple-filters--filters.-columns-3
+  @include breakpoint(large)
+    @include grid-layout(4)
+
+  .simple-filters--filter,
+  .simple-filters--controls
+    @include breakpoint(large)
+    max-width: 25%
+    margin-top: 1rem
+
+    @media only screen and (max-width: 1200px)
+      max-width: 100%
+      margin-top: 0rem
+
+    button,
+    .button
+      margin-bottom: 0rem
+
+.simple-filters--filters.-columns-4
+  @include breakpoint(large)
+    @include grid-layout(5)
+
+  .simple-filters--filter,
+  .simple-filters--controls
+    @include breakpoint(large)
+    max-width: 20%
+    margin-top: 1rem
+
+    @media only screen and (max-width: 1200px)
+      max-width: 100%
+      margin-top: 0rem
+
+    button,
+    .button
+      margin-bottom: 0rem
+
+.simple-filters--filters + .simple-filter--trailing-labels
+  margin-top: 1rem

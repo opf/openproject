@@ -1,0 +1,129 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title(l(:label_administration), l(:label_project_plural)) -%>
+<%= toolbar title: l(:label_project_plural) do %>
+  <li class="toolbar-item">
+    <%= link_to new_project_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_project_new)},
+            title: t(:label_project_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= Project.model_name.human %></span>
+    <% end %>
+  </li>
+<% end %>
+<%= form_tag({}, method: :get) do %>
+  <fieldset class="simple-filters--container">
+    <legend><%= l(:label_filter_plural) %></legend>
+    <ul class="simple-filters--filters">
+      <li class="simple-filters--filter">
+          <label class='simple-filters--filter-name' for='status'><%= Project.human_attribute_name(:status) %></label>
+          <%= select_tag 'status', project_status_options_for_select(@status), onchange: "this.form.submit(); return false;", class: 'simple-filters--filter-value'  %>
+      </li>
+      <li class="simple-filters--filter">
+          <label class='simple-filters--filter-name' for='name'><%= Project.model_name.human %></label>
+          <%= text_field_tag 'name', params[:name], class: 'simple-filters--filter-value' %>
+      </li>
+      <li class="simple-filters--controls">
+        <%= submit_tag l(:button_apply), class: 'button -highlight', name: nil %>
+      </li>
+    </ul>
+
+  </fieldset>
+<% end %>
+<p class="information-section">
+  <%= op_icon('icon-info1') %>
+  <%= l(:label_projects_storage_information,
+        count: Project.count,
+        storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
+</p>
+
+<% if @projects.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <%= sort_header_tag('name', caption: Project.model_name.human) %>
+            <%= sort_header_tag('is_public', caption:Project.human_attribute_name(:is_public)) %>
+            <%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage)) %>
+            <%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on)) %>
+            <%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at)) %>
+            <th><div class="generic-table--empty-header"></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% project_tree_when_sorted(@projects) do |project, level| %>
+            <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+              <td class="name project--hierarchy"><span class="<%= level > 0 ? 'icon-context icon-arrow-right5 icon-small' : nil %>"><%= link_to project, settings_project_path(project), title: project.short_description %></span></td>
+              <td><%= checked_image project.is_public? %></td>
+              <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
+              <td><%= format_date(project.created_on) %></td>
+              <td><%= format_date(project.latest_activity_at) %></td>
+              <td class="buttons">
+                <%= link_to('',
+                    archive_project_path(project, status: params[:status]),
+                    data: { confirm: t('project.archive.are_you_sure', name: project.name) },
+                    method: :put,
+                    title: l(:button_archive),
+                    class: 'icon icon-locked') if project.active? %>
+                <%= link_to('',
+                    unarchive_project_path(project, status: params[:status]),
+                    method: :put,
+                    title: l(:button_unarchive),
+                    class: 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+                <%= link_to('',
+                    copy_from_project_path(project, :admin),
+                    title: l(:button_copy),
+                    class: 'icon icon-copy') %>
+                <%= link_to('',
+                    confirm_destroy_project_path(project),
+                    title: l(:button_delete),
+                    class: 'icon icon-delete') %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      
+      <%= pagination_links_full @projects %>
+    </div>
+  </div>
+<% else %>
+  <%= no_results_box(action_url: new_project_path, display_action: true) %>
+<% end %>

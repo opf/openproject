@@ -1,0 +1,68 @@
+(function($) {
+
+  <% content = render partial: 'repositories/settings' %>
+  $('#tab-content-repository').html('<%= escape_javascript content %>');
+
+  <% unless flash.empty? %>
+    <%# TODO: Double flash from regular flash %>
+    var div_content = $('#content');
+    div_content.parent().find('.flash').remove();
+    div_content.before('<%= render_flash_messages %>');
+  <% end %>
+
+  var toggleContent = function(content,selected) {
+    var vendor = $('#scm_vendor').val(),
+        targetName = '#' + vendor + '-' + selected,
+        oldTargets = content.find('.attributes-group').not(targetName);
+        newTarget  = jQuery(targetName);
+
+    // would work with fieldset#disabled, but that's bugged up unto IE11
+    // https://connect.microsoft.com/IE/feedbackdetail/view/962368/
+    //
+    // Ugly workaround: disable all inputs manually, but
+    // spare enabling inputs marked with `aria-disabled`
+    oldTargets
+      .find('input,select')
+      .prop('disabled', true);
+    oldTargets.hide();
+
+    newTarget
+      .find('input,select')
+      .not('[aria-disabled="true"]')
+      .prop('disabled', false);
+    newTarget.show();
+  };
+
+  $('#tab-content-repository')
+    .find('.attributes-group.-toggleable')
+    .each(function(_i, el) {
+
+    var fs = $(el),
+      name = fs.attr('data-switch'),
+      switches = fs.find('[name="' + name + '"]'),
+      headers = fs.find('.attributes-group--header-text'),
+      content = $(el);
+
+    // Focus on first header
+    headers.first().focus();
+
+    // Open content if there is only one possible selection
+    var checkedInput = jQuery('input[name=scm_type]:checked');
+    if(checkedInput.length > 0) {
+      toggleContent(content, checkedInput.val());
+    }
+
+    // Necessary for accessibilty purpose
+    jQuery('#scm_vendor').on('change', function(){
+      window.setTimeout(function(){
+        document.getElementsByName('scm_type')[0].focus();
+      }, 500)
+    });
+
+    // Toggle content
+    switches.on('change', function() {
+      toggleContent(content, this.value);
+    });
+  });
+
+}(jQuery));

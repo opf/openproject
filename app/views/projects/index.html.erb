@@ -1,0 +1,73 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {action: 'index', format: 'atom', key: User.current.rss_key}) %>
+<% end %>
+
+<% html_title(l(:label_project_plural)) -%>
+
+<%= toolbar title: l(:label_project_plural) do %>
+  <% if User.current.allowed_to?(:add_project, nil, global: true) %>
+    <li class="toolbar-item">
+      <%= link_to new_project_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_project_new)},
+            title: t(:label_project_new)} do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= Project.model_name.human %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <li class="toolbar-item">
+    <%= link_to l(:label_overall_activity), activities_path, class: 'button' %>
+  </li>
+<% end %>
+
+<% if Setting.welcome_on_projects_page? %>
+<div class="wiki">
+  <h1><%= Setting.welcome_title %></h1>
+  <%= format_text(Setting.welcome_text, headings: false) %>
+</div>
+<% end %>
+
+<% if @projects.any? %>
+  <% if User.current.logged? %>
+    <p style="float:right;">
+      <span class="icon icon-star"><%= l(:label_my_projects) %></span>
+    </p>
+  <% end %>
+
+  <%= render_project_hierarchy(@projects)%>
+<% else %>
+  <%= no_results_box  %>
+<% end %>
+
+<%= other_formats_links do |f| %>
+  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
+<% end %>

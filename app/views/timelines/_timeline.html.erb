@@ -1,0 +1,67 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%# Push timeline data to view as JSON via gon %>
+<% push_timeline_options timeline %>
+<%= include_gon %>
+
+<div ng-controller="TimelinesController" ng-init="init(<%= timeline.id %>)">
+  <timeline-container timeline-id="<%= timeline.id %>">
+    <timeline-toolbar timeline="timeline"></timeline-toolbar>
+    <timeline-table-container timeline="timeline"></timeline-table-container>
+  </timeline-container>
+</div>
+
+<% if gon.timeline_options.count == 1 %>
+  <% unless User.current.impaired? %>
+    <%# TODO: Require autocompleter inside select_boxes.js
+      For lack of a requiring policy (such as requirejs), just include the
+      autocompleter on its own.
+    %>
+    <%= javascript_include_tag "autocompleter.js" %>
+    <%= javascript_include_tag "timelines_select_boxes.js" %>
+  <% end %>
+  <% unless @timeline_header_included %>
+    <% content_for :header_tags do %>
+      <!-- additional resources for timelines -->
+      <%= stylesheet_link_tag 'timelines.css', media: "all" %>
+      <%=
+    case I18n.locale
+    when :de
+      javascript_include_tag 'date-de-DE.js'
+    else
+      javascript_include_tag 'date-en-US.js'
+    end
+  %>
+      <%= include_calendar_headers_tags %>
+      <%= javascript_include_tag 'timelines_modal.js' %>
+      <% @timeline_header_included = true %>
+    <% end %>
+  <% end %>
+<% end %>

@@ -1,0 +1,34 @@
+<div class="generic-table--sort-header-outer">
+  <span class="hierarchy-header--outer-span" ng-if="isHierarchyColumn">
+    <span
+       class="hierarchy-header--icon"
+       ng-click="toggleHierarchy($event)"
+       ng-if="!isHierarchyDisabled"
+       ng-attr-title="{{ text.toggleHierarchy }}"
+       tabindex="-1"
+       aria-hidden="true">
+      <op-icon icon-classes="icon {{ hierarchyIcon }}"></op-icon>
+    </span>
+    <a href="javascript://"
+       class="hierarchy-header--sort-title"
+       ng-if="sortable"
+       ng-class="[directionClass && 'sort', directionClass]"
+       lang-attribute
+       lang="{{locale}}"
+       id="{{ column.id }}">{{column.name}}</a>
+    <a ng-if="!sortable">{{column.name}}</a>
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"></op-icon>
+  </span>
+  <span class="generic-table--sort-header" ng-if="!isHierarchyColumn">
+    <a href="javascript://"
+       ng-if="sortable"
+       ng-class="[directionClass && 'sort', directionClass]"
+       lang-attribute
+       lang="{{locale}}"
+       id="{{ column.id }}">{{column.name}}</a>
+    <a ng-if="!sortable">{{column.name}}</a>
+      <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+               icon-title="{{ text.openMenu }}"></op-icon>
+  </span>
+</div>

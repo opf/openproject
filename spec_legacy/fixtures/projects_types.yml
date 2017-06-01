@@ -1,0 +1,76 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+projects_types_001:
+  project_id: 4
+  type_id: 3
+projects_types_002:
+  project_id: 1
+  type_id: 1
+projects_types_003:
+  project_id: 5
+  type_id: 1
+projects_types_004:
+  project_id: 1
+  type_id: 2
+projects_types_005:
+  project_id: 5
+  type_id: 2
+projects_types_006:
+  project_id: 5
+  type_id: 3
+projects_types_007:
+  project_id: 2
+  type_id: 1
+projects_types_008:
+  project_id: 2
+  type_id: 2
+projects_types_009:
+  project_id: 2
+  type_id: 3
+projects_types_010:
+  project_id: 3
+  type_id: 2
+projects_types_011:
+  project_id: 3
+  type_id: 3
+projects_types_012:
+  project_id: 4
+  type_id: 1
+projects_types_013:
+  project_id: 4
+  type_id: 2
+projects_types_014:
+  project_id: 1
+  type_id: 3
+projects_types_015:
+  project_id: 6
+  type_id: 999
+
+

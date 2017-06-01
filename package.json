@@ -1,0 +1,17 @@
+{
+  "name": "openproject",
+  "version": "0.1.0",
+  "scripts": {
+    "postinstall": "cd frontend && npm install",
+    "test": "cd frontend && npm test && cd ..",
+    "karma": "cd frontend && npm run karma && cd ..",
+    "webpack": "cd frontend && npm run webpack && cd ..",
+    "webpack-watch": "cd frontend && npm run webpack-watch",
+    "webpack-watch-with-test": "cd frontend && npm run webpack-watch-with-test"
+  },
+  "private": true,
+  "engines": {
+    "node": ">= 6.9.1",
+    "npm": ">= 4.0.0"
+  }
+}

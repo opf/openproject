@@ -1,0 +1,42 @@
+<div class="wp-edit-field inplace-edit"
+     ng-switch="vm.active"
+     ng-class="[
+      vm.errorenous && '-error' || '',
+      vm.isEditable && '-editable' || '',
+      vm.active && '-active' || '',
+      vm.fieldName,
+      vm.wrapperClasses === undefined ? '-small' : vm.wrapperClasses
+     ]">
+
+  <form ng-switch-when="true"
+        ng-click="vm.haltUserFormClick($event)"
+        ng-dblclick="vm.haltUserFormClick($event)"
+        name="vm.fieldForm"
+        ng-submit="vm.handleUserSubmit()"
+        ng-keydown="vm.handleUserKey($event)"
+        role="form"
+        tabindex="-1">
+
+    <label for="{{::vm.htmlId}}"
+           class="hidden-for-sighted">
+      {{::vm.fieldLabel}}
+
+      {{vm.errorMessageOnLabel}}
+    </label>
+
+    <ng-include src="vm.field.template"></ng-include>
+  </form>
+
+  <wp-display-attr ng-switch-when="false"
+                   attribute="::vm.fieldName"
+                   schema="vm.workPackage.schema"
+                   work-package="::vm.formCtrl.workPackage"
+                   placeholder="::vm.displayPlaceholder"
+                   label="vm.fieldLabel"
+                   class="inplace-edit--read-value __d__inplace-edit--read-value"
+                   ng-class="vm.displayClasses"
+                   ng-click="vm.activateIfEditable($event)"
+                   data-click-on-keypress="[13, 32]"
+                   focus="vm.shouldFocus()">
+  </wp-display-attr>
+</div>

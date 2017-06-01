@@ -1,0 +1,67 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<p>
+  <% if version.start_date %>
+    <%= Version.human_attribute_name(:start_date) %> <%= h(format_date(version.start_date)) %>
+  <% end %>
+  <% if version.start_date %>
+    <%= Version.human_attribute_name(:due_date) %> <%= h(format_date(version.due_date)) %>
+  <% end %>
+</p>
+
+<% if !version.completed? && version.due_date %>
+  <p><strong><%= due_date_distance_in_words(version.effective_date) %></strong></p>
+<% end %>
+
+<p><%=h version.description %></p>
+<ul>
+  <% version.custom_values.each do |custom_value| %>
+    <% if !custom_value.value.blank? %>
+      <li><%=h custom_value.custom_field.name %>: <%=h show_value(custom_value) %></li>
+    <% end %>
+  <% end %>
+</ul>
+
+<% if version.fixed_issues.count > 0 %>
+  <%= progress_bar([version.closed_percent, version.completed_percent], width: '40em', legend: ('%0.0f' % version.completed_percent)) %>
+  <p class="progress-info">
+    <%= link_to_if(version.closed_issues_count > 0,
+                   l(:label_x_closed_work_packages_abbr, count: version.closed_issues_count),
+                   project_work_packages_closed_version_path(version)) %>
+    (<%= '%0.0f' % (version.closed_issues_count.to_f / version.fixed_issues.count * 100) %>%)
+    &#160;
+    <%= link_to_if(version.open_issues_count > 0,
+                   l(:label_x_open_work_packages_abbr, count: version.open_issues_count),
+                   project_work_packages_open_version_path(version)) %>
+    (<%= '%0.0f' % (version.open_issues_count.to_f / version.fixed_issues.count * 100) %>%)
+  </p>
+<% else %>
+  <%= no_results_box %>
+<% end %>

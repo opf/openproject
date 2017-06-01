@@ -1,0 +1,54 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% if repository.new_record? %>
+  <% scm_types = repository.class.available_types %>
+
+  <div class="attributes-group -toggleable" data-switch="scm_type">
+   <% scm_types.each do |type|%>
+     <div class="form--field">
+      <%= styled_label_tag type, l("repositories.#{@repository.vendor}.#{type}_title") %>
+      <div class="form--field-container">
+        <%= styled_radio_button_tag 'scm_type', type, scm_types.length == 1 ? true : false, id: type, autofocus: true %>
+      </div>
+    </div>
+    <% end %>
+
+      <% scm_types.each do |type|%>
+          <%= render partial: "/repositories/settings/vendor_attribute_groups",
+                     locals: { existing: false, alone: scm_types.length == 1,
+                               vendor: @repository.vendor, type: type,
+                               form: form, repository: repository } %>
+      <% end %>
+  </div>
+<% else %>
+  <%= render partial: "/repositories/settings/vendor_attribute_groups",
+             locals: { existing: true, alone: true, vendor: @repository.vendor,
+                       type: repository.scm_type,
+                       form: form, repository: repository } %>
+<% end %>

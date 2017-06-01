@@ -1,0 +1,168 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title(l(:label_my_account), I18n.t('my_account.access_tokens.access_token')) -%>
+
+<% breadcrumb_paths(l(:label_my_account), I18n.t('my_account.access_tokens.access_token')) %>
+<%= toolbar title: I18n.t('my_account.access_tokens.access_token') %>
+
+<p><%= l(:text_access_token_hint) %></p>
+
+<% if has_tokens? %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container" style="max-height: 340px;">
+        <table id="access-token-table" class="generic-table" interactive-table>
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <%= l('attributes.name') %>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <%= User.human_attribute_name(:created_on) %>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <%= I18n.t('my_account.access_tokens.headers.expiration') %>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <%= I18n.t('my_account.access_tokens.headers.action') %>
+                </div>
+              </div>
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+          <% if Setting.feeds_enabled? %>
+            <% if @user.rss_token %>
+              <tr>
+                <td><%= l(:label_feeds_access_key_type) %></td>
+                <td>
+                  <span title="<%= format_time(@user.rss_token.created_on) %>">
+                    <%= format_time(@user.rss_token.created_on.to_s) %>
+                  </span>
+                </td>
+                <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
+                <td>
+                  <%= link_to l(:button_reset),
+                              { action: 'reset_rss_key' },
+                              method: :post,
+                              class: 'icon icon-delete' %>
+                  <a href=""
+                     click-notification="<%= l(:present_access_key_value,
+                                               key_name: l(:label_feeds_access_key),
+                                               value: @user.rss_token.value) %>"
+                     click-notification-type="notice"
+                     class="icon icon-key">
+                    <%= l(:button_show) %>
+                  </a>
+                </td>
+              </tr>
+            <% else %>
+              <tr>
+                <td><%= l(:label_feeds_access_key_type) %></td>
+                <td><%= l(:label_missing_feeds_access_key) %></td>
+                <td></td>
+                <td>
+                  <%= link_to l(:button_generate),
+                              { action: 'generate_rss_key' },
+                              method: :post,
+                              class: 'icon icon-key' %>
+                  </a>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+          <% if Setting.rest_api_enabled? %>
+            <% if @user.api_token %>
+              <tr>
+                <td><%= l(:label_api_access_key_type) %></td>
+                <td>
+                  <span title="<%= format_time(@user.api_token.created_on) %>">
+                    <%= format_time(@user.api_token.created_on.to_s) %>
+                  </span>
+                </td>
+                <td><%= I18n.t('my_account.access_tokens.indefinite_expiration') %></td>
+                <td>
+                  <%= link_to l(:button_reset),
+                              { action: 'reset_api_key' },
+                              method: :post,
+                              class: 'icon icon-delete' %>
+                  <a href=""
+                     click-notification="<%= l(:present_access_key_value,
+                                               key_name: l(:label_api_access_key),
+                                               value: @user.api_token.value) %>"
+                     click-notification-type="notice"
+                     class="icon icon-key">
+                    <%= l(:button_show) %>
+                  </a>
+                </td>
+              </tr>
+            <% else %>
+              <tr>
+                <td><%= l(:label_api_access_key_type) %></td>
+                <td><%= l(:label_missing_api_access_key) %></td>
+                <td></td>
+                <td>
+                  <%= link_to l(:button_generate),
+                              { action: 'generate_api_key' },
+                              method: :post,
+                              class: 'icon icon-key' %>
+                  </a>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+          <%= call_hook(:view_access_tokens_table, user: @user) %>
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+<% else %>
+  <%= no_results_box %>
+<% end %>

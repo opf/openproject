@@ -1,0 +1,71 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="grid-block">
+  <div class="grid-block medium-4" id="principal_results">
+    <fieldset class="form--fieldset principals medium-11">
+      <legend class="form--fieldset-legend"><%="#{l(:label_user_plural)}/#{l(:label_group_plural)}" %></legend>
+      <% if principals.empty? %>
+        <%= l('notice_no_principals_found') %>
+      <% else %>
+        <% if principals.size > 20 %>
+          <%= l('notice_to_many_principals_to_display') %>
+        <% else %>
+          <%= principals_check_box_tags 'member[user_ids][]', principals %>
+        <% end %>
+      <% end %>
+    </fieldset>
+    <div class="hidden-for-sighted" aria-live="polite">
+      <% if principals.empty? %>
+        <label aria-role="alert"><%= l('notice_no_principals_found') %></label>
+      <% else %>
+        <% if principals.size > 20 %>
+          <label><%= l('notice_to_many_principals_to_display') %></label>
+        <% elsif principals.size == 1 %>
+          <label><%= l('notice_principals_found_single') %></label>
+        <% else %>
+          <label><%= l('notice_principals_found_multiple', number: principals.size) %></label>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+  <div class="grid-block medium-4 roles">
+    <fieldset class="form--fieldset medium-11">
+      <legend class="form--fieldset-legend"><%= l(:label_role_plural) %></legend>
+      <%= labeled_check_box_tags 'member[role_ids][]', roles %>
+    </fieldset>
+  </div>
+</div>
+<%= styled_button_tag l(:button_add),
+             id: 'member-add-submit',
+             class: 'button -highlight -with-icon icon-checkmark',
+             style: roles.any? && (principals.any? && principals.size <= 20) ? "": "display:none" %>
+<%= link_to I18n.t('button_cancel'), '', class: 'button', onClick: 'hideAddMemberForm()', role: 'button' %>
+
+

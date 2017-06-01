@@ -1,0 +1,21 @@
+<% if @current_token.present? %>
+  <collapsible-section section-title="<%=h t('admin.enterprise.replace_token') %>">
+<% else %>
+  <collapsible-section initially-expanded="true"
+                       section-title="<%=h t('admin.enterprise.add_token') %>">
+<% end %>
+<%= labelled_tabular_form_for @token,
+             url: { action: :create },
+             html: { class: 'token-form form -vertical' },
+             method: :post do |f|%>
+
+  <div class="form--space">
+    <%= f.text_area :encoded_token, value: nil, cols: 60, rows: 15, placeholder: t('admin.enterprise.paste'), autocomplete: "off", autocorrect: "off", autocapitalize: "off", spellcheck: false %>
+  </div>
+
+  <div class="form--space">
+    <%= styled_button_tag t(:button_save), id: 'token-submit-button', class: '-highlight -with-icon icon-checkmark' %>
+    <%= link_to t(:button_cancel), { action: :show }, class: 'button' %>
+  </div>
+<% end %>
+</collapsible-section>

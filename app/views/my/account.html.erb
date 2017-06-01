@@ -1,0 +1,68 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title(l(:label_my_account), l(:label_profile)) -%>
+
+<% breadcrumb_paths(l(:label_my_account), l(:label_profile)) %>
+<%= toolbar title: l(:label_profile) %>
+<%= error_messages_for 'user' %>
+
+<%= password_confirmation_form_for @user,
+                                   as: :user,
+                                   url: { action: 'account' },
+                                   builder: ::TabularFormBuilder,
+                                   lang: current_language,
+                                   html: { id: 'my_account_form', class: '-wide-labels' } do |f| %>
+  <section class="form--section">
+    <div class="form--field">
+      <label class="form--label" for="username">
+        <%= User.human_attribute_name(:login) %>
+      </label>
+      <div class="form--field-container">
+        <%= @user.login %>
+      </div>
+    </div>
+    <div class="form--field"><%= f.text_field :firstname, required: true, container_class: '-middle' %></div>
+    <div class="form--field"><%= f.text_field :lastname, required: true, container_class: '-middle' %></div>
+    <div class="form--field"><%= f.text_field :mail, required: true, container_class: '-middle' %></div>
+
+    <%= fields_for :pref, @user.pref, builder: TabularFormBuilder, lang: current_language do |pref_fields| %>
+      <div class="form--field"><%= pref_fields.check_box :hide_mail %></div>
+    <% end %>
+
+    <%= call_hook(:view_my_account, user: @user, form: f) %>
+
+    <%= render partial:     'customizable/field',
+               collection:  @user.custom_field_values.select(&:editable?),
+               as:          :value,
+               locals:      { form: f, input_size: :middle } %>
+  </section>
+
+  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<% end %>

@@ -1,0 +1,39 @@
+<div class="wp-relations-hierarchy-section">
+    <div class="attributes-group--header">
+        <div class="attributes-group--header-container">
+            <h3 class="attributes-group--header-text">
+                {{ ::$ctrl.text.hierarchyHeadline }}
+            </h3>
+        </div>
+    </div>
+
+    <wp-relations-hierarchy-row
+            work-package="$ctrl.workPackage"
+            related-work-package="$ctrl.workPackage.parent"
+            relation-type="parent"></wp-relations-hierarchy-row>
+
+    <div class="relation-row self">
+        <div class="grid-block v-align hierarchy-item">
+            <div class="grid-content medium-7 collapse">
+                <span style="padding-left: 20px"
+                      class="wp-relations-hierarchy-subject">
+                    <span ng-bind="$ctrl.workPackage.subjectWithType">
+                    </span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <wp-relations-hierarchy-row
+            work-package="$ctrl.workPackage"
+            related-work-package="relatedWorkPackage"
+            indent-by="40"
+            relation-type="child"
+            ng-repeat="relatedWorkPackage in $ctrl.workPackage.children"></wp-relations-hierarchy-row>
+
+    <wp-relations-create
+            fixed-relation-type="children"
+            work-package="$ctrl.workPackage"
+            template="add-child"
+            ng-if="$ctrl.canModifyHierarchy && $ctrl.canHaveChildren"></wp-relations-create>
+</div>

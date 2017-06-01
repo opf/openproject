@@ -1,0 +1,71 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+.action-menu
+  ul
+    list-style-type: none
+    margin: 0
+    width: 200px
+    border: 1px solid #dddddd
+    box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.15)
+    padding: 3px 0
+    background: #ffffff
+
+  li
+    padding: 4px 13px 4px 10px
+    &:hover
+      background: #f0f0f0
+      cursor: pointer
+    &.has-no-icon
+      padding: 4px 10px 4px 35px
+    &.dropdown-divider
+      border-top: 1px solid #eeeeee
+      margin: 3px 0
+      padding: 0
+      font-size: 1px
+    &:hover ul
+      display: block
+      margin: -28px 0 0 190px
+
+    a
+      color: $context-menu-font-color
+      font-weight: normal
+      &:hover
+        text-decoration: none
+    ul
+      display: none
+      position: absolute
+
+hr
+  .legacy-actions-more > &
+    margin: 10px 0
+
+.icon-action-menu
+  @include icon-action-menu-rules
+.icon-sub-menu
+  @include icon-sub-menu-rules

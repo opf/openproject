@@ -1,0 +1,231 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+//***** Tooltips *****
+
+// tooltips used for arbitrary elements
+
+$tooltip--background-color: #e3f5ff
+$tooltip--border: none
+$tooltip--height: 22px
+$tooltip--font-color: $body-font-color
+$tooltip--arrow-size: 6px
+$advanced-tooltip--border: 1px solid #a7cbe1
+
+%tooltip--top-bottom
+  &:before, &:after
+    left: 50%
+    transform: translateX(-50%)
+
+  &:after
+    width: auto
+
+  &.-multiline
+    &:before, &:after
+      transform: translateY(50%)
+      margin-bottom: 0
+      filter: blur(10px)
+
+%tooltip--left-right
+  &:before, &:after
+    bottom: 50%
+  &:before
+    margin-bottom: $tooltip--arrow-size * -1 + 1
+  &:after
+    margin-bottom: $tooltip--height/-1.5
+
+  &.-multiline
+    &:before, &:after
+      transform: translateY(50%)
+      margin-bottom: 0
+
+@mixin tooltip--colorize($color: $tooltip--background-color, $textColor:$tooltip--font-color)
+  @each $position in top, right, bottom, left
+    &.tooltip--#{$position}
+      &:before
+        border-#{$position}-color: $color
+      &:after
+        background-color: $tooltip--background-color
+        color: $tooltip--font-color
+
+[data-tooltip]
+  position: relative
+  display: inline-block
+  box-sizing: content-box
+  // TODO: this "fixes" the spacing issue in text, we need to find a better way for that
+  padding-right: 5px
+  +tooltip--colorize
+
+  &:before, &:after
+    position: absolute
+    visibility: hidden
+    opacity: 0
+    z-index: 99999
+    box-sizing: content-box
+    transform: translate3d(0, 0, 0)
+
+  &:before
+    content: ''
+    border: $tooltip--arrow-size solid transparent
+
+  &:after
+    height: $tooltip--height
+    padding: $tooltip--height/2 $tooltip--height/2 0 $tooltip--height/2
+    font-size: 13px
+    line-height: $tooltip--height/2
+    white-space: nowrap
+    content: attr(data-tooltip)
+    border: $tooltip--border
+
+  &:hover, &:focus
+    background-color: transparent
+    &::before, &::after
+      opacity: 1
+      visibility: visible
+
+  &.-multiline
+    &:after
+      height: auto
+      width: 150px
+      padding: $tooltip--height/2
+      line-height: $tooltip--height - 3px
+      white-space: normal
+      text-align: left
+
+  &.tooltip--right
+    @extend %tooltip--left-right
+    &:before, &:after
+      left: 100%
+    &:before
+      margin-left: -2px
+    &:after
+      margin-left: 10px
+
+  &.tooltip--left
+    @extend %tooltip--left-right
+    &:before, &:after
+      right: 100%
+    &:before
+      margin-right: -2px
+    &:after
+      margin-right: 10px
+
+  &.tooltip--top
+    @extend %tooltip--top-bottom
+    &:before, &:after
+      bottom: 100%
+    &:before
+      margin-bottom: $tooltip--arrow-size * -1 + 1
+    &:after
+      margin-bottom: 7px
+    &:hover
+      &:before, &:after
+        transform: translate(-50%, 0px)
+
+  &.tooltip--bottom
+    @extend %tooltip--top-bottom
+    &:before, &:after
+      top: 100%
+    &:before
+      margin-top: $tooltip--arrow-size * -1 + 1
+    &:after
+      margin-top: 7px
+    &:hover
+      &:before, &:after
+        transform: translate(-50%, 0)
+
+// tooltips for table content (TODO: legacy?)
+table
+  .tooltip
+    position: relative
+    z-index: 24
+    &.hover, &:hover
+      z-index: 25
+      color: #000
+    span.tip
+      display: none
+      text-align: left
+
+  div.tooltip
+    &:hover span.tip, &.hover span.tip
+      display: block
+      position: absolute
+      top: 12px
+      left: 24px
+      width: 270px
+      border: 1px solid #555
+      background-color: #fff
+      padding: 4px
+      font-size: 0.8em
+      color: #505050
+
+// tooltips with html support
+.advanced-tooltip-content
+  visibility: hidden
+  opacity: 0
+  transition: visibility 0s linear 0.2s, opacity 0.2s linear
+  position: fixed
+  border: $advanced-tooltip--border
+  border-radius: 3px
+  background: $tooltip--background-color
+  padding: 15px
+  font-style: italic
+  font-size: small
+  line-height: 18px
+  width: 305px
+  display: inline-block
+  margin-left: 14px
+  z-index: 99
+  *
+    font-size: small
+  ul
+    margin:  1em
+    padding-left: 1.2em
+  &:after
+    content: ''
+    display: block
+    position: absolute
+    top: 9px
+    left: -14px
+    width: 0
+    height: 0
+    border-color: transparent #e3f5ff transparent transparent
+    border-style: solid
+    border-width: 7px
+  &:before
+    content: ''
+    display: block
+    position: absolute
+    top: 8px
+    left: -16px
+    width: 0
+    height: 0
+    border-color: transparent #a7cbe1 transparent transparent
+    border-style: solid
+    border-width: 8px
+

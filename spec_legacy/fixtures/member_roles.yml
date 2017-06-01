@@ -1,0 +1,77 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+member_roles_001:
+  id: 1
+  role_id: 1
+  member_id: 1
+member_roles_002:
+  id: 2
+  role_id: 2
+  member_id: 2
+member_roles_003:
+  id: 3
+  role_id: 2
+  member_id: 3
+member_roles_004:
+  id: 4
+  role_id: 2
+  member_id: 4
+member_roles_005:
+  id: 5
+  role_id: 1
+  member_id: 5
+member_roles_006:
+  id: 6
+  role_id: 1
+  member_id: 6
+member_roles_007:
+  id: 7
+  role_id: 2
+  member_id: 6
+member_roles_008:
+  id: 8
+  role_id: 1
+  member_id: 7
+  inherited_from: 6
+member_roles_009:
+  id: 9
+  role_id: 2
+  member_id: 7
+  inherited_from: 7
+member_roles_010:
+  id: 10
+  role_id: 2
+  member_id: 9
+  inherited_from:
+member_roles_011:
+  id: 11
+  role_id: 2
+  member_id: 10
+  inherited_from: 10

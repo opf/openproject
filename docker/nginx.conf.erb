@@ -1,0 +1,212 @@
+##############################################################
+#  Phusion Passenger Standalone uses a template file to
+#  generate an Nginx configuration file. The original template
+#  file can be found by running the following command:
+#
+#    ls $(passenger-config about resourcesdir)/templates/standalone/config.erb
+#
+#  You can create a copy of this template file and customize it
+#  to your liking. Just make sure you tell Phusion Passenger Standalone
+#  to use your template file by passing the --nginx-config-template
+#  parameter.
+#
+#  *** NOTE ***
+#  If you customize the template file, make sure you keep an eye
+#  on the original template file and merge any changes.
+#  New Phusion Passenger features may require changes to the template
+#  file.
+##############################################################
+
+
+master_process on;
+worker_processes 1;
+daemon on;
+error_log '<%= @options[:log_file] %>' <% if @options[:log_level] >= LVL_DEBUG %>info<% end %>;
+pid '<%= @options[:pid_file] %>';
+
+<% if Process.euid == 0 %>
+    <% if @options[:user] %>
+        <%# Run workers as the given user. The master process will always run as root and will be able to bind to any port. %>
+        user <%= @options[:user] %> <%= default_group_for(@options[:user]) %>;
+    <% else %>
+        <%# Prevent running Nginx workers as nobody. %>
+        user <%= current_user %> <%= default_group_for(current_user) %>;
+    <% end %>
+<% end %>
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    log_format debug '[$time_local] $msec  "$request" $status conn=$connection sent=$bytes_sent body_sent=$body_bytes_sent';
+    include '<%= PhusionPassenger.resources_dir %>/mime.types';
+
+    <% if @options[:ruby] %>
+        passenger_ruby <%= @options[:ruby] %>;
+    <% else %>
+        passenger_ruby <%= PlatformInfo.ruby_command %>;
+    <% end %>
+    <% if @options[:nodejs] %>
+        passenger_nodejs <%= @options[:nodejs] %>;
+    <% end %>
+    <% if @options[:python] %>
+        passenger_python <%= @options[:python] %>;
+    <% end %>
+
+    passenger_root '<%= PhusionPassenger.install_spec %>';
+    passenger_abort_on_startup_error on;
+    passenger_ctl cleanup_pidfiles <%= serialize_strset("#{@working_dir}/temp_dir_toucher.pid") %>;
+    passenger_ctl integration_mode standalone;
+    passenger_ctl standalone_engine nginx;
+    passenger_user_switching off;
+    <%= nginx_option :passenger_log_level, :log_level %>
+    <%= nginx_option :passenger_max_pool_size, :max_pool_size %>
+    <%= nginx_option :passenger_min_instances, :min_instances %>
+    <%= nginx_option :passenger_pool_idle_time, :pool_idle_time %>
+    <%= nginx_option :passenger_max_preloader_idle_time, :max_preloader_idle_time %>
+    <%= nginx_option :passenger_turbocaching, :turbocaching %>
+    <% if @options[:user] %>
+        passenger_user <%= @options[:user] %>;
+        passenger_default_user <%= @options[:user] %>;
+        passenger_analytics_log_user <%= @options[:user] %>;
+    <% else %>
+        passenger_user <%= current_user %>;
+        passenger_default_user <%= current_user %>;
+        passenger_analytics_log_user <%= current_user %>;
+    <% end %>
+    <% if @options[:instance_registry_dir] %>passenger_instance_registry_dir '<%= @options[:instance_registry_dir] %>';<% end %>
+    <% if @options[:data_buffer_dir] %>passenger_data_buffer_dir '<%= @options[:data_buffer_dir] %>';<% end %>
+    <% if @options[:rolling_restarts] %>passenger_rolling_restarts on;<% end %>
+    <% if @options[:resist_deployment_errors] %>passenger_resist_deployment_errors on;<% end %>
+    <% if !@options[:load_shell_envvars] %>passenger_load_shell_envvars off;<% end %>
+
+    <% if !@options[:friendly_error_pages].nil? -%>
+        passenger_friendly_error_pages <%= boolean_config_value(@options[:friendly_error_pages]) %>;
+    <% end %>
+
+    <% if @options[:union_station_gateway_address] %>
+        union_station_gateway_address <%= @options[:union_station_gateway_address] %>;
+    <% end %>
+    <% if @options[:union_station_gateway_port] %>
+        union_station_gateway_port <%= @options[:union_station_gateway_port] %>;
+    <% end %>
+    <% if @options[:union_station_gateway_cert] %>
+        union_station_gateway_cert -;
+    <% end %>
+
+    <% @options[:ctls].each do |ctl| %>
+        passenger_ctl '<%= ctl.split("=", 2)[0] %>' '<%= ctl.split("=", 2)[1] %>';
+    <% end %>
+
+    default_type application/octet-stream;
+    types_hash_max_size 2048;
+    server_names_hash_bucket_size 64;
+    client_max_body_size 20m;
+    access_log off;
+    keepalive_timeout 60;
+    underscores_in_headers on;
+    gzip on;
+    gzip_comp_level 3;
+    gzip_min_length 150;
+    gzip_proxied any;
+    gzip_types text/plain text/css text/json text/javascript
+        application/javascript application/x-javascript application/json
+        application/rss+xml application/vnd.ms-fontobject application/x-font-ttf
+        application/xml font/opentype image/svg+xml text/xml;
+
+    <% if @app_finder.multi_mode? %>
+        # Default server entry for mass deployment mode.
+        server {
+            <% if @options[:ssl] %>
+                <% if @options[:ssl_port] %>
+                    listen <%= nginx_listen_address %>;
+                    listen <%= nginx_listen_address_with_ssl_port %> ssl;
+                <% else %>
+                    listen <%= nginx_listen_address %> ssl;
+                <% end %>
+            <% else %>
+                listen <%= nginx_listen_address %>;
+            <% end %>
+            root '<%= PhusionPassenger.resources_dir %>/standalone_default_root';
+        }
+    <% end %>
+
+    <% for app in @apps %>
+    server {
+        <% if app[:ssl] %>
+            <% if app[:ssl_port] %>
+                listen <%= nginx_listen_address(app) %>;
+                listen <%= nginx_listen_address_with_ssl_port(app) %> ssl;
+            <% else %>
+                listen <%= nginx_listen_address(app) %> ssl;
+            <% end %>
+        <% else %>
+            listen <%= nginx_listen_address(app) %>;
+        <% end %>
+        server_name <%= app[:server_names].join(' ') %>;
+        <% if app[:static_files_dir] %>
+            root '<%= app[:static_files_dir] %>';
+        <% else %>
+            root '<%= app[:root] %>/public';
+        <% end %>
+        passenger_app_root '<%= app[:root] %>';
+        passenger_enabled on;
+        passenger_app_env <%= app[:environment] %>;
+        passenger_spawn_method <%= app[:spawn_method] %>;
+        <% if app[:app_type] %>passenger_app_type <%= app[:app_type] %>;<% end %>
+        <% if app[:startup_file] %>passenger_startup_file <%= app[:startup_file] %>;<% end %>
+        <% if app[:concurrency_model] && app[:concurrency_model] != DEFAULT_CONCURRENCY_MODEL %>passenger_concurrency_model <%= app[:concurrency_model] %>;<% end %>
+        <% if app[:thread_count] && app[:thread_count] != DEFAULT_APP_THREAD_COUNT %>passenger_thread_count <%= app[:thread_count] %>;<% end %>
+        <% if app[:min_instances] %>passenger_min_instances <%= app[:min_instances] %>;<% end %>
+        <% if app[:restart_dir] %>passenger_restart_dir '<%= app[:restart_dir] %>';<% end %>
+        <% if app[:sticky_sessions] %>passenger_sticky_sessions on;<% end %>
+        <% if app[:sticky_sessions_cookie_name] %>passenger_sticky_sessions_cookie_name '<%= app[:sticky_sessions_cookie_name] %>';<% end %>
+        <% if app[:vary_turbocache_by_cookie] %>passenger_vary_turbocache_by_cookie '<%= app[:vary_turbocache_by_cookie] %>';<% end %>
+        <% if app[:union_station_key] %>
+            union_station_support on;
+            union_station_key <%= app[:union_station_key] %>;
+        <% end %>
+        <% if app[:ssl] %>
+            ssl_certificate <%= app[:ssl_certificate] %>;
+            ssl_certificate_key <%= app[:ssl_certificate_key] %>;
+        <% end %>
+        <% if @options[:meteor_app_settings] %>
+          passenger_meteor_app_settings <%= @options[:meteor_app_settings] %>;
+        <% end %>
+
+        <% app[:envvars].each_pair do |name, value| %>
+            passenger_env_var '<%= name %>' '<%= value %>';
+        <% end %>
+
+        # Rails asset pipeline support.
+        location ~ "^/assets/.+-([0-9a-f]{32}|[0-9a-f]{64})\..+" {
+            error_page 490 = @static_asset;
+            error_page 491 = @dynamic_request;
+            recursive_error_pages on;
+
+            if (-f $request_filename) {
+                return 490;
+            }
+            if (!-f $request_filename) {
+                return 491;
+            }
+        }
+        location @static_asset {
+            gzip_static on;
+            expires max;
+            add_header Cache-Control public;
+            add_header Access-Control-Allow-Origin "*";
+            add_header ETag "";
+        }
+        location @dynamic_request {
+            passenger_enabled on;
+        }
+
+        <% (ENV['NGINX_ADDITIONAL_SERVER_RULES'] || "").split(";").each do |rule| %>
+          <%= rule.chomp(";") %>;
+        <% end %>
+    }
+    passenger_pre_start <%= listen_url(app) %>;
+    <% end %>
+}

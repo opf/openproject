@@ -1,0 +1,28 @@
+<div class="wp-create-button">
+  <button class="button -alt-highlight add-work-package"
+          ng-if="$ctrl.projectIdentifier"
+          has-dropdown-menu
+          target="TypesContextMenu"
+          ng-init="projectIdentifier = $ctrl.projectIdentifier; stateName = $ctrl.stateName"
+          locals="projectIdentifier, stateName"
+          ng-disabled="$ctrl.isDisabled()"
+          aria-label="{{ ::$ctrl.text.explanation }}">
+
+    <op-icon icon-classes="button--icon icon-add"></op-icon>
+    <span class="button--text"
+          ng-bind="::$ctrl.text.createWithDropdown"
+          aria-hidden="true"></span>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+  </button>
+  <button class="button -alt-highlight add-work-package"
+          ng-if="!$ctrl.projectIdentifier"
+          ng-click="$ctrl.createWorkPackage()"
+          ng-disabled="$ctrl.isDisabled()"
+          aria-label="{{ ::$ctrl.text.explanation }}">
+
+    <op-icon icon-classes="button--icon icon-add"></op-icon>
+    <span class="button--text"
+          ng-bind="::$ctrl.text.createButton"
+          aria-hidden="true"></span>
+  </button>
+</div>

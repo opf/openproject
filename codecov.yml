@@ -1,0 +1,9 @@
+coverage:
+  ignore:
+  - spec/factories/.*
+  - vendor/bundle/.*
+  status:
+    patch: false
+    project:
+      default: {}
+comment: off

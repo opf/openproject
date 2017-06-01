@@ -1,0 +1,20 @@
+<tr ng-if="!$ctrl.isHidden" class="wp-inline-create-button-row">
+  <td colspan="{{ $ctrl.colspan }}" class="-no-highlighting">
+    <div
+        class="wp-inline-create-button"
+        ng-show="$ctrl.isAllowed">
+      <a class="wp-inline-create--add-link"
+              href="javascript:"
+              role="link"
+              focus="$ctrl.focus"
+              focus-priority="true"
+              ng-click="$ctrl.addWorkPackageRow()"
+              ng-disabled="!$ctrl.isAllowed"
+              aria-label="{{ ::$ctrl.text.create }}"
+              data-click-on-keypress="[13, 32]"
+              aria-haspopup="true">
+        <op-icon icon-classes="icon icon-add"></op-icon>
+      </a>
+    </div>
+  </td>
+</tr>

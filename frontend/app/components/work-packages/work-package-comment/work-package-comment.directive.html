@@ -1,0 +1,39 @@
+<div id="work-package-activites-container">
+  <div id="work-package-comment-container">
+
+    <ng-transclude ng-if="!vm.showAbove"></ng-transclude>
+    <div class="work-package--details--long-field work-packages--activity--add-comment" ng-if="vm.canAddComment">
+      <div class="wp-edit-field inplace-edit" ng-switch="vm.active">
+        <form ng-switch-when="true"
+              name="wp-edit-form-coment"
+              ng-submit="vm.handleUserSubmit()"
+              role="form"
+              tabindex="-1">
+
+          <label for="{{::vm.htmlId}}"
+                 class="hidden-for-sighted">
+            {{::vm.text.addComment}}
+          </label>
+
+          <ng-include src="vm.field.template"></ng-include>
+        </form>
+        <div class="inplace-edit--read" ng-switch-when="false">
+          <accessible-by-keyboard
+            class="inplace-editing--trigger-container"
+            span-class="inplace-editing--container"
+            link-class="inplace-editing--trigger-link"
+            link-aria-label="{{ ::vm.text.editTitle }}"
+            execute="vm.activate()"
+            focus="vm.shouldFocus()">
+            <span class="inplace-edit--read-value -default">
+              <span ng-bind="::vm.text.placeholder"></span>
+            </span>
+            <span class="inplace-edit--icon-wrapper">
+              <op-icon icon-classes="icon-edit" icon-title="{{ ::vm.text.editTitle }}"></op-icon>
+            </span>
+          </accessible-by-keyboard>
+        </div>
+      </div>
+  </div>
+  <ng-transclude ng-if="vm.showAbove"></ng-transclude>
+</div>

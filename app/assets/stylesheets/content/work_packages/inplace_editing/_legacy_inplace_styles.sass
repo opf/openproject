@@ -1,0 +1,94 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+// *** NOTE ***
+// Following code handles trigger-links and inplace icons
+// It is used for example for the attachements list and comment form
+
+// need to specify the a explicitly as otherwise
+// the default class will win
+a.inplace-editing--trigger-link,
+.inplace-editing--trigger-link,
+  &:hover,
+  &:focus,
+  &.-focus
+    text-decoration: none
+    color: $body-font-color
+
+    .inplace-editing--container,
+    .wp-edit-field
+      border-color: $inplace-edit--border-color
+
+      &.-active
+        border-color: transparent
+
+    .inplace-edit--icon-wrapper
+      visibility: visible
+
+  .inplace-edit--read-value
+    display: inline-block
+    span
+      line-height: 2
+
+  .inplace-editing--container
+    position: relative
+
+.work-package--details--long-field
+  .inplace-edit--read .inplace-edit--read-value
+    // Use the whole space and leave room for the icon on the right
+    width: calc(100% - 42px)
+    padding: 3px
+    line-height: 2
+    span.deleting
+      opacity: 0.5
+
+    img.avatar-mini
+      float: inherit
+
+.inplace-edit--icon-wrapper
+  position: absolute
+  height: 100%
+  right: 0
+  text-align: center
+  width: 32px
+  background: $gray-light
+  border-left: 1px solid $inplace-edit--border-color
+  color: $body-font-color
+  visibility: hidden
+
+  i
+    position: relative
+    // Position the icon in the middle
+    top: calc(50% - 0.5rem)
+
+  .icon-context:before
+    // HACK: overriding default padding here
+    padding-right: 0
+
+  &:hover
+    text-decoration: none

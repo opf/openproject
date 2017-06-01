@@ -1,0 +1,12 @@
+<span title="{{vm.field.value.join(', ')}}">
+  <div ng-if="vm.field.value.length > 0" class="custom-option">
+    <span> {{ vm.field.valueAbridged }}</span>
+  </div>
+  <div ng-if="vm.field.value.length > 2" class="custom-option">
+    <span class="badge -secondary"> {{vm.field.value.length}} </span>
+  </div>
+
+  <div title="I18n.t('js.work_packages.no_value')" ng-if="vm.field.value.length == 0" class="custom-option -empty">
+    -
+  </div>
+</span>

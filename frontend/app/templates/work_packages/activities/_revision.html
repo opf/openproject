@@ -1,0 +1,23 @@
+<div class="work-package-details-activities-activity-contents"
+     tabindex="0"
+     aria-label="{{ activityLabel }}">
+  <div class="comments-number">
+    <activity-link work-package="workPackage"
+                   activity-no="activityNo"
+                   on-focus="focus()"
+                   on-blur="blur()"></activity-link>
+  </div>
+  <div ng-if="userAvatar">
+    <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" />
+  </div>
+  <span class="user" ng-if="userActive">
+    <a ng-href="{{ userPath }}"
+       aria-label="{{ userLabel }}"
+       ng-bind="userName"></a>
+  </span>
+  <span class="user" ng-if="!userActive">{{ userName }}</span>
+  <span class="revision-activity--revision-link date"></span>
+  <span class="user-comment wiki">
+    <span class="message" ng-bind-html="message"/>
+  </span>
+</div>

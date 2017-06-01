@@ -1,0 +1,67 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% selected_tab = params[:tab] ? params[:tab].to_s : tabs.first[:name] %>
+<div class="tabs">
+  <ul>
+    <% tabs.each do |tab| %>
+      <li><%=
+    position_span = you_are_here_info(tab[:name], tab[:name] != selected_tab)
+    caption = case tab[:label]
+    when Proc
+      tab[:label].call
+    else
+      l(tab[:label])
+    end
+    link_to(position_span + caption, { tab: tab[:name] },
+                                       id: "tab-#{tab[:name]}",
+                                       class: (tab[:name] != selected_tab ? nil : 'selected'),
+                                       onclick: "showTab('#{tab[:name]}', this.href); this.blur(); return false;") %></li>
+    <% end %>
+  </ul>
+  <div class="tabs-buttons" style="display:none;">
+    <button class="tab-left icon-context icon-arrow-left4" onclick="moveTabLeft(this);"></button>
+    <button class="tab-right icon-context icon-arrow-right5" onclick="moveTabRight(this);"></button>
+  </div>
+</div>
+
+
+<% content_for :header_tags do %>
+  <script>
+    jQuery(function() { displayTabsButtons(); });
+    jQuery(window).resize(function() { displayTabsButtons(); });
+  </script>
+<% end %>
+
+<% tabs.each do |tab| %>
+  <%= content_tag('div',
+                  render(partial: tab[:partial], locals: {tab: tab} ),
+                  id: "tab-content-#{tab[:name]}",
+                  style: (tab[:name] != selected_tab ? 'display:none' : nil),
+                  class: 'tab-content') %>
+<% end %>

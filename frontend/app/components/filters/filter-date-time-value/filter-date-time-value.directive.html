@@ -1,0 +1,18 @@
+<div class="inline-label" id="div-values-{{$ctrl.filter.id}}">
+  <op-date-picker>
+    <input ng-model="$ctrl.value"
+           ng-model-options="::$ctrl.filterDateModelOptions"
+           ng-required="true"
+           id="values-{{$ctrl.filter.id}}"
+           name="v[{{$ctrl.filter.id}}]"
+           class="advanced-filters--date-field"
+           size="10"
+           transform-date-utc
+           type="text"/>
+  </op-date-picker>
+  <span class="advanced-filters--tooltip-trigger -multiline"
+        data-tooltip="{{$ctrl.timeZoneText}}"
+        ng-if="$ctrl.isTimeZoneDifferent">
+    <op-icon icon-classes="icon icon-warning"></op-icon>
+  </span>
+</div>

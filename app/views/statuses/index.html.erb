@@ -1,0 +1,140 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title l(:label_administration), l(:label_work_package_status_plural) -%>
+<%= toolbar title: l(:label_work_package_status_plural) do %>
+  <li class="toolbar-item">
+    <%= link_to new_status_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_work_package_status_new)},
+            title: t(:label_work_package_status_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_status) %></span>
+    <% end %>
+  </li>
+  <% if WorkPackage.use_status_for_done_ratio? %>
+    <li class="toolbar-item">
+      <%= link_to update_work_package_done_ratio_statuses_path, class: 'button', remote: true, method: :post, data: { confirm: l(:text_are_you_sure) } do %>
+        <%= op_icon('button--icon icon-reload') %>
+        <span class="button--text"><%= l(:label_update_work_package_done_ratios) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<% if @statuses.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <% if WorkPackage.use_status_for_done_ratio? %>
+             <col highlight-col>
+          <% end %>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Status.model_name.human %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <% if WorkPackage.use_status_for_done_ratio? %>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= WorkPackage.human_attribute_name(:done_ratio) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            <% end %>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Status.human_attribute_name(:is_default) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= Status.human_attribute_name(:is_closed) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%=l(:button_sort)%>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th><div class="generic-table--empty-header"></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% for status in @statuses %>
+            <tr>
+              <td><%= link_to h(status.name), edit_status_path(status) %></td>
+              <% if WorkPackage.use_status_for_done_ratio? %>
+                <td><%= h status.default_done_ratio %></td>
+              <% end %>
+              <td><%= checked_image status.is_default? %></td>
+              <td ><%= checked_image status.is_closed? %></td>
+              <td>
+                <%= reorder_links('status', {action: 'update', id: status}, method: :patch) %>
+              </td>
+              <td class="buttons"><%= delete_link status_path(status) %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      
+    </div>
+  </div>
+  <%= pagination_links_full @statuses %>
+<% else %>
+  <%= no_results_box(action_url: new_status_path, display_action: true) %>
+<% end %>

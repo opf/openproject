@@ -1,0 +1,51 @@
+# Widget Boxes
+
+```
+<form>
+  <section class="widget-boxes">
+    <div class="widget-box">
+      <h3 class="widget-box--header">
+        <span class="icon-context icon-home"></span>
+        <span class="widget-box--header-title">Widget Box</span>
+      </h3>
+      <p class="widget-box--additional-info">This widget box can be used to display content belonging to one subject.</p>
+      <ul class="widget-box--arrow-links">
+        <li>
+          <a>Go to Link 1</a>
+        </li>
+        <li>
+          <a>Go to link 2</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="widget-box">
+      <h3 class="widget-box--header">
+        <span class="icon-context icon-home"></span>
+        <span class="widget-box--header-title">Widget Box 2</span>
+      </h3>
+      <ul class="widget-box--enumeration">
+        <li>
+          Enum1
+        </li>
+        <li>
+          Enum2
+        </li>
+        <li>
+          Enum3
+        </li>
+        <li>
+          Enum4
+        </li>
+      </ul>
+      <div class="widget-box--buttons">
+        <a class="button -highlight">
+          <i class="button--icon icon-add"></i>
+          <span class="button--text">Add</span>
+        </a>
+      </div>
+    </div>
+  </section>
+</form>
+
+```

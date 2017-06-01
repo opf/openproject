@@ -1,0 +1,135 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% html_title @copy ? l(:button_copy) : l(:button_move), l('activerecord.models.work_package') %>
+<h2><%= @copy ? l(:button_copy) : l(:button_move) %></h2>
+<ul>
+  <% @work_packages.each do |work_package| -%>
+    <li><%= link_to_work_package work_package %></li>
+  <% end -%>
+</ul>
+<%= styled_form_tag({action: 'create'}, id: 'move_form', class: '-wide-labels') do %>
+  <%= @work_packages.collect {|i| hidden_field_tag('ids[]', i.id)}.join.html_safe %>
+  <%= back_url_hidden_field_tag %>
+  <refresh-on-form-changes
+    url="<%= url_for(action: 'new') %>"
+    input-selector="#new_project_id">
+    <section class="form--section">
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= l(:label_change_properties) %></legend>
+        <div class="grid-block">
+          <div class="grid-content medium-6">
+              <div class="form--field">
+                <label class="form--label" for="new_project_id"><%= WorkPackage.human_attribute_name(:project) %>:</label>
+                  <div class="form--field-container">
+                    <%= styled_select_tag "new_project_id",
+                                          project_tree_options_for_select(@allowed_projects, selected: @target_project),
+                                          class: 'remote-field--input' %>
+                  </div>
+              </div>
+            <div class="form--field">
+              <label class="form--label" for="new_type_id"><%= WorkPackage.human_attribute_name(:type) %>:</label>
+              <div class="form--field-container">
+                <%= styled_select_tag("new_type_id",
+                       content_tag('option', l(:label_no_change_option), value: '') +
+                       options_from_collection_for_select(@types, "id", "name")) %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for='status_id'><%= WorkPackage.human_attribute_name(:status) %></label>
+              <div class="form--field-container">
+                <%= styled_select_tag('status_id',
+                       content_tag('option', l(:label_no_change_option), value: '') +
+                       options_from_collection_for_select(@available_statuses, :id, :name)) %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for='priority_id'><%= WorkPackage.human_attribute_name(:priority) %></label>
+              <div class="form--field-container">
+                <%= styled_select_tag('priority_id',
+                       content_tag('option', l(:label_no_change_option), value: '') +
+                       options_from_collection_for_select(IssuePriority.active, :id, :name)) %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for='assigned_to_id'><%= WorkPackage.human_attribute_name(:assigned_to) %></label>
+              <div class="form--field-container">
+                <%= styled_select_tag('assigned_to_id',
+                       content_tag('option', l(:label_no_change_option), value: '') +
+                       content_tag('option', l(:label_nobody), value: 'none') +
+                       options_from_collection_for_select(@target_project.possible_assignees, :id, :name)) %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for='responsible_id'><%= WorkPackage.human_attribute_name(:responsible) %></label>
+              <div class="form--field-container">
+                <%= styled_select_tag('responsible_id',
+                       content_tag('option', l(:label_no_change_option), value: '') +
+                       content_tag('option', l(:label_nobody), value: 'none') +
+                       options_from_collection_for_select(@target_project.possible_responsibles, :id, :name)) %>
+              </div>
+            </div>
+          </div>
+          <div class="grid-content medium-6">
+            <div class="form--field">
+              <label class="form--label" for='start_date'><%= WorkPackage.human_attribute_name(:start_date) %></label>
+              <div class="form--field-container">
+                <%= styled_text_field_tag 'start_date', '', size: 10 %><%= calendar_for('start_date') %>
+              </div>
+            </div>
+            <div class="form--field">
+              <label class="form--label" for='due_date'><%= WorkPackage.human_attribute_name(:due_date) %></label>
+              <div class="form--field-container">
+                <%= styled_text_field_tag 'due_date', '', size: 10 %><%= calendar_for('due_date') %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </fieldset>
+      <fieldset class="form--fieldset">
+        <legend class="form--fieldset-legend"><%= Journal.human_attribute_name(:notes) %></legend>
+        <%= label_tag 'notes', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
+        <%= styled_text_area_tag 'notes', @notes, cols: 60, rows: 10, class: 'wiki-edit' %>
+        <%= wikitoolbar_for 'notes' %>
+      </fieldset>
+      <%= call_hook(:view_work_packages_move_bottom, work_packages: @work_packages, target_project: @target_project, copy: !!@copy) %>
+    </section>
+  </refresh-on-form-changes>
+  <% if @copy %>
+    <%= hidden_field_tag("copy") %>
+    <%= styled_submit_tag l(:button_copy), class: '-highlight' %>
+    <%= styled_submit_tag l(:button_copy_and_follow), name: 'follow', class: '-highlight' %>
+  <% else %>
+    <%= styled_submit_tag l(:button_move), class: '-highlight' %>
+    <%= styled_submit_tag l(:button_move_and_follow), name: 'follow', class: '-highlight' %>
+  <% end %>
+<% end %>
+<% content_for :header_tags do %>
+  <%= robot_exclusion_tag %>
+<% end %>

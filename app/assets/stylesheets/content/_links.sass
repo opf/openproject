@@ -1,0 +1,89 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+a, a:link
+  @include varprop(color, content-link-color)
+  text-decoration: none
+
+a:hover, a:active
+  @include varprop(color, content-link-hover-active-color)
+  text-decoration: underline
+
+a:focus
+  @include varprop(color, content-link-hover-active-color)
+
+a
+  img
+    border: 0
+  &.sort
+    padding-right: 16px
+    background-position: 100% 50%
+    background-repeat: no-repeat
+    &.asc:after
+      @include icon-font-common
+      @extend .icon-sort-ascending:before
+      margin-left: 5px
+      font-size: 1.2em
+      vertical-align: text-bottom
+
+    &.desc:after
+      @include icon-font-common
+      @extend .icon-sort-descending:before
+      margin-left: 5px
+      font-size: 1.2em
+      vertical-align: text-bottom
+
+  &.issue.closed, &.issue.closed:hover,
+  &.work_package.closed, &.work_package.closed:hover
+    text-decoration: line-through
+
+  &.-no-decoration
+    color: inherit
+
+    &:hover
+      text-decoration: none
+
+a.icon, a.icon-context
+  color: $content-icon-link-color
+  font-weight: normal
+  &.external
+    @include varprop(color, content-link-color)
+
+a.icon:hover, a.icon-context:hover
+  text-decoration: none
+
+#content table th a.no-decoration-on-hover:hover, a.no-decoration-on-hover:hover
+  text-decoration: none
+
+.skip-navigation-link
+  &:focus
+    position: absolute
+    width: auto
+    height: auto
+    overflow: visible
+    margin-top: -1.25rem

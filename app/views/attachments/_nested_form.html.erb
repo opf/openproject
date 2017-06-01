@@ -1,0 +1,79 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%# locals: prefix %>
+
+<%# as field_for requries the usage of nested_attributes or at least
+an attachments_attributes= and not every model supports this we build a nested form on our own writer %>
+
+<% prefix = unless prefix.nil?
+              prefix + "[attachments]"
+            else
+              "attachments"
+            end
+%>
+
+<% open ||= false %>
+
+<fieldset id="attachments" class="form--fieldset -collapsible<%= open ? '' : ' collapsed' %>">
+  <legend class="form--fieldset-legend" title="<%=l(:description_attachment_toggle)%>" onclick="toggleFieldset(this);">
+    <a href="javascript:"><%=l(:label_attachment_plural)%></a>
+  </legend>
+  <div <%= "style=\"display: none;\"".html_safe unless open %>>
+    <div id="attachments_fields">
+      <div class="grid-block" id="attachment_template">
+        <div class="form--field">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= file_field_tag "#{prefix}[1][file]",
+                                 size: 15,
+                                 id: nil,
+                                 class: "attachment_choose_file"  -%>
+            </div>
+          </div>
+        </div>
+        <div class="form--field -wide-label">
+          <label class="form--label">
+            <%= l(:label_optional_description) %>
+          </label>
+          <div class="form--text-field-container">
+            <%= text_field_tag "#{prefix}[1][description]",
+                               '',
+                               size: 38,
+                               id: nil %>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span class="add_another_file">
+      <%= link_to l(:label_add_another_file), '#', onclick: 'addFileField(); return false;' %>
+      (<%= l(:label_max_size) %>: <%= number_to_human_size(Setting.attachment_max_size.to_i.kilobytes, precision: 3) %>)
+    </span>
+  </div>
+</fieldset>

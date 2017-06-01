@@ -1,0 +1,84 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+
+<% unless User.current.impaired? %>
+  <%# TODO: Require autocompleter inside select_boxes.js
+    For lack of a requiring policy (such as requirejs), just include the
+    autocompleter on its own.
+  %>
+  <%= javascript_include_tag "autocompleter.js" %>
+  <%= javascript_include_tag "timelines_select_boxes.js" %>
+<% end %>
+
+
+<%= labelled_tabular_form_for @project_association,
+                              url: project_project_associations_path(@project),
+                              html: {method: 'post'},
+                              class: "inline-label" do |f| %>
+
+  <% title = l('timelines.project_association_new',
+               project_a: h(@project.name),
+               project_b: '?') %>
+  <h2><%= title.tap { |t| html_title t } %></h2>
+
+  <%= error_messages_for 'project_association' %>
+
+  <span class="form--field -required">
+    <% if User.current.impaired? %>
+      <%= f.select("project_b_id",
+                 grouped_options_for_select(@associated_project_candidates_by_type.collect do |type, projects|
+                   [type.try(:name) || l('timelines.without_project_type'), projects.collect do |candidate|
+                     [candidate.name, candidate.id]
+                   end]
+                 end)) %>
+    <% else %>
+      <%= f.select("project_b_id",
+                   options_for_select([]),
+                   { label:  l('timelines.project_association_new_for_with',
+                     project_a: h(@project.name)) },
+                   { :'data-ajaxURL' => url_for({controller: "/api/v2/project_associations",
+                                                 action: "available_projects",
+                                                 format: "json"})
+                   })
+      %>
+    <% end %>
+  </span>
+
+  <%= render partial: 'form', locals: {f: f, project: @project} %>
+  <hr class="form--separator" />
+  <%= f.button l("timelines.add_project_association"), name: nil,
+        class: 'button -highlight -with-icon icon-checkmark'%>
+  <%= link_to l(:button_cancel), project_project_associations_path(@project),
+        class: 'button'%>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= stylesheet_link_tag 'timelines.css', media: "all" %>
+<% end %>

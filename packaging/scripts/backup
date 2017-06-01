@@ -1,0 +1,93 @@
+#!/bin/bash
+
+set -e
+
+TARGET="/var/db/${APP_NAME}/backup"
+
+mkdir -p "${TARGET}"
+
+timestamp=$(date +"%Y%m%d%H%M%S")
+
+echo -n "* Generating database backup..." >&2
+
+tmpfile=$(mktemp)
+
+database=$(ruby -ruri -e 'puts URI(ENV["DATABASE_URL"]).path[1..-1]')
+
+ruby -ruri -rcgi -e '
+  uri = URI(ENV["DATABASE_URL"])
+  params = CGI.parse(uri.query || "")
+  config=<<CONFIG
+[client]
+password="#{uri.password}"
+user="#{uri.user}"
+host="#{uri.host}"
+port="#{uri.port}"
+CONFIG
+  config += %{ssl-key="#{params["sslkey"].first}"\n} if params.has_key?("sslkey")
+  config += %{ssl-cert="#{params["sslcert"].first}"\n} if params.has_key?("sslcert")
+  config += %{ssl-ca="#{params["sslca"].first}"\n} if params.has_key?("sslca")
+  puts config' > ${tmpfile}
+
+dst="${TARGET}/mysql-dump-${timestamp}.sql.gz"
+touch "$dst" && chmod 0640 "$dst"
+mysqldump --defaults-file=${tmpfile} --single-transaction "${database}" | gzip > "$dst"
+echo " done" >&2
+echo "$dst"
+rm -f ${tmpfile}
+
+if [ -d "$SVN_REPOSITORIES" ]; then
+  dst="${TARGET}/svn-repositories-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Generating SVN repositories backup..." >&2
+  if tar czf "$dst" -C "${SVN_REPOSITORIES}" . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* No SVN repositories folder. Ignoring." >&2
+fi
+
+if [ -d "$GIT_REPOSITORIES" ]; then
+  dst="${TARGET}/git-repositories-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Generating Git repositories backup..." >&2
+  if tar czf "$dst" -C "${GIT_REPOSITORIES}" . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* No Git repositories folder. Ignoring." >&2
+fi
+
+if [ -d "$ATTACHMENTS_STORAGE_PATH" ]; then
+  dst="${TARGET}/attachments-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Generating attachments backup..." >&2
+  if tar czf "$dst" -C "${ATTACHMENTS_STORAGE_PATH}" . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* No attachments folder. Ignoring." >&2
+fi
+
+if [ -d "/etc/${APP_NAME}/conf.d" ]; then
+  dst="${TARGET}/conf-${timestamp}.tar.gz"
+  touch "$dst" && chmod 0640 "$dst"
+  echo -n "* Saving configuration..." >&2
+  if tar czf "$dst" -C /etc/${APP_NAME}/conf.d . ; then
+    echo " done" >&2
+    echo "$dst"
+  else
+    echo " failed" >&2
+  fi
+else
+  echo "* no configuration folder. Ignoring." >&2
+fi

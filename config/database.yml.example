@@ -1,0 +1,104 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+# MySQL (default setup).
+
+production:
+  adapter: mysql2
+  database: openproject
+  host: localhost
+  username: root
+  password:
+  encoding: utf8
+  variables:
+    # These are the default MySql Modes for rails 5.0 only excluding
+    # ONLY_FULL_GROUP_BY which would interfere with the current implementation
+    # of the query grouping by custom fields.
+    sql_mode:
+      "no_auto_value_on_zero,\
+      strict_trans_tables,\
+      no_zero_date,\
+      strict_all_tables,\
+      no_zero_in_date,\
+      error_for_division_by_zero,\
+      no_auto_create_user,\
+      no_engine_substitution"
+
+development:
+  adapter: mysql2
+  database: openproject_development
+  host: localhost
+  username: root
+  password:
+  encoding: utf8
+  variables:
+    # These are the default MySql Modes for rails 5.0 only excluding
+    # ONLY_FULL_GROUP_BY which would interfere with the current implementation
+    # of the query grouping by custom fields.
+    sql_mode:
+      "no_auto_value_on_zero,\
+      strict_trans_tables,\
+      no_zero_date,\
+      strict_all_tables,\
+      no_zero_in_date,\
+      error_for_division_by_zero,\
+      no_auto_create_user,\
+      no_engine_substitution"
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  adapter: mysql2
+  database: openproject_test
+  host: localhost
+  username: root
+  password:
+  encoding: utf8
+  pool: 20
+  variables:
+    # These are the default MySql Modes for rails 5.0 only excluding
+    # ONLY_FULL_GROUP_BY which would interfere with the current implementation
+    # of the query grouping by custom fields.
+    sql_mode:
+      "no_auto_value_on_zero,\
+      strict_trans_tables,\
+      no_zero_date,\
+      strict_all_tables,\
+      no_zero_in_date,\
+      error_for_division_by_zero,\
+      no_auto_create_user,\
+      no_engine_substitution"
+
+#test_pgsql:
+  #adapter: postgresql
+  #encoding: unicode
+  #database: openproject_test
+  #pool: 5
+  #username: openproject
+  #password:

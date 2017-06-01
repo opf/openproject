@@ -1,0 +1,94 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="filter_comparison" class="form--fieldset -collapsible collapsed">
+  <legend class="form--fieldset-legend" title="<%=l(:description_filter_toggle)%>" onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.comparisons') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <%= f.fields_for :options, timeline_options do |ff| %>
+      <div class="form--field">
+        <%= ff.radio_button :comparison, "none", label:  l('timelines.filter.comparison.none') %>
+      </div>
+
+      <div class="form--field">
+          <%= ff.radio_button :comparison, "relative", label:  l('timelines.filter.comparison.relative') %>
+      </div>
+      <div class="form--grouping">
+        <div id="timeline--form---comparison-timeframe"
+             class="form--grouping-label">
+           <span class="hidden-for-sighted">
+             <%= l('timelines.filter.comparison.relative') %>
+           </span>
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field -wide-label">
+            <%= ff.text_field :compare_to_relative, label: l('timelines.filter.comparison.compare_relative_prefix') %>
+          </div>
+          <div class="form--field -full-width">
+            <div class="form--field-container">
+              <%= ff.select :compare_to_relative_unit,
+                            options_for_timeunits(nil),
+                            no_label: true,
+                            container_class: '-middle' %>
+              <span class="form--field-affix -transparent">
+                <%=l('timelines.filter.comparison.compare_relative_suffix')%>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form--field">
+        <%= ff.radio_button :comparison, "absolute", label: l('timelines.filter.comparison.absolute') %>
+      </div>
+
+      <div class="form--grouping">
+        <div id="timeline--form--comparison-timeframe"
+             class="form--grouping-label">
+          <span class="hidden-for-sighted">
+            <%= l('timelines.filter.comparison.absolute') %>
+          </span>
+        </div>
+
+        <div class="form--grouping-row">
+        </div>
+
+        <div class="form--grouping-row">
+          <div class="form--field">
+            <%= ff.text_field :compare_to_absolute, label: l('timelines.filter.comparison.compare_absolute', date: "") %>
+            <%= calendar_for('timeline_options_compare_to_absolute') %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</fieldset>

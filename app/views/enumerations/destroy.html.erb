@@ -1,0 +1,43 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= breadcrumb_toolbar link_to(l(@enumeration.option_name), enumerations_path), @enumeration %>
+<%= styled_form_tag({}, method: :delete) do %>
+  <section class="form--section">
+    <p><strong><%= l(:text_enumeration_destroy_question, @enumeration.objects_count) %></strong></p>
+    <div class="form--field">
+      <%= styled_label_tag 'reassign_to_id', l(:text_enumeration_category_reassign_to) %>
+      <div class="form--field-container">
+        <%= styled_select_tag 'reassign_to_id', options_from_collection_for_select(@enumerations, 'id', 'name') %>
+      </div>
+    </div>
+  </section>
+  <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
+  <%= link_to l(:button_cancel), { controller: '/enumerations', action: 'index' },
+      class: 'button' %>
+<% end %>

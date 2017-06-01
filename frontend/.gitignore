@@ -1,0 +1,13 @@
+/.sass-cache
+/bower_components
+/coverage
+/node_modules
+/npm-debug.log
+/public/**/*
+/tests/unit/reports
+/tests/unit/tests/typescript
+/tmp
+
+/tests/openproject-test-bundle.js
+/tests/openproject-main.css
+/tests/openproject-tests.css

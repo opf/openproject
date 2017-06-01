@@ -1,0 +1,76 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%
+  managable = User.current.allowed_to?(:manage_news, @project)
+ %>
+
+<% html_title(l(:label_news_plural)) -%>
+<%= toolbar title: l(:label_news_plural) do %>
+  <% if managable %>
+    <li class="toolbar-item">
+      <%= link_to new_project_news_path(@project),
+          { class: 'button -alt-highlight',
+            id: 'new_news_link',
+            aria: {label: t(:label_news_new)},
+            title: t(:label_news_new)} do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t('activerecord.models.news') %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<% if @newss.any? %>
+  <% @newss.each do |news| %>
+    <h3><%= avatar(news.author) %><%= link_to_project(news.project) + ': ' unless news.project == @project %>
+      <%= link_to h(news.title), news_path(news) %>
+      <%= "(#{l(:label_x_comments, count: news.comments_count)})" if news.comments_count > 0 %></h3>
+    <p class="author"><%= authoring news.created_on, news.author %></p>
+    <div class="wiki">
+      <%= format_text(news.summary.present? ? news.summary : truncate(news.description), object: news) %>
+    </div>
+  <% end %>
+<% else %>
+  <% if managable %>
+    <%= no_results_box(action_url:     new_project_news_path(@project),
+                       display_action: true) %>
+  <% else %>
+    <%= no_results_box %>
+  <% end %>
+<% end %>
+
+<%= pagination_links_full @newss %>
+
+<%= other_formats_links do |f| %>
+  <%= f.link_to 'Atom', url: {project_id: @project, key: User.current.rss_key} %>
+<% end %>
+
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, params.merge({format: 'atom', page: nil, key: User.current.rss_key})) %>
+<% end %>

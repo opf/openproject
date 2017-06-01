@@ -1,0 +1,69 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for @project %>
+
+<%= form_for @project, url: { action: 'update_identifier' }, html: { class: 'danger-zone form -vertical' } do |f| %>
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= l('project.identifier.title') %>
+    </h3>
+
+    <p class="danger-zone--warning">
+      <span class="icon icon-error"></span>
+      <span><%= l('project.identifier.warning_one').html_safe %></span>
+      <br>
+      <span class="icon icon-error"></span>
+      <span><%= l('project.identifier.warning_two').html_safe %></span>
+    </p>
+
+    <%= styled_label_tag 'identifier', Project.human_attribute_name(:identifier), class: '-required' %>
+    <div class="danger-zone--verification">
+      <%= f.text_field :identifier %>
+      <span>
+        <%= f.submit l(:button_update), class: 'button -highlight -with-icon icon-checkmark' %>
+      </span>
+      <span>
+        <%= link_to settings_project_path(@project), class: 'button' do %>
+          <span class="button--text"><%= l(:button_cancel) %></span>
+        <% end %>
+      </span>
+    </div>
+
+
+    <br>
+
+    <div class="form--field-instructions">
+      <%= l(:text_length_between, min: 1,
+                                  max: Project::IDENTIFIER_MAX_LENGTH) %>
+      <%= l(:text_project_identifier_info).html_safe %>
+    </div>
+
+  </section>
+<% end %>

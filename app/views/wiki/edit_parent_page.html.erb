@@ -1,0 +1,54 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= toolbar title: "#{t(:button_change_parent_page)}: #{@page.title}" %>
+
+<% html_title l('activerecord.models.wiki'), t(:button_change_parent_page) %>
+<%= error_messages_for 'page' %>
+
+<%= labelled_tabular_form_for @page, url: { id: @page, action: 'update_parent_page' } do |f| %>
+  <div class="box">
+    <p>
+      <%= f.select :parent_id,
+            wiki_page_options_for_select(@parent_pages),
+            { label: WikiPage.human_attribute_name(:parent_title),
+              include_blank: t('placeholders.default') },
+            { class: "parent-select" } %>
+    </p>
+
+    <%= javascript_tag do -%>
+      jQuery(function() {
+          var parent_select = jQuery('#wiki_page_parent_id');
+          parent_select.attr('size', parent_select.children().length);
+        }
+      ));
+    <% end -%>
+  </div>
+  <%= submit_tag t(:button_save), class: 'button -highlight' %>
+<% end %>

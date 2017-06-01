@@ -1,0 +1,18 @@
+<div id="activity-{{ activityNo }}">
+  <div ng-switch="activityType">
+    <revision-activity work-package="workPackage"
+                       activity="activity"
+                       activity-no="activityNo"
+                       activity-label="activityLabel"
+                       ng-switch-when="Revision">
+    </revision-activity>
+    <user-activity work-package="workPackage"
+                   activity="activity"
+                   activity-no="activityNo"
+                   activity-label="activityLabel"
+                   is-initial="isInitial"
+                   autocomplete-path="{{ autocompletePath }}"
+                   ng-switch-default>
+    </user-activity>
+  </div>
+</div>

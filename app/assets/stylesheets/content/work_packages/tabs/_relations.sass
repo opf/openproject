@@ -1,0 +1,149 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+.detail-panel-description-content
+  .relation
+    h3
+      cursor: pointer
+      a
+        text-decoration: none
+        color: inherit
+      i
+        font-size: 0.8rem
+
+.add-relation
+  .select2
+    width: 350px
+  .select2-drop
+    width: 350px
+    top: auto
+    input[type='text']
+      width: 100%
+
+.tab-content--padding-right
+  padding-right: 25px
+
+.hierarchy-item
+  margin-bottom: 2px
+
+.relation-row
+  line-height: 2em
+  .attribute-header
+    font-size: 0.8em
+    text-transform: uppercase
+    font-weight: bold
+  .description-section
+    border: 1px dotted lightblue
+    padding: 4px
+  .wp-edit-field
+    width: 90%
+    // Similar to inner span's line-height
+    line-height: 1.6em
+    .wp-table--cell-span
+      vertical-align: middle
+  .controls-container
+    text-align: right
+
+.wp-relations-hierarchy-section
+  margin-top: 35px
+
+.wp-relations-hierarchy-subject
+  display: block
+  white-space: nowrap
+  overflow: hidden
+  text-overflow: ellipsis
+
+.wp-relations-controls-section
+  text-align: right
+  flex-shrink: 1
+  .force-right
+    position: absolute
+    right: 0
+
+  a:hover
+    text-decoration: none
+
+.wp-relations--icon
+  color: $content-icon-link-color
+
+// Toggle description icon color when expanded
+.wp-relations-controls-section.-expanded .wp-relations--description-icon
+  color: $content-icon-link-pressed-color
+
+.wp-relations-create
+  margin-top: 1.5em
+
+.wp-relations-create-button
+  margin: 0.25rem 0
+  line-height: 1.5
+  .-create-button-full-width
+    margin-top: 1.5em
+    width: 100%
+    padding-right: 25px
+
+.wp-relations-status-field
+  margin-left: 2px
+
+// Break apart long subjects in the rather small block
+.wp-relations--subject-field
+  word-break: break-all
+
+// Relation description field
+.wp-relation--description-read-value
+  width: 100%
+  padding: 5px
+  border: 1px solid transparent
+
+  // Wrap newlines in the description
+  white-space: pre-wrap
+
+  &.-placeholder
+    font-style: italic
+
+  &:hover
+    border-color: $light-gray
+    cursor: text
+
+// Set min-height to read/write identically
+.wp-relation--description-read-value,
+.wp-relation--description-textarea
+  min-height: 60px
+  font-size: 0.875rem
+  line-height: $base-line-height
+  padding-top: 10px
+
+.wp-relation--description-wrapper
+  width: 100%
+
+// Disable create link until WP is selected
+.wp-create-relation--save[disabled]
+  color: $relations-save-button--disabled-color
+  cursor: not-allowed
+
+  .icon-button
+    cursor: not-allowed

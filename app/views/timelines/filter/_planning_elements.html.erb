@@ -1,0 +1,120 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="planning_element_filters" class="form--fieldset -collapsible collapsed">
+  <legend class="form--fieldset-legend" title="<%=l(:description_filter_toggle)%>" onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.work_package_filters') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <%= f.fields_for :options, timeline_options  do |ff| %>
+      <div class="form--field">
+        <%= ff.check_box :exclude_own_planning_elements, label:l('timelines.filter.exclude_own_work_packages') %>
+      </div>
+
+      <div class="form--field">
+        <% if User.current.impaired? %>
+          <%= ff.select :planning_element_status, filter_select_with_none(
+                     timeline.available_planning_element_status,
+                     :name, :id),
+                   { selected: timeline.selected_planning_element_status.map(&:id), label: l("timelines.filter.status") },
+                   { multiple: true } %>
+        <% else %>
+          <%= ff.select :planning_element_status,
+                        options_for_select([]),
+                        { label: l("timelines.filter.status"),
+                          container_class: '-wide' },
+                        :'data-ajaxURL' => api_v2_paginate_statuses_path,
+                        multiple: true,
+                        :'data-selected' => filter_select(timeline.selected_planning_element_status, :name, :id).to_json %>
+        <% end %>
+      </div>
+      <div class="form--field">
+        <% if User.current.impaired? %>
+          <%= ff.select :planning_element_types, filter_select_with_none(
+                     timeline.available_planning_element_types,
+                     :name, :id),
+                   { selected: timeline.selected_planning_element_types.map(&:id), label: l("timelines.filter.types") },
+                   { multiple: true } %>
+        <% else %>
+          <%= ff.select :planning_element_types,
+                        options_for_select([]),
+                        { label: l("timelines.filter.types"),
+                          container_class: '-wide' },
+                        :'data-ajaxURL' => api_v2_paginate_types_path,
+                        multiple: true,
+                        :'data-selected' => filter_select(timeline.selected_planning_element_types, :name, :id).to_json %>
+        <% end %>
+      </div>
+      <div class="form--field">
+        <% if User.current.impaired? %>
+          <%= ff.select :planning_element_responsibles,
+                        filter_select_with_none(timeline.available_responsibles,
+                                                :name,
+                                                :id),
+                        { selected: timeline.selected_planning_element_responsibles.map(&:id),
+                          label: l("timelines.filter.work_package_responsible") },
+                        { multiple: true } %>
+        <% else %>
+          <%= ff.select :planning_element_responsibles,
+                        options_for_select([]),
+                        { label: l("timelines.filter.work_package_responsible"),
+                          container_class: '-wide' },
+                        :'data-ajaxURL' => api_v2_paginate_users_path,
+                        multiple: true,
+                        :'data-selected' => filter_select(timeline.selected_planning_element_responsibles, :name, :id).to_json %>
+        <% end %>
+      </div>
+      <div class="form--field">
+        <% if User.current.impaired? %>
+          <%= ff.select :planning_element_assignee, filter_select_with_none(
+                         timeline.available_responsibles,
+                         :name, :id),
+                         { selected: timeline.selected_planning_element_assignee.map(&:id),
+                           label: l("timelines.filter.work_package_assignee") },
+                         { multiple: true } %>
+          <% else %>
+            <%= ff.select :planning_element_assignee,
+                          options_for_select([]),
+                          { label: l("timelines.filter.work_package_assignee"),
+                            container_class: '-wide' },
+                          :'data-ajaxURL' => api_v2_paginate_users_path,
+                          multiple: true,
+                          :'data-selected' => filter_select(timeline.selected_planning_element_assignee,
+                                                            :name,
+                                                            :id).to_json %>
+        <% end %>
+      </div>
+    <% end %>
+
+    <%= render partial: "timelines/custom_fields",
+               locals: { timeline: @timeline,
+                         custom_fields: timeline.get_custom_fields } %>
+  </div>
+</fieldset>

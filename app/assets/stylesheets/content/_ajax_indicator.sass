@@ -1,0 +1,71 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+/***** Ajax indicator *****
+
+#ajax-indicator
+  position: absolute
+  /* fixed not supported by IE
+  background-color: #eee
+  border: 1px solid #bbb
+  top: 35%
+  left: 40%
+  width: 20%
+  font-weight: bold
+  text-align: center
+  padding: 0.6em
+  z-index: 100
+  opacity: 0.5
+
+html > body #ajax-indicator
+  position: fixed
+
+#ajax-indicator span, .ajax-indicator
+  background-position: 0% 40%
+  background-repeat: no-repeat
+  background-image: image-url("loading.gif")
+  padding-left: 26px
+  vertical-align: bottom
+
+.ajax_appended_information.loading .ajax-indicator
+  padding-left: 22px
+  display: block
+  width: 0
+  margin-left: auto
+  margin-right: auto
+  white-space: nowrap
+
+/***** Ajax indicator *****
+
+// FIXME: find out which values actually apply
+#ajax-indicator
+  position: absolute
+  /* fixed not supported by IE
+  background-color: #d9d9d9
+  border: 1px solid #8f8f8f
+  opacity: 0.7

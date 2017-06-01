@@ -1,0 +1,139 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= javascript_include_tag 'contextual_fieldset.js' %>
+
+<% html_title l("timelines.project_menu.reportings") %>
+<%= toolbar title:  l("timelines.project_menu.reportings") do %>
+  <% if authorize_for(:reportings, :new) %>
+    <%= link_to new_project_reporting_path(@project),
+          { class: 'button -alt-highlight',
+            aria: {label: t("timelines.new_reporting")},
+            title: t("timelines.new_reporting")} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t(:label_reporting) %></span>
+    <% end %>
+  <% end %>
+<% end %>
+
+<% if @reportings.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Reporting.human_attribute_name :reporting_to_project_id %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Reporting.human_attribute_name :reported_project_status_id %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Reporting.human_attribute_name :reported_project_status_comment %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Reporting.human_attribute_name :updated_at %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th><div class="generic-table--empty-header"></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @reportings.each do |reporting| %>
+          <tr>
+            <td>
+              <%= link_to_if_authorized(h(reporting.reporting_to_project.name),
+                                        action: :show, project_id: @project, id: reporting) %>
+            </td>
+            <td class="timelines-rep-short">
+              <%=h reporting.reported_project_status.try(:name) || "-" %>
+            </td>
+            <td class="timelines-rep-comment">
+              <%= format_text reporting, :reported_project_status_comment %>
+            </td>
+            <td class="timelines-rep-last_change">
+              <%= format_date reporting.updated_at %>
+            </td>
+            <td class="buttons">
+              <%= link_to_if_authorized({action: :edit, project_id: @project, id: reporting},
+                                       class: 'icon icon-edit') do %>
+                <%= l(:button_edit) %>
+                <span class="hidden-for-sighted">
+                  <%= I18n.t("timelines.reporting_for_project.edit_delete", title: reporting.reporting_to_project.name) %>
+                </span>
+              <% end %>
+              <%= link_to_if_authorized({action: :confirm_destroy, project_id: @project, id: reporting},
+                                       class: 'icon icon-delete') do %>
+                <%= l(:button_delete) %>
+                <span class="hidden-for-sighted">
+                  <%= I18n.t("timelines.reporting_for_project.edit_delete", title: reporting.reporting_to_project.name) %>
+                </span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+  </div>
+</div>
+<% else %>
+  <%= no_results_box(action_url:     new_project_reporting_path(@project),
+                     display_action: authorize_for(:reportings, :new)) %>
+<% end %>

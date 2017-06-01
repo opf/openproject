@@ -1,0 +1,97 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+// Disable text selection in rows
+.wp--row
+  user-select: none
+
+.wp-table--row.-collapsed
+  display: none
+
+.work-package-table--container table.generic-table tbody td
+  padding-left: 0
+  line-height: 24px
+
+// Styles for inline editable attributes
+.work-package-table--container td.-editable
+  padding-top: 0
+  padding-bottom: 0
+  display: table-cell
+  width: auto
+
+  &:hover .wp-edit-field.-error:hover
+    border-color: $nm-color-error-border
+
+//
+.wp-table--faulty-query-icon
+  color: $nm-color-error-icon
+
+
+// Shrink column of details / inline-create icons
+.wp-table--details-column
+  // Set a minimum width for the cell to avoid movement
+  min-width: 40px
+  // Center the th icon
+  text-align: center !important
+
+// Details link column width
+.work-package-table
+  col:last-of-type
+    width: 40px
+
+// Show details view button when hovering
+.wp-table--details-link
+  .issue:hover &,
+  &:focus
+    // override the hidden-for-sighted definition
+    position: relative
+    left: 0
+    width: initial
+    height: initial
+
+    .icon:before
+      color: $body-font-color
+      padding: 0 0 0 0.25rem
+  &:hover
+    text-decoration: none
+
+table.generic-table tbody tr.issue .checkbox
+  overflow: visible
+  padding-left: 5px
+
+.wp-table--cell .ui-datepicker
+  margin-left: -38%
+
+
+.inplace-editing--container
+  display: inline-block
+  border: 1px solid transparent
+  border-radius: 2px
+  overflow: visible
+  width: 100%
+

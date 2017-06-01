@@ -1,0 +1,210 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+div.wiki
+  font-size: $wiki-default-font-size
+  $wiki-max-heading-font-size: $wiki-default-font-size * 1.5
+
+  // this needs to be the same as a normal level 2 heading (see toolbar)
+  h1
+    font-size: $wiki-max-heading-font-size
+  h2
+    font-size: $wiki-max-heading-font-size * 0.93
+  h3
+    font-size: $wiki-max-heading-font-size * 0.86
+  h4
+    font-size: $wiki-max-heading-font-size * 0.79
+  h5
+    font-size: $wiki-max-heading-font-size * 0.72
+  h6
+    font-size: $wiki-max-heading-font-size * 0.65
+
+  h1, h2, h3, h4, h5, h6
+    margin: 1em 0
+    line-height: 1.5
+    font-weight: bold
+    color: #555555
+    text-transform: none
+    border-bottom: 1px dotted #bbbbbb
+
+  table
+    border: 1px solid #505050
+    border-collapse: collapse
+    margin-bottom: 1em
+
+  table, td, th
+    border: 1px solid #bbb
+    padding: 4px
+
+  .external.icon-context:before
+    padding: 4px 4px 0 0
+
+  pre
+    margin: 1em 1em 1em 1.6em
+    padding: 2px 2px 2px 0
+    background-color: #fafafa
+    border: 1px solid #dadada
+    width: auto
+    overflow-x: auto
+    overflow-y: hidden
+
+  ul.toc
+    margin-bottom: 12px
+    margin-right: 12px
+    margin-left: 0
+    display: table
+    font-size: $wiki-toc-ul-font-size
+    &.right
+      float: right
+      margin-left: 12px
+      margin-right: 0
+      width: auto
+    &.left
+      float: left
+      margin-right: 12px
+      margin-left: 0
+      width: auto
+    a
+      font-weight: normal
+      background-repeat: no-repeat
+      background-position: 0% 60%
+      &.icon-context:before
+        padding: 3px 3px 0 0
+    li
+      list-style-type: none
+
+  ol, ul
+    padding: 0 0 0 2em
+    margin: 0.3em 0
+    font-size: $wiki-default-font-size
+
+  li
+    list-style-position: outside
+    margin: 0
+
+  ol li
+    list-style-type: decimal
+    list-style-position: inherit
+
+  ul li
+    list-style-type: disc
+    list-style-position: inherit
+
+  li li
+    margin-left: 1.5em
+  fieldset.collapsible legend
+    font-weight: bold
+    font-size: $wiki-toc-header-font-size
+  img
+    vertical-align: middle
+
+a.wiki-anchor
+  display: none
+  margin-left: 6px
+  text-decoration: none
+
+  &:hover
+    color: #aaa !important
+    text-decoration: none
+
+h1:hover, h2:hover, h3:hover
+  a.wiki-anchor
+    display: inline
+    color: #ddd
+
+.wiki
+  p
+    margin-bottom: 1em
+    font-size: $wiki_default-font-size
+
+  p, span
+    &.see-also, &.caution, &.important, &.info, &.tip, &.note
+      display: block
+      margin-top: .5em
+      margin-bottom: .5em
+      padding: 4px 4px 4px 48px
+      min-height: 33px
+
+  .quick_info .label
+    background: none
+    color: #000
+    font-weight: bold
+    font-size: $wiki-default-font-size
+
+  .wiki-title
+    max-width: 100%
+    overflow: hidden
+    text-overflow: ellipsis
+
+.wiki.wiki-content
+  overflow-wrap: break-word
+  word-wrap: break-word
+
+#wiki_form .attributes-group
+  .attributes-group--header-text
+    color: lighten($body-font-color, 10)
+  .form--label
+    display: none
+
+  .form--field-container
+    max-width: 100%
+
+    .form--text-area-container
+      margin-top: -46px
+
+      .jstElements
+        margin-bottom: 18px
+        position: relative
+        top: -5px
+
+#wiki_page_parent_id
+  overflow: auto
+
+blockquote
+  font-style: italic
+  &.icon:before
+    color: #e0e0e0
+    position: relative
+    bottom: 10px
+    right: 15px
+    padding: 0 0 0 0
+
+.toolbar-container ~ .wiki-content
+  margin-top: 0
+
+.wiki-version--details
+  .navigate-left
+    margin: 0 1.5rem 0 0
+  .navigate-right
+    margin: 0 0 0 1.5rem
+  span
+    vertical-align: middle
+
+@include breakpoint(680px down)
+  .toolbar-container ~ .wiki-content
+    margin-top: 0

@@ -1,0 +1,269 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$project-table--start-indentation: 0.5em
+$project-table--child-indentation: 1.1em
+$project-table--icon-distance: 5px
+
+@mixin calc-indentation($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
+
+table
+  td
+    padding: 3px 6px
+  p
+    margin: 0
+
+  &.plugins
+    td
+      &.configure
+        text-align: right
+        padding-right: 1em
+    span
+      &.name
+        font-weight: bold
+      &.description, &.url
+        display: block
+        font-size: 0.9em
+
+  &#time-report
+    tbody tr
+      font-style: italic
+      color: $body-font-color
+      &.last-level
+        font-style: normal
+      &.total
+        font-style: normal
+        font-weight: bold
+        background-color: #EEEEEE
+    .hours-dec
+      font-size: 0.9em
+
+  &.workflow-table
+    margin-bottom: 16px
+    overflow-x: hidden
+    tbody
+      td
+        border-bottom: 1px solid $light-gray
+
+        &.-no-border
+          border-bottom: none
+          border-right: none
+
+        &.-border-right
+          border-right: 1px solid $light-gray
+
+      tr
+        border-bottom: none
+        &:hover
+          background: none
+
+      td.workflow-table--current-status
+        font-weight: bold
+        text-transform: uppercase
+        font-size: 0.875rem
+
+        .icon-context,
+        .icon
+          color: $body-font-color
+
+      span.workflow-table--turned-header
+        white-space: nowrap
+        transform: rotate(270deg)
+        position: absolute
+        top: 235px
+        transform-origin: 0 0
+        text-transform: uppercase
+        font-weight: bold
+
+    thead
+      .workflow-table--header
+        text-align: right
+        display: flex
+        span
+          flex-basis: 50%
+      .workflow-table--check-all
+        font-size: 12px
+        font-style: italic
+        text-transform: none
+        a
+          color: $content-link-color
+          &:hover
+            color: $content-link-color
+            text-decoration: underline
+
+      .-border
+        border-bottom: 1px solid $light-gray
+
+    col.hover
+      background: none
+
+    .generic-table--sort-header-outer:hover
+      background: none
+
+tr
+  &.project
+    td.name a
+      white-space: nowrap
+    &.idnt td.project--hierarchy span
+      &.icon-context:before
+        padding: 9px 5px 0 0px
+    &.idnt-1 td.project--hierarchy
+      @include calc-indentation(0)
+    &.idnt-2 td.project--hierarchy
+      @include calc-indentation(1)
+    &.idnt-3 td.project--hierarchy
+      @include calc-indentation(2)
+    &.idnt-4 td.project--hierarchy
+      @include calc-indentation(3)
+    &.idnt-5 td.project--hierarchy
+      @include calc-indentation(4)
+    &.idnt-6 td.project--hierarchy
+      @include calc-indentation(5)
+    &.idnt-7 td.project--hierarchy
+      @include calc-indentation(6)
+    &.idnt-8 td.project--hierarchy
+      @include calc-indentation(7)
+    &.idnt-9 td.project--hierarchy
+      @include calc-indentation(8)
+
+  &.issue
+    white-space: nowrap
+    &.sum
+      font-weight: bold
+      background-color: #f6f7f8
+    td
+      &.category
+        white-space: normal
+      &.subject
+        text-align: left
+    &.idnt td.subject .icon-context:before
+      padding: 0px 0 0 5px
+
+  &.entry
+    border: 1px solid #f8f8f8
+    td
+      white-space: nowrap
+      &.filename
+        width: 30%
+      &.size
+        text-align: right
+        font-size: 90%
+      &.revision, &.author
+        text-align: center
+      &.age
+        text-align: right
+
+  div.expander
+    cursor: pointer
+    float: left
+    margin-top: 0.1rem
+
+  &.open span .expand, &.closed span .collapse
+    display: none
+
+  &.changeset td
+    &.author, &.committed_on
+      text-align: center
+      width: 15%
+
+  [class*=reorder]
+    .icon-context:before
+      padding: 0 0 0 0
+
+  &.message
+    height: 2.6em
+    td
+      &.created_on, &.last_message
+        white-space: nowrap
+
+  &.version
+    td
+      &.closed
+        text-decoration: line-through
+        a
+          text-decoration: line-through
+      &.name
+        padding-left: 20px
+        &.icon-link:before
+          padding: 10px 10px 0 0
+    td
+      &.date, &.status, &.sharing
+        white-space: nowrap
+
+  &.user
+    td
+      white-space: nowrap
+    &.locked, &.registered, &.locked a, &.registered a
+      color: #aaa
+
+td.hours
+  font-weight: bold
+  .hours-dec
+    font-size: 0.9em
+
+th.hidden
+  display: none
+
+#content tr.issue
+  &.idnt-1 td.subject
+    padding-left: 0.5em
+  &.idnt-2 td.subject
+    padding-left: 2em
+  &.idnt-3 td.subject
+    padding-left: 3.5em
+  &.idnt-4 td.subject
+    padding-left: 5em
+  &.idnt-5 td.subject
+    padding-left: 6.5em
+  &.idnt-6 td.subject
+    padding-left: 8em
+  &.idnt-7 td.subject
+    padding-left: 9.5em
+  &.idnt-8 td.subject
+    padding-left: 11em
+  &.idnt-9 td.subject
+    padding-left: 12.5em
+
+tr.context-menu-selection,
+tr.-checked
+  background-color: $table-row-highlighting-color
+
+#issue_tree
+  table.issues
+    border: 0
+  td.checkbox
+    display: none
+
+#custom-options-table
+  .custom-option-value
+    display: inline-block
+    width: calc(100% - 5rem)
+  .icon-toggle:before
+    vertical-align: middle

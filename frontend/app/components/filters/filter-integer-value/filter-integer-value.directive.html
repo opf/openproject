@@ -1,0 +1,18 @@
+<div id="div-values-{{$ctrl.filter.id}}" class="inline-label">
+
+  <input ng-model="$ctrl.value"
+         ng-model-options="::$ctrl.filterModelOptions"
+         ng-required="true"
+         class="advanced-filters--number-field"
+         id="values-{{$ctrl.filter.id}}"
+         name="v[{{$ctrl.filter.id}}]"
+         min="0"
+         type="number"
+         value=""
+         ng-disabled="isLoading"/>
+  <label for="values-{{$ctrl.filter.id}}"
+         class="advanced-filters--affix">
+    {{ ::$ctrl.unit }}
+  </label>
+
+</div>

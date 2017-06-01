@@ -1,0 +1,79 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<div class="grid-block">
+  <div class="grid-content">
+    <% if @group.users.any? %>
+      <div class="generic-table--container">
+        <div id="group_users_table" class="generic-table--results-container">
+            <%= render partial: 'groups/users_table' %>
+        </div>
+      </div>
+    <% else %>
+      <%= no_results_box %>
+    <% end %>
+  </div>
+  <div class="grid-content">
+    <% users = User
+               .not_builtin
+               .active
+               .not_in_group(@group)
+               .limit(100) %>
+    <% if users.any? %>
+      <%= styled_form_tag(members_of_group_path(@group),
+                          method: :post,
+                          remote: true,
+                          'ajax-indicated': '') do |f| %>
+        <remote-field-updater url="<%= url_for(controller: '/groups', action: 'autocomplete_for_user', id: @group)%>">
+          <fieldset class="form--fieldset">
+            <legend class="form--fieldset-legend"><%=l(:label_user_new)%></legend>
+              <div class="form--field -vertical">
+                <%= styled_label_tag "user_search", l(:label_user_search) %>
+                <div class="form--field-container">
+                  <%= styled_text_field_tag 'user_search',
+                                            nil,
+                                            class: 'remote-field--input',
+                                            data: { :'remote-field-key' =>'q' } %>
+                </div>
+              </div>
+              <div class="form--field -vertical">
+                <div id="users" class="remote-field--target form--field-container -vertical">
+                  <%= principals_check_box_tags 'user_ids[]', users %>
+                </div>
+              </div>
+          </fieldset>
+        </remote-field-updater>
+        <div>
+          <%= styled_button_tag l(:button_add),
+                                class: '-highlight -with-icon icon-checkmark' %>
+        </div>
+      <% end %>
+    <% end %>
+  </div>
+</div>

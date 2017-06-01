@@ -1,0 +1,174 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= include_gon %>
+
+<div id="add-message" style="display:none;">
+  <% if authorize_for('messages', 'new') %>
+    <h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
+    <%= labelled_tabular_form_for Message.new,
+                                  url: board_topics_path(@board),
+                                  html: { multipart: true,
+                                          id: 'message-form',
+                                          class: 'form' } do |f| %>
+      <%= render partial: 'messages/form', locals: {f: f} %>
+
+      <hr class="form--separator" />
+      <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+      <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
+      <%= link_to l(:button_cancel), '', onclick: 'jQuery("#add-message").hide();', class: 'button' %>
+    <% end %>
+    <div id="preview"></div>
+  <% end %>
+</div>
+
+<%= toolbar title: @board.name, subtitle: format_text(@board.description) do %>
+  <% if authorize_for(:messages, :new) %>
+    <li class="toolbar-item">
+      <%= link_to({ controller: '/messages', action: 'new', board_id: @board},
+                  { class: 'button -alt-highlight',
+                    aria: {label: t(:label_message_new)},
+                    title: t(:label_message_new)},
+                    onclick: 'jQuery("#add-message").show(); jQuery("#message_subject").focus(); return false;') do %>
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t(:label_message) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <% unless User.current.anonymous? %>
+    <li class="toolbar-item">
+      <%= watcher_link(@board, User.current) %>
+    </li>
+  <% end %>
+<% end %>
+
+<div ng-controller="MessagesController" ng-cloak>
+  <% if @topics.any? %>
+    <div class="generic-table--container">
+        <div class="generic-table--results-container">
+          <table class="generic-table">
+            <colgroup>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+              <col highlight-col>
+            </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Message.human_attribute_name(:subject) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= Message.human_attribute_name(:author) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <sort-link sort-attr="created_on" sort-func="loadMessages()">
+                        <%= Message.human_attribute_name(:created_on) %>
+                      </sort-link>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <sort-link sort-attr="replies" sort-func="loadMessages()">
+                        <%= l(:label_reply_plural) %>
+                      </sort-link>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <sort-link sort-attr="updated_on" sort-func="loadMessages()">
+                        <%= l(:label_message_last) %>
+                      </sort-link>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="message in messages">
+              <td class="subject">
+                <op-icon ng-if="message.isSticky == true" icon-classes="icon-wiki" icon-title="{{I18n.t('js.label_board_sticky')}}"></op-icon>
+                <op-icon ng-if="message.isLocked == true" icon-classes="icon-locked" icon-title="{{I18n.t('js.label_board_locked')}}"></op-icon>
+                <a ng-href="{{PathHelper.messagePath(message.id)}}">{{message.subject}}</a>
+              </td>
+              <td class="author"><a ng-href="{{PathHelper.userPath(message.author.id)}}">{{message.author.name}}</a></td>
+              <td class="created_on" date-time date-time-value="message.created_on"></td>
+              <td class="replies">{{message.replies_count}}</td>
+              <td class="last_message">
+                <span ng-if="message.last_reply !== undefined">
+                  <authoring created-on="message.last_reply.created_on" author="message.last_reply.author" project="projectId" activity="activityModuleEnabled"></authoring>
+                  <br />
+                  <a ng-href="{{PathHelper.messagePath(message.last_reply.id)}}">{{message.subject}}</a>
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+     </div>
+    <table-pagination total-entries="totalMessageCount" update-results="loadMessages()"></table-pagination>
+    <modal-loading></modal-loading>
+  <% else %>
+    <%= no_results_box %>
+  <% end %>
+</div>
+
+<%= other_formats_links do |f| %>
+  <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
+<% end %>
+<% html_title h(@board.name) %>
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {format: 'atom', key: User.current.rss_key}, title: "#{@project}: #{@board}") %>
+<% end %>

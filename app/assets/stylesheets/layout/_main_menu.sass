@@ -1,0 +1,282 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+$toggler-width: 40px
+
+#main-menu
+  bottom: auto
+  width: $main-menu-width
+  float: left
+  left: 0
+  background-color: $main-menu-bg-color
+  @include default-transition
+
+  #menu-sidebar
+    // 40px is the height of the toggler
+    height: calc(100% - 40px)
+  %absolute-layout-mode &
+    position: relative
+    height:   100%
+    #menu-sidebar
+      +allow-vertical-scrolling
+      -ms-overflow-style: -ms-autohiding-scrollbar
+  ul
+    margin: 0
+    padding: 0
+
+    &.menu_root
+      border-right: $main-menu-border-width solid $main-menu-border-color
+
+      // -------------------- ALL menu items ---------------------------
+      li
+        float: none
+        list-style-type: none
+        margin: 0
+        padding: 0
+        white-space: nowrap
+        position: relative
+        min-height: 23px
+
+        &.ng-leave
+          @include animation(0.5s fade-out)
+
+        a
+          background: none
+          &:before
+            padding-right: 25px
+
+        [class*="-menu-item"]
+          display: flex
+          align-items: center
+
+      // -------------------- MAIN menu items ---------------------------
+      > li
+        .main-item-wrapper
+          display: flex
+
+          @include default-transition
+
+          &:hover
+            @include varprop(background, main-menu-bg-hover-background)
+
+            @if $main-menu-enable-toggle-highlighting != true
+              // simultaneously hover all menu item anchor tags
+              > a
+                @include varprop(color, main-menu-selected-font-color)
+
+          > a
+            @include default-transition
+
+            &.selected, &.selected + a
+              @include varprop(background, main-menu-bg-selected-background)
+
+              &:hover
+                @include varprop(background, main-menu-bg-hover-background)
+
+            &:hover, &.selected, &.selected + a
+              @include varprop(color, main-menu-selected-font-color)
+
+            &:hover
+              @include varprop(background, main-menu-bg-hover-background)
+
+
+          // placeholder for highlighted left-item-border
+          a:not(.toggler)
+            @extend .small-12
+
+          a:not(:only-child):first-of-type
+            @extend .small-10
+
+
+        .open .toggler
+          .icon-toggler:before
+            @extend .icon-arrow-up1:before
+
+        // padding for placeholder for highlighted left-item-border
+        a
+          // work around due to dom manipulation on document: ready:
+          // this isn't scoped to .main-item-wrapper to avoid flickering
+          padding-left: 11px
+        a.toggler
+          // explicitly reset to zero to avoid selector precedence problems
+          padding-left: 0
+
+    // -------------------- CHILD menu items ---------------------------
+    ul.menu-children
+      display: none
+      padding-top: 10px
+      padding-bottom: 10px
+      background-color: $main-menu-child-menu-bg-color
+      padding: 0
+      &.unattached
+        border-top: 1px solid #ddd
+      li
+        @include default-transition
+
+        &:hover
+          @include varprop(background, main-menu-child-bg-hover-color)
+
+          @if $main-menu-enable-toggle-highlighting != true
+            // simultaneously hover all menu item anchor tags
+            > a
+              color: $main-menu-child-selected-font-color
+
+        > a
+          @include default-transition
+
+          &.selected, &.selected + a
+            @include varprop(background, main-menu-child-bg-selected-color)
+
+
+          &:hover, &.selected, &.selected + a
+            color: $main-menu-child-selected-font-color
+
+        a
+          padding-left: 12px
+          font-size: $main-menu-child-font-size
+          line-height: $main-menu-child-item-height
+          height: $main-menu-child-item-height
+          color: $main-menu-child-font-color
+          margin-top: 1px
+
+          &:hover
+            text-decoration: none
+            color: $main-menu-child-selected-font-color
+          &.selected
+            border: none !important
+            color: $main-menu-child-selected-font-color
+            font-weight: bold
+
+  a
+    text-decoration: none
+    line-height: $main-menu-item-height
+    display: block
+    position: relative
+    height: $main-menu-item-height
+    color: $main-menu-font-color
+    font-family: $body-font-family
+    font-weight: normal
+    font-size: $main-menu-font-size
+    font-style: normal
+
+  .toggler
+    width: $toggler-width
+    height: $main-menu-item-height
+    text-align: center
+  .sub-menu-heading
+    float: left
+
+  #toggle-project-menu
+    border: $main-menu-item-border-width solid $main-menu-item-border-color
+    height: $main-menu-item-height
+    width: $main-menu-width
+    background-color: $main-menu-bg-color
+    @include default-transition
+    &:hover
+      @include varprop(background, main-menu-bg-hover-background)
+    &.show
+      width: $main-menu-folded-width
+      a.navigation-toggler
+        height: 100%
+        padding: 0 10px 0 0
+        i:before
+          @extend .icon-double-arrow-right:before
+    a.navigation-toggler
+      @include default-transition
+      position: relative
+      height: $main-menu-item-height
+      text-align: right
+      padding: 0 6px 0 0
+      &:hover
+        @include varprop(color, main-menu-navigation-toggler-font-hover-color)
+  .toggle-follow
+    position: absolute
+    width: 140px
+  .icon-time
+    background: none
+    padding: 0
+
+.hidden-navigation
+  #main-menu
+    width: $main-menu-folded-width
+    .ellipsis
+      text-overflow: clip
+      -o-text-overflow: clip
+      -ms-text-overflow: clip
+    .toggler
+      display: none
+  #sidebar,
+  .menu-children
+    display: none
+
+#sidebar
+  margin: 30px 0 0 0
+  padding: 0 17px 0 17px
+  width: auto
+  color: $main-menu-sidebar-font-color
+  font-family: $body-font-family
+  font-style: normal
+  overflow: hidden
+  text-overflow: ellipsis
+  overflow-wrap: initial
+
+  h3
+    display: block
+    border: none
+    color: $main-menu-sidebar-h3-color
+    font-weight: normal
+    font-size: $main-menu-sidebar-h3-font-size
+    margin: 30px 0 8px 0
+    padding: 10px 0 0 0
+
+    text-transform: uppercase
+
+  > h3:first-child
+    margin-top: 0
+
+  a, a:link
+    color: $main-menu-sidebar-link-color
+    display: inline
+    position: static
+    text-decoration: underline
+
+  a:hover
+    text-decoration: underline
+
+  label
+    color: $main-menu-sidebar-font-color
+    max-width: 80%
+    vertical-align: top
+
+  ul
+    border: none
+    overflow-x: hidden
+    li
+      border: none
+    li a
+      padding: 0

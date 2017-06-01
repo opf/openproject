@@ -1,0 +1,139 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+attachments_001:
+  created_on: 2006-07-19 21:07:27 +02:00
+  downloads: 0
+  content_type: text/plain
+  disk_filename: 060719210727_error281.txt
+  container_id: 3
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 1
+  container_type: WorkPackage
+  filesize: 28
+  filename: error281.txt
+  author_id: 2
+attachments_003:
+  created_on: 2006-07-19 21:07:27 +02:00
+  downloads: 0
+  content_type: image/gif
+  disk_filename: 060719210727_logo.gif
+  container_id: 4
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 3
+  container_type: WikiPage
+  filesize: 280
+  filename: logo.gif
+  description: This is a logo
+  author_id: 2
+attachments_004:
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: WorkPackage
+  container_id: 3
+  downloads: 0
+  disk_filename: 060719210727_source.rb
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 4
+  filesize: 153
+  filename: source.rb
+  author_id: 2
+  description: This is a Ruby source file
+  content_type: text/x-ruby
+attachments_005:
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: WorkPackage
+  container_id: 3
+  downloads: 0
+  disk_filename: 060719210727_changeset_iso8859-1.diff
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 5
+  filesize: 687
+  filename: changeset_iso8859-1.diff
+  author_id: 2
+  content_type: text/x-diff
+attachments_006:
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: WorkPackage
+  container_id: 3
+  downloads: 0
+  disk_filename: 060719210727_archive.zip
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 6
+  filesize: 157
+  filename: archive.zip
+  author_id: 2
+  content_type: application/zip
+attachments_007:
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: WorkPackage
+  container_id: 4
+  downloads: 0
+  disk_filename: 060719210727_archive.zip
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 7
+  filesize: 157
+  filename: archive.zip
+  author_id: 1
+  content_type: application/zip
+attachments_010:
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: WorkPackage
+  container_id: 2
+  downloads: 0
+  disk_filename: 060719210727_picture.jpg
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 10
+  filesize: 452
+  filename: picture.jpg
+  author_id: 2
+  content_type: image/jpeg
+attachments_013:
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: Message
+  container_id: 1
+  downloads: 0
+  disk_filename: 060719210727_foo.zip
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 13
+  filesize: 452
+  filename: foo.zip
+  author_id: 2
+  content_type: application/octet-stream
+attachments_014:
+  created_on: 2006-07-19 21:07:27 +02:00
+  container_type: WorkPackage
+  container_id: 3
+  downloads: 0
+  disk_filename: 060719210727_changeset_utf8.diff
+  digest: b91e08d0cf966d5c6ff411bd8c4cc3a2
+  id: 14
+  filesize: 687
+  filename: changeset_utf8.diff
+  author_id: 2
+  content_type: text/x-diff

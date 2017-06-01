@@ -1,0 +1,53 @@
+<div class="relation-row"
+     ng-class="$ctrl.relationClassName"
+     focus-within>
+    <div class="grid-block v-align hierarchy-item"
+         ng-if="!$ctrl.showEditForm && $ctrl.relationReady">
+        <div class="grid-content medium-7 collapse" wp-single-relation>
+            <span ng-style="{'padding-left': $ctrl.indentBy + 'px'}"
+                  class="wp-relations-hierarchy-subject">
+                <a ui-sref=".({ workPackageId: $ctrl.relatedWorkPackage.id})"
+                   class="wp-relations--subject-field"
+                   ng-if="!$ctrl.isCurrentElement()"
+                   aria-label="{{ ($ctrl.isParent() ? $ctrl.text.parent : $ctrl.text.children) + ' ' + singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}"
+                   ng-attr-id="{{ $ctrl.isParent() ? 'hierarchy--parent' : ''}}">
+                    {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}
+                </a>
+                <span ng-if="$ctrl.isCurrentElement()"
+                      title="{{$singleRelation.getFullIdentifier($ctrl.relatedWorkPackage)}}">
+                        {{ singleRelationCtrl.getFullIdentifier($ctrl.relatedWorkPackage) }}
+                </span>
+            </span>
+        </div>
+        <div class="grid-content medium-3 collapse wp-relations-status-field">
+            <div wp-edit-form="$ctrl.relatedWorkPackage" ng-if="$ctrl.relationReady">
+                <div wp-edit-field="'status'">
+                </div>
+            </div>
+        </div>
+        <div class="grid-content medium-2 collapse wp-relations-controls-section focus-within--depending">
+          <accessible-by-keyboard ng-if="$ctrl.canModifyHierarchy && $ctrl.isParent()"
+                                  aria-hidden="false"
+                                  execute="$ctrl.showEditForm = true"
+                                  link-class="wp-relation--edit">
+              <op-icon icon-classes="icon-edit" icon-title="{{ ::$ctrl.text.change_parent }}"></op-icon>
+          </accessible-by-keyboard>
+
+          <accessible-by-keyboard ng-if="$ctrl.canModifyHierarchy && $ctrl.relationType"
+                                  aria-hidden="false"
+                                  execute="$ctrl.removeRelation()"
+                                  link-class="wp-relation--remove">
+              <op-icon icon-classes="icon-remove"
+                       icon-title="{{ $ctrl.isParent() ? $ctrl.text.remove_parent : $ctrl.text.remove_child }}"></op-icon>
+          </accessible-by-keyboard>
+        </div>
+    </div>
+
+    <div ng-if="$ctrl.isParent() && !$ctrl.relatedWorkPackage || $ctrl.showEditForm">
+        <wp-relations-create template="empty-parents"
+                             fixed-relation-type="parent"
+                             ng-if="$ctrl.canModifyHierarchy"
+                             external-form-toggle="$ctrl.showEditForm"
+                             work-package="$ctrl.workPackage"></wp-relations-create>
+    </div>
+</div>

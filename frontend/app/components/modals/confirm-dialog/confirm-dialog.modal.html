@@ -1,0 +1,21 @@
+<div class="confirm-form-submit--modal">
+  <div class="modal--header">
+    <span class="icon-context icon-attention"></span>
+    <h2 ng-bind="::text.title"></h2>
+  </div>
+  <div class="ngdialog-body modal--main">
+    <p ng-bind="::text.text"></p>
+  </div>
+  <div class="modal--footer">
+    <button class="confirm-form-submit--cancel button"
+            ng-click="cancel()"
+            ng-bind="::text.button_cancel"
+            ng-attr-title="{{ ::text.button_cancel }}">
+    </button>
+    <button class="confirm-form-submit--continue button -highlight"
+            ng-click="confirmAndClose()"
+            ng-bind="::text.button_continue"
+            ng-attr-title="{{ ::text.button_continue }}">
+    </button>
+  </div>
+</div>

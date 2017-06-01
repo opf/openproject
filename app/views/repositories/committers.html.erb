@@ -1,0 +1,89 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= toolbar title: l(:label_repository) %>
+<%= simple_format(l(:text_repository_usernames_mapping)) %>
+<% if @committers.empty? %>
+  <% no_results_box %>
+<% else %>
+  <%= form_tag({}) do %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= User.human_attribute_name(:login) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= User.model_name.human %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% i = 0 -%>
+            <% @committers.each do |committer, user_id| -%>
+              <tr>
+                <td><%=h committer %></td>
+                <td>
+                  <%= hidden_field_tag "committers[#{i}][]", committer %>
+                  <%= select_tag "committers[#{i}][]", content_tag('option', "-- #{l :actionview_instancetag_blank_option} --", value: '') + options_from_collection_for_select(@users, 'id', 'name', user_id.to_i) %>
+                </td>
+              </tr>
+              <% i += 1 -%>
+            <% end -%>
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+    <hr class="form--separator" />
+    <p>
+      <%= submit_tag l(:button_update), class: 'button -highlight' %>
+      <%= link_to settings_project_path(id: @project.id, tab: 'repository'), class: 'button' do %>
+        <span class="button--text"><%= l(:button_cancel) %></span>
+      <% end %>
+    </p>
+  <% end %>
+<% end %>

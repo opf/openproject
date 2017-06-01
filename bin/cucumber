@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Runs cucumber while requiring all plugin feature folders to
+# make sure all steps are defined. Using this you can then run
+# cucumber as usual, for instance to call a specific scenario:
+#
+#   ./bin/cucumber `bundle show openproject-reporting`/features/links.feature:23
+FEATURES=`bundle exec rails runner "
+  support_files = [Rails.root.join('features').to_s] +
+    Plugins::LoadPathHelper
+      .cucumber_load_paths
+      .flat_map { |path| ['-r', Shellwords.escape(path)] }
+
+  puts support_files.join(' ')"`
+
+bundle exec cucumber -r $FEATURES $*
+

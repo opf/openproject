@@ -1,0 +1,105 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= toolbar title: "#{avatar(@news.author)}  #{h @news.title}".html_safe do %>
+  <% if User.current.allowed_to?(:manage_news, @project) %>
+    <li class="toolbar-item">
+      <%= link_to(edit_news_path(@news),
+        accesskey: accesskey(:edit),
+        class: 'button',
+        onclick: 'jQuery("#edit-news").show(); return false;') do %>
+        <%= op_icon('button--icon icon-edit') %>
+        <span class="button--text"><%= l(:button_edit) %></span>
+      <% end %>
+    </li>
+  <% end %>
+  <li class="toolbar-item">
+    <%= watcher_link(@news, User.current) %>
+  </li>
+  <% if User.current.allowed_to?(:manage_news, @project) %>
+    <li class="toolbar-item">
+      <%= link_to(news_path(@news),
+        data: { confirm: l(:text_are_you_sure) },
+        method: :delete,
+        class: 'button') do %>
+        <%= op_icon('button--icon icon-delete') %>
+        <span class="button--text"><%= l(:button_delete) %></span>
+      <% end %>
+    </li>
+  <% end %>
+<% end %>
+
+<% if authorize_for('news', 'edit') %>
+  <div id="edit-news" style="display:none;">
+    <%= labelled_tabular_form_for @news, html: { id: 'news-form' } do |f| %>
+      <%= render partial: 'form', locals: { f: f } %>
+      <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+      <%= link_to_function l(:button_cancel), 'jQuery("#edit-news").hide()', class: 'button'%>
+      <%= preview_link preview_news_path(@news), 'news-form-preview' %>
+    <% end %>
+    <div id="preview"></div>
+  </div>
+<% end %>
+<% if @news.summary.present? %>
+  <%= format_text(@news.summary, object: @news) %>
+<% end %>
+  <span class="author"><%= authoring @news.created_on, @news.author %></span></p>
+<div class="wiki">
+  <%= format_text(@news.description, object: @news) %>
+</div>
+<br />
+<div id="comments" style="margin-bottom:16px;">
+  <h3 class="icon-context icon-quote"><%= l(:label_comment_plural) %></h3>
+  <% @comments.each do |comment| %>
+    <% next if comment.new_record? %>
+      <div class="contextual">
+        <%= link_to_if_authorized icon_wrapper('icon-context icon-delete', l(:button_delete)),
+                              {controller: '/news/comments', action: 'destroy', id: comment},
+                              data: { confirm: l(:text_are_you_sure) },
+                              method: :delete,
+                              class: 'no-decoration-on-hover',
+                              title: l(:button_delete),
+                              alt: l(:button_delete) %>
+      </div>
+      <h4 class="comment"><%= avatar(comment.author) %><%= authoring comment.created_on, comment.author %></h4>
+      <%= format_text(comment.comments, object: comment) %>
+    <% end %>
+  </div>
+  <% if authorize_for 'news/comments', 'create' %>
+    <p><%= toggle_link l(:label_comment_add), "add_comment_form", focus: "comment_comments" %></p>
+    <%= form_for([@news, Comment.new], html: { id: "add_comment_form", style: "display:none;" }) do %>
+      <div class="box">
+        <%= label_tag 'comment_comments', Journal.human_attribute_name(:notes), class: 'hidden-for-sighted' %>
+        <%= text_area 'comment', 'comments', cols: 80, rows: 15, class: 'wiki-edit' %>
+        <%= wikitoolbar_for 'comment_comments' %>
+      </div>
+      <p><%= submit_tag l(:button_add), class: 'button -highlight' %></p>
+    <% end %>
+  <% end %>
+  <% html_title h(@news.title) -%>

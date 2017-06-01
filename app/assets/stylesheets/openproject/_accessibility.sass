@@ -1,0 +1,116 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+body.accessibility-mode
+  a:focus,
+  input:focus,
+  select:focus,
+  textarea:focus,
+  button:focus,
+  *:focus
+    outline: 3px solid darkblue
+
+  .form--field-container,
+  .wp-edit-field
+    input:out-of-range,
+    input:invalid
+      border: 2px solid #9E2A1C
+
+  h1:hover a.wiki-anchor,
+  h2:hover a.wiki-anchor,
+  h3:hover a.wiki-anchor
+    display: none
+
+  .ng-modal-window.columns-modal .ng-modal-inner
+    overflow: auto
+    margin-top: 5vh
+
+
+  // Mark currently selected top menu items
+  #top-menu
+    li a,
+    li.drop-down a
+      border: 1px solid transparent
+
+    li a.selected,
+    li.drop-down.selected a
+      background: $main-menu-bg-selected-background !important
+      color: $main-menu-selected-font-color !important
+
+      &:hover
+        border-color: $main-menu-border-color
+
+  // Neccessary to have enough space for the border in IE
+  .work-packages--page-container
+    .inplace-edit .inplace-edit--read-value,
+    .inplace-edit .inplace-edit--read,
+    .inplace-edit form,
+    .id a
+      margin: 3px
+      max-width: calc(100% - 6px)
+    .inplace-edit form
+      display: block
+    .inplace-edit .inplace-edit--read-value
+      display: inline-block
+
+  // Allow a greater sensible area to click input checkboxes
+  // On the WP table this is not neccessary because the whole cell is clickable
+  table:not(.work-package-table) input[type='checkbox']
+    width: 100%
+
+  // Show WP skip links for motorically handicapped users
+  .skip-navigation-link:focus
+    top: auto
+    left: auto
+
+  // Show inplace-editing icons so that they can be accessed directly
+  .inplace-editing--trigger-link
+    .inplace-editing--container
+      border-color: $inplace-edit--border-color
+    .inplace-edit--icon-wrapper
+      visibility: visible
+
+  .wp-relations-create-button .relation-create
+    width: calc(100% - 6px)
+    padding: 0
+    margin: 3px
+
+  // Necessary for correct contrast ratio
+  button:disabled,
+  a.button:disabled
+    color: $body-font-color
+    opacity: 0.80
+  button.-active,
+  a.button.-active
+    color: $body-font-color
+    &:hover,
+    &:focus
+      color: $body-font-color
+
+  &:not(.controller-homescreen) #breadcrumb
+    display: block

@@ -1,0 +1,31 @@
+<div class="description attributes-group" id="<%= vendor %>-<%= type %>" style="<%=existing ? 'display: block' : 'display: none' %> ">
+  <div class="attributes-group--header">
+    <div class="attributes-group--header-container">
+      <span class="attributes-group--header-text">
+        <%= l("repositories.#{vendor}.#{type}_url") %>
+      </span>
+    </div>
+    <% unless repository.new_record? %>
+    <div class="attributes-group--header-control">
+      <%= render partial: '/repositories/settings/repository_committers_link', locals: { repository: repository } %>
+      <% if type === 'managed' %>
+        <%= link_to l(:button_delete), destroy_info_project_repository_path(repository.project),
+            method: :get,
+            class:  'icon icon-delete' %>
+      <% else %>
+        <%= link_to l(:button_remove), destroy_info_project_repository_path(repository.project),
+            method: :get,
+            class:  'icon icon-remove' %>
+      <% end %>
+    </div>
+    <% end %>
+  </div>
+
+  <p><%= l("repositories.#{vendor}.#{type}_introduction") %></p>
+  <div id="attributes-group--content-<%= type %>"
+       class="attributes-group--contentsingle-attribute">
+
+    <%= render partial: "/repositories/settings/#{vendor}/#{type}",
+               locals: { form: form, repository: repository } %>
+  </div>
+</div>

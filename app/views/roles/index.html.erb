@@ -1,0 +1,100 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% content_for :action_menu_specific do %>
+<% end %>
+<% html_title l(:label_administration), l("label_role_plural") %>
+<%= toolbar title: l(:label_role_plural)  do %>
+  <li class="toolbar-item">
+    <%= link_to new_role_path,
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_role_new)},
+            title: t(:label_role_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= Role.model_name.human %></span>
+    <% end %>
+  </li>
+<% end %>
+<%= render partial: 'layouts/action_menu_specific' %>
+<div class="generic-table--container">
+  <div class="generic-table--results-container">
+    <table class="generic-table">
+      <colgroup>
+        <col highlight-col>
+        <col highlight-col>
+        <col>
+      </colgroup>
+      <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%= Role.model_name.human %>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                <span>
+                  <%=l(:button_sort)%>
+                </span>
+              </div>
+            </div>
+          </th>
+          <th><div class="generic-table--empty-header"></div></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for role in @roles %>
+          <tr>
+            <td><%= content_tag(role.builtin? ? 'em' : 'span', link_to(h(role.name), action: 'edit', id: role)) %></td>
+            <td>
+              <% unless role.builtin? %>
+                <%= reorder_links('role', {action: 'update', id: role}, method: :put) %>
+              <% end %>
+            </td>
+            <td class="buttons">
+              <%= link_to(l(:button_delete), role_path(role),
+                                       method: :delete,
+                                       data: { confirm: l(:text_are_you_sure) },
+                                       class: 'icon icon-delete') unless role.builtin? %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    
+  </div>
+</div>
+<%= pagination_links_full @roles %>
+<p><%= link_to l(:label_permissions_report), action: 'report' %></p>
+<% html_title(l(:label_role_plural)) -%>

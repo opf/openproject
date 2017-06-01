@@ -1,0 +1,240 @@
+/*-- copyright
+ * OpenProject is a project management system.
+ * Copyright (C) 2012-2013 the OpenProject Foundation (OPF)
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License version 3.
+ *
+ * OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+ * Copyright (C) 2006-2013 Jean-Philippe Lang
+ * Copyright (C) 2010-2013 the ChiliProject Team
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; either version 2
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * See doc/COPYRIGHT.rdoc for more details. ++*/
+
+//= require_self
+//= require coderay
+
+div.changeset-changes ul
+  list-style-type: none
+  margin: 0
+  padding: 0
+  > ul
+    margin-left: 18px
+    padding: 0
+
+li.change
+  list-style-type: none
+  padding: 1px 0 1px 20px
+  margin: 0
+
+  &.icon:before
+    position: relative
+    top: 2px
+  &.change-A.icon:before
+    color: green
+  &.change-M.icon:before
+    color: #FAC100
+  &.change-C.icon:before
+    color: #65B2F8
+  &.change-R.icon:before
+    color: #A54EFD
+  &.change-D.icon:before
+    color: red
+
+  .copied-from
+    font-style: italic
+    color: #999
+    font-size: 0.9em
+    &:before
+      content: " - "
+
+#changes-legend
+  list-style-type: none
+  float: right
+  font-size: 0.8em
+  margin: 0
+  li
+    float: left
+    margin-right: 1em
+
+.repository--revision-toolbar
+  margin-top: 3rem
+
+.repository--checkout-instructions--url
+  margin-top: 1rem
+
+.repository-breadcrumbs
+  font-size: 0.9rem
+  margin: 15px 0
+
+.repository-breadcrumbs--home
+  font-size: 0.75rem
+
+.repository-bradcrumbs--identifier
+  display: inline-block
+  margin-left: 10px
+
+.repository-breadcrumbs--sep
+  display: inline-block
+  margin: 0 2px
+
+  &::before
+    content: '▸'
+    color: $gray-dark
+
+table.filecontent
+  border: 1px solid #ccc
+  border-collapse: collapse
+  width: 98%
+  background-color: #fafafa
+
+  th
+    border: 1px solid #ccc
+    background-color: #eee
+    &.filename
+      background-color: #e4e4d4
+      text-align: left
+      padding: 0.2em
+  tr.spacing
+    th
+      text-align: center
+    td
+      height: 0.4em
+      background: #EAF2F5
+
+  th.line-num
+    border: 1px solid #d7d7d7
+    font-size: 0.8em
+    text-align: right
+    width: 2%
+    padding-right: 3px
+    color: #999
+    a
+      text-decoration: none
+      color: inherit
+
+  td.line-code pre
+    margin: 0
+    white-space: pre-wrap
+    white-space: -moz-pre-wrap
+    white-space: -o-pre-wrap
+
+  td.diff_in pre
+    background: #DDFFDD
+    span
+      background: #AAFFAA
+
+  td.diff_out pre
+    background: #FFDDDD
+    span
+      background: #FFAAAA
+
+  pre
+    overflow: hidden
+
+// 12 different colors for the annonate view
+table.annotate
+  tr
+    &.bloc-0
+      background: #FFFFBF
+    &.bloc-1
+      background: #EABFFF
+    &.bloc-2
+      background: #BFFFFF
+    &.bloc-3
+      background: #FFD9BF
+    &.bloc-4
+      background: #E6FFBF
+    &.bloc-5
+      background: #BFCFFF
+    &.bloc-6
+      background: #FFBFEF
+    &.bloc-7
+      background: #FFE6BF
+    &.bloc-8
+      background: #FFE680
+    &.bloc-9
+      background: #AA80FF
+    &.bloc-10
+      background: #FFBFDC
+    &.bloc-11
+      background: #BFE4FF
+
+  td
+    &.revision
+      text-align: center
+      width: 2%
+      padding-left: 1em
+      background: inherit
+
+    &.author
+      text-align: center
+      border-right: 1px solid #d7d7d7
+      white-space: nowrap
+      padding-left: 1em
+      padding-right: 1em
+      width: 3%
+      background: inherit
+      font-size: 90%
+
+
+    &.line-code
+      background-color: #fafafa
+
+div
+  &.action_M
+    background: #fd8
+  &.action_D
+    background: #f88
+  &.action_A
+    background: #bfb
+
+tr.dir
+  a
+    &.dir-expander i
+      @include icon-common
+      cursor: pointer
+      &:before
+        @extend .icon-plus:before
+        margin-left: 5px
+        padding: 0
+  &.loading
+    .dir-expander i:before
+      @extend .icon-loading1:before
+  &.collapsed
+    .dir-expander i:before
+      @extend .icon-plus:before
+  &.open
+    .dir-expander i:before
+      @extend .icon-minus1:before
+
+tr
+  &.entry
+    &.file
+      td
+        &.filename
+          a
+            margin-left: $repository-entry-filename-margin-left
+
+tr
+  &.entry
+    &.truncation-warning
+      td
+        div.notification-box
+          margin-left: $repository-entry-filename-margin-left
+          margin-top: 0
+          margin-bottom: 0

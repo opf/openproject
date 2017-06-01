@@ -1,0 +1,16 @@
+<span class="tl-historical" ng-if="historicalDataDiffers">
+  <span ng-bind="historicalData" class="historical-data"></span>
+  <a href="javascript://" title="{{labelTimelineChanged}}"
+     ng-class="[
+       'icon',
+       'tl-icon-' + (isDateColumn && historicalDateKind || 'changed'),
+       'icon-' + (isDateColumn && 'time' || 'arrow-left-right')
+     ]"></a>
+  <br/>
+</span>
+
+<span ng-class="[
+  'tl-column',
+  isDateColumn && 'tl-current',
+  isDateColumn && historicalDataDiffers && 'tl-' + historicalDateKind
+]" ng-bind="columnData"></span>

@@ -1,0 +1,18 @@
+<op-date-picker
+  tabindex="-1"
+  on-change="vm.handleUserSubmit()"
+  on-change="vm.handleUserSubmit()">
+
+  <input ng-model="vm.workPackage[vm.fieldName]"
+         type="text"
+         class="wp-inline-edit--field"
+         transform-date-value
+         ng-blur="vm.onlyInAccessibilityMode(vm.handleUserBlur)"
+         ng-keydown="vm.handleUserSubmitOnEnter($event)"
+         ng-required="vm.field.required"
+         ng-disabled="vm.workPackage.inFlight"
+         focus="vm.shouldFocus()"
+         focus-priority="vm.shouldFocus()"
+         ng-attr-id="{{vm.htmlId}}" />
+
+</op-date-picker>

@@ -1,0 +1,7 @@
+# OpenProject <%= plugin_name.gsub('_',' ').titlecase %> Plugin
+
+FIXME Add description and check issue tracker link below
+
+## Issue Tracker
+
+https://community.openproject.org/projects/<%= plugin_name.gsub('_','-') %>/work_packages

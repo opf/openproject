@@ -1,0 +1,15 @@
+<div id="div-values-{{$ctrl.filter.name}}">
+
+  <input ng-model="$ctrl.value"
+         ng-model-options="::$ctrl.filterModelOptions"
+         ng-required="true"
+         class="advanced-filters--text-field"
+         id="values-{{$ctrl.filter.name}}"
+         name="v[{{$ctrl.filter.name}}]"
+         type="text" />
+
+  <label for="values-{{$ctrl.filter.name}}"
+         class="hidden-for-sighted">
+    {{ ::$ctrl.I18n.t('js.work_packages.description_enter_text') }}
+  </label>
+</div>

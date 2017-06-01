@@ -1,0 +1,49 @@
+user: openproject
+group: openproject
+targets:
+  debian-7: &debian7
+    build_dependencies:
+      - libmagickwand-dev
+      - libsqlite3-dev
+    dependencies:
+      - libmagickwand5
+  debian-8: &debian8
+    build_dependencies:
+      - libmagickwand-dev
+      - libsqlite3-dev
+    dependencies:
+      - libmagickwand-6.q16-2
+  ubuntu-14.04:
+    <<: *debian7
+  ubuntu-16.04:
+    <<: *debian8
+  centos-7:
+   build_dependencies:
+      - ImageMagick-devel
+   dependencies:
+      - epel-release
+      - ImageMagick
+  sles-11:
+    env:
+      - EMBED_IMAGEMAGICK=true
+  sles-12:
+    build_dependencies:
+      - ImageMagick-devel
+    dependencies:
+      - ImageMagick
+before_precompile: "packaging/setup"
+crons:
+  - packaging/cron/openproject-clear-old-sessions
+  - packaging/cron/openproject-clear-uploaded-files
+services:
+  - postgres
+installer: https://github.com/pkgr/installer.git
+wizards:
+  - https://github.com/pkgr/addon-legacy-installer.git
+  - https://github.com/pkgr/addon-mysql.git
+  - https://github.com/pkgr/addon-apache2.git
+  - https://github.com/finnlabs/addon-repositories.git
+  - https://github.com/pkgr/addon-smtp.git
+  - https://github.com/pkgr/addon-memcached.git
+  - https://github.com/pkgr/addon-openproject.git
+buildpack: https://github.com/opf/heroku-buildpack-multi.git

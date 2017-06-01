@@ -1,0 +1,34 @@
+---
+languages:
+  Ruby: true
+  JavaScript: true
+engines:
+  rubocop:
+    enabled: true
+  bundler-audit:
+    enabled: true
+  eslint:
+    enabled: true
+    checks:
+      no-unused-expressions:
+        enabled: false
+  csslint:
+    enabled: true
+  scsslint:
+    enabled: true
+  fixme:
+    enabled: true
+ratings:
+  paths:
+  - app/**
+  - config/**
+  - features/**
+  - frontend/**
+  - lib/**
+  - spec/**
+exclude_paths:
+  - .bundle/**/*
+  - lib/plugins/rfpdf/**/*
+  - frontend/vendor/**/*
+  - spec_legacy/**/*
+  - lib/redcloth3.rb

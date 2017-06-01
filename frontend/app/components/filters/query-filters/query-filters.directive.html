@@ -1,0 +1,115 @@
+<fieldset id="filters" class="advanced-filters--container">
+  <legend ng-bind="I18n.t('js.label_selected_filter_list')"></legend>
+
+  <ul class="advanced-filters--filters">
+    <li query-filter
+        ng-repeat="filter in filters.current"
+        id="filter_{{filter.id}}"
+        class="advanced-filters--filter">
+
+      <!-- Name -->
+      <label for="operators-{{filter.id}}"
+             class="advanced-filters--filter-name"
+             title="{{::filter.name}}">
+        {{ ::filter.name }}
+      </label>
+
+      <!-- Operator -->
+      <div class="advanced-filters--filter-operator">
+
+         <label for="operators-{{filter.id}}" class="hidden-for-sighted">
+          {{ ::filter.name }}
+          {{ ::I18n.t('js.filter.description.text_open_filter') }}
+        </label>
+
+        <select require
+                focus="{{$index == focusElementIndex}}"
+                class="advanced-filters--select"
+                id="operators-{{filter.id}}"
+                name="op[{{filter.id}}]"
+                ng-model="filter.operator"
+                style="vertical-align: top;"
+                ng-disabled="isLoading"
+                ng-options="operator.name for operator in availableOperators track by operator.href">
+        </select>
+      </div>
+
+      <!-- Values -->
+      <div class="advanced-filters--filter-value"
+           ng-if="showValuesInput"
+           ng-switch="filter.currentSchema.values.type">
+
+          <filter-integer-value ng-switch-when="[1]Integer"
+                                filter="filter">
+          </filter-integer-value>
+
+          <filter-date-value ng-switch-when="[1]Date"
+                             filter="filter">
+          </filter-date-value>
+
+          <filter-dates-value ng-switch-when="[2]Date"
+                              filter="filter">
+          </filter-dates-value>
+
+          <filter-date-time-value ng-switch-when="[1]DateTime"
+                                  filter="filter">
+          </filter-date-time-value>
+
+          <filter-date-times-value ng-switch-when="[2]DateTime"
+                                   filter="filter">
+          </filter-date-times-value>
+
+          <filter-string-value ng-switch-when="[1]String"
+                               filter="filter">
+          </filter-string-value>
+
+          <filter-string-value ng-switch-when="[1]Float"
+                               filter="filter">
+          </filter-string-value>
+
+          <filter-boolean-value ng-switch-when="[1]Boolean"
+                                filter="filter">
+          </filter-boolean-value>
+
+          <filter-toggled-multiselect-value ng-switch-default
+                                            filter="filter">
+          </filter-toggled-multiselect-value>
+      </div>
+
+      <div class="advanced-filters--filter-value"
+           ng-if="!showValuesInput">
+      </div>
+
+      <div class="advanced-filters--remove-filter">
+        <accessible-by-keyboard execute="deactivateFilter(filter)">
+          <op-icon icon-classes="icon-close advanced-filters--remove-filter-icon" icon-title="{{I18n.t('js.button_delete')}}"></op-icon>
+        </accessible-by-keyboard>
+      </div>
+
+    </li>
+
+    <li class="advanced-filters--spacer" ng-if="filters.current.length > 0"></li>
+
+    <li class="advanced-filters--add-filter">
+      <!-- Add filters -->
+      <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label">
+        <op-icon icon-classes="icon-add icon4"></op-icon>
+        {{ I18n.t('js.work_packages.label_filter_add') }}:
+      </label>
+      <label for="add_filter_select" class="hidden-for-sighted">
+        {{ I18n.t('js.work_packages.label_filter_add') }}
+        {{ I18n.t('js.filter.description.text_open_filter') }}
+        {{ I18n.t('js.filter.description.text_close_filter') }}
+      </label>
+
+      <div class="advanced-filters--add-filter-value">
+        <select class="advanced-filters--select"
+          id="add_filter_select"
+          focus="{{focusElementIndex == -1}}"
+          ng-model="filterToBeAdded"
+          ng-options="filter.name for filter in remainingFilters | orderBy: 'name'" />
+        </select>
+      </div>
+    </li>
+  </ul>
+</fieldset>

@@ -1,0 +1,85 @@
+<div class="ng-modal-window columns-modal loading-indicator--location"
+     data-indicator-name="modal">
+  <div class="ng-modal-inner">
+    <div class="modal-header">
+      <a>
+        <i
+            class="icon-close"
+            ng-click="$ctrl.closeMe()"
+            title="{{ ::$ctrl.text.closePopup }}">
+        </i>
+      </a>
+    </div>
+
+    <h3>{{ ::$ctrl.text.columnsLabel }}</h3>
+
+    <div class="columns-modal-content select2-modal-content"
+        ng-if="!$ctrl.impaired">
+
+      <label
+          for="selected_columns"
+          class="hidden-for-sighted">
+        {{ ::$ctrl.text.selectedColumns }}
+      </label>
+
+      <ui-select
+          sortable="true"
+          ng-model="$ctrl.selectedColumns"
+          theme="select2"
+          id="selected_columns"
+          focus
+          multiple
+          aria-labelledby="column_multiselect_description"
+          title="{{ ::$ctrl.text.columnsLabel }}">
+        <ui-select-match>{{ $item.name }}</ui-select-match>
+        <ui-select-choices
+            repeat="column in $ctrl.unusedColumns | filter: { name: $select.search } | orderBy:'name'"
+            refresh="$ctrl.updateUnusedColumns($select.selected)"
+            refresh-delay="0">
+          <div ng-bind-html="column.name | highlight: $select.search"></div>
+        </ui-select-choices>
+      </ui-select>
+
+      <span class="tooltip--right -multiline" tabindex="0" title
+            data-tooltip="{{ ::$ctrl.text.multiSelectLabel }}"
+            aria-labelledby="column_multiselect_description">
+              <op-icon icon-classes="icon icon-help1"></op-icon>
+            </span>
+      <div class="hidden-for-sighted" id="column_multiselect_description">
+        {{ ::$ctrl.text.multiSelectLabel }}
+      </div>
+    </div>
+
+    <div
+        class="columns-modal-content select2-modal-content"
+        ng-if="$ctrl.impaired">
+      <label
+          for="selected_columns"
+          class="hidden-for-sighted">
+        {{ ::$ctrl.text.selectedColumns }}
+      </label>
+
+      <div ng-repeat="column in $ctrl.availableColumns | orderBy:'name'">
+        <label class="form--label-with-check-box" for="column-{{column.id}}">
+          <div class="form--check-box-container">
+            <input id="column-{{column.id}}"
+                   type="checkbox"
+                   title="{{ column.name }}"
+                   ng-model="$ctrl.selectedColumnMap[column.id]"
+                   ng-change="$ctrl.setSelectedColumn(column)"
+                   focus="$first" />
+          </div>
+          {{column.name}}
+        </label>
+      </div>
+    </div>
+    <div>
+      <button class="button -highlight" ng-click="$ctrl.updateSelectedColumns()">
+        {{ ::$ctrl.text.applyButton }}
+      </button>
+      <button class="button" ng-click="$ctrl.closeMe()">
+        {{ ::$ctrl.text.cancelButton }}
+      </button>
+    </div>
+  </div>
+</div>

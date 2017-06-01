@@ -1,0 +1,64 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<%= styled_form_tag(project_path(@project_to_destroy),
+                    class: 'danger-zone',
+                    method: :delete) do %>
+  <section class="form--section">
+    <h3 class="form--section-title">
+      <%= l('project.destroy.title', name: "<em>#{h(@project_to_destroy)}</em>").html_safe %>
+    </h3>
+    <p>
+      <%= l('project.destroy.confirmation', identifier: @project_to_destroy.identifier)%>
+      <% if @project_to_destroy.descendants.any? %>
+        <br />
+        <% descendants = h(@project_to_destroy.descendants.collect{|p| p.to_s}.join(', ')) %>
+        <%= l('project.destroy.subprojects_confirmation', value: "<strong>#{h(descendants)}</strong>").html_safe %>
+      <% end %>
+    </p>
+    <p class="danger-zone--warning">
+      <span class="icon icon-error"></span>
+      <span><%= l('project.destroy.info')%></span>
+    </p>
+    <p>
+      <%= l('project.destroy.project_verification', name: "<em class=\"danger-zone--expected-value\">#{h(@project_to_destroy)}</em>").html_safe %>
+    </p>
+    <div class="danger-zone--verification">
+      <input type="text"></input>
+      <%= styled_button_tag title: l(:button_delete), class: '-highlight', disabled: true do
+           concat content_tag :i, '', class: 'button--icon icon-delete'
+           concat content_tag :span, l(:button_delete), class: 'button--text'
+           end %>
+      <%= link_to projects_admin_index_path,
+          title: l(:button_cancel),
+          class: 'button -with-icon icon-cancel' do %>
+            <%= l(:button_cancel) %>
+          <% end %>
+    </div>
+  </section>
+<% end %>

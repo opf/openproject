@@ -1,0 +1,338 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+# DO NOT MODIFY THIS FILE !!!
+# Settings can be defined through the application in Admin -> Settings
+
+email_delivery_method:
+  default:
+  format: 'symbol'
+sendmail_location:
+  default: "/usr/sbin/sendmail"
+sendmail_arguments:
+  default: "-i"
+smtp_openssl_verify_mode:
+  default: "none"
+smtp_enable_starttls_auto:
+  default: 0
+  format: boolean
+smtp_address:
+  default: ""
+smtp_port:
+  default: 587
+  format: int
+smtp_domain:
+  default: "your.domain.com"
+smtp_authentication:
+  default: "plain"
+smtp_user_name:
+  default: ""
+smtp_password:
+  default: ""
+smtp_domain:
+  default: "example.com"
+additional_footer_content:
+  default: ''
+# The instance name
+app_title:
+  default: OpenProject
+app_subtitle:
+  default: Project management
+brute_force_block_minutes:
+  default: 30
+  format: int
+brute_force_block_after_failed_logins:
+  default: 20
+  format: int
+welcome_title:
+  default:
+welcome_text:
+  default:
+welcome_on_homescreen:
+  default: 0
+  format: boolean
+welcome_on_projects_page:
+  default: 0
+  format: boolean
+log_requesting_user:
+  default: 0
+  format: int
+login_required:
+  default: 0
+self_registration:
+  default: '2'
+lost_password:
+  default: 1
+  format: int
+password_min_length:
+  format: int
+  default: 10
+password_active_rules:
+  serialized: true
+  default:
+    - lowercase
+    - uppercase
+    - numeric
+    - special
+password_min_adhered_rules:
+  format: int
+  default: 0
+password_count_former_banned:
+  format: int
+  default: 0
+password_days_valid:
+  format: int
+  default: 0
+software_name:
+  default: OpenProject
+software_url:
+  default: 'https://www.openproject.org/'
+attachment_max_size:
+  format: int
+  default: 5120
+work_packages_export_limit:
+  format: int
+  default: 500
+activity_days_default:
+  format: int
+  default: 30
+per_page_options:
+  default: '20, 100'
+mail_from:
+  default: openproject@example.net
+bcc_recipients:
+  default: 1
+plain_text_mail:
+  default: 0
+text_formatting:
+  default: textile
+cache_formatted_text:
+  default: 0
+wiki_compression:
+  default: ""
+available_languages:
+  serialized: true
+  default:
+  - en
+  - de
+  - fr
+  - es
+  - pt
+  - 'pt-BR'
+  - it
+  - zh
+  - ko
+  - ru
+default_language:
+  default: en
+email_login: # use email address as login, hide login in registration form
+  default: 0
+host_name:
+  default: localhost:3000
+protocol:
+  default: http
+feeds_enabled:
+  default: 1
+feeds_limit:
+  format: int
+  default: 15
+# Maximum size of files that can be displayed
+# inline through the file viewer (in KB)
+file_max_size_displayed:
+  format: int
+  default: 512
+diff_max_lines_displayed:
+  format: int
+  default: 1500
+enabled_scm:
+  serialized: true
+  default:
+  - subversion
+  - git
+autofetch_changesets:
+  default: 1
+sys_api_enabled:
+  default: 0
+sys_api_key:
+  default: ''
+repository_authentication_caching_enabled:
+  default: 1
+repositories_automatic_managed_vendor:
+  default: ''
+commit_ref_keywords:
+  default: 'refs,references,IssueID'
+commit_fix_keywords:
+  default: 'fixes,closes'
+commit_fix_status_id:
+  format: int
+  default: 0
+commit_fix_done_ratio:
+  default: 100
+commit_logtime_enabled:
+  default: 0
+commit_logtime_activity_id:
+  format: int
+  default: 0
+# autologin duration in days
+# 0 means autologin is disabled
+autologin:
+  format: int
+  default: 0
+# date format
+date_format:
+  default: ''
+time_format:
+  default: ''
+user_format:
+  default: :firstname_lastname
+  format: symbol
+cross_project_work_package_relations:
+  default: 1
+work_package_group_assignment:
+  default: 1
+notified_events:
+  serialized: true
+  default:
+  - work_package_added
+  - work_package_updated
+  - work_package_note_added
+  - status_updated
+  - work_package_priority_updated
+  - news_added
+  - news_comment_added
+  - file_added
+  - message_posted
+  - wiki_content_added
+  - wiki_content_updated
+mail_handler_body_delimiters:
+  default: ''
+mail_handler_body_delimiter_regex:
+  default: ''
+mail_handler_api_enabled:
+  default: 0
+mail_handler_api_key:
+  default:
+work_package_list_default_columns:
+  serialized: true
+  default:
+  - id
+  - subject
+  - type
+  - status
+  - assigned_to
+  - updated_on
+work_package_list_summable_columns:
+  serialized: true
+  default:
+  - estimated_hours
+display_subprojects_work_packages:
+  default: 1
+work_package_done_ratio:
+  default: 'field'
+default_projects_public:
+  default: 0
+default_projects_modules:
+  serialized: true
+  default:
+  - calendar
+  - work_package_tracking
+  - news
+  - time_tracking
+  - wiki
+# Role given to a non-admin user who creates a project
+new_project_user_role_id:
+  format: int
+  default: ''
+sequential_project_identifiers:
+  default: 0
+# encodings used to convert repository files content to UTF-8
+# multiple values accepted, comma separated
+repositories_encodings:
+  default: ''
+# encoding used to convert commit logs to UTF-8
+commit_logs_encoding:
+  default: 'UTF-8'
+repository_log_display_limit:
+  format: int
+  default: 100
+accessibility_mode_for_anonymous:
+  default: 0
+emails_footer:
+  serialized: true
+  default:
+    en: |-
+      You have received this notification because you have either subscribed to it, or are involved in it.
+      To change your notification preferences, please click here: http://hostname/my/account
+gravatar_enabled:
+  default: 0
+gravatar_default:
+  default: ''
+start_of_week:
+  default: ''
+rest_api_enabled:
+  default: 1
+session_ttl_enabled:
+  default: 0
+session_ttl:
+  format: int
+  default: 120
+default_notification_option:
+  default: 'only_my_events'
+emails_header:
+  serialized: true
+  default:
+    en: ''
+work_package_startdate_is_adddate:
+  default: 1
+users_deletable_by_admins:
+  default: 0
+users_deletable_by_self:
+  default: 0
+journal_aggregation_time_minutes:
+  default: 5
+  format: int
+registration_footer:
+  serialized: true
+  default:
+    en:
+repository_storage_cache_minutes:
+  default: 720
+  format: int
+repository_truncate_at:
+  default: 500
+  format: int
+repository_checkout_data:
+  serialized: true
+  default:
+    git:
+      enabled: 0
+    subversion:
+      enabled: 0
+api_max_page_size:
+  format: int
+  default: 500

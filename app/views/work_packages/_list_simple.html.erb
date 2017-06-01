@@ -1,0 +1,109 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+<% if work_packages && work_packages.any? %>
+  <%= form_tag({}) do %>
+    <div class="generic-table--container">
+      <div class="generic-table--results-container">
+        <table class="generic-table work_packages">
+          <colgroup>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+            <col highlight-col>
+          </colgroup>
+          <thead>
+            <tr>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      #
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= WorkPackage.human_attribute_name(:project)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= WorkPackage.human_attribute_name(:type)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= WorkPackage.human_attribute_name(:subject)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <% for work_package in work_packages %>
+              <tr id="work_package-<%= h(work_package.id) %>" class="hascontextmenu <%= work_package_css_classes(work_package) %>">
+                <td class="id">
+                  <%= check_box_tag("ids[]", work_package.id, false, style: 'display:none;') %>
+                  <%= link_to_work_package(work_package, id_only: true) %>
+                </td>
+                <td class="project"><%= link_to_project(work_package.project) %></td>
+                <td class="type"><%=h work_package.type %></td>
+                <td class="subject">
+                  <%= link_to_work_package(work_package, subject_only: true) %> (<%=h work_package.status %>)
+                </td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+
+      </div>
+    </div>
+  <% end %>
+<% else %>
+  <%=
+    title = t("work_packages.list_simple.#{list_for.to_s}.no_results_title_text")
+
+    no_results_box(action_url: work_packages_path,
+                   display_action: true,
+                   custom_title: title,
+                   custom_action_text: t(:label_work_package_view_all))
+  %>
+<% end %>

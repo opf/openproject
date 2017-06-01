@@ -1,0 +1,273 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+---
+issues_001:
+  created_at: <%= 3.days.ago.to_date.to_s(:db) %>
+  project_id: 1
+  updated_at: <%= 1.day.ago.to_date.to_s(:db) %>
+  priority_id: 4
+  subject: Can't print recipes
+  id: 1
+  fixed_version_id:
+  category_id: 1
+  description: Unable to print recipes
+  type_id: 1
+  assigned_to_id:
+  author_id: 2
+  status_id: 1
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 10.day.from_now.to_date.to_s(:db) %>
+  root_id: 1
+  lft: 1
+  rgt: 2
+  lock_version: 3
+issues_002:
+  created_at: 2006-07-19 21:04:21 +02:00
+  project_id: 1
+  updated_at: 2006-07-19 21:09:50 +02:00
+  priority_id: 5
+  subject: Add ingredients categories
+  id: 2
+  fixed_version_id: 2
+  category_id:
+  description: Ingredients of the recipe should be classified by categories
+  type_id: 2
+  assigned_to_id: 3
+  author_id: 2
+  status_id: 2
+  start_date: <%= 2.day.ago.to_date.to_s(:db) %>
+  due_date:
+  root_id: 2
+  lft: 1
+  rgt: 2
+  lock_version: 3
+  done_ratio: 30
+issues_003:
+  created_at: 2006-07-19 21:07:27 +02:00
+  project_id: 1
+  updated_at: 2006-07-19 21:07:27 +02:00
+  priority_id: 4
+  subject: Error 281 when updating a recipe
+  id: 3
+  fixed_version_id:
+  category_id:
+  description: Error 281 is encountered when saving a recipe
+  type_id: 1
+  assigned_to_id: 3
+  author_id: 2
+  status_id: 1
+  start_date: <%= 15.day.ago.to_date.to_s(:db) %>
+  due_date: <%= 5.day.ago.to_date.to_s(:db) %>
+  root_id: 3
+  lft: 1
+  rgt: 2
+issues_004:
+  created_at: <%= 5.days.ago.to_date.to_s(:db) %>
+  project_id: 2
+  updated_at: <%= 2.days.ago.to_date.to_s(:db) %>
+  priority_id: 4
+  subject: Issue on project 2
+  id: 4
+  fixed_version_id:
+  category_id:
+  description: Issue on project 2
+  type_id: 1
+  assigned_to_id: 2
+  author_id: 2
+  status_id: 1
+  root_id: 4
+  lft: 1
+  rgt: 2
+issues_005:
+  created_at: <%= 5.days.ago.to_date.to_s(:db) %>
+  project_id: 3
+  updated_at: <%= 2.days.ago.to_date.to_s(:db) %>
+  priority_id: 4
+  subject: Subproject issue
+  id: 5
+  fixed_version_id:
+  category_id:
+  description: This is an issue on a cookbook subproject
+  type_id: 1
+  assigned_to_id:
+  author_id: 2
+  status_id: 1
+  root_id: 5
+  lft: 1
+  rgt: 2
+issues_006:
+  created_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  project_id: 5
+  updated_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  priority_id: 4
+  subject: Issue of a private subproject
+  id: 6
+  fixed_version_id:
+  category_id:
+  description: This is an issue of a private subproject of cookbook
+  type_id: 1
+  assigned_to_id:
+  author_id: 2
+  status_id: 1
+  start_date: <%= Date.today.to_s(:db) %>
+  due_date: <%= 1.days.from_now.to_date.to_s(:db) %>
+  root_id: 6
+  lft: 1
+  rgt: 2
+issues_007:
+  created_at: <%= 10.days.ago.to_date.to_s(:db) %>
+  project_id: 1
+  updated_at: <%= 10.days.ago.to_date.to_s(:db) %>
+  priority_id: 5
+  subject: Issue due today
+  id: 7
+  fixed_version_id:
+  category_id:
+  description: This is an issue that is due today
+  type_id: 1
+  assigned_to_id:
+  author_id: 2
+  status_id: 1
+  start_date: <%= 10.days.ago.to_s(:db) %>
+  due_date: <%= Date.today.to_s(:db) %>
+  root_id: 7
+  lft: 1
+  rgt: 2
+issues_008:
+  created_at: <%= 10.days.ago.to_date.to_s(:db) %>
+  project_id: 1
+  updated_at: <%= 10.days.ago.to_date.to_s(:db) %>
+  priority_id: 5
+  subject: Closed issue
+  id: 8
+  fixed_version_id:
+  category_id:
+  description: This is a closed issue.
+  type_id: 1
+  assigned_to_id:
+  author_id: 2
+  status_id: 5
+  start_date:
+  due_date:
+  root_id: 8
+  lft: 1
+  rgt: 2
+issues_009:
+  created_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  project_id: 5
+  updated_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  priority_id: 5
+  subject: Blocked Issue
+  id: 9
+  fixed_version_id:
+  category_id:
+  description: This is an issue that is blocked by issue #10
+  type_id: 1
+  assigned_to_id:
+  author_id: 2
+  status_id: 1
+  start_date: <%= Date.today.to_s(:db) %>
+  due_date: <%= 1.days.from_now.to_date.to_s(:db) %>
+  root_id: 9
+  lft: 1
+  rgt: 2
+issues_010:
+  created_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  project_id: 5
+  updated_at: <%= 1.minute.ago.to_date.to_s(:db) %>
+  priority_id: 5
+  subject: Issue Doing the Blocking
+  id: 10
+  fixed_version_id:
+  category_id:
+  description: This is an issue that blocks issue #9
+  type_id: 1
+  assigned_to_id:
+  author_id: 2
+  status_id: 1
+  start_date: <%= Date.today.to_s(:db) %>
+  due_date: <%= 1.days.from_now.to_date.to_s(:db) %>
+  root_id: 10
+  lft: 1
+  rgt: 2
+issues_011:
+  created_at: <%= 3.days.ago.to_date.to_s(:db) %>
+  project_id: 1
+  updated_at: <%= 1.day.ago.to_date.to_s(:db) %>
+  priority_id: 5
+  subject: Closed issue on a closed version
+  id: 11
+  fixed_version_id: 1
+  category_id: 1
+  description:
+  type_id: 1
+  assigned_to_id:
+  author_id: 2
+  status_id: 5
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date:
+  root_id: 11
+  lft: 1
+  rgt: 2
+issues_012:
+  created_at: <%= 3.days.ago.to_date.to_s(:db) %>
+  project_id: 1
+  updated_at: <%= 1.day.ago.to_date.to_s(:db) %>
+  priority_id: 5
+  subject: Closed issue on a locked version
+  id: 12
+  fixed_version_id: 2
+  category_id: 1
+  description:
+  type_id: 1
+  assigned_to_id:
+  author_id: 3
+  status_id: 5
+  start_date: <%= 1.day.ago.to_date.to_s(:db) %>
+  due_date:
+  root_id: 12
+  lft: 1
+  rgt: 2
+issues_013:
+  created_at: <%= 5.days.ago.to_date.to_s(:db) %>
+  project_id: 3
+  updated_at: <%= 2.days.ago.to_date.to_s(:db) %>
+  priority_id: 4
+  subject: Subproject issue two
+  id: 13
+  fixed_version_id:
+  category_id:
+  description: This is a second issue on a cookbook subproject
+  type_id: 1
+  assigned_to_id:
+  author_id: 2
+  status_id: 1
+  root_id: 13
+  lft: 1
+  rgt: 2

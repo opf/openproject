@@ -1,0 +1,13 @@
+<div id="div-values-{{$ctrl.filter.id}}">
+  <op-date-picker>
+    <input ng-model="$ctrl.value"
+           ng-model-options="::$ctrl.filterDateModelOptions"
+           ng-required="true"
+           id="values-{{$ctrl.filter.id}}"
+           name="v[{{$ctrl.filter.id}}]"
+           class="advanced-filters--date-field"
+           size="10"
+           transform-date-value
+           type="text"/>
+  </op-date-picker>
+</div>

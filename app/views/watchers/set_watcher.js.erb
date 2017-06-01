@@ -1,0 +1,18 @@
+<%
+@replace_selectors.each do |selector|
+  next if selector.blank?
+  options = { replace: @replace_selectors }
+
+  last_selector = selector.split(' ').last
+  if last_selector.starts_with? '.'
+    options[:class] = last_selector[1..-1]
+  elsif last_selector.starts_with? '#'
+    options[:id] = last_selector[1..-1]
+  end
+
+  content = watcher_link(@watched, @user, options)
+%>
+
+jQuery("<%= selector %>").replaceWith("<%= escape_javascript(content) %>");
+
+<% end %>

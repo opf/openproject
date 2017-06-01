@@ -1,0 +1,137 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= error_messages_for 'user' %>
+
+<%= javascript_include_tag 'admin_users' %>
+
+<!--[form:user]-->
+<section class="form--section">
+  <div class="form--field"><%= f.text_field :login, required: true, size: 25 %></div>
+  <div class="form--field"><%= f.text_field :firstname, required: true %></div>
+  <div class="form--field"><%= f.text_field :lastname, required: true %></div>
+  <div class="form--field"><%= f.text_field :mail, required: true %></div>
+  <div class="form--field"><%= f.select :language, lang_options_for_select %></div>
+  <div class="form--field"><%= f.check_box :admin, disabled: (@user == User.current) %></div>
+
+  <h3 class="form--section-title"><%= l(:label_custom_field_plural) %></h3>
+  <%= render partial:     'customizable/field',
+             collection:  @user.custom_field_values,
+             as:          :value,
+             locals:      { form: f } %>
+
+  <%= call_hook(:view_users_form, user: @user, form: f) %>
+</section>
+
+<section class="form--section">
+  <h3 class="form--section-title"><%=l(:label_ui, app_title: Setting.app_title)%></h3>
+  <%= render partial: "users/impaired_settings" %>
+</section>
+
+<section class="form--section">
+  <h3 class="form--section-title"><%=l(:label_authentication)%></h3>
+  <% if @user.uses_external_authentication? %>
+    <div class="form--field">
+      <%= styled_label_tag nil, I18n.t('user.authentication_provider') %>
+      <div class="form--field-container">
+        <%= @user.authentication_provider %>
+      </div>
+    </div>
+    <div class="form--field-instructions">
+      <%= I18n.t('user.authentication_settings_disabled_due_to_external_authentication') %>
+    </div>
+  <% else %>
+    <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
+      <div class="form--field"><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></div>
+    <% end %>
+    <% if !OpenProject::Configuration.disable_password_login? %>
+      <%
+        pw_style =
+          if @user.change_password_allowed?
+            ''
+          else
+            ' style="display: none;"'
+          end
+      %>
+      <div id="password_fields"<%= pw_style.html_safe %>>
+        <% assign_random_password_enabled = params[:user] &&
+                                            params[:user][:assign_random_password] %>
+        <div class="form--field">
+          <%= styled_label_tag 'user_assign_random_password',
+                               I18n.t(:assign_random_password, scope: :user) %>
+          <div class="form--field-container">
+            <%= styled_check_box_tag("user[assign_random_password]",
+                                     "1",
+                                     assign_random_password_enabled) %>
+          </div>
+        </div>
+
+        <% unless OpenProject::Configuration.disable_password_choice? %>
+          <div class="form--field">
+            <%= f.password_field :password,
+                                 required: @user.new_record?,
+                                 disabled: assign_random_password_enabled %>
+            <div class="form--field-instructions">
+              <%= password_complexity_requirements %>
+            </div>
+          </div>
+          <div class="form--field">
+            <%= f.password_field :password_confirmation,
+                                 required: @user.new_record?,
+                                 disabled: assign_random_password_enabled %>
+          </div>
+        <% end %>
+        <div class="form--field">
+          <%= f.check_box :force_password_change,
+                          disabled: assign_random_password_enabled %>
+        </div>
+      </div>
+    <% else %>
+      <div id="no_password_info">
+        <div class="form--field">
+          <%= styled_label_tag nil, I18n.t(:warning) %>
+          <div class="form--field-container">
+            <%= I18n.t 'user.no_login' %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+</section>
+
+<section class="form--section">
+  <h3 class="form--section-title"><%= User.human_attribute_name(:mail_notification) %></h3>
+  <%= render partial: 'users/mail_notifications' %>
+</section>
+
+<section class="form--section">
+  <h3 class="form--section-title"><%=l(:label_preferences)%></h3>
+  <%= render partial: 'users/preferences' %>
+</section>
+<!--[eoform:user]-->

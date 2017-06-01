@@ -1,0 +1,96 @@
+@require sass
+
+@sass ../stylesheets/openproject.sass
+@title "Living Style Guide for OpenProject"
+
+@style base-font: Lato
+@style base-font-size: 16px
+@style background-color: white
+
+@default preprocessor: sass
+
+@sass
+  .livingstyleguide--header
+    @include grid-content
+
+  .livingstyleguide--footer
+    @include grid-content
+
+  .livingstyleguide--intro
+    @include grid-content
+
+  .styleguide-banner
+    height:  280px
+    padding: 200px 0 0
+    background: url('/assets/styleguide/logo_openproject.png')
+    background-position: top center
+    background-repeat: no-repeat
+
+  .styleguide-banner--text
+    text-align: center
+
+  .styleguide-nav--menu-items
+    @extend %menu-bar
+    @include menu-bar-layout
+    @include menu-bar-style(#eee)
+
+  .livingstyleguide--code-block
+    max-height: 300px
+
+  .livingstyleguide--example
+    overflow: visible
+
+  .icon-list
+    display: flex
+    flex-flow: row wrap
+    width: 640px
+    margin: 0 auto
+
+    li
+      flex: 1
+      flex-basis: 15%
+      display: block
+      text-align: center
+      margin: 10px
+      font-size: 12px
+
+    span
+      display: block
+      font-size: 30px
+
+
+@head
+  <base href="/assets/styleguide.html"/>
+
+
+@header
+  <header class="livingstyleguide--header">
+    <div class="styleguide-banner">
+      <h1 class="styleguide-banner--text">Living Style Guide</h1>
+    </div>
+  </header>
+
+  <nav class="styleguide-nav">
+    <ul class="styleguide-nav--menu-items">
+      <li><a target="_self" href="#color-variables">Colors</a></li>
+      <li><a target="_self" href="#fonts">Fonts</a></li>
+      <li><a target="_self" href="#forms">Forms</a></li>
+      <li><a target="_self" href="#notifications">Notifications</a></li>
+      <li><a target="_self" href="#buttons">Buttons</a></li>
+      <li><a target="_self" href="#boxes">Boxes</a></li>
+      <li><a target="_self" href="#pagination">Pagination</a></li>
+    </ul>
+  </nav>
+
+  <section class="livingstyleguide--intro">
+    <p>&nbsp;</p>
+  </section>
+
+@javascript-before /assets/styleguide.js
+
+@footer
+  <footer class="livingstyleguide--footer">
+    Copyright © 2015 OpenProject - All rights reserved.
+  </footer>
+
+@import ../stylesheets/**/_*.lsg

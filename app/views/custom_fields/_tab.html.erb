@@ -1,0 +1,173 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% if (@custom_fields_by_type[tab[:name]] || []).any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <% if tab[:name] == 'WorkPackageCustomField' %>
+        <div class="notification-box -info">
+          <div class="notification-box--content">
+            <p><%= t('text_custom_field_hint_activate_per_project_and_type') %></p>
+          </div>
+        </div>
+      <% end %>
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <% if tab[:name] == 'WorkPackageCustomField' %>
+            <col highlight-col>
+            <col highlight-col>
+          <% end %>
+          <col highlight-col>
+          <col highlight-col>
+          <col>
+        </colgroup>
+        <thead>
+          <tr>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= CustomField.human_attribute_name(:name) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= CustomField.human_attribute_name(:field_format) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <th>
+              <div class="generic-table--sort-header-outer">
+                <div class="generic-table--sort-header">
+                  <span>
+                    <%= CustomField.human_attribute_name(:is_required) %>
+                  </span>
+                </div>
+              </div>
+            </th>
+            <% if tab[:name] == 'WorkPackageCustomField' %>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= CustomField.human_attribute_name(:is_for_all) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= t(:label_used_in_projects) %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%= t('custom_fields.contained_in_type') %>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            <% end %>
+            <% unless tab[:name] == 'WorkPackageCustomField' %>
+              <th>
+                <div class="generic-table--sort-header-outer">
+                  <div class="generic-table--sort-header">
+                    <span>
+                      <%=l(:button_sort)%>
+                    </span>
+                  </div>
+                </div>
+              </th>
+            <% end %>
+            <th><div class="generic-table--empty-header"></div></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% (@custom_fields_by_type[tab[:name]] || []).sort.each do |custom_field| -%>
+            <tr>
+              <td><%= link_to h(custom_field.name), edit_custom_field_path(custom_field), lang: custom_field.name_locale %></td>
+              <td><%= label_for_custom_field_format(custom_field.field_format) %></td>
+              <td><%= checked_image custom_field.is_required? %></td>
+              <% if tab[:name] == 'WorkPackageCustomField' %>
+                <td><%= checked_image custom_field.is_for_all? %></td>
+                <td>
+                  <% if custom_field.projects.count == 0 && !custom_field.is_for_all? %>
+                    <span class="icon-context icon-warning">
+                      <%= t(:label_x_projects, count: custom_field.projects.count) %>
+                    </span>
+                  <% elsif !custom_field.is_for_all? %>
+                    <%= t(:label_x_projects, count: custom_field.projects.count) %></td>
+                  <% end %>
+                <td>
+                  <% type_links = custom_field.types.map { |t| link_to(t.name, edit_type_tab_path(id: t.id, tab: 'form_configuration')) } %>
+                  <% if type_links.empty? %>
+                    <span class="icon-context icon-warning">
+                      <%= link_to t(:label_custom_field_add_no_type), types_path %>
+                    </span>
+                  <% end %>
+                  <%= safe_join type_links, ', '.html_safe %>
+                </td>
+              <% end %>
+              <% unless tab[:name] == 'WorkPackageCustomField' %>
+                <td><%= reorder_links('custom_field', { action: 'update', id: custom_field, back_url: custom_fields_path }, method: :put) %></td>
+              <% end %>
+              <td class="buttons">
+                <%= delete_link custom_field_path(custom_field) %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="generic-table--action-buttons">
+    <%= link_to new_custom_field_path(type: tab[:name]),
+          { class: 'button -alt-highlight',
+            aria: {label: t(:label_custom_field_new)},
+            title: t(:label_custom_field_new)} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('activerecord.models.custom_field') %></span>
+    <% end %>
+  </div>
+<% else %>
+  <%= no_results_box(action_url: new_custom_field_path(type: tab[:name]), display_action: true) %>
+<% end %>

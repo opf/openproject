@@ -1,0 +1,93 @@
+//-- copyright
+// OpenProject is a project management system.
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License version 3.
+//
+// OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2010-2013 the ChiliProject Team
+//
+// This program is free software; you can redistribute it and/or
+// modify it under the terms of the GNU General Public License
+// as published by the Free Software Foundation; either version 2
+// of the License, or (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program; if not, write to the Free Software
+// Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+//
+// See doc/COPYRIGHT.rdoc for more details.
+//++
+
+=grid-item-columns($columns)
+  width: 100% / 12 * $columns
+
+.grid-items-lines
+  $grid-items-background: $body-background
+  $grid-item-background: $body-background
+  $grid-item-border: 1px solid transparentize($body-font-color, 0.8)
+  $grid-item-columns: 4
+  $grid-item-big-columns: 8
+  $grid-item-color: $body-font-color
+  $grid-item-height: 14em
+  +clearfix
+  position: relative
+
+  .grid-item
+    transition: all 0.2s ease-in-out
+    height: $grid-item-height
+    background: $grid-item-background
+    width: 100%
+    overflow: hidden
+    float: left
+    padding: 2em
+    border-right: $grid-item-border
+    border-bottom: $grid-item-border
+    cursor: pointer
+    //+media($large-screen)
+    +grid-item-columns($grid-item-columns)
+
+    &:hover
+      background: transparentize($grid-item-color, 0.95)
+
+  .grid-item img
+    display: block
+    height: 2.5em
+    margin-bottom: 1.2em
+    opacity: .2
+  .grid-item h1
+    color: $grid-item-color
+    font-size: 1.3em
+    margin-bottom: .4em
+  .grid-item p
+    color: transparentize($grid-item-color, 0.4)
+    //+media($medium-screen)
+      max-width: 70%
+  .grid-item-big
+    //+media($large-screen)
+      +grid-item-columns($grid-item-big-columns)
+
+    p
+      //+media($medium-screen)
+        max-width: 60%
+
+  // this, below, might not be the most beautiful solution but it removes the outer borders by using the background color.
+  .bottom-cover
+    position: absolute
+    bottom: 0
+    width: 100%
+    height: 3px
+    background: $grid-items-background
+  .right-cover
+    position: absolute
+    right: 0
+    height: 100%
+    width: 4px
+    background: $grid-items-background

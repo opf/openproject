@@ -1,0 +1,36 @@
+<div id="div-values-{{$ctrl.filter.id}}" class="inline-label">
+  <op-date-picker>
+    <input ng-model="$ctrl.begin"
+           ng-model-options="::$ctrl.filterDateModelOptions"
+           ng-required="true"
+           ng-disabled="isLoading"
+           id="values-{{$ctrl.filter.id}}-begin"
+           name="v[{{$ctrl.filter.id}}]-begin"
+           class="advanced-filters--date-field"
+           size="10"
+           transform-date-utc
+           type="text"/>
+  </op-date-picker>
+
+  <span class="advanced-filters--affix">
+    {{ ::$ctrl.I18n.t('js.filter.value_spacer') }}
+  </span>
+
+  <op-date-picker>
+    <input ng-model="$ctrl.end"
+           ng-model-options="::$ctrl.filterDateModelOptions"
+           ng-required="true"
+           ng-disabled="isLoading"
+           id="values-{{$ctrl.filter.id}}-end"
+           name="v[{{$ctrl.filter.id}}]-end"
+           class="advanced-filters--date-field"
+           size="10"
+           transform-date-utc
+           type="text"/>
+  </op-date-picker>
+  <span class="advanced-filters--tooltip-trigger -multiline"
+        ng-if="$ctrl.isTimeZoneDifferent"
+        data-tooltip="{{$ctrl.timeZoneText}}">
+    <op-icon icon-classes="icon icon-warning"></op-icon>
+  </span>
+</div>

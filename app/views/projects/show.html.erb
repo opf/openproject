@@ -1,0 +1,114 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<%= toolbar title: l(:label_overview) %>
+
+<% breadcrumb_paths(l(:label_overview)) %>
+
+<div class="wiki">
+  <%= format_text @project.description %>
+</div>
+<ul>
+  <% if @subprojects.any? %>
+    <li>
+      <%= l(:label_subproject_plural) %>:
+      <%=raw @subprojects.map { |project| link_to(project.name, project) }.to_sentence %>
+    </li>
+  <% end %>
+  <% @project.visible_custom_field_values.each do |custom_value| %>
+    <% if custom_value.value.present? %>
+      <li><%= custom_value.custom_field.name %>: <%= show_value(custom_value) %></li>
+    <% end %>
+  <% end %>
+</ul>
+
+<div id="visible-grid" class="widget-boxes project-overview">
+  <div class="grid-block">
+    <div class="left">
+      <% if User.current.allowed_to?(:view_work_packages, @project) %>
+        <div class="issues widget-box">
+          <h3 class="widget-box--header">
+            <%= op_icon('icon-context icon-types') %>
+            <span class="widget-box--header-title"><%=l(:label_work_package_tracking)%></span>
+          </h3>
+          <ul>
+            <% for type in @types %>
+              <li><%= link_to (type.is_standard) ? l(:default_type) : h(type.name),
+                            project_property_path(@project, "type_id", type.id) %>:
+                <%= l(:label_x_open_work_packages_abbr_on_total, count: @open_issues_by_type[type].to_i,
+                                                                 total: @total_issues_by_type[type].to_i) %>
+              </li>
+            <% end %>
+          </ul>
+          <div>
+            <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, class: 'button -highlight' %>
+            <%= link_to new_project_work_packages_path(@project),
+              { class: 'button -alt-highlight',
+                aria: {label: t(:label_work_package_new)},
+                title: t(:label_work_package_new)} do %>
+              <%= op_icon('button--icon icon-add') %>
+              <span class="button--text"><%= l('activerecord.models.work_package') %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <%= call_hook(:view_projects_show_left, project: @project) %>
+    </div>
+
+    <div class="right">
+      <%= render partial: 'members_box' %>
+
+      <% if @news.any? && authorize_for('news', 'index') %>
+        <div class="news widget-box">
+          <h3 class="widget-box--header">
+            <%= op_icon('icon-context icon-news') %>
+            <span class="widget-box--header-title"><%=l(:label_news_latest)%></span>
+          </h3>
+          <%= render partial: 'news/news', collection: @news %>
+          <div>
+            <%= link_to l(:label_news_view_all), {controller: '/news', action: 'index', project_id: @project}, class: 'button -highlight' %>
+            <%= link_to new_project_news_path(@project),
+              { class: 'button -alt-highlight',
+                aria: {label: t(:label_news_new)},
+                title: t(:label_news_new)} do %>
+              <%= op_icon('button--icon icon-add') %>
+              <span class="button--text"><%= l('activerecord.models.news') %></span>
+            <% end %>
+          </div>
+        </div>
+      <% end %>
+      <%= call_hook(:view_projects_show_right, project: @project) %>
+    </div>
+  </div>
+</div>
+
+<% content_for :header_tags do %>
+  <%= auto_discovery_link_tag(:atom, {controller: '/activities', action: 'index', id: @project, format: 'atom', key: User.current.rss_key}) %>
+<% end %>
+<% html_title(l(:label_overview)) -%>

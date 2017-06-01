@@ -1,0 +1,75 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<fieldset id="grouping" class="form--fieldset -collapsible collapsed">
+  <legend class="form--fieldset-legend" title="<%=l(:description_filter_toggle)%>" onclick="toggleFieldset(this);">
+    <a href="javascript:"><%= l('timelines.filter.grouping') %></a>
+  </legend>
+
+  <div style="display:none;">
+    <%= f.fields_for :options, timeline_options do |ff| %>
+      <div class="form--field">
+        <%= ff.check_box :grouping_one_enabled, { label: l('timelines.filter.grouping_one') }, "yes", "no" %>
+      </div>
+      <div class="form--field">
+        <% if User.current.impaired? %>
+          <%= ff.select(:grouping_one_selection,
+                     filter_select_with_none(
+                       timeline.available_grouping_projects,
+                       :name, :id),
+                     {selected: timeline.selected_grouping_projects.map(&:id), label: l('timelines.filter.grouping_one_phrase') },
+                     {multiple: true,
+                      size: 12}) %>
+        <% else %>
+          <%= ff.select :grouping_one_selection,
+                   options_for_select([]),
+                   { label: l('timelines.filter.grouping_one_phrase'),
+                     container_class: '-wide' },
+                   { :'data-ajaxURL' => api_v2_paginate_projects_path,
+                     multiple: true,
+                     :'data-selected' => filter_select(
+                                           timeline.selected_grouping_projects,
+                                           :name, :id).to_json
+                   }
+        %>
+        <% end %>
+      </div>
+      <div class="form--field">
+        <%= ff.select(:grouping_one_sort,
+                      [[l('timelines.filter.sort.alphabet'), '0'],
+                       [l('timelines.filter.sort.explicit_order'), '1']],
+                      label: l('timelines.filter.sort.sortation'),
+                      container_class: '-wide') %>
+      </div>
+      <div class="form--field">
+        <%= ff.check_box :hide_other_group, { label: I18n.t('timelines.filter.grouping_hide_group', group: l('timelines.filter.grouping_other')) }, 'yes', 'no' %>
+      </div>
+    <% end %>
+  </div>
+</fieldset>

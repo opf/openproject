@@ -1,0 +1,78 @@
+<div class="work-package-details-activities-activity-contents"
+     tabindex="0"
+     aria-label="{{ activityLabelWithComment || activityLabel  }}"
+     ng-mouseover="focus()"
+     ng-mouseout="blur()">
+  <div ng-if="userAvatar">
+    <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" />
+  </div>
+  <span class="user" ng-if="userActive">
+    <a ng-href="{{ userPath }}"
+       aria-label="{{ userLabel }}"
+       ng-bind="userName">
+    </a>
+  </span>
+  <span class="user" ng-if="!userActive">{{ userName }}</span>
+  <span class="date">{{ isInitial ? I18n.t('js.label_created_on') : I18n.t('js.label_updated_on') }} <op-date-time date-time-value="activity.createdAt" /></span>
+  <div class="comments-number">
+    <activity-link work-package="workPackage"
+                   activity-no="activityNo"
+                   ></activity-link>
+    <div class="comments-icons"
+         ng-show="activity._type == 'Activity::Comment' && (focussing() || accessibilityModeEnabled)">
+      <accessible-by-keyboard ng-if="userCanQuote"
+                              execute="quoteComment()"
+                              link-title="{{ I18n.t('js.label_quote_comment') }}">
+        <op-icon icon-classes="action-icon icon-quote" icon-title="{{ I18n.t('js.label_quote_comment') }}"></op-icon>
+      </accessible-by-keyboard>
+      <accessible-by-keyboard ng-if="userCanEdit"
+                              execute="editComment()"
+                              link-title="{{ I18n.t('js.label_edit_comment') }}"
+                              class="edit-activity--{{activityNo}}">
+        <op-icon icon-classes="action-icon icon-edit" icon-title="{{ I18n.t('js.label_edit_comment') }}"></op-icon>
+      </accessible-by-keyboard>
+    </div>
+  </div>
+  <div class="user-comment wiki">
+    <div ng-if="inEdit" class="inplace-edit">
+      <div class="user-comment--form inplace-edit--write-value">
+        <div class="textarea-wrapper" ng-class="{'-preview': isPreview}">
+          <textarea wiki-toolbar
+                    msd-elastic="\n"
+                    class="edit-comment-text focus-input inplace-edit--textarea"
+                    id="inplace-edit--write-value--activity-comment"
+                    ng-hide="isPreview"
+                    ng-model="activity.editedComment"
+                    preview-toggle="toggleCommentPreview()"
+                    required>
+          </textarea>
+          <div class="inplace-edit--preview" ng-if="isPreview">
+            <span bind-unescaped-html="previewHtml"></span>
+          </div>
+          <div class="inplace-edit--dashboard">
+            <div class="inplace-edit--controls">
+              <accessible-by-keyboard execute="updateComment()"
+                                      ng-disabled="editCommentForm.$invalid"
+                                      class="inplace-edit--control inplace-edit--control--save">
+                <op-icon icon-classes="action-icon icon-checkmark" icon-title="{{ I18n.t('js.button_save') }}"></op-icon>
+              </accessible-by-keyboard>
+              <accessible-by-keyboard execute="cancelEdit()"
+                                      class="inplace-edit--control inplace-edit--control--cancel">
+                <op-icon icon-classes="action-icon icon-close" icon-title="{{ I18n.t('js.button_cancel') }}"></op-icon>
+              </accessible-by-keyboard>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <span ng-if="!inEdit"
+          class="message"
+          ng-show="activity._type == 'Activity::Comment'"
+          bind-unescaped-html="postedComment"/>
+    <ul class="work-package-details-activities-messages" ng-if="!isInitial">
+      <li ng-repeat="detail in details track by $index">
+        <span class="message" ng-bind-html="detail"/>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,144 @@
+<div ng-if="$ctrl.workPackage && $ctrl.formCtrl" class="work-package--single-view">
+  <div class="work-packages--info-row" ng-if="!$ctrl.workPackage.isNew">
+    <span ng-bind="$ctrl.idLabel"/>:
+    <span ng-bind="$ctrl.text.infoRow.createdBy"/>
+    <user-link class="user-link" user="$ctrl.workPackage.author"></user-link>.
+    <span ng-bind="$ctrl.text.infoRow.lastUpdatedOn"/>
+    <op-date-time date-time-value="$ctrl.workPackage.updatedAt"></op-date-time>.
+  </div>
+
+  <div class="attributes-group">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+      </div>
+      <panel-expander tabindex="-1"
+                      collapsed="$ctrl.hideEmptyFields"
+                      expand-text="{{ $ctrl.I18n.t('js.label_show_attributes') }}"
+                      collapse-text="{{ $ctrl.I18n.t('js.label_hide_attributes') }}">
+      </panel-expander>
+    </div>
+    <div class="-columns-2">
+      <div class="attributes-key-value" ng-repeat="descriptor in $ctrl.specialFields track by descriptor.name">
+        <div class="attributes-key-value--key"
+             ng-hide="$ctrl.shouldHideField(descriptor.field)"
+             wp-replacement-label="descriptor.name">
+          {{ descriptor.label }}
+          <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
+        </div>
+        <div
+            ng-hide="$ctrl.shouldHideField(descriptor.field)"
+            wp-edit-field="descriptor.name"
+            wp-edit-field-label="descriptor.label"
+            wp-edit-field-wrapper-classes="'-small'"
+            class="attributes-key-value--value-container">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="attributes-group">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            ng-bind="$ctrl.text.fields.description"></h3>
+      </div>
+    </div>
+    <div
+        wp-edit-field="'description'"
+        wp-attachments-formattable
+        wp-edit-field-wrapper-classes="'-no-label'"
+        display-placeholder="$ctrl.I18n.t('js.work_packages.placeholders.description')"
+        class="single-attribute wiki work-packages--details--description">
+    </div>
+  </div>
+
+  <div ng-repeat="group in $ctrl.groupedFields track by group.name" ng-hide="$ctrl.shouldHideGroup(group)"
+       data-group-name="{{ group.name }}"
+       class="attributes-group">
+
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            ng-bind="group.name"></h3>
+      </div>
+    </div>
+
+    <div class="-columns-2">
+      <div
+          class="attributes-key-value"
+          ng-repeat="descriptor in group.members track by descriptor.name">
+        <div
+            class="attributes-key-value--key"
+            ng-hide="$ctrl.shouldHideField(descriptor.field)"
+            ng-if="!descriptor.multiple"
+            wp-replacement-label="descriptor.name">
+
+          {{ descriptor.label }}
+          <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
+        </div>
+        <div
+            ng-hide="$ctrl.shouldHideField(descriptor.field)"
+            ng-if="!descriptor.multiple"
+            wp-edit-field="descriptor.name"
+            wp-edit-field-label="descriptor.label"
+            wp-edit-field-wrapper-classes="'-small'"
+            class="attributes-key-value--value-container">
+        </div>
+
+        <div
+            class="attributes-key-value--key"
+            ng-if="descriptor.multiple"
+            ng-hide="$ctrl.shouldHideField(descriptor.fields[0]) && $ctrl.shouldHideField(descriptor.fields[1])"
+            ng-bind="descriptor.label"
+            wp-replacement-label="descriptor.label">
+        </div>
+        <div
+            ng-if="descriptor.multiple"
+            ng-hide="$ctrl.shouldHideField(descriptor.fields[0]) && $ctrl.shouldHideField(descriptor.fields[1])"
+            class="attributes-key-value--value-container -minimal">
+          <div
+              wp-edit-field="descriptor.fields[0].name"
+              wp-edit-field-label="descriptor.fields[0].label"
+              wp-edit-field-wrapper-classes="'-small -shrink'"
+              display-placeholder="::$ctrl.text[descriptor.name][descriptor.fields[0].name]">
+          </div>
+
+          <span class="attributes-key-value--value-separator"></span>
+
+          <div
+              wp-edit-field="descriptor.fields[1].name"
+              wp-edit-field-label="descriptor.fields[1].label"
+              wp-edit-field-wrapper-classes="'-small -shrink'"
+              display-placeholder="::$ctrl.text[descriptor.name][descriptor.fields[1].name]">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="work-packages--attachments attributes-group">
+  <div class="work-packages--atachments-container">
+    <div class="attributes-group--header"
+         ng-if="$ctrl.workPackage.attachments.elements.length">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text">
+          {{ ::$ctrl.I18n.t('js.label_attachments') }}
+        </h3>
+      </div>
+    </div>
+
+    <wp-attachment-list work-package="$ctrl.workPackage"></wp-attachment-list>
+    <wp-attachments-upload work-package="$ctrl.workPackage">
+      <div class="work-package--attachments--drop-box">
+        <div class="work-package--attachments--label">
+          <op-icon icon-classes="icon-attachment"></op-icon>
+          <p>
+            {{ ::$ctrl.text.dropFiles }} <br>
+            {{ ::$ctrl.text.dropFilesHint }}
+          </p>
+        </div>
+      </div>
+    </wp-attachments-upload>
+  </div>
+</div>

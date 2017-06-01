@@ -1,0 +1,88 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+(function($) {
+  $(function() {
+
+    $('#settings_session_ttl_enabled').on('change', function(){
+      $('#settings_session_ttl_container').toggle($(this).is(':checked'));
+    }).trigger('change');
+
+
+    /** Sync SCM vendor select when enabled SCMs are changed */
+    $('[name="settings[enabled_scm][]"]').change(function() {
+      var wasDisabled = !this.checked,
+        vendor = this.value,
+        select = $('#settings_repositories_automatic_managed_vendor'),
+        option = select.find('option[value="' + vendor + '"]');
+
+      // Skip non-manageable SCMs
+      if (option.length === 0) {
+        return;
+      }
+
+      option.prop('disabled', wasDisabled);
+      if (wasDisabled && option.prop('selected')) {
+        select.val('');
+      }
+    });
+
+    /* Javascript for Settings::TextSettingCell */
+    $(document).ready(function() {
+      $(".lang-select-switch").change(function() {
+        var self = $(this);
+        var id = self.attr("id");
+        var lang = self.val();
+
+        $("." + id).hide();
+        $("#" + id + "-" + lang).show();
+      });
+    });
+
+    /** Toggle notification settings fields */
+    $("#email_delivery_method_switch").on("change", function() {
+      delivery_method = $(this).val();
+      $(".email_delivery_method_settings").hide();
+      $("#email_delivery_method_" + delivery_method).show();
+    }).trigger("change");
+
+    /** Toggle repository checkout fieldsets required when option is disabled */
+    $('.settings-repositories--checkout-toggle').change(function() {
+      var wasChecked = this.checked,
+        fieldset = $(this).closest('fieldset');
+
+        fieldset
+          .find('input,select')
+          .filter(':not([type=checkbox])')
+          .filter(':not([type=hidden])')
+          .removeAttr('required') // Rails 4.0 still seems to use attribute
+          .prop('required', wasChecked);
+    })
+  });
+}(jQuery));

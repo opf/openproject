@@ -1,0 +1,6 @@
+<%= favicon_link_tag OpenProject::Design.favicon_asset_path %>
+
+<%# In the future we can add more sizes should we see 404 errors in the logs. %>
+<%= favicon_link_tag "apple-touch-icon-120x120.png", rel: 'apple-touch-icon',
+															 type: 'image/png',
+															 sizes: "120x120" %>

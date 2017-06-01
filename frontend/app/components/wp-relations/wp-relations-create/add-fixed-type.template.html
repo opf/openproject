@@ -1,0 +1,27 @@
+<div class="loading-indicator--location"
+     data-indicator-name="relationAddFixed">
+    <div class="grid-block v-align collapse  wp-relations-create"
+         ng-if="$ctrl.showRelationsCreateForm || $ctrl.externalFormToggle">
+        <div class="grid-content medium-10 collapse">
+            <wp-relations-autocomplete
+                    selected-wp-id="$ctrl.selectedWpId"
+                    loading-promise-name="relationAddFixed"
+                    selected-relation-type="$ctrl.selectedRelationType"
+                    focus>
+            </wp-relations-autocomplete>
+        </div>
+        <div class="grid-content medium-2 collapse wp-relations-controls-section relation-row">
+            <accessible-by-keyboard
+                    execute="$ctrl.createRelation()"
+                    is-disabled="$ctrl.isDisabled"
+                    aria-hidden="false">
+                <op-icon icon-classes="icon-checkmark" icon-title="{{ ::$ctrl.text.save }}"></op-icon>
+            </accessible-by-keyboard>
+            <accessible-by-keyboard
+                    execute="$ctrl.toggleRelationsCreateForm()"
+                    aria-hidden="false">
+                <op-icon icon-classes="icon-remove" icon-title="{{ ::$ctrl.text.abort }}"></op-icon>
+            </accessible-by-keyboard>
+        </div>
+</div>
+</div>
