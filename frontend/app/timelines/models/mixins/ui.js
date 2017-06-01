@@ -477,7 +477,7 @@ module.exports = function($timeout) {
 
       // *** beginning decorations ***
 
-      var lastDivider, caption, captionElement, bbox, dividerPath;
+      var lastDivider, caption, captionElement, bbox, dividerPath, captionWidth;
       var padding = 2;
 
       lastDivider = 0;
@@ -524,8 +524,8 @@ module.exports = function($timeout) {
               'font-size': 10
             });
 
-            lastDivider = jQuery(captionElement.node).width() || 0;
-            x = (lastDivider + (left - lastDivider) / 2) - (lastDivider / 16);
+            captionWidth = jQuery(captionElement.node).width() || 0;
+            x = (lastDivider + (left - lastDivider) / 2) - (captionWidth / 16);
             y = (deco - padding);
 
             captionElement
