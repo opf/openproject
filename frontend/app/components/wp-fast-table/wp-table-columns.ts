@@ -58,7 +58,7 @@ export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColu
   /**
    * Retrieve the QueryColumn objects for the selected columns
    */
-  public getColumns():any[] {
+  public getColumns():QueryColumn[] {
     return this.current;
   }
 }

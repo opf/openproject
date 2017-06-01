@@ -58,22 +58,7 @@
              table="table">
       </tbody>
       <tfoot>
-      <tr ng-if="sumsLoaded()"
-          class="sum group all issue work_package">
-        <td ng-repeat="column in columns track by column.href">
-          <div class="generic-table--footer-outer">
-            <span ng-if="$first">{{ text.sumFor }} {{ text.allWorkPackages }}</span>
-            <wp-display-attr
-              attribute="column.id"
-              custom-schema="resource.sumsSchema"
-              work-package="resource.totalSums">
-            </wp-display-attr>
-          </div>
-        </td>
-        <td>
-          <div class="generic-table--footer-outer"></div>
-        </td>
-      </tr>
+        <tr wp-table-sums-row></tr>
       </tfoot>
     </table>
   </div>

@@ -43,6 +43,7 @@ export class WorkPackageCollectionResource extends CollectionResource {
   public elements: WorkPackageResourceInterface[];
   public groups: GroupObject[];
   public totalSums?: Object;
+  public sumsSchema?: HalResource;
   public representations: Array<HalResource>;
 }
 
