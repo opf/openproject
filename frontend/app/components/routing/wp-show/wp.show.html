@@ -1,6 +1,7 @@
 <div class="work-packages--show-view"
      ng-class="{'edit-all-mode': $ctrl.wpEditModeState.active}"
      wp-edit-form="$ctrl.workPackage"
+     wp-edit-form-on-save="$ctrl.onWorkPackageSave()"
      has-edit-mode="true"
      ng-if="$ctrl.workPackage">
   <div class="toolbar-container">
