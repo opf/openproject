@@ -42,6 +42,8 @@ RSpec.feature 'Work package index sums', js: true do
     FactoryGirl.create(:work_package, project: project, estimated_hours: 15)
   }
 
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+
   before do
     login_as(admin)
 
@@ -80,6 +82,15 @@ RSpec.feature 'Work package index sums', js: true do
     within('.sum.group.all') do
       expect(page).to have_content('Sum for all work packages')
       expect(page).to have_content('25')
+    end
+
+    # Update the sum
+    edit_field = wp_table.edit_field(work_package_1, :estimatedTime)
+    edit_field.update '20'
+
+    within('.sum.group.all') do
+      expect(page).to have_content('Sum for all work packages')
+      expect(page).to have_content('35')
     end
   end
 end

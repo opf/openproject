@@ -32,7 +32,6 @@ import {debugLog} from "../../helpers/debug_output";
 import {ContextMenuService} from "../context-menus/context-menu.service";
 import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
 import {WorkPackageTableGroupByService} from "../wp-fast-table/state/wp-table-group-by.service";
-import {WorkPackageTableSumService} from "../wp-fast-table/state/wp-table-sum.service";
 import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
 import {States} from "./../states.service";
 import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
@@ -70,13 +69,6 @@ function wpTable(
         event.pageY -= topMenuHeight;
       };
 
-      scope.sumsLoaded = function() {
-        return scope.displaySums &&
-          scope.resource.sumsSchema &&
-          scope.resource.sumsSchema.$loaded &&
-          scope.resource.totalSums;
-      };
-
       // Set and keep the current details tab state remembered
       // for the open-in-details button in each WP row.
       scope.desiredSplitViewState = keepTab.currentDetailsState;
@@ -104,7 +96,6 @@ export class WorkPackagesTableController {
               states:States,
               I18n:op.I18n,
               wpTableGroupBy:WorkPackageTableGroupByService,
-              wpTableSum:WorkPackageTableSumService,
               wpTableTimeline:WorkPackageTableTimelineService,
               wpTableColumns:WorkPackageTableColumnsService,
              ) {
@@ -115,8 +106,6 @@ export class WorkPackagesTableController {
 
     $scope.text = {
       cancel: I18n.t('js.button_cancel'),
-      sumFor: I18n.t('js.label_sum_for'),
-      allWorkPackages: I18n.t('js.label_all_work_packages'),
       noResults: {
         title: I18n.t('js.work_packages.no_results.title'),
         description: I18n.t('js.work_packages.no_results.description')
@@ -141,17 +130,14 @@ export class WorkPackagesTableController {
     Observable.combineLatest(
       scopedObservable($scope, states.table.query.values$()),
       scopedObservable($scope, states.table.results.values$()),
-      wpTableSum.observeOnScope($scope),
       wpTableGroupBy.observeOnScope($scope),
       wpTableColumns.observeOnScope($scope),
       wpTableTimeline.observeOnScope($scope)
-    ).subscribe(([query, results, sum, groupBy, columns, timelines]) => {
+    ).subscribe(([query, results, groupBy, columns, timelines]) => {
 
       $scope.query = query;
-      $scope.resource = results;
       $scope.rowcount = results.count;
 
-      $scope.displaySums = sum.current;
       $scope.groupBy = groupBy.current;
       $scope.columns = columns.current;
       // Total columns = all available columns + id + checkbox
@@ -161,10 +147,6 @@ export class WorkPackagesTableController {
         this.scrollSyncUpdate(timelines.current);
       }
       $scope.timelineVisible = timelines.current;
-
-      if (sum.current) {
-        if (!this.sumsSchemaFetched()) { this.fetchSumsSchema(); }
-      }
     });
   }
 
@@ -181,15 +163,4 @@ export class WorkPackagesTableController {
     var t1 = performance.now();
     debugLog("Render took " + (t1 - t0) + " milliseconds.");
   }
-
-  private sumsSchemaFetched() {
-    return this.$scope.resource.sumsSchema && this.$scope.resource.sumsSchema.$loaded;
-  }
-
-  private fetchSumsSchema() {
-    if (this.$scope.resource.sumsSchema && !this.$scope.resource.sumsSchema.$loaded) {
-      this.$scope.resource.sumsSchema.$load();
-    }
-  }
-
 }
