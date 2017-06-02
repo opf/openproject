@@ -86,14 +86,14 @@ describe 'routing', type: :routing do
                                                                    filename: 'filename.ext')
     }
 
-    it 'should redirect /atttachments/download/1 to /attachments/1/download' do
+    it 'should redirect /atttachments/download/1 to /attachments/1' do
       get '/attachments/download/1'
-      assert_redirected_to '/attachments/1/download'
+      assert_redirected_to '/attachments/1'
     end
 
-    it 'should redirect /atttachments/download/1/filename.ext to /attachments/1/download/filename.ext' do
+    it 'should redirect /atttachments/download/1/filename.ext to /attachments/1/filename.ext' do
       get '/attachments/download/1/filename.ext'
-      assert_redirected_to '/attachments/1/download/filename.ext'
+      assert_redirected_to '/attachments/1/filename.ext'
     end
 
     it {
