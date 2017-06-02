@@ -188,13 +188,8 @@ module OpenProject::Costs
                       show_if: -> (*) { costs_by_type_visible? }
 
       property :spent_time,
-               getter: -> (*) do
-                 formatter = API::V3::Utilities::DateTimeFormatter
-                 formatter.format_duration_from_hours(represented.spent_hours)
-               end,
-               writeable: false,
-               exec_context: :decorator,
-               if: -> (_) { user_has_time_entry_permissions? }
+               if: ->(_) { user_has_time_entry_permissions? },
+               inherit: true
 
       send(:define_method, :overall_costs) do
         number_to_currency(represented.overall_costs)
@@ -217,7 +212,7 @@ module OpenProject::Costs
       linked_property :cost_object,
                       path: :budget,
                       namespace: :budgets,
-                      show_if: -> (*) { represented.costs_enabled? }
+                      show_if: ->(*) { costs_enabled? }
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
@@ -227,25 +222,25 @@ module OpenProject::Costs
              type: 'String',
              required: false,
              writable: false,
-             show_if: -> (*) { represented.project && represented.project.costs_enabled? }
+             show_if: ->(*) { represented.project && represented.project.costs_enabled? }
 
       schema :labor_costs,
              type: 'String',
              required: false,
              writable: false,
-             show_if: -> (*) { represented.project && represented.project.costs_enabled? }
+             show_if: ->(*) { represented.project && represented.project.costs_enabled? }
 
       schema :material_costs,
              type: 'String',
              required: false,
              writable: false,
-             show_if: -> (*) { represented.project && represented.project.costs_enabled? }
+             show_if: ->(*) { represented.project && represented.project.costs_enabled? }
 
       schema :costs_by_type,
              type: 'Collection',
              name_source: :spent_units,
              required: false,
-             show_if: -> (*) { represented.project && represented.project.costs_enabled? },
+             show_if: ->(*) { represented.project && represented.project.costs_enabled? },
              writable: false
 
       schema_with_allowed_collection :cost_object,

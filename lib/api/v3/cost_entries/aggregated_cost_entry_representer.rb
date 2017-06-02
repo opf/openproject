@@ -36,9 +36,7 @@ module API
 
         property :spent_units,
                  exec_context: :decorator,
-                 getter: -> (*) { @spent_units }
-
-        private
+                 getter: ->(*) { @spent_units }
 
         def _type
           'AggregatedCostEntry'

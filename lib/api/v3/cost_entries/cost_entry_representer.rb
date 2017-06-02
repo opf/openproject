@@ -21,27 +21,27 @@ module API
   module V3
     module CostEntries
       class CostEntryRepresenter < ::API::Decorators::Single
-        self_link title_getter: -> (*) { nil }
+        self_link title_getter: ->(*) { nil }
         linked_property :project, embed_as: ::API::V3::Projects::ProjectRepresenter
         linked_property :user, embed_as: ::API::V3::Users::UserRepresenter
         linked_property :cost_type, embed_as: ::API::V3::CostTypes::CostTypeRepresenter
 
         # for now not embedded, because work packages are quite large
-        linked_property :work_package, title_getter: -> (*) { represented.work_package.subject }
+        linked_property :work_package, title_getter: ->(*) { represented.work_package.subject }
 
         property :id, render_nil: true
         property :units, as: :spentUnits
         property :spent_on,
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_date(represented.spent_on) }
+                 getter: ->(*) { datetime_formatter.format_date(represented.spent_on) }
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
         property :updated_on,
                  as: 'updatedAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
 
         def _type
           'CostEntry'
