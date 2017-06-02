@@ -369,9 +369,8 @@ class Query < ActiveRecord::Base
                 .reject(&:blank?)
                 .map(&:to_sym)
 
-    # Set column_names to blank/nil if default columns
-    if (col_names.map(&:to_s) - Setting.work_package_list_default_columns).empty? &&
-       (Setting.work_package_list_default_columns - col_names.map(&:to_s)).empty?
+    # Set column_names to blank/nil if it is equal to the default columns
+    if col_names.map(&:to_s) == Setting.work_package_list_default_columns
       col_names.clear
     end
 
