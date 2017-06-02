@@ -47,8 +47,6 @@ module API
         property :name,
                  exec_context: :decorator
 
-        private
-
         def id
           represented.last
         end
