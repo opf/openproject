@@ -18,7 +18,7 @@ Create the file `/etc/yum.repos.d/openproject.repo` with the following contents
 ```
 [openproject]
 name=Repository for opf/openproject-ce application.
-baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos7/stable/6
+baseurl=https://rpm.packager.io/gh/opf/openproject-ce/centos7/stable/7
 enabled=1
 ```
 
