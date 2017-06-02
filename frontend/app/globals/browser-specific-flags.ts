@@ -34,5 +34,8 @@ jQuery(function() {
   if (bowser.safari) {
     document.documentElement.classList.add('-browser-safari');
   }
-});
 
+  if (bowser.windows) {
+    document.documentElement.classList.add('-browser-windows');
+  }
+});
