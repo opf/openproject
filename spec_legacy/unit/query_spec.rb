@@ -260,7 +260,7 @@ describe Query, type: :model do
 
   it 'should groupable columns should include custom fields' do
     q = Query.new name: '_'
-    assert q.groupable_columns.detect { |c| c.is_a? QueryCustomFieldColumn }
+    assert q.groupable_columns.detect { |c| c.is_a? Queries::WorkPackages::Columns::CustomFieldColumn }
   end
 
   it 'should grouped with valid column' do
@@ -306,7 +306,7 @@ describe Query, type: :model do
 
   it 'should sort by string custom field asc' do
     q = Query.new name: '_'
-    c = q.available_columns.find { |col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
+    c = q.available_columns.find { |col| col.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
@@ -320,7 +320,7 @@ describe Query, type: :model do
 
   it 'should sort by string custom field desc' do
     q = Query.new name: '_'
-    c = q.available_columns.find { |col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'string' }
+    c = q.available_columns.find { |col| col.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) && col.custom_field.field_format == 'string' }
     assert c
     assert c.sortable
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
@@ -334,7 +334,7 @@ describe Query, type: :model do
 
   it 'should sort by float custom field asc' do
     q = Query.new name: '_'
-    c = q.available_columns.find { |col| col.is_a?(QueryCustomFieldColumn) && col.custom_field.field_format == 'float' }
+    c = q.available_columns.find { |col| col.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) && col.custom_field.field_format == 'float' }
     assert c
     assert c.sortable
     issues = WorkPackage

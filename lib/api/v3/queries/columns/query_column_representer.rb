@@ -53,10 +53,6 @@ module API
 
           alias :id :converted_name
 
-          def _type
-            'QueryColumn'
-          end
-
           def convert_attribute(attribute)
             ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
           end

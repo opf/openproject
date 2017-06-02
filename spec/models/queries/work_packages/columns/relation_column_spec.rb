@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,34 +26,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Register
-  class << self
-    def filter(query, filter)
-      @filters ||= Hash.new do |hash, filter_key|
-        hash[filter_key] = []
+require 'spec_helper'
+require_relative 'shared_query_column_specs'
+
+describe Queries::WorkPackages::Columns::RelationColumn, type: :model do
+  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:instance) { described_class.new(type) }
+
+  it_behaves_like 'query column'
+
+  describe 'instances' do
+    context 'within project' do
+      before do
+        allow(project)
+          .to receive(:types)
+          .and_return([type])
       end
 
-      @filters[query] << filter
+      it 'contains the type columns' do
+        expect(described_class.instances(project).length)
+          .to eq 1
+
+        expect(described_class.instances(project)[0].type)
+          .to eq type
+      end
     end
 
-    def order(query, order)
-      @orders ||= Hash.new do |hash, order_key|
-        hash[order_key] = []
+    context 'global' do
+      before do
+        allow(Type)
+          .to receive(:all)
+          .and_return([type])
       end
 
-      @orders[query] << order
-    end
+      it 'contains the type columns' do
+        expect(described_class.instances.length)
+          .to eq 1
 
-    def column(query, column)
-      @columns ||= Hash.new do |hash, column_key|
-        hash[column_key] = []
+        expect(described_class.instances[0].type)
+          .to eq type
       end
-
-      @columns[query] << column
     end
-
-    attr_accessor :filters,
-                  :orders,
-                  :columns
   end
 end

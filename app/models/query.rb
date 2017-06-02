@@ -62,92 +62,6 @@ class Query < ActiveRecord::Base
 
   scope(:global, -> { where(project_id: nil) })
 
-  # WARNING: sortable should not contain a column called id (except for the
-  # work_packages.id column). Otherwise naming collisions can happen when AR
-  # optimizes a query into two separate DB queries (e.g. when joining tables).
-  # The first query is employed to fetch all ids which are used as filters in
-  # the second query. The columns mentioned in sortable are used for the first
-  # query.  If such a statement selects from two coluns named <table name>.id
-  # the second one is taken to get the ids of the work packages.
-  @@available_columns = [
-    QueryColumn.new(:id,
-                    sortable: "#{WorkPackage.table_name}.id",
-                    groupable: false),
-    QueryColumn.new(:project,
-                    sortable: "#{Project.table_name}.name",
-                    groupable: true),
-    QueryColumn.new(:subject,
-                    sortable: "#{WorkPackage.table_name}.subject"),
-    QueryColumn.new(:type,
-                    sortable: "#{::Type.table_name}.position",
-                    groupable: true),
-    QueryColumn.new(:parent,
-                    sortable: ["#{WorkPackage.table_name}.root_id",
-                               "#{WorkPackage.table_name}.lft"],
-                    default_order: 'asc'),
-    QueryColumn.new(:status,
-                    sortable: "#{Status.table_name}.position",
-                    groupable: true),
-    QueryColumn.new(:priority,
-                    sortable: "#{IssuePriority.table_name}.position",
-                    default_order: 'desc',
-                    groupable: true),
-    QueryColumn.new(:author,
-                    sortable: ["#{User.table_name}.lastname",
-                               "#{User.table_name}.firstname",
-                               "#{WorkPackage.table_name}.author_id"],
-                    groupable: true),
-    QueryColumn.new(:assigned_to,
-                    sortable: ["#{User.table_name}.lastname",
-                               "#{User.table_name}.firstname",
-                               "#{WorkPackage.table_name}.assigned_to_id"],
-                    groupable: true),
-    QueryColumn.new(:responsible,
-                    sortable: ["#{User.table_name}.lastname",
-                               "#{User.table_name}.firstname",
-                               "#{WorkPackage.table_name}.responsible_id"],
-                    groupable: true,
-                    join: 'LEFT OUTER JOIN users as responsible ON ' +
-                          "(#{WorkPackage.table_name}.responsible_id = responsible.id)"),
-    QueryColumn.new(:updated_at,
-                    sortable: "#{WorkPackage.table_name}.updated_at",
-                    default_order: 'desc'),
-    QueryColumn.new(:category,
-                    sortable: "#{Category.table_name}.name",
-                    groupable: true),
-    QueryColumn.new(:fixed_version,
-                    sortable: ["#{Version.table_name}.effective_date",
-                               "#{Version.table_name}.name"],
-                    default_order: 'desc',
-                    groupable: true),
-    # Put empty start_dates in the far future rather than in the far past
-    QueryColumn.new(:start_date,
-                    # Put empty start_dates in the far future rather than in the far past
-                    sortable: ["CASE WHEN #{WorkPackage.table_name}.start_date IS NULL
-                                THEN 1
-                                ELSE 0 END",
-                               "#{WorkPackage.table_name}.start_date"]),
-    QueryColumn.new(:due_date,
-                    # Put empty due_dates in the far future rather than in the far past
-                    sortable: ["CASE WHEN #{WorkPackage.table_name}.due_date IS NULL
-                                THEN 1
-                                ELSE 0 END",
-                               "#{WorkPackage.table_name}.due_date"]),
-    QueryColumn.new(:estimated_hours,
-                    sortable: "#{WorkPackage.table_name}.estimated_hours",
-                    summable: true),
-    QueryColumn.new(:spent_hours,
-                    sortable: false,
-                    summable: false),
-    QueryColumn.new(:done_ratio,
-                    sortable: "#{WorkPackage.table_name}.done_ratio",
-                    groupable: true),
-    QueryColumn.new(:created_at,
-                    sortable: "#{WorkPackage.table_name}.created_at",
-                    default_order: 'desc')
-  ]
-  cattr_reader :available_columns
-
   def self.new_default(attributes = nil)
     new(attributes).tap do |query|
       query.add_default_filter
@@ -301,41 +215,22 @@ class Query < ActiveRecord::Base
     end
 
     @available_columns_project = project && project.cache_key || 0
-    @available_columns = ::Query.available_columns +
-                         custom_field_columns +
-                         relation_columns
-
-    # have to use this instead of
-    # #select! as #select! can return nil
-    @available_columns = @available_columns.select(&:available?)
+    @available_columns = ::Query.available_columns(project)
   end
 
-  def self.available_columns=(v)
-    self.available_columns = v
-  end
-
-  def self.all_columns
-    custom_field_columns = WorkPackageCustomField
-                           .all
-                           .map { |cf| ::QueryCustomFieldColumn.new(cf) }
-
-    type_columns = Type
-                   .all
-                   .map { |type| ::QueryRelationColumn.new(type) }
-
-    available_columns + custom_field_columns + type_columns
+  def self.available_columns(project = nil)
+    Queries::Register
+      .columns[self]
+      .map { |col| col.instances(project) }
+      .flatten
   end
 
   def self.groupable_columns
-    all_columns.select(&:groupable)
+    available_columns.select(&:groupable)
   end
 
   def self.sortable_columns
-    all_columns.select(&:sortable)
-  end
-
-  def self.add_available_column(column)
-    available_columns << column if column.is_a?(QueryColumn)
+    available_columns.select(&:sortable)
   end
 
   # Returns an array of columns that can be used to group the results
@@ -360,15 +255,17 @@ class Query < ActiveRecord::Base
   end
 
   def columns
-    if has_default_columns?
-      available_columns.select do |c|
-        # Adds the project column by default for cross-project lists
-        Setting.work_package_list_default_columns.include?(c.name.to_s) || (c.name == :project && project.nil?)
-      end
-    else
-      # preserve the column_names order
-      column_names.map { |name| available_columns.find { |col| col.name == name } }.compact
-    end
+    column_list = if has_default_columns?
+                    column_list = Setting.work_package_list_default_columns.dup
+                    # Adds the project column by default for cross-project lists
+                    column_list += [:project] if project.nil?
+                    column_list
+                  else
+                    column_names
+                  end
+
+    # preserve the order
+    column_list.map { |name| available_columns.find { |col| col.name == name.to_sym } }.compact
   end
 
   def column_names=(names)
@@ -440,15 +337,8 @@ class Query < ActiveRecord::Base
         column = sortable_columns
                  .detect { |candidate| candidate.name == attribute }
 
-        # FIXME why can this be nil here?
-        # It appears to be nil for the backlogs :position
-        if column.nil?
-          nil
-        else
-          [column, direction]
-        end
+        [column, direction]
       end
-      .compact
   end
 
   def sorted?
@@ -539,22 +429,6 @@ class Query < ActiveRecord::Base
 
   def for_all?
     @for_all ||= project.nil?
-  end
-
-  def custom_field_columns
-    if project
-      project.all_work_package_custom_fields
-    else
-      WorkPackageCustomField.all
-    end.map { |cf| ::QueryCustomFieldColumn.new(cf) }
-  end
-
-  def relation_columns
-    if project
-      project.types
-    else
-      Type.all
-    end.map { |type| ::QueryRelationColumn.new(type) }
   end
 
   def statement_filters

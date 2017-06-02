@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,25 +28,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-require_relative 'shared_query_column_specs'
+class Queries::WorkPackages::Columns::WorkPackageColumn < Queries::Columns::Base
+  def caption
+    WorkPackage.human_attribute_name(name)
+  end
 
-describe ::QueryColumn, type: :model do
-  let(:instance) { QueryColumn.new(:query_column) }
-
-  it_behaves_like 'query column'
-
-  describe '#available?' do
-    context ':done_ratio column' do
-      let(:instance) { QueryColumn.new(:done_ratio) }
-
-      it 'is not available if the setting disables it' do
-        allow(WorkPackage)
-          .to receive(:done_ratio_disabled?)
-          .and_return(true)
-
-        expect(instance).to_not be_available
-      end
+  def sum_of(work_packages)
+    if work_packages.is_a?(Array)
+      # TODO: Sums::grouped_sums might call through here without an AR::Relation
+      # Ensure that this also calls using a Relation and drop this (slow!) implementation
+      work_packages.map { |wp| value(wp) }.compact.reduce(:+)
+    else
+      work_packages.sum(name)
     end
   end
 end

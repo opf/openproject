@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,25 +29,34 @@
 #++
 
 module Queries::WorkPackages
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::AssignedToFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::AuthorFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::CategoryFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::CreatedAtFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::CustomFieldFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::DoneRatioFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::DueDateFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::EstimatedHoursFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::GroupFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::PriorityFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::ProjectFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::ResponsibleFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::RoleFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::StartDateFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::StatusFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::SubjectFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::SubprojectFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::TypeFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::UpdatedAtFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::VersionFilter
-  Queries::Register.filter Query, Queries::WorkPackages::Filter::WatcherFilter
+  filters_module = Queries::WorkPackages::Filter
+  register = Queries::Register
+
+  register.filter Query, filters_module::AssignedToFilter
+  register.filter Query, filters_module::AuthorFilter
+  register.filter Query, filters_module::CategoryFilter
+  register.filter Query, filters_module::CreatedAtFilter
+  register.filter Query, filters_module::CustomFieldFilter
+  register.filter Query, filters_module::DoneRatioFilter
+  register.filter Query, filters_module::DueDateFilter
+  register.filter Query, filters_module::EstimatedHoursFilter
+  register.filter Query, filters_module::GroupFilter
+  register.filter Query, filters_module::PriorityFilter
+  register.filter Query, filters_module::ProjectFilter
+  register.filter Query, filters_module::ResponsibleFilter
+  register.filter Query, filters_module::RoleFilter
+  register.filter Query, filters_module::StartDateFilter
+  register.filter Query, filters_module::StatusFilter
+  register.filter Query, filters_module::SubjectFilter
+  register.filter Query, filters_module::SubprojectFilter
+  register.filter Query, filters_module::TypeFilter
+  register.filter Query, filters_module::UpdatedAtFilter
+  register.filter Query, filters_module::VersionFilter
+  register.filter Query, filters_module::WatcherFilter
+
+  columns_module = Queries::WorkPackages::Columns
+
+  register.column Query, columns_module::PropertyColumn
+  register.column Query, columns_module::CustomFieldColumn
+  register.column Query, columns_module::RelationColumn
 end

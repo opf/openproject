@@ -52,7 +52,7 @@ module QueriesHelper
   end
 
   def column_locale(column)
-    column.is_a?(QueryCustomFieldColumn) ? column.custom_field.name_locale : nil
+    column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) ? column.custom_field.name_locale : nil
   end
 
   def add_filter_from_params(query, filters: params)

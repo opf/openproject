@@ -43,7 +43,7 @@ module API
 
         def columns
           represented.columns.map do |column|
-            ::API::V3::Queries::Columns::QueryColumnRepresenter.new(column)
+            ::API::V3::Queries::Columns::QueryColumnsFactory.create(column)
           end
         end
 

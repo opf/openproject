@@ -33,7 +33,7 @@ describe ::API::V3::Queries::SortBys::QuerySortByRepresenter do
 
   let(:column_name) { 'status' }
   let(:direction) { 'desc' }
-  let(:column) { QueryColumn.new(column_name) }
+  let(:column) { Queries::WorkPackages::Columns::PropertyColumn.new(column_name) }
   let(:representer) do
     described_class
       .new(::API::V3::Queries::SortBys::SortByDecorator.new(column, direction))

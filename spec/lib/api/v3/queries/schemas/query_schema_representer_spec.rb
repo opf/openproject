@@ -253,10 +253,10 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
           let(:form_embedded) { true }
           let(:type) { FactoryGirl.build_stubbed(:type) }
           let(:available_values) do
-            [QueryColumn.new(:bogus1),
-             QueryColumn.new(:bogus2),
-             QueryColumn.new(:bogus3),
-             QueryRelationColumn.new(type)]
+            [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1),
+             Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2),
+             Queries::WorkPackages::Columns::PropertyColumn.new(:bogus3),
+             Queries::WorkPackages::Columns::RelationColumn.new(type)]
           end
           let(:available_values_method) { :available_columns }
 
@@ -337,9 +337,9 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
 
           it_behaves_like 'has a collection of allowed values' do
             let(:available_values) do
-              [QueryColumn.new(:bogus1),
-               QueryColumn.new(:bogus2),
-               QueryColumn.new(:bogus3)]
+              [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1),
+               Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2),
+               Queries::WorkPackages::Columns::PropertyColumn.new(:bogus3)]
             end
             let(:available_values_method) { :groupable_columns }
             let(:expected_hrefs) do
@@ -377,9 +377,9 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
             end
 
             let(:available_values) do
-              [QueryColumn.new(:bogus1),
-               QueryColumn.new(:bogus2),
-               QueryColumn.new(:bogus3)]
+              [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1),
+               Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2),
+               Queries::WorkPackages::Columns::PropertyColumn.new(:bogus3)]
             end
             let(:available_values_method) { :sortable_columns }
 

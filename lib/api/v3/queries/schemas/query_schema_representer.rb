@@ -127,11 +127,7 @@ module API
                                          visibility: false,
                                          values_callback: -> { represented.available_columns },
                                          value_representer: ->(column) {
-                                           if column.is_a?(QueryRelationColumn)
-                                             Columns::QueryRelationColumnRepresenter
-                                           else
-                                             Columns::QueryColumnRepresenter
-                                           end
+                                           Columns::QueryColumnsFactory.representer(column)
                                          },
                                          link_factory: ->(column) {
                                            converted_name = convert_attribute(column.name)

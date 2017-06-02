@@ -88,7 +88,7 @@ module WorkPackage::CsvExporter
   end
 
   def csv_format_value(work_package, column)
-    if column.is_a?(QueryCustomFieldColumn)
+    if column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
       csv_format_custom_value(work_package, column)
     else
       value = work_package.send(column.name)

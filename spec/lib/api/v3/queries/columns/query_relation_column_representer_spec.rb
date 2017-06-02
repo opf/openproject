@@ -32,7 +32,7 @@ describe ::API::V3::Queries::Columns::QueryRelationColumnRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:type) { FactoryGirl.build_stubbed(:type) }
-  let(:column) { QueryRelationColumn.new(type) }
+  let(:column) { Queries::WorkPackages::Columns::RelationColumn.new(type) }
   let(:representer) { described_class.new(column) }
 
   subject { representer.to_json }

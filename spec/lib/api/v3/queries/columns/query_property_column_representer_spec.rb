@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Columns::QueryColumnRepresenter do
+describe ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:column) { Query.available_columns.detect { |column| column.name == :status } }

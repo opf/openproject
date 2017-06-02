@@ -28,22 +28,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryRelationColumn < QueryColumn
-  attr_accessor :type
-
-  def initialize(type)
-    super
-
-    set_name! type
-    self.type = type
-  end
-
-  def set_name!(type)
-    self.name = "relations_to_type_#{type.id}".to_sym
-  end
-
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_to_type_column',
-           type: type.name)
+module API
+  module V3
+    module Queries
+      module Columns
+        class QueryPropertyColumnRepresenter < QueryColumnRepresenter
+          def _type
+            'QueryColumn'
+          end
+        end
+      end
+    end
   end
 end

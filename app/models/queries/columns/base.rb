@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,16 +28,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class QueryColumn
+class Queries::Columns::Base
   attr_accessor :name,
                 :sortable,
                 :groupable,
                 :summable,
-                :available,
                 :join,
                 :default_order
   alias_method :summable?, :summable
-  include Redmine::I18n
 
   def initialize(name, options = {})
     self.name = name
@@ -48,15 +47,11 @@ class QueryColumn
       send("#{attribute}=", options[attribute])
     end
 
-    self.available = options.fetch(:available, true)
-
     self.join = options.delete(:join)
-
-    @caption_key = options[:caption] || name.to_s
   end
 
   def caption
-    WorkPackage.human_attribute_name(@caption_key)
+    raise NotImplementedError
   end
 
   def groupable=(value)
@@ -81,26 +76,8 @@ class QueryColumn
     issue.send name
   end
 
-  def available?
-    available
-  end
-
-  def available
-    if name == :done_ratio
-      !WorkPackage.done_ratio_disabled?
-    else
-      @available
-    end
-  end
-
-  def sum_of(work_packages)
-    if work_packages.is_a?(Array)
-      # TODO: Sums::grouped_sums might call through here without an AR::Relation
-      # Ensure that this also calls using a Relation and drop this (slow!) implementation
-      work_packages.map { |wp| value(wp) }.compact.reduce(:+)
-    else
-      work_packages.sum(name)
-    end
+  def self.all_for(_context = nil)
+    new
   end
 
   protected
@@ -112,7 +89,7 @@ class QueryColumn
 
     # Explicitly checking for true because apparently, we do not want
     # truish values to count here.
-    if (value == true)
+    if value == true
       name.to_s
     else
       value
