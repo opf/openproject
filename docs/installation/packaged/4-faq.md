@@ -49,7 +49,7 @@ If you use the docker images, you need to be familiar with Docker and Docker vol
 
 ### Why don't you support Windows?
 
-Ruby support on Windows is notoriously difficult, however you mmight be able to run the Docker image, or use the unofficial Windows stack provided by [Bitnami](https://bitnami.com/stack/openproject/installer).
+Ruby support on Windows is notoriously difficult, however you might be able to run the Docker image, or use the unofficial Windows stack provided by [Bitnami](https://bitnami.com/stack/openproject/installer).
 
 ### How to backup and restore my OpenProject instalallation?
 
