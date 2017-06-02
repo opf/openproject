@@ -90,6 +90,7 @@ describe('UrlParamsHelper', function() {
         name: 'knoblauch soße',
         sums: true,
         timelineVisible: true,
+        timelineZoomLevel: 'days',
         showHierarchies: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
@@ -109,7 +110,7 @@ describe('UrlParamsHelper', function() {
 
     it('should encode query to params JSON', function() {
       var encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
       expect(encodedJSON).to.eq(expectedJSON);
     });
   });
@@ -118,7 +119,7 @@ describe('UrlParamsHelper', function() {
     var params;
 
     beforeEach(function() {
-      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"hi\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
     });
 
     it('should decode query params to object', function() {
@@ -129,6 +130,7 @@ describe('UrlParamsHelper', function() {
         showSums: true,
         timelineVisible: true,
         showHierarchies: true,
+        timelineZoomLevel: 'days',
         groupBy: 'status',
         filters: JSON.stringify([
           {
