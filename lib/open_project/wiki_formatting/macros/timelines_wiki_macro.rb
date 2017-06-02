@@ -38,7 +38,7 @@ module OpenProject
 
           view = options[:view]
 
-          if view.respond_to?(:render)
+          if view.respond_to?(:javascript_include_tag)
             view.render partial: '/timelines/timeline',
                         locals: { timeline: timeline }
           else

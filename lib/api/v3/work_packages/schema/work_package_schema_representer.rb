@@ -122,8 +122,8 @@ module API
 
           schema :lock_version,
                  type: 'Integer',
-                 name_source: -> (*) { I18n.t('api_v3.attributes.lock_version') },
-                 show_if: -> (*) { @show_lock_version }
+                 name_source: ->(*) { I18n.t('api_v3.attributes.lock_version') },
+                 show_if: ->(*) { @show_lock_version }
 
           schema :id,
                  type: 'Integer'
@@ -140,17 +140,17 @@ module API
           schema :start_date,
                  type: 'Date',
                  required: false,
-                 show_if: -> (*) { !represented.milestone? }
+                 show_if: ->(*) { !represented.milestone? }
 
           schema :due_date,
                  type: 'Date',
                  required: false,
-                 show_if: -> (*) { !represented.milestone? }
+                 show_if: ->(*) { !represented.milestone? }
 
           schema :date,
                  type: 'Date',
                  required: false,
-                 show_if: -> (*) { represented.milestone? }
+                 show_if: ->(*) { represented.milestone? }
 
           schema :estimated_time,
                  type: 'Duration',
@@ -163,7 +163,7 @@ module API
           schema :percentage_done,
                  type: 'Integer',
                  name_source: :done_ratio,
-                 show_if: -> (*) { Setting.work_package_done_ratio != 'disabled' },
+                 show_if: ->(*) { Setting.work_package_done_ratio != 'disabled' },
                  required: false
 
           schema :created_at,
@@ -178,7 +178,7 @@ module API
           schema_with_allowed_link :project,
                                    type: 'Project',
                                    required: true,
-                                   href_callback: -> (*) {
+                                   href_callback: ->(*) {
                                      if @action == :create
                                        api_v3_paths.available_projects_on_create
                                      else
@@ -186,13 +186,7 @@ module API
                                      end
                                    }
 
-          schema :parent_id,
-                 type: 'Integer',
-                 required: false,
-                 writable: true
-
           # TODO:
-          # * remove parent_id above in favor of only having :parent
           # * create an available_work_package_parent resource
           # * turn :parent into a schema_with_allowed_link
 
@@ -204,7 +198,7 @@ module API
           schema_with_allowed_link :assignee,
                                    type: 'User',
                                    required: false,
-                                   href_callback: -> (*) {
+                                   href_callback: ->(*) {
                                      if represented.project
                                        api_v3_paths.available_assignees(represented.project_id)
                                      end
@@ -213,7 +207,7 @@ module API
           schema_with_allowed_link :responsible,
                                    type: 'User',
                                    required: false,
-                                   href_callback: -> (*) {
+                                   href_callback: ->(*) {
                                      if represented.project
                                        api_v3_paths.available_responsibles(represented.project_id)
                                      end
@@ -221,7 +215,7 @@ module API
 
           schema_with_allowed_collection :type,
                                          value_representer: Types::TypeRepresenter,
-                                         link_factory: -> (type) {
+                                         link_factory: ->(type) {
                                            {
                                              href: api_v3_paths.type(type.id),
                                              title: type.name
@@ -231,7 +225,7 @@ module API
 
           schema_with_allowed_collection :status,
                                          value_representer: Statuses::StatusRepresenter,
-                                         link_factory: -> (status) {
+                                         link_factory: ->(status) {
                                            {
                                              href: api_v3_paths.status(status.id),
                                              title: status.name
@@ -241,7 +235,7 @@ module API
 
           schema_with_allowed_collection :category,
                                          value_representer: Categories::CategoryRepresenter,
-                                         link_factory: -> (category) {
+                                         link_factory: ->(category) {
                                            {
                                              href: api_v3_paths.category(category.id),
                                              title: category.name
@@ -251,7 +245,7 @@ module API
 
           schema_with_allowed_collection :version,
                                          value_representer: Versions::VersionRepresenter,
-                                         link_factory: -> (version) {
+                                         link_factory: ->(version) {
                                            {
                                              href: api_v3_paths.version(version.id),
                                              title: version.name
@@ -261,7 +255,7 @@ module API
 
           schema_with_allowed_collection :priority,
                                          value_representer: Priorities::PriorityRepresenter,
-                                         link_factory: -> (priority) {
+                                         link_factory: ->(priority) {
                                            {
                                              href: api_v3_paths.priority(priority.id),
                                              title: priority.name

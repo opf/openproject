@@ -81,22 +81,22 @@ export class HierarchyRenderPass extends TableRenderPass {
    * @returns {boolean}
    */
   public deferInsertion(workPackage:WorkPackageResourceInterface):boolean {
-    const parentId = workPackage.parentId;
+    const parent = workPackage.parent;
 
     // Will only defer if parent exists
-    if (!parentId) {
+    if (!parent) {
       return false;
     }
 
     // Will only defer is parent is
     // 1. existent in the table results
     // 1. yet to be rendered
-    if (this.workPackageTable.rowIndex[parentId] === undefined || this.rendered[parentId]) {
+    if (this.workPackageTable.rowIndex[parent.id] === undefined || this.rendered[parent.id]) {
       return false;
     }
 
-    const elements = this.deferred[parentId] || [];
-    this.deferred[parentId] = elements.concat([workPackage]);
+    const elements = this.deferred[parent.id] || [];
+    this.deferred[parent.id] = elements.concat([workPackage]);
 
     return true;
   }
@@ -115,7 +115,7 @@ export class HierarchyRenderPass extends TableRenderPass {
     deferredChildren.forEach((child:WorkPackageResourceInterface) => {
       // Callback on the child itself
       const row:WorkPackageTableRow = this.workPackageTable.rowIndex[child.id];
-      this.insertUnderParent(row, child.parentId.toString());
+      this.insertUnderParent(row, child.parent);
 
       // Descend into any children the child WP might have and callback
       this.renderAllDeferredChildren(child);
@@ -145,7 +145,7 @@ export class HierarchyRenderPass extends TableRenderPass {
         } else {
           // This ancestor must be inserted in the last position of its root
           const parent = ancestors[index - 1];
-          this.insertAtExistingHierarchy(ancestor, ancestorRow, parent.id, hidden, true);
+          this.insertAtExistingHierarchy(ancestor, ancestorRow, parent, hidden, true);
         }
 
         // Remember we just added this extra ancestor row
@@ -161,7 +161,7 @@ export class HierarchyRenderPass extends TableRenderPass {
 
     // Insert this row to parent
     const parent = _.last(ancestors);
-    this.insertUnderParent(row, parent.id);
+    this.insertUnderParent(row, parent);
   }
 
   /**
@@ -169,10 +169,10 @@ export class HierarchyRenderPass extends TableRenderPass {
    * @param row
    * @param parentId
    */
-  private insertUnderParent(row:WorkPackageTableRow, parentId:string) {
+  private insertUnderParent(row:WorkPackageTableRow, parent:WorkPackageResourceInterface) {
     const [tr, hidden] = this.rowBuilder.buildEmpty(row.object);
     row.element = tr;
-    this.insertAtExistingHierarchy(row.object, tr, parentId, hidden, false);
+    this.insertAtExistingHierarchy(row.object, tr, parent, hidden, false);
   }
 
   /**
@@ -210,11 +210,15 @@ export class HierarchyRenderPass extends TableRenderPass {
   /**
    * Append a row to the given parent hierarchy group.
    */
-  private insertAtExistingHierarchy(workPackage:WorkPackageResourceInterface, el:HTMLElement, parentId:string, hidden:boolean, isAncestor:boolean) {
+  private insertAtExistingHierarchy(workPackage:WorkPackageResourceInterface,
+                                    el:HTMLElement,
+                                    parent:WorkPackageResourceInterface,
+                                    hidden:boolean,
+                                    isAncestor:boolean) {
     // Either append to the hierarchy group root (= the parentID row itself)
-    const hierarchyRoot = `.__hierarchy-root-${parentId}`;
+    const hierarchyRoot = `.__hierarchy-root-${parent.id}`;
     // Or, if it has descendants, append to the LATEST of that set
-    const hierarchyGroup = `.__hierarchy-group-${parentId}`;
+    const hierarchyGroup = `.__hierarchy-group-${parent.id}`;
 
     // Insert into table
     const target = jQuery(this.tableBody).find(`${hierarchyRoot},${hierarchyGroup}`).last();

@@ -230,15 +230,15 @@ group :development, :test do
   gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
   gem 'pry-doc', '~> 0.10'
-
 end
 
 # API gems
 gem 'grape', '~> 0.19.2'
 gem 'grape-cache_control', '~> 1.0.1'
 
-gem 'roar',   '~> 1.0.0'
-gem 'reform', '~> 1.2.6', require: false
+gem 'reform', '~> 2.2.0'
+gem 'reform-rails', '~> 0.1.7'
+gem 'roar', '~> 1.1.0'
 
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do

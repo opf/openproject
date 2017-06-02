@@ -76,7 +76,9 @@ module API
                    exec_context: :decorator,
                    show_nil: true
 
-          private
+          def _type
+            "#{converted_name.camelize}QueryFilter"
+          end
 
           def name
             represented.human_name
@@ -95,10 +97,6 @@ module API
             else
               represented.values
             end
-          end
-
-          def _type
-            "#{converted_name.camelize}QueryFilter"
           end
 
           def converted_name

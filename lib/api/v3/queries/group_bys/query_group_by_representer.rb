@@ -45,8 +45,6 @@ module API
           property :caption,
                    as: :name
 
-          private
-
           def converted_name
             convert_attribute(represented.name)
           end

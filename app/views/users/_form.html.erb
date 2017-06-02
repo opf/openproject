@@ -68,7 +68,11 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   <% else %>
     <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
-      <div class="form--field"><%= f.select :auth_source_id, ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }) %></div>
+      <div class="form--field">
+        <%= f.select :auth_source_id,
+                     ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }),
+                     label: :'activerecord.attributes.user.auth_source' %>
+      </div>
     <% end %>
     <% if !OpenProject::Configuration.disable_password_login? %>
       <%

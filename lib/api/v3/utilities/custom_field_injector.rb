@@ -271,8 +271,8 @@ module API
         end
 
         def link_value_setter_for(custom_field, property, expected_namespace)
-          ->(link_object, *) {
-            values = Array([link_object].flatten).flat_map do |link|
+          ->(fragment:, represented:, **) {
+            values = Array([fragment].flatten).flat_map do |link|
               href = link['href']
               value =
                 if href
@@ -317,7 +317,8 @@ module API
         end
 
         def inject_property_value(custom_field)
-          @class.property property_name(custom_field.id),
+          @class.property "custom_field_#{custom_field.id}".to_sym,
+                          as: property_name(custom_field.id),
                           getter: property_value_getter_for(custom_field),
                           setter: property_value_setter_for(custom_field),
                           render_nil: true
@@ -336,8 +337,12 @@ module API
         end
 
         def property_value_setter_for(custom_field)
-          ->(value, *) {
-            value = value['raw'] if custom_field.field_format == 'text'
+          ->(fragment:, **) {
+            value = if custom_field.field_format == 'text'
+                      fragment['raw']
+                    else
+                      fragment
+                    end
             self.custom_field_values = { custom_field.id => value }
           }
         end

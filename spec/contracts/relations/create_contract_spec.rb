@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,29 +31,48 @@
 require 'spec_helper'
 
 describe Relations::CreateContract do
-  let(:from) { FactoryGirl.create :work_package }
-  let(:to) { FactoryGirl.create :work_package }
-  let(:user) { FactoryGirl.create :admin }
+  let(:from) { FactoryGirl.build_stubbed :work_package }
+  let(:to) { FactoryGirl.build_stubbed :work_package }
+  let(:user) { FactoryGirl.build_stubbed :admin }
 
   let(:relation) do
-    Relation.new from_id: from.id, to_id: to.id, relation_type: "follows", delay: 42
+    Relation.new from: from, to: to, relation_type: "follows", delay: 42
   end
 
   subject(:contract) { described_class.new relation, user }
 
-  describe "validating the delay" do
-    class ::Delayed::DelayProxy
-      def to_i
-        99
+  before do
+    allow(WorkPackage)
+      .to receive_message_chain(:visible, :exists?)
+      .and_return(true)
+  end
+
+  describe 'to' do
+    context 'not visible' do
+      before do
+        allow(WorkPackage)
+          .to receive_message_chain(:visible, :exists?)
+          .with(to.id)
+          .and_return(false)
+      end
+
+      it 'is invalid' do
+        is_expected.not_to be_valid
       end
     end
+  end
 
-    it "does not trigger delayed_job and checks the correct delay" do
-      begin
-        expect(contract).to be_valid
-        expect(contract.send(:fields).delay.to_i).to eq 42
-      ensure
-        ::Delayed::DelayProxy.send :remove_method, :to_i
+  describe 'from' do
+    context 'not visible' do
+      before do
+        allow(WorkPackage)
+          .to receive_message_chain(:visible, :exists?)
+          .with(from.id)
+          .and_return(false)
+      end
+
+      it 'is invalid' do
+        is_expected.not_to be_valid
       end
     end
   end

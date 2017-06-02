@@ -37,7 +37,7 @@ shared_context 'filter tests' do
     filter.values = values
     filter
   end
-  let(:name) { model.human_attribute_name(instance_key || class_key) }
+  let(:name) { model.human_attribute_name((instance_key || class_key).to_s.gsub('_id', '')) }
   let(:model) { WorkPackage }
 end
 

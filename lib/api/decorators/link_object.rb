@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,7 +36,7 @@ module API
                      path: :"#{property_name}",
                      namespace: path.to_s.pluralize,
                      getter: :"#{property_name}_id",
-                     title_getter: -> (*) { model.send(property_name).name },
+                     title_getter: ->(*) { model.send(property_name).name },
                      setter: :"#{getter}=")
         @property_name = property_name
         @path = path
@@ -49,36 +50,40 @@ module API
 
       property :href,
                exec_context: :decorator,
-               getter: -> (*) {
-                 id = represented.send(@getter) if represented
-
-                 return nil if id.nil? || id == 0
-
-                 api_v3_paths.send(@path, id)
-               },
-               setter: -> (value, *) {
-                 if value
-                   id = ::API::Utilities::ResourceLinkParser.parse_id value,
-                                                                      property: @property_name,
-                                                                      expected_version: '3',
-                                                                      expected_namespace: @namespace
-                 end
-
-                 represented.send(@setter, id)
-               },
                render_nil: true
 
       property :title,
                exec_context: :decorator,
-               getter: -> (*) {
-                 attribute = ::API::Utilities::PropertyNameConverter.to_ar_name(
-                   @property_name,
-                   context: represented
-                 )
-                 represented.try(attribute).try(:name)
-               },
                writeable: false,
                render_nil: false
+
+      def href
+        id = represented.send(@getter) if represented
+
+        return nil if id.nil? || id.zero?
+
+        api_v3_paths.send(@path, id)
+      end
+
+      def href=(value)
+        if value
+          id = ::API::Utilities::ResourceLinkParser.parse_id value,
+                                                             property: @property_name,
+                                                             expected_version: '3',
+                                                             expected_namespace: @namespace
+        end
+
+        represented.send(@setter, id)
+      end
+
+      def title
+        attribute = ::API::Utilities::PropertyNameConverter.to_ar_name(
+          @property_name,
+          context: represented
+        )
+
+        represented.try(attribute).try(:name)
+      end
     end
   end
 end

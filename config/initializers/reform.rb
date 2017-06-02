@@ -28,39 +28,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Columns
-        class QueryColumnRepresenter < ::API::Decorators::Single
-          self_link id_attribute: ->(*) { converted_name },
-                    title_getter: ->(*) { represented.caption }
+require "reform/form/active_model/validations"
 
-          def initialize(model, *_)
-            super(model, current_user: nil, embed_links: true)
-          end
+Reform::Form.class_eval do
+  include Reform::Form::ActiveModel::Validations
+end
 
-          property :id,
-                   exec_context: :decorator
+Reform::Contract.class_eval do
+  include Reform::Form::ActiveModel::Validations
+end
 
-          property :caption,
-                   as: :name
+require 'reform/contract'
 
-          def converted_name
-            convert_attribute(represented.name)
-          end
+require 'open_project/patches/reform'
 
-          alias :id :converted_name
-
-          def _type
-            'QueryColumn'
-          end
-
-          def convert_attribute(attribute)
-            ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
-          end
-        end
-      end
-    end
-  end
+class Reform::Form::ActiveModel::Errors
+  prepend OpenProject::Patches::Reform
 end

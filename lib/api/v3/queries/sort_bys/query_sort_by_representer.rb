@@ -57,8 +57,6 @@ module API
 
           property :name
 
-          private
-
           def self_link_params
             [represented.converted_name, represented.direction_name]
           end

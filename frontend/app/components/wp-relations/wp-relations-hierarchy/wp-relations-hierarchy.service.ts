@@ -40,17 +40,33 @@ export class WorkPackageRelationsHierarchyService {
               protected wpTableRefresh: WorkPackageTableRefreshService,
               protected $rootScope: ng.IRootScopeService,
               protected wpNotificationsService: WorkPackageNotificationService,
-              protected wpCacheService: WorkPackageCacheService) {
+              protected wpCacheService: WorkPackageCacheService,
+              protected v3Path:any) {
 
   }
 
-  public changeParent(workPackage: WorkPackageResourceInterface, parentId: string | null) {
+  public changeParent(workPackage:WorkPackageResourceInterface, parentId:string | null) {
+    let payload:any = {
+      lockVersion: workPackage.lockVersion
+    };
+
+    if (parentId) {
+      payload['_links'] = {
+        parent: {
+            href: this.v3Path.wp({wp: parentId})
+        }
+      };
+    } else {
+      payload['_links'] = {
+        parent: {
+            href: null
+        }
+      };
+    }
+
     return workPackage
-      .changeParent({
-        parentId: parentId,
-        lockVersion: workPackage.lockVersion
-      })
-      .then((wp: WorkPackageResourceInterface) => {
+      .changeParent(payload)
+      .then((wp:WorkPackageResourceInterface) => {
         this.wpCacheService.updateWorkPackage(wp);
         this.wpNotificationsService.showSave(wp);
         this.wpTableRefresh.request(true, `Changed parent of ${workPackage.id} to ${parentId}`);
@@ -96,10 +112,14 @@ export class WorkPackageRelationsHierarchyService {
       });
   }
 
-  public removeChild(childWorkPackage: WorkPackageResourceInterface) {
+  public removeChild(childWorkPackage:WorkPackageResourceInterface) {
     return childWorkPackage.$load().then(() => {
       return childWorkPackage.changeParent({
-        parentId: null,
+        _links: {
+          parent: {
+              href: null
+          }
+        },
         lockVersion: childWorkPackage.lockVersion
       }).then(wp => {
         this.wpCacheService.updateWorkPackage(wp);

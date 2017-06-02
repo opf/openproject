@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,19 +34,9 @@ module ActiveRecord
   class Base
     include Redmine::I18n
 
-    # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
-      options_with_raise = { raise: true, default: false }.merge options
       attr = attr.to_s.gsub(/_id\z/, '')
-      super(attr, options_with_raise)
-    rescue I18n::MissingTranslationData => e
-      included_in_general_attributes = I18n.t('attributes').keys.map(&:to_s).include? attr
-      included_in_superclasses = ancestors.select { |a| a.ancestors.include? ActiveRecord::Base }.any? { |klass| !(I18n.t("activerecord.attributes.#{klass.name.underscore}.#{attr}").include? 'translation missing:') }
-      unless included_in_general_attributes or included_in_superclasses
-        # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
-        warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Caught: #{e.message}"
-      end
-      super(attr, options)
+      super
     end
   end
 end
@@ -132,24 +123,6 @@ module ActiveModel
       @store_new_symbols
     end
   end
-end
-
-require 'reform/contract'
-
-class Reform::Contract::Errors
-  def merge_with_storing_error_symbols!(errors, prefix)
-    @store_new_symbols = false
-    merge_without_storing_error_symbols!(errors, prefix)
-    @store_new_symbols = true
-
-    errors.keys.each do |attribute|
-      errors.symbols_and_messages_for(attribute).each do |symbol, full_message, partial_message|
-        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
-      end
-    end
-  end
-
-  alias_method_chain :merge!, :storing_error_symbols
 end
 
 module ActionView
@@ -267,23 +240,5 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   end
 end
 
-module ActiveRecord
-  class Errors
-    #  def on_with_id_handling(attribute)
-    #    attribute = attribute.to_s
-    #    if attribute.ends_with? '_id'
-    #      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
-    #    else
-    #      on_without_id_handling(attribute)
-    #    end
-    #  end
-
-    #  alias_method_chain :on, :id_handling
-  end
-end
-
 # Patch acts_as_list before any class includes the module
 require 'open_project/patches/acts_as_list'
-
-# Backports some useful ruby 2.3 methods for Hash
-require 'open_project/patches/hash'

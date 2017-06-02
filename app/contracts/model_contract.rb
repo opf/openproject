@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -45,6 +46,9 @@ class ModelContract < Reform::Contract
     end
 
     writable_attributes.concat attributes.map(&:to_s)
+    # allow the _id variant as well
+    writable_attributes.concat(attributes.map { |a| "#{a}_id" })
+
     if block
       attribute_validations << block
     end
@@ -63,10 +67,10 @@ class ModelContract < Reform::Contract
     collect_ancestor_attributes(:writable_attributes)
   end
 
-  validate :readonly_attributes_unchanged
-  validate :run_attribute_validations
-
   def validate
+    readonly_attributes_unchanged
+    run_attribute_validations
+
     super
     model.valid?
 
@@ -78,6 +82,18 @@ class ModelContract < Reform::Contract
 
     errors.empty?
   end
+
+  # Methods required to get ActiveModel error messages working
+  extend ActiveModel::Naming
+
+  def self.model_name
+    ActiveModel::Name.new(model, nil)
+  end
+
+  def self.model
+    raise NotImplementedError
+  end
+  # end Methods required to get ActiveModel error messages working
 
   private
 

@@ -217,11 +217,11 @@ module API
                               :user,
                               project: :work_package_custom_fields]
 
-        private
-
         def _type
           'Query'
         end
+
+        private
 
         def allowed_to?(action)
           @policy ||= QueryPolicy.new(current_user)

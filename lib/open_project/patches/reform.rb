@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,22 +30,25 @@
 
 module OpenProject
   module Patches
-    module Hash
-      ##
-      # Becomes obsolete with ruby 2.3's Hash#dig but until then this will do.
-      def dig(*keys)
-        keys.inject(self) { |hash, key| hash && (hash.is_a?(Hash) || nil) && hash[key] }
-      end
+    module Reform
+      def merge!(errors, prefix)
+        @store_new_symbols = false
+        super(errors, prefix)
+        @store_new_symbols = true
 
-      def map_values(&_block)
-        entries = map { |key, value| [key, (yield value)] }
+        errors.keys.each do |attribute|
+          errors.symbols_and_messages_for(attribute).each do |symbol, full_message, partial_message|
+            symbols_and_messages = writable_symbols_and_messages_for(attribute)
+            next if symbols_and_messages && symbols_and_messages.any? do |sam|
+              sam[0] === symbol &&
+              sam[1] === full_message &&
+              sam[2] === partial_message
+            end
 
-        ::Hash[entries]
+            symbols_and_messages << [symbol, full_message, partial_message]
+          end
+        end
       end
     end
   end
-end
-
-if !Hash.instance_methods.include? :dig
-  Hash.prepend OpenProject::Patches::Hash
 end
