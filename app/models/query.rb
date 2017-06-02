@@ -29,6 +29,7 @@
 #++
 
 class Query < ActiveRecord::Base
+  include ::Query::Timelines
   include Queries::AvailableFilters
 
   belongs_to :project

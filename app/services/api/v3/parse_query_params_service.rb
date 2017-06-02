@@ -47,6 +47,8 @@ module API
 
         parsed_params[:timeline_visible] = boolearize(params[:timelineVisible])
 
+        parsed_params[:timeline_zoom_level] = params[:timelineZoomLevel]
+
         parsed_params[:show_hierarchies] = boolearize(params[:showHierarchies])
 
         ServiceResult.new(success: true,
