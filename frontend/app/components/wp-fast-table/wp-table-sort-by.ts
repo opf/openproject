@@ -50,7 +50,12 @@ export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortB
   }
 
   public hasChanged(query:QueryResource) {
-    return !_.isEqual(query.groupBy, this.current.map((el:HalResource) => el.href));
+    const comparer = (sortBy:QuerySortByResource[]) => sortBy.map(el => el.href);
+
+    return !_.isEqual(
+      comparer(query.sortBy),
+      comparer(this.current)
+    );
   }
 
   public applyToQuery(query:QueryResource) {
