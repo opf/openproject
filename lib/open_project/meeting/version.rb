@@ -20,6 +20,6 @@
 
 module OpenProject
   module Meeting
-    VERSION = "7.0.1"
+    VERSION = "7.1.0"
   end
 end
