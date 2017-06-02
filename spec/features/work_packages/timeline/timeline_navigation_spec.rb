@@ -46,7 +46,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     login_as(user)
   end
 
-  it 'can save the open state of timeline' do
+  it 'can save the open state and zoom of timeline' do
     wp_timeline.visit!
     wp_timeline.expect_work_package_listed(work_package)
 
@@ -59,6 +59,11 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     # Should have an active element rendered
     wp_timeline.expect_timeline_element(work_package)
+
+    # Expect zoom at days
+    wp_timeline.expect_zoom_at :days
+    wp_timeline.zoom_out
+    wp_timeline.expect_zoom_at :weeks
 
     # Save the query
     settings_menu.open_and_save_query 'foobar'
@@ -73,6 +78,11 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     wp_timeline.expect_work_package_listed(work_package)
     wp_timeline.expect_timeline!(open: true)
     wp_timeline.expect_timeline_element(work_package)
+
+    # Expect zoom at days
+    wp_timeline.expect_zoom_at :weeks
+    wp_timeline.zoom_in
+    wp_timeline.expect_zoom_at :days
   end
 
   describe 'with a hierarchy being shown' do
