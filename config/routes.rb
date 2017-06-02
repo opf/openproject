@@ -494,6 +494,17 @@ OpenProject::Application.routes.draw do
     post :preview, on: :collection
   end
 
+  # redirect for backwards compatibility
+  scope constraints: { id: /\d+/, filename: /[^\/]*/ } do
+    get '/attachments/download/:id/:filename',
+        to: redirect("#{rails_relative_url_root}/attachments/%{id}/%{filename}"),
+        format: false
+
+    get '/attachments/download/:id',
+        to: redirect("#{rails_relative_url_root}/attachments/%{id}"),
+        format: false
+  end
+
   resources :attachments, only: [:destroy], format: false do
     member do
       scope via: :get, constraints: { id: /\d+/, filename: /[^\/]*/ } do
@@ -508,12 +519,6 @@ OpenProject::Application.routes.draw do
       get :wiki_syntax_detailed
       get :keyboard_shortcuts
     end
-  end
-
-  # redirect for backwards compatibility
-  scope constraints: { id: /\d+/, filename: /[^\/]*/ } do
-    get '/attachments/download/:id/:filename' => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), format: false
-    get '/attachments/download/:id' => redirect("#{rails_relative_url_root}/attachments/%{id}/download"), format: false
   end
 
   scope controller: 'sys' do
