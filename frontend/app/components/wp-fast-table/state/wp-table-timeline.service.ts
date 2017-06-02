@@ -31,7 +31,7 @@ import {QueryResource} from "../../api/api-v3/hal-resources/query-resource.servi
 import {opServicesModule} from "../../../angular-modules";
 import {States} from "../../states.service";
 import {WorkPackageTableTimelineState} from "./../wp-table-timeline";
-import {ZoomLevel} from "../../wp-table/timeline/wp-timeline";
+import {zoomLevelOrder} from "../../wp-table/timeline/wp-timeline";
 
 export class WorkPackageTableTimelineService extends WorkPackageTableBaseService {
   protected stateName = 'timelineVisible' as TableStateStates;
@@ -41,7 +41,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   public initialize(query:QueryResource) {
-    let current = new WorkPackageTableTimelineState(query.timelineVisible, ZoomLevel.DAYS);
+    let current = new WorkPackageTableTimelineState(query.timelineVisible, query.timelineZoomLevel);
 
     this.state.putValue(current);
   }
@@ -64,9 +64,13 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
 
   public updateZoom(delta: number) {
     let currentState = this.current;
-    currentState.zoomLevel += delta;
+    let idx = zoomLevelOrder.indexOf(this.current.zoomLevel);
+    idx += delta;
 
-    this.state.putValue(currentState);
+    if (idx >= 0 && idx < zoomLevelOrder.length) {
+      currentState.zoomLevel = zoomLevelOrder[idx];
+      this.state.putValue(currentState);
+    }
   }
 
   private get current():WorkPackageTableTimelineState {

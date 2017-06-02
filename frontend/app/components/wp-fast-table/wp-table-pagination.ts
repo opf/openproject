@@ -28,6 +28,7 @@
 
 import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service'
 import {WorkPackageTableBaseState} from "./wp-table-base";
+import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
 
 export class WorkPackageTablePaginationObject extends WorkPackageTableBaseState<WorkPackageTablePagination> {
   constructor(public page:number,

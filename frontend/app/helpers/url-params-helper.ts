@@ -26,20 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(PaginationService) {
+import {QueryColumn} from "../components/wp-query/query-column";
+import {QueryFilterResource} from "../components/api/api-v3/hal-resources/query-filter-resource.service";
+import {QuerySortByResource} from "../components/api/api-v3/hal-resources/query-sort-by-resource.service";
+import {QueryResource} from "../components/api/api-v3/hal-resources/query-resource.service";
+module.exports = function(PaginationService:any) {
   var UrlParamsHelper = {
     // copied more or less from angular buildUrl
-    buildQueryString: function(params) {
+    buildQueryString: function(params:any) {
       if (!params) return;
 
-      var parts = [];
+      var parts:string[] = [];
       angular.forEach(params, function(value, key) {
         if (!value) return;
         if (!Array.isArray(value)) value = [value];
 
         angular.forEach(value, function(v) {
           if (v !== null && typeof v === 'object') {
-            v = toJson(v);
+            v = JSON.stringify(v);
           }
           parts.push(encodeURIComponent(key) + '=' +
                      encodeURIComponent(v));
@@ -49,8 +53,8 @@ module.exports = function(PaginationService) {
       return parts.join('&');
     },
 
-    encodeQueryJsonParams: function(query, additional) {
-      var paramsData = {
+    encodeQueryJsonParams: function(query:QueryResource, additional:any) {
+      var paramsData:any = {
         c: query.columns.map(function(column) { return column.id; })
       };
       if(!!query.sums) {
@@ -61,6 +65,7 @@ module.exports = function(PaginationService) {
         paramsData.tv = query.timelineVisible;
       }
 
+      paramsData.tzl = query.timelineZoomLevel;
       paramsData.hi = !!query.showHierarchies;
 
       if(query.groupBy) {
@@ -69,13 +74,13 @@ module.exports = function(PaginationService) {
       if(query.sortBy) {
         paramsData.t = query
                        .sortBy
-                       .map(function(sort) { return sort.id.replace('-', ':') })
+                       .map(function(sort:QuerySortByResource) { return sort.id.replace('-', ':') })
                        .join();
       }
       if(query.filters && query.filters.length) {
         paramsData.f = query
                        .filters
-                       .map(function(filter) {
+                       .map((filter:any) => {
                          var id = filter.id;
 
                          var operator = filter.operator.id;
@@ -96,8 +101,8 @@ module.exports = function(PaginationService) {
       return JSON.stringify(paramsData);
     },
 
-    buildV3GetQueryFromJsonParams: function(updateJson) {
-      var queryData = {
+    buildV3GetQueryFromJsonParams: function(updateJson:any) {
+      var queryData:any = {
         pageSize: PaginationService.getPerPage()
       }
 
@@ -108,13 +113,17 @@ module.exports = function(PaginationService) {
       var properties = JSON.parse(updateJson);
 
       if(properties.c) {
-        queryData["columns[]"] = properties.c.map(function(column) { return column; });
+        queryData["columns[]"] = properties.c.map((column:any) => column);
       }
       if(!!properties.s) {
         queryData.showSums = properties.s;
       }
       if(!!properties.tv) {
         queryData.timelineVisible = properties.tv;
+      }
+
+      if (properties.tzl) {
+        queryData.timelineZoomLevel = properties.tzl;
       }
 
       if(properties.hi === false || properties.hi === true) {
@@ -127,7 +136,7 @@ module.exports = function(PaginationService) {
 
       // Filters
       if(properties.f) {
-        var filters = properties.f.map(function(urlFilter) {
+        var filters = properties.f.map(function(urlFilter:any) {
           var attributes =  {
             operator: decodeURIComponent(urlFilter.o)
           }
@@ -137,7 +146,7 @@ module.exports = function(PaginationService) {
             var vs = Array.isArray(urlFilter.v) ? urlFilter.v : [urlFilter.v];
             angular.extend(attributes, { values: vs });
           }
-          filterData = {};
+          const filterData:any = {};
           filterData[urlFilter.n] = attributes;
 
           return filterData;
@@ -148,7 +157,7 @@ module.exports = function(PaginationService) {
 
       // Sortation
       if(properties.t) {
-        queryData.sortBy = JSON.stringify(properties.t.split(',').map(function(sort) { return sort.split(':') }));
+        queryData.sortBy = JSON.stringify(properties.t.split(',').map((sort:any) => sort.split(':')));
       }
 
       // Pagination
@@ -162,13 +171,14 @@ module.exports = function(PaginationService) {
       return queryData;
     },
 
-    buildV3GetQueryFromQueryResource: function(query, additionalParams) {
-      var queryData = {};
+    buildV3GetQueryFromQueryResource: function(query:QueryResource, additionalParams:any) {
+      var queryData:any = {};
 
-      queryData["columns[]"] = query.columns.map(function(column) { return column.id; });
+      queryData["columns[]"] = query.columns.map((column:any) => column.id);
 
       queryData.showSums = query.sums;
       queryData.timelineVisible = query.timelineVisible;
+      queryData.timelineZoomLevel = query.timelineZoomLevel;
       queryData.showHierarchies = query.showHierarchies;
 
       if(query.groupBy) {
@@ -176,18 +186,14 @@ module.exports = function(PaginationService) {
       }
 
       // Filters
-      filters = query.filters.map(function(filter) {
-        var id = filter.filter.$href;
+      const filters = query.filters.map((filter:any) => {
+        let id = filter.filter.$href;
         id = id.substring(id.lastIndexOf('/') + 1, id.length);
 
-        var operator = filter.operator.id;
-
-        var values = _.map(filter.values, UrlParamsHelper.queryFilterValueToParam);
-
-        var filterHash = {};
-
-        filterHash[id] = { operator: operator,
-                           values: values }
+        const operator = filter.operator.id;
+        const values = _.map(filter.values, UrlParamsHelper.queryFilterValueToParam);
+        const filterHash:any = {};
+        filterHash[id] = { operator: operator, values: values };
 
         return filterHash;
       });
@@ -197,13 +203,13 @@ module.exports = function(PaginationService) {
       // Sortation
       queryData.sortBy = JSON.stringify(query
                                         .sortBy
-                                        .map(function(sort) { return sort.id.split('-') }));
+                                        .map(function(sort:QuerySortByResource) { return sort.id.split('-') }));
 
 
       return angular.extend(queryData, additionalParams);
     },
 
-    queryFilterValueToParam: function(value) {
+    queryFilterValueToParam: function(value:any) {
       if (typeof(value) === 'boolean') {
         return value ? 't': 'f';
       }
