@@ -17,7 +17,7 @@ rpm --import packager.key
 Add a named zypper repository source for OpenProject using the following commands:
 
 ```
-zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles11/stable/6" "openproject"
+zypper addrepo "https://rpm.packager.io/gh/opf/openproject-ce/sles11/stable/7" "openproject"
 ```
 
 The package source is now registered as `openproject`.
