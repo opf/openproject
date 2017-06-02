@@ -64,6 +64,7 @@ export class WorkPackageTimelineHeaderController {
     }
 
     this.innerHeader.empty();
+    this.innerHeader.attr('data-current-zoom-level', vp.settings.zoomLevel);
 
     switch (vp.settings.zoomLevel) {
       case 'days':
