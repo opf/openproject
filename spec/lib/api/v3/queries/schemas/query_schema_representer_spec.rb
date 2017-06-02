@@ -275,7 +275,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
                           .map { |v| v['_type'] }
                           .uniq
 
-              expect(types).to match_array(%w(QueryColumn QueryColumn::Relation))
+              expect(types).to match_array(%w(QueryColumn::Property QueryColumn::Relation))
             end
           end
         end

@@ -130,7 +130,7 @@ describe "POST /api/v3/queries/form", type: :request do
                                spentTime startDate status subject type
                                updatedAt version) + ["customField#{custom_field.id}"]).map do |id|
           {
-            '_type': 'QueryColumn',
+            '_type': 'QueryColumn::Property',
             'id': id
           }
         end
@@ -197,7 +197,7 @@ describe "POST /api/v3/queries/form", type: :request do
                                spentTime startDate status subject type
                                updatedAt version) + ["customField#{custom_field.id}"]).map do |id|
           {
-            '_type': 'QueryColumn',
+            '_type': 'QueryColumn::Property',
             'id': id
           }
         end

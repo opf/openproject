@@ -45,9 +45,9 @@ describe ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter do
       end
     end
 
-    it 'has _type QueryColumn' do
+    it 'has _type QueryColumn::Property' do
       is_expected
-        .to be_json_eql('QueryColumn'.to_json)
+        .to be_json_eql('QueryColumn::Property'.to_json)
         .at_path('_type')
     end
 
