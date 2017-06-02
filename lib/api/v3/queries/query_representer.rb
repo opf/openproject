@@ -185,6 +185,7 @@ module API
                  as: :sums
 
         property :timeline_visible
+        property :timeline_zoom_level
 
         property :show_hierarchies
 
