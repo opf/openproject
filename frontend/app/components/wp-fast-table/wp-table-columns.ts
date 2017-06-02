@@ -46,7 +46,12 @@ export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColu
   }
 
   public hasChanged(query:QueryResource) {
-    return !_.isEqual(query.columns, this.current);
+    const comparer = (columns:QueryColumn[]) => columns.map(c => c.href);
+
+    return !_.isEqual(
+      comparer(query.columns),
+      comparer(this.current)
+    );
   }
 
   public applyToQuery(query:QueryResource) {

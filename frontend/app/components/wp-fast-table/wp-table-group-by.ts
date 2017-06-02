@@ -48,7 +48,12 @@ export class WorkPackageTableGroupBy extends WorkPackageTableBaseState<QueryGrou
   }
 
   public hasChanged(query:QueryResource) {
-    return !_.isEqual(query.groupBy, _.get(this.current, 'href'));
+    const comparer = (groupBy:QueryColumn|undefined) => groupBy ? groupBy.href : null;
+
+    return !_.isEqual(
+      comparer(query.groupBy),
+      comparer(this.current)
+    );
   }
 
   public applyToQuery(query:QueryResource) {
