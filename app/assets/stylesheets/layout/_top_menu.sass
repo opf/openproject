@@ -218,6 +218,9 @@
     &:hover
       @include varprop(background, header-item-bg-hover-color)
       color: $header-item-font-hover-color
+  i
+    // This is a hack to position the icons centered.
+    vertical-align: -2px
 
 input.top-menu-search--input
   margin: 0
@@ -323,6 +326,11 @@ input.top-menu-search--input
       top: calc(50% - 10px / 2)
 
 #account-nav-right
+
+  i
+    // This is a hack to position the icons centered.
+    vertical-align: -2px
+
   .drop-down.last-child
     .avatar
       // To accommodate the padding of the help icon which exisits because of the circle
