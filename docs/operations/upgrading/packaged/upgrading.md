@@ -49,7 +49,7 @@ you will need to adjust that package source.
  - Update the reference to `stable/6` in `/etc/yum.repos.d/openproject.repo` to `stable/7`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
 
-### SUSE Linux Enterprise Server 11, 11
+### SUSE Linux Enterprise Server 12
 
  - Update the reference to `stable/6` in `/etc/zypp/repos.d/openproject.repo` to `stable/7`.
  - Perform the Upgrade steps as mentioned above in *Upgrading your OpenProject installation*
