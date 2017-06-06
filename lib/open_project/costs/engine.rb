@@ -88,7 +88,7 @@ module OpenProject::Costs
       end
     end
 
-    patches [:Project, :Query, :User, :TimeEntry, :PermittedParams,
+    patches [:Project, :User, :TimeEntry, :PermittedParams,
              :ProjectsController, :ApplicationHelper, :UsersHelper]
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :RoleSeeder
@@ -444,6 +444,7 @@ module OpenProject::Costs
       end
 
       Queries::Register.filter Query, OpenProject::Costs::WorkPackageFilter
+      Queries::Register.column Query, OpenProject::Costs::QueryCurrencyColumn
     end
   end
 end
