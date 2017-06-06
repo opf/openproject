@@ -32,7 +32,5 @@ angular.module('openproject.helpers')
   .service('CustomFieldHelper', ['CUSTOM_FIELD_PREFIX', 'I18n', require(
     './custom-field-helper')])
   .factory('SvgHelper', require('./svg-helper'))
-  .service('UrlParamsHelper', ['PaginationService',
-    require('./url-params-helper')])
   .service('WorkPackageLoadingHelper', ['$timeout', require(
     './work-package-loading-helper')]);

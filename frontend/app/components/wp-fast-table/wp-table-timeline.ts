@@ -26,10 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableBaseState} from "./wp-table-base";
-export class WorkPackageTableTimelineState extends WorkPackageTableBaseState<boolean> {
-  constructor(public visible:boolean, public zoomLevel:number) {
+import {WorkPackageTableBaseState, WorkPackageTableQueryState} from "./wp-table-base";
+import {QueryResource, TimelineZoomLevel} from "../api/api-v3/hal-resources/query-resource.service";
+
+export class WorkPackageTableTimelineState extends WorkPackageTableBaseState<boolean> implements WorkPackageTableQueryState {
+  constructor(public visible:boolean, public zoomLevel:TimelineZoomLevel) {
     super();
+  }
+
+  public hasChanged(query:QueryResource) {
+    const visibilityChanged = this.isVisible !== query.timelineVisible;
+    const zoomLevelChanged = this.zoomLevel !== query.timelineZoomLevel;
+
+    return visibilityChanged || zoomLevelChanged;
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.timelineVisible = this.isVisible;
+    query.timelineZoomLevel = this.zoomLevel;
   }
 
   public get current():boolean {

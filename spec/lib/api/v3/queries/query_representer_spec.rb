@@ -467,6 +467,10 @@ describe ::API::V3::Queries::QueryRepresenter do
       is_expected.to be_json_eql(query.timeline_visible.to_json).at_path('timelineVisible')
     end
 
+    it 'should show the current zoom level' do
+      is_expected.to be_json_eql(query.timeline_zoom_level.to_json).at_path('timelineZoomLevel')
+    end
+
     it 'should indicate whether hierarchy is shown' do
       is_expected.to be_json_eql(query.show_hierarchies.to_json).at_path('showHierarchies')
     end
@@ -625,6 +629,17 @@ describe ::API::V3::Queries::QueryRepresenter do
       end
       it do
         is_expected.to be_json_eql('true').at_path('timelineVisible')
+      end
+    end
+
+    describe 'when timeline zoom level is changed' do
+      let(:query) do
+        FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+          query.timeline_zoom_level = :weeks
+        end
+      end
+      it do
+        is_expected.to be_json_eql('weeks'.to_json).at_path('timelineZoomLevel')
       end
     end
 

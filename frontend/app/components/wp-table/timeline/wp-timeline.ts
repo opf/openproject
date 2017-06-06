@@ -31,6 +31,7 @@ import {
   WorkPackageResource
 } from "../../api/api-v3/hal-resources/work-package-resource.service";
 import Moment = moment.Moment;
+import {TimelineZoomLevel} from "../../api/api-v3/hal-resources/query-resource.service";
 
 export const timelineElementCssClass = "timeline-element";
 export const timelineGridElementCssClass = "wp-timeline--grid-element";
@@ -41,13 +42,14 @@ export const timelineMarkerSelectionStartClass = "selection-start";
  */
 export class TimelineViewParametersSettings {
 
-  zoomLevel: ZoomLevel = ZoomLevel.DAYS;
+  zoomLevel: TimelineZoomLevel = 'days';
 
 }
 
-export enum ZoomLevel {
-  DAYS, WEEKS, MONTHS, QUARTERS, YEARS
-}
+// Can't properly map the enum to a string aray
+export const zoomLevelOrder:TimelineZoomLevel[] = [
+  'days', 'weeks', 'months', 'quarters', 'years'
+];
 
 
 /**
@@ -69,15 +71,15 @@ export class TimelineViewParameters {
 
   get pixelPerDay(): number {
     switch (this.settings.zoomLevel) {
-      case ZoomLevel.DAYS:
+      case 'days':
         return 30;
-      case ZoomLevel.WEEKS:
+      case 'weeks':
         return 15;
-      case ZoomLevel.MONTHS:
+      case 'months':
         return 6;
-      case ZoomLevel.QUARTERS:
+      case 'quarters':
         return 2;
-      case ZoomLevel.YEARS:
+      case 'years':
         return 0.5;
     }
   }

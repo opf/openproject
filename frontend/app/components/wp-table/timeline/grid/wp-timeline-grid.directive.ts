@@ -28,19 +28,19 @@
 import {
   TimelineViewParameters,
   timelineElementCssClass,
-  ZoomLevel,
   calculatePositionValueForDayCount, timelineGridElementCssClass
 } from "../wp-timeline";
 import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 import * as moment from 'moment';
 import Moment = moment.Moment;
 import {openprojectModule} from "../../../../angular-modules";
+import {TimelineZoomLevel} from "../../../api/api-v3/hal-resources/query-resource.service";
 
 export class WorkPackageTableTimelineGrid {
 
   public wpTimeline:WorkPackageTimelineTableController;
 
-  private activeZoomLevel:ZoomLevel;
+  private activeZoomLevel:TimelineZoomLevel;
 
   private gridContainer:ng.IAugmentedJQuery;
 
@@ -64,15 +64,15 @@ export class WorkPackageTableTimelineGrid {
     this.gridContainer.empty();
 
     switch (vp.settings.zoomLevel) {
-      case ZoomLevel.DAYS:
+      case 'days':
         return this.renderLabelsDays(vp);
-      case ZoomLevel.WEEKS:
+      case 'weeks':
         return this.renderLabelsWeeks(vp);
-      case ZoomLevel.MONTHS:
+      case 'months':
         return this.renderLabelsMonths(vp);
-      case ZoomLevel.QUARTERS:
+      case 'quarters':
         return this.renderLabelsQuarters(vp);
-      case ZoomLevel.YEARS:
+      case 'years':
         return this.renderLabelsYears(vp);
     }
 
