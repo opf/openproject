@@ -14,8 +14,7 @@ export class HierarchyTransformer {
 
   constructor(table:WorkPackageTable) {
     injectorBridge(this);
-    let enabled = false;
-
+    let enabled = this.wpTableHierarchies.isEnabled;
 
     this.states.updates.hierarchyUpdates
       .values$('Refreshing hierarchies on user request')
