@@ -23,10 +23,12 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% html_title(t(:label_cost_object_plural)) %>
 <%= toolbar title: t(:label_cost_object_plural) do %>
   <% if authorize_for(:cost_objects, :new) %>
-    <a href="<%= new_projects_cost_object_path(@project) %>" aria-label="<%= I18n.t(:button_add_cost_object) %>" id="add-budget-button" title="<%= I18n.t(:button_add_cost_object) %>" class="button -alt-highlight">
-      <%= op_icon('button--icon icon-add') %>
-      <span class="button--text"><%= t(:label_cost_object) %></span>
-    </a>
+    <li class="toolbar-item">
+      <a href="<%= new_projects_cost_object_path(@project) %>" aria-label="<%= I18n.t(:button_add_cost_object) %>" id="add-budget-button" title="<%= I18n.t(:button_add_cost_object) %>" class="button -alt-highlight">
+        <%= op_icon('button--icon icon-add') %>
+        <span class="button--text"><%= t(:label_cost_object) %></span>
+      </a>
+    </li>
   <% end %>
 <% end %>
 
