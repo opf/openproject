@@ -2,13 +2,18 @@ import {WorkPackageTableSelection} from "../../state/wp-table-selection.service"
 import {CellBuilder} from "../cell-builder";
 import {DetailsLinkBuilder} from "../details-link-builder";
 import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
-import {WorkPackageResource} from "../../../api/api-v3/hal-resources/work-package-resource.service";
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageTableColumnsService} from "../../state/wp-table-columns.service";
 import {QueryColumn} from "../../../api/api-v3/hal-resources/query-resource.service";
 import {checkedClassName} from "../ui-state-link-builder";
 import {rowId} from "../../helpers/wp-table-row-helpers";
 import {Observable} from "rxjs";
 import {WorkPackageTable} from "../../wp-fast-table";
+import {queryColumnTypes} from '../../../wp-query/query-column';
+import {RelationCellbuilder} from '../relation-cell-builder';
 
 // Work package table row entries
 export const rowClassName = 'wp-table--row';
@@ -27,6 +32,9 @@ export class SingleRowBuilder {
 
   // Cell builder instance
   protected cellBuilder = new CellBuilder();
+  // Relation cell builder instance
+  protected relationCellBuilder = new RelationCellbuilder();
+
   // Details Link builder
   protected detailsLinkBuilder = new DetailsLinkBuilder();
 
@@ -49,7 +57,15 @@ export class SingleRowBuilder {
     return this.columns.concat(internalDetailsColumn);
   }
 
-  public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement {
+  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
+
+    // handle relation types
+    const relationTypes = [queryColumnTypes.RELATION_TO_TYPE, queryColumnTypes.RELATION_OF_TYPE];
+    if (relationTypes.indexOf(column._type) >= 0) {
+      return this.relationCellBuilder.build(workPackage, column);
+    }
+
+    // Handle property types
     switch (column.id) {
       case internalDetailsColumn.id:
         return this.detailsLinkBuilder.build(workPackage);
@@ -61,7 +77,7 @@ export class SingleRowBuilder {
   /**
    * Build the columns on the given empty row
    */
-  public buildEmpty(workPackage:WorkPackageResource):[HTMLElement,boolean] {
+  public buildEmpty(workPackage:WorkPackageResourceInterface):[HTMLElement,boolean] {
     let row = this.createEmptyRow(workPackage);
     let cell = null;
 

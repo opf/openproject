@@ -28,7 +28,7 @@
 
 import {
   WorkPackageTableBaseService,
-  TableStateStates
+  TableStateStates, WorkPackageQueryStateService
 } from './wp-table-base.service';
 import {
   States
@@ -41,8 +41,9 @@ import {WorkPackageTableColumns} from '../wp-table-columns'
 import {WorkPackageTableBaseState} from '../wp-table-base';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
+import {queryColumnTypes} from '../../wp-query/query-column';
 
-export class WorkPackageTableColumnsService extends WorkPackageTableBaseService {
+export class WorkPackageTableColumnsService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'columns' as TableStateStates;
 
   constructor(protected states: States) {
@@ -66,8 +67,32 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
     }
   }
 
+  public hasChanged(query:QueryResource) {
+    const comparer = (columns:QueryColumn[]) => columns.map(c => c.href);
+
+    return !_.isEqual(
+      comparer(query.columns),
+      comparer(this.getColumns())
+    );
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.columns = _.cloneDeep(this.getColumns());
+
+    // Reload the table visibly if adding relation columns.
+    return this.hasRelationColumns();
+  }
+
   protected create(query:QueryResource, schema?:QuerySchemaResourceInterface) {
-    return new WorkPackageTableColumns(query, schema)
+    return new WorkPackageTableColumns(query, schema);
+  }
+
+  /**
+   * Returns whether the current set of columns include relations
+   */
+  public hasRelationColumns() {
+    const relationColumns = [queryColumnTypes.RELATION_OF_TYPE, queryColumnTypes.RELATION_TO_TYPE];
+    return !!_.find(this.getColumns(), (c) => relationColumns.indexOf(c._type) >= 0);
   }
 
   /**
@@ -82,6 +107,14 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
    */
   public index(id:string):number {
     return _.findIndex(this.getColumns(), column => column.id === id);
+  }
+
+  /**
+   * Return the column object for the given id.
+   * @param id
+   */
+  public findById(id:string):QueryColumn|undefined {
+    return _.find(this.getColumns(), column => column.id === id);
   }
 
   /**

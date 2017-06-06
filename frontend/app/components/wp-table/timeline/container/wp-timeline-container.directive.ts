@@ -42,7 +42,7 @@ import {WorkPackageTableHierarchiesService} from "../../../wp-fast-table/state/w
 
 import * as angular from "angular";
 import {selectorTimelineSide} from "../../wp-table-scroll-sync";
-import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pass";
+import {RenderedRow} from "../../../wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTimelineCellsRenderer} from "../cells/wp-timeline-cells-renderer";
 import {WorkPackageTimelineCell} from "../cells/wp-timeline-cell";
 
@@ -269,15 +269,14 @@ export class WorkPackageTimelineTableController {
 
     // Calculate view parameters
     this.workPackageIdOrder.forEach((renderedRow) => {
-      const wpId = renderedRow.workPackageId;
 
       // Not all rendered rows are work packages
-      if (!wpId) {
+      if (!renderedRow.isWorkPackage) {
         return;
       }
 
       // We may still have a reference to a row that, e.g., just got deleted
-      const workPackage = this.states.workPackages.get(wpId).value;
+      const workPackage = renderedRow.belongsTo;
       if (!workPackage) {
         return;
       }

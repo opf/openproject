@@ -2,10 +2,13 @@ import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.servi
 import {InputState} from "reactivestates";
 import {opServicesModule} from "../../../angular-modules";
 import {States} from "../../states.service";
-import { TableStateStates, WorkPackageTableBaseService } from './wp-table-base.service';
+import {
+  TableStateStates, WorkPackageQueryStateService,
+  WorkPackageTableBaseService
+} from './wp-table-base.service';
 import { WorkPackageTableHierarchies } from "../wp-table-hierarchies";
 
-export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService {
+export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'hierarchies' as TableStateStates;
 
   constructor(public states:States) {
@@ -15,6 +18,15 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
   public initialize(query:QueryResource) {
     let current = new WorkPackageTableHierarchies(query.showHierarchies);
     this.state.putValue(current);
+  }
+
+  public hasChanged(query:QueryResource) {
+    return query.showHierarchies !== this.isEnabled;
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.showHierarchies = this.isEnabled;
+    return false;
   }
 
   /**

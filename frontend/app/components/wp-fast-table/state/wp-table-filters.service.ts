@@ -27,23 +27,20 @@
 // ++
 
 import {
-  WorkPackageTableBaseService,
-  TableStateStates
+  TableStateStates,
+  WorkPackageQueryStateService,
+  WorkPackageTableBaseService
 } from './wp-table-base.service';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
-import {QueryFilterResource} from '../../api/api-v3/hal-resources/query-filter-resource.service';
-import {
-  QueryFilterInstanceResource,
-} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
+import {QueryFilterInstanceResource} from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableFilters} from '../wp-table-filters';
-import {WorkPackageTableBaseState} from "../wp-table-base";
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
-export class WorkPackageTableFiltersService extends WorkPackageTableBaseService {
+export class WorkPackageTableFiltersService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'filters' as TableStateStates;
 
   constructor(public states: States,
@@ -59,6 +56,20 @@ export class WorkPackageTableFiltersService extends WorkPackageTableBaseService 
 
       this.state.putValue(newState);
     });
+  }
+
+  public hasChanged(query:QueryResource) {
+    const comparer = (filter:HalResource[]) => filter.map(el => el.$plain());
+
+    return !_.isEqual(
+      comparer(query.filters),
+      comparer(this.current)
+    );
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.filters = _.cloneDeep(this.current);
+    return true;
   }
 
   public get currentState():WorkPackageTableFilters {

@@ -32,7 +32,7 @@ import {TimelineCellRenderer} from "./timeline-cell-renderer";
 import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageTimelineCell} from "./wp-timeline-cell";
-import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pass";
+import {RenderedRow} from "../../../wp-fast-table/builders/primary-render-pass";
 
 export class WorkPackageTimelineCellsRenderer {
   // Injections
@@ -93,7 +93,11 @@ export class WorkPackageTimelineCellsRenderer {
     _.each(this.wpTimeline.workPackageIdOrder, (renderedRow:RenderedRow) => {
 
       // Ignore extra rows not tied to a work package
-      const wpId = renderedRow.workPackageId;
+      if (!(renderedRow.isWorkPackage && renderedRow.belongsTo)) {
+        return;
+      }
+
+      const wpId = renderedRow.belongsTo.id.toString();
       if (!wpId) {
         return;
       }

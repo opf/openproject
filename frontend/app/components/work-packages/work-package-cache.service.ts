@@ -38,6 +38,8 @@ import {States} from '../states.service';
 import {WorkPackageNotificationService} from './../wp-edit/wp-notification.service';
 import IScope = angular.IScope;
 import IPromise = angular.IPromise;
+import {WorkPackageCollectionResourceInterface} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
 
 
 function getWorkPackageId(id: number | string): string {
@@ -50,7 +52,7 @@ export class WorkPackageCacheService {
 
   /*@ngInject*/
   constructor(private states: States,
-              private $q:ng.IQService,
+              private $q:angular.IQService,
               private wpNotificationsService: WorkPackageNotificationService,
               private schemaCacheService: SchemaCacheService,
               private apiWorkPackages: ApiWorkPackagesService) {
@@ -98,6 +100,40 @@ export class WorkPackageCacheService {
       });
 
     return deferred.promise;
+  }
+
+  /**
+   * Load an array of work package ids into states, unless they already exist.
+   *
+   * @param workPackageIds
+   */
+  loadWorkPackages(workPackageIds:string[]):ng.IPromise<void> {
+    const needToLoad:string[] = [];
+
+    workPackageIds.forEach((id:string) => {
+      if (this.states.workPackages.get(id).isPristine()) {
+        needToLoad.push(id);
+      }
+    });
+
+    if (needToLoad.length === 0) {
+      return this.$q.resolve();
+    }
+
+    return this.apiWorkPackages
+      .loadWorkPackagesCollectionFor(workPackageIds)
+      .then((results:WorkPackageCollectionResourceInterface) => {
+
+        if (results.schemas) {
+          _.each(results.schemas.elements, (schema:SchemaResource) => {
+            this.states.schemas.get(schema.href as string).putValue(schema);
+          });
+        }
+
+        if (results.elements) {
+          this.updateWorkPackageList(results.elements);
+        }
+      });
   }
 
   loadWorkPackage(workPackageId: string, forceUpdate = false): State<WorkPackageResource> {

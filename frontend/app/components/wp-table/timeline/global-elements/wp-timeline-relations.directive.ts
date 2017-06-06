@@ -35,7 +35,7 @@ import {debugLog} from "../../../../helpers/debug_output";
 import {RelationResource} from "../../../api/api-v3/hal-resources/relation-resource.service";
 import {States} from "../../../states.service";
 import {WorkPackageStates} from "../../../work-package-states.service";
-import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pass";
+import {RenderedRow} from "../../../wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
 import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
@@ -129,8 +129,8 @@ export class WorkPackageTableTimelineRelations {
     const requiredForRelations:string[] = [];
 
     _.each(this.workPackageIdOrder, (el:RenderedRow) => {
-      if (el.workPackageId) {
-        requiredForRelations.push(el.workPackageId);
+      if (el.isWorkPackage && el.belongsTo) {
+        requiredForRelations.push(el.belongsTo.id.toString());
       }
     });
 
@@ -213,8 +213,8 @@ export class WorkPackageTableTimelineRelations {
     const involved = e.relation.ids;
 
     // Get the rendered rows
-    const idxFrom = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.from);
-    const idxTo = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.to);
+    const idxFrom = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.isWorkPackage && el.belongsTo!.id.toString() === involved.from);
+    const idxTo = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.isWorkPackage && el.belongsTo!.id.toString() === involved.to);
 
     const startCell = this.wpTimeline.workPackageCell(involved.from);
     const endCell = this.wpTimeline.workPackageCell(involved.to);

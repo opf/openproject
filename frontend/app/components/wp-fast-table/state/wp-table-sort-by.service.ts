@@ -28,7 +28,7 @@
 
 import {
   WorkPackageTableBaseService,
-  TableStateStates
+  TableStateStates, WorkPackageQueryStateService
 } from './wp-table-base.service';
 import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
@@ -42,7 +42,7 @@ import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 
-export class WorkPackageTableSortByService extends WorkPackageTableBaseService {
+export class WorkPackageTableSortByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'sortBy' as TableStateStates;
 
   constructor(public states: States) {
@@ -53,6 +53,21 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService {
     let sortBy = new WorkPackageTableSortBy(query, schema);
 
     this.state.putValue(sortBy);
+  }
+
+
+  public hasChanged(query:QueryResource) {
+    const comparer = (sortBy:QuerySortByResource[]) => sortBy.map(el => el.href);
+
+    return !_.isEqual(
+      comparer(query.sortBy),
+      comparer(this.current.current)
+    );
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.sortBy = _.cloneDeep(this.current.current);
+    return true;
   }
 
   public isSortable(column:QueryColumn):boolean {

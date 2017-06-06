@@ -39,10 +39,10 @@ import {
 import {WorkPackageTableGroupBy} from '../wp-table-group-by';
 import {
   WorkPackageTableBaseService,
-  TableStateStates
+  TableStateStates, WorkPackageQueryStateService
 } from './wp-table-base.service';
 
-export class WorkPackageTableGroupByService extends WorkPackageTableBaseService {
+export class WorkPackageTableGroupByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'groupBy' as TableStateStates;
 
   constructor(protected states: States) {
@@ -64,6 +64,20 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService 
     } else {
       this.initialize(query, schema);
     }
+  }
+
+  public hasChanged(query:QueryResource) {
+    const comparer = (groupBy:QueryColumn|undefined) => groupBy ? groupBy.href : null;
+
+    return !_.isEqual(
+      comparer(query.groupBy),
+      comparer(this.current)
+    );
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.groupBy = _.cloneDeep(this.current);
+    return true;
   }
 
   protected create(query:QueryResource, schema?:QuerySchemaResourceInterface) {

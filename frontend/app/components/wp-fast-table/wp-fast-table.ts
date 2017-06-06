@@ -12,7 +12,7 @@ import {GroupedRowsBuilder} from "./builders/modes/grouped/grouped-rows-builder"
 import {HierarchyRowsBuilder} from "./builders/modes/hierarchy/hierarchy-rows-builder";
 import {RowsBuilder} from "./builders/modes/rows-builder";
 import {WorkPackageTimelineTableController} from "../wp-table/timeline/container/wp-timeline-container.directive";
-import {TableRenderPass} from './builders/modes/table-render-pass';
+import {PrimaryRenderPass} from './builders/primary-render-pass';
 import {Subject} from 'rxjs';
 
 export class WorkPackageTable {
@@ -89,7 +89,7 @@ export class WorkPackageTable {
 
     // Insert timeline body
     this.timelineBody.innerHTML = '';
-    this.timelineBody.appendChild(renderPass.timelineBody);
+    this.timelineBody.appendChild(renderPass.timeline.timelineBody);
 
     this.states.table.rendered.putValue(renderPass.result);
   }

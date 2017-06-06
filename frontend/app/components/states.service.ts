@@ -21,8 +21,9 @@ import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
 import {whenDebugging} from "../helpers/debug_output";
 import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
 import {WorkPackageTableTimelineState} from "./wp-fast-table/wp-table-timeline";
-import {TableRenderResult} from "./wp-fast-table/builders/modes/table-render-pass";
+import {TableRenderResult} from "./wp-fast-table/builders/primary-render-pass";
 import {SwitchState} from "./states/switch-state";
+import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
 
 export class States extends StatesGroup {
 
@@ -97,6 +98,9 @@ export class TableState {
   // Fire when table refresh is required
   refreshRequired = input<boolean>();
 
+  // Expanded relation columns
+  relationColumns = input<WorkPackageTableRelationColumns>();
+
 }
 
 export class TableRenderingStates {
@@ -109,7 +113,8 @@ export class TableRenderingStates {
     this.table.columns,
     this.table.sum,
     this.table.groupBy,
-    this.table.sortBy
+    this.table.sortBy,
+    this.table.relationColumns
   );
 
   onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.mapTo(null));
@@ -125,6 +130,7 @@ export class UserUpdaterStates {
 
   hierarchyUpdates = this.table.context.fireOnStateChange(this.table.hierarchies, 'Query loaded');
 
+  relationUpdates = this.table.context.fireOnStateChange(this.table.relationColumns, 'Query loaded');
 }
 
 

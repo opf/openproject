@@ -26,22 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
-
-export interface WorkPackageTableQueryState {
-
-  /**
-   * Check whether the state value does not match the query resource's value.
-   * @param query The current query resource
-   */
-  hasChanged(query:QueryResource):boolean;
-
-  /**
-   * Apply the current state value to query
-   */
-  applyToQuery(query:QueryResource):void;
-}
-
 export abstract class WorkPackageTableBaseState<T> {
   public current:T;
 }

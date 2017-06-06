@@ -15,6 +15,7 @@ import {QueryFormResource} from '../api/api-v3/hal-resources/query-form-resource
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageTableRelationColumnsService} from '../wp-fast-table/state/wp-table-relation-columns.service';
 
 export class WorkPackageStatesInitializationService {
   constructor(protected states:States,
@@ -25,6 +26,7 @@ export class WorkPackageStatesInitializationService {
               protected wpTableSum:WorkPackageTableSumService,
               protected wpTableTimeline:WorkPackageTableTimelineService,
               protected wpTableHierarchies:WorkPackageTableHierarchiesService,
+              protected wpTableRelationColumns:WorkPackageTableRelationColumnsService,
               protected wpTablePagination:WorkPackageTablePaginationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
               protected wpCacheService:WorkPackageCacheService,
@@ -42,7 +44,8 @@ export class WorkPackageStatesInitializationService {
     this.clearStates();
 
     this.initializeFromQuery(query);
-    this.initializeFromResults(results);
+
+    this.updateFromResults(results);
   }
 
   /**
@@ -65,7 +68,9 @@ export class WorkPackageStatesInitializationService {
     this.wpTableColumns.update(query, schema);
   }
 
-  private initializeFromResults(results:WorkPackageCollectionResource) {
+  public updateFromResults(results:WorkPackageCollectionResource) {
+    this.wpTableRelationColumns.clear("Clearing relations before updating");
+
     if (results.schemas) {
       _.each(results.schemas.elements, (schema:SchemaResource) => {
         this.states.schemas.get(schema.href as string).putValue(schema);
@@ -81,6 +86,8 @@ export class WorkPackageStatesInitializationService {
     this.states.table.groups.putValue(angular.copy(results.groups));
 
     this.wpTablePagination.initialize(results);
+
+    this.wpTableRelationColumns.initialize(results.elements);
 
     this.AuthorisationService.initModelAuth('work_packages', results.$links);
   }
@@ -101,11 +108,7 @@ export class WorkPackageStatesInitializationService {
     const reason = 'Clearing states before re-initialization.';
 
     // Clear table states
-    this.wpTableSum.clear(reason)
-    this.wpTableColumns.clear(reason);
-    this.wpTableGroupBy.clear(reason);
-    this.wpTableTimeline.clear(reason);
-    this.wpTableHierarchies.clear(reason);
+    this.wpTableRelationColumns.clear(reason);
 
     // Clear immediate input states
     this.states.table.rows.clear(reason);

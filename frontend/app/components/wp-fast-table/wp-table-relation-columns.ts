@@ -1,12 +1,12 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -24,19 +24,29 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-$badge-diameter: 1.25rem
+import {WorkPackageTableBaseState} from "./wp-table-base";
 
-.badge
-  @include badge
+export interface RelationColumnStateValue {
+  [workPackageId:string]:string;
+}
 
-  &.-secondary
-    @include badge-style($secondary-color, auto)
+export class WorkPackageTableRelationColumns extends WorkPackageTableBaseState<RelationColumnStateValue> {
+  constructor() {
+    super();
+    this.current = {};
+  }
 
-  &.-border-only
-    @include varprop(border-color, button--border-color)
-    @include varprop(color, body-font-color)
-    background: transparent
-    border-width: 1px
-    border-style: solid
+  public getExpandFor(workPackageId:string) {
+    return this.current[workPackageId];
+  }
+
+  public expandFor(workPackageId:string, columnId:string) {
+    this.current[workPackageId] = columnId;
+  }
+
+  public collapse(workPackageId:string) {
+    delete this.current[workPackageId];
+  }
+}

@@ -28,7 +28,7 @@
 
 import {
   WorkPackageTableBaseService,
-  TableStateStates
+  TableStateStates, WorkPackageQueryStateService
 } from './wp-table-base.service';
 import {
   QueryResource,
@@ -40,7 +40,7 @@ import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableSum} from '../wp-table-sum';
 
-export class WorkPackageTableSumService extends WorkPackageTableBaseService {
+export class WorkPackageTableSumService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'sum' as TableStateStates;
 
   constructor(public states: States) {
@@ -51,6 +51,15 @@ export class WorkPackageTableSumService extends WorkPackageTableBaseService {
     let sum = new WorkPackageTableSum(query.sums);
 
     this.state.putValue(sum);
+  }
+
+  public hasChanged(query:QueryResource) {
+    return query.sums !== this.isEnabled;
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.sums = this.isEnabled;
+    return true;
   }
 
   public toggle() {

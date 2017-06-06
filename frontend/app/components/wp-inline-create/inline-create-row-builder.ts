@@ -2,7 +2,10 @@ import {WorkPackageTableRow} from '../wp-fast-table/wp-table.interfaces';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {checkedClassName} from '../wp-fast-table/builders/ui-state-link-builder';
 import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {States} from '../states.service';
@@ -41,7 +44,7 @@ export class InlineCreateRowBuilder extends RowRefreshBuilder {
     };
   }
 
-  public buildCell(workPackage:WorkPackageResource, column:QueryColumn):HTMLElement {
+  public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
     switch (column.id) {
       case internalDetailsColumn.id:
         return this.buildCancelButton();
@@ -50,7 +53,7 @@ export class InlineCreateRowBuilder extends RowRefreshBuilder {
     }
   }
 
-  public buildNew(workPackage:WorkPackageResource, form:WorkPackageEditForm):[HTMLElement, boolean] {
+  public buildNew(workPackage:WorkPackageResourceInterface, form:WorkPackageEditForm):[HTMLElement, boolean] {
     // Get any existing edit state for this work package
     const [row, hidden] = this.buildEmpty(workPackage);
 

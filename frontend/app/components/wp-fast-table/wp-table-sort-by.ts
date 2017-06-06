@@ -27,19 +27,15 @@
 // ++
 
 import {
-  QuerySortByResource,
   QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC
+  QUERY_SORT_BY_DESC,
+  QuerySortByResource
 } from '../api/api-v3/hal-resources/query-sort-by-resource.service';
-import {
-  QueryResource,
-  QueryColumn
-} from '../api/api-v3/hal-resources/query-resource.service';
+import {QueryColumn, QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
-import {WorkPackageTableBaseState, WorkPackageTableQueryState} from "./wp-table-base";
-import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
+import {WorkPackageTableBaseState} from './wp-table-base';
 
-export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortByResource[]> implements WorkPackageTableQueryState {
+export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortByResource[]> {
   public available: QuerySortByResource[] = [];
   public current:QuerySortByResource[] = [];
 
@@ -47,19 +43,6 @@ export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortB
     super();
     this.current = angular.copy(query.sortBy);
     this.available = angular.copy(schema.sortBy.allowedValues as QuerySortByResource[]);
-  }
-
-  public hasChanged(query:QueryResource) {
-    const comparer = (sortBy:QuerySortByResource[]) => sortBy.map(el => el.href);
-
-    return !_.isEqual(
-      comparer(query.sortBy),
-      comparer(this.current)
-    );
-  }
-
-  public applyToQuery(query:QueryResource) {
-    query.sortBy = _.cloneDeep(this.current);
   }
 
   public addCurrent(sortBy:QuerySortByResource) {

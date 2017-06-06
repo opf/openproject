@@ -32,9 +32,9 @@ import {
   QueryColumn
 } from '../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
-import {WorkPackageTableBaseState, WorkPackageTableQueryState} from "./wp-table-base";
+import {WorkPackageTableBaseState} from "./wp-table-base";
 
-export class WorkPackageTableGroupBy extends WorkPackageTableBaseState<QueryGroupByResource | undefined> implements WorkPackageTableQueryState {
+export class WorkPackageTableGroupBy extends WorkPackageTableBaseState<QueryGroupByResource | undefined> {
   public available:QueryGroupByResource[] = [];
   public current:QueryGroupByResource | undefined;
 
@@ -81,6 +81,6 @@ export class WorkPackageTableGroupBy extends WorkPackageTableBaseState<QueryGrou
   }
 
   public isCurrentlyGroupedBy(column:QueryColumn):boolean {
-    return !!this.current && this.current.id === column.id
+    return !!this.current && this.current.id === column.id;
   }
 }

@@ -283,7 +283,7 @@ export class WorkPackagesListService {
   private updateStatesFromWPListOnPromise(query:QueryResource, promise:ng.IPromise<WorkPackageCollectionResource>):ng.IPromise<WorkPackageCollectionResource> {
     return promise.then((results) => {
       this.states.table.context.doAndTransition('Query loaded', () => {
-        this.wpStatesInitialization.initialize(query, results);
+        this.wpStatesInitialization.updateFromResults(results);
       });
 
       return results;
