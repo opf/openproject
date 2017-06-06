@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -60,18 +61,28 @@ module API
       end
 
       links :allowedValues do
+        next unless allowed_values
+
         allowed_values.map do |value|
           link_factory.call(value)
-        end if allowed_values
+        end
       end
 
       collection :allowed_values,
                  exec_context: :decorator,
                  embedded: true,
-                 getter: -> (*) {
+                 getter: ->(*) {
+                   next unless allowed_values
+
                    allowed_values.map do |value|
-                     value_representer.new(value, current_user: current_user)
-                   end if allowed_values
+                     representer = if value_representer.respond_to?(:call)
+                                     value_representer.(value)
+                                   else
+                                     value_representer
+                                   end
+
+                     representer.new(value, current_user: current_user)
+                   end
                  }
     end
   end

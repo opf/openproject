@@ -349,6 +349,7 @@ en:
         work_packages: "Work Packages"
       query:
         column_names: "Columns"
+        relations_to_type_column: "Relations to %{type}"
         group_by: "Group results by"
         filters: "Filters"
       repository:

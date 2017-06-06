@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,34 +26,33 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Register
-  class << self
-    def filter(query, filter)
-      @filters ||= Hash.new do |hash, filter_key|
-        hash[filter_key] = []
-      end
+require 'spec_helper'
+require_relative 'shared_query_column_specs'
 
-      @filters[query] << filter
+describe Queries::WorkPackages::Columns::PropertyColumn, type: :model do
+  let(:instance) { described_class.new(:query_column) }
+
+  it_behaves_like 'query column'
+
+  describe 'instances' do
+    context 'done_ratio disabled' do
+      it 'the done ratio column does not exist' do
+        allow(WorkPackage)
+          .to receive(:done_ratio_disabled?)
+          .and_return(true)
+
+        expect(described_class.instances.map(&:name)).not_to include :done_ratio
+      end
     end
 
-    def order(query, order)
-      @orders ||= Hash.new do |hash, order_key|
-        hash[order_key] = []
+    context 'done_ratio enabled' do
+      it 'the done ratio column exists' do
+        allow(WorkPackage)
+          .to receive(:done_ratio_disabled?)
+          .and_return(false)
+
+        expect(described_class.instances.map(&:name)).to include :done_ratio
       end
-
-      @orders[query] << order
     end
-
-    def column(query, column)
-      @columns ||= Hash.new do |hash, column_key|
-        hash[column_key] = []
-      end
-
-      @columns[query] << column
-    end
-
-    attr_accessor :filters,
-                  :orders,
-                  :columns
   end
 end

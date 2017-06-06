@@ -111,7 +111,7 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
   end
 
   def text_column?(column)
-    column.is_a?(QueryCustomFieldColumn) &&
+    column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) &&
       ['string', 'text'].include?(column.custom_field.field_format)
   end
 
@@ -157,7 +157,7 @@ class WorkPackage::PdfExport::WorkPackageListToPdf
   end
 
   def make_column_value(work_package, column)
-    if column.is_a?(QueryCustomFieldColumn)
+    if column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
       make_custom_field_value work_package, column
     else
       make_field_value work_package, column.name

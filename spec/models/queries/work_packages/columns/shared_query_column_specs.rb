@@ -114,20 +114,4 @@ shared_examples_for 'query column' do
       expect(instance.sortable?).to be_truthy
     end
   end
-
-  describe '#available?' do
-    it 'is true by default' do
-      expect(instance.available?).to be_truthy
-    end
-
-    it 'is whatever one tells it to be' do
-      instance.available = false
-
-      expect(instance.available?).to be_falsey
-
-      instance.available = true
-
-      expect(instance.available?).to be_truthy
-    end
-  end
 end

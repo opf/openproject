@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -63,7 +64,7 @@ module API
                exec_context: :decorator,
                render_nil: false
 
-      def self.self_link(path: nil, id_attribute: :id, title_getter: -> (*) { represented.name })
+      def self.self_link(path: nil, id_attribute: :id, title_getter: ->(*) { represented.name })
         link :self do
           self_path = self_v3_path(path, id_attribute)
 
@@ -78,8 +79,8 @@ module API
       def self.linked_property(property,
                                path: property,
                                getter: property,
-                               title_getter: -> (*) { call_or_send_to_represented(getter).name },
-                               show_if: -> (*) { true },
+                               title_getter: ->(*) { call_or_send_to_represented(getter).name },
+                               show_if: ->(*) { true },
                                embed_as: nil)
         link ::API::Utilities::PropertyNameConverter.from_ar_name(property) do
           next unless instance_eval(&show_if)
@@ -105,9 +106,9 @@ module API
         property_name = ::API::Utilities::PropertyNameConverter.from_ar_name(property)
         property property_name,
                  exec_context: :decorator,
-                 getter: -> (*) { call_or_send_to_represented(getter) },
+                 getter: ->(*) { call_or_send_to_represented(getter) },
                  embedded: true,
-                 decorator: -> (*) {
+                 decorator: ->(*) {
                    ::API::Utilities::DecoratorFactory.new(decorator: decorator,
                                                           current_user: current_user)
                  },

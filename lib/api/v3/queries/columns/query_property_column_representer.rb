@@ -28,34 +28,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Register
-  class << self
-    def filter(query, filter)
-      @filters ||= Hash.new do |hash, filter_key|
-        hash[filter_key] = []
+module API
+  module V3
+    module Queries
+      module Columns
+        class QueryPropertyColumnRepresenter < QueryColumnRepresenter
+          def _type
+            'QueryColumn::Property'
+          end
+        end
       end
-
-      @filters[query] << filter
     end
-
-    def order(query, order)
-      @orders ||= Hash.new do |hash, order_key|
-        hash[order_key] = []
-      end
-
-      @orders[query] << order
-    end
-
-    def column(query, column)
-      @columns ||= Hash.new do |hash, column_key|
-        hash[column_key] = []
-      end
-
-      @columns[query] << column
-    end
-
-    attr_accessor :filters,
-                  :orders,
-                  :columns
   end
 end

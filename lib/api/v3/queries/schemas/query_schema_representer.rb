@@ -133,7 +133,9 @@ module API
                                          has_default: true,
                                          visibility: false,
                                          values_callback: -> { represented.available_columns },
-                                         value_representer: Columns::QueryColumnRepresenter,
+                                         value_representer: ->(column) {
+                                           Columns::QueryColumnsFactory.representer(column)
+                                         },
                                          link_factory: ->(column) {
                                            converted_name = convert_attribute(column.name)
 

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,34 +26,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Register
-  class << self
-    def filter(query, filter)
-      @filters ||= Hash.new do |hash, filter_key|
-        hash[filter_key] = []
+module API
+  module V3
+    module Queries
+      module Columns
+        module QueryColumnsFactory
+          def self.representer(column)
+            case column
+            when ::Queries::WorkPackages::Columns::RelationColumn
+              ::API::V3::Queries::Columns::QueryRelationColumnRepresenter
+            else
+              ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter
+            end
+          end
+
+          def self.create(column)
+            representer(column).new(column)
+          end
+        end
       end
-
-      @filters[query] << filter
     end
-
-    def order(query, order)
-      @orders ||= Hash.new do |hash, order_key|
-        hash[order_key] = []
-      end
-
-      @orders[query] << order
-    end
-
-    def column(query, column)
-      @columns ||= Hash.new do |hash, column_key|
-        hash[column_key] = []
-      end
-
-      @columns[query] << column
-    end
-
-    attr_accessor :filters,
-                  :orders,
-                  :columns
   end
 end

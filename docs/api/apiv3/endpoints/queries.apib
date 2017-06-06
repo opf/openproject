@@ -2048,7 +2048,7 @@ Gets a list of projects that are available as projects a query can be assigned t
 
 # Group Query Columns
 
-A QueryColumn can be referenced by a Query to denote the work package properties the client should display for the work packages returned as query results. The columns maps to the WorkPackage by the id property.
+A QueryColumn can be referenced by a Query to denote the work package properties the client should display for the work packages returned as query results. The columns maps to the WorkPackage by the id property. QueryColumns exist in two types: QueryColumn::Property and QueryColumn::Relation
 
 ## Actions
 
@@ -2059,9 +2059,10 @@ As of now, no actions are defined.
 
 ## Linked Properties
 
-| Property         | Description                                            | Type        | Constraints                      | Supported operations |
-| :--------------: | ------------------------------------------------------ | ----------- | -------------------------------- | -------------------- |
-| self             | This query column                                      | QueryColumn | not null                         | READ                 |
+| Property         | Description                                            | Type                                           | Constraints                                    | Supported operations |
+| :--------------: | ------------------------------------------------------ | -----------                                    | --------------------------------               | -------------------- |
+| self             | This query column                                      | QueryColumn::Property or QueryColumn::Relation | not null                                       | READ                 |
+|  type            | The type relations point to                            | Type                                           | not null, exists only on QueryColumn::Relation | READ                 |
 
 ## Local Properties
 
@@ -2076,7 +2077,7 @@ As of now, no actions are defined.
     + Body
 
             {
-              "_type": "QueryColumn",
+              "_type": "QueryColumn::Property",
               "id": "priority",
               "name": "Priority",
               "_links": {

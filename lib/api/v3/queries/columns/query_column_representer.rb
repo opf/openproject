@@ -33,7 +33,8 @@ module API
     module Queries
       module Columns
         class QueryColumnRepresenter < ::API::Decorators::Single
-          self_link id_attribute: ->(*) { converted_name },
+          self_link path: 'query_column',
+                    id_attribute: ->(*) { converted_name },
                     title_getter: ->(*) { represented.caption }
 
           def initialize(model, *_)
@@ -51,10 +52,6 @@ module API
           end
 
           alias :id :converted_name
-
-          def _type
-            'QueryColumn'
-          end
 
           def convert_attribute(attribute)
             ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)

@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe Query, type: :model do
   let(:query) { FactoryGirl.build(:query) }
+  let(:project) { FactoryGirl.build_stubbed(:project) }
 
   describe '.new_default' do
     it 'set the default sortation' do
@@ -75,10 +76,10 @@ describe Query, type: :model do
     end
   end
 
-  describe 'available_columns' do
+  describe '#available_columns' do
     context 'with work_package_done_ratio NOT disabled' do
       it 'should include the done_ratio column' do
-        expect(query.available_columns.find { |column| column.name == :done_ratio }).to be_truthy
+        expect(query.available_columns.map(&:name)).to include :done_ratio
       end
     end
 
@@ -88,15 +89,14 @@ describe Query, type: :model do
       end
 
       it 'should NOT include the done_ratio column' do
-        expect(query.available_columns.find { |column| column.name == :done_ratio }).to be_nil
+        expect(query.available_columns.map(&:name)).not_to include :done_ratio
       end
     end
 
     context 'results caching' do
-      let(:project) { FactoryGirl.build_stubbed(:project) }
       let(:project2) { FactoryGirl.build_stubbed(:project) }
 
-      it 'does not call the db twice for the custom fields' do
+      it 'does not call the db twice' do
         query.project = project
 
         query.available_columns
@@ -104,10 +104,13 @@ describe Query, type: :model do
         expect(project)
           .not_to receive(:all_work_package_custom_fields)
 
+        expect(project)
+          .not_to receive(:types)
+
         query.available_columns
       end
 
-      it 'does call the db for the custom fields if the project changes' do
+      it 'does call the db if the project changes' do
         query.project = project
 
         query.available_columns
@@ -118,10 +121,14 @@ describe Query, type: :model do
           .to receive(:all_work_package_custom_fields)
           .and_return []
 
+        expect(project2)
+          .to receive(:types)
+          .and_return []
+
         query.available_columns
       end
 
-      it 'does call the db for the custom fields if the project changes to nil' do
+      it 'does call the db if the project changes to nil' do
         query.project = project
 
         query.available_columns
@@ -132,8 +139,73 @@ describe Query, type: :model do
           .to receive(:all)
           .and_return []
 
+        expect(Type)
+          .to receive(:all)
+          .and_return []
+
         query.available_columns
       end
+    end
+
+    context 'relation columns' do
+      let(:type_in_project) do
+        type = FactoryGirl.create(:type)
+        project.types << type
+
+        type
+      end
+
+      let(:type_not_in_project) do
+        FactoryGirl.create(:type)
+      end
+
+      before do
+        type_in_project
+        type_not_in_project
+      end
+
+      context 'in project' do
+        before do
+          query.project = project
+        end
+
+        it 'includes the relation columns for project types' do
+          expect(query.available_columns.map(&:name)).to include :"relations_to_type_#{type_in_project.id}"
+        end
+
+        it 'does not include the relation columns for types not in project' do
+          expect(query.available_columns.map(&:name)).not_to include :"relations_to_type_#{type_not_in_project.id}"
+        end
+      end
+
+      context 'global' do
+        before do
+          query.project = nil
+        end
+
+        it 'includes the relation columns for all types' do
+          expect(query.available_columns.map(&:name)).to include(:"relations_to_type_#{type_in_project.id}",
+                                                                 :"relations_to_type_#{type_not_in_project.id}")
+        end
+      end
+    end
+  end
+
+  describe '.available_columns' do
+    it 'has all static columns, cf columns and relation columns' do
+      custom_field = FactoryGirl.create(:list_wp_custom_field)
+
+      type = FactoryGirl.create(:type)
+
+      expected_columns = %i(id project assigned_to author
+                            category created_at due_date estimated_hours
+                            parent done_ratio priority responsible
+                            spent_hours start_date status subject type
+                            updated_at fixed_version) +
+                         [:"cf_#{custom_field.id}"] +
+                         [:"relations_to_type_#{type.id}"]
+
+      expect(Query.available_columns.map(&:name)).to include *expected_columns
     end
   end
 
