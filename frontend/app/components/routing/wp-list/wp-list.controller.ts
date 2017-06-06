@@ -140,10 +140,6 @@ function WorkPackagesListController($scope:any,
         const queryValue = stateValue.comparerFunction()(queryState.value![name]);
         return _.isEqual(queryValue, stateValue.extractedCompareValue) === false;
       })
-      .distinctUntilChanged(
-        (a,b) => _.isEqual(a,b),
-        (stateValue:WorkPackageTableBaseState<any>) => stateValue.extractedCompareValue
-      )
       .subscribe((stateValue:WorkPackageTableBaseState<any>) => {
         const newQuery = queryState.value!;
         newQuery[name] = _.cloneDeep(stateValue.currentQueryValue);
