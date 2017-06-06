@@ -23,6 +23,7 @@ See doc/COPYRIGHT.md for more details.
 
 <%= toolbar title: l(:label_meeting_plural) do %>
   <% if authorize_for(:meetings, :new) %>
+    <li class="toolbar-item">
       <a href="<%= new_meeting_path %>"
          id="add-meeting-button"
          title="<%= I18n.t(:label_meeting_new) %>"
@@ -31,6 +32,7 @@ See doc/COPYRIGHT.md for more details.
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t(:label_meeting) %></span>
       </a>
+    </li>
   <% end %>
 <% end %>
 
