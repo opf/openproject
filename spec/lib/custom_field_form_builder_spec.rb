@@ -32,27 +32,19 @@ require 'ostruct'
 describe CustomFieldFormBuilder do
   include Capybara::RSpecMatchers
 
-  let(:helper)   { ActionView::Base.new }
-  let(:resource) {
-    FactoryGirl.build(:user,
-                      firstname:  'JJ',
-                      lastname:   'Abrams',
-                      login:      'lost',
-                      mail:       'jj@lost-mail.com',
-                      failed_login_count: 45)
-  }
-  let(:builder)  { described_class.new(:user, resource, helper, {}) }
+  let(:helper) { ActionView::Base.new }
+  let(:builder) { described_class.new(:user, resource, helper, {}) }
 
   describe '#custom_field' do
     let(:options) { { class: 'custom-class' } }
 
-    let(:resource) {
+    let(:resource) do
       FactoryGirl.build_stubbed(:custom_value)
-    }
+    end
 
-    subject(:output) {
+    subject(:output) do
       builder.custom_field options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default' do
@@ -240,8 +232,16 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a user custom field' do
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:user1) { FactoryGirl.build_stubbed(:user) }
+      let(:user2) { FactoryGirl.build_stubbed(:user) }
+
       before do
         resource.custom_field.field_format = 'user'
+        resource.customized = project
+        allow(project)
+          .to receive(:users)
+          .and_return([user1, user2])
       end
 
       it_behaves_like 'wrapped in container', 'select-container'
@@ -251,7 +251,10 @@ describe CustomFieldFormBuilder do
           <select class="custom-class form--select"
                   id="user#{resource.custom_field_id}"
                   name="user[#{resource.custom_field_id}]"
-                  no_label="true"><option value=\"\"></option>
+                  no_label="true">
+            <option value=\"\"></option>
+            <option value="#{user1.id}">#{user1.name}</option>
+            <option value="#{user2.id}">#{user2.name}</option>
           </select>
         }).at_path('select')
       end
@@ -266,8 +269,10 @@ describe CustomFieldFormBuilder do
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
                     name="user[#{resource.custom_field_id}]"
-                    no_label="true"><option value=\"\">---
-                    Please select ---</option>
+                    no_label="true">
+              <option value=\"\">--- Please select ---</option>
+              <option value="#{user1.id}">#{user1.name}</option>
+              <option value="#{user2.id}">#{user2.name}</option>
             </select>
           }).at_path('select')
         end
@@ -275,8 +280,16 @@ describe CustomFieldFormBuilder do
     end
 
     context 'for a version custom field' do
+      let(:project) { FactoryGirl.build_stubbed(:project) }
+      let(:version1) { FactoryGirl.build_stubbed(:version) }
+      let(:version2) { FactoryGirl.build_stubbed(:version) }
+
       before do
         resource.custom_field.field_format = 'version'
+        resource.customized = project
+        allow(project)
+          .to receive(:versions)
+          .and_return([version1, version2])
       end
 
       it_behaves_like 'wrapped in container', 'select-container'
@@ -286,7 +299,10 @@ describe CustomFieldFormBuilder do
           <select class="custom-class form--select"
                   id="user#{resource.custom_field_id}"
                   name="user[#{resource.custom_field_id}]"
-                  no_label="true"><option value=\"\"></option>
+                  no_label="true">
+            <option value=\"\"></option>
+            <option value="#{version1.id}">#{version1.name}</option>
+            <option value="#{version2.id}">#{version2.name}</option>
           </select>
         }).at_path('select')
       end
@@ -301,8 +317,10 @@ describe CustomFieldFormBuilder do
             <select class="custom-class form--select"
                     id="user#{resource.custom_field_id}"
                     name="user[#{resource.custom_field_id}]"
-                    no_label="true"><option value=\"\">---
-                    Please select ---</option>
+                    no_label="true">
+              <option value=\"\">--- Please select ---</option>
+              <option value="#{version1.id}">#{version1.name}</option>
+              <option value="#{version2.id}">#{version2.name}</option>
             </select>
           }).at_path('select')
         end
