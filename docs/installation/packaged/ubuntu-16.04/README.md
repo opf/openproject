@@ -16,7 +16,7 @@ Create the file `/etc/apt/sources.list.d/openproject.list` with the following co
 
 
 ```
-deb https://deb.packager.io/gh/opf/openproject-ce xenial stable/6
+deb https://deb.packager.io/gh/opf/openproject-ce xenial stable/7
 ```
 
 

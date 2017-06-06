@@ -1361,6 +1361,7 @@ en:
   label_storage_group: "Storage filesystem %{identifier}"
   label_storage_for: "Encompasses storage for"
   label_string: "Text"
+  label_subproject: "Subproject"
   label_subproject_new: "New subproject"
   label_subproject_plural: "Subprojects"
   label_subtask_plural: "Subtasks"
