@@ -29,7 +29,9 @@
 require 'spec_helper'
 
 describe CustomField, type: :model do
-  before do CustomField.destroy_all end
+  before do
+    CustomField.destroy_all
+  end
 
   let(:field)  { FactoryGirl.build :custom_field }
   let(:field2) { FactoryGirl.build :custom_field }
@@ -137,15 +139,69 @@ describe CustomField, type: :model do
   end
 
   describe '#accessor_name' do
-    # create the custom field to force assignment of an id
-    let(:field)  { FactoryGirl.create :custom_field }
+    let(:field) { FactoryGirl.build_stubbed :custom_field }
 
     it 'is formatted as expected' do
       expect(field.accessor_name).to eql("custom_field_#{field.id}")
     end
+  end
 
-    it 'returns a string' do
-      expect(field.accessor_name).to be_a(String)
+  describe '#possible_values_options' do
+    let(:project) { FactoryGirl.build_stubbed(:project) }
+    let(:user1) { FactoryGirl.build_stubbed(:user) }
+    let(:user2) { FactoryGirl.build_stubbed(:user) }
+
+    context 'for a user custom field' do
+      before do
+        field.field_format = 'user'
+        allow(project)
+          .to receive(:users)
+          .and_return([user1, user2])
+      end
+
+      context 'for a project' do
+        it 'is a list of name, id pairs' do
+          expect(field.possible_values_options(project))
+            .to match_array [[user1.name, user1.id.to_s],
+                             [user2.name, user2.id.to_s]]
+        end
+      end
+
+      context 'for something that responds to project' do
+        it 'is a list of name, id pairs' do
+          object = OpenStruct.new project: project
+
+          expect(field.possible_values_options(object))
+            .to match_array [[user1.name, user1.id.to_s],
+                             [user2.name, user2.id.to_s]]
+        end
+      end
+
+      context 'for anything else' do
+        it 'is empty' do
+          object = OpenStruct.new
+
+          expect(field.possible_values_options(object))
+            .to be_empty
+        end
+      end
+    end
+
+    context 'for a list custom field' do
+      let(:option1) { FactoryGirl.build_stubbed(:custom_option) }
+      let(:option2) { FactoryGirl.build_stubbed(:custom_option) }
+
+      before do
+        field.field_format = 'list'
+
+        field.custom_options = [option1, option2]
+      end
+
+      it 'is a list of name, id pairs' do
+        expect(field.possible_values_options)
+          .to match_array [[option1.value, option1.id.to_s],
+                           [option2.value, option2.id.to_s]]
+      end
     end
   end
 end

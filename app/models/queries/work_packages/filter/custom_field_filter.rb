@@ -36,12 +36,10 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
 
   def allowed_values
     case custom_field.field_format
-    when 'list'
-      custom_field.custom_options.map { |co| [co.value, co.id.to_s] }
     when 'bool'
       [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
        [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
-    when 'user', 'version'
+    when 'user', 'version', 'list'
       custom_field.possible_values_options(project)
     end
   end
