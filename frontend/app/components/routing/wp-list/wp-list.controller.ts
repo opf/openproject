@@ -98,16 +98,11 @@ function WorkPackagesListController($scope:any,
 
   function setupQueryObservers() {
 
-    scopedObservable($scope, states.table.query.values$())
-      .withLatestFrom(
-        wpTablePagination.observeOnScope($scope)
-      ).subscribe(([query, pagination]) => {
-      $scope.tableInformationLoaded = true;
 
-      updateTitle(query);
-
-      wpListChecksumService.updateIfDifferent(query, pagination as WorkPackageTablePagination);
-    });
+    scopedObservable($scope, states.tableRendering.onQueryUpdated.changes$())
+      .subscribe((val) => {
+        $scope.tableInformationLoaded = states.tableRendering.onQueryUpdated.hasValue();
+      });
 
     wpTablePagination.observeOnScope($scope)
       .withLatestFrom(scopedObservable($scope, states.table.query.values$()))

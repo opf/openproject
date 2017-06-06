@@ -1,4 +1,4 @@
-import {createNewContext, input, multiInput, StatesGroup} from "reactivestates";
+import {combine, createNewContext, derive, input, multiInput, StatesGroup} from "reactivestates";
 import {Subject} from "rxjs";
 import {opServicesModule} from "../angular-modules";
 import {QueryFormResource} from "./api/api-v3/hal-resources/query-form-resource.service";
@@ -38,6 +38,8 @@ export class States extends StatesGroup {
 
   // Work package table states
   table = new TableState();
+
+  tableRendering = new TableRenderingStates(this.table);
 
   // Updater states on user input
   updates = new UserUpdaterStates(this.table);
@@ -94,6 +96,24 @@ export class TableState {
   stopAllSubscriptions = new Subject();
   // Fire when table refresh is required
   refreshRequired = input<boolean>();
+
+}
+
+export class TableRenderingStates {
+  constructor(private table:TableState) {
+  }
+
+  // State when all required input states for the current query are ready
+  private combinedTableStates = combine(
+    this.table.rows,
+    this.table.columns,
+    this.table.sum,
+    this.table.groupBy,
+    this.table.sortBy
+  );
+
+  onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.mapTo(null));
+
 }
 
 export class UserUpdaterStates {
