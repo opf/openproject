@@ -128,7 +128,6 @@ module OpenProject::Backlogs
              :Project,
              :ProjectsController,
              :ProjectsHelper,
-             :Query,
              :User,
              :VersionsController,
              :Version]
@@ -310,6 +309,7 @@ module OpenProject::Backlogs
       ::Type.add_default_mapping(:other, :position)
 
       Queries::Register.filter Query, OpenProject::Backlogs::WorkPackageFilter
+      Queries::Register.column Query, OpenProject::Backlogs::QueryBacklogsColumn
     end
   end
 end
