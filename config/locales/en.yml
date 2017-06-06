@@ -1191,6 +1191,7 @@ en:
   label_me: "me"
   label_member_new: "New member"
   label_member_plural: "Members"
+  label_view_all_members: "View all members"
   label_menu_item_name: "Name of menu item"
   label_message: "Message"
   label_message_last: "Last message"
