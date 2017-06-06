@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -45,7 +46,7 @@ module Queries::Filters::Strategies
     end
 
     def valid_values!
-      filter.values &= (allowed_values.map(&:last) + ['-1'])
+      filter.values &= (allowed_values.map(&:last).map(&:to_s) + ['-1'])
     end
   end
 end
