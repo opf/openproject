@@ -8,7 +8,8 @@ module OpenProject::XlsExport
              author_url: 'http://openproject.com/',
              requires_openproject: '>= 4.0.0'
 
-    patches [:WorkPackagesController, :QueryColumn]
+    patches %i[WorkPackagesController
+               Queries::WorkPackages::Columns::WorkPackageColumn]
     # disabled since not yet migrated: :CostReportsController
 
     extend_api_response(:v3, :work_packages, :work_package_collection) do
