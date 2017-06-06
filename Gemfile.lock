@@ -366,7 +366,7 @@ GEM
       mime-types (>= 1.16, < 4)
     method_source (0.8.2)
     mime-types (2.99.3)
-    mini_portile2 (2.1.0)
+    mini_portile2 (2.2.0)
     minisyntax (0.2.5)
     minitest (5.10.2)
     mixlib-shellout (2.1.0)
@@ -381,8 +381,8 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (4.1.0.333)
     nio4r (2.0.0)
-    nokogiri (1.7.2)
-      mini_portile2 (~> 2.1.0)
+    nokogiri (1.8.0)
+      mini_portile2 (~> 2.2.0)
     oj (3.0.6)
     openproject-token (1.0.0)
       activemodel (~> 5.0)
@@ -676,7 +676,7 @@ DEPENDENCIES
   mysql2 (~> 0.4.4)
   net-ldap (~> 0.16.0)
   newrelic_rpm
-  nokogiri (~> 1.7.2)
+  nokogiri (~> 1.8.0)
   oj (~> 3.0.6)
   omniauth!
   openproject-token (~> 1.0.0)
