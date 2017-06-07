@@ -139,19 +139,23 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return true;
   }
 
-  getLeftmostXValue(renderInfo: RenderInfo): number {
+  getMarginLeftOfLeftSide(renderInfo: RenderInfo): number {
     const wp = renderInfo.workPackage;
     let start = moment(wp.date as any);
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, "days");
     return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart);
   }
 
-  getInnerXOffsetForRelationLineDock(renderInfo: RenderInfo): number {
+  getMarginLeftOfRightSide(ri: RenderInfo): number {
+    return this.getMarginLeftOfLeftSide(ri) + ri.viewParams.pixelPerDay;
+  }
+
+  getPaddingLeftForIncomingRelationLines(renderInfo: RenderInfo): number {
     return (renderInfo.viewParams.pixelPerDay / 2) - 1;
   }
 
-  getRightmostXValue(renderInfo: RenderInfo): number {
-    return 15;
+  getPaddingRightForOutgoingRelationLines(renderInfo: RenderInfo): number {
+    return (15 / 2);
   }
 
   /**
