@@ -90,7 +90,7 @@ function WorkPackagesListController($scope:any,
 
   // Teardown
   $scope.$on('$destroy', () => {
-    wpTableRefresh.clear("Table controller scope destroyed.");
+    wpTableRefresh.clear('Table controller scope destroyed.');
   });
 
   function setupQueryObservers() {
@@ -185,10 +185,10 @@ function WorkPackagesListController($scope:any,
    if (visibleLink.length) {
      visibleLink.focus();
    }
-  }
+  };
 
   function updateResults() {
-    return wpListService.reloadCurrentResultsList()
+    return wpListService.reloadCurrentResultsList();
   }
 
   function updateToFirstResultsPage() {
