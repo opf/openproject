@@ -62,7 +62,8 @@ export class WorkPackageQuerySelectController {
               private states:States,
               private wpListService:WorkPackagesListService,
               private contextMenu:ContextMenuService,
-              private I18n:op.I18n) {
+              private I18n:op.I18n,
+              private loadingIndicator:LoadingIndicatorService) {
 
     this.$scope.loaded = false;
     this.$scope.i18n = {
@@ -148,7 +149,7 @@ export class WorkPackageQuerySelectController {
   }
 
   private loadQuery(query:QueryResource) {
-    this.wpListService.reloadQuery(query);
+    this.loadingIndicator.table.promise = this.wpListService.reloadQuery(query);
     this.contextMenu.close();
   }
 
