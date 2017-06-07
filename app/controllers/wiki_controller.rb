@@ -114,7 +114,7 @@ class WikiController < ApplicationController
     @content.author = User.current
 
     if @page.save
-      attachments = Attachment.attach_files(@page, params[:attachments])
+      attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = l(:notice_successful_create)
@@ -192,7 +192,7 @@ class WikiController < ApplicationController
     @content.comments = nil
 
     if !@page.new_record? && params[:content].present? && @content.text == params[:content][:text]
-      attachments = Attachment.attach_files(@page, params[:attachments])
+      attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
       render_attachment_warning_if_needed(@page)
       # don't save if text wasn't changed
       redirect_to_show
@@ -203,7 +203,7 @@ class WikiController < ApplicationController
     @content.add_journal User.current, params['content']['comments']
     # if page is new @page.save will also save content, but not if page isn't a new record
     if @page.new_record? ? @page.save : @content.save
-      attachments = Attachment.attach_files(@page, params[:attachments])
+      attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
       render_attachment_warning_if_needed(@page)
       call_hook(:controller_wiki_edit_after_save,  params: params, page: @page)
       flash[:notice] = l(:notice_successful_update)
@@ -359,7 +359,7 @@ class WikiController < ApplicationController
 
   def add_attachment
     return render_403 unless editable?
-    attachments = Attachment.attach_files(@page, params[:attachments])
+    attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
     render_attachment_warning_if_needed(@page)
     redirect_to action: 'show', id: @page, project_id: @project
   end

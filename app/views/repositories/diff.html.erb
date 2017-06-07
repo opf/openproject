@@ -38,10 +38,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <% cache(@cache_key) do -%>
-  <%= render partial: 'common/diff', locals: {diff: @diff, diff_type: @diff_type} %>
+  <%= render partial: 'common/diff', locals: { diff: @diff, diff_type: @diff_type } %>
 <% end -%>
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Diff', url: params, caption: 'Unified diff' %>
+  <%= f.link_to 'Diff', url: permitted_params.repository_diff.to_h, caption: 'Unified diff' %>
 <% end %>
 
 <% html_title(h(with_leading_slash(@path)), 'Diff') -%>

@@ -147,7 +147,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
 
     <%= other_formats_links do |f| %>
-      <%= f.link_to 'CSV', url: params %>
+      <%= f.link_to 'CSV', url: permitted_params.timelog.to_h %>
     <% end %>
   <% end %>
 <% end %>

@@ -54,16 +54,14 @@ describe TypesController, type: :controller do
   end
 
   it 'should post create' do
-    post :create, tab: "settings", type: {
-      name: 'New type'
-    }
+    post :create, params: { tab: "settings", type: { name: 'New type' } }
     type = ::Type.find_by(name: 'New type')
     assert_redirected_to action: 'edit', tab: 'settings', id: type.id
     assert_equal 0, type.workflows.count
   end
 
   it 'should post create with workflow copy' do
-    post :create, type: { name: 'New type' }, copy_workflow_from: 1
+    post :create, params: { type: { name: 'New type' }, copy_workflow_from: 1 }
     type = ::Type.find_by(name: 'New type')
     assert_redirected_to action: 'edit', tab: 'settings', id: type.id
     assert_equal 0, type.projects.count
@@ -73,7 +71,7 @@ describe TypesController, type: :controller do
   it 'should get edit' do
     ::Type.find(1).project_ids = [1, 3]
 
-    get :edit, id: 1, tab: 'settings'
+    get :edit, params: { id: 1, tab: 'settings' }
     assert_response :success
     assert_template 'edit'
     assert_template 'types/form/_settings'
@@ -92,33 +90,33 @@ describe TypesController, type: :controller do
   end
 
   it 'should post update name' do
-    post :update, id: 1, tab: "settings", type: { name: 'Renamed' }
+    post :update, params: { id: 1, tab: "settings", type: { name: 'Renamed' } }
     assert_equal "Renamed", ::Type.find(1).name
     assert_redirected_to action: 'edit'
   end
 
   it 'should post update projects' do
-    post :update, id: 1, tab: "projects", type: { project_ids: ['1', '2', ''] }
+    post :update, params: { id: 1, tab: "projects", type: { project_ids: ['1', '2', ''] } }
     assert_redirected_to action: 'edit'
     assert_equal [1, 2], ::Type.find(1).project_ids.sort
   end
 
   it 'should post update without projects' do
-    post :update, id: 1, tab: "projects", type: { project_ids: [''] }
+    post :update, params: { id: 1, tab: "projects", type: { project_ids: [''] } }
     assert_redirected_to action: 'edit'
     assert ::Type.find(1).project_ids.empty?
   end
 
   it 'should move lower' do
     type = ::Type.find_by(position: 1)
-    post :move, id: 1, type: { move_to: 'lower' }
+    post :move, params: { id: 1, type: { move_to: 'lower' } }
     assert_equal 2, type.reload.position
   end
 
   it 'should destroy' do
     type = ::Type.create!(name: 'Destroyable')
     assert_difference '::Type.count', -1 do
-      post :destroy, id: type.id
+      post :destroy, params: { id: type.id }
     end
     assert_redirected_to action: 'index'
     assert_nil flash[:error]
@@ -126,7 +124,7 @@ describe TypesController, type: :controller do
 
   it 'should destroy type in use' do
     assert_no_difference '::Type.count' do
-      post :destroy, id: 1
+      post :destroy, params: { id: 1 }
     end
     assert_redirected_to action: 'index'
     refute_nil flash[:error]

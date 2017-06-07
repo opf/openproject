@@ -40,7 +40,7 @@ class SettingsController < ApplicationController
   def edit
     @notifiables = Redmine::Notifiable.all
     if request.post? && params[:settings]
-      permitted_params.settings.each do |name, value|
+      permitted_params.settings.to_h.each do |name, value|
         if value.is_a?(Array)
           # remove blank values in array settings
           value.delete_if(&:blank?)

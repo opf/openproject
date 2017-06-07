@@ -475,20 +475,27 @@ describe ProjectsController, type: :controller do
     assert_template 'show'
   end
 
-  # A hook that is manually registered later
-  class ProjectBasedTemplate < Redmine::Hook::ViewListener
-    def view_layouts_base_html_head(context)
-      context[:controller].send(:render, html: '<p id="hookselector">Hello from hook!</p>')
+  context 'with hooks' do
+    # A hook that is manually registered later
+    class ProjectBasedTemplate < Redmine::Hook::ViewListener
+      def view_layouts_base_html_head(context)
+        context[:controller].send(:render, html: '<p id="hookselector">Hello from hook!</p>'.html_safe)
+      end
     end
-  end
-  # Don't use this hook now
-  Redmine::Hook.clear_listeners
 
-  it 'should hook response' do
-    Redmine::Hook.add_listener(ProjectBasedTemplate)
-    get :show, params: { id: 1 }
-    assert_select('p#hookselector')
+    before do
+      # Don't use this hook now
+      Redmine::Hook.clear_listeners
+    end
 
-    Redmine::Hook.clear_listeners
+    after do
+      Redmine::Hook.clear_listeners
+    end
+
+    it 'should hook response' do
+      Redmine::Hook.add_listener(ProjectBasedTemplate)
+      get :show, params: { id: 1 }
+      assert_select('p#hookselector')
+    end
   end
 end

@@ -45,7 +45,7 @@ class SysController < ActionController::Base
         render json: p.to_json(include: :repository)
       end
       format.any(:html, :xml) do
-        render xml: p.to_xml(include: :repository), content_type: Mime::XML
+        render xml: p.to_xml(include: :repository), content_type: Mime[:xml]
       end
     end
   end
@@ -68,9 +68,9 @@ class SysController < ActionController::Base
         project.repository.fetch_changesets
       end
     end
-    render nothing: true, status: 200
+    head 200
   rescue ActiveRecord::RecordNotFound
-    render nothing: true, status: 404
+    head 404
   end
 
   def repo_auth
