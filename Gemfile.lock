@@ -50,14 +50,6 @@ GIT
       rspec
 
 GIT
-  remote: https://github.com/norman/friendly_id
-  revision: aff0564584e84ffa505e6e278b65ca3c4ee5d698
-  ref: aff05645
-  specs:
-    friendly_id (5.2.0.beta.1)
-      activerecord (>= 4.0.0)
-
-GIT
   remote: https://github.com/oliverguenther/omniauth
   revision: 8385bc0da47e4fc4f4a256c97725bcf8215d13c2
   ref: 8385bc0
@@ -305,6 +297,8 @@ GEM
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
+    friendly_id (5.2.1)
+      activerecord (>= 4.0.0)
     fuubar (2.2.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -657,7 +651,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.7)
   faker
   fog-aws
-  friendly_id!
+  friendly_id (~> 5.2.1)
   fuubar (~> 2.2.0)
   globalize!
   gon (~> 6.1.0)
