@@ -304,18 +304,22 @@ export class WorkPackageResource extends HalResource {
       });
   }
 
-  public allowedValuesFor(field:string): ng.IPromise<HalResource[]> {
+  public allowedValuesFor(field:string):ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
 
     this.getForm().then((form:any) => {
-      const allowedValues = form.$embedded.schema[field].allowedValues;
+      const fieldSchema = form.$embedded.schema[field];
 
-      if (allowedValues && allowedValues['$load']) {
+      if (!fieldSchema) {
+        deferred.resolve([]);
+      } else if (fieldSchema.allowedValues && fieldSchema.allowedValues['$load']) {
+        let allowedValues = fieldSchema.allowedValues;
+
         return allowedValues.$load().then((loadedValues:CollectionResource) => {
           deferred.resolve(loadedValues.elements);
         });
       } else {
-        deferred.resolve(allowedValues);
+        deferred.resolve(fieldSchema.allowedValues);
       }
     });
 
