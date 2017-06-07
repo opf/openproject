@@ -257,4 +257,12 @@ describe ProjectsController, type: :routing do
       )
     end
   end
+
+  describe 'level_list' do
+    it do
+      expect(get('/projects/level_list')).to route_to(
+        controller: 'projects', action: 'level_list'
+      )
+    end
+  end
 end
