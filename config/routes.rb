@@ -160,6 +160,10 @@ OpenProject::Application.routes.draw do
       get :destroy_info, as: 'confirm_destroy'
     end
 
+    collection do
+      get :level_list
+    end
+
     resource :enumerations, controller: 'project_enumerations', only: [:update, :destroy]
 
     resources :versions, only: [:new, :create] do
