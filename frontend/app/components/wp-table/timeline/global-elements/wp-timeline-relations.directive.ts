@@ -68,8 +68,12 @@ function newSegment(vp:TimelineViewParameters,
   segment.style.left = left + 'px';
   segment.style.width = width + 'px';
   segment.style.height = height + 'px';
+
   if (DEBUG_DRAW_RELATION_LINES_WITH_COLOR && color !== undefined) {
-    segment.style.backgroundColor = color;
+    segment.style.zIndex = "9999999";
+    if (color !== undefined) {
+      segment.style.backgroundColor = color;
+    }
   }
   return segment;
 }
@@ -169,6 +173,9 @@ export class WorkPackageTableTimelineRelations {
       .map(([[workPackageId], timelineVisible]) => [workPackageId, this.wpStates.relations.get(workPackageId)] as [string, State<RelationsStateValue>])
       .filter(([workPackageId, state]) => state !== undefined)
       .subscribe(([workPackageId, state]) => {
+
+        // console.log("workPackageId", workPackageId);
+
         this.removeRelationElementsForWorkPackage(workPackageId);
         this.refreshRelations(state.value!);
     });
@@ -195,8 +202,12 @@ export class WorkPackageTableTimelineRelations {
 
   private removeRelationElementsForWorkPackage(workPackageId: string) {
     const prefix = TimelineRelationElement.workPackagePrefix(workPackageId);
-    this.container.find(`.${prefix}`).remove();
-    _.remove(this.elements, (element) => element.belongsToId === workPackageId);
+    console.log("remove prefix", prefix);
+    const found = this.container.find(`.${prefix}`);
+    // console.log("found", found);
+    found.remove();
+    const removed = _.remove(this.elements, (element) => element.belongsToId === workPackageId);
+    // console.log("removed", removed);
   }
 
   private removeAllVisibleElements() {
@@ -215,6 +226,8 @@ export class WorkPackageTableTimelineRelations {
     // Get the rendered rows
     const idxFrom = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.from);
     const idxTo = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.to);
+
+    console.log("RENDER RELATION from", involved.from, "to", involved.to);
 
     const startCell = this.wpTimeline.workPackageCell(involved.from);
     const endCell = this.wpTimeline.workPackageCell(involved.to);
@@ -235,16 +248,16 @@ export class WorkPackageTableTimelineRelations {
     }
 
     // Get X values
-    let lastX = startCell.getRightmostXValue();
-    const targetX = endCell.getLeftmostXValue() + endCell.getInnerXOffsetForRelationLineDock();
-    const hookLength = endCell.getInnerXOffsetForRelationLineDock();
+    // const hookLength = endCell.getPaddingLeftForIncomingRelationLines();
+    const startX = startCell.getMarginLeftOfRightSide() - startCell.getPaddingRightForOutgoingRelationLines();
+    const targetX = endCell.getMarginLeftOfLeftSide() + endCell.getPaddingLeftForIncomingRelationLines();
 
     // Vertical direction
     const directionY: "toUp" | "toDown" = idxFrom < idxTo ? "toDown" : "toUp";
 
     // Horizontal direction
     const directionX: "toLeft" | "beneath" | "toRight" =
-      targetX > lastX ? "toRight" : targetX < lastX ? "toLeft" : "beneath";
+      targetX > startX ? "toRight" : targetX < startX ? "toLeft" : "beneath";
 
     // start
     if (!startCell) {
@@ -252,8 +265,12 @@ export class WorkPackageTableTimelineRelations {
     }
 
     // Draw the first line next to the bar/milestone element
-    this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, hookLength, 1, "red"));
-    lastX += hookLength;
+    const paddingRight = startCell.getPaddingRightForOutgoingRelationLines();
+    const startLineWith = endCell.getPaddingLeftForIncomingRelationLines()
+      + (paddingRight > 0 ? paddingRight : 0);
+    this.container.append(newSegment(vp, e.classNames, idxFrom, 19, startX, startLineWith, 1, "red"));
+    let lastX = startX + startLineWith;
+    // lastX += hookLength;
 
     // Draw vertical line between rows
     const height = Math.abs(idxTo - idxFrom);
