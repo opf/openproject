@@ -115,7 +115,7 @@ module Redmine::MenuManager::MenuHelper
       concat(content_tag(:ul,
                          style: 'display:none',
                          id: options[:drop_down_id],
-                         class: options[:drop_down_class],
+                         class: 'menu-drop-down-container ' + options.fetch(:drop_down_class, ''),
                          &block))
     end
   end
