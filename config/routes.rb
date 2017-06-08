@@ -162,10 +162,6 @@ OpenProject::Application.routes.draw do
     resource :wiki_menu_item, only: [:edit, :update]
   end
 
-  scope 'projects/:project_id/query/:query_id' do
-    resources :query_menu_items, except: [:show]
-  end
-
   # generic route for adding/removing watchers.
   # Models declared as acts_as_watchable will be automatically added to
   # OpenProject::Acts::Watchable::Routes.watched
