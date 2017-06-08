@@ -26,21 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {ConfigurationResource} from '../../api/api-v3/hal-resources/configuration-resource.service';
-import {ConfigurationDmService} from '../../api/api-v3/hal-resource-dms/configuration-dm.service';
-import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
-import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('tablePagination', tablePagination);
-
+import {ConfigurationResource} from '../api/api-v3/hal-resources/configuration-resource.service';
+import {ConfigurationDmService} from '../api/api-v3/hal-resource-dms/configuration-dm.service';
+import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackageTablePagination} from '../wp-fast-table/wp-table-pagination';
 export class TablePaginationController {
   constructor(protected $scope:ng.IScope,
               protected PaginationService:any,
-              protected I18n:op.I18n,
-              protected wpTablePagination:WorkPackageTablePaginationService) {
+              protected I18n:op.I18n) {
     $scope.text = {
       label_previous: I18n.t('js.pagination.pages.previous'),
       label_next: I18n.t('js.pagination.pages.next'),
@@ -55,16 +48,6 @@ export class TablePaginationController {
     Object.defineProperty($scope, 'perPageOptions', {
       get: () => this.PaginationService.getPerPageOptions()
     });
-
-    this.wpTablePagination.observeOnScope($scope).subscribe((wpPagination:WorkPackageTablePagination) => {
-      this.$scope.totalEntries = wpPagination.total;
-
-      this.PaginationService.setPerPage(wpPagination.current.perPage);
-      this.PaginationService.setPage(wpPagination.current.page);
-
-      this.updateCurrentRangeLabel();
-      this.updatePageNumbers();
-    });
   }
 
   /**
@@ -72,7 +55,7 @@ export class TablePaginationController {
    *
    * @description Defines a string containing page bound information inside the directive scope
    */
-  private updateCurrentRangeLabel() {
+  public updateCurrentRangeLabel() {
     if (this.$scope.totalEntries) {
       this.$scope.currentRange = '(' + this.PaginationService.getLowerPageBound() + ' - ' + this.PaginationService.getUpperPageBound(this.$scope.totalEntries) + '/' + this.$scope.totalEntries + ')';
     } else {
@@ -85,7 +68,7 @@ export class TablePaginationController {
    *
    * @description Defines a list of all pages in numerical order inside the scope
    */
-  private updatePageNumbers() {
+  public updatePageNumbers() {
     var maxVisible = this.PaginationService.getMaxVisiblePageOptions();
     var truncSize = this.PaginationService.getOptionsTruncationSize();
 
@@ -122,26 +105,4 @@ export class TablePaginationController {
       return [];
     }
   }
-}
-
-function tablePagination(wpTablePagination:WorkPackageTablePaginationService) {
-  return {
-    restrict: 'EA',
-    templateUrl: '/components/wp-table/table-pagination/table-pagination.directive.html',
-
-    scope: {},
-
-    controller: TablePaginationController,
-
-    link: function(scope:any) {
-
-      scope.selectPerPage = function(perPage:number){
-        wpTablePagination.updateFromObject({page: 1, perPage: perPage});
-     };
-
-      scope.showPage = function(pageNumber:number){
-        wpTablePagination.updateFromObject({page: pageNumber});
-      };
-    }
-  };
 }
