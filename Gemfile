@@ -55,7 +55,7 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'acts_as_list', '~> 0.9.5'
 gem 'acts_as_tree', '~> 2.6.1'
 
-gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: 'aff05645' # '~> 5.1.0'
+gem 'friendly_id', '~> 5.2.1'
 
 gem 'awesome_nested_set', '~> 3.1.3'
 
@@ -90,7 +90,7 @@ gem 'bcrypt', '~> 3.1.6'
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '~> 0.13.0'
 gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 3.0.6'
+gem 'oj', '~> 3.1.0'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.1'
@@ -146,7 +146,7 @@ gem 'cocaine', '~> 0.5.8'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.7.2'
+gem 'nokogiri', '~> 1.8.0'
 
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
 # fog dependency chain. We only need aws here, so we can avoid it

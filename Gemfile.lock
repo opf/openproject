@@ -50,14 +50,6 @@ GIT
       rspec
 
 GIT
-  remote: https://github.com/norman/friendly_id
-  revision: aff0564584e84ffa505e6e278b65ca3c4ee5d698
-  ref: aff05645
-  specs:
-    friendly_id (5.2.0.beta.1)
-      activerecord (>= 4.0.0)
-
-GIT
   remote: https://github.com/oliverguenther/omniauth
   revision: 8385bc0da47e4fc4f4a256c97725bcf8215d13c2
   ref: 8385bc0
@@ -305,6 +297,8 @@ GEM
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
+    friendly_id (5.2.1)
+      activerecord (>= 4.0.0)
     fuubar (2.2.0)
       rspec-core (~> 3.0)
       ruby-progressbar (~> 1.4)
@@ -346,7 +340,7 @@ GEM
     iso8601 (0.9.1)
     jmespath (1.3.1)
     json (1.8.6)
-    json_spec (1.1.4)
+    json_spec (1.1.5)
       multi_json (~> 1.0)
       rspec (>= 2.0, < 4.0)
     kgio (2.11.0)
@@ -366,7 +360,7 @@ GEM
       mime-types (>= 1.16, < 4)
     method_source (0.8.2)
     mime-types (2.99.3)
-    mini_portile2 (2.1.0)
+    mini_portile2 (2.2.0)
     minisyntax (0.2.5)
     minitest (5.10.2)
     mixlib-shellout (2.1.0)
@@ -381,9 +375,9 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (4.1.0.333)
     nio4r (2.0.0)
-    nokogiri (1.7.2)
-      mini_portile2 (~> 2.1.0)
-    oj (3.0.6)
+    nokogiri (1.8.0)
+      mini_portile2 (~> 2.2.0)
+    oj (3.1.0)
     openproject-token (1.0.0)
       activemodel (~> 5.0)
     parallel (1.11.1)
@@ -465,7 +459,8 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rainbow (2.2.1)
+    rainbow (2.2.2)
+      rake
     raindrops (0.18.0)
     rake (12.0.0)
     rb-fsevent (0.9.8)
@@ -498,7 +493,7 @@ GEM
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
-    rspec-core (3.5.3)
+    rspec-core (3.5.4)
       rspec-support (~> 3.5.0)
     rspec-expectations (3.5.0)
       diff-lcs (>= 1.2.0, < 2.0)
@@ -519,7 +514,8 @@ GEM
     rspec-retry (0.5.2)
       rspec-core (> 3.3, < 3.6)
     rspec-support (3.5.0)
-    rubocop (0.48.1)
+    rubocop (0.49.1)
+      parallel (~> 1.10)
       parser (>= 2.3.3.1, < 3.0)
       powerpack (~> 0.1)
       rainbow (>= 1.99.1, < 3.0)
@@ -586,7 +582,7 @@ GEM
     unf (0.1.4)
       unf_ext
     unf_ext (0.0.7.4)
-    unicode-display_width (1.1.3)
+    unicode-display_width (1.2.1)
     unicorn (5.3.0)
       kgio (~> 2.6)
       raindrops (~> 0.7)
@@ -655,7 +651,7 @@ DEPENDENCIES
   factory_girl_rails (~> 4.7)
   faker
   fog-aws
-  friendly_id!
+  friendly_id (~> 5.2.1)
   fuubar (~> 2.2.0)
   globalize!
   gon (~> 6.1.0)
@@ -674,8 +670,8 @@ DEPENDENCIES
   mysql2 (~> 0.4.4)
   net-ldap (~> 0.16.0)
   newrelic_rpm
-  nokogiri (~> 1.7.2)
-  oj (~> 3.0.6)
+  nokogiri (~> 1.8.0)
+  oj (~> 3.1.0)
   omniauth!
   openproject-token (~> 1.0.0)
   openproject-translations!
@@ -743,4 +739,4 @@ RUBY VERSION
    ruby 2.4.1p111
 
 BUNDLED WITH
-   1.15.0
+   1.15.1
