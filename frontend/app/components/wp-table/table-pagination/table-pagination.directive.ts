@@ -29,7 +29,6 @@
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {ConfigurationResource} from '../../api/api-v3/hal-resources/configuration-resource.service';
 import {ConfigurationDmService} from '../../api/api-v3/hal-resource-dms/configuration-dm.service';
-import {States} from '../../states.service';
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 
@@ -37,27 +36,104 @@ angular
   .module('openproject.workPackages.directives')
   .directive('tablePagination', tablePagination);
 
-function tablePagination(PaginationService:any,
-                         states:States,
-                         wpTablePagination:WorkPackageTablePaginationService,
-                         I18n:op.I18n) {
+export class TablePaginationController {
+  constructor(protected $scope:ng.IScope,
+              protected PaginationService:any,
+              protected I18n:op.I18n,
+              protected wpTablePagination:WorkPackageTablePaginationService) {
+    $scope.text = {
+      label_previous: I18n.t('js.pagination.pages.previous'),
+      label_next: I18n.t('js.pagination.pages.next'),
+      per_page: I18n.t('js.label_per_page'),
+      no_other_page: I18n.t('js.pagination.no_other_page')
+    };
+
+    PaginationService.loadPerPageOptions();
+
+    $scope.paginationOptions = PaginationService.getPaginationOptions();
+
+    Object.defineProperty($scope, 'perPageOptions', {
+      get: () => this.PaginationService.getPerPageOptions()
+    });
+
+    this.wpTablePagination.observeOnScope($scope).subscribe((wpPagination:WorkPackageTablePagination) => {
+      this.$scope.totalEntries = wpPagination.total;
+
+      this.PaginationService.setPerPage(wpPagination.current.perPage);
+      this.PaginationService.setPage(wpPagination.current.page);
+
+      this.updateCurrentRangeLabel();
+      this.updatePageNumbers();
+    });
+  }
+
+  /**
+   * @name updateCurrentRange
+   *
+   * @description Defines a string containing page bound information inside the directive scope
+   */
+  private updateCurrentRangeLabel() {
+    if (this.$scope.totalEntries) {
+      this.$scope.currentRange = '(' + this.PaginationService.getLowerPageBound() + ' - ' + this.PaginationService.getUpperPageBound(this.$scope.totalEntries) + '/' + this.$scope.totalEntries + ')';
+    } else {
+      this.$scope.currentRange = '(0 - 0/0)';
+    }
+  }
+
+  /**
+   * @name updatePageNumbers
+   *
+   * @description Defines a list of all pages in numerical order inside the scope
+   */
+  private updatePageNumbers() {
+    var maxVisible = this.PaginationService.getMaxVisiblePageOptions();
+    var truncSize = this.PaginationService.getOptionsTruncationSize();
+
+    var pageNumbers = [];
+
+    if (this.$scope.paginationOptions.perPage) {
+      for (var i = 1; i <= Math.ceil(this.$scope.totalEntries / this.$scope.paginationOptions.perPage); i++) {
+        pageNumbers.push(i);
+      }
+    }
+
+    // This avoids a truncation when there are not enough elements to truncate for the first elements
+    var startingDiff = this.PaginationService.getPage() - 2 * truncSize;
+    if ( 0 <= startingDiff && startingDiff <= 1 ) {
+      this.$scope.postPageNumbers = this.truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible + truncSize, pageNumbers.length, 0);
+    }
+    else {
+      this.$scope.prePageNumbers = this.truncatePageNums(pageNumbers, this.PaginationService.getPage() >= maxVisible, 0, Math.min(this.PaginationService.getPage() - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible), truncSize);
+      this.$scope.postPageNumbers = this.truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible, pageNumbers.length, 0);
+    }
+
+    this.$scope.pageNumbers = pageNumbers;
+  }
+
+  private truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any) {
+    if (perform) {
+      var truncationSize = this.PaginationService.getOptionsTruncationSize();
+      var truncatedNums = pageNumbers.splice(disectFrom, disectLength);
+      if (truncatedNums.length >= truncationSize * 2) {
+        truncatedNums.splice(truncateFrom, truncatedNums.length - truncationSize);
+      }
+      return truncatedNums;
+    } else {
+      return [];
+    }
+  }
+}
+
+function tablePagination(wpTablePagination:WorkPackageTablePaginationService) {
   return {
     restrict: 'EA',
     templateUrl: '/components/wp-table/table-pagination/table-pagination.directive.html',
 
     scope: {},
 
-    link: function(scope:any) {
-      PaginationService.loadPerPageOptions();
+    controller: TablePaginationController,
 
-      scope.I18n = I18n;
-      scope.paginationOptions = PaginationService.getPaginationOptions();
-      scope.text = {
-        label_previous: I18n.t('js.pagination.pages.previous'),
-        label_next: I18n.t('js.pagination.pages.next'),
-        per_page: I18n.t('js.label_per_page'),
-        no_other_page: I18n.t('js.pagination.no_other_page')
-      };
+    link: function(scope:any) {
 
       scope.selectPerPage = function(perPage:number){
         wpTablePagination.updateFromObject({page: 1, perPage: perPage});
@@ -66,76 +142,6 @@ function tablePagination(PaginationService:any,
       scope.showPage = function(pageNumber:number){
         wpTablePagination.updateFromObject({page: pageNumber});
       };
-
-      Object.defineProperty(scope, 'perPageOptions', {
-        get: () => PaginationService.getPerPageOptions()
-      });
-
-      /**
-       * @name updateCurrentRange
-       *
-       * @description Defines a string containing page bound information inside the directive scope
-       */
-      function updateCurrentRangeLabel() {
-        if (scope.totalEntries) {
-          scope.currentRange = '(' + PaginationService.getLowerPageBound() + ' - ' + PaginationService.getUpperPageBound(scope.totalEntries) + '/' + scope.totalEntries + ')';
-        } else {
-          scope.currentRange = '(0 - 0/0)';
-        }
-      }
-
-      /**
-       * @name updatePageNumbers
-       *
-       * @description Defines a list of all pages in numerical order inside the scope
-       */
-      function updatePageNumbers() {
-        var maxVisible = PaginationService.getMaxVisiblePageOptions();
-        var truncSize = PaginationService.getOptionsTruncationSize();
-
-        var pageNumbers = [];
-
-        if (scope.paginationOptions.perPage) {
-          for (var i = 1; i <= Math.ceil(scope.totalEntries / scope.paginationOptions.perPage); i++) {
-            pageNumbers.push(i);
-          }
-        }
-
-        // This avoids a truncation when there are not enough elements to truncate for the first elements
-        var startingDiff = PaginationService.getPage() - 2 * truncSize;
-        if ( 0 <= startingDiff && startingDiff <= 1 ) {
-          scope.postPageNumbers = truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible + truncSize, pageNumbers.length, 0);
-        }
-        else {
-          scope.prePageNumbers = truncatePageNums(pageNumbers, PaginationService.getPage() >= maxVisible, 0, Math.min(PaginationService.getPage() - Math.ceil(maxVisible / 2), pageNumbers.length - maxVisible), truncSize);
-          scope.postPageNumbers = truncatePageNums(pageNumbers, pageNumbers.length >= maxVisible + (truncSize * 2), maxVisible, pageNumbers.length, 0);
-        }
-
-        scope.pageNumbers = pageNumbers;
-      }
-
-      function truncatePageNums(pageNumbers:any, perform:any, disectFrom:any, disectLength:any, truncateFrom:any) {
-        if (perform) {
-          var truncationSize = PaginationService.getOptionsTruncationSize();
-          var truncatedNums = pageNumbers.splice(disectFrom, disectLength);
-          if (truncatedNums.length >= truncationSize * 2) {
-            truncatedNums.splice(truncateFrom, truncatedNums.length - truncationSize);
-          }
-          return truncatedNums;
-        } else {
-          return [];
-        }
-      }
-
-      wpTablePagination.observeOnScope(scope).subscribe((wpPagination:WorkPackageTablePagination) => {
-        scope.totalEntries = wpPagination.total;
-
-        PaginationService.setPerPage(wpPagination.current.perPage);
-        PaginationService.setPage(wpPagination.current.page);
-
-        updateCurrentRangeLabel();
-        updatePageNumbers();
-      });
     }
   };
 }
