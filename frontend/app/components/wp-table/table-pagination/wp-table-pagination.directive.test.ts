@@ -28,7 +28,7 @@
 
 import {BehaviorSubject} from 'rxjs';
 
-describe('tablePagination Directive', function () {
+describe('wpTablePagination Directive', function () {
   var compile:any, element:any, rootScope:any, scope:any, PaginationService:any, paginationOptions:any;
   let state:any;
   let subject:any;
@@ -73,7 +73,7 @@ describe('tablePagination Directive', function () {
     var html;
 
     html = `
-      <table-pagination> </table-pagination>'
+      <wp-table-pagination> </wp-table-pagination>'
     `;
 
     element = angular.element(html);
