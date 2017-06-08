@@ -147,7 +147,7 @@ describe Query, type: :model do
       end
     end
 
-    context 'relation columns' do
+    context 'relation_to_type columns' do
       let(:type_in_project) do
         type = FactoryGirl.create(:type)
         project.types << type
@@ -189,6 +189,17 @@ describe Query, type: :model do
         end
       end
     end
+
+    context 'relation_of_type columns' do
+      it 'includes the relation columns for every relation type' do
+        stub_const('Relation::TYPES',
+                   relation1: { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 },
+                   relation2: { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: :relation2 })
+
+        expect(query.available_columns.map(&:name)).to include(:relations_of_type_relation1,
+                                                               :relations_of_type_relation2)
+      end
+    end
   end
 
   describe '.available_columns' do
@@ -197,13 +208,18 @@ describe Query, type: :model do
 
       type = FactoryGirl.create(:type)
 
+      stub_const('Relation::TYPES',
+                 relation1: { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 },
+                 relation2: { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: :relation2 })
+
       expected_columns = %i(id project assigned_to author
                             category created_at due_date estimated_hours
                             parent done_ratio priority responsible
                             spent_hours start_date status subject type
                             updated_at fixed_version) +
                          [:"cf_#{custom_field.id}"] +
-                         [:"relations_to_type_#{type.id}"]
+                         [:"relations_to_type_#{type.id}"] +
+                         %i(relations_of_type_relation1 relations_of_type_relation2)
 
       expect(Query.available_columns.map(&:name)).to include *expected_columns
     end

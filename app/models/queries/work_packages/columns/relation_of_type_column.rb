@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,27 +28,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Columns
-        module QueryColumnsFactory
-          def self.representer(column)
-            case column
-            when ::Queries::WorkPackages::Columns::RelationToTypeColumn
-              ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter
-            when ::Queries::WorkPackages::Columns::RelationOfTypeColumn
-              ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter
-            else
-              ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter
-            end
-          end
+class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  attr_accessor :type
 
-          def self.create(column)
-            representer(column).new(column)
-          end
-        end
-      end
-    end
+  def initialize(type)
+    super
+
+    self.type = type
+  end
+
+  def name
+    "relations_of_type_#{type[:sym]}".to_sym
+  end
+
+  def sym
+    type[:sym]
+  end
+
+  def caption
+    I18n.t(:'activerecord.attributes.query.relations_of_type_column',
+           type: I18n.t(type[:sym_name]))
+  end
+
+  def self.instances(_context = nil)
+    Relation::TYPES.map { |_key, type| new(type) }
   end
 end

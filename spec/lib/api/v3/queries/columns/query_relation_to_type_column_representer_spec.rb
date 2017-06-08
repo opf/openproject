@@ -27,46 +27,47 @@
 #++
 
 require 'spec_helper'
-require_relative 'shared_query_column_specs'
 
-describe Queries::WorkPackages::Columns::RelationColumn, type: :model do
-  let(:project) { FactoryGirl.build_stubbed(:project) }
+describe ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter do
+  include ::API::V3::Utilities::PathHelper
+
   let(:type) { FactoryGirl.build_stubbed(:type) }
-  let(:instance) { described_class.new(type) }
+  let(:column) { Queries::WorkPackages::Columns::RelationToTypeColumn.new(type) }
+  let(:representer) { described_class.new(column) }
 
-  it_behaves_like 'query column'
+  subject { representer.to_json }
 
-  describe 'instances' do
-    context 'within project' do
-      before do
-        allow(project)
-          .to receive(:types)
-          .and_return([type])
+  describe 'generation' do
+    describe '_links' do
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'self' }
+        let(:href) { api_v3_paths.query_column "relationsToType#{type.id}" }
+        let(:title) { "Relations to #{type.name}" }
       end
 
-      it 'contains the type columns' do
-        expect(described_class.instances(project).length)
-          .to eq 1
-
-        expect(described_class.instances(project)[0].type)
-          .to eq type
+      it_behaves_like 'has a titled link' do
+        let(:link) { 'type' }
+        let(:href) { api_v3_paths.type type.id }
+        let(:title) { type.name }
       end
     end
 
-    context 'global' do
-      before do
-        allow(Type)
-          .to receive(:all)
-          .and_return([type])
-      end
+    it 'has _type QueryColumn::RelationToType' do
+      is_expected
+        .to be_json_eql('QueryColumn::RelationToType'.to_json)
+        .at_path('_type')
+    end
 
-      it 'contains the type columns' do
-        expect(described_class.instances.length)
-          .to eq 1
+    it 'has id attribute' do
+      is_expected
+        .to be_json_eql("relationsToType#{type.id}".to_json)
+        .at_path('id')
+    end
 
-        expect(described_class.instances[0].type)
-          .to eq type
-      end
+    it 'has name attribute' do
+      is_expected
+        .to be_json_eql("Relations to #{type.name}".to_json)
+        .at_path('name')
     end
   end
 end
