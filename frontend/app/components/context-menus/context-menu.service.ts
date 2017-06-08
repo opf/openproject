@@ -36,6 +36,7 @@ interface ContextMenu {
 
 export class ContextMenuService {
   private active_menu:ContextMenu|null;
+  private repositionCurrentElement:Function|null;
 
   constructor(public $window:ng.IWindowService,
               public $injector:ng.auto.IInjectorService,
@@ -46,6 +47,10 @@ export class ContextMenuService {
 
     // Close context menus on state change
     $rootScope.$on('$stateChangeStart', () => this.close());
+
+    $rootScope.$on('repositionDropdown', () => {
+      this.repositionCurrentElement && this.repositionCurrentElement();
+    });
 
     // Listen to keyups on window to close context menus
     Mousetrap.bind('escape', () => this.close());
@@ -61,6 +66,8 @@ export class ContextMenuService {
   }
 
   public close(disableFocus:boolean = false):Promise<void> {
+    this.repositionCurrentElement = null;
+
     if (!this.active) {
       return this.$q.when(undefined);
     } else {
@@ -90,8 +97,10 @@ export class ContextMenuService {
         }
       });
 
+      this.repositionCurrentElement = () => this.reposition(event, positionArgs);
+
       this.$timeout(() => {
-        this.reposition(event, positionArgs);
+        this.repositionCurrentElement!();
         menuElement.css('visibility', 'visible');
         deferred.resolve(menuElement);
       });

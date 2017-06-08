@@ -33,12 +33,21 @@ import {CollectionResource} from '../../api/api-v3/hal-resources/collection-reso
 class TypesContextMenuController {
   public types:CollectionResource[] = [];
 
-  constructor(protected $state:ng.ui.IStateService, protected $scope:any, protected wpCreate:WorkPackageCreateService) {
+  constructor(protected $state:ng.ui.IStateService,
+              protected $timeout:ng.ITimeoutService,
+              protected $scope:ng.IScope,
+              protected wpCreate:WorkPackageCreateService) {
     const project = $scope.projectIdentifier;
     $scope.$ctrl = this;
 
     wpCreate.getEmptyForm(project).then((form:any) => {
       this.types = form.schema.type.allowedValues;
+
+
+      this.$timeout(() => {
+        // Reposition again now that types are loaded
+        this.$scope.$root.$emit('repositionDropdown');
+      })
     });
   }
 
