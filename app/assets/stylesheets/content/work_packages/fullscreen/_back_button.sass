@@ -1,12 +1,26 @@
 .wp-show--back-button
   width: 90px
+  height: 40px
   padding: 0 10px 0 0
   align-self: center
+  margin-top: -6px
 
   a
     margin: 0
-    padding: 4px
     width: 75px
+    height: 40px
 
     .button--icon:before
       font-size: 1rem
+      line-height: 22px
+      vertical-align: -0.15rem
+
+  @media only screen and (max-width: 679px)
+    // Move button in the current reverse order to front
+    order: +1
+    // give button full width
+    width: 100%
+    padding-right: 0px
+
+    a
+      width: 100%

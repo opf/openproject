@@ -90,7 +90,7 @@ function WorkPackagesListController($scope:any,
 
   // Teardown
   $scope.$on('$destroy', () => {
-    wpTableRefresh.clear("Table controller scope destroyed.");
+    wpTableRefresh.clear('Table controller scope destroyed.');
   });
 
   function setupQueryObservers() {
@@ -140,10 +140,6 @@ function WorkPackagesListController($scope:any,
         const queryValue = stateValue.comparerFunction()(queryState.value![name]);
         return _.isEqual(queryValue, stateValue.extractedCompareValue) === false;
       })
-      .distinctUntilChanged(
-        (a,b) => _.isEqual(a,b),
-        (stateValue:WorkPackageTableBaseState<any>) => stateValue.extractedCompareValue
-      )
       .subscribe((stateValue:WorkPackageTableBaseState<any>) => {
         const newQuery = queryState.value!;
         newQuery[name] = _.cloneDeep(stateValue.currentQueryValue);
@@ -189,10 +185,10 @@ function WorkPackagesListController($scope:any,
    if (visibleLink.length) {
      visibleLink.focus();
    }
-  }
+  };
 
   function updateResults() {
-    return wpListService.reloadCurrentResultsList()
+    return wpListService.reloadCurrentResultsList();
   }
 
   function updateToFirstResultsPage() {

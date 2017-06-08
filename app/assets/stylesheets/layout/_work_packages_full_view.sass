@@ -188,6 +188,10 @@ body.controller-work_packages.full-create
     flex-grow: 1
     /* Leave space for the back button */
     max-width: calc(100% - 100px)
+    @media only screen and (max-width: 679px)
+      // let use full width
+      width: 100%
+      max-width: 100%
 
     .wp-table--cell-span
       white-space: normal
@@ -200,27 +204,44 @@ body.controller-work_packages.full-create
       padding-top: 0
       padding-bottom: 0
 
-    .work-packages--subject-element
-      overflow: hidden
-
     .work-packages--subject-element,
     .work-packages--details--subject .wp-inline-edit--field
       font-size: 20px
       font-weight: bold
       line-height: 34px
+      @media only screen and (max-width: 679px)
+        // give subject full width
+        width: 100%
 
     .work-packages--subject-element .wp-inline-edit--field
       height: 1.75rem
-      margin-top: 11px
+      margin-top: 8px
 
   > .toolbar-container
     margin: 10px 0 5px 0
     padding-right: 15px
+    @media only screen and (max-width: 679px)
+      // use full width
+      padding-right: 0
 
 .work-packages--subject-type-row
   display: flex
+  @media only screen and (max-width: 679px)
+    // the children need to wrap on mobile as each child will be of 100% width
+    flex-wrap: wrap
+
+  // Fix: align and size hover border like buttons in toolbar.
+  .wp-edit-field.-no-label:not(.-active) .wp-table--cell-span
+    padding-top: 3px
+    padding-bottom: 3px
+    margin-top: 2px
 
 .work-packages--type-selector
+  @media only screen and (max-width: 679px)
+    // Give it some space to the back button (same as below to subject)
+    margin-top: 10px
+    // full width for mobile
+    width: 100%
   .wp-table--cell-span
     padding-right: 5px !important
 

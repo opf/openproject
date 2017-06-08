@@ -56,6 +56,10 @@ Capybara.register_driver :selenium do |app|
 
   profile['browser.helperApps.neverAsk.saveToDisk'] = 'text/csv'
 
+  # use native instead of synthetic events
+  # https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
+  profile.native_events = true
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :firefox,
@@ -64,4 +68,3 @@ Capybara.register_driver :selenium do |app|
     desired_capabilities: capabilities
   )
 end
-
