@@ -27,8 +27,8 @@
   left: 0
   right: 0
   bottom: 0
-  background: $loading-indicator-bg-color
-  opacity: $loading-indicator-bg-opacity
+  @include varprop(background, loading-indicator-bg-color)
+  @include varprop(opacity, loading-indicator-bg-opacity)
   z-index: 1000
 
 .loading-indicator
@@ -39,7 +39,7 @@
   font-size: 10px
 
   [class^='block-']
-    background-color: $loading-indicator-spinner-color
+    @include varprop(background-color, loading-indicator-spinner-color)
     height: 100%
     width: 6px
     display: inline-block
