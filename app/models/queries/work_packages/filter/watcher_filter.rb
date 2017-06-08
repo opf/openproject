@@ -101,7 +101,7 @@ class Queries::WorkPackages::Filter::WatcherFilter <
         (SELECT #{db_table}.watchable_id
          FROM #{db_table}
          WHERE #{db_table}.watchable_type='WorkPackage'
-         AND #{::Queries::Operators::Equals.sql_for_field [user_id], db_table, db_field}
+         AND #{::Queries::Operators::Equals.sql_for_field [user_id], db_table, db_field})
     SQL
   end
 
