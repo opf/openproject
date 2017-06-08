@@ -48,16 +48,19 @@ export class WorkPackageZenModeButtonController extends WorkPackageButtonControl
     this.activateLabel = I18n.t('js.zen_mode.button_activate');
     this.deactivateLabel = I18n.t('js.zen_mode.button_deactivate');
     let self = this;
-    screenfull.onchange(function() {
-      // This event might get triggered several times for once leaving
-      // fullscreen mode.
-      if (!screenfull.isFullscreen) {
-        self.deactivateZenMode();
-        // The event wasn't cached from angularJS so we need to make sure
-        // a rendering cycle gets triggered:
-        self.scope.$apply();
-      }
-    });
+    
+    if (screenfull.enabled) {
+      screenfull.onchange(function() {
+        // This event might get triggered several times for once leaving
+        // fullscreen mode.
+        if (!screenfull.isFullscreen) {
+          self.deactivateZenMode();
+          // The event wasn't cached from angularJS so we need to make sure
+          // a rendering cycle gets triggered:
+          self.scope.$apply();
+        }
+      });
+    }
   }
 
   public get label():string {

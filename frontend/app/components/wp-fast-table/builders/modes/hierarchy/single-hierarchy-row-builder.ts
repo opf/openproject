@@ -103,7 +103,7 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
 
       if (column.id === 'subject') {
         const textNode = document.createTextNode(ancestor.name);
-        td.appendChild(this.buildHierarchyIndicator(ancestor, index));
+        td.appendChild(this.buildHierarchyIndicator(ancestor, null, index));
         td.appendChild(textNode);
       }
 
@@ -136,7 +136,7 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
    */
   private appendHierarchyIndicator(workPackage:WorkPackageResourceInterface, row:HTMLElement, level?:number):void {
     const jRow = jQuery(row);
-    const hierarchyElement = this.buildHierarchyIndicator(workPackage, level);
+    const hierarchyElement = this.buildHierarchyIndicator(workPackage, jRow, level);
 
     jRow.find('td.subject')
         .addClass('-with-hierarchy')
@@ -146,12 +146,21 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
   /**
    * Build the hierarchy indicator at the given indentation level.
    */
-  private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, index:number|null = null):HTMLElement {
+  private buildHierarchyIndicator(workPackage:WorkPackageResourceInterface, jRow:JQuery|null, index:number|null = null):HTMLElement {
     const level = index === null ? workPackage.ancestors.length : index;
     const hierarchyIndicator = document.createElement('span');
     const collapsed = this.wpTableHierarchies.collapsed(workPackage.id);
+    const indicatorWidth = 25 + (20 * level) + 'px';
     hierarchyIndicator.classList.add(hierarchyCellClassName);
-    hierarchyIndicator.style.width = 25 + (20 * level) + 'px';
+    hierarchyIndicator.style.width = indicatorWidth;
+
+    // Set the width of the container
+    if (jRow != null) {
+      jRow
+        .find('td.subject .wp-table--cell-container')
+        .css('width', `calc(100% - ${indicatorWidth})`)
+        .css('display', 'inline-block');
+    }
 
     if (workPackage.$loaded && !hasChildrenInTable(workPackage, this.workPackageTable)) {
       hierarchyIndicator.innerHTML = `
@@ -169,6 +178,7 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
             </a>
         `;
     }
+
     return hierarchyIndicator;
   }
 

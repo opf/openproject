@@ -47,6 +47,12 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
   private
 
+  def possible_options_for_object
+    object
+      .custom_field
+      .possible_values_options(object.customized)
+  end
+
   def custom_field_input(options = {})
     field = :value
 
@@ -77,13 +83,6 @@ class CustomFieldFormBuilder < TabularFormBuilder
     selectable_options = template.options_for_select(possible_options, object.value)
 
     select(field, selectable_options, select_options, input_options).html_safe
-  end
-
-  def possible_options_for_object
-    object
-      .custom_field
-      .possible_values_options(object.customized)
-      .map { |option| [option.value, option.id] }
   end
 
   def custom_field_select_options_for_object

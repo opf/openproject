@@ -32,6 +32,7 @@ import {States} from '../states.service';
 import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {LoadingIndicatorService} from '../common/loading-indicator/loading-indicator.service';
+import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
 
 interface IAutocompleteItem {
   label:string;
@@ -62,7 +63,9 @@ export class WorkPackageQuerySelectController {
               private states:States,
               private wpListService:WorkPackagesListService,
               private contextMenu:ContextMenuService,
-              private I18n:op.I18n) {
+              private I18n:op.I18n,
+              private wpListChecksumService:WorkPackagesListChecksumService,
+              private loadingIndicator:LoadingIndicatorService) {
 
     this.$scope.loaded = false;
     this.$scope.i18n = {
@@ -148,7 +151,8 @@ export class WorkPackageQuerySelectController {
   }
 
   private loadQuery(query:QueryResource) {
-    this.wpListService.reloadQuery(query);
+    this.wpListChecksumService.clear();
+    this.loadingIndicator.table.promise = this.wpListService.reloadQuery(query);
     this.contextMenu.close();
   }
 

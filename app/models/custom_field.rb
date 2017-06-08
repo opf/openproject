@@ -110,19 +110,10 @@ class CustomField < ActiveRecord::Base
       else
         []
       end
+    when 'list'
+      possible_values.map { |option| [option.value, option.id.to_s] }
     else
       possible_values
-    end
-  end
-
-  def possible_values_options_in_project(project)
-    case field_format
-    when 'user'
-      project.users.sort.map { |u| [u.to_s, u.id.to_s] }
-    when 'version'
-      project.versions.sort.map { |u| [u.to_s, u.id.to_s] }
-    else
-      []
     end
   end
 
@@ -235,6 +226,17 @@ class CustomField < ActiveRecord::Base
   end
 
   private
+
+  def possible_values_options_in_project(project)
+    case field_format
+    when 'user'
+      project.users
+    when 'version'
+      project.versions
+    else
+      []
+    end.sort.map { |u| [u.to_s, u.id.to_s] }
+  end
 
   def possible_values_from_arg(arg)
     if arg.is_a?(Array)
