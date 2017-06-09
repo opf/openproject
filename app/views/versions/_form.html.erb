@@ -67,9 +67,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% end %>
 
-<% if @version.project == @project %>
-  <% @version.custom_field_values.each do |value| %>
-    <div class="form--field"><%= custom_field_tag_with_label :version, value %></div>
-  <% end %>
-<% end %>
+<%= render partial: "customizable/form",
+           locals: { form: f, all_fields: true, only_required: false } %>
 
