@@ -26,12 +26,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= toolbar title: "#{l(:label_settings)}: #{@plugin.name}" %>
+<%= toolbar title: @plugin.name %>
 <div id="settings">
   <%= styled_form_tag({action: 'plugin'}) do %>
-    <div class="box">
-      <%= render partial: @partial, locals: {settings: @settings}%>
-    </div>
+    <%= render partial: @partial, locals: {settings: @settings}%>
     <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
   <% end %>
 </div>
