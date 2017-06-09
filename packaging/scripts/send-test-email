@@ -31,15 +31,18 @@ else
   #set authentication to nil because :none is not supported by SMTP module
   smtp_authentication = nil if smtp_authentication == :none
   puts "sending test email using SMTP..."
-  Net::SMTP.start(
+  smtp = Net::SMTP.new(
     ENV.fetch('SMTP_HOST'),
-    ENV.fetch('SMTP_PORT'),
+    ENV.fetch('SMTP_PORT')
+  )
+  smtp.enable_starttls_auto if ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', 'false') == 'true'
+  smtp.start(
     ENV.fetch('SMTP_DOMAIN'),
     ENV.fetch('SMTP_USERNAME',nil),
     ENV.fetch('SMTP_PASSWORD',nil),
     smtp_authentication
-  ) do |smtp|
-    smtp.send_message msgstr, from, admin_email
-  end
+  )
+  smtp.send_message msgstr, from, admin_email
+  smtp.finish
 end
 
