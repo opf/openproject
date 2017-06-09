@@ -76,8 +76,8 @@ module OpenProject
       'header-search-field-bg-color'                         => "#FFFFFF",
       'header-search-field-font-color'                       => "#000000",
       'header-search-field-border'                           => "0",
-      'footer-bg-color'                                      => "$primary-color",
-      'footer-font-color'                                    => "$font-color-on-primary",
+      'footer-bg-color'                                      => "#41494E",
+      'footer-font-color'                                    => "#FFFFFF",
       'footer-height'                                        => "55px",
       'footer-content-height'                                => "55px",
       'footer-content-line-height'                           => "55px",
@@ -245,7 +245,14 @@ module OpenProject
     ##
     # Returns the keys of variables that are customizable through the design
     def self.customizable_variables
-      %w(primary-color primary-color-dark alternative-color)
+      %w( primary-color
+          primary-color-dark
+          alternative-color
+          header-bg-color
+          header-item-font-color
+          header-item-font-hover-color
+          header-item-bg-hover-color
+          header-border-bottom-color )
     end
   end
 end
