@@ -104,7 +104,11 @@ See doc/COPYRIGHT.rdoc for more details.
   //]]>
 </script>
 <ul class="advanced-filters--filters">
-  <% query.available_filters.sort { |a, b| a[:order]<=>b[:order] }.each do |filter| %>
+  <% query
+      .available_filters
+      .select { |f| f.respond_to?(:order) }
+      .sort { |a, b| a[:order]<=>b[:order] }
+      .each do |filter| %>
       <% field = filter.name
          options = filter %>
       <li <%= 'style="display:none;"'.html_safe unless query.has_filter?(field) %> id="tr_<%= field %>" class="filter advanced-filters--filter">

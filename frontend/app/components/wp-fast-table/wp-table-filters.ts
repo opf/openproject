@@ -35,8 +35,8 @@ import {
 import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
-import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
-import {WorkPackageTableBaseState, WorkPackageTableQueryState} from "./wp-table-base";
+import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageTableBaseState, WorkPackageTableQueryState} from './wp-table-base';
 
 export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> implements WorkPackageTableQueryState {
   public availableSchemas:QueryFilterInstanceSchemaResource[] = [];
@@ -95,6 +95,11 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
   }
 
   private get availableFilters() {
-    return this.availableSchemas.map(schema => (schema.filter.allowedValues as QueryFilterResource[])[0]);
+    let availableFilters = this.availableSchemas
+                               .map(schema => (schema.filter.allowedValues as QueryFilterResource[])[0]);
+
+    // We do not use the id filter as of now as we do not have adequate
+    // means to select the values.
+    return _.filter(availableFilters, filter => filter.id !== 'id');
   }
 }

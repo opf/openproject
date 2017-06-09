@@ -41,6 +41,7 @@ module Queries::WorkPackages
   register.filter Query, filters_module::DueDateFilter
   register.filter Query, filters_module::EstimatedHoursFilter
   register.filter Query, filters_module::GroupFilter
+  register.filter Query, filters_module::IdFilter
   register.filter Query, filters_module::PriorityFilter
   register.filter Query, filters_module::ProjectFilter
   register.filter Query, filters_module::ResponsibleFilter

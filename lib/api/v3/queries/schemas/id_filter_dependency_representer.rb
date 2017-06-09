@@ -32,15 +32,21 @@ module API
   module V3
     module Queries
       module Schemas
-        class IntegerFilterDependencyRepresenter <
+        class IdFilterDependencyRepresenter <
           FilterDependencyRepresenter
 
-          def href_callback; end
+          def href_callback
+            if filter.project
+              api_v3_paths.work_packages_by_project(filter.project.id)
+            else
+              api_v3_paths.work_packages
+            end
+          end
 
           private
 
           def type
-            '[1]Integer'
+            '[]WorkPackage'
           end
         end
       end

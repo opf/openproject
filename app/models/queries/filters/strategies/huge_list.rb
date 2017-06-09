@@ -28,22 +28,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class IntegerFilterDependencyRepresenter <
-          FilterDependencyRepresenter
+module Queries::Filters::Strategies
+  class HugeList < List
+    delegate :allowed_values_subset,
+             to: :filter
 
-          def href_callback; end
-
-          private
-
-          def type
-            '[1]Integer'
-          end
-        end
+    def validate
+      if allowed_values_subset & values != values
+        errors.add(:values, :inclusion)
       end
+    end
+
+    def valid_values!
+      filter.values = allowed_values_subset
     end
   end
 end
