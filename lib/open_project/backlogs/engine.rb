@@ -147,7 +147,7 @@ module OpenProject::Backlogs
 
       property :remaining_time,
                exec_context: :decorator,
-               getter: -> (*) {
+               getter: ->(*) {
                  datetime_formatter.format_duration_from_hours(represented.remaining_hours,
                                                                allow_nil: true)
                },
@@ -162,18 +162,21 @@ module OpenProject::Backlogs
 
       property :remaining_time,
                exec_context: :decorator,
-               getter: ->(*) {
-                 datetime_formatter.format_duration_from_hours(represented.remaining_hours,
-                                                               allow_nil: true)
-               },
-               setter: ->(fragment:, represented:, **) {
-                 remaining = datetime_formatter.parse_duration_to_hours(fragment,
-                                                                        'remainingTime',
-                                                                        allow_nil: true)
-                 represented.remaining_hours = remaining
-               },
                render_nil: true,
-               if: ->(*) { represented.backlogs_enabled? }
+               if: ->(represented:, **) { represented.backlogs_enabled? }
+
+      # cannot use def here as it wouldn't define the method on the representer
+      define_method :remaining_time do
+        datetime_formatter.format_duration_from_hours(represented.remaining_hours,
+                                                      allow_nil: true)
+      end
+
+      define_method :remaining_time= do |value|
+        remaining = datetime_formatter.parse_duration_to_hours(value,
+                                                               'remainingTime',
+                                                               allow_nil: true)
+        represented.remaining_hours = remaining
+      end
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
@@ -181,7 +184,7 @@ module OpenProject::Backlogs
              type: 'Integer',
              required: false,
              writable: false,
-             show_if: -> (*) {
+             show_if: ->(*) {
                represented.project && represented.project.backlogs_enabled? &&
                  (!represented.type || represented.type.passes_attribute_constraint?(:position))
              }
@@ -189,7 +192,7 @@ module OpenProject::Backlogs
       schema :story_points,
              type: 'Integer',
              required: false,
-             show_if: -> (*) {
+             show_if: ->(*) {
                represented.project && represented.project.backlogs_enabled? &&
                  (!represented.type || represented.type.passes_attribute_constraint?(:story_points))
              }
@@ -198,14 +201,14 @@ module OpenProject::Backlogs
              type: 'Duration',
              name_source: :remaining_hours,
              required: false,
-             show_if: -> (*) { represented.project && represented.project.backlogs_enabled? }
+             show_if: ->(*) { represented.project && represented.project.backlogs_enabled? }
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_sums_schema) do
       schema :story_points,
              type: 'Integer',
              required: false,
-             show_if: -> (*) {
+             show_if: ->(*) {
                ::Setting.work_package_list_summable_columns.include?('story_points')
              }
 
@@ -214,7 +217,7 @@ module OpenProject::Backlogs
              name_source: :remaining_hours,
              required: false,
              writable: false,
-             show_if: -> (*) {
+             show_if: ->(*) {
                ::Setting.work_package_list_summable_columns.include?('remaining_hours')
              }
     end
@@ -222,18 +225,18 @@ module OpenProject::Backlogs
     extend_api_response(:v3, :work_packages, :work_package_sums) do
       property :story_points,
                render_nil: true,
-               if: -> (*) {
+               if: ->(*) {
                  ::Setting.work_package_list_summable_columns.include?('story_points')
                }
 
       property :remaining_time,
                render_nil: true,
                exec_context: :decorator,
-               getter: -> (*) {
+               getter: ->(*) {
                  datetime_formatter.format_duration_from_hours(represented.remaining_hours,
                                                                allow_nil: true)
                },
-               if: -> (*) {
+               if: ->(*) {
                  ::Setting.work_package_list_summable_columns.include?('remaining_hours')
                }
     end
