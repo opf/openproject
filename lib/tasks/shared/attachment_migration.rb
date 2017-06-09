@@ -8,8 +8,6 @@ module Tasks
 
         move_project_attachments_to_wiki!
         move_version_attachments_to_wiki!
-
-        ActiveRecord::Base.connection.execute("ALTER SEQUENCE journals_id_seq RESTART WITH 1")
       end
 
       ##
@@ -32,13 +30,16 @@ module Tasks
       # journals created during the attachment business don't conflict with
       # the legacy journals.
       def reset_journal_id_sequence!
+        con = ActiveRecord::Base.connection
+
         if OpenProject::Database.mysql?
-          # ???
+          max_id = con.execute("SELECT MAX(id) FROM legacy_journals").to_a.first.first
+
+          con.execute "ALTER TABLE journals AUTO_INCREMENT = #{max_id + 1}"
         else # Postgres
-          con = ActiveRecord::Base.connection
           max_id = con.execute("SELECT MAX(id) FROM legacy_journals").to_a.first["max"]
 
-          con.execute("ALTER SEQUENCE journals_id_seq RESTART WITH #{max_id + 1}")
+          con.execute "ALTER SEQUENCE journals_id_seq RESTART WITH #{max_id + 1}"
         end
       end
 

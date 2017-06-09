@@ -30,6 +30,7 @@
 require_relative 'shared/user_feedback'
 
 require 'tasks/shared/legacy_attachment'
+require 'tasks/shared/attachment_migration'
 
 module Migrations
   ##
@@ -52,6 +53,7 @@ end
 namespace :migrations do
   namespace :attachments do
     include ::Tasks::Shared::UserFeedback
+    include ::Tasks::Shared::AttachmentMigration
 
     desc 'Removes all attachments from versions and projects'
     task delete_from_projects_and_versions: :environment do |_task|
