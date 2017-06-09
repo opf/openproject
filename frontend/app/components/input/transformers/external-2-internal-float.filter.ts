@@ -28,6 +28,10 @@
 
 function external2internalFloat($locale:ng.ILocaleService) {
 	return function(input:any) {
+    if (input === '') {
+      return null;
+    }
+
     var decimalSep = $locale.NUMBER_FORMATS.DECIMAL_SEP;
     var groupSep = $locale.NUMBER_FORMATS.GROUP_SEP;
 
@@ -40,7 +44,7 @@ function external2internalFloat($locale:ng.ILocaleService) {
 
     return parseFloat(ret);
 	};
-};
+}
 
 angular
   .module('openproject')

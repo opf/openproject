@@ -36,9 +36,7 @@ function transformFloat($filter:ng.IFilterService) {
       attrs:ng.IAttributes,
       ngModelController:any) {
       ngModelController.$parsers.push(function(data:any) {
-        if (data != '') {
-          return ($filter('external2internalFloat') as any)(data);
-        }
+        return ($filter('external2internalFloat') as any)(data);
       });
 
       ngModelController.$formatters.push(function(data:any) {
@@ -46,7 +44,7 @@ function transformFloat($filter:ng.IFilterService) {
       });
     }
   };
-};
+}
 
 angular
   .module('openproject')
