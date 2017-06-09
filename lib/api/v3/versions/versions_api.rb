@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,7 +34,10 @@ module API
       class VersionsAPI < ::API::OpenProjectAPI
         resources :versions do
           get do
-            ::API::V3::Utilities::ParamsToQuery.collection_response(Version.visible(current_user),
+            # the distinct(false) is added in order to allow ORDER BY LOWER(name)
+            # which would otherwise be invalid in postgresql
+            # SELECT DISTINCT, ORDER BY expressions must appear in select list
+            ::API::V3::Utilities::ParamsToQuery.collection_response(Version.visible(current_user).distinct(false),
                                                                     current_user,
                                                                     params)
           end
@@ -49,7 +53,7 @@ module API
               def authorized_for_version?(version)
                 projects = version.projects
 
-                permissions = [:view_work_packages, :manage_versions]
+                permissions = %i(view_work_packages manage_versions)
 
                 authorize_any(permissions, projects: projects, user: current_user)
               end
