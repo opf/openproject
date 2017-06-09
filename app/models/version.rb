@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,6 +36,7 @@ class Version < ActiveRecord::Base
   after_update :update_issues_from_sharing_change
   belongs_to :project
   has_many :fixed_issues, class_name: 'WorkPackage', foreign_key: 'fixed_version_id', dependent: :nullify
+  has_many :work_packages, foreign_key: :fixed_version_id
   acts_as_customizable
 
   VERSION_STATUSES = %w(open locked closed)
@@ -56,6 +58,8 @@ class Version < ActiveRecord::Base
   }
 
   scope :systemwide, -> { where(sharing: 'system') }
+
+  scope :order_by_name, -> { order("LOWER(#{Version.table_name}.name)") }
 
   # Returns true if +user+ or current user is allowed to view the version
   def visible?(user = User.current)

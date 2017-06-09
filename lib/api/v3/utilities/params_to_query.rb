@@ -31,7 +31,7 @@ module API
     module Utilities
       class ParamsToQuery
         class << self
-          def collection_response(scope, current_user, params, representer: nil)
+          def collection_response(scope, current_user, params, representer: nil, self_link: nil)
             model = model_class(scope)
 
             query = ::API::V3::ParamsToQueryService
@@ -43,7 +43,8 @@ module API
                                        merge_scopes(scope, query.results),
                                        current_user,
                                        params,
-                                       representer)
+                                       representer,
+                                       self_link)
             else
               raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
             end
@@ -51,7 +52,7 @@ module API
 
           private
 
-          def send_collection_response(model, scope, current_user, params, provided_representer)
+          def send_collection_response(model, scope, current_user, params, provided_representer, self_link_base)
             model_name = model.name
             model_name_plural = model_name.pluralize
 
@@ -59,8 +60,14 @@ module API
                           "::API::V3::#{model_name_plural}::#{model_name}CollectionRepresenter"
                           .constantize
 
+            link = if self_link_base
+                     append_params_to_link(self_link_base, params)
+                   else
+                     default_self_link(model_name_plural.downcase, params)
+                   end
+
             representer.new(scope,
-                            self_link(model_name_plural.downcase, params),
+                            link,
                             current_user: current_user)
           end
 
@@ -68,8 +75,12 @@ module API
             PathHelper::ApiV3Path
           end
 
-          def self_link(path, params)
+          def default_self_link(path, params)
             [paths.send(path), params.to_query].reject(&:empty?).join('?')
+          end
+
+          def append_params_to_link(path, params)
+            [path, params.to_query].reject(&:empty?).join('?')
           end
 
           def model_class(scope)
