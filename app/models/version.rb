@@ -39,8 +39,8 @@ class Version < ActiveRecord::Base
   has_many :work_packages, foreign_key: :fixed_version_id
   acts_as_customizable
 
-  VERSION_STATUSES = %w(open locked closed)
-  VERSION_SHARINGS = %w(none descendants hierarchy tree system)
+  VERSION_STATUSES = %w(open locked closed).freeze
+  VERSION_SHARINGS = %w(none descendants hierarchy tree system).freeze
 
   validates_presence_of :name
   validates_uniqueness_of :name, scope: [:project_id]
@@ -89,10 +89,11 @@ class Version < ActiveRecord::Base
 
   # Returns the total reported time for this version
   def spent_hours
-    @spent_hours ||= TimeEntry.includes(:work_package)
-                     .where(["#{WorkPackage.table_name}.fixed_version_id = ?", id])
-                     .references(:work_packages)
-                     .sum(:hours).to_f
+    @spent_hours ||= TimeEntry
+                     .includes(:work_package)
+                     .where(work_packages: { fixed_version_id: id })
+                     .sum(:hours)
+                     .to_f
   end
 
   def closed?
@@ -105,15 +106,15 @@ class Version < ActiveRecord::Base
 
   # Returns true if the version is completed: due date reached and no open issues
   def completed?
-    effective_date && (effective_date <= Date.today) && (open_issues_count == 0)
+    effective_date && (effective_date <= Date.today) && open_issues_count.zero?
   end
 
   def behind_schedule?
     if completed_percent == 100
-      return false
+      false
     elsif due_date && start_date
       done_date = start_date + ((due_date - start_date + 1) * completed_percent / 100).floor
-      return done_date <= Date.today
+      done_date <= Date.today
     else
       false # No issues so it's not late
     end
@@ -122,9 +123,9 @@ class Version < ActiveRecord::Base
   # Returns the completion percentage of this version based on the amount of open/closed issues
   # and the time spent on the open issues.
   def completed_percent
-    if issues_count == 0
+    if issues_count.zero?
       0
-    elsif open_issues_count == 0
+    elsif open_issues_count.zero?
       100
     else
       issues_progress(false) + issues_progress(true)
@@ -134,7 +135,7 @@ class Version < ActiveRecord::Base
 
   # Returns the percentage of issues that have been marked as 'closed'.
   def closed_percent
-    if issues_count == 0
+    if issues_count.zero?
       0
     else
       issues_progress(false)
@@ -154,18 +155,12 @@ class Version < ActiveRecord::Base
 
   # Returns the total amount of open issues for this version.
   def open_issues_count
-    @open_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, false])
-                           .includes(:status)
-                           .references(:statuses)
-                           .size
+    @open_issues_count ||= work_packages.merge(WorkPackage.open).size
   end
 
   # Returns the total amount of closed issues for this version.
   def closed_issues_count
-    @closed_issues_count ||= WorkPackage.where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", id, true])
-                             .includes(:status)
-                             .references(:statuses)
-                             .size
+    @closed_issues_count ||= work_packages.merge(WorkPackage.closed).size
   end
 
   def wiki_page
@@ -245,7 +240,7 @@ class Version < ActiveRecord::Base
   def estimated_average
     if @estimated_average.nil?
       average = fixed_issues.average(:estimated_hours).to_f
-      if average == 0
+      if average.zero?
         average = 1
       end
       @estimated_average = average
@@ -266,9 +261,9 @@ class Version < ActiveRecord::Base
       if issues_count > 0
         ratio = open ? 'done_ratio' : 100
 
-        done = fixed_issues.where(["#{Status.table_name}.is_closed = ?", !open])
+        done = fixed_issues
+               .where(statuses: { is_closed: !open })
                .includes(:status)
-               .references(:statuses)
                .sum("COALESCE(#{WorkPackage.table_name}.estimated_hours, #{estimated_average}) * #{ratio}")
         progress = done.to_f / (estimated_average * issues_count)
       end
