@@ -36,17 +36,19 @@ function transformDate(TimezoneService:any) {
       attrs:ng.IAttributes,
       ngModelController:any) {
       ngModelController.$parsers.push(function(data:any) {
-        if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
+        if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+          return data;
+        } else {
           return null;
         }
-        return data;
       });
       ngModelController.$formatters.push(function(data:any) {
-        if (!moment(data, 'YYYY-MM-DD', true).isValid()) {
+        if (moment(data, 'YYYY-MM-DD', true).isValid()) {
+          var d = TimezoneService.parseDate(data);
+          return TimezoneService.formattedISODate(d);
+        } else {
           return null;
         }
-        var d = TimezoneService.parseDate(data);
-        return TimezoneService.formattedISODate(d);
       });
     }
   };

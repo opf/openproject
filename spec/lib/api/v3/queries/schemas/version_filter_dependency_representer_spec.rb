@@ -49,6 +49,7 @@ describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter do
       describe 'values' do
         let(:path) { 'values' }
         let(:type) { '[]Version' }
+        let(:order) { "sortBy=#{CGI.escape(JSON.dump([%i(name asc)]))}" }
 
         context "for operator 'Queries::Operators::All'" do
           let(:operator) { Queries::Operators::All }
@@ -64,7 +65,7 @@ describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter do
 
         context 'within project' do
           let(:href) do
-            api_v3_paths.versions_by_project(project.id)
+            "#{api_v3_paths.versions_by_project(project.id)}?#{order}"
           end
 
           context "for operator 'Queries::Operators::Equals'" do
@@ -86,7 +87,7 @@ describe ::API::V3::Queries::Schemas::VersionFilterDependencyRepresenter do
             [{ sharing: { operator: '=', values: ['system'] } }]
           end
           let(:href) do
-            "#{api_v3_paths.types}?filters=#{CGI.escape(::JSON.dump(filter_params))}"
+            "#{api_v3_paths.versions}?filters=#{CGI.escape(::JSON.dump(filter_params))}&#{order}"
           end
 
           context "for operator 'Queries::Operators::Equals'" do

@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <p>
     <%= link_to_if action_name != 'changes', l(:label_history), {action: 'changes', project_id: @project, path: to_path_param(@path), rev: @rev } %> |
     <% if @repository.supports_cat? %>
-      <%= link_to_if action_name != 'entry', l(:button_view), {action: 'entry', project_id: @project, path: to_path_param(@path), rev: @rev } %> |
+      <%= link_to_if action_name != 'entry', l(:button_view), entry_revision_project_repository_path(project_id: @project, path: to_path_param(@path), rev: @rev) %> |
     <% end %>
     <% if @repository.supports_annotate? %>
       <%= link_to_if action_name != 'annotate', l(:button_annotate), {action: 'annotate', project_id: @project, path: to_path_param(@path), rev: @rev } %> |
