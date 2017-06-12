@@ -20,12 +20,6 @@ There is an [example plugin](https://github.com/opf/openproject-proto_plugin) wh
 
 Instead of generating a new plugin you can also just clone the example plugin and adapt it.
 
-**Example Plugin**
-
-There is an [example plugin](https://github.com/opf/openproject-proto_plugin) which does some of the basic things (adding menu items, hooking into views, defining a project menu, etc.) and provides further info in its README.
-
-Instead of generating a new plugin you can also just clone the example plugin and adapt it.
-
 ## Hook the new plugin into OpenProject
 
 To include the new plugin into OpenProject, we have to add it into `Gemfile.plugins` like any other OpenProject plugin. Add the following lines to `Gemfile.plugins`:
