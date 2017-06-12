@@ -27,21 +27,21 @@
 //++
 
 import {HalResource} from './hal-resource.service';
-import {QueryColumn} from './query-resource.service';
 import {opApiModule} from '../../../../angular-modules';
+import {QueryColumn} from '../../../wp-query/query-column';
 
 export const QUERY_SORT_BY_ASC = "urn:openproject-org:api:v3:queries:directions:asc"
 export const QUERY_SORT_BY_DESC = "urn:openproject-org:api:v3:queries:directions:desc"
 
 interface QuerySortByResourceEmbedded {
-  column: QueryColumn;
-  direction: QuerySortByDirection;
+  column:QueryColumn;
+  direction:QuerySortByDirection;
 }
 
 export class QuerySortByResource extends HalResource {
-  public $embedded: QuerySortByResourceEmbedded;
-  public column: QueryColumn;
-  public direction: QuerySortByDirection;
+  public $embedded:QuerySortByResourceEmbedded;
+  public column:QueryColumn;
+  public direction:QuerySortByDirection;
 }
 
 /**

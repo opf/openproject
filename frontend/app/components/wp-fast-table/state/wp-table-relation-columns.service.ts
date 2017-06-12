@@ -29,30 +29,21 @@
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableRelationColumns} from '../wp-table-relation-columns';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {
   RelationsStateValue,
   WorkPackageRelationsService
 } from '../../wp-relations/wp-relations.service';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
-import {
-  TableStateStates, WorkPackageQueryStateService,
-  WorkPackageTableBaseService
-} from './wp-table-base.service';
+import {TableStateStates, WorkPackageTableBaseService} from './wp-table-base.service';
 import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
-import {queryColumnTypes} from '../../wp-query/query-column';
+import {
+  QueryColumn, queryColumnTypes, RelationQueryColumn,
+  TypeRelationQueryColumn
+} from '../../wp-query/query-column';
 import {IQService} from 'angular';
 import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {
-  QueryColumn,
-  QueryResource,
-  RelationQueryColumn,
-  TypeRelationQueryColumn
-} from '../../api/api-v3/hal-resources/query-resource.service';
 
 export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService {
   protected stateName = 'relationColumns' as TableStateStates;

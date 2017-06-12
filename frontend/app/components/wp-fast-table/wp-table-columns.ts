@@ -26,9 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryColumn, QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
 import {WorkPackageTableBaseState} from './wp-table-base';
+import {QueryColumn} from '../wp-query/query-column';
 
 export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColumn[]> {
 

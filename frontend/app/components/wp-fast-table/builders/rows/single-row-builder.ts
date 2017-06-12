@@ -1,18 +1,16 @@
-import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
-import {CellBuilder} from "../cell-builder";
-import {DetailsLinkBuilder} from "../details-link-builder";
-import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
+import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {CellBuilder} from '../cell-builder';
+import {DetailsLinkBuilder} from '../details-link-builder';
+import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
-} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageTableColumnsService} from "../../state/wp-table-columns.service";
-import {QueryColumn} from "../../../api/api-v3/hal-resources/query-resource.service";
-import {checkedClassName} from "../ui-state-link-builder";
-import {rowId} from "../../helpers/wp-table-row-helpers";
-import {Observable} from "rxjs";
-import {WorkPackageTable} from "../../wp-fast-table";
-import {queryColumnTypes} from '../../../wp-query/query-column';
+} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
+import {checkedClassName} from '../ui-state-link-builder';
+import {rowId} from '../../helpers/wp-table-row-helpers';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {QueryColumn, queryColumnTypes} from '../../../wp-query/query-column';
 import {RelationCellbuilder} from '../relation-cell-builder';
 
 // Work package table row entries

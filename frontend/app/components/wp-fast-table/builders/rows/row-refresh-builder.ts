@@ -1,10 +1,10 @@
-import {QueryColumn} from "../../../api/api-v3/hal-resources/query-resource.service";
-import {WorkPackageEditForm} from "../../../wp-edit-form/work-package-edit-form";
-import {locateRow} from "../../helpers/wp-table-row-helpers";
-import {WorkPackageTableRow} from "../../wp-table.interfaces";
-import {wpCellTdClassName} from "../cell-builder";
-import {SingleRowBuilder} from "./single-row-builder";
+import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
+import {locateRow} from '../../helpers/wp-table-row-helpers';
+import {WorkPackageTableRow} from '../../wp-table.interfaces';
+import {wpCellTdClassName} from '../cell-builder';
+import {SingleRowBuilder} from './single-row-builder';
 import {debugLog} from '../../../../helpers/debug_output';
+import {QueryColumn} from '../../../wp-query/query-column';
 
 export class RowRefreshBuilder extends SingleRowBuilder {
 

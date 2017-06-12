@@ -2,11 +2,11 @@ import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {QueryColumn} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {commonRowClassName, rowClassName, SingleRowBuilder} from '../rows/single-row-builder';
 import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
 import {UiStateLinkBuilder} from '../ui-state-link-builder';
+import {QueryColumn} from '../../../wp-query/query-column';
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;

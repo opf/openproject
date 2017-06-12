@@ -27,21 +27,16 @@
 // ++
 
 import {
-  WorkPackageTableBaseService,
-  TableStateStates, WorkPackageQueryStateService
+  TableStateStates,
+  WorkPackageQueryStateService,
+  WorkPackageTableBaseService
 } from './wp-table-base.service';
-import {
-  States
-} from '../../states.service';
+import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
-import {WPTableRowSelectionState} from '../wp-table.interfaces';
-import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service'
-import {Observable} from 'rxjs/Observable';
-import {WorkPackageTableColumns} from '../wp-table-columns'
-import {WorkPackageTableBaseState} from '../wp-table-base';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {WorkPackageTableColumns} from '../wp-table-columns';
 import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
-import {queryColumnTypes} from '../../wp-query/query-column';
+import {QueryColumn, queryColumnTypes} from '../../wp-query/query-column';
 
 export class WorkPackageTableColumnsService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'columns' as TableStateStates;

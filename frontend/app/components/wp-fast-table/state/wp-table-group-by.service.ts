@@ -26,21 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  QueryResource,
-  QueryColumn
-} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryGroupByResource} from '../../api/api-v3/hal-resources/query-group-by-resource.service';
 import {opServicesModule} from '../../../angular-modules';
-import {
-  States
-} from '../../states.service';
+import {States} from '../../states.service';
 import {WorkPackageTableGroupBy} from '../wp-table-group-by';
 import {
-  WorkPackageTableBaseService,
-  TableStateStates, WorkPackageQueryStateService
+  TableStateStates,
+  WorkPackageQueryStateService,
+  WorkPackageTableBaseService
 } from './wp-table-base.service';
+import {QueryColumn} from '../../wp-query/query-column';
 
 export class WorkPackageTableGroupByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'groupBy' as TableStateStates;

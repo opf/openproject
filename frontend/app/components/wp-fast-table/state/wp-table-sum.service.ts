@@ -27,15 +27,11 @@
 // ++
 
 import {
-  WorkPackageTableBaseService,
-  TableStateStates, WorkPackageQueryStateService
+  TableStateStates,
+  WorkPackageQueryStateService,
+  WorkPackageTableBaseService
 } from './wp-table-base.service';
-import {
-  QueryResource,
-  QueryColumn
-} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
-import {QueryGroupByResource} from '../../api/api-v3/hal-resources/query-group-by-resource.service';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableSum} from '../wp-table-sum';

@@ -1,16 +1,17 @@
-import {WorkPackageTable} from "../../../wp-fast-table";
-import {WorkPackageTableRow} from "../../../wp-table.interfaces";
-import {WorkPackageResourceInterface} from "../../../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageTableHierarchiesService} from "../../../state/wp-table-hierarchy.service";
-import {$injectFields} from "../../../../angular/angular-injector-bridge.functions";
-import {RowRefreshBuilder} from "../../rows/row-refresh-builder";
-import {WorkPackageEditForm} from "../../../../wp-edit-form/work-package-edit-form";
+import {WorkPackageTable} from '../../../wp-fast-table';
+import {WorkPackageTableRow} from '../../../wp-table.interfaces';
+import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
+import {$injectFields} from '../../../../angular/angular-injector-bridge.functions';
+import {RowRefreshBuilder} from '../../rows/row-refresh-builder';
+import {WorkPackageEditForm} from '../../../../wp-edit-form/work-package-edit-form';
 import {
-  collapsedGroupClass, hasChildrenInTable,
+  collapsedGroupClass,
+  hasChildrenInTable,
   hierarchyRootClass
-} from "../../../helpers/wp-table-hierarchy-helpers";
-import {QueryColumn} from "../../../../api/api-v3/hal-resources/query-resource.service";
-import {UiStateLinkBuilder} from "../../ui-state-link-builder";
+} from '../../../helpers/wp-table-hierarchy-helpers';
+import {UiStateLinkBuilder} from '../../ui-state-link-builder';
+import {QueryColumn} from '../../../../wp-query/query-column';
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';

@@ -1,19 +1,12 @@
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {DisplayField} from './../../wp-display/wp-display-field/wp-display-field.module';
+import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageDisplayFieldService} from './../../wp-display/wp-display-field/wp-display-field.service';
-import {$injectFields, injectorBridge} from '../../angular/angular-injector-bridge.functions';
+import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {States} from '../../states.service';
 import {tdClassName} from './cell-builder';
-import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
-import {
-  RelationsStateValue,
-  WorkPackageRelationsService
-} from '../../wp-relations/wp-relations.service';
+import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
 import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
 import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
+import {QueryColumn} from '../../wp-query/query-column';
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';

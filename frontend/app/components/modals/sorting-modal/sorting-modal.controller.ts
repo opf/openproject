@@ -27,15 +27,13 @@
 //++
 
 import {wpControllersModule} from '../../../angular-modules';
-import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
 import {
-  QuerySortByResource,
-  QuerySortByDirection,
   QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC
+  QUERY_SORT_BY_DESC,
+  QuerySortByResource
 } from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
-import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryColumn} from '../../wp-query/query-column';
 
 class SortModalObject {
   constructor(public column: QueryColumn|null,

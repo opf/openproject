@@ -27,20 +27,21 @@
 // ++
 
 import {
-  WorkPackageTableBaseService,
-  TableStateStates, WorkPackageQueryStateService
+  TableStateStates,
+  WorkPackageQueryStateService,
+  WorkPackageTableBaseService
 } from './wp-table-base.service';
-import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 import {
-  QuerySortByResource,
   QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC
+  QUERY_SORT_BY_DESC,
+  QuerySortByResource
 } from '../../api/api-v3/hal-resources/query-sort-by-resource.service';
 import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableSortBy} from '../wp-table-sort-by';
+import {QueryColumn} from '../../wp-query/query-column';
 
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'sortBy' as TableStateStates;
