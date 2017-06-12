@@ -87,6 +87,13 @@ table.generic-table tbody tr.issue .checkbox
 .wp-table--cell .ui-datepicker
   margin-left: -38%
 
+.wp-table--cell-container
+  @extend .ellipsis
+  display: block
+  pointer-events: none
+
+  .inplace-edit
+    pointer-events: all
 
 .inplace-editing--container
   display: inline-block
