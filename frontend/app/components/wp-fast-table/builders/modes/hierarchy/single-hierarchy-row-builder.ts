@@ -154,14 +154,6 @@ export class SingleHierarchyRowBuilder extends RowRefreshBuilder {
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = indicatorWidth;
 
-    // Set the width of the container
-    if (jRow != null) {
-      jRow
-        .find('td.subject .wp-table--cell-container')
-        .css('width', `calc(100% - ${indicatorWidth})`)
-        .css('display', 'inline-block');
-    }
-
     if (workPackage.$loaded && !hasChildrenInTable(workPackage, this.workPackageTable)) {
       hierarchyIndicator.innerHTML = `
             <span tabindex="0" class="wp-table--leaf-indicator">
