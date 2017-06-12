@@ -338,7 +338,8 @@ OpenProject::Application.routes.draw do
       %w{diff annotate changes entry browse}.each do |action|
         get "(/revisions/:rev)/#{action}(/*path)", format: false,
                                                    action: action,
-                                                   rev: /[a-z0-9\.\-_]+/
+                                                   rev: /[a-z0-9\.\-_]+/,
+                                                   as: "#{action}_revision"
       end
 
       get '/revision(/:rev)', rev: /[a-z0-9\.\-_]+/,

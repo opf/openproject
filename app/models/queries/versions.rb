@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,10 @@
 module Queries::Versions
   register = ::Queries::Register
   filters = ::Queries::Versions::Filters
+  orders = ::Queries::Versions::Orders
   query = ::Queries::Versions::VersionQuery
 
   register.filter query, filters::SharingFilter
+
+  register.order query, orders::NameOrder
 end

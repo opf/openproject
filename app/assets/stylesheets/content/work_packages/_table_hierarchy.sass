@@ -4,6 +4,7 @@
 // collapsed: left arrow
 .wp-table--hierarchy-indicator
   @include varprop(color, body-font-color)
+  pointer-events: all
 
   &:hover
     text-decoration: none
@@ -21,9 +22,15 @@
 
 .wp-table--hierarchy-span
   text-align: end
-  display: inline-block
+  display: block
+  float: left
   margin-left: 5px
   padding-right: 8px
+  // Avoid catching double click/click events
+  // meant to open the full screen view
+  pointer-events: none
+  height: 1rem
+  // width calculation done in js code
 
 .wp-table--hierarchy-indicator-icon
   @include icon-common

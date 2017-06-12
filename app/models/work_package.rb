@@ -90,7 +90,12 @@ class WorkPackage < ActiveRecord::Base
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   scope :open, ->() {
     includes(:status)
-      .where(statuses: { is_closed: false  })
+      .where(statuses: { is_closed: false })
+  }
+
+  scope :closed, ->() {
+    includes(:status)
+      .where(statuses: { is_closed: true })
   }
 
   scope :with_limit, ->(limit) {

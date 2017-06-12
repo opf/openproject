@@ -42,9 +42,10 @@ module API
           end
 
           get do
-            VersionCollectionRepresenter.new(@versions,
-                                             api_v3_paths.versions_by_project(@project.id),
-                                             current_user: current_user)
+            ::API::V3::Utilities::ParamsToQuery.collection_response(@versions,
+                                                                    current_user,
+                                                                    params.except('id'),
+                                                                    self_link: api_v3_paths.versions_by_project(@project.id))
           end
         end
       end
