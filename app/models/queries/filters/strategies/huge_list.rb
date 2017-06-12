@@ -34,7 +34,7 @@ module Queries::Filters::Strategies
              to: :filter
 
     def validate
-      if allowed_values_subset & values != values
+      if (allowed_values_subset & values).sort != values.sort
         errors.add(:values, :inclusion)
       end
     end
