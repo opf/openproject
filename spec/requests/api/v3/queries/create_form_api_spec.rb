@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -137,8 +138,15 @@ describe "POST /api/v3/queries/form", type: :request do
 
         expected_columns += Type.all.map do |type|
           {
-            '_type': 'QueryColumn::Relation',
+            '_type': 'QueryColumn::RelationToType',
             'id': "relationsToType#{type.id}"
+          }
+        end
+
+        expected_columns += Relation::TYPES.map do |_, value|
+          {
+            '_type': 'QueryColumn::RelationOfType',
+            'id': "relationsOfType#{value[:sym].camelcase}"
           }
         end
 
@@ -204,8 +212,15 @@ describe "POST /api/v3/queries/form", type: :request do
 
         expected_columns += project.types.map do |type|
           {
-            '_type': 'QueryColumn::Relation',
+            '_type': 'QueryColumn::RelationToType',
             'id': "relationsToType#{type.id}"
+          }
+        end
+
+        expected_columns += Relation::TYPES.map do |_, value|
+          {
+            '_type': 'QueryColumn::RelationOfType',
+            'id': "relationsOfType#{value[:sym].camelcase}"
           }
         end
 

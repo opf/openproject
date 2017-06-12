@@ -270,7 +270,8 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
             [Queries::WorkPackages::Columns::PropertyColumn.new(:bogus1),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus2),
              Queries::WorkPackages::Columns::PropertyColumn.new(:bogus3),
-             Queries::WorkPackages::Columns::RelationColumn.new(type)]
+             Queries::WorkPackages::Columns::RelationToTypeColumn.new(type),
+             Queries::WorkPackages::Columns::RelationOfTypeColumn.new(name: :label_relates_to, sym: :relation1)]
           end
           let(:available_values_method) { :available_columns }
 
@@ -289,7 +290,7 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
                           .map { |v| v['_type'] }
                           .uniq
 
-              expect(types).to match_array(%w(QueryColumn::Property QueryColumn::Relation))
+              expect(types).to match_array(%w(QueryColumn::Property QueryColumn::RelationToType QueryColumn::RelationOfType))
             end
           end
         end

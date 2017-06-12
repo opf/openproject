@@ -26,27 +26,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Columns
-        module QueryColumnsFactory
-          def self.representer(column)
-            case column
-            when ::Queries::WorkPackages::Columns::RelationToTypeColumn
-              ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter
-            when ::Queries::WorkPackages::Columns::RelationOfTypeColumn
-              ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter
-            else
-              ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter
-            end
-          end
+require 'spec_helper'
+require_relative 'shared_query_column_specs'
 
-          def self.create(column)
-            representer(column).new(column)
-          end
-        end
-      end
+describe Queries::WorkPackages::Columns::RelationOfTypeColumn, type: :model do
+  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:instance) { described_class.new(type) }
+
+  it_behaves_like 'query column'
+
+  describe 'instances' do
+    before do
+      stub_const('Relation::TYPES',
+                 relation1: { name: :label_relates_to, sym_name: :label_relates_to, order: 1, sym: :relation1 },
+                 relation2: { name: :label_duplicates, sym_name: :label_duplicated_by, order: 2, sym: :relation2 })
+    end
+
+    it 'contains the type columns' do
+      expect(described_class.instances.length)
+        .to eq 2
+
+      expect(described_class.instances[0].sym)
+        .to eq :relation1
+
+      expect(described_class.instances[1].sym)
+        .to eq :relation2
     end
   end
 end

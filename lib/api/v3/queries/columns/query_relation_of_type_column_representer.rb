@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,20 +32,9 @@ module API
   module V3
     module Queries
       module Columns
-        module QueryColumnsFactory
-          def self.representer(column)
-            case column
-            when ::Queries::WorkPackages::Columns::RelationToTypeColumn
-              ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter
-            when ::Queries::WorkPackages::Columns::RelationOfTypeColumn
-              ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter
-            else
-              ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter
-            end
-          end
-
-          def self.create(column)
-            representer(column).new(column)
+        class QueryRelationOfTypeColumnRepresenter < QueryColumnRepresenter
+          def _type
+            'QueryColumn::RelationOfType'
           end
         end
       end

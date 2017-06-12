@@ -76,7 +76,7 @@ class Queries::Columns::Base
     issue.send name
   end
 
-  def self.all_for(_context = nil)
+  def self.instances(_context = nil)
     new
   end
 

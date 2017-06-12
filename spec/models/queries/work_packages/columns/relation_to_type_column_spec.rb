@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,30 +26,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-  attr_accessor :type
+require 'spec_helper'
+require_relative 'shared_query_column_specs'
 
-  def initialize(type)
-    super
+describe Queries::WorkPackages::Columns::RelationToTypeColumn, type: :model do
+  let(:project) { FactoryGirl.build_stubbed(:project) }
+  let(:type) { FactoryGirl.build_stubbed(:type) }
+  let(:instance) { described_class.new(type) }
 
-    set_name! type
-    self.type = type
-  end
+  it_behaves_like 'query column'
 
-  def set_name!(type)
-    self.name = "relations_to_type_#{type.id}".to_sym
-  end
+  describe 'instances' do
+    context 'within project' do
+      before do
+        allow(project)
+          .to receive(:types)
+          .and_return([type])
+      end
 
-  def caption
-    I18n.t(:'activerecord.attributes.query.relations_to_type_column',
-           type: type.name)
-  end
+      it 'contains the type columns' do
+        expect(described_class.instances(project).length)
+          .to eq 1
 
-  def self.instances(context = nil)
-    if context
-      context.types
-    else
-      Type.all
-    end.map { |type| new(type) }
+        expect(described_class.instances(project)[0].type)
+          .to eq type
+      end
+    end
+
+    context 'global' do
+      before do
+        allow(Type)
+          .to receive(:all)
+          .and_return([type])
+      end
+
+      it 'contains the type columns' do
+        expect(described_class.instances.length)
+          .to eq 1
+
+        expect(described_class.instances[0].type)
+          .to eq type
+      end
+    end
   end
 end

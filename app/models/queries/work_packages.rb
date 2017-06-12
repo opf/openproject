@@ -59,5 +59,6 @@ module Queries::WorkPackages
 
   register.column Query, columns_module::PropertyColumn
   register.column Query, columns_module::CustomFieldColumn
-  register.column Query, columns_module::RelationColumn
+  register.column Query, columns_module::RelationToTypeColumn
+  register.column Query, columns_module::RelationOfTypeColumn
 end

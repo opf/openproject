@@ -350,6 +350,7 @@ en:
       query:
         column_names: "Columns"
         relations_to_type_column: "Relations to %{type}"
+        relations_of_type_column: "%{type} relations"
         group_by: "Group results by"
         filters: "Filters"
       repository:
