@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,41 +24,48 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-function transformDate(TimezoneService:any) {
+import {TablePaginationController} from './table-pagination.controller';
+import {opUiComponentsModule} from '../../angular-modules';
+
+opUiComponentsModule
+  .directive('tablePagination', tablePagination);
+
+
+function tablePagination(PaginationService:any) {
   return {
-    restrict:'A',
-    require: '^ngModel',
-    link: function(
-      scope:ng.IScope,
-      element:ng.IAugmentedJQuery,
-      attrs:ng.IAttributes,
-      ngModelController:any) {
-      ngModelController.$parsers.push(function(data:any) {
-        if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-          return data;
-        } else {
-          return null;
-        }
-      });
-      ngModelController.$formatters.push(function(data:any) {
-        if (moment(data, 'YYYY-MM-DD', true).isValid()) {
-          var d = TimezoneService.parseDate(data);
-          return TimezoneService.formattedISODate(d);
-        } else {
-          return null;
-        }
-      });
+    restrict: 'EA',
+    templateUrl: '/components/table-pagination/table-pagination.directive.html',
+
+    scope: {
+      updateResults: '&',
+      totalEntries: '='
+    },
+
+    controller: TablePaginationController,
+
+    link: function(scope:ng.IScope,
+                   element:any,
+                   attributes:any,
+                   controller:TablePaginationController) {
+      scope.selectPerPage = function(perPage:any){
+        PaginationService.setPerPage(perPage);
+
+        scope.showPage(1);
+      };
+
+      scope.showPage = function(pageNumber:any){
+        PaginationService.setPage(pageNumber);
+
+        controller.updateCurrentRangeLabel();
+        controller.updatePageNumbers();
+
+        scope.updateResults();
+      };
+
+      controller.updateCurrentRangeLabel();
+      controller.updatePageNumbers();
     }
   };
 }
-
-// TODO:deprecate and replace by transformDate
-angular
-  .module('openproject')
-  .directive('transformDateValue', transformDate);
-
-// angular
-//   .module('openproject')
-//   .directive('transformDate', transformDate);
