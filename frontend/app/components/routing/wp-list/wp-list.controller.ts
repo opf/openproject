@@ -173,8 +173,10 @@ function WorkPackagesListController($scope:any,
 
   function loadQuery() {
     wpListChecksumService.clear();
-    loadingIndicator.table.promise = wpListService.fromQueryParams($state.params,
-      $scope.projectIdentifier);
+    loadingIndicator.table.promise =
+      wpListService.fromQueryParams($state.params, $scope.projectIdentifier).then(() => {
+        return states.table.rendered.valuesPromise();
+      });
   }
 
   $scope.setAnchorToNextElement = function () {

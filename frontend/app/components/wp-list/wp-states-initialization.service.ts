@@ -118,6 +118,9 @@ export class WorkPackageStatesInitializationService {
     this.states.table.rows.clear(reason);
     this.states.table.results.clear(reason);
     this.states.table.groups.clear(reason);
+
+    // Clear rendered state
+    this.states.table.rendered.clear(reason);
   }
 }
 
