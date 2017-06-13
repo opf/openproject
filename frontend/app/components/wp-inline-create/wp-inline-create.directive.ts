@@ -152,7 +152,7 @@ export class WorkPackageInlineCreateController {
 
         this.workPackageEditForm = new WorkPackageEditForm('new');
         const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-        this.timelineBuilder.insert(wp, this.table.timelineBody);
+        this.timelineBuilder.insert('new', this.table.timelineBody);
         this.$element.append(row);
 
         this.$timeout(() => {
