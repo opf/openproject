@@ -462,34 +462,32 @@ describe WorkPackage, type: :model do
   describe '#copy_from' do
     let(:type) { FactoryGirl.create(:type_standard) }
     let(:project) { FactoryGirl.create(:project, types: [type]) }
-    let(:custom_field) {
+    let(:custom_field) do
       FactoryGirl.create(:work_package_custom_field,
                          name: 'Database',
                          field_format: 'list',
                          possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
                          is_required: true)
-    }
+    end
+    let(:bool_custom_field) do
+      FactoryGirl.create(:bool_wp_custom_field)
+    end
 
     let(:source) { FactoryGirl.build(:work_package) }
     let(:sink) { FactoryGirl.build(:work_package) }
 
     before do
-      def self.change_custom_field_value(work_package, value)
-        work_package.custom_field_values = { custom_field.id => value } unless value.nil?
-        work_package.save
-      end
-    end
-
-    before do
       project.work_package_custom_fields << custom_field
       type.custom_fields << custom_field
 
-      source.save
-    end
+      project.work_package_custom_fields << bool_custom_field
+      type.custom_fields << bool_custom_field
 
-    before do
       source.project_id = project.id
-      change_custom_field_value(source, 'MySQL')
+
+      source.custom_field_values = { custom_field.id => 'MySQL',
+                                     bool_custom_field.id => 'f' }
+      source.save
     end
 
     shared_examples_for 'work package copy' do
@@ -530,10 +528,16 @@ describe WorkPackage, type: :model do
     shared_examples_for 'work package copy with custom field' do
       it_behaves_like 'work package copy'
 
-      context 'custom_field' do
+      context 'list custom_field' do
         subject { sink.custom_value_for(custom_field.id).value }
 
         it { is_expected.to eq('MySQL') }
+      end
+
+      context 'bool custom_field' do
+        subject { sink.custom_value_for(bool_custom_field.id).value }
+
+        it { is_expected.to eq('f') }
       end
     end
 
@@ -541,7 +545,6 @@ describe WorkPackage, type: :model do
       let(:project_id) { source.project_id }
 
       describe 'should copy project' do
-
         before { sink.copy_from(source) }
 
         it_behaves_like 'work package copy with custom field'

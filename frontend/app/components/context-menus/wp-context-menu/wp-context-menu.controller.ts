@@ -60,8 +60,8 @@ function wpContextMenuController($scope:any,
   };
 
   $scope.triggerContextMenuAction = function (action:any, link:any) {
-    let table: WorkPackageTable;
-    let wp: WorkPackageResourceInterface;
+    let table:WorkPackageTable;
+    let wp:WorkPackageResourceInterface;
 
     switch (action) {
       case 'delete':
@@ -70,6 +70,10 @@ function wpContextMenuController($scope:any,
 
       case 'edit':
         editSelectedWorkPackages(link);
+        break;
+
+      case 'copy':
+        copySelectedWorkPackages(link);
         break;
 
       case 'relation-precedes':
@@ -123,6 +127,21 @@ function wpContextMenuController($scope:any,
     };
 
     $state.transitionTo('work-packages.show.edit', params);
+  }
+
+  function copySelectedWorkPackages(link:any) {
+    var selected = getSelectedWorkPackages();
+
+    if (selected.length > 1) {
+      $window.location.href = link;
+      return;
+    }
+
+    var params = {
+      copiedFromWorkPackageId: selected[0].id
+    };
+
+    $state.transitionTo('work-packages.list.copy', params);
   }
 
   function getSelectedWorkPackages() {
