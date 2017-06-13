@@ -1,10 +1,14 @@
-# OpenProject 6.0.x to OpenProject 6.1 Debian/Ubuntu Upgrade Guide (Manual installation)
+# OpenProject 6.x to OpenProject 7.x Debian/Ubuntu Upgrade Guide (Manual installation)
 
-Please look at the steps in the section about the upgrade to OpenProject 6.0. OpenProject 6.x is being released under the branch `stable/6`.
+Please look at the steps in the section about the upgrade to OpenProject 6.0. OpenProject 7.x is being released under the branch `stable/7`. The other steps are identical.
+
+### Frontend changes, bower is no longer required
+
+With OpenProject 7.0., we no longer depend on `bower` for some on the frontend assets. Please ensure you remove `<OpenProject root>/frontend/bower_components` and `<OpenProject root>/frontend/bower.json`.
 
 ### When running with MySQL: Required changes in sql_mode
 
-If you're upgrading to OpenProject 6.1.x with a MySQL installation, you will need to update your database.yml to reflect some necessary changes to MySQL `sql_mode` made as part of the migration to Rails 5. Please see the `config/database.yml.example` file for more information.
+If you're upgrading to OpenProject 7.x with a MySQL installation, you will need to update your database.yml to reflect some necessary changes to MySQL `sql_mode` made as part of the migration to Rails 5. Please see the `config/database.yml.example` file for more information.
 
 # OpenProject 5.0.x to OpenProject 6.0 Debian/Ubuntu Upgrade Guide
 

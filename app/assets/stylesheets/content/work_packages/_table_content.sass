@@ -87,6 +87,18 @@ table.generic-table tbody tr.issue .checkbox
 .wp-table--cell .ui-datepicker
   margin-left: -38%
 
+.wp-table--cell-container
+  @extend .ellipsis
+  display: block
+  // Because of the display: block the elements now
+  // take up the whole of the cell. This would block
+  // the user from using click (to select) or double-click (to open full screen)
+  // on the cell. Hence we disable events on this element but have to reenable them
+  // for the inplace-edit fields.
+  pointer-events: none
+
+  .inplace-edit
+    pointer-events: all
 
 .inplace-editing--container
   display: inline-block
