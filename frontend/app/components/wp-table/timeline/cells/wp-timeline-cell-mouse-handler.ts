@@ -38,6 +38,9 @@ import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {WorkPackageCellLabels} from './wp-timeline-cell';
 import Moment = moment.Moment;
+import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
+import {States} from '../../../states.service';
+import {QueryDmService} from '../../../api/api-v3/hal-resource-dms/query-dm.service';
 
 export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
@@ -224,10 +227,19 @@ export function registerWorkPackageMouseHandler(this: void,
   }
 
   function saveWorkPackage(changeset:WorkPackageChangeset) {
+    const queryDm:QueryDmService = $injectNow('QueryDm');
+    const states:States = $injectNow('states');
+
     return loadingIndicator.table.promise = changeset.save()
       .then((wp) => {
         wpNotificationsService.showSave(wp);
-        wpTableRefresh.request(true, `Moved work package ${changeset.workPackage.id} through timeline`);
+        const ids = _.map(states.table.rendered.value!, row => row.workPackageId);
+        loadingIndicator.table.promise =
+          queryDm.loadIdsUpdatedSince(ids, wp.updatedAt).then(workPackageCollection => {
+          wpCacheService.updateWorkPackageList(workPackageCollection.elements);
+
+          wpTableRefresh.request(false, `Moved work package ${wp.id} through timeline`);
+        });
       })
       .catch((error) => {
         wpNotificationsService.handleErrorResponse(error, renderInfo.workPackage);
