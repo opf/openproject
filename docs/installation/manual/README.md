@@ -259,7 +259,7 @@ Then, we prepare apache and passenger:
 
 ```bash
 [root@host] apt-get install -y apache2 libcurl4-gnutls-dev      \
-                               apache2-threaded-dev libapr1-dev \
+                               apache2-dev libapr1-dev \
                                libaprutil1-dev
 [root@ubuntu] chmod o+x "/home/openproject"
 ```
