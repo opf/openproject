@@ -120,6 +120,7 @@ $include-css: (
 
 // These are our named breakpoints. You can use them in our breakpoint function like this: @include breakpoint(medium) { // Medium and larger styles }
 $breakpoints: (
+  tiny: rem-calc(0),
   small: rem-calc(480),
   medium: rem-calc(640),
   large: rem-calc(1200),
@@ -129,7 +130,7 @@ $breakpoints: (
 );
 
 // All of the names in this list will be output as classes in your CSS, like small-12, medium-6, and so on.
-// $breakpoint-classes: (small medium large);
+$breakpoint-classes: (tiny small medium large xlarge xxlarge xxxlarge);
 
 // 4. Typography
 // - - - - - - - - - - - - - - -
