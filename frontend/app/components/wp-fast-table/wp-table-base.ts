@@ -26,26 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class WorkPackageTableBaseState<T> {
+import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
+
+export interface WorkPackageTableQueryState {
 
   /**
-   * Extract the current value from this state and pass it through the comparer function.
+   * Check whether the state value does not match the query resource's value.
+   * @param query The current query resource
    */
-  public get extractedCompareValue():any {
-    return this.current && this.comparerFunction()(this.current);
-  }
-
-  public get currentQueryValue():any {
-    return this.current;
-  }
+  hasChanged(query:QueryResource):boolean;
 
   /**
-   * Returns a comparer function for this state's value used to compare state values,
-   * e.g., as a distinctUntilChanged() key function.
+   * Apply the current state value to query
    */
-  public comparerFunction():(current:T) => any {
-    return (current: T) => current;
-  }
+  applyToQuery(query:QueryResource):void;
+}
 
+export abstract class WorkPackageTableBaseState<T> {
   public current:T;
 }

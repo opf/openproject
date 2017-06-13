@@ -29,20 +29,20 @@
 /*jshint expr: true*/
 
 describe('UrlParamsHelper', function() {
-  var UrlParamsHelper, PathHelper;
+  let UrlParamsHelper:any, PathHelper:any;
 
   beforeEach(angular.mock.module('openproject.helpers', 'openproject.models'));
-  beforeEach(inject(function(_UrlParamsHelper_, _PathHelper_) {
+  beforeEach(inject(function(_UrlParamsHelper_:any, _PathHelper_:any) {
     UrlParamsHelper = _UrlParamsHelper_;
     PathHelper = _PathHelper_;
   }));
 
   describe('buildQueryString', function() {
-    var params = {
+    const params = {
       ids: [1, 2, 3],
       str: '@#$%'
     };
-    var queryString;
+    let queryString:string;
 
     beforeEach(function() {
       queryString = UrlParamsHelper.buildQueryString(params);
@@ -58,11 +58,11 @@ describe('UrlParamsHelper', function() {
   });
 
   describe('encodeQueryJsonParams', function(){
-    var query;
-    var additional;
+    let query:any;
+    let additional:any;
 
     beforeEach(function() {
-      var filter1 = {
+      let filter1 = {
         id: 'soße',
         name: 'soße_id',
         type: 'list_model',
@@ -74,7 +74,7 @@ describe('UrlParamsHelper', function() {
         },
         values: ['knoblauch']
       };
-      var filter2 = {
+      let filter2 = {
         id: 'created_at',
         type: 'datetime_past',
         operator: {
@@ -90,6 +90,7 @@ describe('UrlParamsHelper', function() {
         name: 'knoblauch soße',
         sums: true,
         timelineVisible: true,
+        timelineZoomLevel: 'days',
         showHierarchies: true,
         columns: [{ id: 'type' }, { id: 'status' }, { id: 'soße' }],
         groupBy: {
@@ -108,27 +109,28 @@ describe('UrlParamsHelper', function() {
     });
 
     it('should encode query to params JSON', function() {
-      var encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
-      var expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      let encodedJSON = UrlParamsHelper.encodeQueryJsonParams(query, additional);
+      let expectedJSON = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
       expect(encodedJSON).to.eq(expectedJSON);
     });
   });
 
   describe('buildV3GetQueryFromJsonParams', function() {
-    var params;
+    let params:string;
 
     beforeEach(function() {
-      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"hi\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
+      params = "{\"c\":[\"type\",\"status\",\"soße\"],\"s\":true,\"tv\":true,\"tzl\":\"days\",\"hi\":true,\"g\":\"status\",\"t\":\"type:desc,status:asc\",\"f\":[{\"n\":\"soße\",\"o\":\"%3D\",\"v\":[\"knoblauch\"]},{\"n\":\"created_at\",\"o\":\"%3Ct-\",\"v\":[\"5\"]}],\"pa\":10,\"pp\":100}";
     });
 
     it('should decode query params to object', function() {
-      var decodedQueryParams = UrlParamsHelper.buildV3GetQueryFromJsonParams(params);
+      let decodedQueryParams = UrlParamsHelper.buildV3GetQueryFromJsonParams(params);
 
-      var expected = {
+      let expected = {
         'columns[]': ['type', 'status', 'soße'],
         showSums: true,
         timelineVisible: true,
         showHierarchies: true,
+        timelineZoomLevel: 'days',
         groupBy: 'status',
         filters: JSON.stringify([
           {
@@ -154,11 +156,11 @@ describe('UrlParamsHelper', function() {
   });
 
   describe('buildV3GetQueryFromQueryResource', function() {
-    var query;
-    var additional;
+    let query:any;
+    let additional:any;
 
     it('decodes query params to object', function() {
-      var filter1 = {
+      let filter1 = {
         id: 'soße',
         name: 'soße_id',
         type: 'list_model',
@@ -170,7 +172,7 @@ describe('UrlParamsHelper', function() {
         },
         values: ['knoblauch']
       };
-      var filter2 = {
+      let filter2 = {
         id: 'created_at',
         type: 'datetime_past',
         operator: {
@@ -203,11 +205,11 @@ describe('UrlParamsHelper', function() {
       additional = {
         offset: 10,
         pageSize: 100
-      }
+      };
 
-      var v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
+      let v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
 
-      var expected = {
+      let expected = {
         'columns[]': ['type', 'status', 'soße'],
         showSums: true,
         groupBy: 'status',
@@ -234,7 +236,7 @@ describe('UrlParamsHelper', function() {
     });
 
     it('decodes string object filters', function() {
-      var filter1 = {
+      let filter1 = {
         id: 'customField1',
         operator: {
           id: '='
@@ -264,9 +266,9 @@ describe('UrlParamsHelper', function() {
 
       additional = {}
 
-      var v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
+      let v3Params = UrlParamsHelper.buildV3GetQueryFromQueryResource(query, additional);
 
-      var expected = {
+      let expected = {
         'columns[]': [],
         filters: JSON.stringify([
           {

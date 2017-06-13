@@ -73,6 +73,22 @@ module Pages
       end
     end
 
+    def zoom_in
+      page.find('#work-packages-timeline-zoom-in-button').click
+    end
+
+    def zoom_out
+      page.find('#work-packages-timeline-zoom-out-button').click
+    end
+
+    def expect_zoom_at(value)
+      unless ::Query.timeline_zoom_levels.key?(value)
+        raise ArgumentError, "Invalid value"
+      end
+
+      expect(page).to have_selector(".wp-table-timeline--header-inner[data-current-zoom-level='#{value}'")
+    end
+
     def expect_timeline_element(work_package)
       type = work_package.milestone? ? :milestone : :bar
       expect(page).to have_selector("#{timeline_row_selector(work_package.id)} .timeline-element.#{type}")

@@ -26,13 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableBaseState} from "./wp-table-base";
-export class WorkPackageTableSum extends WorkPackageTableBaseState<boolean> {
+import {WorkPackageTableBaseState, WorkPackageTableQueryState} from "./wp-table-base";
+import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
+export class WorkPackageTableSum extends WorkPackageTableBaseState<boolean> implements WorkPackageTableQueryState {
   public current:boolean;
 
   constructor(isSum:boolean) {
     super();
     this.current = isSum;
+  }
+
+  public hasChanged(query:QueryResource) {
+    return query.sums !== this.isEnabled;
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.sums = this.isEnabled;
   }
 
   public toggle() {

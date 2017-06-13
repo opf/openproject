@@ -27,54 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'model_contract'
+module Query::Timelines
+  extend ActiveSupport::Concern
 
-module Queries
-  class BaseContract < ::ModelContract
-    attribute :name
-
-    attribute :project_id
-    attribute :is_public # => public
-    attribute :display_sums # => sums
-    attribute :timeline_visible
-    attribute :timeline_zoom_level
-    attribute :show_hierarchies
-
-    attribute :column_names # => columns
-    attribute :filters
-
-    attribute :sort_criteria # => sortBy
-    attribute :group_by # => groupBy
-
-    attr_reader :user
-
-    validate :validate_project
-    validate :user_allowed_to_make_public
-
-    def initialize(query, user)
-      super query
-
-      @user = user
-    end
-
-    def validate_project
-      errors.add :project, :error_not_found if project_id.present? && !project_visible?
-    end
-
-    def project_visible?
-      Project.visible(user).where(id: project_id).exists?
-    end
-
-    def user_allowed_to_make_public
-      return if model.project_id.present? && model.project.nil?
-
-      if is_public && may_not_manage_queries?
-        errors.add :public, :error_unauthorized
-      end
-    end
-
-    def may_not_manage_queries?
-      !user.allowed_to?(:manage_public_queries, model.project, global: model.project.nil?)
-    end
+  included do
+    enum timeline_zoom_level: %i(days weeks months quarters years)
+    validates :timeline_zoom_level, inclusion: { in: timeline_zoom_levels.keys }
   end
 end
