@@ -18,7 +18,8 @@ export class HierarchyTransformer {
 
     this.states.updates.hierarchyUpdates
       .values$('Refreshing hierarchies on user request')
-      .subscribe((state: WorkPackageTableHierarchies) => {
+      .takeUntil(this.states.table.stopAllSubscriptions)
+      .subscribe((state:WorkPackageTableHierarchies) => {
         if (enabled !== state.isEnabled) {
           table.redrawTableAndTimeline();
         } else if (enabled) {
@@ -26,8 +27,12 @@ export class HierarchyTransformer {
           // Refresh groups
           this.renderHierarchyState(state);
         }
+    });
 
-        enabled = state.isEnabled;
+    this.wpTableHierarchies
+      .observeUntil(this.states.table.stopAllSubscriptions)
+      .subscribe((state:WorkPackageTableHierarchies) => {
+      enabled = state.isEnabled;
     });
   }
 
