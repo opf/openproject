@@ -27,7 +27,7 @@
 // ++
 import {openprojectModule} from "../../../../angular-modules";
 import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
-import {debugLog} from "../../../../helpers/debug_output";
+import {debugLog, timeOutput} from "../../../../helpers/debug_output";
 import {TypeResource} from "../../../api/api-v3/hal-resources/type-resource.service";
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {States} from "../../../states.service";
@@ -175,25 +175,25 @@ export class WorkPackageTimelineTableController {
       return;
     }
 
-    debugLog("refreshView() in timeline container");
+    timeOutput("refreshView() in timeline container", () => {
+      // Reset the width of the outer container if its content shrinks
+      this.outerContainer.css('width', 'auto');
 
-    // Reset the width of the outer container if its content shrinks
-    this.outerContainer.css('width', 'auto');
+      this.calculateViewParams(this._viewParameters);
 
-    this.calculateViewParams(this._viewParameters);
+      // Update all cells
+      this.cellsRenderer.refreshAllCells();
 
-    // Update all cells
-    this.cellsRenderer.refreshAllCells();
+      _.each(this.renderers, (cb, key) => {
+        debugLog(`Refreshing timeline member ${key}`);
+        cb(this._viewParameters);
+      });
 
-    _.each(this.renderers, (cb, key) => {
-      debugLog(`Refreshing timeline member ${key}`);
-      cb(this._viewParameters);
+      // Calculate overflowing width to set to outer container
+      // required to match width in all child divs
+      const currentWidth = this.outerContainer.closest(selectorTimelineSide)[0].scrollWidth;
+      this.outerContainer.width(currentWidth);
     });
-
-    // Calculate overflowing width to set to outer container
-    // required to match width in all child divs
-    const currentWidth = this.outerContainer.closest(selectorTimelineSide)[0].scrollWidth;
-    this.outerContainer.width(currentWidth);
   }
 
   updateOnWorkPackageChanges() {

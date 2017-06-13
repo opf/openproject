@@ -6,6 +6,7 @@ import {rowClass} from '../helpers/wp-table-row-helpers';
 import {TimelineRenderPass} from './timeline/timeline-render-pass';
 import {SingleRowBuilder} from './rows/single-row-builder';
 import {RelationsRenderPass} from './relations/relations-render-pass';
+import {timeOutput} from '../../../helpers/debug_output';
 
 export interface RenderedRow {
   isWorkPackage:boolean;
@@ -43,18 +44,26 @@ export abstract class PrimaryRenderPass {
   }
 
   public render():this {
-    // Prepare and reset the render pass
-    this.prepare();
 
-    // Render into the table fragment
-    this.doRender();
+    timeOutput('Primary render pass', () => {
+
+      // Prepare and reset the render pass
+      this.prepare();
+
+      // Render into the table fragment
+      this.doRender();
+    });
 
     // Render subsequent passes
     // that may modify the structure of the table
-    this.relations.render();
+    timeOutput('Relations render pass', () => {
+      this.relations.render();
+    });
 
     // Synchronize the rows to timeline
-    this.timeline.render();
+    timeOutput('Timelines render pass', () => {
+      this.timeline.render();
+    });
 
     return this;
   }
