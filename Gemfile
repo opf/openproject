@@ -37,6 +37,9 @@ gem 'activerecord-session_store', '~> 1.0.0'
 gem 'rails', '~> 5.0.3'
 gem 'responders', '~> 2.4'
 
+# TODO: remove once 2.6.6 has been released
+gem 'mail', '~> 2.6.6.rc1'
+
 gem 'coderay', '~> 1.1.0'
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
