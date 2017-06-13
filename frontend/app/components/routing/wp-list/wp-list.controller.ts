@@ -97,10 +97,9 @@ function WorkPackagesListController($scope:any,
 
   function setupQueryObservers() {
 
-    scopedObservable($scope, states.tableRendering.onQueryUpdated.changes$())
-      .subscribe((val) => {
-        $scope.tableInformationLoaded = states.tableRendering.onQueryUpdated.hasValue();
-    });
+    scopedObservable($scope, states.tableRendering.onQueryUpdated.values$())
+      .take(1)
+      .subscribe(() => $scope.tableInformationLoaded = true);
 
 
     // Update the title whenever the query
