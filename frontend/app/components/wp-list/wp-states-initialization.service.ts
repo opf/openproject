@@ -16,6 +16,7 @@ import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-sc
 import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageTableRelationColumnsService} from '../wp-fast-table/state/wp-table-relation-columns.service';
+import {WorkPackagesListChecksumService} from './wp-list-checksum.service';
 
 export class WorkPackageStatesInitializationService {
   constructor(protected states:States,
@@ -30,6 +31,7 @@ export class WorkPackageStatesInitializationService {
               protected wpTablePagination:WorkPackageTablePaginationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
               protected wpCacheService:WorkPackageCacheService,
+              protected wpListChecksumService:WorkPackagesListChecksumService,
               protected AuthorisationService:any) {
   }
 
@@ -86,6 +88,8 @@ export class WorkPackageStatesInitializationService {
     this.states.table.groups.putValue(angular.copy(results.groups));
 
     this.wpTablePagination.initialize(results);
+
+    this.wpListChecksumService.updateIfDifferent(this.states.table.query.value!, this.wpTablePagination.current);
 
     this.wpTableRelationColumns.initialize(results.elements);
 

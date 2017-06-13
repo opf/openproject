@@ -103,24 +103,23 @@ function WorkPackagesListController($scope:any,
     });
 
 
-    combine(states.table.query, wpTablePagination.state)
-      .values$()
+    // Update the title whenever the query
+    states.table.query.values$()
       .takeUntil(scopeDestroyed$($scope))
-      .subscribe(([query, pagination]) => {
-        updateTitle(query);
-        wpListChecksumService.updateIfDifferent(query, pagination);
-    });
+      .subscribe((query) => updateTitle(query));
 
-    wpTablePagination.observeOnScope($scope)
-      .withLatestFrom(scopedObservable($scope, states.table.query.values$()))
+    states.table.context.fireOnStateChange(wpTablePagination.state, 'Query loaded')
+      .values$()
+      .withLatestFrom(states.table.query.values$())
+      .takeUntil(scopeDestroyed$($scope))
       .subscribe(([pagination, query]) => {
-        if (wpListChecksumService.isQueryOutdated(query,
-            pagination as WorkPackageTablePagination)) {
-          wpListChecksumService.update(query, pagination as WorkPackageTablePagination);
+        updateTitle(query);
+        if (wpListChecksumService.isQueryOutdated(query, pagination)) {
+          wpListChecksumService.update(query, pagination);
 
           updateResultsVisibly();
         }
-      });
+    });
 
     setupChangeObserver(wpTableFilters);
     setupChangeObserver(wpTableGroupBy);
@@ -144,6 +143,10 @@ function WorkPackagesListController($scope:any,
         const triggerUpdate = service.applyToQuery(newQuery);
         states.table.query.putValue(newQuery);
 
+        // Update the current checksum
+        wpListChecksumService.updateIfDifferent(newQuery, wpTablePagination.current);
+
+        // Update the page, if the change requires it
         if (triggerUpdate) {
           updateResultsVisibly(true);
         }
