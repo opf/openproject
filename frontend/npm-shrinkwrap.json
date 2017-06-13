@@ -2565,9 +2565,9 @@
       "resolved": "https://registry.npmjs.org/raw-body/-/raw-body-2.2.0.tgz"
     },
     "reactivestates": {
-      "version": "0.5.9",
-      "from": "reactivestates@0.5.9",
-      "resolved": "https://registry.npmjs.org/reactivestates/-/reactivestates-0.5.9.tgz"
+      "version": "0.6.1",
+      "from": "reactivestates@0.6.1",
+      "resolved": "https://registry.npmjs.org/reactivestates/-/reactivestates-0.6.1.tgz"
     },
     "read-pkg": {
       "version": "1.1.0",
