@@ -66,6 +66,12 @@ module WorkPackage::CsvExporter
 
     headers << CustomField.human_attribute_name(:description)
 
+    # because of
+    # https://support.microsoft.com/en-us/help/323626/-sylk-file-format-is-not-valid-error-message-when-you-open-file
+    if headers[0].start_with?('ID')
+      headers[0] = headers[0].downcase
+    end
+
     headers
   end
 
