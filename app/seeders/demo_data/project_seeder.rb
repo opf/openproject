@@ -103,7 +103,8 @@ module DemoData
                             show_hierarchies: true,
                             timeline_visible: true,
                             column_names: [:subject, :type, :status],
-                            sort_criteria: [['id', 'asc']]
+                            sort_criteria: [['id', 'asc']],
+                            timeline_zoom_level: 'weeks'
 
       MenuItems::QueryMenuItem.create! navigatable_id: query.id,
                                        name: SecureRandom.uuid,

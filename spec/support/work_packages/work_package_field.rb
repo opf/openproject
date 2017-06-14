@@ -36,8 +36,10 @@ class WorkPackageField
   ##
   # Activate the field and check it opened correctly
   def activate!
-    element.find(trigger_link_selector).click
-    expect_active!
+    retry_block do
+      element.find(trigger_link_selector).click
+      expect_active!
+    end
   end
 
   def expect_state!(open:)
