@@ -82,12 +82,13 @@ export class RelationResource extends HalResource {
    * @param workPackage
    * @return {{id, href, relationType: string, workPackageType}}
    */
-  public denormalized(workPackage:WorkPackageResourceInterface) {
+  public denormalized(workPackage:WorkPackageResourceInterface):DenormalizedRelationData {
     const target = (this.to.href === workPackage.href) ? 'from' : 'to'
 
     return {
       target: this[target],
       relationType: target === 'from' ? this.reverseType : this.type,
+      reverseRelationType: target === 'from' ? this.type : this.reverseType,
       workPackageType: this[target + 'Type'].href
     };
   }
@@ -112,6 +113,13 @@ export class RelationResource extends HalResource {
 }
 
 export interface RelationResourceInterface extends RelationResourceLinks, RelationResource {
+}
+
+export interface DenormalizedRelationData {
+  target:WorkPackageResource;
+  relationType:string;
+  reverseRelationType:string;
+  workPackageType:string;
 }
 
 function relationResource() {

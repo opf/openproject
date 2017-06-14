@@ -4,9 +4,13 @@ import {
 } from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {commonRowClassName, rowClassName, SingleRowBuilder} from '../rows/single-row-builder';
-import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
+import {
+  DenormalizedRelationData,
+  RelationResource
+} from '../../../api/api-v3/hal-resources/relation-resource.service';
 import {UiStateLinkBuilder} from '../ui-state-link-builder';
 import {QueryColumn} from '../../../wp-query/query-column';
+import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;
@@ -18,11 +22,13 @@ export const internalDetailsColumn = {
 
 export class RelationRowBuilder extends SingleRowBuilder {
   public uiStateBuilder:UiStateLinkBuilder;
+  public I18n:op.I18n;
 
   constructor(protected workPackageTable:WorkPackageTable) {
     super(workPackageTable);
 
     this.uiStateBuilder = new UiStateLinkBuilder();
+    $injectFields(this, 'I18n');
   }
 
   /**
@@ -39,8 +45,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
       const td = document.createElement('td');
 
       if (column.id === 'subject') {
-        const textNode = document.createTextNode(`(${denormalized.relationType}) ${denormalized.target.name}`);
-        td.appendChild(textNode);
+        this.buildRelationLabel(td, from, denormalized);
       }
 
       if (column.id === 'id') {
@@ -69,15 +74,27 @@ export class RelationRowBuilder extends SingleRowBuilder {
    * @param workPackage
    * @returns {any}
    */
-  public createEmptyRelationRow(from:WorkPackageResource, relation:{ target:WorkPackageResource }) {
+  public createEmptyRelationRow(from:WorkPackageResource, relation:DenormalizedRelationData) {
     let tr = document.createElement('tr');
     tr.dataset['relatedworkPackageId'] = from.id;
     tr.dataset['workPackageId'] = relation.target.id;
     tr.classList.add(
-      rowClassName, commonRowClassName, 'issue',
+      rowClassName, commonRowClassName, 'issue', '-no-highlighting',
       `wp-table--relations-aditional-row`, relationGroupClass(from.id)
     );
 
     return tr;
+  }
+
+  private buildRelationLabel(cell:HTMLElement, from:WorkPackageResource, denormalized:DenormalizedRelationData) {
+    const type = this.I18n.t(`js.relation_labels.${denormalized.relationType}`);
+
+    const relationLabel = document.createElement('span');
+    relationLabel.classList.add('relation-row--type-label');
+    relationLabel.textContent = type;
+
+    const textNode = document.createTextNode(denormalized.target.name);
+    cell.appendChild(relationLabel);
+    cell.appendChild(textNode);
   }
 }
