@@ -3,6 +3,8 @@ class AddSlugToWikiPages < ActiveRecord::Migration[4.2]
     add_column :wiki_pages, :slug, :string
     add_index :wiki_pages, [:wiki_id, :slug], name: 'wiki_pages_wiki_id_slug', unique: true
 
+    WikiPage.reset_column_information # make sure `slug` is visible
+
     migrate_titles
 
     # Disallow null values from now on

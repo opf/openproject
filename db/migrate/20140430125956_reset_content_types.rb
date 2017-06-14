@@ -29,7 +29,7 @@
 class ResetContentTypes < ActiveRecord::Migration[4.2]
   def up
     Attachment.all.each do |attachment|
-      attachment.update_column(:content_type, Attachment.content_type_for(attachment.diskfile))
+      attachment.update_column(:content_type, Attachment.content_type_for(attachment.disk_filename))
     end
   end
 
