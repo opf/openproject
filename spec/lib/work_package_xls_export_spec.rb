@@ -50,8 +50,7 @@ describe "WorkPackageXlsExport" do
 
   let(:export) do
     OpenProject::XlsExport::WorkPackageXlsExport.new(
-      project: project, work_packages: work_packages, query: query,
-      current_user: current_user,
+      query,
       with_relations: true
     )
   end
@@ -60,7 +59,7 @@ describe "WorkPackageXlsExport" do
     f = Tempfile.new 'result.xls'
     begin
       f.binmode
-      f.write export.to_xls
+      f.write export.list
     ensure
       f.close
     end

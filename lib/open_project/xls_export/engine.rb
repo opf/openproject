@@ -8,8 +8,7 @@ module OpenProject::XlsExport
              author_url: 'http://openproject.com/',
              requires_openproject: '>= 4.0.0'
 
-    patches %i[WorkPackagesController
-               Queries::WorkPackages::Columns::WorkPackageColumn]
+    patches %i[Queries::WorkPackages::Columns::WorkPackageColumn]
     # disabled since not yet migrated: :CostReportsController
 
     extend_api_response(:v3, :work_packages, :work_package_collection) do
@@ -31,6 +30,11 @@ module OpenProject::XlsExport
       Mime::Type.register('application/vnd.ms-excel',
                           :xls,
                           %w(application/vnd.ms-excel)) unless defined? Mime::XLS
+    end
+
+    config.to_prepare do
+      WorkPackage::Exporter
+        .register_for_list(:xls, OpenProject::XlsExport::WorkPackageXlsExport)
     end
   end
 end
