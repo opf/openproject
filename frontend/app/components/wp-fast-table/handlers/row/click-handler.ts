@@ -40,7 +40,11 @@ export class RowClickHandler implements TableEventHandler {
 
     // Locate the row from event
     let element = target.closest(this.SELECTOR);
-    let row = table.rowObject(element.data('workPackageId'));
+    let wpId = element.data('workPackageId');
+
+    if (!wpId) {
+      return;
+    }
 
     // Ignore links
     if (target.is('a') || target.parent().is('a')) {
@@ -50,6 +54,7 @@ export class RowClickHandler implements TableEventHandler {
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
+    let row = table.rowObject(wpId);
     this.states.focusedWorkPackage.putValue(row.workPackageId);
 
     // Update single selection if no modifier present

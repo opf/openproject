@@ -76,8 +76,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
    */
   public createEmptyRelationRow(from:WorkPackageResource, relation:DenormalizedRelationData) {
     let tr = document.createElement('tr');
-    tr.dataset['relatedworkPackageId'] = from.id;
-    tr.dataset['workPackageId'] = relation.target.id;
+    tr.dataset['relatedWorkPackageId'] = from.id;
     tr.classList.add(
       rowClassName, commonRowClassName, 'issue', '-no-highlighting',
       `wp-table--relations-aditional-row`, relationGroupClass(from.id)
