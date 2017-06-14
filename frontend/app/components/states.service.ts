@@ -1,7 +1,6 @@
 import {createNewContext, derive, input, multiInput, State, StatesGroup} from "reactivestates";
 import {Subject} from "rxjs";
 import {opServicesModule} from "../angular-modules";
-import {whenDebugging} from "../helpers/debug_output";
 import {QueryFormResource} from "./api/api-v3/hal-resources/query-form-resource.service";
 import {QueryResource} from "./api/api-v3/hal-resources/query-resource.service";
 import {SchemaResource} from "./api/api-v3/hal-resources/schema-resource.service";
@@ -111,10 +110,5 @@ export class UserUpdaterStates {
 
 const ctx = createNewContext();
 const states = ctx.create(States);
-
-whenDebugging(() => {
-  states.enableLog(true);
-  states.table.enableLog(true);
-});
 
 opServicesModule.value('states', states);
