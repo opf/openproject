@@ -252,7 +252,7 @@ class WorkPackage < ActiveRecord::Base
   # after the wp is created.
   # As after_create is run before after_save, and journal creation is triggered by an
   # after_save hook, we rely on after_save and a specific version here.
-  after_save :reload_lock_and_timestamps, if: Proc.new { |wp| wp.lock_version == 0 }
+  after_save :reload_lock_and_timestamps, if: Proc.new { |wp| wp.lock_version.zero? }
 
   def self.done_ratio_disabled?
     Setting.work_package_done_ratio == 'disabled'
@@ -286,11 +286,10 @@ class WorkPackage < ActiveRecord::Base
     # attributes don't come from form, so it's safe to force assign
     self.attributes = work_package.attributes.dup.except(*merged_options[:exclude])
     self.parent_id = work_package.parent_id if work_package.parent_id
-    self.custom_field_values =
-      work_package.custom_field_values.inject({}) do |h, v|
-        h[v.custom_field_id] = work_package.custom_value_for(v.custom_field_id)
-        h
-      end
+    self.custom_field_values = work_package
+                               .custom_values
+                               .map { |cv| [cv.custom_field_id, cv.value] }
+                               .to_h
     self.status = work_package.status
 
     work_package.watchers.each do |watcher|

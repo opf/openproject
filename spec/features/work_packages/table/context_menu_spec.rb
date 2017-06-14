@@ -57,8 +57,9 @@ describe 'Work package table context menu', js: true do
     # Open Copy
     goto_context_menu
     menu.choose('Copy')
-    expect(page).to have_selector('h2', text: I18n.t(:button_copy))
-    expect(page).to have_selector('a.issue', text: "##{work_package.id}")
+    # Split view open in copy state
+    expect(page).to have_selector('.work-packages--details', text: "New #{work_package.type}")
+    expect(page).to have_field('wp-new-inline-edit--field-subject', with: work_package.subject)
 
     # Open Delete
     goto_context_menu
