@@ -52,8 +52,14 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if EnterpriseToken.allows_to?(:define_custom_style) && CustomStyle.try(:current).present? %>
       <% cache(CustomStyle.current) do %>
         <%= render partial: "custom_styles/inline_css" %>
+        <% if CustomStyle.current.favicon.present? %>
+          <link rel="icon" type="image/png" href="<%= custom_style_favicon_path(digest: CustomStyle.current.digest, filename: CustomStyle.current.favicon_identifier) %>" sizes="32x32">
+        <% end %>
+        <% if CustomStyle.current.favicon.present? %>
+          <link rel="apple-touch-icon" sizes="180x180" href="<%= custom_style_touch_icon_path(digest: CustomStyle.current.digest, filename: CustomStyle.current.touch_icon_identifier) %>">
+        <% end %>
       <% end %>
-    <% end %>
+    <% end %>  
   </head>
   <body class="<%= body_css_classes %>" ng-app="openproject" data-relative_url_root="<%= root_path %>" ng-init="projectIdentifier = '<%= (@project.identifier rescue '') %>'">
     <noscript>

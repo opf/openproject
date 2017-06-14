@@ -1188,6 +1188,8 @@ en:
   label_logged_as: "Logged in as"
   label_login: "Sign in"
   label_custom_logo: "Custom logo"
+  label_custom_favicon: "Custom favicon"
+  label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
   label_main_menu: "Side Menu"
   label_manage_groups: "Manage groups"
@@ -1986,7 +1988,20 @@ en:
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work
     package type and per project.
-  text_custom_logo_instructions: "A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 60px."
+  text_custom_logo_instructions: >
+    A white logo on transparent background is recommended.
+    For best results on both, conventional and retina displays,
+    make sure your image's dimensions are 460px by 60px.
+  text_custom_favicon_instructions: >
+    This is the tiny icon that appears in your browser window/tab next to the
+    page's title.
+    It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+  text_custom_touch_icon_instructions: >
+    This is the icon that appears in your mobile or tablet when you place a
+    bookmark on your homescreen.
+    It's needs to be a squared 180 by 180 pixels sized PNG image file. Please
+    make sure the image's background is not transparent otherwise it will look
+    bad on iOS.
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
   text_destroy: "Delete"
