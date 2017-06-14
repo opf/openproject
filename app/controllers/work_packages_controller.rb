@@ -35,7 +35,6 @@ class WorkPackagesController < ApplicationController
 
   accept_key_auth :index, :show
 
-  # before_action :disable_api # TODO re-enable once API is used for any JSON request
   before_action :authorize_on_work_package, only: :show
   before_action :find_optional_project,
                 :protect_from_unauthorized_export, only: :index
@@ -43,12 +42,11 @@ class WorkPackagesController < ApplicationController
   before_action :load_query, only: :index, unless: ->() { request.format.html? }
   before_action :load_work_packages, only: :index, if: ->() { request.format.atom? }
 
+  before_action :set_gon_settings
+
   def show
     respond_to do |format|
       format.html do
-        gon.settings = client_preferences
-        gon.settings[:enabled_modules] = project ? project.enabled_modules.collect(&:name) : []
-
         render :show, locals: { work_package: work_package }, layout: 'angular'
       end
 
@@ -57,11 +55,7 @@ class WorkPackagesController < ApplicationController
       end
 
       format.atom do
-        render template: 'journals/index',
-               layout: false,
-               content_type: 'application/atom+xml',
-               locals: { title: "#{Setting.app_title} - #{work_package}",
-                         journals: journals }
+        atom_journals
       end
     end
   end
@@ -69,9 +63,6 @@ class WorkPackagesController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        gon.settings = client_preferences
-        gon.settings[:enabled_modules] = @project ? @project.enabled_modules.collect(&:name) : []
-
         render :index, locals: { query: @query, project: @project },
                        layout: 'angular'
       end
@@ -81,8 +72,7 @@ class WorkPackagesController < ApplicationController
       end
 
       format.atom do
-        render_feed(@work_packages,
-                    title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
+        atom_list
       end
     end
   end
@@ -92,6 +82,11 @@ class WorkPackagesController < ApplicationController
   end
 
   protected
+
+  def set_gon_settings
+    gon.settings = client_preferences
+    gon.settings[:enabled_modules] = project ? project.enabled_modules.collect(&:name) : []
+  end
 
   def export_list(mime_type)
     exporter = WorkPackage::Exporter.for_list(mime_type)
@@ -119,6 +114,19 @@ class WorkPackagesController < ApplicationController
                 type: export.mime_type,
                 filename: export.title)
     end
+  end
+
+  def atom_journals
+    render template: 'journals/index',
+           layout: false,
+           content_type: 'application/atom+xml',
+           locals: { title: "#{Setting.app_title} - #{work_package}",
+                     journals: journals }
+  end
+
+  def atom_list
+    render_feed(@work_packages,
+                title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
   end
 
   def authorize_on_work_package
@@ -154,7 +162,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def project
-    @project ||= work_package.project
+    @project ||= work_package ? work_package.project : nil
   end
 
   def work_package
