@@ -2,7 +2,11 @@ body:not(.accessibility-mode )
 
   .wp-table--relations-aditional-row,
   .wp-table--relation-cell-td.-expanded
-    @include varprop(background, gray-light)
+    background: $table-row-additional-row-color
+
+  .wp-table--relation-cell-td.-expanded
+    border-bottom: 1px solid $table-row-additional-row-color
+
 
 // Show the correct icon for the current expansion state
 .wp-table--relation-indicator
@@ -27,3 +31,12 @@ body:not(.accessibility-mode )
 // since we don't have the edit-span's padding here
 .relation-row--id-cell
   padding-left: 5px !important
+
+// Style the relation label
+.relation-row--type-label
+  background: white
+  padding: 2px
+  border: 1px solid $gray
+  border-radius: 5px
+  margin-right: 5px
+  font-size: 0.7rem
