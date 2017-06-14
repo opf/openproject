@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -44,6 +45,18 @@ module WorkPackage::PdfExport::Common
     else
       value.to_s
     end
+  end
+
+  def success(content)
+    WorkPackage::Exporter::Success
+      .new format: :csv,
+           title: title,
+           content: content,
+           mime_type: 'application/pdf'
+  end
+
+  def error(message)
+    WorkPackage::Exporter::Error.new message
   end
 
   def cell_padding
