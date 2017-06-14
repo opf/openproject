@@ -28,6 +28,7 @@
 
 import * as moment from "moment";
 import {State} from "reactivestates";
+import {Observable} from "rxjs/Observable";
 import {openprojectModule} from "../../../../angular-modules";
 import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
 import {States} from "../../../states.service";
@@ -108,9 +109,12 @@ export class WorkPackageTableTimelineRelations {
    */
   private setupRelationSubscription() {
     // for all visible WorkPackage rows...
-    this.states.table.renderedWorkPackages.values$()
+    Observable.combineLatest(
+      this.states.table.renderedWorkPackages.values$(),
+      this.states.table.timelineVisible.values$().filter(v => v.visible)
+    )
       .takeUntil(scopeDestroyed$(this.$scope))
-      .filter(() => this.states.table.timelineVisible.mapOr(v => v.visible, false))
+      .map(([rendered, visible]) => rendered)
       .subscribe(list => {
         // ... make sure that the corresponding relations are loaded ...
         this.wpStates.requireInvolved(list.map(row => row.workPackageId!));

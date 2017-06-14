@@ -22,9 +22,7 @@ export class WorkPackageStates extends StatesGroup {
               private wpTableRefresh: WorkPackageTableRefreshService,
               private PathHelper: any) {
     super();
-    whenDebugging(() => {
-      this.enableLog(true);
-    });
+    this.initializeMembers();
   }
 
   getRelationsForWorkPackage(workPackageId: string): State<RelationsStateValue> {
