@@ -37,6 +37,7 @@ describe 'custom field inplace editor', js: true do
     wp_field.set_value value
     wp_field.submit_by_enter if wp_field.field_type == 'input'
     wp_page.expect_notification(update_args)
+    wp_page.dismiss_notification!
   end
 
   describe 'long text' do
@@ -107,7 +108,6 @@ describe 'custom field inplace editor', js: true do
       wp_page.expect_attributes customField1: 'bar',
                                 customField2: 'X'
 
-      wp_page.dismiss_notification!
     end
   end
 
