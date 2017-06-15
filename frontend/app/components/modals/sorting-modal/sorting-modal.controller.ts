@@ -56,7 +56,7 @@ function SortingModalController(this:any,
 
   wpTableSortBy.onReady($scope).then(() => {
     $scope.currentSortation = wpTableSortBy.currentSortBys;
-    let availableSortation = wpTableSortBy.availableSortBys;
+    let availableSortation = wpTableSortBy.available;
     let allColumns:QueryColumn[] = _.map(availableSortation, sort => sort.column);
     $scope.allColumns = _.uniqBy(allColumns, '$href');
 
@@ -87,7 +87,7 @@ function SortingModalController(this:any,
   $scope.updateSortation = () => {
     let sortElements = ($scope.sortationObjects as SortModalObject[])
       .filter(object => object.column)
-      .map(object => _.find(wpTableSortBy.availableSortBys, availableSort =>
+      .map(object => _.find(wpTableSortBy.available, availableSort =>
         availableSort.column.$href === object.column!.$href &&
           availableSort.direction.$href === object.direction
       ));

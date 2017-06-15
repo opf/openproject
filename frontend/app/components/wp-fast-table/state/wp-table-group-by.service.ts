@@ -46,20 +46,18 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService 
     super(states)
   }
 
-  public initialize(query:QueryResource, schema?:QuerySchemaResourceInterface) {
-    let state = this.create(query, schema);
-
-    this.state.putValue(state);
+  public initialize(query:QueryResource) {
+    this.state.putValue(new WorkPackageTableGroupBy(query));
   }
 
-  public update(query:QueryResource, schema?:QuerySchemaResourceInterface) {
+  public update(query:QueryResource) {
     let currentState = this.currentState;
 
     if (currentState) {
-      currentState.update(query, schema);
+      currentState.update(query);
       this.state.putValue(currentState);
     } else {
-      this.initialize(query, schema);
+      this.initialize(query);
     }
   }
 
@@ -77,12 +75,8 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService 
     return true;
   }
 
-  protected create(query:QueryResource, schema?:QuerySchemaResourceInterface) {
-    return new WorkPackageTableGroupBy(query, schema)
-  }
-
   public isGroupable(column:QueryColumn):boolean {
-    return !!this.currentState.isGroupable(column);
+    return !!_.find(this.available, candidate => candidate.id === column.id)
   }
 
   public set(groupBy:QueryGroupByResource) {
@@ -95,14 +89,19 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService 
 
   public setBy(column:QueryColumn) {
     let currentState = this.currentState;
+    let groupBy = _.find(this.available, candidate => candidate.id === column.id);
 
-    currentState.setBy(column);
-
-    this.state.putValue(currentState);
+    if (groupBy) {
+      this.set(groupBy);
+    }
   }
 
   protected get currentState():WorkPackageTableGroupBy {
     return this.state.value as WorkPackageTableGroupBy;
+  }
+
+  protected get availableState() {
+    return this.states.query.available.groupBy;
   }
 
   public get current():QueryGroupByResource|undefined {
@@ -118,11 +117,11 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService 
   }
 
   public get available():QueryGroupByResource[] {
-    return this.currentState.available;
+    return this.availableState.getValueOr([]);
   }
 
   public isCurrentlyGroupedBy(column:QueryColumn):boolean {
-    return this.currentState.isCurrentlyGroupedBy(column);
+    return !!(this.current && this.current.id === column.id);
   }
 }
 

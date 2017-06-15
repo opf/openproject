@@ -50,8 +50,8 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService i
     super(states);
   }
 
-  public initialize(query:QueryResource, schema:QuerySchemaResourceInterface) {
-    let sortBy = new WorkPackageTableSortBy(query, schema);
+  public initialize(query:QueryResource) {
+    let sortBy = new WorkPackageTableSortBy(query);
 
     this.state.putValue(sortBy);
   }
@@ -72,11 +72,14 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService i
   }
 
   public isSortable(column:QueryColumn):boolean {
-    return !!this.current.isSortable(column);
+    return !!_.find(
+      this.available,
+      (candidate) => candidate.column.$href === column.$href
+    );
   }
 
   public addAscending(column:QueryColumn) {
-    let available = this.current.findAvailableDirection(column, QUERY_SORT_BY_ASC);
+    let available = this.findAvailableDirection(column, QUERY_SORT_BY_ASC);
 
     if (available) {
       this.add(available);
@@ -84,11 +87,19 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService i
   }
 
   public addDescending(column:QueryColumn) {
-    let available = this.current.findAvailableDirection(column, QUERY_SORT_BY_DESC);
+    let available = this.findAvailableDirection(column, QUERY_SORT_BY_DESC);
 
     if (available) {
       this.add(available);
     }
+  }
+
+  public findAvailableDirection(column:QueryColumn, direction:string):QuerySortByResource|undefined {
+    return _.find(
+      this.available,
+      (candidate) => (candidate.column.$href === column.$href &&
+      candidate.direction.$href === direction)
+    );
   }
 
   public add(sortBy:QuerySortByResource) {
@@ -111,12 +122,16 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService i
     return this.state.value as WorkPackageTableSortBy;
   }
 
+  private get availableState() {
+    return this.states.query.available.sortBy;
+  }
+
   public get currentSortBys():QuerySortByResource[] {
     return this.current.current;
   }
 
-  public get availableSortBys():QuerySortByResource[] {
-    return this.current.available;
+  public get available():QuerySortByResource[] {
+    return this.availableState.getValueOr([]);
   }
 }
 

@@ -13,7 +13,7 @@ export class RowsTransformer {
     injectorBridge(this);
 
     // Redraw table if the current row state changed
-    this.states.table.context.fireOnTransition(this.states.table.rows, 'Query loaded')
+    this.states.query.context.fireOnTransition(this.states.table.rows, 'Query loaded')
       .values$('Initializing table after query was initialized')
       .takeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((rows: WorkPackageResourceInterface[]) => {

@@ -103,13 +103,13 @@ function WorkPackagesListController($scope:any,
 
 
     // Update the title whenever the query
-    states.table.query.values$()
+    states.query.resource.values$()
       .takeUntil(scopeDestroyed$($scope))
       .subscribe((query) => updateTitle(query));
 
-    states.table.context.fireOnStateChange(wpTablePagination.state, 'Query loaded')
+    states.query.context.fireOnStateChange(wpTablePagination.state, 'Query loaded')
       .values$()
-      .withLatestFrom(states.table.query.values$())
+      .withLatestFrom(states.query.resource.values$())
       .takeUntil(scopeDestroyed$($scope))
       .subscribe(([pagination, query]) => {
         updateTitle(query);
@@ -131,16 +131,16 @@ function WorkPackagesListController($scope:any,
   }
 
   function setupChangeObserver(service:WorkPackageQueryStateService) {
-    const queryState = states.table.query;
+    const queryState = states.query.resource;
 
-    states.table.context.fireOnStateChange(service.state, 'Query loaded')
+    states.query.context.fireOnStateChange(service.state, 'Query loaded')
       .values$()
       .takeUntil(scopeDestroyed$($scope))
       .filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
       .subscribe(() => {
         const newQuery = queryState.value!;
         const triggerUpdate = service.applyToQuery(newQuery);
-        states.table.query.putValue(newQuery);
+        states.query.resource.putValue(newQuery);
 
         // Update the current checksum
         wpListChecksumService.updateIfDifferent(newQuery, wpTablePagination.current);

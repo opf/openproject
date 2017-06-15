@@ -33,24 +33,17 @@ import {QueryColumn} from '../wp-query/query-column';
 
 export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColumn[]> {
 
-  // Available columns
-  public available:QueryColumn[]|undefined;
-
   // The selected columns state of the current table instance
   public current:QueryColumn[];
 
-  constructor(query:QueryResource, schema?:QuerySchemaResourceInterface) {
+  constructor(query:QueryResource) {
     super();
-    this.update(query, schema);
+    this.update(query);
   }
 
   public update(query:QueryResource|null, schema?:QuerySchemaResourceInterface) {
     if (query) {
       this.current = angular.copy(query.columns);
-    }
-
-    if (schema) {
-      this.available = angular.copy(schema.columns.allowedValues as QueryColumn[]);
     }
   }
 

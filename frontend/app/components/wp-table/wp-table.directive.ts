@@ -128,7 +128,7 @@ export class WorkPackagesTableController {
     };
 
     Observable.combineLatest(
-      scopedObservable($scope, states.table.query.values$()),
+      scopedObservable($scope, states.query.resource.values$()),
       scopedObservable($scope, states.table.results.values$()),
       wpTableGroupBy.observeOnScope($scope),
       wpTableColumns.observeOnScope($scope),
