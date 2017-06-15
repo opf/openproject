@@ -7,6 +7,7 @@ import {
   RelationResourceInterface,
   RelationResource
 } from '../../api/api-v3/hal-resources/relation-resource.service';
+import {WorkPackageStates} from "../../work-package-states.service";
 
 class WpRelationRowDirectiveController {
   public workPackage: WorkPackageResourceInterface;
@@ -30,7 +31,7 @@ class WpRelationRowDirectiveController {
     field: {
       required: false
     }
-  }
+  };
 
   public relation:RelationResourceInterface;
   public text: Object;
@@ -42,6 +43,7 @@ class WpRelationRowDirectiveController {
               protected wpCacheService: WorkPackageCacheService,
               protected wpNotificationsService: WorkPackageNotificationService,
               protected wpRelations: WorkPackageRelationsService,
+              private wpStates: WorkPackageStates,
               protected I18n:op.I18n,
               protected PathHelper: op.PathHelper) {
 
@@ -101,7 +103,7 @@ class WpRelationRowDirectiveController {
   }
 
   public saveDescription() {
-    this.wpRelations.updateRelation(
+    this.wpStates.updateRelation(
       this.workPackage.id,
       this.relation,
       { description: this.userInputs.newRelationText })
@@ -118,7 +120,7 @@ class WpRelationRowDirectiveController {
   }
 
   public saveRelationType() {
-    this.wpRelations.updateRelation(
+    this.wpStates.updateRelation(
       this.workPackage.id,
       this.relation,
       { type: this.selectedRelationType.name })
@@ -136,7 +138,7 @@ class WpRelationRowDirectiveController {
   }
 
   public removeRelation() {
-    this.wpRelations.removeRelation(this.relation)
+    this.wpStates.removeRelation(this.relation)
       .then(() => {
         this.wpCacheService.updateWorkPackage(this.relatedWorkPackage);
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
