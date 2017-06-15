@@ -1,6 +1,9 @@
-# Manual installation of OpenProject 6.1 with Apache on Ubuntu 14.04. LTS
+# Manual installation of OpenProject 7.0 with Apache on Ubuntu 14.04. LTS
 
-This tutorial helps you to deploy OpenProject 6.1. Please, aware that:
+**IMPORTANT: We strongly recommend to use the [OpenProject installers](https://www.openproject.org/download-and-installation) (packaged installation). There is no real advantage installing OpenProject manually.**
+
+
+This tutorial helps you to deploy OpenProject 7.0. Please, aware that:
 
 This guide requires that you have a clean Ubuntu 14.04 x64 installation
 with administrative rights. We have tested the installation guide on an
@@ -144,7 +147,7 @@ with OpenProject. For more information, see https://github.com/opf/openproject-c
 
 ```bash
 [openproject@host] cd ~
-[openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/6 --depth 1
+[openproject@host] git clone https://github.com/opf/openproject-ce.git --branch stable/7 --depth 1
 [openproject@host] cd openproject-ce
 [openproject@host] gem install bundler
 [openproject@host] bundle install --deployment --without postgres sqlite development test therubyracer docker
