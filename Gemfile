@@ -45,7 +45,7 @@ gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee
 gem 'rdoc', '>= 2.4.2'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize', ref: '38443bcd', require: false
-gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '8385bc0'
+gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
 gem 'request_store', '~> 1.3.1'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
