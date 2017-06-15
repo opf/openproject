@@ -37,6 +37,7 @@ import {
 import {States} from '../../states.service';
 import IPromise = angular.IPromise;
 import {SchemaResource} from '../api-v3/hal-resources/schema-resource.service';
+import {ApiV3FilterBuilder, buildApiV3Filter} from '../api-v3/api-v3-filter-builder';
 
 export class ApiWorkPackagesService {
   constructor(protected $q:ng.IQService,
@@ -73,7 +74,7 @@ export class ApiWorkPackagesService {
     return this.halRequest.get(
       this.v3Path.wps(),
       {
-        filters: JSON.stringify([{ id: {operator: '=', values: ids }}])
+        filters: buildApiV3Filter('id', '=', ids).toJson()
       },
       {
         caching: { enabled: false }

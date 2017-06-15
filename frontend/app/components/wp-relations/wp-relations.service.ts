@@ -37,6 +37,7 @@ import {WorkPackageStates} from "../work-package-states.service";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import {WorkPackageNotificationService} from "../wp-edit/wp-notification.service";
 import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
+import {buildApiV3Filter} from '../api/api-v3/api-v3-filter-builder';
 
 export type RelationsStateValue = {[id:number]:RelationResource};
 
@@ -208,7 +209,7 @@ export class WorkPackageRelationsService {
     return this.halRequest.get(
       '/api/v3/relations',
       {
-        filters: JSON.stringify([{ involved: {operator: '=', values: validIds }}])
+        filters: buildApiV3Filter('involved', '=', validIds).toJson()
       },
       {
         caching: { enabled: false }
