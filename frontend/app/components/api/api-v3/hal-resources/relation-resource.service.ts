@@ -32,8 +32,6 @@ import {WorkPackageResource, WorkPackageResourceInterface} from "./work-package-
 interface RelationResourceLinks {
   delete(): ng.IPromise<any>;
   updateImmediately(payload: any): ng.IPromise<any>;
-  toType:{ href:string };
-  fromType:{ href:string };
 }
 
 export class RelationResource extends HalResource {
@@ -83,13 +81,13 @@ export class RelationResource extends HalResource {
    * @return {{id, href, relationType: string, workPackageType}}
    */
   public denormalized(workPackage:WorkPackageResourceInterface):DenormalizedRelationData {
-    const target = (this.to.href === workPackage.href) ? 'from' : 'to'
+    const target = (this.to.href === workPackage.href) ? 'from' : 'to';
 
     return {
       target: this[target],
+      targetId: this[target].id,
       relationType: target === 'from' ? this.reverseType : this.type,
-      reverseRelationType: target === 'from' ? this.type : this.reverseType,
-      workPackageType: this[target + 'Type'].href
+      reverseRelationType: target === 'from' ? this.type : this.reverseType
     };
   }
 
@@ -117,9 +115,9 @@ export interface RelationResourceInterface extends RelationResourceLinks, Relati
 
 export interface DenormalizedRelationData {
   target:WorkPackageResource;
+  targetId:string;
   relationType:string;
   reverseRelationType:string;
-  workPackageType:string;
 }
 
 function relationResource() {

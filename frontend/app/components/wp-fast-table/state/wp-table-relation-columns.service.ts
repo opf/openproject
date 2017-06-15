@@ -122,7 +122,10 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
       const typeHref = (column as TypeRelationQueryColumn).type.href;
 
       return _.filter(relations, (relation:RelationResource) => {
-        return relation.denormalized(workPackage).workPackageType === typeHref;
+        const denormalized = relation.denormalized(workPackage);
+        const target = this.states.workPackages.get(denormalized.targetId).value!;
+
+        return target.type.href === typeHref;
       });
     }
 

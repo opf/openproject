@@ -52,18 +52,6 @@ module API
           }
         end
 
-        link :toType do
-          {
-            href: api_v3_paths.type(represented.to.type_id)
-          }
-        end
-
-        link :fromType do
-          {
-            href: api_v3_paths.type(represented.from.type_id)
-          }
-        end
-
         link :updateImmediately do
           if manage_relations?
             { href: api_v3_paths.relation(represented.id), method: :patch }

@@ -73,12 +73,6 @@ describe ::API::V3::Relations::RelationRepresenter do
           "href" => "/api/v3/work_packages/#{to.id}",
           "title" => to.subject
         },
-        "fromType" => {
-          "href" => "/api/v3/types/#{from.type.id}"
-        },
-        "toType" => {
-          "href" => "/api/v3/types/#{to.type.id}"
-        }
       },
       "id" => relation.id,
       "name" => "precedes",
