@@ -33,8 +33,14 @@ $toggler-width: 40px
   width: $main-menu-width
   float: left
   left: 0
-  background-color: $main-menu-bg-color
+  border-right: $main-menu-border-width solid $main-menu-border-color
+  position: absolute
+  // min-height is full height minus header and footer.
+  min-height: calc(100% - 55px - 55px)
+  @include varprop(background-color, main-menu-bg-color)
   @include default-transition
+  @include breakpoint(680px down)
+    min-height: initial
 
   #menu-sidebar
     // 40px is the height of the toggler
@@ -50,7 +56,6 @@ $toggler-width: 40px
     padding: 0
 
     &.menu_root
-      border-right: $main-menu-border-width solid $main-menu-border-color
 
       // -------------------- ALL menu items ---------------------------
       li
@@ -144,7 +149,7 @@ $toggler-width: 40px
           @if $main-menu-enable-toggle-highlighting != true
             // simultaneously hover all menu item anchor tags
             > a
-              color: $main-menu-child-selected-font-color
+              @include varprop(color, main-menu-child-selected-font-color)
 
         > a
           @include default-transition
@@ -154,10 +159,11 @@ $toggler-width: 40px
 
 
           &:hover, &.selected, &.selected + a
-            color: $main-menu-child-selected-font-color
+            @include varprop(color, main-menu-child-selected-font-color)
 
         a
-          padding-left: 12px
+          // children have no icon so we need to push them right.
+          padding-left: 54px
           font-size: $main-menu-child-font-size
           line-height: $main-menu-child-item-height
           height: $main-menu-child-item-height
@@ -166,10 +172,10 @@ $toggler-width: 40px
 
           &:hover
             text-decoration: none
-            color: $main-menu-child-selected-font-color
+            @include varprop(color, main-menu-child-selected-font-color)
           &.selected
             border: none !important
-            color: $main-menu-child-selected-font-color
+            @include varprop(color, main-menu-child-selected-font-color)
             font-weight: bold
 
   a
@@ -195,7 +201,7 @@ $toggler-width: 40px
     border: $main-menu-item-border-width solid $main-menu-item-border-color
     height: $main-menu-item-height
     width: $main-menu-width
-    background-color: $main-menu-bg-color
+    @include varprop(background-color, main-menu-bg-color)
     @include default-transition
     &:hover
       @include varprop(background, main-menu-bg-hover-background)
