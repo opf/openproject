@@ -1,4 +1,3 @@
-import { WorkPackageTableHierarchiesService } from './../../wp-fast-table/state/wp-table-hierarchy.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,10 +26,10 @@ import { WorkPackageTableHierarchiesService } from './../../wp-fast-table/state/
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
-import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
 
 angular
   .module('openproject.workPackages')

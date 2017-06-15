@@ -2,7 +2,7 @@ import {States} from '../../../states.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableRow} from '../../wp-table.interfaces';
 import {RowRefreshBuilder} from '../rows/row-refresh-builder';
-import {TableRenderPass} from './table-render-pass';
+import {PrimaryRenderPass} from '../primary-render-pass';
 import {Subject} from 'rxjs';
 
 export abstract class RowsBuilder {
@@ -17,7 +17,7 @@ export abstract class RowsBuilder {
   /**
    * Build all rows of the table.
    */
-  public abstract buildRows():TableRenderPass;
+  public abstract buildRows():PrimaryRenderPass;
 
   /**
    * Determine if this builder applies to the current view mode.

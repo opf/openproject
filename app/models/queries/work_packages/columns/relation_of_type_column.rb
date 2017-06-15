@@ -44,6 +44,7 @@ class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackag
   def sym
     type[:sym]
   end
+  alias :relation_type :sym
 
   def caption
     I18n.t(:'activerecord.attributes.query.relations_of_type_column',

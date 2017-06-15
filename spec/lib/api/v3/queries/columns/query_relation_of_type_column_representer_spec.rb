@@ -57,6 +57,12 @@ describe ::API::V3::Queries::Columns::QueryRelationOfTypeColumnRepresenter do
         .at_path('id')
     end
 
+    it 'has relationType attribute' do
+      is_expected
+        .to be_json_eql(type[:sym].to_json)
+              .at_path('relationType')
+    end
+
     it 'has name attribute' do
       is_expected
         .to be_json_eql("#{I18n.t(type[:name])} relations".to_json)

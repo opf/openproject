@@ -1,12 +1,12 @@
-import {TableRenderPass} from '../table-render-pass';
+import {PrimaryRenderPass} from '../../primary-render-pass';
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
 
-export class PlainRenderPass extends TableRenderPass {
+export class PlainRenderPass extends PrimaryRenderPass {
 
   constructor(public workPackageTable:WorkPackageTable,
               public rowBuilder:SingleRowBuilder) {
-    super(workPackageTable);
+    super(workPackageTable, rowBuilder);
   }
 
   /**

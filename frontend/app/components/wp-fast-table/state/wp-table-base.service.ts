@@ -26,29 +26,36 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {InputState} from "reactivestates";
+import {InputState, State} from "reactivestates";
 import {States} from "../../states.service";
 import {WorkPackageTableBaseState} from "../wp-table-base";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {Observable} from 'rxjs';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 
-export type TableStateStates = 'columns' |
-                               'groupBy' |
-                               'filters' |
-                               'sum' |
-                               'sortBy' |
-                               'timelineVisible' |
-                               'pagination';
+export type TableStateStates =
+  'columns' |
+  'groupBy' |
+  'filters' |
+  'sum' |
+  'sortBy' |
+  'timelineVisible' |
+  'relationColumns' |
+  'pagination';
 
 export abstract class WorkPackageTableBaseService {
-  protected abstract stateName: TableStateStates;
+  protected abstract stateName:TableStateStates;
 
-  constructor(protected states: States) {
+  constructor(protected states:States) {
   }
 
-  public get state(): InputState<any> {
+  public get state():InputState<any> {
     return this.states.table[this.stateName];
-  };
+  }
+
+  public clear(reason:string) {
+    this.state.clear(reason);
+  }
 
   public observeOnScope(scope:ng.IScope) {
     return scopedObservable(scope, this.state.values$());
@@ -61,4 +68,21 @@ export abstract class WorkPackageTableBaseService {
   public onReady(scope:ng.IScope) {
     return scopedObservable(scope, this.state.values$()).take(1).mapTo(null).toPromise();
   }
+}
+
+export interface WorkPackageQueryStateService {
+  /**
+   * Check whether the state value does not match the query resource's value.
+   * @param query The current query resource
+   */
+  hasChanged(query:QueryResource):boolean;
+
+  /**
+   * Apply the current state value to query
+   *
+   * @return Whether the query should be visibly updated.
+   */
+  applyToQuery(query:QueryResource):boolean;
+
+  state:State<any>;
 }

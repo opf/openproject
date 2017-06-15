@@ -1,7 +1,7 @@
 import {RowsBuilder} from '../rows-builder';
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {injectorBridge} from '../../../../angular/angular-injector-bridge.functions';
-import {TableRenderPass} from '../table-render-pass';
+import {PrimaryRenderPass} from '../../primary-render-pass';
 import {PlainRenderPass} from './plain-render-pass';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
 
@@ -22,7 +22,7 @@ export class PlainRowsBuilder extends RowsBuilder {
   /**
    * Rebuild the entire grouped tbody from the given table
    */
-  public buildRows():TableRenderPass {
+  public buildRows():PrimaryRenderPass {
     return new PlainRenderPass(this.workPackageTable, this.rowBuilder).render();
   }
 }

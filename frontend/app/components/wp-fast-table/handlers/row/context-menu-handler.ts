@@ -40,9 +40,14 @@ export class ContextMenuHandler implements TableEventHandler {
     evt.stopPropagation();
 
     // Locate the row from event
-    let element = target.closest(this.SELECTOR);
-    let row = table.rowObject(element.data('workPackageId'));
+    const element = target.closest(this.SELECTOR);
+    const wpId = element.data('workPackageId');
 
+    if (!wpId) {
+      return false;
+    }
+
+    let row = table.rowObject(element.data('workPackageId'));
     this.contextMenu.activate('WorkPackageContextMenu', evt, {row: row, table: table});
     return false;
   }

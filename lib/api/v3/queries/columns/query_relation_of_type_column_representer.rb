@@ -36,6 +36,8 @@ module API
           def _type
             'QueryColumn::RelationOfType'
           end
+
+          property :relation_type
         end
       end
     end

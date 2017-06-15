@@ -26,9 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageTableBaseState, WorkPackageTableQueryState} from "./wp-table-base";
-import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
-export class WorkPackageTableHierarchies extends WorkPackageTableBaseState<boolean> implements WorkPackageTableQueryState {
+import {WorkPackageTableBaseState} from './wp-table-base';
+
+export class WorkPackageTableHierarchies extends WorkPackageTableBaseState<boolean> {
   public current:boolean;
   public collapsed:{[workPackageId:string]:boolean};
 
@@ -36,14 +36,6 @@ export class WorkPackageTableHierarchies extends WorkPackageTableBaseState<boole
     super();
     this.current = isVisible;
     this.collapsed = {};
-  }
-
-  public hasChanged(query:QueryResource) {
-    return query.showHierarchies !== this.isEnabled;
-  }
-
-  public applyToQuery(query:QueryResource) {
-    query.showHierarchies = this.isEnabled;
   }
 
   public toggle() {

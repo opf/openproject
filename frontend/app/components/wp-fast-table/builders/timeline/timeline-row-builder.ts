@@ -21,15 +21,14 @@ export class TimelineRowBuilder {
     $injectFields(this, 'states', 'wpTableTimeline', 'wpCacheService');
   }
 
-  public build(workPackage:WorkPackageResourceInterface|null,
-               rowClassNames:string[] = []) {
+  public build(workPackageId:string|null) {
     const cell = document.createElement('div');
-    cell.classList.add(timelineCellClassName, commonRowClassName, ...rowClassNames);
+    cell.classList.add(timelineCellClassName, commonRowClassName);
 
-    if (workPackage) {
-      cell.id = timelineRowId(workPackage.id);
-      cell.dataset['workPackageId'] = workPackage.id;
-      cell.classList.add(`${commonRowClassName}-${workPackage.id}`);
+    if (workPackageId) {
+      cell.id = timelineRowId(workPackageId);
+      cell.dataset['workPackageId'] = workPackageId;
+      cell.classList.add(`${commonRowClassName}-${workPackageId}`);
     }
 
     return cell;
@@ -41,9 +40,13 @@ export class TimelineRowBuilder {
    * @param timelineBody
    * @param rowClasses
    */
-  public insert(workPackage:WorkPackageResourceInterface | null,
+  public insert(workPackageId:string | null,
                 timelineBody:DocumentFragment | HTMLElement,
                 rowClasses:string[] = []) {
-    timelineBody.appendChild(this.build(workPackage, rowClasses));
+
+    const cell = this.build(workPackageId);
+    cell.classList.add(...rowClasses);
+
+    timelineBody.appendChild(cell);
   }
 }

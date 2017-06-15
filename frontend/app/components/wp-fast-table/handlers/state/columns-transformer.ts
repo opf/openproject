@@ -1,16 +1,19 @@
 import {debugLog} from '../../../../helpers/debug_output';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {States} from '../../../states.service';
 import {WorkPackageTable} from '../../wp-fast-table';
+import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 
 export class ColumnsTransformer {
   public states:States;
+  public wpTableColumns:WorkPackageTableColumnsService;
 
   constructor(public table: WorkPackageTable) {
-    injectorBridge(this);
+    $injectFields(this, 'states', 'wpTableColumns');
 
     this.states.updates.columnsUpdates
       .values$('Refreshing columns on user request')
+      .filter(() => this.wpTableColumns.hasRelationColumns() === false)
       .takeUntil(this.states.table.stopAllSubscriptions)
       .subscribe(() => {
         if (table.rows.length > 0) {
@@ -26,5 +29,3 @@ export class ColumnsTransformer {
     });
   }
 }
-
-ColumnsTransformer.$inject = ['states'];

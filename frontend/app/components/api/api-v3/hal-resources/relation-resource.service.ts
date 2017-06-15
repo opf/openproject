@@ -27,7 +27,7 @@ import {opApiModule} from "../../../../angular-modules";
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 import {HalResource} from "./hal-resource.service";
-import {WorkPackageResource} from "./work-package-resource.service";
+import {WorkPackageResource, WorkPackageResourceInterface} from "./work-package-resource.service";
 
 interface RelationResourceLinks {
   delete(): ng.IPromise<any>;
@@ -70,14 +70,26 @@ export class RelationResource extends HalResource {
   public to:WorkPackageResource;
   public from:WorkPackageResource;
 
-  public normalizedType(workPackage:WorkPackageResource) {
-    if (this.to.href === workPackage.href) {
-      return this.reverseType;
-    }
-
-    return this.type;
+  public normalizedType(workPackage:WorkPackageResourceInterface) {
+    return this.denormalized(workPackage).relationType;
   }
 
+  /**
+   * Return the denormalized relation data, seeing the relation.from to be `workPackage`.
+   *
+   * @param workPackage
+   * @return {{id, href, relationType: string, workPackageType}}
+   */
+  public denormalized(workPackage:WorkPackageResourceInterface):DenormalizedRelationData {
+    const target = (this.to.href === workPackage.href) ? 'from' : 'to';
+
+    return {
+      target: this[target],
+      targetId: this[target].id,
+      relationType: target === 'from' ? this.reverseType : this.type,
+      reverseRelationType: target === 'from' ? this.type : this.reverseType
+    };
+  }
 
   /**
    * Get the involved IDs, returning an object to the ids.
@@ -99,6 +111,13 @@ export class RelationResource extends HalResource {
 }
 
 export interface RelationResourceInterface extends RelationResourceLinks, RelationResource {
+}
+
+export interface DenormalizedRelationData {
+  target:WorkPackageResource;
+  targetId:string;
+  relationType:string;
+  reverseRelationType:string;
 }
 
 function relationResource() {

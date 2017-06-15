@@ -26,19 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  QueryFilterResource,
-} from '../api/api-v3/hal-resources/query-filter-resource.service';
-import {
-  QueryFilterInstanceResource,
-} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
+import {QueryFilterResource} from '../api/api-v3/hal-resources/query-filter-resource.service';
+import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/query-filter-instance-schema-resource.service';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {WorkPackageTableBaseState, WorkPackageTableQueryState} from './wp-table-base';
+import {WorkPackageTableBaseState} from './wp-table-base';
 
-export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> implements WorkPackageTableQueryState {
+export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilterInstanceResource[]> {
+
   public availableSchemas:QueryFilterInstanceSchemaResource[] = [];
   public current:QueryFilterInstanceResource[] = [];
 
@@ -48,19 +43,6 @@ export class WorkPackageTableFilters extends WorkPackageTableBaseState<QueryFilt
     this.availableSchemas = schema
                             .filtersSchemas
                             .elements as QueryFilterInstanceSchemaResource[];
-  }
-
-  public hasChanged(query:QueryResource) {
-    const comparer = (filter:HalResource[]) => filter.map(el => el.$plain());
-
-    return !_.isEqual(
-      comparer(query.filters),
-      comparer(this.current)
-    );
-  }
-
-  public applyToQuery(query:QueryResource) {
-    query.filters = _.cloneDeep(this.current);
   }
 
   public add(filter:QueryFilterResource) {

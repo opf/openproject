@@ -33,6 +33,7 @@ import {FormResource} from '../hal-resources/form-resource.service';
 import {opApiModule} from '../../../../angular-modules';
 import {HalRequestService} from '../hal-request/hal-request.service';
 import {PayloadDmService} from './payload-dm.service';
+import {ApiV3FilterBuilder} from '../api-v3-filter-builder';
 
 export interface PaginationObject {
   pageSize:number;
@@ -113,27 +114,17 @@ export class QueryDmService {
   }
 
   public all(projectIdentifier?:string):ng.IPromise<CollectionResource> {
-    let filters = [];
+    let filters = new ApiV3FilterBuilder();
 
     if (projectIdentifier) {
       // all queries with the provided projectIdentifier
-      filters.push({
-                     project_identifier: {
-                       operator: '=',
-                       values: [projectIdentifier]
-                     }
-                   });
+      filters.add('project_identifier', '=',  [projectIdentifier]);
     } else {
       // all queries having no project (i.e. being global)
-      filters.push({
-                     project: {
-                       operator: '!*',
-                       values: []
-                     }
-                   });
+      filters.add('project', '!*', []);
     }
 
-    let urlQuery = { filters: JSON.stringify(filters) };
+    let urlQuery = { filters: filters.toJson() };
     let caching = { caching: {enabled: false} };
 
     return this.halRequest.get(this.v3Path.queries(),

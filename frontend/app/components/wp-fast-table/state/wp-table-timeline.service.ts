@@ -26,14 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TableStateStates, WorkPackageTableBaseService} from "./wp-table-base.service";
+import {
+  TableStateStates, WorkPackageQueryStateService,
+  WorkPackageTableBaseService
+} from "./wp-table-base.service";
 import {QueryResource} from "../../api/api-v3/hal-resources/query-resource.service";
 import {opServicesModule} from "../../../angular-modules";
 import {States} from "../../states.service";
 import {WorkPackageTableTimelineState} from "./../wp-table-timeline";
 import {zoomLevelOrder} from "../../wp-table/timeline/wp-timeline";
 
-export class WorkPackageTableTimelineService extends WorkPackageTableBaseService {
+export class WorkPackageTableTimelineService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'timelineVisible' as TableStateStates;
 
   constructor(public states:States) {
@@ -44,6 +47,20 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
     let current = new WorkPackageTableTimelineState(query.timelineVisible, query.timelineZoomLevel);
 
     this.state.putValue(current);
+  }
+
+  public hasChanged(query:QueryResource) {
+    const visibilityChanged = this.isVisible !== query.timelineVisible;
+    const zoomLevelChanged = this.zoomLevel !== query.timelineZoomLevel;
+
+    return visibilityChanged || zoomLevelChanged;
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.timelineVisible = this.isVisible;
+    query.timelineZoomLevel = this.zoomLevel;
+
+    return false;
   }
 
   public toggle() {

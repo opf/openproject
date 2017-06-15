@@ -1,4 +1,4 @@
-import {createNewContext, input, multiInput, StatesGroup} from "reactivestates";
+import {combine, createNewContext, derive, input, multiInput, StatesGroup} from "reactivestates";
 import {Subject} from "rxjs";
 import {opServicesModule} from "../angular-modules";
 import {QueryFormResource} from "./api/api-v3/hal-resources/query-form-resource.service";
@@ -21,8 +21,9 @@ import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
 import {whenDebugging} from "../helpers/debug_output";
 import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
 import {WorkPackageTableTimelineState} from "./wp-fast-table/wp-table-timeline";
-import {TableRenderResult} from "./wp-fast-table/builders/modes/table-render-pass";
+import {TableRenderResult} from "./wp-fast-table/builders/primary-render-pass";
 import {SwitchState} from "./states/switch-state";
+import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
 
 export class States extends StatesGroup {
 
@@ -38,6 +39,8 @@ export class States extends StatesGroup {
 
   // Work package table states
   table = new TableState();
+
+  tableRendering = new TableRenderingStates(this.table);
 
   // Updater states on user input
   updates = new UserUpdaterStates(this.table);
@@ -94,6 +97,31 @@ export class TableState {
   stopAllSubscriptions = new Subject();
   // Fire when table refresh is required
   refreshRequired = input<boolean>();
+
+  // Expanded relation columns
+  relationColumns = input<WorkPackageTableRelationColumns>();
+
+  // Required data for the table to load
+  // currently, this contains only relations
+  requiredDataLoaded = input<null>();
+}
+
+export class TableRenderingStates {
+  constructor(private table:TableState) {
+  }
+
+  // State when all required input states for the current query are ready
+  private combinedTableStates = combine(
+    this.table.rows,
+    this.table.columns,
+    this.table.sum,
+    this.table.groupBy,
+    this.table.sortBy,
+    this.table.requiredDataLoaded
+  );
+
+  onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.mapTo(null));
+
 }
 
 export class UserUpdaterStates {
@@ -105,6 +133,7 @@ export class UserUpdaterStates {
 
   hierarchyUpdates = this.table.context.fireOnStateChange(this.table.hierarchies, 'Query loaded');
 
+  relationUpdates = this.table.context.fireOnStateChange(this.table.relationColumns, 'Query loaded');
 }
 
 

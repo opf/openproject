@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,40 +24,29 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {HalResource} from './hal-resource.service';
-import {opApiModule} from '../../../../angular-modules';
-import {QueryColumn} from '../../../wp-query/query-column';
+import {WorkPackageTableBaseState} from "./wp-table-base";
 
-export const QUERY_SORT_BY_ASC = "urn:openproject-org:api:v3:queries:directions:asc"
-export const QUERY_SORT_BY_DESC = "urn:openproject-org:api:v3:queries:directions:desc"
-
-interface QuerySortByResourceEmbedded {
-  column:QueryColumn;
-  direction:QuerySortByDirection;
+export interface RelationColumnStateValue {
+  [workPackageId:string]:string;
 }
 
-export class QuerySortByResource extends HalResource {
-  public $embedded:QuerySortByResourceEmbedded;
-  public column:QueryColumn;
-  public direction:QuerySortByDirection;
-}
+export class WorkPackageTableRelationColumns extends WorkPackageTableBaseState<RelationColumnStateValue> {
+  constructor() {
+    super();
+    this.current = {};
+  }
 
-/**
- * A direction for sorting
- */
-export class QuerySortByDirection extends HalResource {
-  public get id():string {
-    return this.$href!.split('/').pop()!;
+  public getExpandFor(workPackageId:string) {
+    return this.current[workPackageId];
+  }
+
+  public expandFor(workPackageId:string, columnId:string) {
+    this.current[workPackageId] = columnId;
+  }
+
+  public collapse(workPackageId:string) {
+    delete this.current[workPackageId];
   }
 }
-
-function querySortByResource() {
-  return QuerySortByResource;
-}
-
-export interface QuerySortByResourceInterface extends QuerySortByResourceEmbedded, QuerySortByResource {
-}
-
-opApiModule.factory('QuerySortByResource', querySortByResource);

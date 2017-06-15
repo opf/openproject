@@ -26,38 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {HalResource} from './hal-resource.service';
-import {opApiModule} from '../../../../angular-modules';
-import {QueryColumn} from '../../../wp-query/query-column';
+export type FilterOperator = '=' | '!*';
 
-export const QUERY_SORT_BY_ASC = "urn:openproject-org:api:v3:queries:directions:asc"
-export const QUERY_SORT_BY_DESC = "urn:openproject-org:api:v3:queries:directions:desc"
-
-interface QuerySortByResourceEmbedded {
-  column:QueryColumn;
-  direction:QuerySortByDirection;
+export interface ApiV3Filter {
+  [filter:string]:{ operator:FilterOperator, values:any };
 }
 
-export class QuerySortByResource extends HalResource {
-  public $embedded:QuerySortByResourceEmbedded;
-  public column:QueryColumn;
-  public direction:QuerySortByDirection;
-}
+export class ApiV3FilterBuilder {
 
-/**
- * A direction for sorting
- */
-export class QuerySortByDirection extends HalResource {
-  public get id():string {
-    return this.$href!.split('/').pop()!;
+  private filters:ApiV3Filter[] = [];
+
+  public add(name:string, operator:FilterOperator, values:any):this {
+    let newFilter:ApiV3Filter = {};
+    newFilter[name] = {
+      operator: operator,
+      values: values
+    };
+
+    this.filters.push(newFilter);
+    return this;
+  }
+
+  public toJson():string {
+    return JSON.stringify(this.filters);
   }
 }
 
-function querySortByResource() {
-  return QuerySortByResource;
+export function buildApiV3Filter(name:string, operator:FilterOperator, values:any) {
+  return new ApiV3FilterBuilder().add(name, operator, values);
 }
 
-export interface QuerySortByResourceInterface extends QuerySortByResourceEmbedded, QuerySortByResource {
-}
-
-opApiModule.factory('QuerySortByResource', querySortByResource);

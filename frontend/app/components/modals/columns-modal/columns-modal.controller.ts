@@ -28,7 +28,7 @@
 
 import {wpControllersModule} from '../../../angular-modules';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
-import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service'
+import {QueryColumn} from '../../wp-query/query-column';
 
 function ColumnsModalController(this:any,
                                 $scope:any,

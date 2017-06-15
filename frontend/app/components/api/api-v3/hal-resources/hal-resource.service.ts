@@ -41,7 +41,7 @@ var CacheService:any;
 
 export class HalResource {
   [attribute:string]:any;
-  public static _type:string;
+  public _type:string;
 
   public static create(element:any, force:boolean = false) {
     if (!force && !(element._embedded || element._links)) {

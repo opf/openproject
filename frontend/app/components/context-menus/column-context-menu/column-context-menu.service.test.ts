@@ -26,8 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
-
+import {QueryColumn} from '../../wp-query/query-column';
 describe('columnContextMenu', function() {
   var container:any, contextMenu:any, wpTableColumns:any, wpTableGroupBy:any, wpTableSortBy:any, $rootScope:any, scope:any, ngContextMenu:any;
 

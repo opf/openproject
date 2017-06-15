@@ -11,3 +11,9 @@
 <span class="badge -secondary">1</span>
 <span class="badge -secondary">2</span>
 ```
+
+```
+<span class="badge -border-only">0</span>
+<span class="badge -border-only">1</span>
+<span class="badge -border-only">2</span>
+```

@@ -26,28 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopeDestroyed$, scopedObservable} from "../../../helpers/angular-rx-utils";
-import {QueryResource} from "../../api/api-v3/hal-resources/query-resource.service";
-import {LoadingIndicatorService} from "../../common/loading-indicator/loading-indicator.service";
-import {States} from "../../states.service";
-import {WorkPackageTableColumnsService} from "../../wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableFiltersService} from "../../wp-fast-table/state/wp-table-filters.service";
-import {WorkPackageTableGroupByService} from "../../wp-fast-table/state/wp-table-group-by.service";
-import {WorkPackageTablePaginationService} from "../../wp-fast-table/state/wp-table-pagination.service";
-import {WorkPackageTableSortByService} from "../../wp-fast-table/state/wp-table-sort-by.service";
-import {WorkPackageTableSumService} from "../../wp-fast-table/state/wp-table-sum.service";
-import {WorkPackageTablePagination} from "../../wp-fast-table/wp-table-pagination";
+import {scopeDestroyed$, scopedObservable} from '../../../helpers/angular-rx-utils';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {LoadingIndicatorService} from '../../common/loading-indicator/loading-indicator.service';
+import {States} from '../../states.service';
+import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableFiltersService} from '../../wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
+import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
-import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
-import {WorkPackagesListService} from "../../wp-list/wp-list.service";
-import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
-import {WorkPackageTableBaseService} from "../../wp-fast-table/state/wp-table-base.service";
-import {
-  WorkPackageTableBaseState,
-  WorkPackageTableQueryState
-} from "../../wp-fast-table/wp-table-base";
-import {WorkPackageTableRefreshService} from "../../wp-table/wp-table-refresh-request.service";
-import {debugLog} from "../../../helpers/debug_output";
+import {WorkPackagesListChecksumService} from '../../wp-list/wp-list-checksum.service';
+import {WorkPackagesListService} from '../../wp-list/wp-list.service';
+import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackageQueryStateService} from '../../wp-fast-table/state/wp-table-base.service';
+import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
+import {debugLog} from '../../../helpers/debug_output';
+import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
+import {combine} from 'reactivestates';
 
 function WorkPackagesListController($scope:any,
                                     $state:ng.ui.IStateService,
@@ -61,6 +59,7 @@ function WorkPackagesListController($scope:any,
                                     wpTableSum:WorkPackageTableSumService,
                                     wpTableTimeline:WorkPackageTableTimelineService,
                                     wpTableHierarchies:WorkPackageTableHierarchiesService,
+                                    wpTableRelationColumns:WorkPackageTableRelationColumnsService,
                                     wpTablePagination:WorkPackageTablePaginationService,
                                     wpListService:WorkPackagesListService,
                                     wpListChecksumService:WorkPackagesListChecksumService,
@@ -98,51 +97,55 @@ function WorkPackagesListController($scope:any,
 
   function setupQueryObservers() {
 
-    scopedObservable($scope, states.table.query.values$())
-      .withLatestFrom(
-        wpTablePagination.observeOnScope($scope)
-      ).subscribe(([query, pagination]) => {
-      $scope.tableInformationLoaded = true;
+    scopedObservable($scope, states.tableRendering.onQueryUpdated.values$())
+      .take(1)
+      .subscribe(() => $scope.tableInformationLoaded = true);
 
-      updateTitle(query);
 
-      wpListChecksumService.updateIfDifferent(query, pagination as WorkPackageTablePagination);
-    });
+    // Update the title whenever the query
+    states.table.query.values$()
+      .takeUntil(scopeDestroyed$($scope))
+      .subscribe((query) => updateTitle(query));
 
-    wpTablePagination.observeOnScope($scope)
-      .withLatestFrom(scopedObservable($scope, states.table.query.values$()))
+    states.table.context.fireOnStateChange(wpTablePagination.state, 'Query loaded')
+      .values$()
+      .withLatestFrom(states.table.query.values$())
+      .takeUntil(scopeDestroyed$($scope))
       .subscribe(([pagination, query]) => {
-      if (wpListChecksumService.isQueryOutdated(query, pagination as WorkPackageTablePagination)) {
-        wpListChecksumService.update(query, pagination as WorkPackageTablePagination);
+        updateTitle(query);
+        if (wpListChecksumService.isQueryOutdated(query, pagination)) {
+          wpListChecksumService.update(query, pagination);
 
-        updateResultsVisibly();
-      }
+          updateResultsVisibly();
+        }
     });
 
     setupChangeObserver(wpTableFilters);
     setupChangeObserver(wpTableGroupBy);
     setupChangeObserver(wpTableSortBy);
     setupChangeObserver(wpTableSum);
-    setupChangeObserver(wpTableTimeline, false);
-    setupChangeObserver(wpTableTimeline, false);
-    setupChangeObserver(wpTableHierarchies, false);
-    setupChangeObserver(wpTableColumns, false);
+    setupChangeObserver(wpTableTimeline);
+    setupChangeObserver(wpTableTimeline);
+    setupChangeObserver(wpTableHierarchies);
+    setupChangeObserver(wpTableColumns);
   }
 
-  function setupChangeObserver(service:WorkPackageTableBaseService, triggerUpdate:boolean = true) {
+  function setupChangeObserver(service:WorkPackageQueryStateService) {
     const queryState = states.table.query;
 
     states.table.context.fireOnStateChange(service.state, 'Query loaded')
       .values$()
       .takeUntil(scopeDestroyed$($scope))
-      .filter(() => !isAnyDependentStateClear()) // Avoid updating while not all states are initialized
-      .filter(() => queryState.hasValue())
-      .filter((stateValue:WorkPackageTableQueryState) => stateValue.hasChanged(queryState.value!))
-      .subscribe((stateValue:WorkPackageTableQueryState) => {
+      .filter(() => queryState.hasValue() && service.hasChanged(queryState.value!))
+      .subscribe(() => {
         const newQuery = queryState.value!;
-        stateValue.applyToQuery(newQuery);
+        const triggerUpdate = service.applyToQuery(newQuery);
         states.table.query.putValue(newQuery);
 
+        // Update the current checksum
+        wpListChecksumService.updateIfDifferent(newQuery, wpTablePagination.current);
+
+        // Update the page, if the change requires it
         if (triggerUpdate) {
           updateResultsVisibly(true);
         }
@@ -170,20 +173,23 @@ function WorkPackagesListController($scope:any,
 
   function loadQuery() {
     wpListChecksumService.clear();
-    loadingIndicator.table.promise = wpListService.fromQueryParams($state.params, $scope.projectIdentifier);
+    loadingIndicator.table.promise =
+      wpListService.fromQueryParams($state.params, $scope.projectIdentifier).then(() => {
+        return states.table.rendered.valuesPromise();
+      });
   }
 
   $scope.setAnchorToNextElement = function () {
     // Skip to next when visible, otherwise skip to previous
     const selectors = '#pagination--next-link, #pagination--prev-link, #pagination-empty-text';
     const visibleLink = jQuery(selectors)
-                          .not(':hidden')
-                          .first();
+      .not(':hidden')
+      .first();
 
-   if (visibleLink.length) {
-     visibleLink.focus();
-   }
-  };
+    if (visibleLink.length) {
+      visibleLink.focus();
+    }
+  }
 
   function updateResults() {
     return wpListService.reloadCurrentResultsList();
@@ -201,7 +207,7 @@ function WorkPackagesListController($scope:any,
     }
   }
 
-  $scope.allowed = function(model:string, permission:string) {
+  $scope.allowed = function (model:string, permission:string) {
     return AuthorisationService.can(model, permission);
   };
 
@@ -227,25 +233,9 @@ function WorkPackagesListController($scope:any,
       let newId = params.query_id && parseInt(params.query_id);
 
       wpListChecksumService.executeIfOutdated(newId,
-                                              newChecksum,
-                                              loadQuery);
+        newChecksum,
+        loadQuery);
     });
-
-  // The combineLatest retains the last value of each observable regardless of
-  // whether it has become null|undefined in the meantime.
-  // As we alter the query's property from it's dependent states, we have to ensure
-  // that we do not set them if he dependent state does depend on another query with
-  // the value only being available because it is still retained.
-  function isAnyDependentStateClear() {
-    return !states.table.pagination.value ||
-      !states.table.filters.value ||
-      !states.table.columns.value ||
-      !states.table.sortBy.value ||
-      !states.table.groupBy.value ||
-      !states.table.timelineVisible.value ||
-      !states.table.hierarchies.value ||
-      !states.table.sum.value;
-  }
 }
 
 angular

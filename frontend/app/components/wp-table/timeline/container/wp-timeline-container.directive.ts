@@ -27,7 +27,7 @@
 // ++
 import {openprojectModule} from "../../../../angular-modules";
 import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
-import {debugLog} from "../../../../helpers/debug_output";
+import {debugLog, timeOutput} from "../../../../helpers/debug_output";
 import {TypeResource} from "../../../api/api-v3/hal-resources/type-resource.service";
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import {States} from "../../../states.service";
@@ -42,7 +42,7 @@ import {WorkPackageTableHierarchiesService} from "../../../wp-fast-table/state/w
 
 import * as angular from "angular";
 import {selectorTimelineSide} from "../../wp-table-scroll-sync";
-import {RenderedRow} from "../../../wp-fast-table/builders/modes/table-render-pass";
+import {RenderedRow} from "../../../wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTimelineCellsRenderer} from "../cells/wp-timeline-cells-renderer";
 import {WorkPackageTimelineCell} from "../cells/wp-timeline-cell";
 
@@ -175,25 +175,25 @@ export class WorkPackageTimelineTableController {
       return;
     }
 
-    debugLog("refreshView() in timeline container");
+    timeOutput("refreshView() in timeline container", () => {
+      // Reset the width of the outer container if its content shrinks
+      this.outerContainer.css('width', 'auto');
 
-    // Reset the width of the outer container if its content shrinks
-    this.outerContainer.css('width', 'auto');
+      this.calculateViewParams(this._viewParameters);
 
-    this.calculateViewParams(this._viewParameters);
+      // Update all cells
+      this.cellsRenderer.refreshAllCells();
 
-    // Update all cells
-    this.cellsRenderer.refreshAllCells();
+      _.each(this.renderers, (cb, key) => {
+        debugLog(`Refreshing timeline member ${key}`);
+        cb(this._viewParameters);
+      });
 
-    _.each(this.renderers, (cb, key) => {
-      debugLog(`Refreshing timeline member ${key}`);
-      cb(this._viewParameters);
+      // Calculate overflowing width to set to outer container
+      // required to match width in all child divs
+      const currentWidth = this.outerContainer.closest(selectorTimelineSide)[0].scrollWidth;
+      this.outerContainer.width(currentWidth);
     });
-
-    // Calculate overflowing width to set to outer container
-    // required to match width in all child divs
-    const currentWidth = this.outerContainer.closest(selectorTimelineSide)[0].scrollWidth;
-    this.outerContainer.width(currentWidth);
   }
 
   updateOnWorkPackageChanges() {
@@ -269,15 +269,14 @@ export class WorkPackageTimelineTableController {
 
     // Calculate view parameters
     this.workPackageIdOrder.forEach((renderedRow) => {
-      const wpId = renderedRow.workPackageId;
 
       // Not all rendered rows are work packages
-      if (!wpId) {
+      if (!renderedRow.isWorkPackage) {
         return;
       }
 
       // We may still have a reference to a row that, e.g., just got deleted
-      const workPackage = this.states.workPackages.get(wpId).value;
+      const workPackage = renderedRow.belongsTo;
       if (!workPackage) {
         return;
       }

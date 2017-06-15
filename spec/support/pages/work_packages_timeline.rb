@@ -43,6 +43,10 @@ module Pages
       '.work-packages-tabletimeline--timeline-side'
     end
 
+    def expect_row_count(num)
+      expect(page).to have_selector('.wp-timeline-cell', count: num)
+    end
+
     def expect_work_package_listed(*work_packages)
       super(*work_packages)
 

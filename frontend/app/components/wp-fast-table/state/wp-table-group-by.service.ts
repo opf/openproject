@@ -26,23 +26,20 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  QueryResource,
-  QueryColumn
-} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryGroupByResource} from '../../api/api-v3/hal-resources/query-group-by-resource.service';
 import {opServicesModule} from '../../../angular-modules';
-import {
-  States
-} from '../../states.service';
+import {States} from '../../states.service';
 import {WorkPackageTableGroupBy} from '../wp-table-group-by';
 import {
-  WorkPackageTableBaseService,
-  TableStateStates
+  TableStateStates,
+  WorkPackageQueryStateService,
+  WorkPackageTableBaseService
 } from './wp-table-base.service';
+import {QueryColumn} from '../../wp-query/query-column';
 
-export class WorkPackageTableGroupByService extends WorkPackageTableBaseService {
+export class WorkPackageTableGroupByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'groupBy' as TableStateStates;
 
   constructor(protected states: States) {
@@ -64,6 +61,20 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService 
     } else {
       this.initialize(query, schema);
     }
+  }
+
+  public hasChanged(query:QueryResource) {
+    const comparer = (groupBy:QueryColumn|undefined) => groupBy ? groupBy.href : null;
+
+    return !_.isEqual(
+      comparer(query.groupBy),
+      comparer(this.current)
+    );
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.groupBy = _.cloneDeep(this.current);
+    return true;
   }
 
   protected create(query:QueryResource, schema?:QuerySchemaResourceInterface) {

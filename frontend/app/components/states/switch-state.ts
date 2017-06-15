@@ -21,10 +21,10 @@ export class SwitchState<StateName> {
     this.contextSwitch$.clear(reason);
   }
 
-  public doAndTransition(context: StateName, callback:() => any) {
+  public doAndTransition(context: StateName, callback:() => PromiseLike<any>) {
     this.reset('Clearing before transitioning to ' + context);
-    callback();
-    this.transition(context);
+    const promise = callback();
+    promise.then(() => this.transition(context));
   }
 
   public fireOnTransition<T>(cb: State<T>, ...context: StateName[]): State<T> {
