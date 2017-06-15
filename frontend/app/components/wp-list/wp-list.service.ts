@@ -272,6 +272,7 @@ export class WorkPackagesListService {
       .then(query => {
         this.states.table.context.doAndTransition('Query loaded', () => {
           this.wpStatesInitialization.initialize(query, query.results);
+          return this.states.tableRendering.onQueryUpdated.valuesPromise();
         });
 
         return query;
@@ -284,6 +285,7 @@ export class WorkPackagesListService {
     return promise.then((results) => {
       this.states.table.context.doAndTransition('Query loaded', () => {
         this.wpStatesInitialization.updateFromResults(results);
+        return this.states.tableRendering.onQueryUpdated.valuesPromise();
       });
 
       return results;
@@ -327,6 +329,8 @@ export class WorkPackagesListService {
             this.states.table.context.doAndTransition('Query loaded', () => {
               this.wpStatesInitialization.initialize(query, query.results);
               this.wpStatesInitialization.updateStatesFromForm(query, form);
+
+              return this.states.tableRendering.onQueryUpdated.valuesPromise();
             });
 
             deferred.resolve(query);
