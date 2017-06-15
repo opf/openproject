@@ -1,5 +1,8 @@
 # Manual installation of OpenProject 7.0 with Apache on Ubuntu 14.04. LTS
 
+**IMPORTANT: We strongly recommend to use the [OpenProject installers](https://www.openproject.org/download-and-installation) (packaged installation). There is no real advantage installing OpenProject manually.**
+
+
 This tutorial helps you to deploy OpenProject 7.0. Please, aware that:
 
 This guide requires that you have a clean Ubuntu 14.04 x64 installation
