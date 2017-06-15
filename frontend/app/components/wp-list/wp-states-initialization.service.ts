@@ -71,7 +71,8 @@ export class WorkPackageStatesInitializationService {
   }
 
   public updateFromResults(results:WorkPackageCollectionResource) {
-    this.wpTableRelationColumns.clear("Clearing relations before updating");
+    // Clear table required data states
+    this.states.table.requiredDataLoaded.clear();
 
     if (results.schemas) {
       _.each(results.schemas.elements, (schema:SchemaResource) => {
@@ -111,8 +112,8 @@ export class WorkPackageStatesInitializationService {
   private clearStates() {
     const reason = 'Clearing states before re-initialization.';
 
-    // Clear table states
-    this.wpTableRelationColumns.clear(reason);
+    // Clear table required data states
+    this.states.table.requiredDataLoaded.clear(reason);
 
     // Clear immediate input states
     this.states.table.rows.clear(reason);

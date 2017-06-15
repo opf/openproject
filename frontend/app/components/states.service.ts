@@ -101,6 +101,9 @@ export class TableState {
   // Expanded relation columns
   relationColumns = input<WorkPackageTableRelationColumns>();
 
+  // Required data for the table to load
+  // currently, this contains only relations
+  requiredDataLoaded = input<null>();
 }
 
 export class TableRenderingStates {
@@ -114,7 +117,7 @@ export class TableRenderingStates {
     this.table.sum,
     this.table.groupBy,
     this.table.sortBy,
-    this.table.relationColumns
+    this.table.requiredDataLoaded
   );
 
   onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.mapTo(null));

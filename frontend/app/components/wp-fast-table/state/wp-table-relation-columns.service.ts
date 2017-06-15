@@ -60,12 +60,13 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
   }
 
   public initialize(workPackages:WorkPackageResourceInterface[]) {
+    this.initializeState();
 
     if (this.wpTableColumns.hasRelationColumns()) {
       this.requireInvolved(workPackages.map(el => el.id))
-        .then(() => this.initializeState());
+        .then(() => this.states.table.requiredDataLoaded.putValue(null));
     } else {
-      this.initializeState();
+      this.states.table.requiredDataLoaded.putValue(null);
     }
   }
 
@@ -171,7 +172,11 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
   }
 
   private initializeState() {
-    let current = new WorkPackageTableRelationColumns();
+    let current = this.current;
+
+    if (!current) {
+      current = new WorkPackageTableRelationColumns();
+    }
     this.state.putValue(current);
 
     return current;
