@@ -27,8 +27,9 @@ export class RelationsRenderPass implements SecondaryRenderPass {
       return;
     }
 
-    // Render into timeline fragment
-    this.tablePass.renderedOrder.forEach((row:RenderedRow, position:number) => {
+    // Render for each original row, clone it since we're modifying the tablepass
+    const rendered = _.clone(this.tablePass.renderedOrder);
+    rendered.forEach((row:RenderedRow, position:number) => {
 
       // We only care for rows that are natural work packages
       if (!(row.isWorkPackage && row.belongsTo)) {
