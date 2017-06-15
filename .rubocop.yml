@@ -210,6 +210,9 @@ SpecialGlobalVars:
 StringLiterals:
   Enabled: false
 
+Style/MultilineMethodCallIndentation:
+  EnforcedStyle: aligned
+
 VariableInterpolation:
   Enabled: false
 
