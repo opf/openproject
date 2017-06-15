@@ -11,6 +11,8 @@ import {
 import {UiStateLinkBuilder} from '../ui-state-link-builder';
 import {QueryColumn} from '../../../wp-query/query-column';
 import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
+import {RelationColumnType} from '../../state/wp-table-relation-columns.service';
+import {States} from '../../../states.service';
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;
@@ -22,19 +24,19 @@ export const internalDetailsColumn = {
 
 export class RelationRowBuilder extends SingleRowBuilder {
   public uiStateBuilder:UiStateLinkBuilder;
+  public states:States;
   public I18n:op.I18n;
 
   constructor(protected workPackageTable:WorkPackageTable) {
     super(workPackageTable);
-
     this.uiStateBuilder = new UiStateLinkBuilder();
-    $injectFields(this, 'I18n');
+    $injectFields(this, 'I18n', 'states');
   }
 
   /**
    * Build the columns on the given empty row
    */
-  public buildEmptyRelationRow(from:WorkPackageResourceInterface,  relation:RelationResource):[HTMLElement, boolean] {
+  public buildEmptyRelationRow(from:WorkPackageResourceInterface, relation:RelationResource, type:RelationColumnType):[HTMLElement, boolean] {
     const denormalized = relation.denormalized(from);
     const tr = this.createEmptyRelationRow(from, denormalized);
     const columns = this.wpTableColumns.getColumns();
@@ -45,7 +47,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
       const td = document.createElement('td');
 
       if (column.id === 'subject') {
-        this.buildRelationLabel(td, from, denormalized);
+        this.buildRelationLabel(td, from, denormalized, type);
       }
 
       if (column.id === 'id') {
@@ -85,12 +87,22 @@ export class RelationRowBuilder extends SingleRowBuilder {
     return tr;
   }
 
-  private buildRelationLabel(cell:HTMLElement, from:WorkPackageResource, denormalized:DenormalizedRelationData) {
-    const type = this.I18n.t(`js.relation_labels.${denormalized.relationType}`);
+  private buildRelationLabel(cell:HTMLElement, from:WorkPackageResource, denormalized:DenormalizedRelationData, type:RelationColumnType) {
+    let typeLabel;
+
+    // Add the relation label if this is a "Relations for <WP Type>" column
+    if (type === 'toType') {
+      typeLabel = this.I18n.t(`js.relation_labels.${denormalized.relationType}`);
+    }
+    // Add the WP type label if this is a "<Relation Type> Relations" column
+    if (type === 'ofType') {
+      const wp = this.states.workPackages.get(denormalized.target.id).value!;
+      typeLabel = wp.type.name;
+    }
 
     const relationLabel = document.createElement('span');
     relationLabel.classList.add('relation-row--type-label');
-    relationLabel.textContent = type;
+    relationLabel.textContent = typeLabel;
 
     const textNode = document.createTextNode(denormalized.target.name);
     cell.appendChild(relationLabel);

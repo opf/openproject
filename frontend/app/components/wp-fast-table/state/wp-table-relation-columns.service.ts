@@ -45,6 +45,8 @@ import {IQService} from 'angular';
 import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
+export type RelationColumnType = 'toType' | 'ofType';
+
 export class WorkPackageTableRelationColumnsService extends WorkPackageTableBaseService {
   protected stateName = 'relationColumns' as TableStateStates;
 
@@ -73,25 +75,31 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
    * @param workPackage
    * @param relation
    */
-  public relationsToExtendFor(workPackage:WorkPackageResourceInterface, relations:RelationsStateValue|undefined):RelationResource[] {
+  public relationsToExtendFor(workPackage:WorkPackageResourceInterface,
+                              relations:RelationsStateValue|undefined,
+                              eachCallback:(relation:RelationResource, type:RelationColumnType) => void) {
     // Only if any relation columns or stored expansion state exist
     if (!this.wpTableColumns.hasRelationColumns() || this.state.isPristine()) {
-      return [];
+      return;
     }
 
     // Only if any relations exist for this work package
     if (_.isNil(relations)) {
-      return [];
+      return;
     }
 
     // Only if the work package has anything expanded
     const expanded = this.current.getExpandFor(workPackage.id);
     if (expanded === undefined) {
-      return [];
+      return;
     }
 
     const column = this.wpTableColumns.findById(expanded)!;
-    return this.relationsForColumn(workPackage, relations, column);
+    const type = this.relationColumnType(column);
+
+    if (type !== null) {
+      _.each(relations, (relation) => eachCallback(relation as RelationResource, type));
+    }
   }
 
   /**
@@ -108,7 +116,8 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     }
 
     // Get the type of TO work package
-    if (column._type === queryColumnTypes.RELATION_TO_TYPE) {
+    const type = this.relationColumnType(column);
+    if (type === 'toType') {
       const typeHref = (column as TypeRelationQueryColumn).type.href;
 
       return _.filter(relations, (relation:RelationResource) => {
@@ -117,7 +126,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     }
 
     // Get the relation types for OF relation columns
-    if (column._type === queryColumnTypes.RELATION_OF_TYPE) {
+    if (type === 'ofType') {
       const relationType = (column as RelationQueryColumn).relationType;
 
       return _.filter(relations, (relation:RelationResource) => {
@@ -126,6 +135,17 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     }
 
     return [];
+  }
+
+  public relationColumnType(column:QueryColumn):RelationColumnType|null {
+    switch(column._type) {
+      case queryColumnTypes.RELATION_TO_TYPE:
+        return 'toType';
+      case queryColumnTypes.RELATION_OF_TYPE:
+        return 'ofType';
+      default:
+        return null;
+    }
   }
 
   public getExpandFor(workPackageId:string):string | undefined {

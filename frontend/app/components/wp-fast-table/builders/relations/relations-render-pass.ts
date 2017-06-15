@@ -42,10 +42,10 @@ export class RelationsRenderPass implements SecondaryRenderPass {
         return;
       }
 
-      _.each(this.wpTableRelationColumns.relationsToExtendFor(row.belongsTo, state.value!), (relation) => {
+      this.wpTableRelationColumns.relationsToExtendFor(row.belongsTo, state.value!, (relation, type) => {
 
         // Build each relation row (currently sorted by order defined in API)
-        const [relationRow,] = this.relationRowBuilder.buildEmptyRelationRow(row.belongsTo!, relation);
+        const [relationRow,] = this.relationRowBuilder.buildEmptyRelationRow(row.belongsTo!, relation, type);
 
         // Augment any data for the belonging work package row to it
         this.tablePass.augmentSecondaryElement(relationRow, row);
