@@ -37,39 +37,20 @@ module API
             super(model, current_user: nil, embed_links: true)
           end
 
-          link :filter do
-            {
-              href: api_v3_paths.query_filter(converted_name),
-              title: name
-            }
-          end
-
-          link :operator do
-            {
-              href: api_v3_paths.query_operator(CGI.escape(represented.operator)),
-              title: operator_name
-            }
-          end
-
-          links :values do
-            next unless represented.ar_object_filter?
-
-            represented.value_objects.map do |value_object|
-              {
-                href: api_v3_paths.send(value_object.class.name.demodulize.underscore, value_object.id),
-                title: value_object.name
-              }
-            end
-          end
-
-          link :schema do
-            {
-              href: api_v3_paths.query_filter_instance_schema(converted_name)
-            }
-          end
+          property :linked_resources,
+                   as: :_links,
+                   exec_context: :decorator,
+                   getter: ->(*) {
+                     query_filter_instance_links_representer represented
+                   },
+                   setter: ->(value, *) {
+                     representer = query_filter_instance_links_representer represented
+                     representer.from_json(value.to_json)
+                   }
 
           property :name,
-                   exec_context: :decorator
+                   exec_context: :decorator,
+                   writeable: false
 
           property :values,
                    if: ->(*) { !represented.ar_object_filter? },
@@ -97,20 +78,31 @@ module API
             end
           end
 
+          def values=(vals)
+            represented.values = if represented.respond_to?(:custom_field) &&
+                                    represented.custom_field.field_format == 'bool'
+                                   vals.map do |value|
+                                     if value
+                                       CustomValue::BoolStrategy::DB_VALUE_TRUE
+                                     else
+                                       CustomValue::BoolStrategy::DB_VALUE_FALSE
+                                     end
+                                   end
+                                 else
+                                   vals
+                                 end
+          end
+
           def _type
             "#{converted_name.camelize}QueryFilter"
           end
 
           def converted_name
-            convert_attribute(represented.name)
+            ::API::Utilities::PropertyNameConverter.from_ar_name(represented.name)
           end
 
-          def operator_name
-            represented.operator_class.human_name if represented.operator_class.present?
-          end
-
-          def convert_attribute(attribute)
-            ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+          def query_filter_instance_links_representer(represented)
+            ::API::V3::Queries::Filters::QueryFilterInstanceLinksRepresenter.new represented, current_user: current_user
           end
         end
       end

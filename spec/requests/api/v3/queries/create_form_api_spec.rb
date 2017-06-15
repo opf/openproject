@@ -181,11 +181,23 @@ describe "POST /api/v3/queries/form", type: :request do
       filters = [
         {
           "_links" => {
-            "filter" => { "href" => "/api/v3/queries/filters/status" },
-            "operator" => { "href" => "/api/v3/queries/operators/%3D" },
+            "filter" => {
+              "href" => "/api/v3/queries/filters/status",
+              "title" => "Status"
+            },
+            "operator" => {
+              "href" => "/api/v3/queries/operators/%3D",
+              "title" => 'is'
+            },
             "values" => [
-              { "href" => "/api/v3/statuses/#{status.id}" }
-            ]
+              {
+                "href" => "/api/v3/statuses/#{status.id}",
+                "title" => status.name
+              }
+            ],
+            "schema" => {
+              "href" => "/api/v3/queries/filter_instance_schemas/status"
+            }
           }
         }
       ]
