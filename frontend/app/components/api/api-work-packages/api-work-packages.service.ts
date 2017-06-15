@@ -71,7 +71,7 @@ export class ApiWorkPackagesService {
    */
   public loadWorkPackagesCollectionFor(ids:string[]) {
     return this.halRequest.get(
-      '/api/v3/work_packages',
+      this.v3Path.wps(),
       {
         filters: JSON.stringify([{ id: {operator: '=', values: ids }}])
       },
