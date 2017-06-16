@@ -57,6 +57,14 @@ OpenProject::Application.routes.draw do
     get '/logout', action: 'logout', as: 'signout'
   end
 
+  # Health check
+  # Keep previous route from openproject-check
+  get 'check', to: 'health_check#application'
+  scope 'health_check', controller: 'health_check' do
+    get '/application', action: 'application'
+    get '/jobs', action: 'delayed_jobs'
+  end
+
   namespace :api do
     namespace :v2 do
       resources :authentication
