@@ -81,11 +81,10 @@ See doc/COPYRIGHT.rdoc for more details.
             concat content_tag :i, '', class: 'button--icon icon-delete'
             concat content_tag :span, l(:button_delete), class: 'button--text'
             end %>
-      <%= link_to project_work_packages_path(@project),
-          title: l(:button_cancel),
-          class: 'button -with-icon icon-cancel' do %>
-            <%= l(:button_cancel) %>
-          <% end %>
+      <%= link_to_function l(:button_cancel),
+                           "history.back()",
+                           title: l(:button_cancel),
+                           class: 'button -with-icon icon-cancel'%>
   </section>
 
 <% end %>
