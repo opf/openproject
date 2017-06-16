@@ -87,27 +87,7 @@ See doc/COPYRIGHT.rdoc for more details.
                              class: 'timelines-x-update-color timelines-color-properties-preview',
                              data:  { target: '#color_hexcode' } %>
           <div class="form--field-instructions">
-            <% if design_color.variable == "primary-color" %>
-              <%= t("admin.custom_styles.instructions.primary_color") %>
-            <% elsif design_color.variable == "primary-color-dark" %>
-              <%= t("admin.custom_styles.instructions.primary_color_dark") %>
-            <% elsif design_color.variable == "alternative-color" %>
-              <%= t("admin.custom_styles.instructions.alternative_color") %>
-            <% elsif design_color.variable == "header-bg-color" %>
-              <%= t("admin.custom_styles.instructions.header_bg_color") %>
-            <% elsif design_color.variable == "header-item-bg-hover-color" %>
-              <%= t("admin.custom_styles.instructions.header_item_bg_hover_color") %>
-            <% elsif design_color.variable == "header-item-font-color" %>
-              <%= t("admin.custom_styles.instructions.header_item_font_color") %>
-            <% elsif design_color.variable == "header-item-font-hover-color" %>
-              <%= t("admin.custom_styles.instructions.header_item_font_hover_color") %>
-            <% elsif design_color.variable == "header-border-bottom-color" %>
-              <%= t("admin.custom_styles.instructions.header_border_bottom_color") %>
-            <% elsif design_color.variable == "content-link-color" %>
-              <%= t("admin.custom_styles.instructions.content_link_color") %>
-            <% elsif design_color.variable == "main-menu-bg-color" %>
-              <%= t("admin.custom_styles.instructions.main_menu_bg_color") %>
-            <% end %>
+            <%= t("admin.custom_styles.instructions.#{design_color.variable.tr('-', '_')}") %>
           </div>
         </div>
       <% end %>
