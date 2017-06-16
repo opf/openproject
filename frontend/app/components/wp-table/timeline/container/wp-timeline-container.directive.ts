@@ -63,6 +63,7 @@ export class WorkPackageTimelineTableController {
   private cellsRenderer = new WorkPackageTimelineCellsRenderer(this);
 
   public outerContainer:JQuery;
+
   public timelineBody:JQuery;
 
   private selectionParams = {
@@ -157,6 +158,10 @@ export class WorkPackageTimelineTableController {
     return this.$element.offset().left;
   }
 
+  getParentScrollContainer() {
+    return this.outerContainer.closest(selectorTimelineSide)[0];
+  }
+
   get viewParameters():TimelineViewParameters {
     return this._viewParameters;
   }
@@ -191,7 +196,7 @@ export class WorkPackageTimelineTableController {
 
       // Calculate overflowing width to set to outer container
       // required to match width in all child divs
-      const currentWidth = this.outerContainer.closest(selectorTimelineSide)[0].scrollWidth;
+      const currentWidth = this.getParentScrollContainer().scrollWidth;
       this.outerContainer.width(currentWidth);
     });
   }
@@ -228,6 +233,22 @@ export class WorkPackageTimelineTableController {
         .addCommonRelation(start as any, "precedes", end.id)
         .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
     });
+  }
+
+  getFirstDayInViewport() {
+    const outerContainer = this.getParentScrollContainer();
+    const scrollLeft = outerContainer.scrollLeft;
+    const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay) + 0;
+    return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, "days");
+  }
+
+  getLastDayInViewport() {
+    const outerContainer = this.getParentScrollContainer();
+    const scrollLeft = outerContainer.scrollLeft;
+    const width = outerContainer.offsetWidth;
+    const viewPortRight = scrollLeft + width;
+    const daysUntilViewPortEnds = Math.ceil(viewPortRight / this.viewParameters.pixelPerDay) + 1;
+    return this.viewParameters.dateDisplayStart.clone().add(daysUntilViewPortEnds, "days");
   }
 
   private resetSelectionMode() {

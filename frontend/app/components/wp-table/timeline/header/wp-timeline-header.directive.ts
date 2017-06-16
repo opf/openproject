@@ -1,3 +1,7 @@
+import * as moment from "moment";
+import {openprojectModule} from "../../../../angular-modules";
+import {TimelineZoomLevel} from "../../../api/api-v3/hal-resources/query-resource.service";
+import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -25,16 +29,8 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {
-  TimelineViewParameters,
-  timelineElementCssClass,
-  calculatePositionValueForDayCount
-} from "../wp-timeline";
-import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
-import * as moment from 'moment';
+import {calculatePositionValueForDayCount, TimelineViewParameters} from "../wp-timeline";
 import Moment = moment.Moment;
-import {openprojectModule} from "../../../../angular-modules";
-import {TimelineZoomLevel} from "../../../api/api-v3/hal-resources/query-resource.service";
 
 export const timelineHeaderCSSClass = 'wp-timeline--header-element';
 
@@ -63,131 +59,137 @@ export class WorkPackageTimelineHeaderController {
       return;
     }
 
+    const firstDayInViewport = this.wpTimeline.getFirstDayInViewport();
+    const lastDayInViewport = this.wpTimeline.getLastDayInViewport();
+    const viewport: [Moment, Moment] = [firstDayInViewport, lastDayInViewport];
+
     this.innerHeader.empty();
     this.innerHeader.attr('data-current-zoom-level', vp.settings.zoomLevel);
 
     switch (vp.settings.zoomLevel) {
       case 'days':
-        return this.renderLabelsDays(vp);
+        return this.renderLabelsDays(vp, viewport);
       case 'weeks':
-        return this.renderLabelsWeeks(vp);
+        return this.renderLabelsWeeks(vp, viewport);
       case 'months':
-        return this.renderLabelsMonths(vp);
+        return this.renderLabelsMonths(vp, viewport);
       case 'quarters':
-        return this.renderLabelsQuarters(vp);
+        return this.renderLabelsQuarters(vp, viewport);
       case 'years':
-        return this.renderLabelsYears(vp);
+        return this.renderLabelsYears(vp, viewport);
     }
 
     this.activeZoomLevel = vp.settings.zoomLevel;
   }
 
-  private renderLabelsDays(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+  private renderLabelsDays(vp: TimelineViewParameters, viewport: [Moment, Moment]) {
+    this.renderTimeSlices(vp, viewport, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM YYYY");
       cell.classList.add('wp-timeline--header-top-bold-element');
       cell.style.height = "13px";
     });
 
-    this.renderTimeSlices(vp, "week", 13, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "week", 13, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
       cell.classList.add('-top-border');
       cell.style.height = '32px';
     });
 
-    this.renderTimeSlices(vp, "day", 23, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "day", 23, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("D");
       cell.classList.add('-top-border');
       cell.style.height = '22px';
     });
 
-    this.renderTimeSlices(vp, "day", 33, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "day", 33, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("dd");
       cell.classList.add('wp-timeline--header-day-element');
     });
   }
 
-  private renderLabelsWeeks(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+  private renderLabelsWeeks(vp: TimelineViewParameters, viewport: [Moment, Moment]) {
+    this.renderTimeSlices(vp, viewport, "month", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM YYYY");
       cell.classList.add('wp-timeline--header-top-bold-element');
     });
 
-    this.renderTimeSlices(vp, "week", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "week", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
       cell.classList.add('-top-border');
       cell.style.height = '22px';
     });
 
-    this.renderTimeSlices(vp, "day", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "day", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("D");
       cell.classList.add('wp-timeline--header-middle-element');
     });
   }
 
-  private renderLabelsMonths(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+  private renderLabelsMonths(vp: TimelineViewParameters, viewport: [Moment, Moment]) {
+    this.renderTimeSlices(vp, viewport, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("YYYY");
       cell.classList.add('wp-timeline--header-top-bold-element');
     });
 
-    this.renderTimeSlices(vp, "month", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "month", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
       cell.classList.add('-top-border');
       cell.style.height = '30px';
     });
 
-    this.renderTimeSlices(vp, "week", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "week", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("ww");
       cell.classList.add('wp-timeline--header-middle-element');
     });
   }
 
-  private renderLabelsQuarters(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+  private renderLabelsQuarters(vp: TimelineViewParameters, viewport: [Moment, Moment]) {
+    this.renderTimeSlices(vp, viewport, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.classList.add('wp-timeline--header-top-bold-element');
       cell.innerHTML = start.format("YYYY");
     });
 
-    this.renderTimeSlices(vp, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = "Q" + start.format("Q");
       cell.classList.add('-top-border');
       cell.style.height = '30px';
     });
 
-    this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("MMM");
       cell.classList.add('wp-timeline--header-middle-element');
     });
   }
 
-  private renderLabelsYears(vp:TimelineViewParameters) {
-    this.renderTimeSlices(vp, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+  private renderLabelsYears(vp: TimelineViewParameters, viewport: [Moment, Moment]) {
+    this.renderTimeSlices(vp, viewport, "year", 0, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("YYYY");
       cell.classList.add('wp-timeline--header-top-bold-element');
 
     });
 
-    this.renderTimeSlices(vp, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "quarter", 15, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = "Q" + start.format("Q");
       cell.classList.add('-top-border');
       cell.style.height = '30px';
     });
 
-    this.renderTimeSlices(vp, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    this.renderTimeSlices(vp, viewport, "month", 25, vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.innerHTML = start.format("M");
       cell.classList.add('wp-timeline--header-middle-element');
     });
   }
 
-  renderTimeSlices(vp:TimelineViewParameters,
+  private renderTimeSlices(vp:TimelineViewParameters,
+                   viewport: [Moment, Moment],
                    unit:moment.unitOfTime.DurationConstructor,
                    marginTop:number,
                    startView:Moment,
                    endView:Moment,
                    cellCallback:(start:Moment, cell:HTMLElement) => void) {
 
-    const slices:[Moment, Moment][] = [];
+    const slicesNow: [Moment, Moment][] = [];
+    const slicesLater: [Moment, Moment][] = [];
 
     const time = startView.clone().startOf(unit);
     const end = endView.clone().endOf(unit);
@@ -196,10 +198,17 @@ export class WorkPackageTimelineHeaderController {
       const sliceStart = moment.max(time, startView).clone();
       const sliceEnd = moment.min(time.clone().endOf(unit), endView).clone();
       time.add(1, unit);
-      slices.push([sliceStart, sliceEnd]);
+
+      if ((sliceStart.isSameOrAfter(viewport[0]) && sliceStart.isSameOrBefore(viewport[1]))
+        || (sliceEnd.isSameOrAfter(viewport[0]) && sliceEnd.isSameOrBefore(viewport[1]))) {
+
+        slicesNow.push([sliceStart, sliceEnd]);
+      } else {
+        slicesLater.push([sliceStart, sliceEnd]);
+      }
     }
 
-    for (let [start, end] of slices) {
+    for (let [start, end] of slicesNow) {
       const cell = this.addLabelCell();
       cell.style.top = marginTop + "px";
       cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
