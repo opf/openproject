@@ -60,20 +60,26 @@ export class WorkPackageTimelineCell {
     injectorBridge(this);
   }
 
-  getLeftmostXValue(): number {
+  getMarginLeftOfLeftSide(): number {
     const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
-    return renderer.getLeftmostXValue(this.latestRenderInfo);
+    return renderer.getMarginLeftOfLeftSide(this.latestRenderInfo);
   }
 
-  getInnerXOffsetForRelationLineDock(): number {
+  getMarginLeftOfRightSide(): number {
     const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
-    return renderer.getInnerXOffsetForRelationLineDock(this.latestRenderInfo);
+    return renderer.getMarginLeftOfRightSide(this.latestRenderInfo);
   }
 
-  getRightmostXValue(): number {
+  getPaddingLeftForIncomingRelationLines(): number {
     const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
-    return renderer.getRightmostXValue(this.latestRenderInfo);
+    return renderer.getPaddingLeftForIncomingRelationLines(this.latestRenderInfo);
   }
+
+  getPaddingRightForOutgoingRelationLines(): number {
+    const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
+    return renderer.getPaddingRightForOutgoingRelationLines(this.latestRenderInfo);
+  }
+
 
   canConnectRelations(): boolean {
     const wp = this.latestRenderInfo.workPackage;
