@@ -43,6 +43,7 @@ module OpenProject
       'body-font-color'                                      => "#333333",
       'base-line-height'                                     => "1.5",
       'secondary-color'                                      => "#bfbfbf",
+      'content-link-color'                                   => "$primary-color-dark",
       'font-color-on-primary'                                => "#FFFFFF",
       'font-color-on-primary-dark'                           => "#FFFFFF",
       'font-color-on-secondary'                              => "#FFFFFF",
@@ -91,25 +92,25 @@ module OpenProject
       'main-menu-item-border-width'                          => "1px",
       'main-menu-enable-toggle-highlighting'                 => "false",
       'main-menu-bg-color'                                   => "#F8F8F8",
-      'main-menu-bg-selected-background'                     => "$primary-color",
-      'main-menu-bg-hover-background'                        => "$primary-color-dark",
+      'main-menu-bg-selected-background'                     => "rgba(0, 0, 0, 0.05)",
+      'main-menu-bg-hover-background'                        => "rgba(0, 0, 0, 0.015)",
       'main-menu-font-color'                                 => "#333333",
-      'main-menu-selected-font-color'                        => "$font-color-on-primary",
+      'main-menu-selected-font-color'                        => "$content-link-color",
       'main-menu-font-size'                                  => "15px",
-      'main-menu-selected-indicator-color'                   => "$primary-color",
+      'main-menu-selected-indicator-color'                   => "#E0E0E0",
       'main-menu-hover-indicator-color'                      => "$primary-color-dark",
       'main-menu-selected-hover-indicator-width'             => "4px",
       'main-menu-selected-hover-border-color'                => "$main-menu-border-color",
-      'main-menu-navigation-toggler-font-hover-color'        => "#FFFFFF",
+      'main-menu-navigation-toggler-font-hover-color'        => "$main-menu-selected-font-color",
       'main-menu-toggler-separator-color'                    => "#EAEAEA",
-      'main-menu-child-item-height'                          => "35px",
+      'main-menu-child-item-height'                          => "30px",
       'main-menu-child-menu-bg-color'                        => "#FFFFFF",
-      'main-menu-child-bg-selected-color'                    => "$primary-color",
-      'main-menu-child-bg-hover-color'                       => "$primary-color-dark",
+      'main-menu-child-bg-selected-color'                    => "$main-menu-bg-selected-background",
+      'main-menu-child-bg-hover-color'                       => "$main-menu-bg-hover-background",
       'main-menu-child-menu-border-color'                    => "#E7E7E7",
       'main-menu-child-font-color'                           => "#04232F",
-      'main-menu-child-font-size'                            => "13px",
-      'main-menu-child-selected-font-color'                  => "#FFFFFF",
+      'main-menu-child-font-size'                            => "12px",
+      'main-menu-child-selected-font-color'                  => "$main-menu-selected-font-color",
       'main-menu-sidebar-font-color'                         => "#333333",
       'main-menu-sidebar-h3-color'                           => "#333333",
       'main-menu-sidebar-link-color'                         => "#333333",
@@ -127,7 +128,6 @@ module OpenProject
       'breadcrumb-font-color'                                => "$body-font-color",
       'content-default-border-color'                         => "#EAEAEA",
       'content-default-border-width'                         => "1px",
-      'content-link-color'                                   => "$primary-color-dark",
       'content-link-hover-active-color'                      => "$primary-color-dark",
       'content-icon-link-color'                              => "#4b4b4b",
       'content-icon-link-hover-color'                        => "$primary-color-dark",
@@ -253,7 +253,9 @@ module OpenProject
           header-item-font-color
           header-item-font-hover-color
           header-item-bg-hover-color
-          header-border-bottom-color )
+          header-border-bottom-color
+          content-link-color
+          main-menu-bg-color )
     end
   end
 end

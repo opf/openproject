@@ -41,7 +41,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% if @custom_style.id && @custom_style.logo.present? %>
         <div>
           <%= tag('img', src: custom_style_logo_path(digest: @custom_style.digest, filename: @custom_style.logo_identifier), class: 'custom-logo-preview') %>
-          <%= link_to l(:button_delete),
+          <%= link_to t(:button_delete),
           custom_style_logo_delete_path,
           method: :delete,
           class: 'icon icon-delete confirm-form-submit' %>
@@ -67,6 +67,74 @@ See doc/COPYRIGHT.rdoc for more details.
   </section>
 <% end %>
 
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_favicon) %></legend>
+
+      <% if @custom_style.id && @custom_style.favicon.present? %>
+        <div>
+          <%= tag('img', src: custom_style_favicon_path(digest: @custom_style.digest, filename: @custom_style.favicon_identifier), class: 'custom-favicon-preview') %>
+          <%= link_to t(:button_delete),
+          custom_style_favicon_delete_path,
+          method: :delete,
+          class: 'icon icon-delete confirm-form-submit' %>
+        </div>
+      <% end %>
+
+      <div class="grid-block">
+        <div class="form--field -required">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= f.file_field :favicon, required: true, class: "attachment_choose_file", size: "15" %>
+            </div>
+          </div>
+          <div class="form--field-instructions">
+            <%= t('text_custom_favicon_instructions') %>
+          </div>
+        </div>
+      </div>
+
+      <%= styled_button_tag t(@custom_style.favicon.present? ? :button_replace : :button_upload), class: "button #{@custom_style.favicon.blank? ? '-with-icon icon-add' : ''}" %>
+
+    </fieldset>
+  </section>
+<% end %>
+
+<%= form_for @custom_style, url: custom_style_path, html: { multipart: true, class: "form -vertical" } do |f| %>
+  <section class="form--section">
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= I18n.t(:label_custom_touch_icon) %></legend>
+
+      <% if @custom_style.id && @custom_style.touch_icon.present? %>
+        <div>
+          <%= tag('img', src: custom_style_touch_icon_path(digest: @custom_style.digest, filename: @custom_style.touch_icon_identifier), class: 'custom-touch-icon-preview') %>
+          <%= link_to t(:button_delete),
+          custom_style_touch_icon_delete_path,
+          method: :delete,
+          class: 'icon icon-delete confirm-form-submit' %>
+        </div>
+      <% end %>
+
+      <div class="grid-block">
+        <div class="form--field -required">
+          <div class="attachment_field form--field-container -vertical -shrink">
+            <div class="form--file-container">
+              <%= f.file_field :touch_icon, required: true, class: "attachment_choose_file", size: "15" %>
+            </div>
+          </div>
+          <div class="form--field-instructions">
+            <%= t('text_custom_touch_icon_instructions') %>
+          </div>
+        </div>
+      </div>
+
+      <%= styled_button_tag t(@custom_style.touch_icon.present? ? :button_replace : :button_upload), class: "button #{@custom_style.touch_icon.blank? ? '-with-icon icon-add' : ''}" %>
+
+    </fieldset>
+  </section>
+<% end %>
+
 <%= form_tag update_design_colors_path, method: :post, class: "form -wide-labels" do %>
   <section class="form--section">
     <fieldset class="form--fieldset">
@@ -87,23 +155,7 @@ See doc/COPYRIGHT.rdoc for more details.
                              class: 'timelines-x-update-color timelines-color-properties-preview',
                              data:  { target: '#color_hexcode' } %>
           <div class="form--field-instructions">
-            <% if design_color.variable == "primary-color" %>
-              <%= t("admin.custom_styles.instructions.primary_color") %>
-            <% elsif design_color.variable == "primary-color-dark" %>
-              <%= t("admin.custom_styles.instructions.primary_color_dark") %>
-            <% elsif design_color.variable == "alternative-color" %>
-              <%= t("admin.custom_styles.instructions.alternative_color") %>
-            <% elsif design_color.variable == "header-bg-color" %>
-              <%= t("admin.custom_styles.instructions.header_bg_color") %>
-            <% elsif design_color.variable == "header-item-bg-hover-color" %>
-              <%= t("admin.custom_styles.instructions.header_item_bg_hover_color") %>
-            <% elsif design_color.variable == "header-item-font-color" %>
-              <%= t("admin.custom_styles.instructions.header_item_font_color") %>
-            <% elsif design_color.variable == "header-item-font-hover-color" %>
-              <%= t("admin.custom_styles.instructions.header_item_font_hover_color") %>
-            <% elsif design_color.variable == "header-border-bottom-color" %>
-              <%= t("admin.custom_styles.instructions.header_border_bottom_color") %>
-            <% end %>
+            <%= t("admin.custom_styles.instructions.#{design_color.variable.tr('-', '_')}") %>
           </div>
         </div>
       <% end %>
