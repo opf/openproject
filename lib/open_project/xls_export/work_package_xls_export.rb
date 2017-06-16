@@ -1,28 +1,43 @@
 module OpenProject
   module XlsExport
-    class WorkPackageXlsExport
-      attr_reader :project, :work_packages, :query, :current_user
+    class WorkPackageXlsExport < WorkPackage::Exporter::Base
+      include Redmine::I18n
 
-      def initialize(
-        project:, work_packages:, query:, current_user:,
-        with_descriptions: false, with_relations: false
-      )
-        @project = project
-        @work_packages = work_packages
-        @query = query
-        @current_user = current_user
+      def current_user
+        User.current
+      end
 
-        enable! WithTimeZone
-        enable! WithDescription if with_descriptions
-        enable! WithRelations if with_relations
+      def with_descriptions
+        options[:show_descriptions]
+      end
+
+      def with_relations
+        options[:show_relations]
+      end
+
+      def work_packages
+        super
+          .includes(:assigned_to, :type, :priority, :category, :fixed_version)
       end
 
       def enable!(singleton_module)
-        self.singleton_class.prepend singleton_module
+        singleton_class.prepend singleton_module
       end
 
-      def to_xls
-        spreadsheet.xls
+      def list
+        enable! WithTimeZone
+        enable! WithDescription if with_descriptions
+        enable! WithRelations if with_relations
+
+        success(spreadsheet.xls)
+      end
+
+      def success(content)
+        WorkPackage::Exporter::Success
+          .new format: :xls,
+               content: content,
+               title: xls_export_filename,
+               mime_type: 'application/vnd.ms-excel'
       end
 
       def spreadsheet
@@ -76,7 +91,7 @@ module OpenProject
       end
 
       def columns
-        @columns ||= query.columns
+        @columns ||= valid_export_columns
       end
 
       def formatters
@@ -89,6 +104,13 @@ module OpenProject
 
       def headers
         columns.map(&:caption)
+      end
+
+      def xls_export_filename
+        FilenameHelper.sane_filename(
+          "#{Setting.app_title} #{I18n.t(:label_work_package_plural)} \
+           #{format_time_as_date(Time.now, '%Y-%m-%d')}.xls"
+        )
       end
     end
 
