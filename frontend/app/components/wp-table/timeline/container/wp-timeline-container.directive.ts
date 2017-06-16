@@ -45,6 +45,7 @@ import {selectorTimelineSide} from "../../wp-table-scroll-sync";
 import {RenderedRow} from "../../../wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTimelineCellsRenderer} from "../cells/wp-timeline-cells-renderer";
 import {WorkPackageTimelineCell} from "../cells/wp-timeline-cell";
+import {WorkPackageStates} from "../../../work-package-states.service";
 
 export class WorkPackageTimelineTableController {
 
@@ -80,6 +81,7 @@ export class WorkPackageTimelineTableController {
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
+              private wpStates: WorkPackageStates,
               private wpTableHierarchies:WorkPackageTableHierarchiesService,
               private I18n:op.I18n) {
     "ngInject";
@@ -216,7 +218,7 @@ export class WorkPackageTimelineTableController {
 
   startAddRelationPredecessor(start: WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
-      this.wpRelations
+      this.wpStates
         .addCommonRelation(start as any, "follows", end.id)
         .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
     });
@@ -224,7 +226,7 @@ export class WorkPackageTimelineTableController {
 
   startAddRelationFollower(start: WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
-      this.wpRelations
+      this.wpStates
         .addCommonRelation(start as any, "precedes", end.id)
         .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
     });

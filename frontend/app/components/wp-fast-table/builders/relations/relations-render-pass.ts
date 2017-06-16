@@ -7,16 +7,17 @@ import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.se
 import {relationGroupClass, RelationRowBuilder} from './relation-row-builder';
 import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
 import {rowId} from '../../helpers/wp-table-row-helpers';
+import {WorkPackageStates} from '../../../work-package-states.service';
 
 export class RelationsRenderPass implements SecondaryRenderPass {
-  public wpRelations:WorkPackageRelationsService;
+  public wpStates: WorkPackageStates;
   public wpTableColumns:WorkPackageTableColumnsService;
   public wpTableRelationColumns:WorkPackageTableRelationColumnsService;
 
   public relationRowBuilder:RelationRowBuilder;
 
   constructor(private table:WorkPackageTable, private tablePass:PrimaryRenderPass) {
-    $injectFields(this, 'wpRelations', 'wpTableColumns', 'wpTableRelationColumns');
+    $injectFields(this, 'wpStates', 'wpTableColumns', 'wpTableRelationColumns');
 
     this.relationRowBuilder = new RelationRowBuilder(table);
   }
@@ -38,7 +39,7 @@ export class RelationsRenderPass implements SecondaryRenderPass {
 
       // If the work package has no relations, ignore
       const fromId = row.belongsTo.id;
-      const state = this.wpRelations.relationState(fromId);
+      const state = this.wpStates.getRelationsForWorkPackage(fromId);
       if (!state.hasValue() || _.size(state.value!) === 0) {
         return;
       }

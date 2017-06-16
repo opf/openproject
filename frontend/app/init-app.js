@@ -150,3 +150,10 @@ requireTemplate.keys().forEach(requireTemplate);
 
 var requireComponent = require.context('./components/', true, /^((?!\.(test|spec)).)*\.(js|ts|html)$/);
 requireComponent.keys().forEach(requireComponent);
+
+
+const debugOutput = require("./helpers/debug_output");
+debugOutput.whenDebugging(function () {
+  const reactivestates = require("reactivestates");
+  reactivestates.enableReactiveStatesLogging();
+});

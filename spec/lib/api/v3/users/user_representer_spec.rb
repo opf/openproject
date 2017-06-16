@@ -179,8 +179,6 @@ describe ::API::V3::Users::UserRepresenter do
     describe 'avatar', with_settings: { gravatar_enabled?: true, protocol: 'http' } do
       before do
         user.mail = 'foo@bar.com'
-
-        AvatarHelper.configure!
       end
 
       it 'should have an url to gravatar if settings permit and mail is set' do

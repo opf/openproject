@@ -97,7 +97,7 @@
     "observable-array": "0.0.4",
     "phantomjs-polyfill": "0.0.2",
     "postcss-loader": "^1.2.2",
-    "reactivestates": "0.5.9",
+    "reactivestates": "^0.6.31",
     "rxjs": "5.0.3",
     "screenfull": "^3.2.0",
     "shelljs": "^0.3.0",

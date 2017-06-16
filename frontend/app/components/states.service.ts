@@ -1,4 +1,7 @@
-import {combine, createNewContext, derive, input, multiInput, StatesGroup} from "reactivestates";
+import {
+  combine, createNewContext, derive, input, multiInput, State,
+  StatesGroup
+} from "reactivestates";
 import {Subject} from "rxjs";
 import {opServicesModule} from "../angular-modules";
 import {QueryFormResource} from "./api/api-v3/hal-resources/query-form-resource.service";
@@ -6,24 +9,20 @@ import {QueryResource} from "./api/api-v3/hal-resources/query-resource.service";
 import {SchemaResource} from "./api/api-v3/hal-resources/schema-resource.service";
 import {TypeResource} from "./api/api-v3/hal-resources/type-resource.service";
 import {WorkPackageResource} from "./api/api-v3/hal-resources/work-package-resource.service";
-import {
-  GroupObject,
-  WorkPackageCollectionResource
-} from "./api/api-v3/hal-resources/wp-collection-resource.service";
+import {GroupObject, WorkPackageCollectionResource} from "./api/api-v3/hal-resources/wp-collection-resource.service";
 import {WorkPackageEditForm} from "./wp-edit-form/work-package-edit-form";
 import {WorkPackageTableColumns} from "./wp-fast-table/wp-table-columns";
 import {WorkPackageTableFilters} from "./wp-fast-table/wp-table-filters";
 import {WorkPackageTableGroupBy} from "./wp-fast-table/wp-table-group-by";
+import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
 import {WorkPackageTablePagination} from "./wp-fast-table/wp-table-pagination";
 import {WorkPackageTableSortBy} from "./wp-fast-table/wp-table-sort-by";
 import {WorkPackageTableSum} from "./wp-fast-table/wp-table-sum";
-import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
-import {whenDebugging} from "../helpers/debug_output";
-import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
 import {WorkPackageTableTimelineState} from "./wp-fast-table/wp-table-timeline";
-import {TableRenderResult} from "./wp-fast-table/builders/primary-render-pass";
+import {RenderedRow, TableRenderResult} from "./wp-fast-table/builders/primary-render-pass";
 import {SwitchState} from "./states/switch-state";
 import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
+import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
 
 export class States extends StatesGroup {
 
@@ -53,7 +52,7 @@ export class States extends StatesGroup {
 
 }
 
-export class TableState {
+export class TableState extends StatesGroup {
 
   name = "TableStore";
 
@@ -91,6 +90,10 @@ export class TableState {
   hierarchies = input<WorkPackageTableHierarchies>();
   // State to be updated when the table is up to date
   rendered = input<TableRenderResult>();
+
+  renderedWorkPackages: State<RenderedRow[]> = derive(this.rendered, $ => $
+    .map(rows => rows.renderedOrder.filter(row => row.isWorkPackage)));
+
   // State to determine timeline visibility
   timelineVisible = input<WorkPackageTableTimelineState>();
   // Subject used to unregister all listeners of states above.
@@ -139,9 +142,5 @@ export class UserUpdaterStates {
 
 const ctx = createNewContext();
 const states = ctx.create(States);
-
-whenDebugging(() => {
-  states.enableLog(true);
-});
 
 opServicesModule.value('states', states);

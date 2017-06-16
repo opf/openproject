@@ -50,22 +50,18 @@ describe AvatarHelper, type: :helper do
     "#{host}/avatar/#{digest}?secure=#{ssl}"
   end
 
-  before do
-    AvatarHelper.configure!
-  end
-
   describe 'avatar' do
     context 'when enabled', with_settings: { gravatar_enabled?: true } do
       describe 'ssl dependent on protocol settings' do
         context 'with https protocol', with_settings: { protocol: 'https' } do
           it "should be set to secure if protocol is 'https'" do
-            expect(described_class.secure?).to be true
+            expect(helper.default_gravatar_options[:secure]).to be true
           end
         end
 
         context 'with http protocol', with_settings: { protocol: 'http' } do
           it "should be set to unsecure if protocol is 'http'" do
-            expect(described_class.secure?).to be false
+            expect(helper.default_gravatar_options[:secure]).to be false
           end
         end
       end
@@ -73,13 +69,13 @@ describe AvatarHelper, type: :helper do
       describe 'default avatar dependent on settings' do
         context 'with wavatars', with_settings: { gravatar_default: 'Wavatars' } do
           it 'should be set to value of setting' do
-            expect(described_class.default).to eq 'Wavatars'
+            expect(helper.default_gravatar_options[:default_image]).to eq 'Wavatars'
           end
         end
 
         context 'when empty' do
-          it "should be set to unsecure if protocol is 'http'" do
-            expect(described_class.default).to be_nil
+          it 'should be set to nil' do
+            expect(helper.default_gravatar_options[:default_image]).to be_nil
           end
         end
       end

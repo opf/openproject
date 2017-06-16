@@ -31,35 +31,8 @@ require 'gravatar_image_tag'
 
 module AvatarHelper
   include GravatarImageTag
-
-  def self.configure!
-    GravatarImageTag.configure do |c|
-      c.include_size_attributes = false
-      c.secure = Setting.protocol == 'https'
-      c.default_image = Setting.gravatar_default.presence
-    end
-  end
-
-  configure!
-
-  Setting.register_callback(:protocol) do |values|
-    GravatarImageTag.configure do |c|
-      c.secure = values[:value] == 'https'
-    end
-  end
-
-  Setting.register_callback(:gravatar_default) do |values|
-    GravatarImageTag.configure do |c|
-      c.default_image = values[:value].presence
-    end
-  end
-
-  def self.secure?
-    GravatarImageTag.configuration.secure
-  end
-
-  def self.default
-    GravatarImageTag.configuration.default_image
+  GravatarImageTag.configure do |c|
+    c.include_size_attributes = false
   end
 
   # Returns the avatar image tag for the given +user+ if avatars are enabled
@@ -76,10 +49,21 @@ module AvatarHelper
 
   def avatar_url(user, options = {})
     url = with_default_avatar_options(user, options) { |email, opts|
+      # gravatar_image_url expects grvatar options as second arg
+      if opts[:gravatar]
+        opts.merge!(opts.delete(:gravatar))
+      end
       gravatar_image_url(email, opts)
     }
   ensure # return is actually needed here
     return (url || ''.html_safe)
+  end
+
+  def default_gravatar_options
+    {
+      secure: Setting.protocol == 'https',
+      default_image: Setting.gravatar_default.presence
+    }
   end
 
   private
@@ -102,7 +86,8 @@ module AvatarHelper
     end
 
     if Setting.gravatar_enabled? && (email = extract_email_address(user)).present?
-      block.call(email.to_s.downcase, options)
+      block.call email.to_s.downcase,
+                 options.merge(gravatar: default_gravatar_options)
     end
   end
 
