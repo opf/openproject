@@ -39,7 +39,7 @@ body
 
 #wrapper
   @include default-transition
-  background: linear-gradient(to bottom, $main-menu-bg-color 0%, $main-menu-bg-color 100%) no-repeat
+  @include varprop(background-color, main-menu-bg-color)
   background-size: $main-menu-width 100%
   min-height: 100%
   height: auto
