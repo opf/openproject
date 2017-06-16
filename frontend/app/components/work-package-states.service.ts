@@ -1,10 +1,8 @@
 import {multiInput, State, StatesGroup} from "reactivestates";
 import {opServicesModule} from "../angular-modules";
-import {whenDebugging} from "../helpers/debug_output";
 import {CollectionResource} from "./api/api-v3/hal-resources/collection-resource.service";
 import {RelationResource, RelationResourceInterface} from "./api/api-v3/hal-resources/relation-resource.service";
 import {WorkPackageResourceInterface} from "./api/api-v3/hal-resources/work-package-resource.service";
-import {States} from "./states.service";
 import {RelationsStateValue, WorkPackageRelationsService} from "./wp-relations/wp-relations.service";
 import {WorkPackageTableRefreshService} from "./wp-table/wp-table-refresh-request.service";
 
@@ -17,8 +15,7 @@ export class WorkPackageStates extends StatesGroup {
   private relations = multiInput<RelationsStateValue>();
 
   /*@ngInject*/
-  constructor(private states: States,
-              private wpRelations: WorkPackageRelationsService,
+  constructor(private wpRelations: WorkPackageRelationsService,
               private wpTableRefresh: WorkPackageTableRefreshService,
               private PathHelper: any) {
     super();
@@ -30,16 +27,9 @@ export class WorkPackageStates extends StatesGroup {
   }
 
   /**
-   * Return the relation state for the given work package ID.
-   */
-  // public relationState(workPackageId: string): InputState<RelationsStateValue> {
-  //   return this.wpStates.relations.get(workPackageId);
-  // }
-
-  /**
    * Require the relations of the given singular work package to be loaded into its state.
    */
-  public require(workPackage: WorkPackageResourceInterface, force: boolean = false) {
+  require(workPackage: WorkPackageResourceInterface, force: boolean = false) {
     const state = this.relations.get(workPackage.id);
 
     if (force) {
@@ -61,7 +51,7 @@ export class WorkPackageStates extends StatesGroup {
   /**
    * Require the relations of a set of involved work packages loaded into the states.
    */
-  public requireInvolved(workPackageIds: string[]) {
+  requireInvolved(workPackageIds: string[]) {
     this.wpRelations.relationsRequest(workPackageIds).then((elements: RelationResource[]) => {
       this.mergeIntoStates(elements);
     });
@@ -168,7 +158,6 @@ export class WorkPackageStates extends StatesGroup {
 
     return stateValues;
   }
-
 
 }
 
