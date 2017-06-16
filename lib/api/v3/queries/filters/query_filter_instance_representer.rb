@@ -33,26 +33,78 @@ module API
     module Queries
       module Filters
         class QueryFilterInstanceRepresenter < ::API::Decorators::Single
+          include API::Decorators::LinkedResource
+
           def initialize(model)
             super(model, current_user: nil, embed_links: true)
           end
 
-          property :linked_resources,
-                   as: :_links,
-                   exec_context: :decorator,
-                   getter: ->(*) {
-                     query_filter_instance_links_representer represented
-                   },
-                   setter: ->(value, *) {
-                     representer = query_filter_instance_links_representer represented
-                     representer.from_json(value.to_json)
-                   }
+          def to_hash(*)
+            # We need to move the values property back from
+            # the links section. It got moved there because
+            # of the equally named linked_resource
+            super.tap do |hash|
+              unless represented.ar_object_filter?
+                hash['values'] = hash['_links'].delete('values')
+              end
+            end
+          end
+
+          link :schema do
+            api_v3_paths.query_filter_instance_schema(converted_name)
+          end
+
+          link :filter do
+            {
+              href: api_v3_paths.query_filter(converted_name),
+              title: name
+            }
+          end
+
+          linked_resource :operator,
+                          getter: ->(*) {
+                            hash = {
+                              href: api_v3_paths.query_operator(CGI.escape(represented.operator))
+                            }
+
+                            hash[:title] = represented.operator_class.human_name if represented.operator_class.present?
+                            hash
+                          },
+                          setter: ->(value, **) {
+                            next unless value
+
+                            represented.operator = ::API::Utilities::ResourceLinkParser.parse_id value["href"],
+                                                                                                 property: 'operator',
+                                                                                                 expected_version: '3',
+                                                                                                 expected_namespace: 'queries/operators'
+                          }
+
+          linked_resource :values,
+                          getter: ->(*) {
+                            represented.value_objects.map do |value_object|
+                              {
+                                href: api_v3_paths.send(value_object.class.name.demodulize.underscore, value_object.id),
+                                title: value_object.name
+                              }
+                            end
+                          },
+                          setter: ->(values, **) {
+                            next unless values
+
+                            represented.values = values.map do |value|
+                              ::API::Utilities::ResourceLinkParser.parse(value["href"])[:id]
+                            end
+                          },
+                          show_if: ->(*) { represented.ar_object_filter? }
 
           property :name,
                    exec_context: :decorator,
                    writeable: false
 
-          property :values,
+          # Need to use property_values instead of values
+          # to prevent name clashes with the values link
+          property :property_values,
+                   as: :values,
                    if: ->(*) { !represented.ar_object_filter? },
                    exec_context: :decorator,
                    show_nil: true
@@ -63,7 +115,7 @@ module API
             represented.human_name
           end
 
-          def values
+          def property_values
             if represented.respond_to?(:custom_field) &&
                represented.custom_field.field_format == 'bool'
               represented.values.map do |value|
@@ -78,7 +130,7 @@ module API
             end
           end
 
-          def values=(vals)
+          def property_values=(vals)
             represented.values = if represented.respond_to?(:custom_field) &&
                                     represented.custom_field.field_format == 'bool'
                                    vals.map do |value|
