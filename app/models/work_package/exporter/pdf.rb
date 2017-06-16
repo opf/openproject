@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,26 +28,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-describe WorkPackagesController, type: :controller do
-  let(:user) { FactoryGirl.create :admin }
-  let(:project) { FactoryGirl.create :project, identifier: "exp" }
-
-  before do
-    allow(User).to receive(:current).and_return user
+class WorkPackage::Exporter::PDF < WorkPackage::Exporter::Base
+  # Returns a PDF string of a list of work_packages
+  def list
+    ::WorkPackage::PdfExport::WorkPackageListToPdf
+      .new(query,
+           options)
+      .render!
   end
 
-  describe "#index .pdf" do
-    before do
-      expect(WorkPackage::Exporter)
-        .to receive(:pdf).and_raise(Prawn::Errors::CannotFit)
-
-      get :index, format: "pdf"
-    end
-
-    it "should redirect to the html index and show an error message" do
-      expect(flash[:error].downcase).to include("too many columns")
-    end
+  # Returns a PDF string of a single work_package
+  def single
+    ::WorkPackage::PdfExport::WorkPackageToPdf
+      .new(work_package)
+      .render!
   end
 end

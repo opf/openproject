@@ -144,7 +144,9 @@ describe WorkPackagesController, type: :controller do
 
       describe 'html' do
         let(:call_action) { get('index', params: { project_id: project.id }) }
-        before do call_action end
+        before do
+          call_action
+        end
 
         describe 'w/o a project' do
           let(:project) { nil }
@@ -168,16 +170,25 @@ describe WorkPackagesController, type: :controller do
 
         requires_export_permission do
           before do
-            mock_csv = double('csv export')
+            mock_result = double('mock csv result',
+                                 error?: false,
+                                 content: 'blubs',
+                                 mime_type: 'text/csv',
+                                 title: 'blubs.csv')
 
-            expect(WorkPackage::Exporter).to receive(:csv).with(work_packages, query)
+            mock_csv = double('csv exporter',
+                              list: mock_result)
+
+            expect(WorkPackage::Exporter::CSV)
+              .to receive(:new)
+              .with(query, anything)
               .and_return(mock_csv)
 
             expect(controller)
               .to receive(:send_data)
-              .with(mock_csv.to_s,
-                    type: 'text/csv; header=present; charset=utf-8;',
-                    disposition: "attachment; filename=#{query.name}.csv") do |_|
+              .with(mock_result.content,
+                    type: mock_result.mime_type,
+                    filename: mock_result.title) do |_|
               # We need to render something because otherwise
               # the controller will and he will not find a suitable template
               controller.render plain: 'success'
@@ -197,17 +208,25 @@ describe WorkPackagesController, type: :controller do
         requires_export_permission do
           context 'w/ a valid query' do
             before do
-              pdf_data = 'pdfdata'
-              mock_pdf = double('pdf export')
-              allow(mock_pdf)
-                .to receive(:render)
-                .and_return(pdf_data)
+              mock_result = double('mock pdf result',
+                                   error?: false,
+                                   content: 'blubs',
+                                   mime_type: 'application/pdf',
+                                   title: 'blubs.pdf')
 
-              expect(WorkPackage::Exporter).to receive(:pdf).and_return(mock_pdf)
+              mock_pdf = double('pdf exporter',
+                                list: mock_result)
 
-              expect(controller).to receive(:send_data).with(pdf_data,
-                                                             type: 'application/pdf',
-                                                             filename: 'export.pdf') do |*_args|
+              expect(WorkPackage::Exporter::PDF)
+                .to receive(:new)
+                .with(query, anything)
+                .and_return(mock_pdf)
+
+              expect(controller)
+                .to receive(:send_data)
+                .with(mock_result.content,
+                      type: mock_result.mime_type,
+                      filename: mock_result.title) do |_|
                 # We need to render something because otherwise
                 # the controller will and he will not find a suitable template
                 controller.render plain: 'success'
@@ -233,6 +252,36 @@ describe WorkPackagesController, type: :controller do
 
               it 'renders a 404' do
                 expect(response.response_code).to be === 404
+              end
+            end
+          end
+
+          context 'with an export error' do
+            before do
+              mock_result = double('mock pdf result',
+                                   error?: true,
+                                   message: 'because')
+
+              mock_pdf = double('pdf exporter',
+                                list: mock_result)
+
+              allow(WorkPackage::Exporter::PDF)
+                .to receive(:new)
+                .with(query, anything)
+                .and_return(mock_pdf)
+
+              call_action
+            end
+
+            it "shows the error message" do
+              expect(flash[:error].downcase).to include("because")
+            end
+
+            it "redirects to the html index" do
+              if project
+                expect(response).to redirect_to project_work_packages_path(project)
+              else
+                expect(response).to redirect_to work_packages_path
               end
             end
           end
@@ -275,16 +324,17 @@ describe WorkPackagesController, type: :controller do
         :work_package,
         subject: "Ruby encodes ß as '\\xDF' in ISO-8859-1.",
         description: "\u2022 requires unicode.",
-        assigned_to: current_user)
+        assigned_to: current_user
+      )
     end
     let(:current_user) { FactoryGirl.create(:admin) }
 
     it 'performs a successful export' do
       wp = work_package
 
-      expect {
+      expect do
         get :index, params: { format: 'csv', c: [:subject, :assignee, :updatedAt] }
-      }.not_to raise_error
+      end.not_to raise_error
 
       data = CSV.parse(response.body)
 
@@ -322,15 +372,17 @@ describe WorkPackagesController, type: :controller do
     requires_permission_in_project do
       it 'respond with a pdf' do
         pdf_data = 'foobar'
-        pdf = double('pdf')
-        allow(pdf)
-          .to receive(:render)
-          .and_return(pdf_data)
-
         expected_name = "#{stub_work_package.project.identifier}-#{stub_work_package.id}.pdf"
-        expect(WorkPackage::Exporter).to receive(:work_package_to_pdf).and_return(pdf)
+        expected_type = 'application/pdf'
+        pdf_result = double('pdf_result',
+                            error?: false,
+                            content: pdf_data,
+                            title: expected_name,
+                            mime_type: expected_type)
+
+        expect(WorkPackage::Exporter::PDF).to receive(:single).and_return(pdf_result)
         expect(controller).to receive(:send_data).with(pdf_data,
-                                                       type: 'application/pdf',
+                                                       type: expected_type,
                                                        filename: expected_name) do |*_args|
           # We need to render something because otherwise
           # the controller will and he will not find a suitable template

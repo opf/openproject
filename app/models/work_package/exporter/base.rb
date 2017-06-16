@@ -28,37 +28,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module WorkPackage::Exporter
-  def self.for_list(type)
-    @for_list[type]
+class WorkPackage::Exporter::Base
+  attr_accessor :object,
+                :options
+
+  def initialize(object, options = {})
+    self.object = object
+    self.options = options
   end
 
-  def self.register_for_list(type, exporter)
-    @for_list ||= {}
-
-    @for_list[type] = exporter
+  def self.list(query, options = {})
+    new(query, options).list
   end
 
-  def self.list_formats
-    @for_list.keys
+  def self.single(work_package, options = {})
+    new(work_package, options).single
   end
 
-  def self.for_single(type)
-    @for_single[type]
+  def page
+    options[:page] || 1
   end
 
-  def self.register_for_single(type, exporter)
-    @for_single ||= {}
-
-    @for_single[type] = exporter
+  def valid_export_columns
+    query.columns.select do |c|
+      c.is_a?(Queries::WorkPackages::Columns::PropertyColumn) ||
+        c.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
+    end
   end
 
-  def self.single_formats
-    @for_single.keys
+  alias :query :object
+  alias :work_package :object
+
+  def work_packages
+    @work_packages ||= query
+                       .results
+                       .sorted_work_packages
+                       .page(page)
+                       .per_page(Setting.work_packages_export_limit.to_i)
   end
-
-  register_for_list(:csv, WorkPackage::Exporter::CSV)
-  register_for_list(:pdf, WorkPackage::Exporter::PDF)
-
-  register_for_single(:pdf, WorkPackage::Exporter::PDF)
 end

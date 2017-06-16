@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,45 +29,33 @@
 #++
 
 class WorkPackagesController < ApplicationController
-  EXPORT_FORMATS = %w[atom rss xls csv pdf]
-
   include QueriesHelper
   include PaginationHelper
   include OpenProject::ClientPreferenceExtractor
 
   accept_key_auth :index, :show
 
-  # before_action :disable_api # TODO re-enable once API is used for any JSON request
   before_action :authorize_on_work_package, only: :show
   before_action :find_optional_project,
                 :protect_from_unauthorized_export, only: :index
 
-  before_action :load_query,
-                :load_work_packages, only: :index, unless: ->() { request.format.html? }
+  before_action :load_query, only: :index, unless: ->() { request.format.html? }
+  before_action :load_work_packages, only: :index, if: ->() { request.format.atom? }
+
+  before_action :set_gon_settings
 
   def show
     respond_to do |format|
       format.html do
-        gon.settings = client_preferences
-        gon.settings[:enabled_modules] = project ? project.enabled_modules.collect(&:name) : []
-
         render :show, locals: { work_package: work_package }, layout: 'angular'
       end
 
-      format.pdf do
-        export = WorkPackage::Exporter.work_package_to_pdf(work_package)
-
-        send_data(export.render,
-                  type: 'application/pdf',
-                  filename: "#{project.identifier}-#{work_package.id}.pdf")
+      format.any(*WorkPackage::Exporter.single_formats) do
+        export_single(request.format.symbol)
       end
 
       format.atom do
-        render template: 'journals/index',
-               layout: false,
-               content_type: 'application/atom+xml',
-               locals: { title: "#{Setting.app_title} - #{work_package}",
-                         journals: journals }
+        atom_journals
       end
     end
   end
@@ -74,41 +63,18 @@ class WorkPackagesController < ApplicationController
   def index
     respond_to do |format|
       format.html do
-        gon.settings = client_preferences
-        gon.settings[:enabled_modules] = @project ? @project.enabled_modules.collect(&:name) : []
-
         render :index, locals: { query: @query, project: @project },
                        layout: 'angular'
       end
 
-      format.csv do
-        serialized_work_packages = WorkPackage::Exporter.csv(@work_packages, @query)
-        title = @query.new_record? ? l(:label_work_package_plural) : @query.name
-
-        render csv: serialized_work_packages, filename: "#{title}.csv"
-      end
-
-      format.pdf do
-        export = WorkPackage::Exporter.pdf(
-          @work_packages, @project, @query, @results,
-          show_descriptions: params[:show_descriptions]
-        )
-
-        send_data(export.render,
-                  type: 'application/pdf',
-                  filename: 'export.pdf')
+      format.any(*WorkPackage::Exporter.list_formats) do
+        export_list(request.format.symbol)
       end
 
       format.atom do
-        render_feed(@work_packages,
-                    title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
+        atom_list
       end
     end
-  rescue ActiveRecord::RecordNotFound
-    render_404
-  rescue Prawn::Errors::CannotFit
-    flash[:error] = I18n.t :error_pdf_export_too_many_columns
-    redirect_back(fallback_location: index_work_packages_path)
   end
 
   current_menu_item :index do
@@ -117,17 +83,67 @@ class WorkPackagesController < ApplicationController
 
   protected
 
+  def set_gon_settings
+    gon.settings = client_preferences
+    gon.settings[:enabled_modules] = project ? project.enabled_modules.collect(&:name) : []
+  end
+
+  def export_list(mime_type)
+    exporter = WorkPackage::Exporter.for_list(mime_type)
+    export = exporter.list(@query, params)
+
+    if export.error?
+      flash[:error] = export.message
+      redirect_back(fallback_location: index_redirect_path)
+    else
+      send_data(export.content,
+                type: export.mime_type,
+                filename: export.title)
+    end
+  end
+
+  def export_single(mime_type)
+    exporter = WorkPackage::Exporter.for_single(mime_type)
+    export = exporter.single(work_package, params)
+
+    if export.error?
+      flash[:error] = export.message
+      redirect_back(fallback_location: work_package_path(work_packages))
+    else
+      send_data(export.content,
+                type: export.mime_type,
+                filename: export.title)
+    end
+  end
+
+  def atom_journals
+    render template: 'journals/index',
+           layout: false,
+           content_type: 'application/atom+xml',
+           locals: { title: "#{Setting.app_title} - #{work_package}",
+                     journals: journals }
+  end
+
+  def atom_list
+    render_feed(@work_packages,
+                title: "#{@project || Setting.app_title}: #{l(:label_work_package_plural)}")
+  end
+
   def authorize_on_work_package
     deny_access unless work_package
   end
 
   def protect_from_unauthorized_export
-    if EXPORT_FORMATS.include?(params[:format]) &&
+    if supported_export_formats.include?(params[:format]) &&
        !User.current.allowed_to?(:export_work_packages, @project, global: @project.nil?)
 
       deny_access
       false
     end
+  end
+
+  def supported_export_formats
+    %w[atom rss] + WorkPackage::Exporter.list_formats.map(&:to_s)
   end
 
   def load_query
@@ -138,8 +154,6 @@ class WorkPackagesController < ApplicationController
 
   def per_page_param
     case params[:format]
-    when 'csv', 'pdf'
-      Setting.work_packages_export_limit.to_i
     when 'atom'
       Setting.feeds_limit.to_i
     else
@@ -148,7 +162,7 @@ class WorkPackagesController < ApplicationController
   end
 
   def project
-    @project ||= work_package.project
+    @project ||= work_package ? work_package.project : nil
   end
 
   def work_package
@@ -163,6 +177,14 @@ class WorkPackagesController < ApplicationController
                   .order("#{Journal.table_name}.created_at ASC").to_a
     @journals.reverse_order if current_user.wants_comments_in_reverse_order?
     @journals
+  end
+
+  def index_redirect_path
+    if @project
+      project_work_packages_path(@project)
+    else
+      work_packages_path
+    end
   end
 
   private
