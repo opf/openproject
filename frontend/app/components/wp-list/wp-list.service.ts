@@ -32,7 +32,10 @@ import {PaginationObject, QueryDmService} from "../api/api-v3/hal-resource-dms/q
 import {QueryFormDmService} from "../api/api-v3/hal-resource-dms/query-form-dm.service";
 import {States} from "../states.service";
 import {SchemaResource} from "../api/api-v3/hal-resources/schema-resource.service";
-import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
+import {
+  ErrorResource,
+  v3ErrorIdentifierQueryInvalid
+} from '../api/api-v3/hal-resources/error-resource.service';
 import {WorkPackageCollectionResource} from "../api/api-v3/hal-resources/wp-collection-resource.service";
 import {QuerySchemaResourceInterface} from "../api/api-v3/hal-resources/query-schema-resource.service";
 import {QueryFilterInstanceSchemaResource} from "../api/api-v3/hal-resources/query-filter-instance-schema-resource.service";
@@ -364,30 +367,35 @@ export class WorkPackagesListService {
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
     let deferred = this.$q.defer();
 
-    this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
+    if (error.errorIdentifier === v3ErrorIdentifierQueryInvalid) {
+      this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
-    this.QueryFormDm.loadWithParams(queryProps, queryId, projectIdentifier)
-      .then(form => {
-        this.QueryDm.findDefault({pageSize: 0}, projectIdentifier)
-          .then((query:QueryResource) => {
-            this.wpListInvalidQueryService.restoreQuery(query, form);
+      this.QueryFormDm.loadWithParams(queryProps, queryId, projectIdentifier)
+        .then(form => {
+          this.QueryDm.findDefault({pageSize: 0}, projectIdentifier)
+            .then((query:QueryResource) => {
+              this.wpListInvalidQueryService.restoreQuery(query, form);
 
-            query.results.pageSize = queryProps.pageSize;
-            query.results.total = 0;
+              query.results.pageSize = queryProps.pageSize;
+              query.results.total = 0;
 
-            if (queryId) {
-              query.id = queryId;
-            }
+              if (queryId) {
+                query.id = queryId;
+              }
 
-            this.states.table.context.doAndTransition('Query loaded', () => {
-              this.updateStatesFromQuery(query);
-              this.updateStatesFromForm(query, form);
+              this.states.table.context.doAndTransition('Query loaded', () => {
+                this.updateStatesFromQuery(query);
+                this.updateStatesFromForm(query, form);
+              });
+
+              deferred.resolve(query);
             });
+        });
 
-            deferred.resolve(query);
-          });
-      });
-
+    } else {
+      this.NotificationsService.addError(error.message, []);
+      deferred.resolve();
+    }
     return deferred.promise;
   }
 
