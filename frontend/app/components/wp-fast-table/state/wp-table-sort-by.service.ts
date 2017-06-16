@@ -42,6 +42,8 @@ import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableSortBy} from '../wp-table-sort-by';
 import {QueryColumn} from '../../wp-query/query-column';
+import {combine} from 'reactivestates';
+import {Observable} from 'rxjs';
 
 export class WorkPackageTableSortByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'sortBy' as TableStateStates;
@@ -56,6 +58,11 @@ export class WorkPackageTableSortByService extends WorkPackageTableBaseService i
     this.state.putValue(sortBy);
   }
 
+  public onReadyWithAvailable():Observable<null> {
+    return combine(this.state, this.states.query.available.sortBy)
+      .values$()
+      .mapTo(null);
+  }
 
   public hasChanged(query:QueryResource) {
     const comparer = (sortBy:QuerySortByResource[]) => sortBy.map(el => el.href);

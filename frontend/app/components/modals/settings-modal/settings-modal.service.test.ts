@@ -47,8 +47,8 @@ describe('SettingsModalController', () => {
       }
     };
     states = {
-      table: {
-        query: input<{name: string}>()
+      query: {
+        resource: input<{name: string}>()
       }
     };
     settingsModal = {
