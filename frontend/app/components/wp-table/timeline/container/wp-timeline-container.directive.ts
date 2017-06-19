@@ -45,6 +45,7 @@ import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
+import {Moment} from "moment";
 
 export class WorkPackageTimelineTableController {
 
@@ -343,6 +344,12 @@ export class WorkPackageTimelineTableController {
       changed = true;
       this._viewParameters.dateDisplayEnd = newParams.dateDisplayEnd;
     }
+
+    // Calculate the visible viewport
+    const firstDayInViewport = this.getFirstDayInViewport();
+    const lastDayInViewport = this.getLastDayInViewport();
+    const viewport: [Moment, Moment] = [firstDayInViewport, lastDayInViewport];
+    this._viewParameters.visibleViewportAtCalculationTime = viewport;
 
     return changed;
   }

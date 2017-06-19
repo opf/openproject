@@ -26,12 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import * as moment from "moment";
+import {TimelineZoomLevel} from "../../api/api-v3/hal-resources/query-resource.service";
 import {
-  WorkPackageResourceInterface,
-  WorkPackageResource
+  WorkPackageResource,
+  WorkPackageResourceInterface
 } from "../../api/api-v3/hal-resources/work-package-resource.service";
 import Moment = moment.Moment;
-import {TimelineZoomLevel} from "../../api/api-v3/hal-resources/query-resource.service";
 
 export const timelineElementCssClass = "timeline-element";
 export const timelineGridElementCssClass = "wp-timeline--grid-element";
@@ -68,6 +68,11 @@ export class TimelineViewParameters {
   activeSelectionMode: null|((wp: WorkPackageResource) => any) = null;
 
   selectionModeStart: null|string = null;
+
+  /**
+   * The visible viewport (at the time the view parameters were calculated last!!!)
+   */
+  visibleViewportAtCalculationTime: [Moment, Moment];
 
   get pixelPerDay(): number {
     switch (this.settings.zoomLevel) {
@@ -118,4 +123,36 @@ export function calculatePositionValueForDayCount(viewParams: TimelineViewParame
     return value + "px";
 }
 
+export function getTimeSlicesForHeader(vp: TimelineViewParameters,
+                                       unit: moment.unitOfTime.DurationConstructor,
+                                       startView: Moment,
+                                       endView: Moment,
+                                       ) {
 
+  const slicesInViewport: [Moment, Moment][] = [];
+  const slicesOutsideViewport: [Moment, Moment][] = [];
+
+  const time = startView.clone().startOf(unit);
+  const end = endView.clone().endOf(unit);
+
+  while (time.isBefore(end)) {
+    const sliceStart = moment.max(time, startView).clone();
+    const sliceEnd = moment.min(time.clone().endOf(unit), endView).clone();
+    time.add(1, unit);
+
+    const viewport = vp.visibleViewportAtCalculationTime;
+    if ((sliceStart.isSameOrAfter(viewport[0]) && sliceStart.isSameOrBefore(viewport[1]))
+      || (sliceEnd.isSameOrAfter(viewport[0]) && sliceEnd.isSameOrBefore(viewport[1]))) {
+
+      slicesInViewport.push([sliceStart, sliceEnd]);
+    } else {
+      slicesOutsideViewport.push([sliceStart, sliceEnd]);
+    }
+  }
+
+  return {
+    inViewport: slicesInViewport,
+    outsideViewport: slicesOutsideViewport
+  };
+
+}
