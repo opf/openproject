@@ -25,41 +25,40 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {openprojectModule} from "../../../../angular-modules";
-import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
-import {debugLog, timeOutput} from "../../../../helpers/debug_output";
-import {TypeResource} from "../../../api/api-v3/hal-resources/type-resource.service";
-import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import {States} from "../../../states.service";
-import {WorkPackageNotificationService} from "../../../wp-edit/wp-notification.service";
-import {WorkPackageTableTimelineService} from "../../../wp-fast-table/state/wp-table-timeline.service";
-import {WorkPackageTableTimelineState} from "../../../wp-fast-table/wp-table-timeline";
-import {WorkPackageRelationsService} from "../../../wp-relations/wp-relations.service";
-import {WorkPackagesTableController} from "../../wp-table.directive";
-import {timelineMarkerSelectionStartClass, TimelineViewParameters} from "../wp-timeline";
-import {WorkPackageTable} from "../../../wp-fast-table/wp-fast-table";
-import {WorkPackageTableHierarchiesService} from "../../../wp-fast-table/state/wp-table-hierarchy.service";
+import {openprojectModule} from '../../../../angular-modules';
+import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
+import {debugLog, timeOutput} from '../../../../helpers/debug_output';
+import {TypeResource} from '../../../api/api-v3/hal-resources/type-resource.service';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../../../states.service';
+import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
+import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-timeline';
+import {WorkPackagesTableController} from '../../wp-table.directive';
+import {timelineMarkerSelectionStartClass, TimelineViewParameters} from '../wp-timeline';
+import {WorkPackageTable} from '../../../wp-fast-table/wp-fast-table';
+import {WorkPackageTableHierarchiesService} from '../../../wp-fast-table/state/wp-table-hierarchy.service';
 
-import * as angular from "angular";
-import {selectorTimelineSide} from "../../wp-table-scroll-sync";
-import {RenderedRow} from "../../../wp-fast-table/builders/primary-render-pass";
-import {WorkPackageTimelineCellsRenderer} from "../cells/wp-timeline-cells-renderer";
-import {WorkPackageTimelineCell} from "../cells/wp-timeline-cell";
-import {WorkPackageStates} from "../../../work-package-states.service";
+import * as angular from 'angular';
+import {selectorTimelineSide} from '../../wp-table-scroll-sync';
+import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
+import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
+import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
+import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 
 export class WorkPackageTimelineTableController {
 
-  public wpTableDirective: WorkPackagesTableController;
+  public wpTableDirective:WorkPackagesTableController;
 
-  public workPackageTable: WorkPackageTable;
+  public workPackageTable:WorkPackageTable;
 
-  private _viewParameters: TimelineViewParameters = new TimelineViewParameters();
+  private _viewParameters:TimelineViewParameters = new TimelineViewParameters();
 
   public disableViewParamsCalculation = false;
 
   public workPackageIdOrder:RenderedRow[] = [];
 
-  private renderers:{ [name:string]: (vp:TimelineViewParameters) => void } = {};
+  private renderers:{ [name:string]:(vp:TimelineViewParameters) => void } = {};
 
   private cellsRenderer = new WorkPackageTimelineCellsRenderer(this);
 
@@ -81,7 +80,6 @@ export class WorkPackageTimelineTableController {
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
-              private wpStates: WorkPackageStates,
               private wpTableHierarchies:WorkPackageTableHierarchiesService,
               private I18n:op.I18n) {
     "ngInject";
@@ -103,7 +101,7 @@ export class WorkPackageTimelineTableController {
         this.refreshView();
       },
       500,
-      { leading: true }
+      {leading: true}
     );
 
     // Register this instance to the table
@@ -127,7 +125,7 @@ export class WorkPackageTimelineTableController {
       .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
       .takeUntil(scopeDestroyed$(this.$scope))
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
-        this.viewParameters.settings.zoomLevel =  timelineState.zoomLevel;
+        this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
         this.debouncedRefresh();
       });
 
@@ -159,7 +157,7 @@ export class WorkPackageTimelineTableController {
     return this.$element.offset().left;
   }
 
-  get viewParameters(): TimelineViewParameters {
+  get viewParameters():TimelineViewParameters {
     return this._viewParameters;
   }
 
@@ -202,7 +200,7 @@ export class WorkPackageTimelineTableController {
     this.states.workPackages.observeChange()
       .withLatestFrom(this.states.table.timelineVisible.values$())
       .takeUntil(scopeDestroyed$(this.$scope))
-      .filter(([,timelineState]) => this.initialized && timelineState.isVisible)
+      .filter(([, timelineState]) => this.initialized && timelineState.isVisible)
       .map(([[wpId],]) => wpId)
       .filter((wpId) => this.cellsRenderer.hasCell(wpId))
       .subscribe((wpId) => {
@@ -216,17 +214,17 @@ export class WorkPackageTimelineTableController {
       });
   }
 
-  startAddRelationPredecessor(start: WorkPackageResourceInterface) {
+  startAddRelationPredecessor(start:WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
-      this.wpStates
+      this.wpRelations
         .addCommonRelation(start as any, "follows", end.id)
         .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
     });
   }
 
-  startAddRelationFollower(start: WorkPackageResourceInterface) {
+  startAddRelationFollower(start:WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
-      this.wpStates
+      this.wpRelations
         .addCommonRelation(start as any, "precedes", end.id)
         .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
     });
@@ -245,10 +243,10 @@ export class WorkPackageTimelineTableController {
     this.refreshView();
   }
 
-  private activateSelectionMode(start: string, callback: (wp: WorkPackageResourceInterface) => any) {
+  private activateSelectionMode(start:string, callback:(wp:WorkPackageResourceInterface) => any) {
     start = start.toString(); // old system bug: ID can be a 'number'
 
-    this._viewParameters.activeSelectionMode = (wp: WorkPackageResourceInterface) => {
+    this._viewParameters.activeSelectionMode = (wp:WorkPackageResourceInterface) => {
       callback(wp);
       this.resetSelectionMode();
     };
@@ -261,7 +259,7 @@ export class WorkPackageTimelineTableController {
     this.refreshView();
   }
 
-  private calculateViewParams(currentParams: TimelineViewParameters): boolean {
+  private calculateViewParams(currentParams:TimelineViewParameters):boolean {
     if (this.disableViewParamsCalculation) {
       return false;
     }
@@ -331,7 +329,7 @@ export class WorkPackageTimelineTableController {
 
 openprojectModule.component("wpTimelineContainer", {
   controller: WorkPackageTimelineTableController,
-  templateUrl:  '/components/wp-table/timeline/container/wp-timeline-container.html',
+  templateUrl: '/components/wp-table/timeline/container/wp-timeline-container.html',
   require: {
     wpTableDirective: '^wpTable'
   }

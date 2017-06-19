@@ -25,29 +25,14 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {
-  timelineElementCssClass,
-  TimelineViewParameters,
-} from "../wp-timeline";
-import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
-
-import {Observable} from 'rxjs';
+import {TimelineViewParameters} from '../wp-timeline';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import * as moment from 'moment';
+import {openprojectModule} from '../../../../angular-modules';
+import {States} from '../../../states.service';
+import {TimelineStaticElement, timelineStaticElementCssClassname} from './timeline-static-element';
+import {TodayLineElement} from './wp-timeline.today-line';
 import Moment = moment.Moment;
-import {openprojectModule} from "../../../../angular-modules";
-import {States} from "../../../states.service";
-import {WorkPackageStates} from "../../../work-package-states.service";
-import {
-  RelationsStateValue,
-  WorkPackageRelationsService
-} from "../../../wp-relations/wp-relations.service";
-import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
-import {TimelineRelationElement} from "./timeline-relation-element";
-import {RelationResource} from "../../../api/api-v3/hal-resources/relation-resource.service";
-import {TimelineStaticElement, timelineStaticElementCssClassname} from "./timeline-static-element";
-import {timelineGlobalElementCssClassname} from "./wp-timeline-relations.directive";
-import {TodayLineElement} from "./wp-timeline.today-line";
-
 
 export class WorkPackageTableTimelineStaticElements {
 
@@ -59,9 +44,7 @@ export class WorkPackageTableTimelineStaticElements {
 
   constructor(public $element:ng.IAugmentedJQuery,
               public $scope:ng.IScope,
-              public states:States,
-              public wpStates:WorkPackageStates,
-              public wpRelations:WorkPackageRelationsService) {
+              public states:States) {
 
     this.elements = [
       new TodayLineElement()

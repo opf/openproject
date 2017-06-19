@@ -28,6 +28,7 @@ import {opApiModule} from "../../../../angular-modules";
 //++
 import {HalResource} from "./hal-resource.service";
 import {WorkPackageResource, WorkPackageResourceInterface} from "./work-package-resource.service";
+import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
 
 interface RelationResourceLinks {
   delete(): ng.IPromise<any>;
@@ -36,10 +37,8 @@ interface RelationResourceLinks {
 
 export class RelationResource extends HalResource {
 
-  static TYPES():string[] {
-    return [
-      'parent',
-      'children',
+  static RELATION_TYPES(includeParentChild:boolean = true):string[] {
+    const types = [
       'relates',
       'duplicates',
       'duplicated',
@@ -52,6 +51,21 @@ export class RelationResource extends HalResource {
       'requires',
       'required'
     ];
+
+    if (includeParentChild) {
+      types.push('parent', 'children');
+    }
+
+    return types;
+  }
+
+  static LOCALIZED_RELATION_TYPES(includeParentchild:boolean = true) {
+    const relationTypes = RelationResource.RELATION_TYPES(includeParentchild);
+    const I18n:op.I18n = $injectNow('I18n') as op.I18n;
+
+    return relationTypes.map((key:string) => {
+      return {name: key, label: I18n.t('js.relation_labels.' + key)};
+    });
   }
 
   static DEFAULT() {
