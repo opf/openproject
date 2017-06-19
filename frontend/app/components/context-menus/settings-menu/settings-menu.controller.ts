@@ -105,8 +105,8 @@ function SettingsDropdownMenuController($scope:IMyScope,
   $scope.displaySumsLabel = $scope.displaySums ? I18n.t('js.toolbar.settings.hide_sums')
                                                : I18n.t('js.toolbar.settings.display_sums');
 
-  let form = states.table.form.value!;
-  let query = states.table.query.value!;
+  let form = states.query.form.value!;
+  let query = states.query.resource.value!;
 
   if (query.results && query.results.customFields) {
     $scope.queryCustomFields = query.results.customFields;

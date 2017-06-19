@@ -41,8 +41,8 @@ function ShareModalController(this:any,
   this.name = 'Share';
   this.closeMe = shareModal.deactivate;
 
-  $scope.query = states.table.query.value;
-  let form = states.table.form.value!;
+  $scope.query = states.query.resource.value;
+  let form = states.query.form.value!;
 
   $scope.canStar = AuthorisationService.can('query', 'star') || AuthorisationService.can('query', 'unstar');
   $scope.canPublicize = form.schema.public.writable;

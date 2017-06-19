@@ -80,8 +80,8 @@ describe('optionsDropdown Directive', function() {
     form = {}
 
     states = {
-      table: {
-        query: input(query),
+      query: {
+        resource: input(query),
         form: input(form)
       }
     };

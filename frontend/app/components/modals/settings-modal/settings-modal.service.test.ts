@@ -47,8 +47,8 @@ describe('SettingsModalController', () => {
       }
     };
     states = {
-      table: {
-        query: input<{name: string}>()
+      query: {
+        resource: input<{name: string}>()
       }
     };
     settingsModal = {
@@ -66,7 +66,7 @@ describe('SettingsModalController', () => {
     query = {
       name: 'bogus'
     };
-    states.table.query.putValue(query);
+    states.query.resource.putValue(query);
 
     buildController = () => {
       ctrl = $controller('SettingsModalController', {

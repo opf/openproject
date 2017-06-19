@@ -46,8 +46,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
   }
 
   public initialize(query:QueryResource, schema?:QuerySchemaResourceInterface) {
-    let state = this.create(query, schema);
-
+    let state = new WorkPackageTableColumns(query);
     this.state.putValue(state);
   }
 
@@ -76,10 +75,6 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
 
     // Reload the table visibly if adding relation columns.
     return this.hasRelationColumns();
-  }
-
-  protected create(query:QueryResource, schema?:QuerySchemaResourceInterface) {
-    return new WorkPackageTableColumns(query, schema);
   }
 
   /**
@@ -241,6 +236,11 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
     return this.state.value as WorkPackageTableColumns;
   }
 
+  // Get the available state
+  protected get availableState() {
+    return this.states.query.available.columns;
+  }
+
   /**
    * Return the number of selected rows.
    */
@@ -252,7 +252,7 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
    * Get all available columns (regardless of whether they are selected already)
    */
   public get all():QueryColumn[] {
-    return this.currentState.available || [];
+    return this.availableState.getValueOr([]);
   }
 
   /**
