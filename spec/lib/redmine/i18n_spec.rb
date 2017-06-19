@@ -150,6 +150,12 @@ module OpenProject
       it 'can be found by uppercase if it is active' do
         expect(find_language(:DE)).to eql :de
       end
+
+      it 'is nil if non valid string is passed' do
+        expect(find_language('*')).to be_nil
+        expect(find_language('78445')).to be_nil
+        expect(find_language('/)(')).to be_nil
+      end
     end
 
     describe 'link_translation' do
