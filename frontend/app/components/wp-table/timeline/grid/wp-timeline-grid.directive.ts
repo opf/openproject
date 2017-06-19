@@ -129,9 +129,9 @@ export class WorkPackageTableTimelineGrid {
                    endView: Moment,
                    cellCallback: (start: Moment, cell: HTMLElement) => void) {
 
-    const {inViewport, outsideViewport} = getTimeSlicesForHeader(vp, unit, startView, endView);
+    const {inViewportAndBoundaries, rest} = getTimeSlicesForHeader(vp, unit, startView, endView);
 
-    for (let [start, end] of inViewport) {
+    for (let [start, end] of inViewportAndBoundaries) {
       const cell = document.createElement("div");
       cell.classList.add(timelineElementCssClass, timelineGridElementCssClass);
       cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
@@ -140,7 +140,7 @@ export class WorkPackageTableTimelineGrid {
       cellCallback(start, cell);
     }
     setTimeout(() => {
-      for (let [start, end] of outsideViewport) {
+      for (let [start, end] of rest) {
         const cell = document.createElement("div");
         cell.classList.add(timelineElementCssClass, timelineGridElementCssClass);
         cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));

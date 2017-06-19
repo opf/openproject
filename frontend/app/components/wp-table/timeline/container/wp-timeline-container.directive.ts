@@ -239,7 +239,7 @@ export class WorkPackageTimelineTableController {
   getFirstDayInViewport() {
     const outerContainer = this.getParentScrollContainer();
     const scrollLeft = outerContainer.scrollLeft;
-    const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay) + 0;
+    const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay);
     return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, "days");
   }
 

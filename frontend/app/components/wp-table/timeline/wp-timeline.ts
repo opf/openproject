@@ -129,8 +129,8 @@ export function getTimeSlicesForHeader(vp: TimelineViewParameters,
                                        endView: Moment,
                                        ) {
 
-  const slicesInViewport: [Moment, Moment][] = [];
-  const slicesOutsideViewport: [Moment, Moment][] = [];
+  const inViewport: [Moment, Moment][] = [];
+  const rest: [Moment, Moment][] = [];
 
   const time = startView.clone().startOf(unit);
   const end = endView.clone().endOf(unit);
@@ -144,15 +144,23 @@ export function getTimeSlicesForHeader(vp: TimelineViewParameters,
     if ((sliceStart.isSameOrAfter(viewport[0]) && sliceStart.isSameOrBefore(viewport[1]))
       || (sliceEnd.isSameOrAfter(viewport[0]) && sliceEnd.isSameOrBefore(viewport[1]))) {
 
-      slicesInViewport.push([sliceStart, sliceEnd]);
+      inViewport.push([sliceStart, sliceEnd]);
     } else {
-      slicesOutsideViewport.push([sliceStart, sliceEnd]);
+      rest.push([sliceStart, sliceEnd]);
     }
   }
 
+  const firstRest: [Moment, Moment] = rest.splice(0, 1)[0];
+  const lastRest: [Moment, Moment] = rest.pop()!;
+  const inViewportAndBoundaries = _.concat(
+    [firstRest].filter(e => !_.isNil(e)),
+    inViewport,
+    [lastRest].filter(e => !_.isNil(e))
+  );
+
   return {
-    inViewport: slicesInViewport,
-    outsideViewport: slicesOutsideViewport
+    inViewportAndBoundaries,
+    rest
   };
 
 }
