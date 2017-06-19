@@ -38,7 +38,8 @@
 
 @mixin toolbar-element-sizing
   margin: 0.625rem 0 0
-  @extend %input--sizing
+  height: 34px
+  line-height: 22px
 
 .toolbar-container
   padding: 0
@@ -102,7 +103,7 @@
 
     &.toolbar-icon
       // Make sure that icon only toolbar items are squared
-      width: 40px
+      width: 34px
 
       font-size: 14px
       line-height: 1
@@ -114,8 +115,8 @@
           line-height: 1
 
   a.button
-    // For links the total height adds borders to line-height (== 40px)
-    line-height: 38px
+    // For links the total height adds borders to line-height (== 34px)
+    line-height: 32px
 
   button,
   .button,

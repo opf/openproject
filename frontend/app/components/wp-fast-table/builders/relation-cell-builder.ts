@@ -7,6 +7,7 @@ import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.servi
 import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
 import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
 import {QueryColumn} from '../../wp-query/query-column';
+import {WorkPackageStates} from '../../work-package-states.service';
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
@@ -14,13 +15,13 @@ export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
 
 export class RelationCellbuilder {
   public states:States;
-  public wpRelations:WorkPackageRelationsService;
+  public wpStates: WorkPackageStates;
   public wpTableRelationColumns:WorkPackageTableRelationColumnsService;
 
   public wpDisplayField:WorkPackageDisplayFieldService;
 
   constructor() {
-    $injectFields(this, 'states', 'wpRelations', 'wpTableRelationColumns');
+    $injectFields(this, 'states', 'wpStates', 'wpTableRelationColumns');
   }
 
   public build(workPackage:WorkPackageResourceInterface, column:QueryColumn) {
@@ -30,7 +31,7 @@ export class RelationCellbuilder {
 
     // Get current expansion and value state
     const expanded = this.wpTableRelationColumns.getExpandFor(workPackage.id) === column.id;
-    const relationState = this.wpRelations.relationState(workPackage.id).value;
+    const relationState = this.wpStates.getRelationsForWorkPackage(workPackage.id).value;
     const relations = this.wpTableRelationColumns.relationsForColumn(workPackage, relationState, column);
 
     const indicator = this.renderIndicator();

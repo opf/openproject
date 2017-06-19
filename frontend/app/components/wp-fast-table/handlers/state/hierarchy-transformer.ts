@@ -14,25 +14,27 @@ export class HierarchyTransformer {
 
   constructor(table:WorkPackageTable) {
     injectorBridge(this);
-    let enabled = this.wpTableHierarchies.isEnabled;
 
     this.states.updates.hierarchyUpdates
       .values$('Refreshing hierarchies on user request')
       .takeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((state:WorkPackageTableHierarchies) => {
-        if (enabled !== state.isEnabled) {
-          table.redrawTableAndTimeline();
-        } else if (enabled) {
-          // No change in hierarchy mode
-          // Refresh groups
-          this.renderHierarchyState(state);
-        }
+      .map((state) => state.isEnabled)
+      .distinctUntilChanged()
+      .subscribe(() => {
+        table.redrawTableAndTimeline();
     });
+
+    let lastValue = this.wpTableHierarchies.isEnabled;
 
     this.wpTableHierarchies
       .observeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((state:WorkPackageTableHierarchies) => {
-      enabled = state.isEnabled;
+      .subscribe((state) => {
+
+      if (state.isEnabled === lastValue) {
+        this.renderHierarchyState(state);
+      }
+
+      lastValue = state.isEnabled;
     });
   }
 
