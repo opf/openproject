@@ -35,10 +35,11 @@ describe RepositoriesController, type: :controller do
     allow(Project).to receive(:find).and_return(project)
     project
   end
-  let(:user) {
+  let(:user) do
     FactoryGirl.create(:user, member_in_project: project,
                               member_through_role: role)
-  }
+  end
+  let(:role) { FactoryGirl.create(:role, permissions: []) }
   let (:url) { 'file:///tmp/something/does/not/exist.svn' }
 
   let(:repository) do
@@ -167,7 +168,7 @@ describe RepositoriesController, type: :controller do
     end
   end
 
-  describe 'with filesystem repository' do
+  describe 'with subversion repository' do
     with_subversion_repository do |repo_dir|
       let(:root_url) { repo_dir }
       let(:url) { "file://#{root_url}" }
@@ -329,6 +330,24 @@ describe RepositoriesController, type: :controller do
           expect(response).to render_template partial: 'repositories/_checkout_instructions'
           expect(response.body).to have_selector("#repository-checkout-url[value='#{expected_path}']")
         end
+      end
+    end
+  end
+
+  describe 'when not being logged in' do
+    let(:anonymous) { FactoryGirl.build_stubbed(:anonymous) }
+
+    before do
+      login_as(anonymous)
+    end
+
+    describe '#show' do
+      it 'redirects to login while preserving the path' do
+        params = { path: 'aDir/within/aDir', rev: '42', project_id: project.id }
+        get :show, params: params
+
+        expect(response)
+          .to redirect_to signin_path(back_url: show_revisions_path_project_repository_url(params))
       end
     end
   end

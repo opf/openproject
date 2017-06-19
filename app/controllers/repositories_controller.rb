@@ -489,6 +489,10 @@ class RepositoriesController < ApplicationController
     )
     graph.burn
   end
+
+  def login_back_url_params
+    params.permit(:path)
+  end
 end
 
 class Date
