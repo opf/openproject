@@ -43,7 +43,6 @@ class CostObjectsController < ApplicationController
   include CostlogHelper
   helper :cost_objects
   include CostObjectsHelper
-  include WorkPackage::PdfExporter
   include PaginationHelper
 
   def index
