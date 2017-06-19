@@ -33,52 +33,16 @@ import {WorkPackageTableBaseState} from './wp-table-base';
 import {QueryColumn} from '../wp-query/query-column';
 
 export class WorkPackageTableGroupBy extends WorkPackageTableBaseState<QueryGroupByResource | undefined> {
-  public available:QueryGroupByResource[] = [];
   public current:QueryGroupByResource | undefined;
 
-  constructor(query:QueryResource, schema?:QuerySchemaResourceInterface) {
+  constructor(query:QueryResource) {
     super();
     this.current = angular.copy(query.groupBy);
-
-    if (schema) {
-      this.available = angular.copy(schema.groupBy.allowedValues as QueryGroupByResource[]);
-    }
   }
 
-  public hasChanged(query:QueryResource) {
-    const comparer = (groupBy:QueryColumn|undefined) => groupBy ? groupBy.href : null;
-
-    return !_.isEqual(
-      comparer(query.groupBy),
-      comparer(this.current)
-    );
-  }
-
-  public applyToQuery(query:QueryResource) {
-    query.groupBy = _.cloneDeep(this.current);
-  }
-
-  public update(query:QueryResource|null, schema?:QuerySchemaResourceInterface) {
+  public update(query:QueryResource|null) {
     if (query) {
       this.current = angular.copy(query.groupBy);
     }
-
-    if (schema) {
-      this.available = angular.copy(schema.groupBy.allowedValues as QueryGroupByResource[]);
-    }
-  }
-
-  public setBy(column:QueryColumn) {
-    let groupBy = _.find(this.available, candidate => candidate.id === column.id)
-
-    this.current = groupBy;
-  }
-
-  public isGroupable(column:QueryColumn):boolean {
-    return !!_.find(this.available, candidate => candidate.id === column.id)
-  }
-
-  public isCurrentlyGroupedBy(column:QueryColumn):boolean {
-    return !!this.current && this.current.id === column.id;
   }
 }

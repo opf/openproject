@@ -26,28 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
-import {QueryFormResource} from "../api/api-v3/hal-resources/query-form-resource.service";
-import {PaginationObject, QueryDmService} from "../api/api-v3/hal-resource-dms/query-dm.service";
-import {QueryFormDmService} from "../api/api-v3/hal-resource-dms/query-form-dm.service";
-import {States} from "../states.service";
-import {SchemaResource} from "../api/api-v3/hal-resources/schema-resource.service";
-import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
-import {WorkPackageCollectionResource} from "../api/api-v3/hal-resources/wp-collection-resource.service";
-import {QuerySchemaResourceInterface} from "../api/api-v3/hal-resources/query-schema-resource.service";
-import {QueryFilterInstanceSchemaResource} from "../api/api-v3/hal-resources/query-filter-instance-schema-resource.service";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableSortByService} from "../wp-fast-table/state/wp-table-sort-by.service";
-import {WorkPackageTableGroupByService} from "../wp-fast-table/state/wp-table-group-by.service";
-import {WorkPackageTableFiltersService} from "../wp-fast-table/state/wp-table-filters.service";
-import {WorkPackageTableSumService} from "../wp-fast-table/state/wp-table-sum.service";
-import {WorkPackageTablePaginationService} from "../wp-fast-table/state/wp-table-pagination.service";
-import {WorkPackagesListInvalidQueryService} from "./wp-list-invalid-query.service";
-import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
-import {WorkPackageTableHierarchiesService} from "./../wp-fast-table/state/wp-table-hierarchy.service";
-import {SchemaCacheService} from "../schemas/schema-cache.service";
-import {Observable} from "rxjs";
+import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
+import {QueryFormResource} from '../api/api-v3/hal-resources/query-form-resource.service';
+import {PaginationObject, QueryDmService} from '../api/api-v3/hal-resource-dms/query-dm.service';
+import {QueryFormDmService} from '../api/api-v3/hal-resource-dms/query-form-dm.service';
+import {States} from '../states.service';
+import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
 
 export class WorkPackagesListService {
@@ -158,7 +145,7 @@ export class WorkPackagesListService {
    */
   public create(name:string) {
     let query = this.currentQuery;
-    let form = this.states.table.form.value!;
+    let form = this.states.query.form.value!;
 
     query.name = name;
 
@@ -201,7 +188,7 @@ export class WorkPackagesListService {
   public save(query?:QueryResource) {
     query = query || this.currentQuery;
 
-    let form = this.states.table.form.value!;
+    let form = this.states.query.form.value!;
 
     let promise = this.QueryDm.save(query, form);
 
@@ -216,7 +203,7 @@ export class WorkPackagesListService {
         // We should actually put the query newly received
         // from the backend in here.
         // But the backend does currently not return work packages (results).
-        this.states.table.query.putValue(query!);
+        this.states.query.resource.putValue(query!);
       })
       .catch((error:ErrorResource) => {
         this.NotificationsService.addError(error.message);
@@ -233,7 +220,7 @@ export class WorkPackagesListService {
     let starred = !query.starred;
 
     promise.then((query) => {
-      this.states.table.query.putValue(query);
+      this.states.query.resource.putValue(query);
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
@@ -255,7 +242,7 @@ export class WorkPackagesListService {
   private conditionallyLoadForm(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {
     promise.then(query => {
 
-      let currentForm = this.states.table.form.value;
+      let currentForm = this.states.query.form.value;
 
       if (!currentForm || query.$links.update.$href !== currentForm.$href) {
         this.loadForm(query);
@@ -270,7 +257,7 @@ export class WorkPackagesListService {
   private updateStatesFromQueryOnPromise(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {
     promise
       .then(query => {
-        this.states.table.context.doAndTransition('Query loaded', () => {
+        this.states.query.context.doAndTransition('Query loaded', () => {
           this.wpStatesInitialization.initialize(query, query.results);
           return this.states.tableRendering.onQueryUpdated.valuesPromise();
         });
@@ -283,7 +270,7 @@ export class WorkPackagesListService {
 
   private updateStatesFromWPListOnPromise(query:QueryResource, promise:ng.IPromise<WorkPackageCollectionResource>):ng.IPromise<WorkPackageCollectionResource> {
     return promise.then((results) => {
-      this.states.table.context.doAndTransition('Query loaded', () => {
+      this.states.query.context.doAndTransition('Query loaded', () => {
         this.wpStatesInitialization.updateFromResults(results);
         return this.states.tableRendering.onQueryUpdated.valuesPromise();
       });
@@ -293,7 +280,7 @@ export class WorkPackagesListService {
   }
 
   private get currentQuery() {
-    return this.states.table.query.value!;
+    return this.states.query.resource.value!;
   }
 
   private updateQueryMenu() {
@@ -326,7 +313,7 @@ export class WorkPackagesListService {
               query.id = queryId;
             }
 
-            this.states.table.context.doAndTransition('Query loaded', () => {
+            this.states.query.context.doAndTransition('Query loaded', () => {
               this.wpStatesInitialization.initialize(query, query.results);
               this.wpStatesInitialization.updateStatesFromForm(query, form);
 

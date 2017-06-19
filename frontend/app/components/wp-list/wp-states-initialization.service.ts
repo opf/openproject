@@ -1,12 +1,10 @@
 import {States} from '../states.service';
-import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTableHierarchiesService} from '../wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableTimelineService} from '../wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTableSumService} from '../wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
-import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
@@ -17,19 +15,19 @@ import {QueryFilterInstanceSchemaResource} from '../api/api-v3/hal-resources/que
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageTableRelationColumnsService} from '../wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackagesListChecksumService} from './wp-list-checksum.service';
+import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
 
 export class WorkPackageStatesInitializationService {
   constructor(protected states:States,
               protected wpTableColumns:WorkPackageTableColumnsService,
-              protected wpTableSortBy:WorkPackageTableSortByService,
               protected wpTableGroupBy:WorkPackageTableGroupByService,
+              protected wpTableSortBy:WorkPackageTableSortByService,
               protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpTableSum:WorkPackageTableSumService,
               protected wpTableTimeline:WorkPackageTableTimelineService,
               protected wpTableHierarchies:WorkPackageTableHierarchiesService,
               protected wpTableRelationColumns:WorkPackageTableRelationColumnsService,
               protected wpTablePagination:WorkPackageTablePaginationService,
-              protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
               protected AuthorisationService:any) {
@@ -63,11 +61,12 @@ export class WorkPackageStatesInitializationService {
       this.states.schemas.get(schema.href as string).putValue(schema);
     });
 
-    this.states.table.form.putValue(form);
-    this.wpTableSortBy.initialize(query, schema);
     this.wpTableFilters.initialize(query, schema);
-    this.wpTableGroupBy.update(query, schema);
-    this.wpTableColumns.update(query, schema);
+    this.states.query.form.putValue(form);
+
+    this.states.query.available.columns.putValue(schema.columns.allowedValues);
+    this.states.query.available.sortBy.putValue(schema.sortBy.allowedValues);
+    this.states.query.available.groupBy.putValue(schema.groupBy.allowedValues);
   }
 
   public updateFromResults(results:WorkPackageCollectionResource) {
@@ -90,7 +89,7 @@ export class WorkPackageStatesInitializationService {
 
     this.wpTablePagination.initialize(results);
 
-    this.wpListChecksumService.updateIfDifferent(this.states.table.query.value!, this.wpTablePagination.current);
+    this.wpListChecksumService.updateIfDifferent(this.states.query.resource.value!, this.wpTablePagination.current);
 
     this.wpTableRelationColumns.initialize(results.elements);
 
@@ -98,10 +97,11 @@ export class WorkPackageStatesInitializationService {
   }
 
   private initializeFromQuery(query:QueryResource) {
-    this.states.table.query.putValue(query);
+    this.states.query.resource.putValue(query);
 
     this.wpTableSum.initialize(query);
     this.wpTableColumns.initialize(query);
+    this.wpTableSortBy.initialize(query);
     this.wpTableGroupBy.initialize(query);
     this.wpTableTimeline.initialize(query);
     this.wpTableHierarchies.initialize(query);
@@ -117,6 +117,10 @@ export class WorkPackageStatesInitializationService {
 
     // Clear immediate input states
     this.states.table.rows.clear(reason);
+    this.states.table.columns.clear(reason);
+    this.states.table.sortBy.clear(reason);
+    this.states.table.groupBy.clear(reason);
+    this.states.table.sum.clear(reason);
     this.states.table.results.clear(reason);
     this.states.table.groups.clear(reason);
 
