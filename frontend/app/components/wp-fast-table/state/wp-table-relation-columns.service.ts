@@ -30,10 +30,6 @@ import {opServicesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageTableRelationColumns} from '../wp-table-relation-columns';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {
-  RelationsStateValue,
-  WorkPackageRelationsService
-} from '../../wp-relations/wp-relations.service';
 import {WorkPackageTableColumnsService} from './wp-table-columns.service';
 import {TableStateStates, WorkPackageTableBaseService} from './wp-table-base.service';
 import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
@@ -44,7 +40,10 @@ import {
 import {IQService} from 'angular';
 import {HalRequestService} from '../../api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
-import {WorkPackageStates} from '../../work-package-states.service';
+import {
+  RelationsStateValue,
+  WorkPackageRelationsService
+} from '../../wp-relations/wp-relations.service';
 
 export type RelationColumnType = 'toType' | 'ofType';
 
@@ -56,7 +55,6 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
               public $q:IQService,
               public halRequest:HalRequestService,
               public wpCacheService:WorkPackageCacheService,
-              public wpStates: WorkPackageStates,
               public wpRelations:WorkPackageRelationsService) {
     super(states);
   }
@@ -192,7 +190,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
    * as the `to` work packages returned from the relations
    */
   private requireInvolved(workPackageIds:string[]) {
-    return this.wpStates
+    return this.wpRelations
       .requireInvolved(workPackageIds)
       .then((relations) => {
         const involvedIDs = relations.map(relation => [relation.ids.from, relation.ids.to]);

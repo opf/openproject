@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,28 +24,35 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {wpDirectivesModule} from '../../../angular-modules';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {wpDirectivesModule} from '../../../../angular-modules';
+import {HalRequestService} from '../hal-request/hal-request.service';
+import {CollectionResource} from '../hal-resources/collection-resource.service';
+import {RelationResource} from '../hal-resources/relation-resource.service';
+import {buildApiV3Filter} from '../api-v3-filter-builder';
 
-export class RelationsPanelController {
-  public workPackage:WorkPackageResourceInterface;
+export class RelationsDmService {
+
+  constructor(private halRequest:HalRequestService,
+              private I18n:op.I18n) {
+
+  }
+
+  public loadInvolved(workPackageIds:string[]):ng.IPromise<RelationResource[]> {
+    let validIds = _.filter(workPackageIds, id => /\d+/.test(id));
+
+    return this.halRequest.get(
+      '/api/v3/relations',
+      {
+        filters: buildApiV3Filter('involved', '=', validIds).toJson()
+      },
+      {
+        caching: {enabled: false}
+      }).then((collection:CollectionResource) => {
+      return collection.elements;
+    });
+  }
 }
 
-function relationsPanelDirective() {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/wp-panels/relations-panel/relations-panel.directive.html',
-
-    scope: {
-      workPackage: '='
-    },
-
-    controller: RelationsPanelController,
-    controllerAs: '$ctrl',
-    bindToController: true
-  };
-}
-
-wpDirectivesModule.directive('relationsPanel', relationsPanelDirective);
+wpDirectivesModule.service('relationsDm', RelationsDmService);

@@ -26,32 +26,34 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import * as moment from "moment";
-import {State} from "reactivestates";
-import {Observable} from "rxjs/Observable";
-import {openprojectModule} from "../../../../angular-modules";
-import {scopeDestroyed$} from "../../../../helpers/angular-rx-utils";
-import {States} from "../../../states.service";
-import {WorkPackageStates} from "../../../work-package-states.service";
-import {RelationsStateValue} from "../../../wp-relations/wp-relations.service";
-import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
-import {timelineElementCssClass, TimelineViewParameters} from "../wp-timeline";
-import {TimelineRelationElement, workPackagePrefix} from "./timeline-relation-element";
-import Moment = moment.Moment;
+import * as moment from 'moment';
+import {State} from 'reactivestates';
+import {Observable} from 'rxjs/Observable';
+import {openprojectModule} from '../../../../angular-modules';
+import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
+import {States} from '../../../states.service';
+import {
+  RelationsStateValue,
+  WorkPackageRelationsService
+} from '../../../wp-relations/wp-relations.service';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
+import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
 import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
+import Moment = moment.Moment;
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
 export const timelineGlobalElementCssClassname = "relation-line";
 
-function newSegment(vp: TimelineViewParameters,
-                    classNames: string[],
-                    yPosition: number,
-                    top: number,
-                    left: number,
-                    width: number,
-                    height: number,
-                    color?: string): HTMLElement {
+function newSegment(vp:TimelineViewParameters,
+                    classNames:string[],
+                    yPosition:number,
+                    top:number,
+                    left:number,
+                    width:number,
+                    height:number,
+                    color?:string):HTMLElement {
 
   const segment = document.createElement("div");
   segment.classList.add(
@@ -77,21 +79,22 @@ function newSegment(vp: TimelineViewParameters,
 
 export class WorkPackageTableTimelineRelations {
 
-  public wpTimeline: WorkPackageTimelineTableController;
+  public wpTimeline:WorkPackageTimelineTableController;
 
-  private container: JQuery;
+  private container:JQuery;
 
-  private workPackagesWithRelations: { [workPackageId: string]: State<RelationsStateValue> } = {};
+  private workPackagesWithRelations:{ [workPackageId:string]:State<RelationsStateValue> } = {};
 
-  constructor(public $element: ng.IAugmentedJQuery,
-              public $scope: ng.IScope,
-              public states: States,
-              public wpStates: WorkPackageStates) {
+  constructor(public $element:ng.IAugmentedJQuery,
+              public $scope:ng.IScope,
+              public states:States,
+              public wpRelations:WorkPackageRelationsService) {
   }
 
   $onInit() {
     this.container = this.$element.find(".wp-table-timeline--relations");
-    this.wpTimeline.onRefreshRequested("relations", (vp: TimelineViewParameters) => this.refreshView());
+    this.wpTimeline.onRefreshRequested("relations",
+      (vp:TimelineViewParameters) => this.refreshView());
 
     this.setupRelationSubscription();
   }
@@ -118,9 +121,9 @@ export class WorkPackageTableTimelineRelations {
       .subscribe(list => {
         // ... make sure that the corresponding relations are loaded ...
         const wps = _.compact(list.map(row => row.isWorkPackage && row.belongsTo!.id) as string[]);
-        this.wpStates.requireInvolved(wps);
+        this.wpRelations.requireInvolved(wps);
         wps.forEach(wpId => {
-          const relationsForWorkPackage = this.wpStates.getRelationsForWorkPackage(wpId);
+          const relationsForWorkPackage = this.wpRelations.getRelationsForWorkPackage(wpId);
           this.workPackagesWithRelations[wpId] = relationsForWorkPackage;
 
           // ... once they are loaded, display them.
@@ -142,7 +145,7 @@ export class WorkPackageTableTimelineRelations {
 
   }
 
-  private renderWorkPackagesRelations(workPackageIds: string[]) {
+  private renderWorkPackagesRelations(workPackageIds:string[]) {
     workPackageIds.forEach(workPackageId => {
       const workPackageWithRelation = this.workPackagesWithRelations[workPackageId];
       if (_.isNil(workPackageWithRelation)) {
@@ -165,7 +168,7 @@ export class WorkPackageTableTimelineRelations {
     this.renderElements();
   }
 
-  private removeRelationElementsForWorkPackage(workPackageId: string) {
+  private removeRelationElementsForWorkPackage(workPackageId:string) {
     const className = workPackagePrefix(workPackageId);
     const found = this.container.find("." + className);
     found.remove();
@@ -176,17 +179,19 @@ export class WorkPackageTableTimelineRelations {
   }
 
   private renderElements() {
-    const wpIdsWithRelations: string[] = _.keys(this.workPackagesWithRelations);
+    const wpIdsWithRelations:string[] = _.keys(this.workPackagesWithRelations);
     this.renderWorkPackagesRelations(wpIdsWithRelations);
 
   }
 
-  private renderElement(vp: TimelineViewParameters, e: TimelineRelationElement) {
+  private renderElement(vp:TimelineViewParameters, e:TimelineRelationElement) {
     const involved = e.relation.ids;
 
     // Get the rendered rows
-    const idxFrom = _.findIndex(this.workPackageIdOrder, (el: RenderedRow) =>  el.isWorkPackage && el.belongsTo!.id.toString() === involved.from);
-    const idxTo = _.findIndex(this.workPackageIdOrder, (el: RenderedRow) =>  el.isWorkPackage && el.belongsTo!.id.toString() === involved.to);
+    const idxFrom = _.findIndex(this.workPackageIdOrder,
+      (el:RenderedRow) => el.isWorkPackage && el.belongsTo!.id.toString() === involved.from);
+    const idxTo = _.findIndex(this.workPackageIdOrder,
+      (el:RenderedRow) => el.isWorkPackage && el.belongsTo!.id.toString() === involved.to);
 
     const startCell = this.wpTimeline.workPackageCell(involved.from);
     const endCell = this.wpTimeline.workPackageCell(involved.to);
@@ -212,10 +217,10 @@ export class WorkPackageTableTimelineRelations {
     const targetX = endCell.getMarginLeftOfLeftSide() + endCell.getPaddingLeftForIncomingRelationLines();
 
     // Vertical direction
-    const directionY: "toUp" | "toDown" = idxFrom < idxTo ? "toDown" : "toUp";
+    const directionY:"toUp" | "toDown" = idxFrom < idxTo ? "toDown" : "toUp";
 
     // Horizontal direction
-    const directionX: "toLeft" | "beneath" | "toRight" =
+    const directionX:"toLeft" | "beneath" | "toRight" =
       targetX > startX ? "toRight" : targetX < startX ? "toLeft" : "beneath";
 
     // start
@@ -227,7 +232,14 @@ export class WorkPackageTableTimelineRelations {
     const paddingRight = startCell.getPaddingRightForOutgoingRelationLines();
     const startLineWith = endCell.getPaddingLeftForIncomingRelationLines()
       + (paddingRight > 0 ? paddingRight : 0);
-    this.container.append(newSegment(vp, e.classNames, idxFrom, 19, startX, startLineWith, 1, "red"));
+    this.container.append(newSegment(vp,
+      e.classNames,
+      idxFrom,
+      19,
+      startX,
+      startLineWith,
+      1,
+      "red"));
     let lastX = startX + startLineWith;
     // lastX += hookLength;
 
@@ -235,29 +247,78 @@ export class WorkPackageTableTimelineRelations {
     const height = Math.abs(idxTo - idxFrom);
     if (directionY === "toDown") {
       if (directionX === "toRight" || directionX === "beneath") {
-        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41, "black"));
+        this.container.append(newSegment(vp,
+          e.classNames,
+          idxFrom,
+          19,
+          lastX,
+          1,
+          height * 41,
+          "black"));
       } else if (directionX === "toLeft") {
-        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 41) - 10, "black"));
+        this.container.append(newSegment(vp,
+          e.classNames,
+          idxFrom,
+          19,
+          lastX,
+          1,
+          (height * 41) - 10,
+          "black"));
       }
     } else if (directionY === "toUp") {
-      this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, 1, (height * 41) - 10, "black"));
+      this.container.append(newSegment(vp,
+        e.classNames,
+        idxTo,
+        30,
+        lastX,
+        1,
+        (height * 41) - 10,
+        "black"));
     }
 
     // Draw end corner to the target
     if (directionX === "toRight") {
       if (directionY === "toDown") {
-        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1, "red"));
+        this.container.append(newSegment(vp,
+          e.classNames,
+          idxTo,
+          19,
+          lastX,
+          targetX - lastX,
+          1,
+          "red"));
       } else if (directionY === "toUp") {
         this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, 1, 10, "green"));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, targetX - lastX, 1, "lightsalmon"));
+        this.container.append(newSegment(vp,
+          e.classNames,
+          idxTo,
+          20,
+          lastX,
+          targetX - lastX,
+          1,
+          "lightsalmon"));
       }
     } else if (directionX === "toLeft") {
       if (directionY === "toDown") {
         this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 8, "red"));
-        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, lastX - targetX, 1, "green"));
+        this.container.append(newSegment(vp,
+          e.classNames,
+          idxTo,
+          8,
+          targetX,
+          lastX - targetX,
+          1,
+          "green"));
         this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, 1, 11, "blue"));
       } else if (directionY === "toUp") {
-        this.container.append(newSegment(vp, e.classNames, idxTo, 30, targetX + 1, lastX - targetX, 1, "red"));
+        this.container.append(newSegment(vp,
+          e.classNames,
+          idxTo,
+          30,
+          targetX + 1,
+          lastX - targetX,
+          1,
+          "red"));
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX + 1, 1, 11, "blue"));
       }
     }
