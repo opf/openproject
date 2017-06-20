@@ -1,5 +1,5 @@
 module OpenProject
   module XlsExport
-    VERSION = "7.0.3"
+    VERSION = "7.1.0"
   end
 end
