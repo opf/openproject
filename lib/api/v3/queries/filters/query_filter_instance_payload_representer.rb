@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,33 +28,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+module API
+  module V3
+    module Queries
+      module Filters
+        class QueryFilterInstancePayloadRepresenter < QueryFilterInstanceRepresenter
+          include ::API::Utilities::PayloadRepresenter
 
-describe ::API::V3::Queries::QueryPayloadRepresenter do
-  include ::API::V3::Utilities::PathHelper
-
-  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:user) { double('current_user') }
-  let(:representer) do
-    described_class.new(query, current_user: user)
-  end
-
-  subject { representer.to_json }
-
-  describe 'generation' do
-    context 'properties' do
-      context 'showHierarchies' do
-        it 'is true if query.show_hierarchies is true' do
-          query.show_hierarchies = true
-
-          is_expected.to be_json_eql(true.to_json).at_path('showHierarchies')
-        end
-
-        it 'is false if query.show_hierarchies is false' do
-          query.show_hierarchies = false
-
-          is_expected.to be_json_eql(false.to_json).at_path('showHierarchies')
+          def initialize(model)
+            super(model)
+          end
         end
       end
     end

@@ -7,7 +7,6 @@ module OpenProject
 
     module ObjectCache
       def find(*args)
-        binding.pry
         super
       end
     end

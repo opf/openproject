@@ -39,75 +39,80 @@ module API
             super(model, current_user: nil, embed_links: true)
           end
 
-          def to_hash(*)
-            # We need to move the values property back from
-            # the links section. It got moved there because
-            # of the equally named linked_resource
-            super.tap do |hash|
-              unless represented.ar_object_filter?
-                hash['values'] = hash['_links'].delete('values')
-              end
-            end
-          end
-
           link :schema do
             api_v3_paths.query_filter_instance_schema(converted_name)
           end
 
-          link :filter do
-            {
-              href: api_v3_paths.query_filter(converted_name),
-              title: name
-            }
-          end
+          resource_link :filter,
+                        getter: ->(*) {
+                          {
+                            href: api_v3_paths.query_filter(converted_name),
+                            title: name
+                          }
+                        },
+                        setter: ->(**) {
+                          # nothing for now, handled in QueryRepresenter
+                        }
 
-          linked_resource :operator,
-                          getter: ->(*) {
-                            hash = {
-                              href: api_v3_paths.query_operator(CGI.escape(represented.operator))
-                            }
-
-                            hash[:title] = represented.operator_class.human_name if represented.operator_class.present?
-                            hash
-                          },
-                          setter: ->(fragment:, **) {
-                            next unless fragment
-
-                            represented.operator = ::API::Utilities::ResourceLinkParser.parse_id fragment["href"],
-                                                                                                 property: 'operator',
-                                                                                                 expected_version: '3',
-                                                                                                 expected_namespace: 'queries/operators'
+          resource_link :operator,
+                        getter: ->(*) {
+                          hash = {
+                            href: api_v3_paths.query_operator(CGI.escape(represented.operator))
                           }
 
-          linked_resource :values,
-                          getter: ->(*) {
-                            represented.value_objects.map do |value_object|
-                              {
-                                href: api_v3_paths.send(value_object.class.name.demodulize.underscore, value_object.id),
-                                title: value_object.name
-                              }
-                            end
-                          },
-                          setter: ->(fragment:, **) {
-                            next unless fragment
+                          hash[:title] = represented.operator_class.human_name if represented.operator_class.present?
+                          hash
+                        },
+                        setter: ->(fragment:, **) {
+                          next unless fragment
 
-                            represented.values = fragment.map do |value|
-                              ::API::Utilities::ResourceLinkParser.parse(value["href"])[:id]
-                            end
-                          },
-                          show_if: ->(*) { represented.ar_object_filter? }
+                          represented.operator = ::API::Utilities::ResourceLinkParser
+                                                 .parse_id fragment["href"],
+                                                           property: 'operator',
+                                                           expected_version: '3',
+                                                           expected_namespace: 'queries/operators'
+                        }
+
+          resources :values,
+                    link: ->(*) {
+                      next unless represented.ar_object_filter?
+
+                      represented.value_objects.map do |value_object|
+                        {
+                          href: api_v3_paths.send(value_object.class.name.demodulize.underscore, value_object.id),
+                          title: value_object.name
+                        }
+                      end
+                    },
+                    setter: ->(fragment:, **) {
+                      next unless fragment
+
+                      if represented.ar_object_filter?
+                        set_link_values(fragment)
+                      else
+                        set_property_values(fragment)
+                      end
+                    },
+                    getter: ->(*) {
+                      if represented.respond_to?(:custom_field) &&
+                         represented.custom_field.field_format == 'bool'
+                        represented.values.map do |value|
+                          if value == CustomValue::BoolStrategy::DB_VALUE_TRUE
+                            true
+                          else
+                            false
+                          end
+                        end
+                      else
+                        represented.values
+                      end
+                    },
+                    skip_render: ->(*) { represented.ar_object_filter? },
+                    embedded: false
 
           property :name,
                    exec_context: :decorator,
                    writeable: false
-
-          # Need to use property_values instead of values
-          # to prevent name clashes with the values link
-          property :property_values,
-                   as: :values,
-                   if: ->(*) { !represented.ar_object_filter? },
-                   exec_context: :decorator,
-                   show_nil: true
 
           def _type
             "#{converted_name.camelize}QueryFilter"
@@ -117,22 +122,13 @@ module API
             represented.human_name
           end
 
-          def property_values
-            if represented.respond_to?(:custom_field) &&
-               represented.custom_field.field_format == 'bool'
-              represented.values.map do |value|
-                if value == CustomValue::BoolStrategy::DB_VALUE_TRUE
-                  true
-                else
-                  false
-                end
-              end
-            else
-              represented.values
+          def set_link_values(vals)
+            represented.values = vals.map do |value|
+              ::API::Utilities::ResourceLinkParser.parse(value["href"])[:id]
             end
           end
 
-          def property_values=(vals)
+          def set_property_values(vals)
             represented.values = if represented.respond_to?(:custom_field) &&
                                     represented.custom_field.field_format == 'bool'
                                    vals.map do |value|

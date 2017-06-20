@@ -711,11 +711,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           context 'parent is visible' do
-            let(:work_package) {
+            let(:work_package) do
               FactoryGirl.create(:work_package,
                                  project: project,
                                  parent_id: visible_parent.id)
-            }
+            end
 
             it_behaves_like 'has a titled link' do
               let(:link) { 'parent' }
@@ -729,11 +729,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
 
           context 'parent not visible' do
-            let(:work_package) {
+            let(:work_package) do
               FactoryGirl.create(:work_package,
                                  project: project,
                                  parent_id: invisible_parent.id)
-            }
+            end
 
             it_behaves_like 'has no link' do
               let(:link) { 'parent' }
@@ -929,7 +929,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'relations' do
-        let(:visible_work_package) {
+        let(:visible_work_package) do
           wp = FactoryGirl.build_stubbed(:work_package)
 
           allow(wp)
@@ -937,8 +937,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             .and_return true
 
           wp
-        }
-        let(:visible_relation) {
+        end
+        let(:visible_relation) do
           relation = FactoryGirl.build_stubbed(:relation,
                                                from: work_package)
 
@@ -948,8 +948,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             .and_return(visible_work_package)
 
           relation
-        }
-        let(:invisible_work_package) {
+        end
+        let(:invisible_work_package) do
           wp = FactoryGirl.build_stubbed(:work_package)
 
           allow(wp)
@@ -957,8 +957,8 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             .and_return false
 
           wp
-        }
-        let(:invisible_relation) {
+        end
+        let(:invisible_relation) do
           relation = FactoryGirl.build_stubbed(:relation,
                                                from: work_package)
 
@@ -968,7 +968,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             .and_return(invisible_work_package)
 
           relation
-        }
+        end
 
         before do
           allow(work_package)

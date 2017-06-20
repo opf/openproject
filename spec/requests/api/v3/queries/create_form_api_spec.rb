@@ -314,7 +314,7 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     it 'has the project set' do
-      project_link = { "href" => "/api/v3/projects/#{project.id}" }
+      project_link = { "href" => "/api/v3/projects/#{project.id}", "title" => project.name }
 
       expect(form.dig("_embedded", "payload", "_links", "project")).to eq project_link
     end
@@ -328,7 +328,8 @@ describe "POST /api/v3/queries/form", type: :request do
         {
           "_links" => {
             "filter" => {
-              "href" => "/api/v3/queries/filters/status"
+              "href" => "/api/v3/queries/filters/status",
+              "title" => "Status"
             },
             "operator" => {
               "href" => "/api/v3/queries/operators/%3D",
@@ -349,23 +350,23 @@ describe "POST /api/v3/queries/form", type: :request do
 
     it 'has the columns set' do
       columns = [
-        { "href" => "/api/v3/queries/columns/id" },
-        { "href" => "/api/v3/queries/columns/subject" }
+        { "href" => "/api/v3/queries/columns/id", "title" => 'ID' },
+        { "href" => "/api/v3/queries/columns/subject", "title" => 'Subject' }
       ]
 
       expect(form.dig("_embedded", "payload", "_links", "columns")).to eq columns
     end
 
     it 'has the groupBy set' do
-      group_by = { "href" => "/api/v3/queries/group_bys/assignee" }
+      group_by = { "href" => "/api/v3/queries/group_bys/assignee", "title" => 'Assignee' }
 
       expect(form.dig("_embedded", "payload", "_links", "groupBy")).to eq group_by
     end
 
     it 'has the columns set' do
       sort_by = [
-        { "href" => "/api/v3/queries/sort_bys/id-desc" },
-        { "href" => "/api/v3/queries/sort_bys/assignee-asc" }
+        { "href" => "/api/v3/queries/sort_bys/id-desc", "title" => "ID (Descending)" },
+        { "href" => "/api/v3/queries/sort_bys/assignee-asc", "title" => "Assignee (Ascending)" }
       ]
 
       expect(form.dig("_embedded", "payload", "_links", "sortBy")).to eq sort_by
@@ -383,7 +384,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       it "still finds the project" do
-        project_link = { "href" => "/api/v3/projects/#{project.id}" }
+        project_link = { "href" => "/api/v3/projects/#{project.id}", "title" => project.name }
 
         expect(form.dig("_embedded", "payload", "_links", "project")).to eq project_link
       end
@@ -434,7 +435,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       it "returns a validation error" do
-        expect(form.dig("_embedded", "validationErrors", "columnNames", "message"))
+        expect(form.dig("_embedded", "validationErrors", "columns", "message"))
           .to eq "Invalid query column: wurst"
       end
     end
@@ -466,7 +467,7 @@ describe "POST /api/v3/queries/form", type: :request do
       end
 
       it "returns a validation error" do
-        expect(form.dig("_embedded", "validationErrors", "sortCriteria", "message"))
+        expect(form.dig("_embedded", "validationErrors", "sortBy", "message"))
           .to eq "Can't sort by column: spent_hours"
       end
     end
