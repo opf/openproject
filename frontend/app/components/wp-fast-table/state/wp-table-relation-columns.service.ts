@@ -78,7 +78,7 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
    */
   public relationsToExtendFor(workPackage:WorkPackageResourceInterface,
                               relations:RelationsStateValue|undefined,
-                              eachCallback:(relation:RelationResource, type:RelationColumnType) => void) {
+                              eachCallback:(relation:RelationResource, column:QueryColumn, type:RelationColumnType) => void) {
     // Only if any relation columns or stored expansion state exist
     if (!this.wpTableColumns.hasRelationColumns() || this.state.isPristine()) {
       return;
@@ -99,7 +99,8 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     const type = this.relationColumnType(column);
 
     if (type !== null) {
-      _.each(relations, (relation) => eachCallback(relation as RelationResource, type));
+      _.each(this.relationsForColumn(workPackage, relations, column),
+        (relation) => eachCallback(relation as RelationResource, column, type));
     }
   }
 

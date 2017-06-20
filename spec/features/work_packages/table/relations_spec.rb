@@ -70,7 +70,7 @@ describe 'Work Package table relations', js: true do
       wp_from_row.find(".#{type_column_id} .wp-table--relation-indicator").click
       expect(page).to have_selector(".__relations-expanded-from-#{wp_from.id}", count: 2)
       related_row = page.first(".__relations-expanded-from-#{wp_from.id}")
-      expect(related_row).to have_selector('td', text: "Follows#{wp_to.subject}")
+      expect(related_row).to have_selector('td.wp-table--relation-cell-td', text: "Precedes")
 
       # Collapse
       wp_from_row.find(".#{type_column_id} .wp-table--relation-indicator").click
@@ -80,7 +80,7 @@ describe 'Work Package table relations', js: true do
       wp_from_row.find(".#{type_column_follows} .wp-table--relation-indicator").click
       expect(page).to have_selector(".__relations-expanded-from-#{wp_from.id}", count: 2)
       related_row = page.first(".__relations-expanded-from-#{wp_from.id}")
-      expect(related_row).to have_selector('td', text: "#{wp_to.type}#{wp_to.subject}")
+      expect(related_row).to have_selector('.wp-table--relation-cell-td', text: wp_to.type)
 
       # Open Timeline
       # Should be initially closed

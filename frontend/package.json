@@ -6,6 +6,7 @@
     "body-parser": "^1.2.0",
     "chai": "^3.5.0",
     "chai-as-promised": "^5.3.0",
+    "es6-promise": "^4.1.0",
     "exec": "0.0.6",
     "jquery-mockjax": "~2.2.1",
     "json2htmlcov": "~0.1.1",

@@ -4,7 +4,7 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
 import {TableEventHandler} from '../table-handler-registry';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {rowClassName} from '../../builders/rows/single-row-builder';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {tdClassName} from '../../builders/cell-builder';
 
 export class RowDoubleClickHandler implements TableEventHandler {
@@ -22,7 +22,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
   }
 
   public get SELECTOR() {
-    return `.${rowClassName}`;
+    return `.${tableRowClassName}`;
   }
 
   public eventScope(table:WorkPackageTable) {
@@ -36,7 +36,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
     // We don't want to handle these.
     if (target.parents(`.${tdClassName}`).length) {
       debugLog('Skipping click on inner cell');
-      return;
+      return true;
     }
 
     // Locate the row from event
@@ -45,7 +45,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
 
     // Ignore links
     if (target.is('a') || target.parent().is('a')) {
-      return;
+      return true;
     }
 
     // Save the currently focused work package
@@ -55,6 +55,8 @@ export class RowDoubleClickHandler implements TableEventHandler {
       'work-packages.show',
        { workPackageId: row.workPackageId }
     );
+
+    return false;
   }
 }
 

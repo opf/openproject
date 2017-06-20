@@ -8,7 +8,6 @@ import {HalResource} from '../../../../api/api-v3/hal-resources/hal-resource.ser
 import {groupClassNameFor, GroupHeaderBuilder} from './group-header-builder';
 import {groupByProperty, groupedRowClassName} from './grouped-rows-helpers';
 import {PlainRenderPass} from '../plain/plain-render-pass';
-import {RenderedRow} from '../../primary-render-pass';
 
 export class GroupedRenderPass extends PlainRenderPass {
   constructor(public workPackageTable:WorkPackageTable,
@@ -85,23 +84,6 @@ export class GroupedRenderPass extends PlainRenderPass {
     );
   }
 
-  public augmentSecondaryElement(row:HTMLElement, rendered:RenderedRow):HTMLElement {
-    if (!rendered.belongsTo) {
-      return row;
-    }
-
-    const wpRow = this.workPackageTable.rowIndex[rendered.belongsTo.id];
-    const group = wpRow.group;
-
-    if (!group) {
-      return row;
-    }
-
-    row.classList.add(groupedRowClassName(group.index as number));
-
-    return row;
-  }
-
   /**
    * Enhance a row from the rowBuilder with group information.
    */
@@ -109,14 +91,17 @@ export class GroupedRenderPass extends PlainRenderPass {
     const group = row.group!;
     const hidden = group.collapsed;
 
+    let additionalClasses:string[] = [];
+
     let [tr, _] = this.rowBuilder.buildEmpty(row.object);
-    tr.classList.add(groupedRowClassName(group.index as number));
+    additionalClasses.push(groupedRowClassName(group.index as number));
 
     if (hidden) {
-      tr.classList.add(collapsedRowClass);
+      additionalClasses.push(collapsedRowClass);
     }
 
     row.element = tr;
-    this.appendRow(row.object, tr, hidden);
+    tr.classList.add(...additionalClasses);
+    this.appendRow(row.object, tr, additionalClasses, hidden);
   }
 }

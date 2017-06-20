@@ -34,54 +34,52 @@ import {TimelineMilestoneCellRenderer} from "../cells/timeline-milestone-cell-re
 import {TimelineCellRenderer} from "../cells/timeline-cell-renderer";
 import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
 import * as moment from "moment";
-import { injectorBridge } from "../../../angular/angular-injector-bridge.functions";
+import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import IScope = angular.IScope;
 import Moment = moment.Moment;
 import {WorkPackageTableRefreshService} from "../../wp-table-refresh-request.service";
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
-import {timelineRowId} from "../../../wp-fast-table/builders/timeline/timeline-row-builder";
-
 export class WorkPackageTimelineCell {
-  public wpCacheService: WorkPackageCacheService;
-  public wpTableRefresh: WorkPackageTableRefreshService;
-  public states: States;
-  public loadingIndicator: LoadingIndicatorService;
+  public wpCacheService:WorkPackageCacheService;
+  public wpTableRefresh:WorkPackageTableRefreshService;
+  public states:States;
+  public loadingIndicator:LoadingIndicatorService;
 
-  private wpElement: HTMLDivElement|null = null;
+  private wpElement:HTMLDivElement | null = null;
 
-  private elementShape: string;
+  private elementShape:string;
 
   private timelineCell:JQuery;
 
-  constructor(public workPackageTimeline: WorkPackageTimelineTableController,
-              public renderers:{ milestone: TimelineMilestoneCellRenderer, generic: TimelineCellRenderer },
-              public latestRenderInfo: RenderInfo,
-              public workPackageId: string) {
+  constructor(public workPackageTimeline:WorkPackageTimelineTableController,
+              public renderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer },
+              public latestRenderInfo:RenderInfo,
+              public classIdentifier:string,
+              public workPackageId:string) {
     injectorBridge(this);
   }
 
-  getMarginLeftOfLeftSide(): number {
+  getMarginLeftOfLeftSide():number {
     const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
     return renderer.getMarginLeftOfLeftSide(this.latestRenderInfo);
   }
 
-  getMarginLeftOfRightSide(): number {
+  getMarginLeftOfRightSide():number {
     const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
     return renderer.getMarginLeftOfRightSide(this.latestRenderInfo);
   }
 
-  getPaddingLeftForIncomingRelationLines(): number {
+  getPaddingLeftForIncomingRelationLines():number {
     const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
     return renderer.getPaddingLeftForIncomingRelationLines(this.latestRenderInfo);
   }
 
-  getPaddingRightForOutgoingRelationLines(): number {
+  getPaddingRightForOutgoingRelationLines():number {
     const renderer = this.cellRenderer(this.latestRenderInfo.workPackage);
     return renderer.getPaddingRightForOutgoingRelationLines(this.latestRenderInfo);
   }
 
-
-  canConnectRelations(): boolean {
+  canConnectRelations():boolean {
     const wp = this.latestRenderInfo.workPackage;
     if (wp.isMilestone) {
       return !_.isNil(wp.date);
@@ -100,10 +98,10 @@ export class WorkPackageTimelineCell {
   }
 
   private get cellElement() {
-    return this.cellContainer.find(`#${timelineRowId(this.workPackageId)}`);
+    return this.cellContainer.find(`.${this.classIdentifier}`);
   }
 
-  private lazyInit(renderer: TimelineCellRenderer, renderInfo: RenderInfo):JQuery {
+  private lazyInit(renderer:TimelineCellRenderer, renderInfo:RenderInfo):JQuery {
     const body = this.workPackageTimeline.timelineBody[0];
     const cell = this.cellElement;
 
@@ -115,9 +113,7 @@ export class WorkPackageTimelineCell {
     }
 
     // Remove the element first if we're redrawing
-    if (wasRendered) {
-      this.clear();
-    }
+    this.clear();
 
     // Render the given element
     this.wpElement = renderer.render(renderInfo);
@@ -145,7 +141,7 @@ export class WorkPackageTimelineCell {
     return cell;
   }
 
-  private cellRenderer(workPackage: WorkPackageResourceInterface): TimelineCellRenderer {
+  private cellRenderer(workPackage:WorkPackageResourceInterface):TimelineCellRenderer {
     if (workPackage.isMilestone) {
       return this.renderers.milestone;
     }
@@ -153,7 +149,7 @@ export class WorkPackageTimelineCell {
     return this.renderers.generic;
   }
 
-  public refreshView(renderInfo: RenderInfo) {
+  public refreshView(renderInfo:RenderInfo) {
     this.latestRenderInfo = renderInfo;
     const renderer = this.cellRenderer(renderInfo.workPackage);
 
@@ -161,7 +157,9 @@ export class WorkPackageTimelineCell {
     const cell = this.lazyInit(renderer, renderInfo);
 
     // Render the upgrade from renderInfo
-    const shouldBeDisplayed = renderer.update(cell[0], this.wpElement as HTMLDivElement, renderInfo);
+    const shouldBeDisplayed = renderer.update(cell[0],
+      this.wpElement as HTMLDivElement,
+      renderInfo);
     if (!shouldBeDisplayed) {
       this.clear();
     }

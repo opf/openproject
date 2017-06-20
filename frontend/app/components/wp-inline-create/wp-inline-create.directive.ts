@@ -111,14 +111,8 @@ export class WorkPackageInlineCreateController {
       .takeUntil(scopeDestroyed$($scope)).subscribe(() => {
         const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 
-        if (rowElement.length) {
-          const data = {
-            element: rowElement[0],
-            object: this.currentWorkPackage,
-            workPackageId: 'new',
-            position: 0
-          };
-          this.rowBuilder.refreshRow(data as WorkPackageTableRow, this.workPackageEditForm);
+        if (rowElement.length && this.currentWorkPackage) {
+          this.rowBuilder.refreshRow(this.currentWorkPackage, this.workPackageEditForm, rowElement);
         }
     });
 
@@ -204,8 +198,8 @@ export class WorkPackageInlineCreateController {
     this.currentWorkPackage = null;
     this.states.editing.get('new').clear();
     this.states.workPackages.get('new').clear();
-    this.$element.find('#wp-row-new').remove();
-    jQuery(this.table.timelineBody).find('#wp-timeline-row-new').remove();
+    this.$element.find('.wp-row-new').remove();
+    jQuery(this.table.timelineBody).find('.wp-row-new-timeline').remove();
   }
 
   public showRow() {

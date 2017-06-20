@@ -1,31 +1,39 @@
-import {WorkPackageTableRelationColumns} from "./wp-fast-table/wp-table-relation-columns";
 import {
-  combine, createNewContext, derive, input, multiInput, State,
+  combine,
+  createNewContext,
+  derive,
+  input,
+  multiInput,
+  State,
   StatesGroup
-} from "reactivestates";
-import {Subject} from "rxjs";
-import {opServicesModule} from "../angular-modules";
-import {QueryFormResource} from "./api/api-v3/hal-resources/query-form-resource.service";
-import {QueryResource} from "./api/api-v3/hal-resources/query-resource.service";
-import {SchemaResource} from "./api/api-v3/hal-resources/schema-resource.service";
-import {TypeResource} from "./api/api-v3/hal-resources/type-resource.service";
-import {WorkPackageResource} from "./api/api-v3/hal-resources/work-package-resource.service";
-import {GroupObject, WorkPackageCollectionResource} from "./api/api-v3/hal-resources/wp-collection-resource.service";
-import {WorkPackageEditForm} from "./wp-edit-form/work-package-edit-form";
-import {RenderedRow, TableRenderResult} from "./wp-fast-table/builders/primary-render-pass";
-import {WorkPackageTableColumns} from "./wp-fast-table/wp-table-columns";
-import {WorkPackageTableFilters} from "./wp-fast-table/wp-table-filters";
-import {WorkPackageTableGroupBy} from "./wp-fast-table/wp-table-group-by";
-import {WorkPackageTableHierarchies} from "./wp-fast-table/wp-table-hierarchies";
-import {WorkPackageTablePagination} from "./wp-fast-table/wp-table-pagination";
-import {WorkPackageTableSortBy} from "./wp-fast-table/wp-table-sort-by";
-import {WorkPackageTableSum} from "./wp-fast-table/wp-table-sum";
-import {WorkPackageTableTimelineState} from "./wp-fast-table/wp-table-timeline";
-import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
-import {SwitchState} from "./states/switch-state";
-import {QueryColumn} from "./wp-query/query-column";
-import {QuerySortByResource} from "./api/api-v3/hal-resources/query-sort-by-resource.service";
-import {QueryGroupByResource} from "./api/api-v3/hal-resources/query-group-by-resource.service";
+} from 'reactivestates';
+import {Subject} from 'rxjs';
+import {opServicesModule} from '../angular-modules';
+import {QueryFormResource} from './api/api-v3/hal-resources/query-form-resource.service';
+import {QueryResource} from './api/api-v3/hal-resources/query-resource.service';
+import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
+import {TypeResource} from './api/api-v3/hal-resources/type-resource.service';
+import {WorkPackageResource} from './api/api-v3/hal-resources/work-package-resource.service';
+import {
+  GroupObject,
+  WorkPackageCollectionResource
+} from './api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageEditForm} from './wp-edit-form/work-package-edit-form';
+import {WorkPackageTableColumns} from './wp-fast-table/wp-table-columns';
+import {WorkPackageTableFilters} from './wp-fast-table/wp-table-filters';
+import {WorkPackageTableGroupBy} from './wp-fast-table/wp-table-group-by';
+import {WorkPackageTableHierarchies} from './wp-fast-table/wp-table-hierarchies';
+import {WorkPackageTablePagination} from './wp-fast-table/wp-table-pagination';
+import {WorkPackageTableSortBy} from './wp-fast-table/wp-table-sort-by';
+import {WorkPackageTableSum} from './wp-fast-table/wp-table-sum';
+import {WorkPackageTableTimelineState} from './wp-fast-table/wp-table-timeline';
+import {RenderedRow} from './wp-fast-table/builders/primary-render-pass';
+import {SwitchState} from './states/switch-state';
+import {QueryColumn} from './wp-query/query-column';
+import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-resource.service';
+import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
+import {WPTableRowSelectionState} from './wp-fast-table/wp-table.interfaces';
+import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
 
 export class States extends StatesGroup {
 
@@ -88,10 +96,10 @@ export class TableState extends StatesGroup {
   // Hierarchies of table
   hierarchies = input<WorkPackageTableHierarchies>();
   // State to be updated when the table is up to date
-  rendered = input<TableRenderResult>();
+  rendered = input<RenderedRow[]>();
 
   renderedWorkPackages: State<RenderedRow[]> = derive(this.rendered, $ => $
-    .map(rows => rows.renderedOrder.filter(row => row.isWorkPackage)));
+    .map(rows => rows.filter(row => !!row.workPackageId)));
 
   // State to determine timeline visibility
   timelineVisible = input<WorkPackageTableTimelineState>();

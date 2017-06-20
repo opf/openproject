@@ -30,6 +30,7 @@ import {opApiModule} from '../../../../angular-modules';
 import {HalResource} from '../hal-resources/hal-resource.service';
 import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 import IPromise = angular.IPromise;
+import {CollectionResource} from '../hal-resources/collection-resource.service';
 
 export class HalRequestService {
   /**
@@ -95,6 +96,44 @@ export class HalRequestService {
    */
   public get(href:string, params?:any, headers?:any):IPromise<HalResource> {
     return this.request('get', href, params, headers);
+  }
+
+  /**
+   * Return all potential pages to the request, when the elements returned from API is smaller
+   * than the expected.
+   *
+   * @param href
+   * @param expected The expected number of elements
+   * @param params
+   * @param headers
+   * @return {Promise<CollectionResource[]>}
+   */
+  public async getAllPaginated(href:string, expected:number, params:any = {}, headers:any = {}) {
+    // Total number retrieved
+    let retrieved = 0;
+    // Current offset page
+    let page = 1;
+    // Accumulated results
+    const allResults:CollectionResource[] = [];
+    // If possible, request all at once.
+    params.pageSize = expected;
+
+    while (retrieved < expected) {
+      params.offset = page;
+
+      const results = await this.request('get', href, params, headers);
+
+      if (results.count === 0) {
+        throw 'No more results for this query, but expected more.';
+      }
+
+      allResults.push(results as CollectionResource);
+
+      retrieved += results.count;
+      page += 1;
+    }
+
+    return allResults;
   }
 
   /**

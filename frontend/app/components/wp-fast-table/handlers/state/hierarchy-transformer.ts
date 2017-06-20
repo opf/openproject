@@ -5,7 +5,7 @@ import {WorkPackageTable} from "../../wp-fast-table";
 import {WorkPackageTableHierarchiesService} from './../../state/wp-table-hierarchy.service';
 import {WorkPackageTableHierarchies} from "../../wp-table-hierarchies";
 import {indicatorCollapsedClass} from "../../builders/modes/hierarchy/single-hierarchy-row-builder";
-import {rowClassName} from '../../builders/rows/single-row-builder';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {debugLog} from '../../../../helpers/debug_output';
 
 export class HierarchyTransformer {
@@ -61,12 +61,12 @@ export class HierarchyTransformer {
      affected.toggleClass(collapsedGroupClass(wpId), isCollapsed);
 
      // Update the hidden section of the rendered state
-     affected.filter(`.${rowClassName}`).each((i, el) => {
+     affected.filter(`.${tableRowClassName}`).each((i, el) => {
        // Get the index of this row
        const index = jQuery(el).index();
 
        // Update the hidden state
-       rendered.renderedOrder[index].hidden = isCollapsed;
+       rendered[index].hidden = isCollapsed;
      });
    });
 

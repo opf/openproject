@@ -68,13 +68,14 @@ export class ApiWorkPackagesService {
    * Returns a WP Collection with schemas and results embedded.
    *
    * @param ids
-   * @return {WorkPackageCollectionResourceInterface}
+   * @return {WorkPackageCollectionResourceInterface[]}
    */
-  public loadWorkPackagesCollectionFor(ids:string[]) {
-    return this.halRequest.get(
+  public loadWorkPackagesCollectionsFor(ids:string[]) {
+    return this.halRequest.getAllPaginated(
       this.v3Path.wps(),
+      ids.length,
       {
-        filters: buildApiV3Filter('id', '=', ids).toJson()
+        filters: buildApiV3Filter('id', '=', ids).toJson(),
       },
       {
         caching: { enabled: false }

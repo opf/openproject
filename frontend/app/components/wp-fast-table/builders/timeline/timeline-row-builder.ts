@@ -1,16 +1,11 @@
 import {WorkPackageTable} from '../../wp-fast-table';
 import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../../states.service';
 import {WorkPackageTableTimelineService} from '../../state/wp-table-timeline.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {commonRowClassName} from '../rows/single-row-builder';
 
 export const timelineCellClassName = 'wp-timeline-cell';
-
-export function timelineRowId(id:string) {
-  return `wp-timeline-row-${id}`;
-}
 
 export class TimelineRowBuilder {
   public states:States;
@@ -26,9 +21,7 @@ export class TimelineRowBuilder {
     cell.classList.add(timelineCellClassName, commonRowClassName);
 
     if (workPackageId) {
-      cell.id = timelineRowId(workPackageId);
       cell.dataset['workPackageId'] = workPackageId;
-      cell.classList.add(`${commonRowClassName}-${workPackageId}`);
     }
 
     return cell;

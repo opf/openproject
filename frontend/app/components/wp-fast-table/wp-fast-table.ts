@@ -1,5 +1,8 @@
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 
 import {States} from '../states.service';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
@@ -7,13 +10,13 @@ import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageTableRow} from './wp-table.interfaces';
 import {TableHandlerRegistry} from './handlers/table-handler-registry';
 import {locateRow} from './helpers/wp-table-row-helpers';
-import {PlainRowsBuilder} from "./builders/modes/plain/plain-rows-builder";
-import {GroupedRowsBuilder} from "./builders/modes/grouped/grouped-rows-builder";
-import {HierarchyRowsBuilder} from "./builders/modes/hierarchy/hierarchy-rows-builder";
-import {RowsBuilder} from "./builders/modes/rows-builder";
-import {WorkPackageTimelineTableController} from "../wp-table/timeline/container/wp-timeline-container.directive";
+import {PlainRowsBuilder} from './builders/modes/plain/plain-rows-builder';
+import {GroupedRowsBuilder} from './builders/modes/grouped/grouped-rows-builder';
+import {HierarchyRowsBuilder} from './builders/modes/hierarchy/hierarchy-rows-builder';
+import {RowsBuilder} from './builders/modes/rows-builder';
+import {WorkPackageTimelineTableController} from '../wp-table/timeline/container/wp-timeline-container.directive';
 import {PrimaryRenderPass} from './builders/primary-render-pass';
-import {Subject} from 'rxjs';
+import {debugLog} from '../../helpers/debug_output';
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
@@ -30,6 +33,9 @@ export class WorkPackageTable {
     new GroupedRowsBuilder(this),
     new PlainRowsBuilder(this)
   ];
+
+  // Last render pass used for refreshing single rows
+  private lastRenderPass:PrimaryRenderPass|null = null;
 
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
@@ -81,7 +87,7 @@ export class WorkPackageTable {
    * all elements.
    */
   public redrawTableAndTimeline() {
-    const renderPass = this.rowBuilder.buildRows();
+    const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
 
     // Insert table body
     this.tbody.innerHTML = '';
@@ -98,7 +104,7 @@ export class WorkPackageTable {
    * Redraw all elements in the table section only
    */
   public redrawTable() {
-    const renderPass = this.rowBuilder.buildRows();
+    const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
 
     this.tbody.innerHTML = '';
     this.tbody.appendChild(renderPass.tableBody);
@@ -107,19 +113,22 @@ export class WorkPackageTable {
   }
 
   /**
-   * Redraw a single row after structural changes
+   * Redraw single rows for a given work package being updated.
    */
-  public refreshRow(row:WorkPackageTableRow) {
-    // Find the row we want to replace
-    let oldRow = row.element || locateRow(row.workPackageId);
-    let result = this.rowBuilder.refreshRow(row);
-
-    if (result !== null && oldRow && oldRow.parentNode) {
-      let [newRow, _hidden] = result;
-      oldRow.parentNode.replaceChild(newRow, oldRow);
-      row.element = newRow;
-      this.rowIndex[row.workPackageId] = row;
+  public refreshRows(workPackage:WorkPackageResourceInterface) {
+    const pass = this.lastRenderPass;
+    if (!pass) {
+      debugLog('Trying to refresh a singular row without a previus render pass.');
+      return;
     }
+
+    _.each(pass.renderedOrder, (row) => {
+      if (row.workPackage && row.workPackage.id === workPackage.id) {
+        debugLog(`Refreshing rendered row ${row.classIdentifier}`);
+        row.workPackage = workPackage;
+        pass.refresh(row, workPackage, this.tbody);
+      }
+    });
   }
 }
 
