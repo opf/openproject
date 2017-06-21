@@ -34,13 +34,8 @@ $toggler-width: 40px
   float: left
   left: 0
   border-right: $main-menu-border-width solid $main-menu-border-color
-  position: absolute
-  // min-height is full height minus header and footer.
-  min-height: calc(100% - 55px - 55px)
   @include varprop(background-color, main-menu-bg-color)
   @include default-transition
-  @include breakpoint(680px down)
-    min-height: initial
 
   #menu-sidebar
     // 40px is the height of the toggler
