@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # This file is part of the acts_as_journalized plugin for the redMine
 # project management software
 #
@@ -79,6 +80,8 @@ module Redmine::Acts::Journalized
 
       @journal_user = nil
       @journal_notes = nil
+
+      true
     end
 
     def add_journal(user = User.current, notes = '')
