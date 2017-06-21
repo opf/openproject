@@ -121,9 +121,17 @@
         @extend .icon-pulldown:before
     &:hover
       @include varprop(background-color, header-item-bg-hover-color)
+      > a
+        @include varprop(color, header-item-font-hover-color)
+        i.icon-help:before
+          @include varprop(border-color, header-item-font-hover-color)
+
     &.open
       @include varprop(background-color, header-item-bg-hover-color)
-      @include varprop(color, header-item-font-hover-color)
+      > a
+        @include varprop(color, header-item-font-hover-color)
+        i.icon-help:before
+          @include varprop(border-color, header-item-font-hover-color)
 
       .button--dropdown-indicator
         &:before
