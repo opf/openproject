@@ -32,14 +32,11 @@ import {Observable} from 'rxjs/Observable';
 import {openprojectModule} from '../../../../angular-modules';
 import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
 import {States} from '../../../states.service';
-import {
-  RelationsStateValue,
-  WorkPackageRelationsService
-} from '../../../wp-relations/wp-relations.service';
+import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
+import {RelationsStateValue, WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
 import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
-import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
 import Moment = moment.Moment;
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
@@ -156,6 +153,12 @@ export class WorkPackageTableTimelineRelations {
       const relations = _.values(workPackageWithRelation.value!);
       const relationsList = _.values(relations);
       relationsList.forEach(relation => {
+
+        if (!(relation.type === 'precedes'
+          || relation.type === 'follows')) {
+          return;
+        }
+
         const elem = new TimelineRelationElement(relation.ids.from, relation);
         this.renderElement(this.wpTimeline.viewParameters, elem);
       });
