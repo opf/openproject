@@ -58,10 +58,13 @@ module API
 
           filters_hash.each do |filter_attributes|
             name = get_filter_name filter_attributes
-            operator = get_filter_operator filter_attributes
 
-            if name && operator
-              represented.add_filter name, operator, get_filter_values(filter_attributes)
+            filter = represented.filter_for name
+            if filter
+              filter_representer = ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter.new(filter)
+
+              filter = filter_representer.from_hash filter_attributes
+              represented.filters << filter
             else
               raise API::Errors::InvalidRequestBody, "Could not read filter from: #{filter_attributes}"
             end
@@ -95,19 +98,6 @@ module API
           id = id_from_href "queries/filters", href
 
           ::API::Utilities::QueryFiltersNameConverter.to_ar_name id, refer_to_ids: true if id
-        end
-
-        def get_filter_operator(filter_attributes)
-          op_href = filter_attributes.dig("_links", "operator", "href")
-
-          id_from_href "queries/operators", op_href
-        end
-
-        def get_filter_values(filter_attributes)
-          filter_attributes["values"] ||
-            Array(filter_attributes.dig("_links", "values"))
-              .map { |value| id_from_href nil, value["href"] }
-              .compact
         end
 
         def initialize_links!(attributes)

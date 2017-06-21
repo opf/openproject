@@ -52,6 +52,10 @@ export class FormattableDisplayField extends DisplayField {
     element.appendChild(span);
   }
 
+  public get isLargeField():boolean {
+    return true;
+  }
+
   public get value() {
     if (!this.schema) {
       return null;

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -181,10 +182,18 @@ describe "POST /api/v3/queries/form", type: :request do
       filters = [
         {
           "_links" => {
-            "filter" => { "href" => "/api/v3/queries/filters/status" },
-            "operator" => { "href" => "/api/v3/queries/operators/%3D" },
+            "filter" => {
+              "href" => "/api/v3/queries/filters/status"
+            },
+            "operator" => {
+              "href" => "/api/v3/queries/operators/%3D",
+              "title" => 'is'
+            },
             "values" => [
-              { "href" => "/api/v3/statuses/#{status.id}" }
+              {
+                "href" => "/api/v3/statuses/#{status.id}",
+                "title" => status.name
+              }
             ]
           }
         }
