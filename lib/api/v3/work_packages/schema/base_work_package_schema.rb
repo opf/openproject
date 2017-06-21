@@ -111,7 +111,13 @@ module API
             return nil if type.nil?
 
             @attribute_groups ||= begin
-              type.attribute_groups.map do |group|
+              # It's important to deep_dup the attribute_groups
+              # as the operations would otherwise alter type's
+              # attribute_groups leading to unexpected side effects
+              type
+                .attribute_groups
+                .deep_dup
+                .map do |group|
                 group[1].map! do |prop|
                   if type.passes_attribute_constraint?(prop, project: project)
                     convert_property(prop)
