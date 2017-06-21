@@ -35,15 +35,37 @@
       overflow-y: scroll !important
 
       #main,
+      #content-wrapper,
       #content
         position: relative !important
+        width: 100%
+        margin-left: 0
+
+
+      #content-wrapper,
+      #content
+        height: 100% !important
+        overflow: visible
 
       #main
         padding-bottom: 0
 
-      #content
-        height: 100% !important
-        overflow: visible
+        #content-wrapper
+          &.hidden-navigation
+            margin-left: 0
+            width: 100%
+
+          &.nosidebar
+            padding: 0
+            width:    100%
+            margin-left: 0
+
+          &.nomenus
+            top: 0
+            padding: 0
+            width: 100%
+            margin-left: 0
+
 
       .work-packages--show-view
         padding: 0 0 0 5px
@@ -128,4 +150,3 @@
       margin: 0 !important
       padding: 8px 0 !important
       font-size: 1rem
-

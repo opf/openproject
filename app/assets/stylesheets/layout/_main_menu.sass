@@ -34,9 +34,8 @@ $toggler-width: 40px
   float: left
   left: 0
   border-right: $main-menu-border-width solid $main-menu-border-color
-  position: absolute
   // min-height is full height minus header and footer.
-  min-height: calc(100% - 55px - 55px)
+  min-height: calc(100vh - 55px - 55px)
   @include varprop(background-color, main-menu-bg-color)
   @include default-transition
   @include breakpoint(680px down)
@@ -47,7 +46,9 @@ $toggler-width: 40px
     height: calc(100% - 40px)
   %absolute-layout-mode &
     position: relative
-    height:   100%
+    // In WP list, the footer is just a 5px border:
+    min-height: calc(100vh - 55px - 5px)
+  
     #menu-sidebar
       +allow-vertical-scrolling
       -ms-overflow-style: -ms-autohiding-scrollbar
