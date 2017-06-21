@@ -132,7 +132,7 @@ module OpenProject
       'content-icon-link-color'                              => "#4b4b4b",
       'content-icon-link-hover-color'                        => "$primary-color-dark",
       'content-icon-link-pressed-color'                      => "$gray-dark",
-      'content-icon-color'                                   => "$primary-color-dark",
+      'content-icon-color'                                   => "$content-link-color",
       'content-form-bg-color'                                => "#F8F8F8",
       'content-form-border'                                  => "1px solid $content-default-border-color",
       'content-from-input-width'                             => "300px",
