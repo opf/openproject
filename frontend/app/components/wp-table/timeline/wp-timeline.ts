@@ -126,7 +126,7 @@ export function calculatePositionValueForDayCount(viewParams:TimelineViewParamet
 export function getTimeSlicesForHeader(vp:TimelineViewParameters,
                                        unit:moment.unitOfTime.DurationConstructor,
                                        startView:Moment,
-                                       endView:Moment,) {
+                                       endView:Moment) {
 
   const inViewport:[Moment, Moment][] = [];
   const rest:[Moment, Moment][] = [];
