@@ -25,40 +25,40 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import * as moment from "moment";
-import {openprojectModule} from "../../../../angular-modules";
-import {TimelineZoomLevel} from "../../../api/api-v3/hal-resources/query-resource.service";
-import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
+import * as moment from 'moment';
+import {openprojectModule} from '../../../../angular-modules';
+import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {
   calculatePositionValueForDayCount,
   getTimeSlicesForHeader,
   timelineElementCssClass,
   timelineGridElementCssClass,
   TimelineViewParameters
-} from "../wp-timeline";
+} from '../wp-timeline';
 import Moment = moment.Moment;
 
 export class WorkPackageTableTimelineGrid {
 
-  public wpTimeline: WorkPackageTimelineTableController;
+  public wpTimeline:WorkPackageTimelineTableController;
 
-  private activeZoomLevel: TimelineZoomLevel;
+  private activeZoomLevel:TimelineZoomLevel;
 
-  private gridContainer: ng.IAugmentedJQuery;
+  private gridContainer:ng.IAugmentedJQuery;
 
-  constructor(public $element: ng.IAugmentedJQuery) {
+  constructor(public $element:ng.IAugmentedJQuery) {
   }
 
   $onInit() {
-    this.gridContainer = this.$element.find(".wp-table-timeline--grid");
-    this.wpTimeline.onRefreshRequested("grid", (vp: TimelineViewParameters) => this.refreshView(vp));
+    this.gridContainer = this.$element.find('.wp-table-timeline--grid');
+    this.wpTimeline.onRefreshRequested('grid', (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 
-  refreshView(vp: TimelineViewParameters) {
+  refreshView(vp:TimelineViewParameters) {
     this.renderLabels(vp);
   }
 
-  private renderLabels(vp: TimelineViewParameters) {
+  private renderLabels(vp:TimelineViewParameters) {
     if (this.activeZoomLevel === vp.settings.zoomLevel) {
       return;
     }
@@ -66,85 +66,85 @@ export class WorkPackageTableTimelineGrid {
     this.gridContainer.empty();
 
     switch (vp.settings.zoomLevel) {
-      case "days":
+      case 'days':
         return this.renderLabelsDays(vp);
-      case "weeks":
+      case 'weeks':
         return this.renderLabelsWeeks(vp);
-      case "months":
+      case 'months':
         return this.renderLabelsMonths(vp);
-      case "quarters":
+      case 'quarters':
         return this.renderLabelsQuarters(vp);
-      case "years":
+      case 'years':
         return this.renderLabelsYears(vp);
     }
 
     this.activeZoomLevel = vp.settings.zoomLevel;
   }
 
-  private renderLabelsDays(vp: TimelineViewParameters) {
-    this.renderTimeSlices(vp, "day", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.style.paddingTop = "1px";
+  private renderLabelsDays(vp:TimelineViewParameters) {
+    this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.style.paddingTop = '1px';
     });
   }
 
-  private renderLabelsWeeks(vp: TimelineViewParameters) {
-    this.renderTimeSlices(vp, "day", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+  private renderLabelsWeeks(vp:TimelineViewParameters) {
+    this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
     });
 
-    this.renderTimeSlices(vp, "week", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add("-grid-highlight");
-    });
-  }
-
-  private renderLabelsMonths(vp: TimelineViewParameters) {
-    this.renderTimeSlices(vp, "week", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-    });
-
-    this.renderTimeSlices(vp, "month", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add("-grid-highlight");
+    this.renderTimeSlices(vp, 'week', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
     });
   }
 
-  private renderLabelsQuarters(vp: TimelineViewParameters) {
-    this.renderTimeSlices(vp, "month", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+  private renderLabelsMonths(vp:TimelineViewParameters) {
+    this.renderTimeSlices(vp, 'week', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
     });
 
-    this.renderTimeSlices(vp, "quarter", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add("-grid-highlight");
-    });
-  }
-
-  private renderLabelsYears(vp: TimelineViewParameters) {
-    this.renderTimeSlices(vp, "month", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-    });
-
-    this.renderTimeSlices(vp, "year", vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
-      cell.classList.add("-grid-highlight");
+    this.renderTimeSlices(vp, 'month', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
     });
   }
 
-  renderTimeSlices(vp: TimelineViewParameters,
-                   unit: moment.unitOfTime.DurationConstructor,
-                   startView: Moment,
-                   endView: Moment,
-                   cellCallback: (start: Moment, cell: HTMLElement) => void) {
+  private renderLabelsQuarters(vp:TimelineViewParameters) {
+    this.renderTimeSlices(vp, 'month', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    });
+
+    this.renderTimeSlices(vp, 'quarter', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+    });
+  }
+
+  private renderLabelsYears(vp:TimelineViewParameters) {
+    this.renderTimeSlices(vp, 'month', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+    });
+
+    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+    });
+  }
+
+  renderTimeSlices(vp:TimelineViewParameters,
+                   unit:moment.unitOfTime.DurationConstructor,
+                   startView:Moment,
+                   endView:Moment,
+                   cellCallback:(start:Moment, cell:HTMLElement) => void) {
 
     const {inViewportAndBoundaries, rest} = getTimeSlicesForHeader(vp, unit, startView, endView);
 
     for (let [start, end] of inViewportAndBoundaries) {
-      const cell = document.createElement("div");
+      const cell = document.createElement('div');
       cell.classList.add(timelineElementCssClass, timelineGridElementCssClass);
-      cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
-      cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, "days") + 1);
+      cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));
+      cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
       this.gridContainer[0].appendChild(cell);
       cellCallback(start, cell);
     }
     setTimeout(() => {
       for (let [start, end] of rest) {
-        const cell = document.createElement("div");
+        const cell = document.createElement('div');
         cell.classList.add(timelineElementCssClass, timelineGridElementCssClass);
-        cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, "days"));
-        cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, "days") + 1);
+        cell.style.left = calculatePositionValueForDayCount(vp, start.diff(startView, 'days'));
+        cell.style.width = calculatePositionValueForDayCount(vp, end.diff(start, 'days') + 1);
         this.gridContainer[0].appendChild(cell);
         cellCallback(start, cell);
       }
@@ -152,10 +152,10 @@ export class WorkPackageTableTimelineGrid {
   }
 }
 
-openprojectModule.component("wpTimelineGrid", {
-  template: "<div class=\"wp-table-timeline--grid\"></div>",
+openprojectModule.component('wpTimelineGrid', {
+  template: '<div class="wp-table-timeline--grid"></div>',
   controller: WorkPackageTableTimelineGrid,
   require: {
-    wpTimeline: "^wpTimelineContainer"
+    wpTimeline: '^wpTimelineContainer'
   }
 });
