@@ -153,6 +153,7 @@ module Redmine
     ##
     # Returns the given language if it is valid or nil otherwise.
     def find_language(lang)
+      return nil unless lang =~ /[a-z-]+/i
       valid_languages.detect { |l| l =~ /#{lang}/i } if lang.present?
     end
 

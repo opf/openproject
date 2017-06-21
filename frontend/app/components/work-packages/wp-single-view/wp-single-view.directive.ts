@@ -40,6 +40,7 @@ interface FieldDescriptor {
   label:string;
   field?:DisplayField;
   fields?:DisplayField[];
+  spanAll:boolean;
   multiple:boolean;
 }
 
@@ -217,6 +218,7 @@ export class WorkPackageSingleViewController {
         name: fieldName,
         label: field.label,
         multiple: false,
+        spanAll: field.isLargeField,
         field: field
       });
     });

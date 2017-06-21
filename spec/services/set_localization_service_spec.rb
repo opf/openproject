@@ -106,6 +106,12 @@ describe SetLocalizationService do
 
         it_behaves_like "falls back to the instane's default language"
       end
+
+      context 'with wildcard header set' do
+        let(:http_accept_language) { '*' }
+
+        it_behaves_like "falls back to the instane's default language"
+      end
     end
   end
 
@@ -116,6 +122,12 @@ describe SetLocalizationService do
 
     context 'with no header set' do
       let(:http_accept_header) { nil }
+
+      it_behaves_like "falls back to the instane's default language"
+    end
+
+    context 'with a wildcard header set' do
+      let(:http_accept_language) { '*' }
 
       it_behaves_like "falls back to the instane's default language"
     end

@@ -36,6 +36,10 @@ export class DisplayField extends Field {
   public I18n: op.I18n;
   public mode:string|null = null;
 
+  public get isLargeField():boolean {
+    return false;
+  }
+
   public get value() {
     if (this.schema) {
       return this.resource[this.name];
