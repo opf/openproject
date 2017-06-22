@@ -27,7 +27,10 @@
 //++
 
 import {HalResource} from './hal-resource.service';
-import {opApiModule} from "../../../../angular-modules";
+import {opApiModule} from '../../../../angular-modules';
+
+export const v3ErrorIdentifierQueryInvalid = 'urn:openproject-org:api:v3:errors:InvalidQuery';
+export const v3ErrorIdentifierMultipleErrors = 'urn:openproject-org:api:v3:errors:MultipleErrors';
 
 export class ErrorResource extends HalResource {
   public errors:any[];
@@ -44,14 +47,14 @@ export class ErrorResource extends HalResource {
   }
 
   public isMultiErrorMessage() {
-    return this.errorIdentifier === 'urn:openproject-org:api:v3:errors:MultipleErrors';
+    return this.errorIdentifier === v3ErrorIdentifierMultipleErrors;
   }
 
   public getInvolvedAttributes():string[] {
     var columns = [];
 
     if (this.details) {
-      columns = [{ details: this.details }]
+      columns = [{ details: this.details }];
     }
     else if (this.errors) {
       columns = this.errors;
@@ -60,7 +63,7 @@ export class ErrorResource extends HalResource {
     return columns.map(field => field.details.attribute);
   }
 
-  public getMessagesPerAttribute():{ [attribute:string]: string[] } {
+  public getMessagesPerAttribute():{ [attribute:string]:string[] } {
     let perAttribute:any = {};
 
     if (this.details) {

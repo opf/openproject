@@ -35,24 +35,29 @@ module API
         resource :activities do
           helpers do
             def comment_on_work_package(work_package, notify:, comment:)
-              AddWorkPackageNoteService
-                .new(user: current_user,
-                     work_package: work_package)
-                .call(comment,
-                      send_notifications: notify)
+              result = AddWorkPackageNoteService
+                       .new(user: current_user,
+                            work_package: work_package)
+                       .call(comment,
+                             send_notifications: notify)
 
-              journals = ::Journal::AggregatedJournal.aggregated_journals(journable: work_package)
-              Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
+              if result.success?
+                journals = ::Journal::AggregatedJournal.aggregated_journals(journable: work_package)
+                Activities::ActivityRepresenter.new(journals.last, current_user: current_user)
+              else
+                fail ::API::Errors::ErrorBase.create_and_merge_errors(result.errors)
+              end
             end
           end
 
           get do
-            @activities = ::Journal::AggregatedJournal.aggregated_journals(journable: @work_package,
-                                                                           includes: [
-                                                                             :customizable_journals,
-                                                                             :attachable_journals,
-                                                                             :data]
-                                                                          )
+            @activities = ::Journal::AggregatedJournal
+                          .aggregated_journals(journable: @work_package,
+                                               includes: %i(
+                                                 customizable_journals
+                                                 attachable_journals
+                                                 data
+                                               ))
             self_link = api_v3_paths.work_package_activities @work_package.id
             Activities::ActivityCollectionRepresenter.new(@activities,
                                                           self_link,

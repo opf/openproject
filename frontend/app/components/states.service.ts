@@ -1,3 +1,4 @@
+import {WorkPackageTableRelationColumns} from "./wp-fast-table/wp-table-relation-columns";
 import {
   combine, createNewContext, derive, input, multiInput, State,
   StatesGroup
@@ -11,6 +12,7 @@ import {TypeResource} from "./api/api-v3/hal-resources/type-resource.service";
 import {WorkPackageResource} from "./api/api-v3/hal-resources/work-package-resource.service";
 import {GroupObject, WorkPackageCollectionResource} from "./api/api-v3/hal-resources/wp-collection-resource.service";
 import {WorkPackageEditForm} from "./wp-edit-form/work-package-edit-form";
+import {RenderedRow, TableRenderResult} from "./wp-fast-table/builders/primary-render-pass";
 import {WorkPackageTableColumns} from "./wp-fast-table/wp-table-columns";
 import {WorkPackageTableFilters} from "./wp-fast-table/wp-table-filters";
 import {WorkPackageTableGroupBy} from "./wp-fast-table/wp-table-group-by";
@@ -19,13 +21,11 @@ import {WorkPackageTablePagination} from "./wp-fast-table/wp-table-pagination";
 import {WorkPackageTableSortBy} from "./wp-fast-table/wp-table-sort-by";
 import {WorkPackageTableSum} from "./wp-fast-table/wp-table-sum";
 import {WorkPackageTableTimelineState} from "./wp-fast-table/wp-table-timeline";
-import {RenderedRow, TableRenderResult} from "./wp-fast-table/builders/primary-render-pass";
+import {WPTableRowSelectionState} from "./wp-fast-table/wp-table.interfaces";
 import {SwitchState} from "./states/switch-state";
-import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
-import {QueryColumn} from './wp-query/query-column';
-import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-resource.service';
-import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
-import {WPTableRowSelectionState} from './wp-fast-table/wp-table.interfaces';
+import {QueryColumn} from "./wp-query/query-column";
+import {QuerySortByResource} from "./api/api-v3/hal-resources/query-sort-by-resource.service";
+import {QueryGroupByResource} from "./api/api-v3/hal-resources/query-group-by-resource.service";
 
 export class States extends StatesGroup {
 
