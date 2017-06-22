@@ -1,4 +1,3 @@
-
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,17 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {wpDirectivesModule} from "../../angular-modules";
-import {HalRequestService} from "../api/api-v3/hal-request/hal-request.service";
-import {CollectionResource} from "../api/api-v3/hal-resources/collection-resource.service";
-import {RelationResource} from "../api/api-v3/hal-resources/relation-resource.service";
+import {wpDirectivesModule} from '../../angular-modules';
+import {HalRequestService} from '../api/api-v3/hal-request/hal-request.service';
+import {CollectionResource} from '../api/api-v3/hal-resources/collection-resource.service';
+import {RelationResource} from '../api/api-v3/hal-resources/relation-resource.service';
 
-export type RelationsStateValue = { [relationId: number]: RelationResource };
+export type RelationsStateValue = { [relationId:number]:RelationResource };
 
 export class WorkPackageRelationsService {
 
-  constructor(private halRequest: HalRequestService,
-              private I18n: op.I18n) {
+  constructor(private halRequest:HalRequestService,
+              private I18n:op.I18n) {
 
   }
 
@@ -49,22 +48,22 @@ export class WorkPackageRelationsService {
     }
 
     return relationTypes.map((key:string) => {
-      return { name: key, label: this.I18n.t('js.relation_labels.' + key) };
+      return {name: key, label: this.I18n.t('js.relation_labels.' + key)};
     });
   }
 
-  public relationsRequest(workPackageIds: string[]): ng.IPromise<RelationResource[]> {
+  public relationsRequest(workPackageIds:string[]):ng.IPromise<RelationResource[]> {
     let validIds = _.filter(workPackageIds, id => /\d+/.test(id));
 
     return this.halRequest.get(
       '/api/v3/relations',
       {
-        filters: JSON.stringify([{ involved: {operator: '=', values: validIds }}])
+        filters: JSON.stringify([{involved: {operator: '=', values: validIds}}])
       },
       {
-        caching: { enabled: false }
+        caching: {enabled: false}
       }).then((collection:CollectionResource) => {
-        return collection.elements;
+      return collection.elements;
     });
   }
 }
