@@ -168,8 +168,14 @@ export class WorkPackageTableTimelineRelations {
   }
 
   private update() {
-    this.removeAllVisibleElements();
-    this.renderElements();
+    setTimeout(() => {
+      console.error('remove all');
+      this.removeAllVisibleElements();
+    }, 2000);
+    setTimeout(() => {
+      console.error('renderElements');
+      this.renderElements();
+    }, 4000);
   }
 
   private removeRelationElementsForWorkPackage(workPackageId:string) {
@@ -192,8 +198,9 @@ export class WorkPackageTableTimelineRelations {
     const involved = e.relation.ids;
 
     // Get the rendered rows
-    const idxFrom = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.from);
-    const idxTo = _.findIndex(this.workPackageIdOrder, (el:RenderedRow) => el.workPackageId === involved.to);
+    const visibleRows = this.workPackageIdOrder.filter(e => !e.hidden);
+    const idxFrom = _.findIndex(visibleRows, (el:RenderedRow) => el.workPackageId === involved.from);
+    const idxTo = _.findIndex(visibleRows, (el:RenderedRow) => el.workPackageId === involved.to);
 
     const startCell = this.wpTimeline.workPackageCell(involved.from);
     const endCell = this.wpTimeline.workPackageCell(involved.to);
@@ -204,7 +211,7 @@ export class WorkPackageTableTimelineRelations {
     }
 
     // If any of the targets are hidden in the table, skip
-    if (this.workPackageIdOrder[idxFrom].hidden || this.workPackageIdOrder[idxTo].hidden) {
+    if (visibleRows[idxFrom].hidden || visibleRows[idxTo].hidden) {
       return;
     }
 
