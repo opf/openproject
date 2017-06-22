@@ -169,11 +169,9 @@ export class WorkPackageTableTimelineRelations {
 
   private update() {
     setTimeout(() => {
-      console.error('remove all');
       this.removeAllVisibleElements();
     }, 2000);
     setTimeout(() => {
-      console.error('renderElements');
       this.renderElements();
     }, 4000);
   }
