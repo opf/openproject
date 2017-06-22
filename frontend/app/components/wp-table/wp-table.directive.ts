@@ -26,28 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Observable} from "rxjs/Observable";
-import {scopedObservable} from "../../helpers/angular-rx-utils";
-import {debugLog} from "../../helpers/debug_output";
-import {ContextMenuService} from "../context-menus/context-menu.service";
-import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableGroupByService} from "../wp-fast-table/state/wp-table-group-by.service";
-import {KeepTabService} from "../wp-panels/keep-tab/keep-tab.service";
-import {States} from "./../states.service";
-import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
-import {WorkPackageTable} from "./../wp-fast-table/wp-fast-table";
-import {WorkPackageTimelineTableController} from "./timeline/container/wp-timeline-container.directive";
-import {createScrollSync} from "./wp-table-scroll-sync";
+import {Observable} from 'rxjs/Observable';
+import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {debugLog} from '../../helpers/debug_output';
+import {ContextMenuService} from '../context-menus/context-menu.service';
+import {States} from '../states.service';
+import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
+import {WorkPackageTableTimelineService} from '../wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
+import {WorkPackageTableColumns} from '../wp-fast-table/wp-table-columns';
+import {KeepTabService} from '../wp-panels/keep-tab/keep-tab.service';
+import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
+import {createScrollSync} from './wp-table-scroll-sync';
 
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable', wpTable);
 
-function wpTable(
-  keepTab:KeepTabService,
-  PathHelper:any,
-  columnsModal:any,
-  contextMenu: ContextMenuService) {
+function wpTable(keepTab:KeepTabService,
+                 PathHelper:any,
+                 columnsModal:any,
+                 contextMenu:ContextMenuService) {
   return {
     restrict: 'E',
     replace: true,
@@ -77,11 +77,11 @@ function wpTable(
       });
 
 
-     /** Open the settings modal */
-     scope.openColumnsModal = function() {
-       contextMenu.close();
-       columnsModal.activate();
-     };
+      /** Open the settings modal */
+      scope.openColumnsModal = function() {
+        contextMenu.close();
+        columnsModal.activate();
+      };
     }
   };
 }
@@ -97,8 +97,7 @@ export class WorkPackagesTableController {
               I18n:op.I18n,
               wpTableGroupBy:WorkPackageTableGroupByService,
               wpTableTimeline:WorkPackageTableTimelineService,
-              wpTableColumns:WorkPackageTableColumnsService,
-             ) {
+              wpTableColumns:WorkPackageTableColumnsService) {
     // Clear any old table subscribers
     states.table.stopAllSubscriptions.next();
 
@@ -123,7 +122,7 @@ export class WorkPackagesTableController {
       ].join(' ')
     };
 
-    $scope.cancelInlineWorkPackage = function (index:number, row:any) {
+    $scope.cancelInlineWorkPackage = function(index:number, row:any) {
       $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
     };
 
@@ -148,6 +147,11 @@ export class WorkPackagesTableController {
       }
       $scope.timelineVisible = timelines.current;
     });
+
+    // Subscribe to column changes and calculate how to
+    // partition the width between table and timeline
+    wpTableColumns.observeOnScope($scope)
+      .subscribe(c => this.changeTimelineWidthOnColumnCountChange(c));
   }
 
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
@@ -161,6 +165,36 @@ export class WorkPackagesTableController {
 
 
     var t1 = performance.now();
-    debugLog("Render took " + (t1 - t0) + " milliseconds.");
+    debugLog('Render took ' + (t1 - t0) + ' milliseconds.');
   }
+
+  private changeTimelineWidthOnColumnCountChange(columns:WorkPackageTableColumns) {
+    const $tableSide = this.$element.find('.work-packages-tabletimeline--table-side');
+    const $timelineSide = this.$element.find('.work-packages-tabletimeline--timeline-side');
+    if ($timelineSide.length === 0 || $tableSide.length === 0) {
+      return;
+    }
+
+    const table = $tableSide[0];
+    const timeline = $timelineSide[0];
+    const colCount = columns.current.length;
+
+    let widthTable = 1;
+    let widthTimeline = 1;
+
+    if (colCount <= 2) {
+      widthTable = 1;
+      widthTimeline = 3;
+    } else if (colCount <= 3) {
+      widthTable = 1;
+      widthTimeline = 2;
+    } else if (colCount <= 4) {
+      widthTable = 2;
+      widthTimeline = 3;
+    }
+
+    table.style.flex = `${widthTable} 1`;
+    timeline.style.flex = `${widthTimeline} 1`;
+  }
+
 }
