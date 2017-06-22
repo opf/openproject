@@ -70,10 +70,10 @@ module API
                             hash[:title] = represented.operator_class.human_name if represented.operator_class.present?
                             hash
                           },
-                          setter: ->(value, **) {
-                            next unless value
+                          setter: ->(fragment:, **) {
+                            next unless fragment
 
-                            represented.operator = ::API::Utilities::ResourceLinkParser.parse_id value["href"],
+                            represented.operator = ::API::Utilities::ResourceLinkParser.parse_id fragment["href"],
                                                                                                  property: 'operator',
                                                                                                  expected_version: '3',
                                                                                                  expected_namespace: 'queries/operators'
@@ -88,10 +88,10 @@ module API
                               }
                             end
                           },
-                          setter: ->(values, **) {
-                            next unless values
+                          setter: ->(fragment:, **) {
+                            next unless fragment
 
-                            represented.values = values.map do |value|
+                            represented.values = fragment.map do |value|
                               ::API::Utilities::ResourceLinkParser.parse(value["href"])[:id]
                             end
                           },
