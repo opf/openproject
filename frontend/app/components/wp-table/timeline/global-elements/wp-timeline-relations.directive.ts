@@ -168,12 +168,8 @@ export class WorkPackageTableTimelineRelations {
   }
 
   private update() {
-    setTimeout(() => {
-      this.removeAllVisibleElements();
-    }, 2000);
-    setTimeout(() => {
-      this.renderElements();
-    }, 4000);
+    this.removeAllVisibleElements();
+    this.renderElements();
   }
 
   private removeRelationElementsForWorkPackage(workPackageId:string) {
