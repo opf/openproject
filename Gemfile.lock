@@ -378,6 +378,7 @@ GEM
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
     oj (3.1.0)
+    okcomputer (1.16.0)
     openproject-token (1.0.0)
       activemodel (~> 5.0)
     parallel (1.11.1)
@@ -673,6 +674,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri (~> 1.8.0)
   oj (~> 3.1.0)
+  okcomputer (~> 1.16.0)
   omniauth!
   openproject-token (~> 1.0.0)
   openproject-translations!
