@@ -96,6 +96,8 @@ en:
       further_information_before: "Please take a look at"
       link_name: "how to migrate to the new timeline."
       further_information_after: ""
+    calendar:
+      removal: "Please note: This module is going to be removed with OpenProject 8.0."
 
   groups:
     index:
