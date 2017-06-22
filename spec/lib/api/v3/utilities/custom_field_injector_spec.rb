@@ -345,6 +345,24 @@ describe ::API::V3::Utilities::CustomFieldInjector do
           let(:link) { cf_path }
         end
       end
+
+      context 'value is some invalid string' do
+        let(:value) { 'some invalid string' }
+        let(:raw_value) { 'some invalid string' }
+        let(:typed_value) { 'some invalid string not found' }
+
+        it 'has an empty href' do
+          expect(subject)
+            .to be_json_eql(nil.to_json)
+            .at_path("_links/#{cf_path}/href")
+        end
+
+        it 'has the invalid value as title' do
+          expect(subject)
+            .to be_json_eql(typed_value.to_json)
+            .at_path("_links/#{cf_path}/title")
+        end
+      end
     end
 
     context 'string custom field' do
