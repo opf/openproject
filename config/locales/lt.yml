@@ -1,7 +1,7 @@
 lt:
   button_edit_this_page: "Redaguoti šį puslapį"
   error_saving_changes: 'Pakeitimai negali būti išsaugoti: %{errors}'
-  error_textile_not_saved: "The textile block could not be saved."
+  error_textile_not_saved: "Teksto tipo bloko nepavyko išsaugoti."
   label_hidden_elements: "Paslėpti elementai"
   label_visible_elements: "Matomi elementai"
   label_project_description: "Projekto aprašymas"
@@ -15,7 +15,7 @@ lt:
   label_work_packages_watched: "Stebimi darbų paketai"
   label_work_package_tracking: " Darbų paketo sekimas"
   label_members: "Nariai"
-  label_member_view_all: "View all members"
+  label_member_view_all: "Rodyti visus narius"
   label_subprojects: "Sub-projektai"
   project_page:
     all: "Rodyti viską"
