@@ -103,6 +103,9 @@ gem 'rack-protection', '~> 2.0.0'
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack', '~> 5.0.1'
 
+# Providing health checks
+gem 'okcomputer', '~> 1.16.0'
+
 # Patch Rails HTML whitelisting for Angular curly braces
 gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: 'a45267d5'
 
