@@ -137,10 +137,22 @@ module API
         end
 
         def set_group_by(query_attributes)
+          group_by = query_attributes.dig "_links", "groupBy"
+
+          # When no group_by passed, do not update query
+          if group_by.nil?
+            return
+          end
+
           href = query_attributes.dig "_links", "groupBy", "href"
           attr = id_from_href "queries/group_bys", href
 
-          represented.group_by = ::API::Utilities::PropertyNameConverter.to_ar_name(attr, context: WorkPackage.new) if attr
+          represented.group_by =
+            if attr.nil?
+              nil
+            else
+              ::API::Utilities::PropertyNameConverter.to_ar_name(attr, context: WorkPackage.new)
+            end
         end
 
         def set_columns(query_attributes)
