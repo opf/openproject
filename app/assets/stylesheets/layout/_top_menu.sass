@@ -121,9 +121,17 @@
         @extend .icon-pulldown:before
     &:hover
       @include varprop(background-color, header-item-bg-hover-color)
+      > a
+        @include varprop(color, header-item-font-hover-color)
+        i.icon-help:before
+          @include varprop(border-color, header-item-font-hover-color)
+
     &.open
       @include varprop(background-color, header-item-bg-hover-color)
-      @include varprop(color, header-item-font-hover-color)
+      > a
+        @include varprop(color, header-item-font-hover-color)
+        i.icon-help:before
+          @include varprop(border-color, header-item-font-hover-color)
 
       .button--dropdown-indicator
         &:before
@@ -287,7 +295,7 @@ input.top-menu-search--input
     .select2-highlighted
       @include varprop(background, drop-down-selected-bg-color, !important)
       border-radius: 0 !important
-      font-weight: bold !important
+      font-weight: normal !important
       @include varprop(color, drop-down-selected-font-color)
       &:hover
         @include varprop(background, drop-down-hover-bg-color, !important)
