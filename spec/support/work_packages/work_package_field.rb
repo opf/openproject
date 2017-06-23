@@ -38,7 +38,9 @@ class WorkPackageField
   def activate!
     retry_block do
       element.find(trigger_link_selector).click
-      expect_active!
+      unless active?
+        raise "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
+      end
     end
   end
 
@@ -48,6 +50,10 @@ class WorkPackageField
     else
       expect_inactive!
     end
+  end
+
+  def active?
+    element.has_selector?(field_type)
   end
 
   def expect_active!
