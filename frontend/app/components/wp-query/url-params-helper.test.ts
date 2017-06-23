@@ -126,7 +126,6 @@ describe('UrlParamsHelper', function() {
       let decodedQueryParams = UrlParamsHelper.buildV3GetQueryFromJsonParams(params);
 
       let expected = {
-        'columns[]': ['type', 'status', 'soße'],
         showSums: true,
         timelineVisible: true,
         showHierarchies: true,
