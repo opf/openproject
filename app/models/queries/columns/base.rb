@@ -33,7 +33,6 @@ class Queries::Columns::Base
                 :sortable,
                 :groupable,
                 :summable,
-                :join,
                 :default_order
   alias_method :summable?, :summable
 
@@ -46,8 +45,6 @@ class Queries::Columns::Base
        default_order).each do |attribute|
       send("#{attribute}=", options[attribute])
     end
-
-    self.join = options.delete(:join)
   end
 
   def caption

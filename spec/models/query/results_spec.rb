@@ -34,22 +34,25 @@ describe ::Query::Results, type: :model do
                       show_hierarchies: false
   end
   let(:query_results) do
-    ::Query::Results.new query, include: [:assigned_to,
-                                          :type,
-                                          :priority,
-                                          :category,
-                                          :fixed_version],
-                                order: 'work_packages.root_id DESC, work_packages.lft ASC'
+    ::Query::Results.new query,
+                         include: %i(
+                           assigned_to
+                           type
+                           priority
+                           category
+                           fixed_version
+                         ),
+                         order: 'work_packages.root_id DESC, work_packages.lft ASC'
   end
   let(:project_1) { FactoryGirl.create :project }
   let(:role_pm) do
     FactoryGirl.create(:role,
-                       permissions: [
-                         :view_work_packages,
-                         :edit_work_packages,
-                         :create_work_packages,
-                         :delete_work_packages
-                       ])
+                       permissions: %i(
+                         view_work_packages
+                         edit_work_packages
+                         create_work_packages
+                         delete_work_packages
+                       ))
   end
   let(:role_dev) do
     FactoryGirl.create(:role,
@@ -172,8 +175,7 @@ describe ::Query::Results, type: :model do
 
         it 'returns all work packages of project 2' do
           work_packages = query
-                          .results(include: [:assigned_to, { custom_values: :custom_field }],
-                                   order: 'work_packages.root_id, work_packages.lft')
+                          .results
                           .work_packages
                           .page(1)
                           .per_page(10)
@@ -191,8 +193,7 @@ describe ::Query::Results, type: :model do
 
         it 'returns all work packages of project 2' do
           work_packages = query
-                          .results(include: [:responsible, { custom_values: :custom_field }],
-                                   order: 'work_packages.root_id, work_packages.lft')
+                          .results
                           .work_packages
                           .page(1)
                           .per_page(10)
@@ -221,6 +222,166 @@ describe ::Query::Results, type: :model do
       it 'outputs the work package count in the schema { <User> => count }' do
         expect(query_results.work_package_count_by_group)
           .to eql(user_1 => 1, user_2 => 1, nil => 1)
+      end
+    end
+  end
+
+  describe '#sorted_work_packages' do
+    let(:work_package1) { FactoryGirl.create(:work_package, project: project_1) }
+    let(:work_package2) { FactoryGirl.create(:work_package, project: project_1) }
+    let(:work_package3) { FactoryGirl.create(:work_package, project: project_1) }
+    let(:sort_by) { [['parent', 'asc']] }
+    let(:columns) { %i(id subject) }
+
+    let(:query) do
+      FactoryGirl.build_stubbed :query,
+                                show_hierarchies: false,
+                                group_by: group_by,
+                                sort_criteria: sort_by,
+                                project: project_1,
+                                column_names: columns
+    end
+
+    let(:query_results) do
+      ::Query::Results.new query
+    end
+
+    let(:user_a) { FactoryGirl.create(:user, firstname: 'AAA', lastname: 'AAA') }
+    let(:user_m) { FactoryGirl.create(:user, firstname: 'MMM', lastname: 'MMM') }
+    let(:user_z) { FactoryGirl.create(:user, firstname: 'ZZZ', lastname: 'ZZZ') }
+
+    context 'grouping by assigned_to, having the author column selected' do
+      let(:group_by) { 'assigned_to' }
+      let(:columns) { %i(id subject author) }
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        work_package1.assigned_to = user_m
+        work_package1.author = user_m
+
+        work_package1.save(validate: false)
+
+        work_package2.assigned_to = user_z
+        work_package2.author = user_a
+
+        work_package2.save(validate: false)
+
+        work_package3.assigned_to = user_m
+        work_package3.author = user_a
+
+        work_package3.save(validate: false)
+      end
+
+      it 'sorts first by assigned_to (group by), then by sort criteria' do
+        # Would look like this in the table
+        #
+        # user_m
+        #   work_package 1
+        #   work_package 3
+        # user_z
+        #   work_package 2
+        expect(query_results.sorted_work_packages)
+          .to match [work_package1, work_package3, work_package2]
+      end
+    end
+
+    context 'sorting by author, grouping by assigned_to' do
+      let(:group_by) { 'assigned_to' }
+      let(:sort_by) { [['author', 'asc']] }
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        work_package1.assigned_to = user_m
+        work_package1.author = user_m
+
+        work_package1.save(validate: false)
+
+        work_package2.assigned_to = user_z
+        work_package2.author = user_a
+
+        work_package2.save(validate: false)
+
+        work_package3.assigned_to = user_m
+        work_package3.author = user_a
+
+        work_package3.save(validate: false)
+      end
+
+      it 'sorts first by group by, then by assigned_to' do
+        # Would look like this in the table
+        #
+        # user_m
+        #   work_package 3
+        #   work_package 1
+        # user_z
+        #   work_package 2
+        expect(query_results.sorted_work_packages)
+          .to match [work_package3, work_package1, work_package2]
+
+        query.sort_criteria = [['author', 'desc']]
+
+        # Would look like this in the table
+        #
+        # user_m
+        #   work_package 1
+        #   work_package 3
+        # user_z
+        #   work_package 2
+        expect(query_results.sorted_work_packages)
+          .to match [work_package1, work_package3, work_package2]
+      end
+    end
+
+    context 'sorting by author and responsible, grouping by assigned_to' do
+      let(:group_by) { 'assigned_to' }
+      let(:sort_by) { [['author', 'asc'], ['responsible', 'desc']] }
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        work_package1.assigned_to = user_m
+        work_package1.author = user_m
+        work_package1.responsible = user_a
+
+        work_package1.save(validate: false)
+
+        work_package2.assigned_to = user_z
+        work_package2.author = user_m
+        work_package3.responsible = user_m
+
+        work_package2.save(validate: false)
+
+        work_package3.assigned_to = user_m
+        work_package3.author = user_m
+        work_package3.responsible = user_z
+
+        work_package3.save(validate: false)
+      end
+
+      it 'sorts first by group by, then by assigned_to (neutral as equal), then by responsible' do
+        # Would look like this in the table
+        #
+        # user_m
+        #   work_package 3
+        #   work_package 1
+        # user_z
+        #   work_package 2
+        expect(query_results.sorted_work_packages)
+          .to match [work_package3, work_package1, work_package2]
+
+        query.sort_criteria = [['author', 'desc'], ['responsible', 'asc']]
+
+        # Would look like this in the table
+        #
+        # user_m
+        #   work_package 1
+        #   work_package 3
+        # user_z
+        #   work_package 2
+        expect(query_results.sorted_work_packages)
+          .to match [work_package1, work_package3, work_package2]
       end
     end
   end
