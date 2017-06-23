@@ -270,7 +270,7 @@ GEM
       nokogiri (>= 1.4.3)
     erbse (0.0.2)
     erubis (2.7.0)
-    eventmachine (1.2.0.1)
+    eventmachine (1.2.3)
     excon (0.52.0)
     execjs (2.7.0)
     factory_girl (4.7.0)
@@ -566,7 +566,7 @@ GEM
     syck (1.3.0)
     sys-filesystem (1.1.7)
       ffi
-    thin (1.7.0)
+    thin (1.7.1)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
       rack (>= 1, < 3)
@@ -727,7 +727,7 @@ DEPENDENCIES
   svg-graph (~> 2.1.0)
   syck (~> 1.3.0)
   sys-filesystem (~> 1.1.4)
-  thin (~> 1.7.0)
+  thin (~> 1.7.1)
   timecop (~> 0.8.1)
   transactional_lock!
   tzinfo-data (~> 1.2017.2)
