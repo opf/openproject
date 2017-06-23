@@ -41,61 +41,59 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       groupable: false
     },
     project: {
-      sortable: "#{Project.table_name}.name",
+      sortable: "name",
       groupable: true
     },
     subject: {
       sortable: "#{WorkPackage.table_name}.subject"
     },
     type: {
-      sortable: "#{::Type.table_name}.position",
+      sortable: "position",
       groupable: true
     },
     parent: {
-      sortable: ["#{WorkPackage.table_name}.root_id",
-                 "#{WorkPackage.table_name}.lft"],
+      sortable: ["root_id",
+                 "lft"],
       default_order: 'asc'
     },
     status: {
-      sortable: "#{Status.table_name}.position",
+      sortable: "position",
       groupable: true
     },
     priority: {
-      sortable: "#{IssuePriority.table_name}.position",
+      sortable: "position",
       default_order: 'desc',
       groupable: true
     },
     author: {
-      sortable: ["#{User.table_name}.lastname",
-                 "#{User.table_name}.firstname",
-                 "#{WorkPackage.table_name}.author_id"],
+      sortable: ["lastname",
+                 "firstname",
+                 "id"],
       groupable: true
     },
     assigned_to: {
-      sortable: ["#{User.table_name}.lastname",
-                 "#{User.table_name}.firstname",
-                 "#{WorkPackage.table_name}.assigned_to_id"],
+      sortable: ["lastname",
+                 "firstname",
+                 "id"],
       groupable: true
     },
     responsible: {
-      sortable: ["#{User.table_name}.lastname",
-                 "#{User.table_name}.firstname",
-                 "#{WorkPackage.table_name}.responsible_id"],
-      groupable: true,
-      join: 'LEFT OUTER JOIN users as responsible ON ' +
-            "(#{WorkPackage.table_name}.responsible_id = responsible.id)"
+      sortable: ["lastname",
+                 "firstname",
+                 "id"],
+      groupable: true
     },
     updated_at: {
       sortable: "#{WorkPackage.table_name}.updated_at",
       default_order: 'desc'
     },
     category: {
-      sortable: "#{Category.table_name}.name",
+      sortable: "name",
       groupable: true
     },
     fixed_version: {
-      sortable: ["#{Version.table_name}.effective_date",
-                 "#{Version.table_name}.name"],
+      sortable: ["effective_date",
+                 "name"],
       default_order: 'desc',
       groupable: true
     },
