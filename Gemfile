@@ -252,7 +252,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   group :postgres do
-    gem 'pg', '~> 0.20.0'
+    gem 'pg', '~> 0.21.0'
   end
 end
 
