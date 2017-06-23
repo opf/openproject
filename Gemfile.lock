@@ -667,7 +667,6 @@ DEPENDENCIES
   launchy (~> 2.4.3)
   letter_opener
   livingstyleguide (~> 2.0.1)
-  mail (~> 2.6.6.rc1)
   multi_json (~> 1.12.1)
   mysql2 (~> 0.4.4)
   net-ldap (~> 0.16.0)
