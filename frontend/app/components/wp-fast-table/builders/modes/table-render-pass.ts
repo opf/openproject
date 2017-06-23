@@ -1,13 +1,12 @@
-import {States} from '../../../states.service';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {TimelineRowBuilder} from '../timeline/timeline-row-builder';
 import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
-import {Subject} from 'rxjs';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../../../states.service';
 import {rowClass} from '../../helpers/wp-table-row-helpers';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {TimelineRowBuilder} from '../timeline/timeline-row-builder';
 
 export interface RenderedRow {
-  workPackageId:string|null;
+  workPackageId:string | null;
   classIdentifier:string;
   hidden:boolean;
 }

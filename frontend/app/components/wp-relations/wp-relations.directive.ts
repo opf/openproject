@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Observable} from "rxjs";
-import {wpDirectivesModule} from "../../angular-modules";
-import {scopedObservable} from "../../helpers/angular-rx-utils";
-import {RelationResourceInterface} from "../api/api-v3/hal-resources/relation-resource.service";
-import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {RelatedWorkPackagesGroup} from "./wp-relations.interfaces";
-import {RelationsStateValue, WorkPackageRelationsService} from "./wp-relations.service";
-import {WorkPackageStates} from "../work-package-states.service";
+import {Observable} from 'rxjs';
+import {wpDirectivesModule} from '../../angular-modules';
+import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {RelationResourceInterface} from '../api/api-v3/hal-resources/relation-resource.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageStates} from '../work-package-states.service';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
+import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
@@ -43,18 +43,18 @@ export class WorkPackageRelationsController {
 
   // By default, group by relation type
   public groupByWorkPackageType = false;
-  public currentRelations: RelationResourceInterface[] = [];
+  public currentRelations:RelationResourceInterface[] = [];
 
   constructor(protected $scope:ng.IScope,
               protected $q:ng.IQService,
               protected $state:ng.ui.IState,
               protected I18n:op.I18n,
               protected wpRelations:WorkPackageRelationsService,
-              private wpStates: WorkPackageStates,
+              private wpStates:WorkPackageStates,
               protected wpCacheService:WorkPackageCacheService) {
 
     scopedObservable(this.$scope, this.wpStates.getRelationsForWorkPackage(this.workPackage.id).values$())
-      .subscribe((relations: RelationsStateValue) => {
+      .subscribe((relations:RelationsStateValue) => {
         this.loadedRelations(relations);
       });
 
@@ -107,7 +107,7 @@ export class WorkPackageRelationsController {
 
   protected loadedRelations(stateValues:RelationsStateValue):void {
     var relatedWpIds:string[] = [];
-    var relations:{[wpId:string]: any} = [];
+    var relations:{ [wpId:string]:any } = [];
 
     if (_.size(stateValues) === 0) {
       this.currentRelations = [];
