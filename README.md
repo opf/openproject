@@ -59,8 +59,7 @@ Bug Reporting
 
 If you find any bugs, you can create a bug ticket at
 
-https://www.openproject.org/projects/plugin-backlogs
-
+https://community.openproject.com/projects/plugin-backlogs
 
 Development
 -----------
