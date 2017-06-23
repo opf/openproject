@@ -93,7 +93,7 @@ gem 'bcrypt', '~> 3.1.6'
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '~> 0.13.0'
 gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 3.1.0'
+gem 'oj', '~> 3.2.0'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.1'
