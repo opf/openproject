@@ -229,7 +229,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'thin', '~> 1.7.0'
+  gem 'thin', '~> 1.7.1'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
