@@ -26,10 +26,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomFieldsPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
+require 'features/support/pages/page'
 
+class CustomFieldsPage < ::Pages::Page
   def visit_new(type = 'WorkPackageCustomField')
     visit new_custom_field_path type: type
   end

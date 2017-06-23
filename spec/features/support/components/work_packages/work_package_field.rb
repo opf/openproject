@@ -1,6 +1,5 @@
 class WorkPackageField
-  include Capybara::DSL
-  include RSpec::Matchers
+  include Components::FeatureMixin
 
   attr_reader :selector,
               :property_name

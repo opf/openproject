@@ -26,8 +26,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
-require 'support/pages/abstract_work_package_create'
+require_relative 'abstract_work_package_create'
 
 module Pages
   class SplitWorkPackageCreate < AbstractWorkPackageCreate

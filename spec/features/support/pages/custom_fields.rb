@@ -26,31 +26,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/abstract_work_package'
+require_relative 'page'
 
 module Pages
-  class FullWorkPackage < Pages::AbstractWorkPackage
-
-    def edit_field(attribute)
-      super(attribute, container)
+  class CustomFields < Page
+    def path
+      '/custom_fields'
     end
 
-    private
-
-    def container
-      find('.work-packages--show-view')
+    def select_format(label)
+      select label, from: "custom_field_field_format"
     end
 
-    def path(tab = 'activity')
-      if project
-        project_work_package_path(project, work_package.id, tab)
-      else
-        work_package_path(work_package.id, tab)
-      end
+    def set_name(name)
+      find("#custom_field_name").set name
     end
 
-    def create_page(args)
-      Pages::FullWorkPackageCreate.new(args)
+    def set_default_value(value)
+      find("#custom_field_default_value").set value
+    end
+
+    def has_form_element?(name)
+      page.has_css? "label.form--label", text: name
     end
   end
 end

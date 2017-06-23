@@ -27,48 +27,45 @@
 #++
 
 module Components
-  module WorkPackages
-    class SettingsMenu
-      include Capybara::DSL
-      include RSpec::Matchers
+  class PasswordConfirmationDialog
+    include ::Components::FeatureMixin
 
-      def open_and_save_query(name)
-        open!
-        find("#{selector} .menu-item", text: 'Save', match: :prefer_exact).click
-        page.within('.ng-modal-inner') do
-          find('#save-query-name').set name
-          click_on 'Save'
-        end
-      end
+    def confirm_flow_with(password, should_fail: false)
+      expect_open
 
-      def open!
-        click_on 'work-packages-settings-button'
-        expect_open
-      end
+      expect(submit_button[:disabled]).to be_truthy
+      fill_in 'request_for_confirmation_password', with: password
 
-      def expect_open
-        expect(page).to have_selector(selector)
-      end
+      expect(submit_button[:disabled]).to be_falsey
+      submit(should_fail)
+    end
 
-      def expect_closed
-        expect(page).to have_no_selector(selector)
-      end
+    def expect_open
+      expect(page).to have_selector(selector)
+    end
 
-      def choose(target)
-        find("#{selector} .menu-item", text: target).click
-      end
+    def expect_closed
+      expect(page).to have_no_selector(selector)
+    end
 
-      def expect_options(options)
-        expect_open
-        options.each do |text|
-          expect(page).to have_selector("#{selector} a", text: text)
-        end
-      end
+    def submit_button
+      page.find('.request-for-confirmation--submit-button')
+    end
 
-      private
+    private
 
-      def selector
-        '#settingsDropdown'
+    def selector
+      '.request-for-confirmation--modal'
+    end
+
+    def submit(should_fail)
+      submit_button.click
+
+      if should_fail
+        expect(page).to have_selector('.flash.error',
+                                      text: I18n.t(:notice_password_confirmation_failed))
+      else
+        expect(page).to have_no_selector('.flash.error')
       end
     end
   end

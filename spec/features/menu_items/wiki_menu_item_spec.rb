@@ -29,7 +29,6 @@
 require 'spec_helper'
 require 'features/page_objects/notification'
 require 'features/work_packages/shared_contexts'
-require 'features/work_packages/work_packages_page'
 
 feature 'Wiki menu items' do
   let(:user) { FactoryGirl.create :admin }

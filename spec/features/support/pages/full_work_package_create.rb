@@ -26,47 +26,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Components
-  class PasswordConfirmationDialog
-    include Capybara::DSL
-    include RSpec::Matchers
+require_relative 'abstract_work_package_create'
 
-    def confirm_flow_with(password, should_fail: false)
-      expect_open
-
-      expect(submit_button[:disabled]).to be_truthy
-      fill_in 'request_for_confirmation_password', with: password
-
-      expect(submit_button[:disabled]).to be_falsey
-      submit(should_fail)
-    end
-
-    def expect_open
-      expect(page).to have_selector(selector)
-    end
-
-    def expect_closed
-      expect(page).to have_no_selector(selector)
-    end
-
-    def submit_button
-      page.find('.request-for-confirmation--submit-button')
+module Pages
+  class FullWorkPackageCreate < AbstractWorkPackageCreate
+    def edit_field(attribute)
+      super(attribute, container)
     end
 
     private
 
-    def selector
-      '.request-for-confirmation--modal'
+    def container
+      find('.work-packages--show-view')
     end
 
-    def submit(should_fail)
-      submit_button.click
-
-      if should_fail
-        expect(page).to have_selector('.flash.error',
-                                      text: I18n.t(:notice_password_confirmation_failed))
-      else
-        expect(page).to have_no_selector('.flash.error')
+    def path
+      if original_work_package
+        project_work_package_path(original_work_package.project, original_work_package.id) + '/copy'
+      elsif parent_work_package
+        new_project_work_packages_path(parent_work_package.project.identifier,
+                                       parent_id: parent_work_package.id)
       end
     end
   end

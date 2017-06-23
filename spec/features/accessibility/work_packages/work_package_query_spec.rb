@@ -27,13 +27,12 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/work_packages_page'
 
 describe 'Work package index accessibility', type: :feature, selenium: true do
   let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:work_packages_page) { ::Pages::WorkPackagesPage.new(project) }
   let(:sort_ascending_selector) { '.icon-sort-ascending' }
   let(:sort_descending_selector) { '.icon-sort-descending' }
 

@@ -26,15 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CategoriesPage
-  include Rails.application.routes.url_helpers
-  include Capybara::DSL
+module Components
+  ##
+  # Provides a mixin to commons DSL and helpers required for feature specs
+  # - RSpec matcher syntax
+  # - Capybara syntax
+  # - Rails/OpenProject URL helpers
+  module FeatureMixin
+    include Capybara::DSL
+    include RSpec::Matchers
+    include OpenProject::StaticRouting::UrlHelpers
 
-  def initialize(project = nil)
-    @project = project
-  end
-
-  def visit_settings
-    visit(settings_project_path(@project) + '/categories')
+    ##
+    # Ensures that +within+ of capybara is called,
+    # since rspec also has a matcher that would silently ignore the passed block.
+    def within(selector, &block)
+      page.within(selector, &block)
+    end
   end
 end

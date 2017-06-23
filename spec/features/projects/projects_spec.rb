@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/projects/projects_page'
 
 describe 'Projects', type: :feature do
   let(:current_user) { FactoryGirl.create(:admin) }
@@ -115,7 +114,7 @@ describe 'Projects', type: :feature do
 
   describe 'deletion', js: true do
     let(:project) { FactoryGirl.create(:project) }
-    let(:projects_page) { ProjectsPage.new(project) }
+    let(:projects_page) { ::Pages::ProjectsPage.new(project) }
 
     before do
       projects_page.visit_confirm_destroy

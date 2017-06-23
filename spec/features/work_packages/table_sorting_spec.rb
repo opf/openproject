@@ -27,7 +27,6 @@
 #++
 
 require 'spec_helper'
-require 'features/work_packages/work_packages_page'
 
 describe 'Select work package row', type: :feature do
   let(:user) { FactoryGirl.create(:admin) }
@@ -38,7 +37,7 @@ describe 'Select work package row', type: :feature do
   let(:work_package_2) do
     FactoryGirl.create(:work_package, project: project)
   end
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:work_packages_page) { ::Pages::WorkPackagesPage.new(project) }
 
   let(:version_1) do
     FactoryGirl.create(:version, project: project,

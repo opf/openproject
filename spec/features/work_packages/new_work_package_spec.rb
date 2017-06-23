@@ -1,6 +1,5 @@
 require 'spec_helper'
-require 'support/work_packages/work_package_field'
-require 'features/work_packages/work_packages_page'
+
 require 'features/page_objects/notification'
 
 describe 'new work package', js: true do
@@ -14,7 +13,7 @@ describe 'new work package', js: true do
   }
 
   let(:user) { FactoryGirl.create :admin }
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:work_packages_page) { ::Pages::WorkPackagesPage.new(project) }
 
   let(:subject) { 'My subject' }
   let(:description) { 'A description of the newly-created work package.' }

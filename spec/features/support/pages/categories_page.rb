@@ -26,49 +26,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'feature_mixin'
+require_relative 'page'
 
-module Components
-  class DangerZone
-    include ::Components::FeatureMixin
+class CategoriesPage < ::Pages::Page
 
-    attr_reader :page
+  def initialize(project = nil)
+    @project = project
+  end
 
-    def initialize(page)
-      @page = page
-    end
-
-    def container_selector
-      '.danger-zone--verification'
-    end
-
-    def confirmation_field
-      page.within container_selector do
-        find('input[type=text]')
-      end
-    end
-
-    def danger_button
-      page.within container_selector do
-        find('button.-highlight')
-      end
-    end
-
-    def cancel_button
-      page.within container_selector do
-        find('a.icon-cancel')
-      end
-    end
-
-    ##
-    # Set the confirmation field to the given value
-    def confirm_with(value)
-      confirmation_field.set value
-    end
-
-    ##
-    def disabled?
-      !!danger_button[:disabled]
-    end
+  def visit_settings
+    visit(settings_project_path(@project) + '/categories')
   end
 end

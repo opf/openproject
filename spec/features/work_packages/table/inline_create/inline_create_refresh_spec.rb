@@ -4,7 +4,7 @@ describe 'Refreshing in inline-create row', js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
 
-  let(:work_packages_page) { WorkPackagesPage.new(project) }
+  let(:work_packages_page) { ::Pages::WorkPackagesPage.new(project) }
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
   let!(:query) do

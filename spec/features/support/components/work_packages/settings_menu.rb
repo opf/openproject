@@ -26,54 +26,49 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/abstract_work_package'
-require 'support/pages/split_work_package_create'
+module Components
+  module WorkPackages
+    class SettingsMenu
+      include Components::FeatureMixin
 
-module Pages
-  class SplitWorkPackage < Pages::AbstractWorkPackage
-    attr_reader :selector
-
-    def initialize(work_package, project = nil)
-      super work_package, project
-      @selector = '.work-packages--details'
-    end
-
-    def edit_field(attribute)
-      super(attribute, container)
-    end
-
-    def switch_to_tab(tab:)
-      find('.tabrow li a', text: tab.upcase).click
-    end
-
-    def switch_to_fullscreen
-      find('.work-packages--details-fullscreen-icon').click
-      FullWorkPackage.new(work_package, project)
-    end
-
-    def closed?
-      expect(page).not_to have_selector(@selector)
-    end
-
-    private
-
-    def container
-      find(@selector)
-    end
-
-    def path(tab = 'overview')
-      state = "#{work_package.id}/#{tab}"
-
-      if project
-        project_work_packages_path(project, "details/#{state}")
-      else
-        details_work_packages_path(state)
+      def open_and_save_query(name)
+        open!
+        find("#{selector} .menu-item", text: 'Save', match: :prefer_exact).click
+        page.within('.ng-modal-inner') do
+          find('#save-query-name').set name
+          click_on 'Save'
+        end
       end
-    end
 
-    def create_page(args)
-      args.merge!(project: project || work_package.project)
-      SplitWorkPackageCreate.new(args)
+      def open!
+        click_on 'work-packages-settings-button'
+        expect_open
+      end
+
+      def expect_open
+        expect(page).to have_selector(selector)
+      end
+
+      def expect_closed
+        expect(page).to have_no_selector(selector)
+      end
+
+      def choose(target)
+        find("#{selector} .menu-item", text: target).click
+      end
+
+      def expect_options(options)
+        expect_open
+        options.each do |text|
+          expect(page).to have_selector("#{selector} a", text: text)
+        end
+      end
+
+      private
+
+      def selector
+        '#settingsDropdown'
+      end
     end
   end
 end

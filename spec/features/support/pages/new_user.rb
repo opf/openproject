@@ -26,28 +26,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'support/pages/page'
+require_relative 'page'
 
 module Pages
-  class CustomFields < Page
+  class NewUser < Page
     def path
-      '/custom_fields'
+      '/users/new'
     end
 
-    def select_format(label)
-      select label, from: "custom_field_field_format"
+    ##
+    # Fills in the given user form fields.
+    def fill_in!(fields = {})
+      form = FormFiller.new fields
+
+      form.fill! 'First name', :first_name
+      form.fill! 'Last name', :last_name
+      form.fill! 'Email', :email
+
+      form.select! 'Authentication mode', :auth_source
+      form.fill! 'Login', :login
+
+      form.set_checked! 'Administrator', :admin
     end
 
-    def set_name(name)
-      find("#custom_field_name").set name
-    end
-
-    def set_default_value(value)
-      find("#custom_field_default_value").set value
-    end
-
-    def has_form_element?(name)
-      page.has_css? "label.form--label", text: name
+    def submit!
+      click_button 'Create'
     end
   end
 end
