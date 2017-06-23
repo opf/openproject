@@ -216,6 +216,7 @@ openprojectModule
         $rootScope:ng.IRootScopeService,
         $state:ng.ui.IStateService,
         $window:ng.IWindowService) => {
+
     // Our application is still a hybrid one, meaning most routes are still
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.
@@ -241,6 +242,12 @@ openprojectModule
         console.error("Tried to parse ui-route link but failed with: " + e);
         return true;
       }
+    });
+
+    // Prevent angular handling clicks on href="#" links from other libraries
+    // (especially jquery-ui and its datepicker) from routing to <base url>/#
+    angular.element('body').on('click', 'a[href="#"]', function(evt) {
+      evt.preventDefault();
     });
 
     $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {

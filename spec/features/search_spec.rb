@@ -43,7 +43,10 @@ describe 'Search', type: :feature do
     let(:query) { "Subject" }
 
     def expect_range(a, b)
-      (a..b).each { |n| expect(page.body).to include ("No. #{n}") }
+      (a..b).each do |n|
+        expect(page.body).to include("No. #{n}")
+        expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n-1].id)}']")
+      end
     end
 
     context 'project search' do

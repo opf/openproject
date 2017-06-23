@@ -96,7 +96,15 @@ module OpenProject
       'onboarding_video_url' => 'https://player.vimeo.com/video/163426858?autoplay=1',
       'onboarding_enabled' => true,
 
-      'ee_manager_visible' => true
+      'ee_manager_visible' => true,
+
+      # Health check configuration
+      'health_checks_authentication_password' => nil,
+      # Maximum number of backed up jobs (that are not yet executed)
+      # before health check fails
+      'health_checks_jobs_queue_count_threshold' => 50,
+      # Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
+      'health_checks_jobs_never_ran_minutes_ago' => 5,
     }
 
     @config = nil

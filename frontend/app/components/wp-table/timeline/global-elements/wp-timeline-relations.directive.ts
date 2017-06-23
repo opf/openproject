@@ -151,6 +151,12 @@ export class WorkPackageTableTimelineRelations {
       const relations = _.values(workPackageWithRelation.value!);
       const relationsList = _.values(relations);
       relationsList.forEach(relation => {
+
+        if (!(relation.type === 'precedes'
+          || relation.type === 'follows')) {
+          return;
+        }
+
         const elem = new TimelineRelationElement(relation.ids.from, relation);
         this.renderElement(this.wpTimeline.viewParameters, elem);
       });

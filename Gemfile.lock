@@ -60,7 +60,7 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 26099bc348251b51ddba499e60714083e5b0a6c3
+  revision: 07c6302d8234d30d8775cfdf5ed186c3c5f4c981
   branch: dev
   specs:
     openproject-translations (7.0.0)
@@ -378,6 +378,7 @@ GEM
     nokogiri (1.8.0)
       mini_portile2 (~> 2.2.0)
     oj (3.1.0)
+    okcomputer (1.16.0)
     openproject-token (1.0.0)
       activemodel (~> 5.0)
     parallel (1.11.1)
@@ -673,6 +674,7 @@ DEPENDENCIES
   newrelic_rpm
   nokogiri (~> 1.8.0)
   oj (~> 3.1.0)
+  okcomputer (~> 1.16.0)
   omniauth!
   openproject-token (~> 1.0.0)
   openproject-translations!
