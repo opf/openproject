@@ -174,7 +174,9 @@ i
         page-break-inside: avoid
         break-inside: avoid
 
+      @supports (column-span: all)
         // Let some elements still span both columns
-        &.-span-all-columns
+        .attributes-key-value.-span-all-columns
           column-span: all
-
+          .attributes-key-value--key
+            flex-basis: calc(16.65% - (4rem / 6))
