@@ -41,13 +41,30 @@ module Components
         @work_package = work_package
       end
 
+      def find_row(relatable)
+        page.find(".relation-row-#{relatable.id}")
+      end
+
+      def hover_action(relatable, action)
+        retry_block do
+          # Focus type edit to expose buttons
+          span = page.find(".relation-row-#{relatable.id} .relation-row--type")
+          page.driver.browser.action.move_to(span.native).perform
+
+          # Click the corresponding action button
+          row = find_row(relatable)
+          case action
+          when :delete
+            row.find('.relation-row--remove-btn').click
+          when :info
+            row.find('.wp-relations--description-btn').click
+          end
+        end
+      end
+
       def remove_relation(relatable)
         ## Delete relation
-        created_row = find(".relation-row-#{relatable.id}")
-
-        # Hover row to expose button
-        created_row.hover
-        created_row.find('.relation-row--remove-btn').click
+        hover_action(relatable, :delete)
 
         # Expect relation to be gone
         expect_no_relation(relatable)

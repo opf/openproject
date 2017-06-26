@@ -219,10 +219,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         find('.work-packages--details-fullscreen-icon').click
 
         # Expect to have row
-        created_row = find(".relation-row-#{relatable.id}", wait: 10)
-
-        created_row.hover
-        created_row.find('.relation-row--remove-btn').click
+        relations.hover_action(relatable, :delete)
 
         expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
@@ -238,14 +235,11 @@ describe 'Work package relations tab', js: true, selenium: true do
       it 'should allow to change relation descriptions' do
         relations.add_relation(type: 'follows', to: relatable)
 
-        created_row = find(".relation-row-#{relatable.id}")
-
         ## Toggle description
-        created_row.hover
-        toggle_btn = created_row.find('.wp-relations--description-btn')
-        toggle_btn.click
+        relations.hover_action(relatable, :info)
 
         # Open textarea
+        created_row = relations.find_row(relatable)
         created_row.find('.wp-relation--description-read-value.-placeholder',
                          text: I18n.t('js.placeholders.relation_description')).click
 
@@ -257,10 +251,8 @@ describe 'Work package relations tab', js: true, selenium: true do
         created_row.find('.inplace-edit--control--save a').click
 
         ## Toggle description again
-        sleep 2
-        created_row.hover
-        toggle_btn = created_row.find('.wp-relations--description-btn')
-        toggle_btn.click
+        relations.hover_action(relatable, :info)
+        created_row = relations.find_row(relatable)
 
         created_row.find('.wp-relation--description-read-value',
                          text: 'my description!').click
@@ -275,7 +267,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         expect(relation.description).to eq('my description!')
 
         # Toggle to close
-        toggle_btn.click
+        relations.hover_action(relatable, :info)
         expect(created_row).to have_no_selector('.wp-relation--description-read-value')
       end
     end
