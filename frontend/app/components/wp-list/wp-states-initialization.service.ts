@@ -16,6 +16,7 @@ import {WorkPackageCacheService} from '../work-packages/work-package-cache.servi
 import {WorkPackageTableRelationColumnsService} from '../wp-fast-table/state/wp-table-relation-columns.service';
 import {WorkPackagesListChecksumService} from './wp-list-checksum.service';
 import {WorkPackageTableSortByService} from '../wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableAdditionalElementsService} from '../wp-fast-table/state/wp-table-additional-elements.service';
 
 export class WorkPackageStatesInitializationService {
   constructor(protected states:States,
@@ -28,6 +29,7 @@ export class WorkPackageStatesInitializationService {
               protected wpTableHierarchies:WorkPackageTableHierarchiesService,
               protected wpTableRelationColumns:WorkPackageTableRelationColumnsService,
               protected wpTablePagination:WorkPackageTablePaginationService,
+              protected wpTableAdditionalElements:WorkPackageTableAdditionalElementsService,
               protected wpCacheService:WorkPackageCacheService,
               protected wpListChecksumService:WorkPackagesListChecksumService,
               protected AuthorisationService:any) {
@@ -71,7 +73,7 @@ export class WorkPackageStatesInitializationService {
 
   public updateFromResults(results:WorkPackageCollectionResource) {
     // Clear table required data states
-    this.states.table.requiredDataLoaded.clear();
+    this.states.table.additionalRequiredWorkPackages.clear('Clearing additional WPs before updating rows');
 
     if (results.schemas) {
       _.each(results.schemas.elements, (schema:SchemaResource) => {
@@ -93,6 +95,8 @@ export class WorkPackageStatesInitializationService {
 
     this.wpTableRelationColumns.initialize(results.elements);
 
+    this.wpTableAdditionalElements.initialize(results.elements);
+
     this.AuthorisationService.initModelAuth('work_packages', results.$links);
   }
 
@@ -112,9 +116,6 @@ export class WorkPackageStatesInitializationService {
   private clearStates() {
     const reason = 'Clearing states before re-initialization.';
 
-    // Clear table required data states
-    this.states.table.requiredDataLoaded.clear(reason);
-
     // Clear immediate input states
     this.states.table.rows.clear(reason);
     this.states.table.columns.clear(reason);
@@ -123,6 +124,7 @@ export class WorkPackageStatesInitializationService {
     this.states.table.sum.clear(reason);
     this.states.table.results.clear(reason);
     this.states.table.groups.clear(reason);
+    this.states.table.additionalRequiredWorkPackages.clear(reason);
 
     // Clear rendered state
     this.states.table.rendered.clear(reason);

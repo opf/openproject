@@ -13,7 +13,10 @@ import {QueryFormResource} from './api/api-v3/hal-resources/query-form-resource.
 import {QueryResource} from './api/api-v3/hal-resources/query-resource.service';
 import {SchemaResource} from './api/api-v3/hal-resources/schema-resource.service';
 import {TypeResource} from './api/api-v3/hal-resources/type-resource.service';
-import {WorkPackageResource} from './api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from './api/api-v3/hal-resources/work-package-resource.service';
 import {
   GroupObject,
   WorkPackageCollectionResource
@@ -39,7 +42,7 @@ export class States extends StatesGroup {
 
   name = "MainStore";
   /* /api/v3/work_packages */
-  workPackages = multiInput<WorkPackageResource>();
+  workPackages = multiInput<WorkPackageResourceInterface>();
 
   /* /api/v3/schemas */
   schemas = multiInput<SchemaResource>();
@@ -53,7 +56,7 @@ export class States extends StatesGroup {
   // Work Package query states
   query = new QueryStates();
 
-  tableRendering = new TableRenderingStates(this.table);
+  tableRendering = new TableRenderingStates(this);
 
   // Updater states on user input
   updates = new UserUpdaterStates(this);
@@ -111,10 +114,8 @@ export class TableState extends StatesGroup {
   // Expanded relation columns
   relationColumns = input<WorkPackageTableRelationColumns>();
 
-  // Required data for the table to load
-  // currently, this contains only relations
-  requiredDataLoaded = input<null>();
-
+  // Required work packages to be rendered by hierarchy mode + relation columns
+  additionalRequiredWorkPackages = input<null>();
 }
 
 export class QueryStates {
@@ -147,17 +148,17 @@ export class QueryAvailableDataStates {
 }
 
 export class TableRenderingStates {
-  constructor(private table:TableState) {
+  constructor(private states:States) {
   }
 
   // State when all required input states for the current query are ready
   private combinedTableStates = combine(
-    this.table.rows,
-    this.table.columns,
-    this.table.sum,
-    this.table.groupBy,
-    this.table.sortBy,
-    this.table.requiredDataLoaded
+    this.states.table.rows,
+    this.states.table.columns,
+    this.states.table.sum,
+    this.states.table.groupBy,
+    this.states.table.sortBy,
+    this.states.table.additionalRequiredWorkPackages
   );
 
   onQueryUpdated = derive(this.combinedTableStates, ($, input) => $.mapTo(null));

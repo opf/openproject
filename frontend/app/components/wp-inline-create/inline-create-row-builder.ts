@@ -64,7 +64,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
    * @param workPackage
    * @returns {any}
    */
-  public createEmptyRow(workPackage:WorkPackageResource) {
+  public createEmptyRow(workPackage:WorkPackageResourceInterface) {
     const identifier = this.classIdentifier(workPackage);
     const tr = document.createElement('tr');
     tr.id = rowId(workPackage.id);

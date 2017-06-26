@@ -61,13 +61,6 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
 
   public initialize(workPackages:WorkPackageResourceInterface[]) {
     this.initializeState();
-
-    if (this.wpTableColumns.hasRelationColumns()) {
-      this.requireInvolved(workPackages.map(el => el.id))
-        .then(() => this.states.table.requiredDataLoaded.putValue(null));
-    } else {
-      this.states.table.requiredDataLoaded.putValue(null);
-    }
   }
 
   /**
@@ -184,21 +177,6 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
     this.state.putValue(current);
 
     return current;
-  }
-
-  /**
-   * Requires both the relation resource of the given work package ids as well
-   * as the `to` work packages returned from the relations
-   */
-  private requireInvolved(workPackageIds:string[]) {
-    return this.wpRelations
-      .requireInvolved(workPackageIds)
-      .then((relations) => {
-        const involvedIDs = relations.map(relation => [relation.ids.from, relation.ids.to]);
-        return this.wpCacheService.loadWorkPackages(
-          _.uniq(_.flatten(involvedIDs))
-        );
-      });
   }
 }
 

@@ -1,6 +1,9 @@
 import {WorkPackageTable} from '../../../wp-fast-table';
 import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources/work-package-resource.service';
-import {SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
+import {
+  additionalHierarchyRowClassName,
+  SingleHierarchyRowBuilder
+} from './single-hierarchy-row-builder';
 import {WorkPackageTableRow} from '../../../wp-table.interfaces';
 import {
   ancestorClassIdentifier,
@@ -8,10 +11,11 @@ import {
   hierarchyGroupClass,
   hierarchyRootClass
 } from '../../../helpers/wp-table-hierarchy-helpers';
-import {PrimaryRenderPass} from '../../primary-render-pass';
+import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
 import {States} from '../../../../states.service';
 import {$injectFields} from '../../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTableHierarchies} from '../../../wp-table-hierarchies';
+import {RenderInfo} from '../../../../wp-table/timeline/wp-timeline';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
   public states:States;
@@ -65,7 +69,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
         let [tr, hidden] = this.rowBuilder.buildEmpty(workPackage);
         row.element = tr;
         this.tableBody.appendChild(tr);
-        this.markRendered(workPackage, hidden, false);
+        this.markRendered(workPackage, hidden);
       }
 
       // Render all potentially deferred rows
@@ -127,7 +131,9 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     const ancestorGroups:string[] = [];
 
     // Iterate ancestors
-    ancestors.forEach((ancestor:WorkPackageResourceInterface, index:number) => {
+    ancestors.forEach((el:WorkPackageResourceInterface, index:number) => {
+      const ancestor = this.states.workPackages.get(el.id).value!;
+
 
       // If we see the parent the first time,
       // build it as an additional row and insert it into the ancestry
@@ -178,17 +184,10 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * @param workPackage
    * @param hidden
    */
-  private markRendered(workPackage:WorkPackageResourceInterface, hidden:boolean = false, isAncestor:boolean) {
+  private markRendered(workPackage:WorkPackageResourceInterface, hidden:boolean = false, isAncestor:boolean = false) {
     this.rendered[workPackage.id] = true;
-    this.renderedOrder.push({
-      classIdentifier: isAncestor ? ancestorClassIdentifier(workPackage.id) : this.rowBuilder.classIdentifier(workPackage),
-      additionalClasses: this.ancestorClasses(workPackage),
-      workPackage: isAncestor ? null : workPackage,
-      renderType: 'primary',
-      hidden: hidden
-    });
+    this.renderedOrder.push(this.buildRenderInfo(workPackage, hidden, isAncestor));
   }
-
 
   public ancestorClasses(workPackage:WorkPackageResourceInterface) {
     const rowClasses = [hierarchyRootClass(workPackage.id)];
@@ -224,15 +223,27 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     this.spliceRow(
       el,
       `${hierarchyRoot},${hierarchyGroup}`,
-      {
-        classIdentifier: isAncestor ? ancestorClassIdentifier(workPackage.id) : this.rowBuilder.classIdentifier(workPackage),
-        workPackage: isAncestor ? null : workPackage,
-        additionalClasses: this.ancestorClasses(workPackage),
-        renderType: 'primary',
-        hidden: hidden,
-      }
+      this.buildRenderInfo(workPackage, hidden, isAncestor)
     );
 
     this.rendered[workPackage.id] = true;
+  }
+
+  private buildRenderInfo(workPackage:WorkPackageResourceInterface, hidden:boolean, isAncestor:boolean):RowRenderInfo {
+    let info:any = {
+      workPackage: workPackage,
+      renderType: 'primary',
+      hidden: hidden
+    };
+
+    if (isAncestor) {
+      info.additionalClasses = [additionalHierarchyRowClassName].concat(this.ancestorClasses(workPackage));
+      info.classIdentifier = ancestorClassIdentifier(workPackage.id);
+    } else {
+      info.additionalClasses = this.ancestorClasses(workPackage);
+      info.classIdentifier = this.rowBuilder.classIdentifier(workPackage);
+    }
+
+    return info as RowRenderInfo;
   }
 }

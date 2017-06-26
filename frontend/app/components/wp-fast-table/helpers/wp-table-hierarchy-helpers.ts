@@ -28,9 +28,10 @@ export function hasChildrenInTable(workPackage:WorkPackageResourceInterface, tab
     return false; // Work Package has no children at all
   }
 
-  // If any visible children in the table
-  return !!_.find(workPackage.children, (child:WorkPackageResourceInterface) => {
-    const childId = child.idFromLink!;
-    return table.rowIndex[childId] !== undefined;
+  // Return if this work package is in the ancestor chain of any of the work packages
+  return !!_.find(table.rows, (wpId:string) => {
+    const row = table.rowIndex[wpId].object;
+
+    return row.ancestorIds.indexOf(workPackage.id.toString()) >= 0;
   });
 }
