@@ -1,5 +1,4 @@
 import {multiInput, State, StatesGroup} from 'reactivestates';
-import {opServicesModule} from '../../angular-modules';
 import {CollectionResource} from '../api/api-v3/hal-resources/collection-resource.service';
 import {
   RelationResource,
@@ -8,6 +7,7 @@ import {
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {RelationsDmService} from '../api/api-v3/hal-resource-dms/wp-relations.service';
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+import {opServicesModule} from '../../angular-modules';
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
 

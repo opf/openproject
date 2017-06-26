@@ -111,7 +111,7 @@ export class UrlParamsHelperService {
   public buildV3GetQueryFromJsonParams(updateJson:any) {
     var queryData:any = {
       pageSize: this.PaginationService.getPerPage()
-    };
+    }
 
     if (!updateJson) {
       return queryData;
@@ -119,6 +119,9 @@ export class UrlParamsHelperService {
 
     var properties = JSON.parse(updateJson);
 
+    if (properties.c) {
+      queryData["columns[]"] = properties.c.map((column:any) => column);
+    }
     if (!!properties.s) {
       queryData.showSums = properties.s;
     }

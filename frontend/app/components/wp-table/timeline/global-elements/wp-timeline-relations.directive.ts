@@ -189,9 +189,10 @@ export class WorkPackageTableTimelineRelations {
     const involved = e.relation.ids;
 
     // Get the rendered rows
-    const idxFrom = _.findIndex(this.workPackageIdOrder,
+    const visibleRows = this.workPackageIdOrder.filter(e => !e.hidden);
+    const idxFrom = _.findIndex(visibleRows,
       (el:RenderedRow) => el.isWorkPackage && el.belongsTo!.id.toString() === involved.from);
-    const idxTo = _.findIndex(this.workPackageIdOrder,
+    const idxTo = _.findIndex(visibleRows,
       (el:RenderedRow) => el.isWorkPackage && el.belongsTo!.id.toString() === involved.to);
 
     const startCell = this.wpTimeline.workPackageCell(involved.from);
@@ -199,11 +200,6 @@ export class WorkPackageTableTimelineRelations {
 
     // If targets do not exist anywhere in the table, skip
     if (idxFrom === -1 || idxTo === -1 || _.isNil(startCell) || _.isNil(endCell)) {
-      return;
-    }
-
-    // If any of the targets are hidden in the table, skip
-    if (this.workPackageIdOrder[idxFrom].hidden || this.workPackageIdOrder[idxTo].hidden) {
       return;
     }
 
@@ -241,78 +237,29 @@ export class WorkPackageTableTimelineRelations {
     const height = Math.abs(idxTo - idxFrom);
     if (directionY === 'toDown') {
       if (directionX === 'toRight' || directionX === 'beneath') {
-        this.container.append(newSegment(vp,
-          e.classNames,
-          idxFrom,
-          19,
-          lastX,
-          1,
-          height * 41,
-          'black'));
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, height * 41, 'black'));
       } else if (directionX === 'toLeft') {
-        this.container.append(newSegment(vp,
-          e.classNames,
-          idxFrom,
-          19,
-          lastX,
-          1,
-          (height * 41) - 10,
-          'black'));
+        this.container.append(newSegment(vp, e.classNames, idxFrom, 19, lastX, 1, (height * 41) - 10, 'black'));
       }
     } else if (directionY === 'toUp') {
-      this.container.append(newSegment(vp,
-        e.classNames,
-        idxTo,
-        30,
-        lastX,
-        1,
-        (height * 41) - 10,
-        'black'));
+      this.container.append(newSegment(vp, e.classNames, idxTo, 30, lastX, 1, (height * 41) - 10, 'black'));
     }
 
     // Draw end corner to the target
     if (directionX === 'toRight') {
       if (directionY === 'toDown') {
-        this.container.append(newSegment(vp,
-          e.classNames,
-          idxTo,
-          19,
-          lastX,
-          targetX - lastX,
-          1,
-          'red'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 19, lastX, targetX - lastX, 1, 'red'));
       } else if (directionY === 'toUp') {
         this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, 1, 10, 'green'));
-        this.container.append(newSegment(vp,
-          e.classNames,
-          idxTo,
-          20,
-          lastX,
-          targetX - lastX,
-          1,
-          'lightsalmon'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 20, lastX, targetX - lastX, 1, 'lightsalmon'));
       }
     } else if (directionX === 'toLeft') {
       if (directionY === 'toDown') {
         this.container.append(newSegment(vp, e.classNames, idxTo, 0, lastX, 1, 8, 'red'));
-        this.container.append(newSegment(vp,
-          e.classNames,
-          idxTo,
-          8,
-          targetX,
-          lastX - targetX,
-          1,
-          'green'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, lastX - targetX, 1, 'green'));
         this.container.append(newSegment(vp, e.classNames, idxTo, 8, targetX, 1, 11, 'blue'));
       } else if (directionY === 'toUp') {
-        this.container.append(newSegment(vp,
-          e.classNames,
-          idxTo,
-          30,
-          targetX + 1,
-          lastX - targetX,
-          1,
-          'red'));
+        this.container.append(newSegment(vp, e.classNames, idxTo, 30, targetX + 1, lastX - targetX, 1, 'red'));
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX + 1, 1, 11, 'blue'));
       }
     }

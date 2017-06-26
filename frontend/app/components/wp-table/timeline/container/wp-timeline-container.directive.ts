@@ -39,13 +39,13 @@ import {timelineMarkerSelectionStartClass, TimelineViewParameters} from '../wp-t
 import {WorkPackageTable} from '../../../wp-fast-table/wp-fast-table';
 import {WorkPackageTableHierarchiesService} from '../../../wp-fast-table/state/wp-table-hierarchy.service';
 
-import * as angular from 'angular';
 import {selectorTimelineSide} from '../../wp-table-scroll-sync';
-import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 import {Moment} from "moment";
+import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
+
 
 export class WorkPackageTimelineTableController {
 
@@ -84,7 +84,7 @@ export class WorkPackageTimelineTableController {
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageTableHierarchiesService,
               private I18n:op.I18n) {
-    "ngInject";
+    'ngInject';
   }
 
   $onInit() {
@@ -99,7 +99,7 @@ export class WorkPackageTimelineTableController {
     // Debounced refresh function
     this.debouncedRefresh = _.debounce(
       () => {
-        debugLog("Refreshing view in debounce.");
+        debugLog('Refreshing view in debounce.');
         this.refreshView();
       },
       500,
@@ -177,7 +177,7 @@ export class WorkPackageTimelineTableController {
 
   refreshView() {
     if (!this.wpTableTimeline.isVisible) {
-      debugLog("refreshView() requested, but TL is invisible.");
+      debugLog('refreshView() requested, but TL is invisible.');
       return;
     }
 
@@ -260,8 +260,8 @@ export class WorkPackageTimelineTableController {
 
     Mousetrap.unbind('esc');
 
-    this.$element.removeClass("active-selection-mode");
-    jQuery("." + timelineMarkerSelectionStartClass).removeClass(timelineMarkerSelectionStartClass);
+    this.$element.removeClass('active-selection-mode');
+    jQuery('.' + timelineMarkerSelectionStartClass).removeClass(timelineMarkerSelectionStartClass);
     this.refreshView();
   }
 
@@ -277,7 +277,7 @@ export class WorkPackageTimelineTableController {
     Mousetrap.bind('esc', () => this.resetSelectionMode());
     this.selectionParams.notification = this.NotificationsService.addNotice(this.text.selectionMode);
 
-    this.$element.addClass("active-selection-mode");
+    this.$element.addClass('active-selection-mode');
     this.refreshView();
   }
 
@@ -323,13 +323,13 @@ export class WorkPackageTimelineTableController {
     });
 
     // left spacing
-    newParams.dateDisplayStart.subtract(3, "days");
+    newParams.dateDisplayStart.subtract(3, 'days');
 
     // right spacing
     const width = this.$element.width();
     const pixelPerDay = currentParams.pixelPerDay;
     const visibleDays = Math.ceil((width / pixelPerDay) * 1.5);
-    newParams.dateDisplayEnd.add(visibleDays, "days");
+    newParams.dateDisplayEnd.add(visibleDays, 'days');
 
     // Check if view params changed:
 
@@ -355,7 +355,7 @@ export class WorkPackageTimelineTableController {
   }
 }
 
-openprojectModule.component("wpTimelineContainer", {
+openprojectModule.component('wpTimelineContainer', {
   controller: WorkPackageTimelineTableController,
   templateUrl: '/components/wp-table/timeline/container/wp-timeline-container.html',
   require: {
