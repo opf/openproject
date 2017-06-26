@@ -148,13 +148,15 @@ module RepositoriesHelper
         else
           title_text =  l(:label_modified)
         end
-        text = link_to(h(text),
-                       { controller: '/repositories',
-                         action: 'entry',
-                         project_id: @project,
-                         path: path_param,
-                         rev: @changeset.identifier },
-                       title: title_text) unless c.action == 'D'
+
+        unless c.action == 'D'
+          text = link_to(h(text),
+                         entry_revision_project_repository_path(project_id: @project,
+                                                                path: path_param,
+                                                                rev: @changeset.identifier),
+                         title: title_text)
+        end
+
         text << raw(" - #{h(c.revision)}") unless c.revision.blank?
         text << raw(' (' + link_to(l(:label_diff),
                                    controller: '/repositories',
