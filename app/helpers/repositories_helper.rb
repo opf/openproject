@@ -104,8 +104,8 @@ module RepositoriesHelper
   def calculate_folder_action(tree)
     seen = Set.new
     tree.each do |_, entry|
-      if folderStyle = change_action_mapping[entry[:c].try(:action)]
-        seen << folderStyle
+      if folder_style = change_action_mapping[entry[:c].try(:action)]
+        seen << folder_style
       end
     end
 
@@ -115,8 +115,7 @@ module RepositoriesHelper
   def render_changes_tree(tree)
     return '' if tree.nil?
 
-    output = ''
-    output << '<ul>'
+    output = '<ul>'
     tree.keys.sort.each do |file|
       style = 'change'
       text = File.basename(h(file))
@@ -124,11 +123,9 @@ module RepositoriesHelper
         style << ' folder'
         path_param = without_leading_slash(to_path_param(@repository.relative_path(file)))
         text = link_to(h(text),
-                       { controller: '/repositories',
-                         action: 'show',
-                         project_id: @project,
-                         path: path_param,
-                         rev: @changeset.identifier },
+                       show_revisions_path_project_repository_path(project_id: @project,
+                                                                   path: path_param,
+                                                                   rev: @changeset.identifier),
                        title: l(:label_folder))
 
         output << "<li class='#{style} icon icon-folder-#{calculate_folder_action(s)}'>#{text}</li>"
@@ -136,20 +133,10 @@ module RepositoriesHelper
       elsif c = tree[file][:c]
         style << " change-#{c.action}"
         path_param = without_leading_slash(to_path_param(@repository.relative_path(c.path)))
-        case c.action
-        when 'A'
-          title_text =  l(:label_added)
-        when 'D'
-          title_text =  l(:label_deleted)
-        when 'C'
-          title_text =  l(:label_copied)
-        when 'R'
-          title_text =  l(:label_renamed)
-        else
-          title_text =  l(:label_modified)
-        end
 
         unless c.action == 'D'
+          title_text = changes_tree_change_title c.action
+
           text = link_to(h(text),
                          entry_revision_project_repository_path(project_id: @project,
                                                                 path: path_param,
@@ -158,30 +145,17 @@ module RepositoriesHelper
         end
 
         text << raw(" - #{h(c.revision)}") unless c.revision.blank?
-        text << raw(' (' + link_to(l(:label_diff),
-                                   controller: '/repositories',
-                                   action: 'diff',
-                                   project_id: @project,
-                                   path: path_param,
-                                   rev: @changeset.identifier) + ') ') if c.action == 'M'
-        text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) unless c.from_path.blank?
-        case c.action
-        when 'A'
-          output << "<li class='#{style} icon icon-add'
-                         title='#{l(:label_added)}'>#{text}</li>"
-        when 'D'
-          output << "<li class='#{style} icon icon-delete'
-                         title='#{l(:label_deleted)}'>#{text}</li>"
-        when 'C'
-          output << "<li class='#{style} icon icon-copy'
-                         title='#{l(:label_copied)}'>#{text}</li>"
-        when 'R'
-          output << "<li class='#{style} icon icon-rename'
-                         title='#{l(:label_renamed)}'>#{text}</li>"
-        else
-          output << "<li class='#{style} icon icon-arrow-left-right'
-                         title='#{l(:label_modified)}'>#{text}</li>"
+
+        if c.action == 'M'
+          text << raw(' (' + link_to(l(:label_diff),
+                                     diff_revision_project_repository_path(project_id: @project,
+                                                                           path: path_param,
+                                                                           rev: @changeset.identifier)) + ') ')
         end
+
+        text << raw(' ' + content_tag('span', h(c.from_path), class: 'copied-from')) unless c.from_path.blank?
+
+        output << changes_tree_li_element(c.action, text, style)
       end
     end
     output << '</ul>'
@@ -297,5 +271,38 @@ module RepositoriesHelper
 
   def without_leading_slash(path)
     path.gsub(%r{\A/+}, '')
+  end
+
+  def changes_tree_change_title(action)
+    case action
+    when 'A'
+      l(:label_added)
+    when 'D'
+      l(:label_deleted)
+    when 'C'
+      l(:label_copied)
+    when 'R'
+      l(:label_renamed)
+    else
+      l(:label_modified)
+    end
+  end
+
+  def changes_tree_li_element(action, text, style)
+    icon_name = case action
+                when 'A'
+                  'icon-add'
+                when 'D'
+                  'icon-delete'
+                when 'C'
+                  'icon-copy'
+                when 'R'
+                  'icon-rename'
+                else
+                  'icon-arrow-left-right'
+                end
+
+    "<li class='#{style} icon #{icon_name}'
+         title='#{changes_tree_change_title(action)}'>#{text}</li>"
   end
 end
