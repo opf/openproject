@@ -74,6 +74,7 @@
     "custom-event": "^1.0.0",
     "dom-autoscroller": "^2.2.8",
     "dragula": "^3.5.2",
+    "es6-promise": "^4.1.0",
     "exports-loader": "^0.6.2",
     "expose-loader": "^0.6.0",
     "extract-text-webpack-plugin": "^2.0.0-rc.2",
