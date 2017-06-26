@@ -28,7 +28,7 @@
 
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageTableRow} from '../wp-fast-table/wp-table.interfaces';
-import { CellBuilder, tdClassName, editCellContainer } from '../wp-fast-table/builders/cell-builder';
+import {CellBuilder, tdClassName, editCellContainer} from '../wp-fast-table/builders/cell-builder';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
@@ -51,7 +51,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder();
 
-  constructor(public workPackageId:string) {
+  constructor(public workPackageId:string, public classIdentifier:string) {
     injectorBridge(this);
   }
 
@@ -71,7 +71,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     }
   }
 
-  public requireVisible(fieldName:string): PromiseLike<JQuery> {
+  public requireVisible(fieldName:string):PromiseLike<JQuery> {
     this.wpTableColumns.addColumn(fieldName);
     return this.waitForContainer(fieldName);
   }
@@ -86,7 +86,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
-  private waitForContainer(fieldName:string): PromiseLike<JQuery> {
+  private waitForContainer(fieldName:string):PromiseLike<JQuery> {
     const deferred = this.$q.defer();
 
     const interval = setInterval(() => {
@@ -102,7 +102,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   private get rowContainer() {
-    return jQuery(`#${rowId(this.workPackageId)}`);
+    return jQuery(`.${this.classIdentifier}-table`);
   }
 }
 

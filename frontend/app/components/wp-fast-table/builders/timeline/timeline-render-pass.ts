@@ -1,8 +1,8 @@
-import {PrimaryRenderPass, RenderedRow, SecondaryRenderPass} from '../primary-render-pass';
+import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
 import {TimelineRowBuilder} from './timeline-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 
-export class TimelineRenderPass implements SecondaryRenderPass {
+export class TimelineRenderPass {
   /** Row builders */
   protected timelineBuilder:TimelineRowBuilder;
 
@@ -18,12 +18,11 @@ export class TimelineRenderPass implements SecondaryRenderPass {
     this.timelineBuilder = new TimelineRowBuilder(this.table);
 
     // Render into timeline fragment
-    this.tablePass.renderedOrder.forEach((row:RenderedRow) => {
-      const wpId = row.isWorkPackage ? row.belongsTo!.id : null;
+    this.tablePass.renderedOrder.forEach((row:RowRenderInfo) => {
+      const wpId = row.workPackage ? row.workPackage.id : null;
 
       const secondary = this.timelineBuilder.build(wpId);
-      this.tablePass.augmentSecondaryElement(secondary, row);
-
+      secondary.classList.add(row.classIdentifier, `${row.classIdentifier}-timeline`, ...row.additionalClasses);
       this.timelineBody.appendChild(secondary);
     });
   }

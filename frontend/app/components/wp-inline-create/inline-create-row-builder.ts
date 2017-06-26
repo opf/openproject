@@ -11,17 +11,17 @@ import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selecti
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {
   internalDetailsColumn,
-  rowClassName
+  tableRowClassName,
+  SingleRowBuilder, commonRowClassName
 } from '../wp-fast-table/builders/rows/single-row-builder';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
-import {RowRefreshBuilder} from '../wp-fast-table/builders/rows/row-refresh-builder';
-import IScope = angular.IScope;
 import {QueryColumn} from '../wp-query/query-column';
+import IScope = angular.IScope;
 
 export const inlineCreateRowClassName = 'wp-inline-create-row';
 export const inlineCreateCancelClassName = 'wp-table--cancel-create-link';
 
-export class InlineCreateRowBuilder extends RowRefreshBuilder {
+export class InlineCreateRowBuilder extends SingleRowBuilder {
   // Injections
   public states:States;
   public wpTableSelection:WorkPackageTableSelection;
@@ -53,7 +53,7 @@ export class InlineCreateRowBuilder extends RowRefreshBuilder {
     const [row, hidden] = this.buildEmpty(workPackage);
 
     // Set editing context to table
-    form.editContext = new TableRowEditContext(workPackage.id);
+    form.editContext = new TableRowEditContext(workPackage.id, this.classIdentifier(workPackage));
     this.states.editing.get(workPackage.id).putValue(form);
 
     return [row, hidden];
@@ -65,10 +65,16 @@ export class InlineCreateRowBuilder extends RowRefreshBuilder {
    * @returns {any}
    */
   public createEmptyRow(workPackage:WorkPackageResource) {
+    const identifier = this.classIdentifier(workPackage);
     const tr = document.createElement('tr');
     tr.id = rowId(workPackage.id);
     tr.dataset['workPackageId'] = workPackage.id;
-    tr.classList.add(inlineCreateRowClassName, rowClassName, 'wp--row', 'issue');
+    tr.dataset['classIdentifier'] = identifier;
+    tr.classList.add(
+      inlineCreateRowClassName, commonRowClassName, tableRowClassName, 'issue',
+      identifier,
+      `${identifier}-table`
+    );
 
     return tr;
   }

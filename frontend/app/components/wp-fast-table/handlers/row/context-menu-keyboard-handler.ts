@@ -1,7 +1,7 @@
 import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageTable} from "../../wp-fast-table";
 import {TableEventHandler} from "../table-handler-registry";
-import {rowClassName} from "../../builders/rows/single-row-builder";
+import {tableRowClassName} from "../../builders/rows/single-row-builder";
 import {ContextMenuService} from "../../../context-menus/context-menu.service";
 import {keyCodes} from "../../../common/keyCodes.enum";
 
@@ -18,7 +18,7 @@ export class ContextMenuKeyboardHandler implements TableEventHandler {
   }
 
   public get SELECTOR() {
-    return `.${rowClassName}`;
+    return `.${tableRowClassName}`;
   }
 
   public eventScope(table:WorkPackageTable) {

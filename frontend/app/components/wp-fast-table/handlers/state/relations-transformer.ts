@@ -5,7 +5,7 @@ import {WorkPackageTable} from "../../wp-fast-table";
 import {WorkPackageTableHierarchiesService} from './../../state/wp-table-hierarchy.service';
 import {WorkPackageTableHierarchies} from "../../wp-table-hierarchies";
 import {indicatorCollapsedClass} from "../../builders/modes/hierarchy/single-hierarchy-row-builder";
-import {rowClassName} from '../../builders/rows/single-row-builder';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {debugLog} from '../../../../helpers/debug_output';
 import {WorkPackageTableRelationColumnsService} from '../../state/wp-table-relation-columns.service';
 import {WorkPackageTableRelationColumns} from '../../wp-table-relation-columns';

@@ -1,5 +1,5 @@
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
-import {CellBuilder} from '../cell-builder';
+import {CellBuilder, wpCellTdClassName} from '../cell-builder';
 import {DetailsLinkBuilder} from '../details-link-builder';
 import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {
@@ -8,14 +8,14 @@ import {
 } from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {checkedClassName} from '../ui-state-link-builder';
-import {rowId} from '../../helpers/wp-table-row-helpers';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {QueryColumn, queryColumnTypes} from '../../../wp-query/query-column';
+import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
 import {RelationCellbuilder} from '../relation-cell-builder';
+import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 
 // Work package table row entries
-export const rowClassName = 'wp-table--row';
-// Class name for both table and timeline rows
+export const tableRowClassName = 'wp-table--row';
+// Work package and timeline rows
 export const commonRowClassName = 'wp--row';
 
 export const internalDetailsColumn = {
@@ -58,8 +58,7 @@ export class SingleRowBuilder {
   public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
 
     // handle relation types
-    const relationTypes = [queryColumnTypes.RELATION_TO_TYPE, queryColumnTypes.RELATION_OF_TYPE];
-    if (relationTypes.indexOf(column._type) >= 0) {
+    if (isRelationColumn(column)) {
       return this.relationCellBuilder.build(workPackage, column);
     }
 
@@ -75,8 +74,69 @@ export class SingleRowBuilder {
   /**
    * Build the columns on the given empty row
    */
-  public buildEmpty(workPackage:WorkPackageResourceInterface):[HTMLElement,boolean] {
+  public buildEmpty(workPackage:WorkPackageResourceInterface):[HTMLElement, boolean] {
     let row = this.createEmptyRow(workPackage);
+    return this.buildEmptyRow(workPackage, row);
+  }
+
+  /**
+   * Create an empty unattached row element for the given work package
+   * @param workPackage
+   * @returns {any}
+   */
+  public createEmptyRow(workPackage:WorkPackageResource) {
+    const identifier = this.classIdentifier(workPackage);
+    let tr = document.createElement('tr');
+    tr.dataset['workPackageId'] = workPackage.id;
+    tr.dataset['classIdentifier'] = identifier;
+    tr.classList.add(
+      tableRowClassName,
+      commonRowClassName,
+      identifier,
+      `${identifier}-table`,
+      'issue'
+    );
+
+    return tr;
+  }
+
+  public classIdentifier(workPackage:WorkPackageResource) {
+    return `wp-row-${workPackage.id}`;
+  }
+
+  /**
+   * Refresh a row that is currently being edited, that is, some edit fields may be open
+   */
+  public refreshRow(workPackage:WorkPackageResourceInterface, editForm:WorkPackageEditForm|undefined, jRow:JQuery):JQuery {
+    // Detach all current edit cells
+    const cells = jRow.find(`.${wpCellTdClassName}`).detach();
+
+    // Remember the order of all new edit cells
+    const newCells:HTMLElement[] = [];
+
+    this.columns.forEach((column:QueryColumn) => {
+      const oldTd = cells.filter(`td.${column.id}`);
+
+      // Skip the replacement of the column if this is being edited.
+      if (this.isColumnBeingEdited(editForm, column)) {
+        newCells.push(oldTd[0]);
+        return;
+      }
+
+      // Otherwise, refresh that cell and append it
+      const cell = this.buildCell(workPackage, column);
+      newCells.push(cell);
+    });
+
+    jRow.prepend(newCells);
+    return jRow;
+  }
+
+  protected isColumnBeingEdited(editForm:WorkPackageEditForm | undefined, column:QueryColumn) {
+    return editForm && editForm.activeFields[column.id];
+  }
+
+  protected buildEmptyRow(workPackage:WorkPackageResourceInterface, row:HTMLElement):[HTMLElement, boolean] {
     let cell = null;
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
@@ -90,19 +150,5 @@ export class SingleRowBuilder {
     }
 
     return [row, false];
-  }
-
-  /**
-   * Create an empty unattached row element for the given work package
-   * @param workPackage
-   * @returns {any}
-   */
-  public createEmptyRow(workPackage:WorkPackageResource) {
-    let tr = document.createElement('tr');
-    tr.id = rowId(workPackage.id);
-    tr.dataset['workPackageId'] = workPackage.id;
-    tr.classList.add(rowClassName, commonRowClassName, `${commonRowClassName}-${workPackage.id}`, 'issue');
-
-    return tr;
   }
 }

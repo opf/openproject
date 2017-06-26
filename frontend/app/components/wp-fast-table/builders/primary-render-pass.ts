@@ -2,32 +2,39 @@ import {States} from '../../states.service';
 import {WorkPackageTable} from '../wp-fast-table';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {$injectFields} from '../../angular/angular-injector-bridge.functions';
-import {rowClass} from '../helpers/wp-table-row-helpers';
 import {TimelineRenderPass} from './timeline/timeline-render-pass';
 import {SingleRowBuilder} from './rows/single-row-builder';
-import {RelationsRenderPass} from './relations/relations-render-pass';
+import {RelationRenderInfo, RelationsRenderPass} from './relations/relations-render-pass';
 import {timeOutput} from '../../../helpers/debug_output';
 
-export interface RenderedRow {
-  isWorkPackage:boolean;
+export type RenderedRowType = 'primary' | 'relations';
+
+export interface RowRenderInfo {
+  // Unique class name as an identifier to uniquely identify the row in both table and timeline
+  classIdentifier:string;
+  // Additional classes to be added by any secondary render passes
+  additionalClasses:string[];
+  // If this row is a work package, contains a reference to the rendered WP
+  workPackage:WorkPackageResourceInterface|null;
+  // If this is an additional row not present, this contains a reference to the WP
+  // it originated from
   belongsTo?:WorkPackageResourceInterface;
+  // The type of row this was rendered from
+  renderType:RenderedRowType;
+  // Marks if the row is currently hidden to the user
   hidden:boolean;
+  // Additional data by the render passes
+  data?:any;
 }
 
-export interface TableRenderResult {
-  renderedOrder:RenderedRow[];
-}
-
-export interface SecondaryRenderPass {
-  render():void;
-}
+export type RenderedRow = { classIdentifier:string, workPackageId:string|null, hidden:boolean };
 
 export abstract class PrimaryRenderPass {
   public states:States;
   public I18n:op.I18n;
 
   /** The rendered order of rows of work package IDs or <null>, if not a work package row */
-  public renderedOrder:RenderedRow[];
+  public renderedOrder:RowRenderInfo[];
 
   /** Resulting table body */
   public tableBody:DocumentFragment;
@@ -36,13 +43,19 @@ export abstract class PrimaryRenderPass {
   public timeline:TimelineRenderPass;
 
   /** Additional render pass that handles table relation rendering */
-  public relations:SecondaryRenderPass;
+  public relations:RelationsRenderPass;
 
-  constructor(public workPackageTable:WorkPackageTable, public rowBuilder:SingleRowBuilder) {
+  constructor(public workPackageTable:WorkPackageTable,
+              public rowBuilder:SingleRowBuilder) {
     $injectFields(this, 'states', 'I18n');
 
   }
 
+  /**
+   * Execute the entire render pass, executing this pass and all subsequent registered passes
+   * for timeline and relations.
+   * @return {PrimaryRenderPass}
+   */
   public render():this {
 
     timeOutput('Primary render pass', () => {
@@ -69,23 +82,35 @@ export abstract class PrimaryRenderPass {
   }
 
   /**
-   * Augment a new row added by a secondary render pass with whatever information is needed
-   * by the current render mode.
-   *
-   * e.g., add a class name to demark which group this element belongs to.
-   *
-   * @param row The HTMLElement to be inserted by the secondary render pass.
-   * @param belongsTo The RenderedRow the element will be inserted for.
-   * @return {HTMLElement} The augmented row element.
+   * Refresh a single row using the render pass it was originally created from.
+   * @param row
    */
-  public augmentSecondaryElement(row:HTMLElement, belongsTo:RenderedRow):HTMLElement {
-    return row;
+  public refresh(row:RowRenderInfo, workPackage:WorkPackageResourceInterface, body:HTMLElement) {
+    let oldRow = jQuery(body).find(`.${row.classIdentifier}`);
+    let replacement:JQuery|null = null;
+    let editing = this.states.editing.get(row.workPackage!.id).value;
+
+    switch(row.renderType) {
+      case 'primary':
+        replacement =  this.rowBuilder.refreshRow(workPackage, editing, oldRow);
+        break;
+      case 'relations':
+        replacement = this.relations.refreshRelationRow(row as RelationRenderInfo, workPackage, editing, oldRow);
+    }
+
+    if (replacement !== null && oldRow.length) {
+      oldRow.replaceWith(replacement);
+    }
   }
 
-  public get result():TableRenderResult {
-    return {
-      renderedOrder: this.renderedOrder
-    };
+  public get result():RenderedRow[] {
+    return this.renderedOrder.map((row) => {
+      return {
+        classIdentifier: row.classIdentifier,
+        workPackageId: row.workPackage ? row.workPackage.id : null,
+        hidden: row.hidden
+      } as RenderedRow;
+    });
   }
 
   /**
@@ -94,7 +119,7 @@ export abstract class PrimaryRenderPass {
    * 1. Insert into the document fragment after the last match of the selector
    * 2. Splice into the renderedOrder array.
    */
-  public spliceRow(row:HTMLElement, selector:string, renderedInfo:RenderedRow) {
+  public spliceRow(row:HTMLElement, selector:string, renderedInfo:RowRenderInfo) {
     // Insert into table using the selector
     // If it matches multiple, select the last element
     const target = jQuery(this.tableBody)
@@ -130,13 +155,16 @@ export abstract class PrimaryRenderPass {
    */
   protected appendRow(workPackage:WorkPackageResourceInterface,
                       row:HTMLElement,
+                      additionalClasses:string[] = [],
                       hidden:boolean = false) {
 
     this.tableBody.appendChild(row);
 
     this.renderedOrder.push({
-      isWorkPackage: true,
-      belongsTo: workPackage,
+      classIdentifier: this.rowBuilder.classIdentifier(workPackage),
+      additionalClasses: additionalClasses,
+      workPackage: workPackage,
+      renderType: 'primary',
       hidden: hidden
     });
   }
@@ -147,12 +175,18 @@ export abstract class PrimaryRenderPass {
    * @param classIdentifer a unique identifier for the two rows (one each in table/timeline).
    * @param hidden whether the row was rendered hidden
    */
-  protected appendNonWorkPackageRow(row:HTMLElement, classIdentifer:string, hidden:boolean = false) {
+  protected appendNonWorkPackageRow(row:HTMLElement,
+                                    classIdentifer:string,
+                                    additionalClasses:string[] = [],
+                                    hidden:boolean = false) {
     row.classList.add(classIdentifer);
     this.tableBody.appendChild(row);
 
     this.renderedOrder.push({
-      isWorkPackage: false,
+      classIdentifier: classIdentifer,
+      additionalClasses: additionalClasses,
+      workPackage: null,
+      renderType: 'primary',
       hidden: hidden
     });
   }

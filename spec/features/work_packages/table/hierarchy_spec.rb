@@ -83,8 +83,8 @@ describe 'Work Package table hierarchy', js: true do
       # Disabling hierarchy hides them again
       hierarchy.disable_hierarchy
 
-      expect(page).to have_no_selector("#wp-row-#{wp_root.id}")
-      expect(page).to have_no_selector("#wp-row-#{wp_inter.id}")
+      expect(page).to have_no_selector(".wp-row-#{wp_root.id}")
+      expect(page).to have_no_selector(".wp-row-#{wp_inter.id}")
     end
   end
 

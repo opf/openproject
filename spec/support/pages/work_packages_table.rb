@@ -47,7 +47,7 @@ module Pages
     def expect_work_package_listed(*work_packages)
       within(table_container) do
         work_packages.each do |wp|
-          expect(page).to have_selector("#wp-row-#{wp.id} td.subject",
+          expect(page).to have_selector(".wp-row-#{wp.id} td.subject",
                                         text: wp.subject)
         end
       end
@@ -56,7 +56,7 @@ module Pages
     def expect_work_package_not_listed(*work_packages)
       within(table_container) do
         work_packages.each do |wp|
-          expect(page).to have_no_selector("#wp-row-#{wp.id} td.subject",
+          expect(page).to have_no_selector(".wp-row-#{wp.id} td.subject",
                                            text: wp.subject)
         end
       end
@@ -147,7 +147,7 @@ module Pages
     end
 
     def row(work_package)
-      table_container.find("#wp-row-#{work_package.id}")
+      table_container.find(".wp-row-#{work_package.id}")
     end
 
     def edit_field(work_package, attribute)
@@ -200,7 +200,7 @@ module Pages
     end
 
     def work_package_row_selector(work_package)
-      "#wp-row-#{work_package.id}"
+      ".wp-row-#{work_package.id}"
     end
 
     private

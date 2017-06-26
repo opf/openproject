@@ -16,6 +16,10 @@ export class SwitchState<StateName> {
     return (this.contextSwitch$.value !== to);
   }
 
+  public get current():StateName|undefined {
+    return this.contextSwitch$.value;
+  }
+
   public reset(reason?: string) {
     debugLog('Resetting table context.');
     this.contextSwitch$.clear(reason);

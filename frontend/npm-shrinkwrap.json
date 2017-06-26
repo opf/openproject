@@ -3202,6 +3202,11 @@
       "version": "0.1.2",
       "from": "yeast@0.1.2",
       "resolved": "https://registry.npmjs.org/yeast/-/yeast-0.1.2.tgz"
+    },
+    "zone.js": {
+      "version": "0.8.12",
+      "from": "zone.js@>=0.8.0 <0.9.0",
+      "resolved": "https://registry.npmjs.org/zone.js/-/zone.js-0.8.12.tgz"
     }
   }
 }

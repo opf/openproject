@@ -28,27 +28,14 @@ export class RowsTransformer {
     // Refresh a single row if it exists
     this.states.workPackages.observeChange()
       .takeUntil(this.states.table.stopAllSubscriptions.asObservable())
-      .subscribe(([changedId, wp, state]) => {
+      .filter(() => this.states.query.context.current === 'Query loaded')
+      .subscribe(([changedId, wp]) => {
         if (wp === undefined) {
           return;
         }
 
-        // let [changedId, wp] = nextVal;
-        let row: WorkPackageTableRow = table.rowIndex[changedId];
-
-        if (wp && row) {
-          row.object = wp as any;
-          this.refreshWorkPackage(table, row);
-        }
+        this.table.refreshRows(wp as WorkPackageResourceInterface);
       });
-  }
-
-  /**
-   * Refreshes a single entity from changes in the work package itself.
-   * Will skip rendering when dirty or fresh. Does not check for table changes.
-   */
-  private refreshWorkPackage(table: WorkPackageTable, row: WorkPackageTableRow) {
-    table.refreshRow(row);
   }
 }
 

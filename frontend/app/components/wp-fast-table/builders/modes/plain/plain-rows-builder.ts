@@ -12,7 +12,7 @@ export class PlainRowsBuilder extends RowsBuilder {
   protected rowBuilder:SingleRowBuilder;
 
   // The group expansion state
-  constructor(workPackageTable: WorkPackageTable) {
+  constructor(workPackageTable:WorkPackageTable) {
     super(workPackageTable);
     injectorBridge(this);
 

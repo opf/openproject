@@ -5,7 +5,7 @@ import {States} from '../../../states.service';
 import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 import {cellClassName, readOnlyClassName} from '../../builders/cell-builder';
-import {rowClassName} from '../../builders/rows/single-row-builder';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
@@ -37,7 +37,7 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
   }
 
   protected processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
-    debugLog('Handled click on relation cell: ', evt.target);
+    debugLog('Handled click on relation cell %o', evt.target);
     evt.preventDefault();
 
     // Locate the relation td
@@ -45,7 +45,7 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     const columnId = td.data('columnId');
 
     // Locate the row
-    const rowElement = jQuery(evt.target).closest(`.${rowClassName}`);
+    const rowElement = jQuery(evt.target).closest(`.${tableRowClassName}`);
     const workPackageId = rowElement.data('workPackageId');
 
     // Get any existing edit state for this work package

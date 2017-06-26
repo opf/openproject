@@ -4,7 +4,7 @@ import {injectorBridge} from '../../../angular/angular-injector-bridge.functions
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
 import {TableEventHandler} from '../table-handler-registry';
-import {rowClassName} from '../../builders/rows/single-row-builder';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
 
 export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
@@ -21,7 +21,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
   }
 
   public get SELECTOR() {
-    return `.${rowClassName} .wp-table--hierarchy-indicator `;
+    return `.${tableRowClassName} .wp-table--hierarchy-indicator `;
   }
 
   public eventScope(table:WorkPackageTable) {
@@ -32,7 +32,7 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
     let target = jQuery(evt.target);
 
     // Locate the row from event
-    let element = target.closest(`.${rowClassName}`);
+    let element = target.closest(`.${tableRowClassName}`);
     let wpId = element.data('workPackageId');
 
     this.wpTableHierarchies.toggle(wpId);

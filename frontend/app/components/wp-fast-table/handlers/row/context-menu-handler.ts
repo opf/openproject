@@ -2,7 +2,7 @@ import {debugLog} from "../../../../helpers/debug_output";
 import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageTable} from "../../wp-fast-table";
 import {TableEventHandler} from "../table-handler-registry";
-import {rowClassName} from "../../builders/rows/single-row-builder";
+import {tableRowClassName} from "../../builders/rows/single-row-builder";
 import {uiStateLinkClass} from "../../builders/ui-state-link-builder";
 import {ContextMenuService} from "../../../context-menus/context-menu.service";
 import {timelineCellClassName} from "../../builders/timeline/timeline-row-builder";
@@ -20,7 +20,7 @@ export class ContextMenuHandler implements TableEventHandler {
   }
 
   public get SELECTOR() {
-    return `.${rowClassName},.${timelineCellClassName}`;
+    return `.${tableRowClassName},.${timelineCellClassName}`;
   }
 
   public eventScope(table:WorkPackageTable) {

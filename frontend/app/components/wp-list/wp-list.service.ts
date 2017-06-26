@@ -245,7 +245,7 @@ export class WorkPackagesListService {
       let currentForm = this.states.query.form.value;
 
       if (!currentForm || query.$links.update.$href !== currentForm.$href) {
-        this.loadForm(query);
+        setTimeout(() => this.loadForm(query), 0);
       }
 
       return query;

@@ -31,11 +31,11 @@ import {Observable} from 'rxjs/Observable';
 import {openprojectModule} from '../../../../angular-modules';
 import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
 import {States} from '../../../states.service';
-import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
 import {RelationsStateValue, WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
 import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
+import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
@@ -114,7 +114,7 @@ export class WorkPackageTableTimelineRelations {
       .map(([rendered, visible]) => rendered)
       .subscribe(list => {
         // ... make sure that the corresponding relations are loaded ...
-        const wps = _.compact(list.map(row => row.isWorkPackage && row.belongsTo!.id) as string[]);
+        const wps = _.compact(list.map(row => row.workPackageId) as string[]);
         this.wpRelations.requireInvolved(wps);
 
         wps.forEach(wpId => {
@@ -185,21 +185,43 @@ export class WorkPackageTableTimelineRelations {
 
   }
 
+  /**
+   * Render a single relation to all shown work packages. Since work packages may occur multiple
+   * times in the timeline, iterate all potential combinations and render them.
+   * @param vp
+   * @param e
+   */
   private renderElement(vp:TimelineViewParameters, e:TimelineRelationElement) {
     const involved = e.relation.ids;
 
-    // Get the rendered rows
-    const visibleRows = this.workPackageIdOrder.filter(e => !e.hidden);
-    const idxFrom = _.findIndex(visibleRows,
-      (el:RenderedRow) => el.isWorkPackage && el.belongsTo!.id.toString() === involved.from);
-    const idxTo = _.findIndex(visibleRows,
-      (el:RenderedRow) => el.isWorkPackage && el.belongsTo!.id.toString() === involved.to);
+    const startCells = this.wpTimeline.workPackageCells(involved.from);
+    const endCells = this.wpTimeline.workPackageCells(involved.to);
 
-    const startCell = this.wpTimeline.workPackageCell(involved.from);
-    const endCell = this.wpTimeline.workPackageCell(involved.to);
+    // If either sources or targets are not rendered, ignore this relation
+    if (startCells.length === 0 || endCells.length === 0) {
+      return;
+    }
 
-    // If targets do not exist anywhere in the table, skip
-    if (idxFrom === -1 || idxTo === -1 || _.isNil(startCell) || _.isNil(endCell)) {
+    // Now, render all sources to all targets
+    startCells.forEach((startCell) => {
+      const idxFrom = this.wpTimeline.workPackageIndex(startCell.classIdentifier);
+      endCells.forEach((endCell) => {
+        const idxTo = this.wpTimeline.workPackageIndex(endCell.classIdentifier);
+        this.renderRelation(vp, e, idxFrom, idxTo, startCell, endCell);
+      });
+    });
+  }
+
+  private renderRelation(
+    vp:TimelineViewParameters,
+    e:TimelineRelationElement,
+    idxFrom:number,
+    idxTo:number,
+    startCell:WorkPackageTimelineCell,
+    endCell:WorkPackageTimelineCell) {
+
+    // If any of the targets are hidden in the table, skip
+    if (this.workPackageIdOrder[idxFrom].hidden || this.workPackageIdOrder[idxTo].hidden) {
       return;
     }
 
@@ -263,8 +285,8 @@ export class WorkPackageTableTimelineRelations {
         this.container.append(newSegment(vp, e.classNames, idxTo, 19, targetX + 1, 1, 11, 'blue'));
       }
     }
-  }
 
+  }
 }
 
 openprojectModule.component('wpTimelineRelations', {

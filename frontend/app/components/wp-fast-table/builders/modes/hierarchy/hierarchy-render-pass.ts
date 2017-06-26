@@ -3,15 +3,15 @@ import {WorkPackageResourceInterface} from '../../../../api/api-v3/hal-resources
 import {SingleHierarchyRowBuilder} from './single-hierarchy-row-builder';
 import {WorkPackageTableRow} from '../../../wp-table.interfaces';
 import {
+  ancestorClassIdentifier,
   collapsedGroupClass,
   hierarchyGroupClass,
   hierarchyRootClass
 } from '../../../helpers/wp-table-hierarchy-helpers';
-import {PrimaryRenderPass, RenderedRow} from '../../primary-render-pass';
+import {PrimaryRenderPass} from '../../primary-render-pass';
 import {States} from '../../../../states.service';
 import {$injectFields} from '../../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTableHierarchies} from '../../../wp-table-hierarchies';
-import {rowClass} from '../../../helpers/wp-table-row-helpers';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
   public states:States;
@@ -181,19 +181,16 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
   private markRendered(workPackage:WorkPackageResourceInterface, hidden:boolean = false, isAncestor:boolean) {
     this.rendered[workPackage.id] = true;
     this.renderedOrder.push({
-      isWorkPackage: !isAncestor,
-      belongsTo: workPackage,
+      classIdentifier: isAncestor ? ancestorClassIdentifier(workPackage.id) : this.rowBuilder.classIdentifier(workPackage),
+      additionalClasses: this.ancestorClasses(workPackage),
+      workPackage: isAncestor ? null : workPackage,
+      renderType: 'primary',
       hidden: hidden
     });
   }
 
 
-  public augmentSecondaryElement(row:HTMLElement, rendered:RenderedRow):HTMLElement {
-    if (!rendered.belongsTo) {
-      return row;
-    }
-
-    const workPackage = rendered.belongsTo;
+  public ancestorClasses(workPackage:WorkPackageResourceInterface) {
     const rowClasses = [hierarchyRootClass(workPackage.id)];
 
     if (_.isArray(workPackage.ancestors)) {
@@ -207,8 +204,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       });
     }
 
-    row.classList.add(...rowClasses);
-    return row;
+    return rowClasses;
   }
 
   /**
@@ -229,8 +225,10 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
       el,
       `${hierarchyRoot},${hierarchyGroup}`,
       {
-        isWorkPackage: !isAncestor,
-        belongsTo: workPackage,
+        classIdentifier: isAncestor ? ancestorClassIdentifier(workPackage.id) : this.rowBuilder.classIdentifier(workPackage),
+        workPackage: isAncestor ? null : workPackage,
+        additionalClasses: this.ancestorClasses(workPackage),
+        renderType: 'primary',
         hidden: hidden,
       }
     );

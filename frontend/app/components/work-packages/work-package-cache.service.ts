@@ -107,7 +107,7 @@ export class WorkPackageCacheService {
    *
    * @param workPackageIds
    */
-  loadWorkPackages(workPackageIds:string[]):ng.IPromise<void> {
+  loadWorkPackages(workPackageIds:string[]):Promise<void> {
     const needToLoad:string[] = [];
 
     workPackageIds.forEach((id:string) => {
@@ -121,18 +121,20 @@ export class WorkPackageCacheService {
     }
 
     return this.apiWorkPackages
-      .loadWorkPackagesCollectionFor(workPackageIds)
-      .then((results:WorkPackageCollectionResourceInterface) => {
+      .loadWorkPackagesCollectionsFor(workPackageIds)
+      .then((pagedResults:WorkPackageCollectionResourceInterface[]) => {
 
-        if (results.schemas) {
-          _.each(results.schemas.elements, (schema:SchemaResource) => {
-            this.states.schemas.get(schema.href as string).putValue(schema);
-          });
-        }
+        _.each(pagedResults, (results) => {
+          if (results.schemas) {
+            _.each(results.schemas.elements, (schema:SchemaResource) => {
+              this.states.schemas.get(schema.href as string).putValue(schema);
+            });
+          }
 
-        if (results.elements) {
-          this.updateWorkPackageList(results.elements);
-        }
+          if (results.elements) {
+            this.updateWorkPackageList(results.elements);
+          }
+        });
       });
   }
 

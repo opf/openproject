@@ -15,6 +15,10 @@ export function hierarchyRootClass(ancestorId:string):string {
   return `__hierarchy-root-${ancestorId}`;
 }
 
+export function ancestorClassIdentifier(ancestorId:string) {
+  return `wp-ancestor-row-${ancestorId}`;
+}
+
 /**
  * Returns whether any of the children of this work package
  * are visible in the table results.

@@ -1,13 +1,26 @@
-import {PrimaryRenderPass, RenderedRow, SecondaryRenderPass} from '../primary-render-pass';
+import {PrimaryRenderPass, RowRenderInfo} from '../primary-render-pass';
 import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageTableRelationColumnsService} from '../../state/wp-table-relation-columns.service';
+import {
+  RelationColumnType,
+  WorkPackageTableRelationColumnsService
+} from '../../state/wp-table-relation-columns.service';
 import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {relationGroupClass, RelationRowBuilder} from './relation-row-builder';
-import {rowId} from '../../helpers/wp-table-row-helpers';
 import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
+import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
 
-export class RelationsRenderPass implements SecondaryRenderPass {
+export interface RelationRenderInfo extends RowRenderInfo {
+  data:{
+    relation:RelationResource;
+    columnId:string;
+    relationType:RelationColumnType;
+  };
+}
+
+export class RelationsRenderPass {
   public wpRelations:WorkPackageRelationsService;
   public wpTableColumns:WorkPackageTableColumnsService;
   public wpTableRelationColumns:WorkPackageTableRelationColumnsService;
@@ -28,31 +41,39 @@ export class RelationsRenderPass implements SecondaryRenderPass {
 
     // Render for each original row, clone it since we're modifying the tablepass
     const rendered = _.clone(this.tablePass.renderedOrder);
-    rendered.forEach((row:RenderedRow, position:number) => {
+    rendered.forEach((row:RowRenderInfo, position:number) => {
 
       // We only care for rows that are natural work packages
-      if (!(row.isWorkPackage && row.belongsTo)) {
+      if (!row.workPackage) {
         return;
       }
 
       // If the work package has no relations, ignore
-      const fromId = row.belongsTo.id;
+      const workPackage = row.workPackage;
+      const fromId = workPackage.id;
       const state = this.wpRelations.getRelationsForWorkPackage(fromId);
       if (!state.hasValue() || _.size(state.value!) === 0) {
         return;
       }
 
-      this.wpTableRelationColumns.relationsToExtendFor(row.belongsTo,
+      this.wpTableRelationColumns.relationsToExtendFor(workPackage,
         state.value!,
-        (relation, type) => {
+        (relation, column, type) => {
 
           // Build each relation row (currently sorted by order defined in API)
-          const [relationRow,] = this.relationRowBuilder.buildEmptyRelationRow(row.belongsTo!,
+          const [relationRow, target] = this.relationRowBuilder.buildEmptyRelationRow(
+            workPackage,
             relation,
-            type);
+            type
+          );
 
           // Augment any data for the belonging work package row to it
-          this.tablePass.augmentSecondaryElement(relationRow, row);
+          relationRow.classList.add(...row.additionalClasses);
+          this.relationRowBuilder.appendRelationLabel(jQuery(relationRow),
+            workPackage,
+            relation,
+            column.id,
+            type);
 
           // Insert next to the work package row
           // If no relations exist until here, directly under the row
@@ -60,15 +81,37 @@ export class RelationsRenderPass implements SecondaryRenderPass {
           // Insert into table
           this.tablePass.spliceRow(
             relationRow,
-            `#${rowId(fromId)},.${relationGroupClass(fromId)}`,
+            `.${this.relationRowBuilder.classIdentifier(workPackage)},.${relationGroupClass(fromId)}`,
             {
-              isWorkPackage: false,
-              belongsTo: row.belongsTo,
-              hidden: row.hidden
-            }
+              classIdentifier: this.relationRowBuilder.relationClassIdentifier(workPackage, target),
+              additionalClasses: row.additionalClasses.concat(['wp-table--relations-aditional-row']),
+              workPackage: target,
+              belongsTo: workPackage,
+              renderType: 'relations',
+              hidden: row.hidden,
+              data: {
+                relation: relation,
+                columnId: column.id,
+                relationType: type
+              }
+            } as RelationRenderInfo
           );
         });
     });
+  }
+
+  public refreshRelationRow(renderedRow:RelationRenderInfo,
+                            workPackage:WorkPackageResourceInterface,
+                            editing:WorkPackageEditForm | undefined,
+                            oldRow:JQuery) {
+    const newRow = this.relationRowBuilder.refreshRow(workPackage, editing, oldRow);
+    this.relationRowBuilder.appendRelationLabel(newRow,
+      renderedRow.belongsTo!,
+      renderedRow.data.relation,
+      renderedRow.data.columnId,
+      renderedRow.data.relationType);
+
+    return newRow;
   }
 
   private get isApplicable() {
