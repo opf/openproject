@@ -5,7 +5,7 @@ import {
   RelationResourceInterface
 } from '../api/api-v3/hal-resources/relation-resource.service';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {RelationsDmService} from '../api/api-v3/hal-resource-dms/wp-relations.service';
+import {RelationsDmService} from '../api/api-v3/hal-resource-dms/relations-dm.service';
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {opServicesModule} from '../../angular-modules';
 
