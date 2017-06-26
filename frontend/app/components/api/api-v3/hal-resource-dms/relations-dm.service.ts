@@ -35,12 +35,16 @@ import {buildApiV3Filter} from '../api-v3-filter-builder';
 export class RelationsDmService {
 
   constructor(private halRequest:HalRequestService,
-              private I18n:op.I18n) {
+              private $q:ng.IQService) {
 
   }
 
   public loadInvolved(workPackageIds:string[]):ng.IPromise<RelationResource[]> {
     let validIds = _.filter(workPackageIds, id => /\d+/.test(id));
+
+    if (validIds.length === 0) {
+      return this.$q.resolve([]);
+    }
 
     return this.halRequest.get(
       '/api/v3/relations',
