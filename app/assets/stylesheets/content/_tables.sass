@@ -113,9 +113,9 @@ table
         font-style: italic
         text-transform: none
         a
-          color: $content-link-color
+          @include varprop(color, content-link-color)
           &:hover
-            color: $content-link-color
+            @include varprop(color, content-link-color)
             text-decoration: underline
 
       .-border
