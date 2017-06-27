@@ -22,7 +22,7 @@ export class SelectionTransformer {
 
     // Bind CTRL+A to select all work packages
     Mousetrap.bind(['command+a', 'ctrl+a'], (e) => {
-      this.wpTableSelection.selectAll(table.rows);
+      this.wpTableSelection.selectAll(table.renderedRows);
 
       e.preventDefault();
       return false;

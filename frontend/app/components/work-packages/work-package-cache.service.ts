@@ -30,7 +30,6 @@ import {State} from 'reactivestates';
 import {Observable, Subject} from 'rxjs';
 import {opWorkPackagesModule} from '../../angular-modules';
 import {
-  WorkPackageResource,
   WorkPackageResourceInterface
 } from '../api/api-v3/hal-resources/work-package-resource.service';
 import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
@@ -41,32 +40,31 @@ import IPromise = angular.IPromise;
 import {WorkPackageCollectionResourceInterface} from '../api/api-v3/hal-resources/wp-collection-resource.service';
 import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
 
-
-function getWorkPackageId(id: number | string): string {
+function getWorkPackageId(id:number | string):string {
   return (id || "__new_work_package__").toString();
 }
 
 export class WorkPackageCacheService {
 
-  private newWorkPackageCreatedSubject = new Subject<WorkPackageResource>();
+  private newWorkPackageCreatedSubject = new Subject<WorkPackageResourceInterface>();
 
   /*@ngInject*/
-  constructor(private states: States,
+  constructor(private states:States,
               private $q:angular.IQService,
-              private wpNotificationsService: WorkPackageNotificationService,
-              private schemaCacheService: SchemaCacheService,
-              private apiWorkPackages: ApiWorkPackagesService) {
+              private wpNotificationsService:WorkPackageNotificationService,
+              private schemaCacheService:SchemaCacheService,
+              private apiWorkPackages:ApiWorkPackagesService) {
   }
 
-  newWorkPackageCreated(wp: WorkPackageResource) {
+  newWorkPackageCreated(wp:WorkPackageResourceInterface) {
     this.newWorkPackageCreatedSubject.next(wp);
   }
 
-  updateWorkPackage(wp: WorkPackageResource) {
+  updateWorkPackage(wp:WorkPackageResourceInterface) {
     this.updateWorkPackageList([wp]);
   }
 
-  updateWorkPackageList(list: WorkPackageResource[]) {
+  updateWorkPackageList(list:WorkPackageResourceInterface[]) {
     for (var wp of list) {
       const workPackageId = getWorkPackageId(wp.id);
       const wpState = this.states.workPackages.get(workPackageId);
@@ -83,7 +81,7 @@ export class WorkPackageCacheService {
     }
   }
 
-  saveWorkPackage(workPackage: WorkPackageResourceInterface): IPromise<WorkPackageResourceInterface|null> {
+  saveWorkPackage(workPackage:WorkPackageResourceInterface):IPromise<WorkPackageResourceInterface | null> {
     if (!(workPackage.dirty || workPackage.isNew)) {
       return this.$q.reject(null);
     }
@@ -120,8 +118,8 @@ export class WorkPackageCacheService {
       return this.$q.resolve();
     }
 
-    return this.apiWorkPackages
-      .loadWorkPackagesCollectionsFor(workPackageIds)
+    this.apiWorkPackages
+      .loadWorkPackagesCollectionsFor(_.uniq(workPackageIds))
       .then((pagedResults:WorkPackageCollectionResourceInterface[]) => {
 
         _.each(pagedResults, (results) => {
@@ -136,9 +134,15 @@ export class WorkPackageCacheService {
           }
         });
       });
+
+    // Wait until all desired IDs have a value in their respective state
+    return Observable
+      .forkJoin(needToLoad.map(id => this.states.workPackages.get(id).valuesPromise()))
+      .mapTo(undefined)
+      .toPromise();
   }
 
-  loadWorkPackage(workPackageId: string, forceUpdate = false): State<WorkPackageResource> {
+  loadWorkPackage(workPackageId:string, forceUpdate = false):State<WorkPackageResourceInterface> {
     const state = this.states.workPackages.get(getWorkPackageId(workPackageId));
     if (forceUpdate) {
       state.clear();
@@ -155,7 +159,7 @@ export class WorkPackageCacheService {
       const deferred = this.$q.defer();
 
       this.apiWorkPackages.loadWorkPackageById(workPackageId, forceUpdate)
-        .then((workPackage: WorkPackageResource) => {
+        .then((workPackage:WorkPackageResourceInterface) => {
           this.schemaCacheService.ensureLoaded(workPackage).then(() => {
             deferred.resolve(workPackage);
           });
@@ -167,7 +171,7 @@ export class WorkPackageCacheService {
     return state;
   }
 
-  onNewWorkPackage(): Observable<WorkPackageResource> {
+  onNewWorkPackage():Observable<WorkPackageResourceInterface> {
     return this.newWorkPackageCreatedSubject.asObservable();
   }
 

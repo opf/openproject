@@ -41,7 +41,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
 
     // Locate the row from event
     let element = target.closest(this.SELECTOR);
-    let row = table.rowObject(element.data('workPackageId'));
+    let wpId = element.data('workPackageId');
 
     // Ignore links
     if (target.is('a') || target.parent().is('a')) {
@@ -49,11 +49,11 @@ export class RowDoubleClickHandler implements TableEventHandler {
     }
 
     // Save the currently focused work package
-    this.states.focusedWorkPackage.putValue(row.workPackageId);
+    this.states.focusedWorkPackage.putValue(wpId);
 
     this.$state.go(
       'work-packages.show',
-       { workPackageId: row.workPackageId }
+       { workPackageId: wpId }
     );
 
     return false;

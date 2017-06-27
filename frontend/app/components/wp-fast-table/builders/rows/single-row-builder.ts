@@ -84,7 +84,7 @@ export class SingleRowBuilder {
    * @param workPackage
    * @returns {any}
    */
-  public createEmptyRow(workPackage:WorkPackageResource) {
+  public createEmptyRow(workPackage:WorkPackageResourceInterface) {
     const identifier = this.classIdentifier(workPackage);
     let tr = document.createElement('tr');
     tr.dataset['workPackageId'] = workPackage.id;
@@ -100,7 +100,7 @@ export class SingleRowBuilder {
     return tr;
   }
 
-  public classIdentifier(workPackage:WorkPackageResource) {
+  public classIdentifier(workPackage:WorkPackageResourceInterface) {
     return `wp-row-${workPackage.id}`;
   }
 

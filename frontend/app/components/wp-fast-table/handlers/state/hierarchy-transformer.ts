@@ -21,7 +21,10 @@ export class HierarchyTransformer {
       .map((state) => state.isEnabled)
       .distinctUntilChanged()
       .subscribe(() => {
-        table.redrawTableAndTimeline();
+        // We don't have to reload all results when _disabling_ the hierarchy mode.
+        if (!this.wpTableHierarchies.isEnabled) {
+          table.redrawTableAndTimeline();
+        }
     });
 
     let lastValue = this.wpTableHierarchies.isEnabled;

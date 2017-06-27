@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {States} from "../../states.service";
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 
 angular
@@ -38,8 +37,7 @@ function WorkPackageContextMenuHelper(
   UrlParamsHelper:any,
   wpTableTimeline:WorkPackageTableTimelineService,
   PathHelper:any,
-  I18n: op.I18n,
-  states: States) {
+  I18n: op.I18n) {
 
   const BULK_ACTIONS = [
     {

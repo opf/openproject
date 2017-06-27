@@ -22,8 +22,8 @@ export class GroupedRenderPass extends PlainRenderPass {
    */
   protected doRender() {
     let currentGroup:GroupObject | null = null;
-    this.workPackageTable.rows.forEach((wpId:string) => {
-      let row = this.workPackageTable.rowIndex[wpId];
+    this.workPackageTable.originalRows.forEach((wpId:string) => {
+      let row = this.workPackageTable.originalRowIndex[wpId];
       let nextGroup = this.matchingGroup(row.object);
 
       if (nextGroup && currentGroup !== nextGroup) {

@@ -99,7 +99,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
    */
   public appendRelationLabel(jRow:JQuery, from:WorkPackageResourceInterface, relation:RelationResource, columnId:string, type:RelationColumnType) {
     const denormalized = relation.denormalized(from);
-    let typeLabel;
+    let typeLabel = '';
 
     // Add the relation label if this is a "Relations for <WP Type>" column
     if (type === 'toType') {

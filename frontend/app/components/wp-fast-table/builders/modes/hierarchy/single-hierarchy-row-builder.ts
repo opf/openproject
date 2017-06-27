@@ -12,15 +12,17 @@ import {
 import {UiStateLinkBuilder} from '../../ui-state-link-builder';
 import {QueryColumn} from '../../../../wp-query/query-column';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
+import {States} from '../../../../states.service';
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
+export const additionalHierarchyRowClassName =  'wp-table--hierarchy-aditional-row';
 
 export class SingleHierarchyRowBuilder extends SingleRowBuilder {
   // Injected
   public wpTableHierarchies:WorkPackageTableHierarchiesService;
+  public states:States;
 
-  public uiStateBuilder = new UiStateLinkBuilder();
   public text:{
     leaf:(level:number) => string;
     expanded:(level:number) => string;
@@ -29,7 +31,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
 
   constructor(protected workPackageTable:WorkPackageTable) {
     super(workPackageTable);
-    $injectFields(this, 'wpTableHierarchies');
+    $injectFields(this, 'wpTableHierarchies', 'states');
 
     this.text = {
       leaf: (level:number) => this.I18n.t('js.work_packages.hierarchy.leaf', {level: level}),
@@ -81,51 +83,10 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
                           ancestorGroups:string[],
                           index:number):[HTMLElement, boolean] {
 
-    const loadedRow = this.workPackageTable.rowIndex[ancestor.id];
-
-    if (loadedRow) {
-      const [tr, hidden] = this.buildEmpty(loadedRow.object);
-      tr.classList.add('wp-table--hierarchy-aditional-row');
-      return [tr, hidden];
-    }
-
-    const tr = this.createEmptyRow(ancestor);
-    const columns = this.wpTableColumns.getColumns();
-
-    tr.classList.add(`wp-table--hierarchy-aditional-row`,
-      hierarchyRootClass(ancestor.id),
-      ...ancestorGroups);
-
-    // Set available information for ID and subject column
-    // and print hierarchy indicator at subject field.
-    columns.forEach((column:QueryColumn) => {
-      const td = document.createElement('td');
-
-      if (column.id === 'subject') {
-        const textNode = document.createTextNode(ancestor.name);
-        td.appendChild(this.buildHierarchyIndicator(ancestor, null, index));
-        td.appendChild(textNode);
-      }
-
-      if (column.id === 'id') {
-        const link = this.uiStateBuilder.linkToShow(
-          ancestor.id,
-          ancestor.subject,
-          ancestor.id
-        );
-
-        td.appendChild(link);
-        td.classList.add('hierarchy-row--id-cell');
-      }
-
-      tr.appendChild(td);
-    });
-
-    // Append details icon
-    const td = document.createElement('td');
-    tr.appendChild(td);
-
-    return [tr, false];
+    const workPackage = this.states.workPackages.get(ancestor.id).value!;
+    const [tr, hidden] = this.buildEmpty(workPackage);
+    tr.classList.add(additionalHierarchyRowClassName)
+    return [tr, hidden];
   }
 
   /**
@@ -153,13 +114,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
     hierarchyIndicator.classList.add(hierarchyCellClassName);
     hierarchyIndicator.style.width = indicatorWidth;
 
-    if (workPackage.$loaded && !hasChildrenInTable(workPackage, this.workPackageTable)) {
-      hierarchyIndicator.innerHTML = `
-            <span tabindex="0" class="wp-table--leaf-indicator">
-              <span class="hidden-for-sighted">${this.text.leaf(level)}</span>
-            </span>
-        `;
-    } else {
+    if (hasChildrenInTable(workPackage, this.workPackageTable)) {
       const className = collapsed ? indicatorCollapsedClass : '';
       hierarchyIndicator.innerHTML = `
             <a href tabindex="0" role="button" class="wp-table--hierarchy-indicator ${className}">
@@ -169,6 +124,12 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
               <span class="wp-table--hierarchy-indicator-collapsed hidden-for-sighted">${this.text.collapsed(
         level)}</span>
             </a>
+        `;
+    } else {
+      hierarchyIndicator.innerHTML = `
+            <span tabindex="0" class="wp-table--leaf-indicator">
+              <span class="hidden-for-sighted">${this.text.leaf(level)}</span>
+            </span>
         `;
     }
 
