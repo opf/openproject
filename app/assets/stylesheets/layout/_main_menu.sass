@@ -141,7 +141,7 @@ $toggler-width: 40px
           @if $main-menu-enable-toggle-highlighting != true
             // simultaneously hover all menu item anchor tags
             > a
-              @include varprop(color, main-menu-child-selected-font-color)
+              @include varprop(color, main-menu-child-hover-font-color)
 
         > a
           @include default-transition
@@ -164,7 +164,7 @@ $toggler-width: 40px
 
           &:hover
             text-decoration: none
-            @include varprop(color, main-menu-child-selected-font-color)
+            @include varprop(color, main-menu-child-hover-font-color)
           &.selected
             border: none !important
             @include varprop(color, main-menu-child-selected-font-color)
