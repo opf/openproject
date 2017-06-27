@@ -14,7 +14,7 @@ export class WorkPackageRelationsCreateController {
   public selectedWpId:string;
   public externalFormToggle: boolean;
   public fixedRelationType:string;
-  public relationTypes = RelationResource.LOCALIZED_RELATION_TYPES(true);
+  public relationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
 
   public canAddChildren = !!this.workPackage.addChild;
   public canLinkChildren = !!this.workPackage.changeParent;
