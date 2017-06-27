@@ -8,6 +8,7 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {RelationsDmService} from '../api/api-v3/hal-resource-dms/relations-dm.service';
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {opServicesModule} from '../../angular-modules';
+import {Observable} from 'rxjs';
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
 
@@ -20,6 +21,7 @@ export class WorkPackageRelationsService extends StatesGroup {
   /*@ngInject*/
   constructor(private relationsDm:RelationsDmService,
               private wpTableRefresh:WorkPackageTableRefreshService,
+              private $q:ng.IQService,
               private PathHelper:any) {
     super();
     this.initializeMembers();
@@ -54,13 +56,30 @@ export class WorkPackageRelationsService extends StatesGroup {
   /**
    * Require the relations of a set of involved work packages loaded into the states.
    */
-  requireInvolved(workPackageIds:string[]):ng.IPromise<RelationResource[]> {
-    return this.relationsDm
-      .loadInvolved(workPackageIds)
+  requireInvolved(workPackageIds:string[]):ng.IPromise<undefined> {
+    const needToLoad:string[] = [];
+    const deferred = this.$q.defer<undefined>();
+
+    workPackageIds.forEach((id:string) => {
+      if (this.relations.get(id).isPristine()) {
+        needToLoad.push(id);
+      }
+    });
+
+    if (needToLoad.length === 0) {
+      deferred.resolve();
+      return deferred.promise;
+    }
+
+    this.relationsDm
+      .loadInvolved(needToLoad)
       .then((elements:RelationResource[]) => {
         this.mergeIntoStates(elements);
-        return elements;
+        this.initializeEmpty(needToLoad);
+        deferred.resolve();
       });
+
+    return deferred.promise;
   }
 
   /**
@@ -162,6 +181,15 @@ export class WorkPackageRelationsService extends StatesGroup {
     });
 
     return stateValues;
+  }
+
+  private initializeEmpty(ids:string[]) {
+    ids.forEach(id => {
+      const state = this.relations.get(id);
+      if (state.isPristine()) {
+        state.putValue({});
+      }
+    });
   }
 
 }
