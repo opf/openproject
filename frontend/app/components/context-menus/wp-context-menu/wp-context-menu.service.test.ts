@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {States} from '../../states.service';
 describe('workPackageContextMenu', () => {
   var container:any;
   var contextMenu;
@@ -34,6 +35,12 @@ describe('workPackageContextMenu', () => {
   var setSelection:any;
   var ngContextMenu;
   var wpTableSelection;
+  var states:States;
+  var workPackage:any = {
+    id: 123,
+    update: '/work_packages/123/edit',
+    move: '/work_packages/move/new?ids%5B%5D=123',
+  };
 
   beforeEach(angular.mock.module('ng-context-menu',
     'openproject',
@@ -60,11 +67,13 @@ describe('workPackageContextMenu', () => {
     container = angular.element('<div></div>');
   });
 
-  beforeEach(angular.mock.inject((_$rootScope_:any, _ngContextMenu_:any, _wpTableSelection_:any, $templateCache:any) => {
+  beforeEach(angular.mock.inject((_$rootScope_:any, _states_:States, _ngContextMenu_:any, _wpTableSelection_:any, $templateCache:any) => {
     wpTableSelection = _wpTableSelection_;
     $rootScope = _$rootScope_;
     ngContextMenu = _ngContextMenu_;
+    states = _states_;
 
+    states.workPackages.get('123').putValue(workPackage);
 
     sinon.stub(wpTableSelection, 'getSelectedWorkPackages').returns([]);
     sinon.stub(wpTableSelection, 'isSelected').returns(false);
@@ -81,17 +90,12 @@ describe('workPackageContextMenu', () => {
       templateUrl: 'work_package_context_menu.html'
     });
 
-    contextMenu.open({x: 0, y: 0});
+    contextMenu.open({x: 0, y: 0}, { workPackageId: '123', rowIndex: 1 });
   }));
 
   describe('when the context menu context contains one work package', () => {
     var I18n:any;
     var actions = ['edit', 'move'];
-    var workPackage:any = {
-      id: 123,
-      update: '/work_packages/123/edit',
-      move: '/work_packages/move/new?ids%5B%5D=123',
-    }
 
     var directListElements:any;
 
@@ -104,9 +108,6 @@ describe('workPackageContextMenu', () => {
     }));
 
     beforeEach(() => {
-      $rootScope.rows = [];
-      $rootScope.row = {object: workPackage};
-
       $rootScope.$digest();
 
       directListElements = container.find('.dropdown-menu > li:not(.folder)');
@@ -125,15 +126,15 @@ describe('workPackageContextMenu', () => {
     });
 
     it('sets the checked property of the row within the context to true', () => {
-      expect(setSelection).to.have.been.calledWith($rootScope.row);
+      expect(setSelection).to.have.been.calledWith('123', 1);
     });
 
     describe('when delete is permitted on a work package', () => {
       workPackage['delete'] = '/work_packages/bulk';
 
       beforeEach(() => {
+        $rootScope.wpId = '123';
         $rootScope.rows = [];
-        $rootScope.row = {object: workPackage};
         $rootScope.$digest();
 
         directListElements = container.find('.dropdown-menu > li:not(.folder)');

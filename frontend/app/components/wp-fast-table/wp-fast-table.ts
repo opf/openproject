@@ -15,7 +15,7 @@ import {GroupedRowsBuilder} from './builders/modes/grouped/grouped-rows-builder'
 import {HierarchyRowsBuilder} from './builders/modes/hierarchy/hierarchy-rows-builder';
 import {RowsBuilder} from './builders/modes/rows-builder';
 import {WorkPackageTimelineTableController} from '../wp-table/timeline/container/wp-timeline-container.directive';
-import {PrimaryRenderPass} from './builders/primary-render-pass';
+import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
 import {debugLog} from '../../helpers/debug_output';
 
 export class WorkPackageTable {
@@ -23,8 +23,8 @@ export class WorkPackageTable {
   public states:States;
   public I18n:op.I18n;
 
-  public rows: string[] = [];
-  public rowIndex:{[id: string]: WorkPackageTableRow} = {};
+  public originalRows: string[] = [];
+  public originalRowIndex:{[id: string]: WorkPackageTableRow} = {};
 
   // WP rows builder
   // Ordered by priority
@@ -45,8 +45,14 @@ export class WorkPackageTable {
     TableHandlerRegistry.attachTo(this);
   }
 
-  public rowObject(workPackageId:string):WorkPackageTableRow {
-    return this.rowIndex[workPackageId];
+  public get renderedRows() {
+    return this.states.table.rendered.getValueOr([]);
+  }
+
+  public findRenderedRow(classIdentifier:string):[number, RenderedRow] {
+    const index = _.findIndex(this.renderedRows, (row) => row.classIdentifier === classIdentifier);
+
+    return [index, this.renderedRows[index]];
   }
 
   public get rowBuilder():RowsBuilder {
@@ -58,10 +64,10 @@ export class WorkPackageTable {
    * @param rows
    */
   private buildIndex(rows:WorkPackageResource[]) {
-    this.rowIndex = {};
-    this.rows = rows.map((wp:WorkPackageResource, i:number) => {
+    this.originalRowIndex = {};
+    this.originalRows = rows.map((wp:WorkPackageResource, i:number) => {
       let wpId = wp.id;
-      this.rowIndex[wpId] = <WorkPackageTableRow> { object: wp, workPackageId: wpId, position: i };
+      this.originalRowIndex[wpId] = <WorkPackageTableRow> { object: wp, workPackageId: wpId, position: i };
       return wpId;
     });
   }
@@ -77,8 +83,8 @@ export class WorkPackageTable {
     this.redrawTableAndTimeline();
 
     // Preselect first work package as focused
-    if (this.rows.length && this.states.focusedWorkPackage.isPristine()) {
-      this.states.focusedWorkPackage.putValue(this.rows[0]);
+    if (this.originalRows.length && this.states.focusedWorkPackage.isPristine()) {
+      this.states.focusedWorkPackage.putValue(this.originalRows[0]);
     }
   }
 

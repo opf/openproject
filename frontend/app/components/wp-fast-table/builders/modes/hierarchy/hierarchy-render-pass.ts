@@ -52,8 +52,8 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
    * Render the hierarchy table into the document fragment
    */
   protected doRender() {
-    this.workPackageTable.rows.forEach((wpId:string) => {
-      const row:WorkPackageTableRow = this.workPackageTable.rowIndex[wpId];
+    this.workPackageTable.originalRows.forEach((wpId:string) => {
+      const row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[wpId];
       const workPackage:WorkPackageResourceInterface = row.object;
 
       // If we need to defer this row, skip it for now
@@ -94,7 +94,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     // Will only defer is parent is
     // 1. existent in the table results
     // 1. yet to be rendered
-    if (this.workPackageTable.rowIndex[parent.id] === undefined || this.rendered[parent.id]) {
+    if (this.workPackageTable.originalRowIndex[parent.id] === undefined || this.rendered[parent.id]) {
       return false;
     }
 
@@ -117,7 +117,7 @@ export class HierarchyRenderPass extends PrimaryRenderPass {
     // run them through the callback
     deferredChildren.forEach((child:WorkPackageResourceInterface) => {
       // Callback on the child itself
-      const row:WorkPackageTableRow = this.workPackageTable.rowIndex[child.id];
+      const row:WorkPackageTableRow = this.workPackageTable.originalRowIndex[child.id];
       this.insertUnderParent(row, child.parent);
 
       // Descend into any children the child WP might have and callback

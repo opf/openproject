@@ -29,8 +29,8 @@ export function hasChildrenInTable(workPackage:WorkPackageResourceInterface, tab
   }
 
   // Return if this work package is in the ancestor chain of any of the work packages
-  return !!_.find(table.rows, (wpId:string) => {
-    const row = table.rowIndex[wpId].object;
+  return !!_.find(table.originalRows, (wpId:string) => {
+    const row = table.originalRowIndex[wpId].object;
 
     return row.ancestorIds.indexOf(workPackage.id.toString()) >= 0;
   });

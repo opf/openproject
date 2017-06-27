@@ -16,7 +16,7 @@ export class ColumnsTransformer {
       .filter(() => this.wpTableColumns.hasRelationColumns() === false)
       .takeUntil(this.states.table.stopAllSubscriptions)
       .subscribe(() => {
-        if (table.rows.length > 0) {
+        if (table.originalRows.length > 0) {
 
           var t0 = performance.now();
           // Redraw the table section, ignore timeline

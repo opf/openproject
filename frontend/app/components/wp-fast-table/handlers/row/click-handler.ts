@@ -41,6 +41,7 @@ export class RowClickHandler implements TableEventHandler {
     // Locate the row from event
     let element = target.closest(this.SELECTOR);
     let wpId = element.data('workPackageId');
+    let classIdentifier = element.data('classIdentifier');
 
     if (!wpId) {
       return true;
@@ -54,22 +55,22 @@ export class RowClickHandler implements TableEventHandler {
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.
-    let row = table.rowObject(wpId);
+    let [index, row] = table.findRenderedRow(classIdentifier);
     this.states.focusedWorkPackage.putValue(wpId);
 
     // Update single selection if no modifier present
     if (!(evt.ctrlKey || evt.metaKey || evt.shiftKey)) {
-      this.wpTableSelection.setSelection(row);
+      this.wpTableSelection.setSelection(wpId, index);
     }
 
     // Multiple selection if shift present
     if (evt.shiftKey) {
-      this.wpTableSelection.setMultiSelectionFrom(table.rows, row);
+      this.wpTableSelection.setMultiSelectionFrom(table.renderedRows, wpId, index);
     }
 
     // Single selection expansion if ctrl / cmd(mac)
     if (evt.ctrlKey || evt.metaKey) {
-      this.wpTableSelection.toggleRow(row.workPackageId);
+      this.wpTableSelection.toggleRow(wpId);
     }
 
     return false;

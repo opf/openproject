@@ -47,8 +47,8 @@ export class ContextMenuHandler implements TableEventHandler {
       return false;
     }
 
-    let row = table.rowObject(element.data('workPackageId'));
-    this.contextMenu.activate('WorkPackageContextMenu', evt, {row: row, table: table});
+    let [index,] = table.findRenderedRow(element.data('workPackageId'));
+    this.contextMenu.activate('WorkPackageContextMenu', evt, {workPackageId: wpId, rowIndex: index, table: table});
     return false;
   }
 }

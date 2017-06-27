@@ -13,9 +13,9 @@ export class PlainRenderPass extends PrimaryRenderPass {
    * The actual render function of this renderer.
    */
   protected doRender():void {
-    this.workPackageTable.rows.forEach((wpId:string) => {
-      let row = this.workPackageTable.rowIndex[wpId];
-      let [tr, _hidden] = this.rowBuilder.buildEmpty(row.object);
+    this.workPackageTable.originalRows.forEach((wpId:string) => {
+      let row = this.workPackageTable.originalRowIndex[wpId];
+      let [tr,] = this.rowBuilder.buildEmpty(row.object);
       row.element = tr;
       this.appendRow(row.object, tr);
       this.tableBody.appendChild(tr);

@@ -9,7 +9,7 @@ export class ContextMenuKeyboardHandler implements TableEventHandler {
   // Injections
   public contextMenu:ContextMenuService;
 
-  constructor(table: WorkPackageTable) {
+  constructor(private table:WorkPackageTable) {
     injectorBridge(this);
   }
 
@@ -25,7 +25,7 @@ export class ContextMenuKeyboardHandler implements TableEventHandler {
     return jQuery(table.tbody);
   }
 
-  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
+  public handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
     let target = jQuery(evt.target);
 
     if (!(evt.keyCode === keyCodes.F10 && evt.shiftKey && evt.altKey)) {
@@ -36,13 +36,14 @@ export class ContextMenuKeyboardHandler implements TableEventHandler {
     evt.stopPropagation();
 
     // Locate the row from event
-    let element = target.closest(this.SELECTOR);
-    let row = table.rowObject(element.data('workPackageId'));
+    const element = target.closest(this.SELECTOR);
+    const wpId = element.data('workPackageId');
+    const [index,] = table.findRenderedRow(element.data('workPackageId'));
 
     // Set position args to open at element
     let position = { of: target };
 
-    this.contextMenu.activate('WorkPackageContextMenu', evt, { row: row }, position);
+    this.contextMenu.activate('WorkPackageContextMenu', evt, { workPackageId: wpId, rowIndex: index, table: this.table}, position);
     return false;
   }
 }
