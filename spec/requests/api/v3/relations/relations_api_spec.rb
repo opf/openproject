@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::Relations::RelationRepresenter, type: :request do
+  include API::V3::Utilities::PathHelper
+
   let(:user) { FactoryGirl.create :admin }
 
   let!(:from) { FactoryGirl.create :work_package }
@@ -52,6 +54,14 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       description: description,
       delay: delay
     }
+  end
+  let(:relation) do
+    FactoryGirl.create :relation,
+                       from: from,
+                       to: to,
+                       relation_type: type,
+                       description: description,
+                       delay: delay
   end
 
   before do
@@ -87,15 +97,6 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
   end
 
   describe "updating a relation" do
-    let!(:relation) do
-      FactoryGirl.create :relation,
-                         from: from,
-                         to: to,
-                         relation_type: type,
-                         description: description,
-                         delay: delay
-    end
-
     let(:new_description) { "This is another description" }
     let(:new_delay) { 42 }
 
@@ -107,6 +108,8 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     before do
+      relation
+
       patch "/api/v3/relations/#{relation.id}",
             params: update.to_json,
             headers: { "Content-Type": "application/json" }
@@ -241,22 +244,82 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
   end
 
   describe "deleting a relation" do
-    let!(:relation) do
-      FactoryGirl.create :relation,
-                         from: from,
-                         to: to,
-                         relation_type: type,
-                         description: description,
-                         delay: delay
-    end
-
     before do
-      delete "/api/v3/relations/#{relation.id}"
+      relation
+
+      delete api_v3_paths.relation(relation.id)
     end
 
     it "should return 204 and destroy the relation" do
       expect(response.status).to eq 204
       expect(Relation.exists?(relation.id)).to eq false
+    end
+  end
+
+  describe 'GET /api/v3/relations?[filter]' do
+    let(:user) { FactoryGirl.create(:user) }
+    let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+    let(:member_project_to) do
+      FactoryGirl.build(:member,
+                        project: to.project,
+                        user: user,
+                        roles: [role])
+    end
+
+    let(:member_project_from) do
+      FactoryGirl.build(:member,
+                        project: from.project,
+                        user: user,
+                        roles: [role])
+    end
+    let(:invisible_relation) do
+      invisible_wp = FactoryGirl.create(:work_package)
+
+      FactoryGirl.create :relation,
+                         from: from,
+                         to: invisible_wp
+    end
+    let(:other_visible_work_package) do
+      FactoryGirl.create(:work_package,
+                         project: to.project,
+                         type: to.type)
+    end
+    let(:other_visible_relation) do
+      FactoryGirl.create :relation,
+                         from: to,
+                         to: other_visible_work_package
+    end
+
+    let(:members) { [member_project_to, member_project_from] }
+    let(:filter) do
+      [{ involved: { operator: '=', values: [from.id.to_s] } }]
+    end
+
+    before do
+      members.each(&:save!)
+      relation
+      invisible_relation
+      other_visible_relation
+
+      get "#{api_v3_paths.relations}?filters=#{CGI::escape(JSON::dump(filter))}"
+    end
+
+    it 'returns 200' do
+      expect(response.status).to eql 200
+    end
+
+    it 'returns the visible relation (and only the visible one) satisfying the filter' do
+      expect(response.body)
+        .to be_json_eql('1')
+        .at_path('total')
+
+      expect(response.body)
+        .to be_json_eql('1')
+        .at_path('count')
+
+      expect(response.body)
+        .to be_json_eql(relation.id.to_json)
+        .at_path('_embedded/elements/0/id')
     end
   end
 end
