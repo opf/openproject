@@ -61,13 +61,17 @@ class WorkPackage::PdfExport::WorkPackageListToPdf < WorkPackage::Exporter::Base
   end
 
   def write_title!
-    pdf.title = title
+    pdf.title = heading
     pdf.font style: :bold, size: 11
-    pdf.text title
+    pdf.text heading
     pdf.move_down 20
   end
 
   def title
+    "#{heading}.pdf"
+  end
+
+  def heading
     title = query.new_record? ? I18n.t(:label_work_package_plural) : query.name
 
     if project
