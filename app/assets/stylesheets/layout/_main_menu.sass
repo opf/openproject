@@ -225,12 +225,20 @@ $toggler-width: 40px
 .hidden-navigation
   #main-menu
     width: $main-menu-folded-width
-    .ellipsis
-      text-overflow: clip
-      -o-text-overflow: clip
-      -ms-text-overflow: clip
-    .toggler
-      display: none
+    ul
+      &.menu_root
+        > li
+          .main-item-wrapper
+            a:not(:only-child):first-of-type
+              @extend .small-12
+
+          .ellipsis
+            text-overflow: clip
+            -o-text-overflow: clip
+            -ms-text-overflow: clip
+          .toggler
+            display: none
+
   #sidebar,
   .menu-children
     display: none
@@ -281,3 +289,15 @@ $toggler-width: 40px
       border: none
     li a
       padding: 0
+
+
+
+// #main.hidden-navigation
+//   #main-menu
+//     ul
+//       &.menu_root
+//         // -------------------- MAIN menu items ---------------------------
+//         > li
+//           .main-item-wrapper
+//             a:not(:only-child):first-of-type
+//               @extend .small-12
