@@ -147,9 +147,10 @@ i
       padding-top: 10px
   li.selected
     color: #999
-    border-bottom: 2px solid $content-link-color
+    border-bottom: 2px solid
+    @include varprop(border-bottom-color, content-link-color)
     a
-      color: $content-link-color
+      @include varprop(color, content-link-color)
 
 .work-packages--details-close-icon span,
 .work-packages--details-fullscreen-icon span
