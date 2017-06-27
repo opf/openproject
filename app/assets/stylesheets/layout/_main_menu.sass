@@ -81,6 +81,9 @@ $toggler-width: 40px
               // simultaneously hover all menu item anchor tags
               > a
                 @include varprop(color, main-menu-hover-font-color)
+                &.toggler
+                  @include varprop(background, main-menu-bg-hover-background)
+
 
           > a
             @include default-transition
