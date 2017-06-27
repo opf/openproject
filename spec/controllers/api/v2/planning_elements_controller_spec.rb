@@ -905,6 +905,53 @@ describe Api::V2::PlanningElementsController, type: :controller do
       end
     end
 
+    describe 'with list custom fields' do
+      let(:type) { ::Type.find_by(name: 'None') || FactoryGirl.create(:type_standard) }
+
+      let(:custom_field) do
+        FactoryGirl.create :list_wp_custom_field,
+                           projects: [project],
+                           types: [type],
+                           possible_values: ['foo', 'bar', 'baz']
+      end
+
+      let(:planning_element) do
+        FactoryGirl.create :work_package,
+                           type: type,
+                           project: project,
+                           custom_values: [
+                             CustomValue.new(
+                               custom_field: custom_field,
+                               value: custom_field.possible_values.first.id
+                             )
+                           ]
+      end
+
+      it 'updates the custom field value' do
+        put 'update',
+            params: {
+              project_id: project.identifier,
+              id: planning_element.id,
+              planning_element: {
+                custom_fields: [
+                  { id: custom_field.id, value: 'bar' }
+                ]
+              }
+            },
+            format: :xml
+        expect(response.response_code).to eq(204)
+
+        wp = WorkPackage.find planning_element.id
+        custom_value = wp.custom_values.find do |value|
+          value.custom_field.name == custom_field.name
+        end
+
+        expect(custom_value).not_to be_nil
+        expect(custom_value.value).not_to eq(custom_field.possible_values.first.id.to_s)
+        expect(custom_value.value).to eq(custom_field.possible_values.second.id.to_s)
+      end
+    end
+
     ##
     # It should be possible to update a planning element's status by transmitting the
     # field 'status_id'. The test tries to change a planning element's status from
