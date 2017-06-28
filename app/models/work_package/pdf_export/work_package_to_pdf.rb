@@ -148,14 +148,18 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
   end
 
   def write_title!
-    pdf.title = title
+    pdf.title = heading
     pdf.font style: :bold, size: 11
-    pdf.text "#{work_package.project} - #{work_package.type} # #{work_package.id}: #{work_package.subject}"
+    pdf.text "#{heading}: #{work_package.subject}"
     pdf.move_down 20
   end
 
-  def title
+  def heading
     "#{work_package.project} - ##{work_package.type} #{work_package.id}"
+  end
+
+  def title
+    "#{heading}.pdf"
   end
 
   def write_attributes!
