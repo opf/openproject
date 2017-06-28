@@ -105,8 +105,8 @@
     "shelljs": "^0.3.0",
     "style-loader": "^0.8.2",
     "ticky": "^1.0.1",
-    "ts-loader": "^2.0.1",
-    "typescript": "^2.3.3",
+    "ts-loader": "^2.2.0",
+    "typescript": "^2.3.4",
     "ui-select": "~0.19.6",
     "url-loader": "^0.5.7",
     "webpack": "^2.2.0"
