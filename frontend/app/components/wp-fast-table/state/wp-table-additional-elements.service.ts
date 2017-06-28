@@ -87,8 +87,10 @@ export class WorkPackageTableAdditionalElementsService {
     }
     return this.wpRelations
       .requireInvolved(rows)
-      .then((relations) => {
-        const ids = relations.map(relation => [relation.ids.from, relation.ids.to]);
+      .then(() => {
+        const ids = this.getInvolvedWorkPackages(rows.map(id => {
+          return this.wpRelations.getRelationsForWorkPackage(id).value!;
+        }));
         return _.flatten(ids);
       });
   }
@@ -105,6 +107,22 @@ export class WorkPackageTableAdditionalElementsService {
 
     const ids = _.flatten(rows.map(el => el.ancestorIds));
     return Promise.resolve(ids);
+  }
+
+  /**
+   * From a set of relations state values, return all involved IDs.
+   * @param states
+   * @return {string[]}
+   */
+  private getInvolvedWorkPackages(states:RelationsStateValue[]) {
+    const ids:string[] = [];
+    _.each(states, (relations:RelationsStateValue) => {
+      _.each(relations, (resource:RelationResource) => {
+        ids.push(resource.ids.from, resource.ids.to);
+      });
+    });
+
+    return ids;
   }
 }
 

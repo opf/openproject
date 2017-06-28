@@ -117,7 +117,8 @@ export class WorkPackageTimelineTableController {
       .takeUntil(this.states.table.stopAllSubscriptions)
       .filter(() => this.initialized)
       .subscribe((orderedRows) => {
-        this.workPackageIdOrder = orderedRows;
+        // Remember all visible rows in their order of appearance.
+        this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
         this.refreshView();
       });
 
