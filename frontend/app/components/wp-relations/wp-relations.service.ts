@@ -9,14 +9,24 @@ import {RelationsDmService} from '../api/api-v3/hal-resource-dms/relations-dm.se
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {opServicesModule} from '../../angular-modules';
 import {Observable} from 'rxjs';
+import {StateCacheService} from '../states/state-cache.service';
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
 
-export class WorkPackageRelationsService extends StatesGroup {
-
+class RelationStateGroup extends StatesGroup {
   name = 'WP-Relations';
 
-  private relations = multiInput<RelationsStateValue>();
+  relations = multiInput<RelationsStateValue>();
+
+  constructor() {
+    super();
+    this.initializeMembers();
+  }
+}
+
+export class WorkPackageRelationsService extends StateCacheService<RelationsStateValue> {
+
+  private relationStates:RelationStateGroup;
 
   /*@ngInject*/
   constructor(private relationsDm:RelationsDmService,
@@ -24,70 +34,41 @@ export class WorkPackageRelationsService extends StatesGroup {
               private $q:ng.IQService,
               private PathHelper:any) {
     super();
-    this.initializeMembers();
+    this.relationStates = new RelationStateGroup();
   }
 
-  getRelationsForWorkPackage(workPackageId:string):State<RelationsStateValue> {
-    return this.relations.get(workPackageId);
-  }
-
-  /**
-   * Require the relations of the given singular work package to be loaded into its state.
-   */
-  require(workPackage:WorkPackageResourceInterface, force:boolean = false) {
-    const state = this.relations.get(workPackage.id);
-
-    if (force) {
-      state.clear();
-    }
-
-    if (state.isPristine()) {
-      workPackage.relations.$load(true).then((collection:CollectionResource) => {
-        if (collection.elements.length > 0) {
-          this.mergeIntoStates(collection.elements as RelationResource[]);
-        } else {
-          this.relations.get(workPackage.id).putValue({},
-            "Received empty response from singular relations");
-        }
-      });
-    }
+  protected get multiState() {
+    return this.relationStates.relations;
   }
 
   /**
    * Load a set of work package ids into the states, regardless of them being loaded
    * @param workPackageIds
    */
-  load(workPackageIds:string[]) {
+  protected load(id:string) {
+    return new Promise((resolve, reject) => {
+      this.relationsDm
+        .load(id)
+        .then(elements => {
+          this.mergeIntoStates(elements);
+          resolve();
+        })
+        .catch((error) => reject(error));
+    });
+  }
+
+  protected loadAll(ids:string[]) {
     const deferred = this.$q.defer<undefined>();
 
     this.relationsDm
-      .loadInvolved(workPackageIds)
+      .loadInvolved(ids)
       .then((elements:RelationResource[]) => {
         this.mergeIntoStates(elements);
-        this.initializeEmpty(workPackageIds);
+        this.initializeEmpty(ids);
         deferred.resolve();
       });
 
     return deferred.promise;
-  }
-
-  /**
-   * Require the relations of a set of involved work packages loaded into the states.
-   */
-  requireLoaded(workPackageIds:string[]):ng.IPromise<undefined> {
-    const needToLoad:string[] = [];
-
-    workPackageIds.forEach((id:string) => {
-      if (this.relations.get(id).isPristine()) {
-        needToLoad.push(id);
-      }
-    });
-
-    if (needToLoad.length === 0) {
-      return this.$q.resolve();
-    }
-
-    return this.load(needToLoad);
   }
 
   /**
@@ -96,7 +77,7 @@ export class WorkPackageRelationsService extends StatesGroup {
   public removeRelation(relation:RelationResourceInterface) {
     return relation.delete().then(() => {
       _.each(relation.ids, (member:string) => {
-        const state = this.relations.get(member);
+        const state = this.multiState.get(member);
         const currentValue = state.value!;
 
         if (currentValue !== null) {
@@ -155,7 +136,7 @@ export class WorkPackageRelationsService extends StatesGroup {
    * Merge an object of relations into the associated state or create it, if empty.
    */
   private merge(workPackageId:string, newRelations:RelationResource[]) {
-    const state = this.relations.get(workPackageId);
+    const state = this.multiState.get(workPackageId);
     let relationsToInsert = _.keyBy(newRelations, r => r.id);
     state.putValue(relationsToInsert, "Initializing relations state.");
   }
@@ -187,7 +168,7 @@ export class WorkPackageRelationsService extends StatesGroup {
 
   private initializeEmpty(ids:string[]) {
     ids.forEach(id => {
-      const state = this.relations.get(id);
+      const state = this.multiState.get(id);
       if (state.isPristine()) {
         state.putValue({});
       }

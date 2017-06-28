@@ -115,10 +115,10 @@ export class WorkPackageTableTimelineRelations {
       .subscribe(list => {
         // ... make sure that the corresponding relations are loaded ...
         const wps = _.compact(list.map(row => row.workPackageId) as string[]);
-        this.wpRelations.requireLoaded(wps);
+        this.wpRelations.requireAll(wps);
 
         wps.forEach(wpId => {
-          const relationsForWorkPackage = this.wpRelations.getRelationsForWorkPackage(wpId);
+          const relationsForWorkPackage = this.wpRelations.state(wpId);
           this.workPackagesWithRelations[wpId] = relationsForWorkPackage;
 
           // ... once they are loaded, display them.
