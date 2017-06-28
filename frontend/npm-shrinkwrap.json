@@ -4067,9 +4067,9 @@
       "resolved": "https://registry.npmjs.org/tryor/-/tryor-0.1.2.tgz"
     },
     "ts-loader": {
-      "version": "2.0.1",
-      "from": "ts-loader@2.0.1",
-      "resolved": "https://registry.npmjs.org/ts-loader/-/ts-loader-2.0.1.tgz",
+      "version": "2.2.0",
+      "from": "ts-loader@2.2.0",
+      "resolved": "https://registry.npmjs.org/ts-loader/-/ts-loader-2.2.0.tgz",
       "dependencies": {
         "enhanced-resolve": {
           "version": "3.1.0",
@@ -4077,9 +4077,9 @@
           "resolved": "https://registry.npmjs.org/enhanced-resolve/-/enhanced-resolve-3.1.0.tgz"
         },
         "loader-utils": {
-          "version": "1.0.2",
+          "version": "1.1.0",
           "from": "loader-utils@>=1.0.2 <2.0.0",
-          "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-1.0.2.tgz"
+          "resolved": "https://registry.npmjs.org/loader-utils/-/loader-utils-1.1.0.tgz"
         },
         "memory-fs": {
           "version": "0.4.1",
@@ -4129,9 +4129,9 @@
       "dev": true
     },
     "typescript": {
-      "version": "2.3.3",
-      "from": "typescript@>=2.3.0 <2.4.0",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.3.3.tgz"
+      "version": "2.3.4",
+      "from": "typescript@2.3.4",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.3.4.tgz"
     },
     "uglify-js": {
       "version": "2.7.5",
