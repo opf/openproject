@@ -29,7 +29,7 @@ export class RelationCellbuilder {
 
     // Get current expansion and value state
     const expanded = this.wpTableRelationColumns.getExpandFor(workPackage.id) === column.id;
-    const relationState = this.wpRelations.getRelationsForWorkPackage(workPackage.id).value;
+    const relationState = this.wpRelations.state(workPackage.id).value;
     const relations = this.wpTableRelationColumns.relationsForColumn(workPackage,
       relationState,
       column);
