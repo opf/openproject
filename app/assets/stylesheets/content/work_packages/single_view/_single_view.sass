@@ -145,11 +145,15 @@ i
     width: 5%
     .icon-context:before
       padding-top: 10px
-  li.selected
+    &:hover
+      border-bottom: 0
+  li.selected,
+  li:hover
     color: #999
-    border-bottom: 2px solid $content-link-color
+    border-bottom: 2px solid
+    @include varprop(border-bottom-color, content-link-color)
     a
-      color: $content-link-color
+      @include varprop(color, content-link-color)
 
 .work-packages--details-close-icon span,
 .work-packages--details-fullscreen-icon span

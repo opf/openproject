@@ -121,7 +121,7 @@
   LI > A,
   LABEL
     display: block
-    color: $context-menu-font-color
+    @include varprop(color, context-menu-unselected-font-color)
     text-decoration: none
     padding: 4px 13px 4px 10px
     white-space: nowrap
@@ -129,6 +129,7 @@
 
     &:hover
       background-color: #F0F0F0
+      @include varprop(color, context-menu-hover-font-color)
       cursor: pointer
 
   LI > A.inactive
@@ -136,7 +137,7 @@
 
 .dropdown LI > A.dropdown-menu-hasicons
   display: block
-  color: $context-menu-font-color
+  @include varprop(color, context-menu-unselected-font-color)
   text-decoration: none
   padding: 3px 10px
   white-space: nowrap
