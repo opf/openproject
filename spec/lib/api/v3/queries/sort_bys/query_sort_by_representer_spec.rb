@@ -28,15 +28,16 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::SortBys::QuerySortByRepresenter do
+describe ::API::V3::Queries::SortBys::QuerySortByRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
   let(:column_name) { 'status' }
   let(:direction) { 'desc' }
   let(:column) { Queries::WorkPackages::Columns::PropertyColumn.new(column_name) }
+  let(:decorator) { ::API::V3::Queries::SortBys::SortByDecorator.new(column, direction) }
   let(:representer) do
     described_class
-      .new(::API::V3::Queries::SortBys::SortByDecorator.new(column, direction))
+      .new(decorator)
   end
 
   subject { representer.to_json }
@@ -125,6 +126,51 @@ describe ::API::V3::Queries::SortBys::QuerySortByRepresenter do
         is_expected
           .to be_json_eql('Assignee (Descending)'.to_json)
           .at_path('name')
+      end
+    end
+  end
+
+  describe 'caching' do
+    before do
+      # fill the cache
+      representer.to_json
+    end
+
+    it 'is cached' do
+      expect(representer)
+        .not_to receive(:to_hash)
+
+      representer.to_json
+    end
+
+    it 'busts the cache on changes to the column_caption (cf rename)' do
+      allow(decorator)
+        .to receive(:column_caption)
+        .and_return('blubs')
+
+      expect(representer)
+        .to receive(:to_hash)
+
+      representer.to_json
+    end
+
+    it 'busts the cache on a different direction' do
+      allow(decorator)
+        .to receive(:direction_name)
+        .and_return('asc')
+
+      expect(representer)
+        .to receive(:to_hash)
+
+      representer.to_json
+    end
+
+    it 'busts the cache on changes to the locale' do
+      expect(representer)
+        .to receive(:to_hash)
+
+      I18n.with_locale(:de) do
+        representer.to_json
       end
     end
   end

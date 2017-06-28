@@ -35,6 +35,10 @@ module API
         class VersionFilterDependencyRepresenter <
           FilterDependencyRepresenter
 
+          def json_cache_key
+            super + (filter.project.present? ? [filter.project.id] : [])
+          end
+
           def href_callback
             order = "sortBy=#{to_query [%i(name asc)]}"
 

@@ -29,27 +29,30 @@
 #++
 
 module API
-  module V3
-    module Queries
-      module Schemas
-        class SubprojectFilterDependencyRepresenter <
-          FilterDependencyRepresenter
-
-          def json_cache_key
-            super + [filter.project.id]
+  module Utilities
+    module RepresenterToJsonCache
+      def to_json(*)
+        if json_cacheable?
+          OpenProject::Cache.fetch(*json_representer_name_cache_key, *json_cache_key) do
+            super
           end
-
-          def href_callback
-            params = [ancestor: { operator: '=', values: [filter.project.id.to_s] }]
-            escaped = CGI.escape(::JSON.dump(params))
-
-            "#{api_v3_paths.projects}?filters=#{escaped}"
-          end
-
-          def type
-            "[]Project"
-          end
+        else
+          super
         end
+      end
+
+      def json_cacheable?
+        true
+      end
+
+      def json_cache_key
+        raise NotImplementedError
+      end
+
+      private
+
+      def json_representer_name_cache_key
+        self.class.name.to_s.split('::') + ['json', I18n.locale]
       end
     end
   end

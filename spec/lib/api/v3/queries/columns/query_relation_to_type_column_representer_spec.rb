@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter do
+describe ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
   let(:type) { FactoryGirl.build_stubbed(:type) }
@@ -68,6 +68,51 @@ describe ::API::V3::Queries::Columns::QueryRelationToTypeColumnRepresenter do
       is_expected
         .to be_json_eql("Relations to #{type.name}".to_json)
         .at_path('name')
+    end
+  end
+
+  describe 'caching' do
+    before do
+      # fill the cache
+      representer.to_json
+    end
+
+    it 'is cached' do
+      expect(representer)
+        .not_to receive(:to_hash)
+
+      representer.to_json
+    end
+
+    it 'busts the cache on changes to the name' do
+      allow(column)
+        .to receive(:name)
+        .and_return('blubs')
+
+      expect(representer)
+        .to receive(:to_hash)
+
+      representer.to_json
+    end
+
+    it 'busts the cache on changes to the type' do
+      allow(type)
+        .to receive(:cache_key)
+        .and_return('a_different_one')
+
+      expect(representer)
+        .to receive(:to_hash)
+
+      representer.to_json
+    end
+
+    it 'busts the cache on changes to the locale' do
+      expect(representer)
+        .to receive(:to_hash)
+
+      I18n.with_locale(:de) do
+        representer.to_json
+      end
     end
   end
 end

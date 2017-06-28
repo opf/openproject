@@ -28,9 +28,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 require 'queries/operators'
 
 module API
@@ -38,6 +35,8 @@ module API
     module Queries
       module Schemas
         class QueryFilterInstanceSchemaRepresenter < ::API::Decorators::SchemaRepresenter
+          include API::Utilities::RepresenterToJsonCache
+
           schema :name,
                  type: 'String',
                  writable: false,
@@ -124,7 +123,7 @@ module API
           end
 
           def dependencies
-            filter.available_operators.each_with_object({}) do |operator, hash|
+            @dependencies ||= filter.available_operators.each_with_object({}) do |operator, hash|
               path = api_v3_paths.query_operator(operator.to_query)
               value = FilterDependencyRepresenterFactory.create(filter,
                                                                 operator,
@@ -132,6 +131,19 @@ module API
 
               hash[path] = value
             end
+          end
+
+          def json_cacheable?
+            dependencies
+              .values
+              .all?(&:json_cacheable?)
+          end
+
+          def json_cache_key
+            dependencies
+              .values
+              .flat_map(&:json_cache_key)
+              .uniq + [form_embedded, filter.name]
           end
         end
       end

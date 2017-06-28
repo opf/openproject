@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
+describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
   let(:filter) { Queries::WorkPackages::Filter::StatusFilter.new }
@@ -56,6 +56,14 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
   let(:self_link) { 'bogus_self_path' }
   let(:project) { nil }
   let(:user) { FactoryGirl.build_stubbed(:user) }
+  let(:json_cacheable) { true }
+  let(:json_cache_key) { 'some key' }
+  let(:dependency) do
+    double('dependency',
+           to_hash: { 'lorem': 'ipsum' },
+           json_cacheable?: json_cacheable,
+           json_cache_key: json_cache_key)
+  end
 
   context 'generation' do
     before do
@@ -65,7 +73,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
           .with(filter,
                 operator,
                 form_embedded: form_embedded)
-          .and_return("lorem": "ipsum")
+          .and_return(dependency)
       end
     end
 
@@ -210,6 +218,71 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter do
             end
           end
         end
+      end
+    end
+  end
+
+  describe 'caching' do
+    before do
+      filter.available_operators.each do |operator|
+        allow(::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory)
+          .to receive(:create)
+          .with(filter,
+                operator,
+                form_embedded: form_embedded)
+          .and_return(dependency)
+      end
+    end
+
+    before do
+      # fill the cache
+      instance.to_json
+    end
+
+    it 'is cached' do
+      expect(instance)
+        .not_to receive(:to_hash)
+
+      instance.to_json
+    end
+
+    context 'with an uncacheable dependency' do
+      let(:json_cacheable) { false }
+
+      it 'is not cached' do
+        expect(instance)
+          .to receive(:to_hash)
+
+        instance.to_json
+      end
+    end
+
+    it 'busts the cache on the form_embedded attribute' do
+      instance.form_embedded = !form_embedded
+
+      expect(instance)
+        .to receive(:to_hash)
+
+      instance.to_json
+    end
+
+    it 'busts the cache on a different cache key from a dependency' do
+      allow(dependency)
+        .to receive(:json_cache_key)
+        .and_return(['and', 'now', 'to', 'something', 'completely', 'different'])
+
+      expect(instance)
+        .to receive(:to_hash)
+
+      instance.to_json
+    end
+
+    it 'busts the cache on changes to the locale' do
+      expect(instance)
+        .to receive(:to_hash)
+
+      I18n.with_locale(:de) do
+        instance.to_json
       end
     end
   end

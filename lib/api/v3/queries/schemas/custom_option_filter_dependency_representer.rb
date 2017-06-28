@@ -55,6 +55,10 @@ module API
                                            value_required?
                                          }
 
+          def json_cache_key
+            super + [filter.custom_field.cache_key]
+          end
+
           private
 
           def type

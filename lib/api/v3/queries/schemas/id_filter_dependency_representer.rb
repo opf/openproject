@@ -35,6 +35,10 @@ module API
         class IdFilterDependencyRepresenter <
           FilterDependencyRepresenter
 
+          def json_cache_key
+            super + (filter.project.present? ? [filter.project.id] : [])
+          end
+
           def href_callback
             if filter.project
               api_v3_paths.work_packages_by_project(filter.project.id)
