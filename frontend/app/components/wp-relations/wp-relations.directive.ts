@@ -52,7 +52,7 @@ export class WorkPackageRelationsController {
               protected wpCacheService:WorkPackageCacheService) {
 
     scopedObservable(this.$scope,
-      this.wpRelations.getRelationsForWorkPackage(this.workPackage.id).values$())
+      this.wpRelations.state(this.workPackage.id).values$())
       .subscribe((relations:RelationsStateValue) => {
         this.loadedRelations(relations);
       });
@@ -62,7 +62,7 @@ export class WorkPackageRelationsController {
       this.wpCacheService.loadWorkPackage(this.workPackage.id).values$())
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        this.wpRelations.require(wp);
+        this.wpRelations.require(wp.id);
       });
   }
 

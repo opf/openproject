@@ -35,8 +35,20 @@ import {buildApiV3Filter} from '../api-v3-filter-builder';
 export class RelationsDmService {
 
   constructor(private halRequest:HalRequestService,
+              private v3Path:any,
               private $q:ng.IQService) {
 
+  }
+
+  public load(workPackageId:string):ng.IPromise<RelationResource[]> {
+    return this.halRequest.get(
+      this.v3Path.wp.relations({wp: workPackageId}),
+      {},
+      {
+        caching: {enabled: false}
+      }).then((collection:CollectionResource) => {
+        return collection.elements;
+    });
   }
 
   public loadInvolved(workPackageIds:string[]):ng.IPromise<RelationResource[]> {
