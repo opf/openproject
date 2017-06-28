@@ -46,8 +46,6 @@ import {
 } from '../../wp-relations/wp-relations.service';
 import {WorkPackageTableHierarchiesService} from './wp-table-hierarchy.service';
 
-export type RelationColumnType = 'toType' | 'ofType';
-
 export class WorkPackageTableAdditionalElementsService {
 
   constructor(public states:States,
@@ -86,7 +84,7 @@ export class WorkPackageTableAdditionalElementsService {
       return Promise.resolve([]);
     }
     return this.wpRelations
-      .requireInvolved(rows)
+      .load(rows)
       .then(() => {
         const ids = this.getInvolvedWorkPackages(rows.map(id => {
           return this.wpRelations.getRelationsForWorkPackage(id).value!;
