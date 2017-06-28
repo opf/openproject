@@ -1,20 +1,22 @@
 import {States} from '../../states.service';
 import {opServicesModule} from '../../../angular-modules';
-import {WPTableRowSelectionState, WorkPackageTableRow} from '../wp-table.interfaces';
+import {WPTableRowSelectionState} from '../wp-table.interfaces';
 import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {InputState} from "reactivestates";
 import {RenderedRow} from '../builders/primary-render-pass';
+import {InputState} from 'reactivestates';
 
 export class WorkPackageTableSelection {
 
-  public selectionState: InputState<WPTableRowSelectionState>;
+  public selectionState:InputState<WPTableRowSelectionState>;
 
-  constructor(public states: States) {
+  constructor(public states:States) {
     this.selectionState = states.table.selection;
 
     if (this.selectionState.isPristine()) {
       this.reset();
     }
+
+    this.observeToUpdateFocused();
   }
 
   public isSelected(workPackageId:string) {
@@ -153,6 +155,21 @@ export class WorkPackageTableSelection {
       selected: {},
       activeRowIndex: null
     };
+  }
+
+  /**
+   * Put the first row that is eligible to be displayed in the details view into
+   * the focused state if no manual selection has been made yet.
+   */
+  private observeToUpdateFocused() {
+    this
+      .states.table.rendered
+      .values$()
+      .map(state => _.find(state, row => row.workPackageId))
+      .filter(fullRow => !!fullRow && _.isEmpty(this.currentState.selected))
+      .subscribe(fullRow => {
+        this.states.focusedWorkPackage.putValue(fullRow!.workPackageId!);
+      });
   }
 }
 

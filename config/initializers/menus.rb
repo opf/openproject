@@ -173,7 +173,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
-            html: { class: 'server_authentication icon2 icon-flag' },
+            html: { class: 'server_authentication' },
+            icon: 'icon2 icon-flag',
             if: proc { !OpenProject::Configuration.disable_password_login? }
 
   menu.push :announcements,

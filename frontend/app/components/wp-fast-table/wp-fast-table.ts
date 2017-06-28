@@ -81,11 +81,6 @@ export class WorkPackageTable {
 
     // Draw work packages
     this.redrawTableAndTimeline();
-
-    // Preselect first work package as focused
-    if (this.originalRows.length && this.states.focusedWorkPackage.isPristine()) {
-      this.states.focusedWorkPackage.putValue(this.originalRows[0]);
-    }
   }
 
   /**
