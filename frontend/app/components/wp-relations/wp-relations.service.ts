@@ -54,11 +54,28 @@ export class WorkPackageRelationsService extends StatesGroup {
   }
 
   /**
+   * Load a set of work package ids into the states, regardless of them being loaded
+   * @param workPackageIds
+   */
+  load(workPackageIds:string[]) {
+    const deferred = this.$q.defer<undefined>();
+
+    this.relationsDm
+      .loadInvolved(workPackageIds)
+      .then((elements:RelationResource[]) => {
+        this.mergeIntoStates(elements);
+        this.initializeEmpty(workPackageIds);
+        deferred.resolve();
+      });
+
+    return deferred.promise;
+  }
+
+  /**
    * Require the relations of a set of involved work packages loaded into the states.
    */
-  requireInvolved(workPackageIds:string[]):ng.IPromise<undefined> {
+  requireLoaded(workPackageIds:string[]):ng.IPromise<undefined> {
     const needToLoad:string[] = [];
-    const deferred = this.$q.defer<undefined>();
 
     workPackageIds.forEach((id:string) => {
       if (this.relations.get(id).isPristine()) {
@@ -67,19 +84,10 @@ export class WorkPackageRelationsService extends StatesGroup {
     });
 
     if (needToLoad.length === 0) {
-      deferred.resolve();
-      return deferred.promise;
+      return this.$q.resolve();
     }
 
-    this.relationsDm
-      .loadInvolved(needToLoad)
-      .then((elements:RelationResource[]) => {
-        this.mergeIntoStates(elements);
-        this.initializeEmpty(needToLoad);
-        deferred.resolve();
-      });
-
-    return deferred.promise;
+    return this.load(needToLoad);
   }
 
   /**
@@ -149,12 +157,6 @@ export class WorkPackageRelationsService extends StatesGroup {
   private merge(workPackageId:string, newRelations:RelationResource[]) {
     const state = this.relations.get(workPackageId);
     let relationsToInsert = _.keyBy(newRelations, r => r.id);
-    let current = state.value!;
-
-    if (current !== null) {
-      relationsToInsert = _.assign(current, relationsToInsert);
-    }
-
     state.putValue(relationsToInsert, "Initializing relations state.");
   }
 
