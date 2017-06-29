@@ -356,7 +356,7 @@ export class WorkPackageResource extends HalResource {
     return this.form;
   }
 
-  public updateForm(payload:{[attribute:string]: any}) {
+  public updateForm(payload:{[attribute:string]:any}) {
     // Always resolve form to the latest form
     // This way, we won't have to actively reset it.
     // But store the existing form in case of an error.
@@ -462,7 +462,7 @@ export class WorkPackageResource extends HalResource {
     return deferred.promise;
   }
 
-  public storePristine(attribute: string) {
+  public storePristine(attribute:string) {
     if (this.$pristine.hasOwnProperty(attribute)) {
       return;
     }
@@ -470,7 +470,7 @@ export class WorkPackageResource extends HalResource {
     this.$pristine[attribute] = angular.copy(this[attribute]);
   }
 
-  public restoreFromPristine(attribute: string) {
+  public restoreFromPristine(attribute:string) {
     if (this.$pristine.hasOwnProperty(attribute)) {
       this[attribute] = this.$pristine[attribute];
       delete this.$pristine[attribute];

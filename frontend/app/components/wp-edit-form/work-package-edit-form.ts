@@ -75,7 +75,7 @@ export class WorkPackageEditForm {
 
     this.subscription = this.wpCacheService.loadWorkPackage(workPackageId).values$()
       .takeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((wp: WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
       });
   }
