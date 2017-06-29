@@ -142,14 +142,14 @@ export class WorkPackageEditForm {
     this.closeAllEditFields();
 
     this.workPackage.save()
-      .then(() => {
+      .then(savedWorkPackage => {
         _.each(this.activeFields, (handler:WorkPackageEditFieldHandler) => {
           handler.deactivate();
         });
-        deferred.resolve(this.workPackage);
+        deferred.resolve(savedWorkPackage);
 
-        this.wpNotificationsService.showSave(this.workPackage, isInitial);
-        this.editContext.onSaved(this.workPackage);
+        this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
+        this.editContext.onSaved(savedWorkPackage);
 
         this.stopEditing();
 

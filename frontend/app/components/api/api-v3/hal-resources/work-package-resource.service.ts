@@ -410,7 +410,7 @@ export class WorkPackageResource extends HalResource {
     });
   }
 
-  public save() {
+  public save():ng.IPromise<WorkPackageResourceInterface> {
     var deferred = $q.defer();
     this.inFlight = true;
     const wasNew = this.isNew;
