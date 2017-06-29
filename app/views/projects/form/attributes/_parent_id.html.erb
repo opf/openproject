@@ -34,6 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= form.select :parent_id,
                     project_tree_options_for_select(project.allowed_parents.compact,
                                                     selected: project.parent),
-                    include_blank: project.allowed_parents.include?(nil) %>
+                    include_blank: project.allowed_parents.include?(nil),
+                    container_class: '-wide' %>
   </div>
 <% end %>
