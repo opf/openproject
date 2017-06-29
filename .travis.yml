@@ -79,8 +79,6 @@ env:
     - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=4"
 
 before_install:
-  - "rvm @default,@global do gem uninstall bundler -a -x"
-  - gem install bundler -v 1.12.5
   - echo `bundle -v`
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
