@@ -28,52 +28,43 @@
 
 module Components
   module WorkPackages
-    class SettingsMenu
+    class GroupBy
       include Capybara::DSL
       include RSpec::Matchers
 
-      def open_and_save_query(name)
-        open!
-        find("#{selector} .menu-item", text: 'Save', match: :prefer_exact).click
-        page.within('.ng-modal-inner') do
-          find('#save-query-name').set name
-          click_on 'Save'
+      def enable_via_header(name)
+        open_table_column_context_menu(name)
+
+        within_column_context_menu do
+          click_link('Group by')
         end
       end
 
-      def open_and_choose(name)
-        open!
-        choose(name)
+      def enable_via_menu(name)
+        SettingsMenu.new.open_and_choose('Group by ...')
+
+        select name, from: 'selected_columns_new'
+        click_button 'Apply'
       end
 
-      def open!
-        click_on 'work-packages-settings-button'
-        expect_open
-      end
+      def expect_not_grouped_by(name)
+        open_table_column_context_menu(name)
 
-      def expect_open
-        expect(page).to have_selector(selector)
-      end
-
-      def expect_closed
-        expect(page).to have_no_selector(selector)
-      end
-
-      def choose(target)
-        find("#{selector} .menu-item", text: target).click
-      end
-
-      def expect_options(options)
-        expect_open
-        options.each do |text|
-          expect(page).to have_selector("#{selector} a", text: text)
+        within_column_context_menu do
+          expect(page).to have_content('Group by')
         end
       end
 
       private
 
-      def selector
-        '#settingsDropdown'
+      def open_table_column_context_menu(name)
+        page.find(".generic-table--sort-header ##{name.downcase}").click
+      end
+
+      def within_column_context_menu
+        page.within('#column-context-menu') do
+          yield
+        end
       end
     end
   end

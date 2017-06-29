@@ -20,8 +20,6 @@
     <li>
        <a class="menu-item"
           href
-          ng-disabled="displayHierarchies"
-          ng-class="{'inactive': displayHierarchies}"
           ng-attr-title="{{ text.group_by_title() }}"
           ng-click="showGroupingModal($event)">
          <op-icon icon-classes="icon-action-menu icon-group-by"></op-icon>
@@ -42,9 +40,7 @@
         <op-icon ng-if="displayHierarchies" icon-classes="icon-action-menu icon-checkmark"></op-icon>
         <span ng-bind="::I18n.t('js.toolbar.settings.hide_hierarchy')"></span>
       </a>
-      <a ng-disabled="isGrouped"
-         ng-class="{'inactive': !!isGrouped}"
-         ng-if="!displayHierarchies"
+      <a ng-if="!displayHierarchies"
          ng-attr-title="{{ text.hierarchy_title() }}"
          class="menu-item"
          href
