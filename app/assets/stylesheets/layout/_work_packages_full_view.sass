@@ -59,7 +59,6 @@ body.controller-work_packages.full-create
     button
       margin-bottom: 0
 
-
     li
       float: left
       position: relative
@@ -67,6 +66,11 @@ body.controller-work_packages.full-create
       &.toolbar-item:first-of-type
         margin-left: 0
 
+      &.toolbar-item
+        margin: 0 5px
+
+        &:last-child
+          margin-right: 0
 
       .dropdown
         top: 100% !important
@@ -76,7 +80,8 @@ body.controller-work_packages.full-create
 
         ul li
           float: none
-  ul
+
+  ul#toolbar-items, ul.subject-header
     list-style-type: none
     padding: 0
 
@@ -84,11 +89,6 @@ body.controller-work_packages.full-create
       margin: 0
       padding: 0
 
-      &.toolbar-item
-        margin: 0 5px
-
-        &:last-child
-          margin-right: 0
     button
       margin-right: 0
 
