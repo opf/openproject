@@ -114,7 +114,7 @@
     list-style: none
     padding: 0
     margin: 0
-    line-height: 18px
+    line-height: 20px
 
 .dropdown .dropdown-menu,
 .toolbar .legacy-actions-more
@@ -132,6 +132,13 @@
       background-color: #F0F0F0
       @include varprop(color, context-menu-hover-font-color)
       cursor: pointer
+
+    .icon-hierarchy
+      padding-right: 5px
+      font-size: 20px
+
+    .no-icon
+      margin-left: 19.09px //for whatever reasons it is the right dimension
 
   LI > A.inactive
     color: #999999
