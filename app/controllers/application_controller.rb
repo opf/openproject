@@ -41,6 +41,7 @@ class ApplicationController < ActionController::Base
 
   include I18n
   include Redmine::I18n
+  include ::OpenProject::Authentication::SessionExpiry
 
   layout 'base'
 
@@ -667,13 +668,7 @@ class ApplicationController < ActionController::Base
   private
 
   def session_expired?
-    !api_request? && current_user.logged? &&
-      (session_ttl_enabled? && (session[:updated_at].nil? ||
-                               (session[:updated_at] + Setting.session_ttl.to_i.minutes) < Time.now))
-  end
-
-  def session_ttl_enabled?
-    Setting.session_ttl_enabled? && Setting.session_ttl.to_i >= 5
+    !api_request? && current_user.logged? && session_ttl_expired?
   end
 
   def permitted_params
