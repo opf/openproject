@@ -248,6 +248,7 @@
     display: block
   .search-query-wrapper
     padding: 15px
+    overflow: hidden
   .query-select-dropdown--no-results
     padding: 15px 15px 0
   .ui-menu-item
@@ -272,6 +273,9 @@
     top:   24px
     right: 22px
     color: #999999
+  .ui-widget-content.-inplace
+    max-height: 55vh
+    overflow-x: auto
 
   input[type="search"]::-webkit-search-cancel-button
     display: none

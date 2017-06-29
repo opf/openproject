@@ -1,3 +1,5 @@
+require 'open_project/authentication/session_expiry'
+
 module OpenProject
   module Authentication
     module Strategies
@@ -7,8 +9,10 @@ module OpenProject
         # not been unified in terms of Warden strategies and is only locally
         # applied to the API v3.
         class Session < ::Warden::Strategies::Base
+          include ::OpenProject::Authentication::SessionExpiry
+
           def valid?
-            session
+            session && !session_ttl_expired?
           end
 
           def authenticate!

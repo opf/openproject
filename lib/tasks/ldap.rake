@@ -103,7 +103,7 @@ namespace :ldap do
       account: url.user,
       account_password: url.password,
       base_dn: url.dn,
-      onthefly_register: !!args[:onthefly],
+      onthefly_register: !!ActiveModel::Type::Boolean.new.cast(args[:onthefly]),
       attr_login: args[:map_login],
       attr_firstname: args[:map_firstname],
       attr_lastname: args[:map_lastname],

@@ -83,7 +83,7 @@ function wpRelationsAutocompleteDirective(
 
       function getIdentifier(workPackage:WorkPackageResourceInterface):string {
         if (workPackage) {
-          return _.escape(`#${workPackage.id} - ${workPackage.subject}`);
+          return `#${workPackage.id} - ${workPackage.subject}`;
         } else {
           return '';
         }

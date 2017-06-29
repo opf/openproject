@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,13 +26,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+require 'spec_helper'
 
-# Load any local boot extras that is kept out of source control
-# (e.g., silencing of deprecations)
-if File.exists?(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
-  instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
+describe 'Session TTL',
+         with_settings: {session_ttl_enabled?: true, session_ttl: '10'},
+         type: :feature do
+  let!(:user) {FactoryGirl.create :admin}
+  let!(:work_package) {FactoryGirl.create :work_package}
+
+  before do
+    login_with(user.login, user.password)
+  end
+
+  def expire!
+    page.set_rack_session(updated_at: Time.now - 1.hour)
+  end
+
+  describe 'outdated TTL on Rails request' do
+    it 'expires on the next Rails request' do
+      visit '/my/account'
+      expect(page).to have_selector('.form--field-container', text: user.login)
+
+      # Expire the session
+      expire!
+
+      visit '/'
+      expect(page).to have_selector('.action-login')
+    end
+  end
+
+  describe 'outdated TTL on API request' do
+    it 'expires on the next APIv3 request' do
+      visit "/api/v3/work_packages/#{work_package.id}"
+
+      body = JSON.parse(page.body)
+      expect(body['id']).to eq(work_package.id)
+
+      # Expire the session
+      expire!
+      visit "/api/v3/work_packages/#{work_package.id}"
+
+      expect(page.body).to eq('unauthorized')
+    end
+  end
 end
-
-
-require 'bundler/setup' # Set up gems listed in the Gemfile.
