@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,6 +34,10 @@ module API
       module Schemas
         class TypeFilterDependencyRepresenter <
           FilterDependencyRepresenter
+
+          def json_cache_key
+            super + (filter.project.present? ? [filter.project.id] : [])
+          end
 
           def href_callback
             if filter.project.nil?

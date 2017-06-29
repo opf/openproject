@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,6 +33,8 @@ module API
     module Queries
       module Schemas
         class FilterDependencyRepresenter < ::API::Decorators::SchemaRepresenter
+          include API::Utilities::RepresenterToJsonCache
+
           def initialize(filter, operator, form_embedded: false)
             self.operator = operator
 
@@ -71,6 +74,10 @@ module API
             end
           end
 
+          def json_cache_key
+            [operator.to_sym, I18n.locale]
+          end
+
           private
 
           def value_required?
@@ -78,7 +85,7 @@ module API
           end
 
           def type
-            raise NotImplementedError, 'Subclass has to implement #href_callback'
+            raise NotImplementedError, 'Subclass has to implement #type'
           end
 
           def href_callback

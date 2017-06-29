@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter do
+describe ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
   let(:column) { Query.available_columns.detect { |column| column.name == :status } }
@@ -84,6 +84,51 @@ describe ::API::V3::Queries::Columns::QueryPropertyColumnRepresenter do
         is_expected
           .to be_json_eql('Assignee'.to_json)
           .at_path('name')
+      end
+    end
+  end
+
+  describe 'caching' do
+    before do
+      # fill the cache
+      representer.to_json
+    end
+
+    it 'is cached' do
+      expect(representer)
+        .not_to receive(:to_hash)
+
+      representer.to_json
+    end
+
+    it 'busts the cache on changes to the caption (cf rename)' do
+      allow(column)
+        .to receive(:caption)
+        .and_return('blubs')
+
+      expect(representer)
+        .to receive(:to_hash)
+
+      representer.to_json
+    end
+
+    it 'busts the cache on changes to the name' do
+      allow(column)
+        .to receive(:name)
+        .and_return('blubs')
+
+      expect(representer)
+        .to receive(:to_hash)
+
+      representer.to_json
+    end
+
+    it 'busts the cache on changes to the locale' do
+      expect(representer)
+        .to receive(:to_hash)
+
+      I18n.with_locale(:de) do
+        representer.to_json
       end
     end
   end

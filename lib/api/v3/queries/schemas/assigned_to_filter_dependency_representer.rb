@@ -35,6 +35,14 @@ module API
         class AssignedToFilterDependencyRepresenter <
           PrincipalFilterDependencyRepresenter
 
+          def json_cache_key
+            if filter.project
+              super + [Setting.work_package_group_assignment?, filter.project.id]
+            else
+              super + [Setting.work_package_group_assignment?]
+            end
+          end
+
           private
 
           def filter_query

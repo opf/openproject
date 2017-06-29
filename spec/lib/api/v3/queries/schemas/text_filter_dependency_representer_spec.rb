@@ -28,11 +28,12 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::TextFilterDependencyRepresenter do
+describe ::API::V3::Queries::Schemas::TextFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.new(context: project) }
+  let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
+  let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.new(context: query) }
   let(:form_embedded) { false }
 
   let(:instance) do
@@ -71,6 +72,40 @@ describe ::API::V3::Queries::Schemas::TextFilterDependencyRepresenter do
           let(:operator) { Queries::Operators::NotContains }
 
           it_behaves_like 'filter dependency'
+        end
+      end
+    end
+
+    describe 'caching' do
+      let(:operator) { Queries::Operators::Equals }
+
+      before do
+        # fill the cache
+        instance.to_json
+      end
+
+      it 'is cached' do
+        expect(instance)
+          .not_to receive(:to_hash)
+
+        instance.to_json
+      end
+
+      it 'busts the cache on a different operator' do
+        instance.send(:operator=, Queries::Operators::NotEquals)
+
+        expect(instance)
+          .to receive(:to_hash)
+
+        instance.to_json
+      end
+
+      it 'busts the cache on changes to the locale' do
+        expect(instance)
+          .to receive(:to_hash)
+
+        I18n.with_locale(:de) do
+          instance.to_json
         end
       end
     end

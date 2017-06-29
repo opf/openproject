@@ -33,6 +33,8 @@ module API
     module Queries
       module Columns
         class QueryColumnRepresenter < ::API::Decorators::Single
+          include API::Utilities::RepresenterToJsonCache
+
           self_link path: 'query_column',
                     id_attribute: ->(*) { converted_name },
                     title_getter: ->(*) { represented.caption }
@@ -55,6 +57,10 @@ module API
 
           def convert_attribute(attribute)
             ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+          end
+
+          def json_cache_key
+            [represented.name, represented.caption]
           end
         end
       end

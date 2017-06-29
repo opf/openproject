@@ -39,6 +39,10 @@ module API
 
           property :relation_type
         end
+
+        def json_cache_key
+          [represented.name]
+        end
       end
     end
   end

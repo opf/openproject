@@ -66,7 +66,7 @@ module API
                 filter_class = Query.find_registered_filter(ar_name)
 
                 if filter_class
-                  filter = filter_class.new
+                  filter = filter_class.new context: OpenStruct.new(project: nil)
                   filter.name = ar_name
 
                   single_representer.new(filter,

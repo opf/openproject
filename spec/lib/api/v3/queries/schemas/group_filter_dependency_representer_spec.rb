@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter do
+describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.build_stubbed(:project) }
@@ -103,6 +103,50 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter do
 
             it_behaves_like 'filter dependency with allowed link'
           end
+        end
+      end
+    end
+
+    describe 'caching' do
+      let(:operator) { Queries::Operators::Equals }
+      let(:other_project) { FactoryGirl.build_stubbed(:project) }
+
+      before do
+        # fill the cache
+        instance.to_json
+      end
+
+      it 'is cached' do
+        expect(instance)
+          .not_to receive(:to_hash)
+
+        instance.to_json
+      end
+
+      it 'busts the cache on a different operator' do
+        instance.send(:operator=, Queries::Operators::NotEquals)
+
+        expect(instance)
+          .to receive(:to_hash)
+
+        instance.to_json
+      end
+
+      it 'busts the cache on a different project' do
+        query.project = other_project
+
+        expect(instance)
+          .to receive(:to_hash)
+
+        instance.to_json
+      end
+
+      it 'busts the cache on changes to the locale' do
+        expect(instance)
+          .to receive(:to_hash)
+
+        I18n.with_locale(:de) do
+          instance.to_json
         end
       end
     end

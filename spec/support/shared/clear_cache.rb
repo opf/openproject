@@ -28,29 +28,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Queries
-      module Schemas
-        class SubprojectFilterDependencyRepresenter <
-          FilterDependencyRepresenter
-
-          def json_cache_key
-            super + [filter.project.id]
-          end
-
-          def href_callback
-            params = [ancestor: { operator: '=', values: [filter.project.id.to_s] }]
-            escaped = CGI.escape(::JSON.dump(params))
-
-            "#{api_v3_paths.projects}?filters=#{escaped}"
-          end
-
-          def type
-            "[]Project"
-          end
-        end
-      end
+RSpec.configure do |config|
+  config.before(:each) do |example|
+    clear_cache = example.metadata[:clear_cache]
+    if clear_cache
+      Rails.cache.clear
     end
   end
 end

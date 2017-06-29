@@ -47,13 +47,17 @@ module API
                                          value_representer: CustomOptions::CustomOptionRepresenter,
                                          link_factory: ->(value) {
                                            {
-                                             href: api_v3_paths.custom_option(value),
+                                             href: api_v3_paths.custom_option(value.id),
                                              title: value.to_s
                                            }
                                          },
                                          show_if: ->(*) {
                                            value_required?
                                          }
+
+          def json_cache_key
+            super + [filter.custom_field.cache_key]
+          end
 
           private
 
