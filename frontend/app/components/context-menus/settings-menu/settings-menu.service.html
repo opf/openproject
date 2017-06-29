@@ -1,7 +1,14 @@
 <div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar" id="settingsDropdown">
   <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
   properly. Thus, don't remove the hrefs or the empty URLs! -->
-  <ul class="dropdown-menu">
+  <ul class="dropdown-menu" ng-if="loading">
+    <li>
+      <span class="menu-item">
+        {{ text.loading }}
+      </span>
+    </li>
+  </ul>
+  <ul class="dropdown-menu" ng-if="!loading">
     <li>
       <a class="menu-item" href="" ng-click="showColumnsModal($event)">
         <op-icon icon-classes="icon-action-menu icon-columns"></op-icon>

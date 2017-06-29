@@ -31,7 +31,9 @@ import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-t
 import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
-import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
+import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryFormResource} from '../../api/api-v3/hal-resources/query-form-resource.service';
 
 import {States} from '../../states.service';
 
@@ -39,6 +41,7 @@ interface IMyScope extends ng.IScope {
   displaySumsLabel:string;
   displayHierarchies:boolean;
   displaySums:boolean;
+  loading:boolean;
   saveQuery:Function;
   deleteQuery:Function;
 
@@ -76,10 +79,13 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         wpTableSum:WorkPackageTableSumService,
                                         wpTableGroupBy:WorkPackageTableGroupByService,
                                         wpListService:WorkPackagesListService,
-                                        wpEditModeState: WorkPackageEditModeStateService,
+                                        wpEditModeState:WorkPackageEditModeStateService,
                                         states:States,
                                         AuthorisationService:any,
                                         NotificationsService:any) {
+
+  let query:QueryResource;
+  let form:QueryFormResource;
 
   $scope.text = {
     group_by_title: () => {
@@ -95,34 +101,57 @@ function SettingsDropdownMenuController($scope:IMyScope,
       } else {
         return I18n.t('js.work_packages.query.group_by');
       }
-    }
+    },
+    loading: I18n.t('js.label_loading')
   };
 
-  $scope.displayHierarchies = wpTableHierarchies.isEnabled;
-  $scope.displaySums = wpTableSum.isEnabled;
-  $scope.isGrouped = wpTableGroupBy.isEnabled;
+  states
+    .query
+    .resource
+    .values$()
+    .takeUntil(states.table.stopAllSubscriptions)
+    .subscribe(queryUpdate => {
 
-  $scope.displaySumsLabel = $scope.displaySums ? I18n.t('js.toolbar.settings.hide_sums')
-                                               : I18n.t('js.toolbar.settings.display_sums');
+    $scope.loading = true;
 
-  let form = states.query.form.value!;
-  let query = states.query.resource.value!;
+    query = queryUpdate;
+  });
 
-  if (query.results && query.results.customFields) {
-    $scope.queryCustomFields = query.results.customFields;
-  }
+  states
+    .query
+    .form
+    .values$()
+    .takeUntil(states.table.stopAllSubscriptions)
+    .subscribe(formUpdate => {
 
-  if (wpEditModeState.form && wpEditModeState.form.workPackage) {
-    if (wpEditModeState.form.inEditMode) {
-      wpEditModeState.form.workPackage.getForm().then(
-        (loadedForm:any) => {
-          $scope.configureFormLink = loadedForm.configureForm;
-        }
-      );
-    } else {
-      $scope.configureFormLink = wpEditModeState.form.workPackage.configureForm;
+    form = formUpdate;
+
+    $scope.displayHierarchies = wpTableHierarchies.isEnabled;
+    $scope.displaySums = wpTableSum.isEnabled;
+    $scope.isGrouped = wpTableGroupBy.isEnabled;
+
+    $scope.displaySumsLabel = $scope.displaySums ? I18n.t('js.toolbar.settings.hide_sums')
+                                                 : I18n.t('js.toolbar.settings.display_sums');
+
+
+    if (query.results && query.results.customFields) {
+      $scope.queryCustomFields = query.results.customFields;
     }
-  }
+
+    if (wpEditModeState.form && wpEditModeState.form.workPackage) {
+      if (wpEditModeState.form.inEditMode) {
+        wpEditModeState.form.workPackage.getForm().then(
+          (loadedForm:any) => {
+            $scope.configureFormLink = loadedForm.configureForm;
+          }
+        );
+      } else {
+        $scope.configureFormLink = wpEditModeState.form.workPackage.configureForm;
+      }
+    }
+
+    $scope.loading = false;
+  });
 
   $scope.saveQuery = function (event:JQueryEventObject) {
     event.stopPropagation();
