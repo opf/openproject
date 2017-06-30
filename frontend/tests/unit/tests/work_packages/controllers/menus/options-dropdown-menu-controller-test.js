@@ -29,7 +29,6 @@
 /*jshint expr: true*/
 
 var reactivestates = require("reactivestates");
-var input = reactivestates.input;
 
 describe('optionsDropdown Directive', function() {
   var compile,
@@ -75,14 +74,46 @@ describe('optionsDropdown Directive', function() {
 
     query = {
       id: 5
-    }
+    };
+
+    var queryValues = {
+      takeUntil: function(condition) {
+        return {
+          subscribe: function(func) {
+            func(query);
+          }
+        }
+      }
+    };
 
     form = {}
 
+    var formValues = {
+      takeUntil: function(condition) {
+        return {
+          subscribe: function(func) {
+            func(form);
+          }
+        }
+      }
+    };
+
     states = {
       query: {
-        resource: input(query),
-        form: input(form)
+        resource: {
+          values$: function() {
+                     return queryValues;
+                   }
+        },
+        form: {
+          values$: function() {
+                     return formValues;
+                   }
+        }
+
+      },
+      table: {
+        stopAllSubscriptions: [false]
       }
     };
 
