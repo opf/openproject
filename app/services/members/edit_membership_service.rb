@@ -78,12 +78,21 @@ module Members
     def validate_attributes!(attributes)
       # We need to check for empty roles here because that _implicitly_
       # deletes the membership and causes failures
-      if attributes[:role_ids].empty?
+      new_roles_are_empty = attributes[:role_ids].empty?
+
+      if new_roles_are_empty && !has_inherited_roles?
         member.errors.add :roles, :role_blank
         return false
       end
 
       true
+    end
+
+    ##
+    # Checks whether the member has any inherited role from a group,
+    # in which case it is okay to remove all other role_ids.
+    def has_inherited_roles?
+      member.member_roles.where.not(inherited_from: nil).any?
     end
 
     def set_attributes(attributes)
