@@ -1,14 +1,24 @@
 <work-package-comment work-package="vm.workPackage"
                       activities="vm.activities">
 
+
   <div class="detail-activity">
     <ul class="work-package-details-activities-list">
-      <li ng-repeat="activity in vm.activities"
+      <li ng-repeat="activity in vm.visibleAcitivities()"
           class="work-package-details-activities-activity"
-
           ng-init="inf = vm.info(activity, $index)">
 
-        <h3 class="activity-date" ng-if="inf.isNextDate" ng-bind="inf.date"></h3>
+        <h3 class="activity-date"
+            ng-class="{'-with-toggler': $first}"
+            ng-if="inf.isNextDate">
+          <span class="activity-date--label" ng-bind="inf.date"></span>
+          <accessible-by-keyboard execute="vm.toggleComments()"
+                                  ng-if="$first"
+                                  link-class="activity-comments--toggler button -small -transparent"
+                                  link-aria-label="{{ vm.togglerText }}">
+            <span ng-bind="vm.togglerText"></span>
+          </accessible-by-keyboard>
+        </h3>
 
           <activity-entry work-package="vm.workPackage"
                           activity="activity"
