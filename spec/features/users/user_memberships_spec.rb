@@ -30,8 +30,7 @@ require 'spec_helper'
 
 feature 'user memberships through user page', type: :feature, js: true do
   let!(:project) { FactoryGirl.create :project, name: 'Project 1', identifier: 'project1' }
-
-  let(:admin) { FactoryGirl.create :admin }
+  let(:admin) { FactoryGirl.create :admin, firstname: 'Foobar', lastname: 'Blabla' }
 
   let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
   let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
@@ -60,5 +59,42 @@ feature 'user memberships through user page', type: :feature, js: true do
     user_page.edit_roles!(member, %w())
 
     expect(page).to have_selector('#errorExplanation', 'Please choose at least one role.')
+  end
+
+  context 'when user has an inherited role' do
+    let(:group)     { FactoryGirl.create :group, lastname: 'A-Team' }
+    let(:group_page)   { Pages::Groups.new.group(group.id) }
+
+    before do
+      group.add_member! admin
+    end
+
+    scenario 'it can remove all other roles' do
+      user_page.expect_no_membership(project.name)
+
+      group_page.visit!
+      group_page.add_to_project! project.name, as: 'Manager'
+      expect(page).to have_text 'Successful update'
+
+      user_page.visit!
+      user_page.open_projects_tab!
+
+      # Expect inherited membership
+      user_page.expect_project(project.name)
+      user_page.expect_roles(project.name, %w(Manager))
+
+      # Remove all roles
+      member = admin.memberships.where(project_id: project.id).first
+      user_page.edit_roles!(member, %w())
+
+      # Keeps inherited role
+      user_page.expect_project(project.name)
+      user_page.expect_roles(project.name, %w(Manager))
+
+      # Extend roles
+      user_page.edit_roles!(member, %w(Developer))
+      user_page.expect_project(project.name)
+      user_page.expect_roles(project.name, %w(Manager Developer))
+    end
   end
 end

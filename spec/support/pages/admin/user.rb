@@ -69,8 +69,12 @@ module Pages
         end
       end
 
-      def expect_project(name)
-        expect(page).to have_selector('tr', text: name, wait: 10)
+      def expect_project(project_name)
+        expect(page).to have_selector('tr', text: project_name, wait: 10)
+      end
+
+      def expect_no_membership(project_name)
+        expect(page).to have_no_selector('tr', text: project_name)
       end
 
       def expect_roles(project_name, roles)

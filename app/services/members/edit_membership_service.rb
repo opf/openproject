@@ -34,7 +34,7 @@ module Members
     def initialize(member, save:, current_user:)
       @current_user = current_user
       @member = member
-      @do_save = do_save
+      @do_save = save
     end
 
     def call(attributes: {})
