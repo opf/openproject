@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for :enumeration %>
 <section class="form--section">
   <%= f.hidden_field 'type' %>
-  <div class="form--field"><%= f.text_field 'name', required: true %></div>
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
   <div class="form--field"><%= f.check_box 'active' %></div>
   <div class="form--field"><%= f.check_box 'is_default' %></div>
 
