@@ -81,6 +81,19 @@
   list-style-type: none
   margin: 0
 
+// Position first date with comment toggler
+.activity-date.-with-toggler
+  display: flex
+  // Align span and button in center
+  align-items: center
+  // Let button stretch to the far right
+  align-content: stretch
+
+  .activity-date--label
+    flex: 1
+  .activity-comments--toggler
+    margin: 0
+
 .work-package-details-activities-activity:not(:last-child)
   margin-bottom: 10px
 

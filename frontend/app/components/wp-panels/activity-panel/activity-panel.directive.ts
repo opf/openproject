@@ -34,14 +34,26 @@ import {WorkPackageCacheService} from "../../work-packages/work-package-cache.se
 export class ActivityPanelController {
 
   public workPackage:WorkPackageResourceInterface;
+
   public activities:any[] = [];
   public reverse:boolean;
 
+  public onlyComments:boolean = false;
+  public togglerText:string;
+  public text:any;
+
   constructor(public $scope:ng.IScope,
               public wpCacheService:WorkPackageCacheService,
+              public I18n:op.I18n,
               public wpActivity:any) {
 
     this.reverse = wpActivity.order === 'asc';
+
+    this.text = {
+      commentsOnly: I18n.t('js.label_activity_show_only_comments'),
+      showAll: I18n.t('js.label_activity_show_all')
+    };
+    this.togglerText = this.text.commentsOnly;
 
     scopedObservable(
       $scope,
@@ -52,6 +64,24 @@ export class ActivityPanelController {
           this.activities = activities;
         });
       });
+  }
+
+  public visibleAcitivities() {
+    if (!this.onlyComments) {
+      return this.activities;
+    }
+
+    return this.activities.filter((activity:any) => !!_.get(activity, 'comment.html'));
+  }
+
+  public toggleComments() {
+    this.onlyComments = !this.onlyComments;
+
+    if (this.onlyComments) {
+      this.togglerText = this.text.showAll;
+    } else {
+      this.togglerText = this.text.commentsOnly;
+    }
   }
 
   public info(activity:any, index:any) {
