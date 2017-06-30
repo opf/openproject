@@ -41,6 +41,8 @@ import {States} from '../../../states.service';
 import {SchemaResource} from './schema-resource.service';
 import {TypeResource} from './type-resource.service';
 import {RelationResourceInterface} from './relation-resource.service';
+import {WorkPackageCreateService} from '../../../wp-create/wp-create.service';
+import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
 
 interface WorkPackageResourceEmbedded {
   activities:CollectionResourceInterface;
@@ -101,36 +103,14 @@ var apiWorkPackages:ApiWorkPackagesService;
 var wpCacheService:WorkPackageCacheService;
 var schemaCacheService:SchemaCacheService;
 var NotificationsService:any;
-var wpNotificationsService:any;
+var wpNotificationsService:WorkPackageNotificationService;
+var wpCreate:WorkPackageCreateService;
 var AttachmentCollectionResource:any;
 var v3Path:any;
 
 export class WorkPackageResource extends HalResource {
   // Add index signature for getter this[attr]
   [attribute:string]:any;
-
-  public static fromCreateForm(form:any) {
-    var wp = new WorkPackageResource(form.payload.$plain(), true);
-
-    wp.initializeNewResource(form);
-    return wp;
-  }
-
-  /**
-   * Create a copy resource from other and the new work package form
-   * @param otherForm The work package form of another work package
-   * @param form Work Package create form
-   */
-  public static copyFrom(otherForm:any, form:any) {
-    var wp = new WorkPackageResource(otherForm.payload.$plain(), true);
-
-    // Override values from form payload
-    wp.lockVersion = form.payload.lockVersion;
-
-    wp.initializeNewResource(form);
-
-    return wp;
-  }
 
   public $embedded:WorkPackageResourceEmbedded;
   public $links:WorkPackageLinksObject;
@@ -273,7 +253,7 @@ export class WorkPackageResource extends HalResource {
           this.updateAttachments();
         })
         .catch((error:any) => {
-          wpNotificationsService.handleErrorResponse(error, this);
+          wpNotificationsService.handleErrorResponse(error, this as any);
           this.attachments.elements.push(attachment);
         });
     }
@@ -311,7 +291,7 @@ export class WorkPackageResource extends HalResource {
         return this.updateAttachments();
       })
       .catch(error => {
-        wpNotificationsService.handleRawError(error, this);
+        wpNotificationsService.handleRawError(error, this as any);
       });
   }
 
@@ -447,7 +427,7 @@ export class WorkPackageResource extends HalResource {
 
               if (wasNew) {
                 this.uploadPendingAttachments();
-                wpCacheService.newWorkPackageCreated(this as any);
+                wpCreate.newWorkPackageCreated(this as any);
               }
 
               // Remove only those pristine values that were submitted
@@ -657,6 +637,7 @@ function wpResource(...args:any[]) {
     states,
     apiWorkPackages,
     wpCacheService,
+    wpCreate,
     schemaCacheService,
     NotificationsService,
     wpNotificationsService,
@@ -673,6 +654,7 @@ wpResource.$inject = [
   'states',
   'apiWorkPackages',
   'wpCacheService',
+  'wpCreate',
   'schemaCacheService',
   'NotificationsService',
   'wpNotificationsService',
