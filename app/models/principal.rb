@@ -122,6 +122,14 @@ class Principal < ActiveRecord::Base
     order(User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s))
   end
 
+  def self.me
+    where(id: User.current.id)
+  end
+
+  def self.in_visible_project(user = User.current)
+    in_project(Project.visible(user))
+  end
+
   def status_name
     # Only Users should have another status than active.
     # User defines the status values and other classes like Principal
