@@ -47,8 +47,6 @@ function getWorkPackageId(id:number | string):string {
 
 export class WorkPackageCacheService extends StateCacheService<WorkPackageResourceInterface> {
 
-  private newWorkPackageCreatedSubject = new Subject<WorkPackageResourceInterface>();
-
   /*@ngInject*/
   constructor(private states:States,
               private $q:angular.IQService,
@@ -58,12 +56,12 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
     super();
   }
 
-  newWorkPackageCreated(wp:WorkPackageResourceInterface) {
-    this.newWorkPackageCreatedSubject.next(wp);
+  public updateValue(id:string, val:WorkPackageResourceInterface) {
+    this.updateWorkPackageList([val]);
   }
 
   updateWorkPackage(wp:WorkPackageResourceInterface) {
-    this.updateValue(wp.id, wp);
+    this.updateWorkPackageList([wp]);
   }
 
   updateWorkPackageList(list:WorkPackageResourceInterface[]) {
@@ -119,10 +117,6 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
 
     this.require(workPackageId, forceUpdate);
     return state;
-  }
-
-  onNewWorkPackage():Observable<WorkPackageResourceInterface> {
-    return this.newWorkPackageCreatedSubject.asObservable();
   }
 
   protected loadAll(ids:string[]) {
