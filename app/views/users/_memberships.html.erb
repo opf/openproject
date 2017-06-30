@@ -78,17 +78,22 @@ See doc/COPYRIGHT.rdoc for more details.
                                                   url: user_membership_path(user_id: @user, id: membership),
                                                   html: { id: "member-#{membership.id}-roles-form",
                                                           style: 'display:none;'},
-                                                  method: :patch) do %>
+                                                  method: :patch) do |f| %>
                       <div>
                         <% roles.each do |role| %>
-                          <label class="form--label-with-check-box">
-                            <%= styled_check_box_tag 'membership[role_ids][]', role.id, membership.roles.include?(role),
-                                                               disabled: membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?} %>
+                            <label class="form--label-with-check-box">
+                            <%= f.collection_check_box :role_ids,
+                                                       role.id,
+                                                       membership.roles.include?(role),
+                                                       role.name,
+                                                       disabled: membership.member_roles.detect {|mr| mr.role_id == role.id && !mr.inherited_from.nil?},
+                                                       no_label: true
+                            %>
                             <%= role %>
-                          </label>
+                            </label>
                         <% end %>
                       </div>
-                      <p><%= submit_tag l(:button_change), class: 'button -highlight -small' %>
+                      <p><%= submit_tag l(:button_change), class: 'user-memberships--edit-submit-button button -highlight -small' %>
                         <%= link_to_function l(:button_cancel),
                                              "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
                   class: 'button -small' %></p>
@@ -97,7 +102,8 @@ See doc/COPYRIGHT.rdoc for more details.
                   <%= call_hook(:view_users_memberships_table_row, user: @user, membership: membership, roles: roles, projects: projects )%>
                   <td class="buttons">
                     <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
-                                         "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();" %>
+                                         "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();",
+                                         class: 'user-memberships--edit-button' %>
                     <%= link_to(icon_wrapper('icon icon-remove', t(:button_remove)),
                                 user_membership_path(user_id: @user, id: membership),
                                 remote: true,
@@ -107,7 +113,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <% end %>
             </tbody>
           </table>
-          
+
         </div>
       </div>
     <% else %>

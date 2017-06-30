@@ -61,8 +61,10 @@ class Users::MembershipsController < ApplicationController
   private
 
   def update_or_create(save_record)
-    @membership = Member.edit_membership(params[:id], permitted_params.membership, @user)
-    @membership.save if save_record
+    @membership = params[:id].present? ? Member.find(params[:id]) : Member.new(principal: @user)
+    service = ::Members::EditMembershipService.new(@membership, save: save_record, current_user: current_user)
+    service.call(attributes: permitted_params.membership)
+
     respond_to do |format|
       format.html do
         redirect_to controller: '/users', action: 'edit', id: @user, tab: 'memberships'

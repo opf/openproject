@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
   $('#tab-content-memberships').html(memberships);
 
-  <% if @membership.valid? %>
+  <% if @membership.errors.empty? %>
     var notice = $("<%= escape_javascript(render(partial: 'members/common_notice',
                                                  locals: { message: l(:notice_successful_update) })) %>");
     $('#tab-content-memberships').prepend(notice);

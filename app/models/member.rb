@@ -130,13 +130,6 @@ class Member < ActiveRecord::Base
       .update_all 'assigned_to_id = NULL' if user
   end
 
-  # Find or initialize a Member with an id, attributes, and for a Principal
-  def self.edit_membership(id, new_attributes, principal = nil)
-    @membership = id.present? ? Member.find(id) : Member.new(principal: principal)
-    @membership.attributes = new_attributes
-    @membership
-  end
-
   ##
   # Returns true if this user can be deleted as they have no other memberships
   # and haven't been activated yet. Only applies if the member is actually a user
