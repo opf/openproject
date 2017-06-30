@@ -30,33 +30,72 @@ import {wpServicesModule} from '../../angular-modules';
 import {ApiWorkPackagesService} from '../api/api-work-packages/api-work-packages.service';
 import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {Observable, Subject} from 'rxjs';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {input, State} from 'reactivestates';
 
 export class WorkPackageCreateService {
   protected form:ng.IPromise<HalResource>;
 
+  // Allow callbacks to happen on newly created work packages
+  protected newWorkPackageCreatedSubject = new Subject<WorkPackageResourceInterface>();
+
   constructor(protected $q:ng.IQService,
-              protected WorkPackageResource:any,
               protected wpCacheService:WorkPackageCacheService,
               protected apiWorkPackages:ApiWorkPackagesService) {
   }
 
+  public newWorkPackageCreated(wp:WorkPackageResourceInterface) {
+    this.newWorkPackageCreatedSubject.next(wp);
+  }
+
+  public onNewWorkPackage():Observable<WorkPackageResourceInterface> {
+    return this.newWorkPackageCreatedSubject.asObservable();
+  }
+
   public createNewWorkPackage(projectIdentifier:string) {
     return this.getEmptyForm(projectIdentifier).then(form => {
-      return this.WorkPackageResource.fromCreateForm(form);
+      return this.fromCreateForm(form);
     });
   }
 
   public createNewTypedWorkPackage(projectIdentifier:string, type:number) {
     return this.apiWorkPackages.typedCreateForm(type, projectIdentifier).then(form => {
-      return this.WorkPackageResource.fromCreateForm(form);
+      return this.fromCreateForm(form);
     });
+  }
+
+  public fromCreateForm(form:any) {
+    var wp = new WorkPackageResource(form.payload.$plain(), true);
+
+    wp.initializeNewResource(form);
+    return wp as any;
+  }
+
+  /**
+   * Create a copy resource from other and the new work package form
+   * @param otherForm The work package form of another work package
+   * @param form Work Package create form
+   */
+  public copyFrom(otherForm:any, form:any) {
+    var wp = new WorkPackageResource(otherForm.payload.$plain(), true);
+
+    // Override values from form payload
+    wp.lockVersion = form.payload.lockVersion;
+
+    wp.initializeNewResource(form);
+
+    return wp as any;
   }
 
   public copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {
     var request = copyFromForm.payload.$source;
 
     return this.apiWorkPackages.emptyCreateForm(request, projectIdentifier).then(form => {
-      return this.WorkPackageResource.copyFrom(copyFromForm, form);
+      return this.copyFrom(copyFromForm, form);
     });
   }
 

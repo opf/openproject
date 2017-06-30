@@ -92,7 +92,7 @@ export class WorkPackageInlineCreateController {
     });
 
     // Remove temporary rows on creation of new work package
-    scopedObservable(this.$scope, this.wpCacheService.onNewWorkPackage())
+    scopedObservable(this.$scope, this.wpCreate.onNewWorkPackage())
       .subscribe((wp:WorkPackageResourceInterface) => {
 
         if (this.currentWorkPackage === wp) {
