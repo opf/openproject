@@ -62,6 +62,14 @@ export abstract class StateCacheService<T> {
   }
 
   /**
+   * Clear a set of cached states.
+   * @param ids
+   */
+  public clearSome(...ids:string[]) {
+    ids.forEach(id => this.multiState.get(id).clear());
+  }
+
+  /**
    * Require the value to be loaded either when forced or the value is stale
    * according to the cache interval specified for this service.
    *

@@ -50,7 +50,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       this.relationsDm
         .load(id)
         .then(elements => {
-          this.mergeIntoStates(elements);
+          this.updateRelationsStateTo(id, elements);
           resolve();
         })
         .catch((error) => reject(error));
@@ -63,8 +63,8 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     this.relationsDm
       .loadInvolved(ids)
       .then((elements:RelationResource[]) => {
-        this.mergeIntoStates(elements);
-        this.initializeEmpty(ids);
+        this.clearSome(...ids);
+        this.accumulateRelationsFromInvolved(ids, elements);
         deferred.resolve();
       });
 
@@ -76,15 +76,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    */
   public removeRelation(relation:RelationResourceInterface) {
     return relation.delete().then(() => {
-      _.each(relation.ids, (member:string) => {
-        const state = this.multiState.get(member);
-        const currentValue = state.value!;
-
-        if (currentValue !== null) {
-          delete currentValue[relation.id];
-          state.putValue(currentValue);
-        }
-      });
+      this.removeFromStates(relation);
       this.wpTableRefresh.request(true,
         `Removing relation (${relation.ids.from} to ${relation.ids.to})`);
     });
@@ -96,7 +88,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   public updateRelation(workPackageId:string, relation:RelationResourceInterface, params:any) {
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResourceInterface) => {
-        this.mergeIntoStates([savedRelation]);
+        this.insertIntoStates(relation);
         this.wpTableRefresh.request(true,
           `Updating relation (${relation.ids.from} to ${relation.ids.to})`);
         return savedRelation;
@@ -115,7 +107,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     };
 
     return workPackage.addRelation(params).then((relation:RelationResourceInterface) => {
-      this.mergeIntoStates([relation]);
+      this.insertIntoStates(relation);
       this.wpTableRefresh.request(true,
         `Adding relation (${relation.ids.from} to ${relation.ids.to})`);
       return relation;
@@ -123,56 +115,58 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   }
 
   /**
-   * Merge a set of relations into the associated states
+   * Merges a single relation
+   * @param relation
    */
-  private mergeIntoStates(elements:RelationResource[]) {
-    const stateValues = this.accumulateRelationsFromCollection(elements);
-    _.each(stateValues, (relations:RelationResource[], workPackageId:string) => {
-      this.merge(workPackageId, relations);
+  private insertIntoStates(relation:RelationResource) {
+    _.values(relation.ids).forEach(wpId => {
+      this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
+        value[relation.id] = relation;
+        return value;
+      }, () => { return {}; });
     });
   }
 
   /**
-   * Merge an object of relations into the associated state or create it, if empty.
+   * Remove the given relation from the from/to states
+   * @param relation
    */
-  private merge(workPackageId:string, newRelations:RelationResource[]) {
-    const state = this.multiState.get(workPackageId);
-    let relationsToInsert = _.keyBy(newRelations, r => r.id);
-    state.putValue(relationsToInsert, "Initializing relations state.");
+  private removeFromStates(relation:RelationResource) {
+    _.values(relation.ids).forEach(wpId => {
+      this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
+        delete value[relation.id];
+        return value;
+      }, () => { return {}; });
+    });
+  }
+
+  /**
+   * Given a set of complete relations for this work packge, fill
+   * the associated relations state
+   *
+   * @param wpId The wpId the relations belong to
+   * @param relations The relation resource array.
+   */
+  private updateRelationsStateTo(wpId:string, relations:RelationResource[]) {
+    const state = this.multiState.get(wpId);
+    const relationsToInsert = _.keyBy(relations, r => r.id);
+
+    state.putValue(relationsToInsert, "Overriding relations state.");
   }
 
   /**
    *
    * We don't know how many values we're getting for a single work package
-   * So accumlate the state values before pushing them once.
+   * when we use the involved filter.
+   *
+   * We need to group relevant relations for work packages based on their to/from filter.
    */
-  private accumulateRelationsFromCollection(relations:RelationResource[]) {
-    const stateValues:{ [workPackageId:string]:RelationResource[] } = {};
-
-    relations.forEach((relation:RelationResource) => {
-      const involved = relation.ids;
-
-      if (!stateValues[involved.from]) {
-        stateValues[involved.from] = [];
-      }
-      if (!stateValues[involved.to]) {
-        stateValues[involved.to] = [];
-      }
-
-      stateValues[involved.from].push(relation);
-      stateValues[involved.to].push(relation);
+  private accumulateRelationsFromInvolved(involved:string[], relations:RelationResource[]) {
+    involved.forEach(id => {
+      const relevant = relations.filter(r => r.isInvolved(id));
+      this.updateRelationsStateTo(id, relevant);
     });
 
-    return stateValues;
-  }
-
-  private initializeEmpty(ids:string[]) {
-    ids.forEach(id => {
-      const state = this.multiState.get(id);
-      if (state.isPristine()) {
-        state.putValue({});
-      }
-    });
   }
 
 }
