@@ -129,5 +129,14 @@ describe 'API v3 Principals resource', type: :request do
         let(:response) { last_response }
       end
     end
+
+    context 'user without a project membership' do
+      let(:user) { FactoryGirl.create(:user) }
+
+      # The user herself
+      it_behaves_like 'API V3 collection response', 1, 1, 'User' do
+        let(:response) { last_response }
+      end
+    end
   end
 end

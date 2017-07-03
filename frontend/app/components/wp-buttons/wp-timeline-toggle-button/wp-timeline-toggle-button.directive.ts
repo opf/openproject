@@ -32,7 +32,8 @@ import {
   wpButtonDirective
 } from '../wp-buttons.module';
 import { WorkPackageTableTimelineService } from "../../wp-fast-table/state/wp-table-timeline.service";
-import {ZoomLevel} from "../../wp-table/timeline/wp-timeline";
+import {zoomLevelOrder} from "../../wp-table/timeline/wp-timeline";
+import {TimelineZoomLevel} from "../../api/api-v3/hal-resources/query-resource.service";
 
 interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
@@ -48,8 +49,8 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
 
   public text:TimelineButtonText;
 
-  public minZoomLevel = ZoomLevel.DAYS;
-  public maxZoomLevel = ZoomLevel.YEARS;
+  public minZoomLevel:TimelineZoomLevel = 'days';
+  public maxZoomLevel:TimelineZoomLevel = 'years';
 
   constructor(public I18n:op.I18n, public wpTableTimeline:WorkPackageTableTimelineService) {
     'ngInject';

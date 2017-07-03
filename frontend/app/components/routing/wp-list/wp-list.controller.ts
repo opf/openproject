@@ -42,7 +42,10 @@ import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.se
 import {WorkPackagesListService} from "../../wp-list/wp-list.service";
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 import {WorkPackageTableBaseService} from "../../wp-fast-table/state/wp-table-base.service";
-import {WorkPackageTableBaseState} from "../../wp-fast-table/wp-table-base";
+import {
+  WorkPackageTableBaseState,
+  WorkPackageTableQueryState
+} from "../../wp-fast-table/wp-table-base";
 import {WorkPackageTableRefreshService} from "../../wp-table/wp-table-refresh-request.service";
 import {debugLog} from "../../../helpers/debug_output";
 
@@ -116,16 +119,17 @@ function WorkPackagesListController($scope:any,
       }
     });
 
-    setupChangeObserver(wpTableFilters, 'filters');
-    setupChangeObserver(wpTableGroupBy, 'groupBy');
-    setupChangeObserver(wpTableSortBy, 'sortBy');
-    setupChangeObserver(wpTableSum, 'sums');
-    setupChangeObserver(wpTableTimeline, 'timelineVisible', false);
-    setupChangeObserver(wpTableHierarchies, 'showHierarchies', false);
-    setupChangeObserver(wpTableColumns, 'columns', false);
+    setupChangeObserver(wpTableFilters);
+    setupChangeObserver(wpTableGroupBy);
+    setupChangeObserver(wpTableSortBy);
+    setupChangeObserver(wpTableSum);
+    setupChangeObserver(wpTableTimeline, false);
+    setupChangeObserver(wpTableTimeline, false);
+    setupChangeObserver(wpTableHierarchies, false);
+    setupChangeObserver(wpTableColumns, false);
   }
 
-  function setupChangeObserver(service:WorkPackageTableBaseService, name:string, triggerUpdate:boolean = true) {
+  function setupChangeObserver(service:WorkPackageTableBaseService, triggerUpdate:boolean = true) {
     const queryState = states.table.query;
 
     states.table.context.fireOnStateChange(service.state, 'Query loaded')
@@ -133,16 +137,10 @@ function WorkPackagesListController($scope:any,
       .takeUntil(scopeDestroyed$($scope))
       .filter(() => !isAnyDependentStateClear()) // Avoid updating while not all states are initialized
       .filter(() => queryState.hasValue())
-      .filter((stateValue:WorkPackageTableBaseState<any>) => {
-
-        // Avoid updating if the query is up-to-date
-        // (Loaded into query elsewhere)
-        const queryValue = stateValue.comparerFunction()(queryState.value![name]);
-        return _.isEqual(queryValue, stateValue.extractedCompareValue) === false;
-      })
-      .subscribe((stateValue:WorkPackageTableBaseState<any>) => {
+      .filter((stateValue:WorkPackageTableQueryState) => stateValue.hasChanged(queryState.value!))
+      .subscribe((stateValue:WorkPackageTableQueryState) => {
         const newQuery = queryState.value!;
-        newQuery[name] = _.cloneDeep(stateValue.currentQueryValue);
+        stateValue.applyToQuery(newQuery);
         states.table.query.putValue(newQuery);
 
         if (triggerUpdate) {

@@ -89,6 +89,9 @@ $ng-modal-image-width:   $ng-modal-image-height
     i
       float: right
       cursor: pointer
+      @include varprop(color, body-font-color)
+      &:hover
+        @include varprop(color, content-link-color)
 
   .select2-container
     margin: 0 0 10px 0
@@ -161,7 +164,10 @@ ul.export-options
 .modal-wrapper .ngdialog-close,
 .ngdialog-theme-openproject .ngdialog-close
   @include varprop(line-height, header-height)
-  @include varprop(color, header-item-font-color)
+  @include varprop(color, body-font-color)
+  &:hover
+    @include varprop(color, content-link-color)
+
 
 .modal--header
   display: flex

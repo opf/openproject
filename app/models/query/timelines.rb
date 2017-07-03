@@ -1,3 +1,4 @@
+#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,22 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: Searching
-  Background:
-    Given there is 1 project with the following:
-      | identifier | project |
-      | name       | test-project |
-    And there are the following work packages in project "test-project":
-      | subject |
-      | wp1     |
-    And I am already admin
+module Query::Timelines
+  extend ActiveSupport::Concern
 
-  @javascript @selenium
-  Scenario: Searching stuff retains a project's scope
-    When I am on the overview page for the project called "test-project"
-     And I search globally for "stuff"
-     And I search for "wp1" after having searched
-    Then I should see "Overview" within "#main-menu"
-     And I click on "wp1" within "#search-results"
-    Then I should see "wp1" within ".wp-edit-field.subject"
-     And I should be on the page of the work package "wp1" in project "project"
+  included do
+    enum timeline_zoom_level: %i(days weeks months quarters years)
+    validates :timeline_zoom_level, inclusion: { in: timeline_zoom_levels.keys }
+  end
+end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -60,9 +61,13 @@ module API
                 if custom_value && custom_value.value.present?
                   title = link_value_title(custom_value)
 
+                  # only use ids for url
+                  href = if custom_value.value.to_i.to_s == custom_value.value
+                           api_v3_paths.send(path_method, custom_value.value)
+                         end
                   [{
                     title: title,
-                    href: api_v3_paths.send(path_method, custom_value.value)
+                    href: href
                   }]
                 else
                   []

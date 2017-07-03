@@ -43,6 +43,7 @@ module OpenProject
       'body-font-color'                                      => "#333333",
       'base-line-height'                                     => "1.5",
       'secondary-color'                                      => "#bfbfbf",
+      'content-link-color'                                   => "$primary-color-dark",
       'font-color-on-primary'                                => "#FFFFFF",
       'font-color-on-primary-dark'                           => "#FFFFFF",
       'font-color-on-secondary'                              => "#FFFFFF",
@@ -76,8 +77,8 @@ module OpenProject
       'header-search-field-bg-color'                         => "#FFFFFF",
       'header-search-field-font-color'                       => "#000000",
       'header-search-field-border'                           => "0",
-      'footer-bg-color'                                      => "$primary-color",
-      'footer-font-color'                                    => "$font-color-on-primary",
+      'footer-bg-color'                                      => "#41494E",
+      'footer-font-color'                                    => "#FFFFFF",
       'footer-height'                                        => "55px",
       'footer-content-height'                                => "55px",
       'footer-content-line-height'                           => "55px",
@@ -91,25 +92,27 @@ module OpenProject
       'main-menu-item-border-width'                          => "1px",
       'main-menu-enable-toggle-highlighting'                 => "false",
       'main-menu-bg-color'                                   => "#F8F8F8",
-      'main-menu-bg-selected-background'                     => "$primary-color",
-      'main-menu-bg-hover-background'                        => "$primary-color-dark",
+      'main-menu-bg-selected-background'                     => "rgba(0, 0, 0, 0.15)",
+      'main-menu-bg-hover-background'                        => "rgba(0, 0, 0, 0.075)",
       'main-menu-font-color'                                 => "#333333",
-      'main-menu-selected-font-color'                        => "$font-color-on-primary",
+      'main-menu-hover-font-color'                           => "$main-menu-font-color",
+      'main-menu-selected-font-color'                        => "$content-link-color",
       'main-menu-font-size'                                  => "15px",
-      'main-menu-selected-indicator-color'                   => "$primary-color",
+      'main-menu-selected-indicator-color'                   => "#E0E0E0",
       'main-menu-hover-indicator-color'                      => "$primary-color-dark",
       'main-menu-selected-hover-indicator-width'             => "4px",
       'main-menu-selected-hover-border-color'                => "$main-menu-border-color",
-      'main-menu-navigation-toggler-font-hover-color'        => "#FFFFFF",
+      'main-menu-navigation-toggler-font-hover-color'        => "$main-menu-selected-font-color",
       'main-menu-toggler-separator-color'                    => "#EAEAEA",
-      'main-menu-child-item-height'                          => "35px",
+      'main-menu-child-item-height'                          => "30px",
       'main-menu-child-menu-bg-color'                        => "#FFFFFF",
-      'main-menu-child-bg-selected-color'                    => "$primary-color",
-      'main-menu-child-bg-hover-color'                       => "$primary-color-dark",
+      'main-menu-child-bg-selected-color'                    => "$main-menu-bg-selected-background",
+      'main-menu-child-bg-hover-color'                       => "$main-menu-bg-hover-background",
       'main-menu-child-menu-border-color'                    => "#E7E7E7",
-      'main-menu-child-font-color'                           => "#04232F",
-      'main-menu-child-font-size'                            => "13px",
-      'main-menu-child-selected-font-color'                  => "#FFFFFF",
+      'main-menu-child-font-color'                           => "$main-menu-font-color",
+      'main-menu-child-font-size'                            => "12px",
+      'main-menu-child-hover-font-color'                     => "$main-menu-hover-font-color",
+      'main-menu-child-selected-font-color'                  => "$main-menu-selected-font-color",
       'main-menu-sidebar-font-color'                         => "#333333",
       'main-menu-sidebar-h3-color'                           => "#333333",
       'main-menu-sidebar-link-color'                         => "#333333",
@@ -127,12 +130,11 @@ module OpenProject
       'breadcrumb-font-color'                                => "$body-font-color",
       'content-default-border-color'                         => "#EAEAEA",
       'content-default-border-width'                         => "1px",
-      'content-link-color'                                   => "$primary-color-dark",
       'content-link-hover-active-color'                      => "$primary-color-dark",
       'content-icon-link-color'                              => "#4b4b4b",
       'content-icon-link-hover-color'                        => "$primary-color-dark",
       'content-icon-link-pressed-color'                      => "$gray-dark",
-      'content-icon-color'                                   => "$primary-color-dark",
+      'content-icon-color'                                   => "$content-link-color",
       'content-form-bg-color'                                => "#F8F8F8",
       'content-form-border'                                  => "1px solid $content-default-border-color",
       'content-from-input-width'                             => "300px",
@@ -150,15 +152,16 @@ module OpenProject
       'content-calendar-cell-today-bg-color'                 => "#FFFFDD",
       'content-calendar-inactive-day-font-color'             => "#FFFFFF",
       'content-calendar-inactive-day-bg-color'               => "#4B4B4B",
-      'context-menu-font-color'                              => "$main-menu-font-color",
-      'content-box-border'                                   => "1px solid $content-default-border-color",
-      'content-box-bg-color'                                 => "#FFFFFF",
       'my-page-edit-box-border-color'                        => "$primary-color-dark",
       'drop-down-unselected-font-color'                      => "$main-menu-font-color",
-      'drop-down-selected-font-color'                        => "$font-color-on-primary",
-      'drop-down-hover-font-color'                           => "$font-color-on-primary-dark",
-      'drop-down-selected-bg-color'                          => "$primary-color",
-      'drop-down-hover-bg-color'                             => "$primary-color-dark",
+      'drop-down-selected-font-color'                        => "$main-menu-selected-font-color",
+      'drop-down-hover-font-color'                           => "$main-menu-hover-font-color",
+      'drop-down-selected-bg-color'                          => "$main-menu-bg-selected-background",
+      'drop-down-hover-bg-color'                             => "$main-menu-bg-hover-background",
+      'context-menu-unselected-font-color'                   => "$drop-down-unselected-font-color",
+      'context-menu-hover-font-color'                        => "$drop-down-hover-font-color",
+      'content-box-border'                                   => "1px solid $content-default-border-color",
+      'content-box-bg-color'                                 => "#FFFFFF",
       'action-menu-bg-color'                                 => "#FFFFFF",
       'wiki-default-font-size'                               => "1rem",
       'wiki-toc-header-font-size'                            => "calc($wiki-default-font-size * 0.6)",
@@ -245,7 +248,16 @@ module OpenProject
     ##
     # Returns the keys of variables that are customizable through the design
     def self.customizable_variables
-      %w(primary-color primary-color-dark alternative-color)
+      %w( primary-color
+          primary-color-dark
+          alternative-color
+          header-bg-color
+          header-item-font-color
+          header-item-font-hover-color
+          header-item-bg-hover-color
+          header-border-bottom-color
+          content-link-color
+          main-menu-bg-color )
     end
   end
 end

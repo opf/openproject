@@ -145,11 +145,15 @@ i
     width: 5%
     .icon-context:before
       padding-top: 10px
-  li.selected
+    &:hover
+      border-bottom: 0
+  li.selected,
+  li:hover
     color: #999
-    border-bottom: 2px solid $content-link-color
+    border-bottom: 2px solid
+    @include varprop(border-bottom-color, content-link-color)
     a
-      color: $content-link-color
+      @include varprop(color, content-link-color)
 
 .work-packages--details-close-icon span,
 .work-packages--details-fullscreen-icon span
@@ -174,7 +178,20 @@ i
         page-break-inside: avoid
         break-inside: avoid
 
+      @supports (column-span: all)
         // Let some elements still span both columns
-        &.-span-all-columns
+        .attributes-key-value.-span-all-columns
           column-span: all
+          .attributes-key-value--key
+            flex-basis: calc(16.65% - (4rem / 6))
+          .attributes-key-value--value-container
+            flex-basis: calc(83.35% + (4rem / 6))
+            max-width: calc(83.35% + (4rem / 6))
 
+  @supports (column-span: all)
+    // Remove the outline on focus since that breaks the column in chrome
+    // Chrome bug https://bugs.chromium.org/p/chromium/issues/detail?id=565116
+    body:not(.accessibility-mode)
+      .attributes-key-value--value-container
+        *:focus
+          outline: 1px solid $gray

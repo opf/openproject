@@ -43,7 +43,7 @@ See doc/COPYRIGHT.rdoc for more details.
    depth = params[:depth].to_i %>
   <%  ent_path = replace_invalid_utf8(entry.path)   %>
   <%  ent_name = replace_invalid_utf8(entry.name)   %>
-  <tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> entry <%= h(entry.kind) %>">
+  <tr id="<%= tr_id %>" class="<%= h params[:parent_id] %> <%= h(entry.kind) %>">
     <td class="filename" style="padding-left: <%=18 * depth%>px;">
       <% if entry.dir? %>
         <a class="icon-context dir-expander"

@@ -20,8 +20,8 @@ export class WorkPackageTable {
   public states:States;
   public I18n:op.I18n;
 
-  public rows: string[] = [];
-  public rowIndex:{[id: string]: WorkPackageTableRow} = {};
+  public rows:string[] = [];
+  public rowIndex:{[id:string]:WorkPackageTableRow} = {};
 
   // WP rows builder
   // Ordered by priority
@@ -69,11 +69,6 @@ export class WorkPackageTable {
 
     // Draw work packages
     this.redrawTableAndTimeline();
-
-    // Preselect first work package as focused
-    if (this.rows.length && this.states.focusedWorkPackage.isPristine()) {
-      this.states.focusedWorkPackage.putValue(this.rows[0]);
-    }
   }
 
   /**

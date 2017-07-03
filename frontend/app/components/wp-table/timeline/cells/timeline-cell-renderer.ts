@@ -258,7 +258,7 @@ export class TimelineCellRenderer {
     }
   }
 
-  getLeftmostXValue(renderInfo: RenderInfo): number {
+  getMarginLeftOfLeftSide(renderInfo: RenderInfo): number {
     const wp = renderInfo.workPackage;
 
     let start = moment(wp.startDate as any);
@@ -269,11 +269,7 @@ export class TimelineCellRenderer {
     return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart);
   }
 
-  getInnerXOffsetForRelationLineDock(renderInfo: RenderInfo): number {
-    return renderInfo.viewParams.pixelPerDay / 8;
-  }
-
-  getRightmostXValue(renderInfo: RenderInfo): number {
+  getMarginLeftOfRightSide(renderInfo: RenderInfo): number {
     const wp = renderInfo.workPackage;
 
     let start = moment(wp.startDate as any);
@@ -286,6 +282,14 @@ export class TimelineCellRenderer {
     const duration = due.diff(start, "days") + 1;
 
     return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart + duration);
+  }
+
+  getPaddingLeftForIncomingRelationLines(renderInfo: RenderInfo): number {
+    return renderInfo.viewParams.pixelPerDay / 8;
+  }
+
+  getPaddingRightForOutgoingRelationLines(renderInfo: RenderInfo): number {
+    return 0;
   }
 
   /**

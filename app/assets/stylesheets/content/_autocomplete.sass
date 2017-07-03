@@ -82,13 +82,13 @@ div.autocomplete
 
     &.ui-state-active, &.ui-state-active a
       border: none
-      background: $primary-color
-      color: $font-color-on-primary
+      @include varprop(background, main-menu-bg-hover-background)
+      @include varprop(color, main-menu-hover-font-color)
 
   &.-inplace
     position: relative
     border: none
-    margin-top: 15px
+    padding-top: 15px
     line-height: 1.6
     font-size: 1rem
 

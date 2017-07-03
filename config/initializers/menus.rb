@@ -173,7 +173,8 @@ Redmine::MenuManager.map :admin_menu do |menu|
 
   menu.push :ldap_authentication,
             { controller: '/ldap_auth_sources', action: 'index' },
-            html: { class: 'server_authentication icon2 icon-flag' },
+            html: { class: 'server_authentication' },
+            icon: 'icon2 icon-flag',
             if: proc { !OpenProject::Configuration.disable_password_login? }
 
   menu.push :announcements,
@@ -245,8 +246,7 @@ Redmine::MenuManager.map :project_menu do |menu|
             { controller: '/work_packages/reports', action: 'report' },
             param: :project_id,
             caption: :label_workflow_summary,
-            parent: :work_packages,
-            icon: 'icon2 icon-chart3'
+            parent: :work_packages
 
   menu.push :timelines,
             { controller: '/timelines', action: 'index' },

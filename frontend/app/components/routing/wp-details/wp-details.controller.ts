@@ -51,6 +51,8 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
     if (!focusedWP) {
       focusState.putValue(wpId);
       this.wpTableSelection.setRowState(wpId, true);
+    } else if (!this.wpTableSelection.isSelected(wpId)) {
+      this.wpTableSelection.setRowState(wpId, true);
     }
 
     scopedObservable(

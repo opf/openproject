@@ -45,9 +45,16 @@ en:
       enterprise_notice: "As a special 'Thank you!' for their financial contribution to develop OpenProject, this tiny feature is only available for Enterprise Edition support subscribers."
       manage_colors: "Edit color select options"
       instructions:
+        alternative_color: "Strong accent color, typically used for most the important button on a screen."
+        content_link_color: "Font color of most of the links."
         primary_color: "Main color."
         primary_color_dark: "Typically a darker version of the main color used for hover effects."
-        alternative_color: "Strong accent color, typically used for most the important button on a screen."
+        header_bg_color: "Background color of the header."
+        header_item_bg_hover_color: "Background color of clickable header items when hovered with the mouse."
+        header_item_font_color: "Font color of clickable header items."
+        header_item_font_hover_color: "Font color of clickable header items when hovered with the mouse."
+        header_border_bottom_color: "Thin line under the header. Leave this field empty if you don't want any line."
+        main_menu_bg_color: "Left side menu's background color."
     enterprise:
       upgrade_to_ee: "Upgrade to Enterprise Edition"
       add_token: "Upload an Enterprise Edition support token"
@@ -89,6 +96,8 @@ en:
       further_information_before: "Please take a look at"
       link_name: "how to migrate to the new timeline."
       further_information_after: ""
+    calendar:
+      removal: "Please note: This module is going to be removed with OpenProject 8.0."
 
   groups:
     index:
@@ -1183,6 +1192,8 @@ en:
   label_logged_as: "Logged in as"
   label_login: "Sign in"
   label_custom_logo: "Custom logo"
+  label_custom_favicon: "Custom favicon"
+  label_custom_touch_icon: "Custom touch icon"
   label_logout: "Sign out"
   label_main_menu: "Side Menu"
   label_manage_groups: "Manage groups"
@@ -1981,7 +1992,20 @@ en:
   text_custom_field_hint_activate_per_project_and_type: >
     Custom fields need to be activated per work
     package type and per project.
-  text_custom_logo_instructions: "A white logo on transparent background is recommended. For best results on both, conventional and retina displays, make sure your image's dimensions are 460px by 110px."
+  text_custom_logo_instructions: >
+    A white logo on transparent background is recommended.
+    For best results on both, conventional and retina displays,
+    make sure your image's dimensions are 460px by 60px.
+  text_custom_favicon_instructions: >
+    This is the tiny icon that appears in your browser window/tab next to the
+    page's title.
+    It's needs to be a squared 32 by 32 pixels sized PNG image file with a transparent background.
+  text_custom_touch_icon_instructions: >
+    This is the icon that appears in your mobile or tablet when you place a
+    bookmark on your homescreen.
+    It's needs to be a squared 180 by 180 pixels sized PNG image file. Please
+    make sure the image's background is not transparent otherwise it will look
+    bad on iOS.
   text_default_administrator_account_changed: "Default administrator account changed"
   text_default_encoding: "Default: UTF-8"
   text_destroy: "Delete"

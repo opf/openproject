@@ -76,13 +76,8 @@ describe Queries::WorkPackages::Filter::PrincipalLoader, type: :model do
     let(:matching_principals) { [user_1, group_1] }
 
     before do
-      allow(Project)
-        .to receive(:visible)
-        .and_return visible_projects
-
       allow(Principal)
-        .to receive_message_chain(:active_or_registered, :in_project)
-        .with(visible_projects)
+        .to receive_message_chain(:active_or_registered, :in_visible_project)
         .and_return(matching_principals)
     end
 

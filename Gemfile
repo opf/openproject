@@ -103,6 +103,9 @@ gem 'rack-protection', '~> 2.0.0'
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack', '~> 5.0.1'
 
+# Providing health checks
+gem 'okcomputer', '~> 1.16.0'
+
 # Patch Rails HTML whitelisting for Angular curly braces
 gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: 'a45267d5'
 
@@ -263,7 +266,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'stable/7'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'release/7.1'
 end
 
 # TODO: Make this group :optional when bundler v10.x

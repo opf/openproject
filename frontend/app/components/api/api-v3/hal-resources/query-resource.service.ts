@@ -45,6 +45,8 @@ interface QueryResourceEmbedded {
   filters:QueryFilterInstanceResource[];
 }
 
+export type TimelineZoomLevel = 'days' | 'weeks' | 'months' | 'quarters' | 'years';
+
 export class QueryResource extends HalResource {
   public $embedded:QueryResourceEmbedded;
   public id:number;
@@ -56,6 +58,7 @@ export class QueryResource extends HalResource {
   public starred:boolean;
   public sums:boolean;
   public timelineVisible:boolean;
+  public timelineZoomLevel:TimelineZoomLevel;
   public showHierarchies:boolean;
   public public:boolean;
   public project:ProjectResource;

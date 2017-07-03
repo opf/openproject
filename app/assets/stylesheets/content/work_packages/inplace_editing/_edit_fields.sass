@@ -73,8 +73,13 @@
       word-wrap: break-word
       margin-bottom: 0
 
-    .read-value--html p
-      margin-bottom: 1em
+    .read-value--html
+      *
+        // Adjust size of all members in the html
+        font-size: 0.875rem
+      p
+        // Add some margin to paragraphs in long-text fields
+        margin-bottom: 1em
 
   .inplace-edit--read-value
     &:before
@@ -115,10 +120,6 @@
 
     &.-multiline
       white-space: inherit
-
-    // override text size within p elements of formattables
-    p
-      font-size: 0.875rem
 
 // Style no-label fields (long text, description, ..) with padding
 .wp-edit-field.-no-label:not(.-active)

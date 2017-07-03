@@ -39,7 +39,10 @@ body
 
 #wrapper
   @include default-transition
+  // we need to define the next two lines twice as `varprop` cannot handle this
+  // multiple variables in one line.
   background: linear-gradient(to bottom, $main-menu-bg-color 0%, $main-menu-bg-color 100%) no-repeat
+  background: linear-gradient(to bottom, var(--main-menu-bg-color) 0%, var(--main-menu-bg-color) 100%) no-repeat
   background-size: $main-menu-width 100%
   min-height: 100%
   height: auto

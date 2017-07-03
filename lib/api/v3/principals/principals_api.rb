@@ -32,8 +32,9 @@ module API
       class PrincipalsAPI < ::API::OpenProjectAPI
         resource :principals do
           get do
-            scope = Principal.includes(:preference, :members)
-                             .where(members: { project_id: Project.visible(current_user) })
+            scope = Principal.in_visible_project(current_user)
+                             .or(Principal.me)
+                             .includes(:preference)
                              .order_by_name
 
             representer = Users::UserCollectionRepresenter

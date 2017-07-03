@@ -140,6 +140,14 @@ OpenProject::Application.routes.draw do
       as: 'custom_style_logo',
       constraints: { filename: /[^\/]*/ }
 
+  get 'custom_style/:digest/favicon/:filename' => 'custom_styles#favicon_download',
+      as: 'custom_style_favicon',
+      constraints: { filename: /[^\/]*/ }
+
+  get 'custom_style/:digest/touch-icon/:filename' => 'custom_styles#touch_icon_download',
+      as: 'custom_style_touch_icon',
+      constraints: { filename: /[^\/]*/ }
+
   resources :custom_fields, except: :show do
     member do
       match "options/:option_id",
@@ -371,6 +379,8 @@ OpenProject::Application.routes.draw do
     resources :enumerations
 
     delete 'design/logo' => 'custom_styles#logo_delete', as: 'custom_style_logo_delete'
+    delete 'design/favicon' => 'custom_styles#favicon_delete', as: 'custom_style_favicon_delete'
+    delete 'design/touch_icon' => 'custom_styles#touch_icon_delete', as: 'custom_style_touch_icon_delete'
     get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
     post 'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
     resource :custom_style, only: [:update, :show, :create], path: 'design'

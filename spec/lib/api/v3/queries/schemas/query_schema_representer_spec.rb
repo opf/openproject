@@ -206,6 +206,20 @@ describe ::API::V3::Queries::Schemas::QuerySchemaRepresenter do
         it_behaves_like 'has no visibility property'
       end
 
+      describe 'timelineZoomLevel' do
+        let(:path) { 'timelineZoomLevel' }
+
+        it_behaves_like 'has basic schema properties' do
+          let(:type) { 'String' }
+          let(:name) { Query.human_attribute_name('timeline_zoom_level') }
+          let(:required) { false }
+          let(:writable) { true }
+          let(:has_default) { true }
+        end
+
+        it_behaves_like 'has no visibility property'
+      end
+
       describe 'show hierarchies' do
         let(:path) { 'showHierarchies' }
 

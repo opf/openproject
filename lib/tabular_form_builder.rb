@@ -94,6 +94,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                                           for: label_for,
                                           label: text)
 
+    if options.delete(:no_label)
+      input_options.delete :for
+      input_options.delete :label
+    end
+
     check_box(field, input_options, checked_value, unchecked_value)
   end
 

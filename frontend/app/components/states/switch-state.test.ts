@@ -23,14 +23,6 @@ describe("SwitchState", function () {
     // Invalid substate will yield TS error
     // automata.switch("Unknown"); will result in TS error
 
-
-    // No subscribers -> no downstream values
-    expect(whenInit.hasValue()).to.be.false;
-    expect(whenPhase1.hasValue()).to.be.false;
-
-    whenInit.changes$().subscribe();
-    whenPhase1.changes$().subscribe();
-
     expect(whenInit.hasValue()).to.be.true;
     expect(whenPhase1.hasValue()).to.be.false;
 

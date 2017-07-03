@@ -31,9 +31,9 @@ class CustomStylesController < ApplicationController
   layout 'admin'
   menu_item :custom_style
 
-  before_action :require_admin, except: :logo_download
-  before_action :require_ee_token, except: [:upsale, :logo_download]
-  skip_before_action :check_if_login_required, only: :logo_download
+  before_action :require_admin, except: [:logo_download, :favicon_download, :touch_icon_download]
+  before_action :require_ee_token, except: [:upsale, :logo_download, :favicon_download, :touch_icon_download]
+  skip_before_action :check_if_login_required, only: [:logo_download, :favicon_download, :touch_icon_download]
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new
@@ -71,6 +71,26 @@ class CustomStylesController < ApplicationController
     end
   end
 
+  def favicon_download
+    @custom_style = CustomStyle.current
+    if @custom_style && @custom_style.favicon
+      expires_in 1.years, public: true, must_revalidate: false
+      send_file(@custom_style.favicon.local_file.path)
+    else
+      head :not_found
+    end
+  end
+
+  def touch_icon_download
+    @custom_style = CustomStyle.current
+    if @custom_style && @custom_style.touch_icon
+      expires_in 1.years, public: true, must_revalidate: false
+      send_file(@custom_style.touch_icon.local_file.path)
+    else
+      head :not_found
+    end
+  end
+
   def logo_delete
     @custom_style = CustomStyle.current
     if @custom_style.nil?
@@ -78,6 +98,28 @@ class CustomStylesController < ApplicationController
     end
 
     @custom_style.remove_logo!
+    @custom_style.save
+    redirect_to custom_style_path
+  end
+
+  def favicon_delete
+    @custom_style = CustomStyle.current
+    if @custom_style.nil?
+      return render_404
+    end
+
+    @custom_style.remove_favicon!
+    @custom_style.save
+    redirect_to custom_style_path
+  end
+
+  def touch_icon_delete
+    @custom_style = CustomStyle.current
+    if @custom_style.nil?
+      return render_404
+    end
+
+    @custom_style.remove_touch_icon!
     @custom_style.save
     redirect_to custom_style_path
   end
@@ -116,6 +158,6 @@ class CustomStylesController < ApplicationController
   end
 
   def custom_style_params
-    params.require(:custom_style).permit(:logo, :remove_logo)
+    params.require(:custom_style).permit(:logo, :remove_logo, :favicon, :remove_favicon, :touch_icon, :remove_touch_icon)
   end
 end

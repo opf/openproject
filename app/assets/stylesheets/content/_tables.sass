@@ -113,9 +113,9 @@ table
         font-style: italic
         text-transform: none
         a
-          color: $content-link-color
+          @include varprop(color, content-link-color)
           &:hover
-            color: $content-link-color
+            @include varprop(color, content-link-color)
             text-decoration: underline
 
       .-border
@@ -131,27 +131,6 @@ tr
   &.project
     td.name a
       white-space: nowrap
-    &.idnt td.project--hierarchy span
-      &.icon-context:before
-        padding: 9px 5px 0 0px
-    &.idnt-1 td.project--hierarchy
-      @include calc-indentation(0)
-    &.idnt-2 td.project--hierarchy
-      @include calc-indentation(1)
-    &.idnt-3 td.project--hierarchy
-      @include calc-indentation(2)
-    &.idnt-4 td.project--hierarchy
-      @include calc-indentation(3)
-    &.idnt-5 td.project--hierarchy
-      @include calc-indentation(4)
-    &.idnt-6 td.project--hierarchy
-      @include calc-indentation(5)
-    &.idnt-7 td.project--hierarchy
-      @include calc-indentation(6)
-    &.idnt-8 td.project--hierarchy
-      @include calc-indentation(7)
-    &.idnt-9 td.project--hierarchy
-      @include calc-indentation(8)
 
   &.issue
     white-space: nowrap
@@ -163,22 +142,6 @@ tr
         white-space: normal
       &.subject
         text-align: left
-    &.idnt td.subject .icon-context:before
-      padding: 0px 0 0 5px
-
-  &.entry
-    border: 1px solid #f8f8f8
-    td
-      white-space: nowrap
-      &.filename
-        width: 30%
-      &.size
-        text-align: right
-        font-size: 90%
-      &.revision, &.author
-        text-align: center
-      &.age
-        text-align: right
 
   div.expander
     cursor: pointer
@@ -187,11 +150,6 @@ tr
 
   &.open span .expand, &.closed span .collapse
     display: none
-
-  &.changeset td
-    &.author, &.committed_on
-      text-align: center
-      width: 15%
 
   [class*=reorder]
     .icon-context:before
@@ -231,35 +189,9 @@ td.hours
 th.hidden
   display: none
 
-#content tr.issue
-  &.idnt-1 td.subject
-    padding-left: 0.5em
-  &.idnt-2 td.subject
-    padding-left: 2em
-  &.idnt-3 td.subject
-    padding-left: 3.5em
-  &.idnt-4 td.subject
-    padding-left: 5em
-  &.idnt-5 td.subject
-    padding-left: 6.5em
-  &.idnt-6 td.subject
-    padding-left: 8em
-  &.idnt-7 td.subject
-    padding-left: 9.5em
-  &.idnt-8 td.subject
-    padding-left: 11em
-  &.idnt-9 td.subject
-    padding-left: 12.5em
-
 tr.context-menu-selection,
 tr.-checked
   background-color: $table-row-highlighting-color
-
-#issue_tree
-  table.issues
-    border: 0
-  td.checkbox
-    display: none
 
 #custom-options-table
   .custom-option-value

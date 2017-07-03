@@ -57,8 +57,9 @@ module Api
 
       def create
         @planning_element = @project.work_packages.build
-        @planning_element.update_attributes(permitted_params.planning_element(project: @project).except :note)
+        attributes = permitted_params.planning_element(project: @project).except :note
 
+        @planning_element.update_attributes(lookup_custom_options(attributes))
         @planning_element.attach_files(params[:attachments])
 
         # The planning_element inherits from workpackage, which requires an author.
@@ -94,8 +95,8 @@ module Api
 
       def update
         @planning_element = WorkPackage.find(params[:id])
-        @planning_element.attributes = permitted_params.planning_element(project: @project).except :note
-
+        attributes = permitted_params.planning_element(project: @project).except :note
+        @planning_element.attributes = lookup_custom_options attributes
         @planning_element.add_journal(User.current, permitted_params.planning_element(project: @project)[:note])
 
         successfully_updated = @planning_element.save
@@ -121,6 +122,34 @@ module Api
       end
 
       protected
+
+      def lookup_custom_options(attributes)
+        return attributes unless attributes.include?("custom_fields")
+
+        custom_fields = attributes["custom_fields"].map do |custom_field|
+          if CustomField.where(id: custom_field["id"], field_format: "list").exists?
+            value = custom_field["value"]
+            custom_option_id = begin
+              Integer(value)
+            rescue
+              lookup_custom_option(custom_field)
+            end
+
+            custom_field.merge value: custom_option_id || value
+          else
+            custom_field
+          end
+        end
+
+        attributes.merge custom_fields: custom_fields
+      end
+
+      def lookup_custom_option(custom_field_attributes)
+        custom_field_id = custom_field_attributes["id"]
+        value = custom_field_attributes["value"]
+
+        CustomOption.where(custom_field_id: custom_field_id, value: value).pluck(:id)
+      end
 
       def load_multiple_projects(ids, identifiers)
         @projects = []
