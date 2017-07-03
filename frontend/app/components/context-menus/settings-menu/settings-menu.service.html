@@ -20,8 +20,6 @@
     <li>
        <a class="menu-item"
           href
-          ng-disabled="displayHierarchies"
-          ng-class="{'inactive': displayHierarchies}"
           ng-attr-title="{{ text.group_by_title() }}"
           ng-click="showGroupingModal($event)">
          <op-icon icon-classes="icon-action-menu icon-group-by"></op-icon>
@@ -39,20 +37,21 @@
     </li>
     <li>
       <a ng-if="displayHierarchies" class="menu-item" href ng-click="toggleHierarchies($event)">
-        <op-icon ng-if="displayHierarchies" icon-classes="icon-action-menu icon-checkmark"></op-icon>
+        <op-icon ng-if="displayHierarchies" icon-classes="icon-action-menu icon-hierarchy"></op-icon>
         <span ng-bind="::I18n.t('js.toolbar.settings.hide_hierarchy')"></span>
       </a>
-      <a ng-disabled="isGrouped"
-         ng-class="{'inactive': !!isGrouped}"
-         ng-if="!displayHierarchies"
+      <a ng-if="!displayHierarchies"
          ng-attr-title="{{ text.hierarchy_title() }}"
          class="menu-item"
          href
          ng-click="toggleHierarchies($event)">
-        <op-icon ng-if="!displayHierarchies" icon-classes="icon-action-menu no-icon"></op-icon>
+        <op-icon ng-if="!displayHierarchies" icon-classes="icon-action-menu icon-no-hierarchy"></op-icon>
         <span ng-bind="::I18n.t('js.toolbar.settings.display_hierarchy')"></span>
+      </a>
     </li>
+
     <li class="dropdown-divider"></li>
+
     <li><a class="menu-item" href="" ng-click="saveQuery($event)"
            inaccessible-by-tab="saveQueryInvalid()"
            ng-class="{'inactive': saveQueryInvalid()}">
@@ -89,12 +88,20 @@
       <op-icon icon-classes="icon-action-menu icon-settings"></op-icon>
       {{ I18n.t('js.toolbar.settings.page_settings') }}</a>
     </li>
+
     <li class="dropdown-divider" ng-if="queryCustomFields || configureFormLink"></li>
-    <li ng-if="queryCustomFields"><a class="menu-item" href="{{queryCustomFields.href}}">
-      <i class="icon-action-menu icon-custom-fields"></i>{{ queryCustomFields.name }}</a>
+
+    <li ng-if="queryCustomFields">
+      <a class="menu-item" href="{{queryCustomFields.href}}">
+        <op-icon icon-classes="icon-action-menu icon-custom-fields"></op-icon>
+        {{ queryCustomFields.name }}
+      </a>
     </li>
-    <li ng-if="configureFormLink"><a class="menu-item" href="{{configureFormLink.href}}">
-      <i class="icon-action-menu icon-settings3"></i>{{ configureFormLink.name }}</a>
+    <li ng-if="configureFormLink">
+      <a class="menu-item" href="{{configureFormLink.href}}">
+        <op-icon icon-classes="icon-action-menu icon-settings3"></op-icon>
+        {{ configureFormLink.name }}
+      </a>
     </li>
   </ul>
 </div>

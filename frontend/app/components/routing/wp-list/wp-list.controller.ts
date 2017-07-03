@@ -147,7 +147,7 @@ function WorkPackagesListController($scope:any,
 
         // Update the page, if the change requires it
         if (triggerUpdate) {
-          updateResultsVisibly(true);
+          wpTableRefresh.request(true, 'Query updated by user');
         }
       });
   }
@@ -160,12 +160,13 @@ function WorkPackagesListController($scope:any,
     wpTableRefresh.state
       .values$('Refresh listener in wp-list.controller')
       .takeUntil(scopeDestroyed$($scope))
+      .auditTime(20)
       .subscribe((refreshVisibly:boolean) => {
         if (refreshVisibly) {
-          debugLog("Refreshing work package results visibly.");
+          debugLog('Refreshing work package results visibly.');
           updateResultsVisibly();
         } else {
-          debugLog("Refreshing work package results in the background.");
+          debugLog('Refreshing work package results in the background.');
           updateResults();
         }
       });
@@ -189,7 +190,7 @@ function WorkPackagesListController($scope:any,
     if (visibleLink.length) {
       visibleLink.focus();
     }
-  }
+  };
 
   function updateResults() {
     return wpListService.reloadCurrentResultsList();

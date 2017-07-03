@@ -26,55 +26,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Components
-  module WorkPackages
-    class SettingsMenu
-      include Capybara::DSL
-      include RSpec::Matchers
+require 'spec_helper'
 
-      def open_and_save_query(name)
-        open!
-        find("#{selector} .menu-item", text: 'Save', match: :prefer_exact).click
-        page.within('.ng-modal-inner') do
-          find('#save-query-name').set name
-          click_on 'Save'
-        end
-      end
+describe 'Work Package table hierarchy vs grouping', js: true do
+  let(:user) { FactoryGirl.create :admin }
+  let(:project) { FactoryGirl.create(:project) }
 
-      def open_and_choose(name)
-        open!
-        choose(name)
-      end
+  let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
-      def open!
-        click_on 'work-packages-settings-button'
-        expect_open
-      end
+  before do
+    login_as(user)
+  end
 
-      def expect_open
-        expect(page).to have_selector(selector)
-      end
+  it 'is mutually exclusive' do
+    wp_table.visit!
 
-      def expect_closed
-        expect(page).to have_no_selector(selector)
-      end
+    hierarchy.expect_mode_enabled
 
-      def choose(target)
-        find("#{selector} .menu-item", text: target).click
-      end
+    group_by.enable_via_header('Type')
 
-      def expect_options(options)
-        expect_open
-        options.each do |text|
-          expect(page).to have_selector("#{selector} a", text: text)
-        end
-      end
+    hierarchy.expect_mode_disabled
 
-      private
+    hierarchy.enable_via_menu
 
-      def selector
-        '#settingsDropdown'
-      end
-    end
+    group_by.expect_not_grouped_by('Type')
+
+    group_by.enable_via_menu('Type')
+
+    hierarchy.expect_mode_disabled
+
+    hierarchy.enable_via_header
+
+    group_by.expect_not_grouped_by('Type')
   end
 end

@@ -42,8 +42,8 @@ import {QueryColumn} from '../../wp-query/query-column';
 export class WorkPackageTableGroupByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'groupBy' as TableStateStates;
 
-  constructor(protected states: States) {
-    super(states)
+  constructor(protected states:States) {
+    super(states);
   }
 
   public initialize(query:QueryResource) {
@@ -76,13 +76,20 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService 
   }
 
   public isGroupable(column:QueryColumn):boolean {
-    return !!_.find(this.available, candidate => candidate.id === column.id)
+    return !!_.find(this.available, candidate => candidate.id === column.id);
   }
 
-  public set(groupBy:QueryGroupByResource) {
+  public set(groupBy:QueryGroupByResource|undefined) {
     let currentState = this.currentState;
 
     currentState.current = groupBy;
+
+    // hierarchies and group by are mutually exclusive
+    if (groupBy) {
+      var hierarchy = this.states.table.hierarchies.value!;
+      hierarchy.current = false;
+      this.states.table.hierarchies.putValue(hierarchy);
+    }
 
     this.state.putValue(currentState);
   }

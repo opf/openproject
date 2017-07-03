@@ -162,8 +162,8 @@ module Pages
     end
 
     def click_setting_item(label)
-      find('#work-packages-settings-button').click
-      find('#settingsDropdown .menu-item', text: label).click
+      ::Components::WorkPackages::SettingsMenu
+        .new.open_and_choose(label)
     end
 
     def save_as(name)

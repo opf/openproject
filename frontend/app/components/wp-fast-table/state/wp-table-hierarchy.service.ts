@@ -12,7 +12,8 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'hierarchies' as TableStateStates;
 
-  constructor(public states:States, public wpCacheService:WorkPackageCacheService) {
+  constructor(public states:States,
+              public wpCacheService:WorkPackageCacheService) {
     super(states);
   }
 
@@ -42,6 +43,13 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
   public setEnabled(active:boolean = true) {
     const state = this.currentState;
     state.current = active;
+
+    // hierarchies and group by are mutually exclusive
+    if (active) {
+      var groupBy = this.states.table.groupBy.value!;
+      groupBy.current = undefined;
+      this.states.table.groupBy.putValue(groupBy);
+    }
 
     this.state.putValue(state);
   }

@@ -217,10 +217,6 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   $scope.showGroupingModal = function (event:JQueryEventObject) {
-    if ($scope.displayHierarchies) {
-      return;
-    }
-
     event.stopPropagation();
     showModal.call(groupingModal);
     updateFocusInModal('selected_columns_new');
@@ -233,10 +229,6 @@ function SettingsDropdownMenuController($scope:IMyScope,
   };
 
   $scope.toggleHierarchies = function () {
-    if (!!$scope.isGrouped) {
-      return;
-    }
-
     const isEnabled = wpTableHierarchies.isEnabled;
     wpTableHierarchies.setEnabled(!isEnabled);
   };
