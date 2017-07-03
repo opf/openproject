@@ -208,6 +208,8 @@ describe 'filter work packages', js: true do
     it 'allows filtering, saving and retrieving the saved filter' do
       filters.open
 
+      expect(page).to have_selector('#add_filter_select option', text: list_cf.name, wait: 10)
+
       filters.add_filter_by(list_cf.name,
                             'is not',
                             list_cf.custom_options.last.value,
