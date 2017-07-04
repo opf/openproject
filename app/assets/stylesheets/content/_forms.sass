@@ -32,7 +32,7 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
   border: $content-form-input-border
   border-radius: 2px
   font-size: 0.9rem
-  &:hover, &:focus
+  &:focus
     border: $content-form-input-hover-border
 
   vertical-align: middle
@@ -520,7 +520,7 @@ select
   margin-bottom: 0rem
   font-size: 0.9rem
 
-  &:hover, &:focus, &:active
+  &:focus, &:active
     border-color: #999
 
 input[readonly].-clickable
@@ -531,6 +531,16 @@ input[readonly].-clickable
   @extend %input-style
   line-height: normal
   padding: rem-concat-list($select-element-padding)
+  background: white
+  -webkit-appearance: menulist
+  -moz-appearance: menulist
+
+  &:hover
+    background: white
+
+  &[disabled]
+    background-color: #eceeef
+    cursor: not-allowed
 
   &.parent-select
     height: 100%
