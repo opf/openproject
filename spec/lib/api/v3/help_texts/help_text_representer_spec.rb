@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,12 +26,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module AttributeHelpTextsHelper
-  def selectable_attributes(instance)
-    available = instance.class.available_attributes
-    used = AttributeHelpText.used_attributes(instance.type)
+require 'spec_helper'
 
-    available.reject! { |k,| used.include? k }
-    available.map { |k, v| [v, k] }
+describe ::API::V3::HelpTexts::HelpTextRepresenter do
+  let(:user) { FactoryGirl.build_stubbed :admin }
+
+  let(:help_text) do
+    FactoryGirl.build_stubbed :work_package_help_text,
+                              attribute_name: :id,
+                              help_text: 'This is a help text for *id* attribute.'
+  end
+
+  let(:representer) { described_class.new help_text, current_user: user }
+
+  let(:result) do
+    {
+      "_type" => "HelpText",
+      "_links" => {
+        "self" => {
+          "href" => "/api/v3/help_texts/#{help_text.id}"
+        }
+      },
+      "id" => help_text.id,
+      "scope" => "WorkPackage",
+      "attribute" => "id",
+      "attributeCaption" => "ID",
+      "helpText" => {
+        "format" => 'textile',
+        "raw" => 'This is a help text for *id* attribute.',
+        "html" => '<p>This is a help text for <strong>id</strong> attribute.</p>'
+      }
+    }
+  end
+
+  it 'serializes the relation correctly' do
+    data = JSON.parse representer.to_json
+    expect(data).to eq result
   end
 end

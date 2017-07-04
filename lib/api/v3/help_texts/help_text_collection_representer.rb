@@ -28,12 +28,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module AttributeHelpTextsHelper
-  def selectable_attributes(instance)
-    available = instance.class.available_attributes
-    used = AttributeHelpText.used_attributes(instance.type)
-
-    available.reject! { |k,| used.include? k }
-    available.map { |k, v| [v, k] }
+module API
+  module V3
+    module HelpTexts
+      class HelpTextCollectionRepresenter < ::API::Decorators::UnpaginatedCollection
+        element_decorator ::API::V3::HelpTexts::HelpTextRepresenter
+      end
+    end
   end
 end

@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,12 +26,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module AttributeHelpTextsHelper
-  def selectable_attributes(instance)
-    available = instance.class.available_attributes
-    used = AttributeHelpText.used_attributes(instance.type)
+require_dependency 'api/v3/help_texts/help_text_representer'
+require_dependency 'api/v3/help_texts/help_text_collection_representer'
 
-    available.reject! { |k,| used.include? k }
-    available.map { |k, v| [v, k] }
+module API
+  module V3
+    module HelpTexts
+      class HelpTextsAPI < ::API::OpenProjectAPI
+        resources :help_texts do
+          get do
+            @entries = AttributeHelpText.all
+            HelpTextCollectionRepresenter.new(@entries, api_v3_paths.help_texts, current_user: current_user)
+          end
+
+          params do
+            requires :id, type: Integer, desc: 'Help text id'
+          end
+          route_param :id do
+            before do
+              @help_text = AttributeHelpText.find(params[:id])
+              raise API::Errors::NotFound unless @help_text
+            end
+
+            get do
+              HelpTextRepresenter.new(@help_text, current_user: current_user)
+            end
+          end
+        end
+      end
+    end
   end
 end

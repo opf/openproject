@@ -11,6 +11,10 @@ class AttributeHelpText < ActiveRecord::Base
       .pluck(:attribute_name)
   end
 
+  def self.all_by_scope
+    all.group_by(&:attribute_scope)
+  end
+
   validates_presence_of :help_text
   validates_uniqueness_of :attribute_name, scope: :type
 

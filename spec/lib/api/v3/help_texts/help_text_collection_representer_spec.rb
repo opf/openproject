@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,12 +26,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module AttributeHelpTextsHelper
-  def selectable_attributes(instance)
-    available = instance.class.available_attributes
-    used = AttributeHelpText.used_attributes(instance.type)
+require 'spec_helper'
 
-    available.reject! { |k,| used.include? k }
-    available.map { |k, v| [v, k] }
+describe ::API::V3::HelpTexts::HelpTextCollectionRepresenter do
+  let!(:help_texts) do
+    [
+      FactoryGirl.build_stubbed(:work_package_help_text, attribute_name: 'id'),
+      FactoryGirl.build_stubbed(:work_package_help_text, attribute_name: 'status')
+    ]
+  end
+
+  let(:user) { FactoryGirl.build_stubbed(:user) }
+
+  def self_link
+    'a link that is provided'
+  end
+
+  let(:representer) do
+    described_class.new(help_texts,
+                        self_link,
+                        current_user: user)
+  end
+
+  context 'generation' do
+    subject(:collection) { representer.to_json }
+
+    it_behaves_like 'unpaginated APIv3 collection',
+                    2,
+                    'a link that is provided',
+                    'HelpText'
   end
 end

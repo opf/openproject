@@ -28,12 +28,35 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module AttributeHelpTextsHelper
-  def selectable_attributes(instance)
-    available = instance.class.available_attributes
-    used = AttributeHelpText.used_attributes(instance.type)
+module API
+  module V3
+    module HelpTexts
+      class HelpTextRepresenter < ::API::Decorators::Single
+        include API::V3::Utilities
 
-    available.reject! { |k,| used.include? k }
-    available.map { |k, v| [v, k] }
+        self_link path: :help_text,
+                  id_attribute: :id,
+                  title_getter: ->(*) { nil }
+
+        property :id
+        property :attribute_name,
+                 as: :attribute,
+                 getter: ->(*) {
+                   ::API::Utilities::PropertyNameConverter.from_ar_name(attribute_name)
+                 }
+        property :attribute_caption
+        property :attribute_scope,
+                 as: :scope
+        property :help_text,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   ::API::Decorators::Formattable.new(represented.help_text)
+                 }
+
+        def _type
+          'HelpText'
+        end
+      end
+    end
   end
 end

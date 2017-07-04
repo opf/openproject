@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -74,7 +75,7 @@ class AttributeHelpTextsController < ApplicationController
   end
 
   def index
-    @texts_by_type = AttributeHelpText.all.group_by(&:attribute_scope)
+    @texts_by_type = AttributeHelpText.all_by_scope
   end
 
   protected

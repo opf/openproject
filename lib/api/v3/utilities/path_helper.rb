@@ -111,6 +111,14 @@ module API
             "#{root}/custom_options/#{id}"
           end
 
+          def self.help_texts
+            "#{root}/help_texts"
+          end
+
+          def self.help_text(id)
+            "#{root}/help_texts/#{id}"
+          end
+
           def self.my_preferences
             "#{root}/my_preferences"
           end
