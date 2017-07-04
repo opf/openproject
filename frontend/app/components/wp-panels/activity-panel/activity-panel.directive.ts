@@ -66,11 +66,24 @@ export class ActivityPanelController {
       });
   }
 
-  public visibleAcitivities() {
+  public showToggler() {
+    const count_all = this.activities.length;
+    const count_with_comments = this.activitiesWithComments.length;
+
+    return count_all > 1 &&
+      count_with_comments > 0 &&
+      count_with_comments < this.activities.length;
+  }
+
+  public visibleActivities() {
     if (!this.onlyComments) {
       return this.activities;
+    } else {
+      return this.activitiesWithComments;
     }
+  }
 
+  public get activitiesWithComments() {
     return this.activities.filter((activity:any) => !!_.get(activity, 'comment.html'));
   }
 

@@ -4,16 +4,16 @@
 
   <div class="detail-activity">
     <ul class="work-package-details-activities-list">
-      <li ng-repeat="activity in vm.visibleAcitivities()"
+      <li ng-repeat="activity in vm.visibleActivities()"
           class="work-package-details-activities-activity"
-          ng-init="inf = vm.info(activity, $index)">
+          ng-init="inf = vm.info(activity, $index); showToggler = vm.showToggler()">
 
         <h3 class="activity-date"
-            ng-class="{'-with-toggler': $first}"
+            ng-class="{'-with-toggler': $first && showToggler}"
             ng-if="inf.isNextDate">
           <span class="activity-date--label" ng-bind="inf.date"></span>
           <accessible-by-keyboard execute="vm.toggleComments()"
-                                  ng-if="$first"
+                                  ng-if="$first && showToggler"
                                   link-class="activity-comments--toggler button -small -transparent"
                                   link-aria-label="{{ vm.togglerText }}">
             <span ng-bind="vm.togglerText"></span>
