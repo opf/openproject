@@ -31,6 +31,9 @@ require 'spec_helper'
 describe 'Attribute help texts', type: :feature, js: true do
   let(:admin) { FactoryGirl.create(:admin) }
 
+  let(:instance) { AttributeHelpText.last }
+  let(:modal) { AttributeHelpTextModal.new(instance) }
+
   describe 'Work package help texts' do
     before do
       login_as(admin)
@@ -52,7 +55,6 @@ describe 'Attribute help texts', type: :feature, js: true do
 
       # Should now show on index for editing
       expect(page).to have_selector('.attribute-help-text--entry td', text: 'Status')
-      instance = AttributeHelpText.last
       expect(instance.attribute_scope).to eq 'WorkPackage'
       expect(instance.attribute_name).to eq 'status'
       expect(instance.help_text).to eq 'My attribute help text'
@@ -65,13 +67,27 @@ describe 'Attribute help texts', type: :feature, js: true do
 
       # Handle errors
       expect(page).to have_selector('#errorExplanation', text: "Help text can't be blank.")
-      fill_in 'Help text', with: 'New help text'
+      fill_in 'Help text', with: 'New *help* text'
       click_button 'Save'
 
       # On index again
       expect(page).to have_selector('.attribute-help-text--entry td', text: 'Status')
       instance.reload
-      expect(instance.help_text).to eq 'New help text'
+      expect(instance.help_text).to eq 'New *help* text'
+
+      # Open help text modal
+      modal.open!
+      expect(modal.modal_container).to have_selector('strong', text: 'help')
+      modal.expect_edit(admin: true)
+
+      modal.close!
+      expect(page).to have_selector('.attribute-help-text--entry td', text: 'Status')
+
+      # Open again and edit this time
+      modal.open!
+      modal.edit_button.click
+      expect(page).to have_selector('#attribute_help_text_attribute_name[disabled]')
+      visit attribute_help_texts_path
 
       # Create new, status is now blocked
       page.find('.attribute-help-texts--create-button').click

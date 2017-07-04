@@ -26,42 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+.attribute-help-text--modal
+  .modal--footer
+    text-align: left
+    display: flex
+    justify-content: space-between
 
-// Hide modal content forwarded from rails
-.modal-wrapper--content
-  display: none
+  // Avoid large right margin for conditional button
+  .help-text--edit-button
+    margin-right: 0
 
-.ngdialog-theme-openproject
-  display: flex
-  align-items: center
-  justify-content: center
-
-  .ngdialog-overlay
-    z-index: 99
-
-  .modal--header .icon-context
-    @include varprop(background, header-bg-color)
-    @include varprop(color, header-item-font-color)
-
-  .ngdialog-content
-    background: $body-background
-    min-width: 200px
-    max-width: 600px
-    z-index: 100
-    // Required for close icon
-    position: relative
-
-  .ngdialog-body
-    margin-top: 2rem
-    min-height: 50px
-
-  .ngdialog-close
-    cursor: pointer
-    position: absolute
-    right: 0
-    top: 0
-
-    &:before
-      @include icon-font-common
-      @extend .icon-context
-      @extend .icon-close:before

@@ -1,12 +1,12 @@
 //-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2017 Jean-Philippe Lang
+// Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -26,42 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {opApiModule} from '../../../../angular-modules';
+import {RootResource} from '../hal-resources/root-resource.service';
+import {HalRequestService} from '../hal-request/hal-request.service';
+import {HelpTextResourceInterface} from '../hal-resources/help-text-resource.service';
+import {CollectionResourceInterface} from '../hal-resources/collection-resource.service';
 
-// Hide modal content forwarded from rails
-.modal-wrapper--content
-  display: none
+export class HelpTextDmService {
+  constructor(protected halRequest:HalRequestService,
+              protected v3Path:any) {
+  }
 
-.ngdialog-theme-openproject
-  display: flex
-  align-items: center
-  justify-content: center
+  public loadAll():ng.IPromise<CollectionResourceInterface> {
+    return this.halRequest.get(this.v3Path.help_texts());
+  }
 
-  .ngdialog-overlay
-    z-index: 99
+  public load(helpTextId:string):ng.IPromise<HelpTextResourceInterface> {
+    return this.halRequest.get(this.v3Path.help_texts({ id: helpTextId}));
+  }
+}
 
-  .modal--header .icon-context
-    @include varprop(background, header-bg-color)
-    @include varprop(color, header-item-font-color)
-
-  .ngdialog-content
-    background: $body-background
-    min-width: 200px
-    max-width: 600px
-    z-index: 100
-    // Required for close icon
-    position: relative
-
-  .ngdialog-body
-    margin-top: 2rem
-    min-height: 50px
-
-  .ngdialog-close
-    cursor: pointer
-    position: absolute
-    right: 0
-    top: 0
-
-    &:before
-      @include icon-font-common
-      @extend .icon-context
-      @extend .icon-close:before
+opApiModule.service('helpTextDm', HelpTextDmService);

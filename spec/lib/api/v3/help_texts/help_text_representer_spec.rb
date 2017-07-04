@@ -29,6 +29,8 @@
 require 'spec_helper'
 
 describe ::API::V3::HelpTexts::HelpTextRepresenter do
+  include ::API::V3::Utilities::PathHelper
+
   let(:user) { FactoryGirl.build_stubbed :admin }
 
   let(:help_text) do
@@ -45,6 +47,10 @@ describe ::API::V3::HelpTexts::HelpTextRepresenter do
       "_links" => {
         "self" => {
           "href" => "/api/v3/help_texts/#{help_text.id}"
+        },
+        "editText" => {
+          "href" => edit_attribute_help_text_path(help_text.id),
+          "type" => "text/html"
         }
       },
       "id" => help_text.id,

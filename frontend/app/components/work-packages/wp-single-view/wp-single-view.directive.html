@@ -20,6 +20,7 @@
              wp-replacement-label="descriptor.name">
           {{ descriptor.label }}
           <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
+          <attribute-help-text attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
         </div>
         <div
             wp-edit-field="descriptor.name"
@@ -70,6 +71,7 @@
 
           {{ descriptor.label }}
           <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
+          <attribute-help-text attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
         </div>
         <div
             ng-if="!descriptor.multiple"
@@ -82,8 +84,9 @@
         <div
             class="attributes-key-value--key"
             ng-if="descriptor.multiple"
-            ng-bind="descriptor.label"
             wp-replacement-label="descriptor.label">
+          {{ descriptor.label }}
+          <attribute-help-text attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
         </div>
         <div
             ng-if="descriptor.multiple"

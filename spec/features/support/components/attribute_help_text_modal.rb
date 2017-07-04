@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,42 +26,48 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module HelpTexts
-      class HelpTextRepresenter < ::API::Decorators::Single
-        self_link path: :help_text,
-                  id_attribute: :id,
-                  title_getter: ->(*) { nil }
+class AttributeHelpTextModal
+  include Capybara::DSL
+  include RSpec::Matchers
 
-        link :editText do
-          if current_user.admin?
-            {
-              href: edit_attribute_help_text_path(represented.id),
-              type: 'text/html'
-            }
-          end
-        end
+  attr_reader :help_text, :context
 
-        property :id
-        property :attribute_name,
-                 as: :attribute,
-                 getter: ->(*) {
-                   ::API::Utilities::PropertyNameConverter.from_ar_name(attribute_name)
-                 }
-        property :attribute_caption
-        property :attribute_scope,
-                 as: :scope
-        property :help_text,
-                 exec_context: :decorator,
-                 getter: ->(*) {
-                   ::API::Decorators::Formattable.new(represented.help_text)
-                 }
+  def initialize(help_text, context: nil)
+    @context = context
+    @help_text = help_text
+  end
 
-        def _type
-          'HelpText'
-        end
-      end
+  def container
+    if context
+      page.find(context)
+    else
+      page
     end
+  end
+
+  def modal_container
+    container.find('.attribute-help-text--modal')
+  end
+
+  def open!
+    container.find(".help-text--for-#{help_text.attribute_name}").click
+    expect(page).to have_selector('.attribute-help-text--modal .modal--header', text: help_text.attribute_caption)
+  end
+
+  def close!
+    page.find('.help-text--close-button').click
+    expect(page).to have_no_selector('.attribute-help-text--modal .modal--header', text: help_text.attribute_caption)
+  end
+
+  def expect_edit(admin:)
+    if admin
+      expect(page).to have_selector('.help-text--edit-button')
+    else
+      expect(page).to have_no_selector('.help-text--edit-button')
+    end
+  end
+
+  def edit_button
+    page.find('.help-text--edit-button')
   end
 end

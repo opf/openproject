@@ -4,6 +4,7 @@
 |  Link         | Description               | Type          | Constraints | Supported operations |
 |:-------------:|-------------------------- | ------------- | ----------- | -------------------- |
 | self          | This help text            | HelpText      | not null    | READ                 |
+| editText      | Edit the help text entry  | text/htm      | Admin       | READ                 |
 
 ## Local Properties
 | Property           | Description                 | Type                 | Constraints | Supported operations |
@@ -87,6 +88,10 @@
                 "_links": {
                     "self": {
                         "href": "/api/v3/help_texts/1",
+                    },
+                    "editText": {
+                        "type": "text/html",
+                        "href": "/admin/attribute_help_texts/1/edit",
                     }
                 },
                 "id": 1,
