@@ -68,7 +68,7 @@ export class WorkPackageTableAdditionalElementsService {
   }
 
   private loadAdditional(wpIds:string[]) {
-    this.wpCacheService.loadWorkPackages(wpIds)
+    this.wpCacheService.requireAll(wpIds)
       .then(() => {
         this.states.table.additionalRequiredWorkPackages.putValue(null, 'All required work packages are loaded');
       });
@@ -84,10 +84,10 @@ export class WorkPackageTableAdditionalElementsService {
       return Promise.resolve([]);
     }
     return this.wpRelations
-      .load(rows)
+      .requireAll(rows, true)
       .then(() => {
         const ids = this.getInvolvedWorkPackages(rows.map(id => {
-          return this.wpRelations.getRelationsForWorkPackage(id).value!;
+          return this.wpRelations.state(id).value!;
         }));
         return _.flatten(ids);
       });
