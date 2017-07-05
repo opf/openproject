@@ -35,8 +35,8 @@ describe ::API::V3::HelpTexts::HelpTextRepresenter do
 
   let(:help_text) do
     FactoryGirl.build_stubbed :work_package_help_text,
-                              attribute_name: :id,
-                              help_text: 'This is a help text for *id* attribute.'
+                              attribute_name: 'status',
+                              help_text: 'This is a help text for *status* attribute.'
   end
 
   let(:representer) { described_class.new help_text, current_user: user }
@@ -55,12 +55,12 @@ describe ::API::V3::HelpTexts::HelpTextRepresenter do
       },
       "id" => help_text.id,
       "scope" => "WorkPackage",
-      "attribute" => "id",
-      "attributeCaption" => "ID",
+      "attribute" => "status",
+      "attributeCaption" => "Status",
       "helpText" => {
         "format" => 'textile',
-        "raw" => 'This is a help text for *id* attribute.',
-        "html" => '<p>This is a help text for <strong>id</strong> attribute.</p>'
+        "raw" => 'This is a help text for *status* attribute.',
+        "html" => '<p>This is a help text for <strong>status</strong> attribute.</p>'
       }
     }
   end

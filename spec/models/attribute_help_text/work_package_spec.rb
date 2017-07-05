@@ -19,10 +19,10 @@ describe AttributeHelpText::WorkPackage, type: :model do
 
   describe 'validations' do
     before do
-      allow(described_class).to receive(:available_attributes).and_return(id: 'ID')
+      allow(described_class).to receive(:available_attributes).and_return(status: 'Status')
     end
 
-    let(:attribute_name) { 'id' }
+    let(:attribute_name) { 'status' }
     let(:help_text) { 'foobar' }
 
     subject { described_class.new attribute_name: attribute_name, help_text: help_text }

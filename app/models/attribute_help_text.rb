@@ -4,8 +4,8 @@ class AttributeHelpText < ActiveRecord::Base
     subclasses.map { |child| child.name.demodulize }
   end
 
-  def self.used_attributes(scope)
-    where(type: scope)
+  def self.used_attributes(type)
+    where(type: type)
       .select(:attribute_name)
       .distinct
       .pluck(:attribute_name)
@@ -19,7 +19,7 @@ class AttributeHelpText < ActiveRecord::Base
   validates_uniqueness_of :attribute_name, scope: :type
 
   def attribute_caption
-    self.class.available_attributes[attribute_name]
+    @caption ||= self.class.available_attributes[attribute_name]
   end
 
   def attribute_scope

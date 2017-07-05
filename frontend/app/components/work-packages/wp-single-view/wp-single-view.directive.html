@@ -20,7 +20,7 @@
              wp-replacement-label="descriptor.name">
           {{ descriptor.label }}
           <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
-          <attribute-help-text attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
+          <attribute-help-text title-text="descriptor.label" attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
         </div>
         <div
             wp-edit-field="descriptor.name"

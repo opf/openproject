@@ -37,6 +37,7 @@ import {AttributeHelpTextsService} from './attribute-help-text.service';
 export class AttributeHelpTextController {
   // Attribute to show help text for
   public attribute:string;
+  public optionaltitle?:string
   // Scope to search for
   public attributeScope:string;
   // Load single id entry if given
@@ -61,6 +62,15 @@ export class AttributeHelpTextController {
     this.$scope.text = {
       'close': I18n.t('js.button_close'),
       'edit': I18n.t('js.label_edit_this_entry')
+    };
+
+    // Override the keyboard close handler for the dialog
+    // so we can avoid it bubbling to the then focused element handler.
+    this.$scope.close = (event:JQueryEventObject) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.$scope.closeThisDialog();
     };
 
     if (this.helpTextId) {

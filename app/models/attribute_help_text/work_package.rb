@@ -1,6 +1,12 @@
 class AttributeHelpText::WorkPackage < AttributeHelpText
   def self.available_attributes
-    Hash[::Query.new.available_columns.map { |c| [c.name.to_s, c.caption] }]
+    attributes = ::Type.translated_work_package_form_attributes
+
+    # Status and project are currently special attribute that we need to add
+    attributes['status'] = WorkPackage.human_attribute_name 'status'
+    attributes['project'] = WorkPackage.human_attribute_name 'project'
+
+    attributes
   end
 
   validates_inclusion_of :attribute_name, in: available_attributes.keys

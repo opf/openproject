@@ -39,7 +39,7 @@ describe 'API v3 Help texts resource' do
 
   let!(:help_texts) do
     [
-      FactoryGirl.create(:work_package_help_text, attribute_name: 'id'),
+      FactoryGirl.create(:work_package_help_text, attribute_name: 'assignee'),
       FactoryGirl.create(:work_package_help_text, attribute_name: 'status')
     ]
   end

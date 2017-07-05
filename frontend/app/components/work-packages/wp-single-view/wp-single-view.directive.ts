@@ -98,6 +98,10 @@ export class WorkPackageSingleViewController {
     return group.members.length === 0;
   }
 
+  public helpTextLabel(attribute:string) {
+    return this.I18n.t('js.')
+  }
+
   /*
    * Returns the work package label
    */
