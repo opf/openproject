@@ -24,7 +24,7 @@ class Report::GroupBy
     inherited_attributes :group_fields, list: true, merge: false
 
     def correct_position?
-      type == :row or !child.is_a?(engine::GroupBy::Base) or child.type == :column
+      type == :row or !child.is_a?(Report::GroupBy::Base) or child.type == :column
     end
 
     def filter?
