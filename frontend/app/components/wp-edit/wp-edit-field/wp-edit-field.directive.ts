@@ -125,7 +125,7 @@ export class WorkPackageEditFieldController {
     // We're resolving the non-form schema here since its loaded anyway for the table
     const fieldSchema = this.workPackage.schema[this.fieldName];
 
-    this.editable = fieldSchema && fieldSchema.writable && fieldSchema.visibility !== 'hidden';
+    this.editable = fieldSchema && fieldSchema.writable;
     this.fieldType = fieldSchema && this.wpEditField.fieldType(fieldSchema.type);
 
     this.updateDisplayAttributes();

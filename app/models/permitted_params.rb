@@ -634,9 +634,6 @@ class PermittedParams
           :is_milestone,
           :is_default,
           :color_id,
-          Proc.new do
-            { attribute_visibility: ::Type.all_work_package_form_attributes.keys }
-          end,
           project_ids: [],
           custom_field_ids: []
         ],

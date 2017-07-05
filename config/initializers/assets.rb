@@ -26,6 +26,5 @@ OpenProject::Application.configure do
     timelines_select_boxes.js
     types_checkboxes.js
     work_packages.js
-    type_form.js
   )
 end

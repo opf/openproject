@@ -46,15 +46,4 @@ module ::TypesHelper
                 class: css_class,
                 style: "background-color: #{color}")
   end
-
-  module_function
-
-  ##
-  # Updates the given type's attribute visibility map.
-  #
-  # @param type [Type] The type to be updated
-  # @return [Type] The updated type
-  def update_type_attribute_visibility!(type)
-    type.update! attribute_visibility: type.type_attribute_visibility
-  end
 end

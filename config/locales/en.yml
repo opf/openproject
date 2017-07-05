@@ -2288,10 +2288,6 @@ en:
     When used with active users their status will be changed to 'invited'.
 
   tooltip:
-    attribute_visibility:
-      default: Show if not empty
-      visible: Show even if empty
-      hidden: Hide by default
     setting_email_login: >
       If enabled a user will be unable to chose a login during registration.
       Instead their given e-mail address will serve as the login.

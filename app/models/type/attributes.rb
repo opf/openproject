@@ -120,7 +120,6 @@ module Type::Attributes
     {
       key: key,
       is_cf: custom_field?(key),
-      always_visible: attr_visibility(key) == 'visible',
       is_required: represented[:required] && !represented[:has_default],
       translation: translated_attribute_name(key, represented)
     }

@@ -50,18 +50,17 @@ interface GroupDescriptor {
 }
 
 export class WorkPackageSingleViewController {
-  public formCtrl: WorkPackageEditFormController;
-  public workPackage: WorkPackageResourceInterface;
+  public formCtrl:WorkPackageEditFormController;
+  public workPackage:WorkPackageResourceInterface;
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
   // Special fields (project, type)
   public specialFields:FieldDescriptor[];
-  public hideEmptyFields: boolean = true;
-  public text: any;
-  public scope: any;
+  public text:any;
+  public scope:any;
 
-  protected firstTimeFocused: boolean = false;
+  protected firstTimeFocused:boolean = false;
 
   constructor(protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
@@ -78,60 +77,10 @@ export class WorkPackageSingleViewController {
     scopedObservable(
       $scope,
       wpCacheService.loadWorkPackage(workPackageId).values$())
-      .subscribe((wp: WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResourceInterface) => {
         this.init(wp);
       });
   }
-
-  /**
-   * Determines whether the given field can be hidden
-   * according to its type configuration and current work package.
-   */
-  public canHideField(field:DisplayField) {
-    var attrVisibility = field.visibility;
-    var notRequired = !field.required || field.hasDefault;
-    var empty = field.isEmpty();
-    var visible = attrVisibility === 'visible';
-    var hidden = attrVisibility === 'hidden';
-
-    if (this.workPackage.isNew) {
-      return !visible && (field.name === 'author' || notRequired || hidden);
-    }
-
-    return notRequired && !visible && (empty || hidden);
-  }
-
-  /**
-   * Determines whether we should hide the given group
-   */
-  public shouldHideGroup(group:GroupDescriptor) {
-    // Hide if the group is empty
-    if (group.members.length === 0) {
-      return true;
-    }
-
-    // Hide group if all fields are hidden
-    if (this.hideEmptyFields) {
-      return _.every(group.members, (d:FieldDescriptor) => this.shouldHideField(d.field || d.fields![0]));
-    }
-
-    return false;
-  }
-
-  /**
-   * Determines whether we should hide the given field.
-   */
-  public shouldHideField(field:DisplayField) {
-    let hideEmpty = this.hideEmptyFields;
-    const editField = this.formCtrl.fields[field.name];
-
-    if (editField) {
-      hideEmpty = !editField.hasFocus() && this.hideEmptyFields;
-    }
-
-    const hidden = field.visibility === 'hidden';
-    return this.canHideField(field) && (hideEmpty || hidden);
-  };
 
   public setFocus() {
     if (!this.firstTimeFocused) {
@@ -140,9 +89,18 @@ export class WorkPackageSingleViewController {
     }
   }
 
+  /**
+   * Returns whether a group should be hidden due to being empty
+   * (e.g., consists only of CFs and none of them are active in this project.
+   */
+  public shouldHideGroup(group:GroupDescriptor) {
+    // Hide if the group is empty
+    return group.members.length === 0;
+  }
+
   /*
-  * Returns the work package label
-  */
+   * Returns the work package label
+   */
   public get idLabel() {
     const label = this.I18n.t('js.label_work_package');
     return `${label} #${this.workPackage.id}`;
@@ -248,7 +206,6 @@ export class WorkPackageSingleViewController {
     return object;
   }
 
-
   private displayField(name:string):DisplayField {
     return this.wpDisplayField.getField(
       this.workPackage,
@@ -264,7 +221,7 @@ function wpSingleViewDirective() {
   function wpSingleViewLink(scope:ng.IScope,
                             element:ng.IAugmentedJQuery,
                             attrs:ng.IAttributes,
-                            controllers: [WorkPackageEditFormController, WorkPackageSingleViewController]) {
+                            controllers:[WorkPackageEditFormController, WorkPackageSingleViewController]) {
 
     controllers[1].formCtrl = controllers[0];
   }
