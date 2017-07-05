@@ -81,20 +81,20 @@ describe 'GET /api/v3/relations', type: :request do
     # to repeat that step for every example as we are not mutating anything.
     # This saves about 75% on the runtime (6s vs 24s on this machine) of the spec.
     it 'work' do
-      expect(filter_relations("id", "=", [3, 7])).to eq [3, 7]
-      expect(filter_relations("id", "!", [3, 7])).to eq [5, 11]
+      expect(filter_relations("id", "=", [3, 7])).to match_array [3, 7]
+      expect(filter_relations("id", "!", [3, 7])).to match_array [5, 11]
 
-      expect(filter_relations("from", "=", [work_package.id])).to eq [3, 5]
-      expect(filter_relations("from", "!", [work_package.id])).to eq [7, 11]
+      expect(filter_relations("from", "=", [work_package.id])).to match_array [3, 5]
+      expect(filter_relations("from", "!", [work_package.id])).to match_array [7, 11]
 
       expect(filter_relations("to", "=", [work_package.id])).to eq [7]
-      expect(filter_relations("to", "!", [work_package.id])).to eq [3, 5, 11]
+      expect(filter_relations("to", "!", [work_package.id])).to match_array [3, 5, 11]
 
-      expect(filter_relations("involved", "=", [work_package.id])).to eq [3, 5, 7]
+      expect(filter_relations("involved", "=", [work_package.id])).to match_array [3, 5, 7]
       expect(filter_relations("involved", "!", [work_package.id])).to eq [11]
 
-      expect(filter_relations("type", "=", ["blocks"])).to eq [5, 11]
-      expect(filter_relations("type", "!", ["blocks"])).to eq [3, 7]
+      expect(filter_relations("type", "=", ["blocks"])).to match_array [5, 11]
+      expect(filter_relations("type", "!", ["blocks"])).to match_array [3, 7]
     end
   end
 end
