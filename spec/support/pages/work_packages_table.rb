@@ -48,7 +48,8 @@ module Pages
       within(table_container) do
         work_packages.each do |wp|
           expect(page).to have_selector(".wp-row-#{wp.id} td.subject",
-                                        text: wp.subject)
+                                        text: wp.subject,
+                                        wait: 20)
         end
       end
     end
