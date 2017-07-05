@@ -34,7 +34,6 @@ class ::Type < ActiveRecord::Base
   # and constraints to specifc attributes (by plugins).
   include ::Type::Attributes
   include ::Type::AttributeGroups
-  include ::Type::AttributeVisibility
 
   before_destroy :check_integrity
 

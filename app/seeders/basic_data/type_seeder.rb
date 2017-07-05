@@ -51,7 +51,6 @@ module BasicData
     def data
       colors = PlanningElementTypeColor.all
       colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
-      visibility = visibility_data
 
       type_table.map do |name, values|
         {
@@ -61,8 +60,7 @@ module BasicData
           color_id:             colors[I18n.t(values[2])],
           is_in_roadmap:        values[3],
           in_aggregation:       values[4],
-          is_milestone:         values[5],
-          attribute_visibility: visibility[name].stringify_keys
+          is_milestone:         values[5]
         }
       end
     end
@@ -81,56 +79,6 @@ module BasicData
         user_story: [6, true, :default_color_grey_dark,   true,  false, false],
         bug:        [7, true, :default_color_red,         true,  false, false]
       }
-    end
-
-    def visibility_table
-      table = coded_visibility_table.map do |key, values|
-        [key, values.map { |i| coded_visibility_table_value_map[i] }]
-      end
-
-      Hash[table]
-    end
-
-    def coded_visibility_table_value_map
-      ['hidden', 'default', 'visible']
-    end
-
-    def coded_visibility_table
-      { # columns correspond to #type_names above
-        estimated_time:  [1, 1, 1, 1, 1, 1, 1],
-        spent_time:      [1, 1, 1, 1, 1, 1, 1],
-        percentage_done: [1, 1, 1, 1, 1, 1, 1],
-        assignee:        [2, 1, 1, 2, 2, 2, 2],
-        responsible:     [1, 1, 1, 1, 1, 1, 1],
-        category:        [1, 1, 1, 1, 1, 1, 1],
-        version:         [1, 1, 1, 2, 2, 2, 2],
-        start_date:      [2, 2, 2, 1, 1, 1, 1], # mind that start_date and due_date will
-        due_date:        [2, 2, 2, 1, 1, 1, 1], # affect each other - they're shown together
-      }
-    end
-
-    def visibility_data
-      table = visibility_table
-
-      type_entries = type_names.map do |name|
-        field_entries = table.map do |field, visibilities|
-          i = type_names.index name
-          [field, table[field][i] || 'default']
-        end
-
-        [name, merge_dates_for_milestones(name, Hash[field_entries])]
-      end
-
-      Hash[type_entries]
-    end
-
-    def merge_dates_for_milestones(type_name, attributes)
-      if type_table[type_name].last
-        attributes[:date] = attributes.delete :start_date
-        attributes.delete :due_date
-      end
-
-      attributes
     end
   end
 end

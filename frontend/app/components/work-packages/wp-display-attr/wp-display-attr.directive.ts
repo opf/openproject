@@ -79,11 +79,7 @@ export class WorkPackageDisplayAttributeController {
   }
 
   public get isEmpty(): boolean {
-    return !this.field || this.field.isEmpty() || this.field.hidden;
-  }
-
-  public get isHidden(): boolean {
-    return !this.field || this.field.hidden;
+    return !this.field || this.field.isEmpty();
   }
 
   /**
@@ -99,7 +95,7 @@ export class WorkPackageDisplayAttributeController {
       return '';
     }
 
-    if (this.isEmpty || this.isHidden) {
+    if (this.isEmpty) {
       return this.placeholder;
     }
 

@@ -102,7 +102,6 @@ declare namespace op {
     writable:boolean;
     allowedValues:any;
     required?:boolean;
-    visibility?:string;
     hasDefault:boolean;
     name?:string;
   }

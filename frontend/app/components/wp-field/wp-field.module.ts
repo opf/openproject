@@ -56,16 +56,8 @@ export class Field {
     return !!this.schema.writable;
   }
 
-  public get visibility():string {
-    return this.schema.visibility as string;
-  }
-
   public get hasDefault():boolean {
     return this.schema.hasDefault;
-  }
-
-  public get hidden():boolean {
-    return this.visibility === 'hidden';
   }
 
   public isEmpty():boolean {

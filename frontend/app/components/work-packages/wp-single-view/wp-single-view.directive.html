@@ -11,24 +11,17 @@
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
       </div>
-      <panel-expander tabindex="-1"
-                      collapsed="$ctrl.hideEmptyFields"
-                      expand-text="{{ $ctrl.I18n.t('js.label_show_attributes') }}"
-                      collapse-text="{{ $ctrl.I18n.t('js.label_hide_attributes') }}">
-      </panel-expander>
     </div>
     <div class="-columns-2">
       <div class="attributes-key-value"
            ng-class="{'-span-all-columns': descriptor.spanAll }"
            ng-repeat="descriptor in $ctrl.specialFields track by descriptor.name">
         <div class="attributes-key-value--key"
-             ng-hide="$ctrl.shouldHideField(descriptor.field)"
              wp-replacement-label="descriptor.name">
           {{ descriptor.label }}
           <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
         </div>
         <div
-            ng-hide="$ctrl.shouldHideField(descriptor.field)"
             wp-edit-field="descriptor.name"
             wp-edit-field-label="descriptor.label"
             wp-edit-field-wrapper-classes="'-small'"
@@ -54,7 +47,8 @@
     </div>
   </div>
 
-  <div ng-repeat="group in $ctrl.groupedFields track by group.name" ng-hide="$ctrl.shouldHideGroup(group)"
+  <div ng-repeat="group in $ctrl.groupedFields track by group.name"
+       ng-hide="$ctrl.shouldHideGroup(group)"
        data-group-name="{{ group.name }}"
        class="attributes-group">
 
@@ -71,7 +65,6 @@
            ng-repeat="descriptor in group.members track by descriptor.name">
         <div
             class="attributes-key-value--key"
-            ng-hide="$ctrl.shouldHideField(descriptor.field)"
             ng-if="!descriptor.multiple"
             wp-replacement-label="descriptor.name">
 
@@ -79,7 +72,6 @@
           <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
         </div>
         <div
-            ng-hide="$ctrl.shouldHideField(descriptor.field)"
             ng-if="!descriptor.multiple"
             wp-edit-field="descriptor.name"
             wp-edit-field-label="descriptor.label"
@@ -90,13 +82,11 @@
         <div
             class="attributes-key-value--key"
             ng-if="descriptor.multiple"
-            ng-hide="$ctrl.shouldHideField(descriptor.fields[0]) && $ctrl.shouldHideField(descriptor.fields[1])"
             ng-bind="descriptor.label"
             wp-replacement-label="descriptor.label">
         </div>
         <div
             ng-if="descriptor.multiple"
-            ng-hide="$ctrl.shouldHideField(descriptor.fields[0]) && $ctrl.shouldHideField(descriptor.fields[1])"
             class="attributes-key-value--value-container -minimal">
           <div
               wp-edit-field="descriptor.fields[0].name"

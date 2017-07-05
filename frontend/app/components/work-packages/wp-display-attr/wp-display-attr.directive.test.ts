@@ -144,8 +144,7 @@ describe('wpDisplayAttr directive', () => {
             "type": "String",
             "name": "hidden field",
             "required": false,
-            "writable": true,
-            "visibility": "hidden"
+            "writable": true
           }
         }
       }

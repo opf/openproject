@@ -58,7 +58,7 @@ export class CellBuilder {
     const field = this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
     let text;
 
-    if (field.writable && !field.hidden && workPackage.isEditable) {
+    if (field.writable && workPackage.isEditable) {
       span.classList.add(editableClassName);
     } else {
       span.classList.add(readOnlyClassName);
@@ -68,7 +68,7 @@ export class CellBuilder {
       span.classList.add(requiredClassName);
     }
 
-    if (field.isEmpty() || field.hidden) {
+    if (field.isEmpty()) {
       span.classList.add(placeholderClassName);
       text = cellEmptyPlaceholder;
     } else {
