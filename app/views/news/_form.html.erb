@@ -28,11 +28,20 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= error_messages_for 'news' %>
 <div class="form--field">
-  <%= f.text_field :title, required: true, size: 60 %>
+  <%= f.text_field :title, required: true, size: 60, container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <%= f.text_area :summary, cols: 60, rows: 3, class: 'wiki-edit wiki-toolbar -small' %>
+  <%= f.text_area :summary,
+                  cols: 60,
+                  rows: 3,
+                  class: 'wiki-edit wiki-toolbar',
+                  container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <%= f.text_area :description, required: true, cols: 60, rows: 15, class: 'wiki-edit wiki-toolbar' %>
+  <%= f.text_area :description,
+                  required: true,
+                  cols: 60,
+                  rows: 15,
+                  class: 'wiki-edit wiki-toolbar',
+                  container_class: '-wide' %>
 </div>
