@@ -85,6 +85,11 @@ export class WorkPackageTableTimelineGrid {
     this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.paddingTop = '1px';
     });
+
+    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+      cell.style.zIndex = '2';
+    });
   }
 
   private renderLabelsWeeks(vp:TimelineViewParameters) {
@@ -93,6 +98,11 @@ export class WorkPackageTableTimelineGrid {
 
     this.renderTimeSlices(vp, 'week', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.classList.add('-grid-highlight');
+    });
+
+    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+      cell.style.zIndex = '2';
     });
   }
 
@@ -103,6 +113,11 @@ export class WorkPackageTableTimelineGrid {
     this.renderTimeSlices(vp, 'month', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.classList.add('-grid-highlight');
     });
+
+    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+      cell.style.zIndex = '2';
+    });
   }
 
   private renderLabelsQuarters(vp:TimelineViewParameters) {
@@ -111,6 +126,11 @@ export class WorkPackageTableTimelineGrid {
 
     this.renderTimeSlices(vp, 'quarter', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.classList.add('-grid-highlight');
+    });
+
+    this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      cell.classList.add('-grid-highlight');
+      cell.style.zIndex = '2';
     });
   }
 
