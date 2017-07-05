@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% breadcrumb_paths(
-  link_to(l(:label_board_plural), project_boards_path(@project)),
+  link_to(t(:label_board_plural), project_boards_path(@project)),
   link_to(h(@board.name), project_board_path(@project, @board)))
 %>
 
@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if !@topic.locked? && authorize_for('messages', 'reply') %>
       <%= link_to({ action: 'quote', id: @topic }, remote: true, method: 'get', class: 'button') do %>
         <%= op_icon('button--icon icon-quote') %>
-        <span class="button--text"><%= l(:button_quote) %></span>
+        <span class="button--text"><%= t(:button_quote) %></span>
       <% end %>
     <% end %>
   </li>
@@ -48,15 +48,15 @@ See doc/COPYRIGHT.rdoc for more details.
     <% if @message.editable_by?(User.current) %>
       <%= link_to(edit_topic_path(@topic), accesskey: accesskey(:edit), class: 'button') do %>
         <%= op_icon('button--icon icon-edit') %>
-        <span class="button--text"><%= l(:button_edit) %></span>
+        <span class="button--text"><%= t(:button_edit) %></span>
       <% end %>
     <% end %>
   </li>
   <li class="toolbar-item">
     <% if @message.destroyable_by?(User.current) %>
-      <%= link_to(topic_path(@topic), method: :delete, data: { confirm: l(:text_are_you_sure) }, class: 'button') do %>
+      <%= link_to(topic_path(@topic), method: :delete, data: { confirm: t(:text_are_you_sure) }, class: 'button') do %>
         <%= op_icon('button--icon icon-delete') %>
-        <span class="button--text"><%= l(:button_delete) %></span>
+        <span class="button--text"><%= t(:button_delete) %></span>
       <% end %>
     <% end %>
   </li>
@@ -75,7 +75,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </div>
 <br />
 <% unless @replies.empty? %>
-  <h3 class="icon-context icon-quote"><%= l(:label_reply_plural) %> (<%= @replies.count %>)</h3>
+  <h3 class="icon-context icon-quote"><%= t(:label_reply_plural) %> (<%= @replies.count %>)</h3>
   <% @replies.each do |message| %>
     <div class="message reply" id="<%= "message-#{message.id}" %>">
       <h4>
@@ -87,25 +87,25 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= authoring message.created_on, message.author %>
       </h4>
       <div class="message-reply-menu">
-        <%= link_to(icon_wrapper('icon-quote', l(:button_quote)),
+        <%= link_to(icon_wrapper('icon-quote', t(:button_quote)),
                   { action: 'quote', id: message },
                   remote: true,
                   method: 'get',
-                  title: l(:button_quote),
+                  title: t(:button_quote),
                   class: 'button -small',
-                  alt: l(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
-        <%= link_to(icon_wrapper('icon-edit', l(:button_edit)),
+                  alt: t(:button_quote)) if !@topic.locked? && authorize_for('messages', 'reply') %>
+        <%= link_to(icon_wrapper('icon-edit', t(:button_edit)),
                   { action: 'edit', id: message },
-                  title: l(:button_edit),
+                  title: t(:button_edit),
                   class: 'button -small',
-                  alt: l(:button_edit)) if message.editable_by?(User.current) %>
-        <%= link_to(icon_wrapper('icon-delete', l(:button_delete)),
+                  alt: t(:button_edit)) if message.editable_by?(User.current) %>
+        <%= link_to(icon_wrapper('icon-delete', t(:button_delete)),
                   { action: 'destroy', id: message},
                   method: :delete,
-                  data: { confirm: l(:text_are_you_sure) },
-                  title: l(:button_delete),
+                  data: { confirm: t(:text_are_you_sure) },
+                  title: t(:button_delete),
                   class: 'button -small',
-                  alt: l(:button_delete)) if message.destroyable_by?(User.current) %>
+                  alt: t(:button_delete)) if message.destroyable_by?(User.current) %>
       </div>
       <div class="wiki">
         <%= format_text message, :content, attachments: message.attachments %>
@@ -118,7 +118,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% if !@topic.locked? && authorize_for('messages', 'reply') %>
   <div class="form--space">
-    <%= toggle_link l(:button_reply), "reply", {focus: 'reply_content'}, {class: 'button -highlight'} %>
+    <%= toggle_link t(:button_reply), "reply", {focus: 'reply_content'}, {class: 'button -highlight'} %>
   </div>
 
   <div id="reply" style="display:none;">
@@ -135,7 +135,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
       <hr class="form--separator" />
 
-      <%= f.button l(:button_submit), class: 'button -highlight -highlight -with-icon icon-checkmark' %>
+      <%= f.button t(:button_submit), class: 'button -highlight -highlight -with-icon icon-checkmark' %>
       <%= preview_link preview_topic_path(@message), 'message-form-preview' %>
     <% end %>
     <div id="preview"></div>

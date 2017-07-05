@@ -31,7 +31,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div id="add-message" style="display:none;">
   <% if authorize_for('messages', 'new') %>
-    <h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= l(:label_message_new) %></h2>
+    <h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= t(:label_message_new) %></h2>
     <%= labelled_tabular_form_for Message.new,
                                   url: board_topics_path(@board),
                                   html: { multipart: true,
@@ -40,9 +40,9 @@ See doc/COPYRIGHT.rdoc for more details.
       <%= render partial: 'messages/form', locals: {f: f} %>
 
       <hr class="form--separator" />
-      <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+      <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
       <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
-      <%= link_to l(:button_cancel), '', onclick: 'jQuery("#add-message").hide();', class: 'button' %>
+      <%= link_to t(:button_cancel), '', onclick: 'jQuery("#add-message").hide();', class: 'button' %>
     <% end %>
     <div id="preview"></div>
   <% end %>
@@ -116,7 +116,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <div class="generic-table--sort-header">
                     <span>
                       <sort-link sort-attr="replies" sort-func="loadMessages()">
-                        <%= l(:label_reply_plural) %>
+                        <%= t(:label_reply_plural) %>
                       </sort-link>
                     </span>
                   </div>
@@ -127,7 +127,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   <div class="generic-table--sort-header">
                     <span>
                       <sort-link sort-attr="updated_on" sort-func="loadMessages()">
-                        <%= l(:label_message_last) %>
+                        <%= t(:label_message_last) %>
                       </sort-link>
                     </span>
                   </div>
@@ -155,7 +155,7 @@ See doc/COPYRIGHT.rdoc for more details.
             </tr>
           </tbody>
         </table>
-        
+
       </div>
      </div>
     <table-pagination total-entries="totalMessageCount" update-results="loadMessages()"></table-pagination>
