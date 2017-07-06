@@ -61,7 +61,7 @@ Feature: Query menu items
     When I go to the applied query "Bugs" on the work packages index page of the project "Awesome Project"
     And the work package table has finished loading
     And I click on "Settings"
-    And I click on "Share ..."
+    And I click on "Publish ..."
     And I uncheck "Show page in menu"
     And I click "Save"
     Then I should not see "Bugs Query" within "#main-menu"
