@@ -80,8 +80,7 @@ module Pages
 
     def expect_title(name)
       expect(page)
-        .to have_selector('.title-container',
-                          text: name)
+        .to have_selector('.title-container', text: name, wait: 20)
     end
 
     def expect_query_in_select_dropdown(name)
