@@ -27,8 +27,6 @@ describe 'custom field inplace editor', js: true do
 
     wp_page.visit!
     wp_page.ensure_page_loaded
-
-    wp_page.view_all_attributes
   end
 
   def expect_update(value, update_args)
