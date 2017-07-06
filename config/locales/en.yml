@@ -1976,14 +1976,8 @@ en:
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
-    You can customize which fields will be displayed
-    in work package forms. You can freely group the
-    fields to reflect the needs for your domain.
-
-    By default fields will only be shown in
-    the collapsed work package view if they have a value.
-    Fields that are 'Always displayed' will be visibile even
-    if they don't have a value.
+    You can customize which fields will be displayed in work package forms.
+    You can freely group the fields to reflect the needs for your domain.
   text_form_configuration_drag_to_activate: "Drag fields from here to activate them"
   text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_caracters_maximum: "%{count} characters maximum."
