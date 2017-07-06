@@ -39,7 +39,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
     <div class="box">
       <div class="form--field">
-        <%= f.text_field :work_package_id, size: 6, required: true, autofocus: true %>
+        <%= f.text_field :work_package_id,
+                         size: 6,
+                         required: true,
+                         autofocus: true,
+                         container_class: '-xslim' %>
 
         <% if @cost_entry.work_package %>
           <div class="form--field-instructions">
@@ -52,14 +56,19 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                          size: 10,
                          required: true,
                          class: 'remote-field--input',
-                         data: { :'remote-field-key' =>'fixed_date' } %>
+                         data: { :'remote-field-key' =>'fixed_date' },
+                         container_class: '-xslim' %>
         <label for="cost_entry_spent_on" class="hidden-for-sighted"><%= l(:label_date) %> <%=l(:text_hint_date_format) %></label>
         <%= calendar_for('cost_entry_spent_on') %>
       </div>
       <% if User.current.allowed_to? :log_costs, @project %>
         <div class="form--field">
         <%# Without knowing why `prompt` is in this case responsible for no blank line in the selection options %>
-          <%= f.select :user_id, user_collection_for_select_options,  required: true, prompt: true, prompt: true %>
+          <%= f.select :user_id,
+                       user_collection_for_select_options,
+                       required: true,
+                       prompt: true,
+                       container_class: '-middle' %>
         </div>
       <% else %>
         <%= f.hidden_field :user_id, value: User.current.id %>
@@ -68,7 +77,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
         <%# see above %>
         <%= f.select :cost_type_id,
                      cost_types_collection_for_select_options,
-                     { prompt: true },
+                     { prompt: true,
+                       container_class: '-middle' },
                      {
                        required: true,
                        class: 'remote-field--input',
@@ -77,7 +87,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </div>
       <div class="form--field">
         <% if @cost_entry.cost_type.nil? %>
-            <%= f.text_field :units, size: 6, required: true %>
+            <%= f.text_field :units, size: 6, required: true, container_class: '-slim' %>
         <% else %>
           <% suffix = @cost_entry.units == 1 ? @cost_entry.cost_type.unit : @cost_entry.cost_type.unit_plural %>
           <%= f.text_field :units,
@@ -86,7 +96,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                            suffix: h(suffix),
                            suffix_id: 'cost_entry_unit_name',
                            class: 'remote-field--input',
-                           data: { :'remote-field-key' => 'units' } %>
+                           data: { :'remote-field-key' => 'units' },
+                           container_class: '-slim' %>
         <% end %>
       </div>
 
@@ -109,7 +120,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       </div>
 
       <div class="form--field">
-        <%= f.text_field :comments, size: 100 %>
+        <%= f.text_field :comments, size: 100, container_class: '-wide' %>
       </div>
     </div>
 

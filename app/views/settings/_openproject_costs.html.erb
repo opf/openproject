@@ -20,10 +20,10 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <% html_title l(:label_administration), l(:label_plugins), 'Openproject Costs' %>
 <div class="form--field">
   <%= styled_label_tag :label_currency, t(:label_currency) %>
-  <%= styled_text_field_tag 'settings[costs_currency]', @settings['costs_currency'] %>
+  <%= styled_text_field_tag 'settings[costs_currency]', @settings['costs_currency'], container_class: '-xslim' %>
 </div>
 
 <div class="form--field">
   <%= styled_label_tag :label_currency_format, t(:label_currency_format) %>
-  <%= styled_text_field_tag 'settings[costs_currency_format]', @settings['costs_currency_format'] %>
+  <%= styled_text_field_tag 'settings[costs_currency_format]', @settings['costs_currency_format'], container_class: '-xslim' %>
 </div>
