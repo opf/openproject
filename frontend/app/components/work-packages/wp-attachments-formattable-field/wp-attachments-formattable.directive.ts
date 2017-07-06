@@ -1,24 +1,19 @@
 import {InsertMode, ViewMode} from './wp-attachments-formattable.enums';
-import {
-  DropModel,
-  EditorModel,
-  MarkupModel,
-  FieldModel,
-  SingleAttachmentModel
-} from './wp-attachments-formattable.models';
-import {
-  WorkPackageResourceInterface
-} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
+import {MarkupModel} from './models/markup-model';
+import {EditorModel} from './models/editor-model';
+import {PasteModel} from './models/paste-model';
+import {FieldModel} from './models/field-model';
+import {DropModel} from './models/drop-model';
+import {SingleAttachmentModel} from './models/single-attachment';
 
 export class WpAttachmentsFormattableController {
-  private viewMode:ViewMode = ViewMode.SHOW;
-
   constructor(protected $scope:ng.IScope,
               protected $element:ng.IAugmentedJQuery,
               protected $rootScope:ng.IRootScopeService,
@@ -31,6 +26,7 @@ export class WpAttachmentsFormattableController {
               protected loadingIndicator:any,
               protected keepTab:KeepTabService) {
 
+    $element.on('paste', this.handlePaste);
     $element.on('drop', this.handleDrop);
     $element.on('dragover', this.highlightDroppable);
     $element.on('dragleave', this.removeHighlight);
@@ -45,59 +41,96 @@ export class WpAttachmentsFormattableController {
     evt.preventDefault();
     evt.stopPropagation();
 
-    const textarea:ng.IAugmentedJQuery = this.$element.find('textarea');
-    this.viewMode = (textarea.length > 0) ? ViewMode.EDIT : ViewMode.SHOW;
+    const [, editor] = this.getEditor();
 
     const originalEvent = (evt.originalEvent as DragEvent);
     const workPackage:WorkPackageResourceInterface = (this.$scope as any).workPackage;
-    const dropData:DropModel = new DropModel(this.$location, originalEvent.dataTransfer, workPackage);
-
-    var description:any;
-
-    if (this.viewMode === ViewMode.EDIT) {
-      description = new EditorModel(textarea, new MarkupModel());
-    }
-    else {
-      description = new FieldModel(workPackage, new MarkupModel());
-    }
+    const dropData:DropModel = new DropModel(this.$location,
+      originalEvent.dataTransfer,
+      workPackage);
 
     if (angular.isUndefined(dropData.webLinkUrl) && angular.isUndefined(dropData.files)) {
       return;
     }
 
     if (dropData.isUpload) {
-      if (dropData.filesAreValidForUploading()) {
-        if (!dropData.isDelayedUpload) {
-          workPackage
-            .uploadAttachments(<any> dropData.files)
-            .then(attachments => attachments.elements)
-            .then((updatedAttachments:any) => {
-              if (angular.isUndefined(updatedAttachments)) {
-                return;
-              }
-              updatedAttachments = this.sortAttachments(updatedAttachments);
-
-              if (dropData.filesCount === 1) {
-                this.insertSingleAttachment(updatedAttachments, description);
-              }
-              else if (dropData.filesCount > 1) {
-                this.insertMultipleAttachments(dropData, updatedAttachments, description);
-              }
-
-              description.save();
-          });
-        }
-        else {
-          this.insertDelayedAttachments(dropData, description, workPackage);
-        }
-      }
-    }
-    else {
-      this.insertUrls(dropData, description);
+      this.uploadAndInsert(dropData.files, editor);
+    } else {
+      this.insertUrls(dropData, editor);
     }
     this.openDetailsView(workPackage.id.toString());
     this.removeHighlight();
-  };
+  }
+
+  public handlePaste = (evt:JQueryEventObject):boolean => {
+    const [viewMode, editor] = this.getEditor();
+
+    if (viewMode !== ViewMode.EDIT) {
+      return true;
+    }
+
+    const pasteEvt = (evt.originalEvent as ClipboardEvent);
+    const pasteData = new PasteModel(pasteEvt.clipboardData);
+    const count = pasteData.files.length;
+
+    if (count === 0) {
+      return true;
+    }
+
+    this.uploadAndInsert(pasteData.files, editor);
+
+    evt.preventDefault();
+    evt.stopPropagation();
+    return false;
+  }
+
+  /**
+   * Get the editor model for the current view mode.
+   * This is either the editing model (open textarea field), or the closed field model.
+   */
+  protected getEditor():[ViewMode, EditorModel | FieldModel] {
+    const textarea:ng.IAugmentedJQuery = this.$element.find('textarea');
+
+    let viewMode;
+    let model;
+
+    if (textarea.length > 0) {
+      viewMode = ViewMode.EDIT;
+      model = new EditorModel(textarea, new MarkupModel());
+    } else {
+      viewMode = ViewMode.SHOW;
+      model = new FieldModel(this.$scope.workPackage, new MarkupModel());
+    }
+
+    return [viewMode, model];
+  }
+
+  protected uploadAndInsert(files:File[], model:EditorModel | FieldModel) {
+    const workPackage:WorkPackageResourceInterface = this.$scope.workPackage;
+
+    if (workPackage.isNew) {
+      return this.insertDelayedAttachments(files, model, workPackage);
+    }
+
+    workPackage
+      .uploadAttachments(files)
+      .then(attachments => attachments.elements)
+      .then((updatedAttachments:any) => {
+        if (angular.isUndefined(updatedAttachments)) {
+          return;
+        }
+        updatedAttachments = this.sortAttachments(updatedAttachments);
+
+        if (files.length === 1) {
+          this.insertSingleAttachment(updatedAttachments, model);
+        }
+        else if (files.length > 1) {
+          this.insertMultipleAttachments(files.length, updatedAttachments, model);
+        }
+
+        model.save();
+      });
+  }
 
   protected sortAttachments(updatedAttachments:any) {
     updatedAttachments.sort(function (a:any, b:any) {
@@ -114,9 +147,9 @@ export class WpAttachmentsFormattableController {
       (currentFile.isAnImage) ? InsertMode.INLINE : InsertMode.ATTACHMENT);
   }
 
-  protected insertMultipleAttachments(dropData:DropModel, updatedAttachments:any, description:any):void {
+  protected insertMultipleAttachments(count:number, updatedAttachments:any, description:any):void {
     for (let i:number = updatedAttachments.length - 1;
-         i >= updatedAttachments.length - dropData.filesCount;
+         i >= updatedAttachments.length - count;
          i--) {
       description.insertAttachmentLink(
         updatedAttachments[i].downloadLocation.href,
@@ -125,18 +158,18 @@ export class WpAttachmentsFormattableController {
     }
   }
 
-  protected insertDelayedAttachments(dropData:DropModel, description:any, workPackage: WorkPackageResourceInterface):void {
-    for (var i = 0; i < dropData.files.length; i++) {
-      var currentFile = new SingleAttachmentModel(dropData.files[i]);
+  protected insertDelayedAttachments(files:File[], description:any, workPackage:WorkPackageResourceInterface):void {
+    for (var i = 0; i < files.length; i++) {
+      var currentFile = new SingleAttachmentModel(files[i]);
       var insertMode = currentFile.isAnImage ? InsertMode.INLINE : InsertMode.ATTACHMENT;
-      description.insertAttachmentLink(dropData.files[i].name.replace(/ /g, '_'), insertMode, true);
-      workPackage.pendingAttachments.push((dropData.files[i]));
+      description.insertAttachmentLink(files[i].name.replace(/ /g, '_'), insertMode, true);
+      workPackage.pendingAttachments.push((files[i]));
     }
 
     description.save();
   }
 
-  protected insertUrls(dropData: DropModel, description:any):void {
+  protected insertUrls(dropData:DropModel, description:any):void {
     const insertUrl:string = dropData.isAttachmentOfCurrentWp() ? dropData.removeHostInformationFromUrl() : dropData.webLinkUrl;
     const insertAlternative:InsertMode = dropData.isWebImage() ? InsertMode.INLINE : InsertMode.LINK;
     const insertMode:InsertMode = dropData.isAttachmentOfCurrentWp() ? InsertMode.ATTACHMENT : insertAlternative;
@@ -148,8 +181,8 @@ export class WpAttachmentsFormattableController {
   protected openDetailsView(wpId:string):void {
     const stateName = this.$state.current.name as string;
     if (stateName.indexOf('work-packages.list') > -1 &&
-        !this.wpEditModeState.active &&
-        this.$state.params['workPackageId'] !== wpId) {
+      !this.wpEditModeState.active &&
+      this.$state.params['workPackageId'] !== wpId) {
       this.loadingIndicator.mainPage = this.$state.go(this.keepTab.currentDetailsState, {
         workPackageId: wpId
       });

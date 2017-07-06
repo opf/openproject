@@ -17,6 +17,10 @@
     <div class="inplace-edit--preview" ng-show="vm.field.isPreview && !vm.field.isBusy">
         <span bind-unescaped-html="vm.field.previewHtml"></span>
     </div>
+    <div ng-if="vm.field.supportsAttachments && !vm.field.isPreview"
+         class="wp-edit-field-attachment-label">
+      <span ng-bind="vm.field.text.attachmentLabel"></span>
+    </div>
     <wp-edit-field-controls ng-show="!vm.inEditMode"
                             field-controller="vm"
                             on-save="vm.handleUserSubmit()"
