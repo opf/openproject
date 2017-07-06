@@ -24,11 +24,11 @@ See doc/COPYRIGHT.md for more details.
 <section class="form--section">
 
   <div class="form--field">
-    <%= f.text_field :title, :required => true, :size => 60 %>
+    <%= f.text_field :title, :required => true, :size => 60, container_class: '-wide' %>
   </div>
 
   <div class="form--field">
-    <%= f.text_field :location, :size => 60 %>
+    <%= f.text_field :location, :size => 60, container_class: '-wide' %>
   </div>
 
   <div class="form--field">
@@ -36,8 +36,8 @@ See doc/COPYRIGHT.md for more details.
       <span aria-hidden="true"><%= Meeting.human_attribute_name(:start_date) %>
         <span class="form--label-required" aria-hidden="true">*</span>
       </span>
-      <span class="hidden-for-sighted"><%= l(:label_start_date)%>
-        <%=l(:text_hint_date_format) %></span>
+      <span class="hidden-for-sighted"><%= t(:label_start_date)%>
+        <%= t(:text_hint_date_format) %></span>
     </label>
 
     <div class="form--field-container">
@@ -45,12 +45,13 @@ See doc/COPYRIGHT.md for more details.
             id: 'meeting-form-start-date',
             required: true,
             size:     10,
-            no_label: true %>
+            no_label: true,
+            container_class: '-xslim' %>
       <%= calendar_for('meeting-form-start-date') %>
       <label for="meeting-form-start-time" class="hidden-for-sighted">
         <%= Meeting.human_attribute_name(:start_time) %>
         <label lang="en">
-          <%= l(:label_time_zone) %>
+          <%= t(:label_time_zone) %>
           <%= Time.zone.to_s %>
         </label>
       </label>
@@ -60,7 +61,8 @@ See doc/COPYRIGHT.md for more details.
             type:     'time',
             no_label: true,
             step:     5.minutes,
-            suffix:   Time.zone.to_s %>
+            suffix:   Time.zone.to_s,
+            container_class: '-xslim' %>
     </div>
   </div>
 
@@ -80,7 +82,8 @@ See doc/COPYRIGHT.md for more details.
             min:      0.00,
             step:     0.25,
             max:      168,
-            suffix:   l(:text_in_hours) %>
+            suffix:   t(:text_in_hours),
+            container_class: '-xslim' %>
     </div>
   </div>
 
@@ -103,20 +106,20 @@ See doc/COPYRIGHT.md for more details.
             <% if @meeting.participants.present? && participant = @meeting.participants.detect{|p| p.user_id == user.id} -%>
               <%= hidden_field_tag "meeting[participants_attributes][][id]", participant.id %>
               <td class="form--matrix-checkbox-cell">
-                <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + l(:description_invite), :class => "hidden-for-sighted" %>
+                <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
                 <%= styled_check_box_tag "meeting[participants_attributes][][invited]", 1, participant.invited?, :id => "checkbox_invited_#{user.id}" %>
               </td>
               <td class="form--matrix-checkbox-cell">
-                <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + l(:description_attended), :class => "hidden-for-sighted" %>
+                <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + t(:description_attended), :class => "hidden-for-sighted" %>
                 <%= styled_check_box_tag "meeting[participants_attributes][][attended]", 1, participant.attended?, :id => "checkbox_attended_#{user.id}" %>
               </td>
             <% else -%>
               <td class="form--matrix-checkbox-cell">
-                <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + l(:description_invite), :class => "hidden-for-sighted" %>
+                <%= label_tag "checkbox_invited_#{user.id}", user.name + " " + t(:description_invite), :class => "hidden-for-sighted" %>
                 <%= styled_check_box_tag "meeting[participants_attributes][][invited]", value = "1", checked = false, :id => "checkbox_invited_#{user.id}" %>
               </td>
               <td class="form--matrix-checkbox-cell">
-                <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + l(:description_attended), :class => "hidden-for-sighted" %>
+                <%= label_tag "checkbox_attended_#{user.id}", user.name + " " + t(:description_attended), :class => "hidden-for-sighted" %>
                 <%= styled_check_box_tag "meeting[participants_attributes][][attended]", value = "1", checked = false, :id => "checkbox_attended_#{user.id}" %>
               </td>
             <% end -%>
