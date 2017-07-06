@@ -193,8 +193,6 @@ describe 'Switching types in work package table', js: true do
       type_field = wp_page.edit_field :type
       type_field.set_value type_with_cf.name
 
-      wp_page.view_all_attributes
-
       cf_edit_field.element.find('.wp-inline-edit--toggle-multiselect').click
       sel = cf_edit_field.input_element
       sel.select "pineapple"

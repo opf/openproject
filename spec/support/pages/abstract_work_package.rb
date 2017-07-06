@@ -177,12 +177,6 @@ module Pages
       page
     end
 
-    def view_all_attributes
-      # click_link does not work for reasons(TM)
-
-      page.find('a', text: I18n.t('js.label_show_attributes')).click
-    end
-
     def trigger_edit_mode
       page.click_button(I18n.t('js.button_edit'))
     end
