@@ -69,8 +69,6 @@ describe 'Work packages having story points', type: :feature, js: true do
       wp_page.visit!
       wp_page.expect_subject
 
-      wp_page.view_all_attributes
-
       wp_page.expect_attributes :storyPoints => story_points
 
       wp_page.ensure_page_loaded
