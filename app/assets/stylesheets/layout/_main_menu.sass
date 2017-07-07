@@ -195,8 +195,12 @@ $toggler-width: 40px
     float: left
 
   #toggle-project-menu
-    border: $main-menu-item-border-width solid $main-menu-item-border-color
+    border-width: $main-menu-item-border-width 0 $main-menu-item-border-width $main-menu-item-border-width
+    border-style: solid
+    border-color: $main-menu-item-border-color
     height: $main-menu-item-height
+    width: calc($main-menu-width - 1px)
+
     @include varprop(background-color, main-menu-bg-color)
     @include default-transition
     &:hover
