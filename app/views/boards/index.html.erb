@@ -26,8 +26,8 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<% html_title l(:label_board_plural) %>
-<%= toolbar title: l(:label_board_plural) %>
+<% html_title t(:label_board_plural) %>
+<%= toolbar title: t(:label_board_plural) %>
 <div class="generic-table--container">
   <div class="generic-table--results-container">
     <table class="generic-table boards">
@@ -52,7 +52,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= l(:label_topic_plural) %>
+                  <%= t(:label_topic_plural) %>
                 </span>
               </div>
             </div>
@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= l(:label_message_plural) %>
+                  <%= t(:label_message_plural) %>
                 </span>
               </div>
             </div>
@@ -70,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <div class="generic-table--sort-header-outer">
               <div class="generic-table--sort-header">
                 <span>
-                  <%= l(:label_message_last) %>
+                  <%= t(:label_message_last) %>
                 </span>
               </div>
             </div>
@@ -81,7 +81,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <% for board in @boards %>
           <tr>
             <td>
-              <%= link_to h(board.name), {action: 'show', id: board}, class: "board"  %><br />
+              <%= link_to h(board.name), { action: 'show', id: board }, class: "board"  %><br />
               <%=h board.description %>
             </td>
             <td><%= board.topics_count %></td>
@@ -96,14 +96,13 @@ See doc/COPYRIGHT.rdoc for more details.
         <% end %>
       </tbody>
     </table>
-    
+
   </div>
 </div>
 <%= other_formats_links do |f| %>
-  <%= f.link_to 'Atom', url: {controller: '/activities', action: 'index', id: @project, show_messages: 1, key: User.current.rss_key} %>
+  <%= f.link_to 'Atom', url: { controller: '/activities', action: 'index', id: @project, show_messages: 1, key: User.current.rss_key } %>
 <% end %>
 
 <% content_for :header_tags do %>
-  <%= auto_discovery_link_tag(:atom, {controller: '/activities', action: 'index', id: @project, format: 'atom', show_messages: 1, key: User.current.rss_key}) %>
+  <%= auto_discovery_link_tag(:atom, { controller: '/activities', action: 'index', id: @project, format: 'atom', show_messages: 1, key: User.current.rss_key }) %>
 <% end %>
-

@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<h2><%=l(:label_summary)%></h2>
+<h2><%=t(:label_summary)%></h2>
 
 <h3><%=@report_title%></h3>
 
@@ -38,4 +38,4 @@ See doc/COPYRIGHT.rdoc for more details.
                                               report: @report } %>
 <br />
 
-<%= link_to l(:button_back), report_project_work_packages_path(@project) %>
+<%= link_to t(:button_back), report_project_work_packages_path(@project) %>

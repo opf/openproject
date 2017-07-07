@@ -36,7 +36,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <section class="form--section">
   <div class="form--field">
-    <%= f.text_field :lastname, label: Group.human_attribute_name(:name), required: true %>
+    <%= f.text_field :lastname,
+                     label: Group.human_attribute_name(:name),
+                     required: true,
+                     container_class: '-middle' %>
   </div>
 
   <%= render partial: 'customizable/form', locals: { form: f,

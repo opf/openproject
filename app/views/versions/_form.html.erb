@@ -37,37 +37,40 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= back_url_hidden_field_tag %>
 
 <div class="form--field">
-  <%= f.text_field :name, required: true %>
+  <%= f.text_field :name, required: true, container_class: '-wide' %>
 </div>
 
 <div class="form--field">
-  <%= f.text_field :description %>
+  <%= f.text_field :description, container_class: '-wide'%>
 </div>
 
 <div class="form--field">
   <%= f.select :status,
-               Version::VERSION_STATUSES.collect { |s| [l("version_status_#{s}"), s] } %>
+               Version::VERSION_STATUSES.collect { |s| [t("version_status_#{s}"), s] },
+               container_class: '-slim' %>
 </div>
 
 <div class="form--field">
   <%= f.text_field :wiki_page_title,
                    label: :label_wiki_page,
-                   disabled: project.wiki.nil? %>
+                   disabled: project.wiki.nil?,
+                   container_class: '-wide' %>
 </div>
 
 <div class="form--field">
-  <%= f.text_field :start_date %>
+  <%= f.text_field :start_date, container_class: '-xslim' %>
   <%= calendar_for('version_start_date') %>
 </div>
 
 <div class="form--field">
-  <%= f.text_field :effective_date %>
+  <%= f.text_field :effective_date, container_class: '-xslim'%>
   <%= calendar_for('version_effective_date') %>
 </div>
 
 <div class="form--field">
   <%= f.select :sharing,
-               version.allowed_sharings.collect { |v| [format_version_sharing(v), v] } %>
+               version.allowed_sharings.collect { |v| [format_version_sharing(v), v] },
+               container_class: '-slim' %>
 </div>
 
 <%= render partial: "customizable/form",

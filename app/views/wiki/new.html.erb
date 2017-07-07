@@ -29,16 +29,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <h2 class="legacy-heading">
   <% if @page.parent %>
-    <% breadcrumb_for_page(@page.parent, l("create_new_page")) %>
+    <% breadcrumb_for_page(@page.parent, t("create_new_page")) %>
   <% else %>
-    <% breadcrumb_paths(l("create_new_page")) %>
+    <% breadcrumb_paths(t("create_new_page")) %>
   <% end %>
-  <%= l("create_new_page") %>
+  <%= t("create_new_page") %>
 </h2>
 
-<% html_title l("create_new_page") %>
+<% html_title t("create_new_page") %>
 
-<%= labelled_tabular_form_for @content, as: :content, url: create_project_wiki_index_path(project_id: @project), html: {method: :post, multipart: true, id: 'wiki_form'} do |f| %>
+<%= labelled_tabular_form_for @content, as: :content, url: create_project_wiki_index_path(project_id: @project), html: { method: :post, multipart: true, id: 'wiki_form' } do |f| %>
   <%= error_messages_for 'page' %>
 
     <div class="form--field -required">
@@ -75,7 +75,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= render partial: 'attachments/form', f: f %>
 
   <hr class="form--separator" />
-  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
   <%= preview_link preview_project_wiki_index_path(@project), 'wiki_form-preview' %>
 
   <%= wikitoolbar_for 'content_text' %>

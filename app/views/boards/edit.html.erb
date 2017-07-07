@@ -29,6 +29,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: Board.name.humanize %>
 
 <%= labelled_tabular_form_for [@project, @board] do |f| %>
-  <%= render partial: 'form', locals: {f: f} %>
-  <%= f.button l(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
+  <%= render partial: 'form', locals: { f: f } %>
+  <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
 <% end %>

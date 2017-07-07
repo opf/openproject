@@ -33,7 +33,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= no_results_box(custom_title: title) %>
   </div>
 <% else %>
-  <% column_names = report.statuses.map(&:name) + [l(:label_open_work_packages), l(:label_closed_work_packages), l(:label_total)] %>
+  <% column_names = report.statuses.map(&:name) + [t(:label_open_work_packages), t(:label_closed_work_packages), t(:label_total)] %>
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table">
@@ -102,7 +102,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <% end %>
       </tbody>
     </table>
-    
+
   </div>
  </div>
 <% end

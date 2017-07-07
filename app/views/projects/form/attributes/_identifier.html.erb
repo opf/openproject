@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <div class="form--field <%= identifier_editable ? '-required' : '' %>">
   <% if identifier_editable %>
-    <%= form.text_field :identifier %>
+    <%= form.text_field :identifier, container_class: '-middle'%>
 
     <script type="text/javascript" charset="utf-8">
       projectIdentifierMaxLength = <%= id_max_length %>;

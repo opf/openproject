@@ -32,10 +32,10 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_check_box :work_package_group_assignment %></div>
     <div class="form--field"><%= setting_check_box :display_subprojects_work_packages %></div>
     <div class="form--field"><%= setting_check_box :work_package_startdate_is_adddate %></div>
-    <div class="form--field"><%= setting_select :work_package_done_ratio, WorkPackage::DONE_RATIO_OPTIONS.collect {|i| [l("setting_work_package_done_ratio_#{i}"), i]} %></div>
-    <div class="form--field"><%= setting_text_field :work_packages_export_limit, size: 6 %></div>
+    <div class="form--field"><%= setting_select :work_package_done_ratio, WorkPackage::DONE_RATIO_OPTIONS.collect {|i| [t("setting_work_package_done_ratio_#{i}"), i]}, container_class: '-middle' %></div>
+    <div class="form--field"><%= setting_text_field :work_packages_export_limit, size: 6, container_class: '-xslim' %></div>
   </section>
-  <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= l(:setting_column_options) %></legend>
+  <fieldset class="form--fieldset"><legend class="form--fieldset-legend"><%= t(:setting_column_options) %></legend>
     <%
        column_choices = Query.new.available_columns.map { |column|
          choice = { caption: column.caption, value: column.name.to_s }
@@ -46,5 +46,5 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= settings_matrix([:work_package_list_default_columns, :work_package_list_summable_columns],
                         column_choices, label_choices: :setting_work_package_properties) %>
   </fieldset>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

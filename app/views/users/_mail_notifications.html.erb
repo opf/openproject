@@ -35,7 +35,8 @@ See doc/COPYRIGHT.rdoc for more details.
             options_for_select(user_mail_notification_options(@user),
             @user.mail_notification),
             :'ng-model' => 'mail_notifications',
-            :'ng-init' => "mail_notifications = '#{@user.mail_notification}'" %>
+            :'ng-init' => "mail_notifications = '#{@user.mail_notification}'",
+            container_class: '-wide' %>
     </div>
   </div>
 </div>

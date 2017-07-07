@@ -33,14 +33,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <!--[form:user]-->
 <section class="form--section">
-  <div class="form--field"><%= f.text_field :login, required: true, size: 25 %></div>
-  <div class="form--field"><%= f.text_field :firstname, required: true %></div>
-  <div class="form--field"><%= f.text_field :lastname, required: true %></div>
-  <div class="form--field"><%= f.text_field :mail, required: true %></div>
-  <div class="form--field"><%= f.select :language, lang_options_for_select %></div>
+  <div class="form--field"><%= f.text_field :login, required: true, size: 25, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :firstname, required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :lastname, required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field :mail, required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.select :language, lang_options_for_select, container_class: '-slim' %></div>
   <div class="form--field"><%= f.check_box :admin, disabled: (@user == User.current) %></div>
 
-  <h3 class="form--section-title"><%= l(:label_custom_field_plural) %></h3>
+  <h3 class="form--section-title"><%= t(:label_custom_field_plural) %></h3>
   <%= render partial:     'customizable/field',
              collection:  @user.custom_field_values,
              as:          :value,
@@ -50,12 +50,12 @@ See doc/COPYRIGHT.rdoc for more details.
 </section>
 
 <section class="form--section">
-  <h3 class="form--section-title"><%=l(:label_ui, app_title: Setting.app_title)%></h3>
+  <h3 class="form--section-title"><%=t(:label_ui, app_title: Setting.app_title)%></h3>
   <%= render partial: "users/impaired_settings" %>
 </section>
 
 <section class="form--section">
-  <h3 class="form--section-title"><%=l(:label_authentication)%></h3>
+  <h3 class="form--section-title"><%=t(:label_authentication)%></h3>
   <% if @user.uses_external_authentication? %>
     <div class="form--field">
       <%= styled_label_tag nil, I18n.t('user.authentication_provider') %>
@@ -71,7 +71,8 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field">
         <%= f.select :auth_source_id,
                      ([[l(:label_internal), ""]] + @auth_sources.collect { |a| [a.name, a.id] }),
-                     label: :'activerecord.attributes.user.auth_source' %>
+                     label: :'activerecord.attributes.user.auth_source',
+                     container_class: '-middle' %>
       </div>
     <% end %>
     <% if !OpenProject::Configuration.disable_password_login? %>
@@ -100,7 +101,8 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field">
             <%= f.password_field :password,
                                  required: @user.new_record?,
-                                 disabled: assign_random_password_enabled %>
+                                 disabled: assign_random_password_enabled,
+                                 container_class: '-middle' %>
             <div class="form--field-instructions">
               <%= password_complexity_requirements %>
             </div>
@@ -108,7 +110,8 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field">
             <%= f.password_field :password_confirmation,
                                  required: @user.new_record?,
-                                 disabled: assign_random_password_enabled %>
+                                 disabled: assign_random_password_enabled,
+                                 container_class: '-middle' %>
           </div>
         <% end %>
         <div class="form--field">
@@ -135,7 +138,7 @@ See doc/COPYRIGHT.rdoc for more details.
 </section>
 
 <section class="form--section">
-  <h3 class="form--section-title"><%=l(:label_preferences)%></h3>
-  <%= render partial: 'users/preferences' %>
+  <h3 class="form--section-title"><%=t(:label_preferences)%></h3>
+  <%= render partial: 'users/preferences', locals: {input_size: :middle } %>
 </section>
 <!--[eoform:user]-->

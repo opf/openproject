@@ -29,26 +29,26 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if repository.class.manages_remote? %>
     <div class="form--field">
       <%= form.text_field(:url,
-                          label: l('repositories.managed_url'),
-                          value: l('repositories.managed_remote'),
+                          label: t('repositories.managed_url'),
+                          value: t('repositories.managed_remote'),
                           disabled: true,
                           'aria-disabled' => true
           ) %>
       <div class="form--field-instructions">
-        <p><%= l('repositories.managed_remote_note') %></p>
+        <p><%= t('repositories.managed_remote_note') %></p>
       </div>
     </div>
 <% else %>
 <div class="form--field">
   <%= form.text_field(:url,
-                      label: l('repositories.managed_url'),
+                      label: t('repositories.managed_url'),
                       value: repository.new_record? ? repository.managed_repository_url :
                               repository.url,
                       disabled: true,
                       'aria-disabled' => true
       ) %>
   <div class="form--field-instructions">
-    <%= l("repositories.#{vendor}.instructions.managed_url") %>
+    <%= t("repositories.#{vendor}.instructions.managed_url") %>
   </div>
 </div>
 <% end %>

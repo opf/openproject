@@ -29,12 +29,12 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= render_timelog_breadcrumb %>
 
-<%= toolbar title: l(:label_spent_time) do %>
+<%= toolbar title: t(:label_spent_time) do %>
   <% if User.current.allowed_to?({controller: 'timelog', action: :new}, @project) %>
       <li class="toolbar-item">
         <%= link_to polymorphic_new_time_entry_path(@issue || @project), class: 'button' do %>
           <%= op_icon('button--icon icon-time') %>
-          <span class="button--text"><%= l(:button_log_time) %></span>
+          <span class="button--text"><%= t(:button_log_time) %></span>
         <% end %>
       </li>
   <% end %>
@@ -51,15 +51,15 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="grid-block">
 
       <div class="form--field">
-        <%= styled_label_tag :columns, "#{l(:label_details)}:" %>
-        <%= styled_select_tag 'columns', options_for_select([[l(:label_year), 'year'],
-                                                            [l(:label_month), 'month'],
-                                                            [l(:label_week), 'week'],
-                                                            [l(:label_day_plural).titleize, 'day']], @columns) %>
+        <%= styled_label_tag :columns, "#{t(:label_details)}:" %>
+        <%= styled_select_tag 'columns', options_for_select([[t(:label_year), 'year'],
+                                                            [t(:label_month), 'month'],
+                                                            [t(:label_week), 'week'],
+                                                            [t(:label_day_plural).titleize, 'day']], @columns) %>
       </div>
 
       <div class="form--field">
-        <%= styled_label_tag :criterias, "#{l(:button_add)}:" %>
+        <%= styled_label_tag :criterias, "#{t(:button_add)}:" %>
         <% available_criterias = [[]] + (@available_criterias.keys - @criterias).collect{ |k|
           [l_or_humanize(@available_criterias[k][:label]), k]
           }
@@ -71,14 +71,14 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
     </div>
     <div class="grid-block">
-      <%= submit_tag l(:button_apply), class: 'button -highlight' %>
-      <%= link_to l(:button_clear), {project_id: @project, issue_id: @issue, period_type: params[:period_type], period: params[:period], from: @from, to: @to, columns: @columns}, class: 'button' %>
+      <%= submit_tag t(:button_apply), class: 'button -highlight' %>
+      <%= link_to t(:button_clear), {project_id: @project, issue_id: @issue, period_type: params[:period_type], period: params[:period], from: @from, to: @to, columns: @columns}, class: 'button' %>
     </div>
   </div>
 <% end %>
 <% unless @criterias.empty? %>
   <div class="total-hours">
-    <p><%= l(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
+    <p><%= t(:label_total) %>: <%= html_hours(l_hours(@total_hours)) %></p>
   </div>
 
   <% unless @hours.empty? %>
@@ -122,7 +122,7 @@ See doc/COPYRIGHT.rdoc for more details.
                 <div class="generic-table--sort-header-outer">
                   <div class="generic-table--sort-header">
                     <span>
-                      <%= l(:label_total) %>
+                      <%= t(:label_total) %>
                     </span>
                   </div>
                 </div>
@@ -132,7 +132,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <tbody>
             <%= render partial: 'report_criteria', locals: {criterias: @criterias, hours: @hours, level: 0} %>
             <tr class="total">
-              <td><%= l(:label_total) %></td>
+              <td><%= t(:label_total) %></td>
               <%= ('<td></td>' * (@criterias.size - 1)).html_safe %>
               <% total = 0 -%>
               <% @periods.each do |period| -%>
@@ -143,7 +143,7 @@ See doc/COPYRIGHT.rdoc for more details.
             </tr>
           </tbody>
         </table>
-        
+
       </div>
     </div>
 
@@ -153,4 +153,4 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
-<% html_title l(:label_spent_time), l(:label_report) %>
+<% html_title t(:label_spent_time), t(:label_report) %>

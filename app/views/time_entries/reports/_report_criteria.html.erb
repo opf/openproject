@@ -43,6 +43,6 @@ See doc/COPYRIGHT.rdoc for more details.
       <td class="hours"><%= html_hours("%.2f" % total) if total > 0 %></td>
     </tr>
     <% if criterias.length > level+1 -%>
-      <%= render(partial: 'report_criteria', locals: {criterias: criterias, hours: hours_for_value, level: (level + 1)}) %>
+      <%= render(partial: 'report_criteria', locals: { criterias: criterias, hours: hours_for_value, level: (level + 1) }) %>
     <% end -%>
   <% end %>
