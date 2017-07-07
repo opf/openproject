@@ -32,13 +32,16 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'document' %>
 <div class="form--field">
-  <%= f.select :category_id,  DocumentCategory.all.map { |c| [c.name, c.id] }, required: true %>
+  <%= f.select :category_id,
+               DocumentCategory.all.map { |c| [c.name, c.id] },
+               required: true,
+               container_class: '-slim' %>
 </div>
 <div class="form--field">
-  <%= f.text_field :title, required: true %>
+  <%= f.text_field :title, required: true, container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <%= f.text_area :description %>
+  <%= f.text_area :description, container_class: '-wide' %>
 </div>
 
 <%= wikitoolbar_for 'document_description' %>
