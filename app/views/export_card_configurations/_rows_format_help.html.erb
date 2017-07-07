@@ -1,5 +1,8 @@
 <div class="form--field">
-  <%= f.text_area :rows, required: true, label: I18n.t('export_config_rows') %>
+  <%= f.text_area :rows,
+                  required: true,
+                  label: I18n.t('export_config_rows'),
+                  container_class: '-wide' %>
 </div>
 <div class="form--field-instructions">
   <span class="help">

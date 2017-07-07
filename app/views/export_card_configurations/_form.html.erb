@@ -25,18 +25,30 @@ See doc/COPYRIGHT.md for more details.
 ++#%>
 
 <div class="form--field">
-  <%= f.text_field :name, required: true %>
+  <%= f.text_field :name, required: true, container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <%= f.text_area :description %>
+  <%= f.text_area :description, container_class: '-middle' %>
 </div>
 <div class="form--field">
-  <%= f.number_field :per_page, required: true, label: I18n.t('export_config_per_page') %>
+  <%= f.number_field :per_page,
+                     required: true,
+                     label: I18n.t('export_config_per_page'),
+                     container_class: '-xslim' %>
 </div>
 <div class="form--field">
-  <%= f.text_field :page_size, required: true, value: "A4", readonly: true, label: I18n.t('export_config_page_size')  %>
+  <%= f.text_field :page_size,
+                   required: true,
+                   value: "A4",
+                   readonly: true,
+                   label: I18n.t('export_config_page_size'),
+                   container_class: '-xslim'  %>
 </div>
 <div class="form--field">
-  <%= f.select :orientation, [:landscape, :portrait], :required => true, :label => I18n.t('export_config_orientation') %>
+  <%= f.select :orientation,
+               [:landscape, :portrait],
+               :required => true,
+               :label => I18n.t('export_config_orientation'),
+               container_class: '-slim' %>
 </div>
 <%= render partial: "rows_format_help", locals: { f: f } %>
