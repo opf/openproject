@@ -39,8 +39,8 @@ module VersionSettingsHelper
 
     content_tag :div, class: 'form--field' do
       [
-        styled_label_tag(name_for_setting_attributes('display'), l(:label_column_in_backlog)),
-        styled_select_tag(name_for_setting_attributes('display'), options_for_select(position_display_options, setting.display)),
+        styled_label_tag(name_for_setting_attributes('display'), t(:label_column_in_backlog)),
+        styled_select_tag(name_for_setting_attributes('display'), options_for_select(position_display_options, setting.display), container_class: '-xslim' ),
         version_hidden_id_field(setting),
         hidden_field_tag('project_id', project.id)
       ].join.html_safe
