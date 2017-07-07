@@ -37,8 +37,15 @@ export class WorkPackageReplacementLabelController {
     protected $element:ng.IAugmentedJQuery) {
   }
 
-  public activate() {
+  public activate(evt:JQueryEventObject) {
+    // Skip clicks on help texts
+    const target = jQuery(evt.target);
+    if (target.closest('.help-text--entry').length) {
+      return true;
+    }
+
     this.formCtrl.fields[this.fieldName].activate();
+    return false;
   }
 }
 

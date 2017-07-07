@@ -57,6 +57,10 @@ class PermittedParams
     permitted_attributes[key].concat(params)
   end
 
+  def attribute_help_text
+    params.require(:attribute_help_text).permit(*self.class.permitted_attributes[:attribute_help_text])
+  end
+
   def auth_source
     params.require(:auth_source).permit(*self.class.permitted_attributes[:auth_source])
   end
@@ -446,6 +450,11 @@ class PermittedParams
   def self.permitted_attributes
     @whitelisted_params ||= begin
       params = {
+        attribute_help_text: [
+          :type,
+          :attribute_name,
+          :help_text
+        ],
         auth_source: [
           :name,
           :host,

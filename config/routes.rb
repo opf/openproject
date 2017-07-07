@@ -381,6 +381,8 @@ OpenProject::Application.routes.draw do
     post 'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
     resource :custom_style, only: [:update, :show, :create], path: 'design'
 
+    resources :attribute_help_texts, only: %i(index new create edit update destroy)
+
     resources :groups do
       member do
         get :autocomplete_for_user

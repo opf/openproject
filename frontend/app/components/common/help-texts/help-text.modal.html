@@ -1,0 +1,29 @@
+<div class="attribute-help-text--modal">
+  <div>
+    <div class="modal--header">
+      <span class="icon-context icon-help2"></span>
+      <h2 ng-bind="::resource.attributeCaption"></h2>
+    </div>
+
+    <div class="modal--main"
+         tabindex="0"
+         ng-bind-html="::resource.helpText.html">
+    </div>
+
+    <div class="modal--footer">
+      <button class="help-text--close-button button -highlight"
+              ng-click="closeThisDialog()"
+              data-click-on-keypress="[13, 32]"
+              ng-bind="::text.close"
+              ng-attr-title="{{ ::text.close }}">
+      </button>
+      <a class="help-text--edit-button button"
+         ng-if="resource.editText"
+         ng-attr-href="{{ resource.editText && resource.editText.$link.href }}"
+         ng-attr-title="{{ ::text.edit }}">
+        <op-icon icon-classes="button--icon icon-edit"></op-icon>
+        <span class="button--text" ng-bind="::text.edit"></span>
+      </a>
+    </div>
+  </div>
+</div>

@@ -39,6 +39,7 @@ module API
       mount ::API::V3::Categories::CategoriesAPI
       mount ::API::V3::Configuration::ConfigurationAPI
       mount ::API::V3::CustomOptions::CustomOptionsAPI
+      mount ::API::V3::HelpTexts::HelpTextsAPI
       mount ::API::V3::Principals::PrincipalsAPI
       mount ::API::V3::Priorities::PrioritiesAPI
       mount ::API::V3::Projects::ProjectsAPI
