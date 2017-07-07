@@ -21,13 +21,13 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= f.hidden_field :kind %>
 
 <div class="form--field">
-  <%= f.text_field :subject, required: true, autofocus: true %>
+  <%= f.text_field :subject, required: true, autofocus: true, container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <%= f.text_area :description, rows: (@cost_object.description.blank? ? 10 : [[10, @cost_object.description.length / 50].max, 100].min), cols: 60 %>
+  <%= f.text_area :description, rows: (@cost_object.description.blank? ? 10 : [[10, @cost_object.description.length / 50].max, 100].min), cols: 60, container_class: '-wide' %>
 </div>
 <div class="form--field">
-  <%= f.text_field :fixed_date %>
+  <%= f.text_field :fixed_date, container_class: '-xslim' %>
   <%= calendar_for :cost_object_fixed_date %>
 </div>
 
@@ -41,4 +41,3 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 <%= render :partial => 'attachments/form' %>
 
 <%= wikitoolbar_for 'cost_object_description' %>
-
