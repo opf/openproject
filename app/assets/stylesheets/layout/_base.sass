@@ -102,6 +102,8 @@ body
     height:     100%
     width: calc(100% - #{$main-menu-width})
     margin-left: $main-menu-width
+    // Needed for Safari
+    left: 0
 
   &.nosidebar
     margin-left: 0
@@ -115,12 +117,6 @@ body
       width:    100%
       height:   100%
 
-  &:after
-    content: "."
-    display: block
-    height: 0
-    clear: both
-    visibility: hidden
 
 #content
   padding: 0
