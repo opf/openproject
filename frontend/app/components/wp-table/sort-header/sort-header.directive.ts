@@ -36,15 +36,18 @@ import {WorkPackageTableSortBy} from '../../wp-fast-table/wp-table-sort-by';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableGroupByService} from './../../wp-fast-table/state/wp-table-group-by.service';
 import {scopeDestroyed$} from '../../../helpers/angular-rx-utils';
+import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
+import {RelationQueryColumn, TypeRelationQueryColumn} from '../../wp-query/query-column';
 
 angular
   .module('openproject.workPackages.directives')
   .directive('sortHeader', sortHeader);
 
-function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
-                    wpTableSortBy: WorkPackageTableSortByService,
-                    wpTableGroupBy: WorkPackageTableGroupByService,
-                    I18n: op.I18n) {
+function sortHeader(wpTableHierarchies:WorkPackageTableHierarchiesService,
+                    wpTableSortBy:WorkPackageTableSortByService,
+                    wpTableGroupBy:WorkPackageTableGroupByService,
+                    wpTableRelationColumns:WorkPackageTableRelationColumnsService,
+                    I18n:op.I18n) {
   return {
     restrict: 'A',
     templateUrl: '/components/wp-table/sort-header/sort-header.directive.html',
@@ -54,24 +57,24 @@ function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
       locale: '='
     },
 
-    link: function(scope: any, element: ng.IAugmentedJQuery) {
+    link: function (scope:any, element:ng.IAugmentedJQuery) {
       wpTableSortBy.onReadyWithAvailable()
         .takeUntil(scopeDestroyed$(scope))
         .subscribe(() => {
-        let latestSortElement = wpTableSortBy.currentSortBys[0];
+          let latestSortElement = wpTableSortBy.currentSortBys[0];
 
-        if (!latestSortElement || scope.column.$href !== latestSortElement.column.$href) {
-          scope.currentSortDirection = null;
-        } else {
-          scope.currentSortDirection = latestSortElement.direction;
-        }
+          if (!latestSortElement || scope.column.$href !== latestSortElement.column.$href) {
+            scope.currentSortDirection = null;
+          } else {
+            scope.currentSortDirection = latestSortElement.direction;
+          }
 
-        setFullTitleAndSummary();
+          setFullTitleAndSummary();
 
-        scope.sortable = wpTableSortBy.isSortable(scope.column);
+          scope.sortable = wpTableSortBy.isSortable(scope.column);
 
-        scope.directionClass = directionClass();
-      });
+          scope.directionClass = directionClass();
+        });
 
       scope.$watch('currentSortDirection', setActiveColumnClass);
 
@@ -82,6 +85,16 @@ function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
 
       // Place the hierarchy icon left to the subject column
       scope.isHierarchyColumn = scope.column.id === 'subject';
+
+      if (scope.isHierarchyColumn) {
+        scope.columnType = 'hierarchy';
+      } else if (wpTableRelationColumns.relationColumnType(scope.column) === 'toType') {
+        scope.columnType = 'relation';
+        scope.columnName = (scope.column as TypeRelationQueryColumn).type.name;
+      } else if (wpTableRelationColumns.relationColumnType(scope.column) === 'ofType') {
+        scope.columnType = 'relation';
+        scope.columnName = I18n.t('js.relation_labels.' + (scope.column as RelationQueryColumn).relationType);
+      }
 
       function setHierarchyIcon() {
         if (wpTableHierarchies.isEnabled) {
@@ -112,7 +125,7 @@ function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
         setHierarchyIcon();
 
         // Hierarchy toggle handler
-        scope.toggleHierarchy = function(evt:JQueryEventObject) {
+        scope.toggleHierarchy = function (evt:JQueryEventObject) {
           wpTableHierarchies.toggleState();
           setHierarchyIcon();
 
@@ -139,7 +152,7 @@ function sortHeader(wpTableHierarchies: WorkPackageTableHierarchiesService,
       function setFullTitleAndSummary() {
         scope.fullTitle = scope.headerTitle;
 
-        if(scope.currentSortDirection) {
+        if (scope.currentSortDirection) {
           var ascending = scope.currentSortDirection.$href === QUERY_SORT_BY_ASC;
           var summaryContent = [
             ascending ? I18n.t('js.label_ascending') : I18n.t('js.label_descending'),
