@@ -1,5 +1,5 @@
-<div class="generic-table--sort-header-outer">
-  <span class="hierarchy-header--outer-span" ng-if="isHierarchyColumn">
+<div class="generic-table--sort-header-outer" ng-switch="columnType">
+  <span class="hierarchy-header--outer-span" ng-switch-when="hierarchy">
     <span
        class="hierarchy-header--icon"
        ng-click="toggleHierarchy($event)"
@@ -19,7 +19,15 @@
     <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
              icon-title="{{ text.openMenu }}"></op-icon>
   </span>
-  <span class="generic-table--sort-header" ng-if="!isHierarchyColumn">
+  <span class="generic-table--sort-header" ng-switch-when="relation">
+    <a ng-attr-title="{{ column.name }}">
+      <op-icon icon-classes="icon-context icon-relations relations-header--icon"></op-icon>
+      {{columnName}}
+    </a>
+    <op-icon icon-classes="dropdown-indicator icon-small icon-pulldown"
+             icon-title="{{ text.openMenu }}"></op-icon>
+  </span>
+  <span class="generic-table--sort-header" ng-switch-default>
     <a href="javascript://"
        ng-if="sortable"
        ng-class="[directionClass && 'sort', directionClass]"

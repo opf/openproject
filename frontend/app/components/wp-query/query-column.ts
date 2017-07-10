@@ -23,10 +23,10 @@ export interface QueryColumn extends HalResource {
 }
 
 export interface TypeRelationQueryColumn extends QueryColumn {
-  type:{ href: string },
+  type:{ href: string, name:string },
   _links?: {
     self:{ href:string, title:string },
-    type:{ href:string }
+    type:{ href:string, title:string }
   }
 }
 
