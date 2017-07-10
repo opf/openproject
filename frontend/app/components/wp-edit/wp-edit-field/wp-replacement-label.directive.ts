@@ -44,7 +44,7 @@ export class WorkPackageReplacementLabelController {
       return true;
     }
 
-    this.formCtrl.fields[this.fieldName].activate();
+    this.formCtrl.fields[this.fieldName].handleUserActivate();
     return false;
   }
 }

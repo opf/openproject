@@ -4,11 +4,14 @@ import {injectorBridge} from '../../../angular/angular-injector-bridge.functions
 import {States} from '../../../states.service';
 import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
-import {cellClassName, editableClassName, readOnlyClassName} from '../../builders/cell-builder';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
+import {
+  cellClassName, editableClassName,
+  readOnlyClassName
+} from '../../../wp-edit-form/display-field-renderer';
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
@@ -26,12 +29,12 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     return jQuery(table.container);
   }
 
-  constructor(table: WorkPackageTable) {
+  constructor(table:WorkPackageTable) {
     super();
     injectorBridge(this);
   }
 
-  protected processEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
+  protected processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
     debugLog('Starting editing on cell: ', evt.target);
     evt.preventDefault();
 
@@ -64,8 +67,8 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
     // Activate the field
     form.activate(fieldName)
-      .then((fieldElement:ng.IAugmentedJQuery) => {
-        this.setClickPosition(fieldElement.find('input'), positionOffset);
+      .then((handler) => {
+        this.setClickPosition(handler.element.find('input'), positionOffset);
       })
       .catch(() => {
         target.addClass(readOnlyClassName);
@@ -77,7 +80,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   private setClickPosition(element:ng.IAugmentedJQuery, offset:number):void {
     try {
       (element[0] as HTMLInputElement).setSelectionRange(offset, offset);
-    } catch(e) {
+    } catch (e) {
       debugLog('Failed to set click position for edit field.', e);
     }
   }
@@ -86,13 +89,13 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     try {
       const range = document.caretRangeFromPoint(evt.clientX, evt.clientY);
       return range.startOffset;
-    } catch(e) {
+    } catch (e) {
       debugLog('Failed to get click position for edit field.', e);
       return 0;
     }
   }
 
-  private startEditing(state: InputState<WorkPackageEditForm>, workPackageId:string):WorkPackageEditForm {
+  private startEditing(state:InputState<WorkPackageEditForm>, workPackageId:string):WorkPackageEditForm {
     let form = new WorkPackageEditForm(workPackageId);
     state.putValue(form);
     return form;
@@ -101,7 +104,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   /**
    * Retrieve the edit state for this work package
    */
-  private editState(workPackageId: string): InputState<WorkPackageEditForm> {
+  private editState(workPackageId:string):InputState<WorkPackageEditForm> {
     return this.states.editing.get(workPackageId);
   }
 }

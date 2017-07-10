@@ -22,11 +22,8 @@
           <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
           <attribute-help-text title-text="descriptor.label" attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
         </div>
-        <div
-            wp-edit-field="descriptor.name"
-            wp-edit-field-label="descriptor.label"
-            wp-edit-field-wrapper-classes="'-small'"
-            class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value-container">
+          <wp-edit-field work-package-id="$ctrl.workPackage.id" field-name="descriptor.name"></wp-edit-field>
         </div>
       </div>
     </div>
@@ -39,12 +36,13 @@
             ng-bind="$ctrl.text.fields.description"></h3>
       </div>
     </div>
-    <div
-        wp-edit-field="'description'"
-        wp-attachments-formattable
-        wp-edit-field-wrapper-classes="'-no-label'"
-        display-placeholder="$ctrl.I18n.t('js.work_packages.placeholders.description')"
-        class="single-attribute wiki work-packages--details--description">
+    <div class="single-attribute wiki work-packages--details--description">
+      <wp-edit-field field-name="'description'"
+                     work-package-id="$ctrl.workPackage.id"
+                     wrapper-classes="'-no-label'"
+                     display-placeholder="$ctrl.I18n.t('js.work_packages.placeholders.description')"
+                     wp-attachments-formattable>
+      </wp-edit-field>
     </div>
   </div>
 
@@ -73,14 +71,10 @@
           <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
           <attribute-help-text attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
         </div>
-        <div
-            ng-if="!descriptor.multiple"
-            wp-edit-field="descriptor.name"
-            wp-edit-field-label="descriptor.label"
-            wp-edit-field-wrapper-classes="'-small'"
-            class="attributes-key-value--value-container">
+        <div ng-if="!descriptor.multiple"
+             class="attributes-key-value--value-container">
+          <wp-edit-field work-package-id="$ctrl.workPackage.id" field-name="descriptor.name"></wp-edit-field>
         </div>
-
         <div
             class="attributes-key-value--key"
             ng-if="descriptor.multiple"
@@ -91,21 +85,19 @@
         <div
             ng-if="descriptor.multiple"
             class="attributes-key-value--value-container -minimal">
-          <div
-              wp-edit-field="descriptor.fields[0].name"
-              wp-edit-field-label="descriptor.fields[0].label"
-              wp-edit-field-wrapper-classes="'-small -shrink'"
-              display-placeholder="::$ctrl.text[descriptor.name][descriptor.fields[0].name]">
-          </div>
+          <wp-edit-field field-name="descriptor.fields[0].name"
+                         work-package-id="$ctrl.workPackage.id"
+                         wrapper-classes="'-small -shrink'"
+                         display-placeholder="::$ctrl.text[descriptor.name][descriptor.fields[0].name]">
+          </wp-edit-field>
 
           <span class="attributes-key-value--value-separator"></span>
 
-          <div
-              wp-edit-field="descriptor.fields[1].name"
-              wp-edit-field-label="descriptor.fields[1].label"
-              wp-edit-field-wrapper-classes="'-small -shrink'"
-              display-placeholder="::$ctrl.text[descriptor.name][descriptor.fields[1].name]">
-          </div>
+          <wp-edit-field field-name="descriptor.fields[1].name"
+                         work-package-id="$ctrl.workPackage.id"
+                         wrapper-classes="'-small -shrink'"
+                         display-placeholder="::$ctrl.text[descriptor.name][descriptor.fields[1].name]">
+          </wp-edit-field>
         </div>
       </div>
     </div>

@@ -26,33 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopedObservable} from "../../helpers/angular-rx-utils";
-import {ErrorResource} from "../api/api-v3/hal-resources/error-resource.service";
-import {WorkPackageEditModeStateService} from "./wp-edit-mode-state.service";
-import {WorkPackageEditFieldController} from "./wp-edit-field/wp-edit-field.directive";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
+import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {WorkPackageEditModeStateService} from './wp-edit-mode-state.service';
+import {WorkPackageEditFieldController} from './wp-edit-field/wp-edit-field.directive';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {States} from "../states.service";
+import {States} from '../states.service';
 import {WorkPackageNotificationService} from './wp-notification.service';
 
 export class WorkPackageEditFormController {
   public workPackage:WorkPackageResourceInterface;
-  public hasEditMode: boolean;
-  public errorHandler: Function;
-  public successHandler: Function;
-  public fields:{[attribute:string]: WorkPackageEditFieldController} = {};
+  public hasEditMode:boolean;
+  public errorHandler:Function;
+  public successHandler:Function;
+  public fields:{ [attribute:string]:WorkPackageEditFieldController } = {};
 
-  private errorsPerAttribute:{[attribute:string]: any} = {};
-  public firstActiveField: string;
+  private errorsPerAttribute:{ [attribute:string]:any } = {};
+  public firstActiveField:string;
 
-  constructor(protected states: States,
-              protected $scope: ng.IScope,
+  constructor(protected states:States,
+              protected $scope:ng.IScope,
               protected $q:ng.IQService,
               protected $rootScope:ng.IRootScopeService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected loadingIndicator:any,
-              protected wpEditModeState: WorkPackageEditModeStateService,
-              protected wpCacheService: WorkPackageCacheService) {
+              protected wpEditModeState:WorkPackageEditModeStateService,
+              protected wpCacheService:WorkPackageCacheService) {
 
     if (this.hasEditMode) {
       wpEditModeState.register(this);
@@ -61,23 +61,23 @@ export class WorkPackageEditFormController {
     scopedObservable(
       $scope,
       states.workPackages.get(this.workPackage.id.toString()).values$())
-      .subscribe((wp: WorkPackageResourceInterface) => {
+      .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
       });
   }
 
   public registerField(field:WorkPackageEditFieldController) {
     this.fields[field.fieldName] = field;
-    field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
+    // field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
   }
 
-  public toggleEditMode(state: boolean) {
+  public toggleEditMode(state:boolean) {
     this.$scope.$evalAsync(() => {
       angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
 
         // Setup the field if it is not yet active
         if (state && field.isEditable && !field.active) {
-          field.initializeField();
+          // field.initializeField();
         }
 
         // Disable the field if is active
@@ -89,7 +89,7 @@ export class WorkPackageEditFormController {
   }
 
   public closeAllFields() {
-    angular.forEach(this.fields, (field: WorkPackageEditFieldController) => {
+    angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
       field.deactivate();
     });
   }
@@ -100,17 +100,6 @@ export class WorkPackageEditFormController {
 
   public get isEditable() {
     return this.workPackage.isEditable;
-  }
-
-  /**
-   * Update the form and embedded schema.
-   * In edit-all mode, this allows fields to cause changes to the form (e.g., type switch)
-   * without saving the resource.
-   */
-  public updateForm() {
-    this.workPackage.updateForm(this.workPackage.$source).then(() => {
-      this.wpCacheService.updateWorkPackage(this.workPackage);
-    });
   }
 
   /**
@@ -140,7 +129,7 @@ export class WorkPackageEditFormController {
     this.workPackage.save()
       .then(() => {
         angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
-          field.setErrors([]);
+          //field.setErrors([]);
           field.deactivate();
         });
         deferred.resolve(this.workPackage);
@@ -158,13 +147,13 @@ export class WorkPackageEditFormController {
     return deferred.promise;
   }
 
-  private handleSubmissionErrors(error: any, deferred: any) {
+  private handleSubmissionErrors(error:any, deferred:any) {
     // Process single API errors
     this.handleErroneousAttributes(error);
     return deferred.reject();
   }
 
-  private handleErroneousAttributes(error: any) {
+  private handleErroneousAttributes(error:any) {
     let attributes = error.getInvolvedAttributes();
     // Save erroneous fields for when new fields appear
     this.errorsPerAttribute = error.getMessagesPerAttribute();
@@ -182,7 +171,7 @@ export class WorkPackageEditFormController {
 
     this.$scope.$evalAsync(() => {
       angular.forEach(this.fields, (field:WorkPackageEditFieldController) => {
-        field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
+        //field.setErrors(this.errorsPerAttribute[field.fieldName] || []);
       });
 
       // Activate + Focus on first field

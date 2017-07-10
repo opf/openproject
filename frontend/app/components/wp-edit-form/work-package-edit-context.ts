@@ -27,22 +27,25 @@
 // ++
 
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageEditForm} from './work-package-edit-form';
+import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
+import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 export interface WorkPackageEditContext {
+
+  /**
+   * Activate the field, returning the element and associated field handler
+   */
+  activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler>;
 
   /**
    * Show this required field. E.g., add the necessary column
    */
-  requireVisible(fieldName:string): PromiseLike<JQuery>;
+  requireVisible(fieldName:string):PromiseLike<undefined>;
 
   /**
    * Reset the field and re-render the current WPs value.
    */
-  reset(workPackage:WorkPackageResource, fieldName: string, focus?:boolean):void;
-
-  /**
-   * Locate a display field in the current dom
-   */
-  findContainer(fieldName:string):JQuery;
+  reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean):void;
 
   /**
    * Return the first relevant field from the given list of attributes.
