@@ -164,6 +164,16 @@ i
   &:before
     @include varprop(color, $body-font-color)
 
+// Avoid top border and spacing for special projects/select attribute group
+.attributes-group.-special-fields
+  margin-top: 0.5em
+
+  .attributes-group--header,
+  .attributes-group--header-container
+    border: 0
+    padding: 0
+    margin: 0
+
 
 // Implement two column layout for WP full screen view
 @media screen and (min-width: 90rem)
