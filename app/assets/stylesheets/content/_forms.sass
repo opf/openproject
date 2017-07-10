@@ -32,7 +32,7 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
   border: $content-form-input-border
   border-radius: 2px
   font-size: 0.9rem
-  &:hover, &:focus
+  &:focus
     border: $content-form-input-hover-border
 
   vertical-align: middle
@@ -521,7 +521,7 @@ select
   margin-bottom: 0rem
   font-size: 0.9rem
 
-  &:hover, &:focus, &:active
+  &:focus, &:active
     border-color: #999
 
 input[readonly].-clickable
@@ -532,9 +532,16 @@ input[readonly].-clickable
   @extend %input-style
   line-height: normal
   padding: rem-concat-list($select-element-padding)
-  // TODO: Temporary fix, for sure it will be fixed with next foundation-app release v1.1.1
-  // remove background image after/if upgrade
-  background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20version%3D%221.1%22%20width%3D%2232%22%20height%3D%2224%22%20viewBox%3D%220%200%2032%2024%22%3E%3Cpolygon%20points%3D%220%2C0%2032%2C0%2016%2C24%22%20style%3D%22fill%3A%20black%22%3E%3C/polygon%3E%3C/svg%3E")
+  background: white
+  -webkit-appearance: menulist
+  -moz-appearance: menulist
+
+  &:hover
+    background: white
+
+  &[disabled]
+    background-color: #eceeef
+    cursor: not-allowed
 
   &.parent-select
     height: 100%
