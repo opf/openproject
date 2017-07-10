@@ -54,11 +54,9 @@ class Queries::WorkPackages::Filter::PrincipalLoader
   def principal_values
     if project
       project.principals.sort
-    elsif visible_projects.any?
-      user_or_principal = Setting.work_package_group_assignment? ? Principal : User
-      user_or_principal.active_or_registered.in_project(visible_projects).sort
     else
-      []
+      user_or_principal = Setting.work_package_group_assignment? ? Principal : User
+      user_or_principal.active_or_registered.in_visible_project.sort
     end
   end
 
@@ -66,9 +64,5 @@ class Queries::WorkPackages::Filter::PrincipalLoader
 
   def principals_by_class
     @principals_by_class ||= principal_values.group_by(&:class)
-  end
-
-  def visible_projects
-    @visible_projects ||= Project.visible
   end
 end

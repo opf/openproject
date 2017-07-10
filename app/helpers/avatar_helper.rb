@@ -62,7 +62,7 @@ module AvatarHelper
   def default_gravatar_options
     {
       secure: Setting.protocol == 'https',
-      default_image: Setting.gravatar_default.presence
+      default: Setting.gravatar_default.presence
     }
   end
 

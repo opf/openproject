@@ -348,7 +348,7 @@ export class WorkPackageResource extends HalResource {
     return this.form;
   }
 
-  public updateForm(payload:{ [attribute:string]:any }) {
+  public updateForm(payload:{[attribute:string]:any}) {
     // Always resolve form to the latest form
     // This way, we won't have to actively reset it.
     // But store the existing form in case of an error.
@@ -402,7 +402,7 @@ export class WorkPackageResource extends HalResource {
     });
   }
 
-  public save() {
+  public save():ng.IPromise<WorkPackageResourceInterface> {
     var deferred = $q.defer();
     this.inFlight = true;
     const wasNew = this.isNew;
