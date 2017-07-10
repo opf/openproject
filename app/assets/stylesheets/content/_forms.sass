@@ -524,6 +524,11 @@ select
   &:hover, &:focus, &:active
     border-color: #999
 
+select
+  &[disabled=disabled]
+    background-color: $inplace-edit--bg-color--disabled
+    cursor: not-allowed
+
 input[readonly].-clickable
   cursor: pointer
   background: white
