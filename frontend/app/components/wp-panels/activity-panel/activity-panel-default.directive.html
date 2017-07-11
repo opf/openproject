@@ -10,7 +10,7 @@
 
         <h3 class="activity-date"
             ng-class="{'-with-toggler': $first && showToggler}"
-            ng-if="inf.isNextDate">
+            ng-if="$first || inf.isNextDate">
           <span class="activity-date--label" ng-bind="inf.date"></span>
           <accessible-by-keyboard execute="vm.toggleComments()"
                                   ng-if="$first && showToggler"
