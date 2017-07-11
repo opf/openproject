@@ -537,12 +537,6 @@ describe ::API::V3::Utilities::PathHelper do
       it_behaves_like 'api v3 path', '/work_packages/42/activities'
     end
 
-    describe '#work_package_columns' do
-      subject { helper.work_package_columns 23 }
-
-      it_behaves_like 'api v3 path', '/projects/23/work_packages/columns'
-    end
-
     describe '#work_package_relations' do
       subject { helper.work_package_relations 42 }
 
