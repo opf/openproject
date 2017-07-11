@@ -22,7 +22,7 @@ describe 'Modal focus in work package table', js: true do
   end
 
   describe 'columns' do
-    it 'sets the focus in the colum selection' do
+    it 'sets the focus in the column selection' do
       within '#settingsDropdown' do
         click_link 'Columns'
       end

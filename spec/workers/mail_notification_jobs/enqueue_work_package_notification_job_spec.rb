@@ -185,7 +185,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     context 'journal 3 created after timeout of 1 and 2' do
-      # This is a normal case again, ensuring nobody takes responsiblity when not neccessary.
+      # This is a normal case again, ensuring nobody takes responsibility when not necessary.
 
       before do
         journal_2.created_at = journal_1.created_at + (timeout / 2)

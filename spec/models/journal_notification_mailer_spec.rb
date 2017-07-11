@@ -290,7 +290,7 @@ describe JournalNotificationMailer do
     end
 
     context 'journal 3 created after timeout of 1 and 2' do
-      # This is a normal case again, ensuring Journal 3 takes no responsiblity when not neccessary.
+      # This is a normal case again, ensuring Journal 3 takes no responsibility when not necessary.
 
       describe 'Journal 3' do
         include_context 'updated until Journal 3'

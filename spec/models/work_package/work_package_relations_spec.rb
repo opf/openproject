@@ -329,7 +329,7 @@ describe WorkPackage, type: :model do
                            relation_type: Relation::TYPE_PRECEDES)
       }
 
-      shared_examples_for 'all dependant work packages visible' do
+      shared_examples_for 'all dependent work packages visible' do
         subject { work_package_1.all_dependent_packages.map(&:id) }
 
         it { is_expected.to match_array(expected_ids) }
@@ -349,7 +349,7 @@ describe WorkPackage, type: :model do
                              relation_type: Relation::TYPE_PRECEDES)
         }
 
-        it_behaves_like 'all dependant work packages visible'
+        it_behaves_like 'all dependent work packages visible'
       end
 
       context 'with circular dependency' do
@@ -367,7 +367,7 @@ describe WorkPackage, type: :model do
 
         before do relation_3.save(validate: false) end
 
-        it_behaves_like 'all dependant work packages visible'
+        it_behaves_like 'all dependent work packages visible'
       end
 
       context 'with multiple circular dependency' do
@@ -402,7 +402,7 @@ describe WorkPackage, type: :model do
           relation_5.save(validate: false)
         end
 
-        it_behaves_like 'all dependant work packages visible'
+        it_behaves_like 'all dependent work packages visible'
       end
     end
   end
