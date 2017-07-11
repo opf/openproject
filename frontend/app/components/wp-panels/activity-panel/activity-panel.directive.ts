@@ -98,7 +98,7 @@ export class ActivityPanelController {
   }
 
   public info(activity:any, index:any) {
-    return this.wpActivity.info(this.activities, activity, index);
+    return this.wpActivity.info(this.visibleActivities(), activity, index);
   }
 }
 
