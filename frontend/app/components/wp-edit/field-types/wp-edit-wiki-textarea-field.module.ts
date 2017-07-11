@@ -59,9 +59,14 @@ export class WikiTextareaEditField extends EditField {
     this.fieldVal = workPackage[fieldName];
     this.workPackage = workPackage;
     this.text = {
+      attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
       save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
       cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
     };
+  }
+
+  public get supportsAttachments() {
+    return this.name === 'description';
   }
 
   public isEmpty(): boolean {
