@@ -206,7 +206,7 @@ $toggler-width: 40px
     &:hover
       @include varprop(background, main-menu-bg-hover-background)
     &.show
-      width: $main-menu-folded-width
+      width: calc(#{$main-menu-folded-width} - 1px)
       a.navigation-toggler
         height: 100%
         padding: 0 10px 0 0
