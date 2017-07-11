@@ -9,7 +9,7 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
     attributes
   end
 
-  validates_inclusion_of :attribute_name, in: available_attributes.keys
+  validates_inclusion_of :attribute_name, in: ->(*) { available_attributes.keys }
 
   def attribute_scope
     'WorkPackage'
