@@ -22,7 +22,7 @@
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
+# along with this program::Type.translated_work_package_form_attributes; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
 # See doc/COPYRIGHT.rdoc for more details.
@@ -33,7 +33,9 @@ module AttributeHelpTextsHelper
     available = instance.class.available_attributes
     used = AttributeHelpText.used_attributes(instance.type)
 
-    available.reject! { |k,| used.include? k }
-    available.map { |k, v| [v, k] }
+    available
+      .reject { |key,| used.include? key }
+      .map { |key, label| [label, key] }
+      .sort_by { |label, key| label.downcase }
   end
 end
