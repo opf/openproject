@@ -96,6 +96,9 @@ body
   height: auto
   background-color: #fff
   width: 100%
+  // As this is a flex item we need to set min-width to 0 so that its children's
+  // overflow settings will be respected.
+  min-width: 0
 
   %absolute-layout-mode &
     position:   absolute
