@@ -38,6 +38,16 @@ import {
 } from '../wp-timeline';
 import Moment = moment.Moment;
 
+function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
+  const day = date.day();
+
+  // Sunday = 0
+  // Monday = 6
+  if (day === 0 || day === 6) {
+    cell.classList.add('grid-weekend');
+  }
+}
+
 export class WorkPackageTableTimelineGrid {
 
   public wpTimeline:WorkPackageTimelineTableController;
@@ -84,6 +94,7 @@ export class WorkPackageTableTimelineGrid {
   private renderLabelsDays(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
       cell.style.paddingTop = '1px';
+      checkForWeekendHighlight(start, cell);
     });
 
     this.renderTimeSlices(vp, 'year', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
@@ -94,6 +105,7 @@ export class WorkPackageTableTimelineGrid {
 
   private renderLabelsWeeks(vp:TimelineViewParameters) {
     this.renderTimeSlices(vp, 'day', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
+      checkForWeekendHighlight(start, cell);
     });
 
     this.renderTimeSlices(vp, 'week', vp.dateDisplayStart, vp.dateDisplayEnd, (start, cell) => {
