@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,9 +29,14 @@
 #++
 
 class WorkPackageCustomField < CustomField
-  has_and_belongs_to_many :projects, join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}", foreign_key: 'custom_field_id'
-  has_and_belongs_to_many :types, join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}", foreign_key: 'custom_field_id'
-  has_many :work_packages, through: :work_package_custom_values
+  has_and_belongs_to_many :projects,
+                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+                          foreign_key: 'custom_field_id'
+  has_and_belongs_to_many :types,
+                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
+                          foreign_key: 'custom_field_id'
+  has_many :work_packages,
+           through: :work_package_custom_values
 
   scope :visible_by_user, -> (user) {
     unless user.admin?
@@ -44,11 +50,11 @@ class WorkPackageCustomField < CustomField
   }
 
   def self.summable
-    ids = Setting.work_package_list_summable_columns.map { |column_name|
+    ids = Setting.work_package_list_summable_columns.map do |column_name|
       if match = /cf_(\d+)/.match(column_name)
         match[1]
       end
-    }.compact
+    end.compact
 
     where(id: ids)
   end
