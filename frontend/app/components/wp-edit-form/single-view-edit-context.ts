@@ -45,6 +45,7 @@ import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageEditFieldController} from '../wp-edit/wp-edit-field/wp-edit-field.directive';
+import {WorkPackageEditFieldGroupController} from '../wp-edit/wp-edit-field/wp-edit-field-group.directive';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
@@ -56,13 +57,14 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   public $timeout:ng.ITimeoutService;
   public templateRenderer:SimpleTemplateRenderer;
 
-  constructor(public workPackageId:string, public editFieldController:WorkPackageEditFieldController) {
+  constructor(public workPackageId:string, public fieldGroup:WorkPackageEditFieldGroupController) {
     $injectFields(this, 'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
       'FocusHelper', '$q', '$timeout', 'templateRenderer');
   }
 
   public activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler> {
-    const container = this.editFieldController.editContainer;
+    const ctrl = this.fieldCtrl(field.name);
+    const container = ctrl.editContainer;
 
     // Create a field handler for the newly active field
     const fieldHandler = new WorkPackageEditFieldHandler(
@@ -73,7 +75,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     );
 
     // Hide the display element
-    this.editFieldController.displayContainer.hide();
+    ctrl.displayContainer.hide();
 
     // Render the edit element
     fieldHandler.$scope = this.templateRenderer.createRenderScope();
@@ -90,15 +92,16 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     return promise.then(() => {
       // Assure the element is visible
       return this.$timeout(() => {
-        this.editFieldController.editContainer.show();
+        ctrl.editContainer.show();
         return fieldHandler;
       });
     });
   }
 
   public reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus:boolean = false) {
-    this.editFieldController.reset(workPackage);
-    this.editFieldController.deactivate(focus);
+    const ctrl = this.fieldCtrl(fieldName);
+    ctrl.reset(workPackage);
+    ctrl.deactivate(focus);
   }
 
   public requireVisible(fieldName:string):PromiseLike<undefined> {
@@ -108,6 +111,10 @@ export class SingleViewEditContext implements WorkPackageEditContext {
 
   public firstField(names:string[]) {
     return 'subject';
+  }
+
+  public fieldCtrl(name:string) {
+    return this.fieldGroup.fields[name] as WorkPackageEditFieldController;
   }
 
   public onSaved(workPackage:WorkPackageResource) {

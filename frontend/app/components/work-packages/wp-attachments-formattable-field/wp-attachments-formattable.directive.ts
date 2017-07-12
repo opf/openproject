@@ -1,17 +1,16 @@
 import {InsertMode, ViewMode} from './wp-attachments-formattable.enums';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
-import {WorkPackageEditFormController} from '../../wp-edit/wp-edit-form.directive';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
 import {MarkupModel} from './models/markup-model';
 import {EditorModel} from './models/editor-model';
 import {PasteModel} from './models/paste-model';
 import {FieldModel} from './models/field-model';
 import {DropModel} from './models/drop-model';
 import {SingleAttachmentModel} from './models/single-attachment';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 
 export class WpAttachmentsFormattableController {
   constructor(protected $scope:ng.IScope,
@@ -19,7 +18,7 @@ export class WpAttachmentsFormattableController {
               protected $rootScope:ng.IRootScopeService,
               protected $location:ng.ILocationService,
               protected wpCacheService:WorkPackageCacheService,
-              protected wpEditModeState:WorkPackageEditModeStateService,
+              protected wpEditing:WorkPackageEditingService,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
               protected $state:ng.ui.IStateService,
@@ -181,7 +180,6 @@ export class WpAttachmentsFormattableController {
   protected openDetailsView(wpId:string):void {
     const stateName = this.$state.current.name as string;
     if (stateName.indexOf('work-packages.list') > -1 &&
-      !this.wpEditModeState.active &&
       this.$state.params['workPackageId'] !== wpId) {
       this.loadingIndicator.mainPage = this.$state.go(this.keepTab.currentDetailsState, {
         workPackageId: wpId
@@ -219,15 +217,15 @@ function wpAttachmentsFormattable() {
     link: (scope:IAttachmentScope,
            element:ng.IAugmentedJQuery,
            attrs:ng.IAttributes,
-           controllers:[WorkPackageSingleViewController, WorkPackageEditFormController]) => {
+           controllers:[WorkPackageSingleViewController]) => {
       // right now the attachments directive will only work in combination with either
       // the wpSingleView or the wpEditForm directive
       // else the drop handler will fail because of a missing reference to the current wp
-      if (angular.isUndefined(controllers[0] && angular.isUndefined(controllers[1]))) {
+      if (angular.isUndefined(controllers[0])) {
         return;
       }
 
-      scope.workPackage = !controllers[0] ? controllers[1].workPackage : controllers[0].workPackage;
+      scope.workPackage = controllers[0].workPackage;
     },
     require: ['?^wpSingleView', '?^wpEditForm'],
     restrict: 'A'

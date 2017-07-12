@@ -82,7 +82,7 @@ export class WorkPackageEditForm {
    * Active the edit field upon user's request.
    * @param fieldName
    */
-  public activate(fieldName:string):ng.IPromise<WorkPackageEditFieldHandler> {
+  public activate(fieldName:string, noWarnings:boolean = false):ng.IPromise<WorkPackageEditFieldHandler> {
     return this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
       const field = this.wpEditField.getField(
         this.workPackage,
@@ -90,7 +90,7 @@ export class WorkPackageEditForm {
         schema[fieldName]
       ) as EditField;
 
-      if (!field.writable) {
+      if (!field.writable && !noWarnings) {
         this.wpNotificationsService.showEditingBlockedError(field.displayName);
         return this.$q.reject();
       }
@@ -178,7 +178,7 @@ export class WorkPackageEditForm {
     return deferred.promise;
   }
 
-  protected stopEditing() {
+  public stopEditing() {
     // Close all edit fields
     this.closeEditFields();
 

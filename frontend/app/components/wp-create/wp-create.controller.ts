@@ -26,29 +26,28 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from "../../angular-modules";
+import {wpDirectivesModule} from '../../angular-modules';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
-} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {States} from "../states.service";
+} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../states.service';
 import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
 import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
-import {WorkPackageNotificationService} from "../wp-edit/wp-notification.service";
-import {WorkPackageTableSelection} from "../wp-fast-table/state/wp-table-selection.service";
-import {WorkPackageCreateService} from "./wp-create.service";
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
+import {WorkPackageCreateService} from './wp-create.service';
+import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import IRootScopeService = angular.IRootScopeService;
-import {scopedObservable} from "../../helpers/angular-rx-utils";
-import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
 
 export class WorkPackageCreateController {
-  public newWorkPackage:WorkPackageResource|any;
-  public parentWorkPackage:WorkPackageResource|any;
-  public successState:string;
+  public newWorkPackage:WorkPackageResource | any;
+  public parentWorkPackage:WorkPackageResource | any;
 
-  public get header(): string {
+  public get header():string {
     if (!this.newWorkPackage.type) {
       return this.I18n.t('js.work_packages.create.header_no_type');
     }
@@ -74,16 +73,17 @@ export class WorkPackageCreateController {
     return '';
   }
 
-  constructor(protected $state: ng.ui.IStateService,
-              protected $scope: ng.IScope,
-              protected $q: ng.IQService,
-              protected I18n: op.I18n,
-              protected wpNotificationsService: WorkPackageNotificationService,
-              protected states: States,
-              protected loadingIndicator: any,
-              protected wpCreate: WorkPackageCreateService,
-              protected wpEditModeState: WorkPackageEditModeStateService,
-              protected wpTableSelection: WorkPackageTableSelection,
+  constructor(protected $state:ng.ui.IStateService,
+              protected $scope:ng.IScope,
+              protected $q:ng.IQService,
+              protected I18n:op.I18n,
+              protected successState:string,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected states:States,
+              protected loadingIndicator:any,
+              protected wpCreate:WorkPackageCreateService,
+              protected wpEditing:WorkPackageEditingService,
+              protected wpTableSelection:WorkPackageTableSelection,
               protected wpCacheService:WorkPackageCacheService,
               protected wpTableRefresh:WorkPackageTableRefreshService,
               protected $location:ng.ILocationService,
@@ -93,11 +93,11 @@ export class WorkPackageCreateController {
     this.newWorkPackageFromParams($state.params)
       .then(wp => {
         this.newWorkPackage = wp;
-        this.wpEditModeState.start();
         wpCacheService.updateWorkPackage(wp);
 
         if ($state.params['parent_id']) {
-          scopedObservable(this.$scope, wpCacheService.loadWorkPackage($state.params['parent_id']).values$())
+          scopedObservable(this.$scope,
+            wpCacheService.loadWorkPackage($state.params['parent_id']).values$())
             .subscribe(parent => {
               this.parentWorkPackage = parent;
               this.newWorkPackage.parent = parent;
@@ -109,14 +109,16 @@ export class WorkPackageCreateController {
           this.RootDm.load().then((root:RootResource) => {
             if (!root.user) {
               // Not logged in
-              let url: string = $location.absUrl();
+              let url:string = $location.absUrl();
               $location.path('/login').search({back_url: url});
-              let loginUrl: string = $location.absUrl();
+              let loginUrl:string = $location.absUrl();
               window.location.href = loginUrl;
-            };
+            }
+            ;
           });
           this.wpNotificationsService.handleErrorResponse(error);
-        };
+        }
+        ;
       });
   }
 
@@ -124,25 +126,29 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.new', this.$state.params);
   }
 
-  protected newWorkPackageFromParams(stateParams: any) {
+  protected newWorkPackageFromParams(stateParams:any) {
     const type = parseInt(stateParams.type);
 
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type);
   }
 
   public cancelAndBackToList() {
-    this.wpEditModeState.cancel();
+    this.wpEditing.stopEditing(this.newWorkPackage.id);
     this.$state.go('work-packages.list', this.$state.params);
   }
 
-  public saveWorkPackage(): Promise<any> {
-    return this.wpEditModeState.save();
+  public saveWorkPackage():ng.IPromise<any> {
+    return this.wpEditing
+      .saveChanges(this.newWorkPackage.id)
+      .then((wp) => {
+        this.wpEditing.stopEditing(this.newWorkPackage.id);
+        this.refreshAfterSave(wp);
+      });
   }
 
-  public refreshAfterSave(wp: WorkPackageResourceInterface, successState: string) {
-    this.wpEditModeState.onSaved();
+  public refreshAfterSave(wp:WorkPackageResourceInterface) {
     this.wpTableSelection.focusOn(wp.id);
-    this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
+    this.loadingIndicator.mainPage = this.$state.go(this.successState, {workPackageId: wp.id})
       .then(() => {
         this.wpTableRefresh.request(false, `Saved work package ${wp.id}`);
         this.wpNotificationsService.showSave(wp, true);

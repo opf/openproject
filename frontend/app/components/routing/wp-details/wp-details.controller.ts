@@ -32,16 +32,16 @@ import {States} from "../../states.service";
 import {WorkPackageTableSelection} from "../../wp-fast-table/state/wp-table-selection.service";
 import {KeepTabService} from "../../wp-panels/keep-tab/keep-tab.service";
 import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller";
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 
 export class WorkPackageDetailsController extends WorkPackageViewController {
 
-  constructor(public $injector:ng.auto.IInjectorService,
-              public $scope:ng.IScope,
+  constructor(public $scope:ng.IScope,
               public states:States,
               public keepTab:KeepTabService,
               public wpTableSelection:WorkPackageTableSelection,
               public $state:ng.ui.IStateService) {
-    super($injector, $scope, $state.params['workPackageId']);
+    super($scope, $state.params['workPackageId']);
     this.observeWorkPackage();
 
     let wpId = $state.params['workPackageId'];

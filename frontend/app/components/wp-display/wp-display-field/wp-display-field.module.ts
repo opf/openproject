@@ -26,9 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
-import {Field, FieldFactory} from "../../wp-field/wp-field.module";
-import {WorkPackageDisplayAttributeController} from "../../work-packages/wp-display-attr/wp-display-attr.directive";
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {Field, FieldFactory} from '../../wp-field/wp-field.module';
 
 export class DisplayField extends Field {
   public static type: string;

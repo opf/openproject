@@ -15,8 +15,7 @@
           </wp-create-button>
         </li>
         <li class="toolbar-item hidden-for-mobile">
-          <wp-filter-button
-              ng-disabled="wpEditModeState.active">
+          <wp-filter-button>
           </wp-filter-button>
         </li>
         <li class="toolbar-item hidden-for-mobile">
@@ -33,7 +32,6 @@
         </li>
         <li class="toolbar-item hidden-for-mobile">
           <button id="work-packages-settings-button"
-                  ng-disabled="wpEditModeState.active"
                   title="{{ I18n.t('js.button_settings') }}"
                   class="button last work-packages-settings-button toolbar-icon"
                   has-dropdown-menu
@@ -57,8 +55,7 @@
   </accessible-by-keyboard>
 
   <!-- (TABLE + TIMELINE) + DETAILS view -->
-  <div class="work-packages-split-view"
-       ng-class="{'edit-all-mode': wpEditModeState.active}">
+  <div class="work-packages-split-view">
 
     <!-- (TABLE + TIMELINE) and FOOTER vertical split-->
     <div class="work-packages-split-view--tabletimeline-side loading-indicator--location" data-indicator-name="table">

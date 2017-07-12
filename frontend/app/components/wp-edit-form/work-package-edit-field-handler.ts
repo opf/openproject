@@ -34,6 +34,7 @@ import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../api/api-v3/hal-resources/work-package-resource.service';
+import {keyCodes} from '../common/keyCodes.enum';
 
 export class WorkPackageEditFieldHandler {
   // Injections
@@ -117,8 +118,8 @@ export class WorkPackageEditFieldHandler {
    * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
    * (and on what field he did that).
    */
-  public handleUserSubmitOnEnter() {
-    if (this.form.editMode) {
+  public handleUserSubmitOnEnter(event:JQueryEventObject) {
+    if (this.inEditMode && event.which === keyCodes.ENTER) {
       this.form.submit();
     }
   }

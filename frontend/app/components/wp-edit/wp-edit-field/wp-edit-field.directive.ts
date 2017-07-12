@@ -26,29 +26,22 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {scopeDestroyed$, scopedObservable} from "../../../helpers/angular-rx-utils";
-import {SchemaResource} from "../../api/api-v3/hal-resources/schema-resource.service";
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {ContextMenuService} from "../../context-menus/context-menu.service";
-import {WorkPackageCacheService} from "../../work-packages/work-package-cache.service";
-import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
-import {EditField} from "./wp-edit-field.module";
-import {WorkPackageEditFieldService} from "./wp-edit-field.service";
+import {scopeDestroyed$} from '../../../helpers/angular-rx-utils';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {ContextMenuService} from '../../context-menus/context-menu.service';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
-import {openprojectModule, opWorkPackagesModule} from '../../../angular-modules';
+import {opWorkPackagesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {InputState} from 'reactivestates';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
-import {WorkPackageEditFieldHandler} from '../../wp-edit-form/work-package-edit-field-handler';
-import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {DisplayFieldRenderer} from '../../wp-edit-form/display-field-renderer';
+import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directive';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 
 export class WorkPackageEditFieldController {
-  public formCtrl:WorkPackageEditFormController;
+  public wpEditFieldGroup:WorkPackageEditFieldGroupController;
   public fieldName:string;
   public displayPlaceholder:string;
   public workPackageId:string;
@@ -60,6 +53,7 @@ export class WorkPackageEditFieldController {
               protected $element:ng.IAugmentedJQuery,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
+              protected wpEditing:WorkPackageEditingService,
               protected FocusHelper:any,
               protected NotificationsService:any,
               protected wpNotificationsService:WorkPackageNotificationService,
@@ -72,6 +66,7 @@ export class WorkPackageEditFieldController {
   }
 
   public $onInit() {
+    this.wpEditFieldGroup.register(this);
     this.states.workPackages.get(this.workPackageId)
       .values$()
       .takeUntil(scopeDestroyed$(this.$scope))
@@ -110,21 +105,24 @@ export class WorkPackageEditFieldController {
     event.stopImmediatePropagation();
   }
 
-  public handleUserActivate() {
+  public activate(noWarnings:boolean = false) {
     // Get any existing edit state for this work package
     let state = this.states.editing.get(this.workPackage.id);
     let form = state.value || this.startEditing(state);
 
-    form.editContext = new SingleViewEditContext(this.workPackage.id, this);
+    form.editContext = new SingleViewEditContext(this.workPackage.id, this.wpEditFieldGroup);
     // Activate the field
-    const promise = form.activate(this.fieldName);
-    promise
-      .then((handler) => {
-        handler.focus();
-      })
-      .catch(() => this.deactivate(true))
+    const promise = form.activate(this.fieldName, noWarnings);
+    promise.catch(() => this.deactivate(true))
 
     return promise;
+  }
+
+  public handleUserActivate() {
+    this.activate()
+      .then((handler) => {
+        handler.focus();
+      });
   }
 
   public get displayContainer() {
@@ -136,7 +134,7 @@ export class WorkPackageEditFieldController {
   }
 
   private startEditing(state:InputState<WorkPackageEditForm>):WorkPackageEditForm {
-    let form = new WorkPackageEditForm(this.workPackage.id);
+    let form = new WorkPackageEditForm(this.workPackage.id, this.wpEditFieldGroup.inEditMode);
     state.putValue(form);
     return form;
   }
@@ -160,6 +158,6 @@ opWorkPackagesModule.component('wpEditField', {
     displayPlaceholder: '<?'
   },
   require: {
-    wpEditForm: '^wpEditForm'
+    wpEditFieldGroup: '^wpEditFieldGroup'
   }
 });

@@ -26,79 +26,78 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectModule} from "../../angular-modules";
-import {WorkPackageEditFormController} from "./wp-edit-form.directive";
+import {WorkPackageEditFieldController} from './wp-edit-field.directive';
+import {States} from '../../states.service';
+import {opWorkPackagesModule} from '../../../angular-modules';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
+import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
 
-export class WorkPackageEditModeStateService {
-  public form:WorkPackageEditFormController;
+export class WorkPackageEditFieldGroupController {
+  public workPackageId:string;
+  public inEditMode:boolean;
+  public fields:{ [attribute:string]:WorkPackageEditFieldController } = {};
 
-  private _active:boolean = false;
-
-  constructor(
-    protected $rootScope:ng.IRootScopeService,
-    protected ConfigurationService:any,
-    protected $window:ng.IWindowService,
-    protected $q:ng.IQService,
-    protected I18n:op.I18n) {
+  constructor(protected $scope:ng.IScope,
+              protected states:States,
+              protected wpEditing:WorkPackageEditingService,
+              protected $rootScope:ng.IRootScopeService,
+              protected $window:ng.IWindowService,
+              protected ConfigurationService:any,
+              protected $q:ng.IQService,
+              protected I18n:op.I18n) {
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
     $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
       // Show confirmation message when transitioning to a new state
       // that's not withing the edit mode.
-      if (this.active && !this.allowedStateChange(toState, toParams, fromState, fromParams)) {
+      if (this.isEditing && !this.allowedStateChange(toState, toParams, fromState, fromParams)) {
         if (requiresConfirmation && !$window.confirm(confirmText)) {
           return event.preventDefault();
         }
 
-        this.cancel();
+        this.stop();
       }
     });
   }
 
-  public start():boolean {
-    if (!this.active && !!this.form) {
-      this.form.toggleEditMode(true);
-    }
-    return this._active = true;
-  }
-
-  public cancel() {
-    if (this.active && !!this.form) {
-      this.form.toggleEditMode(false);
-    }
-    return this._active = false;
-  }
-
-  public onSaved() {
-    // Doesn't use cancel() since that resets all values
-    this.form.closeAllFields();
-    this._active = false;
-  }
-
-  public save() {
-    if (this.active) {
-      return this.form.updateWorkPackage().then(wp => {
-        this.onSaved();
-        return wp;
-      });
-    }
-
-    return this.$q.reject();
-  }
-
-  public register(form:WorkPackageEditFormController) {
-    this.form = form;
-
-    // Activate form when it registers after the
-    // edit mode has been requested.
-    if (this.active) {
-      form.toggleEditMode(true);
+  public $onInit() {
+    if (this.inEditMode) {
+      this.start();
     }
   }
 
-  public get active() {
-    return this._active;
+  public get isEditing() {
+    const form = this.editingForm;
+    return (form && form.editMode);
+  }
+
+  public register(field:WorkPackageEditFieldController) {
+    this.fields[field.fieldName] = field;
+    const form = this.editingForm;
+
+    if (form && form.editMode) {
+      form.activate(field.fieldName, true);
+    }
+  }
+
+  public start() {
+    const form = this.wpEditing.startEditing(this.workPackageId, this.editContext, true);
+    _.each(this.fields, ctrl => form.activate(ctrl.fieldName));
+  }
+
+  public stop() {
+    this.wpEditing.stopEditing(this.workPackageId);
+  }
+
+  private get editContext() {
+    return new SingleViewEditContext(this.workPackageId, this);
+  }
+
+  private get editingForm():WorkPackageEditForm | undefined {
+    const state = this.wpEditing.editState(this.workPackageId);
+    return state.value;
   }
 
   private allowedStateChange(toState:any, toParams:any, fromState:any, fromParams:any) {
@@ -113,5 +112,12 @@ export class WorkPackageEditModeStateService {
   }
 }
 
+opWorkPackagesModule.component('wpEditFieldGroup', {
+  controller: WorkPackageEditFieldGroupController,
+  controllerAs: '$fieldsCtrl',
+  bindings: {
+    workPackageId: '<',
+    inEditMode: '<?'
+  }
+});
 
-openprojectModule.service('wpEditModeState', WorkPackageEditModeStateService);

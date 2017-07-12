@@ -1,6 +1,6 @@
 import {InputState} from 'reactivestates';
 import {debugLog} from '../../../../helpers/debug_output';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {States} from '../../../states.service';
 import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
@@ -12,10 +12,12 @@ import {
   cellClassName, editableClassName,
   readOnlyClassName
 } from '../../../wp-edit-form/display-field-renderer';
+import {WorkPackageEditingService} from '../../../wp-edit-form/work-package-editing-service';
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
   public states:States;
+  public wpEditing:WorkPackageEditingService;
 
   public get EVENT() {
     return 'click.table.cell, keydown.table.cell';
@@ -31,7 +33,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
   constructor(table:WorkPackageTable) {
     super();
-    injectorBridge(this);
+    $injectFields(this, 'states', 'wpEditing');
   }
 
   protected processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
@@ -56,14 +58,11 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     const classIdentifier = rowElement.data('classIdentifier');
 
     // Get any existing edit state for this work package
-    let state = this.editState(workPackageId);
-    let form = state.value || this.startEditing(state, workPackageId);
+    const editContext = new TableRowEditContext(workPackageId, classIdentifier);
+    const form = this.wpEditing.startEditing(workPackageId, editContext);
 
     // Get the position where the user clicked.
     const positionOffset = this.getClickPosition(evt);
-
-    // Set editing context to table
-    form.editContext = new TableRowEditContext(workPackageId, classIdentifier);
 
     // Activate the field
     form.activate(fieldName)
@@ -94,19 +93,4 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
       return 0;
     }
   }
-
-  private startEditing(state:InputState<WorkPackageEditForm>, workPackageId:string):WorkPackageEditForm {
-    let form = new WorkPackageEditForm(workPackageId);
-    state.putValue(form);
-    return form;
-  }
-
-  /**
-   * Retrieve the edit state for this work package
-   */
-  private editState(workPackageId:string):InputState<WorkPackageEditForm> {
-    return this.states.editing.get(workPackageId);
-  }
 }
-
-EditCellHandler.$inject = ['states'];

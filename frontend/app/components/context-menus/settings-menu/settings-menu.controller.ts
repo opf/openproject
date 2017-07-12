@@ -31,7 +31,6 @@ import {WorkPackageTableHierarchiesService} from '../../wp-fast-table/state/wp-t
 import {WorkPackageTableSumService} from '../../wp-fast-table/state/wp-table-sum.service';
 import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
-import {WorkPackageEditModeStateService} from '../../wp-edit/wp-edit-mode-state.service';
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QueryFormResource} from '../../api/api-v3/hal-resources/query-form-resource.service';
 
@@ -64,8 +63,6 @@ interface IMyScope extends ng.IScope {
 
 function SettingsDropdownMenuController($scope:IMyScope,
                                         $window:ng.IWindowService,
-                                        $state:ng.ui.IStateService,
-                                        $timeout:ng.ITimeoutService,
                                         I18n:op.I18n,
                                         columnsModal:any,
                                         exportModal:any,
@@ -79,7 +76,6 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         wpTableSum:WorkPackageTableSumService,
                                         wpTableGroupBy:WorkPackageTableGroupByService,
                                         wpListService:WorkPackagesListService,
-                                        wpEditModeState:WorkPackageEditModeStateService,
                                         states:States,
                                         AuthorisationService:any,
                                         NotificationsService:any) {
@@ -136,18 +132,6 @@ function SettingsDropdownMenuController($scope:IMyScope,
 
     if (query.results && query.results.customFields) {
       $scope.queryCustomFields = query.results.customFields;
-    }
-
-    if (wpEditModeState.form && wpEditModeState.form.workPackage) {
-      if (wpEditModeState.form.inEditMode) {
-        wpEditModeState.form.workPackage.getForm().then(
-          (loadedForm:any) => {
-            $scope.configureFormLink = loadedForm.configureForm;
-          }
-        );
-      } else {
-        $scope.configureFormLink = wpEditModeState.form.workPackage.configureForm;
-      }
     }
 
     $scope.loading = false;
