@@ -179,22 +179,22 @@ export class WorkPackagesTableController {
     const timeline = $timelineSide[0];
     const colCount = columns.current.length;
 
-    let widthTable = 1;
-    let widthTimeline = 1;
-
-    if (colCount <= 2) {
-      widthTable = 1;
-      widthTimeline = 3;
-    } else if (colCount <= 3) {
-      widthTable = 1;
-      widthTimeline = 2;
-    } else if (colCount <= 4) {
-      widthTable = 2;
-      widthTimeline = 3;
+    if (colCount === 0) {
+      table.style.flex = `0 1 45px`;
+      timeline.style.flex = `1 1`;
+    } else if (colCount === 1) {
+      table.style.flex = `1 1`;
+      timeline.style.flex = `4 1`;
+    } else if (colCount === 2) {
+      table.style.flex = `1 1`;
+      timeline.style.flex = `3 1`;
+    } else if (colCount === 3) {
+      table.style.flex = `1 1`;
+      timeline.style.flex = `2 1`;
+    } else if (colCount === 4) {
+      table.style.flex = `2 1`;
+      timeline.style.flex = `3 1`;
     }
-
-    table.style.flex = `${widthTable} 1`;
-    timeline.style.flex = `${widthTimeline} 1`;
   }
 
 }
