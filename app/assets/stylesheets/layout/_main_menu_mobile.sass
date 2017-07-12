@@ -32,13 +32,15 @@
 
   #main-menu
     position: absolute !important
-    min-height: initial !important
-    height: initial !important
-    overflow: auto
+    min-height: 0
     z-index: 11
+    border-bottom: 1px solid $main-menu-border-color
+    %absolute-layout-mode &
+      height: auto
 
   .hidden-navigation #main-menu
     overflow: hidden
+    border-bottom: 0
 
   .main-item-wrapper a
     width: 100%
