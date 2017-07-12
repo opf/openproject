@@ -265,7 +265,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions { [project_a, project_b] }
           become_non_member { [project_c] }
 
-          it 'renders only accessable work packages' do
+          it 'renders only accessible work packages' do
             get 'index',
                 params: {
                   ids: [@project_a_wps[0].id, @project_b_wps[0].id,
@@ -276,7 +276,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
             expect(assigns(:planning_elements)).to match_array([@project_a_wps[0], @project_b_wps[0]])
           end
 
-          it 'renders only accessable work packages' do
+          it 'renders only accessible work packages' do
             get 'index',
                 params: { ids: [@project_c_wps[0].id, @project_c_wps[1].id].join(',') },
                 format: 'xml'

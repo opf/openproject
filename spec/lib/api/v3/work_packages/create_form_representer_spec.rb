@@ -250,7 +250,7 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
           end
         end
 
-        context 'not beeing admin' do
+        context 'not being admin' do
           it 'has no link to configure the form' do
             is_expected.to_not have_json_path('_links/configureForm')
           end

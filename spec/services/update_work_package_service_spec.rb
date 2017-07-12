@@ -346,7 +346,7 @@ describe UpdateWorkPackageService, type: :model do
         end
       end
 
-      context 'with the parent being resticted but the attributes define a later date' do
+      context 'with the parent being restricted but the attributes define a later date' do
         let(:soonest_date) { Date.today + 3.days }
 
         before do
@@ -363,7 +363,7 @@ describe UpdateWorkPackageService, type: :model do
         end
       end
 
-      context 'with the parent being resticted but the attributes define an earlier date' do
+      context 'with the parent being restricted but the attributes define an earlier date' do
         let(:soonest_date) { Date.today + 3.days }
 
         before do

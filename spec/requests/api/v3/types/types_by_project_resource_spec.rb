@@ -70,7 +70,7 @@ describe '/api/v3/projects/:id/types' do
         expect(actual_type_ids).to match_array expected_type_ids
       end
 
-      # N.B. this test depends on order, while this is not strictly neccessary
+      # N.B. this test depends on order, while this is not strictly necessary
       it 'only contains expected types' do
         (0..3).each do |i|
           expected_id = expected_types[i].id.to_json

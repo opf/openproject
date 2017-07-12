@@ -54,7 +54,7 @@ describe 'Work Package table hierarchy', js: true do
       hierarchy.disable_hierarchy
       hierarchy.expect_no_hierarchies
 
-      # Editing is possible while retaining hierachy
+      # Editing is possible while retaining hierarchy
       hierarchy.enable_hierarchy
       subject = wp_table.edit_field wp_inter, :subject
       subject.update 'New subject'

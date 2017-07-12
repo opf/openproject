@@ -109,7 +109,7 @@ describe Scm::CreateManagedRepositoryService do
       end
     end
 
-    context 'with a permission error occuring in the Job' do
+    context 'with a permission error occurring in the Job' do
       before do
         allow(Scm::CreateLocalRepositoryJob)
           .to receive(:new).and_raise(Errno::EACCES)
@@ -123,7 +123,7 @@ describe Scm::CreateManagedRepositoryService do
       end
     end
 
-    context 'with an OS error occuring in the Job' do
+    context 'with an OS error occurring in the Job' do
       before do
         allow(Scm::CreateLocalRepositoryJob)
           .to receive(:new).and_raise(Errno::ENOENT)
