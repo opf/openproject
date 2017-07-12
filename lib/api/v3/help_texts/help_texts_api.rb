@@ -35,7 +35,7 @@ module API
       class HelpTextsAPI < ::API::OpenProjectAPI
         resources :help_texts do
           get do
-            @entries = AttributeHelpText.all
+            @entries = AttributeHelpText.visible(current_user)
             HelpTextCollectionRepresenter.new(@entries, api_v3_paths.help_texts, current_user: current_user)
           end
 
@@ -44,8 +44,7 @@ module API
           end
           route_param :id do
             before do
-              @help_text = AttributeHelpText.find(params[:id])
-              raise API::Errors::NotFound unless @help_text
+              @help_text = AttributeHelpText.visible(current_user).find(params[:id])
             end
 
             get do
