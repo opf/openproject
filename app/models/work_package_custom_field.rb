@@ -38,14 +38,14 @@ class WorkPackageCustomField < CustomField
   has_many :work_packages,
            through: :work_package_custom_values
 
-  scope :visible_by_user, -> (user) {
-    unless user.admin?
-      joins('LEFT OUTER JOIN custom_fields_projects AS cfp ON (custom_fields.id = cfp.custom_field_id) ' \
-            'LEFT OUTER JOIN projects AS p ON (cfp.project_id = p.id) ' \
-            'LEFT OUTER JOIN members AS m ON (p.id = m.project_id)')
-        .where("p.is_public = #{ActiveRecord::Base.connection.quoted_true} " \
-             "OR custom_fields.is_for_all = #{ActiveRecord::Base.connection.quoted_true} " \
-             'OR m.user_id = ?', user.id)
+  scope :visible_by_user, ->(user) {
+    if user.allowed_to_globally?(:edit_projects)
+      all
+    else
+      where(projects: { id: Project.visible(user) })
+        .where(types: { id: Type.enabled_in(Project.visible(user)) })
+        .or(where(is_for_all: true).references(:projects, :types))
+        .includes(:projects, :types)
     end
   }
 

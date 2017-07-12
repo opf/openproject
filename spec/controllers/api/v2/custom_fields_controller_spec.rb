@@ -30,50 +30,97 @@ require 'spec_helper'
 
 describe Api::V2::CustomFieldsController, type: :controller do
   describe '#index' do
-    let!(:custom_field) { FactoryGirl.create(:custom_field) }
-    let!(:wp_custom_field_1) { FactoryGirl.create(:work_package_custom_field) }
-    let!(:wp_custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
-    let!(:wp_custom_field_3) { FactoryGirl.create(:work_package_custom_field) }
-    let!(:wp_custom_field_for_all) { FactoryGirl.create(:work_package_custom_field, is_for_all: true) }
-    let!(:wp_custom_field_public) { FactoryGirl.create(:work_package_custom_field) }
+    let!(:type) { FactoryGirl.create(:type) }
+    let!(:custom_field) do
+      FactoryGirl.create(:custom_field)
+    end
+    let!(:wp_custom_field_1) do
+      cf = FactoryGirl.create(:work_package_custom_field)
+
+      type.custom_fields << cf
+
+      cf
+    end
+    let!(:wp_custom_field_2) do
+      cf = FactoryGirl.create(:work_package_custom_field)
+
+      type.custom_fields << cf
+
+      cf
+    end
+    let!(:wp_custom_field_3) do
+      cf = FactoryGirl.create(:work_package_custom_field)
+
+      type.custom_fields << cf
+
+      cf
+    end
+    let!(:wp_custom_field_for_all) do
+      cf = FactoryGirl.create(:work_package_custom_field, is_for_all: true)
+
+      type.custom_fields << cf
+
+      cf
+    end
+    let!(:wp_custom_field_public) do
+      cf = FactoryGirl.create(:work_package_custom_field)
+
+      type.custom_fields << cf
+
+      cf
+    end
     let(:wp_custom_fields) { [wp_custom_field_1, wp_custom_field_2] }
-    let(:project) {
-      FactoryGirl.create(:project,
-                         is_public: false,
-                         work_package_custom_fields: wp_custom_fields)
-    }
-    let(:project_2) {
-      FactoryGirl.create(:project,
-                         is_public: false,
-                         work_package_custom_fields: wp_custom_fields)
-    }
-    let!(:public_project) {
-      FactoryGirl.create(:public_project,
-                         work_package_custom_fields: [wp_custom_field_public])
-    }
+    let(:project) do
+      project = FactoryGirl.create(:project,
+                                   is_public: false,
+                                   work_package_custom_fields: wp_custom_fields)
+
+      project.types << type
+
+      project
+    end
+    let(:project_2) do
+      project = FactoryGirl.create(:project,
+                                   is_public: false,
+                                   work_package_custom_fields: wp_custom_fields)
+      project.types << type
+
+      project
+    end
+    let!(:public_project) do
+      project = FactoryGirl.create(:public_project,
+                                   work_package_custom_fields: [wp_custom_field_public])
+
+      project.types << type
+
+      project
+    end
+
+    before do
+      Role.non_member
+      Role.anonymous
+    end
 
     shared_examples_for 'valid workflow index request' do
       it { expect(response).to render_template('api/v2/custom_fields/index') }
     end
 
     shared_examples_for 'a user w/o a project' do
-      before do get :index, format: :xml end
+      before do
+        get :index, format: :xml
+      end
 
       it_behaves_like 'valid workflow index request'
 
       subject { assigns(:custom_fields) }
 
-      it { expect(subject.count).to eq(3) }
-
-      it { expect(subject).to include(custom_field) }
-
-      it { expect(subject).to include(wp_custom_field_for_all) }
-
-      it { expect(subject).to include(wp_custom_field_public) }
+      it { expect(subject).to match_array([custom_field, wp_custom_field_for_all, wp_custom_field_public]) }
     end
 
     describe 'unauthorized access' do
-      before do allow(Setting).to receive(:login_required).and_return false end
+      before do
+        allow(Setting).to receive(:login_required).and_return false
+      end
 
       it_behaves_like 'a user w/o a project'
     end
@@ -82,7 +129,9 @@ describe Api::V2::CustomFieldsController, type: :controller do
       context 'w/o project' do
         let(:current_user) { FactoryGirl.create(:user) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before do
+          allow(User).to receive(:current).and_return current_user
+        end
 
         it_behaves_like 'a user w/o a project'
       end
@@ -100,19 +149,14 @@ describe Api::V2::CustomFieldsController, type: :controller do
 
         subject { assigns(:custom_fields) }
 
-        it { expect(subject.count).to eq(5) }
-
-        it { expect(subject).to include(wp_custom_field_1) }
-
-        it { expect(subject).to include(wp_custom_field_2) }
-
-        it { expect(subject).to include(wp_custom_field_for_all) }
-
-        it { expect(subject).to include(wp_custom_field_public) }
-
-        it { expect(subject).to include(custom_field) }
-
-        it { expect(subject).not_to include(wp_custom_field_3) }
+        it do
+          is_expected
+            .to match_array([custom_field,
+                             wp_custom_field_1,
+                             wp_custom_field_2,
+                             wp_custom_field_for_all,
+                             wp_custom_field_public])
+        end
       end
 
       context 'as admin with project' do

@@ -45,6 +45,101 @@ describe AttributeHelpText::WorkPackage, type: :model do
     end
   end
 
+  describe '.visible' do
+    let(:project) { FactoryGirl.create(:project) }
+    let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+    let(:user) do
+      FactoryGirl.create(:user,
+                         member_in_project: project,
+                         member_through_role: role)
+    end
+    let(:permission) { [] }
+    let(:static_instance) { FactoryGirl.create :work_package_help_text, attribute_name: 'project' }
+    let(:cf_instance) do
+      custom_field = FactoryGirl.create :text_wp_custom_field
+      FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+    end
+
+    subject { FactoryGirl.build :work_package_help_text }
+
+    before do
+      # need to clear the cache to free the memoized
+      # Type.translated_work_package_form_attributes
+      Rails.cache.clear
+
+      static_instance
+      cf_instance
+    end
+
+    subject { described_class.visible(user) }
+
+    context 'user having no permission' do
+      let(:user) do
+        FactoryGirl.create(:user)
+      end
+
+      it 'returns the help text for the static attribute but not the one for the custom field' do
+        is_expected
+          .to match_array([static_instance])
+      end
+    end
+
+    context 'user having the `edit_projects` permission' do
+      let(:permissions) { [:edit_projects] }
+
+      it 'returns the help text for the static and cf attribute' do
+        is_expected
+          .to match_array([static_instance, cf_instance])
+      end
+    end
+
+    context 'user being member in a project with activated custom fields' do
+      let(:permissions) { [] }
+      let(:type) do
+        type = FactoryGirl.create(:type)
+        project.types << type
+
+        type
+      end
+      let(:cf_instance_active) do
+        custom_field = FactoryGirl.create(:text_wp_custom_field)
+        project.work_package_custom_fields << custom_field
+        type.custom_fields << custom_field
+        FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+      end
+      let(:cf_instance_inactive) do
+        cf_instance
+      end
+      let(:cf_instance_inactive_no_type) do
+        custom_field = FactoryGirl.create(:text_wp_custom_field)
+        project.work_package_custom_fields << custom_field
+        FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+      end
+      let(:cf_instance_inactive_not_in_project) do
+        custom_field = FactoryGirl.create(:text_wp_custom_field)
+        type.custom_fields << custom_field
+        FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+      end
+      let(:cf_instance_for_all) do
+        custom_field = FactoryGirl.create(:text_wp_custom_field, is_for_all: true)
+        FactoryGirl.create :work_package_help_text, attribute_name: "custom_field_#{custom_field.id}"
+      end
+
+      before do
+        cf_instance_active
+        cf_instance_inactive
+        cf_instance_inactive_no_type
+        cf_instance_inactive_not_in_project
+        cf_instance_for_all
+      end
+
+      it 'returns the help text for the static and active cf attributes' do
+        is_expected
+          .to match_array([static_instance, cf_instance_active, cf_instance_for_all])
+      end
+    end
+  end
+
   describe 'validations' do
     before do
       allow(described_class).to receive(:available_attributes).and_return(status: 'Status')

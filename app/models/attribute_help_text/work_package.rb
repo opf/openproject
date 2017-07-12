@@ -46,4 +46,14 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
   def type_caption
     I18n.t(:label_work_package)
   end
+
+  def self.visible_condition(user)
+    visible_cf_names = WorkPackageCustomField
+                       .visible_by_user(user)
+                       .pluck(:id)
+                       .map { |id| "custom_field_#{id}" }
+
+    where(attribute_name: visible_cf_names)
+      .or(where.not("attribute_name LIKE 'custom_field_%'"))
+  end
 end

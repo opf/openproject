@@ -42,6 +42,16 @@ class AttributeHelpText < ActiveRecord::Base
     all.group_by(&:attribute_scope)
   end
 
+  def self.visible(user)
+    scope = AttributeHelpText.subclasses[0].visible_condition(user)
+
+    AttributeHelpText.subclasses[1..-1].each do |subclass|
+      scope = scope.or(subclass.visible_condition(user))
+    end
+
+    scope
+  end
+
   validates_presence_of :help_text
   validates_uniqueness_of :attribute_name, scope: :type
 
@@ -54,6 +64,10 @@ class AttributeHelpText < ActiveRecord::Base
   end
 
   def type_caption
+    raise NotImplementedError
+  end
+
+  def self.visible_condition
     raise NotImplementedError
   end
 
