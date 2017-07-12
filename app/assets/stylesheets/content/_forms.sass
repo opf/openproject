@@ -232,6 +232,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
   padding:        1rem 0 0
   margin-bottom:  1rem
   border:         0
+  // Flexbox needs that parents of children with overflow set to have a width:
+  min-width: 0
+
 
 %form--fieldset-legend-or-section-title
   color:          lighten($body-font-color, 10)
