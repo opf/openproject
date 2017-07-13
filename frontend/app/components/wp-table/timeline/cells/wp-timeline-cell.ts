@@ -25,20 +25,25 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {States} from "../../../states.service";
-import {RenderInfo} from "../wp-timeline";
-import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
-import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
-import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
-import {TimelineMilestoneCellRenderer} from "../cells/timeline-milestone-cell-renderer";
-import {TimelineCellRenderer} from "../cells/timeline-cell-renderer";
-import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import * as moment from "moment";
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import * as moment from 'moment';
+import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
+import {States} from '../../../states.service';
+import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
+import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
+import {TimelineCellRenderer} from './timeline-cell-renderer';
+import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {RenderInfo} from '../wp-timeline';
+import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler';
 import IScope = angular.IScope;
 import Moment = moment.Moment;
-import {WorkPackageTableRefreshService} from "../../wp-table-refresh-request.service";
-import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
+
+export const classNameLeftDateDisplay = 'leftDateDisplay';
+export const classNameRightDateDisplay = 'rightDateDisplay';
+export const classNameShowOnHover = 'show-on-hover';
+
 export class WorkPackageTimelineCell {
   public wpCacheService:WorkPackageCacheService;
   public wpTableRefresh:WorkPackageTableRefreshService;
@@ -89,7 +94,7 @@ export class WorkPackageTimelineCell {
   }
 
   public clear() {
-    this.cellElement.html("");
+    this.cellElement.html('');
     this.wpElement = null;
   }
 
@@ -157,9 +162,7 @@ export class WorkPackageTimelineCell {
     const cell = this.lazyInit(renderer, renderInfo);
 
     // Render the upgrade from renderInfo
-    const shouldBeDisplayed = renderer.update(cell[0],
-      this.wpElement as HTMLDivElement,
-      renderInfo);
+    const shouldBeDisplayed = renderer.update(cell[0], this.wpElement as HTMLDivElement, renderInfo);
     if (!shouldBeDisplayed) {
       this.clear();
     }
