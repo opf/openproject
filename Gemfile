@@ -235,8 +235,7 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 0.19.2'
-gem 'grape-cache_control', '~> 1.0.1'
+gem 'grape', '~> 1.0'
 
 gem 'reform', '~> 2.2.0'
 gem 'reform-rails', '~> 0.1.7'
