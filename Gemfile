@@ -28,7 +28,6 @@
 
 source 'https://rubygems.org'
 
-# We do not yet support 2.4
 ruby '~> 2.4.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
