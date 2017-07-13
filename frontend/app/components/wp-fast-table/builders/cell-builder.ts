@@ -1,5 +1,8 @@
 import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {DisplayFieldRenderer} from '../../wp-edit-form/display-field-renderer';
+import {
+  DisplayFieldRenderer,
+  editFieldContainerClass
+} from '../../wp-edit-form/display-field-renderer';
 export const tdClassName = 'wp-table--cell-td';
 export const editCellContainer = 'wp-table--cell-container';
 export const wpCellTdClassName = 'wp-table--cell-td';
@@ -14,7 +17,7 @@ export class CellBuilder {
     td.classList.add(tdClassName, wpCellTdClassName, name);
 
     const container = document.createElement('span');
-    container.classList.add(editCellContainer);
+    container.classList.add(editCellContainer, editFieldContainerClass, name);
     const displayElement = this.fieldRenderer.render(workPackage, name);
 
     container.appendChild(displayElement);

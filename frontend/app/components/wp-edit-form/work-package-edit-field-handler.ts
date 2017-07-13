@@ -197,7 +197,7 @@ export class WorkPackageEditFieldHandler {
    * Return the field label
    */
   public get fieldLabel() {
-    return this.fieldName; // TOOD overridden fields labels?
+    return this.field.displayName;
   }
 
   public get errorMessageOnLabel() {

@@ -112,12 +112,15 @@ export class WorkPackageEditFieldGroupController {
   }
 }
 
-opWorkPackagesModule.component('wpEditFieldGroup', {
-  controller: WorkPackageEditFieldGroupController,
-  controllerAs: '$fieldsCtrl',
-  bindings: {
-    workPackageId: '<',
-    inEditMode: '<?'
-  }
+opWorkPackagesModule.directive('wpEditFieldGroup', function() {
+  return {
+    restrict: 'EA',
+    controller: WorkPackageEditFieldGroupController,
+    bindToController: true,
+    scope: {
+      workPackageId: '=',
+      inEditMode: '=?'
+    }
+  };
 });
 

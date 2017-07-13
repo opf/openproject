@@ -6,13 +6,13 @@ shared_examples 'an accessible inplace editor' do
   end
 
   it 'triggers edit mode on RETURN key' do
-    field.trigger_link.native.send_keys(:return)
+    field.display_element.native.send_keys(:return)
     expect(field).to be_editing
     field.cancel_by_click
   end
 
   it 'is focusable' do
-    tab_index = field.trigger_link['tabindex']
+    tab_index = field.display_element['tabindex']
     expect(tab_index).to_not be_nil
     expect(tab_index).to_not eq('-1')
   end
@@ -81,7 +81,7 @@ shared_examples 'a cancellable field' do
       field.expect_state_text(work_package.send(property_name))
       
       active_class_name = page.evaluate_script('document.activeElement.className')
-      expect(active_class_name).to include(field.trigger_link_selector[1..-1])
+      expect(active_class_name).to include('wp-edit-field--container')
     end
   end
 
@@ -109,15 +109,15 @@ shared_examples 'a previewable field' do
     field.activate!
 
     field.input_element.set '*Highlight*'
-    preview = field.element.find('.jstb_preview')
+    preview = field.field_container.find('.jstb_preview')
 
     # Enable preview
     preview.click
-    expect(field.element).to have_selector('strong', text: 'Highlight')
+    expect(field.field_container).to have_selector('strong', text: 'Highlight')
 
     # Disable preview
     preview.click
-    expect(field.element).to have_no_selector('strong')
+    expect(field.field_container).to have_no_selector('strong')
   end
 end
 

@@ -130,7 +130,6 @@ export class WorkPackageSingleViewController {
         members: this.getFields(groups[1])
       };
     });
-
   }
 
   private setupI18nTexts() {

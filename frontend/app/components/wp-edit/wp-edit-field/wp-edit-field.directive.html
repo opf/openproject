@@ -1,14 +1,14 @@
-<div class="wp-edit-field--container"
-     ng-class="[
+<div ng-class="[
+      vm.editFieldContainerClass,
+      vm.fieldName,
       vm.active && '-active' || '',
       vm.wrapperClasses || '-small'
      ]">
 
-  <div class="wp-edit-field--edit-container">
+  <div class="__d_edit_container">
   </div>
 
   <div ng-click="vm.activateIfEditable($event)"
        data-click-on-keypress="[13, 32]"
-       tabindex="0"
-       class="wp-edit-field--display-container"></div>
+       class="__d_display_container"></div>
 </div>

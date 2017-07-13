@@ -2,26 +2,15 @@ require_relative './work_package_field'
 
 class WorkPackageTextAreaField < WorkPackageField
 
-  attr_reader :trigger
-
-  def initialize(context, property_name, selector: nil, trigger: nil)
-    super(context, property_name, selector: selector)
-    @trigger = trigger
-  end
-
-  def trigger_link_selector
-    @trigger || super
-  end
-
   def input_selector
     'textarea'
   end
 
   def expect_save_button(enabled: true)
     if enabled
-      expect(element).to have_no_selector("#{control_link}[disabled]")
+      expect(field_container).to have_no_selector("#{control_link}[disabled]")
     else
-      expect(element).to have_selector("#{control_link}[disabled]")
+      expect(field_container).to have_selector("#{control_link}[disabled]")
     end
   end
 
@@ -30,9 +19,13 @@ class WorkPackageTextAreaField < WorkPackageField
   end
 
   def submit_by_click
-    target = element.find(control_link)
+    target = field_container.find(control_link)
     scroll_to_element(target)
     target.click
+  end
+
+  def submit_by_dashboard
+    input_element.find('.inplace-edit--control--save > a', wait: 5).click
   end
 
   def submit_by_keyboard

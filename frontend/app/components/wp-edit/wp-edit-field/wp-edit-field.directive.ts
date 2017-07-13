@@ -36,7 +36,10 @@ import {States} from '../../states.service';
 import {InputState} from 'reactivestates';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
-import {DisplayFieldRenderer} from '../../wp-edit-form/display-field-renderer';
+import {
+  DisplayFieldRenderer,
+  editFieldContainerClass
+} from '../../wp-edit-form/display-field-renderer';
 import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directive';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 
@@ -47,6 +50,7 @@ export class WorkPackageEditFieldController {
   public workPackageId:string;
   public workPackage:WorkPackageResourceInterface;
   public fieldRenderer = new DisplayFieldRenderer('single-view');
+  public editFieldContainerClass = editFieldContainerClass;
 
   constructor(protected states:States,
               protected $scope:ng.IScope,
@@ -126,11 +130,11 @@ export class WorkPackageEditFieldController {
   }
 
   public get displayContainer() {
-    return this.$element.find('.wp-edit-field--display-container');
+    return this.$element.find('.__d_display_container');
   }
 
   public get editContainer() {
-    return this.$element.find('.wp-edit-field--edit-container');
+    return this.$element.find('.__d_edit_container');
   }
 
   private startEditing(state:InputState<WorkPackageEditForm>):WorkPackageEditForm {

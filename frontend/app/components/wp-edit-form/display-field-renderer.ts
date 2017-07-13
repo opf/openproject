@@ -9,6 +9,8 @@ export const requiredClassName = '-required';
 export const readOnlyClassName = '-read-only';
 export const placeholderClassName = '-placeholder';
 export const cellClassName = 'wp-table--cell-span';
+export const displayClassName = 'wp-edit-field--display-field';
+export const editFieldContainerClass = 'wp-edit-field--container';
 export const cellEmptyPlaceholder = '-';
 
 export class DisplayFieldRenderer {
@@ -32,7 +34,7 @@ export class DisplayFieldRenderer {
 
     const field = this.getField(workPackage, fieldSchema, name);
 
-    span.classList.add(cellClassName, 'inplace-edit', 'wp-edit-field', name);
+    span.classList.add(cellClassName, displayClassName, 'inplace-edit', 'wp-edit-field', name);
     span.dataset['fieldName'] = name;
 
     // Make span tabbable unless it's an id field

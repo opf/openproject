@@ -112,6 +112,9 @@ openprojectModule
         controller: 'WorkPackageCopyController',
         controllerAs: '$ctrl',
         reloadOnSearch: false,
+        resolve: {
+          successState: () => 'work-packages.show'
+        },
         templateUrl: '/components/routing/main/work-packages.new.html',
         onEnter: () => {
           angular.element('body').addClass('action-show');
@@ -157,6 +160,9 @@ openprojectModule
         url: '/details/{copiedFromWorkPackageId:[0-9]+}/copy',
         controller: 'WorkPackageCopyController',
         controllerAs: '$ctrl',
+        resolve: {
+          successState: () => 'work-packages.list.details'
+        },
         templateUrl: '/components/routing/wp-list/wp.list.new.html',
         reloadOnSearch: false,
         onEnter: () => angular.element('body').addClass('action-details'),
