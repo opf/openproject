@@ -33,14 +33,25 @@ describe 'API v3 Help texts resource' do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
+  let(:project) { FactoryGirl.create(:project) }
+  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:current_user) do
-    FactoryGirl.create(:admin)
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
   end
 
   let!(:help_texts) do
+    # need to clear the cache to free the memoized
+    # Type.translated_work_package_form_attributes
+    Rails.cache.clear
+
+    custom_field = FactoryGirl.create :text_wp_custom_field
+
     [
       FactoryGirl.create(:work_package_help_text, attribute_name: 'assignee'),
-      FactoryGirl.create(:work_package_help_text, attribute_name: 'status')
+      FactoryGirl.create(:work_package_help_text, attribute_name: 'status'),
+      FactoryGirl.create(:work_package_help_text, attribute_name: "custom_field_#{custom_field.id}")
     ]
   end
 
@@ -51,7 +62,7 @@ describe 'API v3 Help texts resource' do
 
       context 'logged in user' do
         before do
-          allow(User).to receive(:current).and_return current_user
+          login_as(current_user)
 
           get get_path
         end
@@ -70,7 +81,7 @@ describe 'API v3 Help texts resource' do
 
       context 'logged in user' do
         before do
-          allow(User).to receive(:current).and_return(current_user)
+          login_as(current_user)
 
           get get_path
         end
@@ -84,6 +95,16 @@ describe 'API v3 Help texts resource' do
 
           it_behaves_like 'not found' do
             let(:id) { 'bogus' }
+            let(:type) { 'HelpText' }
+          end
+        end
+
+        context 'invisible type id' do
+          # cf not visible to the user
+          let(:help_text) { help_texts.last }
+
+          it_behaves_like 'not found' do
+            let(:id) { help_text.id }
             let(:type) { 'HelpText' }
           end
         end
