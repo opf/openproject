@@ -60,11 +60,15 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
       <label class="hidden-for-sighted" for="<%= id_prefix %>_comments"><%= LaborBudgetItem.human_attribute_name(:comments) %></label>
       <%= cost_form.text_field :comments, index: id_or_index, size: 40 %>
     </td>
-    <td class="currency budget-table--fields">
-      <span id="<%= "#{id_prefix}_costs" %>">
-        <%= number_to_currency(labor_budget_item.calculated_costs(@cost_object.fixed_date, @cost_object.project_id)) if labor_budget_item.costs_visible_by?(User.current) %>
-      </span>
-    </td>
+    <% if User.current.allowed_to?(:view_cost_rates, @project)%>
+      <td class="currency budget-table--fields">
+        <cost-unit-subform obj-id="<%= "#{id_prefix}_costs" %>" obj-name="<%= "#{name_prefix}[budget]" %>">
+          <a href="javascript:;" id="<%= "#{id_prefix}_costs" %>" class="icon-context icon-edit" title="<%= t(:help_click_to_edit) %>">
+            <%= number_to_currency(labor_budget_item.budget || labor_budget_item.calculated_costs(@cost_object.fixed_date, @cost_object.project_id)) if labor_budget_item.costs_visible_by?(User.current) %>
+          </a>
+        </cost-unit-subform>
+      </td>
+    <% end %>
     <td class="delete budget-table--fields buttons">
       <a class="delete-budget-item no-decoration-on-hover" title="<%= t(:button_delete) %>" href="javascript:">
         <%= op_icon('icon-context icon-delete') %>

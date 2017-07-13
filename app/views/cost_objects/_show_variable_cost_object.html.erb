@@ -122,7 +122,16 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                   <div class="generic-table--sort-header-outer">
                     <div class="generic-table--sort-header">
                       <span>
-                        <%= MaterialBudgetItem.human_attribute_name(:units)%>
+                        <%= MaterialBudgetItem.human_attribute_name(:work_package)%>
+                      </span>
+                    </div>
+                  </div>
+                </th>
+                <th>
+                  <div class="generic-table--sort-header-outer">
+                    <div class="generic-table--sort-header">
+                      <span>
+                        <%= MaterialBudgetItem.human_attribute_name(:units) %>
                       </span>
                     </div>
                   </div>
@@ -132,15 +141,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
                     <div class="generic-table--sort-header">
                       <span>
                         <%= MaterialBudgetItem.human_attribute_name(:cost_type) %>
-                      </span>
-                    </div>
-                  </div>
-                </th>
-                <th>
-                  <div class="generic-table--sort-header-outer">
-                    <div class="generic-table--sort-header">
-                      <span>
-                        <%= MaterialBudgetItem.human_attribute_name(:comment) %>
                       </span>
                     </div>
                   </div>

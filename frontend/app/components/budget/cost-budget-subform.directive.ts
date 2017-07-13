@@ -47,7 +47,9 @@ export class CostBudgetSubformController {
 
   constructor(public $element:ng.IAugmentedJQuery,
               public $http:ng.IHttpService,
-              public wpNotificationsService:WorkPackageNotificationService) {
+              public wpNotificationsService:WorkPackageNotificationService,
+              private $scope:ng.IScope,
+              private $compile:any) {
     this.container = $element.find('.budget-item-container');
     this.rowIndex = parseInt(this.itemCount);
 
@@ -91,7 +93,8 @@ export class CostBudgetSubformController {
    * Adds a new empty budget item row with the correct index set
    */
   public addBudgetItem() {
-    this.container.append(this.indexedTemplate);
+    let compiledTemplate = this.$compile(this.indexedTemplate)(this.$scope);
+    this.container.append(compiledTemplate);
     this.rowIndex += 1;
   }
 
