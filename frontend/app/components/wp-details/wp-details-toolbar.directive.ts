@@ -56,7 +56,6 @@ function wpDetailsToolbar(
         scope.workPackage.hasOwnProperty('watch');
 
       scope.I18n = I18n;
-      scope.isEditable = scope.workPackage.isEditable;
     }
   };
 }

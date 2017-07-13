@@ -28,7 +28,7 @@
 
 import {
   opApiModule, opServicesModule, openprojectModule,
-  wpControllersModule
+  wpControllersModule, wpServicesModule
 } from "../../../angular-modules";
 
 describe('WorkPackageDetailsController', () => {
@@ -120,7 +120,7 @@ describe('WorkPackageDetailsController', () => {
     };
 
   beforeEach(angular.mock.module(openprojectModule.name, opApiModule.name, 'openproject.layout',
-    wpControllersModule.name, opServicesModule.name));
+    wpControllersModule.name, wpServicesModule.name, opServicesModule.name));
 
   beforeEach(angular.mock.module('openproject.templates', function ($provide:any) {
     $provide.constant('ConfigurationService', {
@@ -131,11 +131,14 @@ describe('WorkPackageDetailsController', () => {
 
   beforeEach(angular.mock.inject(($rootScope:any,
                                   $controller:any,
+                                  $injector:ng.auto.IInjectorService,
                                   $state:any,
                                   $q:any,
                                   $httpBackend:any,
                                   WorkPackageService:any) => {
     $httpBackend.when('GET', '/api/v3/work_packages/99').respond(workPackage);
+
+    (window as any).ngInjector = $injector;
 
     WorkPackageService.getWorkPackage = () => {
       return $q.when(workPackage)
