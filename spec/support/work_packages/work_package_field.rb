@@ -86,11 +86,15 @@ class WorkPackageField
   end
 
   def expect_error
-    expect(page).to have_selector("#{@selector}.-error")
+    expect(page).to have_selector("#{@selector} .-error")
   end
 
   def save!
     submit_by_enter
+  end
+
+  def submit_by_dashboard
+    field_container.find('.inplace-edit--control--save a', wait: 5).click
   end
 
   ##
@@ -129,10 +133,7 @@ class WorkPackageField
   end
 
   def editable?
-    field_container.find "#{display_selector}.-editable"
-    true
-  rescue Capybara::ElementNotFound
-    false
+    field_container.has_selector? "#{display_selector}.-editable"
   end
 
   def input_selector

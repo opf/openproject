@@ -154,7 +154,6 @@ describe('workPackageDetailsToolbar', function() {
       });
 
       it('contains links with correct description', function() {
-        console.log(element);
         angular.forEach(actions, function(css, action) {
           var link = getLink(listRoot, action);
 

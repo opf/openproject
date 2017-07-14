@@ -178,7 +178,7 @@ describe 'edit work package', js: true do
       type_field.activate!
       type_field.set_value type2.name
 
-      wp_page.expect_notification message: "Custom Field Nr. #{custom_field.id} can't be blank.",
+      wp_page.expect_notification message: "#{custom_field.name} can't be blank.",
                                   type: 'error'
 
 

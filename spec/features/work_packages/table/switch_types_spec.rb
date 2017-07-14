@@ -110,7 +110,7 @@ describe 'Switching types in work package table', js: true do
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
-      expect(text_field).not_to be_editable
+      expect { text_field.display_element }.to raise_error(Capybara::ElementNotFound)
 
       type_field.activate!
       type_field.set_value type_task.name

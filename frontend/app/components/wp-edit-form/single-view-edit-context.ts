@@ -27,19 +27,13 @@
 // ++
 
 import {WorkPackageEditContext} from './work-package-edit-context';
-import {WorkPackageTableRow} from '../wp-fast-table/wp-table.interfaces';
-import {CellBuilder, tdClassName, editCellContainer} from '../wp-fast-table/builders/cell-builder';
-import {$injectFields, injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {States} from '../states.service';
-import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
-import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
+import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
@@ -57,7 +51,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   public $timeout:ng.ITimeoutService;
   public templateRenderer:SimpleTemplateRenderer;
 
-  constructor(public workPackageId:string, public fieldGroup:WorkPackageEditFieldGroupController) {
+  constructor(public fieldGroup:WorkPackageEditFieldGroupController) {
     $injectFields(this, 'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
       'FocusHelper', '$q', '$timeout', 'templateRenderer');
   }

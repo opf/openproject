@@ -81,7 +81,7 @@ describe 'subject inplace editor', js: true, selenium: true do
       work_package.subject = 'Some other subject!'
       work_package.save!
 
-      field.activate_edition
+      field.display_element.click
 
       notification.expect_error(
         "Couldn't update the resource because of conflicting modifications."

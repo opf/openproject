@@ -49,9 +49,6 @@ export class WorkPackageEditForm {
   public wpEditField:WorkPackageEditFieldService;
   public wpNotificationsService:WorkPackageNotificationService;
 
-  // The edit context for this current edit
-  public editContext:WorkPackageEditContext;
-
   // Other fields
   public workPackage:WorkPackageResourceInterface;
 
@@ -68,6 +65,7 @@ export class WorkPackageEditForm {
   protected subscription:Subscription;
 
   constructor(public workPackageId:string,
+              public editContext:WorkPackageEditContext,
               public editMode = false) {
     injectorBridge(this);
 

@@ -95,7 +95,7 @@ describe('workPackageContextMenu', () => {
 
   describe('when the context menu context contains one work package', () => {
     var I18n:any;
-    var actions = ['edit', 'move'];
+    var actions = ['move'];
 
     var directListElements:any;
 
@@ -114,7 +114,7 @@ describe('workPackageContextMenu', () => {
     });
 
     it('lists link tags for any permitted action', () =>{
-      expect(directListElements.length).to.equal(5);
+      expect(directListElements.length).to.equal(4);
     });
 
     it('assigns a css class named by the action', () =>{

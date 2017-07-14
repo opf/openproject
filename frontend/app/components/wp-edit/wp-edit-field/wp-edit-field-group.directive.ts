@@ -81,7 +81,7 @@ export class WorkPackageEditFieldGroupController {
     const form = this.editingForm;
 
     if (form && form.editMode) {
-      form.activate(field.fieldName, true);
+      field.activateOnForm(form, true);
     }
   }
 
@@ -104,7 +104,7 @@ export class WorkPackageEditFieldGroupController {
   }
 
   private get editContext() {
-    return new SingleViewEditContext(this.workPackageId, this);
+    return new SingleViewEditContext(this);
   }
 
   private get editingForm():WorkPackageEditForm | undefined {

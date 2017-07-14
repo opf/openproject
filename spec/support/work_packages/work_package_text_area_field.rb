@@ -24,16 +24,12 @@ class WorkPackageTextAreaField < WorkPackageField
     target.click
   end
 
-  def submit_by_dashboard
-    input_element.find('.inplace-edit--control--save > a', wait: 5).click
-  end
-
   def submit_by_keyboard
     input_element.native.send_keys :tab
   end
 
   def cancel_by_click
-    target = element.find(control_link(:cancel))
+    target = field_container.find(control_link(:cancel))
     scroll_to_element(target)
     target.click
   end

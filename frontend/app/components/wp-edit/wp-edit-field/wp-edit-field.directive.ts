@@ -37,11 +37,13 @@ import {InputState} from 'reactivestates';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
 import {
+  displayClassName,
   DisplayFieldRenderer,
   editFieldContainerClass
 } from '../../wp-edit-form/display-field-renderer';
 import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directive';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {WorkPackageEditContext} from '../../wp-edit-form/work-package-edit-context';
 
 export class WorkPackageEditFieldController {
   public wpEditFieldGroup:WorkPackageEditFieldGroupController;
@@ -51,14 +53,13 @@ export class WorkPackageEditFieldController {
   public workPackage:WorkPackageResourceInterface;
   public fieldRenderer = new DisplayFieldRenderer('single-view');
   public editFieldContainerClass = editFieldContainerClass;
+  private active = false;
 
   constructor(protected states:States,
               protected $scope:ng.IScope,
               protected $element:ng.IAugmentedJQuery,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
-              protected wpEditing:WorkPackageEditingService,
-              protected FocusHelper:any,
               protected NotificationsService:any,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected ConfigurationService:any,
@@ -77,6 +78,11 @@ export class WorkPackageEditFieldController {
       .subscribe((wp) => {
         this.workPackage = wp;
         this.render();
+
+        let form = this.states.editing.get(this.workPackage.id);
+        if (this.active && form.value) {
+          this.activateOnForm(form.value, true);
+        }
       });
   }
 
@@ -89,9 +95,10 @@ export class WorkPackageEditFieldController {
   public deactivate(focus:boolean = false) {
     this.editContainer.empty().hide();
     this.displayContainer.show();
+    this.active = false;
 
     if (focus) {
-      this.FocusHelper.focusElement(this.displayContainer);
+      this.$element.find(`.${displayClassName}`).focus();
     }
   }
 
@@ -111,13 +118,19 @@ export class WorkPackageEditFieldController {
 
   public activate(noWarnings:boolean = false) {
     // Get any existing edit state for this work package
+    const editContext = new SingleViewEditContext(this.wpEditFieldGroup);
     let state = this.states.editing.get(this.workPackage.id);
-    let form = state.value || this.startEditing(state);
+    let form = state.value || this.startEditing(state, editContext);
 
-    form.editContext = new SingleViewEditContext(this.workPackage.id, this.wpEditFieldGroup);
+    return this.activateOnForm(form, noWarnings);
+  }
+
+  public activateOnForm(form:WorkPackageEditForm, noWarnings:boolean = false) {
     // Activate the field
     const promise = form.activate(this.fieldName, noWarnings);
-    promise.catch(() => this.deactivate(true))
+    promise
+      .then(() => this.active = true)
+      .catch(() => this.deactivate(true))
 
     return promise;
   }
@@ -137,8 +150,8 @@ export class WorkPackageEditFieldController {
     return this.$element.find('.__d_edit_container');
   }
 
-  private startEditing(state:InputState<WorkPackageEditForm>):WorkPackageEditForm {
-    let form = new WorkPackageEditForm(this.workPackage.id, this.wpEditFieldGroup.inEditMode);
+  private startEditing(state:InputState<WorkPackageEditForm>, editContext:WorkPackageEditContext):WorkPackageEditForm {
+    let form = new WorkPackageEditForm(this.workPackage.id, editContext, this.wpEditFieldGroup.inEditMode);
     state.putValue(form);
     return form;
   }

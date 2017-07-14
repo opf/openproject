@@ -66,8 +66,12 @@ export class WorkPackageEditFieldHandler {
     }
 
     Mousetrap(element[0]).bind('escape', () => {
-      this.reset();
-      return false;
+      if (!this.inEditMode) {
+        this.reset();
+        return false;
+      }
+
+      return true;
     });
   }
 

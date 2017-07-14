@@ -207,26 +207,6 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     end
   end
 
-  describe 'opening work package edit mode' do
-    before do
-      select_work_package_row(1, :right)
-      within '.dropdown-menu' do
-        click_on 'Edit'
-      end
-    end
-
-    it do
-      wp_page = Pages::FullWorkPackage.new(work_package_1)
-      subject_field = wp_page.edit_field :subject
-
-      subject_field.expect_active!
-      expect(subject_field.input_element.value).to eq(work_package_1.subject)
-
-      # Cancel edit
-      find('#work-packages--edit-actions-cancel').click
-    end
-  end
-
   describe 'opening last selected work package' do
     before do
       select_work_package_row(2)
