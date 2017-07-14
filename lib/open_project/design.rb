@@ -57,7 +57,7 @@ module OpenProject
       'h4-font-size'                                         => "calc($h3-font-size * 0.75)",
       'h4-font-color'                                        => "$body-font-color",
       'header-height'                                        => "55px",
-      'header-height-mobile'                                 => "45px",
+      'header-height-mobile'                                 => "55px",
       'header-bg-color'                                      => "$primary-color",
       'header-home-link-bg'                                  => '#{image-url("logo_openproject_white_big.png") no-repeat 20px 0}',
       'header-border-bottom-color'                           => "$primary-color",
