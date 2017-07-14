@@ -29,7 +29,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <fieldset id="date-range" class="simple-filters--container">
   <legend><%= l(:label_date_range) %></legend>
   <ul class="simple-filters--filters">
-    <li class="simple-filters--filter">
+    <li class="simple-filters--filter -full-width">
       <%= styled_label_tag "period_type_list", l(:description_date_range_list), class: "hidden-for-sighted simple-filters--filter-name" %>
       <%= styled_radio_button_tag 'period_type', '1',
                                   !@free_period,
@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
                               class: "-narrow" %>
       </div>
     </li>
-    <li class="simple-filters--filter">
+    <li class="simple-filters--filter -full-width">
       <%= styled_label_tag "period_type_interval", l(:description_date_range_interval), class: "hidden-for-sighted simple-filters--filter-name" %>
       <%= styled_radio_button_tag 'period_type', '2', @free_period, id: "period_type_interval" %>
       <%= styled_label_tag("from", l(:label_date_from), class: 'simple-filters--filter-name') %>
