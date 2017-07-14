@@ -119,7 +119,7 @@ export class WorkPackageEditForm {
       return this.$q.when(activeField.element);
     }
 
-    return this.activate(fieldName);
+    return this.activate(fieldName, true);
   }
 
   /**

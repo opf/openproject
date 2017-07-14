@@ -44,6 +44,7 @@ import {
 import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directive';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageEditContext} from '../../wp-edit-form/work-package-edit-context';
+import {ClickPositionMapper} from '../../common/set-click-position/set-click-position';
 
 export class WorkPackageEditFieldController {
   public wpEditFieldGroup:WorkPackageEditFieldGroupController;
@@ -109,7 +110,7 @@ export class WorkPackageEditFieldController {
 
   public activateIfEditable(event:JQueryEventObject) {
     if (this.isEditable) {
-      this.handleUserActivate();
+      this.handleUserActivate(event);
     }
 
     this.contextMenu.close();
@@ -135,10 +136,15 @@ export class WorkPackageEditFieldController {
     return promise;
   }
 
-  public handleUserActivate() {
+  public handleUserActivate(evt:JQueryEventObject|null) {
+    // Get the position where the user clicked.
+    const positionOffset = evt ? ClickPositionMapper.getPosition(evt) : 0;
+
     this.activate()
       .then((handler) => {
         handler.focus();
+        const input = handler.element.find('input');
+        ClickPositionMapper.setPosition(input, positionOffset);
       });
   }
 

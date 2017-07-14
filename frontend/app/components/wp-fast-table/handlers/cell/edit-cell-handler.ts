@@ -1,18 +1,18 @@
-import {InputState} from 'reactivestates';
 import {debugLog} from '../../../../helpers/debug_output';
-import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {States} from '../../../states.service';
 import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';
-import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
 import {
-  cellClassName, editableClassName,
+  cellClassName,
+  editableClassName,
   readOnlyClassName
 } from '../../../wp-edit-form/display-field-renderer';
 import {WorkPackageEditingService} from '../../../wp-edit-form/work-package-editing-service';
+import {ClickPositionMapper} from '../../../common/set-click-position/set-click-position';
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
@@ -62,35 +62,18 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     const form = this.wpEditing.startEditing(workPackageId, editContext);
 
     // Get the position where the user clicked.
-    const positionOffset = this.getClickPosition(evt);
+    const positionOffset = ClickPositionMapper.getPosition(evt);
 
     // Activate the field
     form.activate(fieldName)
       .then((handler) => {
-        this.setClickPosition(handler.element.find('input'), positionOffset);
+        const element = handler.element.find('input');
+        ClickPositionMapper.setPosition(element, positionOffset);
       })
       .catch(() => {
         target.addClass(readOnlyClassName);
       });
 
     return false;
-  }
-
-  private setClickPosition(element:ng.IAugmentedJQuery, offset:number):void {
-    try {
-      (element[0] as HTMLInputElement).setSelectionRange(offset, offset);
-    } catch (e) {
-      debugLog('Failed to set click position for edit field.', e);
-    }
-  }
-
-  private getClickPosition(evt:JQueryEventObject):number {
-    try {
-      const range = document.caretRangeFromPoint(evt.clientX, evt.clientY);
-      return range.startOffset;
-    } catch (e) {
-      debugLog('Failed to get click position for edit field.', e);
-      return 0;
-    }
   }
 }

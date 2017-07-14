@@ -42,7 +42,7 @@ export class WorkPackageReplacementLabelController {
       return true;
     }
 
-    this.wpEditFieldGroup.fields[this.fieldName].handleUserActivate();
+    this.wpEditFieldGroup.fields[this.fieldName].handleUserActivate(null);
     return false;
   }
 }
