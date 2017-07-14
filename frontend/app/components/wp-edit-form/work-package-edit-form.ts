@@ -82,7 +82,7 @@ export class WorkPackageEditForm {
    * Active the edit field upon user's request.
    * @param fieldName
    */
-  public activate(fieldName:string, noWarnings:boolean = false):ng.IPromise<WorkPackageEditFieldHandler> {
+  public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
     return this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
       const field = this.wpEditField.getField(
         this.workPackage,
@@ -237,7 +237,7 @@ export class WorkPackageEditForm {
     }
   }
 
-  private buildField(fieldName:string, field:EditField):ng.IPromise<WorkPackageEditFieldHandler> {
+  private buildField(fieldName:string, field:EditField):Promise<WorkPackageEditFieldHandler> {
     const promise = this.editContext.activateField(this,
       field,
       this.errorsPerAttribute[fieldName] || []);

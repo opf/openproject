@@ -32,11 +32,13 @@ import {opWorkPackagesModule} from '../../../angular-modules';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
+import {input} from 'reactivestates';
 
 export class WorkPackageEditFieldGroupController {
   public workPackageId:string;
   public inEditMode:boolean;
   public fields:{ [attribute:string]:WorkPackageEditFieldController } = {};
+  private registeredFields = input<string[]>();
 
   constructor(protected $scope:ng.IScope,
               protected states:States,
@@ -75,11 +77,21 @@ export class WorkPackageEditFieldGroupController {
 
   public register(field:WorkPackageEditFieldController) {
     this.fields[field.fieldName] = field;
+    this.registeredFields.putValue(_.keys(this.fields));
     const form = this.editingForm;
 
     if (form && form.editMode) {
       form.activate(field.fieldName, true);
     }
+  }
+
+  public waitForField(name:string):Promise<WorkPackageEditFieldController> {
+    return this.registeredFields
+      .values$()
+      .filter(keys => keys.indexOf(name) >= 0)
+      .take(1)
+      .map(() => this.fields[name])
+      .toPromise();
   }
 
   public start() {

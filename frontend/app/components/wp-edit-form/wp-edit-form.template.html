@@ -1,4 +1,5 @@
-<div class="wp-inline-edit--active-field wp-edit-field inplace-edit {{ ::vm.field.name }}">
+<div class="wp-inline-edit--active-field wp-edit-field inplace-edit {{ ::vm.field.name }}"
+     ng-class="{'-error': vm.isErrorenous }">
   <form ng-click="vm.stopPropagation($event)"
         ng-dblclick="vm.stopPropagation($event)"
         ng-submit="vm.handleUserSubmit()"

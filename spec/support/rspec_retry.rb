@@ -31,6 +31,7 @@ end
 Retriable.configure do |c|
   # Three tries in that block
   c.tries = 3
+  c.base_interval = 1
 end
 
 ##

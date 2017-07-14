@@ -22,12 +22,16 @@ class WorkPackageField
     @context.find @selector
   end
 
+  def display_selector
+    '.wp-edit-field--display-field'
+  end
+
   def display_element
-    field_container.find '.wp-edit-field--display-field'
+    @context.find "#{@selector} #{display_selector}"
   end
 
   def input_element
-    field_container.find input_selector
+    @context.find "#{@selector} #{input_selector}"
   end
 
   def expect_state_text(text)
@@ -63,20 +67,18 @@ class WorkPackageField
   end
 
   def active?
-    input_element.present?
-  rescue Capybara::ElementNotFound
-    false
+    @context.has_selector? "#{@selector} #{input_selector}", wait: 1
   end
   alias :editing? :active?
 
   def expect_active!
-    expect(element)
+    expect(field_container)
       .to have_selector(field_type, wait: 10),
           "Expected WP field input type '#{field_type}' for attribute '#{property_name}'."
   end
 
   def expect_inactive!
-    expect(page).to have_no_selector("#{@selector} #{field_type}", wait: 10)
+    expect(page).to have_no_selector("#{@selector} #{field_type}")
   end
 
   def expect_invalid
@@ -127,7 +129,7 @@ class WorkPackageField
   end
 
   def editable?
-    @context.find("#{@selector}.-editable")
+    field_container.find "#{display_selector}.-editable"
     true
   rescue Capybara::ElementNotFound
     false

@@ -94,7 +94,7 @@ describe 'Switching types in work package table', js: true do
       )
 
       # Old text field should disappear
-      text_field.expect_state_text ''
+      expect { text_field.display_element }.to raise_error(Capybara::ElementNotFound)
 
       # Required CF requires activation
       req_text_field.activate!
@@ -124,7 +124,7 @@ describe 'Switching types in work package table', js: true do
         message: 'Successful update. Click here to open this work package in fullscreen view.'
       )
 
-      req_text_field.expect_state_text ''
+      expect { req_text_field.display_element }.to raise_error(Capybara::ElementNotFound)
     end
   end
 
@@ -193,7 +193,7 @@ describe 'Switching types in work package table', js: true do
       type_field = wp_page.edit_field :type
       type_field.set_value type_with_cf.name
 
-      cf_edit_field.element.find('.wp-inline-edit--toggle-multiselect').click
+      cf_edit_field.field_container.find('.wp-inline-edit--toggle-multiselect').click
       sel = cf_edit_field.input_element
       sel.select "pineapple"
       sel.select "mushrooms"

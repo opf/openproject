@@ -35,7 +35,7 @@ export interface WorkPackageEditContext {
   /**
    * Activate the field, returning the element and associated field handler
    */
-  activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler>;
+  activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):Promise<WorkPackageEditFieldHandler>;
 
   /**
    * Show this required field. E.g., add the necessary column

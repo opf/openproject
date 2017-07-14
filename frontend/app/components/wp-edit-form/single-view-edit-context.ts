@@ -62,8 +62,8 @@ export class SingleViewEditContext implements WorkPackageEditContext {
       'FocusHelper', '$q', '$timeout', 'templateRenderer');
   }
 
-  public activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler> {
-    const ctrl = this.fieldCtrl(field.name);
+  public async activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+    const ctrl = await this.fieldCtrl(field.name);
     const container = ctrl.editContainer;
 
     // Create a field handler for the newly active field
@@ -89,17 +89,21 @@ export class SingleViewEditContext implements WorkPackageEditContext {
       }
     );
 
-    return promise.then(() => {
-      // Assure the element is visible
-      return this.$timeout(() => {
-        ctrl.editContainer.show();
-        return fieldHandler;
-      });
+    return new Promise<WorkPackageEditFieldHandler>((resolve, reject) => {
+      promise
+        .then(() => {
+          // Assure the element is visible
+          this.$timeout(() => {
+            ctrl.editContainer.show();
+            resolve(fieldHandler);
+          });
+        })
+        .catch(reject);
     });
   }
 
-  public reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus:boolean = false) {
-    const ctrl = this.fieldCtrl(fieldName);
+  public async reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus:boolean = false) {
+    const ctrl = await this.fieldCtrl(fieldName);
     ctrl.reset(workPackage);
     ctrl.deactivate(focus);
   }
@@ -113,8 +117,8 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     return 'subject';
   }
 
-  public fieldCtrl(name:string) {
-    return this.fieldGroup.fields[name] as WorkPackageEditFieldController;
+  private async fieldCtrl(name:string):Promise<WorkPackageEditFieldController> {
+    return this.fieldGroup.waitForField(name);
   }
 
   public onSaved(workPackage:WorkPackageResource) {
