@@ -29,8 +29,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= include_gon %>
 
-<%= render_timelog_breadcrumb %>
-
 <%= toolbar title: l(:label_spent_time) do %>
   <% if User.current.allowed_to?({controller: :timelog, action: :new}, @project) %>
       <li class="toolbar-item">
