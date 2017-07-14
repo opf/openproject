@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field <%= required ? '-required' : '' %>">
       <%# display all fields OR only display required fields OR only display optional fields #%>
       <% if all_fields || (only_required && required) || (!only_required && !required) %>
-        <%= value_form.custom_field %>
+        <%= value_form.custom_field(container_class: '-wide') %>
       <% end %>
     </div>
   <% end %>
