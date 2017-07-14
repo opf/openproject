@@ -36,13 +36,6 @@ describe 'Work package table context menu', js: true do
     expect(page).to have_selector('.work-packages--show-view .wp-edit-field.subject',
                                   text: work_package.subject)
 
-    # Open edit link
-    goto_context_menu
-    menu.choose('Edit')
-    expect(page).to have_selector('.wp-edit-field.subject input')
-    find('#work-packages--edit-actions-cancel').click
-    expect(page).to have_no_selector('.wp-edit-field.subject input')
-
     # Open log time
     goto_context_menu
     menu.choose('Log time')

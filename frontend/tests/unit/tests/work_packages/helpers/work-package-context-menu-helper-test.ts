@@ -31,10 +31,6 @@
 describe('WorkPackageContextMenuHelper', function() {
   var PERMITTED_CONTEXT_MENU_ACTIONS:any = [
     {
-      icon: 'edit',
-      link: 'update'
-    },
-    {
       icon: 'log_time',
       link: 'logTime'
     },

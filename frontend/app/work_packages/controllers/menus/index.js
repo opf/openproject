@@ -29,10 +29,6 @@
 
 angular.module('openproject.workPackages')
   .constant('PERMITTED_CONTEXT_MENU_ACTIONS', [
-    {
-      icon: 'edit',
-      link: 'update'
-    },
     // TODO: reenable watch
     {
       icon: 'log_time',
