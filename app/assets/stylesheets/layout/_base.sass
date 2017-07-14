@@ -39,16 +39,9 @@ body
 
 #wrapper
   @include default-transition
-  @include varprop(background-color, body-background)
-  background-size: $main-menu-width 100%
   min-height: 100%
   height: auto
   position: relative
-  &.nosidebar, &.nomenus
-    background: none
-  &.hidden-navigation
-    background-size: $main-menu-folded-width 100%
-
 
 #main
   display: flex
