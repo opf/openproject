@@ -55,9 +55,10 @@ See doc/COPYRIGHT.rdoc for more details.
 
   <div class="form--field">
     <%= f.text_field :regexp,
-                     size: 50 %>
+                     size: 50,
+                     container_class: '-wide' %>
     <span class="form--field-instructions">
-      <%=t(:text_regexp_info)%>
+      <%= t(:text_regexp_info) %>
     </span>
   </div>
 
