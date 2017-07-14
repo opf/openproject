@@ -69,7 +69,7 @@ feature 'Query menu items' do
       visit_index_page(query)
 
       click_on 'Settings'
-      click_on 'Share ...'
+      click_on 'Publish ...'
       check 'Show page in menu'
       click_on 'Save'
 

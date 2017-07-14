@@ -143,8 +143,7 @@ export class WorkPackagesListService {
    * Persist the current query in the backend.
    * After the update, the new query is reloaded (e.g. for the work packages)
    */
-  public create(name:string) {
-    let query = this.currentQuery;
+  public create(query:QueryResource, name:string):ng.IPromise<QueryResource> {
     let form = this.states.query.form.value!;
 
     query.name = name;
@@ -155,6 +154,7 @@ export class WorkPackagesListService {
       .then(query => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
         this.reloadQuery(query);
+        return query;
       });
 
     return promise;
@@ -212,12 +212,8 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  public toggleStarred() {
-    let query = this.currentQuery;
-
+  public toggleStarred(query:QueryResource):ng.IPromise<any> {
     let promise = this.QueryDm.toggleStarred(query);
-
-    let starred = !query.starred;
 
     promise.then((query) => {
       this.states.query.resource.putValue(query);
