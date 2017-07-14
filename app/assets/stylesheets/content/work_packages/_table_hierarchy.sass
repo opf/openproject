@@ -60,6 +60,7 @@ body:not(.accessibility-mode ) .wp-table--hierarchy-aditional-row
 
 
 .hierarchy-header--outer-span
+  white-space: nowrap
   & > .dropdown-indicator
     width: 1em
     text-align: right
@@ -72,8 +73,8 @@ body:not(.accessibility-mode ) .wp-table--hierarchy-aditional-row
 
 // Style hierarchy column differently
 .hierarchy-header--sort-title
-  width: calc(100% - 48px)
   display: inline-block
+  padding-right: 30px
 
 // Padding for the hierarchy mode
 .wp-table--cell-td.subject:not(.-with-hierarchy)
