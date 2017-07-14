@@ -40,7 +40,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= render partial:     'customizable/field',
              collection:  @user.custom_field_values,
              as:          :value,
-             locals:      { form: f } %>
+             locals:      { form: f, input_size: "normal" } %>
 
   <% unless @auth_sources.empty? || OpenProject::Configuration.disable_password_login? %>
       <div class="form--field">
