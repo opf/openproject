@@ -144,7 +144,9 @@ module OpenProject::Costs
       include API::V3::CostsAPIUserPermissionCheck
 
       link :logCosts do
-        next unless represented.costs_enabled? && current_user_allowed_to(:log_costs, context: represented.project)
+        next unless represented.costs_enabled? &&
+                    current_user_allowed_to(:log_costs, context: represented.project) &&
+                    represented.persisted?
         {
           href: new_work_packages_cost_entry_path(represented),
           type: 'text/html',
@@ -153,7 +155,8 @@ module OpenProject::Costs
       end
 
       link :timeEntries do
-        next unless user_has_time_entry_permissions?
+        next unless user_has_time_entry_permissions? &&
+                    represented.persisted?
         {
           href: work_package_time_entries_path(represented.id),
           type: 'text/html',
