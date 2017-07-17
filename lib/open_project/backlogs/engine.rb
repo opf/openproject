@@ -147,21 +147,6 @@ module OpenProject::Backlogs
 
       property :remaining_time,
                exec_context: :decorator,
-               getter: ->(*) {
-                 datetime_formatter.format_duration_from_hours(represented.remaining_hours,
-                                                               allow_nil: true)
-               },
-               render_nil: true,
-               if: ->(*) { represented.backlogs_enabled? }
-    end
-
-    extend_api_response(:v3, :work_packages, :work_package_payload) do
-      property :story_points,
-               render_nil: true,
-               if: ->(*) { backlogs_enabled? && type && type.passes_attribute_constraint?(:story_points) }
-
-      property :remaining_time,
-               exec_context: :decorator,
                render_nil: true,
                if: ->(represented:, **) { represented.backlogs_enabled? }
 
@@ -242,13 +227,7 @@ module OpenProject::Backlogs
     end
 
     add_api_attribute on: :work_package, ar_name: :story_points
-    add_api_attribute on: :work_package, ar_name: :remaining_hours, api_name: :remaining_time do
-      if !model.new_record? &&
-         !model.leaf? &&
-         model.changed.include?('remaining_hours')
-        errors.add :error_readonly, 'remaining_hours'
-      end
-    end
+    add_api_attribute on: :work_package, ar_name: :remaining_hours, writeable: ->(*) { model.leaf? }
 
     add_api_representer_cache_key(:v3, :work_packages, :schema, :work_package_schema) do
       if represented.project.module_enabled?('backlogs')

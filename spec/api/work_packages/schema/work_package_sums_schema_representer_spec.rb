@@ -52,7 +52,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
       let(:type) { 'Integer' }
       let(:name) { I18n.t('activerecord.attributes.work_package.story_points') }
       let(:required) { false }
-      let(:writable) { true }
+      let(:writable) { false }
     end
 
     context 'not marked as summable' do
@@ -64,7 +64,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSumsSchemaRepresenter do
     end
   end
 
-  describe  'remainingTime' do
+  describe 'remainingTime' do
     let(:setting) { ['remaining_time'] }
 
     shared_examples_for 'has schema for remainingTime' do
