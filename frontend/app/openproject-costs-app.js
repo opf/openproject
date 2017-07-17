@@ -61,14 +61,14 @@ openprojectCostsApp.run(['HookService', function(HookService) {
     return [{
       key: 'log_costs',
       resource: 'workPackage',
-      link: 'log_costs',
+      link: 'logCosts',
       css: ["icon-projects"]
     }];
   });
 
   HookService.register('workPackageTableContextMenu', function(params) {
     return {
-      link: 'log_costs',
+      link: 'logCosts',
       indexBy: function(actions) {
         var index = _.findIndex(actions, { link: 'logTime' });
         return index !== -1 ? index + 1 : actions.length;

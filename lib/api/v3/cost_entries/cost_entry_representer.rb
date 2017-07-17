@@ -21,13 +21,17 @@ module API
   module V3
     module CostEntries
       class CostEntryRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+
         self_link title_getter: ->(*) { nil }
-        linked_property :project, embed_as: ::API::V3::Projects::ProjectRepresenter
-        linked_property :user, embed_as: ::API::V3::Users::UserRepresenter
-        linked_property :cost_type, embed_as: ::API::V3::CostTypes::CostTypeRepresenter
+        associated_resource :project
+        associated_resource :user
+        associated_resource :cost_type
 
         # for now not embedded, because work packages are quite large
-        linked_property :work_package, title_getter: ->(*) { represented.work_package.subject }
+        associated_resource :work_package,
+                            getter: ->(*) {},
+                            link_title_attribute: :subject
 
         property :id, render_nil: true
         property :units, as: :spentUnits

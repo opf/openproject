@@ -94,7 +94,7 @@ module OpenProject::Costs
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
 
-    add_api_attribute on: :work_package, ar_name: :cost_object_id, api_name: :cost_object
+    add_api_attribute on: :work_package, ar_name: :cost_object_id
 
     add_api_path :cost_entry do |id|
       "#{root}/cost_entries/#{id}"
@@ -143,49 +143,58 @@ module OpenProject::Costs
       include ActionView::Helpers::NumberHelper
       include API::V3::CostsAPIUserPermissionCheck
 
-      link :log_costs do
+      link :logCosts do
+        next unless represented.costs_enabled? && current_user_allowed_to(:log_costs, context: represented.project)
         {
           href: new_work_packages_cost_entry_path(represented),
           type: 'text/html',
           title: "Log costs on #{represented.subject}"
-        } if represented.costs_enabled? && current_user_allowed_to(:log_costs, context: represented.project)
+        }
       end
 
       link :timeEntries do
+        next unless user_has_time_entry_permissions?
         {
           href: work_package_time_entries_path(represented.id),
           type: 'text/html',
           title: 'Time entries'
-        } if user_has_time_entry_permissions?
+        }
       end
 
-      linked_property :cost_object,
-                      path: :budget,
-                      title_getter: -> (*) { represented.cost_object.subject },
-                      embed_as: ::API::V3::Budgets::BudgetRepresenter,
-                      show_if: -> (*) { cost_object_visible? }
+      associated_resource :cost_object,
+                          v3_path: :budget,
+                          link_title_attribute: :subject,
+                          representer: ::API::V3::Budgets::BudgetRepresenter,
+                          skip_render: ->(*) { !cost_object_visible? }
 
       property :labor_costs,
                exec_context: :decorator,
-               if: -> (*) { labor_costs_visible? },
+               if: ->(*) { labor_costs_visible? },
                render_nil: true
 
       property :material_costs,
                exec_context: :decorator,
-               if: -> (*) { material_costs_visible? },
+               if: ->(*) { material_costs_visible? },
                render_nil: true
 
       property :overall_costs,
                exec_context: :decorator,
-               if: -> (*) { overall_costs_visible? },
+               if: ->(*) { overall_costs_visible? },
                render_nil: true
 
-      linked_property :costs_by_type,
-                      title_getter: -> (*) { nil },
-                      getter: -> (*) { represented },
-                      path: :summarized_work_package_costs_by_type,
-                      embed_as: ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter,
-                      show_if: -> (*) { costs_by_type_visible? }
+      resource :costsByType,
+               link: ->(*) {
+                 next unless costs_by_type_visible?
+
+                 {
+                   href: api_v3_paths.summarized_work_package_costs_by_type(represented.id)
+                 }
+               },
+               getter: ->(*) {
+                 ::API::V3::CostEntries::WorkPackageCostsByTypeRepresenter.new(represented, current_user: current_user)
+               },
+               setter: ->(*) {},
+               skip_render: ->(*) { !costs_by_type_visible? }
 
       property :spent_time,
                if: ->(_) { user_has_time_entry_permissions? },
@@ -206,13 +215,6 @@ module OpenProject::Costs
       send(:define_method, :cost_object) do
         represented.cost_object
       end
-    end
-
-    extend_api_response(:v3, :work_packages, :work_package_attribute_links) do
-      linked_property :cost_object,
-                      path: :budget,
-                      namespace: :budgets,
-                      show_if: ->(*) { costs_enabled? }
     end
 
     extend_api_response(:v3, :work_packages, :schema, :work_package_schema) do
@@ -247,13 +249,13 @@ module OpenProject::Costs
                                      type: 'Budget',
                                      required: false,
                                      value_representer: ::API::V3::Budgets::BudgetRepresenter,
-                                     link_factory: -> (budget) {
+                                     link_factory: ->(budget) {
                                        {
                                          href: api_v3_paths.budget(budget.id),
                                          title: budget.subject
                                        }
                                      },
-                                     show_if: -> (*) {
+                                     show_if: ->(*) {
                                        represented.project && represented.project.costs_enabled?
                                      }
     end
@@ -263,22 +265,22 @@ module OpenProject::Costs
              type: 'String',
              required: false,
              writable: false,
-             show_if: -> (*) {
-              ::Setting.work_package_list_summable_columns.include?('overall_costs')
+             show_if: ->(*) {
+               ::Setting.work_package_list_summable_columns.include?('overall_costs')
              }
       schema :labor_costs,
              type: 'String',
              required: false,
              writable: false,
-             show_if: -> (*) {
-              ::Setting.work_package_list_summable_columns.include?('labor_costs')
+             show_if: ->(*) {
+               ::Setting.work_package_list_summable_columns.include?('labor_costs')
              }
       schema :material_costs,
              type: 'String',
              required: false,
              writable: false,
-             show_if: -> (*) {
-              ::Setting.work_package_list_summable_columns.include?('material_costs')
+             show_if: ->(*) {
+               ::Setting.work_package_list_summable_columns.include?('material_costs')
              }
     end
 
@@ -287,33 +289,30 @@ module OpenProject::Costs
 
       property :overall_costs,
                exec_context: :decorator,
-               getter: -> (*) {
+               getter: ->(*) {
                  number_to_currency(represented.overall_costs)
-
                },
-               if: -> (*) {
-                ::Setting.work_package_list_summable_columns.include?('overall_costs')
+               if: ->(*) {
+                 ::Setting.work_package_list_summable_columns.include?('overall_costs')
                }
 
       property :labor_costs,
                exec_context: :decorator,
-               getter: -> (*) {
+               getter: ->(*) {
                  number_to_currency(represented.labor_costs)
-
                },
-               if: -> (*) {
-                ::Setting.work_package_list_summable_columns.include?('labor_costs')
+               if: ->(*) {
+                 ::Setting.work_package_list_summable_columns.include?('labor_costs')
                }
 
       property :material_costs,
                exec_context: :decorator,
-               getter: -> (*) {
+               getter: ->(*) {
                  number_to_currency(represented.material_costs)
                },
-               if: -> (*) {
-                ::Setting.work_package_list_summable_columns.include?('material_costs')
+               if: ->(*) {
+                 ::Setting.work_package_list_summable_columns.include?('material_costs')
                }
-
     end
 
     add_api_representer_cache_key(:v3, :work_packages, :schema, :work_package_schema) do

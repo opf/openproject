@@ -386,7 +386,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
   describe '_links' do
     describe 'move' do
       it_behaves_like 'action link' do
-        let(:action) { 'log_costs' }
+        let(:action) { 'logCosts' }
         let(:permission) { :log_costs }
       end
     end

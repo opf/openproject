@@ -36,7 +36,14 @@ describe 'API v3 Work package form resource', type: :request do
 
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:authorized_user) { FactoryGirl.create(:user, member_in_project: project) }
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:authorized_user) do
+    FactoryGirl.create(:user,
+                       member_in_project: project,
+                       member_through_role: role)
+  end
+
+  let(:permissions) { [:view_work_packages, :edit_work_packages, :view_cost_objects] }
 
   describe '#post' do
     let(:post_path) { api_v3_paths.work_package_form work_package.id }

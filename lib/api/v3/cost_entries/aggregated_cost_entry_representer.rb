@@ -23,6 +23,8 @@ module API
       # N.B. This class is currently quite specifically crafted for the aggregation of cost entries
       # of a single work package by their type. This might be improved in the future™
       class AggregatedCostEntryRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+
         def initialize(cost_type, units)
           @cost_type = cost_type
           @spent_units = units
@@ -30,9 +32,17 @@ module API
           super(nil, current_user: nil)
         end
 
-        linked_property :cost_type,
-                        getter: -> { @cost_type },
-                        embed_as: ::API::V3::CostTypes::CostTypeRepresenter
+        resource :costType,
+                 link: ->(*) {
+                   {
+                     href: api_v3_paths.cost_type(@cost_type.id),
+                     title: @cost_type.name
+                   }
+                 },
+                 getter: ->(*) {
+                   ::API::V3::CostTypes::CostTypeRepresenter.new(@cost_type, current_user: current_user)
+                 },
+                 setter: ->(*) {}
 
         property :spent_units,
                  exec_context: :decorator,
