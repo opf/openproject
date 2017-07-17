@@ -60,7 +60,7 @@ angular.module('openproject.workPackages')
     function(ngContextMenu) {
       return ngContextMenu({
         templateUrl: '/templates/work_packages/menus/details_more_dropdown_menu.html',
-        container: '.work-packages--details-toolbar'
+        container: '#content'
       });
     }
   ]);
