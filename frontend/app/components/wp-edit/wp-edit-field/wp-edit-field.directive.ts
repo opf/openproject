@@ -119,9 +119,7 @@ export class WorkPackageEditFieldController {
 
   public activate(noWarnings:boolean = false) {
     // Get any existing edit state for this work package
-    const editContext = new SingleViewEditContext(this.wpEditFieldGroup);
-    let state = this.states.editing.get(this.workPackage.id);
-    let form = state.value || this.startEditing(state, editContext);
+    const form = this.startEditing();
 
     return this.activateOnForm(form, noWarnings);
   }
@@ -156,9 +154,20 @@ export class WorkPackageEditFieldController {
     return this.$element.find('.__d_edit_container');
   }
 
-  private startEditing(state:InputState<WorkPackageEditForm>, editContext:WorkPackageEditContext):WorkPackageEditForm {
-    let form = new WorkPackageEditForm(this.workPackage.id, editContext, this.wpEditFieldGroup.inEditMode);
+  /**
+   * Start (or continue) editing the work package and update the edit context.
+   *
+   * @return {WorkPackageEditForm}
+   */
+  private startEditing():WorkPackageEditForm {
+    const editContext = new SingleViewEditContext(this.wpEditFieldGroup);
+    let state = this.states.editing.get(this.workPackage.id);
+    let form = state.value || new WorkPackageEditForm(this.workPackage.id, editContext, this.wpEditFieldGroup.inEditMode);
+    form.editContext = editContext;
+    form.editMode = this.wpEditFieldGroup.inEditMode;
+
     state.putValue(form);
+
     return form;
   }
 
