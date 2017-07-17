@@ -62,7 +62,8 @@ module API
 
       property :_type,
                exec_context: :decorator,
-               render_nil: false
+               render_nil: false,
+               writeable: false
 
       def self.self_link(path: nil, id_attribute: :id, title_getter: ->(*) { represented.name })
         link :self do
@@ -74,45 +75,6 @@ module API
 
           link_object
         end
-      end
-
-      def self.linked_property(property,
-                               path: property,
-                               getter: property,
-                               title_getter: ->(*) { call_or_send_to_represented(getter).name },
-                               show_if: ->(*) { true },
-                               embed_as: nil)
-        link ::API::Utilities::PropertyNameConverter.from_ar_name(property) do
-          next unless instance_eval(&show_if)
-
-          value = call_or_send_to_represented(getter)
-          link_object = { href: (api_v3_paths.send(path, value.id) if value) }
-          if value
-            title = instance_eval(&title_getter)
-            link_object[:title] = title if title
-          end
-          link_object
-        end
-
-        if embed_as
-          embed_property property,
-                         getter: getter,
-                         decorator: embed_as,
-                         show_if: show_if
-        end
-      end
-
-      def self.embed_property(property, getter: property, decorator:, show_if: true)
-        property_name = ::API::Utilities::PropertyNameConverter.from_ar_name(property)
-        property property_name,
-                 exec_context: :decorator,
-                 getter: ->(*) { call_or_send_to_represented(getter) },
-                 embedded: true,
-                 decorator: ->(*) {
-                   ::API::Utilities::DecoratorFactory.new(decorator: decorator,
-                                                          current_user: current_user)
-                 },
-                 if: ->(*) { embed_links && call_or_use(show_if) }
       end
 
       class_attribute :to_eager_load

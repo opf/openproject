@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,15 +35,19 @@ module API
   module V3
     module Attachments
       class AttachmentRepresenter < ::API::Decorators::Single
-        self_link title_getter: -> (*) { represented.filename }
+        include API::Decorators::LinkedResource
 
-        linked_property :author,
-                        path: :user
+        self_link title_getter: ->(*) { represented.filename }
+
+        associated_resource :author,
+                            v3_path: :user,
+                            representer: ::API::V3::Users::UserRepresenter
 
         # implementation is currently work_package specific
-        linked_property :container,
-                        path: :work_package,
-                        title_getter: -> (*) { represented.container.subject }
+        associated_resource :container,
+                            v3_path: :work_package,
+                            representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
+                            link_title_attribute: :subject
 
         link :downloadLocation do
           {
@@ -52,32 +57,33 @@ module API
 
         # visibility of this link is also work_package specific!
         link :delete do
+          next unless current_user_allowed_to(:edit_work_packages, context: represented.container.project)
           {
             href: api_v3_paths.attachment(represented.id),
             method: :delete
-          } if current_user_allowed_to(:edit_work_packages, context: represented.container.project)
+          }
         end
 
         property :id
         property :file_name,
-                 getter: -> (*) { filename }
+                 getter: ->(*) { filename }
         property :file_size,
-                 getter: -> (*) { filesize }
+                 getter: ->(*) { filesize }
         property :description,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    ::API::Decorators::Formattable.new(description, format: 'plain')
                  },
                  render_nil: true
         property :content_type
         property :digest,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    ::API::Decorators::Digest.new(digest, algorithm: 'md5')
                  },
                  render_nil: true
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
 
         def _type
           'Attachment'

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -39,13 +40,7 @@ module API
         def self.parse_date(value, property_name, allow_nil: false)
           return nil if value.nil? && allow_nil
 
-          begin
-            date_and_time = DateTime.iso8601(value)
-          rescue ArgumentError
-            raise API::Errors::PropertyFormatError.new(property_name,
-                                                       I18n.t('api_v3.errors.expected.date'),
-                                                       value)
-          end
+          date_and_time = parse_datetime(value, property_name, allow_nil: allow_nil)
 
           date_only = date_and_time.to_date
 
@@ -59,6 +54,20 @@ module API
           end
 
           date_only
+        end
+
+        def self.parse_datetime(value, property_name, allow_nil: false)
+          return nil if value.nil? && allow_nil
+
+          begin
+            date_and_time = DateTime.iso8601(value)
+          rescue ArgumentError
+            raise API::Errors::PropertyFormatError.new(property_name,
+                                                       I18n.t('api_v3.errors.expected.date'),
+                                                       value)
+          end
+
+          date_and_time
         end
 
         def self.format_datetime(datetime, allow_nil: false)

@@ -263,7 +263,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     let(:typed_value) { raw_value }
     let(:value) { '' }
     let(:current_user) { FactoryGirl.build(:user) }
-    subject { modified_class.new(represented, current_user: current_user).to_json }
+    subject { modified_class.new(represented, current_user: current_user, embed_links: true).to_json }
 
     before do
       # should only be called when building links
@@ -429,7 +429,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
   describe '#inject_patchable_link_value' do
     let(:base_class) { Class.new(::API::Decorators::Single) }
     let(:modified_class) do
-      described_class.create_value_representer_for_link_patching(represented, base_class)
+      described_class.create_value_representer(represented, base_class)
     end
     let(:represented) do
       double('represented',
@@ -437,11 +437,13 @@ describe ::API::V3::Utilities::CustomFieldInjector do
     end
     let(:custom_value) { double('CustomValue', value: value, typed_value: typed_value) }
     let(:value) { '' }
+    let(:user) { FactoryGirl.build_stubbed(:user) }
     let(:typed_value) { value }
-    subject { "{ \"_links\": #{modified_class.new(represented, current_user: nil).to_json} }" }
+    subject { modified_class.new(represented, current_user: user).to_json }
 
     before do
       allow(represented).to receive(:custom_value_for).with(custom_field).and_return(custom_value)
+      allow(represented).to receive(:"custom_field_#{custom_field.id}").and_return(typed_value)
     end
 
     context 'reading' do
@@ -457,6 +459,7 @@ describe ::API::V3::Utilities::CustomFieldInjector do
 
       context 'value is nil' do
         let(:value) { nil }
+        let(:typed_value) { nil }
 
         it_behaves_like 'has an empty link' do
           let(:link) { cf_path }

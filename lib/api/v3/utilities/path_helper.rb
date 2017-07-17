@@ -340,10 +340,6 @@ module API
             "#{work_package(id)}/activities"
           end
 
-          def self.work_package_columns(project_id)
-            "#{work_packages_by_project(project_id)}/columns"
-          end
-
           def self.work_package_form(id)
             "#{work_package(id)}/form"
           end

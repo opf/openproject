@@ -65,10 +65,10 @@ module API
         }.freeze
 
         class << self
-          def create_value_representer(customizable, representer, embed_links: true)
+          def create_value_representer(customizable, representer)
             new_representer_class_with(representer, customizable) do |injector|
               customizable.available_custom_fields.each do |custom_field|
-                injector.inject_value(custom_field, embed_links: embed_links)
+                injector.inject_value(custom_field)
               end
             end
           end
@@ -81,29 +81,7 @@ module API
             end
           end
 
-          def create_value_representer_for_property_patching(customizable, representer)
-            property_fields = customizable.available_custom_fields.select do |cf|
-              property_field?(cf)
-            end
-
-            new_representer_class_with(representer, customizable) do |injector|
-              property_fields.each do |custom_field|
-                injector.inject_value(custom_field)
-              end
-            end
-          end
-
-          def create_value_representer_for_link_patching(customizable, representer)
-            linked_fields = customizable.available_custom_fields.select do |cf|
-              linked_field?(cf)
-            end
-
-            new_representer_class_with(representer, customizable) do |injector|
-              linked_fields.each do |custom_field|
-                injector.inject_patchable_link_value(custom_field)
-              end
-            end
-          end
+          private
 
           def linked_field?(custom_field)
             LINK_FORMATS.include?(custom_field.field_format)
@@ -113,10 +91,10 @@ module API
             !linked_field?(custom_field)
           end
 
-          def new_representer_class_with(representer, customizable, &block)
+          def new_representer_class_with(representer, customizable)
             injector = new(representer, customizable)
 
-            block.call injector
+            yield injector
 
             injector.modified_representer_class
           end
@@ -124,6 +102,8 @@ module API
 
         def initialize(representer_class, customizable)
           @class = Class.new(representer_class) do
+            include API::Decorators::LinkedResource
+
             class << self
               attr_accessor :customizable
             end
@@ -151,25 +131,13 @@ module API
           end
         end
 
-        def inject_value(custom_field, embed_links: false)
+        def inject_value(custom_field)
           case custom_field.field_format
           when *LINK_FORMATS
             inject_link_value(custom_field)
-            inject_embedded_link_value(custom_field) if embed_links
           else
             inject_property_value(custom_field)
           end
-        end
-
-        def inject_patchable_link_value(custom_field)
-          property = property_name(custom_field.id)
-          path = path_method_for(custom_field)
-          expected_namespace = NAMESPACE_MAP[custom_field.field_format]
-
-          @class.property property,
-                          exec_context: :decorator,
-                          getter: link_value_getter_for(custom_field, path),
-                          setter: link_value_setter_for(custom_field, property, expected_namespace)
         end
 
         private
@@ -243,9 +211,9 @@ module API
                         required: custom_field.is_required,
                         has_default: custom_field.default_value.present?,
                         writable: true,
-                        min_length: (custom_field.min_length if custom_field.min_length > 0),
-                        max_length: (custom_field.max_length if custom_field.max_length > 0),
-                        regular_expression: (custom_field.regexp unless custom_field.regexp.blank?)
+                        min_length: cf_min_length(custom_field),
+                        max_length: cf_max_length(custom_field),
+                        regular_expression: cf_regexp(custom_field)
         end
 
         def path_method_for(custom_field)
@@ -253,17 +221,24 @@ module API
         end
 
         def inject_link_value(custom_field)
-          getter = link_value_getter_for(custom_field, path_method_for(custom_field))
+          name = property_name(custom_field.id)
+          expected_namespace = NAMESPACE_MAP[custom_field.field_format]
 
-          if custom_field.multi_value?
-            @class.links property_name(custom_field.id) do
-              instance_exec(&getter)
-            end
-          else
-            @class.link property_name(custom_field.id) do
-              instance_exec(&getter)
-            end
-          end
+          link = link_value_getter_for(custom_field, path_method_for(custom_field))
+          setter = link_value_setter_for(custom_field, name, expected_namespace)
+          getter = embedded_link_value_getter(custom_field)
+
+          method = if custom_field.multi_value?
+                     :resources
+                   else
+                     :resource
+                   end
+
+          @class.send(method,
+                      property_name(custom_field.id),
+                      link: link,
+                      setter: setter,
+                      getter: getter)
         end
 
         def link_value_getter_for(custom_field, path_method)
@@ -292,7 +267,16 @@ module API
         end
 
         def inject_embedded_link_value(custom_field)
-          getter = proc do
+          getter = embedded_link_value_getter(custom_field)
+
+          @class.property property_name(custom_field.id),
+                          embedded: true,
+                          exec_context: :decorator,
+                          getter: getter
+        end
+
+        def embedded_link_value_getter(custom_field)
+          proc do
             value = represented.send custom_field.accessor_name
 
             if value
@@ -307,13 +291,6 @@ module API
               end
             end
           end
-
-          @class.property(
-            property_name(custom_field.id),
-            embedded: true,
-            exec_context: :decorator,
-            getter: getter
-          )
         end
 
         def inject_property_value(custom_field)
@@ -361,6 +338,18 @@ module API
 
             "#{api_v3_paths.principals}?filters=#{query}"
           }
+        end
+
+        def cf_min_length(custom_field)
+          custom_field.min_length if custom_field.min_length > 0
+        end
+
+        def cf_max_length(custom_field)
+          custom_field.max_length if custom_field.max_length > 0
+        end
+
+        def cf_regexp(custom_field)
+          custom_field.regexp unless custom_field.regexp.blank?
         end
       end
     end

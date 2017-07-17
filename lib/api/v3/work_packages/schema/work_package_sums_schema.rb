@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,6 +35,10 @@ module API
         class WorkPackageSumsSchema < BaseWorkPackageSchema
           def available_custom_fields
             WorkPackageCustomField.summable
+          end
+
+          def writable?(_property)
+            false
           end
         end
       end

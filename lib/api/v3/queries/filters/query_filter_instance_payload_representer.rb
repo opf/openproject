@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,17 +30,13 @@
 
 module API
   module V3
-    module Projects
-      class WorkPackageColumnsAPI < ::API::OpenProjectAPI
-        resources :columns do
-          get do
-            authorize(:view_work_packages, context: @project)
-            schema = WorkPackages::Schema::UntypedWorkPackageSchema.new(project: @project)
-            self_link = api_v3_paths.work_package_columns(@project.id)
-            WorkPackages::Schema::WorkPackageSchemaRepresenter.create(schema,
-                                                                      self_link,
-                                                                      current_user: current_user,
-                                                                      hide_lock_version: true)
+    module Queries
+      module Filters
+        class QueryFilterInstancePayloadRepresenter < QueryFilterInstanceRepresenter
+          include ::API::Utilities::PayloadRepresenter
+
+          def initialize(model)
+            super(model)
           end
         end
       end
