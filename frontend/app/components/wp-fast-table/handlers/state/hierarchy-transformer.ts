@@ -52,6 +52,11 @@ export class HierarchyTransformer {
     return (classNames.match(/__collapsed-group-\d+/g) || []).join(' ');
    });
 
+    // Mark which rows were hidden by some other hierarchy group
+    // (e.g., by a collapsed parent)
+    const collapsed:{[index:number]: boolean} = {};
+
+
    // Hide all collapsed hierarchies
    _.each(state.collapsed, (isCollapsed:boolean, wpId:string) => {
      // Toggle the root style
@@ -69,7 +74,10 @@ export class HierarchyTransformer {
        const index = jQuery(el).index();
 
        // Update the hidden state
-       rendered[index].hidden = isCollapsed;
+       if (collapsed[index] !== true) {
+         rendered[index].hidden = isCollapsed;
+         collapsed[index] = isCollapsed;
+       }
      });
    });
 
