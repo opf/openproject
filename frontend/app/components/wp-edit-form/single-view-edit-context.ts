@@ -75,7 +75,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     fieldHandler.$scope = this.templateRenderer.createRenderScope();
     const promise = this.templateRenderer.renderIsolated(
       // Replace the current cell
-      container[0],
+      container,
       fieldHandler.$scope,
       '/components/wp-edit-form/wp-edit-form.template.html',
       {
