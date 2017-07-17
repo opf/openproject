@@ -30,7 +30,10 @@
 
 describe('workPackageDetailsToolbar', function() {
   var I18n:any, $q:any, HookService:any, compile:any, scope:any, element:any, stateParams:any;
-  var html = "<wp-details-toolbar work-package='workPackage'></wp-details-toolbar>";
+  var html = `
+    <div id="content">
+      <wp-details-toolbar work-package='workPackage'></wp-details-toolbar>
+    </div>`;
   stateParams = {};
 
 
@@ -140,7 +143,7 @@ describe('workPackageDetailsToolbar', function() {
     var listRoot:any;
 
     beforeEach(function() {
-      listRoot = element.find(listRootSelector);
+      listRoot = angular.element(listRootSelector);
     });
 
     describe('links', function() {
@@ -167,7 +170,7 @@ describe('workPackageDetailsToolbar', function() {
     var listRoot:any;
 
     beforeEach(function() {
-      listRoot = element.find(listRootSelector);
+      listRoot = angular.element(listRootSelector);
     });
 
     describe('link css', function() {
