@@ -173,16 +173,19 @@ module OpenProject::Costs
       property :labor_costs,
                exec_context: :decorator,
                if: ->(*) { labor_costs_visible? },
+               skip_parse: true,
                render_nil: true
 
       property :material_costs,
                exec_context: :decorator,
                if: ->(*) { material_costs_visible? },
+               skip_parse: true,
                render_nil: true
 
       property :overall_costs,
                exec_context: :decorator,
                if: ->(*) { overall_costs_visible? },
+               skip_parse: true,
                render_nil: true
 
       resource :costsByType,
