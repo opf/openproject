@@ -64,10 +64,13 @@ module API
         self_link title_getter: ->(*) { represented.subject }
 
         link :update do
-          {
-            href: api_v3_paths.work_package_form(represented.id),
-            method: :post
-          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
+          if current_user_allowed_to(:edit_work_packages, context: represented.project) ||
+             current_user_allowed_to(:edit_own_work_packages, context: represented)
+            {
+              href: api_v3_paths.work_package_form(represented.id),
+              method: :post
+            }
+          end
         end
 
         link :schema do
@@ -77,10 +80,13 @@ module API
         end
 
         link :updateImmediately do
-          {
-            href: api_v3_paths.work_package(represented.id),
-            method: :patch
-          } if current_user_allowed_to(:edit_work_packages, context: represented.project)
+          if current_user_allowed_to(:edit_work_packages, context: represented.project) ||
+             current_user_allowed_to(:edit_own_work_packages, context: represented)
+            {
+              href: api_v3_paths.work_package(represented.id),
+              method: :patch
+            }
+          end
         end
 
         link :delete do

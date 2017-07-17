@@ -123,6 +123,16 @@ Redmine::AccessControl.map do |map|
                      planning_element_journals: [:create] },
                    require: :member
 
+    wpt.permission :edit_own_work_packages,
+                   { issues: [:edit, :update],
+                     :'work_packages/bulk' => [:edit, :update],
+                     work_packages: [:edit, :update, :new_type,
+                                     :preview, :quoted],
+                     journals: :preview,
+                     planning_elements: [:new, :create, :edit, :update],
+                     planning_element_journals: [:create] },
+                   require: :member
+
     wpt.permission :add_work_package_notes,
                    work_packages: [:edit, :update],
                    journals: [:new]

@@ -59,7 +59,8 @@ class WorkPackagePolicy < BasePolicy
     @edit_cache ||= Hash.new do |hash, project|
       hash[project] = work_package.persisted? &&
                       (user.allowed_to?(:edit_work_packages, project) ||
-                       user.allowed_to?(:add_work_package_notes, project))
+                       user.allowed_to?(:add_work_package_notes, project) ||
+                       user.allowed_to?(:edit_own_work_packages, work_package))
     end
 
     @edit_cache[work_package.project]

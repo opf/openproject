@@ -55,32 +55,95 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
     user
   end
 
-  before do
-    allow(User).to receive(:current).and_return(user)
-    get api_v3_paths.available_projects_on_edit(work_package.id)
-  end
+  context 'edit_work_packages permission' do
+    before do
+      allow(User).to receive(:current).and_return(user)
+      get api_v3_paths.available_projects_on_edit(work_package.id)
+    end
 
-  context 'w/ the necessary permissions' do
-    it_behaves_like 'API V3 collection response', 1, 1, 'Project'
+    context 'w/ the necessary permissions' do
+      it_behaves_like 'API V3 collection response', 2, 2, 'Project'
 
-    it 'has the project for which the move_work_packages permission exists' do
-      expect(response.body).to be_json_eql(target_project.id).at_path('_embedded/elements/0/id')
+      it 'has the project for which the move_work_packages permission exists' do
+        expect(response.body).to be_json_eql(target_project.id).at_path('_embedded/elements/0/id')
+      end
+
+      it 'has the project for which the edit_work_packages permission exists' do
+        expect(response.body).to be_json_eql(project.id).at_path('_embedded/elements/1/id')
+      end
+    end
+
+    context 'w/o the edit_work_packages permission' do
+      let(:edit_role) do
+        FactoryGirl.create(:role, permissions: [:view_work_packages])
+      end
+
+      it { expect(response.status).to eq(403) }
+    end
+
+    context 'w/o the view_work_packages permission' do
+      let(:edit_role) do
+        FactoryGirl.create(:role, permissions: [:edit_work_packages])
+      end
+
+      it { expect(response.status).to eq(404) }
     end
   end
 
-  context 'w/o the edit_work_packages permission' do
-    let(:edit_role) do
-      FactoryGirl.create(:role, permissions: [:view_work_packages])
+  context 'edit_own_work_packages permission' do
+    let(:edit_own_role) do
+      FactoryGirl.create(:role, permissions: [:edit_own_work_packages,
+                                              :view_work_packages])
+    end
+    let(:owned_wp_project) do
+      owned_wp_project = FactoryGirl.create(:project)
+
+      FactoryGirl.create(:member,
+                         user: user,
+                         project: owned_wp_project,
+                         roles: [edit_own_role])
+
+      owned_wp_project
+    end
+    let(:owned_work_package) do
+      FactoryGirl.create(:work_package, project: owned_wp_project, author: user)
     end
 
-    it { expect(response.status).to eq(403) }
-  end
-
-  context 'w/o the view_work_packages permission' do
-    let(:edit_role) do
-      FactoryGirl.create(:role, permissions: [:edit_work_packages])
+    before do
+      allow(User).to receive(:current).and_return(user)
+      get api_v3_paths.available_projects_on_edit(owned_work_package.id)
     end
 
-    it { expect(response.status).to eq(404) }
+    context 'w/ the necessary permissions' do
+      it_behaves_like 'API V3 collection response', 2, 2, 'Project'
+
+      it 'has the project for which the move_work_packages permission exists' do
+        expect(response.body).to(
+          be_json_eql(target_project.id).at_path('_embedded/elements/0/id')
+        )
+      end
+
+      it 'has the project for which the edit_own_work_packages permission exists' do
+        expect(response.body).to(
+          be_json_eql(owned_wp_project.id).at_path('_embedded/elements/1/id')
+        )
+      end
+    end
+
+    context 'w/o the edit_own_work_packages permission' do
+      let(:edit_own_role) do
+        FactoryGirl.create(:role, permissions: [:view_work_packages])
+      end
+
+      it { expect(response.status).to eq(403) }
+    end
+
+    context 'w/o the view_work_packages permission' do
+      let(:edit_own_role) do
+        FactoryGirl.create(:role, permissions: [:edit_own_work_packages])
+      end
+
+      it { expect(response.status).to eq(404) }
+    end
   end
 end

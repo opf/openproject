@@ -1672,6 +1672,7 @@ en:
   permission_edit_work_packages: "Edit work packages"
   permission_edit_messages: "Edit messages"
   permission_edit_own_work_package_notes: "Edit own notes"
+  permission_edit_own_work_packages: "Edit own work packages"
   permission_edit_own_messages: "Edit own messages"
   permission_edit_own_time_entries: "Edit own time logs"
   permission_edit_project: "Edit project"
