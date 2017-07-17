@@ -38,6 +38,7 @@ import {WorkPackageEditFieldService} from '../wp-edit/wp-edit-field/wp-edit-fiel
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
+import {debugLog} from '../../helpers/debug_output';
 
 export class WorkPackageEditForm {
   // Injections
@@ -73,6 +74,8 @@ export class WorkPackageEditForm {
       .takeUntil(this.states.table.stopAllSubscriptions)
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
+
+        _.each(this.activeFields, (_handler, name) => this.refresh(name!));
       });
   }
 
@@ -81,20 +84,26 @@ export class WorkPackageEditForm {
    * @param fieldName
    */
   public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
-    return this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
-      const field = this.wpEditField.getField(
-        this.workPackage,
-        fieldName,
-        schema[fieldName]
-      ) as EditField;
-
+    return this.buildField(fieldName).then((field:EditField) => {
       if (!field.writable && !noWarnings) {
         this.wpNotificationsService.showEditingBlockedError(field.displayName);
         return this.$q.reject();
       }
 
       this.workPackage.storePristine(fieldName);
-      return this.buildField(fieldName, field);
+      return this.renderField(fieldName, field);
+    });
+  }
+
+  public refresh(fieldName:string) {
+    const handler = this.activeFields[fieldName];
+    if (!handler) {
+      debugLog(`Trying to refresh ${fieldName}, but is not an active field.`);
+      return;
+    }
+
+    return this.buildField(fieldName).then((field:EditField) => {
+      this.editContext.refreshField(field, handler);
     });
   }
 
@@ -235,7 +244,17 @@ export class WorkPackageEditForm {
     }
   }
 
-  private buildField(fieldName:string, field:EditField):Promise<WorkPackageEditFieldHandler> {
+  private buildField(fieldName:string):Promise<EditField> {
+    return this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
+      return this.wpEditField.getField(
+        this.workPackage,
+        fieldName,
+        schema[fieldName]
+      ) as EditField;
+    });
+  }
+
+  private renderField(fieldName:string, field:EditField):Promise<WorkPackageEditFieldHandler> {
     const promise = this.editContext.activateField(this,
       field,
       this.errorsPerAttribute[fieldName] || []);

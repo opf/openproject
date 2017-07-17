@@ -26,7 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
@@ -36,6 +39,11 @@ export interface WorkPackageEditContext {
    * Activate the field, returning the element and associated field handler
    */
   activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):Promise<WorkPackageEditFieldHandler>;
+
+  /**
+   * Refresh an open field template, replacing its edit field.
+   */
+  refreshField(field:EditField, handler:WorkPackageEditFieldHandler):void;
 
   /**
    * Show this required field. E.g., add the necessary column

@@ -65,9 +65,11 @@ export class WorkPackageEditFieldHandler {
       this.setErrors(withErrors);
     }
 
+
+
     Mousetrap(element[0]).bind('escape', () => {
       if (!this.inEditMode) {
-        this.reset();
+        this.handleUserCancel();
         return false;
       }
 
@@ -83,11 +85,6 @@ export class WorkPackageEditFieldHandler {
     return false;
   }
 
-  // Can we remove this?
-  public shouldFocus() {
-    return true;
-  }
-
   public get inEditMode() {
     return this.form.editMode;
   }
@@ -97,7 +94,7 @@ export class WorkPackageEditFieldHandler {
   }
 
   public focus() {
-    this.FocusHelper.focusElement(this.element.find('.wp-inline-edit--field'), 2);
+    this.element.find('.wp-inline-edit--field').focus();
   }
 
   public setErrors(newErrors:string[]) {

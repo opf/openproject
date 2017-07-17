@@ -86,14 +86,18 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     return new Promise<WorkPackageEditFieldHandler>((resolve, reject) => {
       promise
         .then(() => {
+          ctrl.editContainer.show();
           // Assure the element is visible
           this.$timeout(() => {
-            ctrl.editContainer.show();
             resolve(fieldHandler);
           });
         })
         .catch(reject);
     });
+  }
+
+  public refreshField(field:EditField, handler:WorkPackageEditFieldHandler) {
+    handler.$scope.$evalAsync(() => handler.field = field);
   }
 
   public async reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus:boolean = false) {
@@ -103,8 +107,18 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   }
 
   public requireVisible(fieldName:string):PromiseLike<undefined> {
-    // All fields for the WP are already visible
-    return this.$q.when();
+    const deferred = this.$q.defer<undefined>();
+
+    const interval = setInterval(() => {
+      const field = this.fieldGroup.fields[fieldName];
+
+      if (field !== undefined) {
+        clearInterval(interval);
+        deferred.resolve();
+      }
+    }, 50);
+
+    return deferred.promise;
   }
 
   public firstField(names:string[]) {

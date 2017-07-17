@@ -79,11 +79,6 @@ export class WorkPackageEditFieldController {
       .subscribe((wp) => {
         this.workPackage = wp;
         this.render();
-
-        let form = this.states.editing.get(this.workPackage.id);
-        if (this.active && form.value) {
-          this.activateOnForm(form.value, true);
-        }
       });
   }
 

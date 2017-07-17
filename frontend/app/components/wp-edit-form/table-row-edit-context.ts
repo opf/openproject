@@ -88,6 +88,10 @@ export class TableRowEditContext implements WorkPackageEditContext {
     });
   }
 
+  public refreshField(field:EditField, handler:WorkPackageEditFieldHandler) {
+    handler.$scope.$evalAsync(() => handler.field = field);
+  }
+
   public reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus?:boolean) {
     const cell = this.findContainer(fieldName);
 
