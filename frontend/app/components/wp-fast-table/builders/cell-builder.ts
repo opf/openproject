@@ -12,7 +12,7 @@ export class CellBuilder {
   private fieldRenderer = new DisplayFieldRenderer('table');
 
   public build(workPackage:WorkPackageResourceInterface, attribute:string) {
-    const name = this.fieldRenderer.correctDateAttribute(workPackage, attribute);
+    const name = this.correctDateAttribute(workPackage, attribute);
     const td = document.createElement('td');
     td.classList.add(tdClassName, wpCellTdClassName, name);
 
@@ -27,10 +27,22 @@ export class CellBuilder {
   }
 
   public refresh(container:HTMLElement, workPackage:WorkPackageResourceInterface, attribute:string) {
-    const name = this.fieldRenderer.correctDateAttribute(workPackage, attribute);
+    const name = this.correctDateAttribute(workPackage, attribute);
     const displayElement = this.fieldRenderer.render(workPackage, name);
 
     container.innerHTML = '';
     container.appendChild(displayElement);
+  }
+
+
+  /**
+   * Milestones should display the 'date' attribute for start and due dates
+   */
+  public correctDateAttribute(workPackage:WorkPackageResourceInterface, name:string):string {
+    if (workPackage.isMilestone && (name === 'dueDate' || name === 'startDate')) {
+      return 'date';
+    }
+
+    return name;
   }
 }

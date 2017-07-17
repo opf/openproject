@@ -21,8 +21,7 @@ export class DisplayFieldRenderer {
     $injectFields(this, 'wpDisplayField');
   }
 
-  public render(workPackage:WorkPackageResourceInterface, attribute:string, placeholder = cellEmptyPlaceholder):HTMLSpanElement {
-    const name = this.correctDateAttribute(workPackage, attribute);
+  public render(workPackage:WorkPackageResourceInterface, name:string, placeholder = cellEmptyPlaceholder):HTMLSpanElement {
     const span = document.createElement('span');
     const fieldSchema = workPackage.schema[name];
 
@@ -72,16 +71,5 @@ export class DisplayFieldRenderer {
     }
 
     return this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
-  }
-
-  /**
-   * Milestones should display the 'date' attribute for start and due dates
-   */
-  public correctDateAttribute(workPackage:WorkPackageResourceInterface, name:string):string {
-    if (workPackage.isMilestone && (name === 'dueDate' || name === 'startDate')) {
-      return 'date';
-    }
-
-    return name;
   }
 }
