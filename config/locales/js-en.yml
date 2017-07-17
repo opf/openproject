@@ -415,6 +415,11 @@ en:
       wiki_link: "Link to a Wiki page"
       image: "Image"
     work_packages:
+      bulk_actions:
+        move: 'Bulk move'
+        edit: 'Bulk edit'
+        copy: 'Bulk copy'
+        delete: 'Bulk delete'
       button_clear: "Clear"
       comment_added: "The comment was successfully added."
       comment_send_failed: "An error has occurred. Could not submit the comment."

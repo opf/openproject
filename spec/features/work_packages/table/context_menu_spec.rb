@@ -103,7 +103,7 @@ describe 'Work package table context menu', js: true do
     it 'shows a subset of the available menu items' do
       menu.open_for(work_package)
       menu.expect_options ['Open details view', 'Open fullscreen view',
-                           'Edit', 'Copy', 'Move', 'Delete']
+                           'Bulk edit', 'Bulk copy', 'Bulk move', 'Bulk delete']
     end
   end
 end
