@@ -26,32 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      module RelationsHelper
-        def filter_attributes(relation)
-          relation
-            .attributes
-            .with_indifferent_access
-            .reject { |_key, value| value.blank? }
-        end
+shared_examples_for 'property' do |name|
+  it "has the #{name} property" do
+    is_expected
+      .to be_json_eql(value.to_json)
+      .at_path(name.to_s)
+  end
+end
 
-        def representer
-          ::API::V3::Relations::RelationRepresenter
-        end
+shared_examples_for 'date property' do |name|
+  it_behaves_like 'has ISO 8601 date only' do
+    let(:json_path) { name.to_s }
+    let(:date) { value }
+  end
+end
 
-        def project_id_for_relation(id)
-          relations = Relation.table_name
-          work_packages = WorkPackage.table_name
-
-          Relation
-            .joins(:from)
-            .where("#{relations}.id" => id)
-            .pluck("#{work_packages}.project_id")
-            .first
-        end
-      end
-    end
+shared_examples_for 'datetime property' do |name|
+  it_behaves_like 'has UTC ISO 8601 date and time' do
+    let(:json_path) { name.to_s }
+    let(:date) { value }
   end
 end

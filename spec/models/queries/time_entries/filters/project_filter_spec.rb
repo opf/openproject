@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,32 +28,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      module RelationsHelper
-        def filter_attributes(relation)
-          relation
-            .attributes
-            .with_indifferent_access
-            .reject { |_key, value| value.blank? }
-        end
+require 'spec_helper'
 
-        def representer
-          ::API::V3::Relations::RelationRepresenter
-        end
+describe Queries::TimeEntries::Filters::ProjectFilter, type: :model do
+  let(:project1) { FactoryGirl.build_stubbed(:project) }
+  let(:project2) { FactoryGirl.build_stubbed(:project) }
 
-        def project_id_for_relation(id)
-          relations = Relation.table_name
-          work_packages = WorkPackage.table_name
+  before do
+    allow(Project)
+      .to receive_message_chain(:visible, :pluck)
+      .with(:id)
+      .and_return([project1.id, project2.id])
+  end
 
-          Relation
-            .joins(:from)
-            .where("#{relations}.id" => id)
-            .pluck("#{work_packages}.project_id")
-            .first
-        end
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :project_id }
+    let(:type) { :list_optional }
+    let(:name) { TimeEntry.human_attribute_name(:project) }
+
+    describe '#allowed_values' do
+      it 'is a list of the possible values' do
+        expected = [[project1.id, project1.id.to_s], [project2.id, project2.id.to_s]]
+
+        expect(instance.allowed_values).to match_array(expected)
       end
     end
+  end
+
+  it_behaves_like 'list_optional query filter' do
+    let(:attribute) { :project_id }
+    let(:model) { TimeEntry }
+    let(:valid_values) { [project1.id.to_s] }
   end
 end

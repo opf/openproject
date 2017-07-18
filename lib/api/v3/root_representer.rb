@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -45,16 +46,18 @@ module API
       end
 
       link :user do
+        next unless current_user.logged?
         {
           href: api_v3_paths.user(current_user.id),
           title: current_user.name
-        } if current_user.logged?
+        }
       end
 
       link :userPreferences do
+        next unless current_user.logged?
         {
           href: api_v3_paths.my_preferences
-        } if current_user.logged?
+        }
       end
 
       link :priorities do
@@ -72,6 +75,12 @@ module API
       link :statuses do
         {
           href: api_v3_paths.statuses
+        }
+      end
+
+      link :time_entries do
+        {
+          href: api_v3_paths.time_entries
         }
       end
 

@@ -1,0 +1,320 @@
+# Group Time Entries
+
+## Actions
+| Link                | Description                                                          | Condition                                                        |
+|:-------------------:| -------------------------------------------------------------------- | ---------------------------------------------------------------- |
+
+None yet
+
+## Linked Properties
+| Link          | Description                                                                                                                             | Type                | Constraints           | Supported operations | Condition                                 |
+| :-----------: | --------------------------------------------------------------                                                                          | -------------       | --------------------- | -------------------- | ----------------------------------------- |
+| self          | This time entry                                                                                                                         | TimeEntry           | not null              | READ                 |                                           |
+| project       | The project the time entry is bundled in. The project might be different from the work package's project once the workPackage is moved. | Project             | not null              | READ / WRITE         |                                           |
+| workPackage   | The work package the time entry is created on                                                                                           | WorkPackage         | not null              | READ                 |                                           |
+| user          | The user the time entry tracks expenditures for                                                                                         | User                | not null              |  READ                |                                           |
+| activity      | The time entry activity the time entry is categorized as                                                                                | TimeEntriesActivity | not null              | READ                 |                                           |
+
+## Local Properties
+
+| Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                   |
+| :----------: | --------------------------------------------------------- | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+| id           | Time entries' id                                          | Integer  | x > 0                                                | READ                 |                                                             |
+| comment      | A text provided by the user detailing the time entry      | String   | max 255 characters                                   | READ                 |                                                             |
+| spentOn      | The date the expenditure is booked for                    | Date     |                                                      | READ                 |                                                             |
+| hours        | The time quantifiying the expenditure                     | Time     |                                                      | READ                 |                                                             |
+| createdAt    | The time the time entry was created                       | DateTime |                                                      | READ                 |                                                             |
+| updatedAT    | The time the time entry was last updated                  | DateTime |                                                      | READ                 |                                                             |
+
+Please note that custom fields are not yet supported by the api although the backend supports them.
+
+## Time entry [/api/v3/time_entries/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "TimeEntry",
+                "id": 1,
+                "comment": "Some text explaing why the time entry was created",
+                "spentOn": "2015-03-20",
+                "hours": "PT5H",
+                "createdAt": "2015-03-20T12:56:56Z",
+                "updatedAt": "2015-03-20T12:56:56Z",
+                "_embedded": {
+                    "project": {
+                      ...
+                    },
+                    "workPackage": {
+                      ...
+                    },
+                    "user": {
+                      ...
+                    },
+                    "activity": {
+                      ...
+                    }
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/time_entries/1"
+                    },
+                    "project": {
+                        "href": "/api/v3/projects/1",
+                        "title": "Some project"
+                    },
+                    "workPackage": {
+                        "href": "/api/v3/work_packages/1",
+                        "title": "Some work package"
+                    },
+                    "user": {
+                        "href": "/api/v3/users/2",
+                        "title": "Some user"
+                    },
+                    "activity": {
+                        "href": "/api/v3/time_entries/activities/18",
+                        "title": "Some time entry activity"
+                    }
+                }
+            }
+
+## View time entry [GET]
+
++ Parameters
+    + id (required, integer, `1`) ... time entry id
+
++ Response 200 (application/hal+json)
+
+    [Time entry][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the time entry does not exist or if the user does not have permission to view them.
+
+    **Required permission** `view time entries` in the project the time entry is assigned to
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }
+
+## Time entries [/api/v3/time_entries{?offset,pageSize,filters,sortBy}]
+
++ Model
+    + Body
+
+            {
+              "_type": "Collection",
+              "total": 39,
+              "count": 2,
+              "pageSize": 2,
+              "offset": 1,
+              "_embedded": {
+                  "elements": [
+                      {
+                          "_type": "TimeEntry",
+                          "id": 5,
+                          "comment": "Some comment",
+                          "spentOn": "2015-03-20",
+                          "hours": "PT5H",
+                          "createdAt": "2015-03-20T12:56:56Z",
+                          "updatedAt": "2015-03-20T12:56:56Z",
+                          "_links": {
+                              "self": {
+                                  "href": "/api/v3/time_entries/1"
+                              },
+                              "project": {
+                                  "href": "/api/v3/projects/1",
+                                  "title": "Some project"
+                              },
+                              "workPackage": {
+                                  "href": "/api/v3/work_packages/1",
+                                  "title": "Some work package"
+                              },
+                              "user": {
+                                  "href": "/api/v3/users/2",
+                                  "title": "Some user"
+                              },
+                              "activity": {
+                                  "href": "/api/v3/time_entries/activities/18",
+                                  "title": "Some time entry activity"
+                              }
+                          }
+                      },
+                      {
+                          "_type": "TimeEntry",
+                          "id": 10,
+                          "comment": "Another comment",
+                          "spentOn": "2015-03-21",
+                          "hours": "PT7H",
+                          "createdAt": "2015-03-20T12:56:56Z",
+                          "updatedAt": "2015-03-20T12:56:56Z",
+                          "_links": {
+                              "self": {
+                                  "href": "/api/v3/time_entries/2"
+                              },
+                              "project": {
+                                  "href": "/api/v3/projects/42",
+                                  "title": "Some other project"
+                              },
+                              "workPackage": {
+                                  "href": "/api/v3/work_packages/541",
+                                  "title": "Some other work package"
+                              },
+                              "user": {
+                                  "href": "/api/v3/users/6",
+                                  "title": "Some other project"
+                              },
+                              "activity": {
+                                  "href": "/api/v3/time_entries/activities/14",
+                                  "title": "some other time entry activity"
+                              }
+                          }
+                      }
+                  ]
+              },
+              "_links": {
+                  "self": {
+                      "href": "/api/v3/time_entries?offset=1&pageSize=2"
+                  },
+                  "jumpTo": {
+                      "href": "/api/v3/time_entries?offset=%7Boffset%7D&pageSize=2",
+                      "templated": true
+                  },
+                  "changeSize": {
+                      "href": "/api/v3/time_entries?offset=1&pageSize=%7Bsize%7D",
+                      "templated": true
+                  },
+                  "nextByOffset": {
+                      "href": "/api/v3/time_entries?offset=2&pageSize=2"
+                  }
+              }
+            }
+
+## List Time entries [GET]
+
+Lists time entries. The time entries returned depend on the filters provided and also on the permission of the requesting user.
+
++ Parameters
+    + offset = `1` (optional, integer, `25`) ... Page number inside the requested collection.
+
+    + pageSize (optional, integer, `25`) ... Number of elements to display per page.
+
+    + filters (optional, string, `[{ "work_package": { "operator": "=", "values": ["1", "2"] } }, { "project": { "operator": "=", "values": ["1"] } }]`) ... JSON specifying filter conditions.
+    Accepts the same format as returned by the [queries](#queries) endpoint. Currently supported filters are:
+      + work_package: Filter time entries by work package
+      + project: Filter time entries by project
+      + user: Filter time entries by users
+
++ Response 200 (application/hal+json)
+
+    [Time entries][]
+
++ Response 400 (application/hal+json)
+
+    Returned if the client sends invalid request parameters e.g. filters
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:InvalidQuery",
+                "message": [
+                  "Filters Invalid filter does not exist."
+                ]
+            }
+
++ Response 403 (application/hal+json)
+
+    Returned if the client is not logged in and login is required.
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:MissingPermission",
+                "message": "You are not authorized to view this resource."
+            }
+
+# Group Time Entry Activities
+
+Time entries are classified by an activity which is one item of a set of user defined activities (e.g. Design, Specification, Development).
+
+## Actions
+
+None
+
+## Linked Properties
+| Link          | Description                                                    | Type                | Constraints           | Supported operations | Condition                                 |
+| :-----------: | -------------------------------------------------------------- | -------------       | --------------------- | -------------------- | ----------------------------------------- |
+| self          | This time entry activity                                       | TimeEntriesActivity | not null              | READ                 |                                           |
+| projects      | List of projects the time entry is active in                   | []Project           | not null              | READ / WRITE         |                                           |
+
+## Local Properties
+
+| Property     | Description                                                  | Type     | Constraints                                          | Supported operations | Condition                                                   |
+| :----------: | ---------------------------------------------------------    | -------- | ---------------------------------------------------- | -------------------- | ----------------------------------------------------------- |
+| id           | Time entries' id                                             | Integer  | x > 0                                                | READ                 |                                                             |
+| name         | The human readable name chosen for this activity             | String   | max 30 characters                                    | READ                 |                                                             |
+| position     | The rank the activity has in a list of activities            | Date     |                                                      | READ                 |                                                             |
+| default      | Flag to signal whether this activity is the default activity | Boolean  |                                                      | READ                 |                                                             |
+
+
+## Time entries activity [/api/v3/time_entries/activity/{id}]
+
++ Model
+    + Body
+
+            {
+                "_type": "TimeEntriesActivity",
+                "id": 18,
+                "name": "a autem",
+                "position": 10,
+                "default": false,
+                "_embedded": {
+                    "projects": [
+                      ...
+                    ]
+                },
+                "_links": {
+                    "self": {
+                        "href": "/api/v3/time_entries/activities/18",
+                        "title": "a autem"
+                    },
+                    "projects": [
+                        {
+                            "href": "/api/v3/projects/seeded_project",
+                            "title": "Seeded Project"
+                        },
+                        {
+                            "href": "/api/v3/projects/working-project",
+                            "title": "Working Project"
+                        }
+                    ]
+                }
+            }
+## View time entries activity[GET]
+
++ Parameters
+    + id (required, integer, `1`) ... time entries activity id
+
++ Response 200 (application/hal+json)
+
+    [Time entries activity][]
+
++ Response 404 (application/hal+json)
+
+    Returned if the activity does not exist or if the user does not have permission to view them.
+
+    **Required permission** `view time entries`, `log time`, `edit time entries`, `edit own time entries` or `manage project activities` in any project
+
+    + Body
+
+            {
+                "_type": "Error",
+                "errorIdentifier": "urn:openproject-org:api:v3:errors:NotFound",
+                "message": "The requested resource could not be found."
+            }

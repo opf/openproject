@@ -28,28 +28,34 @@
 
 module API
   module V3
-    module Relations
-      module RelationsHelper
-        def filter_attributes(relation)
-          relation
-            .attributes
-            .with_indifferent_access
-            .reject { |_key, value| value.blank? }
-        end
+    module TimeEntries
+      class TimeEntriesActivityAPI < ::API::OpenProjectAPI
+        resources :activities do
+          params do
+            requires :id, desc: 'Time entries activity\'s id'
+          end
 
-        def representer
-          ::API::V3::Relations::RelationRepresenter
-        end
+          route_param :id do
+            before do
+              authorize_any(%i(log_time
+                               view_time_entries
+                               edit_time_entries
+                               edit_own_time_entries
+                               manage_project_activities), global: true) do
+                raise API::Errors::NotFound.new
+              end
 
-        def project_id_for_relation(id)
-          relations = Relation.table_name
-          work_packages = WorkPackage.table_name
+              @activity = TimeEntryActivity
+                          .shared
+                          .find(params[:id])
+            end
 
-          Relation
-            .joins(:from)
-            .where("#{relations}.id" => id)
-            .pluck("#{work_packages}.project_id")
-            .first
+            get do
+              TimeEntriesActivityRepresenter.new(@activity,
+                                                 current_user: current_user,
+                                                 embed_links: true)
+            end
+          end
         end
       end
     end
