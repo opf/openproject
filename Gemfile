@@ -28,13 +28,12 @@
 
 source 'https://rubygems.org'
 
-# We do not yet support 2.4
 ruby '~> 2.4.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.0.3'
+gem 'rails', '~> 5.0.4'
 gem 'responders', '~> 2.4'
 
 gem 'coderay', '~> 1.1.0'
@@ -52,11 +51,11 @@ gem 'warden-basic_auth', '~> 0.2.1'
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.1.0'
-gem 'acts_as_list', '~> 0.9.5'
-gem 'acts_as_tree', '~> 2.6.1'
 
 gem 'friendly_id', '~> 5.2.1'
 
+gem 'acts_as_list', '~> 0.9.7'
+gem 'acts_as_tree', '~> 2.6.1'
 gem 'awesome_nested_set', '~> 3.1.3'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'
@@ -84,13 +83,13 @@ gem 'sys-filesystem', '~> 1.1.4', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
+gem 'multi_json', '~> 1.12.1'
+gem 'oj', '~> 3.3.2'
 # We rely on this specific version, which is the latest as of now (end of 2016),
 # because we have to apply to it a bugfix which could break things in other versions.
 # This can be removed as soon as said bugfix is integrated into rabl itself.
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '~> 0.13.0'
-gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 3.2.0'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.1'
@@ -226,7 +225,7 @@ group :development do
 end
 
 group :development, :test do
-  gem 'thin', '~> 1.7.1'
+  gem 'thin', '~> 1.7.2'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
@@ -236,8 +235,7 @@ group :development, :test do
 end
 
 # API gems
-gem 'grape', '~> 0.19.2'
-gem 'grape-cache_control', '~> 1.0.1'
+gem 'grape', '~> 1.0'
 
 gem 'reform', '~> 2.2.0'
 gem 'reform-rails', '~> 0.1.7'
