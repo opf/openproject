@@ -172,9 +172,8 @@ describe CustomFieldFormBuilder do
         custom_field = resource.custom_field
 
         custom_field.field_format = 'list'
+        custom_field.custom_options.build value: 'my_option', position: 1
         custom_field.save!
-
-        custom_field.custom_options.create! value: 'my_option', position: 1
       end
 
       it_behaves_like 'wrapped in container', 'select-container' do

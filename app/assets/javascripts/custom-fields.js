@@ -179,23 +179,22 @@
     }
   };
 
-  var rowDummyIdCounter = 500;
-
   var duplicateRow = function() {
+    var count = $("#custom-options-table tr.custom-option-row").length;
     var row = $("#custom-options-table tr.custom-option-row:last");
     var dup = row.clone();
 
-    var value = dup.find(".custom-option-value");
+    var value = dup.find(".custom-option-value input");
 
-    rowDummyIdCounter++;
-
-    value.attr("name", "custom_field[custom_options][new-" + rowDummyIdCounter + "][value]");
+    value.attr("name", "custom_field[custom_options_attributes][" + count + "][value]");
     value.val("");
 
     var defaultValue = dup.find(".custom-option-default-value");
 
-    defaultValue.attr("name", "custom_field[custom_options][new-" + rowDummyIdCounter + "][default_value]");
+    defaultValue.attr("name", "custom_field[custom_options_attributes][" + count + "][default_value]");
     defaultValue.prop("checked", false);
+
+    dup.find(".custom-option-id").remove()
 
     dup.find(".move-up-custom-option").click(moveUpRow);
     dup.find(".sort-up-custom-option").click(moveRowToTheTop);
@@ -207,8 +206,6 @@
       .find(".delete-custom-option")
       .attr("href", "#")
       .click(removeOption);
-
-    dup.attr("id", "custom-option-row-" + rowDummyIdCounter);
 
     row.after(dup);
 

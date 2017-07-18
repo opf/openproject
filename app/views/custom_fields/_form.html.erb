@@ -26,8 +26,6 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= error_messages_for 'custom_field' %>
-
 <section class="form--section" id="custom_field_form">
   <div class="form--field -required" id="custom_field_name_attributes">
     <%= f.text_field :name, required: true, container_class: '-middle' %>
@@ -79,11 +77,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
-    <fieldset class="form--fieldset">
+    <fieldset class="form--fieldset" id="custom_field_possible_values_attributes">
       <legend class="form--fieldset-legend"><%= I18n.t("activerecord.attributes.custom_field.possible_values") %></legend>
-      <div class="form--field" id="custom_field_possible_values_attributes">
-          <%= render partial: "custom_fields/custom_options", locals: { custom_options: @custom_field.custom_options, f: f } %>
-          <a id="add-custom-option" href="#" class="icon icon-add"><%= t(:button_add) %></a>
+      <div class="form--field">
+        <%= render partial: "custom_fields/custom_options", locals: { custom_field: @custom_field, f: f } %>
+        <a id="add-custom-option" href="#" class="icon icon-add"><%= t(:button_add) %></a>
       </div>
     </fieldset>
   <% end %>

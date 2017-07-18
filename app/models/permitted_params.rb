@@ -475,7 +475,8 @@ class PermittedParams
         color: [
           :name,
           :hexcode,
-          :move_to],
+          :move_to
+        ],
         custom_field: [
           :editable,
           :field_format,
@@ -493,15 +494,19 @@ class PermittedParams
           :default_value,
           :possible_values,
           :multi_value,
-          type_ids: []],
+          { custom_options_attributes: %i(id value default_value position) },
+          type_ids: []
+        ],
         enumeration: [
           :active,
           :is_default,
           :move_to,
           :name,
-          :reassign_to_id],
+          :reassign_to_id
+        ],
         group: [
-          :lastname],
+          :lastname
+        ],
         membership: [
           :project_id,
           role_ids: []],

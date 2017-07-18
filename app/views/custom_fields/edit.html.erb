@@ -31,8 +31,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% local_assigns[:additional_breadcrumb] =  link_to(l(@custom_field.type_name), custom_fields_path(tab: @custom_field.type)),
                        @custom_field.name %>
-<%= breadcrumb_toolbar @custom_field.name
-%>
+<%= breadcrumb_toolbar @custom_field.name %>
+
+<%= error_messages_for 'custom_field' %>
 
 <%= labelled_tabular_form_for @custom_field, as: :custom_field,
                               url: custom_field_path(@custom_field),

@@ -1,3 +1,35 @@
+<%#-- copyright
+OpenProject is a project management system.
+Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License version 3.
+
+OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+Copyright (C) 2006-2017 Jean-Philippe Lang
+Copyright (C) 2010-2013 the ChiliProject Team
+
+This program is free software; you can redistribute it and/or
+modify it under the terms of the GNU General Public License
+as published by the Free Software Foundation; either version 2
+of the License, or (at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+
+See doc/COPYRIGHT.rdoc for more details.
+
+++#%>
+
+<% custom_field = f.object %>
+<% custom_field.custom_options.build if custom_field.custom_options.empty? %>
+
 <div class="generic-table--container">
   <div class="generic-table--results-container">
     <table class="generic-table" id="custom-options-table">
@@ -42,56 +74,53 @@
           </th>
         </tr>
       </thead>
-      <% custom_options = [OpenStruct.new(id: 0, value: "", default_value: false)] if custom_options.empty? %>
-      <% custom_options.each_with_index do |custom_option, i| %>
-        <tr
-          id="custom-option-row-<%= i + 1 %>"
-          draggable="true"
-          class="custom-option-row -draggable"
-          ondrop="CustomFields.drop(event)"
-          ondragstart="CustomFields.drag(event)"
-          ondragover="CustomFields.allowDrop(event)"
-        >
-          <td>
-            <span class="icon icon-table icon-toggle"></span>
-            <input class="form--text-field custom-option-value"
-              type="text"
-              name="custom_field[custom_options][<%= custom_option.id %>][value]"
-              value="<%= custom_option.value %>"
-            >
-          </td>
-          <td>
-            <input
-              class="form--check-box custom-option-default-value"
-              type="checkbox"
-              <%= custom_option.default_value ? 'checked="checked"' : '' %>
-              name="custom_field[custom_options][<%= custom_option.id %>][default_value]"
-            >
-          </td>
-          <td>
-            <span class="reorder-icons">
-              <a title="Move to the top" rel="nofollow" href="#" class="sort-up-custom-option">
-                <%= op_icon('icon-context icon-sort-up icon-small') %>
-              </a>
-              <a title="Move up" rel="nofollow" href="#" class="move-up-custom-option">
-                <%= op_icon('icon-context icon-arrow-up2 icon-small') %>
-              </a>
-              <a title="Move down" rel="nofollow" href="#" class="move-down-custom-option">
-                <%= op_icon('icon-context icon-arrow-down2 icon-small') %>
-              </a>
-              <a title="Move to the bottom" rel="nofollow" href="#" class="sort-down-custom-option">
-                <%= op_icon('icon-context icon-sort-down icon-small') %>
-              </a>
-            </span>
-          </td>
-          <td>
-            <%= link_to t(:button_delete),
-                delete_option_of_custom_field_path(id: @custom_field.id || 0, option_id: custom_option.id),
-                method: :delete,
-                data: { confirm: "Deleting an option will delete oll of its occurrences (e.g. in work packages). Are you sure you want to delete it? " },
-                class: 'icon icon-delete delete-custom-option' %>
-          </td>
-        </tr>
+
+      <% custom_field.custom_options.each_with_index do |custom_option, i| %>
+        <%= f.fields_for :custom_options, custom_option do |co_f| %>
+          <tr
+            draggable="true"
+            class="custom-option-row -draggable"
+            ondrop="CustomFields.drop(event)"
+            ondragstart="CustomFields.drag(event)"
+            ondragover="CustomFields.allowDrop(event)"
+          >
+            <td>
+              <span class="icon icon-table icon-toggle"></span>
+              <%= co_f.hidden_field :id, class: 'custom-option-id' %>
+              <%= co_f.text_field :value,
+                                  container_class: 'custom-option-value',
+                                  no_label: true %>
+            </td>
+            <td>
+              <%= co_f.check_box :default_value,
+                                 container_class: 'custom-option-default-value',
+                                 no_label: true %>
+            </td>
+            <td>
+              <span class="reorder-icons">
+                <a title="Move to the top" rel="nofollow" href="#" class="sort-up-custom-option">
+                  <%= op_icon('icon-context icon-sort-up icon-small') %>
+                </a>
+                <a title="Move up" rel="nofollow" href="#" class="move-up-custom-option">
+                  <%= op_icon('icon-context icon-arrow-up2 icon-small') %>
+                </a>
+                <a title="Move down" rel="nofollow" href="#" class="move-down-custom-option">
+                  <%= op_icon('icon-context icon-arrow-down2 icon-small') %>
+                </a>
+                <a title="Move to the bottom" rel="nofollow" href="#" class="sort-down-custom-option">
+                  <%= op_icon('icon-context icon-sort-down icon-small') %>
+                </a>
+              </span>
+            </td>
+            <td>
+              <%= link_to t(:button_delete),
+                  delete_option_of_custom_field_path(id: custom_field.id || 0, option_id: custom_option.id || 0),
+                  method: :delete,
+                  data: { confirm: "Deleting an option will delete oll of its occurrences (e.g. in work packages). Are you sure you want to delete it? " },
+                  class: 'icon icon-delete delete-custom-option' %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </table>
 
