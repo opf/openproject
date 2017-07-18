@@ -48,7 +48,7 @@ See doc/COPYRIGHT.md for more details.
 <% end %>
 <% if current_user.allowed_to?(:view_members, project) %>
   <%= link_to project_members_path(project_id: project.identifier),
-        { class: 'button',
+        { class: 'button -highlight',
           title: t(:label_view_all_members),
           aria: { label: t(:label_view_all_members) }} do %>
     <%= op_icon('button--icon icon-group') %>
