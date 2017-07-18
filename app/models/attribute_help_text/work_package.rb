@@ -30,6 +30,10 @@ class AttributeHelpText::WorkPackage < AttributeHelpText
   def self.available_attributes
     attributes = ::Type.translated_work_package_form_attributes
 
+    # Start and due dates are joined into a single field for non-milestones
+    attributes.delete 'start_date'
+    attributes.delete 'due_date'
+
     # Status and project are currently special attribute that we need to add
     attributes['status'] = WorkPackage.human_attribute_name 'status'
     attributes['project'] = WorkPackage.human_attribute_name 'project'
