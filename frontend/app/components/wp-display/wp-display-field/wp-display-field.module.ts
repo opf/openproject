@@ -69,7 +69,6 @@ export class DisplayField extends Field {
   }
 
   public render(element:HTMLElement, displayText:string): void {
-    element.setAttribute('title', displayText);
     element.textContent = displayText;
   }
 

@@ -16,9 +16,10 @@ export const cellEmptyPlaceholder = '-';
 export class DisplayFieldRenderer {
 
   public wpDisplayField:WorkPackageDisplayFieldService;
+  public I18n:op.I18n;
 
   constructor(public context:'table' | 'single-view') {
-    $injectFields(this, 'wpDisplayField');
+    $injectFields(this, 'wpDisplayField', 'I18n');
   }
 
   public render(workPackage:WorkPackageResourceInterface, name:string, placeholder = cellEmptyPlaceholder):HTMLSpanElement {
@@ -39,14 +40,9 @@ export class DisplayFieldRenderer {
     // Make span tabbable unless it's an id field
     span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
 
-    let text;
-
-    if (field.writable && workPackage.isEditable) {
-      span.classList.add(editableClassName);
-      span.setAttribute('role', 'button');
-    } else {
-      span.classList.add(readOnlyClassName);
-    }
+    let label;
+    let labelContent;
+    let textContent;
 
     if (field.required) {
       span.classList.add(requiredClassName);
@@ -54,12 +50,26 @@ export class DisplayFieldRenderer {
 
     if (field.isEmpty()) {
       span.classList.add(placeholderClassName);
-      text = placeholder;
+      textContent = placeholder;
+      labelContent = this.I18n.t('js.inplace.null_value_label');
     } else {
-      text = field.valueString;
+      textContent = field.valueString;
+      labelContent = textContent;
     }
 
-    field.render(span, text);
+    if (field.writable && workPackage.isEditable) {
+      span.classList.add(editableClassName);
+      span.setAttribute('role', 'button');
+      label = this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${labelContent}` })
+    } else {
+      span.classList.add(readOnlyClassName);
+      label = `${field.displayName} ${labelContent}`;
+    }
+
+    field.render(span, textContent);
+    span.setAttribute('title', label);
+    span.setAttribute('aria-label', label);
+
     return span;
   }
 
