@@ -177,7 +177,9 @@ describe CustomFieldFormBuilder do
         custom_field.custom_options.create! value: 'my_option', position: 1
       end
 
-      it_behaves_like 'wrapped in container', 'select-container'
+      it_behaves_like 'wrapped in container', 'select-container' do
+        let(:container_count) { 2 }
+      end
 
       it 'should output element' do
         value = resource.custom_field.custom_options.first.id
@@ -244,7 +246,9 @@ describe CustomFieldFormBuilder do
           .and_return([user1, user2])
       end
 
-      it_behaves_like 'wrapped in container', 'select-container'
+      it_behaves_like 'wrapped in container', 'select-container' do
+        let(:container_count) { 2 }
+      end
 
       it 'should output element' do
         expect(output).to be_html_eql(%{
@@ -292,7 +296,9 @@ describe CustomFieldFormBuilder do
           .and_return([version1, version2])
       end
 
-      it_behaves_like 'wrapped in container', 'select-container'
+      it_behaves_like 'wrapped in container', 'select-container' do
+        let(:container_count) { 2 }
+      end
 
       it 'should output element' do
         expect(output).to be_html_eql(%{
