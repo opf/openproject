@@ -38,20 +38,27 @@ describe "WorkPackageXlsExport" do
 
   let(:current_user) { FactoryGirl.create :admin } # may export relations
 
-  let(:query) { FactoryGirl.create :query }
+  let(:query) do
+    query = FactoryGirl.build(:query, user: current_user, project: project)
+
+    query.filters.clear
+    query.sort_criteria = [['id', 'asc']]
+    query
+  end
+
 
   let(:sheet) do
+    login_as(current_user)
     work_packages
     relation
     work_packages.each(&:reload) # to init .leaves and relations
-
     load_sheet export
   end
 
   let(:export) do
     OpenProject::XlsExport::WorkPackageXlsExport.new(
       query,
-      with_relations: true
+      show_relations: true
     )
   end
 
@@ -59,7 +66,7 @@ describe "WorkPackageXlsExport" do
     f = Tempfile.new 'result.xls'
     begin
       f.binmode
-      f.write export.list
+      f.write export.list.content
     ensure
       f.close
     end
@@ -98,7 +105,7 @@ describe "WorkPackageXlsExport" do
     # duplicates rows for each relation
     c2id = child_2.id
     expect(sheet.column(1).drop(2))
-      .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id]
+      .to eq [parent.id, parent.id, child_1.id, c2id, c2id, c2id, single.id, followed.id, child_2_child.id]
 
     # marks Parent as parent of Child 1 and 2
     expect(sheet.row(PARENT)[RELATION]).to eq 'parent of'
@@ -152,27 +159,11 @@ describe "WorkPackageXlsExport" do
   end
 
   context 'with someone who may not see related work packages' do
-    # Technically not allowed to see any of the work packages.
-    # The export only checks for related work packages, though.
-    # It's not the export's responsibility to check that the passed
-    # work packages may be seen.
     let(:current_user) { FactoryGirl.create :user }
 
-    it 'shows each work package only once' do
-      expect(sheet.column(1).drop(2))
-        .to eq [
-          parent.id, child_1.id, child_2.id, single.id, followed.id
-        ]
-    end
-
-    it 'shows no relation information' do
-      relation_data = sheet.rows
-        .drop(2) # drop headers
-        .map { |row| row.drop(6) } # leave only relation columns
-        .flatten
-        .compact
-
-      expect(relation_data).to be_empty
+    it 'exports no information without visibility' do
+      expect(sheet.rows.length).to eq(2)
+      expect(sheet.column(1).drop(2)).to be_empty
     end
   end
 end
