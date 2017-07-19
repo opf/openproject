@@ -136,6 +136,31 @@ describe CustomField, type: :model do
       end
       it { expect(field).not_to be_valid }
     end
+
+    describe "WITH a list field
+              WITHOUT a custom option" do
+      before do
+        field.field_format = 'list'
+      end
+
+      it 'is not valid' do
+        expect(field)
+          .to be_invalid
+      end
+    end
+
+    describe "WITH a list field
+              WITH a custom option" do
+      before do
+        field.field_format = 'list'
+        field.custom_options.build(value: 'some value')
+      end
+
+      it 'is valid' do
+        expect(field)
+          .to be_valid
+      end
+    end
   end
 
   describe '#accessor_name' do
