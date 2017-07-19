@@ -193,7 +193,7 @@ GEM
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
     capybara-ng (0.2.7)
-    capybara-screenshot (1.0.14)
+    capybara-screenshot (1.0.17)
       capybara (>= 1.0, < 3)
       launchy
     cells (4.1.3)
