@@ -63,6 +63,8 @@
               <li ui-sref="work-packages.show.relations({workPackageId: $ctrl.workPackage.id})"
                   ui-sref-active="selected">
                 <a href="" ng-bind="::$ctrl.text.tabs.relations"/>
+                <span class="wp-relations-count" ng-if="$ctrl.workPackage.relations.count > 0" ng-class="{empty: $ctrl.workPackage.relations.count >= 10 }">{{$ctrl.workPackage.relations.count < 10 ? $ctrl.workPackage.relations.count : '' }}</span>
+                <span class="wp-relations-count empty" ng-if="$ctrl.workPackage.relations.count >= 10"></span>
               </li>
               <li ng-if="$ctrl.canViewWorkPackageWatchers()"
                   ui-sref="work-packages.show.watchers({workPackageId: $ctrl.workPackage.id})"
