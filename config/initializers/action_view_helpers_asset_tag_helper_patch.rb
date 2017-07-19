@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,18 +28,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ParamsParserWithExclusion < ::ActionDispatch::ParamsParser
-  def initialize(app, options = {})
-    super(app)
+module OpenProject::ActionViewHelpersAssetTagHelperPatch
+  def auto_discovery_link_tag(type = :rss, url_options = {}, tag_options = {})
+    return if (type == :atom) && Setting.table_exists? && !Setting.feeds_enabled?
 
-    @exclude = options[:exclude]
-  end
-
-  def call(env)
-    if @exclude && @exclude.call(env)
-      @app.call(env)
-    else
-      super(env)
-    end
+    super
   end
 end
+
+ActionView::Helpers::AssetTagHelper.prepend(OpenProject::ActionViewHelpersAssetTagHelperPatch)

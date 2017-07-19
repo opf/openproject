@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'workflows_controller'
 
 describe WorkflowsController, type: :controller do
@@ -46,7 +47,7 @@ describe WorkflowsController, type: :controller do
 
     count = Workflow.where('role_id = 1 AND type_id = 2').count
     assert_select 'a', content: count.to_s,
-               attributes: { href: '/workflows/edit?role_id=1&amp;type_id=2' }
+                       attributes: { href: '/workflows/edit?role_id=1&amp;type_id=2' }
   end
 
   it 'should get edit' do
@@ -62,7 +63,7 @@ describe WorkflowsController, type: :controller do
     Workflow.create!(role_id: 1, type_id: 1, old_status_id: 2, new_status_id: 3)
     Workflow.create!(role_id: 2, type_id: 1, old_status_id: 3, new_status_id: 5)
 
-    get :edit, role_id: 2, type_id: 1
+    get :edit, params: { role_id: 2, type_id: 1 }
     assert_response :success
     assert_template 'edit'
 
@@ -72,23 +73,23 @@ describe WorkflowsController, type: :controller do
 
     # allowed transitions
     assert_select 'input', attributes: { type: 'checkbox',
-                                           name: 'status[3][5][]',
-                                           value: 'always',
-                                           checked: 'checked' }
+                                         name: 'status[3][5][]',
+                                         value: 'always',
+                                         checked: 'checked' }
     # not allowed
     assert_select 'input', attributes: { type: 'checkbox',
-                                           name: 'status[3][2][]',
-                                           value: 'always',
-                                           checked: nil }
+                                         name: 'status[3][2][]',
+                                         value: 'always',
+                                         checked: nil }
     # unused
-  assert_select('input', {attributes: { type: 'checkbox',
-                                              name: 'status[1][1][]' }}, false)
+    assert_select('input', { attributes: { type: 'checkbox',
+                                           name: 'status[1][1][]' } }, false)
   end
 
   it 'should get edit with role and type and all statuses' do
     Workflow.delete_all
 
-    get :edit, role_id: 2, type_id: 1, used_statuses_only: '0'
+    get :edit, params: { role_id: 2, type_id: 1, used_statuses_only: '0' }
     assert_response :success
     assert_template 'edit'
 
@@ -96,17 +97,17 @@ describe WorkflowsController, type: :controller do
     assert_equal Status.count, assigns(:statuses).size
 
     assert_select 'input', attributes: { type: 'checkbox',
-                                           name: 'status[1][1][]',
-                                           value: 'always',
-                                           checked: nil }
+                                         name: 'status[1][1][]',
+                                         value: 'always',
+                                         checked: nil }
   end
 
   it 'should post edit' do
-    post :edit, role_id: 2, type_id: 1,
-                status: {
-                  '4' => { '5' => ['always'] },
-                  '3' => { '1' => ['always'], '2' => ['always'] }
-                }
+    post :edit, params: { role_id: 2, type_id: 1,
+                          status: {
+                            '4' => { '5' => ['always'] },
+                            '3' => { '1' => ['always'], '2' => ['always'] }
+                          } }
     assert_redirected_to '/workflows/edit?role_id=2&type_id=1'
 
     assert_equal 3, Workflow.where(type_id: 1, role_id: 2).count
@@ -115,11 +116,11 @@ describe WorkflowsController, type: :controller do
   end
 
   it 'should post edit with additional transitions' do
-    post :edit, role_id: 2, type_id: 1,
-                status: {
-                  '4' => { '5' => ['always'] },
-                  '3' => { '1' => ['author'], '2' => ['assignee'], '4' => ['author', 'assignee'] }
-                }
+    post :edit, params: { role_id: 2, type_id: 1,
+                          status: {
+                            '4' => { '5' => ['always'] },
+                            '3' => { '1' => ['author'], '2' => ['assignee'], '4' => ['author', 'assignee'] }
+                          } }
     assert_redirected_to '/workflows/edit?role_id=2&type_id=1'
 
     assert_equal 4, Workflow.where(type_id: 1, role_id: 2).count
@@ -141,7 +142,7 @@ describe WorkflowsController, type: :controller do
   it 'should clear workflow' do
     assert Workflow.where(type_id: 1, role_id: 2).count > 0
 
-    post :edit, role_id: 2, type_id: 1
+    post :edit, params: { role_id: 2, type_id: 1 }
     assert_equal 0, Workflow.where(type_id: 1, role_id: 2).count
   end
 
@@ -154,8 +155,8 @@ describe WorkflowsController, type: :controller do
   it 'should post copy one to one' do
     source_transitions = status_transitions(type_id: 1, role_id: 2)
 
-    post :copy, source_type_id: '1', source_role_id: '2',
-                target_type_ids: ['3'], target_role_ids: ['1']
+    post :copy, params: { source_type_id: '1', source_role_id: '2',
+                          target_type_ids: ['3'], target_role_ids: ['1'] }
     assert_response 302
     assert_equal source_transitions, status_transitions(type_id: 3, role_id: 1)
   end
@@ -163,8 +164,8 @@ describe WorkflowsController, type: :controller do
   it 'should post copy one to many' do
     source_transitions = status_transitions(type_id: 1, role_id: 2)
 
-    post :copy, source_type_id: '1', source_role_id: '2',
-                target_type_ids: ['2', '3'], target_role_ids: ['1', '3']
+    post :copy, params: { source_type_id: '1', source_role_id: '2',
+                          target_type_ids: ['2', '3'], target_role_ids: ['1', '3'] }
     assert_response 302
     assert_equal source_transitions, status_transitions(type_id: 2, role_id: 1)
     assert_equal source_transitions, status_transitions(type_id: 3, role_id: 1)
@@ -176,8 +177,8 @@ describe WorkflowsController, type: :controller do
     source_t2 = status_transitions(type_id: 2, role_id: 2)
     source_t3 = status_transitions(type_id: 3, role_id: 2)
 
-    post :copy, source_type_id: 'any', source_role_id: '2',
-                target_type_ids: ['2', '3'], target_role_ids: ['1', '3']
+    post :copy, params: { source_type_id: 'any', source_role_id: '2',
+                          target_type_ids: ['2', '3'], target_role_ids: ['1', '3'] }
     assert_response 302
     assert_equal source_t2, status_transitions(type_id: 2, role_id: 1)
     assert_equal source_t3, status_transitions(type_id: 3, role_id: 1)
@@ -187,7 +188,8 @@ describe WorkflowsController, type: :controller do
 
   # Returns an array of status transitions that can be compared
   def status_transitions(conditions)
-    Workflow.where(conditions)
+    Workflow
+      .where(conditions)
       .order('type_id, role_id, old_status_id, new_status_id')
       .map { |w| [w.old_status, w.new_status_id] }
   end

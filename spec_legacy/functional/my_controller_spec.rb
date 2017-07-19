@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'my_controller'
 
 describe MyController, type: :controller do
@@ -64,19 +65,21 @@ describe MyController, type: :controller do
   end
 
   it 'should add block' do
-    xhr :post, :add_block, block: 'issuesreportedbyme'
+    post :add_block, params: { block: 'issuesreportedbyme' }, xhr: true
     assert_response :success
     assert User.find(2).pref[:my_page_layout]['top'].include?('issuesreportedbyme')
   end
 
   it 'should remove block' do
-    xhr :post, :remove_block, block: 'issuesassignedtome'
+    post :remove_block, params: { block: 'issuesassignedtome' }, xhr: true
     assert_response :success
     assert !User.find(2).pref[:my_page_layout].values.flatten.include?('issuesassignedtome')
   end
 
   it 'should order blocks' do
-    xhr :post, :order_blocks, target: 'left', 'target_ordered_children' => ['documents', 'calendar', 'latestnews']
+    post :order_blocks,
+         params: { target: 'left', 'target_ordered_children' => ['documents', 'calendar', 'latestnews'] },
+         xhr: true
     assert_response :success
     assert_equal ['documents', 'calendar', 'latestnews'], User.find(2).pref[:my_page_layout]['left']
   end

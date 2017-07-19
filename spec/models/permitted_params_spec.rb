@@ -880,6 +880,61 @@ describe PermittedParams, type: :model do
     end
   end
 
+  describe '#settings' do
+    let (:attribute) { :settings }
+
+    describe 'with password login enabled' do
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:disable_password_login?)
+          .and_return(false)
+      end
+
+      let(:hash) do
+        {
+          'sendmail_arguments' => 'value',
+          'brute_force_block_after_failed_logins' => 'value',
+          'password_active_rules' => ['value'],
+          'default_projects_modules' => ['value', 'value'],
+          'emails_footer' => { 'en' => 'value' }
+        }
+      end
+
+      it_behaves_like 'allows params'
+    end
+
+    describe 'with password login disabld' do
+      include_context 'prepare params comparison'
+
+      before do
+        allow(OpenProject::Configuration)
+          .to receive(:disable_password_login?)
+          .and_return(true)
+      end
+
+      let(:hash) do
+        {
+          'sendmail_arguments' => 'value',
+          'brute_force_block_after_failed_logins' => 'value',
+          'password_active_rules' => ['value'],
+          'default_projects_modules' => ['value', 'value'],
+          'emails_footer' => { 'en' => 'value' }
+        }
+      end
+
+      let(:permitted_hash) do
+        {
+          'sendmail_arguments' => 'value',
+          'brute_force_block_after_failed_logins' => 'value',
+          'default_projects_modules' => ['value', 'value'],
+          'emails_footer' => { 'en' => 'value' }
+        }
+      end
+
+      it { expect(subject).to eq(permitted_hash) }
+    end
+  end
+
   describe '#enumerations' do
     let (:attribute) { :enumerations }
 

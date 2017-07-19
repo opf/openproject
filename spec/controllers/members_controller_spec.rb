@@ -107,7 +107,7 @@ describe MembersController, type: :controller do
   end
 
   describe '#autocomplete_for_member' do
-    let(:params) { ActionController::Parameters.new('project_id' => project.identifier.to_s) }
+    let(:params) { { 'project_id' => project.identifier.to_s } }
 
     before do
       login_as(user)

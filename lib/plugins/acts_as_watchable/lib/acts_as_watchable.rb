@@ -134,7 +134,7 @@ module Redmine
           return nil unless user && user.is_a?(User)
           watchers_to_delete = watchers.find_all { |watcher| watcher.user == user }
           watchers_to_delete.each(&:delete)
-          watchers(true)
+          watchers.reload
           watchers_to_delete.count
         end
 

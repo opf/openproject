@@ -190,6 +190,24 @@ class PermittedParams
     params.require(:status).permit(*self.class.permitted_attributes[:status])
   end
 
+  def settings
+    permitted_params = params.require(:settings).permit
+
+    all_setting_keys = Setting.available_settings.keys
+    all_valid_keys = if OpenProject::Configuration.disable_password_login?
+                       all_setting_keys - %w(password_min_length
+                                             password_active_rules
+                                             password_min_adhered_rules
+                                             password_days_valid
+                                             password_count_former_banned
+                                             lost_password)
+                     else
+                       all_setting_keys
+                     end
+
+    permitted_params.merge(params[:settings].to_unsafe_hash.slice(*all_valid_keys))
+  end
+
   def user
     permitted_params = params.require(:user).permit(*self.class.permitted_attributes[:user])
     permitted_params = permitted_params.merge(custom_field_values(:user))
@@ -198,7 +216,8 @@ class PermittedParams
   end
 
   def user_register_via_omniauth
-    permitted_params = params.require(:user) \
+    permitted_params = params
+                       .require(:user)
                        .permit(:login, :firstname, :lastname, :mail, :language)
     permitted_params = permitted_params.merge(custom_field_values(:user))
 
@@ -239,6 +258,14 @@ class PermittedParams
 
   def type_move
     params.require(:type).permit(*self.class.permitted_attributes[:move_to])
+  end
+
+  def timelog
+    params.permit(:period,
+                  :period_type,
+                  :from,
+                  :to,
+                  criterias: [])
   end
 
   def search
@@ -414,6 +441,10 @@ class PermittedParams
     params.fetch(:reporting, {}).permit(:reporting_to_project_id,
                                         :reported_project_status_id,
                                         :reported_project_status_comment)
+  end
+
+  def repository_diff
+    params.permit(:rev, :rev_to, :project, :action, :controller)
   end
 
   def membership

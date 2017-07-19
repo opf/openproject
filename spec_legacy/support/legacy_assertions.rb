@@ -262,7 +262,7 @@ module LegacyAssertionsAndHelpers
       context "should not send www authenticate when header accept auth is session #{http_method} #{url}" do
         context 'without credentials' do
           before do
-            send(http_method, url, parameters, 'HTTP_X_AUTHENTICATION_SCHEME' => 'Session')
+            send(http_method, url, params: parameters, headers: { 'HTTP_X_AUTHENTICATION_SCHEME' => 'Session' })
           end
           it { should respond_with failure_code }
           it { should_respond_with_content_type_based_on_url(url) }
@@ -291,7 +291,7 @@ module LegacyAssertionsAndHelpers
           before do
             @user = FactoryGirl.create(:user, password: 'adminADMIN!', password_confirmation: 'adminADMIN!', admin: true) # Admin so they can access the project
 
-            send(http_method, url, parameters, credentials(@user.login, 'adminADMIN!'))
+            send(http_method, url, params: parameters, headers: credentials(@user.login, 'adminADMIN!'))
           end
           it { should respond_with success_code }
           it { should_respond_with_content_type_based_on_url(url) }
@@ -304,7 +304,7 @@ module LegacyAssertionsAndHelpers
           before do
             @user = FactoryGirl.create(:user)
 
-            send(http_method, url, parameters, credentials(@user.login, 'wrong_password'))
+            send(http_method, url, params: parameters, headers: credentials(@user.login, 'wrong_password'))
           end
           it { should respond_with failure_code }
           it { should_respond_with_content_type_based_on_url(url) }
@@ -315,7 +315,7 @@ module LegacyAssertionsAndHelpers
 
         context 'without credentials' do
           before do
-            send(http_method, url, parameters)
+            send(http_method, url, params: parameters)
           end
           it { should respond_with failure_code }
           it { should_respond_with_content_type_based_on_url(url) }
@@ -344,7 +344,7 @@ module LegacyAssertionsAndHelpers
             @user = FactoryGirl.create(:user, admin: true)
             @token = FactoryGirl.create(:token, user: @user, action: 'api')
 
-            send(http_method, url, parameters, credentials(@token.value, 'X'))
+            send(http_method, url, params: parameters, headers: credentials(@token.value, 'X'))
           end
           it { should respond_with success_code }
           it { should_respond_with_content_type_based_on_url(url) }
@@ -359,7 +359,7 @@ module LegacyAssertionsAndHelpers
             @user = FactoryGirl.create(:user)
             @token = FactoryGirl.create(:token, user: @user, action: 'feeds')
 
-            send(http_method, url, parameters, credentials(@token.value, 'X'))
+            send(http_method, url, params: parameters, headers: credentials(@token.value, 'X'))
           end
           it { should respond_with failure_code }
           it { should_respond_with_content_type_based_on_url(url) }
@@ -393,7 +393,7 @@ module LegacyAssertionsAndHelpers
                           else
                             url + "?key=#{@token.value}"
                           end
-            send(http_method, request_url, parameters)
+            send(http_method, request_url, params: parameters)
           end
           it { should respond_with success_code }
           it { should_respond_with_content_type_based_on_url(url) }
@@ -413,7 +413,7 @@ module LegacyAssertionsAndHelpers
                           else
                             url + "?key=#{@token.value}"
                           end
-            send(http_method, request_url, parameters)
+            send(http_method, request_url, params: parameters)
           end
           it { should respond_with failure_code }
           it { should_respond_with_content_type_based_on_url(url) }
@@ -427,7 +427,7 @@ module LegacyAssertionsAndHelpers
         before do
           @user = FactoryGirl.create(:user, admin: true)
           @token = FactoryGirl.create(:token, user: @user, action: 'api')
-          send(http_method, url, {}, {'X-OpenProject-API-Key' => @token.value.to_s})
+          send(http_method, url, params: {}, headers: { 'X-OpenProject-API-Key' => @token.value.to_s })
         end
         it { should respond_with success_code }
         it { should_respond_with_content_type_based_on_url(url) }

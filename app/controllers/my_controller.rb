@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -244,7 +245,7 @@ class MyController < ApplicationController
     @user.pref[:my_page_layout] = layout
     @user.pref.save
 
-    render nothing: true
+    head :ok
   end
 
   def default_breadcrumb

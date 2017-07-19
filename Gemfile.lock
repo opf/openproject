@@ -78,15 +78,6 @@ GIT
       rails (>= 5.0.0, < 5.1)
 
 GIT
-  remote: https://github.com/rails/rails-controller-testing/
-  revision: d942a5d239a4b34cf93e86ca35e49f464e516ede
-  specs:
-    rails-controller-testing (1.0.1)
-      actionpack (~> 5.x)
-      actionview (~> 5.x)
-      activesupport (~> 5.x)
-
-GIT
   remote: https://github.com/rspec/rspec-activemodel-mocks
   revision: 5cd4c9d552bcc75d60ea4b7dda96e7377197ab8d
   specs:
@@ -436,6 +427,10 @@ GEM
       bundler (>= 1.3.0, < 2.0)
       railties (= 5.0.4)
       sprockets-rails (>= 2.0.0)
+    rails-controller-testing (1.0.2)
+      actionpack (~> 5.x, >= 5.0.1)
+      actionview (~> 5.x, >= 5.0.1)
+      activesupport (~> 5.x)
     rails-dom-testing (2.0.3)
       activesupport (>= 4.2.0)
       nokogiri (>= 1.6)
@@ -685,7 +680,7 @@ DEPENDENCIES
   rack_session_access
   rails (~> 5.0.4)
   rails-angular-xss!
-  rails-controller-testing!
+  rails-controller-testing (~> 1.0.2)
   rails_12factor
   rails_autolink (~> 1.1.6)
   rdoc (>= 2.4.2)

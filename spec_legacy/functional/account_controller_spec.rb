@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'account_controller'
 
 describe AccountController, type: :controller do
@@ -39,7 +40,7 @@ describe AccountController, type: :controller do
   end
 
   it 'should login with wrong password' do
-    post :login, username: 'admin', password: 'bad'
+    post :login, params: { username: 'admin', password: 'bad' }
     assert_response :success
     assert_template 'login'
     assert_select 'div.flash.error.icon.icon-error', /Invalid user or password/
@@ -53,7 +54,7 @@ describe AccountController, type: :controller do
   it 'should login should reset session' do
     expect(@controller).to receive(:reset_session).once
 
-    post :login, username: 'jsmith', password: 'jsmith'
+    post :login, params: { username: 'jsmith', password: 'jsmith' }
     assert_response 302
   end
 

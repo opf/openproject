@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'repositories_controller'
 
 describe RepositoriesController, 'Git', type: :controller do
@@ -64,7 +64,7 @@ describe RepositoriesController, 'Git', type: :controller do
   it 'should browse root' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, project_id: 3
+    get :show, params: { project_id: 3 }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -85,7 +85,7 @@ describe RepositoriesController, 'Git', type: :controller do
   it 'should browse branch' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, project_id: 3, rev: 'test_branch'
+    get :show, params: { project_id: 3, rev: 'test_branch' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -105,7 +105,7 @@ describe RepositoriesController, 'Git', type: :controller do
       'tag00.lightweight',
       'tag01.annotated',
     ].each do |t1|
-      get :show, project_id: 3, rev: t1
+      get :show, params: { project_id: 3, rev: t1 }
       assert_response :success
       assert_template 'show'
       refute_nil assigns(:entries)
@@ -118,7 +118,7 @@ describe RepositoriesController, 'Git', type: :controller do
   it 'should browse directory' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, project_id: 3, path: 'images'
+    get :show, params: { project_id: 3, path: 'images' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -134,7 +134,7 @@ describe RepositoriesController, 'Git', type: :controller do
   it 'should browse at given revision' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, project_id: 3, path: 'images', rev: '7234cb2750b63f47bff735edc50a1c0a433c2518'
+    get :show, params: { project_id: 3, path: 'images', rev: '7234cb2750b63f47bff735edc50a1c0a433c2518' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -144,7 +144,7 @@ describe RepositoriesController, 'Git', type: :controller do
   end
 
   it 'should changes' do
-    get :changes, project_id: 3, path: 'images/edit.png'
+    get :changes, params: { project_id: 3, path: 'images/edit.png' }
     assert_response :success
     assert_template 'changes'
     assert_select 'div',
@@ -153,25 +153,25 @@ describe RepositoriesController, 'Git', type: :controller do
   end
 
   it 'should entry show' do
-    get :entry, project_id: 3, path: 'sources/watchers_controller.rb'
+    get :entry, params: { project_id: 3, path: 'sources/watchers_controller.rb' }
     assert_response :success
     assert_template 'entry'
     # Line 19
     assert_select 'th',
-               content: /11/,
-               attributes: { class: /line-num/ },
-               sibling: { tag: 'td', content: /WITHOUT ANY WARRANTY/ }
+                  content: /11/,
+                  attributes: { class: /line-num/ },
+                  sibling: { tag: 'td', content: /WITHOUT ANY WARRANTY/ }
   end
 
   it 'should entry download' do
-    get :entry, project_id: 3, path: 'sources/watchers_controller.rb', format: 'raw'
+    get :entry, params: { project_id: 3, path: 'sources/watchers_controller.rb', format: 'raw' }
     assert_response :success
     # File content
     assert response.body.include?('WITHOUT ANY WARRANTY')
   end
 
   it 'should directory entry' do
-    get :entry, project_id: 3, path: 'sources'
+    get :entry, params: { project_id: 3, path: 'sources' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entry)
@@ -183,7 +183,7 @@ describe RepositoriesController, 'Git', type: :controller do
     @repository.reload
 
     # Full diff of changeset 2f9c0091
-    get :diff, project_id: 3, rev: '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+    get :diff, params: { project_id: 3, rev: '2f9c0091c754a91af7a9c478e36556b4bde8dcf7' }
     assert_response :success
     assert_template 'diff'
     # Line 22 removed
@@ -199,8 +199,8 @@ describe RepositoriesController, 'Git', type: :controller do
     @repository.fetch_changesets
     @repository.reload
 
-    get :diff, project_id: 3, rev:    '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
-               rev_to: '2f9c0091c754a91af7a9c478e36556b4bde8dcf7'
+    get :diff, params: { project_id: 3, rev:    '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
+                         rev_to: '2f9c0091c754a91af7a9c478e36556b4bde8dcf7' }
     assert_response :success
     assert_template 'diff'
 
@@ -210,7 +210,7 @@ describe RepositoriesController, 'Git', type: :controller do
   end
 
   it 'should annotate' do
-    get :annotate, project_id: 3, path: 'sources/watchers_controller.rb'
+    get :annotate, params: { project_id: 3, path: 'sources/watchers_controller.rb' }
     assert_response :success
     assert_template 'annotate'
     # Line 23, changeset 2f9c0091
@@ -223,7 +223,7 @@ describe RepositoriesController, 'Git', type: :controller do
   it 'should annotate at given revision' do
     @repository.fetch_changesets
     @repository.reload
-    get :annotate, project_id: 3, rev: 'deff7', path: 'sources/watchers_controller.rb'
+    get :annotate, params: { project_id: 3, rev: 'deff7', path: 'sources/watchers_controller.rb' }
     assert_response :success
     assert_template 'annotate'
     assert_select 'div',
@@ -232,7 +232,7 @@ describe RepositoriesController, 'Git', type: :controller do
   end
 
   it 'should annotate binary file' do
-    get :annotate, project_id: 3, path: 'images/edit.png'
+    get :annotate, params: { project_id: 3, path: 'images/edit.png' }
     assert_response 200
 
     assert_select 'p', attributes: { class: /nodata/ },
@@ -243,7 +243,7 @@ describe RepositoriesController, 'Git', type: :controller do
     @repository.fetch_changesets
     @repository.reload
     ['61b685fbe55ab05b5ac68402d5720c1a6ac973d1', '61b685f'].each do |r|
-      get :revision, project_id: 3, rev: r
+      get :revision, params: { project_id: 3, rev: r }
       assert_response :success
       assert_template 'revision'
     end
@@ -253,7 +253,7 @@ describe RepositoriesController, 'Git', type: :controller do
     @repository.fetch_changesets
     @repository.reload
     ['', ' ', nil].each do |r|
-      get :revision, project_id: 3, rev: r
+      get :revision, params: { project_id: 3, rev: r }
       assert_response 404
       assert_error_tag content: /was not found/
     end

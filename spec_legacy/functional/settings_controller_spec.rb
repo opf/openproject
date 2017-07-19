@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'settings_controller'
 
 describe SettingsController, type: :controller do
@@ -51,11 +52,15 @@ describe SettingsController, type: :controller do
   end
 
   it 'should post edit notifications' do
-    post :edit, settings: { mail_from: 'functional@test.foo',
-                            bcc_recipients:  '0',
-                            notified_events: %w(work_package_added work_package_updated news_added),
-                            emails_footer: 'Test footer'
-                              }
+    post :edit,
+         params: {
+           settings: {
+             mail_from: 'functional@test.foo',
+             bcc_recipients:  '0',
+             notified_events: %w(work_package_added work_package_updated news_added),
+             emails_footer: 'Test footer'
+           }
+         }
     assert_redirected_to '/settings/edit'
     assert_equal 'functional@test.foo', Setting.mail_from
     assert !Setting.bcc_recipients?

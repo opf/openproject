@@ -137,7 +137,7 @@ class TimelogController < ApplicationController
     respond_to do |format|
       # TODO: Implement html response
       format.html do
-        render nothing: true, status: 406
+        head 406
       end
     end
   end
@@ -173,7 +173,7 @@ class TimelogController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_delete)
-          redirect_to :back
+          redirect_back fallback_location: { action: 'index', project_id: @time_entry.project }
         end
         format.json do
           render json: { text: l(:notice_successful_delete) }
@@ -183,7 +183,7 @@ class TimelogController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:error] = l(:notice_unable_delete_time_entry)
-          redirect_to :back
+          redirect_back fallback_location: { action: 'index', project_id: @time_entry.project }
         end
         format.json do
           render json: { isError: true, text: l(:notice_unable_delete_time_entry) }

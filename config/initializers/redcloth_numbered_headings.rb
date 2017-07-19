@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,64 +31,54 @@
 require 'redcloth3'
 
 module RedCloth3Patch
-  def self.included(base)
-    base.send(:include, InstanceMethods)
+  private
 
-    base.class_eval do
-      alias_method_chain :block_textile_prefix, :numbering
-    end
+  def block_textile_prefix(text)
+    text.replace(prepend_number_to_heading(text))
+
+    super(text)
   end
 
-  module InstanceMethods
-    private
+  HEADING = /^h(\d)\.(.*)$/ unless defined? HEADING
+  NUMBERED_HEADING = /^h(\d)#\.(.*)$/ unless defined? NUMBERED_HEADING
 
-    def block_textile_prefix_with_numbering(text)
-      text.replace(prepend_number_to_heading(text))
+  def prepend_number_to_heading(text)
+    if text =~ NUMBERED_HEADING
+      level = $1.to_i
 
-      block_textile_prefix_without_numbering(text)
+      number = get_next_number_or_start_new_numbering level
+
+      new_text = "h#{level}. #{number}#{$2}"
+    elsif text =~ HEADING
+      reset_numbering
     end
 
-    HEADING = /^h(\d)\.(.*)$/ unless defined? HEADING
-    NUMBERED_HEADING = /^h(\d)#\.(.*)$/ unless defined? NUMBERED_HEADING
+    new_text.nil? ? text : new_text
+  end
 
-    def prepend_number_to_heading(text)
-      if text =~ NUMBERED_HEADING
-        level = $1.to_i
-
-        number = get_next_number_or_start_new_numbering level
-
-        new_text = "h#{level}. #{number}#{$2}"
-      elsif text =~ HEADING
-        reset_numbering
-      end
-
-      new_text.nil? ? text : new_text
+  def get_next_number_or_start_new_numbering(level)
+    begin
+      number = get_number_for_level level
+    rescue ArgumentError
+      reset_numbering
+      number = get_number_for_level level
     end
 
-    def get_next_number_or_start_new_numbering(level)
-      begin
-        number = get_number_for_level level
-      rescue ArgumentError
-        reset_numbering
-        number = get_number_for_level level
-      end
+    number
+  end
 
-      number
-    end
+  def get_number_for_level(level)
+    @numbering_provider ||= Redcloth3::NumberingStack.new level
 
-    def get_number_for_level(level)
-      @numbering_provider ||= Redcloth3::NumberingStack.new level
+    @numbering_provider.get_next_numbering_for_level level
+  end
 
-      @numbering_provider.get_next_numbering_for_level level
-    end
-
-    def reset_numbering
-      @numbering_provider = nil
-    end
+  def reset_numbering
+    @numbering_provider = nil
   end
 end
 
-RedCloth3.send(:include, RedCloth3Patch)
+RedCloth3.send(:prepend, RedCloth3Patch)
 
 module Redcloth3
   class NumberingStack

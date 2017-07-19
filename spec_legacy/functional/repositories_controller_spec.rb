@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'repositories_controller'
 
 describe RepositoriesController, type: :controller do
@@ -50,52 +51,57 @@ describe RepositoriesController, type: :controller do
   end
 
   it 'should revisions' do
-    get :revisions, project_id: 1
+    get :revisions, params: { project_id: 1 }
     assert_response :success
     assert_template 'revisions'
     refute_nil assigns(:changesets)
   end
 
   it 'should revision' do
-    get :revision, project_id: 1, rev: 1
+    get :revision, params: { project_id: 1, rev: 1 }
     assert_response :success
     refute_nil assigns(:changeset)
     assert_equal '1', assigns(:changeset).revision
   end
 
   it 'should revision with before nil and after normal' do
-    get :revision, project_id: 1, rev: 1
+    get :revision, params: { project_id: 1, rev: 1 }
     assert_response :success
     assert_template 'revision'
-  assert_select('ul',
-                  {attributes: { class: 'toolbar-items' },
-                  descendant: { tag: 'a',
-                                attributes: {
-                                  href: @controller.url_for(
-                                    only_path: true,
-                                    controller: 'repositories',
-                                    action: 'revision',
-                                    project_id: 'ecookbook',
-                                    rev: '0'
-                                  )
-                                }}}, false)
+    assert_select('ul',
+                  {
+                    attributes: { class: 'toolbar-items' },
+                    descendant: {
+                      tag: 'a',
+                      attributes: {
+                        href: @controller.url_for(
+                          only_path: true,
+                          controller: 'repositories',
+                          action: 'revision',
+                          project_id: 'ecookbook',
+                          rev: '0'
+                        )
+                      }
+                    }
+                  }, false)
     assert_select 'ul',
-               attributes: { class: 'toolbar-items' },
-               descendant: { tag: 'a',
-                             attributes: {
-                               href: @controller.url_for(
-                                 only_path: true,
-                                 controller: 'repositories',
-                                 action: 'revision',
-                                 project_id: 'ecookbook',
-                                 rev: '2'
-                               )
-                             }
-               }
+                  attributes: { class: 'toolbar-items' },
+                  descendant: {
+                    tag: 'a',
+                    attributes: {
+                      href: @controller.url_for(
+                        only_path: true,
+                        controller: 'repositories',
+                        action: 'revision',
+                        project_id: 'ecookbook',
+                        rev: '2'
+                      )
+                    }
+                  }
   end
 
   it 'should graph commits per month' do
-    get :graph, project_id: 1, graph: 'commits_per_month'
+    get :graph, params: { project_id: 1, graph: 'commits_per_month' }
     assert_response :success
     assert_equal 'image/svg+xml', response.content_type
   end
@@ -111,24 +117,27 @@ describe RepositoriesController, type: :controller do
       comments: 'Committed by foo.'
     )
 
-    get :committers, project_id: 1
+    get :committers, params: { project_id: 1 }
     assert_response :success
     assert_template 'committers'
 
     assert_select 'td',
-               content: 'foo',
-               sibling: {
-                 tag: 'td',
-                 child: { tag: 'select',
-                          attributes: { name: %r{^committers\[\d+\]\[\]$} }
-                 }
-               }
-    assert_select('td',
-                  {content: 'foo',
+                  content: 'foo',
                   sibling: {
                     tag: 'td',
-                    descendant: { tag: 'option', attributes: { selected: 'selected' } }
-                  }}, false)
+                    child: {
+                      tag: 'select',
+                      attributes: { name: %r{^committers\[\d+\]\[\]$} }
+                    }
+                  }
+    assert_select('td',
+                  {
+                    content: 'foo',
+                    sibling: {
+                      tag: 'td',
+                      descendant: { tag: 'option', attributes: { selected: 'selected' } }
+                    }
+                  }, false)
   end
 
   it 'should map committers' do
@@ -142,8 +151,12 @@ describe RepositoriesController, type: :controller do
       comments: 'Committed by foo.'
     )
     assert_no_difference "Changeset.where('user_id = 3').count" do
-      post :committers, project_id: 1,
-           committers: { '0' => ['foo', '2'], '1' => ['dlopper', '3'] }
+      post :committers,
+           params: {
+             project_id: 1,
+             committers: { '0' => ['foo', '2'],
+                           '1' => ['dlopper', '3'] }
+           }
       assert_redirected_to '/projects/ecookbook/repository/committers'
       assert_equal User.find(2), c.reload.user
     end
