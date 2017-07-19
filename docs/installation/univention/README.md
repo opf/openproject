@@ -4,6 +4,6 @@ Univention App Center is the marketplace in [Univention Corporate Server (UCS)]:
 
 **Instructions**
 
-1 Download and setup Univention Corporate Server (UCS)
-2 Install OpenProject via Univention App Center
-3 Add user accounts
+1. Download and setup Univention Corporate Server (UCS)
+2. Install OpenProject via Univention App Center
+3. Add user accounts
