@@ -46,14 +46,9 @@ module CostlogHelper
   def extended_progress_bar(pcts, options = {})
     return progress_bar(pcts, options) unless pcts.is_a?(Numeric) && pcts > 100
 
-    width = options[:width] || '100px;'
-    legend = options[:legend] || ''
-    content_tag('table',
-                content_tag('tr',
-                            content_tag('td', '', style: "width: #{((100.0 / pcts) * 100).round}%;", class: 'closed') +
-                            content_tag('td', '', style: "width: #{100.0 - ((100.0 / pcts) * 100).round}%;", class: 'exceeded')
-                           ), class: 'progress', style: "width: #{width};") +
-      content_tag('p', legend, class: 'pourcent')
+    closed = ((100.0 / pcts) * 100).round
+    done = 100.0 - ((100.0 / pcts) * 100).round
+    progress_bar([closed, done], options)
   end
 
   def clean_currency(value)
