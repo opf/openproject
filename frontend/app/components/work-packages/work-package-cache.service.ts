@@ -67,7 +67,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
   updateWorkPackageList(list:WorkPackageResourceInterface[]) {
     for (var wp of list) {
       const workPackageId = getWorkPackageId(wp.id);
-      const wpState = this.states.workPackages.get(workPackageId);
+      const wpState = this.multiState.get(workPackageId);
       const lastValue = wpState.value;
       const wpForPublish = lastValue && lastValue.dirty
         ? lastValue // dirty, use current wp
@@ -146,7 +146,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
       this.apiWorkPackages.loadWorkPackageById(id, true)
         .then((workPackage:WorkPackageResourceInterface) => {
           this.schemaCacheService.ensureLoaded(workPackage).then(() => {
-            this.updateValue(id, workPackage);
+            this.multiState.get(id).putValue(workPackage);
             resolve(workPackage);
           }, reject);
         }, reject);

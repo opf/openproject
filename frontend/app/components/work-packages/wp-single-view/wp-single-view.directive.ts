@@ -173,7 +173,7 @@ export class WorkPackageSingleViewController {
         name: fieldName,
         label: field.label,
         multiple: false,
-        spanAll: field.isLargeField,
+        spanAll: field.isFormattable,
         field: field
       });
     });

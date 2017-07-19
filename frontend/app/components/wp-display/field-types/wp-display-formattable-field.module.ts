@@ -52,7 +52,7 @@ export class FormattableDisplayField extends DisplayField {
     element.appendChild(span);
   }
 
-  public get isLargeField():boolean {
+  public get isFormattable():boolean {
     return true;
   }
 

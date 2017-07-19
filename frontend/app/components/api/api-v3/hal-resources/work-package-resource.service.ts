@@ -435,6 +435,7 @@ export class WorkPackageResource extends HalResource {
                 delete this.$pristine[key];
               });
 
+              wpCacheService.updateWorkPackage(this as any);
               deferred.resolve(this);
             });
           })
