@@ -134,12 +134,12 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'sprockets', '~> 3.7.0'
-gem 'sass-rails', '~> 5.0.6'
-gem 'sass', '3.5.0.pre.rc.1'
 gem 'autoprefixer-rails', '~> 6.7.7.2'
 gem 'bourbon', '~> 4.3.4'
 gem 'i18n-js', '~> 3.0.0'
+gem 'sass', '3.5.1'
+gem 'sass-rails', '~> 5.0.6'
+gem 'sprockets', '~> 3.7.0'
 
 # small wrapper around the command line
 gem 'cocaine', '~> 0.5.8'
