@@ -172,8 +172,8 @@ group :test do
 
   gem 'cucumber', '~> 2.4.0'
   gem 'cucumber-rails', '~> 1.4.4', require: false
+  gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
-  gem 'database_cleaner', '~> 1.5.3'
   # not possible to upgrade to 3.6+ until rails is 5.1+
   gem 'rspec', '~> 3.5.0'
   # also add to development group, so "spec" rake task gets loaded

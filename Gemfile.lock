@@ -239,7 +239,7 @@ GEM
     cucumber-wire (0.0.1)
     daemons (1.2.4)
     dalli (2.7.6)
-    database_cleaner (1.5.3)
+    database_cleaner (1.6.1)
     date_validator (0.9.0)
       activemodel
       activesupport
@@ -638,7 +638,7 @@ DEPENDENCIES
   cucumber-rails (~> 1.4.4)
   daemons
   dalli (~> 2.7.6)
-  database_cleaner (~> 1.5.3)
+  database_cleaner (~> 1.6)
   date_validator (~> 0.9.0)
   delayed_job_active_record (~> 4.1.1)
   equivalent-xml (~> 0.6)
