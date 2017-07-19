@@ -74,6 +74,7 @@ export class WorkPackageEditForm {
       .values$()
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
+        this.workPackage.getForm();
 
         _.each(this.activeFields, (_handler, name) => this.refresh(name!));
       });
@@ -245,12 +246,24 @@ export class WorkPackageEditForm {
   }
 
   private buildField(fieldName:string):Promise<EditField> {
-    return this.workPackage.loadFormSchema().then((schema:SchemaResource) => {
-      return this.wpEditField.getField(
-        this.workPackage,
-        fieldName,
-        schema[fieldName]
-      ) as EditField;
+    return new Promise((resolve, reject) => {
+      this.workPackage.loadFormSchema()
+        .then((schema:SchemaResource) => {
+            const fieldSchema = schema[fieldName];
+
+            if (!fieldSchema) {
+              return reject();
+            }
+
+            const field = this.wpEditField.getField(
+              this.workPackage,
+              fieldName,
+              fieldSchema
+            ) as EditField;
+
+            resolve(field);
+          })
+        .catch(reject);
     });
   }
 
