@@ -33,7 +33,6 @@ import {WorkPackageCacheService} from '../../work-packages/work-package-cache.se
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
-import {InputState} from 'reactivestates';
 import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
 import {
@@ -42,8 +41,6 @@ import {
   editFieldContainerClass
 } from '../../wp-edit-form/display-field-renderer';
 import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directive';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
-import {WorkPackageEditContext} from '../../wp-edit-form/work-package-edit-context';
 import {ClickPositionMapper} from '../../common/set-click-position/set-click-position';
 
 export class WorkPackageEditFieldController {
@@ -91,8 +88,8 @@ export class WorkPackageEditFieldController {
   public deactivate(focus:boolean = false) {
     this.editContainer.empty().hide();
     this.displayContainer.show();
-    this.active = false;
 
+    this.$scope.$evalAsync(() => this.active = false);
     if (focus) {
       this.$element.find(`.${displayClassName}`).focus();
     }
