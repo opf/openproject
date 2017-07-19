@@ -156,7 +156,7 @@ gem 'nokogiri', '~> 1.8.0'
 gem 'fog-aws'
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
 
-gem 'openproject-token', '~> 1.0.0'
+gem 'openproject-token', '~> 1.0.1'
 
 group :test do
   gem 'rack-test', '~> 0.6.3'
