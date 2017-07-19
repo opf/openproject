@@ -194,7 +194,7 @@ group :test do
   gem 'rails-controller-testing', git: 'https://github.com/rails/rails-controller-testing/'
 
   gem 'aws-sdk', '~> 2.10.1'
-  gem 'capybara', '~> 2.13.0'
+  gem 'capybara', '~> 2.14.0'
   gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
