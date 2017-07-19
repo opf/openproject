@@ -77,14 +77,14 @@ describe 'Work Package table hierarchy', js: true do
 
       hierarchy.expect_hierarchy_at(wp_root, wp_inter)
 
-      hierarchy.toggle_row(wp_root)
+      # need to reload wp_inter as we changed the subject
+      wp_inter.reload
       wp_table.expect_work_package_listed(wp_root, wp_inter, wp_leaf)
 
       # Disabling hierarchy hides them again
       hierarchy.disable_hierarchy
 
-      expect(page).to have_no_selector(".wp-row-#{wp_root.id}")
-      expect(page).to have_no_selector(".wp-row-#{wp_inter.id}")
+      wp_table.expect_work_package_not_listed(wp_root, wp_inter)
     end
   end
 

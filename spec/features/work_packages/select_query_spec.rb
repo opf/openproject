@@ -57,7 +57,7 @@ describe 'Query selection', type: :feature do
   before do
     default_status
 
-    allow(User).to receive(:current).and_return current_user
+    login_as(current_user)
   end
 
   context 'default view, without a query selected' do
