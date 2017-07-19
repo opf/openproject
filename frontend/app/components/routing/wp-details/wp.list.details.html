@@ -1,10 +1,6 @@
 <div class="work-packages--details loading-indicator--location"
-      data-indicator-name="wpDetails">
-  <div wp-edit-form="$ctrl.workPackage"
-       class="work-packages--details-edit-form"
-       wp-edit-form-on-save="$ctrl.onWorkPackageSave()"
-       has-edit-mode="true"
-       ng-if="$ctrl.workPackage">
+      data-indicator-name="wpDetails"
+      ng-if="$ctrl.workPackage">
     <div id="tabs">
       <ul class="tabrow">
         <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
@@ -48,18 +44,14 @@
     <span class="hidden-for-sighted" tabindex="-1" focus="$ctrl.shouldFocus" ng-bind="$ctrl.focusAnchorLabel">
     </span>
 
-      <wp-subject></wp-subject>
 
-      <div class="work-package-details-tab" ui-view></div>
+      <wp-edit-field-group work-package-id="$ctrl.workPackage.id">
+        <wp-subject></wp-subject>
+        <div class="work-package-details-tab" ui-view></div>
+      </wp-edit-field-group>
     </div>
 
     <div class="work-packages--details-toolbar-container" ng-if="$ctrl.workPackage">
-      <wp-details-toolbar ng-show="!$ctrl.wpEditModeState.active" work-package='$ctrl.workPackage'></wp-details-toolbar>
-      <edit-actions-bar
-          ng-show="$ctrl.wpEditModeState.active"
-          on-save="$ctrl.wpEditModeState.save()"
-          on-cancel="$ctrl.wpEditModeState.cancel()"
-      ></edit-actions-bar>
+      <wp-details-toolbar work-package='$ctrl.workPackage'></wp-details-toolbar>
     </div>
-  </div>
 </div

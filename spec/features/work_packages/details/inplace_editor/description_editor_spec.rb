@@ -73,7 +73,7 @@ describe 'description inplace editor', js: true, selenium: true do
     it 'does not show the field' do
       expect(page).to have_no_selector('.wp-edit-field.description.-editable')
 
-      field.trigger_link.click
+      field.display_element.click
       field.expect_inactive!
     end
 

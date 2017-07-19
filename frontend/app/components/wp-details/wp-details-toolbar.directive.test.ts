@@ -29,14 +29,18 @@
 /*jshint expr: true*/
 
 describe('workPackageDetailsToolbar', function() {
-  var I18n, $q, HookService, compile, scope, element, stateParams;
-  var html = "<wp-details-toolbar work-package='workPackage'></wp-details-toolbar>";
+  var I18n:any, $q:any, HookService:any, compile:any, scope:any, element:any, stateParams:any;
+  var html = `
+    <div id="content">
+      <wp-details-toolbar work-package='workPackage'></wp-details-toolbar>
+    </div>`;
   stateParams = {};
 
 
   beforeEach(angular.mock.module('ui.router',
                     'openproject',
                     'openproject.workPackages.controllers',
+                    'openproject.workPackages.services',
                     'openproject.uiComponents',
                     'openproject.workPackages',
                     'openproject.api',
@@ -47,8 +51,8 @@ describe('workPackageDetailsToolbar', function() {
                     'openproject.templates'
                     ));
 
-  beforeEach(angular.mock.module('openproject.templates', function($provide) {
-    var configurationService = {};
+  beforeEach(angular.mock.module('openproject.templates', function($provide:ng.auto.IProvideService) {
+    var configurationService:any = {};
 
     configurationService.accessibilityModeEnabled = sinon.stub().returns(false);
     configurationService.warnOnLeavingUnsaved = sinon.stub().returns(false);
@@ -57,12 +61,12 @@ describe('workPackageDetailsToolbar', function() {
     $provide.constant('ConfigurationService', configurationService);
   }));
 
-  beforeEach(inject(function($rootScope,
-                             $compile,
-                             ConfigurationService,
-                             _I18n_,
-                             _HookService_,
-                             _$q_) {
+  beforeEach(inject(function($rootScope:any,
+                             $compile:any,
+                             ConfigurationService:any,
+                             _I18n_:any,
+                             _HookService_:any,
+                             _$q_:any) {
     $q = _$q_;
     I18n = _I18n_;
     HookService = _HookService_;
@@ -84,7 +88,7 @@ describe('workPackageDetailsToolbar', function() {
       angular.element(document.body).append(element);
       scope.$apply();
 
-      element.find('button:eq(1)').click();
+      element.find('button:eq(0)').click();
       scope.$apply();
     };
 
@@ -95,7 +99,7 @@ describe('workPackageDetailsToolbar', function() {
     element.remove();
   });
 
-  var pluginActions = {
+  var pluginActions:any = {
     plugin_action_1: { key: 'plugin_action_1',
                        resource: 'workPackage',
                        link: 'plugin_action_1',
@@ -131,15 +135,15 @@ describe('workPackageDetailsToolbar', function() {
   });
 
 
-  var getLink = function(listRoot, action) {
+  var getLink = function(listRoot:any, action:any) {
     return listRoot.find('.' + action);
   };
 
-  var shouldBehaveLikeListOfWorkPackageActionLinks = function(listRootSelector, actions) {
-    var listRoot;
+  var shouldBehaveLikeListOfWorkPackageActionLinks = function(listRootSelector:any, actions:any) {
+    var listRoot:any;
 
     beforeEach(function() {
-      listRoot = element.find(listRootSelector);
+      listRoot = angular.element(listRootSelector);
     });
 
     describe('links', function() {
@@ -162,17 +166,17 @@ describe('workPackageDetailsToolbar', function() {
     });
   };
 
-  var shouldBehaveLikeCorrectWorkPackageActionLinkCss = function(listRootSelector, actions) {
-    var listRoot;
+  var shouldBehaveLikeCorrectWorkPackageActionLinkCss = function(listRootSelector:any, actions:any) {
+    var listRoot:any;
 
     beforeEach(function() {
-      listRoot = element.find(listRootSelector);
+      listRoot = angular.element(listRootSelector);
     });
 
     describe('link css', function() {
       it('contains links with correct description', function() {
-        angular.forEach(actions, function(css, action) {
-          var link = getLink(listRoot, action);
+        angular.forEach(actions, function(css:any, action:any) {
+          var link:any = getLink(listRoot, action);
           var pluginCss = pluginActions[action][action];
 
           angular.forEach(pluginCss, function(value) {

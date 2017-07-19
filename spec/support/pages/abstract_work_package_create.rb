@@ -76,7 +76,7 @@ module Pages
     end
 
     def expect_fully_loaded
-      expect(page).to have_field(I18n.t('js.work_packages.properties.subject'))
+      expect(page).to have_selector '#wp-new-inline-edit--field-subject'
     end
 
     def save!

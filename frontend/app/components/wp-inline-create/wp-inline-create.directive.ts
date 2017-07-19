@@ -45,6 +45,7 @@ import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
 import {WorkPackageTableRow} from "../wp-fast-table/wp-table.interfaces";
 import {WorkPackageTableTimelineService} from "../wp-fast-table/state/wp-table-timeline.service";
 import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
+import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 
 export class WorkPackageInlineCreateController {
 
@@ -144,7 +145,12 @@ export class WorkPackageInlineCreateController {
       this.applyDefaultsFromFilters(this.currentWorkPackage!).then(() => {
         this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-        this.workPackageEditForm = new WorkPackageEditForm('new');
+        // Set editing context to table
+        const editContext = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
+        this.workPackageEditForm = new WorkPackageEditForm('new', editContext);
+        this.states.editing.get(wp.id).putValue(this.workPackageEditForm);
+
+
         const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
         this.timelineBuilder.insert('new', this.table.timelineBody);
         this.$element.append(row);

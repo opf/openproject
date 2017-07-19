@@ -36,13 +36,6 @@ describe 'Work package table context menu', js: true do
     expect(page).to have_selector('.work-packages--show-view .wp-edit-field.subject',
                                   text: work_package.subject)
 
-    # Open edit link
-    goto_context_menu
-    menu.choose('Edit')
-    expect(page).to have_selector('.wp-edit-field.subject input')
-    find('#work-packages--edit-actions-cancel').click
-    expect(page).to have_no_selector('.wp-edit-field.subject input')
-
     # Open log time
     goto_context_menu
     menu.choose('Log time')
@@ -104,13 +97,13 @@ describe 'Work package table context menu', js: true do
       wp_table.expect_work_package_listed(work_package2)
 
       # Select both
-      all('td.checkbox input').each { |el| el.set(true) }
+      wp_table.table_container.send_keys [:control, 'a']
     end
 
     it 'shows a subset of the available menu items' do
       menu.open_for(work_package)
       menu.expect_options ['Open details view', 'Open fullscreen view',
-                           'Edit', 'Copy', 'Move', 'Delete']
+                           'Bulk edit', 'Bulk copy', 'Bulk move', 'Bulk delete']
     end
   end
 end

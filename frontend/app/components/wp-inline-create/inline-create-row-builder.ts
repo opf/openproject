@@ -52,9 +52,6 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
     // Get any existing edit state for this work package
     const [row, hidden] = this.buildEmpty(workPackage);
 
-    // Set editing context to table
-    form.editContext = new TableRowEditContext(workPackage.id, this.classIdentifier(workPackage));
-    this.states.editing.get(workPackage.id).putValue(form);
 
     return [row, hidden];
   }

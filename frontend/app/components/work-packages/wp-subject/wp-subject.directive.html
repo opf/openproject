@@ -1,12 +1,14 @@
 <div ng-if="$ctrl.workPackage" class="work-packages--subject-type-row">
-  <div class="work-packages--type-selector work-packages--subject-element"
-       wp-edit-field="'type'"
-       wp-edit-field-wrapper-classes="'-no-label'">
+  <div class="work-packages--type-selector work-packages--subject-element">
+    <wp-edit-field work-package-id="$ctrl.workPackage.id"
+                   wrapper-classes="'work-packages--type-selector work-packages--subject-element -no-label'"
+                   field-name="'type'">
+    </wp-edit-field>
   </div>
-  <div
-      wp-edit-field="'subject'"
-      wp-edit-field-wrapper-classes="'-no-label'"
-      class="work-packages--details--subject work-packages--subject-element">
+  <div class="work-packages--details--subject work-packages--subject-element">
+    <wp-edit-field work-package-id="$ctrl.workPackage.id"
+                   wrapper-classes="'work-packages--details--subject work-packages--subject-element -no-label'"
+                   field-name="'subject'">
+    </wp-edit-field>
   </div>
-
 </div>

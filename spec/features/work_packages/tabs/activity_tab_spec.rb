@@ -149,8 +149,7 @@ describe 'Activity tab', js: true, selenium: true do
 
         field = WorkPackageTextAreaField.new work_package_page,
                                              'comment',
-                                             selector: '.work-packages--activity--add-comment',
-                                             trigger: '.inplace-editing--trigger-container'
+                                             selector: '.work-packages--activity--add-comment'
 
         expect(field.editing?).to be true
 

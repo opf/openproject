@@ -26,14 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opWorkPackagesModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {debugLog} from "../../../helpers/debug_output";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
-import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
-import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
-import {WorkPackageCacheService} from "../work-package-cache.service";
+import {opWorkPackagesModule} from '../../../angular-modules';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {debugLog} from '../../../helpers/debug_output';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
+import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
+import {WorkPackageCacheService} from '../work-package-cache.service';
 
 interface FieldDescriptor {
   name:string;
@@ -50,7 +49,6 @@ interface GroupDescriptor {
 }
 
 export class WorkPackageSingleViewController {
-  public formCtrl:WorkPackageEditFormController;
   public workPackage:WorkPackageResourceInterface;
 
   // Grouped fields returned from API
@@ -98,10 +96,6 @@ export class WorkPackageSingleViewController {
     return group.members.length === 0;
   }
 
-  public helpTextLabel(attribute:string) {
-    return this.I18n.t('js.')
-  }
-
   /*
    * Returns the work package label
    */
@@ -136,7 +130,6 @@ export class WorkPackageSingleViewController {
         members: this.getFields(groups[1])
       };
     });
-
   }
 
   private setupI18nTexts() {
@@ -222,14 +215,6 @@ export class WorkPackageSingleViewController {
 
 function wpSingleViewDirective() {
 
-  function wpSingleViewLink(scope:ng.IScope,
-                            element:ng.IAugmentedJQuery,
-                            attrs:ng.IAttributes,
-                            controllers:[WorkPackageEditFormController, WorkPackageSingleViewController]) {
-
-    controllers[1].formCtrl = controllers[0];
-  }
-
   return {
     restrict: 'E',
     templateUrl: '/components/work-packages/wp-single-view/wp-single-view.directive.html',
@@ -238,9 +223,7 @@ function wpSingleViewDirective() {
       workPackage: '=?'
     },
 
-    require: ['^wpEditForm', 'wpSingleView'],
-    link: wpSingleViewLink,
-
+    require: ['wpSingleView'],
     bindToController: true,
     controller: WorkPackageSingleViewController,
     controllerAs: '$ctrl'

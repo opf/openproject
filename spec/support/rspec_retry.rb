@@ -19,7 +19,7 @@ RSpec.configure do |config|
 
   ##
   # Retry JS feature specs, but not during single runs
-  unless config.files_to_run.one?
+  if ENV['CI']
     config.around :each, :js do |ex|
       ex.run_with_retry retry: 2
     end
@@ -30,7 +30,12 @@ end
 # Allow specific code blocks to retry on specific errors
 Retriable.configure do |c|
   # Three tries in that block
-  c.tries = 3
+  if ENV['CI']
+    c.tries = 3
+    c.base_interval = 1
+  else
+    c.tries = 1
+  end
 end
 
 ##

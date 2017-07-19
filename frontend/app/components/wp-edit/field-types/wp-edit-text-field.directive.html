@@ -6,6 +6,5 @@
        ng-focus="vm.handleUserFocus()"
        ng-disabled="vm.workPackage.inFlight"
        ng-keydown="vm.handleUserSubmitOnEnter($event)"
-       focus="vm.shouldFocus()"
-       focus-priority="vm.shouldFocus()"
+       focus="vm.field.name === 'subject'"
        ng-attr-id="{{vm.htmlId}}" />

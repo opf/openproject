@@ -28,20 +28,16 @@
 
 import {wpButtonsModule} from '../../../angular-modules';
 import {WorkPackageNavigationButtonController, wpButtonDirective} from '../wp-buttons.module';
-import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
-import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
 
 export class WorkPackageListViewButtonController extends WorkPackageNavigationButtonController {
-  public projectIdentifier: number;
-  public formCtrl: WorkPackageEditFormController;
+  public projectIdentifier:number;
 
-  public accessKey: number = 8;
-  public activeState: string = 'work-packages.list';
-  public buttonId: string = 'work-packages-list-view-button';
-  public iconClass: string = 'icon-view-list';
+  public accessKey:number = 8;
+  public activeState:string = 'work-packages.list';
+  public buttonId:string = 'work-packages-list-view-button';
+  public iconClass:string = 'icon-view-list';
 
   constructor(public $state:ng.ui.IStateService,
-              public wpEditModeState: WorkPackageEditModeStateService,
               public I18n:op.I18n) {
     'ngInject';
 
@@ -57,7 +53,7 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
   }
 
   public get disabled() {
-    return this.wpEditModeState.active;
+    return false;
   }
 
   public performAction() {
@@ -74,7 +70,7 @@ export class WorkPackageListViewButtonController extends WorkPackageNavigationBu
   }
 }
 
-function wpListViewButton(): ng.IDirective {
+function wpListViewButton():ng.IDirective {
   return wpButtonDirective({
     scope: {
       projectIdentifier: '=',
