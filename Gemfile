@@ -203,7 +203,7 @@ group :test do
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.0.0', require: false
 
-  gem 'simplecov', '~> 0.12.0', require: false
+  gem 'simplecov', '~> 0.14.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'
