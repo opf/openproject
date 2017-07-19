@@ -10,6 +10,7 @@ import {WorkPackageFieldModel} from './models/work-package-field-model';
 import {DropModel} from './models/drop-model';
 import {SingleAttachmentModel} from './models/single-attachment';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
+import {CommentFieldDirectiveController} from '../work-package-comment/work-package-comment.directive';
 
 export class WpAttachmentsFormattableController {
   constructor(protected $scope:ng.IScope,
@@ -210,11 +211,11 @@ function wpAttachmentsFormattable() {
     link: (scope:ng.IScope,
            element:ng.IAugmentedJQuery,
            attrs:ng.IAttributes,
-           controllers:[WorkPackageSingleViewController]) => {
-      scope.workPackage = controllers[0].workPackage;
+           controllers:[WorkPackageSingleViewController, CommentFieldDirectiveController]) => {
+      scope.workPackage = (controllers[0] || controllers[1]).workPackage;
       scope.attribute = scope.$eval(attrs.fieldName);
     },
-    require: ['^wpSingleView'],
+    require: ['?^wpSingleView', '?^workPackageComment'],
     restrict: 'A'
   };
 }
