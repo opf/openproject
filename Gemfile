@@ -181,8 +181,8 @@ group :test do
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
+  gem 'retriable', '~> 3.0'
   gem 'rspec-retry', '~> 0.5.2'
-  gem 'retriable', '~> 2.1'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
