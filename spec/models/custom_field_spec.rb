@@ -137,6 +137,20 @@ describe CustomField, type: :model do
       it { expect(field).not_to be_valid }
     end
 
+    describe "WITH a text field
+              WITH an invalid regexp" do
+
+      before do
+        field.field_format = 'text'
+        field.regexp = '[0-9}'
+      end
+
+      it 'is not valid' do
+        expect(field).not_to be_valid
+        expect(field.errors[:regexp].size).to eq(1)
+      end
+    end
+
     describe "WITH a list field
               WITHOUT a custom option" do
       before do

@@ -56,6 +56,7 @@ class CustomField < ActiveRecord::Base
   validates_inclusion_of :field_format, in: OpenProject::CustomFieldFormat.available_formats
 
   validate :validate_default_value
+  validate :validate_regex
 
   validates :min_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
@@ -99,6 +100,17 @@ class CustomField < ActiveRecord::Base
     ensure
       self.is_required = required_field
     end
+  end
+
+  def validate_regex
+    Regexp.new(regexp) if has_regexp?
+    true
+  rescue RegexpError
+    errors.add(:regexp, :invalid)
+  end
+
+  def has_regexp?
+    regexp.present?
   end
 
   def required?
