@@ -70,13 +70,6 @@ export class WorkPackageEditFieldController {
 
   public $onInit() {
     this.wpEditFieldGroup.register(this);
-    this.states.workPackages.get(this.workPackageId)
-      .values$()
-      .takeUntil(scopeDestroyed$(this.$scope))
-      .subscribe((wp) => {
-        this.workPackage = wp;
-        this.render();
-      });
   }
 
   public render() {

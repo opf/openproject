@@ -31,7 +31,8 @@ module.exports = function() {
   var uploadProgressController = function(scope) {
 
     scope.upload.progress(function(details) {
-      scope.file = details.config.file.name;
+      var file = details.config.file || details.config.data.file;
+      scope.file = _.get(file, 'name', '');
       if (details.lengthComputable) {
         scope.value = Math.round(details.loaded / details.total * 100);
       } else {

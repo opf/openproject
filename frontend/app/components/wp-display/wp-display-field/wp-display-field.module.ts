@@ -35,7 +35,7 @@ export class DisplayField extends Field {
   public I18n: op.I18n;
   public mode:string|null = null;
 
-  public get isLargeField():boolean {
+  public get isFormattable():boolean {
     return false;
   }
 

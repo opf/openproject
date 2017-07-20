@@ -1,16 +1,16 @@
 import {InsertMode, ViewMode} from './wp-attachments-formattable.enums';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {openprojectModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {MarkupModel} from './models/markup-model';
 import {EditorModel} from './models/editor-model';
 import {PasteModel} from './models/paste-model';
-import {FieldModel} from './models/field-model';
+import {WorkPackageFieldModel} from './models/work-package-field-model';
 import {DropModel} from './models/drop-model';
 import {SingleAttachmentModel} from './models/single-attachment';
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
+import {CommentFieldDirectiveController} from '../work-package-comment/work-package-comment.directive';
 
 export class WpAttachmentsFormattableController {
   constructor(protected $scope:ng.IScope,
@@ -18,7 +18,6 @@ export class WpAttachmentsFormattableController {
               protected $rootScope:ng.IRootScopeService,
               protected $location:ng.ILocationService,
               protected wpCacheService:WorkPackageCacheService,
-              protected wpEditing:WorkPackageEditingService,
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
               protected $state:ng.ui.IStateService,
@@ -43,7 +42,7 @@ export class WpAttachmentsFormattableController {
     const [, editor] = this.getEditor();
 
     const originalEvent = (evt.originalEvent as DragEvent);
-    const workPackage:WorkPackageResourceInterface = (this.$scope as any).workPackage;
+    const workPackage:WorkPackageResourceInterface = this.$scope.workPackage;
     const dropData:DropModel = new DropModel(this.$location,
       originalEvent.dataTransfer,
       workPackage);
@@ -87,7 +86,7 @@ export class WpAttachmentsFormattableController {
    * Get the editor model for the current view mode.
    * This is either the editing model (open textarea field), or the closed field model.
    */
-  protected getEditor():[ViewMode, EditorModel | FieldModel] {
+  protected getEditor():[ViewMode, EditorModel | WorkPackageFieldModel] {
     const textarea:ng.IAugmentedJQuery = this.$element.find('textarea');
 
     let viewMode;
@@ -98,20 +97,19 @@ export class WpAttachmentsFormattableController {
       model = new EditorModel(textarea, new MarkupModel());
     } else {
       viewMode = ViewMode.SHOW;
-      model = new FieldModel(this.$scope.workPackage, new MarkupModel());
+      model = new WorkPackageFieldModel(this.$scope.workPackage, this.$scope.attribute, new MarkupModel());
     }
 
     return [viewMode, model];
   }
 
-  protected uploadAndInsert(files:File[], model:EditorModel | FieldModel) {
-    const workPackage:WorkPackageResourceInterface = this.$scope.workPackage;
-
-    if (workPackage.isNew) {
-      return this.insertDelayedAttachments(files, model, workPackage);
+  protected uploadAndInsert(files:File[], model:EditorModel | WorkPackageFieldModel) {
+    const wp = this.$scope.workPackage as WorkPackageResourceInterface;
+    if (wp.isNew) {
+      return this.insertDelayedAttachments(files, model, wp);
     }
 
-    workPackage
+    wp
       .uploadAttachments(files)
       .then(attachments => attachments.elements)
       .then((updatedAttachments:any) => {
@@ -206,28 +204,18 @@ export class WpAttachmentsFormattableController {
   };
 }
 
-interface IAttachmentScope extends ng.IScope {
-  workPackage:WorkPackageResourceInterface;
-}
-
 function wpAttachmentsFormattable() {
   return {
     bindToController: true,
     controller: WpAttachmentsFormattableController,
-    link: (scope:IAttachmentScope,
+    link: (scope:ng.IScope,
            element:ng.IAugmentedJQuery,
            attrs:ng.IAttributes,
-           controllers:[WorkPackageSingleViewController]) => {
-      // right now the attachments directive will only work in combination with either
-      // the wpSingleView or the wpEditForm directive
-      // else the drop handler will fail because of a missing reference to the current wp
-      if (angular.isUndefined(controllers[0])) {
-        return;
-      }
-
-      scope.workPackage = controllers[0].workPackage;
+           controllers:[WorkPackageSingleViewController, CommentFieldDirectiveController]) => {
+      scope.workPackage = (controllers[0] || controllers[1]).workPackage;
+      scope.attribute = scope.$eval(attrs.fieldName);
     },
-    require: ['?^wpSingleView', '?^wpEditForm'],
+    require: ['?^wpSingleView', '?^workPackageComment'],
     restrict: 'A'
   };
 }

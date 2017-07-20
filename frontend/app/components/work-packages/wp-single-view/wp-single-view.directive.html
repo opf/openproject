@@ -73,7 +73,17 @@
         </div>
         <div ng-if="!descriptor.multiple"
              class="attributes-key-value--value-container">
-          <wp-edit-field work-package-id="$ctrl.workPackage.id" field-name="descriptor.name"></wp-edit-field>
+
+          <wp-edit-field ng-if="descriptor.field.isFormattable"
+                         class="wp-edit-formattable-field"
+                         work-package-id="$ctrl.workPackage.id"
+                         field-name="descriptor.name"
+                         wp-attachments-formattable>
+          </wp-edit-field>
+          <wp-edit-field ng-if="!descriptor.field.isFormattable"
+                         work-package-id="$ctrl.workPackage.id"
+                         field-name="descriptor.name">
+          </wp-edit-field>
         </div>
         <div
             class="attributes-key-value--key"
