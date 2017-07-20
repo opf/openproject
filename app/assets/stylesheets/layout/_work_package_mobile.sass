@@ -150,3 +150,10 @@
       margin: 0 !important
       padding: 8px 0 !important
       font-size: 1rem
+
+    &.action-show,
+    &.full-create
+      #main:not(.hidden-navigation)
+        #main-menu
+          height: initial
+          min-height: calc(100vh - 55px - 5px)
