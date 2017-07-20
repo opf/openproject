@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -57,7 +58,8 @@ class Status < ActiveRecord::Base
   def self.update_work_package_done_ratios
     if WorkPackage.use_status_for_done_ratio?
       Status.where(['default_done_ratio >= 0']).each do |status|
-        WorkPackage.where(['status_id = ?', status.id])
+        WorkPackage
+          .where(['status_id = ?', status.id])
           .update_all(['done_ratio = ?', status.default_done_ratio])
       end
     end
@@ -107,7 +109,7 @@ class Status < ActiveRecord::Base
   private
 
   def check_integrity
-    raise "Can't delete status" if WorkPackage.where(['status_id=?', id]).any?
+    raise "Can't delete status" if WorkPackage.where(status_id: id).exists?
   end
 
   # Deletes associated workflows

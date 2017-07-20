@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,7 +37,8 @@ class Workflow < ActiveRecord::Base
 
   # Returns workflow transitions count by type and role
   def self.count_by_type_and_role
-    counts = connection.select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
+    counts = connection
+             .select_all("SELECT role_id, type_id, count(id) AS c FROM #{Workflow.table_name} GROUP BY role_id, type_id")
     roles = Role.order('builtin, position')
     types = ::Type.order('position')
 
@@ -55,7 +57,8 @@ class Workflow < ActiveRecord::Base
 
   # Find potential statuses the user could be allowed to switch issues to
   def self.available_statuses(project, user = User.current)
-    Workflow.includes(:new_status)
+    Workflow
+      .includes(:new_status)
       .where(role_id: user.roles_for_project(project).map(&:id))
       .map(&:new_status)
       .compact
