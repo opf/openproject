@@ -1,5 +1,7 @@
 ### OpenProject is available in Univention App Center
 
+<a href="http://www.univention.de/appid/openproject"> <img alt="Available in Univention App Center" src="https://www.univention.de/wp-content/uploads/2016/03/download_f_univention_app_center_logo.svg" width="200" height="65"/></a>
+
 Univention App Center is the marketplace in [Univention Corporate Server (UCS)](https://www.univention.com/products/ucs/) , an enterprise operating platform for infrastructure and identity management. OpenProject is available in the [App Center]( https://www.univention.com/appid/openproject/) and comes integrated with the identity management.
 
 **Instructions**
