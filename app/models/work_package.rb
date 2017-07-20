@@ -419,19 +419,17 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default = false)
-    return [] if status.nil?
+    return Status.where('1=0') if status.nil?
 
-    statuses = status.find_new_statuses_allowed_to(
-      user.roles_for_project(project),
-      type,
-      author == user,
-      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-    )
-    statuses << Status.default if include_default
-    statuses.reject!(&:is_closed?) if blocked?
-    statuses << status
+    current_status = Status.where(id: status_id)
 
-    statuses.uniq.sort
+    statuses = new_statuses_allowed_by_workflow_to(user)
+               .or(current_status)
+
+    statuses = statuses.or(Status.where(id: Status.default.id)) if include_default
+    statuses = statuses.where(is_closed: false) if blocked?
+
+    statuses.order_by_position
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -828,6 +826,15 @@ class WorkPackage < ActiveRecord::Base
                               spent_on: Date.today)
 
     time_entries.build(attributes)
+  end
+
+  def new_statuses_allowed_by_workflow_to(user)
+    status.new_statuses_allowed_to(
+      user.roles_for_project(project),
+      type,
+      author == user,
+      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
+    )
   end
 
   ##
