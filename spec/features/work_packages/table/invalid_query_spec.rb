@@ -43,6 +43,7 @@ describe 'Invalid query spec', js: true do
   let(:work_package_assigned) do
     FactoryGirl.create(:work_package,
                        project: project,
+                       status: status2,
                        assigned_to: user)
   end
 
@@ -65,7 +66,7 @@ describe 'Invalid query spec', js: true do
     wp_table.expect_no_notification(type: :error,
                                     message: I18n.t('js.work_packages.faulty_query.description'))
 
-    wp_table.expect_work_package_listed [work_package_assigned]
+    wp_table.expect_work_package_listed work_package_assigned
 
     wp_table.expect_query_in_select_dropdown(invalid_query.name)
   end
@@ -92,11 +93,11 @@ describe 'Invalid query spec', js: true do
     wp_table.expect_no_work_package_listed
 
     wp_table.group_by('Assignee')
-    sleep(0.1)
+    sleep(0.3)
     filters.set_filter('Assignee', 'is', user.name)
-    sleep(0.1)
+    sleep(0.3)
 
-    wp_table.expect_work_package_listed [work_package_assigned]
+    wp_table.expect_work_package_listed work_package_assigned
     wp_table.save
 
     wp_table.expect_notification(message: I18n.t('js.notice_successful_update'))
