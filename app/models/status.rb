@@ -68,36 +68,29 @@ class Status < ActiveRecord::Base
   end
 
   # Returns an array of all statuses the given role can switch to
-  # Uses association cache when called more than one time
   def new_statuses_allowed_to(roles, type, author = false, assignee = false)
-    if roles && type
-      role_ids = roles.map(&:id)
-      transitions = workflows.select { |w|
-        role_ids.include?(w.role_id) &&
-        w.type_id == type.id &&
-        (author || !w.author) &&
-        (assignee || !w.assignee)
-      }
-      transitions.map(&:new_status).uniq.compact.sort
+    self.class.new_statuses_allowed(self, roles, type, author, assignee)
+  end
+
+  def self.new_statuses_allowed(status, roles, type, author = false, assignee = false)
+    if roles.present? && type.present?
+      status_id = status.try(:id) || 0
+
+      workflows = Workflow
+                  .from_status(status_id,
+                               type.id,
+                               roles.map(&:id),
+                               author,
+                               assignee)
+
+      Status.where(id: workflows.select(:new_status_id))
     else
-      []
+      Status.where('1 = 0')
     end
   end
 
-  # Same thing as above but uses a database query
-  # More efficient than the previous method if called just once
-  def find_new_statuses_allowed_to(roles, type, author = false, assignee = false)
-    if roles && type
-      conditions = { role_id: roles.map(&:id), type_id: type.id }
-      conditions[:author] = false unless author
-      conditions[:assignee] = false unless assignee
-
-      workflows.includes(:new_status)
-        .where(conditions)
-        .map(&:new_status).compact.sort
-    else
-      []
-    end
+  def self.order_by_position
+    order(:position)
   end
 
   def <=>(status)
