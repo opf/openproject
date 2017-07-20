@@ -63,7 +63,7 @@
               <li ui-sref="work-packages.show.relations({workPackageId: $ctrl.workPackage.id})"
                   ui-sref-active="selected">
                 <a href="" ng-bind="::$ctrl.text.tabs.relations"/>
-                <span class="wp-relations-count" ng-if="$ctrl.workPackage.relations.count > 0" ng-bind="$ctrl.workPackage.relations.count"></span>
+                <wp-relations-count wp-id="::$ctrl.workPackage.id"></wp-relations-count>
               </li>
               <li ng-if="$ctrl.canViewWorkPackageWatchers()"
                   ui-sref="work-packages.show.watchers({workPackageId: $ctrl.workPackage.id})"
