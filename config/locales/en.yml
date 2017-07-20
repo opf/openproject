@@ -481,6 +481,7 @@ en:
         before: "must be before %{date}."
         before_or_equal_to: "must be before or equal to %{date}."
         could_not_be_copied: "could not be (fully) copied."
+        regex_invalid: "could not be validated with the associated regular expression."
       models:
         custom_field:
           at_least_one_custom_option: "At least one option needs to be available."

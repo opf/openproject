@@ -65,9 +65,12 @@ class CustomValue < ActiveRecord::Base
   end
 
   def validate_format_of_value
-    if value.present?
-      errors.add(:value, :invalid) unless custom_field.regexp.blank? or value =~ Regexp.new(custom_field.regexp)
+    if value.present? && custom_field.has_regexp?
+      errors.add(:value, :invalid) unless value =~ Regexp.new(custom_field.regexp)
     end
+  rescue RegexpError => e
+    errors.add(:base, :regex_invalid)
+    Rails.logger.error "Custom Field ID#{custom_field_id} has an invalid regex: #{e.message}"
   end
 
   def validate_type_of_value
