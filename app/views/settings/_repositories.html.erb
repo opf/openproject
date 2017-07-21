@@ -53,7 +53,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <div class="form--field"><%= setting_text_field :sys_api_key, size: 30,
                                         id: 'settings_sys_api_key',
                                         disabled: !Setting.sys_api_enabled?,
-                                        label: :setting_mail_handler_api_key %>
+                                        label: :setting_mail_handler_api_key,
+                                        container_class: '-middle' %>
       <span class="form--field-extra-actions">
         <%= link_to_function t(:label_generate_key),
                              %{ if (!jQuery('#settings_sys_api_key').prop('disabled')) {
