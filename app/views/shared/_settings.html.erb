@@ -70,21 +70,26 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <%= styled_label_tag("settings[story_types]", l(:backlogs_story_type)) %>
   <%= styled_select_tag("settings[story_types]",
-                 options_from_collection_for_select(Type.all, :id, :name, Story.types), :multiple => true) %>
+                 options_from_collection_for_select(Type.all, :id, :name, Story.types),
+                 :multiple => true,
+                 container_class: '-slim') %>
 </div>
 <div class="form--field">
   <%= styled_label_tag("settings[task_type]", l(:backlogs_task_type)) %>
   <%= styled_select_tag("settings[task_type]",
-                 options_from_collection_for_select(Type.all, :id, :name, Task.type)) %>
+                 options_from_collection_for_select(Type.all, :id, :name, Task.type),
+                 container_class: '-slim') %>
 </div>
 <div class="form--field">
   <%= styled_label_tag("settings[points_burn_direction]", l(:backlogs_points_burn_direction)) %>
   <%= styled_select_tag("settings[points_burn_direction]",
                  options_for_select([[l(:label_points_burn_up), 'up'], [l(:label_points_burn_down), 'down']],
-                                    Setting.plugin_openproject_backlogs["points_burn_direction"])) %>
+                                    Setting.plugin_openproject_backlogs["points_burn_direction"]),
+                 container_class: '-slim') %>
 </div>
 <div class="form--field">
   <%= styled_label_tag("settings[wiki_template]", l(:backlogs_wiki_template)) %>
   <%= styled_text_field_tag("settings[wiki_template]",
-                     Setting.plugin_openproject_backlogs["wiki_template"]) %>
+                     Setting.plugin_openproject_backlogs["wiki_template"],
+                     container_class: '-slim') %>
 </div>
