@@ -232,6 +232,9 @@ openprojectModule
     });
 
     $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
+
+      $rootScope.$emit('notifications.clearAll');
+
       const projectIdentifier = toParams.projectPath || $rootScope['projectIdentifier'];
 
       if (!toParams.projects && projectIdentifier) {
