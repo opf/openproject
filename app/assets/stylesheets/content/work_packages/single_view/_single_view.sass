@@ -124,6 +124,21 @@ i
     padding: 0
     text-align: center
     cursor: pointer
+
+    .wp-relations-count
+      border-radius: 0.5rem
+      min-width: 1rem
+      display: inline-block
+      font-size: 0.7rem
+      line-height: 1rem
+      min-height: 1rem
+      vertical-align: 0.5rem
+      padding: 0 0.15rem 0 0.15rem
+      @include varprop(background, button--highlight-background-color)
+      @include varprop(color, button--highlight-font-color)
+      &:hover
+        @include varprop(background, button--highlight-background-hover-color)
+
   a
     color: #333
     text-decoration: none
