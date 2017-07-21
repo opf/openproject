@@ -73,13 +73,17 @@ describe Authorization::EnterpriseService do
         end
       end
 
-      context 'valid action requires active token' do
-        let(:action) { :define_custom_style }
+      %i(define_custom_style
+         multiselect_custom_fields
+         edit_attribute_groups).each do |guarded_action|
+        context "guarded action #{guarded_action}" do
+          let(:action) { guarded_action }
 
-        it 'returns a true result' do
-          expect(result).to be_kind_of ServiceResult
-          expect(result.result).to be_truthy
-          expect(result.success?).to be_truthy
+          it 'returns a true result' do
+            expect(result).to be_kind_of ServiceResult
+            expect(result.result).to be_truthy
+            expect(result.success?).to be_truthy
+          end
         end
       end
     end
