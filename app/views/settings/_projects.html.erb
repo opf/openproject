@@ -26,7 +26,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= styled_form_tag({ action: 'edit', tab: 'projects' }, class: '-wide-labels') do %>
+<%= styled_form_tag({ action: 'edit', tab: 'projects' }) do %>
   <section class="form--section">
     <div class="form--field"><%= setting_check_box :default_projects_public %></div>
     <div class="form--field"><%= setting_multiselect(:default_projects_modules,
