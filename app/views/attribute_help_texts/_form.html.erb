@@ -37,11 +37,11 @@ See doc/COPYRIGHT.rdoc for more details.
                    disabled: true
       %>
     <% else %>
-      <%= f.select :attribute_name, selectable_attributes(@attribute_help_text) %>
+      <%= f.select :attribute_name, selectable_attributes(@attribute_help_text), container_class: '-middle' %>
     <% end %>
   </div>
   <div class="form--field -required">
-    <%= f.text_area :help_text, :cols => 100, :rows => 25, :class => 'wiki-edit' %>
+    <%= f.text_area :help_text, :cols => 100, :rows => 20, :class => 'wiki-edit' %>
     <%= wikitoolbar_for("#{f.object_name}_help_text") %>
   </div>
 </section>
