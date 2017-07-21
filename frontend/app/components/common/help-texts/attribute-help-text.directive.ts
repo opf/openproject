@@ -106,7 +106,7 @@ export class AttributeHelpTextController {
       closeByDocument: true,
       scope: <IDialogScope> this.$scope,
       template: '/components/common/help-texts/help-text.modal.html',
-      className: 'ngdialog-theme-openproject'
+      className: 'ngdialog-theme-openproject -light -wide'
     });
   }
 }
