@@ -48,6 +48,7 @@ describe 'Select work package row', type: :feature do
     FactoryGirl.create(:version, project: project,
                                  name: 'zzz_version')
   end
+  let(:columns) { ::Components::WorkPackages::Columns.new }
 
   before do
     login_as(user)
@@ -68,7 +69,7 @@ describe 'Select work package row', type: :feature do
     end
 
     it 'sorts by version although version is not selected as a column' do
-      remove_wp_table_column('Version')
+      columns.remove 'Version'
 
       sort_wp_table_by('Version')
 

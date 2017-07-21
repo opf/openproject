@@ -41,6 +41,55 @@ describe "POST /api/v3/queries/form", type: :request do
   let(:override_params) { {} }
   let(:form) { JSON.parse response.body }
 
+  let(:static_columns_json) do
+    %w(id project assignee author
+       category createdAt dueDate estimatedTime
+       parent percentageDone priority responsible
+       spentTime startDate status subject type
+       updatedAt version).map do |id|
+      {
+        '_type': 'QueryColumn::Property',
+        'id': id
+      }
+    end
+  end
+
+  let(:custom_field_columns_json) do
+    [
+      {
+        '_type': 'QueryColumn::Property',
+        'id': "customField#{custom_field.id}"
+      }
+    ]
+  end
+
+  let(:relation_to_type_columns_json) do
+    project.types.map do |type|
+      {
+        '_type': 'QueryColumn::RelationToType',
+        'id': "relationsToType#{type.id}"
+      }
+    end
+  end
+
+  let(:relation_of_type_columns_json) do
+    Relation::TYPES.map do |_, value|
+      {
+        '_type': 'QueryColumn::RelationOfType',
+        'id': "relationsOfType#{value[:sym].camelcase}"
+      }
+    end
+  end
+
+  let(:non_project_type_relation_column_json) do
+    [
+      {
+        '_type': 'QueryColumn::RelationToType',
+        'id': "relationsToType#{non_project_type.id}"
+      }
+    ]
+  end
+
   let(:additional_setup) {}
 
   before do
@@ -106,6 +155,8 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     describe 'columns' do
+      let(:relation_columns_allowed) { true }
+
       let(:custom_field) do
         cf = FactoryGirl.create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
@@ -122,47 +173,63 @@ describe "POST /api/v3/queries/form", type: :request do
         custom_field
 
         non_project_type
+
+        # There does not seem to appear a way to generate a valid token
+        # for testing purposes
+        allow(EnterpriseToken)
+          .to receive(:allows_to?)
+          .with(:work_package_query_relation_columns)
+          .and_return(relation_columns_allowed)
       end
 
-      it 'has the static, custom field and relation columns' do
-        expected_columns = (%w(id project assignee author
-                               category createdAt dueDate estimatedTime
-                               parent percentageDone priority responsible
-                               spentTime startDate status subject type
-                               updatedAt version) + ["customField#{custom_field.id}"]).map do |id|
-          {
-            '_type': 'QueryColumn::Property',
-            'id': id
-          }
+      context 'with relation columns allowed by the enterprise token' do
+        it 'has the static, custom field and relation columns' do
+          expected_columns = static_columns_json +
+                             custom_field_columns_json +
+                             relation_to_type_columns_json +
+                             relation_of_type_columns_json +
+                             non_project_type_relation_column_json
+
+          actual_columns = form.dig('_embedded',
+                                    'schema',
+                                    'columns',
+                                    '_embedded',
+                                    'allowedValues')
+                               .map do |column|
+                                 {
+                                   '_type': column['_type'],
+                                   'id': column['id']
+                                 }
+                               end
+
+          expect(actual_columns).to include *expected_columns
         end
+      end
 
-        expected_columns += Type.all.map do |type|
-          {
-            '_type': 'QueryColumn::RelationToType',
-            'id': "relationsToType#{type.id}"
-          }
+      context 'with relation columns disallowed by the enterprise token' do
+        let(:relation_columns_allowed) { false }
+
+        it 'has the static and custom field' do
+          expected_columns = static_columns_json +
+                             custom_field_columns_json
+
+          actual_columns = form.dig('_embedded',
+                                    'schema',
+                                    'columns',
+                                    '_embedded',
+                                    'allowedValues')
+                               .map do |column|
+                                 {
+                                   '_type': column['_type'],
+                                   'id': column['id']
+                                 }
+                               end
+
+          expect(actual_columns).to include *expected_columns
+          expect(actual_columns).not_to include(relation_to_type_columns_json)
+          expect(actual_columns).not_to include(relation_of_type_columns_json)
+          expect(actual_columns).not_to include(non_project_type_relation_column_json)
         end
-
-        expected_columns += Relation::TYPES.map do |_, value|
-          {
-            '_type': 'QueryColumn::RelationOfType',
-            'id': "relationsOfType#{value[:sym].camelcase}"
-          }
-        end
-
-        actual_columns = form.dig('_embedded',
-                                  'schema',
-                                  'columns',
-                                  '_embedded',
-                                  'allowedValues')
-                             .map do |column|
-                               {
-                                 '_type': column['_type'],
-                                 'id': column['id']
-                               }
-                             end
-
-        expect(actual_columns).to include *expected_columns
       end
     end
   end
@@ -180,6 +247,8 @@ describe "POST /api/v3/queries/form", type: :request do
     end
 
     describe 'columns' do
+      let(:relation_columns_allowed) { true }
+
       let(:custom_field) do
         cf = FactoryGirl.create(:list_wp_custom_field)
         project.work_package_custom_fields << cf
@@ -196,53 +265,63 @@ describe "POST /api/v3/queries/form", type: :request do
         custom_field
 
         non_project_type
+
+        # There does not seem to appear a way to generate a valid token
+        # for testing purposes
+        allow(EnterpriseToken)
+          .to receive(:allows_to?)
+          .with(:work_package_query_relation_columns)
+          .and_return(relation_columns_allowed)
       end
 
-      it 'has the static, custom field and relation columns' do
-        expected_columns = (%w(id project assignee author
-                               category createdAt dueDate estimatedTime
-                               parent percentageDone priority responsible
-                               spentTime startDate status subject type
-                               updatedAt version) + ["customField#{custom_field.id}"]).map do |id|
-          {
-            '_type': 'QueryColumn::Property',
-            'id': id
-          }
+      context 'with relation columns allowed by the enterprise token' do
+        it 'has the static, custom field and relation columns' do
+          expected_columns = static_columns_json +
+                             custom_field_columns_json +
+                             relation_to_type_columns_json +
+                             relation_of_type_columns_json
+
+          actual_columns = form.dig('_embedded',
+                                    'schema',
+                                    'columns',
+                                    '_embedded',
+                                    'allowedValues')
+                               .map do |column|
+                                 {
+                                   '_type': column['_type'],
+                                   'id': column['id']
+                                 }
+                               end
+
+          expect(actual_columns).to include *expected_columns
+          expect(actual_columns).not_to include(non_project_type_relation_column_json)
         end
+      end
 
-        expected_columns += project.types.map do |type|
-          {
-            '_type': 'QueryColumn::RelationToType',
-            'id': "relationsToType#{type.id}"
-          }
+      context 'with relation columns disallowed by the enterprise token' do
+        let(:relation_columns_allowed) { false }
+
+        it 'has the static and custom field' do
+          expected_columns = static_columns_json +
+                             custom_field_columns_json
+
+          actual_columns = form.dig('_embedded',
+                                    'schema',
+                                    'columns',
+                                    '_embedded',
+                                    'allowedValues')
+                               .map do |column|
+                                 {
+                                   '_type': column['_type'],
+                                   'id': column['id']
+                                 }
+                               end
+
+          expect(actual_columns).to include *expected_columns
+          expect(actual_columns).not_to include(relation_to_type_columns_json)
+          expect(actual_columns).not_to include(relation_of_type_columns_json)
+          expect(actual_columns).not_to include(non_project_type_relation_column_json)
         end
-
-        expected_columns += Relation::TYPES.map do |_, value|
-          {
-            '_type': 'QueryColumn::RelationOfType',
-            'id': "relationsOfType#{value[:sym].camelcase}"
-          }
-        end
-
-        actual_columns = form.dig('_embedded',
-                                  'schema',
-                                  'columns',
-                                  '_embedded',
-                                  'allowedValues')
-                             .map do |column|
-                               {
-                                 '_type': column['_type'],
-                                 'id': column['id']
-                               }
-                             end
-
-        non_project_type_hash = {
-          '_type': 'QueryColumn::Relation',
-          'id': "relationsToType#{non_project_type.id}"
-        }
-
-        expect(actual_columns).to include *expected_columns
-        expect(actual_columns).not_to include(non_project_type_hash)
       end
     end
   end

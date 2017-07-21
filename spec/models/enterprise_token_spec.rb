@@ -57,9 +57,13 @@ RSpec.describe EnterpriseToken, type: :model do
         end
 
         it 'forwards to EnterpriseTokenService for checks' do
-          expect(service_double).to receive(:call).with(:forbidden_action)
+          expect(service_double)
+            .to receive(:call)
+            .with(:forbidden_action)
             .and_return double('ServiceResult', result: false)
-          expect(service_double).to receive(:call).with(:allowed_action)
+          expect(service_double)
+            .to receive(:call)
+            .with(:allowed_action)
             .and_return double('ServiceResult', result: true)
 
           expect(EnterpriseToken.allows_to?(:forbidden_action)).to eq false
@@ -102,11 +106,9 @@ RSpec.describe EnterpriseToken, type: :model do
   end
 
   describe "Configuration file has `ee_manager_visible` set to false" do
-
     it 'does not show banners promoting EE' do
       expect(OpenProject::Configuration).to receive(:ee_manager_visible?).and_return(false)
       expect(EnterpriseToken.show_banners?).to be_falsey
     end
   end
-
 end

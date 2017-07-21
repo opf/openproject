@@ -28,9 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationToTypeColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-  attr_accessor :type
-
+class Queries::WorkPackages::Columns::RelationToTypeColumn < Queries::WorkPackages::Columns::RelationColumn
   def initialize(type)
     super
 
@@ -48,7 +46,9 @@ class Queries::WorkPackages::Columns::RelationToTypeColumn < Queries::WorkPackag
   end
 
   def self.instances(context = nil)
-    if context
+    if !granted_by_enterprise_token
+      []
+    elsif context
       context.types
     else
       Type.all
