@@ -31,9 +31,16 @@ module.exports = function() {
     link: function(scope, element) {
       var thead = element.parent('colgroup').siblings('thead');
 
-      thead.on('mouseenter mouseleave', 'th', function() {
+      // Separte handling instead of toggle is neccessary to avoid
+      // unwanted side effects when adding/removing columns via keyboard in the modal
+      thead.on('mouseenter', 'th', function() {
         if (element.index() === jQuery(this).index()) {
-          element.toggleClass('hover');
+          element.addClass('hover');
+        }
+      });
+      thead.on('mouseleave', 'th', function() {
+        if (element.index() === jQuery(this).index()) {
+          element.removeClass('hover');
         }
       });
     }
