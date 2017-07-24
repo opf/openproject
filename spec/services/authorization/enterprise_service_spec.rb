@@ -76,7 +76,8 @@ describe Authorization::EnterpriseService do
       %i(define_custom_style
          multiselect_custom_fields
          edit_attribute_groups
-         work_package_query_relation_columns).each do |guarded_action|
+         work_package_query_relation_columns
+         attribute_help_texts).each do |guarded_action|
         context "guarded action #{guarded_action}" do
           let(:action) { guarded_action }
 
