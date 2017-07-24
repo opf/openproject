@@ -3,7 +3,12 @@
   height: 1em
   border-radius: 2px
   float: left
-  z-index: 50
+  z-index: 300
+
+  .bar-label
+    overflow: hidden
+    padding: 0 0 0 5px
+    white-space: nowrap
 
   .leftHandle
     position: absolute
@@ -21,22 +26,44 @@
     max-width: 20%
     height: 100%
 
-  .leftDateDisplay,
-  .rightDateDisplay
-    visibility: hidden
+  .labelLeft
+    padding: 2px 5px
+    top: 0
+    font-size: 10px
+    white-space: nowrap
+
+  .labelLeft
+    display: none
     position: absolute
-    background-color: #f4f4f4
+    left: -80px
+    width: 70px
+    background-color: white
+    border: 1px solid #d4d4d4
+    border-radius: 5px
+
+  .containerRight
+    position: absolute
+    top: 0
+    left: 100%
+    white-space: nowrap
+    line-height: 10px
+
+  .labelRight.not-empty
+    display: none
+    background-color: white
     border: 1px solid #d4d4d4
     border-radius: 5px
     padding: 2px 5px
-    top: 0px
+    margin-left: 10px
     font-size: 10px
 
-  .leftDateDisplay
-    left: -75px
-
-  .rightDateDisplay
-    right: -75px
+  .labelFarRight
+    display: inline-block
+    white-space: nowrap
+    font-style: italic
+    margin-left: 5px
+    padding: 2px 5px
+    font-size: 10px
 
   &.-readonly
     cursor: not-allowed !important

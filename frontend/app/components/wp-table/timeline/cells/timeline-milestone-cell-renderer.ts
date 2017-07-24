@@ -3,7 +3,11 @@ import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {calculatePositionValueForDayCountingPx, RenderInfo, timelineElementCssClass} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
-import {classNameRightDateDisplay, classNameShowOnHover} from './wp-timeline-cell';
+import {
+  classNameFarRightLabel,
+  classNameLeftLabel, classNameRightContainer, classNameRightLabel, classNameShowOnHover,
+  WorkPackageCellLabels
+} from './wp-timeline-cell';
 import Moment = moment.Moment;
 
 interface CellMilestoneMovement {
@@ -48,10 +52,12 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp:WorkPackageResourceInterface, dates:CellMilestoneMovement) {
-    this.assignDate(wp, 'date', dates.date!);
+  public assignDateValues(wp:WorkPackageResourceInterface,
+                          labels:WorkPackageCellLabels,
+                          dates:CellMilestoneMovement) {
 
-    this.updateMilestoneMovedLabel(dates.date!);
+    this.assignDate(wp, 'date', dates.date!);
+    this.updateLabels(true, labels, wp!);
   }
 
   /**
@@ -82,6 +88,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public onMouseDown(ev:MouseEvent,
                      dateForCreate:string | null,
                      renderInfo:RenderInfo,
+                     labels:WorkPackageCellLabels,
                      elem:HTMLElement):'left' | 'right' | 'both' | 'create' | 'dragright' {
 
     // check for active selection mode
@@ -101,13 +108,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
       return direction;
     }
 
-    // create date label
-    // const dateInfo = document.createElement("div");
-    // dateInfo.className = "rightDateDisplay";
-    // this.dateDisplaysOnMouseMove.right = dateInfo;
-    // elem.appendChild(dateInfo);
-
-    this.updateMilestoneMovedLabel(moment(renderInfo.workPackage.date));
+    this.updateLabels(true, labels, renderInfo.workPackage);
 
     return direction;
   }
@@ -171,23 +172,111 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     diamond.className = 'diamond';
     element.appendChild(diamond);
 
-    // create date label
-    const dateInfo = document.createElement('div');
-    dateInfo.classList.add(classNameRightDateDisplay);
-    dateInfo.classList.add(classNameShowOnHover);
-    this.dateDisplaysOnMouseMove.right = dateInfo;
-    element.appendChild(dateInfo);
-
-    this.updateMilestoneMovedLabel(moment(renderInfo.workPackage.date));
-
     return element;
   }
 
-  private updateMilestoneMovedLabel(date:Moment) {
+  createAndAddLabels(renderInfo:RenderInfo, element:HTMLElement):WorkPackageCellLabels {
+    // create left label
+    const labelLeft = document.createElement('div');
+    labelLeft.classList.add(classNameLeftLabel);
+    labelLeft.classList.add(classNameShowOnHover);
+    element.appendChild(labelLeft);
+
+    // create right container
+    const containerRight = document.createElement('div');
+    containerRight.classList.add(classNameRightContainer);
+    element.appendChild(containerRight);
+
+    // create right label
+    const labelRight = document.createElement('div');
+    labelRight.classList.add(classNameRightLabel);
+    labelRight.classList.add(classNameShowOnHover);
+    containerRight.appendChild(labelRight);
+
+    // create far right label
+    const labelFarRight = document.createElement('div');
+    labelFarRight.classList.add(classNameFarRightLabel);
+    labelFarRight.classList.add(classNameShowOnHover);
+    containerRight.appendChild(labelFarRight);
+
+    const labels = new WorkPackageCellLabels(null, labelLeft, labelRight, labelFarRight);
+    this.updateLabels(false, labels, renderInfo.workPackage);
+
+    return labels;
+
+    // label
+    // const label1 = document.createElement('div');
+    // label1.classList.add(classNameBarLabel);
+    // label1.textContent = renderInfo.workPackage.subject;
+    // const backgroundColor = this.typeColor(renderInfo.workPackage);
+    // label1.style.color = calculateForegroundColor(backgroundColor);
+    // element.appendChild(label1);
+
+    // create left date label
+    // const label2 = document.createElement('div');
+    // label2.classList.add(classNameLeftLabel);
+    // label2.classList.add(classNameShowOnHover);
+    // element.appendChild(label2);
+
+    // create right date label
+    // const label3 = document.createElement('div');
+    // label3.classList.add(classNameRightLabel);
+    // label3.classList.add(classNameShowOnHover);
+    // element.appendChild(label3);
+
+    // const labels = new WorkPackageCellLabels(null, null, null, null);
+    // this.updateLabels(false, labels, renderInfo.workPackage);
+    //
+    // return labels;
+  }
+
+  protected updateLabels(activeDragNDrop:boolean, labels:WorkPackageCellLabels, workPackage:WorkPackageResourceInterface) {
+
     if (!this.TimezoneService) {
       this.TimezoneService = $injectNow('TimezoneService');
     }
-    this.dateDisplaysOnMouseMove.right!.innerText = this.TimezoneService.formattedDate(date);
-  }
 
+    const subject:string = workPackage.subject;
+    const date:Moment | null = workPackage.date ? moment(workPackage.date) : null;
+
+    if (!activeDragNDrop) {
+      // normal display
+      if (labels.labelRight) {
+        labels.labelRight.textContent = this.TimezoneService.formattedDate(date);
+      }
+      if (labels.labelFarRight) {
+        labels.labelFarRight.textContent = subject;
+      }
+    } else {
+      // active drag'n'drop
+      if (labels.labelRight && date) {
+        labels.labelRight.textContent = this.TimezoneService.formattedDate(date);
+      }
+    }
+
+    if (labels.labelLeft) {
+      if (_.isEmpty(labels.labelLeft.textContent)) {
+        labels.labelLeft.classList.remove('not-empty');
+      } else {
+        labels.labelLeft.classList.add('not-empty');
+      }
+    }
+    if (labels.labelRight) {
+      if (_.isEmpty(labels.labelRight.textContent)) {
+        labels.labelRight.classList.remove('not-empty');
+      } else {
+        labels.labelRight.classList.add('not-empty');
+      }
+    }
+
+    // if (!this.TimezoneService) {
+    //   this.TimezoneService = $injectNow('TimezoneService');
+    // }
+    //
+    // const date:Moment | null = workPackage.date ? moment(workPackage.date) : null;
+    //
+    // if (labels.labelRight && date) {
+    //   labels.labelRight.innerText = this.TimezoneService.formattedDate(date);
+    // }
+  }
 }

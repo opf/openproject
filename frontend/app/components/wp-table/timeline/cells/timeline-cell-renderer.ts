@@ -10,9 +10,16 @@ import {
   timelineElementCssClass,
   timelineMarkerSelectionStartClass
 } from '../wp-timeline';
-import {classNameLeftHandle, classNameRightHandle} from './wp-timeline-cell-mouse-handler';
+import {
+  classNameFarRightLabel,
+  classNameLeftLabel,
+  classNameRightContainer,
+  classNameRightLabel,
+  classNameShowOnHover,
+  WorkPackageCellLabels
+} from './wp-timeline-cell';
+import {classNameBarLabel, classNameLeftHandle, classNameRightHandle} from './wp-timeline-cell-mouse-handler';
 import Moment = moment.Moment;
-import {classNameLeftDateDisplay, classNameRightDateDisplay, classNameShowOnHover} from './wp-timeline-cell';
 
 interface CellDateMovement {
   // Target values to move work package to
@@ -20,11 +27,13 @@ interface CellDateMovement {
   dueDate?:moment.Moment;
 }
 
+function calculateForegroundColor(backgroundColor:string):string {
+  return 'red';
+}
+
 export class TimelineCellRenderer {
 
   protected TimezoneService:any;
-
-  protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
 
   constructor(public workPackageTimeline:WorkPackageTimelineTableController) {
   }
@@ -63,11 +72,14 @@ export class TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp:WorkPackageResourceInterface, dates:CellDateMovement) {
+  public assignDateValues(wp:WorkPackageResourceInterface,
+                          labels:WorkPackageCellLabels,
+                          dates:CellDateMovement) {
+
     this.assignDate(wp, 'startDate', dates.startDate!);
     this.assignDate(wp, 'dueDate', dates.dueDate!);
 
-    this.updateLeftRightMovedLabel(dates.startDate!, dates.dueDate!);
+    this.updateLabels(true, labels, wp);
   }
 
   /**
@@ -122,6 +134,7 @@ export class TimelineCellRenderer {
   public onMouseDown(ev:MouseEvent,
                      dateForCreate:string | null,
                      renderInfo:RenderInfo,
+                     labels:WorkPackageCellLabels,
                      elem:HTMLElement):'left' | 'right' | 'both' | 'dragright' | 'create' {
 
     // check for active selection mode
@@ -156,8 +169,6 @@ export class TimelineCellRenderer {
       this.forceCursor('ew-resize');
     }
 
-    // this.dateDisplaysOnMouseMove = {left: undefined, right: undefined};
-
     if (dateForCreate) {
       renderInfo.workPackage.startDate = dateForCreate;
       renderInfo.workPackage.dueDate = dateForCreate;
@@ -171,17 +182,13 @@ export class TimelineCellRenderer {
     // if (!jQuery(ev.target).hasClass(classNameLeftHandle) && renderInfo.workPackage.dueDate) {
     // }
 
-    this.updateLeftRightMovedLabel(
-      moment(renderInfo.workPackage.startDate),
-      moment(renderInfo.workPackage.dueDate));
+    this.updateLabels(true, labels, renderInfo.workPackage);
 
     return direction;
   }
 
-  public onMouseDownEnd() {
-    this.dateDisplaysOnMouseMove.left && this.dateDisplaysOnMouseMove.left.remove();
-    this.dateDisplaysOnMouseMove.right && this.dateDisplaysOnMouseMove.right.remove();
-    this.dateDisplaysOnMouseMove = {};
+  public onMouseDownEnd(labels:WorkPackageCellLabels, workPackage:WorkPackageResourceInterface) {
+    this.updateLabels(false, labels, workPackage);
   }
 
   /**
@@ -297,31 +304,47 @@ export class TimelineCellRenderer {
     bar.className = timelineElementCssClass + ' ' + this.type;
     left.className = classNameLeftHandle;
     right.className = classNameRightHandle;
-
     bar.appendChild(left);
     bar.appendChild(right);
 
-    // bar.innerText = renderInfo.workPackage.subject;
-
-    // create left date label
-    const leftInfo = document.createElement('div');
-    leftInfo.classList.add(classNameLeftDateDisplay);
-    leftInfo.classList.add(classNameShowOnHover);
-    this.dateDisplaysOnMouseMove.left = leftInfo;
-    bar.appendChild(leftInfo);
-
-    // create right date label
-    const rightInfo = document.createElement('div');
-    rightInfo.classList.add(classNameRightDateDisplay);
-    rightInfo.classList.add(classNameShowOnHover);
-    this.dateDisplaysOnMouseMove.right = rightInfo;
-    bar.appendChild(rightInfo);
-
-    this.updateLeftRightMovedLabel(
-      moment(renderInfo.workPackage.startDate),
-      moment(renderInfo.workPackage.dueDate));
-
     return bar;
+  }
+
+  createAndAddLabels(renderInfo:RenderInfo, element:HTMLElement):WorkPackageCellLabels {
+    // create center label
+    const labelCenter = document.createElement('div');
+    labelCenter.classList.add(classNameBarLabel);
+    const backgroundColor = this.typeColor(renderInfo.workPackage);
+    labelCenter.style.color = calculateForegroundColor(backgroundColor);
+    element.appendChild(labelCenter);
+
+    // create left label
+    const labelLeft = document.createElement('div');
+    labelLeft.classList.add(classNameLeftLabel);
+    labelLeft.classList.add(classNameShowOnHover);
+    element.appendChild(labelLeft);
+
+    // create right container
+    const containerRight = document.createElement('div');
+    containerRight.classList.add(classNameRightContainer);
+    element.appendChild(containerRight);
+
+    // create right label
+    const labelRight = document.createElement('div');
+    labelRight.classList.add(classNameRightLabel);
+    labelRight.classList.add(classNameShowOnHover);
+    containerRight.appendChild(labelRight);
+
+    // create far right label
+    const labelFarRight = document.createElement('div');
+    labelFarRight.classList.add(classNameFarRightLabel);
+    labelFarRight.classList.add(classNameShowOnHover);
+    containerRight.appendChild(labelFarRight);
+
+    const labels = new WorkPackageCellLabels(labelCenter, labelLeft, labelRight, labelFarRight);
+    this.updateLabels(false, labels, renderInfo.workPackage);
+
+    return labels;
   }
 
   protected typeColor(wp:WorkPackageResourceInterface):string {
@@ -373,17 +396,54 @@ export class TimelineCellRenderer {
     }
   }
 
-  private updateLeftRightMovedLabel(start:Moment, due:Moment) {
+  protected updateLabels(activeDragNDrop:boolean,
+                         labels:WorkPackageCellLabels,
+                         workPackage:WorkPackageResourceInterface) {
+
     if (!this.TimezoneService) {
       this.TimezoneService = $injectNow('TimezoneService');
     }
 
-    if (this.dateDisplaysOnMouseMove.left && start) {
-      this.dateDisplaysOnMouseMove.left.innerText = this.TimezoneService.formattedDate(start);
+    const subject:string = workPackage.subject;
+    const start:Moment | null = workPackage.startDate ? moment(workPackage.startDate) : null;
+    const due:Moment | null = workPackage.dueDate ? moment(workPackage.dueDate) : null;
+
+    if (!activeDragNDrop) {
+      // normal display
+      if (labels.labelLeft) {
+        labels.labelLeft.textContent = this.TimezoneService.formattedDate(start);
+      }
+      if (labels.labelRight) {
+        labels.labelRight.textContent = this.TimezoneService.formattedDate(due);
+      }
+      if (labels.labelFarRight) {
+        labels.labelFarRight.textContent = subject;
+      }
+    } else {
+      // active drag'n'drop
+      if (labels.labelLeft && start) {
+        labels.labelLeft.textContent = this.TimezoneService.formattedDate(start);
+      }
+      if (labels.labelRight && due) {
+        labels.labelRight.textContent = this.TimezoneService.formattedDate(due);
+      }
     }
 
-    if (this.dateDisplaysOnMouseMove.right && due) {
-      this.dateDisplaysOnMouseMove.right.innerText = this.TimezoneService.formattedDate(due);
+    if (labels.labelLeft) {
+      if (_.isEmpty(labels.labelLeft.textContent)) {
+        labels.labelLeft.classList.remove('not-empty');
+      } else {
+        labels.labelLeft.classList.add('not-empty');
+      }
     }
+    if (labels.labelRight) {
+      if (_.isEmpty(labels.labelRight.textContent)) {
+        labels.labelRight.classList.remove('not-empty');
+      } else {
+        labels.labelRight.classList.add('not-empty');
+      }
+    }
+
   }
+
 }

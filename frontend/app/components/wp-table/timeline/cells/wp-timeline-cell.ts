@@ -25,24 +25,33 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import * as moment from 'moment';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../../states.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
 import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
-import {TimelineCellRenderer} from './timeline-cell-renderer';
-import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {RenderInfo} from '../wp-timeline';
+import {TimelineCellRenderer} from './timeline-cell-renderer';
+import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler';
-import IScope = angular.IScope;
-import Moment = moment.Moment;
 
-export const classNameLeftDateDisplay = 'leftDateDisplay';
-export const classNameRightDateDisplay = 'rightDateDisplay';
+export const classNameLeftLabel = 'labelLeft';
+export const classNameRightContainer = 'containerRight';
+export const classNameRightLabel = 'labelRight';
+export const classNameFarRightLabel = 'labelFarRight';
 export const classNameShowOnHover = 'show-on-hover';
+
+export class WorkPackageCellLabels {
+
+  constructor(public readonly labelCenter:HTMLDivElement | null,
+              public readonly labelLeft:HTMLDivElement | null,
+              public readonly labelRight:HTMLDivElement | null,
+              public readonly labelFarRight:HTMLDivElement | null) {
+  }
+
+}
 
 export class WorkPackageTimelineCell {
   public wpCacheService:WorkPackageCacheService;
@@ -55,6 +64,8 @@ export class WorkPackageTimelineCell {
   private elementShape:string;
 
   private timelineCell:JQuery;
+
+  private labels:WorkPackageCellLabels;
 
   constructor(public workPackageTimeline:WorkPackageTimelineTableController,
               public renderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer },
@@ -122,6 +133,7 @@ export class WorkPackageTimelineCell {
 
     // Render the given element
     this.wpElement = renderer.render(renderInfo);
+    this.labels = renderer.createAndAddLabels(renderInfo, this.wpElement);
     this.elementShape = renderer.type;
 
     // Register the element
@@ -139,6 +151,7 @@ export class WorkPackageTimelineCell {
         this.loadingIndicator,
         cell[0],
         this.wpElement,
+        this.labels,
         renderer,
         renderInfo);
     }
