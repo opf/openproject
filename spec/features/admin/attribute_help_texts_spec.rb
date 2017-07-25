@@ -32,7 +32,7 @@ describe 'Attribute help texts' do
   let(:admin) { FactoryGirl.create(:admin) }
 
   let(:instance) { AttributeHelpText.last }
-  let(:modal) { AttributeHelpTextModal.new(instance) }
+  let(:modal) { Components::AttributeHelpTextModal.new(instance) }
 
   let(:relation_columns_allowed) { true }
 

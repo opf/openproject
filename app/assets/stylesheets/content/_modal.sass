@@ -208,13 +208,21 @@ ul.export-options
     height: 33px
     border-bottom: 1px solid #dddddd
 
+    *
+      background-color: $body-background
+      line-height: 25px
+      font-size: 18px
+      padding-bottom: 6px
+
     h2
       color: $body-font-color
       color: var(--body-font-color)
       font-weight: normal
-      font-size: 18px
-      line-height: 25px
-      padding-bottom: 8px
+
+    .icon-context
+      @include varprop(color, content-icon-color)
+      font-size: 1rem
+      margin-right: 0
 
   .ngdialog-close
     color: $body-font-color
@@ -222,6 +230,9 @@ ul.export-options
     padding-right: 0.75rem
     margin-top: 1.5rem
     line-height: 25px
+
+  .modal--footer
+    margin: 1em 0 0.5em 0
 
 .ngdialog-theme-openproject.-wide
 

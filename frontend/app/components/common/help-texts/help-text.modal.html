@@ -1,6 +1,7 @@
 <div class="attribute-help-text--modal">
   <div>
     <div class="modal--header">
+      <span class="icon-context icon-help1"></span>
       <h2 class="ellipsis" ng-bind="::resource.attributeCaption"></h2>
     </div>
 
@@ -10,12 +11,6 @@
     </div>
 
     <div class="modal--footer">
-      <button class="help-text--close-button button -highlight"
-              ng-click="closeThisDialog()"
-              data-click-on-keypress="[13, 32]"
-              ng-bind="::text.close"
-              ng-attr-title="{{ ::text.close }}">
-      </button>
       <a class="help-text--edit-button button"
          ng-if="resource.editText"
          ng-attr-href="{{ resource.editText && resource.editText.$link.href }}"
@@ -25,4 +20,10 @@
       </a>
     </div>
   </div>
+
+  <a class="ngdialog-close"
+     href=""
+     title="{{ ::text.close }}"
+     ng-click="close($event)">
+  </a>
 </div>

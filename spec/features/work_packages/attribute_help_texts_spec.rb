@@ -38,7 +38,7 @@ describe 'Work package attribute help texts', type: :feature, js: true do
                        help_text: 'Some *help text* for status.'
   end
 
-  let(:modal) { AttributeHelpTextModal.new(instance) }
+  let(:modal) { Components::AttributeHelpTextModal.new(instance) }
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
 
   before do
