@@ -99,8 +99,12 @@
   #account-nav-left
     #projects-menu
       font-size: 15px
+      .button--dropdown-text
+        // Viewport minus #account-nav-right minus padding.
+        max-width: calc(100vW - 110px - 49px)
     .drop-down
-      max-width: 180px
+      // Viewport minus #account-nav-right
+      max-width: calc(100vW - 110px)
       ul
         width: 100vw
         border: none

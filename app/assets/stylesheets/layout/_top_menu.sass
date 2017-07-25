@@ -104,6 +104,8 @@
           height: 32px
           line-height: 32px
           font-size: 1rem
+    > ul.drop-down--projects
+      min-width: 400px
   li.open > a
     position: relative
     top: 0
@@ -263,6 +265,9 @@ input.top-menu-search--input
   margin: 0 0 0 -2px
   border: 2px solid $header-drop-down-border-color
   border-top: 0
+  // Overwrite Selct2's width calculations
+  width: 396px !important
+
   @include default-font($header-drop-down-projects-search-font-color, 13px)
   li
     padding: 0 10px
@@ -317,7 +322,8 @@ input.top-menu-search--input
 
 #account-nav-left
   .drop-down
-    max-width: 230px
+    // Half viewport width minus half logo.
+    max-width: calc((100vW/2) - 115px)
 
   #projects-menu
     padding-right: 34px
@@ -325,7 +331,8 @@ input.top-menu-search--input
 
     .button--dropdown-text
       float: left
-      max-width: 180px // 230px from sidebar minus margins
+      // Half viewport width minus half logo minus margins.
+      max-width: calc((100vW/2) - 115px - 50px)
       text-overflow: ellipsis
       overflow: hidden
 
