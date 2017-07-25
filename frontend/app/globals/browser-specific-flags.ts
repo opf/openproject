@@ -38,4 +38,8 @@ jQuery(function() {
   if (bowser.windows) {
     document.documentElement.classList.add('-browser-windows');
   }
+
+  if (bowser.ios) {
+    document.documentElement.classList.add('-browser-ios');
+  }
 });
