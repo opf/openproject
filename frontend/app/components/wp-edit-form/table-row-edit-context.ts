@@ -49,6 +49,9 @@ export class TableRowEditContext implements WorkPackageEditContext {
   public $q:ng.IQService;
   public $timeout:ng.ITimeoutService;
 
+  // other fields
+  public successState:string;
+
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder();
 

@@ -36,16 +36,16 @@ import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
 import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageCreateService} from './wp-create.service';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
-import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import IRootScopeService = angular.IRootScopeService;
+import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResource | any;
   public parentWorkPackage:WorkPackageResource | any;
+  public form:WorkPackageEditForm;
 
   public get header():string {
     if (!this.newWorkPackage.type) {
@@ -80,20 +80,24 @@ export class WorkPackageCreateController {
               protected successState:string,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected states:States,
-              protected loadingIndicator:any,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
-              protected wpTableSelection:WorkPackageTableSelection,
               protected wpCacheService:WorkPackageCacheService,
-              protected wpTableRefresh:WorkPackageTableRefreshService,
               protected $location:ng.ILocationService,
-              protected RootDm:RootDmService,
-              protected v3Path:any) {
+              protected RootDm:RootDmService) {
 
     this.newWorkPackageFromParams($state.params)
       .then(wp => {
         this.newWorkPackage = wp;
         wpCacheService.updateWorkPackage(wp);
+
+        scopedObservable(this.$scope,
+          this.states.editing.get(wp.id).values$())
+          .subscribe(form => {
+            this.form = form;
+
+            this.form.editContext.successState = this.successState;
+          });
 
         if ($state.params['parent_id']) {
           scopedObservable(this.$scope,
@@ -105,7 +109,7 @@ export class WorkPackageCreateController {
         }
       })
       .catch(error => {
-        if (error.errorIdentifier == "urn:openproject-org:api:v3:errors:MissingPermission") {
+        if (error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MissingPermission') {
           this.RootDm.load().then((root:RootResource) => {
             if (!root.user) {
               // Not logged in
@@ -114,11 +118,9 @@ export class WorkPackageCreateController {
               let loginUrl:string = $location.absUrl();
               window.location.href = loginUrl;
             }
-            ;
           });
           this.wpNotificationsService.handleErrorResponse(error);
         }
-        ;
       });
   }
 
@@ -142,16 +144,6 @@ export class WorkPackageCreateController {
       .saveChanges(this.newWorkPackage.id)
       .then((wp) => {
         this.wpEditing.stopEditing(this.newWorkPackage.id);
-        this.refreshAfterSave(wp);
-      });
-  }
-
-  public refreshAfterSave(wp:WorkPackageResourceInterface) {
-    this.wpTableSelection.focusOn(wp.id);
-    this.loadingIndicator.mainPage = this.$state.go(this.successState, {workPackageId: wp.id})
-      .then(() => {
-        this.wpTableRefresh.request(false, `Saved work package ${wp.id}`);
-        this.wpNotificationsService.showSave(wp, true);
       });
   }
 }

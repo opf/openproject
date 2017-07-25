@@ -167,7 +167,7 @@ export class WorkPackageEditForm {
         deferred.resolve(savedWorkPackage);
 
         this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
-        this.editContext.onSaved(savedWorkPackage);
+        this.editContext.onSaved(savedWorkPackage, isInitial);
 
         // Only stop editing if the user didn't open any other fields
         // in the meantime (otherwise, they would be closed here, which is annoying).
@@ -217,7 +217,7 @@ export class WorkPackageEditForm {
   protected handleErroneousAttributes(error:any) {
     const attributes = error.getInvolvedAttributes();
     // Save erroneous fields for when new fields appear
-    this.errorsPerAttribute = error.getMessagesPerAttribute()
+    this.errorsPerAttribute = error.getMessagesPerAttribute();
     if (attributes.length === 0) {
       return;
     }
