@@ -218,6 +218,9 @@ module OpenProject
       'table-timeline--row-height'                           => '41px'
     }.freeze
 
+    # Regular expression for references of other variables.
+    VARIABLE_NAME_RGX = /\$([\w-]+)/
+
     ##
     # Returns the name of the color scheme.
     # To be overridden by a plugin
@@ -244,6 +247,22 @@ module OpenProject
     # To be used in the sass variable definition file
     def self.variables
       DEFAULTS
+    end
+
+    ##
+    # Return the value after resolving all variables to values.
+    def self.resolved_variables
+      resolved_variables = DEFAULTS.dup
+
+      DEFAULTS.each do |var_name, value|
+        puts "///// #{var_name} => #{value} /////"
+        resolved_variables[var_name] = resolve_value(value)
+      end
+      resolved_variables
+    end
+
+    def self.resolve_value(variable_value)
+      variable_value.gsub(VARIABLE_NAME_RGX) { resolve_value(DEFAULTS[$1]) }
     end
 
     ##
