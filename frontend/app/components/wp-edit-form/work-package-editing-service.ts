@@ -69,5 +69,4 @@ export class WorkPackageEditingService {
   }
 }
 
-wpServicesModule.service('wpEditing', WorkPackageEditingService)
-
+wpServicesModule.service('wpEditing', WorkPackageEditingService);

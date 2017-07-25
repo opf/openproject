@@ -40,6 +40,8 @@ import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 import {WorkPackageEditFieldController} from '../wp-edit/wp-edit-field/wp-edit-field.directive';
 import {WorkPackageEditFieldGroupController} from '../wp-edit/wp-edit-field/wp-edit-field-group.directive';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
@@ -50,10 +52,16 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   public $q:ng.IQService;
   public $timeout:ng.ITimeoutService;
   public templateRenderer:SimpleTemplateRenderer;
+  public $state:ng.ui.IStateService;
+  public wpNotificationsService:WorkPackageNotificationService;
+  protected wpTableSelection:WorkPackageTableSelection;
+
+  // other fields
+  public successState:string;
 
   constructor(public fieldGroup:WorkPackageEditFieldGroupController) {
     $injectFields(this, 'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
-      'FocusHelper', '$q', '$timeout', 'templateRenderer');
+      'FocusHelper', '$q', '$timeout', 'templateRenderer', '$state', 'wpNotificationsService', 'wpTableSelection');
   }
 
   public async activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):Promise<WorkPackageEditFieldHandler> {
@@ -129,7 +137,15 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     return this.fieldGroup.waitForField(name);
   }
 
-  public onSaved(workPackage:WorkPackageResource) {
+  public onSaved(workPackage:WorkPackageResourceInterface, isInitial?:boolean) {
     this.wpTableRefresh.request(false, `Saved work package ${workPackage.id}`);
+
+    if (isInitial && this.successState) {
+      this.$state.go(this.successState, { workPackageId: workPackage.id })
+        .then(() => {
+           this.wpTableSelection.focusOn(workPackage.id);
+           this.wpNotificationsService.showSave(workPackage, true);
+        });
+    }
   }
 }

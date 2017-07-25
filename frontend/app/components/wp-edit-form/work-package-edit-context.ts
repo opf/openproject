@@ -34,7 +34,6 @@ import {WorkPackageEditForm} from './work-package-edit-form';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 export interface WorkPackageEditContext {
-
   /**
    * Activate the field, returning the element and associated field handler
    */
@@ -63,5 +62,10 @@ export interface WorkPackageEditContext {
   /**
    * Callback after a work package is saved through the form
    */
-  onSaved(workPackage:WorkPackageResource):void;
+  onSaved(workPackage:WorkPackageResource, isInitial?:boolean):void;
+
+  /**
+   * ui-state to redirect to after successful saving
+   */
+  successState:string;
 }
