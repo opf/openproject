@@ -295,6 +295,22 @@ export class WorkPackageResource extends HalResource {
       });
   }
 
+  /**
+   * Uploads the attachments and reloads the work package when done
+   * Reloading is skipped if no attachment is added
+   */
+  private uploadAttachmentsAndReload() {
+    const attachmentUpload = this.uploadPendingAttachments();
+
+    if (attachmentUpload) {
+      attachmentUpload.then((attachmentsResource) => {
+        if (attachmentsResource.count > 0) {
+          wpCacheService.loadWorkPackage(this.id, true);
+        }
+      });
+    }
+  }
+
   public allowedValuesFor(field:string):ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
 
@@ -426,7 +442,7 @@ export class WorkPackageResource extends HalResource {
               this.updateActivities();
 
               if (wasNew) {
-                this.uploadPendingAttachments();
+                this.uploadAttachmentsAndReload();
                 wpCreate.newWorkPackageCreated(this as any);
               }
 
@@ -532,7 +548,7 @@ export class WorkPackageResource extends HalResource {
       resources[name] = linked ? linked.$update() : $q.reject();
     });
 
-    const promise = $q.all(resources)
+    const promise = $q.all(resources);
     promise.then(() => {
       wpCacheService.updateWorkPackage(this as any);
     });
