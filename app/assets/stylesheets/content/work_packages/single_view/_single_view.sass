@@ -132,12 +132,10 @@ i
       font-size: 0.7rem
       line-height: 1rem
       min-height: 1rem
-      vertical-align: 0.5rem
+      vertical-align: 0.1rem
       padding: 0 0.15rem 0 0.15rem
-      @include varprop(background, button--highlight-background-color)
-      @include varprop(color, button--highlight-font-color)
-      &:hover
-        @include varprop(background, button--highlight-background-hover-color)
+      background: $light-gray
+      font-weight: bold
 
   a
     color: #333
@@ -157,6 +155,10 @@ i
     @include varprop(border-bottom-color, content-link-color)
     a
       @include varprop(color, content-link-color)
+    .wp-relations-count
+      @include varprop(color, content-link-color)
+      &:hover
+        @include varprop(color, content-link-color)
 
 .work-packages--details-close-icon span,
 .work-packages--details-fullscreen-icon span
