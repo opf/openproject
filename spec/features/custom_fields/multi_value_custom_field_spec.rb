@@ -23,6 +23,7 @@ describe "multi select custom values", js: true do
   let(:wp_page) { Pages::FullWorkPackage.new work_package }
   let(:wp_table) { Pages::WorkPackagesTable.new project }
   let(:hierarchy) { ::Components::WorkPackages::Hierarchies.new }
+  let(:columns) { ::Components::WorkPackages::Columns.new }
   let(:user) { FactoryGirl.create :admin }
 
   context "with existing custom values" do
@@ -93,7 +94,6 @@ describe "multi select custom values", js: true do
         field.field_type = 'select'
         field
       end
-      include_context 'work package table helpers'
 
       before do
         work_package
@@ -104,7 +104,8 @@ describe "multi select custom values", js: true do
         wp_table.visit!
         wp_table.expect_work_package_listed(work_package)
         wp_table.expect_work_package_listed(work_package2)
-        add_wp_table_column(custom_field.name)
+
+        columns.add custom_field.name
       end
 
       it 'should be usable in the table context' do

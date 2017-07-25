@@ -28,38 +28,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Authorization::EnterpriseService
-  attr_accessor :token
+class Queries::WorkPackages::Columns::RelationColumn < Queries::WorkPackages::Columns::WorkPackageColumn
+  attr_accessor :type
 
-  GUARDED_ACTIONS = %i(define_custom_style
-                       multiselect_custom_fields
-                       edit_attribute_groups
-                       work_package_query_relation_columns).freeze
-
-  def initialize(token)
-    self.token = token
+  def self.granted_by_enterprise_token
+    EnterpriseToken.allows_to?(:work_package_query_relation_columns)
   end
 
-  # Return a true ServiceResult if the token contains this particular action.
-  def call(action)
-    allowed =
-      if token.nil? || token.token_object.nil? || token.expired?
-        false
-      else
-        process(action)
-      end
-
-    result(allowed)
-  end
-
-  private
-
-  def process(action)
-    # Every non-expired token
-    GUARDED_ACTIONS.include?(action)
-  end
-
-  def result(bool)
-    ServiceResult.new(success: bool, result: bool)
-  end
+  private_class_method :granted_by_enterprise_token
 end
