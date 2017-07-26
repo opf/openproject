@@ -84,9 +84,7 @@ module OpenProject
         # @raise [ScmUnavailable] raised when repository is unavailable.
         def check_availability!
           if checkout? && !File.directory?(checkout_path)
-            Rails.logger.info "Checking out #{checkout_url} to #{checkout_path}"
-
-            %x(git clone #{checkout_url} #{checkout_path})
+            checkout_repository!
           end
 
           update_repository! if checkout?
@@ -100,36 +98,80 @@ module OpenProject
           raise Exceptions::ScmUnavailable
         end
 
+        def checkout_repository!
+          Rails.logger.info "Checking out #{checkout_uri} to #{checkout_path}"
+
+          FileUtils.mkdir_p checkout_path.parent
+          %x(git clone #{checkout_uri} #{checkout_path})
+
+          if $? != 0
+            raise Exceptions::CommandFailed("Failed to clone #{checkout_uri} to #{checkout_path}")
+          end
+        end
+
         def update_repository!
           Rails.logger.debug "Fetching latest commits for #{checkout_path}"
 
           Dir.chdir checkout_path do
-            %x(#{client_command} fetch --all)
+            fetch_all
 
-            remote_branches = %x(#{client_command} branch -r)
-              .split("\n")
-              .map(&:strip)
-              .reject { |b| b.include?("->") } # origin/HEAD -> origin/master
-
-            local_branches = %x(#{client_command} branch)
-              .split("\n")
-              .map(&:strip)
-              .map { |b| b.sub(/^\* /, "") } # remove marker for current branch
+            remote_branches = self.remote_branches
+            local_branches = self.local_branches
 
             remote_branches.each do |remote_branch|
               local_branch = remote_branch.sub /^origin\//, ""
 
               if !local_branches.include?(local_branch)
-                Rails.logger.info("Setting up new branch: #{local_branch} -> #{remote_branch}")
-
-                %x(#{client_command} branch --track #{local_branch} #{remote_branch})
+                track_branch! local_branch, remote_branch
               else
-                Rails.logger.debug("Updating branch: #{local_branch}")
-
-                %x(#{client_command} update-ref #{local_branch} #{remote_branch})
+                update_branch! local_branch, remote_branch
               end
             end
           end
+        end
+
+        def fetch_all
+          %x(#{client_command} fetch --all)
+
+          raise Exceptions::CommandFailed("Failed to fetch latest commits") if $? != 0
+        end
+
+        def remote_branches
+          remote_branches = %x(#{client_command} branch -r)
+            .split("\n")
+            .map(&:strip)
+            .reject { |b| b.include?("->") } # origin/HEAD -> origin/master
+
+          raise Exceptions::CommandFailed("Failed to list remote branches") if $? != 0
+
+          remote_branches
+        end
+
+        def local_branches
+          local_branches = %x(#{client_command} branch)
+            .split("\n")
+            .map(&:strip)
+            .map { |b| b.sub(/^\* /, "") } # remove marker for current branch
+
+          raise Exceptions::CommandFailed("Failed to list local branches") if $? != 0
+
+          local_branches
+        end
+
+        def track_branch!(local_branch, remote_branch)
+          Rails.logger.info("Setting up new branch: #{local_branch} -> #{remote_branch}")
+
+          %x(#{client_command} branch --track #{local_branch} #{remote_branch})
+
+          raise Exceptions::CommandFailed("Failed to track new branch #{remote_branch}") if $? != 0
+        end
+
+        def update_branch!(local_branch, remote_branch)
+          Rails.logger.debug("Updating branch: #{local_branch}")
+
+          %x(#{client_command} update-ref #{local_branch} #{remote_branch})
+
+          raise Exceptions::CommandFailed("Failed update ref to #{remote_branch}") if $? != 0
         end
 
         def info
@@ -146,10 +188,12 @@ module OpenProject
         end
 
         def checkout_path
-          Pathname("repos/#{@identifier}").expand_path
+          Pathname(OpenProject::Configuration.scm_local_checkout_path)
+            .join(@identifier)
+            .expand_path
         end
 
-        def checkout_url
+        def checkout_uri
           root_url.presence || url
         end
 
@@ -410,7 +454,7 @@ module OpenProject
         # and return the executed stdout as a string
         def capture_git(args, opt = {})
           opt = opt.merge(chdir: checkout_path) if checkout? && !opt[:no_chdir]
-          cmd = build_git_cmd(args)
+          cmd = build_git_cmd(args, opt.slice(:no_chdir))
           capture_out(cmd, opt)
         end
 
@@ -428,7 +472,10 @@ module OpenProject
             if process.exitstatus != 0
               raise Exceptions::CommandFailed.new(
                 'git',
-                "`git #{args.join(" ")}` exited with non-zero status: #{process.exitstatus} (#{stderr.read})"
+                %{
+                  `git #{args.join(" ")}` exited with non-zero status:
+                  #{process.exitstatus} (#{stderr.read})
+                }.squish
               )
             end
           end
@@ -445,13 +492,13 @@ module OpenProject
           end
         end
 
-        def build_git_cmd(args)
+        def build_git_cmd(args, opts = {})
           if client_version_above?([1, 7, 2])
             args.unshift('-c', 'core.quotepath=false')
           end
 
           # make sure to use bare repository path to initialize a managed repository
-          args.unshift('--git-dir', checkout_url) unless checkout? && !args.include?("init")
+          args.unshift('--git-dir', checkout_uri) unless checkout? && !opts[:no_chdir]
           args
         end
       end
