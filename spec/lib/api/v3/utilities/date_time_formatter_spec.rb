@@ -119,8 +119,8 @@ describe :DateTimeFormatter do
       expect(subject.format_duration_from_hours(5.5)).to eql('PT5H30M')
     end
 
-    it 'omits seconds' do
-      expect(subject.format_duration_from_hours(5.501)).to eql('PT5H30M')
+    it 'includes seconds' do
+      expect(subject.format_duration_from_hours(5.501)).to eql('PT5H30M3S')
     end
 
     it 'formats ints' do
