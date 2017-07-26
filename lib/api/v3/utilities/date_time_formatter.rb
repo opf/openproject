@@ -78,7 +78,7 @@ module API
         def self.format_duration_from_hours(hours, allow_nil: false)
           return nil if hours.nil? && allow_nil
 
-          Duration.new(hours_and_minutes(hours)).iso8601
+          Duration.new(seconds: hours * 3600).iso8601
         end
 
         def self.parse_duration_to_hours(duration, property_name, allow_nil: false)
@@ -93,15 +93,6 @@ module API
                                                        duration)
           end
         end
-
-        def self.hours_and_minutes(hours)
-          hours = hours.to_f
-          minutes = (hours - hours.to_i) * 60
-
-          { hours: hours.to_i, minutes: minutes }
-        end
-
-        private_class_method :hours_and_minutes
       end
     end
   end
