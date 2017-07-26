@@ -47,10 +47,16 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
   let(:activity) { FactoryGirl.build_stubbed(:time_entry_activity) }
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:representer) do
-    described_class.new(time_entry, current_user: user, embed_links: true)
+    described_class.create(time_entry, current_user: user, embed_links: true)
   end
 
   subject { representer.to_json }
+
+  before do
+    allow(time_entry)
+      .to receive(:available_custom_fields)
+      .and_return([])
+  end
 
   describe '_links' do
     it_behaves_like 'has an untitled link' do
@@ -103,6 +109,41 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
         let(:title) { parent_activity.name }
       end
     end
+
+    context 'custom value' do
+      let(:custom_field) do
+        FactoryGirl.build_stubbed(:time_entry_custom_field, field_format: 'user')
+      end
+      let(:custom_value) do
+        CustomValue.new(custom_field: custom_field,
+                        value: '1',
+                        customized: time_entry)
+      end
+      let(:user) do
+        FactoryGirl.build_stubbed(:user)
+      end
+
+      before do
+        allow(time_entry)
+          .to receive(:available_custom_fields)
+          .and_return([custom_field])
+
+        allow(time_entry)
+          .to receive(:"custom_field_#{custom_field.id}")
+          .and_return(user)
+
+        allow(time_entry)
+          .to receive(:custom_value_for)
+          .with(custom_field)
+          .and_return(custom_value)
+      end
+
+      it 'has the user linked' do
+        expect(subject)
+          .to be_json_eql(api_v3_paths.user(custom_value.value).to_json)
+          .at_path("_links/customField#{custom_field.id}/href")
+      end
+    end
   end
 
   describe 'properties' do
@@ -139,6 +180,37 @@ describe ::API::V3::TimeEntries::TimeEntryRepresenter, 'rendering' do
 
     it_behaves_like 'datetime property', :updatedAt do
       let(:value) { time_entry.updated_on }
+    end
+
+    context 'custom value' do
+      let(:custom_field) { FactoryGirl.build_stubbed(:time_entry_custom_field) }
+      let(:custom_value) do
+        CustomValue.new(custom_field: custom_field,
+                        value: '1234',
+                        customized: time_entry)
+      end
+
+      before do
+        allow(time_entry)
+          .to receive(:available_custom_fields)
+          .and_return([custom_field])
+
+        allow(time_entry)
+          .to receive(:"custom_field_#{custom_field.id}")
+          .and_return(custom_value.value)
+      end
+
+      it "has property for the custom field" do
+        expected = {
+          format: "textile",
+          html: "<p>#{custom_value.value}</p>",
+          raw: custom_value.value
+        }
+
+        is_expected
+          .to be_json_eql(expected.to_json)
+          .at_path("customField#{custom_field.id}")
+      end
     end
   end
 end

@@ -61,9 +61,9 @@ module API
             end
 
             get do
-              TimeEntryRepresenter.new(@time_entry,
-                                       current_user: current_user,
-                                       embed_links: true)
+              TimeEntryRepresenter.create(@time_entry,
+                                          current_user: current_user,
+                                          embed_links: true)
             end
           end
 

@@ -15,6 +15,8 @@ None yet
 | user          | The user the time entry tracks expenditures for                                                                                         | User                | not null              |  READ                |                                           |
 | activity      | The time entry activity the time entry is categorized as                                                                                | TimeEntriesActivity | not null              | READ                 |                                           |
 
+Depending on custom fields defined for time entries, additional properties might exist.
+
 ## Local Properties
 
 | Property     | Description                                               | Type     | Constraints                                          | Supported operations | Condition                                                   |
@@ -26,7 +28,7 @@ None yet
 | createdAt    | The time the time entry was created                       | DateTime |                                                      | READ                 |                                                             |
 | updatedAT    | The time the time entry was last updated                  | DateTime |                                                      | READ                 |                                                             |
 
-Please note that custom fields are not yet supported by the api although the backend supports them.
+Depending on custom fields defined for time entries, additional properties might exist.
 
 ## Time entry [/api/v3/time_entries/{id}]
 
@@ -41,6 +43,7 @@ Please note that custom fields are not yet supported by the api although the bac
                 "hours": "PT5H",
                 "createdAt": "2015-03-20T12:56:56Z",
                 "updatedAt": "2015-03-20T12:56:56Z",
+                "customField12": 5,
                 "_embedded": {
                     "project": {
                       ...
@@ -74,7 +77,10 @@ Please note that custom fields are not yet supported by the api although the bac
                     "activity": {
                         "href": "/api/v3/time_entries/activities/18",
                         "title": "Some time entry activity"
-                    }
+                    },
+                    "customField4": {
+                        "href": "/api/v3/users/5",
+                        "title" "Some other user"
                 }
             }
 

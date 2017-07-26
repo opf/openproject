@@ -54,6 +54,12 @@ describe 'API v3 time_entry resource', type: :request do
   let(:other_project) { other_work_package.project }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { %i(view_time_entries view_work_packages) }
+  let(:custom_field) { FactoryGirl.create(:time_entry_custom_field) }
+  let(:custom_value) do
+    CustomValue.create(custom_field: custom_field,
+                       value: '1234',
+                       customized: time_entry)
+  end
 
   subject(:response) { last_response }
 
@@ -68,6 +74,7 @@ describe 'API v3 time_entry resource', type: :request do
       before do
         time_entry
         invisible_time_entry
+        custom_value
 
         get path
       end
@@ -88,6 +95,10 @@ describe 'API v3 time_entry resource', type: :request do
         expect(subject.body)
           .to be_json_eql(time_entry.id.to_json)
           .at_path('_embedded/elements/0/id')
+
+        expect(subject.body)
+          .to be_json_eql(custom_value.value.to_json)
+          .at_path("_embedded/elements/0/customField#{custom_field.id}/raw")
       end
     end
 
@@ -259,6 +270,7 @@ describe 'API v3 time_entry resource', type: :request do
 
     before do
       time_entry
+      custom_value
 
       get path
     end
@@ -276,6 +288,10 @@ describe 'API v3 time_entry resource', type: :request do
       expect(subject.body)
         .to be_json_eql(time_entry.id.to_json)
         .at_path('id')
+
+      expect(subject.body)
+        .to be_json_eql(custom_value.value.to_json)
+        .at_path("customField#{custom_field.id}/raw")
     end
 
     context 'when lacking permissions' do
