@@ -81,8 +81,11 @@ class Repository < ActiveRecord::Base
   end
 
   def scm
-    @scm ||= scm_adapter.new(url, root_url,
-                             login, password, path_encoding)
+    @scm ||= scm_adapter.new(
+      url, root_url,
+      login, password, path_encoding,
+      project.identifier
+    )
 
     # override the adapter's root url with the full url
     # if none other was set.

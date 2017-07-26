@@ -37,10 +37,11 @@ module OpenProject
 
         SCM_GIT_REPORT_LAST_COMMIT = true
 
-        def initialize(url, root_url = nil, _login = nil, _password = nil, path_encoding = nil)
+        def initialize(url, root_url = nil, _login = nil, _password = nil, path_encoding = nil, identifier = nil)
           super(url, root_url)
           @flag_report_last_commit = SCM_GIT_REPORT_LAST_COMMIT
           @path_encoding = path_encoding.presence || 'UTF-8'
+          @identifier = identifier
         end
 
         def checkout_command
@@ -73,7 +74,7 @@ module OpenProject
         ##
         # Create a bare repository for the current path
         def initialize_bare_git
-          capture_git(%w[init --bare --shared])
+          capture_git(%w[init --bare --shared], no_chdir: true)
         end
 
         ##
@@ -82,6 +83,14 @@ module OpenProject
         #
         # @raise [ScmUnavailable] raised when repository is unavailable.
         def check_availability!
+          if checkout? && !File.directory?(checkout_path)
+            Rails.logger.info "Checking out #{checkout_url} to #{checkout_path}"
+
+            %x(git clone #{checkout_url} #{checkout_path})
+          end
+
+          update_repository! if checkout?
+
           # If it is not empty, it should have at least one branch
           # Any exit code != 0 will raise here
           raise Exceptions::ScmEmpty unless branches.count > 0
@@ -91,6 +100,38 @@ module OpenProject
           raise Exceptions::ScmUnavailable
         end
 
+        def update_repository!
+          Rails.logger.debug "Fetching latest commits for #{checkout_path}"
+
+          Dir.chdir checkout_path do
+            %x(#{client_command} fetch --all)
+
+            remote_branches = %x(#{client_command} branch -r)
+              .split("\n")
+              .map(&:strip)
+              .reject { |b| b.include?("->") } # origin/HEAD -> origin/master
+
+            local_branches = %x(#{client_command} branch)
+              .split("\n")
+              .map(&:strip)
+              .map { |b| b.sub(/^\* /, "") } # remove marker for current branch
+
+            remote_branches.each do |remote_branch|
+              local_branch = remote_branch.sub /^origin\//, ""
+
+              if !local_branches.include?(local_branch)
+                Rails.logger.info("Setting up new branch: #{local_branch} -> #{remote_branch}")
+
+                %x(#{client_command} branch --track #{local_branch} #{remote_branch})
+              else
+                Rails.logger.debug("Updating branch: #{local_branch}")
+
+                %x(#{client_command} update-ref #{local_branch} #{remote_branch})
+              end
+            end
+          end
+        end
+
         def info
           Info.new(root_url: url, lastrev: lastrev('', nil))
         end
@@ -98,6 +139,18 @@ module OpenProject
         def bare?
           cmd_args = %w|rev-parse --is-bare-repository|
           capture_git(cmd_args).chomp == 'true'
+        end
+
+        def checkout?
+          OpenProject::Configuration.scm_remote_repos?
+        end
+
+        def checkout_path
+          Pathname("repos/#{@identifier}").expand_path
+        end
+
+        def checkout_url
+          root_url.presence || url
         end
 
         def branches
@@ -356,6 +409,7 @@ module OpenProject
         # Builds the full git arguments from the parameters
         # and return the executed stdout as a string
         def capture_git(args, opt = {})
+          opt = opt.merge(chdir: checkout_path) if checkout? && !opt[:no_chdir]
           cmd = build_git_cmd(args)
           capture_out(cmd, opt)
         end
@@ -365,15 +419,16 @@ module OpenProject
         # and calls the given block with in, out, err, thread
         # from +Open3#popen3+.
         def popen3(args, opt = {}, &block)
+          opt = opt.merge(chdir: checkout_path) if checkout?
           cmd = build_git_cmd(args)
-          super(cmd, opt) do |_stdin, stdout, _stderr, wait_thr|
+          super(cmd, opt) do |_stdin, stdout, stderr, wait_thr|
             block.call(stdout)
 
             process = wait_thr.value
             if process.exitstatus != 0
               raise Exceptions::CommandFailed.new(
                 'git',
-                "git exited with non-zero status: #{process.exitstatus}"
+                "`git #{args.join(" ")}` exited with non-zero status: #{process.exitstatus} (#{stderr.read})"
               )
             end
           end
@@ -395,7 +450,9 @@ module OpenProject
             args.unshift('-c', 'core.quotepath=false')
           end
 
-          args.unshift('--git-dir', (root_url.presence || url))
+          # make sure to use bare repository path to initialize a managed repository
+          args.unshift('--git-dir', checkout_url) unless checkout? && !args.include?("init")
+          args
         end
       end
     end
