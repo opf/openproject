@@ -255,7 +255,6 @@ module OpenProject
       resolved_variables = DEFAULTS.dup
 
       DEFAULTS.each do |var_name, value|
-        puts "///// #{var_name} => #{value} /////"
         resolved_variables[var_name] = resolve_value(value)
       end
       resolved_variables
