@@ -31,15 +31,13 @@
   .modal--header > h2
     width: calc(100% - 80px)
 
-  .modal--footer
-    text-align: left
-    display: flex
-    justify-content: space-between
-
   // Set max height of the modal body
   .modal--main
     max-height: 50vh
     overflow-y: auto
+
+    &:focus
+      outline-style: none
 
   // Avoid large right margin for conditional button
   .help-text--edit-button
