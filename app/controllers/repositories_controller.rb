@@ -203,21 +203,10 @@ class RepositoriesController < ApplicationController
       return
     end
 
-    if 'raw' == params[:format] ||
-       (@content.size && @content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
-       !is_entry_text_data?(@content, @path)
-
-      # Force the download
-      send_opt = { filename: filename_for_content_disposition(@path.split('/').last) }
-      send_type = Redmine::MimeType.of(@path)
-      send_opt[:type] = send_type.to_s if send_type
-      send_data @content, send_opt
+    if raw_or_to_large_or_non_text(@content, @path)
+      send_raw(@content, @path)
     else
-      # Prevent empty lines when displaying a file with Windows style eol
-      # TODO: UTF-16
-      # Is this needs? AttachmentsController reads file simply.
-      @content.gsub!("\r\n", "\n")
-      @changeset = @repository.find_changeset_by_name(@rev)
+      render_text_entry
     end
   end
 
@@ -492,6 +481,32 @@ class RepositoriesController < ApplicationController
 
   def login_back_url_params
     params.permit(:path)
+  end
+
+  def raw_or_to_large_or_non_text(content, path)
+    params[:format] == 'raw' ||
+      (content.size && content.size > Setting.file_max_size_displayed.to_i.kilobyte) ||
+      !is_entry_text_data?(content, path)
+  end
+
+  def send_raw(content, path)
+    # Force the download
+    send_opt = { filename: filename_for_content_disposition(path.split('/').last) }
+    send_type = Redmine::MimeType.of(path)
+    send_opt[:type] = send_type.to_s if send_type
+    send_data content, send_opt
+  end
+
+  def render_text_entry
+    # Prevent empty lines when displaying a file with Windows style eol
+    # TODO: UTF-16
+    # Is this needs? AttachmentsController reads file simply.
+    @content.gsub!("\r\n", "\n")
+    @changeset = @repository.find_changeset_by_name(@rev)
+
+    # Forcing html format here to avoid
+    # rails looking for e.g text when .txt is asked for
+    render 'entry', formats: [:html]
   end
 end
 
