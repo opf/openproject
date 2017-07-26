@@ -95,7 +95,9 @@ export class CommentFieldDirectiveController {
   public activate(withText?:string) {
     this._forceFocus = true;
     this.field.initializeFieldValue(withText);
-    return this.editing = true;
+    this.editing = true;
+    
+    this.$timeout(() => this.$element.find('.wp-inline-edit--field').focus());
   }
 
   public handleUserSubmit() {
