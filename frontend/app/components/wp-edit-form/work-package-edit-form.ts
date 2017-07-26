@@ -204,7 +204,7 @@ export class WorkPackageEditForm {
 
     fields.forEach((name:string) => {
       const handler = this.activeFields[name];
-      handler.deactivate();
+      handler && handler.deactivate();
     });
   }
 
