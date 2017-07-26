@@ -307,7 +307,6 @@ describe 'form configuration', type: :feature, js: true do
 
         wp_page.expect_group('Estimates and time') do
           expect(page).to have_selector('.wp-edit-field.estimatedTime')
-          expect(page).to have_selector('.wp-edit-field.spentTime')
         end
 
         find('#work-packages--edit-actions-cancel').click

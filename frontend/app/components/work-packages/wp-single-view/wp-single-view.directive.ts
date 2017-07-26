@@ -33,6 +33,8 @@ import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
+import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
+import {WorkPackageEditFieldGroupController} from "../../wp-edit/wp-edit-field/wp-edit-field-group.directive";
 
 interface FieldDescriptor {
   name:string;
@@ -49,6 +51,7 @@ interface GroupDescriptor {
 }
 
 export class WorkPackageSingleViewController {
+  public wpEditFieldGroup:WorkPackageEditFieldGroupController;
   public workPackage:WorkPackageResourceInterface;
 
   // Grouped fields returned from API
@@ -94,6 +97,15 @@ export class WorkPackageSingleViewController {
   public shouldHideGroup(group:GroupDescriptor) {
     // Hide if the group is empty
     return group.members.length === 0;
+  }
+
+  /**
+   * Hide read-only fields, but only when in the create mode
+   * @param {FieldDescriptor} field
+   */
+  public shouldHideField(descriptor:FieldDescriptor) {
+    const field = descriptor.field || descriptor.fields![0];
+    return this.wpEditFieldGroup.inEditMode && !field.writable;
   }
 
   /*
@@ -223,7 +235,13 @@ function wpSingleViewDirective() {
       workPackage: '=?'
     },
 
-    require: ['wpSingleView'],
+    require: ['^wpEditFieldGroup'],
+    link: (scope:any,
+           element:ng.IAugmentedJQuery,
+           attrs:any,
+           controllers: [WorkPackageEditFieldGroupController]) => {
+      scope.$ctrl.wpEditFieldGroup = controllers[0];
+    },
     bindToController: true,
     controller: WorkPackageSingleViewController,
     controllerAs: '$ctrl'

@@ -61,7 +61,8 @@
     <div class="-columns-2">
       <div class="attributes-key-value"
            ng-class="{'-span-all-columns': descriptor.spanAll }"
-           ng-repeat="descriptor in group.members track by descriptor.name">
+           ng-repeat="descriptor in group.members track by descriptor.name"
+           ng-if="!$ctrl.shouldHideField(descriptor)">
         <div
             class="attributes-key-value--key"
             ng-if="!descriptor.multiple"
