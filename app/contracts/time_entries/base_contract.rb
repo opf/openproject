@@ -1,6 +1,8 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,38 +25,25 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      class ParseParamsService < API::V3::ParseResourceParamsService
-        def initialize(user)
-          super(user, WorkPackage, ::API::V3::WorkPackages::WorkPackagePayloadRepresenter)
-        end
+require 'model_contract'
 
-        private
-
-        def parse_attributes(request_body)
-          ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
-            .create_class(struct)
-            .new(struct, current_user: current_user)
-            .from_hash(Hash(request_body))
-            .to_h
-            .reverse_merge(lock_version: nil)
-        end
-
-        def struct
-          ParsingStruct.new
-        end
-
-        class ParsingStruct < OpenStruct
-          def available_custom_fields
-            @available_custom_fields ||= WorkPackageCustomField.all.to_a
-          end
-        end
-      end
+module TimeEntries
+  class BaseContract < ::ModelContract
+    def self.model
+      TimeEntry
     end
+
+    attribute :project_id
+    attribute :work_package_id
+    attribute :activity_id
+    attribute :hours
+    attribute :comments
+    attribute :spent_on
+    attribute :tyear
+    attribute :tmonth
+    attribute :tweek
   end
 end
