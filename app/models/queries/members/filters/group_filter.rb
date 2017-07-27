@@ -28,6 +28,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Filters::NameFilter < Queries::Users::Filters::UserFilter
-  include Queries::Filters::Shared::UserNameFilter
+class Queries::Members::Filters::GroupFilter < Queries::Members::Filters::MemberFilter
+  include Queries::Filters::Shared::GroupFilter
+
+  def joins
+    { user: :groups }
+  end
 end

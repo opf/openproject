@@ -28,6 +28,43 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Filters::NameFilter < Queries::Users::Filters::UserFilter
-  include Queries::Filters::Shared::UserNameFilter
+module Queries::Filters::Shared::GroupFilter
+  def self.included(base)
+    base.include(InstanceMethods)
+    base.extend(ClassMethods)
+  end
+
+  module InstanceMethods
+    def allowed_values
+      @allowed_values ||= begin
+        ::Group.pluck(:id).map { |g| [g, g.to_s] }
+      end
+    end
+
+    def available?
+      ::Group.exists?
+    end
+
+    def type
+      :list_optional
+    end
+
+    def human_name
+      I18n.t('query_fields.member_of_group')
+    end
+
+    def joins
+      :groups
+    end
+
+    def where
+      operator_strategy.sql_for_field(values, 'groups_users', 'id')
+    end
+  end
+
+  module ClassMethods
+    def key
+      :group
+    end
+  end
 end

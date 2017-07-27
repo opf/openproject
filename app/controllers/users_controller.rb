@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   def index
     @groups = Group.all.sort
     @status = Users::UserFilterCell.status_param params
-    @users = Users::UserFilterCell.filter User.all, params
+    @users = Users::UserFilterCell.filter params
 
     respond_to do |format|
       format.html do

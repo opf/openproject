@@ -28,6 +28,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Filters::NameFilter < Queries::Users::Filters::UserFilter
-  include Queries::Filters::Shared::UserNameFilter
+module Queries::Filters::Shared::UserStatusFilter
+  def self.included(base)
+    base.include(InstanceMethods)
+    base.extend(ClassMethods)
+  end
+
+  module InstanceMethods
+    def allowed_values
+      Principal::STATUSES.keys.map do |key|
+        [I18n.t(:"status_#{key}"), key]
+      end
+    end
+
+    def type
+      :list
+    end
+
+    def status_values
+      values.map { |value| Principal::STATUSES[value.to_sym] }
+    end
+
+    def where
+      case operator
+      when "="
+        ["users.status IN (?)", status_values.join(", ")]
+      when "!"
+        ["users.status NOT IN (?)", status_values.join(", ")]
+      end
+    end
+  end
+
+  module ClassMethods
+    def self.key
+      :status
+    end
+  end
 end

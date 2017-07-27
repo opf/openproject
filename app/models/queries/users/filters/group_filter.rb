@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,33 +29,5 @@
 #++
 
 class Queries::Users::Filters::GroupFilter < Queries::Users::Filters::UserFilter
-  def allowed_values
-    @allowed_values ||= begin
-      ::Group.pluck(:name, :id).map { |g| [g[0], g[1].to_s] }
-    end
-  end
-
-  def available?
-    ::Group.exists?
-  end
-
-  def type
-    :list_optional
-  end
-
-  def human_name
-    I18n.t('query_fields.member_of_group')
-  end
-
-  def self.key
-    :group
-  end
-
-  def joins
-    :groups
-  end
-
-  def where
-    operator_strategy.sql_for_field(values, 'groups', 'id')
-  end
+  include Queries::Filters::Shared::GroupFilter
 end

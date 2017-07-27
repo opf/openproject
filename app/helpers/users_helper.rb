@@ -36,13 +36,12 @@ module UsersHelper
   #                     For example: { random: 42 }
   def users_status_options_for_select(selected, extra: {})
     statuses = User::StatusOptions.user_statuses_with_count extra: extra
-    options = statuses.map do |name, values|
-      count, value = values
 
-      ["#{translate_user_status(name)} (#{count})", value]
+    options = statuses.map do |sym, count|
+      ["#{translate_user_status(sym)} (#{count})", sym]
     end
 
-    options_for_select options, selected
+    options_for_select options.sort, selected
   end
 
   def translate_user_status(status_name)
