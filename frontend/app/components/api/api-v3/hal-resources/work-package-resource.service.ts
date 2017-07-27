@@ -398,22 +398,6 @@ export class WorkPackageResource extends HalResource {
   public loadFormSchema() {
     return this.getForm().then((form:any) => {
       this.overriddenSchema = form.$embedded.schema;
-
-      angular.forEach(this.schema, (field, name) => {
-        // Assign only links from schema when an href is set
-        // and field is writable.
-        // (exclude plain properties and null values)
-        const isHalField = field.writable && this[name] && this[name].href;
-
-        // Assign only values from embedded schema that have an expanded
-        // allowedValues set (type, status, custom field lists, etc.)
-        const hasAllowedValues = Array.isArray(field.allowedValues) && field.allowedValues.length > 0;
-
-        if (isHalField && hasAllowedValues) {
-          this[name] = _.find(field.allowedValues, {href: this[name].href}) || this[name];
-        }
-      });
-
       return this.schema;
     });
   }
