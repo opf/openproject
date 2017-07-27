@@ -210,20 +210,22 @@ export class WorkPackageEditForm {
   }
 
   protected handleErroneousAttributes(error:any) {
-    const attributes = error.getInvolvedAttributes();
+    // Get attributes withe errors
+    const erroneousAttributes = error.getInvolvedAttributes();
+    // Get valid attributes
+    const validFields = _.difference(_.keys(this.activeFields), erroneousAttributes);
+
     // Save erroneous fields for when new fields appear
     this.errorsPerAttribute = error.getMessagesPerAttribute();
-    if (attributes.length === 0) {
+    if (erroneousAttributes.length === 0) {
       return;
     }
 
-    // Iterate all erroneous fields and close these that are valid
-    const validFields = _.keys(this.activeFields);
-
     // Accumulate errors for the given response
-    _.each(attributes, (fieldName:string) => {
+    _.each(erroneousAttributes, (fieldName:string) => {
       this.editContext.requireVisible(fieldName).then(() => {
         this.activateWhenNeeded(fieldName);
+        this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
       });
     });
 
