@@ -55,7 +55,7 @@ lt:
   project_module_meetings: "Pasitarimai"
   text_duration_in_hours: "Trukmė valandomis"
   text_in_hours: " valandos(-ų) "
-  text_meeting_agenda_for_meeting: 'pasitarimo „%{meeting}“ darbotvarkė'
+  text_meeting_agenda_for_meeting: 'pasitarimo „%{meeting}“ darbotvarkę'
   text_meeting_agenda_open_are_you_sure: "Neišsaugoti minučių pakeitimai bus prarasti! Tikrai norite tęsti?"
   text_meeting_minutes_for_meeting: 'pasitarimo „%{meeting}“ minutės'
   text_review_meeting_agenda: "%{author} įdėjo %{link} peržiūroje."
