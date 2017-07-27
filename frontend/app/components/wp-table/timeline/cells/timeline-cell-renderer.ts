@@ -1,8 +1,6 @@
 import * as moment from 'moment';
 import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {hasChildrenInTable} from '../../../wp-fast-table/helpers/wp-table-hierarchy-helpers';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {
   calculatePositionValueForDayCount,
   calculatePositionValueForDayCountingPx,
@@ -20,6 +18,9 @@ import {
 } from './wp-timeline-cell';
 import {classNameBarLabel, classNameLeftHandle, classNameRightHandle} from './wp-timeline-cell-mouse-handler';
 import Moment = moment.Moment;
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {hasChildrenInTable} from '../../../wp-fast-table/helpers/wp-table-hierarchy-helpers';
+import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 
 interface CellDateMovement {
   // Target values to move work package to
@@ -34,6 +35,8 @@ function calculateForegroundColor(backgroundColor:string):string {
 export class TimelineCellRenderer {
 
   protected TimezoneService:any;
+
+  protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
 
   constructor(public workPackageTimeline:WorkPackageTimelineTableController) {
   }
@@ -73,22 +76,14 @@ export class TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp:WorkPackageResourceInterface,
+  public assignDateValues(changeset:WorkPackageChangeset,
                           labels:WorkPackageCellLabels,
                           dates:CellDateMovement) {
 
-    this.assignDate(wp, 'startDate', dates.startDate!);
-    this.assignDate(wp, 'dueDate', dates.dueDate!);
+    this.assignDate(changeset, "startDate", dates.startDate!);
+    this.assignDate(changeset, "dueDate", dates.dueDate!);
 
-    this.updateLabels(true, labels, wp);
-  }
-
-  /**
-   * Restore the original date, if any was set.
-   */
-  public onCancel(wp:WorkPackageResourceInterface) {
-    wp.restoreFromPristine('startDate');
-    wp.restoreFromPristine('dueDate');
+    this.updateLabels(true, labels, changeset);
   }
 
   /**
@@ -98,10 +93,10 @@ export class TimelineCellRenderer {
   public onDaysMoved(wp:WorkPackageResourceInterface,
                      dayUnderCursor:Moment,
                      delta:number,
-                     direction:'left' | 'right' | 'both' | 'create' | 'dragright'):CellDateMovement {
+                     direction:"left" | "right" | "both" | "create" | "dragright"):CellDateMovement {
 
-    const initialStartDate = wp.$pristine['startDate'];
-    const initialDueDate = wp.$pristine['dueDate'];
+    const initialStartDate = wp.startDate;
+    const initialDueDate = wp.dueDate;
 
     let dates:CellDateMovement = {};
 
@@ -145,9 +140,9 @@ export class TimelineCellRenderer {
       return 'both'; // irrelevant
     }
 
-    renderInfo.workPackage.storePristine('startDate');
-    renderInfo.workPackage.storePristine('dueDate');
-    let direction:'left' | 'right' | 'both' | 'create' | 'dragright';
+    renderInfo.changeset!.startEditing("startDate");
+    renderInfo.changeset!.startEditing("dueDate");
+    let direction:"left" | "right" | "both" | "create" | "dragright";
 
     // Update the cursor and maybe set start/due values
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
@@ -183,28 +178,28 @@ export class TimelineCellRenderer {
     // if (!jQuery(ev.target).hasClass(classNameLeftHandle) && renderInfo.workPackage.dueDate) {
     // }
 
-    this.updateLabels(true, labels, renderInfo.workPackage);
+    this.updateLabels(true, labels, renderInfo.changeset!);
 
     return direction;
   }
 
-  public onMouseDownEnd(labels:WorkPackageCellLabels, workPackage:WorkPackageResourceInterface) {
-    this.updateLabels(false, labels, workPackage);
+  public onMouseDownEnd(labels:WorkPackageCellLabels, changeset:WorkPackageChangeset) {
+    this.updateLabels(false, labels, changeset);
   }
 
   /**
    * @return true, if the element should still be displayed.
    *         false, if the element must be removed from the timeline.
    */
-  public update(timelineCell:HTMLElement, bar:HTMLDivElement, renderInfo:RenderInfo):boolean {
-    const wp = renderInfo.workPackage;
+  public update(bar:HTMLDivElement, renderInfo:RenderInfo):boolean {
+    const changeset = renderInfo.changeset || new WorkPackageChangeset(renderInfo.workPackage);
 
     // general settings - bar
     bar.style.backgroundColor = this.typeColor(renderInfo.workPackage);
 
     const viewParams = renderInfo.viewParams;
-    let start = moment(wp.startDate as any);
-    let due = moment(wp.dueDate as any);
+    let start = moment(changeset.value('startDate'));
+    let due = moment(changeset.value('dueDate'));
 
     if (_.isNaN(start.valueOf()) && _.isNaN(due.valueOf())) {
       bar.style.visibility = 'hidden';
@@ -298,9 +293,9 @@ export class TimelineCellRenderer {
    * start to due date.
    */
   public render(renderInfo:RenderInfo):HTMLDivElement {
-    const bar = document.createElement('div');
-    const left = document.createElement('div');
-    const right = document.createElement('div');
+    const bar = document.createElement("div");
+    const left = document.createElement("div");
+    const right = document.createElement("div");
 
     bar.className = timelineElementCssClass + ' ' + this.type;
     left.className = classNameLeftHandle;
@@ -343,7 +338,7 @@ export class TimelineCellRenderer {
     containerRight.appendChild(labelFarRight);
 
     const labels = new WorkPackageCellLabels(labelCenter, labelLeft, labelRight, labelFarRight);
-    this.updateLabels(false, labels, renderInfo.workPackage);
+    this.updateLabels(false, labels, renderInfo.changeset!);
 
     return labels;
   }
@@ -357,9 +352,9 @@ export class TimelineCellRenderer {
     return this.fallbackColor;
   }
 
-  protected assignDate(wp:WorkPackageResourceInterface, attributeName:string, value:moment.Moment) {
+  protected assignDate(changeset:WorkPackageChangeset, attributeName:string, value:moment.Moment) {
     if (value) {
-      wp[attributeName] = value.format('YYYY-MM-DD') as any;
+      changeset.setValue(attributeName, value.format("YYYY-MM-DD"));
     }
   }
 
@@ -399,15 +394,18 @@ export class TimelineCellRenderer {
 
   protected updateLabels(activeDragNDrop:boolean,
                          labels:WorkPackageCellLabels,
-                         workPackage:WorkPackageResourceInterface) {
+                         changeset:WorkPackageChangeset) {
 
     if (!this.TimezoneService) {
       this.TimezoneService = $injectNow('TimezoneService');
     }
 
-    const subject:string = workPackage.subject;
-    const start:Moment | null = workPackage.startDate ? moment(workPackage.startDate) : null;
-    const due:Moment | null = workPackage.dueDate ? moment(workPackage.dueDate) : null;
+    let startStr = changeset.value('startDate');
+    let dueStr = changeset.value('dueDate');
+
+    const subject:string = changeset.value('subject');
+    const start:Moment | null = startStr ? moment(startStr) : null;
+    const due:Moment | null = dueStr ? moment(dueStr) : null;
 
     if (!activeDragNDrop) {
       // normal display
