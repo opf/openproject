@@ -1,6 +1,6 @@
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -23,37 +23,45 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
 module API
   module V3
-    module WorkPackages
-      class ParseParamsService < API::V3::ParseResourceParamsService
-        def initialize(user)
-          super(user, WorkPackage, ::API::V3::WorkPackages::WorkPackagePayloadRepresenter)
-        end
+    class ParseResourceParamsService
+      attr_accessor :model,
+                    :representer,
+                    :current_user
 
-        private
+      def initialize(user, model, representer)
+        self.current_user = user
+        self.model = model
+        self.representer = representer
+      end
 
-        def parse_attributes(request_body)
-          ::API::V3::WorkPackages::WorkPackagePayloadRepresenter
-            .create_class(struct)
-            .new(struct, current_user: current_user)
-            .from_hash(Hash(request_body))
-            .to_h
-            .reverse_merge(lock_version: nil)
-        end
+      def call(request_body)
+        parsed = if request_body
+                   parse_attributes(request_body)
+                 else
+                   {}
+                 end
 
-        def struct
-          ParsingStruct.new
-        end
+        ServiceResult.new(success: true,
+                          result: parsed)
+      end
 
-        class ParsingStruct < OpenStruct
-          def available_custom_fields
-            @available_custom_fields ||= WorkPackageCustomField.all.to_a
-          end
-        end
+      private
+
+      def parse_attributes(request_body)
+        representer
+          .create(struct, current_user: current_user)
+          .from_hash(request_body)
+          .to_h
+          .except(:available_custom_fields)
+      end
+
+      def struct
+        OpenStruct.new available_custom_fields: model.new.available_custom_fields
       end
     end
   end

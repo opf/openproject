@@ -89,6 +89,7 @@ module API
               parameters = ::API::V3::WorkPackages::ParseParamsService
                            .new(current_user)
                            .call(request_body)
+                           .result
 
               call = ::WorkPackages::UpdateService
                      .new(
