@@ -178,7 +178,7 @@ export class HalResource {
     return new clone(_.cloneDeep(this.$source), this.$loaded);;
   }
 
-  protected $initialize(source:any) {
+  public $initialize(source:any) {
     this.$source = source.$source || source;
     initializeResource(this);
   }

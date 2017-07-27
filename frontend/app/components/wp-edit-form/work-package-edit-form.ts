@@ -39,6 +39,11 @@ import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {debugLog} from '../../helpers/debug_output';
+import {WorkPackageChangeset} from './work-package-changeset';
+import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
+import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {State} from 'reactivestates';
+import {Observable} from 'rxjs';
 
 export class WorkPackageEditForm {
   // Injections
@@ -50,9 +55,6 @@ export class WorkPackageEditForm {
   public wpEditField:WorkPackageEditFieldService;
   public wpNotificationsService:WorkPackageNotificationService;
 
-  // Other fields
-  public workPackage:WorkPackageResourceInterface;
-
   // All current active (open) edit fields
   public activeFields:{ [fieldName:string]:WorkPackageEditFieldHandler } = {};
 
@@ -62,19 +64,25 @@ export class WorkPackageEditForm {
   // The last field that got activated
   public lastActiveField:string;
 
+  public changeset:WorkPackageChangeset;
+
   // The work package cache service subscription
   protected subscription:Subscription;
 
-  constructor(public workPackageId:string,
+  constructor(public workPackage:WorkPackageResourceInterface,
               public editContext:WorkPackageEditContext,
               public editMode = false) {
     injectorBridge(this);
 
-    this.subscription = this.wpCacheService.loadWorkPackage(workPackageId)
+    this.changeset = new WorkPackageChangeset(workPackage);
+
+    console.log(workPackage.id);
+    this.subscription = this.states.workPackages.get(workPackage.id)
       .values$()
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
-        this.workPackage.getForm();
+        this.changeset.workPackage = wp;
+        this.changeset.updateForm();
 
         _.each(this.activeFields, (_handler, name) => this.refresh(name!));
       });
@@ -85,15 +93,20 @@ export class WorkPackageEditForm {
    * @param fieldName
    */
   public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
+    this.changeset.startEditing(fieldName);
+
     return this.buildField(fieldName).then((field:EditField) => {
       if (!field.writable && !noWarnings) {
         this.wpNotificationsService.showEditingBlockedError(field.displayName);
         return this.$q.reject();
       }
 
-      this.workPackage.storePristine(fieldName);
       return this.renderField(fieldName, field);
     });
+  }
+
+  public get editResource():Observable<HalResource> {
+    return this.changeset.resource.values$();
   }
 
   public refresh(fieldName:string) {
@@ -105,17 +118,6 @@ export class WorkPackageEditForm {
 
     return this.buildField(fieldName).then((field:EditField) => {
       this.editContext.refreshField(field, handler);
-    });
-  }
-
-  /**
-   * Update the form and embedded schema.
-   * In edit-all mode, this allows fields to cause changes to the form (e.g., type switch)
-   * without saving the resource.
-   */
-  public updateForm() {
-    this.workPackage.updateForm(this.workPackage.$source).then(() => {
-      this.wpCacheService.updateWorkPackage(this.workPackage);
     });
   }
 
@@ -136,7 +138,7 @@ export class WorkPackageEditForm {
    * Activate all fields that are returned in validation errors
    */
   public activateMissingFields() {
-    this.workPackage.getForm().then((form:any) => {
+    this.changeset.getForm().then((form:any) => {
       _.each(form.validationErrors, (val:any, key:string) => {
         this.activateWhenNeeded(key);
       });
@@ -144,8 +146,7 @@ export class WorkPackageEditForm {
   }
 
   public submit() {
-    if (!(this.workPackage.dirty || this.workPackage.isNew)) {
-      this.stopEditing();
+    if (this.changeset.empty) {
       return this.$q.when(this.workPackage);
     }
 
@@ -157,7 +158,7 @@ export class WorkPackageEditForm {
 
     const openFields = _.keys(this.activeFields);
 
-    this.workPackage.save()
+    this.changeset.save()
       .then(savedWorkPackage => {
         this.workPackage = savedWorkPackage;
 
@@ -168,13 +169,6 @@ export class WorkPackageEditForm {
 
         this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
         this.editContext.onSaved(savedWorkPackage, isInitial);
-
-        // Only stop editing if the user didn't open any other fields
-        // in the meantime (otherwise, they would be closed here, which is annoying).
-        if (_.size(this.activeFields) === 0) {
-          this.stopEditing();
-        }
-
       })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
@@ -186,7 +180,7 @@ export class WorkPackageEditForm {
     return deferred.promise;
   }
 
-  public stopEditing() {
+  public destroy() {
     // Close all edit fields
     this.closeEditFields();
 
@@ -194,10 +188,10 @@ export class WorkPackageEditForm {
     this.subscription.unsubscribe();
 
     // Destroy this form
-    this.states.editing.get(this.workPackageId.toString()).clear('Editing completed');
+    this.states.editing.get(this.workPackage.id).clear('Editing completed');
   }
 
-  protected closeEditFields(fields?:string[]) {
+  public closeEditFields(fields?:string[]) {
     if (!fields) {
       fields = _.keys(this.activeFields);
     }
@@ -205,6 +199,7 @@ export class WorkPackageEditForm {
     fields.forEach((name:string) => {
       const handler = this.activeFields[name];
       handler && handler.deactivate();
+      this.changeset.reset(name);
     });
   }
 
@@ -247,16 +242,16 @@ export class WorkPackageEditForm {
 
   private buildField(fieldName:string):Promise<EditField> {
     return new Promise((resolve, reject) => {
-      this.workPackage.loadFormSchema()
-        .then((schema:SchemaResource) => {
-            const fieldSchema = schema[fieldName];
+      this.changeset.getForm()
+        .then((form:FormResourceInterface) => {
+            const fieldSchema = form.schema[fieldName];
 
             if (!fieldSchema) {
               return reject();
             }
 
             const field = this.wpEditField.getField(
-              this.workPackage,
+              this.changeset,
               fieldName,
               fieldSchema
             ) as EditField;

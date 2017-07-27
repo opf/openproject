@@ -27,7 +27,7 @@
 // ++
 
 import {opWorkPackagesModule} from '../../../angular-modules';
-import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {scopeDestroyed$, scopedObservable} from '../../../helpers/angular-rx-utils';
 import {debugLog} from '../../../helpers/debug_output';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
@@ -35,6 +35,11 @@ import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
 import {WorkPackageEditFieldGroupController} from "../../wp-edit/wp-edit-field/wp-edit-field-group.directive";
+import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
+import {States} from '../../states.service';
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
 interface FieldDescriptor {
   name:string;
@@ -52,12 +57,14 @@ interface GroupDescriptor {
 
 export class WorkPackageSingleViewController {
   public wpEditFieldGroup:WorkPackageEditFieldGroupController;
+
   public workPackage:WorkPackageResourceInterface;
+  public form:WorkPackageEditForm;
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
   // Special fields (project, type)
-  public specialFields:FieldDescriptor[];
+  public specialFields:FieldDescriptor[] = [];
   public text:any;
   public scope:any;
 
@@ -67,27 +74,42 @@ export class WorkPackageSingleViewController {
               protected $rootScope:ng.IRootScopeService,
               protected $stateParams:ng.ui.IStateParamsService,
               protected I18n:op.I18n,
+              protected states:States,
+              protected wpEditing:WorkPackageEditingService,
               protected wpDisplayField:WorkPackageDisplayFieldService,
               protected wpCacheService:WorkPackageCacheService) {
 
+    $scope.$on('$destroy', () => this.wpEditing.stopEditing(this.workPackage.id));
+  }
+
+  public initialize() {
     // Create I18n texts
     this.setupI18nTexts();
 
-    // Subscribe to work package
-    const workPackageId = this.workPackage ? this.workPackage.id : $stateParams['workPackageId'];
-    scopedObservable(
-      $scope,
-      wpCacheService.loadWorkPackage(workPackageId).values$())
-      .subscribe((wp:WorkPackageResourceInterface) => {
-        this.init(wp);
-      });
-  }
-
-  public setFocus() {
-    if (!this.firstTimeFocused) {
-      this.firstTimeFocused = true;
-      angular.element('.work-packages--details--subject .focus-input').focus();
+    if (this.workPackage.attachments) {
+      this.workPackage.attachments.updateElements();
     }
+
+    this.form = this.prepareEditForm();
+
+    scopedObservable(this.$scope, this.form.editResource)
+      .subscribe((resource:HalResource) => {
+        // Get attribute groups if they are available (in project context)
+        const attributeGroups = resource.schema._attributeGroups;
+
+        if (!attributeGroups) {
+          this.groupedFields = [];
+          return;
+        }
+
+        this.specialFields = this.getFields(resource, ['project', 'status']);
+        this.groupedFields = attributeGroups.map((groups:any[]) => {
+          return {
+            name: groups[0],
+            members: this.getFields(resource, groups[1])
+          };
+        });
+      });
   }
 
   /**
@@ -116,32 +138,14 @@ export class WorkPackageSingleViewController {
     return `${label} #${this.workPackage.id}`;
   }
 
-  private init(wp:WorkPackageResourceInterface) {
-    this.workPackage = wp;
-
-    if (this.workPackage.attachments) {
-      this.workPackage.attachments.updateElements();
-    }
-
-    this.setFocus();
-
-    // Accept the fields you always need to show.
-    this.specialFields = this.getFields(['project', 'status']);
-
-    // Get attribute groups if they are available (in project context)
-    const attributeGroups = this.workPackage.schema._attributeGroups;
-
-    if (!attributeGroups) {
-      this.groupedFields = [];
-      return;
-    }
-
-    this.groupedFields = attributeGroups.map((groups:any[]) => {
-      return {
-        name: groups[0],
-        members: this.getFields(groups[1])
-      };
-    });
+  /**
+   * Start (or continue) editing the work package and update the edit context.
+   *
+   * @return {WorkPackageEditForm}
+   */
+  private prepareEditForm():WorkPackageEditForm {
+    const editContext = new SingleViewEditContext(this.wpEditFieldGroup);
+    return this.wpEditing.startEditing(this.workPackage, editContext, this.wpEditFieldGroup.inEditMode);
   }
 
   private setupI18nTexts() {
@@ -166,21 +170,21 @@ export class WorkPackageSingleViewController {
    * Maps the grouped fields into their display fields.
    * May return multiple fields (for the date virtual field).
    */
-  private getFields(fieldNames:string[]):FieldDescriptor[] {
+  private getFields(resource:HalResource, fieldNames:string[]):FieldDescriptor[] {
     const descriptors:FieldDescriptor[] = [];
 
     fieldNames.forEach((fieldName:string) => {
       if (fieldName === 'date') {
-        descriptors.push(this.getDateField());
+        descriptors.push(this.getDateField(resource));
         return;
       }
 
-      if (!this.workPackage.schema[fieldName]) {
+      if (!resource.schema[fieldName]) {
         debugLog('Unknown field for current schema', fieldName);
         return;
       }
 
-      const field:DisplayField = this.displayField(fieldName);
+      const field:DisplayField = this.displayField(resource, fieldName);
       descriptors.push({
         name: fieldName,
         label: field.label,
@@ -198,7 +202,7 @@ export class WorkPackageSingleViewController {
    * 'date' field vs. all other types which should display a
    * combined 'start' and 'due' date field.
    */
-  private getDateField():FieldDescriptor {
+  private getDateField(resource:HalResource):FieldDescriptor {
     let object:any = {
       name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
@@ -206,20 +210,20 @@ export class WorkPackageSingleViewController {
     };
 
     if (this.workPackage.isMilestone) {
-      object.field = this.displayField('date');
+      object.field = this.displayField(resource, 'date');
     } else {
-      object.fields = [this.displayField('startDate'), this.displayField('dueDate')];
+      object.fields = [this.displayField(resource, 'startDate'), this.displayField(resource, 'dueDate')];
       object.multiple = true;
     }
 
     return object;
   }
 
-  private displayField(name:string):DisplayField {
+  private displayField(resource:HalResource, name:string):DisplayField {
     return this.wpDisplayField.getField(
-      this.workPackage,
+      resource,
       name,
-      this.workPackage.schema[name]
+      resource.schema[name]
     ) as DisplayField;
   }
 
@@ -241,6 +245,7 @@ function wpSingleViewDirective() {
            attrs:any,
            controllers: [WorkPackageEditFieldGroupController]) => {
       scope.$ctrl.wpEditFieldGroup = controllers[0];
+      scope.$ctrl.initialize();
     },
     bindToController: true,
     controller: WorkPackageSingleViewController,

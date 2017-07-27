@@ -36,9 +36,9 @@ export class WorkPackageEditingService {
   constructor(public states:States, public $q:ng.IQService) {
   }
 
-  public startEditing(workPackageId:string, editContext:WorkPackageEditContext, editAll:boolean = false):WorkPackageEditForm {
-    const state = this.editState(workPackageId);
-    const form = state.getValueOr(new WorkPackageEditForm(workPackageId, editContext, editAll));
+  public startEditing(workPackage:WorkPackageResourceInterface, editContext:WorkPackageEditContext, editAll:boolean = false):WorkPackageEditForm {
+    const state = this.editState(workPackage.id);
+    const form = state.getValueOr(new WorkPackageEditForm(workPackage, editContext, editAll));
     form.editContext = editContext;
     form.editMode = editAll;
     state.putValue(form);
@@ -49,8 +49,8 @@ export class WorkPackageEditingService {
   public stopEditing(workPackageId:string) {
     const state = this.editState(workPackageId);
 
-    if (state.hasValue()) {
-      state.value!.stopEditing();
+    if (state.value) {
+      state.value.destroy();
     }
   }
 

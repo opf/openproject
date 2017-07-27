@@ -43,8 +43,9 @@ import {TypeResource} from './type-resource.service';
 import {RelationResourceInterface} from './relation-resource.service';
 import {WorkPackageCreateService} from '../../../wp-create/wp-create.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
+import {debugLog} from '../../../../helpers/debug_output';
 
-interface WorkPackageResourceEmbedded {
+export interface WorkPackageResourceEmbedded {
   activities:CollectionResourceInterface;
   ancestors:WorkPackageResourceInterface[];
   assignee:HalResource | any;
@@ -114,7 +115,6 @@ export class WorkPackageResource extends HalResource {
 
   public $embedded:WorkPackageResourceEmbedded;
   public $links:WorkPackageLinksObject;
-  public $pristine:{ [attribute:string]:any } = {};
   public subject:string;
   public updatedAt:Date;
   public lockVersion:number;
@@ -124,11 +124,6 @@ export class WorkPackageResource extends HalResource {
   public attachments:AttachmentCollectionResourceInterface;
 
   public pendingAttachments:UploadFile[] = [];
-
-  private form:any;
-  // Keep a reference to an embedded form schema,
-  // if this work package currently has one.
-  private overriddenSchema:SchemaResource | null;
 
   public get id():string {
     return this.$source.id || this.idFromLink;
@@ -173,34 +168,6 @@ export class WorkPackageResource extends HalResource {
     return this.schema.hasOwnProperty('date');
   }
 
-  /**
-   * Returns true if any field is in edition in this resource.
-   */
-  public get dirty():boolean {
-    return this.modifiedFields.length > 0;
-  }
-
-  /**
-   * Returns all modified fields by comparing open $pristine fields.
-   */
-  public get modifiedFields():string[] {
-    var modified:string[] = [];
-
-    angular.forEach(this.$pristine, (value, key) => {
-      var args = [this[key], value];
-
-      if ((this as any)[key] instanceof HalResource) {
-        args = args.map(arg => (arg ? arg.$source : arg));
-      }
-
-      if (!_.isEqual(args[0], args[1])) {
-        modified.push(key);
-      }
-    });
-
-    return modified;
-  }
-
   public get isLeaf():boolean {
     var children = this.$links.children;
     return !(children && children.length > 0);
@@ -226,7 +193,7 @@ export class WorkPackageResource extends HalResource {
    * Make the attachments an `AttachmentCollectionResource`. This should actually
    * be done automatically, but the backend does not provide typed collections yet.
    */
-  protected $initialize(source:any) {
+  public $initialize(source:any) {
     super.$initialize(source);
 
     var attachments:{ $source:any, $loaded:boolean } = this.attachments || {
@@ -299,7 +266,7 @@ export class WorkPackageResource extends HalResource {
    * Uploads the attachments and reloads the work package when done
    * Reloading is skipped if no attachment is added
    */
-  private uploadAttachmentsAndReload() {
+  public uploadAttachmentsAndReload() {
     const attachmentUpload = this.uploadPendingAttachments();
 
     if (attachmentUpload) {
@@ -354,167 +321,8 @@ export class WorkPackageResource extends HalResource {
     });
   }
 
-  public getForm() {
-    if (!this.form) {
-      this.updateForm(this.$source).catch(error => {
-        NotificationsService.addError(error.message);
-      });
-    }
-
-    return this.form;
-  }
-
-  public updateForm(payload:{[attribute:string]:any}) {
-    // Always resolve form to the latest form
-    // This way, we won't have to actively reset it.
-    // But store the existing form in case of an error.
-    // Because if we get an error, the object returned is not a form
-    // and thus lacks the links the implementation depends upon.
-    var oldForm = this.form;
-    this.form = this.$links.update(payload);
-    var deferred = $q.defer();
-
-    this.form
-      .then((form:any) => {
-        // Override the current schema with
-        // the changes from API
-        this.overriddenSchema = form.$embedded.schema;
-
-        // Take over new values from the form
-        // this resource doesn't know yet.
-        _.defaultsDeep(this.$source, form.$source._embedded.payload);
-        this.$initialize(this.$source);
-
-        deferred.resolve(form);
-      })
-      .catch((error:any) => {
-        this.form = oldForm;
-        deferred.reject(error);
-      });
-
-    return deferred.promise;
-  }
-
-  public loadFormSchema() {
-    return this.getForm().then((form:any) => {
-      this.overriddenSchema = form.$embedded.schema;
-      return this.schema;
-    });
-  }
-
-  public save():ng.IPromise<WorkPackageResourceInterface> {
-    var deferred = $q.defer();
-    this.inFlight = true;
-    const wasNew = this.isNew;
-    this.updateForm(this.$source)
-      .then(form => {
-        const payload = this.mergeWithForm(form);
-        const sentValues = Object.keys(this.$pristine);
-
-        this.$links.updateImmediately(payload)
-          .then((workPackage:WorkPackageResource) => {
-            // Remove the current form and schema, otherwise old form data
-            // might still be used for the next edit field to be edited
-            this.form = null;
-            this.overriddenSchema = null;
-
-            // Initialize any potentially new HAL values
-            this.$initialize(workPackage);
-
-            // Ensure the schema is loaded before updating
-            schemaCacheService.ensureLoaded(this).then(() => {
-              this.updateActivities();
-
-              if (wasNew) {
-                this.uploadAttachmentsAndReload();
-                wpCreate.newWorkPackageCreated(this as any);
-              }
-
-              // Remove only those pristine values that were submitted
-              angular.forEach(sentValues, (key) => {
-                delete this.$pristine[key];
-              });
-
-              wpCacheService.updateWorkPackage(this as any);
-              deferred.resolve(this);
-            });
-          })
-          .catch(error => {
-            deferred.reject(error);
-            wpCacheService.updateWorkPackage(this as any);
-          })
-          .finally(() => {
-            this.inFlight = false;
-          });
-      })
-      .catch(() => {
-        this.inFlight = false;
-        deferred.reject();
-      });
-
-    return deferred.promise;
-  }
-
-  public storePristine(attribute:string) {
-    if (this.$pristine.hasOwnProperty(attribute)) {
-      return;
-    }
-
-    this.$pristine[attribute] = angular.copy(this[attribute]);
-  }
-
-  public restoreFromPristine(attribute:string) {
-    if (this.$pristine.hasOwnProperty(attribute)) {
-      this[attribute] = this.$pristine[attribute];
-      delete this.$pristine[attribute];
-    }
-  }
-
   public isParentOf(otherWorkPackage:WorkPackageResourceInterface) {
     return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
-  }
-
-  private mergeWithForm(form:any) {
-    var plainPayload = form.payload.$plain();
-    var schema = form.$embedded.schema;
-
-    // Merge embedded properties from form payload
-    // Do not use properties on this, since they may be incomplete
-    // e.g., when switching to a type that requires a custom field.
-    Object.keys(plainPayload).forEach(key => {
-      if (typeof(schema[key]) === 'object' && schema[key].writable === true) {
-        plainPayload[key] = this[key];
-      }
-    });
-
-    // Merged linked properties from form payload
-    Object.keys(plainPayload._links).forEach(key => {
-      if (typeof(schema[key]) === 'object' && schema[key].writable === true) {
-        var isArray = (schema[key].type || '').startsWith('[]');
-
-        if (isArray) {
-          var links:{ href:string }[] = [];
-          var val = this[key];
-
-          if (val) {
-            var elements = (val.forEach && val) || val.elements;
-
-            elements.forEach((link:{ href:string }) => {
-              if (link.href) {
-                links.push({href: link.href});
-              }
-            });
-          }
-
-          plainPayload._links[key] = links;
-        } else {
-          var value = this[key] ? this[key].href : null;
-          plainPayload._links[key] = {href: value};
-        }
-      }
-    });
-
-    return plainPayload;
   }
 
   /**

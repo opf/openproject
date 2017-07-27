@@ -42,9 +42,7 @@ export class MultiSelectEditField extends EditField {
 
   public currentValueInvalid:boolean = false;
 
-  constructor(workPackage:WorkPackageResourceInterface, fieldName:string, schema:op.FieldSchema) {
-    super(workPackage, fieldName, schema);
-
+  protected initialize() {
     this.isMultiselect = this.isValueMulti();
 
     const I18n:any = this.$injector.get('I18n');

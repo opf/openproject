@@ -42,6 +42,8 @@ import {
 } from '../../wp-edit-form/display-field-renderer';
 import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directive';
 import {ClickPositionMapper} from '../../common/set-click-position/set-click-position';
+import {WorkPackageEditFieldHandler} from '../../wp-edit-form/work-package-edit-field-handler';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 
 export class WorkPackageEditFieldController {
   public wpEditFieldGroup:WorkPackageEditFieldGroupController;
@@ -62,6 +64,7 @@ export class WorkPackageEditFieldController {
               protected wpNotificationsService:WorkPackageNotificationService,
               protected ConfigurationService:any,
               protected contextMenu:ContextMenuService,
+              protected wpEditing:WorkPackageEditingService,
               protected wpCacheService:WorkPackageCacheService,
               protected ENTER_KEY:any,
               protected I18n:op.I18n) {
@@ -102,9 +105,10 @@ export class WorkPackageEditFieldController {
     event.stopImmediatePropagation();
   }
 
-  public activate(noWarnings:boolean = false) {
+  public activate(noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
     // Get any existing edit state for this work package
-    const form = this.startEditing();
+    const editContext = new SingleViewEditContext(this.wpEditFieldGroup);
+    const form = this.wpEditing.startEditing(this.workPackage, editContext, false);
 
     return this.activateOnForm(form, noWarnings);
   }
@@ -137,23 +141,6 @@ export class WorkPackageEditFieldController {
 
   public get editContainer() {
     return this.$element.find('.__d_edit_container');
-  }
-
-  /**
-   * Start (or continue) editing the work package and update the edit context.
-   *
-   * @return {WorkPackageEditForm}
-   */
-  private startEditing():WorkPackageEditForm {
-    const editContext = new SingleViewEditContext(this.wpEditFieldGroup);
-    let state = this.states.editing.get(this.workPackage.id);
-    let form = state.value || new WorkPackageEditForm(this.workPackage.id, editContext, this.wpEditFieldGroup.inEditMode);
-    form.editContext = editContext;
-    form.editMode = this.wpEditFieldGroup.inEditMode;
-
-    state.putValue(form);
-
-    return form;
   }
 
   public reset(workPackage:WorkPackageResourceInterface) {

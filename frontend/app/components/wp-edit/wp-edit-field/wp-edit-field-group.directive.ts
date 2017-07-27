@@ -37,7 +37,7 @@ import {scopeDestroyed$} from '../../../helpers/angular-rx-utils';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class WorkPackageEditFieldGroupController {
-  public workPackageId:string;
+  public workPackage:WorkPackageResourceInterface
   public inEditMode:boolean;
   public fields:{ [attribute:string]:WorkPackageEditFieldController } = {};
   private registeredFields = input<string[]>();
@@ -67,11 +67,11 @@ export class WorkPackageEditFieldGroupController {
   }
 
   public $onInit() {
-    this.states.workPackages.get(this.workPackageId)
+    this.states.workPackages.get(this.workPackage.id)
       .values$()
       .takeUntil(scopeDestroyed$(this.$scope))
       .subscribe((wp) => {
-        _.each(this.fields, (ctrl) => this.update(ctrl, wp));
+        _.each(this.fields, (ctrl) => this.updateDisplayField(ctrl, wp));
       });
 
     if (this.inEditMode) {
@@ -93,9 +93,9 @@ export class WorkPackageEditFieldGroupController {
       field.activateOnForm(form, true);
     } else {
       this.states.workPackages
-        .get(this.workPackageId)
+        .get(this.workPackage.id)
         .valuesPromise()
-        .then(wp => this.update(field, wp!));
+        .then(wp => this.updateDisplayField(field, wp!));
     }
   }
 
@@ -109,15 +109,15 @@ export class WorkPackageEditFieldGroupController {
   }
 
   public start() {
-    const form = this.wpEditing.startEditing(this.workPackageId, this.editContext, true);
+    const form = this.wpEditing.startEditing(this.workPackage, this.editContext, true);
     _.each(this.fields, ctrl => form.activate(ctrl.fieldName));
   }
 
   public stop() {
-    this.wpEditing.stopEditing(this.workPackageId);
+    this.wpEditing.stopEditing(this.workPackage.id);
   }
 
-  private update(field:WorkPackageEditFieldController, wp:WorkPackageResourceInterface) {
+  private updateDisplayField(field:WorkPackageEditFieldController, wp:WorkPackageResourceInterface) {
     field.workPackage = wp;
     field.render();
   }
@@ -127,7 +127,7 @@ export class WorkPackageEditFieldGroupController {
   }
 
   private get editingForm():WorkPackageEditForm | undefined {
-    const state = this.wpEditing.editState(this.workPackageId);
+    const state = this.wpEditing.editState(this.workPackage.id);
     return state.value;
   }
 
@@ -149,7 +149,7 @@ opWorkPackagesModule.directive('wpEditFieldGroup', function() {
     controller: WorkPackageEditFieldGroupController,
     bindToController: true,
     scope: {
-      workPackageId: '=',
+      workPackage: '=',
       inEditMode: '=?'
     }
   };

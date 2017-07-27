@@ -38,9 +38,7 @@ export class SelectEditField extends EditField {
 
   public currentValueInvalid:boolean = false;
 
-  constructor(workPackage:WorkPackageResourceInterface, fieldName:string, schema:op.FieldSchema) {
-    super(workPackage, fieldName, schema);
-
+  protected initialize() {
     const I18n:any = this.$injector.get('I18n');
     this.text = {
       requiredPlaceholder: I18n.t('js.placeholders.selection'),

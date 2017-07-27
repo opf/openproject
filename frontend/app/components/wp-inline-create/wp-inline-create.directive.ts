@@ -147,7 +147,7 @@ export class WorkPackageInlineCreateController {
 
         // Set editing context to table
         const editContext = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
-        this.workPackageEditForm = new WorkPackageEditForm('new', editContext);
+        this.workPackageEditForm = new WorkPackageEditForm(wp, editContext);
         this.states.editing.get(wp.id).putValue(this.workPackageEditForm);
 
 

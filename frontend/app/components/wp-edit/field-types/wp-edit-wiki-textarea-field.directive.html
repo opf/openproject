@@ -9,7 +9,7 @@
           name="value"
           ng-hide="vm.field.isPreview"
           ng-required="vm.field.required"
-          ng-disabled="vm.field.isBusy || vm.workPackage.inFlight"
+          ng-disabled="vm.field.isBusy || vm.field.inFlight"
           ng-model="vm.field.fieldVal.raw"
           ng-attr-id="{{vm.htmlId}}">  </textarea>
     <div class="inplace-edit--preview" ng-show="vm.field.isPreview && !vm.field.isBusy">

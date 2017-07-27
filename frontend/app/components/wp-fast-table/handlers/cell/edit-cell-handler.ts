@@ -54,12 +54,13 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     const rowElement = target.closest(`.${tableRowClassName}`);
     // Get the work package we're editing
     const workPackageId = rowElement.data('workPackageId');
+    const workPackage = this.states.workPackages.get(workPackageId).value!;
     // Get the row context
     const classIdentifier = rowElement.data('classIdentifier');
 
     // Get any existing edit state for this work package
     const editContext = new TableRowEditContext(workPackageId, classIdentifier);
-    const form = this.wpEditing.startEditing(workPackageId, editContext);
+    const form = this.wpEditing.startEditing(workPackage, editContext);
 
     // Get the position where the user clicked.
     const positionOffset = ClickPositionMapper.getPosition(evt);
