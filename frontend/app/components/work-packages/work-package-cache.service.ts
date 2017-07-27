@@ -69,6 +69,12 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
       const wp = i;
       const workPackageId = getWorkPackageId(wp.id);
 
+      // If the work package is new, ignore the schema
+      if (wp.isNew) {
+        this.multiState.get(workPackageId).putValue(wp);
+        continue;
+      }
+
       // Ensure the schema is loaded
       // so that no consumer needs to call schema#$load manually
       this.schemaCacheService.ensureLoaded(wp).then(() => {
