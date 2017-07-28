@@ -138,6 +138,7 @@ export class WorkPackageChangeset {
 
     var deferred = this.$q.defer();
 
+    console.trace("UPDATING FORM");
     this.workPackage.$links.update(payload)
       .then((form) => {
         this.wpForm = form;

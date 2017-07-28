@@ -80,10 +80,11 @@ export class WorkPackageEditForm {
     this.wpSubscription = this.states.workPackages.get(workPackage.id)
       .values$()
       .subscribe((wp:WorkPackageResourceInterface) => {
-        debugLog("Refreshing work package and form");
         this.workPackage = wp;
         this.changeset.workPackage = wp;
-        this.changeset.updateForm();
+
+        // Reset the current form
+        this.changeset.wpForm = null;
       });
 
     this.formSubscription = this.editResource.subscribe(() => {
