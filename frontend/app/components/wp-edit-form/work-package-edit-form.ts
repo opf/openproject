@@ -84,7 +84,7 @@ export class WorkPackageEditForm {
         this.changeset.workPackage = wp;
 
         // Reset the current form
-        this.changeset.wpForm = null;
+        this.changeset.wpForm.clear();
       });
 
     this.formSubscription = this.editResource.subscribe(() => {
@@ -218,8 +218,6 @@ export class WorkPackageEditForm {
   protected handleErroneousAttributes(error:any) {
     // Get attributes withe errors
     const erroneousAttributes = error.getInvolvedAttributes();
-    // Get valid attributes
-    const validFields = _.difference(_.keys(this.activeFields), erroneousAttributes);
 
     // Save erroneous fields for when new fields appear
     this.errorsPerAttribute = error.getMessagesPerAttribute();
@@ -233,11 +231,6 @@ export class WorkPackageEditForm {
         this.activateWhenNeeded(fieldName);
         this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
       });
-    });
-
-    // Now close remaining fields (valid)
-    _.each(validFields, (fieldName:string) => {
-      this.activeFields[fieldName].deactivate();
     });
 
     // Focus the first field that are still remaining
@@ -265,8 +258,7 @@ export class WorkPackageEditForm {
             ) as EditField;
 
             resolve(field);
-          })
-        .catch(reject);
+          });
     });
   }
 

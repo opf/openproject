@@ -38,7 +38,12 @@ export class WorkPackageEditingService {
 
   public startEditing(workPackage:WorkPackageResourceInterface, editContext:WorkPackageEditContext, editAll:boolean = false):WorkPackageEditForm {
     const state = this.editState(workPackage.id);
-    const form = state.getValueOr(new WorkPackageEditForm(workPackage, editContext, editAll));
+    let form = state.value;
+
+    if (!form) {
+      form = new WorkPackageEditForm(workPackage, editContext, editAll);
+    }
+
     form.editContext = editContext;
     form.editMode = editAll;
     state.putValue(form);

@@ -94,6 +94,9 @@ export class WorkPackageSingleViewController {
 
     scopedObservable(this.$scope, this.form.editResource)
       .subscribe((resource:HalResource) => {
+        // Prepare the fields that are required always
+        this.specialFields = this.getFields(resource, ['project', 'status']);
+
         // Get attribute groups if they are available (in project context)
         const attributeGroups = resource.schema._attributeGroups;
 
@@ -102,7 +105,6 @@ export class WorkPackageSingleViewController {
           return;
         }
 
-        this.specialFields = this.getFields(resource, ['project', 'status']);
         this.groupedFields = attributeGroups.map((groups:any[]) => {
           return {
             name: groups[0],

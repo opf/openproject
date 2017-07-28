@@ -49,10 +49,10 @@ export class WorkPackageChangeset {
   public inFlight:boolean = false;
 
   // The current work package form
-  public wpForm:FormResourceInterface|null;
+  public wpForm = input<FormResourceInterface>();
 
   // The current editing resource state
-  public resource:InputState<HalResource> = input<HalResource>();
+  public resource = input<HalResource>();
 
   constructor(public workPackage:WorkPackageResourceInterface) {
     $injectFields(
@@ -97,6 +97,11 @@ export class WorkPackageChangeset {
 
   public setValue(key:string, val:any) {
     this.changes[key] = val;
+
+    // Update the form for fields that may alter the form itself.
+    if (key === 'project' || key === 'type') {
+      this.updateForm();
+    }
   }
 
   /**
@@ -108,14 +113,14 @@ export class WorkPackageChangeset {
     return this.changes.hasOwnProperty(key);
   }
 
-  public getForm():ng.IPromise<FormResourceInterface> {
-    if (this.wpForm) {
-      return this.$q.when(this.wpForm);
-    }
+  public getForm():PromiseLike<FormResourceInterface> {
+    this.wpForm.putFromPromiseIfPristine(() => this.updateForm());
 
-    return this.updateForm().catch(error => {
-      this.NotificationsService.addError(error.message);
-    });
+    if (this.wpForm.hasValue()) {
+      return Promise.resolve(this.wpForm.value);
+    } else {
+      return this.wpForm.valuesPromise();
+    }
   }
 
   /**
@@ -128,7 +133,7 @@ export class WorkPackageChangeset {
     // But store the existing form in case of an error.
     // Because if we get an error, the object returned is not a form
     // and thus lacks the links the implementation depends upon.
-    const oldForm = this.wpForm;
+    const oldForm = this.wpForm.value;
 
     // Create the payload from the current changes,
     // and extend it with the current lock version
@@ -140,14 +145,14 @@ export class WorkPackageChangeset {
 
     console.trace("UPDATING FORM");
     this.workPackage.$links.update(payload)
-      .then((form) => {
-        this.wpForm = form;
+      .then((form:FormResourceInterface) => {
+        this.wpForm.putValue(form);
         const payload = this.mergeWithPayload(form.payload.$source);
         this.buildResource(payload);
         deferred.resolve(form);
       })
       .catch((error:any) => {
-        this.wpForm = oldForm;
+        this.wpForm.putValue(oldForm);
         deferred.reject(error);
       });
 
@@ -168,7 +173,7 @@ export class WorkPackageChangeset {
           .then((savedWp:WorkPackageResourceInterface) => {
             // Remove the current form and schema, otherwise old form data
             // might still be used for the next edit field to be edited
-            this.wpForm = null;
+            this.wpForm.clear();
 
             // Initialize any potentially new HAL values
             this.workPackage.$initialize(savedWp);
@@ -204,7 +209,11 @@ export class WorkPackageChangeset {
    * @return {any}
    */
   private mergeWithPayload(plainPayload:any) {
-    const reference = this.wpForm ? this.wpForm.payload.$source : this.workPackage.$source;
+    // Fall back to the last known state of the work package should the form not be loaded.
+    let reference = this.workPackage.$source;
+    if (this.wpForm.hasValue()) {
+      reference = this.wpForm.value!.payload.$source;
+    }
 
     _.each(this.changes, (val:any, key:string) => {
       const fieldSchema = this.schema[key];
@@ -255,7 +264,7 @@ export class WorkPackageChangeset {
    * and contains available values.
    */
   public get schema() {
-    return this.wpForm ? this.wpForm.schema : this.workPackage.schema;
+    return this.wpForm.getValueOr(this.workPackage).schema;
   }
 
   private buildResource(payload:any) {
