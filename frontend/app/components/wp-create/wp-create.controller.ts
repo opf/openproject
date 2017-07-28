@@ -39,8 +39,8 @@ import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service
 import {WorkPackageCreateService} from './wp-create.service';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
-import IRootScopeService = angular.IRootScopeService;
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
+import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResource | any;
@@ -48,7 +48,10 @@ export class WorkPackageCreateController {
   public form:WorkPackageEditForm;
 
   public get header():string {
-    if (!this.newWorkPackage.type) {
+    const changeset = this.form.changeset || new WorkPackageChangeset(this.newWorkPackage);
+    const type = changeset.value('type');
+
+    if (!type) {
       return this.I18n.t('js.work_packages.create.header_no_type');
     }
 
@@ -56,17 +59,17 @@ export class WorkPackageCreateController {
       return this.I18n.t(
         'js.work_packages.create.header_with_parent',
         {
-          type: this.newWorkPackage.type.name,
+          type: type.name,
           parent_type: this.parentWorkPackage.type.name,
           id: this.parentWorkPackage.id
         }
       );
     }
 
-    if (this.newWorkPackage.type) {
+    if (type) {
       return this.I18n.t(
         'js.work_packages.create.header',
-        {type: this.newWorkPackage.type.name}
+        {type: type.name}
       );
     }
 
@@ -83,6 +86,7 @@ export class WorkPackageCreateController {
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
               protected wpCacheService:WorkPackageCacheService,
+              protected v3Path:any,
               protected $location:ng.ILocationService,
               protected RootDm:RootDmService) {
 
@@ -97,14 +101,21 @@ export class WorkPackageCreateController {
             this.form = form;
 
             this.form.editContext.successState = this.successState;
+
+            if ($state.params['parent_id']) {
+              this.form.changeset.setValue(
+                'parent',
+                { href: v3Path.wp({wp: $state.params['parent_id'] }) }
+              );
+            }
           });
 
+        // Load the parent simply to display the type name :-/
         if ($state.params['parent_id']) {
           scopedObservable(this.$scope,
             wpCacheService.loadWorkPackage($state.params['parent_id']).values$())
             .subscribe(parent => {
               this.parentWorkPackage = parent;
-              this.newWorkPackage.parent = parent;
             });
         }
       })

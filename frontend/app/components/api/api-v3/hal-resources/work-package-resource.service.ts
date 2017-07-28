@@ -389,16 +389,6 @@ export class WorkPackageResource extends HalResource {
     this['updateImmediately'] = this.$links.updateImmediately = (payload) => {
       return apiWorkPackages.createWorkPackage(payload);
     };
-
-    if (this.parent) {
-      this.$source._links['parent'] = {
-        href: this.parent.href
-      };
-    } else if ($stateParams.parent_id) {
-      this.$source._links['parent'] = {
-        href: v3Path.wp({wp: $stateParams.parent_id})
-      };
-    }
   }
 
   /**
