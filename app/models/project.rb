@@ -333,12 +333,18 @@ class Project < ActiveRecord::Base
     Authorization.projects(permission, user)
   end
 
+  def reload(*args)
+    @all_work_package_custom_fields = nil
+
+    super
+  end
+
   # Returns the Systemwide and project specific activities
   def activities(include_inactive = false)
     if include_inactive
-      return all_activities
+      all_activities
     else
-      return active_activities
+      active_activities
     end
   end
 

@@ -29,28 +29,31 @@
 #++
 
 module Queries::Filters::Strategies
-  class List < BaseStrategy
-    delegate :allowed_values,
-             to: :filter
-
-    supported_operator_list ['=', '!']
-
+  class BooleanList < List
     def validate
-      # TODO: the -1 is a special value that exists for historical reasons
-      # so one can send the operator '=' and the values ['-1']
-      # which results in a IS NULL check in the DB.
-      # Remove once timelines is removed.
-      if non_valid_values?
-        errors.add(:values, :inclusion)
+      super
+
+      if too_many_values
+        errors.add(:values, "only one value allowed")
       end
     end
 
     def valid_values!
-      filter.values &= (allowed_values.map(&:last).map(&:to_s) + ['-1'])
+      filter.values &= allowed_values.map(&:last).map(&:to_s)
     end
 
-    def non_valid_values?
-      (values.reject(&:blank?) & (allowed_values.map(&:last).map(&:to_s) + ['-1'])) != values.reject(&:blank?)
+    private
+
+    def operator_map
+      super_value = super.dup
+      super_value['='] = ::Queries::Operators::BooleanEquals
+      super_value['!'] = ::Queries::Operators::BooleanNotEquals
+
+      super_value
+    end
+
+    def too_many_values
+      values.reject(&:blank?).length > 1
     end
   end
 end

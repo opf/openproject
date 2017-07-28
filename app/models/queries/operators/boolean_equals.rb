@@ -28,29 +28,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Filters::Strategies
-  class List < BaseStrategy
-    delegate :allowed_values,
-             to: :filter
+module Queries::Operators
+  class BooleanEquals < Base
+    label 'equals'
+    set_symbol '='
 
-    supported_operator_list ['=', '!']
+    def self.sql_for_field(values, db_table, db_field)
+      sql = ''
 
-    def validate
-      # TODO: the -1 is a special value that exists for historical reasons
-      # so one can send the operator '=' and the values ['-1']
-      # which results in a IS NULL check in the DB.
-      # Remove once timelines is removed.
-      if non_valid_values?
-        errors.add(:values, :inclusion)
+      # special case for old timeline where
+      # -1 is still used
+      # TODO: remove once old timeline is removed
+      if values.include?('-1')
+        return "#{db_table}.#{db_field} IS NULL"
       end
-    end
 
-    def valid_values!
-      filter.values &= (allowed_values.map(&:last).map(&:to_s) + ['-1'])
-    end
+      if values.include?('f')
+        sql = "#{db_table}.#{db_field} IS NULL OR "
+      end
 
-    def non_valid_values?
-      (values.reject(&:blank?) & (allowed_values.map(&:last).map(&:to_s) + ['-1'])) != values.reject(&:blank?)
+      sql += "#{db_table}.#{db_field} IN (" +
+             values.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + ')'
+
+      sql
     end
   end
 end
