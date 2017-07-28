@@ -93,9 +93,6 @@ describe 'Switching types in work package table', js: true do
         message: "#{cf_req_text.name} can't be blank."
       )
 
-      # Old text field should disappear
-      expect { text_field.display_element }.to raise_error(Capybara::ElementNotFound)
-
       # Required CF requires activation
       req_text_field.activate!
       req_text_field.set_value 'Required'

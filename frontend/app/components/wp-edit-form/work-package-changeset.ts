@@ -114,13 +114,13 @@ export class WorkPackageChangeset {
     return this.changes.hasOwnProperty(key);
   }
 
-  public getForm():PromiseLike<FormResourceInterface> {
+  public getForm():Promise<FormResourceInterface> {
     this.wpForm.putFromPromiseIfPristine(() => this.updateForm());
 
     if (this.wpForm.hasValue()) {
       return Promise.resolve(this.wpForm.value);
     } else {
-      return this.wpForm.valuesPromise();
+      return new Promise((resolve,) => this.wpForm.valuesPromise().then(resolve));
     }
   }
 

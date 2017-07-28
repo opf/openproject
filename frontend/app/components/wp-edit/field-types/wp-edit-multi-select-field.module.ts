@@ -72,7 +72,7 @@ export class MultiSelectEditField extends EditField {
   public get value() {
     const val = this.changeset.value(this.name);
 
-    if (this.isMultiselect) {
+    if (!Array.isArray(val) || this.isMultiselect) {
       return val;
     } else {
       return val[0];
@@ -93,7 +93,7 @@ export class MultiSelectEditField extends EditField {
 
   public isValueMulti() {
     const val = this.changeset.value(this.name);
-    return val.length > 1;
+    return val && val.length > 1;
   }
 
   public toggleMultiselect() {

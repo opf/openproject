@@ -178,7 +178,7 @@ describe 'Inline editing work packages', js: true do
       expect(wp_table.row(work_package)).to have_selector('.wp-table--cell-container.-error', count: 2)
 
       cf_text = wp_table.edit_field(work_package, :customField2)
-      cf_text.update('my custom text')
+      cf_text.update('my custom text', expect_failure: true)
 
       cf_list            = wp_table.edit_field(work_package, :customField1)
       cf_list.field_type = 'select'

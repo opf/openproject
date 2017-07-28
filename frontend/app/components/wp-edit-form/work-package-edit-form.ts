@@ -229,7 +229,10 @@ export class WorkPackageEditForm {
     _.each(erroneousAttributes, (fieldName:string) => {
       this.editContext.requireVisible(fieldName).then(() => {
         this.activateWhenNeeded(fieldName);
-        this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
+
+        if (this.activeFields[fieldName]) {
+          this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
+        }
       });
     });
 
@@ -258,7 +261,11 @@ export class WorkPackageEditForm {
             ) as EditField;
 
             resolve(field);
-          });
+          })
+        .catch((error) => {
+          console.error("Failed to build edit field:" + error);
+          this.wpNotificationsService.handleRawError(error);
+        });
     });
   }
 
@@ -266,11 +273,16 @@ export class WorkPackageEditForm {
     const promise = this.editContext.activateField(this,
       field,
       this.errorsPerAttribute[fieldName] || []);
-    return promise.then((fieldHandler) => {
-      this.lastActiveField = fieldName;
-      this.activeFields[fieldName] = fieldHandler;
-      return fieldHandler;
-    });
+    return promise
+      .then((fieldHandler) => {
+        this.lastActiveField = fieldName;
+        this.activeFields[fieldName] = fieldHandler;
+        return fieldHandler;
+      })
+      .catch((error) => {
+        console.error("Failed to render edit field:" + error);
+        this.wpNotificationsService.handleRawError(error);
+      });
   }
 }
 
