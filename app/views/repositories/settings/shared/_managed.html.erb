@@ -45,7 +45,8 @@ See doc/COPYRIGHT.rdoc for more details.
                       value: repository.new_record? ? repository.managed_repository_url :
                               repository.url,
                       disabled: true,
-                      'aria-disabled' => true
+                      'aria-disabled' => true,
+                      container_class: '-wide'
       ) %>
   <div class="form--field-instructions">
     <%= t("repositories.#{vendor}.instructions.managed_url") %>
