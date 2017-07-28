@@ -34,36 +34,45 @@
 
   .labelLeft
     display: none
+    //display: inline-block
     position: absolute
     left: -80px
     width: 70px
     background-color: white
     border: 1px solid #d4d4d4
     border-radius: 5px
+    height: 16px
+    font-size: 11px
 
   .containerRight
+    display: inline-block
     position: absolute
-    top: 0
+    margin: 0 0 0 0
+    padding: 0 0 0 0
+    top: -2px
     left: 100%
     white-space: nowrap
-    line-height: 10px
+    height: 16px
 
   .labelRight.not-empty
     display: none
+    //display: inline-block
     background-color: white
     border: 1px solid #d4d4d4
     border-radius: 5px
-    padding: 2px 5px
+    padding: 2px 5px 2px 5px
     margin-left: 10px
-    font-size: 10px
+    font-size: 11px
+    height: 16px
 
   .labelFarRight
+    height: 16px
     display: inline-block
     white-space: nowrap
     font-style: italic
     margin-left: 5px
     padding: 5px 5px 2px 5px
-    font-size: 11px
+    font-size: 12px
 
   &.-readonly
     cursor: not-allowed !important
