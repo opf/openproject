@@ -15,7 +15,7 @@ de:
   label_work_packages_watched: "Beobachtete Arbeitspakete"
   label_work_package_tracking: "Arbeitspaket-Verfolgung"
   label_members: "Mitglieder"
-  label_member_view_all: "View all members"
+  label_member_view_all: "Alle Mitglieder anzeigen"
   label_subprojects: "Unterprojekte"
   project_page:
     all: "Alle anzeigen"
