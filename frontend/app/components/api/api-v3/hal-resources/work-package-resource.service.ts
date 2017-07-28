@@ -124,6 +124,7 @@ export class WorkPackageResource extends HalResource {
   public attachments:AttachmentCollectionResourceInterface;
 
   public pendingAttachments:UploadFile[] = [];
+  public overriddenSchema?:SchemaResource;
 
   public get id():string {
     return this.$source.id || this.idFromLink;

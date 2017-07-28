@@ -61,9 +61,14 @@ export class WorkPackageChangeset {
       'wpCacheService', 'wpCreate'
     );
 
-    // Start with a resource from the current work package knowledge.
-    const payload = this.mergeWithPayload(workPackage.$plain);
-    this.buildResource(payload);
+    if (this.workPackage.isNew) {
+      // New work packages have no schema set yet, so update the form immediately to get one
+      this.updateForm();
+    } else {
+      // Start with a resource from the current work package knowledge.
+      const payload = this.mergeWithPayload(workPackage.$plain);
+      this.buildResource(payload);
+    }
   }
 
   public startEditing(key:string) {
@@ -185,6 +190,7 @@ export class WorkPackageChangeset {
               this.workPackage.updateActivities();
 
               if (wasNew) {
+                this.workPackage.overriddenSchema = undefined;
                 this.workPackage.uploadAttachmentsAndReload();
                 this.wpCreate.newWorkPackageCreated(this.workPackage);
               }
