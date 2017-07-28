@@ -119,7 +119,7 @@ export class MultiSelectEditField extends EditField {
     }
     else {
       // If no value but required
-      this.currentValueInvalid == this.schema.required;
+      this.currentValueInvalid = !!this.schema.required;
     }
   }
 

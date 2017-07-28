@@ -67,7 +67,8 @@ export class WorkPackageEditForm {
   public changeset:WorkPackageChangeset;
 
   // The work package cache service subscription
-  protected subscription:Subscription;
+  protected wpSubscription:Subscription;
+  protected formSubscription:Subscription;
 
   constructor(public workPackage:WorkPackageResourceInterface,
               public editContext:WorkPackageEditContext,
@@ -76,16 +77,19 @@ export class WorkPackageEditForm {
 
     this.changeset = new WorkPackageChangeset(workPackage);
 
-    console.log(workPackage.id);
-    this.subscription = this.states.workPackages.get(workPackage.id)
+    this.wpSubscription = this.states.workPackages.get(workPackage.id)
       .values$()
       .subscribe((wp:WorkPackageResourceInterface) => {
+        debugLog("Refreshing work package and form");
         this.workPackage = wp;
         this.changeset.workPackage = wp;
         this.changeset.updateForm();
-
-        _.each(this.activeFields, (_handler, name) => this.refresh(name!));
       });
+
+    this.formSubscription = this.editResource.subscribe(() => {
+      debugLog("Refreshing active edit fields after form update.");
+      _.each(this.activeFields, (_handler, name) => this.refresh(name!));
+    });
   }
 
   /**
@@ -185,7 +189,8 @@ export class WorkPackageEditForm {
     this.closeEditFields();
 
     // Unsubscribe changes
-    this.subscription.unsubscribe();
+    this.wpSubscription.unsubscribe();
+    this.formSubscription.unsubscribe();
 
     // Destroy this form
     this.states.editing.get(this.workPackage.id).clear('Editing completed');
