@@ -211,7 +211,7 @@ export class WorkPackageSingleViewController {
       multiple: false
     };
 
-    if (this.workPackage.isMilestone) {
+    if (resource.schema.hasOwnProperty('date')) {
       object.field = this.displayField(resource, 'date');
     } else {
       object.fields = [this.displayField(resource, 'startDate'), this.displayField(resource, 'dueDate')];
