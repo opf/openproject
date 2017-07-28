@@ -79,7 +79,11 @@ export class WorkPackageSingleViewController {
               protected wpDisplayField:WorkPackageDisplayFieldService,
               protected wpCacheService:WorkPackageCacheService) {
 
-    $scope.$on('$destroy', () => this.wpEditing.stopEditing(this.workPackage.id));
+    $scope.$on('$destroy', () => {
+      if (this.form && this.form.changeset.empty) {
+        this.wpEditing.stopEditing(this.workPackage.id);
+      }
+    });
   }
 
   public initialize() {

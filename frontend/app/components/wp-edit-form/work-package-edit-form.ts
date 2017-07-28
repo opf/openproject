@@ -173,6 +173,7 @@ export class WorkPackageEditForm {
         deferred.resolve(savedWorkPackage);
 
         this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
+        this.editMode = false;
         this.editContext.onSaved(savedWorkPackage, isInitial);
       })
       .catch((error) => {

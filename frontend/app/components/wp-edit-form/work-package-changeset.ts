@@ -72,7 +72,9 @@ export class WorkPackageChangeset {
   }
 
   public startEditing(key:string) {
-    this.changes[key] = _.cloneDeep(this.workPackage[key]);
+    if (!this.isOverridden(key)) {
+      this.changes[key] = _.cloneDeep(this.workPackage[key]);
+    }
   }
 
   public reset(key:string) {
@@ -149,7 +151,6 @@ export class WorkPackageChangeset {
 
     var deferred = this.$q.defer();
 
-    console.trace("UPDATING FORM");
     this.workPackage.$links.update(payload)
       .then((form:FormResourceInterface) => {
         this.wpForm.putValue(form);
