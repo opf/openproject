@@ -35,11 +35,12 @@ import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageCreateService} from '../wp-create/wp-create.service';
 import {input, InputState} from 'reactivestates';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 
 export class WorkPackageChangeset {
   // Injections
   public $q:ng.IQService;
-  public NotificationsService:any;
+  public wpNotificationsService:WorkPackageNotificationService;
   public schemaCacheService:SchemaCacheService;
   public wpCacheService:WorkPackageCacheService;
   public wpCreate:WorkPackageCreateService;
@@ -56,7 +57,7 @@ export class WorkPackageChangeset {
 
   constructor(public workPackage:WorkPackageResourceInterface) {
     $injectFields(
-      this, 'NotificationsService', '$q', 'schemaCacheService',
+      this, 'wpNotificationsService', '$q', 'schemaCacheService',
       'wpCacheService', 'wpCreate'
     );
 
@@ -153,6 +154,7 @@ export class WorkPackageChangeset {
       })
       .catch((error:any) => {
         this.wpForm.putValue(oldForm);
+        this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
         deferred.reject(error);
       });
 
