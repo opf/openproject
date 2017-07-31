@@ -25,20 +25,34 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {States} from "../../../states.service";
-import {RenderInfo} from "../wp-timeline";
-import {WorkPackageTimelineTableController} from "../container/wp-timeline-container.directive";
-import {WorkPackageCacheService} from "../../../work-packages/work-package-cache.service";
-import {registerWorkPackageMouseHandler} from "./wp-timeline-cell-mouse-handler";
-import {TimelineMilestoneCellRenderer} from "../cells/timeline-milestone-cell-renderer";
-import {TimelineCellRenderer} from "../cells/timeline-cell-renderer";
-import {WorkPackageResourceInterface} from "../../../api/api-v3/hal-resources/work-package-resource.service";
-import * as moment from "moment";
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
-import IScope = angular.IScope;
-import Moment = moment.Moment;
-import {WorkPackageTableRefreshService} from "../../wp-table-refresh-request.service";
+import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
+import {States} from '../../../states.service';
+import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
+import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {RenderInfo} from '../wp-timeline';
+import {TimelineCellRenderer} from './timeline-cell-renderer';
+import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
+import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler';
+
+export const classNameLeftLabel = 'labelLeft';
+export const classNameRightContainer = 'containerRight';
+export const classNameRightLabel = 'labelRight';
+export const classNameFarRightLabel = 'labelFarRight';
+export const classNameShowOnHover = 'show-on-hover';
+
+export class WorkPackageCellLabels {
+
+  constructor(public readonly labelCenter:HTMLDivElement | null,
+              public readonly labelLeft:HTMLDivElement | null,
+              public readonly labelRight:HTMLDivElement | null,
+              public readonly labelFarRight:HTMLDivElement | null) {
+  }
+
+}
+
 export class WorkPackageTimelineCell {
   public wpCacheService:WorkPackageCacheService;
   public wpTableRefresh:WorkPackageTableRefreshService;
@@ -50,6 +64,8 @@ export class WorkPackageTimelineCell {
   private elementShape:string;
 
   private timelineCell:JQuery;
+
+  private labels:WorkPackageCellLabels;
 
   constructor(public workPackageTimeline:WorkPackageTimelineTableController,
               public renderers:{ milestone:TimelineMilestoneCellRenderer, generic:TimelineCellRenderer },
@@ -89,7 +105,7 @@ export class WorkPackageTimelineCell {
   }
 
   public clear() {
-    this.cellElement.html("");
+    this.cellElement.html('');
     this.wpElement = null;
   }
 
@@ -117,6 +133,7 @@ export class WorkPackageTimelineCell {
 
     // Render the given element
     this.wpElement = renderer.render(renderInfo);
+    this.labels = renderer.createAndAddLabels(renderInfo, this.wpElement);
     this.elementShape = renderer.type;
 
     // Register the element
@@ -134,6 +151,7 @@ export class WorkPackageTimelineCell {
         this.loadingIndicator,
         cell[0],
         this.wpElement,
+        this.labels,
         renderer,
         renderInfo);
     }
@@ -157,9 +175,7 @@ export class WorkPackageTimelineCell {
     const cell = this.lazyInit(renderer, renderInfo);
 
     // Render the upgrade from renderInfo
-    const shouldBeDisplayed = renderer.update(cell[0],
-      this.wpElement as HTMLDivElement,
-      renderInfo);
+    const shouldBeDisplayed = renderer.update(cell[0], this.wpElement as HTMLDivElement, renderInfo);
     if (!shouldBeDisplayed) {
       this.clear();
     }
