@@ -59,8 +59,7 @@ class TypesContextMenuController {
 function typesContextMenuService(ngContextMenu:any) {
   return ngContextMenu({
     templateUrl: '/components/context-menus/types-context-menu/types-context-menu.service.html',
-    controller: TypesContextMenuController,
-    container: '.wp-create-button'
+    controller: TypesContextMenuController
   });
 }
 
