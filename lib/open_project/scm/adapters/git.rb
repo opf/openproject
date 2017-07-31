@@ -42,6 +42,14 @@ module OpenProject
           @flag_report_last_commit = SCM_GIT_REPORT_LAST_COMMIT
           @path_encoding = path_encoding.presence || 'UTF-8'
           @identifier = identifier
+
+          if checkout? && identifier.blank?
+            raise ArgumentError, %{
+              No identifier given. The git adapter requires a project identifier when working
+              on a repository remotely.
+            }.squish
+          end
+
         end
 
         def checkout_command
@@ -74,7 +82,15 @@ module OpenProject
         ##
         # Create a bare repository for the current path
         def initialize_bare_git
+          unless checkout_uri.start_with?("/")
+            raise ArgumentError, "Cannot initialize bare repository remotely at #{checkout_uri}"
+          end
+
           capture_git(%w[init --bare --shared], no_chdir: true)
+        end
+
+        def git_dir
+          @git_dir ||= URI.parse(checkout_uri).path
         end
 
         ##
@@ -133,7 +149,7 @@ module OpenProject
         def fetch_all
           %x(#{client_command} fetch --all)
 
-          raise Exceptions::CommandFailed("Failed to fetch latest commits") if $? != 0
+          raise Exceptions::CommandFailed.new("git", "Failed to fetch latest commits") if $? != 0
         end
 
         def remote_branches
@@ -142,7 +158,7 @@ module OpenProject
             .map(&:strip)
             .reject { |b| b.include?("->") } # origin/HEAD -> origin/master
 
-          raise Exceptions::CommandFailed("Failed to list remote branches") if $? != 0
+          raise Exceptions::CommandFailed.new("git", "Failed to list remote branches") if $? != 0
 
           remote_branches
         end
@@ -153,7 +169,7 @@ module OpenProject
             .map(&:strip)
             .map { |b| b.sub(/^\* /, "") } # remove marker for current branch
 
-          raise Exceptions::CommandFailed("Failed to list local branches") if $? != 0
+          raise Exceptions::CommandFailed.new("git", "Failed to list local branches") if $? != 0
 
           local_branches
         end
@@ -163,7 +179,7 @@ module OpenProject
 
           %x(#{client_command} branch --track #{local_branch} #{remote_branch})
 
-          raise Exceptions::CommandFailed("Failed to track new branch #{remote_branch}") if $? != 0
+          raise Exceptions::CommandFailed.new("git", "Failed to track new branch #{remote_branch}") if $? != 0
         end
 
         def update_branch!(local_branch, remote_branch)
@@ -171,7 +187,7 @@ module OpenProject
 
           %x(#{client_command} update-ref #{local_branch} #{remote_branch})
 
-          raise Exceptions::CommandFailed("Failed update ref to #{remote_branch}") if $? != 0
+          raise Exceptions::CommandFailed.new("git", "Failed update ref to #{remote_branch}") if $? != 0
         end
 
         def info
@@ -184,7 +200,7 @@ module OpenProject
         end
 
         def checkout?
-          OpenProject::Configuration.scm_remote_repos?
+          checkout_uri =~ /\A\w+:\/\/.+\Z/ # check if it starts file:// or http(s):// etc
         end
 
         def checkout_path
@@ -498,7 +514,7 @@ module OpenProject
           end
 
           # make sure to use bare repository path to initialize a managed repository
-          args.unshift('--git-dir', checkout_uri) unless checkout? && !opts[:no_chdir]
+          args.unshift('--git-dir', git_dir) unless checkout? && !opts[:no_chdir]
           args
         end
       end

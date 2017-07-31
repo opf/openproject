@@ -46,7 +46,6 @@ module OpenProject
       'force_help_link'         => nil,
       'scm_git_command'         => nil,
       'scm_subversion_command'  => nil,
-      'scm_remote_repos'        => false,
       'scm_local_checkout_path' => 'repositories', # relative to OpenProject directory
       'disable_browser_cache'   => true,
       # default cache_store is :file_store in production and :memory_store in development

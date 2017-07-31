@@ -50,8 +50,7 @@ storage config above like this:
 * `database_cipher_key`     (default: nil)
 * `scm_git_command` (default: 'git')
 * `scm_subversion_command` (default: 'svn')
-* [`scm_remote_repos`](#remote-repos) (default: false)
-* `scm_local_checkout_path` (default: 'repositories')
+* [`scm_local_checkout_path`](#local-checkout-path) (default: 'repositories')
 * `force_help_link` (default: nil)
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * `drop_old_sessions_on_logout` (default: true)
@@ -262,13 +261,11 @@ The option to use a string is mostly relevant for when you want to override the 
 OPENPROJECT_DISABLED__MODULES='backlogs meetings'
 ```
 
-## remote repos
+## local checkout path
 
-*default: false*
+*default: "repositories"*
 
-If set to true OpenProject will consider all repositories (including managed ones) remote
-and will clone them to a local directory (configured using `scm_local_checkout_path`) to work
-on them.
+Remote git repositories will be checked out here.
 
 ### APIv3 basic auth control
 
