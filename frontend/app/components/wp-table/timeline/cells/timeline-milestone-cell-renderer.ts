@@ -203,31 +203,6 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     this.updateLabels(false, labels, renderInfo.workPackage);
 
     return labels;
-
-    // label
-    // const label1 = document.createElement('div');
-    // label1.classList.add(classNameBarLabel);
-    // label1.textContent = renderInfo.workPackage.subject;
-    // const backgroundColor = this.typeColor(renderInfo.workPackage);
-    // label1.style.color = calculateForegroundColor(backgroundColor);
-    // element.appendChild(label1);
-
-    // create left date label
-    // const label2 = document.createElement('div');
-    // label2.classList.add(classNameLeftLabel);
-    // label2.classList.add(classNameShowOnHover);
-    // element.appendChild(label2);
-
-    // create right date label
-    // const label3 = document.createElement('div');
-    // label3.classList.add(classNameRightLabel);
-    // label3.classList.add(classNameShowOnHover);
-    // element.appendChild(label3);
-
-    // const labels = new WorkPackageCellLabels(null, null, null, null);
-    // this.updateLabels(false, labels, renderInfo.workPackage);
-    //
-    // return labels;
   }
 
   protected updateLabels(activeDragNDrop:boolean, labels:WorkPackageCellLabels, workPackage:WorkPackageResourceInterface) {
@@ -268,15 +243,5 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
         labels.labelRight.classList.add('not-empty');
       }
     }
-
-    // if (!this.TimezoneService) {
-    //   this.TimezoneService = $injectNow('TimezoneService');
-    // }
-    //
-    // const date:Moment | null = workPackage.date ? moment(workPackage.date) : null;
-    //
-    // if (labels.labelRight && date) {
-    //   labels.labelRight.innerText = this.TimezoneService.formattedDate(date);
-    // }
   }
 }
