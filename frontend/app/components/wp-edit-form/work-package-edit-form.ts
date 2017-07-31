@@ -45,6 +45,9 @@ import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
 import {State} from 'reactivestates';
 import {Observable} from 'rxjs';
 
+export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
+export const activeFieldClassName = 'wp-inline-edit--field';
+
 export class WorkPackageEditForm {
   // Injections
   public $q:ng.IQService;
@@ -60,9 +63,6 @@ export class WorkPackageEditForm {
 
   // Errors of the last operation (required when adding opening fields afterwards)
   public errorsPerAttribute:{ [fieldName:string]:string[] } = {};
-
-  // The last field that got activated
-  public lastActiveField:string;
 
   public changeset:WorkPackageChangeset;
 
@@ -227,22 +227,26 @@ export class WorkPackageEditForm {
     }
 
     // Accumulate errors for the given response
-    _.each(erroneousAttributes, (fieldName:string) => {
-      this.editContext.requireVisible(fieldName).then(() => {
-        this.activateWhenNeeded(fieldName);
-
+    let promises:ng.IPromise<any>[] = erroneousAttributes.map((fieldName:string) => {
+      return this.editContext.requireVisible(fieldName).then(() => {
         if (this.activeFields[fieldName]) {
           this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
         }
+
+        return this.activateWhenNeeded(fieldName) as any;
       });
     });
 
-    // Focus the first field that are still remaining
-    let firstActiveField = this.lastActiveField || this.editContext.firstField(_.keys(this.activeFields));
-
-    if (this.activeFields[firstActiveField]) {
-      this.activeFields[firstActiveField].focus();
-    }
+    this.$q.all(promises)
+      .then(() => {
+        // Focus the first field that is erroneous
+        jQuery(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
+          .first()
+          .focus();
+      })
+      .catch(() => {
+        console.error("Failed to activate all erroneous fields.");
+      })
   }
 
   private buildField(fieldName:string):Promise<EditField> {
@@ -276,7 +280,6 @@ export class WorkPackageEditForm {
       this.errorsPerAttribute[fieldName] || []);
     return promise
       .then((fieldHandler) => {
-        this.lastActiveField = fieldName;
         this.activeFields[fieldName] = fieldHandler;
         return fieldHandler;
       })
