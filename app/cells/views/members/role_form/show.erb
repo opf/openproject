@@ -4,7 +4,7 @@
 <form action="<%= form_url %>"
       method="post"
       id="<%= row.roles_css_id %>-form"
-      class="hol"
+      class="hol <%= row.toggle_item_class_name %>"
       style="display:none"
       accept-charset="UTF-8"
 >
@@ -19,6 +19,6 @@
   <%= hidden_field_tag "member[role_ids][]", "" %>
   <p>
     <%= submit_tag t(:button_change), class: "button -highlight -small" %>
-    <%= link_to_function t(:button_cancel), row.cancel_edit_javascript, class: 'button -small' %>
+    <%= link_to_function t(:button_cancel), row.toggle_javascript, class: 'button -small' %>
   </p>
 </form>
