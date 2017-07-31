@@ -87,7 +87,10 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
     return promise.then(() => {
       // Assure the element is visible
-      return this.$timeout(() => fieldHandler);
+      return this.$timeout(() => {
+        fieldHandler.focus();
+        return fieldHandler;
+      });
     });
   }
 

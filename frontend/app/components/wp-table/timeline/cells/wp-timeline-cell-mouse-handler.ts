@@ -78,7 +78,7 @@ export function registerWorkPackageMouseHandler(this: void,
 
   function applyDateValues(renderInfo:RenderInfo, dates:{[name:string]: Moment}) {
     // Let the renderer decide which fields we change
-    renderer.assignDateValues(renderInfo.changeset!, labels, dates);
+    renderer.assignDateValues(renderInfo.changeset, labels, dates);
   }
 
   function getCursorOffsetInDaysFromLeft(renderInfo:RenderInfo, ev:MouseEvent) {
@@ -174,7 +174,7 @@ export function registerWorkPackageMouseHandler(this: void,
         const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
         const widthInDays = offsetDayCurrent - offsetDayStart;
         const moved = renderer.onDaysMoved(wp, dayUnderCursor, widthInDays, mouseDownType);
-        renderer.assignDateValues(renderInfo.changeset!, labels, moved);
+        renderer.assignDateValues(renderInfo.changeset, labels, moved);
         wpCacheService.updateWorkPackage(wp);
         renderer.update(bar, renderInfo);
       };
@@ -211,7 +211,7 @@ export function registerWorkPackageMouseHandler(this: void,
     mouseDownStartDay = null;
     dateStates = {};
 
-    renderer.onMouseDownEnd(labels, renderInfo.changeset!);
+    renderer.onMouseDownEnd(labels, renderInfo.changeset);
 
     // const renderInfo = getRenderInfo();
     const wp = renderInfo.workPackage;
@@ -221,10 +221,10 @@ export function registerWorkPackageMouseHandler(this: void,
       workPackageTimeline.refreshView();
     } else {
       // Persist the changes
-      saveWorkPackage(renderInfo.changeset!);
+      saveWorkPackage(renderInfo.changeset);
     }
 
-    delete renderInfo.changeset;
+    renderInfo.changeset.clear();
   }
 
   function saveWorkPackage(changeset:WorkPackageChangeset) {

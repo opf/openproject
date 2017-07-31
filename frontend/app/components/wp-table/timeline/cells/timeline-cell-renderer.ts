@@ -140,8 +140,8 @@ export class TimelineCellRenderer {
       return 'both'; // irrelevant
     }
 
-    renderInfo.changeset!.startEditing("startDate");
-    renderInfo.changeset!.startEditing("dueDate");
+    renderInfo.changeset.startEditing("startDate");
+    renderInfo.changeset.startEditing("dueDate");
     let direction:"left" | "right" | "both" | "create" | "dragright";
 
     // Update the cursor and maybe set start/due values
@@ -178,7 +178,7 @@ export class TimelineCellRenderer {
     // if (!jQuery(ev.target).hasClass(classNameLeftHandle) && renderInfo.workPackage.dueDate) {
     // }
 
-    this.updateLabels(true, labels, renderInfo.changeset!);
+    this.updateLabels(true, labels, renderInfo.changeset);
 
     return direction;
   }
@@ -338,7 +338,7 @@ export class TimelineCellRenderer {
     containerRight.appendChild(labelFarRight);
 
     const labels = new WorkPackageCellLabels(labelCenter, labelLeft, labelRight, labelFarRight);
-    this.updateLabels(false, labels, renderInfo.changeset!);
+    this.updateLabels(false, labels, renderInfo.changeset);
 
     return labels;
   }

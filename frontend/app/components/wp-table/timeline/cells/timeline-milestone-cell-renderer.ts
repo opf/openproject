@@ -93,7 +93,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     }
 
     let direction: "left" | "right" | "both" | "create" | "dragright" = "both";
-    renderInfo.changeset!.startEditing('date');
+    renderInfo.changeset.startEditing('date');
     this.forceCursor('ew-resize');
 
     if (dateForCreate) {
@@ -102,7 +102,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
       return direction;
     }
 
-    this.updateLabels(true, labels, renderInfo.changeset!);
+    this.updateLabels(true, labels, renderInfo.changeset);
 
     return direction;
   }
@@ -195,7 +195,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     containerRight.appendChild(labelFarRight);
 
     const labels = new WorkPackageCellLabels(null, labelLeft, labelRight, labelFarRight);
-    this.updateLabels(false, labels, renderInfo.changeset!);
+    this.updateLabels(false, labels, renderInfo.changeset);
 
     return labels;
   }

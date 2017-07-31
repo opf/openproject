@@ -106,7 +106,7 @@ export class TimelineViewParameters {
 export interface RenderInfo {
   viewParams:TimelineViewParameters;
   workPackage:WorkPackageResourceInterface;
-  changeset?:WorkPackageChangeset;
+  changeset:WorkPackageChangeset;
 }
 
 /**
