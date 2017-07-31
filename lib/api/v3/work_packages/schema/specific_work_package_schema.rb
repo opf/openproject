@@ -72,12 +72,6 @@ module API
             end
           end
 
-          def writable?(property)
-            return true if property == :date && work_package.leaf?
-
-            super
-          end
-
           private
 
           def contract
