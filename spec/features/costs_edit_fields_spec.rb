@@ -41,7 +41,7 @@ describe 'Work Package cost fields', type: :feature, js: true do
     wp_table.visit!
     wp_table.expect_no_work_package_listed
 
-    wp_table.click_create_wp_button type_task.name
+    split_create.click_create_wp_button type_task.name
     split_create.expect_fully_loaded
 
     expect(page).to have_selector('.wp-edit-field--container.costObject')
