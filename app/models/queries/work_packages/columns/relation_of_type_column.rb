@@ -28,9 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::WorkPackageColumn
-  attr_accessor :type
-
+class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackages::Columns::RelationColumn
   def initialize(type)
     super
 
@@ -52,6 +50,8 @@ class Queries::WorkPackages::Columns::RelationOfTypeColumn < Queries::WorkPackag
   end
 
   def self.instances(_context = nil)
+    return [] unless granted_by_enterprise_token
+
     Relation::TYPES.map { |_key, type| new(type) }
   end
 end

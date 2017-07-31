@@ -47,6 +47,7 @@
   min-width: 0px !important
 
 .hierarchy-header--outer-span
+  white-space: nowrap
   & > .dropdown-indicator
     width: 1em
     text-align: right
@@ -58,9 +59,6 @@
     visibility: visible
 
 // Style hierarchy column differently
-.hierarchy-header--sort-title
-  width: calc(100% - 48px)
-  display: inline-block
 
 // Padding for the hierarchy mode
 .wp-table--cell-td.subject:not(.-with-hierarchy)
@@ -79,6 +77,7 @@ body:not(.accessibility-mode )
 .hierarchy-header--icon
   cursor: pointer
   display: inline-block
+  flex: 0 0 0
   width: 20px
 
   i:before

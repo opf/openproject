@@ -29,7 +29,7 @@
 .atwho-view
   z-index: 25
   .cur
-    background: $primary-color-dark
-    color: $font-color-on-primary
+    @include varprop(background, drop-down-hover-bg-color)
+    @include varprop(color, drop-down-hover-font-color)
     strong
       color: black

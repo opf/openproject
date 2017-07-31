@@ -129,33 +129,36 @@ See doc/COPYRIGHT.rdoc for more details.
             </div>
           </div>
         <% end %>
-        <% if show_decoration %>
-          <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>"
-               ng-class="{ 'hidden-navigation': !showNavigation }">
-            <%= you_are_here_info %>
-            <%= full_breadcrumb %>
-            <%= call_hook :view_layouts_base_breadcrumb %>
-          </div>
-        <% end %>
-        <%= render_flash_messages %>
-        <notifications></notifications>
-        <div id="content" class="<%= initial_classes %>"
+        <div id="content-wrapper" class="<%= initial_classes %>"
              ng-class="{ 'hidden-navigation': !showNavigation }">
-          <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
-          <%= content_for :content_body %>
-          <% unless local_assigns[:no_action_menu] %>
-            <!-- Action menu -->
-            <%= render partial: 'layouts/action_menu' %>
-            <%= yield %>
+          <% if show_decoration %>
+            <div id="breadcrumb" class="<%= initial_classes %><%= show_breadcrumb ? ' -show' : '' %>"
+                 ng-class="{ 'hidden-navigation': !showNavigation }">
+              <%= you_are_here_info %>
+              <%= full_breadcrumb %>
+              <%= call_hook :view_layouts_base_breadcrumb %>
+            </div>
           <% end %>
-          <%= call_hook :view_layouts_base_content %>
+          <%= render_flash_messages %>
+          <notifications></notifications>
+          <div id="content" class="<%= initial_classes %>"
+               ng-class="{ 'hidden-navigation': !showNavigation }">
+            <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
+            <%= content_for :content_body %>
+            <% unless local_assigns[:no_action_menu] %>
+              <!-- Action menu -->
+              <%= render partial: 'layouts/action_menu' %>
+              <%= yield %>
+            <% end %>
+            <%= call_hook :view_layouts_base_content %>
+            <% unless local_assigns[:no_action_menu] %>
+              <div style="clear:both;">&nbsp;</div>
+            <% end %>
+          </div>
           <% unless local_assigns[:no_action_menu] %>
             <div style="clear:both;">&nbsp;</div>
           <% end %>
         </div>
-        <% unless local_assigns[:no_action_menu] %>
-          <div style="clear:both;">&nbsp;</div>
-        <% end %>
       </div>
       <div id="ajax-indicator" style="display:none;"><span><%= l(:label_loading) %></span></div>
     </div>

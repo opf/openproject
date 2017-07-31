@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,22 +28,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module WorkPackages
-      module Schema
-        class UntypedWorkPackageSchema < BaseWorkPackageSchema
-          attr_reader :project
+module OpenProject::ActionViewHelpersAssetTagHelperPatch
+  def auto_discovery_link_tag(type = :rss, url_options = {}, tag_options = {})
+    return if (type == :atom) && Setting.table_exists? && !Setting.feeds_enabled?
 
-          def initialize(project:)
-            @project = project
-          end
-
-          def available_custom_fields
-            project.all_work_package_custom_fields
-          end
-        end
-      end
-    end
+    super
   end
 end
+
+ActionView::Helpers::AssetTagHelper.prepend(OpenProject::ActionViewHelpersAssetTagHelperPatch)

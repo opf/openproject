@@ -26,18 +26,35 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class ParamsParserWithExclusion < ::ActionDispatch::ParamsParser
-  def initialize(app, options = {})
-    super(app)
+require 'spec_helper'
 
-    @exclude = options[:exclude]
+describe OpenProject::Design do
+  it 'detects variable names in strings' do
+    expect('$bla' =~ described_class::VARIABLE_NAME_RGX).to be_truthy
+    expect('$bla-asdf' =~ described_class::VARIABLE_NAME_RGX).to be_truthy
+    expect('$bla-asdf-12' =~ described_class::VARIABLE_NAME_RGX).to be_truthy
+    expect('$bla-asdf12' =~ described_class::VARIABLE_NAME_RGX).to be_truthy
+    expect('$12' =~ described_class::VARIABLE_NAME_RGX).to be_truthy
+    expect('12' =~ described_class::VARIABLE_NAME_RGX).to be_falsey
+    expect('asdf' =~ described_class::VARIABLE_NAME_RGX).to be_falsey
+    expect('bla $blub' =~ described_class::VARIABLE_NAME_RGX).to be_truthy
+    expect('bla($blub 1px)' =~ described_class::VARIABLE_NAME_RGX).to be_truthy
   end
 
-  def call(env)
-    if @exclude && @exclude.call(env)
-      @app.call(env)
-    else
-      super(env)
+  context 'default variables set' do
+    before do
+      stub_const("OpenProject::Design::DEFAULTS",
+                 'variable_1' => 'one',
+                 'variable_2' => 'two',
+                 'variable_1_2' => 'foo $variable_1 bar $variable_2')
+    end
+
+    it '#resolved_variables' do
+      expect(described_class.resolved_variables).to be_eql(
+        'variable_1' => 'one',
+        'variable_2' => 'two',
+        'variable_1_2' => 'foo one bar two'
+      )
     end
   end
 end

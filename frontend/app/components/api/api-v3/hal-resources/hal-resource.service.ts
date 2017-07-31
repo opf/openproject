@@ -44,6 +44,11 @@ export class HalResource {
   public _type:string;
 
   public static create(element:any, force:boolean = false) {
+    if (_.isNil(element)) {
+      return element;
+    }
+
+
     if (!force && !(element._embedded || element._links)) {
       return element;
     }

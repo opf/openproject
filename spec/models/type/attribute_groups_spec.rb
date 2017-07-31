@@ -89,10 +89,10 @@ describe ::Type, type: :model do
     it 'raises an exception for invalid structure' do
       # Exampel for invalid structure:
       type.attribute_groups = ['foo']
-      expect { type.save }.to raise_exception
+      expect { type.save }.to raise_exception(NoMethodError)
       # Exampel for invalid structure:
       type.attribute_groups = [[]]
-      expect { type.save }.to raise_exception
+      expect { type.save }.to raise_exception(NoMethodError)
       # Exampel for invalid group name:
       type.attribute_groups = [['', ['date']]]
       expect(type).not_to be_valid

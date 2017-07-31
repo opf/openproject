@@ -36,10 +36,11 @@
     -webkit-overflow-scrolling: touch
 
   #main,
-  #content
+  #content-wrapper
     padding-bottom: 0 !important
     position: relative !important
     top: 0 !important
+    min-height: calc(100vH - #{$header-height-mobile} - #{$footer-height})
 
   #main
     height: initial !important
@@ -51,14 +52,13 @@
   #wrapper
     background: #fff !important
 
-  #content
+  #content-wrapper
     height: 100% !important
     margin: 0 !important
     padding: 20px !important
     width: 100% !important
-  #main-menu ~ #content
+  #main-menu ~ #content-wrapper
     padding: 2rem 20px 0 20px !important
-    margin-bottom: 20px !important
 
   #breadcrumb,
   #sidebar,

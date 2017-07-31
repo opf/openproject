@@ -92,3 +92,128 @@ a.inplace-editing--trigger-link,
 
   &:hover
     text-decoration: none
+
+
+.wp-edit-field
+  padding-left: 0
+  line-height: 1
+
+  &.-error,
+  .wp-table--cell-td.-error &
+    .wp-table--cell-span,
+    .wp-inline-edit--field
+      background: $nm-color-error-background
+      border-color: $nm-color-error-border
+
+      &:hover
+        border-color: lighten($nm-color-error-border, 10%)
+
+  form
+    width: 100%
+
+  // Style actual edit inputs
+  // Checkboxes need to be excluded because the width
+  // causes an ugly increase of the box
+  select, input:not([type='checkbox'])
+    // Full width to inline-edit inputs
+    width: 100%
+    // Same height as the row - padding
+    height: 24px
+    padding-top: 0
+    padding-bottom: 0
+    line-height: normal
+    font-size: 14px
+
+  .inplace-edit--read-value
+    &:before
+      vertical-align: middle
+    .wp-table--cell-span
+      vertical-align: middle
+
+  &.inplace-edit .custom-option:not(.-multiple-lines)
+    display: inline
+
+  .inline-label
+    .form-label,
+    .icon-context:before
+      padding-right: 0
+
+// Editable fields cursor
+.-editable .wp-table--cell-span,
+.wp-table--cell-span.-editable
+  cursor: text
+  border-color: transparent
+  border-style: solid
+  border-radius: 2px
+  border-width: 1px
+  line-height: normal
+
+  &:hover,
+  &:focus
+    border-color: $inplace-edit--border-color
+
+    .work-package--placeholder
+      padding: 0 10px 0 0px
+
+  .inplace-edit--read-value--value-span
+    width: 100%
+    white-space: nowrap
+    .error.macro-unavailable
+      display: inline-block
+
+    &.-multiline
+      white-space: inherit
+
+// Style no-label fields (long text, description, ..) with padding
+.wp-edit-field--container.-no-label:not(.-active)
+  .wp-table--cell-span
+    display: block
+    padding: 5px
+    padding-right: 0
+
+.wp-edit-field.description.-no-label
+  margin-left: -0.375rem
+
+// Do not hover trigger-link when element is read-only
+.-read-only
+  .inplace-editing--trigger-link:hover .inplace-editing--container
+    border-color: transparent
+
+// Mark focused, non-editable read-values
+.inplace-edit--read-value.-read-only,
+.wp-table--cell-span:not(.id).-read-only
+  &:focus, &:hover
+    color: $inplace-edit--color--disabled
+    background: $inplace-edit--bg-color--disabled
+  cursor: not-allowed
+
+// Default cursor on non-editable and id fields
+.wp-table--cell-span
+  padding: 0 5px 0 5px
+
+// Animations on leaving work packages
+.wp--row.-animated-leave
+  &.ng-leave
+    -webkit-transition: all 1s ease-in-out
+    -moz-transition: all 1s ease-in-out
+    -o-transition: all 1s ease-in-out
+    transition: all 1s ease-in-out
+
+  &.ng-leave-active
+    height: 0
+    line-height: 0
+    opacity: 0
+
+// Allow horizontal scrolling in descripton field
+.work-packages--details--description .wp-table--cell-span .inplace-edit--read-value--value-span
+  overflow-x: auto
+
+// Style the attachment hint label of the description field
+.wp-edit-field-attachment-label
+  // Reduce width due to save|cancel controls
+  width: 75%
+  position: absolute
+  left: 1px
+  font-size: 0.8rem
+  padding-top: 5px
+  font-style: italic

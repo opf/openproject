@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'admin_controller'
 
 describe AdminController, type: :controller do
@@ -51,11 +52,11 @@ describe AdminController, type: :controller do
     assert_template 'projects'
     refute_nil assigns(:projects)
     # active projects only
-    assert_nil assigns(:projects).detect { |u| !u.active? }
+    assert_nil(assigns(:projects).detect { |u| !u.active? })
   end
 
   it 'should projects with name filter' do
-    get :projects, name: 'store', status: ''
+    get :projects, params: { name: 'store', status: '' }
     assert_response :success
     assert_template 'projects'
     projects = assigns(:projects)
@@ -118,8 +119,9 @@ describe AdminController, type: :controller do
 
     get :projects
     assert_response :success
-    assert_select 'a', attributes: { href: '/projects' },
-                   content: 'Test'
+    assert_select 'a',
+                  attributes: { href: '/projects' },
+                  content: 'Test'
 
     Redmine::MenuManager.map :admin_menu do |menu|
       menu.delete :test_admin_menu_plugin_extension

@@ -65,8 +65,8 @@ export class WikiTextareaEditField extends EditField {
     };
   }
 
-  public get supportsAttachments() {
-    return this.name === 'description';
+  public get isFormattable() {
+    return true;
   }
 
   public isEmpty(): boolean {

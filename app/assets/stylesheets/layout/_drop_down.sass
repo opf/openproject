@@ -43,6 +43,12 @@
   // position explicitly.
   visibility: hidden
 
+  // Avoid a context menu that MAY get too large for the screen
+  // to exceed it, but rather limit its height to the view port.
+  &.-overflow-in-view
+    max-height: 100vh
+    overflow: auto
+
 .dropdown,
 .toolbar .legacy-actions-more
   position: absolute

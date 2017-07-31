@@ -63,6 +63,20 @@ export class SelectEditField extends EditField {
     }
   }
 
+  public get selectedOption() {
+    return this.value;
+  }
+
+  public set selectedOption(val) {
+    // Special case 'null' value, which angular
+    // only understands in ng-options as an empty string.
+    if (val && val.href === '') {
+      val.href = null;
+    }
+
+    this.value = val;
+  }
+
   private setValues(availableValues:any[], sortValuesByName = false) {
     if (sortValuesByName) {
       availableValues.sort(function(a, b) {
@@ -97,7 +111,7 @@ export class SelectEditField extends EditField {
     if (emptyOption === undefined) {
       this.options.unshift({
         name: this.text.placeholder,
-        href: null
+        href: ''
       });
     }
   }

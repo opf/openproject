@@ -88,7 +88,7 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   public updateRelation(workPackageId:string, relation:RelationResourceInterface, params:any) {
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResourceInterface) => {
-        this.insertIntoStates(relation);
+        this.insertIntoStates(savedRelation);
         this.wpTableRefresh.request(true,
           `Updating relation (${relation.ids.from} to ${relation.ids.to})`);
         return savedRelation;

@@ -31,7 +31,9 @@ language: ruby
 rvm:
   - 2.4.1
 
+dist: :precise
 sudo: false
+dist: precise
 
 cache:
   bundler: true

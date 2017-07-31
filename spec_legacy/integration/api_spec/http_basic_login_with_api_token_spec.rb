@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+require_relative '../../legacy_spec_helper'
 
 describe 'ApiTest: HttpBasicLoginWithApiToken', type: :request do
   fixtures :all

@@ -33,7 +33,8 @@ class CustomFieldsController < ApplicationController
 
   before_action :require_admin
   before_action :find_custom_field, only: %i(edit update destroy move delete_option)
-  before_action :get_custom_field_params, only: %i(create update)
+  before_action :prepare_custom_option_position, only: %i(update create)
+  before_action :find_custom_option, only: :delete_option
 
   def index
     # loading wp cfs exclicity to allow for eager loading
@@ -48,9 +49,7 @@ class CustomFieldsController < ApplicationController
   end
 
   def create
-    @custom_field = careful_new_custom_field permitted_params.custom_field_type, @custom_field_params
-
-    set_custom_options!
+    @custom_field = careful_new_custom_field permitted_params.custom_field_type, get_custom_field_params
 
     if @custom_field.save
       flash[:notice] = l(:notice_successful_create)
@@ -64,14 +63,9 @@ class CustomFieldsController < ApplicationController
   def edit; end
 
   def update
-    ok = @custom_field.update_attributes(@custom_field_params)
+    @custom_field.attributes = get_custom_field_params
 
-    if ok
-      set_custom_options!
-      ok = @custom_field.save
-    end
-
-    if ok
+    if @custom_field.save
       flash[:notice] = t(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
       redirect_back_or_default edit_custom_field_path(id: @custom_field.id)
@@ -90,17 +84,14 @@ class CustomFieldsController < ApplicationController
   end
 
   def delete_option
-    custom_option = CustomOption.find params[:option_id]
-
-    if custom_option
-      num_deleted = delete_custom_values! custom_option
-      custom_option.destroy!
+    if @custom_option.destroy
+      num_deleted = delete_custom_values! @custom_option
 
       flash[:notice] = I18n.t(
-        :notice_custom_options_deleted, option_value: custom_option.value, num_deleted: num_deleted
+        :notice_custom_options_deleted, option_value: @custom_option.value, num_deleted: num_deleted
       )
     else
-      flash[:error] = I18n.t(:error_custom_option_not_found)
+      flash[:error] = @custom_option.errors.full_messages
     end
 
     redirect_to edit_custom_field_path(id: @custom_field.id)
@@ -109,11 +100,19 @@ class CustomFieldsController < ApplicationController
   private
 
   def get_custom_field_params
-    @custom_field_params = permitted_params.custom_field
+    custom_field_params = permitted_params.custom_field
 
     if !EnterpriseToken.allows_to?(:multiselect_custom_fields)
-      @custom_field_params.delete :multi_value
+      custom_field_params.delete :multi_value
     end
+
+    custom_field_params
+  end
+
+  def find_custom_option
+    @custom_option = CustomOption.find params[:option_id]
+  rescue ActiveRecord::RecordNotFound
+    render_404
   end
 
   def delete_custom_values!(custom_option)
@@ -122,37 +121,10 @@ class CustomFieldsController < ApplicationController
       .delete_all
   end
 
-  def set_custom_options!
-    if @custom_field.list?
-      custom_options = Hash(params.permit!.to_h.dig("custom_field", "custom_options"))
-      custom_options.each_with_index do |(id, attr), i|
-        set_custom_option! id, attr, i
-      end
-    end
-  end
-
-  def set_custom_option!(id, attr, i)
-    attr = attr.slice(:value, :default_value)
-
-    if @custom_field.new_record? || !CustomOption.exists?(id)
-      build_custom_option! attr, i
-    else
-      update_custom_option! id, attr, i
-    end
-  end
-
-  def build_custom_option!(attr, i)
-    @custom_field.custom_options.build(
-      value: attr[:value], position: i + 1, default_value: attr[:default_value]
-    )
-  end
-
-  def update_custom_option!(id, attr, i)
-    @custom_field.custom_options.select { |co| co.id == id.to_i }.each do |custom_option|
-      custom_option.value = attr[:value] if custom_option.value != attr[:value]
-      custom_option.default_value = attr[:default_value].present?
-      custom_option.position = i + 1
-      custom_option.save!
+  def prepare_custom_option_position
+    return unless params[:custom_field][:custom_options_attributes]
+    params[:custom_field][:custom_options_attributes].each_with_index do |(_id, attributes), index|
+      attributes[:position] = index + 1
     end
   end
 

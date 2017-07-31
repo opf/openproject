@@ -30,20 +30,6 @@
 module TimelogHelper
   include ApplicationHelper
 
-  def render_timelog_breadcrumb
-    links = []
-    links << link_to(l(:label_project_all), project_id: nil, work_package_id: nil)
-    links << link_to(h(@project), project_id: @project, work_package_id: nil) if @project
-    if @issue
-      if @issue.visible?
-        links << link_to_work_package(@issue, subject: false)
-      else
-        links << "##{@issue.id}".html_safe
-      end
-    end
-    breadcrumb links
-  end
-
   # Returns a collection of activities for a select field.  time_entry
   # is optional and will be used to check if the selected TimeEntryActivity
   # is active.

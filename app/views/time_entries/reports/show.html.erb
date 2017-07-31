@@ -27,8 +27,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= render_timelog_breadcrumb %>
-
 <%= toolbar title: t(:label_spent_time) do %>
   <% if User.current.allowed_to?({controller: 'timelog', action: :new}, @project) %>
       <li class="toolbar-item">
@@ -40,22 +38,23 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
-<%= styled_form_tag(polymorphic_time_entries_report_path(@issue || @project), method: :get, id: 'query_form') do %>
+<%= styled_form_tag(polymorphic_time_entries_report_path(@issue || @project), method: :get, id: 'query_form', class: '-vertical') do %>
   <% @criterias.each do |criteria| %>
     <%= hidden_field_tag 'criterias[]', criteria, id: nil %>
   <% end %>
   <%= render partial: 'timelog/date_range' %>
   <%= render 'timelog/time_entry_tabs' %>
 
-  <div class="timelog-report-selection grid-block small-6 vertical">
+  <div class="timelog-report-selection small-6">
     <div class="grid-block">
 
       <div class="form--field">
         <%= styled_label_tag :columns, "#{t(:label_details)}:" %>
-        <%= styled_select_tag 'columns', options_for_select([[t(:label_year), 'year'],
-                                                            [t(:label_month), 'month'],
-                                                            [t(:label_week), 'week'],
-                                                            [t(:label_day_plural).titleize, 'day']], @columns) %>
+        <%= styled_select_tag 'columns', options_for_select([[l(:label_year), 'year'],
+                                                            [l(:label_month), 'month'],
+                                                            [l(:label_week), 'week'],
+                                                            [l(:label_day_plural).titleize, 'day']], @columns),
+                                             container_class: '-slim' %>
       </div>
 
       <div class="form--field">
@@ -65,9 +64,9 @@ See doc/COPYRIGHT.rdoc for more details.
           }
         %>
         <%= styled_select_tag('criterias[]', options_for_select(available_criterias),
-                                             style: 'width: 200px',
                                              id: "criterias",
-                                             disabled: (@criterias.length >= 3)) %>
+                                             disabled: (@criterias.length >= 3),
+                                             container_class: '-slim') %>
       </div>
     </div>
     <div class="grid-block">
@@ -148,7 +147,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
 
     <%= other_formats_links do |f| %>
-      <%= f.link_to 'CSV', url: params %>
+      <%= f.link_to 'CSV', url: permitted_params.timelog.to_h %>
     <% end %>
   <% end %>
 <% end %>

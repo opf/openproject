@@ -42,6 +42,7 @@ describe CustomStylesController, type: :controller do
 
       context 'when active token exists' do
         before do
+          allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
           allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
         end
 
@@ -81,6 +82,7 @@ describe CustomStylesController, type: :controller do
       end
 
       before do
+        allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
         allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
 
         expect(CustomStyle).to receive(:create).and_return(custom_style)

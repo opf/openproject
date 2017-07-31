@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,12 +35,13 @@ module API
   module V3
     module Versions
       class VersionRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+
         self_link
 
-        linked_property :definingProject,
-                        path: :project,
-                        getter: :project,
-                        show_if: -> (*) { represented.project.visible?(current_user) }
+        associated_resource :project,
+                            as: :definingProject,
+                            skip_render: ->(*) { !represented.project.visible?(current_user) }
 
         link :availableInProjects do
           {
@@ -52,7 +54,7 @@ module API
 
         property :description,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    ::API::Decorators::Formattable.new(represented.description,
                                                       object: represented,
                                                       format: 'plain')
@@ -61,14 +63,14 @@ module API
 
         property :start_date,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    datetime_formatter.format_date(represented.start_date, allow_nil: true)
                  },
                  render_nil: true
         property :due_date,
                  as: 'endDate',
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    datetime_formatter.format_date(represented.due_date, allow_nil: true)
                  },
                  render_nil: true
@@ -76,11 +78,11 @@ module API
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
         property :updated_on,
                  as: 'updatedAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
 
         def _type
           'Version'

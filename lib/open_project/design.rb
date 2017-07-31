@@ -57,7 +57,7 @@ module OpenProject
       'h4-font-size'                                         => "calc($h3-font-size * 0.75)",
       'h4-font-color'                                        => "$body-font-color",
       'header-height'                                        => "55px",
-      'header-height-mobile'                                 => "45px",
+      'header-height-mobile'                                 => "55px",
       'header-bg-color'                                      => "$primary-color",
       'header-home-link-bg'                                  => '#{image-url("logo_openproject_white_big.png") no-repeat 20px 0}',
       'header-border-bottom-color'                           => "$primary-color",
@@ -218,6 +218,9 @@ module OpenProject
       'table-timeline--row-height'                           => '41px'
     }.freeze
 
+    # Regular expression for references of other variables.
+    VARIABLE_NAME_RGX = /\$([\w-]+)/
+
     ##
     # Returns the name of the color scheme.
     # To be overridden by a plugin
@@ -244,6 +247,21 @@ module OpenProject
     # To be used in the sass variable definition file
     def self.variables
       DEFAULTS
+    end
+
+    ##
+    # Return the value after resolving all variables to values.
+    def self.resolved_variables
+      resolved_variables = DEFAULTS.dup
+
+      DEFAULTS.each do |var_name, value|
+        resolved_variables[var_name] = resolve_value(value)
+      end
+      resolved_variables
+    end
+
+    def self.resolve_value(variable_value)
+      variable_value.gsub(VARIABLE_NAME_RGX) { resolve_value(DEFAULTS[$1]) }
     end
 
     ##

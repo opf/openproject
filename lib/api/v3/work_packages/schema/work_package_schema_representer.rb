@@ -159,7 +159,8 @@ module API
                  type: 'DateTime'
 
           schema :author,
-                 type: 'User'
+                 type: 'User',
+                 writable: false
 
           schema_with_allowed_link :project,
                                    type: 'Project',

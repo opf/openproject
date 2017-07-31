@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,11 +33,14 @@ class CustomField < ActiveRecord::Base
 
   has_many :custom_values, dependent: :delete_all
   has_many :custom_options, -> { order(position: :asc) }, dependent: :delete_all
+  accepts_nested_attributes_for :custom_options
 
   acts_as_list scope: 'type = \'#{self.class}\''
 
-  validates_presence_of :field_format
-
+  validates :field_format, presence: true
+  validates :custom_options,
+            presence: { message: I18n.t(:'activerecord.errors.models.custom_field.at_least_one_custom_option') },
+            if: ->(*) { field_format == 'list' }
   validates :name, presence: true, length: { maximum: 30 }
 
   validate :uniqueness_of_name_with_scope
@@ -52,10 +56,12 @@ class CustomField < ActiveRecord::Base
   validates_inclusion_of :field_format, in: OpenProject::CustomFieldFormat.available_formats
 
   validate :validate_default_value
+  validate :validate_regex
 
   validates :min_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
   validates :max_length, numericality: { only_integer: true, greater_than_or_equal_to: 0 }
-  validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length }, unless: Proc.new { |cf| cf.max_length.blank? }
+  validates :min_length, numericality: { less_than_or_equal_to: :max_length, message: :smaller_than_or_equal_to_max_length },
+                         unless: Proc.new { |cf| cf.max_length.blank? }
 
   before_validation :check_searchability
 
@@ -94,6 +100,17 @@ class CustomField < ActiveRecord::Base
     ensure
       self.is_required = required_field
     end
+  end
+
+  def validate_regex
+    Regexp.new(regexp) if has_regexp?
+    true
+  rescue RegexpError
+    errors.add(:regexp, :invalid)
+  end
+
+  def has_regexp?
+    regexp.present?
   end
 
   def required?
@@ -182,7 +199,11 @@ class CustomField < ActiveRecord::Base
 
   def self.customized_class
     name =~ /\A(.+)CustomField\z/
-    begin; $1.constantize; rescue nil; end
+    begin
+      $1.constantize
+    rescue
+      nil
+    end
   end
 
   # to move in project_custom_field

@@ -94,14 +94,18 @@ describe 'form configuration', type: :feature, js: true do
     target = group.find('.attributes')
 
     scroll_to_element(group)
-    page.driver.browser
+    page
+      .driver
+      .browser
       .action
       .move_to(handle.native)
       .click_and_hold(handle.native)
       .perform
 
     scroll_to_element(group)
-    page.driver.browser
+    page
+      .driver
+      .browser
       .action
       .move_to(target.native)
       .release
@@ -148,8 +152,8 @@ describe 'form configuration', type: :feature, js: true do
 
   describe "with EE token" do
     before do
+      allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
       allow(EnterpriseToken).to receive(:allows_to?).with(:edit_attribute_groups).and_return(true)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
     end
 
     describe 'default configuration' do
@@ -192,7 +196,7 @@ describe 'form configuration', type: :feature, js: true do
         #
         expect_group 'people',
                      'People',
-                     { key: :responsible, translation: 'Responsible' }
+                     key: :responsible, translation: 'Responsible'
 
         expect_group 'estimates_and_time',
                      'Estimates and time',
@@ -303,7 +307,6 @@ describe 'form configuration', type: :feature, js: true do
 
         wp_page.expect_group('Estimates and time') do
           expect(page).to have_selector('.wp-edit-field.estimatedTime')
-          expect(page).to have_selector('.wp-edit-field.spentTime')
         end
 
         find('#work-packages--edit-actions-cancel').click
@@ -433,8 +436,8 @@ describe 'form configuration', type: :feature, js: true do
     let(:dialog) { ::NgConfirmationDialog.new }
 
     it "should disable adding and renaming groups" do
+      allow(EnterpriseToken).to receive(:allows_to?).and_return(true)
       allow(EnterpriseToken).to receive(:allows_to?).with(:edit_attribute_groups).and_return(false)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(false)
       login_as(admin)
       visit edit_type_tab_path(id: type.id, tab: "form_configuration")
 

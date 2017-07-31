@@ -117,13 +117,6 @@ describe('optionsDropdown Directive', function() {
       }
     };
 
-    wpEditModeState = {
-      form: {
-        inEditMode: false,
-        workPackage: {}
-      }
-    }
-
     $provide.constant('wpTableSum', wpTableSum);
     $provide.constant('wpTableHierarchies', wpTableHierarchies);
     $provide.constant('wpTableGroupBy', wpTableGroupBy);
@@ -132,7 +125,6 @@ describe('optionsDropdown Directive', function() {
     $provide.constant('groupingModal', groupByModal);
     $provide.constant('exportModal', exportModal);
     $provide.constant('states', states);
-    $provide.constant('wpEditModeState', wpEditModeState);
   }));
 
   beforeEach(inject(function($rootScope, $compile) {

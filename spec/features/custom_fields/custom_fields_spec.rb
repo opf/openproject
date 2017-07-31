@@ -24,24 +24,24 @@ describe 'custom fields', js: true do
 
       expect(page).to have_selector('.custom-option-row', count: 1)
       within all(".custom-option-row").last do
-        find("input.custom-option-value").set "Windows"
-        find("input.custom-option-default-value").set true
+        find(".custom-option-value input").set "Windows"
+        find(".custom-option-default-value input").set true
       end
 
       click_on "add-custom-option"
 
       expect(page).to have_selector('.custom-option-row', count: 2)
       within all(".custom-option-row").last do
-        find("input.custom-option-value").set "Linux"
+        find(".custom-option-value input").set "Linux"
       end
 
       click_on "add-custom-option"
 
       expect(page).to have_selector('.custom-option-row', count: 3)
       within all(".custom-option-row").last do
-        find("input.custom-option-value").set "Solaris"
+        find(".custom-option-value input").set "Solaris"
 
-        click_on "Move to the top"
+        click_on "Move to top"
       end
 
       click_on "Save"
@@ -51,13 +51,13 @@ describe 'custom fields', js: true do
       click_on "Operating System"
 
       expect(page).to have_selector('.custom-option-row', count: 3)
-      values = all(".custom-option-value")
+      values = all(".custom-option-value input")
 
       expect(values[0].value).to eql("Solaris")
       expect(values[1].value).to eql("Windows")
       expect(values[2].value).to eql("Linux")
 
-      defaults = all(".custom-option-default-value")
+      defaults = all(".custom-option-default-value input")
 
       expect(defaults[0]).not_to be_checked
       expect(defaults[1]).to be_checked
@@ -87,14 +87,14 @@ describe 'custom fields', js: true do
 
       expect(page).to have_selector('.custom-option-row', count: 5)
       within all(".custom-option-row").last do
-        find("input.custom-option-value").set "Sega"
+        find(".custom-option-value input").set "Sega"
       end
 
       click_on "add-custom-option"
 
       expect(page).to have_selector('.custom-option-row', count: 6)
       within all(".custom-option-row").last do
-        find("input.custom-option-value").set "Atari"
+        find(".custom-option-value input").set "Atari"
       end
 
       click_on "Save"
@@ -103,7 +103,7 @@ describe 'custom fields', js: true do
       expect(page).to have_text("Platform")
       expect(page).to have_selector('.custom-option-row', count: 6)
 
-      values = all(".custom-option-value").map(&:value)
+      values = all(".custom-option-value input").map(&:value)
 
       expect(values).to eq ["Playstation", "Xbox", "Nintendo", "PC", "Sega", "Atari"]
     end
@@ -112,7 +112,7 @@ describe 'custom fields', js: true do
       expect(page).to have_text("Platform")
 
       expect(page).to have_selector('.custom-option-row', count: 4)
-      rows = all(".custom-option-value")
+      rows = all(".custom-option-value input")
 
       expect(rows[0].value).to eql("Playstation")
       expect(rows[1].value).to eql("Xbox")
@@ -123,13 +123,13 @@ describe 'custom fields', js: true do
 
       find("#custom_field_multi_value").set true
 
-      defaults = all(".custom-option-default-value")
+      defaults = all(".custom-option-default-value input")
 
       defaults[0].set true
       defaults[2].set true
 
       within all(".custom-option-row").first do
-        click_on "Move to the bottom"
+        click_on "Move to bottom"
       end
 
       click_on "Save"
@@ -139,14 +139,14 @@ describe 'custom fields', js: true do
 
       expect(find("#custom_field_multi_value")).to be_checked
 
-      new_rows = all(".custom-option-value")
+      new_rows = all(".custom-option-value input")
 
       expect(new_rows[0].value).to eql("Sega")
       expect(new_rows[1].value).to eql("Nintendo")
       expect(new_rows[2].value).to eql("PC")
       expect(new_rows[3].value).to eql("Playstation")
 
-      new_defaults = all(".custom-option-default-value")
+      new_defaults = all(".custom-option-default-value input")
 
       expect(new_defaults[0]).not_to be_checked
       expect(new_defaults[1]).to be_checked
@@ -173,7 +173,7 @@ describe 'custom fields', js: true do
 
         expect(page).to have_text("Option 'Xbox' and its 3 occurrences were deleted.")
 
-        rows = all(".custom-option-value")
+        rows = all(".custom-option-value input")
 
         expect(rows.size).to eql(3)
 

@@ -15,8 +15,7 @@ describe 'activity comments', js: true, selenium: true do
   let(:comment_field) {
     WorkPackageTextAreaField.new wp_page,
                                  'comment',
-                                 selector: selector,
-                                 trigger: '.inplace-editing--trigger-container'
+                                 selector: selector
   }
   let(:initial_comment) { 'the first comment in this WP' }
 
@@ -107,11 +106,11 @@ describe 'activity comments', js: true, selenium: true do
 
       it 'saves while in preview mode' do
         comment_field.input_element.set '*Highlight*'
-        preview = comment_field.element.find('.jstb_preview')
+        preview = comment_field.field_container.find('.jstb_preview')
 
         # Enable preview
         preview.click
-        expect(comment_field.element).to have_selector('strong', text: 'Highlight')
+        expect(comment_field.field_container).to have_selector('strong', text: 'Highlight')
 
         comment_field.submit_by_click
         expect(page).to have_selector('.user-comment .message', text: 'Highlight')

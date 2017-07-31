@@ -26,7 +26,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'repositories_controller'
 
 describe RepositoriesController, 'Subversion', type: :controller do
@@ -61,7 +61,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should show' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, project_id: PRJ_ID
+    get :show, params: { project_id: PRJ_ID }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -71,7 +71,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should browse root' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, project_id: PRJ_ID
+    get :show, params: { project_id: PRJ_ID }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -82,7 +82,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should browse directory' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, project_id: PRJ_ID, path: 'subversion_test'
+    get :show, params: { project_id: PRJ_ID, path: 'subversion_test' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -96,7 +96,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should browse at given revision' do
     @repository.fetch_changesets
     @repository.reload
-    get :show, project_id: PRJ_ID, path: 'subversion_test', rev: 4
+    get :show, params: { project_id: PRJ_ID, path: 'subversion_test', rev: 4 }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entries)
@@ -106,7 +106,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should file changes' do
     @repository.fetch_changesets
     @repository.reload
-    get :changes, project_id: PRJ_ID, path: 'subversion_test/folder/helloworld.rb'
+    get :changes, params: { project_id: PRJ_ID, path: 'subversion_test/folder/helloworld.rb' }
     assert_response :success
     assert_template 'changes'
 
@@ -128,7 +128,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should directory changes' do
     @repository.fetch_changesets
     @repository.reload
-    get :changes, project_id: PRJ_ID, path: 'subversion_test/folder'
+    get :changes, params: { project_id: PRJ_ID, path: 'subversion_test/folder' }
     assert_response :success
     assert_template 'changes'
 
@@ -140,7 +140,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should entry' do
     @repository.fetch_changesets
     @repository.reload
-    get :entry, project_id: PRJ_ID, path: 'subversion_test/helloworld.c'
+    get :entry, params: { project_id: PRJ_ID, path: 'subversion_test/helloworld.c' }
     assert_response :success
     assert_template 'entry'
   end
@@ -151,7 +151,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     it 'should entry should send if too big' do
       @repository.fetch_changesets
       @repository.reload
-      get :entry, project_id: PRJ_ID, path: 'subversion_test/helloworld.c'
+      get :entry, params: { project_id: PRJ_ID, path: 'subversion_test/helloworld.c' }
       assert_response :success
       assert_template nil
       assert_equal 'attachment; filename="helloworld.c"', response.headers['Content-Disposition']
@@ -161,7 +161,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should entry at given revision' do
     @repository.fetch_changesets
     @repository.reload
-    get :entry, project_id: PRJ_ID, path: 'subversion_test/helloworld.rb', rev: 2
+    get :entry, params: { project_id: PRJ_ID, path: 'subversion_test/helloworld.rb', rev: 2 }
     assert_response :success
     assert_template 'entry'
     # this line was removed in r3 and file was moved in r6
@@ -172,7 +172,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should entry not found' do
     @repository.fetch_changesets
     @repository.reload
-    get :entry, project_id: PRJ_ID, path: 'subversion_test/zzz.c'
+    get :entry, params: { project_id: PRJ_ID, path: 'subversion_test/zzz.c' }
     assert_select 'div', attributes: { id: /errorExplanation/ },
                content: /The entry or revision was not found in the repository/
   end
@@ -180,7 +180,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should entry download' do
     @repository.fetch_changesets
     @repository.reload
-    get :entry, project_id: PRJ_ID, path: 'subversion_test/helloworld.c', format: 'raw'
+    get :entry, params: { project_id: PRJ_ID, path: 'subversion_test/helloworld.c', format: 'raw' }
     assert_response :success
     assert_template nil
     assert_equal 'attachment; filename="helloworld.c"', response.headers['Content-Disposition']
@@ -189,7 +189,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should directory entry' do
     @repository.fetch_changesets
     @repository.reload
-    get :entry, project_id: PRJ_ID, path: 'subversion_test/folder'
+    get :entry, params: { project_id: PRJ_ID, path: 'subversion_test/folder' }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:entry)
@@ -200,7 +200,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should revision' do
     @repository.fetch_changesets
     @repository.reload
-    get :revision, project_id: 1, rev: 2
+    get :revision, params: { project_id: 1, rev: 2 }
     assert_response :success
     assert_template 'revision'
     assert_select 'ul',
@@ -220,13 +220,13 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should invalid revision' do
     @repository.fetch_changesets
     @repository.reload
-    get :revision, project_id: PRJ_ID, rev: 'something_weird'
+    get :revision, params: { project_id: PRJ_ID, rev: 'something_weird' }
     assert_response 404
     assert_error_tag content: /was not found/
   end
 
   it 'should invalid revision diff' do
-    get :diff, project_id: PRJ_ID, rev: '1', rev_to: 'something_weird'
+    get :diff, params: { project_id: PRJ_ID, rev: '1', rev_to: 'something_weird' }
     assert_response 404
     assert_error_tag content: /was not found/
   end
@@ -235,7 +235,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     @repository.fetch_changesets
     @repository.reload
     ['', ' ', nil].each do |r|
-      get :revision, project_id: PRJ_ID, rev: r
+      get :revision, params: { project_id: PRJ_ID, rev: r }
       assert_response 404
       assert_error_tag content: /was not found/
     end
@@ -247,7 +247,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     # Changes repository url to a subdirectory
     r.update_attribute :url, (r.url + '/subversion_test/folder/')
 
-    get :revision, project_id: 1, rev: 2
+    get :revision, params: { project_id: 1, rev: 2 }
     assert_response :success
     assert_template 'revision'
     assert_select 'ul',
@@ -267,7 +267,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should revision diff' do
     @repository.fetch_changesets
     @repository.reload
-    get :diff, project_id: PRJ_ID, rev: 3
+    get :diff, params: { project_id: PRJ_ID, rev: 3 }
     assert_response :success
     assert_template 'diff'
 
@@ -277,7 +277,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should directory diff' do
     @repository.fetch_changesets
     @repository.reload
-    get :diff, project_id: PRJ_ID, rev: 6, rev_to: 2, path: 'subversion_test/folder'
+    get :diff, params: { project_id: PRJ_ID, rev: 6, rev_to: 2, path: 'subversion_test/folder' }
     assert_response :success
     assert_template 'diff'
 
@@ -292,7 +292,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should annotate' do
     @repository.fetch_changesets
     @repository.reload
-    get :annotate, project_id: PRJ_ID, path: 'subversion_test/helloworld.c'
+    get :annotate, params: { project_id: PRJ_ID, path: 'subversion_test/helloworld.c' }
     assert_response :success
     assert_template 'annotate'
   end
@@ -300,7 +300,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
   it 'should annotate at given revision' do
     @repository.fetch_changesets
     @repository.reload
-    get :annotate, project_id: PRJ_ID, rev: 8, path: 'subversion_test/helloworld.c'
+    get :annotate, params: { project_id: PRJ_ID, rev: 8, path: 'subversion_test/helloworld.c' }
     assert_response :success
     assert_template 'annotate'
     assert_select 'div',

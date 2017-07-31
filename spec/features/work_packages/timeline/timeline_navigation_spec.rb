@@ -180,7 +180,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
       wp_timeline.expect_timeline_relation(wp_cat1, wp_cat2)
 
       # Collapse first section
-      find('#wp-table-rowgroup-0').click
+      find('#wp-table-rowgroup-1 .expander').click
       wp_timeline.expect_work_package_not_listed(wp_cat1)
 
       # Relation should be hidden

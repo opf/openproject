@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'mail_handler_controller'
 
 describe MailHandlerController, type: :controller do
@@ -43,7 +44,7 @@ describe MailHandlerController, type: :controller do
     Setting.mail_handler_api_enabled = 1
     Setting.mail_handler_api_key = 'secret'
 
-    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    post :index, params: { key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml')) }
     assert_response 201
   end
 
@@ -52,7 +53,7 @@ describe MailHandlerController, type: :controller do
     Setting.mail_handler_api_enabled = 0
     Setting.mail_handler_api_key = 'secret'
 
-    post :index, key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml'))
+    post :index, params: { key: 'secret', email: IO.read(File.join(FIXTURES_PATH, 'ticket_on_given_project.eml')) }
     assert_response 403
   end
 end

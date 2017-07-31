@@ -158,7 +158,7 @@ module Pages
           row(work_package)
         end
 
-      ::TableWorkPackageField.new(context, attribute)
+      ::WorkPackageField.new(context, attribute)
     end
 
     def click_setting_item(label)

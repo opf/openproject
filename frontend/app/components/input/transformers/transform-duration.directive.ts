@@ -39,8 +39,8 @@ function transformDuration(TimezoneService:any) {
       ngModelController:any) {
       ngModelController.$parsers.push(function(value:any):Duration|void {
         if (!isNaN(value)) {
-          var minutes = Number(moment.duration(value, 'hours').asMinutes().toFixed(2));
-          return moment.duration(minutes, 'minutes');
+          let floatValue = parseFloat(value);
+          return moment.duration(floatValue, 'hours');
         }
       });
 

@@ -36,7 +36,7 @@ module API
         extend Grape::API::Helpers
 
         def merge_hash_into_work_package!(hash, work_package)
-          payload = ::API::V3::WorkPackages::WorkPackagePayloadRepresenter.create(work_package)
+          payload = ::API::V3::WorkPackages::WorkPackagePayloadRepresenter.create(work_package, current_user: current_user)
           payload.from_hash(Hash(hash))
         end
 

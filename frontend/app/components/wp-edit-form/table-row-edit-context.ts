@@ -27,26 +27,30 @@
 // ++
 
 import {WorkPackageEditContext} from './work-package-edit-context';
-import {WorkPackageTableRow} from '../wp-fast-table/wp-table.interfaces';
-import {CellBuilder, tdClassName, editCellContainer} from '../wp-fast-table/builders/cell-builder';
+import {CellBuilder, editCellContainer, tdClassName} from '../wp-fast-table/builders/cell-builder';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
-import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
-import {rowId} from '../wp-fast-table/helpers/wp-table-row-helpers';
 import {States} from '../states.service';
-import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
-import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
+import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+import {WorkPackageEditForm} from './work-package-edit-form';
+import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
+import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
+import {SimpleTemplateRenderer} from '../angular/simple-template-renderer';
 
 export class TableRowEditContext implements WorkPackageEditContext {
 
   // Injections
-  public wpCacheService:WorkPackageCacheService;
+  public templateRenderer:SimpleTemplateRenderer;
   public wpTableRefresh:WorkPackageTableRefreshService;
   public wpTableColumns:WorkPackageTableColumnsService;
   public states:States;
   public FocusHelper:any;
   public $q:ng.IQService;
+  public $timeout:ng.ITimeoutService;
+
+  // other fields
+  public successState:string;
 
   // Use cell builder to reset edit fields
   private cellBuilder = new CellBuilder();
@@ -59,7 +63,39 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editCellContainer}`);
   }
 
-  public reset(workPackage:WorkPackageResource, fieldName:string, focus?:boolean) {
+  public activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler> {
+    const cell = this.findContainer(field.name);
+
+    // Create a field handler for the newly active field
+    const fieldHandler = new WorkPackageEditFieldHandler(
+      form,
+      field,
+      cell,
+      errors
+    );
+
+    fieldHandler.$scope = this.templateRenderer.createRenderScope();
+    const promise = this.templateRenderer.renderIsolated(
+      // Replace the current cell
+      cell,
+      fieldHandler.$scope,
+      '/components/wp-edit-form/wp-edit-form.template.html',
+      {
+        vm: fieldHandler,
+      }
+    );
+
+    return promise.then(() => {
+      // Assure the element is visible
+      return this.$timeout(() => fieldHandler);
+    });
+  }
+
+  public refreshField(field:EditField, handler:WorkPackageEditFieldHandler) {
+    handler.$scope.$evalAsync(() => handler.field = field);
+  }
+
+  public reset(workPackage:WorkPackageResourceInterface, fieldName:string, focus?:boolean) {
     const cell = this.findContainer(fieldName);
 
     if (cell.length) {
@@ -71,7 +107,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     }
   }
 
-  public requireVisible(fieldName:string):PromiseLike<JQuery> {
+  public requireVisible(fieldName:string):PromiseLike<undefined> {
     this.wpTableColumns.addColumn(fieldName);
     return this.waitForContainer(fieldName);
   }
@@ -80,21 +116,21 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return 'subject';
   }
 
-  public onSaved(workPackage:WorkPackageResource) {
+  public onSaved(workPackage:WorkPackageResourceInterface) {
     this.wpTableRefresh.request(false, `Saved work package ${workPackage.id}`);
   }
 
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
-  private waitForContainer(fieldName:string):PromiseLike<JQuery> {
-    const deferred = this.$q.defer();
+  private waitForContainer(fieldName:string):PromiseLike<undefined> {
+    const deferred = this.$q.defer<undefined>();
 
     const interval = setInterval(() => {
       const container = this.findContainer(fieldName);
 
       if (container.length > 0) {
         clearInterval(interval);
-        deferred.resolve(container);
+        deferred.resolve();
       }
     }, 100);
 
@@ -107,5 +143,6 @@ export class TableRowEditContext implements WorkPackageEditContext {
 }
 
 TableRowEditContext.$inject = [
-  'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh', 'FocusHelper', '$q'
+  'wpCacheService', 'states', 'wpTableColumns', 'wpTableRefresh',
+  'FocusHelper', '$q', '$timeout', 'templateRenderer'
 ];

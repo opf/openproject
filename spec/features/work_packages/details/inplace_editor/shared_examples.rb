@@ -2,17 +2,17 @@ shared_examples 'an accessible inplace editor' do
   it 'triggers edit mode on click' do
     field.activate_edition
     expect(field).to be_editing
-    field.cancel_by_click
+    field.cancel_by_escape
   end
 
   it 'triggers edit mode on RETURN key' do
-    field.trigger_link.native.send_keys(:return)
+    field.display_element.native.send_keys(:return)
     expect(field).to be_editing
-    field.cancel_by_click
+    field.cancel_by_escape
   end
 
   it 'is focusable' do
-    tab_index = field.trigger_link['tabindex']
+    tab_index = field.display_element['tabindex']
     expect(tab_index).to_not be_nil
     expect(tab_index).to_not eq('-1')
   end
@@ -53,12 +53,12 @@ shared_examples 'having a single validation point' do
     other_field.activate_edition
     field.activate_edition
     field.input_element.set ''
-    field.submit_by_click
+    field.submit_by_enter
   end
 
   after do
-    field.cancel_by_click
-    other_field.cancel_by_click
+    field.cancel_by_escape
+    other_field.cancel_by_escape
   end
 end
 
@@ -66,11 +66,11 @@ shared_examples 'a required field' do
   before do
     field.activate_edition
     field.input_element.set ''
-    field.submit_by_click
+    field.submit_by_enter
   end
 
   after do
-    field.cancel_by_click
+    field.cancel_by_escape
   end
 end
 
@@ -79,24 +79,16 @@ shared_examples 'a cancellable field' do
     it 'reverts to read state and keeps its focus' do
       expect(field).to_not be_editing
       field.expect_state_text(work_package.send(property_name))
-      
+
       active_class_name = page.evaluate_script('document.activeElement.className')
-      expect(active_class_name).to include(field.trigger_link_selector[1..-1])
+      expect(active_class_name).to include(field.display_selector[1..-1])
     end
-  end
-
-  context 'by click' do
-    before do
-      field.activate!
-      field.cancel_by_click
-    end
-
-    it_behaves_like 'cancelling properly'
   end
 
   context 'by escape' do
     before do
       field.activate!
+      sleep 1
       field.cancel_by_escape
     end
 
@@ -109,15 +101,15 @@ shared_examples 'a previewable field' do
     field.activate!
 
     field.input_element.set '*Highlight*'
-    preview = field.element.find('.jstb_preview')
+    preview = field.field_container.find('.jstb_preview')
 
     # Enable preview
     preview.click
-    expect(field.element).to have_selector('strong', text: 'Highlight')
+    expect(field.field_container).to have_selector('strong', text: 'Highlight')
 
     # Disable preview
     preview.click
-    expect(field.element).to have_no_selector('strong')
+    expect(field.field_container).to have_no_selector('strong')
   end
 end
 

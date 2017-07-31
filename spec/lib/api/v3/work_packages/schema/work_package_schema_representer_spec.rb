@@ -139,7 +139,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         let(:type) { 'Integer' }
         let(:name) { I18n.t('api_v3.attributes.lock_version') }
         let(:required) { true }
-        let(:writable) { false }
+        let(:writable) { true }
       end
 
       context 'lockVersion disabled' do

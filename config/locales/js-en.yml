@@ -132,7 +132,6 @@ en:
     label_contains: "contains"
     label_created_on: "created on"
     label_edit_comment: "Edit this comment"
-    label_edit_this_entry: "Edit this entry"
     label_equals: "is"
     label_expand: "Expand"
     label_expanded: "expanded"
@@ -170,13 +169,13 @@ en:
     label_previous: "Previous"
     label_per_page: "Per page:"
     label_please_wait: "Please wait"
+    label_visibility_settings: "Visibility settings"
     label_quote_comment: "Quote this comment"
     label_reset: "Reset"
     label_remove_columns: "Remove selected columns"
     label_save_as: "Save as"
     label_select_watcher: "Select a watcher..."
     label_selected_filter_list: "Selected filters"
-    label_share: "Share"
     label_show_attributes: "Show all attributes"
     label_show_in_menu: "Show page in menu"
     label_sort_by: "Sort by"
@@ -415,6 +414,11 @@ en:
       wiki_link: "Link to a Wiki page"
       image: "Image"
     work_packages:
+      bulk_actions:
+        move: 'Bulk move'
+        edit: 'Bulk edit'
+        copy: 'Bulk copy'
+        delete: 'Bulk delete'
       button_clear: "Clear"
       comment_added: "The comment was successfully added."
       comment_send_failed: "An error has occurred. Could not submit the comment."
@@ -544,7 +548,7 @@ en:
         save: "Save"
         save_as: "Save as ..."
         export: "Export ..."
-        share: "Share ..."
+        publish: "Publish ..."
         page_settings: "Rename query ..."
         delete: "Delete"
       filter: "Filter"

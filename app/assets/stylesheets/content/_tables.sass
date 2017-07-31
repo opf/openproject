@@ -65,7 +65,7 @@ table
     .hours-dec
       font-size: 0.9em
 
-  &.workflow-table
+  &.workflow-table.generic-table
     margin-bottom: 16px
     overflow-x: hidden
     tbody
@@ -220,3 +220,8 @@ tr.-checked
     width: calc(100% - 5rem)
   .icon-toggle:before
     vertical-align: middle
+
+// Exceptions for summary reports where multiple tables are used in one view.
+body.action-report
+  .generic-table--container
+    height: auto

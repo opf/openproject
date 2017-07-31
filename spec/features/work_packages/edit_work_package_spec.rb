@@ -173,17 +173,18 @@ describe 'edit work package', js: true do
     let!(:type2) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
 
     it 'shows the required field when switching' do
-      page.click_button(I18n.t('js.button_edit'))
       type_field = wp_page.edit_field(:type)
 
+      type_field.activate!
       type_field.set_value type2.name
-      expect(type_field.input_element).to have_selector('option:checked', text: type2.name)
+
+      wp_page.expect_notification message: "#{custom_field.name} can't be blank.",
+                                  type: 'error'
+
 
       cf_field = wp_page.edit_field("customField#{custom_field.id}")
       cf_field.expect_active!
       cf_field.expect_value('')
-
-      find('#work-packages--edit-actions-cancel').click
     end
   end
 
@@ -229,9 +230,9 @@ describe 'edit work package', js: true do
   end
 
   it 'submits the edit mode when pressing enter' do
-    page.click_button(I18n.t('js.button_edit'))
     subject_field = wp_page.edit_field(:subject)
 
+    subject_field.activate!
     subject_field.set_value 'My new subject!'
     subject_field.input_element.send_keys(:return)
 

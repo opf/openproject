@@ -101,18 +101,29 @@ function WorkPackagesListController($scope:any,
       .take(1)
       .subscribe(() => $scope.tableInformationLoaded = true);
 
-
-    // Update the title whenever the query
+    // Update the title whenever the query changes
     states.query.resource.values$()
       .takeUntil(scopeDestroyed$($scope))
-      .subscribe((query) => updateTitle(query));
+      .distinctUntilChanged((query, formerQuery) => query.id === formerQuery.id)
+      .subscribe((query) => {
+        updateTitle(query);
+      });
+
+    // Update the checksum and url query params whenever a new query is loaded
+    states.query.resource
+      .values$()
+      .takeUntil(scopeDestroyed$($scope))
+      .distinctUntilChanged((query, formerQuery) => query.id === formerQuery.id)
+      .withLatestFrom(wpTablePagination.state.values$())
+      .subscribe(([query, pagination]) => {
+        wpListChecksumService.setToQuery(query, pagination);
+      });
 
     states.query.context.fireOnStateChange(wpTablePagination.state, 'Query loaded')
       .values$()
       .withLatestFrom(states.query.resource.values$())
       .takeUntil(scopeDestroyed$($scope))
       .subscribe(([pagination, query]) => {
-        updateTitle(query);
         if (wpListChecksumService.isQueryOutdated(query, pagination)) {
           wpListChecksumService.update(query, pagination);
 

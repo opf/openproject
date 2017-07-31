@@ -78,8 +78,6 @@ describe 'account/register', type: :view do
 
     context 'without auth source' do
       it 'should not show a login field' do
-        puts rendered
-
         expect(rendered).not_to include('user[login]')
       end
 

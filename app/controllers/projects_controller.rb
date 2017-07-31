@@ -117,12 +117,14 @@ class ProjectsController < ApplicationController
 
     cond = @project.project_condition(Setting.display_subprojects_work_packages?)
 
-    @open_issues_by_type = WorkPackage.visible.group(:type)
+    @open_issues_by_type = WorkPackage
+                           .visible.group(:type)
                            .includes(:project, :status, :type)
                            .where(["(#{cond}) AND #{Status.table_name}.is_closed=?", false])
                            .references(:projects, :statuses, :types)
                            .count
-    @total_issues_by_type = WorkPackage.visible.group(:type)
+    @total_issues_by_type = WorkPackage
+                            .visible.group(:type)
                             .includes(:project, :status, :type)
                             .where(cond)
                             .references(:projects, :statuses, :types)

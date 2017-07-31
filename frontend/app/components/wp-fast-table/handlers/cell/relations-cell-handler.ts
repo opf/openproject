@@ -1,10 +1,5 @@
-import {InputState} from 'reactivestates';
 import {debugLog} from '../../../../helpers/debug_output';
-import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {States} from '../../../states.service';
-import {TableRowEditContext} from '../../../wp-edit-form/table-row-edit-context';
-import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
-import {cellClassName, readOnlyClassName} from '../../builders/cell-builder';
+import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';

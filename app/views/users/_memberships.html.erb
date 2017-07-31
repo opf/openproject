@@ -73,10 +73,14 @@ See doc/COPYRIGHT.rdoc for more details.
                     <%= link_to_project membership.project %>
                   </td>
                   <td class="roles">
-                    <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
+                    <span id="member-<%= membership.id %>-roles"
+                          class="member-<%= membership.id %>--edit-toggle-item">
+                      <%=h membership.roles.sort.collect(&:to_s).join(', ') %>
+                    </span>
                     <%= labelled_tabular_form_for(:membership, remote: true,
                                                   url: user_membership_path(user_id: @user, id: membership),
                                                   html: { id: "member-#{membership.id}-roles-form",
+                                                          class: "member-#{membership.id}--edit-toggle-item",
                                                           style: 'display:none;'},
                                                   method: :patch) do |f| %>
                       <div>
@@ -95,15 +99,15 @@ See doc/COPYRIGHT.rdoc for more details.
                       </div>
                       <p><%= submit_tag l(:button_change), class: 'user-memberships--edit-submit-button button -highlight -small' %>
                         <%= link_to_function l(:button_cancel),
-                                             "jQuery('#member-#{membership.id}-roles').show(); jQuery('#member-#{membership.id}-roles-form').hide();",
+                                             "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
                   class: 'button -small' %></p>
                     <% end %>
                   </td>
                   <%= call_hook(:view_users_memberships_table_row, user: @user, membership: membership, roles: roles, projects: projects )%>
                   <td class="buttons">
                     <%= link_to_function icon_wrapper('icon icon-edit', t(:button_edit)),
-                                         "jQuery('#member-#{membership.id}-roles').hide(); jQuery('#member-#{membership.id}-roles-form').show();",
-                                         class: 'user-memberships--edit-button' %>
+                                         "jQuery('.member-#{membership.id}--edit-toggle-item').toggle();",
+                                         class: "member-#{membership.id}--edit-toggle-item user-memberships--edit-button" %>
                     <%= link_to(icon_wrapper('icon icon-remove', t(:button_remove)),
                                 user_membership_path(user_id: @user, id: membership),
                                 remote: true,

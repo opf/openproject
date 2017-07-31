@@ -32,25 +32,43 @@ require 'reform'
 require 'reform/form/active_model/model_validations'
 
 class ModelContract < Reform::Contract
-  def self.writable_attributes
-    @writable_attributes ||= []
-  end
-
-  def self.attribute_validations
-    @attribute_validations ||= []
-  end
-
-  def self.attribute(*attributes, &block)
-    attributes.each do |attribute|
-      property attribute
+  class << self
+    def writable_attributes
+      @writable_attributes ||= []
     end
 
-    writable_attributes.concat attributes.map(&:to_s)
-    # allow the _id variant as well
-    writable_attributes.concat(attributes.map { |a| "#{a}_id" })
+    def writable_conditions
+      @writable_conditions ||= []
+    end
 
-    if block
-      attribute_validations << block
+    def attribute_validations
+      @attribute_validations ||= []
+    end
+
+    def attribute(attribute, options = {}, &block)
+      property attribute
+
+      add_writable(attribute, options[:writeable])
+
+      if block
+        attribute_validations << block
+      end
+    end
+
+    private
+
+    def add_writable(attribute, writeable)
+      attribute_name = attribute.to_s.gsub /_id\z/, ''
+
+      unless writeable == false
+        writable_attributes << attribute_name
+        # allow the _id variant as well
+        writable_attributes << "#{attribute_name}_id"
+      end
+
+      if writeable.respond_to?(:call)
+        writable_conditions << [attribute_name, writeable]
+      end
     end
   end
 
@@ -64,7 +82,13 @@ class ModelContract < Reform::Contract
   end
 
   def writable_attributes
-    collect_ancestor_attributes(:writable_attributes)
+    writable = collect_ancestor_attributes(:writable_attributes)
+
+    collect_ancestor_attributes(:writable_conditions).each do |attribute, condition|
+      writable -= [attribute, "#{attribute}_id"] unless instance_exec(&condition)
+    end
+
+    writable
   end
 
   def validate

@@ -32,35 +32,6 @@ module API
     module WorkPackages
       module Schema
         class BaseWorkPackageSchema
-          class << self
-            @@writable_properties = [
-              :subject,
-              :description,
-              :estimated_time,
-              :assignee,
-              :responsible,
-              :type,
-              :status,
-              :category,
-              :version,
-              :priority,
-              :percentage_done,
-              :estimated_time,
-              :start_date,
-              :due_date,
-              :date,
-              :project
-            ]
-
-            def writable_properties
-              @@writable_properties.dup.freeze
-            end
-
-            def register_writable_property(property)
-              @@writable_properties << property.to_sym
-            end
-          end
-
           def project
             nil
           end
@@ -82,12 +53,16 @@ module API
           end
 
           def writable?(property)
-            case property
-            when :percentage_done
-              percentage_done_writable?
-            else
-              self.class.writable_properties.include? property
+            # Special case for milestones + date property
+            property = :start_date if property.to_sym == :date && milestone?
+
+            @writable_attributes ||= begin
+              contract.writable_attributes
             end
+
+            property_name = ::API::Utilities::PropertyNameConverter.to_ar_name(property, context: work_package)
+
+            @writable_attributes.include?(property_name)
           end
 
           def milestone?
@@ -135,12 +110,12 @@ module API
 
           private
 
-          def convert_property(prop)
-            ::API::Utilities::PropertyNameConverter.from_ar_name(prop)
+          def contract
+            raise NotImplementedError
           end
 
-          def percentage_done_writable?
-            Setting.work_package_done_ratio == 'field'
+          def convert_property(prop)
+            ::API::Utilities::PropertyNameConverter.from_ar_name(prop)
           end
         end
       end
