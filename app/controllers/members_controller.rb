@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -59,7 +60,7 @@ class MembersController < ApplicationController
     if members.present? && members.all?(&:valid?)
       flash[:notice] = members_added_notice members
 
-      redirect_to project_members_path(project_id: @project)
+      redirect_to project_members_path(project_id: @project, status: 'all')
     else
       if members.present? && params[:member]
         @member = members.first
@@ -152,7 +153,7 @@ class MembersController < ApplicationController
 
   def members_filter_options(roles)
     groups = Group.all.sort
-    status = params[:status] ? params[:status] : "all"
+    status = Members::UserFilterCell.status_param(params)
 
     {
       groups: groups,
@@ -174,16 +175,6 @@ class MembersController < ApplicationController
     /\A\S+@\S+\.\S+\z/
   end
 
-  ##
-  # Queries all members for this project.
-  # Pagination and order is taken care of by the TableCell.
-  def index_members(project)
-    project
-      .member_principals
-      .includes(:roles, :principal, :member_roles)
-      .references(:users)
-  end
-
   def self.tab_scripts
     @@scripts.join('(); ') + '();'
   end
@@ -191,8 +182,8 @@ class MembersController < ApplicationController
   def set_index_data!
     set_roles_and_principles!
 
-    @is_filtered = Members::UserFilterCell.is_filtered params
-    @members = Members::UserFilterCell.filter index_members(@project), params
+    @is_filtered = Members::UserFilterCell.filtered? params
+    @members = index_members
     @members_table_options = members_table_options @roles
     @members_filter_options = members_filter_options @roles
   end
@@ -201,6 +192,15 @@ class MembersController < ApplicationController
     @roles = Role.find_all_givable
     # Check if there is at least one principal that can be added to the project
     @principals_available = @project.possible_members('', 1)
+  end
+
+  def index_members
+    filters = params.slice(:name, :group_id, :role_id, :status)
+    filters[:project_id] = @project.id.to_s
+
+    @members = Member
+               .where(id: Members::UserFilterCell.filter(filters))
+               .includes(:roles, :principal, :member_roles)
   end
 
   def new_members_from_params

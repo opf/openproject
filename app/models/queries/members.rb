@@ -28,6 +28,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Filters::NameFilter < Queries::Users::Filters::UserFilter
-  include Queries::Filters::Shared::UserNameFilter
+module Queries::Members
+  query = Queries::Members::MemberQuery
+  filter_ns = Queries::Members::Filters
+
+  Queries::Register.filter query, filter_ns::NameFilter
+  Queries::Register.filter query, filter_ns::ProjectFilter
+  Queries::Register.filter query, filter_ns::StatusFilter
+  Queries::Register.filter query, filter_ns::BlockedFilter
+  Queries::Register.filter query, filter_ns::GroupFilter
+  Queries::Register.filter query, filter_ns::RoleFilter
 end

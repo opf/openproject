@@ -28,38 +28,62 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
-
-describe Queries::Users::Filters::GroupFilter, type: :model do
-  let(:group1) { FactoryGirl.build_stubbed(:group) }
-  let(:group2) { FactoryGirl.build_stubbed(:group) }
-
-  before do
-    allow(Group)
-      .to receive(:pluck)
-      .with(:id)
-      .and_return([group1.id, group2.id])
+module Queries::Filters::Shared::UserNameFilter
+  def self.included(base)
+    base.include(InstanceMethods)
+    base.extend(ClassMethods)
   end
 
-  it_behaves_like 'basic query filter' do
-    let(:class_key) { :group }
-    let(:type) { :list_optional }
-    let(:name) { I18n.t('query_fields.member_of_group') }
+  module InstanceMethods
+    def type
+      :string
+    end
 
-    describe '#allowed_values' do
-      it 'is a list of the possible values' do
-        expected = [[group1.id, group1.id.to_s], [group2.id, group2.id.to_s]]
+    def self.key
+      :name
+    end
 
-        expect(instance.allowed_values).to match_array(expected)
+    def where
+      case operator
+      when '='
+        ["#{sql_concat_name} IN (?)", sql_value]
+      when '!'
+        ["#{sql_concat_name} NOT IN (?)", sql_value]
+      when '~'
+        ["#{sql_concat_name} LIKE ?", "%#{sql_value}%"]
+      when '!~'
+        ["#{sql_concat_name} NOT LIKE ?", "%#{sql_value}%"]
+      end
+    end
+
+    private
+
+    def sql_value
+      case operator
+      when '=', '!'
+        values.map { |val| self.class.connection.quote_string(val.downcase) }.join(',')
+      when '~', '!~'
+        values.first.downcase
+      end
+    end
+
+    def sql_concat_name
+      case Setting.user_format
+      when :firstname_lastname, :lastname_coma_firstname
+        "LOWER(CONCAT(users.firstname, CONCAT(' ', users.lastname)))"
+      when :firstname
+        'LOWER(users.firstname)'
+      when :lastname_firstname
+        "LOWER(CONCAT(users.lastname, CONCAT(' ', users.firstname)))"
+      when :username
+        "LOWER(users.login)"
       end
     end
   end
 
-  it_behaves_like 'list_optional query filter' do
-    let(:attribute) { :id }
-    let(:model) { User }
-    let(:joins) { :groups }
-    let(:valid_values) { [group1.id.to_s] }
-    let(:expected_table_name) { 'groups_users' }
+  module ClassMethods
+    def key
+      :name
+    end
   end
 end
