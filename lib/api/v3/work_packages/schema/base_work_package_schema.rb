@@ -53,6 +53,9 @@ module API
           end
 
           def writable?(property)
+            # Special case for milestones + date property
+            property = :start_date if property.to_sym == :date && milestone?
+
             @writable_attributes ||= begin
               contract.writable_attributes
             end
