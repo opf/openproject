@@ -73,11 +73,12 @@ module OpenProject
           root_url.sub('file://', '')
         end
 
-        def initialize(url, root_url = nil, login = nil, password = nil, _path_encoding = nil)
+        def initialize(url, root_url = nil, login = nil, password = nil, _path_encoding = nil, identifier = nil)
           super(url, root_url)
 
           @login = login
           @password = password
+          @identifier = identifier
         end
 
         def checkout_command

@@ -37,10 +37,18 @@ module OpenProject
 
         SCM_GIT_REPORT_LAST_COMMIT = true
 
-        def initialize(url, root_url = nil, _login = nil, _password = nil, path_encoding = nil)
+        def initialize(url, root_url = nil, _login = nil, _password = nil, path_encoding = nil, identifier = nil)
           super(url, root_url)
           @flag_report_last_commit = SCM_GIT_REPORT_LAST_COMMIT
           @path_encoding = path_encoding.presence || 'UTF-8'
+          @identifier = identifier
+
+          if checkout? && identifier.blank?
+            raise ArgumentError, %{
+              No identifier given. The git adapter requires a project identifier when working
+              on a repository remotely.
+            }.squish
+          end
         end
 
         def checkout_command
@@ -73,7 +81,15 @@ module OpenProject
         ##
         # Create a bare repository for the current path
         def initialize_bare_git
-          capture_git(%w[init --bare --shared])
+          unless checkout_uri.start_with?("/")
+            raise ArgumentError, "Cannot initialize bare repository remotely at #{checkout_uri}"
+          end
+
+          capture_git(%w[init --bare --shared], no_chdir: true)
+        end
+
+        def git_dir
+          @git_dir ||= URI.parse(checkout_uri).path
         end
 
         ##
@@ -82,13 +98,91 @@ module OpenProject
         #
         # @raise [ScmUnavailable] raised when repository is unavailable.
         def check_availability!
+          refresh_repository!
+
           # If it is not empty, it should have at least one branch
           # Any exit code != 0 will raise here
           raise Exceptions::ScmEmpty unless branches.count > 0
-
         rescue Exceptions::CommandFailed => e
           logger.error("Availability check failed due to failed Git command: #{e.message}")
           raise Exceptions::ScmUnavailable
+        end
+
+        ##
+        # Checks if the repository is up-to-date. It is not it's updated.
+        # Checks out the repository if necessary.
+        def refresh_repository!
+          if checkout?
+            checkout_repository! if !File.directory?(checkout_path)
+            update_repository!
+          end
+        end
+
+        def checkout_repository!
+          Rails.logger.info "Checking out #{checkout_uri} to #{checkout_path}"
+
+          FileUtils.mkdir_p checkout_path.parent
+          capture_out(
+            ["clone", checkout_uri, checkout_path.to_s],
+            error_message: "Failed to clone #{checkout_uri} to #{checkout_path}"
+          )
+        end
+
+        def update_repository!
+          Rails.logger.debug "Fetching latest commits for #{checkout_path}"
+
+          Dir.chdir checkout_path do
+            fetch_all
+
+            remote_branches = self.remote_branches
+            local_branches = self.local_branches
+
+            remote_branches.each do |remote_branch|
+              local_branch = remote_branch.sub /^origin\//, ""
+
+              if !local_branches.include?(local_branch)
+                track_branch! local_branch, remote_branch
+              else
+                update_branch! local_branch, remote_branch
+              end
+            end
+          end
+        end
+
+        def fetch_all
+          capture_out %w[fetch --all], error_message: "Failed to fetch latest commits"
+        end
+
+        def remote_branches
+          capture_out(%w[branch -r], error_message: "Failed to list remote branches")
+            .split("\n")
+            .map(&:strip)
+            .reject { |b| b.include?("->") } # origin/HEAD -> origin/master
+        end
+
+        def local_branches
+          capture_out(%w[branch], error_message: "Failed to list local branches")
+            .split("\n")
+            .map(&:strip)
+            .map { |b| b.sub(/^\* /, "") } # remove marker for current branch
+        end
+
+        def track_branch!(local_branch, remote_branch)
+          Rails.logger.info("Setting up new branch: #{local_branch} -> #{remote_branch}")
+
+          capture_out(
+            ["branch", "--track", local_branch, remote_branch],
+            error_message: "Failed to track new branch #{remote_branch}"
+          )
+        end
+
+        def update_branch!(local_branch, remote_branch)
+          Rails.logger.debug("Updating branch: #{local_branch}")
+
+          capture_out(
+            ["update-ref", local_branch, remote_branch],
+            error_message: "Failed update ref to #{remote_branch}"
+          )
         end
 
         def info
@@ -98,6 +192,20 @@ module OpenProject
         def bare?
           cmd_args = %w|rev-parse --is-bare-repository|
           capture_git(cmd_args).chomp == 'true'
+        end
+
+        def checkout?
+          checkout_uri =~ /\A\w+:\/\/.+\Z/ # check if it starts file:// or http(s):// etc
+        end
+
+        def checkout_path
+          Pathname(OpenProject::Configuration.scm_local_checkout_path)
+            .join(@identifier)
+            .expand_path
+        end
+
+        def checkout_uri
+          root_url.presence || url
         end
 
         def branches
@@ -356,7 +464,8 @@ module OpenProject
         # Builds the full git arguments from the parameters
         # and return the executed stdout as a string
         def capture_git(args, opt = {})
-          cmd = build_git_cmd(args)
+          opt = opt.merge(chdir: checkout_path) if checkout? && !opt[:no_chdir]
+          cmd = build_git_cmd(args, opt.slice(:no_chdir))
           capture_out(cmd, opt)
         end
 
@@ -365,15 +474,19 @@ module OpenProject
         # and calls the given block with in, out, err, thread
         # from +Open3#popen3+.
         def popen3(args, opt = {}, &block)
+          opt = opt.merge(chdir: checkout_path) if checkout?
           cmd = build_git_cmd(args)
-          super(cmd, opt) do |_stdin, stdout, _stderr, wait_thr|
+          super(cmd, opt) do |_stdin, stdout, stderr, wait_thr|
             block.call(stdout)
 
             process = wait_thr.value
             if process.exitstatus != 0
               raise Exceptions::CommandFailed.new(
                 'git',
-                "git exited with non-zero status: #{process.exitstatus}"
+                %{
+                  `git #{args.join(' ')}` exited with non-zero status:
+                  #{process.exitstatus} (#{stderr.read})
+                }.squish
               )
             end
           end
@@ -390,12 +503,14 @@ module OpenProject
           end
         end
 
-        def build_git_cmd(args)
+        def build_git_cmd(args, opts = {})
           if client_version_above?([1, 7, 2])
             args.unshift('-c', 'core.quotepath=false')
           end
 
-          args.unshift('--git-dir', (root_url.presence || url))
+          # make sure to use bare repository path to initialize a managed repository
+          args.unshift('--git-dir', git_dir) unless checkout? && !opts[:no_chdir]
+          args
         end
       end
     end

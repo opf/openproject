@@ -50,6 +50,7 @@ storage config above like this:
 * `database_cipher_key`     (default: nil)
 * `scm_git_command` (default: 'git')
 * `scm_subversion_command` (default: 'svn')
+* [`scm_local_checkout_path`](#local-checkout-path) (default: 'repositories')
 * `force_help_link` (default: nil)
 * `session_store`: `active_record_store`, `cache_store`, or `cookie_store` (default: cache_store)
 * `drop_old_sessions_on_logout` (default: true)
@@ -259,6 +260,12 @@ The option to use a string is mostly relevant for when you want to override the 
 ```
 OPENPROJECT_DISABLED__MODULES='backlogs meetings'
 ```
+
+## local checkout path
+
+*default: "repositories"*
+
+Remote git repositories will be checked out here.
 
 ### APIv3 basic auth control
 
