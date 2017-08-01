@@ -492,7 +492,14 @@ describe OpenProject::Scm::Adapters::Git do
           it 'provides a full diff of the last commit by default' do
             diff = adapter.diff('', 'HEAD')
             expect(diff[0]).to eq('commit 71e5c1d3dca6304805b143b9d0e6695fb3895ea4')
-            expect(diff[1]).to eq("Author: Oliver G\xFCnther <mail@oliverguenther.de>")
+
+            bare = "Author: Oliver G\xFCnther <mail@oliverguenther.de>"
+            cloned = "Author: Oliver Günther <mail@oliverguenther.de>"
+
+            # The strings returned by capture_out have escaped UTF-8 characters depending on
+            # wether we are working on a cloned or bare repository. I don't know why.
+            # It doesn't make a difference further down the road, though. So just check both.
+            expect(diff[1] == bare || diff[1] == cloned).to eq true
           end
 
           it 'provides a negative diff' do
