@@ -72,9 +72,6 @@ export class WorkPackageChangeset {
   }
 
   public startEditing(key:string) {
-    if (!this.isOverridden(key)) {
-      this.changes[key] = _.cloneDeep(this.workPackage[key]);
-    }
   }
 
   public reset(key:string) {
@@ -136,19 +133,7 @@ export class WorkPackageChangeset {
    * @return {angular.IPromise<any>}
    */
   public updateForm():ng.IPromise<FormResourceInterface> {
-    // Always resolve form to the latest form
-    // This way, we won't have to actively reset it.
-    // But store the existing form in case of an error.
-    // Because if we get an error, the object returned is not a form
-    // and thus lacks the links the implementation depends upon.
-    const oldForm = this.wpForm.value;
-
-    // Create the payload from the current changes,
-    // and extend it with the current lock version
-    // -- This is the place to add additional logic when the lockVersion changed in between --
-    let payload = { lockVersion: this.workPackage.lockVersion, _links: {} };
-    this.mergeWithPayload(payload)
-
+    let payload = this.buildPayloadFromChanges();
     var deferred = this.$q.defer();
 
     this.workPackage.$links.update(payload)
@@ -159,7 +144,7 @@ export class WorkPackageChangeset {
         deferred.resolve(form);
       })
       .catch((error:any) => {
-        this.wpForm.putValue(oldForm);
+        this.wpForm.clear();
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
         deferred.reject(error);
       });
@@ -174,8 +159,8 @@ export class WorkPackageChangeset {
     this.inFlight = true;
     const wasNew = this.workPackage.isNew;
     this.updateForm()
-      .then((form) => {
-        const payload = this.resource.value!.$source;
+      .then(() => {
+        const payload = this.buildPayloadFromChanges();
 
         this.workPackage.$links.updateImmediately(payload)
           .then((savedWp:WorkPackageResourceInterface) => {
@@ -240,6 +225,33 @@ export class WorkPackageChangeset {
     });
 
     return plainPayload;
+  }
+
+  /**
+   * Create the payload from the current changes, and extend it with the current lock version.
+   * -- This is the place to add additional logic when the lockVersion changed in between --
+   */
+  private buildPayloadFromChanges() {
+    let payload;
+
+    if (this.workPackage.isNew) {
+      // If the work package is new, we need to pass the entire form payload
+      // to let all default values be transmitted (type, status, etc.)
+      if (this.wpForm.hasValue()) {
+        payload = this.wpForm.value!.payload.$source;
+      } else {
+        payload = this.workPackage.$source;
+      }
+    } else {
+      // Otherwise, simply use the bare minimum, which is the lock version.
+      payload = this.minimalPayload;
+    }
+
+    return this.mergeWithPayload(payload);
+  }
+
+  private get minimalPayload() {
+    return { lockVersion: this.workPackage.lockVersion, _links: {} };
   }
 
   /**

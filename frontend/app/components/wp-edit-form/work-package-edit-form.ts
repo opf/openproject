@@ -98,11 +98,6 @@ export class WorkPackageEditForm {
       .subscribe((wp:WorkPackageResourceInterface) => {
         this.workPackage = wp;
         this.changeset.workPackage = wp;
-
-        // Reset the current form if the work package is not new
-        if (!wp.isNew) {
-          this.changeset.wpForm.clear();
-        }
       });
 
     this.formSubscription = this.editResource.subscribe(() => {

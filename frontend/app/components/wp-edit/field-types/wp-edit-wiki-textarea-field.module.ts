@@ -43,7 +43,6 @@ export class WikiTextareaEditField extends EditField {
   protected I18n:op.I18n;
 
   // Values used in template
-  public fieldVal:any;
   public isBusy:boolean = false;
   public isPreview:boolean = false;
   public previewHtml:string;
@@ -54,12 +53,20 @@ export class WikiTextareaEditField extends EditField {
   protected initialize() {
     $injectFields(this, '$sce', '$http', 'TextileService', '$timeout', 'I18n');
 
-    this.fieldVal = this.value;
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
       save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
       cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
     };
+  }
+
+  public get rawValue() {
+    const formatted = this.value;
+    return _.get(formatted, 'raw', '');
+  }
+
+  public set rawValue(val:string) {
+    this.value = { raw: val };
   }
 
   public get isFormattable() {
@@ -82,7 +89,7 @@ export class WikiTextareaEditField extends EditField {
     this.isPreview = !this.isPreview;
     this.previewHtml = '';
 
-    if (!this.fieldVal.raw) {
+    if (!this.rawValue) {
       return;
     }
 
@@ -93,7 +100,7 @@ export class WikiTextareaEditField extends EditField {
         this.$http({
           method: link.method,
           url: link.href,
-          data: this.fieldVal.raw,
+          data: this.rawValue,
           headers: {'Content-Type': 'text/plain; charset=UTF-8'}
         })
           .then(result => {
