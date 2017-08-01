@@ -28,6 +28,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Filters::NameFilter < Queries::Users::Filters::UserFilter
-  include Queries::Filters::Shared::UserNameFilter
+module Queries::Filters::Shared::ProjectFilter
+  def self.included(base)
+    base.include(InstanceMethods)
+    base.extend(ClassMethods)
+  end
+
+  module InstanceMethods
+    def type
+      :list_optional
+    end
+
+    def type_strategy
+      # Instead of getting the IDs of all the projects a user is allowed
+      # to see we only check that the value is an integer.  Non valid ids
+      # will then simply create an empty result but will not cause any
+      # harm.
+      @type_strategy ||= ::Queries::Filters::Strategies::IntegerListOptional.new(self)
+    end
+  end
+
+  module ClassMethods
+    def key
+      :project_id
+    end
+  end
 end

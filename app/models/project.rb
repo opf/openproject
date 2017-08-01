@@ -84,29 +84,33 @@ class Project < ActiveRecord::Base
       .references(:principals, :roles)
   }, class_name: 'Member'
   # Read only
-  has_many :possible_responsibles, -> (object){
-    # Have to reference members and roles again although
-    # possible_responsible_members does already specify it to be able to use
-    # the Project.possible_principles_condition there
-    #
-    # The .where(members_users: { project_id: object.id })
-    # part is an optimization preventing to have all the members joined
-    includes(members: :roles)
-      .where(members_users: { project_id: object.id })
-      .references(:roles)
-      .merge(Principal.order_by_name)
-  },
-  through: :possible_responsible_members,
-  source: :principal
+  has_many :possible_responsibles,
+           ->(object) {
+             # Have to reference members and roles again although
+             # possible_responsible_members does already specify it to be able to use
+             # the Project.possible_principles_condition there
+             #
+             # The .where(members_users: { project_id: object.id })
+             # part is an optimization preventing to have all the members joined
+             includes(members: :roles)
+               .where(members_users: { project_id: object.id })
+               .references(:roles)
+               .merge(Principal.order_by_name)
+           },
+           through: :possible_responsible_members,
+           source: :principal
   has_many :memberships, class_name: 'Member'
-  has_many :member_principals, -> {
-    includes(:principal)
-      .where("#{Principal.table_name}.type='Group' OR " +
-      "(#{Principal.table_name}.type='User' AND " +
-      "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
-      "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
-      "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
-  }, class_name: 'Member'
+  has_many :member_principals,
+           -> {
+             includes(:principal)
+               .references(:principals)
+               .where("#{Principal.table_name}.type='Group' OR " +
+               "(#{Principal.table_name}.type='User' AND " +
+               "(#{Principal.table_name}.status=#{Principal::STATUSES[:active]} OR " +
+               "#{Principal.table_name}.status=#{Principal::STATUSES[:registered]} OR " +
+               "#{Principal.table_name}.status=#{Principal::STATUSES[:invited]}))")
+           },
+           class_name: 'Member'
   has_many :users, through: :members
   has_many :principals, through: :member_principals, source: :principal
 

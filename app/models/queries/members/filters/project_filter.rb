@@ -28,6 +28,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Filters::NameFilter < Queries::Users::Filters::UserFilter
-  include Queries::Filters::Shared::UserNameFilter
+class Queries::Members::Filters::ProjectFilter < Queries::Members::Filters::MemberFilter
+  include Queries::Filters::Shared::ProjectFilter
 end

@@ -1978,6 +1978,7 @@ en:
 
   status_active: "active"
   status_invited: invited
+  status_locked: locked
   status_registered: registered
 
   # Used in array.to_sentence.

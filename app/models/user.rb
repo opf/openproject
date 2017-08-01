@@ -97,14 +97,17 @@ class User < Principal
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
   def self.create_blocked_scope(scope, blocked)
+    scope.where(blocked_condition(blocked))
+  end
+
+  def self.blocked_condition(blocked)
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
     blocked_if_login_since = Time.now - block_duration
     negation = blocked ? '' : 'NOT'
-    scope.where(
-      "#{negation} (failed_login_count >= ? AND last_failed_login_on > ?)",
-      Setting.brute_force_block_after_failed_logins.to_i,
-      blocked_if_login_since
-    )
+
+    ["#{negation} (users.failed_login_count >= ? AND users.last_failed_login_on > ?)",
+     Setting.brute_force_block_after_failed_logins.to_i,
+     blocked_if_login_since]
   end
 
   acts_as_customizable

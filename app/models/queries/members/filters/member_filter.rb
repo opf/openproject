@@ -28,6 +28,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Users::Filters::NameFilter < Queries::Users::Filters::UserFilter
-  include Queries::Filters::Shared::UserNameFilter
+class Queries::Members::Filters::MemberFilter < Queries::Filters::Base
+  self.model = Member
+
+  def human_name
+    Member.human_attribute_name(name)
+  end
 end
