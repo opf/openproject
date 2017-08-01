@@ -134,7 +134,7 @@ describe Timeline, 'filtering custom fields', type: :feature, js: true do
 
       expect(page).to have_content wp1.subject
       expect(page).to have_no_content wp2.subject
-      expect(page).to have_no_content wp3.subject
+      expect(page).to have_content wp3.subject
 
       visit edit_project_timeline_path(project_id: project, id: timeline)
 

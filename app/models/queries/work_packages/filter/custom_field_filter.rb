@@ -133,15 +133,13 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
 
   def where
     db_table = CustomValue.table_name
+    work_package_db_table = WorkPackage.table_name
 
     <<-SQL
-      #{WorkPackage.table_name}.id IN
-        (SELECT #{WorkPackage.table_name}.id
-         FROM #{WorkPackage.table_name}
-         LEFT OUTER JOIN #{db_table}
-           ON #{db_table}.customized_type='WorkPackage'
-           AND #{db_table}.customized_id=#{WorkPackage.table_name}.id
-           AND #{db_table}.custom_field_id=#{custom_field.id}
+      #{work_package_db_table}.id IN
+        (SELECT #{work_package_db_table}.id
+         FROM #{work_package_db_table}
+         #{where_joins(db_table, work_package_db_table)}
          WHERE #{operator_strategy.sql_for_field(values, db_table, 'value')})
     SQL
   end
@@ -191,7 +189,30 @@ class Queries::WorkPackages::Filter::CustomFieldFilter <
     strategies = Queries::Filters::STRATEGIES.dup
     strategies[:list_optional] = Queries::Filters::Strategies::CfListOptional
     strategies[:integer] = Queries::Filters::Strategies::CfInteger
+    # knowing that only bool have list type
+    strategies[:list] = Queries::Filters::Strategies::BooleanList
 
     strategies
+  end
+
+  def where_joins(db_table, work_package_db_table)
+    cf_types_db_table = 'custom_fields_types'
+    cf_projects_db_table = 'custom_fields_projects'
+
+    joins = "LEFT OUTER JOIN #{db_table}
+               ON #{db_table}.customized_type='WorkPackage'
+               AND #{db_table}.customized_id=#{work_package_db_table}.id
+               AND #{db_table}.custom_field_id=#{custom_field.id}
+             JOIN #{cf_types_db_table}
+               ON #{cf_types_db_table}.type_id =  #{work_package_db_table}.type_id
+               AND #{cf_types_db_table}.custom_field_id = #{custom_field.id}"
+
+    if !custom_field.is_for_all
+      joins += " JOIN #{cf_projects_db_table}
+                   ON #{cf_projects_db_table}.project_id = #{work_package_db_table}.project_id
+                   AND #{cf_projects_db_table}.custom_field_id = #{custom_field.id}"
+    end
+
+    joins
   end
 end
