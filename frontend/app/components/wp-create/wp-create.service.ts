@@ -83,14 +83,14 @@ export class WorkPackageCreateService {
    * @param form Work Package create form
    */
   public copyFrom(otherForm:any, form:any) {
-    var wp = new WorkPackageResource(otherForm.payload.$plain(), true);
+    var wp = new WorkPackageResource(otherForm.payload.$plain(), true) as any;
 
     // Override values from form payload
     wp.lockVersion = form.payload.lockVersion;
 
     wp.initializeNewResource(form);
 
-    return wp as any;
+    return new WorkPackageChangeset(wp, form);
   }
 
   public copyWorkPackage(copyFromForm:any, projectIdentifier?:string) {

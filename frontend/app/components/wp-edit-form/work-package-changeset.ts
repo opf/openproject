@@ -26,15 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
 import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {debugLog} from '../../helpers/debug_output';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
 import {SchemaCacheService} from '../schemas/schema-cache.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {WorkPackageCreateService} from '../wp-create/wp-create.service';
-import {input, InputState} from 'reactivestates';
+import {input} from 'reactivestates';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 
 export class WorkPackageChangeset {
@@ -53,7 +55,7 @@ export class WorkPackageChangeset {
   public wpForm = input<FormResourceInterface>();
 
   // The current editing resource state
-  public resource = input<HalResource>();
+  public resource = input<WorkPackageResourceInterface>();
 
   constructor(public workPackage:WorkPackageResourceInterface, form?:FormResourceInterface) {
     $injectFields(
@@ -67,8 +69,7 @@ export class WorkPackageChangeset {
     }
 
     // Start with a resource from the current work package knowledge.
-    const payload = this.mergeWithPayload(workPackage.$plain);
-    this.buildResource(payload);
+    this.buildResource();
   }
 
   public startEditing(key:string) {
@@ -139,8 +140,7 @@ export class WorkPackageChangeset {
     this.workPackage.$links.update(payload)
       .then((form:FormResourceInterface) => {
         this.wpForm.putValue(form);
-        const payload = this.mergeWithPayload(form.payload.$source);
-        this.buildResource(payload);
+        this.buildResource();
         deferred.resolve(form);
       })
       .catch((error:any) => {
@@ -182,12 +182,13 @@ export class WorkPackageChangeset {
               }
 
               this.wpCacheService.updateWorkPackage(this.workPackage);
+              this.resource.clear();
               deferred.resolve(this.workPackage);
             });
           })
           .catch(error => {
             // Update the resource anyway
-            this.buildResource(payload);
+            this.buildResource();
             deferred.reject(error);
           });
       })
@@ -288,11 +289,22 @@ export class WorkPackageChangeset {
     return this.wpForm.getValueOr(this.workPackage).schema;
   }
 
-  private buildResource(payload:any) {
-    const resource = new HalResource(payload, true);
-    resource.schema = this.schema;
+  private buildResource() {
+    const hasForm = this.wpForm.hasValue();
+    let payload:any = this.workPackage.$plain();
 
-    this.resource.putValue(resource);
+    if (hasForm) {
+      _.defaultsDeep(payload, this.wpForm.value!.payload.$source);
+    }
+
+    const resource = new WorkPackageResource(this.mergeWithPayload(payload), true);
+
+    // Override the schema with the current form, if any.
+    if (hasForm) {
+      resource.overriddenSchema = this.schema;
+    }
+
+    this.resource.putValue(resource as any);
   }
 }
 

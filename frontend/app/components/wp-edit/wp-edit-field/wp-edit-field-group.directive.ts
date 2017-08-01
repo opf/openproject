@@ -126,7 +126,7 @@ export class WorkPackageEditFieldGroupController {
     return new SingleViewEditContext(this);
   }
 
-  private get editingForm():WorkPackageEditForm | undefined {
+  public get editingForm():WorkPackageEditForm | undefined {
     const state = this.wpEditing.editState(this.workPackage.id);
     return state.value;
   }

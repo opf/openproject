@@ -42,7 +42,7 @@ import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
 import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {InputState, State} from 'reactivestates';
+import {derive, InputState, State} from 'reactivestates';
 import {Observable} from 'rxjs';
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
@@ -100,7 +100,7 @@ export class WorkPackageEditForm {
         this.changeset.workPackage = wp;
       });
 
-    this.formSubscription = this.editResource.subscribe(() => {
+    this.formSubscription = this.editState.values$().subscribe(() => {
       debugLog("Refreshing active edit fields after form update.");
       _.each(this.activeFields, (_handler, name) => this.refresh(name!));
     });
@@ -123,8 +123,10 @@ export class WorkPackageEditForm {
     });
   }
 
-  public get editResource():Observable<HalResource> {
-    return this.changeset.resource.values$();
+  public get editState():State<WorkPackageResourceInterface> {
+    return derive(this.changeset.resource, $ =>
+      $.map((v) => v || this.workPackage)
+    );
   }
 
   public refresh(fieldName:string) {

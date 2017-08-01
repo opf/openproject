@@ -96,7 +96,7 @@ export class WorkPackageSingleViewController {
 
     this.form = this.prepareEditForm();
 
-    scopedObservable(this.$scope, this.form.editResource)
+    scopedObservable(this.$scope, this.form.editState.values$())
       .subscribe((resource:HalResource) => {
         // Prepare the fields that are required always
         this.specialFields = this.getFields(resource, ['project', 'status']);

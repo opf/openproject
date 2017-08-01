@@ -40,8 +40,8 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
       this.$scope,
       this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).values$())
       .subscribe((wp: WorkPackageResourceInterface) => {
-        this.createCopyFrom(wp).then((newWorkPackage: WorkPackageResourceInterface) => {
-          deferred.resolve(newWorkPackage);
+        this.createCopyFrom(wp).then((changeset:WorkPackageChangeset) => {
+          deferred.resolve(changeset);
         });
       });
 

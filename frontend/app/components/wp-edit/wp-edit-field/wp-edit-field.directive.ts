@@ -76,7 +76,7 @@ export class WorkPackageEditFieldController {
   }
 
   public render() {
-    const el = this.fieldRenderer.render(this.workPackage, this.fieldName, this.displayPlaceholder);
+    const el = this.fieldRenderer.render(this.resource, this.fieldName, this.displayPlaceholder);
     this.displayContainer[0].innerHTML = '';
     this.displayContainer[0].appendChild(el);
   }
@@ -91,9 +91,19 @@ export class WorkPackageEditFieldController {
     }
   }
 
+  public get resource() {
+    const form = this.wpEditFieldGroup.editingForm;
+
+    if (form && form.editState.hasValue()) {
+      return form.editState.value!;
+    }
+
+    return this.workPackage;
+  }
+
   public get isEditable() {
-    const fieldSchema = this.workPackage.schema[this.fieldName] as op.FieldSchema;
-    return this.workPackage.isEditable && fieldSchema && fieldSchema.writable;
+    const fieldSchema = this.resource.schema[this.fieldName] as op.FieldSchema;
+    return this.resource.isEditable && fieldSchema && fieldSchema.writable;
   }
 
   public activateIfEditable(event:JQueryEventObject) {

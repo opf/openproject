@@ -148,6 +148,12 @@ export class WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams:any) {
     const type = parseInt(stateParams.type);
 
+    // If there is an open edit for this type, continue it
+    const form = this.states.editing.get('new').value;
+    if (form) {
+      return this.$q.when(form.changeset);
+    }
+
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type);
   }
 
