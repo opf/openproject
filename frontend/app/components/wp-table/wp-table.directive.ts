@@ -90,6 +90,10 @@ export class WorkPackagesTableController {
 
   private readonly scrollSyncUpdate = createScrollSync(this.$element);
 
+  private table:HTMLElement;
+
+  private timeline:HTMLElement;
+
   constructor(private $scope:ng.IScope,
               public $element:ng.IAugmentedJQuery,
               $rootScope:ng.IRootScopeService,
@@ -148,11 +152,20 @@ export class WorkPackagesTableController {
       $scope.timelineVisible = timelines.current;
     });
 
+    // Locate table and timeline elements
+    const tableAndTimeline = this.getTableAndTimelineElement();
+    this.table = tableAndTimeline[0];
+    this.timeline = tableAndTimeline[1];
+
     // Subscribe to column changes and calculate how to
     // partition the width between table and timeline
     wpTableColumns.observeOnScope($scope)
       .subscribe(c => this.changeTimelineWidthOnColumnCountChange(c));
+
+    // sync hover from table to timeline
+    this.registerHoverSync();
   }
+
 
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
 
@@ -168,33 +181,71 @@ export class WorkPackagesTableController {
     debugLog('Render took ' + (t1 - t0) + ' milliseconds.');
   }
 
-  private changeTimelineWidthOnColumnCountChange(columns:WorkPackageTableColumns) {
+  private getTableAndTimelineElement():[HTMLElement, HTMLElement] {
     const $tableSide = this.$element.find('.work-packages-tabletimeline--table-side');
     const $timelineSide = this.$element.find('.work-packages-tabletimeline--timeline-side');
+
     if ($timelineSide.length === 0 || $tableSide.length === 0) {
-      return;
+      throw new Error('invalid state');
     }
 
-    const table = $tableSide[0];
-    const timeline = $timelineSide[0];
+    return [$tableSide[0], $timelineSide[0]];
+  }
+
+  private changeTimelineWidthOnColumnCountChange(columns:WorkPackageTableColumns) {
+    // const tableAndTimeline = this.getTableAndTimelineElement();
+    // if (tableAndTimeline === null) {
+    //   return;
+    // }
+    // const [table, timeline] = tableAndTimeline;
     const colCount = columns.current.length;
 
     if (colCount === 0) {
-      table.style.flex = `0 1 45px`;
-      timeline.style.flex = `1 1`;
+      this.table.style.flex = `0 1 45px`;
+      this.timeline.style.flex = `1 1`;
     } else if (colCount === 1) {
-      table.style.flex = `1 1`;
-      timeline.style.flex = `4 1`;
+      this.table.style.flex = `1 1`;
+      this.timeline.style.flex = `4 1`;
     } else if (colCount === 2) {
-      table.style.flex = `1 1`;
-      timeline.style.flex = `3 1`;
+      this.table.style.flex = `1 1`;
+      this.timeline.style.flex = `3 1`;
     } else if (colCount === 3) {
-      table.style.flex = `1 1`;
-      timeline.style.flex = `2 1`;
+      this.table.style.flex = `1 1`;
+      this.timeline.style.flex = `2 1`;
     } else if (colCount === 4) {
-      table.style.flex = `2 1`;
-      timeline.style.flex = `3 1`;
+      this.table.style.flex = `2 1`;
+      this.timeline.style.flex = `3 1`;
     }
+  }
+
+  private registerHoverSync() {
+    const jTable = jQuery(this.table);
+
+    jTable.on('mousemove.timelineScrollSync', (event:JQueryEventObject) => {
+      const parentTr = jQuery(event.target).parent('tr');
+      if (parentTr.length === 0) {
+        this.removeLastSetTimelineHover();
+      } else {
+        this.setTimelineHover(parentTr[0]);
+      }
+    });
+
+    this.$scope.$on('$destroy', () => {
+      jTable.off('.timelineScrollSync');
+    });
+
+  }
+
+  private setTimelineHover(tr:HTMLElement) {
+    this.removeLastSetTimelineHover();
+    const workPackageId = tr.getAttribute('data-work-package-id');
+
+    console.log(workPackageId);
+
+  }
+
+  private removeLastSetTimelineHover() {
+    console.log('removeLastSetTimelineHover()');
   }
 
 }
