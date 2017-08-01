@@ -46,14 +46,14 @@ describe OpenProject::Scm::Adapters::Git do
       )
     }
 
+    repos_dir = Dir.mktmpdir
+
     before do
       allow(adapter.class).to receive(:config).and_return(config)
 
       allow(OpenProject::Configuration)
         .to receive(:scm_local_checkout_path)
-        .and_return("/tmp/repos")
-
-      FileUtils.rm_rf "/tmp/repos/*"
+        .and_return(repos_dir)
     end
 
     describe 'client information' do
@@ -140,6 +140,13 @@ describe OpenProject::Scm::Adapters::Git do
     describe 'local repository' do
       with_git_repository do |repo_dir|
         let(:url) { "#{protocol}#{repo_dir}" }
+
+        before do
+          # make sure the repository is available before even bothering
+          # with the rest of the tests
+          expect(adapter).to be_available
+          expect { adapter.check_availability! }.to_not raise_error
+        end
 
         it 'reads the git version' do
           expect(adapter.client_version.length).to be >= 3
