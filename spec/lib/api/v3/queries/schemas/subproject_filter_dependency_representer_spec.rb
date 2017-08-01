@@ -118,6 +118,15 @@ describe ::API::V3::Queries::Schemas::SubprojectFilterDependencyRepresenter, cle
           instance.to_json
         end
       end
+
+      it 'does not use the project for caching if no project is provided and as such busts the cache' do
+        query.project = nil
+
+        expect(instance)
+          .to receive(:to_hash)
+
+        instance.to_json
+      end
     end
   end
 end
