@@ -161,7 +161,11 @@ module OpenProject
             error_msg = "SCM command failed: Non-zero exit code (#{code}) for `#{client_command}`"
             logger.error(error_msg)
             logger.debug("Error output is #{err}")
-            raise Exceptions::CommandFailed.new(client_command, error_msg, err)
+            raise Exceptions::CommandFailed.new(
+              client_command,
+              opts[:error_message] || error_msg,
+              err
+            )
           end
 
           output

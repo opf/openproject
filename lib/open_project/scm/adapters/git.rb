@@ -118,11 +118,10 @@ module OpenProject
           Rails.logger.info "Checking out #{checkout_uri} to #{checkout_path}"
 
           FileUtils.mkdir_p checkout_path.parent
-          %x(git clone #{checkout_uri} #{checkout_path})
-
-          if $? != 0
-            raise Exceptions::CommandFailed("Failed to clone #{checkout_uri} to #{checkout_path}")
-          end
+          capture_out(
+            ["clone", checkout_uri, checkout_path.to_s],
+            error_message: "Failed to clone #{checkout_uri} to #{checkout_path}"
+          )
         end
 
         def update_repository!
@@ -147,47 +146,39 @@ module OpenProject
         end
 
         def fetch_all
-          %x(#{client_command} fetch --all)
-
-          raise Exceptions::CommandFailed.new("git", "Failed to fetch latest commits") if $? != 0
+          capture_out %w[fetch --all], error_message: "Failed to fetch latest commits"
         end
 
         def remote_branches
-          remote_branches = %x(#{client_command} branch -r)
+          capture_out(%w[branch -r], error_message: "Failed to list remote branches")
             .split("\n")
             .map(&:strip)
             .reject { |b| b.include?("->") } # origin/HEAD -> origin/master
-
-          raise Exceptions::CommandFailed.new("git", "Failed to list remote branches") if $? != 0
-
-          remote_branches
         end
 
         def local_branches
-          local_branches = %x(#{client_command} branch)
+          capture_out(%w[branch], error_message: "Failed to list local branches")
             .split("\n")
             .map(&:strip)
             .map { |b| b.sub(/^\* /, "") } # remove marker for current branch
-
-          raise Exceptions::CommandFailed.new("git", "Failed to list local branches") if $? != 0
-
-          local_branches
         end
 
         def track_branch!(local_branch, remote_branch)
           Rails.logger.info("Setting up new branch: #{local_branch} -> #{remote_branch}")
 
-          %x(#{client_command} branch --track #{local_branch} #{remote_branch})
-
-          raise Exceptions::CommandFailed.new("git", "Failed to track new branch #{remote_branch}") if $? != 0
+          capture_out(
+            ["branch", "--track", local_branch, remote_branch],
+            error_message: "Failed to track new branch #{remote_branch}"
+          )
         end
 
         def update_branch!(local_branch, remote_branch)
           Rails.logger.debug("Updating branch: #{local_branch}")
 
-          %x(#{client_command} update-ref #{local_branch} #{remote_branch})
-
-          raise Exceptions::CommandFailed.new("git", "Failed update ref to #{remote_branch}") if $? != 0
+          capture_out(
+            ["update-ref", local_branch, remote_branch],
+            error_message: "Failed update ref to #{remote_branch}"
+          )
         end
 
         def info
