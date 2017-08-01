@@ -49,7 +49,6 @@ module OpenProject
               on a repository remotely.
             }.squish
           end
-
         end
 
         def checkout_command
@@ -99,19 +98,24 @@ module OpenProject
         #
         # @raise [ScmUnavailable] raised when repository is unavailable.
         def check_availability!
-          if checkout? && !File.directory?(checkout_path)
-            checkout_repository!
-          end
-
-          update_repository! if checkout?
+          refresh_repository!
 
           # If it is not empty, it should have at least one branch
           # Any exit code != 0 will raise here
           raise Exceptions::ScmEmpty unless branches.count > 0
-
         rescue Exceptions::CommandFailed => e
           logger.error("Availability check failed due to failed Git command: #{e.message}")
           raise Exceptions::ScmUnavailable
+        end
+
+        ##
+        # Checks if the repository is up-to-date. It is not it's updated.
+        # Checks out the repository if necessary.
+        def refresh_repository!
+          if checkout?
+            checkout_repository! if !File.directory?(checkout_path)
+            update_repository!
+          end
         end
 
         def checkout_repository!
@@ -480,7 +484,7 @@ module OpenProject
               raise Exceptions::CommandFailed.new(
                 'git',
                 %{
-                  `git #{args.join(" ")}` exited with non-zero status:
+                  `git #{args.join(' ')}` exited with non-zero status:
                   #{process.exitstatus} (#{stderr.read})
                 }.squish
               )
