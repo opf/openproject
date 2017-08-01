@@ -91,16 +91,22 @@ export class WorkPackageCreateController {
               protected RootDm:RootDmService) {
 
     this.newWorkPackageFromParams($state.params)
-      .then(wp => {
-        this.newWorkPackage = wp;
-        wpCacheService.updateWorkPackage(wp);
+      .then((changeset:WorkPackageChangeset) => {
+        this.newWorkPackage = changeset.workPackage;
+        wpCacheService.updateWorkPackage(changeset.workPackage);
+
+        const formState = this.states.editing.get(changeset.workPackage.id);
+        this.form = new WorkPackageEditForm(changeset.workPackage, changeset);
+        formState.putValue(this.form);
 
         scopedObservable(this.$scope,
-          this.states.editing.get(wp.id).values$())
+          formState.values$())
           .subscribe(form => {
             this.form = form;
 
-            this.form.editContext.successState = this.successState;
+            if (this.form.editContext) {
+              this.form.editContext.successState = this.successState;
+            }
 
             if ($state.params['parent_id']) {
               this.form.changeset.setValue(

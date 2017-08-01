@@ -42,7 +42,7 @@ import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
 import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {State} from 'reactivestates';
+import {InputState, State} from 'reactivestates';
 import {Observable} from 'rxjs';
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
@@ -64,18 +64,34 @@ export class WorkPackageEditForm {
   // Errors of the last operation (required when adding opening fields afterwards)
   public errorsPerAttribute:{ [fieldName:string]:string[] } = {};
 
-  public changeset:WorkPackageChangeset;
+  public editContext:WorkPackageEditContext;
+  public editMode:boolean = false;
 
   // The work package cache service subscription
   protected wpSubscription:Subscription;
   protected formSubscription:Subscription;
 
-  constructor(public workPackage:WorkPackageResourceInterface,
-              public editContext:WorkPackageEditContext,
-              public editMode = false) {
-    injectorBridge(this);
+  public static continue(state:InputState<WorkPackageEditForm>,
+                         workPackage:WorkPackageResourceInterface,
+                         editContext:WorkPackageEditContext,
+                         editMode:boolean = false,
+                         changeset?:WorkPackageChangeset) {
+    if (!changeset) {
+      changeset = new WorkPackageChangeset(workPackage);
+    }
 
-    this.changeset = new WorkPackageChangeset(workPackage);
+    let form:WorkPackageEditForm = state.value || new WorkPackageEditForm(workPackage, changeset);
+
+    form.editContext = editContext;
+    form.editMode = editMode;
+    state.putValue(form);
+
+    return form;
+  }
+
+  constructor(public workPackage:WorkPackageResourceInterface,
+              public changeset:WorkPackageChangeset) {
+    injectorBridge(this);
 
     this.wpSubscription = this.states.workPackages.get(workPackage.id)
       .values$()
@@ -83,8 +99,10 @@ export class WorkPackageEditForm {
         this.workPackage = wp;
         this.changeset.workPackage = wp;
 
-        // Reset the current form
-        this.changeset.wpForm.clear();
+        // Reset the current form if the work package is not new
+        if (!wp.isNew) {
+          this.changeset.wpForm.clear();
+        }
       });
 
     this.formSubscription = this.editResource.subscribe(() => {

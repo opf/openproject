@@ -31,24 +31,26 @@ import {wpServicesModule} from '../../angular-modules';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditContext} from './work-package-edit-context';
+import {WorkPackageChangeset} from './work-package-changeset';
 
 export class WorkPackageEditingService {
   constructor(public states:States, public $q:ng.IQService) {
   }
 
-  public startEditing(workPackage:WorkPackageResourceInterface, editContext:WorkPackageEditContext, editAll:boolean = false):WorkPackageEditForm {
+  /**
+   * Start editing the work package with a given edit context
+   * @param {WorkPackageResourceInterface} workPackage
+   * @param {WorkPackageEditContext} editContext
+   * @param {boolean} editAll
+   * @param {WorkPackageChangeset} changeset
+   * @return {WorkPackageEditForm}
+   */
+  public startEditing(workPackage:WorkPackageResourceInterface,
+                      editContext:WorkPackageEditContext,
+                      editAll:boolean = false,
+                      changeset?:WorkPackageChangeset):WorkPackageEditForm {
     const state = this.editState(workPackage.id);
-    let form = state.value;
-
-    if (!form) {
-      form = new WorkPackageEditForm(workPackage, editContext, editAll);
-    }
-
-    form.editContext = editContext;
-    form.editMode = editAll;
-    state.putValue(form);
-
-    return form;
+    return WorkPackageEditForm.continue(state, workPackage, editContext, editAll, changeset);
   }
 
   public stopEditing(workPackageId:string) {

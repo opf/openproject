@@ -36,6 +36,8 @@ import {
   WorkPackageResourceInterface
 } from '../api/api-v3/hal-resources/work-package-resource.service';
 import {input, State} from 'reactivestates';
+import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
+import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCreateService {
   protected form:ng.IPromise<HalResource>;
@@ -69,10 +71,10 @@ export class WorkPackageCreateService {
   }
 
   public fromCreateForm(form:any) {
-    var wp = new WorkPackageResource(form.payload.$plain(), true);
-
+    var wp = new WorkPackageResource(form.payload.$plain(), true) as any;
     wp.initializeNewResource(form);
-    return wp as any;
+
+    return new WorkPackageChangeset(wp, form);
   }
 
   /**

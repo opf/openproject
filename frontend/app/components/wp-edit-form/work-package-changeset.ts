@@ -55,20 +55,20 @@ export class WorkPackageChangeset {
   // The current editing resource state
   public resource = input<HalResource>();
 
-  constructor(public workPackage:WorkPackageResourceInterface) {
+  constructor(public workPackage:WorkPackageResourceInterface, form?:FormResourceInterface) {
     $injectFields(
       this, 'wpNotificationsService', '$q', 'schemaCacheService',
       'wpCacheService', 'wpCreate'
     );
 
-    if (this.workPackage.isNew) {
-      // New work packages have no schema set yet, so update the form immediately to get one
-      this.updateForm();
-    } else {
-      // Start with a resource from the current work package knowledge.
-      const payload = this.mergeWithPayload(workPackage.$plain);
-      this.buildResource(payload);
+    // New work packages have no schema set yet, so update the form immediately to get one
+    if (form !== undefined) {
+      this.wpForm.putValue(form);
     }
+
+    // Start with a resource from the current work package knowledge.
+    const payload = this.mergeWithPayload(workPackage.$plain);
+    this.buildResource(payload);
   }
 
   public startEditing(key:string) {
