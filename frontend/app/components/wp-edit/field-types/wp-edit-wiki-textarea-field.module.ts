@@ -46,6 +46,7 @@ export class WikiTextareaEditField extends EditField {
   public isBusy:boolean = false;
   public isPreview:boolean = false;
   public previewHtml:string;
+  public _value:any;
 
   public text:Object;
 
@@ -58,6 +59,14 @@ export class WikiTextareaEditField extends EditField {
       save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
       cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
     };
+  }
+
+  public get value() {
+    return this._value;
+  }
+
+  public set value(val:any) {
+    this._value = val;
   }
 
   public get rawValue() {
