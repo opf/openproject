@@ -110,7 +110,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     }
   }
 
-  public requireVisible(fieldName:string):PromiseLike<undefined> {
+  public requireVisible(fieldName:string):Promise<undefined> {
     this.wpTableColumns.addColumn(fieldName);
     return this.waitForContainer(fieldName);
   }
@@ -121,7 +121,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
-  private waitForContainer(fieldName:string):PromiseLike<undefined> {
+  private waitForContainer(fieldName:string):Promise<undefined> {
     const deferred = this.$q.defer<undefined>();
 
     const interval = setInterval(() => {

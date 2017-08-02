@@ -114,7 +114,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     ctrl.deactivate(focus);
   }
 
-  public requireVisible(fieldName:string):PromiseLike<undefined> {
+  public requireVisible(fieldName:string):Promise<undefined> {
     const deferred = this.$q.defer<undefined>();
 
     const interval = setInterval(() => {

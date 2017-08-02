@@ -42,6 +42,7 @@ import {
   ImmutableWorkPackageResource,
   WorkPackageEditingService
 } from './work-package-editing-service';
+import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 
 export class WorkPackageChangeset {
   // Injections
@@ -146,6 +147,13 @@ export class WorkPackageChangeset {
       .then((form:FormResourceInterface) => {
         this.wpForm.putValue(form);
         this.buildResource();
+
+        // Reject errors when occurring in form validation
+        const errors = ErrorResource.fromFormResponse(form);
+        if (errors !== null) {
+          return deferred.reject(errors);
+        }
+
         deferred.resolve(form);
       })
       .catch((error:any) => {
@@ -194,7 +202,10 @@ export class WorkPackageChangeset {
           .catch(error => {
             // Update the resource anyway
             this.buildResource();
-            deferred.reject(error);
+            deferred.reject({
+              errorsOnForm: false,
+              error: error
+            });
           });
       })
       .catch(deferred.reject);

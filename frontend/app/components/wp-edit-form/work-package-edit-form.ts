@@ -192,8 +192,10 @@ export class WorkPackageEditForm {
         this.editMode = false;
         this.wpTableRefresh.request(false, `Saved work package ${savedWorkPackage.id}`);
       })
-      .catch((error) => {
+      .catch((error:ErrorResource|Object) => {
+
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+
         if (error instanceof ErrorResource) {
           this.handleSubmissionErrors(error, deferred);
         }
@@ -246,8 +248,12 @@ export class WorkPackageEditForm {
       return;
     }
 
+    return this.setErrorsForFields(erroneousAttributes);
+  }
+
+  private setErrorsForFields(erroneousFields:string[]) {
     // Accumulate errors for the given response
-    let promises:ng.IPromise<any>[] = erroneousAttributes.map((fieldName:string) => {
+    let promises:Promise<any>[] = erroneousFields.map((fieldName:string) => {
       return this.editContext.requireVisible(fieldName).then(() => {
         if (this.activeFields[fieldName]) {
           this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
@@ -257,12 +263,14 @@ export class WorkPackageEditForm {
       });
     });
 
-    this.$q.all(promises)
+    Promise.all(promises)
       .then(() => {
-        // Focus the first field that is erroneous
-        jQuery(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
-          .first()
-          .focus();
+        this.$timeout(() => {
+          // Focus the first field that is erroneous
+          jQuery(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
+            .first()
+            .focus();
+        });
       })
       .catch(() => {
         console.error('Failed to activate all erroneous fields.');

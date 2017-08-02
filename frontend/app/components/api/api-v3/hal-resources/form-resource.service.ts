@@ -29,14 +29,16 @@
 import {HalResource} from './hal-resource.service';
 import {SchemaResource} from './schema-resource.service';
 import {opApiModule} from '../../../../angular-modules';
+import {ErrorResource} from './error-resource.service';
 
 interface FormResourceEmbedded {
 }
 
 export class FormResource extends HalResource {
 
-  public $embedded: FormResourceEmbedded;
-  public schema: SchemaResource;
+  public $embedded:FormResourceEmbedded;
+  public schema:SchemaResource;
+  public validationErrors:{ [attribute:string]:ErrorResource };
 }
 
 function formResource() {
