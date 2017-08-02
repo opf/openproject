@@ -26,53 +26,115 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {States} from '../states.service';
 import {wpServicesModule} from '../../angular-modules';
 import {WorkPackageEditForm} from './work-package-edit-form';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageChangeset} from './work-package-changeset';
+import {StateCacheService} from '../states/state-cache.service';
+import {combine, deriveRaw, multiInput, State, StatesGroup} from 'reactivestates';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {Observable} from 'rxjs';
 
-export class WorkPackageEditingService {
-  constructor(public states:States, public $q:ng.IQService) {
+class WPChangesetStates extends StatesGroup {
+  name = 'WP-Changesets';
+
+  changesets = multiInput<WorkPackageChangeset>();
+
+  constructor() {
+    super();
+    this.initializeMembers();
+  }
+}
+
+export interface ImmutableWorkPackageResource extends WorkPackageResourceInterface {
+  // Add readonly index signature
+  readonly[attribute:string]:any;
+}
+
+export class WorkPackageEditingService extends StateCacheService<WorkPackageChangeset> {
+
+  private stateGroup:WPChangesetStates;
+
+  constructor(public wpCacheService:WorkPackageCacheService) {
+    super();
+    this.stateGroup = new WPChangesetStates();
   }
 
   /**
-   * Start editing the work package with a given edit context
+   * Start or continue editing the work package with a given edit context
    * @param {WorkPackageResourceInterface} workPackage
    * @param {WorkPackageEditContext} editContext
    * @param {boolean} editAll
    * @param {WorkPackageChangeset} changeset
    * @return {WorkPackageEditForm}
    */
-  public startEditing(workPackage:WorkPackageResourceInterface,
-                      editContext:WorkPackageEditContext,
-                      editAll:boolean = false,
-                      changeset?:WorkPackageChangeset):WorkPackageEditForm {
-    const state = this.editState(workPackage.id);
-    return WorkPackageEditForm.continue(state, workPackage, editContext, editAll, changeset);
+  public changesetFor(workPackage:WorkPackageResourceInterface):WorkPackageChangeset {
+    const state = this.multiState.get(workPackage.id);
+
+    if (state.isPristine()) {
+      state.putValue(new WorkPackageChangeset(workPackage));
+    }
+
+    return state.value!;
+  }
+
+  /**
+   * Get a temporary view on the resource being edited.
+   * IF there is a changeset:
+   *   - Merge the changeset, including its form, into the work package resource
+   * IF there is no changeset:
+   *   - The work package itself is returned.
+   *
+   *  This resource has a read only index signature to make it clear it is NOT
+   *  meant for editing.
+   *
+   * @return {State<WorkPackageResourceInterface>}
+   */
+  public temporaryEditResource(id:string):State<ImmutableWorkPackageResource> {
+    const combined = combine(this.wpCacheService.state(id), this.state(id));
+
+    return deriveRaw(combined,
+      ($:Observable<[WorkPackageResourceInterface, WorkPackageChangeset]>) =>
+        $.map(([wp, changeset]) => {
+          if (wp && changeset && changeset.resource) {
+            return changeset.resource;
+          } else {
+            return wp;
+          }
+        })
+    );
   }
 
   public stopEditing(workPackageId:string) {
-    const state = this.editState(workPackageId);
-
-    if (state.value) {
-      state.value.destroy();
-    }
+    const state = this.multiState.get(workPackageId);
+    state && state.clear();
   }
 
-  public saveChanges(workPackageId:string):ng.IPromise<WorkPackageResourceInterface> {
-    const state = this.editState(workPackageId);
+  public saveChanges(workPackageId:string):Promise<WorkPackageResourceInterface | void> {
+    const state = this.state(workPackageId);
 
     if (state.hasValue()) {
-      return state.value!.submit();
+      const changeset = state.value!;
+      return new WorkPackageEditForm(changeset.workPackage).submit();
     }
 
-    return this.$q.reject();
+    return Promise.reject("No changeset present");
   }
 
-  public editState(workPackageId:string) {
-    return this.states.editing.get(workPackageId);
+  protected load(id:string) {
+    return this.wpCacheService.require(id)
+      .then((wp:WorkPackageResourceInterface) => {
+        return new WorkPackageChangeset(wp);
+      });
+  }
+
+  protected loadAll(ids:string[]) {
+    return Promise.all(ids.map(id => this.load(id))) as any;
+  }
+
+  protected get multiState() {
+    return this.stateGroup.changesets;
   }
 }
 

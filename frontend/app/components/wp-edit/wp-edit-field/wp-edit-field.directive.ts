@@ -92,13 +92,9 @@ export class WorkPackageEditFieldController {
   }
 
   public get resource() {
-    const form = this.wpEditFieldGroup.editingForm;
-
-    if (form && form.editState.hasValue()) {
-      return form.editState.value!;
-    }
-
-    return this.workPackage;
+    return this.wpEditing
+      .temporaryEditResource(this.workPackage.id)
+      .getValueOr(this.workPackage);
   }
 
   public get isEditable() {
@@ -116,11 +112,7 @@ export class WorkPackageEditFieldController {
   }
 
   public activate(noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
-    // Get any existing edit state for this work package
-    const editContext = new SingleViewEditContext(this.wpEditFieldGroup);
-    const form = this.wpEditing.startEditing(this.workPackage, editContext, false);
-
-    return this.activateOnForm(form, noWarnings);
+    return this.activateOnForm(this.wpEditFieldGroup.form, noWarnings);
   }
 
   public activateOnForm(form:WorkPackageEditForm, noWarnings:boolean = false) {

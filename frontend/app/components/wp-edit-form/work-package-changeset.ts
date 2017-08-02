@@ -38,6 +38,10 @@ import {WorkPackageCacheService} from '../work-packages/work-package-cache.servi
 import {WorkPackageCreateService} from '../wp-create/wp-create.service';
 import {input} from 'reactivestates';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {
+  ImmutableWorkPackageResource,
+  WorkPackageEditingService
+} from './work-package-editing-service';
 
 export class WorkPackageChangeset {
   // Injections
@@ -46,6 +50,7 @@ export class WorkPackageChangeset {
   public schemaCacheService:SchemaCacheService;
   public wpCacheService:WorkPackageCacheService;
   public wpCreate:WorkPackageCreateService;
+  public wpEditing:WorkPackageEditingService;
 
   // The changeset to be applied to the work package
   private changes:{[attribute:string]:any} = {};
@@ -54,13 +59,13 @@ export class WorkPackageChangeset {
   // The current work package form
   public wpForm = input<FormResourceInterface>();
 
-  // The current editing resource state
-  public resource = input<WorkPackageResourceInterface>();
+  // The current editing resource
+  public resource:ImmutableWorkPackageResource|null;
 
   constructor(public workPackage:WorkPackageResourceInterface, form?:FormResourceInterface) {
     $injectFields(
       this, 'wpNotificationsService', '$q', 'schemaCacheService',
-      'wpCacheService', 'wpCreate'
+      'wpCacheService', 'wpCreate', 'wpEditing'
     );
 
     // New work packages have no schema set yet, so update the form immediately to get one
@@ -182,7 +187,7 @@ export class WorkPackageChangeset {
               }
 
               this.wpCacheService.updateWorkPackage(this.workPackage);
-              this.resource.clear();
+              this.resource = null;
               deferred.resolve(this.workPackage);
             });
           })
@@ -304,7 +309,8 @@ export class WorkPackageChangeset {
       resource.overriddenSchema = this.schema;
     }
 
-    this.resource.putValue(resource as any);
+    this.resource = (resource as ImmutableWorkPackageResource);
+    this.wpEditing.updateValue(this.workPackage.id, this);
   }
 }
 

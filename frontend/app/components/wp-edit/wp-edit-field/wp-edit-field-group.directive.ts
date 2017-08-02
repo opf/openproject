@@ -35,16 +35,23 @@ import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context
 import {input} from 'reactivestates';
 import {scopeDestroyed$} from '../../../helpers/angular-rx-utils';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
+import {WorkPackageNotificationService} from '../wp-notification.service';
 
 export class WorkPackageEditFieldGroupController {
   public workPackage:WorkPackageResourceInterface
+  public successState?:string;
   public inEditMode:boolean;
+  public form:WorkPackageEditForm;
   public fields:{ [attribute:string]:WorkPackageEditFieldController } = {};
   private registeredFields = input<string[]>();
 
   constructor(protected $scope:ng.IScope,
+              protected $state:ng.ui.IStateService,
               protected states:States,
               protected wpEditing:WorkPackageEditingService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpTableSelection:WorkPackageTableSelection,
               protected $rootScope:ng.IRootScopeService,
               protected $window:ng.IWindowService,
               protected ConfigurationService:any,
@@ -67,6 +74,9 @@ export class WorkPackageEditFieldGroupController {
   }
 
   public $onInit() {
+    const context = new SingleViewEditContext(this);
+    this.form = WorkPackageEditForm.createInContext(context, this.workPackage, this.inEditMode);
+
     this.states.workPackages.get(this.workPackage.id)
       .values$()
       .takeUntil(scopeDestroyed$(this.$scope))
@@ -80,17 +90,15 @@ export class WorkPackageEditFieldGroupController {
   }
 
   public get isEditing() {
-    const form = this.editingForm;
-    return (form && form.editMode);
+    return this.form.editMode;
   }
 
   public register(field:WorkPackageEditFieldController) {
     this.fields[field.fieldName] = field;
     this.registeredFields.putValue(_.keys(this.fields));
-    const form = this.editingForm;
 
-    if (form && form.editMode) {
-      field.activateOnForm(form, true);
+    if (this.form.editMode) {
+      field.activateOnForm(this.form, true);
     } else {
       this.states.workPackages
         .get(this.workPackage.id)
@@ -109,26 +117,33 @@ export class WorkPackageEditFieldGroupController {
   }
 
   public start() {
-    const form = this.wpEditing.startEditing(this.workPackage, this.editContext, true);
-    _.each(this.fields, ctrl => form.activate(ctrl.fieldName));
+    _.each(this.fields, ctrl => this.form.activate(ctrl.fieldName));
   }
 
   public stop() {
     this.wpEditing.stopEditing(this.workPackage.id);
   }
 
+  public saveWorkPackage() {
+    const isInitial = this.workPackage.isNew;
+    return this.form
+      .submit()
+      .then((savedWorkPackage) => {
+        this.wpEditing.stopEditing(this.workPackage.id);
+
+        if (this.successState) {
+          this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
+            .then(() => {
+              this.wpTableSelection.focusOn(savedWorkPackage.id);
+              this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
+            });
+        }
+      });
+  }
+
   private updateDisplayField(field:WorkPackageEditFieldController, wp:WorkPackageResourceInterface) {
     field.workPackage = wp;
     field.render();
-  }
-
-  private get editContext() {
-    return new SingleViewEditContext(this);
-  }
-
-  public get editingForm():WorkPackageEditForm | undefined {
-    const state = this.wpEditing.editState(this.workPackage.id);
-    return state.value;
   }
 
   private allowedStateChange(toState:any, toParams:any, fromState:any, fromParams:any) {
@@ -148,8 +163,10 @@ opWorkPackagesModule.directive('wpEditFieldGroup', function() {
     restrict: 'EA',
     controller: WorkPackageEditFieldGroupController,
     bindToController: true,
+    controllerAs: '$fieldGroupCtrl',
     scope: {
       workPackage: '=',
+      successState: '=?',
       inEditMode: '=?'
     }
   };

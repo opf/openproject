@@ -88,7 +88,7 @@ export abstract class PrimaryRenderPass {
   public refresh(row:RowRenderInfo, workPackage:WorkPackageResourceInterface, body:HTMLElement) {
     let oldRow = jQuery(body).find(`.${row.classIdentifier}`);
     let replacement:JQuery|null = null;
-    let editing = this.states.editing.get(row.workPackage!.id).value;
+    let editing = undefined; // TODO this.states.editing.get(row.workPackage!.id).value;
 
     switch(row.renderType) {
       case 'primary':

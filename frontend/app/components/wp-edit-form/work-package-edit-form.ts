@@ -27,10 +27,8 @@
 // ++
 
 import {Subscription} from 'rxjs/Subscription';
-import {injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {$injectFields, injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
@@ -41,9 +39,9 @@ import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {debugLog} from '../../helpers/debug_output';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {derive, InputState, State} from 'reactivestates';
-import {Observable} from 'rxjs';
+import {WorkPackageEditingService} from './work-package-editing-service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 
 export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
 export const activeFieldClassName = 'wp-inline-edit--field';
@@ -55,7 +53,9 @@ export class WorkPackageEditForm {
   public $rootScope:ng.IRootScopeService;
   public states:States;
   public wpCacheService:WorkPackageCacheService;
+  public wpEditing:WorkPackageEditingService;
   public wpEditField:WorkPackageEditFieldService;
+  public wpTableRefresh:WorkPackageTableRefreshService;
   public wpNotificationsService:WorkPackageNotificationService;
 
   // All current active (open) edit fields
@@ -64,51 +64,51 @@ export class WorkPackageEditForm {
   // Errors of the last operation (required when adding opening fields afterwards)
   public errorsPerAttribute:{ [fieldName:string]:string[] } = {};
 
+  // The current edit context to use the form with
   public editContext:WorkPackageEditContext;
-  public editMode:boolean = false;
 
-  // The work package cache service subscription
-  protected wpSubscription:Subscription;
-  protected formSubscription:Subscription;
+  // Subscribe to changes to the temporary edit form
+  protected resourceSubscription:Subscription;
 
-  public static continue(state:InputState<WorkPackageEditForm>,
-                         workPackage:WorkPackageResourceInterface,
-                         editContext:WorkPackageEditContext,
-                         editMode:boolean = false,
-                         changeset?:WorkPackageChangeset) {
-    if (!changeset) {
-      changeset = new WorkPackageChangeset(workPackage);
-    }
+  public static createInContext(editContext:WorkPackageEditContext,
+                                wp:WorkPackageResourceInterface,
+                                editMode:boolean = false) {
 
-    let form:WorkPackageEditForm = state.value || new WorkPackageEditForm(workPackage, changeset);
-
+    const form = new WorkPackageEditForm(wp, editMode);
     form.editContext = editContext;
-    form.editMode = editMode;
-    state.putValue(form);
 
     return form;
   }
 
-  constructor(public workPackage:WorkPackageResourceInterface,
-              public changeset:WorkPackageChangeset) {
-    injectorBridge(this);
+  constructor(public workPackage:WorkPackageResourceInterface, public editMode:boolean = false) {
+    $injectFields(this,
+      'wpCacheService', '$timeout', '$q', '$rootScope',
+      'wpEditField', 'wpNotificationsService',
+      'wpEditing', 'states', 'wpTableRefresh'
+    );
 
-    this.wpSubscription = this.states.workPackages.get(workPackage.id)
+    this.resourceSubscription = this.wpEditing.temporaryEditResource(workPackage.id)
       .values$()
-      .subscribe((wp:WorkPackageResourceInterface) => {
-        this.workPackage = wp;
-        this.changeset.workPackage = wp;
+      .subscribe(() => {
+        debugLog('Refreshing active edit fields after form update.');
+        _.each(this.activeFields, (_handler, name) => this.refresh(name!));
       });
+  }
 
-    this.formSubscription = this.editState.values$().subscribe(() => {
-      debugLog("Refreshing active edit fields after form update.");
-      _.each(this.activeFields, (_handler, name) => this.refresh(name!));
-    });
+  /**
+   * Return the current or a new changeset for the given work package.
+   * This will always return a valid (potentially empty) changeset.
+   *
+   * @return {WorkPackageChangeset}
+   */
+  public get changeset():WorkPackageChangeset {
+    return this.wpEditing.changesetFor(this.workPackage);
   }
 
   /**
    * Active the edit field upon user's request.
    * @param fieldName
+   * @param noWarnings Ignore warnings if the field cannot be opened
    */
   public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
     this.changeset.startEditing(fieldName);
@@ -123,12 +123,11 @@ export class WorkPackageEditForm {
     });
   }
 
-  public get editState():State<WorkPackageResourceInterface> {
-    return derive(this.changeset.resource, $ =>
-      $.map((v) => v || this.workPackage)
-    );
-  }
-
+  /**
+   * Refreshes an active field by simply updating the fieldHandler $scope.
+   * @param {string} fieldName
+   * @return {Promise<any>}
+   */
   public refresh(fieldName:string) {
     const handler = this.activeFields[fieldName];
     if (!handler) {
@@ -165,8 +164,12 @@ export class WorkPackageEditForm {
     });
   }
 
-  public submit() {
-    if (this.changeset.empty) {
+  /**
+   * Save the active changeset.
+   * @return {any}
+   */
+  public submit():ng.IPromise<WorkPackageResourceInterface> {
+    if (this.changeset.empty && !this.workPackage.isNew) {
       return this.$q.when(this.workPackage);
     }
 
@@ -180,8 +183,6 @@ export class WorkPackageEditForm {
 
     this.changeset.save()
       .then(savedWorkPackage => {
-        this.workPackage = savedWorkPackage;
-
         // Close all current fields
         this.closeEditFields(openFields);
 
@@ -189,7 +190,7 @@ export class WorkPackageEditForm {
 
         this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
         this.editMode = false;
-        this.editContext.onSaved(savedWorkPackage, isInitial);
+        this.wpTableRefresh.request(false, `Saved work package ${savedWorkPackage.id}`);
       })
       .catch((error) => {
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
@@ -201,18 +202,22 @@ export class WorkPackageEditForm {
     return deferred.promise;
   }
 
+  /**
+   * Close all fields and unsubscribe the observers on this form.
+   */
   public destroy() {
     // Close all edit fields
     this.closeEditFields();
 
     // Unsubscribe changes
-    this.wpSubscription.unsubscribe();
-    this.formSubscription.unsubscribe();
-
-    // Destroy this form
-    this.states.editing.get(this.workPackage.id).clear('Editing completed');
+    this.resourceSubscription.unsubscribe();
   }
 
+  /**
+   * Close the given or all open fields.
+   *
+   * @param {string[]} fields
+   */
   public closeEditFields(fields?:string[]) {
     if (!fields) {
       fields = _.keys(this.activeFields);
@@ -260,30 +265,30 @@ export class WorkPackageEditForm {
           .focus();
       })
       .catch(() => {
-        console.error("Failed to activate all erroneous fields.");
-      })
+        console.error('Failed to activate all erroneous fields.');
+      });
   }
 
   private buildField(fieldName:string):Promise<EditField> {
     return new Promise((resolve, reject) => {
       this.changeset.getForm()
         .then((form:FormResourceInterface) => {
-            const fieldSchema = form.schema[fieldName];
+          const fieldSchema = form.schema[fieldName];
 
-            if (!fieldSchema) {
-              return reject();
-            }
+          if (!fieldSchema) {
+            return reject();
+          }
 
-            const field = this.wpEditField.getField(
-              this.changeset,
-              fieldName,
-              fieldSchema
-            ) as EditField;
+          const field = this.wpEditField.getField(
+            this.changeset,
+            fieldName,
+            fieldSchema
+          ) as EditField;
 
-            resolve(field);
-          })
+          resolve(field);
+        })
         .catch((error) => {
-          console.error("Failed to build edit field:" + error);
+          console.error('Failed to build edit field:' + error);
           this.wpNotificationsService.handleRawError(error);
         });
     });
@@ -299,14 +304,8 @@ export class WorkPackageEditForm {
         return fieldHandler;
       })
       .catch((error) => {
-        console.error("Failed to render edit field:" + error);
+        console.error('Failed to render edit field:' + error);
         this.wpNotificationsService.handleRawError(error);
       });
   }
 }
-
-WorkPackageEditForm.$inject = [
-  'wpCacheService', '$timeout', '$q', '$rootScope',
-  'wpEditField', 'wpNotificationsService',
-  'states'
-];

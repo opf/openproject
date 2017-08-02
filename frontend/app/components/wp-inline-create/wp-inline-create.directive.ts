@@ -35,15 +35,14 @@ import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-fil
 import {WorkPackageCreateService} from "../wp-create/wp-create.service";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import {
-  InlineCreateRowBuilder, inlineCreateCancelClassName,
+  inlineCreateCancelClassName,
+  InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from "./inline-create-row-builder";
 import {scopeDestroyed$, scopedObservable} from "../../helpers/angular-rx-utils";
 import {States} from "../states.service";
 import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
 import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
-import {WorkPackageTableRow} from "../wp-fast-table/wp-table.interfaces";
-import {WorkPackageTableTimelineService} from "../wp-fast-table/state/wp-table-timeline.service";
 import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
@@ -149,8 +148,8 @@ export class WorkPackageInlineCreateController {
         this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
         // Set editing context to table
-        const editContext = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
-        this.workPackageEditForm = this.wpEditing.startEditing(wp, editContext, false, changeset);
+        const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
+        this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
 
         const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
         this.timelineBuilder.insert('new', this.table.timelineBody);
@@ -203,7 +202,7 @@ export class WorkPackageInlineCreateController {
 
   public removeWorkPackageRow() {
     this.currentWorkPackage = null;
-    this.states.editing.get('new').clear();
+    this.wpEditing.stopEditing('new');
     this.states.workPackages.get('new').clear();
     this.$element.find('.wp-row-new').remove();
     jQuery(this.table.timelineBody).find('.wp-row-new-timeline').remove();

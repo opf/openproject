@@ -119,10 +119,6 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return 'subject';
   }
 
-  public onSaved(workPackage:WorkPackageResourceInterface) {
-    this.wpTableRefresh.request(false, `Saved work package ${workPackage.id}`);
-  }
-
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
   private waitForContainer(fieldName:string):PromiseLike<undefined> {

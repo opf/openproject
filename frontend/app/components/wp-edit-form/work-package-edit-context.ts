@@ -60,11 +60,6 @@ export interface WorkPackageEditContext {
   firstField(names:string[]):string;
 
   /**
-   * Callback after a work package is saved through the form
-   */
-  onSaved(workPackage:WorkPackageResource, isInitial?:boolean):void;
-
-  /**
    * ui-state to redirect to after successful saving
    */
   successState:string;

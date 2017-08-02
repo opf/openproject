@@ -27,17 +27,14 @@
 // ++
 
 import {opWorkPackagesModule} from '../../../angular-modules';
-import {scopeDestroyed$, scopedObservable} from '../../../helpers/angular-rx-utils';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
 import {debugLog} from '../../../helpers/debug_output';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
-import {WorkPackageEditFieldController} from "../../wp-edit/wp-edit-field/wp-edit-field.directive";
 import {WorkPackageEditFieldGroupController} from "../../wp-edit/wp-edit-field/wp-edit-field-group.directive";
-import {WorkPackageEditForm} from '../../wp-edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
-import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context';
 import {States} from '../../states.service';
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
@@ -57,9 +54,7 @@ interface GroupDescriptor {
 
 export class WorkPackageSingleViewController {
   public wpEditFieldGroup:WorkPackageEditFieldGroupController;
-
   public workPackage:WorkPackageResourceInterface;
-  public form:WorkPackageEditForm;
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
@@ -80,9 +75,7 @@ export class WorkPackageSingleViewController {
               protected wpCacheService:WorkPackageCacheService) {
 
     $scope.$on('$destroy', () => {
-      if (this.form && this.form.changeset.empty) {
-        this.wpEditing.stopEditing(this.workPackage.id);
-      }
+      this.form.destroy();
     });
   }
 
@@ -94,9 +87,7 @@ export class WorkPackageSingleViewController {
       this.workPackage.attachments.updateElements();
     }
 
-    this.form = this.prepareEditForm();
-
-    scopedObservable(this.$scope, this.form.editState.values$())
+    scopedObservable(this.$scope, this.wpEditing.temporaryEditResource(this.workPackage.id).values$())
       .subscribe((resource:HalResource) => {
         // Prepare the fields that are required always
         this.specialFields = this.getFields(resource, ['project', 'status']);
@@ -142,16 +133,6 @@ export class WorkPackageSingleViewController {
   public get idLabel() {
     const label = this.I18n.t('js.label_work_package');
     return `${label} #${this.workPackage.id}`;
-  }
-
-  /**
-   * Start (or continue) editing the work package and update the edit context.
-   *
-   * @return {WorkPackageEditForm}
-   */
-  private prepareEditForm():WorkPackageEditForm {
-    const editContext = new SingleViewEditContext(this.wpEditFieldGroup);
-    return this.wpEditing.startEditing(this.workPackage, editContext, this.wpEditFieldGroup.inEditMode);
   }
 
   private setupI18nTexts() {
@@ -231,6 +212,10 @@ export class WorkPackageSingleViewController {
       name,
       resource.schema[name]
     ) as DisplayField;
+  }
+
+  private get form() {
+    return this.wpEditFieldGroup.form;
   }
 
 }

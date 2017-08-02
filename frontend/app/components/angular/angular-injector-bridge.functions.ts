@@ -17,6 +17,7 @@
    * factory.
    *
    * @param injectable The target to inject into
+ * @deprecated Use $injectFields instead
    */
   export function injectorBridge(injectable:any) {
     let $injector = $currentInjector();

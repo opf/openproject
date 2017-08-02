@@ -27,10 +27,7 @@
 // ++
 
 import {wpDirectivesModule} from '../../angular-modules';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
 import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
 import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
@@ -39,17 +36,15 @@ import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service
 import {WorkPackageCreateService} from './wp-create.service';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
-import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCreateController {
-  public newWorkPackage:WorkPackageResource | any;
-  public parentWorkPackage:WorkPackageResource | any;
-  public form:WorkPackageEditForm;
+  public newWorkPackage:WorkPackageResourceInterface;
+  public parentWorkPackage:WorkPackageResourceInterface;
+  public changeset:WorkPackageChangeset;
 
   public get header():string {
-    const changeset = this.form.changeset || new WorkPackageChangeset(this.newWorkPackage);
-    const type = changeset.value('type');
+    const type = this.changeset.value('type');
 
     if (!type) {
       return this.I18n.t('js.work_packages.create.header_no_type');
@@ -92,29 +87,16 @@ export class WorkPackageCreateController {
 
     this.newWorkPackageFromParams($state.params)
       .then((changeset:WorkPackageChangeset) => {
+        this.changeset = changeset;
         this.newWorkPackage = changeset.workPackage;
         wpCacheService.updateWorkPackage(changeset.workPackage);
 
-        const formState = this.states.editing.get(changeset.workPackage.id);
-        this.form = new WorkPackageEditForm(changeset.workPackage, changeset);
-        formState.putValue(this.form);
-
-        scopedObservable(this.$scope,
-          formState.values$())
-          .subscribe(form => {
-            this.form = form;
-
-            if (this.form.editContext) {
-              this.form.editContext.successState = this.successState;
-            }
-
-            if ($state.params['parent_id']) {
-              this.form.changeset.setValue(
-                'parent',
-                { href: v3Path.wp({wp: $state.params['parent_id'] }) }
-              );
-            }
-          });
+        if ($state.params['parent_id']) {
+          this.changeset.setValue(
+            'parent',
+            {href: v3Path.wp({wp: $state.params['parent_id']})}
+          );
+        }
 
         // Load the parent simply to display the type name :-/
         if ($state.params['parent_id']) {
@@ -149,9 +131,17 @@ export class WorkPackageCreateController {
     const type = parseInt(stateParams.type);
 
     // If there is an open edit for this type, continue it
-    const form = this.states.editing.get('new').value;
-    if (form) {
-      return this.$q.when(form.changeset);
+    const changeset = this.wpEditing.state('new').value;
+    if (changeset !== undefined) {
+      const changeType = changeset.workPackage.type;
+
+      const hasChanges = !changeset.empty;
+      const typeEmpty = (!changeType && !type);
+      const typeMatches = (changeType && changeType.idFromLink() === type.toString());
+
+      if (hasChanges && (typeEmpty || typeMatches)) {
+        return this.$q.when(changeset);
+      }
     }
 
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type);
@@ -160,14 +150,6 @@ export class WorkPackageCreateController {
   public cancelAndBackToList() {
     this.wpEditing.stopEditing(this.newWorkPackage.id);
     this.$state.go('work-packages.list', this.$state.params);
-  }
-
-  public saveWorkPackage():ng.IPromise<any> {
-    return this.wpEditing
-      .saveChanges(this.newWorkPackage.id)
-      .then((wp) => {
-        this.wpEditing.stopEditing(this.newWorkPackage.id);
-      });
   }
 }
 

@@ -136,16 +136,4 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   private async fieldCtrl(name:string):Promise<WorkPackageEditFieldController> {
     return this.fieldGroup.waitForField(name);
   }
-
-  public onSaved(workPackage:WorkPackageResourceInterface, isInitial?:boolean) {
-    this.wpTableRefresh.request(false, `Saved work package ${workPackage.id}`);
-
-    if (isInitial && this.successState) {
-      this.$state.go(this.successState, { workPackageId: workPackage.id })
-        .then(() => {
-           this.wpTableSelection.focusOn(workPackage.id);
-           this.wpNotificationsService.showSave(workPackage, true);
-        });
-    }
-  }
 }
