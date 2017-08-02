@@ -123,12 +123,10 @@ export class WorkPackageChangeset {
   }
 
   public getForm():Promise<FormResourceInterface> {
-    this.wpForm.putFromPromiseIfPristine(() => this.updateForm());
-
     if (this.wpForm.hasValue()) {
       return Promise.resolve(this.wpForm.value);
     } else {
-      return new Promise((resolve,) => this.wpForm.valuesPromise().then(resolve));
+      return this.updateForm();
     }
   }
 
@@ -144,12 +142,6 @@ export class WorkPackageChangeset {
       .then((form:FormResourceInterface) => {
         this.wpForm.putValue(form);
         this.buildResource();
-
-        // Reject errors when occurring in form validation
-        const errors = ErrorResource.fromFormResponse(form);
-        if (errors !== null) {
-          return deferred.reject(errors);
-        }
 
         deferred.resolve(form);
       })
@@ -169,8 +161,14 @@ export class WorkPackageChangeset {
     this.inFlight = true;
     const wasNew = this.workPackage.isNew;
     this.updateForm()
-      .then(() => {
+      .then((form) => {
         const payload = this.buildPayloadFromChanges();
+
+        // Reject errors when occurring in form validation
+        const errors = ErrorResource.fromFormResponse(form);
+        if (errors !== null) {
+          return deferred.reject(errors);
+        }
 
         this.workPackage.$links.updateImmediately(payload)
           .then((savedWp:WorkPackageResourceInterface) => {

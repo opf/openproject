@@ -296,7 +296,7 @@ export class WorkPackageEditForm {
           resolve(field);
         })
         .catch((error) => {
-          console.error('Failed to build edit field:' + error);
+          console.error('Failed to build edit field: %o', error);
           this.wpNotificationsService.handleRawError(error);
         });
     });
