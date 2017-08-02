@@ -38,6 +38,7 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTableColumns} from '../wp-fast-table/wp-table-columns';
 import {KeepTabService} from '../wp-panels/keep-tab/keep-tab.service';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
+import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
 
 angular
@@ -163,12 +164,15 @@ export class WorkPackagesTableController {
       .subscribe(c => this.changeTimelineWidthOnColumnCountChange(c));
 
     // sync hover from table to timeline
-    this.registerHoverSync();
+    const wpTableHoverSync = new WpTableHoverSync(this.$element);
+    wpTableHoverSync.activate();
+    this.$scope.$on('$destroy', () => {
+      wpTableHoverSync.deactivate();
+    });
   }
 
 
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
-
     var t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
@@ -216,36 +220,6 @@ export class WorkPackagesTableController {
       this.table.style.flex = `2 1`;
       this.timeline.style.flex = `3 1`;
     }
-  }
-
-  private registerHoverSync() {
-    const jTable = jQuery(this.table);
-
-    jTable.on('mousemove.timelineScrollSync', (event:JQueryEventObject) => {
-      const parentTr = jQuery(event.target).parent('tr');
-      if (parentTr.length === 0) {
-        this.removeLastSetTimelineHover();
-      } else {
-        this.setTimelineHover(parentTr[0]);
-      }
-    });
-
-    this.$scope.$on('$destroy', () => {
-      jTable.off('.timelineScrollSync');
-    });
-
-  }
-
-  private setTimelineHover(tr:HTMLElement) {
-    this.removeLastSetTimelineHover();
-    const workPackageId = tr.getAttribute('data-work-package-id');
-
-    console.log(workPackageId);
-
-  }
-
-  private removeLastSetTimelineHover() {
-    console.log('removeLastSetTimelineHover()');
   }
 
 }
