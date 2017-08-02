@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,30 +28,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module FileUploader
-  def self.included(base)
-    base.extend ClassMethods
-  end
+module Queries::Operators
+  class BooleanEquals < Base
+    label 'equals'
+    set_symbol '='
 
-  def local_file
-    file.to_file
-  end
+    def self.sql_for_field(values, db_table, db_field)
+      sql = ''
 
-  def download_url
-    file.is_path? ? file.path : file.url
-  end
+      # special case for old timeline where
+      # -1 is still used
+      # TODO: remove once old timeline is removed
+      if values.include?('-1')
+        return "#{db_table}.#{db_field} IS NULL"
+      end
 
-  def cache_dir
-    self.class.cache_dir
-  end
+      if values.include?('f')
+        sql = "#{db_table}.#{db_field} IS NULL OR "
+      end
 
-  def readable?
-    file && File.readable?(local_file)
-  end
+      sql += "#{db_table}.#{db_field} IN (" +
+             values.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + ')'
 
-  module ClassMethods
-    def cache_dir
-      @cache_dir ||= File.join(Dir.tmpdir, 'op_uploaded_files')
+      sql
     end
   end
 end

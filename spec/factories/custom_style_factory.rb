@@ -27,6 +27,8 @@
 #++
 
 FactoryGirl.define do
+  factory :custom_style
+
   factory :custom_style_with_logo, class: CustomStyle do
     logo do
       Rack::Test::UploadedFile.new(

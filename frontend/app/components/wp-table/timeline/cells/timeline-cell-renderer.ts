@@ -62,6 +62,7 @@ export class TimelineCellRenderer {
     placeholder.style.position = 'absolute';
     placeholder.style.height = '1em';
     placeholder.style.width = '30px';
+    placeholder.style.zIndex = '9999';
     placeholder.style.left = (days * renderInfo.viewParams.pixelPerDay) + 'px';
 
     return placeholder;

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,30 +28,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module FileUploader
-  def self.included(base)
-    base.extend ClassMethods
-  end
+module Queries::Operators
+  class BooleanNotEquals < Base
+    label 'not_equals'
+    set_symbol '!'
 
-  def local_file
-    file.to_file
-  end
+    def self.sql_for_field(values, db_table, db_field)
+      if values.length > 1
+        raise "Only expected one value here"
+      end
 
-  def download_url
-    file.is_path? ? file.path : file.url
-  end
-
-  def cache_dir
-    self.class.cache_dir
-  end
-
-  def readable?
-    file && File.readable?(local_file)
-  end
-
-  module ClassMethods
-    def cache_dir
-      @cache_dir ||= File.join(Dir.tmpdir, 'op_uploaded_files')
+      if values.include?('t')
+        BooleanEquals.sql_for_field(['f'], db_table, db_field)
+      else
+        BooleanEquals.sql_for_field(['t'], db_table, db_field)
+      end
     end
   end
 end

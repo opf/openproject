@@ -34,41 +34,11 @@ export class DisplayFieldRenderer {
 
     const field = this.getField(workPackage, fieldSchema, name);
 
-    span.classList.add(cellClassName, displayClassName, 'inplace-edit', 'wp-edit-field', name);
-    span.dataset['fieldName'] = name;
+    this.setSpanAttributes(span, field, name, workPackage);
 
-    // Make span tabbable unless it's an id field
-    span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
-
-    let label;
-    let labelContent;
-    let textContent;
-
-    if (field.required) {
-      span.classList.add(requiredClassName);
-    }
-
-    if (field.isEmpty()) {
-      span.classList.add(placeholderClassName);
-      textContent = placeholder;
-      labelContent = this.I18n.t('js.inplace.null_value_label');
-    } else {
-      textContent = field.valueString;
-      labelContent = textContent;
-    }
-
-    if (field.writable && workPackage.isEditable) {
-      span.classList.add(editableClassName);
-      span.setAttribute('role', 'button');
-      label = this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${labelContent}` })
-    } else {
-      span.classList.add(readOnlyClassName);
-      label = `${field.displayName} ${labelContent}`;
-    }
-
-    field.render(span, textContent);
-    span.setAttribute('title', label);
-    span.setAttribute('aria-label', label);
+    field.render(span, this.getText(field, placeholder));
+    span.setAttribute('title', this.getLabel(field, workPackage));
+    span.setAttribute('aria-label', this.getAriaLabel(field, workPackage));
 
     return span;
   }
@@ -81,5 +51,70 @@ export class DisplayFieldRenderer {
     }
 
     return this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
+  }
+
+  private getText(field:DisplayField, placeholder:string):string {
+    if (field.isEmpty()) {
+      return placeholder;
+    } else {
+      return field.valueString;
+    }
+  }
+
+  private setSpanAttributes(span:HTMLElement, field:DisplayField, name:string, workPackage:WorkPackageResourceInterface):void {
+    span.classList.add(cellClassName, displayClassName, 'inplace-edit', 'wp-edit-field', name);
+    span.dataset['fieldName'] = name;
+
+    // Make span tabbable unless it's an id field
+    span.setAttribute('tabindex', name === 'id' ? '-1' : '0');
+
+    if (field.required) {
+      span.classList.add(requiredClassName);
+    }
+
+    if (field.isEmpty()) {
+      span.classList.add(placeholderClassName);
+    }
+
+    if (field.writable && workPackage.isEditable) {
+      span.classList.add(editableClassName);
+      span.setAttribute('role', 'button');
+    } else {
+      span.classList.add(readOnlyClassName);
+    }
+  }
+
+  private getLabel(field:DisplayField, workPackage:WorkPackageResourceInterface):string {
+    if (field.writable && workPackage.isEditable) {
+      return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName}` });
+    } else {
+      return field.displayName;
+    }
+  }
+
+  private getAriaLabel(field:DisplayField, workPackage:WorkPackageResourceInterface):string {
+    let titleContent;
+    let labelContent = this.getLabelContent(field);
+
+    if (field.isFormattable && !field.isEmpty()) {
+      titleContent = angular.element(labelContent).text();
+
+    } else {
+      titleContent = labelContent;
+    }
+
+    if (field.writable && workPackage.isEditable) {
+      return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName} ${titleContent}` });
+    } else {
+      return `${field.displayName} ${titleContent}`;
+    }
+  }
+
+  private getLabelContent(field:DisplayField):string {
+    if (field.isEmpty()) {
+      return this.I18n.t('js.inplace.null_value_label');
+    } else {
+      return field.valueString;
+    }
   }
 }

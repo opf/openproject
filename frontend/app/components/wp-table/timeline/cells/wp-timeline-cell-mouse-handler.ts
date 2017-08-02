@@ -56,7 +56,7 @@ export function registerWorkPackageMouseHandler(this:void,
                                                 renderer:TimelineCellRenderer,
                                                 renderInfo:RenderInfo) {
 
-  let mouseDownStartDay:number | null = null;// also flag to signal active drag'n'drop
+  let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
 
   let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;
@@ -137,7 +137,6 @@ export function registerWorkPackageMouseHandler(this:void,
 
   function handleMouseMoveOnEmptyCell(ev:MouseEvent) {
     const wp = renderInfo.workPackage;
-
 
     if (!renderer.isEmpty(wp)) {
       return;

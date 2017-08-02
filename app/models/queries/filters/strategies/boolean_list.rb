@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,30 +28,32 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module FileUploader
-  def self.included(base)
-    base.extend ClassMethods
-  end
+module Queries::Filters::Strategies
+  class BooleanList < List
+    def validate
+      super
 
-  def local_file
-    file.to_file
-  end
+      if too_many_values
+        errors.add(:values, "only one value allowed")
+      end
+    end
 
-  def download_url
-    file.is_path? ? file.path : file.url
-  end
+    def valid_values!
+      filter.values &= allowed_values.map(&:last).map(&:to_s)
+    end
 
-  def cache_dir
-    self.class.cache_dir
-  end
+    private
 
-  def readable?
-    file && File.readable?(local_file)
-  end
+    def operator_map
+      super_value = super.dup
+      super_value['='] = ::Queries::Operators::BooleanEquals
+      super_value['!'] = ::Queries::Operators::BooleanNotEquals
 
-  module ClassMethods
-    def cache_dir
-      @cache_dir ||= File.join(Dir.tmpdir, 'op_uploaded_files')
+      super_value
+    end
+
+    def too_many_values
+      values.reject(&:blank?).length > 1
     end
   end
 end
