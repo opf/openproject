@@ -39,7 +39,8 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
     scopedObservable(
       this.$scope,
       this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).values$())
-      .subscribe((wp: WorkPackageResourceInterface) => {
+      .take(1)
+      .subscribe((wp:WorkPackageResourceInterface) => {
         this.createCopyFrom(wp).then((changeset:WorkPackageChangeset) => {
           deferred.resolve(changeset);
         });
@@ -49,7 +50,7 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   }
 
   private createCopyFrom(wp:WorkPackageResourceInterface) {
-    const changeset = new WorkPackageChangeset(wp);
+    const changeset = this.wpEditing.changesetFor(wp);
     return changeset.getForm().then((form:any) => {
       return this.wpCreate.copyWorkPackage(form, wp.project.identifier);
     });
