@@ -408,13 +408,14 @@ export class TimelineCellRenderer {
     const subject:string = workPackage.subject;
     const start:Moment | null = workPackage.startDate ? moment(workPackage.startDate) : null;
     const due:Moment | null = workPackage.dueDate ? moment(workPackage.dueDate) : null;
+    console.log(workPackage);
 
     if (!activeDragNDrop) {
       // normal display
-      if (labels.labelLeft) {
+      if (labels.labelLeft && start) {
         labels.labelLeft.textContent = this.TimezoneService.formattedDate(start);
       }
-      if (labels.labelRight) {
+      if (labels.labelRight && due) {
         labels.labelRight.textContent = this.TimezoneService.formattedDate(due);
       }
       if (labels.labelFarRight) {
