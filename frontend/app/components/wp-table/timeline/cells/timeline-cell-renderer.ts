@@ -408,7 +408,6 @@ export class TimelineCellRenderer {
     const subject:string = workPackage.subject;
     const start:Moment | null = workPackage.startDate ? moment(workPackage.startDate) : null;
     const due:Moment | null = workPackage.dueDate ? moment(workPackage.dueDate) : null;
-    console.log(workPackage);
 
     if (!activeDragNDrop) {
       // normal display
