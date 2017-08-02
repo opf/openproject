@@ -73,7 +73,7 @@ export interface WorkPackageResourceEmbedded {
   relatedBy:RelationResourceInterface | null;
 }
 
-interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
+export interface WorkPackageResourceLinks extends WorkPackageResourceEmbedded {
   addAttachment(attachment:HalResource):ng.IPromise<any>;
   addChild(child:HalResource):ng.IPromise<any>;
   addComment(comment:HalResource):ng.IPromise<any>;

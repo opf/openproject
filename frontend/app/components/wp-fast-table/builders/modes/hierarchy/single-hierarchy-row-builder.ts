@@ -13,6 +13,7 @@ import {UiStateLinkBuilder} from '../../ui-state-link-builder';
 import {QueryColumn} from '../../../../wp-query/query-column';
 import {SingleRowBuilder} from '../../rows/single-row-builder';
 import {States} from '../../../../states.service';
+import {WorkPackageChangeset} from '../../../../wp-edit-form/work-package-changeset';
 
 export const indicatorCollapsedClass = '-hierarchy-collapsed';
 export const hierarchyCellClassName = 'wp-table--hierarchy-span';
@@ -46,9 +47,9 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
    * Refresh a single row after structural changes.
    * Remembers and re-adds the hierarchy indicator if neccessary.
    */
-  public refreshRow(workPackage:WorkPackageResourceInterface, editForm:WorkPackageEditForm|undefined, jRow:JQuery):JQuery {
+  public refreshRow(workPackage:WorkPackageResourceInterface, changeset:WorkPackageChangeset, jRow:JQuery):JQuery {
     // Remove any old hierarchy
-    const newRow = super.refreshRow(workPackage, editForm, jRow);
+    const newRow = super.refreshRow(workPackage, changeset, jRow);
     newRow.find(`.wp-table--hierarchy-span`).remove();
     this.appendHierarchyIndicator(workPackage, newRow);
 

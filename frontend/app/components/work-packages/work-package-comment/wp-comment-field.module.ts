@@ -32,7 +32,6 @@ import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCommentField extends WikiTextareaEditField {
 
-  public fieldVal = { raw: '' };
   public isBusy:boolean = false;
 
   constructor(public workPackage:WorkPackageResourceInterface, protected I18n:op.I18n) {
@@ -41,29 +40,21 @@ export class WorkPackageCommentField extends WikiTextareaEditField {
     this.initializeFieldValue();
   }
 
-  public get value() {
-    return this.fieldVal;
-  }
-
-  public set value(val:any) {
-    this.fieldVal.raw = val;
-  }
-
   public get required() {
     return true;
   }
 
   public initializeFieldValue(withText?:string):void {
     if (!withText) {
-      this.fieldVal.raw = '';
+      this.rawValue = '';
       return;
     }
 
-    if (this.fieldVal.raw.length > 0) {
-      this.fieldVal.raw += '\n';
+    if (this.rawValue.length > 0) {
+      this.rawValue += '\n';
     }
 
-    this.fieldVal.raw += withText;
+    this.rawValue += withText;
   }
 
 }

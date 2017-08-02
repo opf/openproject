@@ -69,7 +69,7 @@ export class HalResource {
   public $embedded:any = {};
   public $self:ng.IPromise<HalResource>;
 
-  private _name:string;
+  public _name:string;
 
   public get $isHal():boolean {
     return true;

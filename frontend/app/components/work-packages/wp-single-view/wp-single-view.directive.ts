@@ -34,9 +34,10 @@ import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.m
 import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageCacheService} from '../work-package-cache.service';
 import {WorkPackageEditFieldGroupController} from "../../wp-edit/wp-edit-field/wp-edit-field-group.directive";
-import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {
+  WorkPackageEditingService
+} from '../../wp-edit-form/work-package-editing-service';
 import {States} from '../../states.service';
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 
 interface FieldDescriptor {
   name:string;
@@ -88,7 +89,7 @@ export class WorkPackageSingleViewController {
     }
 
     scopedObservable(this.$scope, this.wpEditing.temporaryEditResource(this.workPackage.id).values$())
-      .subscribe((resource:HalResource) => {
+      .subscribe((resource:WorkPackageResourceInterface) => {
         // Prepare the fields that are required always
         this.specialFields = this.getFields(resource, ['project', 'status']);
 
@@ -157,7 +158,7 @@ export class WorkPackageSingleViewController {
    * Maps the grouped fields into their display fields.
    * May return multiple fields (for the date virtual field).
    */
-  private getFields(resource:HalResource, fieldNames:string[]):FieldDescriptor[] {
+  private getFields(resource:WorkPackageResourceInterface, fieldNames:string[]):FieldDescriptor[] {
     const descriptors:FieldDescriptor[] = [];
 
     fieldNames.forEach((fieldName:string) => {
@@ -189,7 +190,7 @@ export class WorkPackageSingleViewController {
    * 'date' field vs. all other types which should display a
    * combined 'start' and 'due' date field.
    */
-  private getDateField(resource:HalResource):FieldDescriptor {
+  private getDateField(resource:WorkPackageResourceInterface):FieldDescriptor {
     let object:any = {
       name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
@@ -206,7 +207,7 @@ export class WorkPackageSingleViewController {
     return object;
   }
 
-  private displayField(resource:HalResource, name:string):DisplayField {
+  private displayField(resource:WorkPackageResourceInterface, name:string):DisplayField {
     return this.wpDisplayField.getField(
       resource,
       name,

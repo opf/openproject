@@ -15,7 +15,6 @@ import {PrimaryRenderPass, RowRenderInfo} from '../../primary-render-pass';
 import {States} from '../../../../states.service';
 import {$injectFields} from '../../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTableHierarchies} from '../../../wp-table-hierarchies';
-import {RenderInfo} from '../../../../wp-table/timeline/wp-timeline';
 
 export class HierarchyRenderPass extends PrimaryRenderPass {
   public states:States;

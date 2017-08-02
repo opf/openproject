@@ -38,10 +38,7 @@ import {WorkPackageCacheService} from '../work-packages/work-package-cache.servi
 import {WorkPackageCreateService} from '../wp-create/wp-create.service';
 import {input} from 'reactivestates';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
-import {
-  ImmutableWorkPackageResource,
-  WorkPackageEditingService
-} from './work-package-editing-service';
+import {WorkPackageEditingService} from './work-package-editing-service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
 
 export class WorkPackageChangeset {
@@ -61,7 +58,7 @@ export class WorkPackageChangeset {
   public wpForm = input<FormResourceInterface>();
 
   // The current editing resource
-  public resource:ImmutableWorkPackageResource|null;
+  public resource:WorkPackageResourceInterface|null;
 
   constructor(public workPackage:WorkPackageResourceInterface, form?:FormResourceInterface) {
     $injectFields(
@@ -320,7 +317,7 @@ export class WorkPackageChangeset {
       resource.overriddenSchema = this.schema;
     }
 
-    this.resource = (resource as ImmutableWorkPackageResource);
+    this.resource = (resource as WorkPackageResourceInterface);
     this.wpEditing.updateValue(this.workPackage.id, this);
   }
 }

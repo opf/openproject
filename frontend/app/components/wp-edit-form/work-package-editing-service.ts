@@ -28,13 +28,19 @@
 
 import {wpServicesModule} from '../../angular-modules';
 import {WorkPackageEditForm} from './work-package-edit-form';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {
+  WorkPackageResource,
+  WorkPackageResourceEmbedded,
+  WorkPackageResourceInterface, WorkPackageResourceLinks
+} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageChangeset} from './work-package-changeset';
 import {StateCacheService} from '../states/state-cache.service';
 import {combine, deriveRaw, multiInput, State, StatesGroup} from 'reactivestates';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {Observable} from 'rxjs';
+import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
+import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
 
 class WPChangesetStates extends StatesGroup {
   name = 'WP-Changesets';
@@ -45,11 +51,6 @@ class WPChangesetStates extends StatesGroup {
     super();
     this.initializeMembers();
   }
-}
-
-export interface ImmutableWorkPackageResource extends WorkPackageResourceInterface {
-  // Add readonly index signature
-  readonly[attribute:string]:any;
 }
 
 export class WorkPackageEditingService extends StateCacheService<WorkPackageChangeset> {
@@ -91,7 +92,7 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
    *
    * @return {State<WorkPackageResourceInterface>}
    */
-  public temporaryEditResource(id:string):State<ImmutableWorkPackageResource> {
+  public temporaryEditResource(id:string):State<WorkPackageResourceInterface> {
     const combined = combine(this.wpCacheService.state(id), this.state(id));
 
     return deriveRaw(combined,

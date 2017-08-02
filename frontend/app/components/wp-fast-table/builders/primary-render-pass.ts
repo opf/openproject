@@ -6,6 +6,7 @@ import {TimelineRenderPass} from './timeline/timeline-render-pass';
 import {SingleRowBuilder} from './rows/single-row-builder';
 import {RelationRenderInfo, RelationsRenderPass} from './relations/relations-render-pass';
 import {timeOutput} from '../../../helpers/debug_output';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 
 export type RenderedRowType = 'primary' | 'relations';
 
@@ -30,6 +31,7 @@ export interface RowRenderInfo {
 export type RenderedRow = { classIdentifier:string, workPackageId:string|null, hidden:boolean };
 
 export abstract class PrimaryRenderPass {
+  public wpEditing:WorkPackageEditingService;
   public states:States;
   public I18n:op.I18n;
 
@@ -47,7 +49,7 @@ export abstract class PrimaryRenderPass {
 
   constructor(public workPackageTable:WorkPackageTable,
               public rowBuilder:SingleRowBuilder) {
-    $injectFields(this, 'states', 'I18n');
+    $injectFields(this, 'states', 'I18n', 'wpEditing');
 
   }
 
@@ -88,7 +90,7 @@ export abstract class PrimaryRenderPass {
   public refresh(row:RowRenderInfo, workPackage:WorkPackageResourceInterface, body:HTMLElement) {
     let oldRow = jQuery(body).find(`.${row.classIdentifier}`);
     let replacement:JQuery|null = null;
-    let editing = undefined; // TODO this.states.editing.get(row.workPackage!.id).value;
+    let editing = this.wpEditing.changesetFor(workPackage);
 
     switch(row.renderType) {
       case 'primary':

@@ -115,7 +115,7 @@ export class WorkPackageInlineCreateController {
         const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 
         if (rowElement.length && this.currentWorkPackage) {
-          this.rowBuilder.refreshRow(this.currentWorkPackage, this.workPackageEditForm, rowElement);
+          this.rowBuilder.refreshRow(this.currentWorkPackage, this.workPackageEditForm!.changeset, rowElement);
         }
     });
 
