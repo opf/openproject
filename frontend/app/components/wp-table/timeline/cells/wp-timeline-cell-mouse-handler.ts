@@ -121,7 +121,7 @@ export function registerWorkPackageMouseHandler(this: void,
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
 
-      dateStates = renderer.onDaysMoved(renderInfo.workPackage, dayUnderCursor, days, direction);
+      dateStates = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, days, direction);
       applyDateValues(renderInfo, dateStates);
       renderer.update(bar, renderInfo);
     }
@@ -149,6 +149,7 @@ export function registerWorkPackageMouseHandler(this: void,
     // abort if mouse leaves cell
     cell.onmouseleave = () => {
       placeholderForEmptyCell.remove();
+      deactivate(true);
     };
 
     // create logic
@@ -173,9 +174,8 @@ export function registerWorkPackageMouseHandler(this: void,
         const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
         const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
         const widthInDays = offsetDayCurrent - offsetDayStart;
-        const moved = renderer.onDaysMoved(wp, dayUnderCursor, widthInDays, mouseDownType);
+        const moved = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, widthInDays, mouseDownType);
         renderer.assignDateValues(renderInfo.changeset, labels, moved);
-        wpCacheService.updateWorkPackage(wp);
         renderer.update(bar, renderInfo);
       };
 
@@ -214,28 +214,29 @@ export function registerWorkPackageMouseHandler(this: void,
     renderer.onMouseDownEnd(labels, renderInfo.changeset);
 
     // const renderInfo = getRenderInfo();
-    const wp = renderInfo.workPackage;
     if (cancelled) {
-      wpCacheService.updateWorkPackage(wp);
+      renderInfo.changeset.clear();
       renderer.update(bar, renderInfo);
       workPackageTimeline.refreshView();
     } else {
       // Persist the changes
-      saveWorkPackage(renderInfo.changeset);
+      saveWorkPackage(renderInfo.changeset)
+        .finally(() => {
+          renderInfo.changeset.clear();
+          workPackageTimeline.refreshView();
+        });
     }
 
-    renderInfo.changeset.clear();
   }
 
   function saveWorkPackage(changeset:WorkPackageChangeset) {
-    loadingIndicator.table.promise = changeset.save()
-      .then(() => {
+    return loadingIndicator.table.promise = changeset.save()
+      .then((wp) => {
+        wpNotificationsService.showSave(wp);
         wpTableRefresh.request(true, `Moved work package ${changeset.workPackage.id} through timeline`);
       })
       .catch((error) => {
-        changeset.clear();
         wpNotificationsService.handleErrorResponse(error, renderInfo.workPackage);
-        workPackageTimeline.refreshView();
       });
   }
 }

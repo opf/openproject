@@ -64,13 +64,13 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   /**
    * Handle movement by <delta> days of milestone.
    */
-  public onDaysMoved(wp:WorkPackageResourceInterface,
+  public onDaysMoved(changeset:WorkPackageChangeset,
                      dayUnderCursor:Moment,
                      delta:number,
                      direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
 
-    const initialDate = wp.date;
-    let dates: CellMilestoneMovement = {};
+    const initialDate = changeset.workPackage.date;
+    let dates:CellMilestoneMovement = {};
 
     if (initialDate) {
       dates.date = moment(initialDate).add(delta, 'days');

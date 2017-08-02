@@ -90,13 +90,16 @@ export class TimelineCellRenderer {
    * Handle movement by <delta> days of the work package to either (or both) edge(s)
    * depending on which initial date was set.
    */
-  public onDaysMoved(wp:WorkPackageResourceInterface,
+  public onDaysMoved(changeset:WorkPackageChangeset,
                      dayUnderCursor:Moment,
                      delta:number,
                      direction:"left" | "right" | "both" | "create" | "dragright"):CellDateMovement {
 
-    const initialStartDate = wp.startDate;
-    const initialDueDate = wp.dueDate;
+    const initialStartDate = changeset.workPackage.startDate;
+    const initialDueDate = changeset.workPackage.dueDate;
+
+    const startDate = moment(changeset.value('startDate'));
+    const dueDate = moment(changeset.value('dueDate'));
 
     let dates:CellDateMovement = {};
 
@@ -112,15 +115,15 @@ export class TimelineCellRenderer {
         dates.dueDate = moment(initialDueDate).add(delta, 'days');
       }
     } else if (direction === 'dragright') {
-      dates.dueDate = moment(wp.startDate).clone().add(delta, 'days');
+      dates.dueDate = startDate.clone().add(delta, 'days');
     }
 
     // avoid negative "overdrag" if only start or due are changed
     if (direction !== 'both') {
-      if (dates.startDate != undefined && dates.startDate.isAfter(moment(wp.dueDate))) {
-        dates.startDate = moment(wp.dueDate);
-      } else if (dates.dueDate != undefined && dates.dueDate.isBefore(moment(wp.startDate))) {
-        dates.dueDate = moment(wp.startDate);
+      if (dates.startDate != undefined && dates.startDate.isAfter(dueDate)) {
+        dates.startDate = dueDate;
+      } else if (dates.dueDate != undefined && dates.dueDate.isBefore(startDate)) {
+        dates.dueDate = startDate;
       }
     }
 
@@ -140,8 +143,9 @@ export class TimelineCellRenderer {
       return 'both'; // irrelevant
     }
 
-    renderInfo.changeset.startEditing("startDate");
-    renderInfo.changeset.startEditing("dueDate");
+    const changeset = renderInfo.changeset;
+    changeset.startEditing("startDate");
+    changeset.startEditing("dueDate");
     let direction:"left" | "right" | "both" | "create" | "dragright";
 
     // Update the cursor and maybe set start/due values
@@ -149,15 +153,15 @@ export class TimelineCellRenderer {
       // only left
       direction = 'left';
       this.forceCursor('w-resize');
-      if (renderInfo.workPackage.startDate === null) {
-        renderInfo.workPackage.startDate = renderInfo.workPackage.dueDate;
+      if (changeset.value('startDate') === null) {
+        changeset.setValue('startDate', changeset.value('dueDate'));
       }
     } else if (jQuery(ev.target).hasClass(classNameRightHandle) || dateForCreate) {
       // only right
       direction = 'right';
       this.forceCursor('e-resize');
-      if (renderInfo.workPackage.dueDate === null) {
-        renderInfo.workPackage.dueDate = renderInfo.workPackage.startDate;
+      if (changeset.value('dueDate') === null) {
+        changeset.setValue('dueDate', changeset.value('startDate'));
       }
     } else {
       // both
@@ -166,8 +170,8 @@ export class TimelineCellRenderer {
     }
 
     if (dateForCreate) {
-      renderInfo.workPackage.startDate = dateForCreate;
-      renderInfo.workPackage.dueDate = dateForCreate;
+      changeset.setValue('startDate', dateForCreate);
+      changeset.setValue('dueDate', dateForCreate);
       direction = 'dragright';
     }
 
@@ -192,7 +196,7 @@ export class TimelineCellRenderer {
    *         false, if the element must be removed from the timeline.
    */
   public update(bar:HTMLDivElement, renderInfo:RenderInfo):boolean {
-    const changeset = renderInfo.changeset || new WorkPackageChangeset(renderInfo.workPackage);
+    const changeset = renderInfo.changeset;
 
     // general settings - bar
     bar.style.backgroundColor = this.typeColor(renderInfo.workPackage);
@@ -255,10 +259,11 @@ export class TimelineCellRenderer {
   }
 
   getMarginLeftOfLeftSide(renderInfo:RenderInfo):number {
-    const wp = renderInfo.workPackage;
+    const changeset = renderInfo.changeset;
 
-    let start = moment(wp.startDate as any);
-    start = _.isNaN(start.valueOf()) ? moment(wp.dueDate).clone() : start;
+    let start = moment(changeset.value('startDate'));
+    let due = moment(changeset.value('dueDate'));
+    start = _.isNaN(start.valueOf()) ? due.clone() : start;
 
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, 'days');
 
@@ -266,12 +271,12 @@ export class TimelineCellRenderer {
   }
 
   getMarginLeftOfRightSide(renderInfo:RenderInfo):number {
-    const wp = renderInfo.workPackage;
+    const changeset = renderInfo.changeset;
 
-    let start = moment(wp.startDate as any);
-    start = _.isNaN(start.valueOf()) ? moment(wp.dueDate).clone() : start;
+    let start = moment(changeset.value('startDate'));
+    let due = moment(changeset.value('dueDate'));
 
-    let due = moment(wp.dueDate as any);
+    start = _.isNaN(start.valueOf()) ? due.clone() : start;
     due = _.isNaN(due.valueOf()) ? start.clone() : due;
 
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, 'days');
