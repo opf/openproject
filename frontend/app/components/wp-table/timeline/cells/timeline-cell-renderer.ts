@@ -411,10 +411,10 @@ export class TimelineCellRenderer {
 
     if (!activeDragNDrop) {
       // normal display
-      if (labels.labelLeft) {
+      if (labels.labelLeft && start) {
         labels.labelLeft.textContent = this.TimezoneService.formattedDate(start);
       }
-      if (labels.labelRight) {
+      if (labels.labelRight && due) {
         labels.labelRight.textContent = this.TimezoneService.formattedDate(due);
       }
       if (labels.labelFarRight) {
