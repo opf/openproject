@@ -46,27 +46,16 @@ export class WikiTextareaEditField extends EditField {
   public isBusy:boolean = false;
   public isPreview:boolean = false;
   public previewHtml:string;
-  public _value:any;
-
   public text:Object;
-
 
   protected initialize() {
     $injectFields(this, '$sce', '$http', 'TextileService', '$timeout', 'I18n');
 
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
-      save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
-      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
+      save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
+      cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
     };
-  }
-
-  public get value() {
-    return this._value;
-  }
-
-  public set value(val:any) {
-    this._value = val;
   }
 
   public get rawValue() {
@@ -75,14 +64,14 @@ export class WikiTextareaEditField extends EditField {
   }
 
   public set rawValue(val:string) {
-    this.value = { raw: val };
+    this.value = {raw: val};
   }
 
   public get isFormattable() {
     return true;
   }
 
-  public isEmpty(): boolean {
+  public isEmpty():boolean {
     return !(this.value && this.value.raw);
   }
 

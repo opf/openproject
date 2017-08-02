@@ -57,7 +57,7 @@ export class EditActionsBarController {
   }
 
   public cancel():void {
-    this.wpEditFieldGroup.form.editMode = false;
+    this.wpEditFieldGroup.inEditMode = false;
     this.onCancel();
   }
 }

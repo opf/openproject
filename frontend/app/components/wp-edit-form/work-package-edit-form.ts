@@ -90,8 +90,10 @@ export class WorkPackageEditForm {
     this.resourceSubscription = this.wpEditing.temporaryEditResource(workPackage.id)
       .values$()
       .subscribe(() => {
-        debugLog('Refreshing active edit fields after form update.');
-        _.each(this.activeFields, (_handler, name) => this.refresh(name!));
+        if (!this.changeset.empty) {
+          debugLog('Refreshing active edit fields after form update.');
+          _.each(this.activeFields, (_handler, name) => this.refresh(name!));
+        }
       });
   }
 
@@ -193,7 +195,6 @@ export class WorkPackageEditForm {
         this.wpTableRefresh.request(false, `Saved work package ${savedWorkPackage.id}`);
       })
       .catch((error:ErrorResource|Object) => {
-
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
 
         if (error instanceof ErrorResource) {
@@ -208,11 +209,14 @@ export class WorkPackageEditForm {
    * Close all fields and unsubscribe the observers on this form.
    */
   public destroy() {
-    // Close all edit fields
-    this.closeEditFields();
-
     // Unsubscribe changes
     this.resourceSubscription.unsubscribe();
+
+    // Kill all active fields
+    // Without resetting the changeset, if, e.g., we're moving an active edit
+    _.each(this.activeFields, (handler) => {
+      handler && handler.deactivate();
+    });
   }
 
   /**

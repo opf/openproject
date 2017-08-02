@@ -45,6 +45,7 @@ export class WorkPackageEditFieldGroupController {
   public form:WorkPackageEditForm;
   public fields:{ [attribute:string]:WorkPackageEditFieldController } = {};
   private registeredFields = input<string[]>();
+  private unregisterListener:Function;
 
   constructor(protected $scope:ng.IScope,
               protected $state:ng.ui.IStateService,
@@ -60,16 +61,25 @@ export class WorkPackageEditFieldGroupController {
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
-    $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+    this.unregisterListener = $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+      if (!this.editMode) {
+        return;
+      }
+
       // Show confirmation message when transitioning to a new state
       // that's not withing the edit mode.
-      if (this.isEditing && !this.allowedStateChange(toState, toParams, fromState, fromParams)) {
+      if (!this.allowedStateChange(toState, toParams, fromState, fromParams)) {
         if (requiresConfirmation && !$window.confirm(confirmText)) {
           return event.preventDefault();
         }
 
         this.stop();
       }
+    });
+    
+    $scope.$on('$destroy', () => {
+      this.unregisterListener();
+      this.form.destroy();
     });
   }
 
@@ -89,15 +99,15 @@ export class WorkPackageEditFieldGroupController {
     }
   }
 
-  public get isEditing() {
-    return this.form.editMode;
+  public get editMode() {
+    return this.inEditMode && this.form.editMode;
   }
 
   public register(field:WorkPackageEditFieldController) {
     this.fields[field.fieldName] = field;
     this.registeredFields.putValue(_.keys(this.fields));
 
-    if (this.form.editMode) {
+    if (this.inEditMode) {
       field.activateOnForm(this.form, true);
     } else {
       this.states.workPackages

@@ -84,6 +84,7 @@ export class WorkPackageChangeset {
 
   public clear() {
     this.changes = {};
+    this.wpForm.clear();
   }
 
   public get empty() {
@@ -123,10 +124,15 @@ export class WorkPackageChangeset {
   }
 
   public getForm():Promise<FormResourceInterface> {
+    this.wpForm.putFromPromiseIfPristine(() => {
+      return this.updateForm();
+    });
+
+
     if (this.wpForm.hasValue()) {
       return Promise.resolve(this.wpForm.value);
     } else {
-      return this.updateForm();
+      return new Promise((resolve, ) => this.wpForm.valuesPromise().then(resolve));
     }
   }
 
@@ -172,10 +178,6 @@ export class WorkPackageChangeset {
 
         this.workPackage.$links.updateImmediately(payload)
           .then((savedWp:WorkPackageResourceInterface) => {
-            // Remove the current form and schema, otherwise old form data
-            // might still be used for the next edit field to be edited
-            this.wpForm.clear();
-
             // Initialize any potentially new HAL values
             this.workPackage.$initialize(savedWp);
 
@@ -191,6 +193,7 @@ export class WorkPackageChangeset {
 
               this.wpCacheService.updateWorkPackage(this.workPackage);
               this.resource = null;
+              this.clear();
               deferred.resolve(this.workPackage);
             });
           })
@@ -311,10 +314,7 @@ export class WorkPackageChangeset {
     const resource = new WorkPackageResource(this.mergeWithPayload(payload), true);
 
     // Override the schema with the current form, if any.
-    if (hasForm) {
-      resource.overriddenSchema = this.schema;
-    }
-
+    resource.overriddenSchema = this.schema;
     this.resource = (resource as WorkPackageResourceInterface);
     this.wpEditing.updateValue(this.workPackage.id, this);
   }

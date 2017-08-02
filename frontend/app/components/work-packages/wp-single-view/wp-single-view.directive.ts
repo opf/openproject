@@ -74,10 +74,6 @@ export class WorkPackageSingleViewController {
               protected wpEditing:WorkPackageEditingService,
               protected wpDisplayField:WorkPackageDisplayFieldService,
               protected wpCacheService:WorkPackageCacheService) {
-
-    $scope.$on('$destroy', () => {
-      this.form.destroy();
-    });
   }
 
   public initialize() {

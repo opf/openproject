@@ -31,13 +31,21 @@ import {WikiTextareaEditField} from '../../wp-edit/field-types/wp-edit-wiki-text
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCommentField extends WikiTextareaEditField {
-
+  public _value:any;
   public isBusy:boolean = false;
 
   constructor(public workPackage:WorkPackageResourceInterface, protected I18n:op.I18n) {
     super(new WorkPackageChangeset(workPackage), 'comment', {name: I18n.t('js.label_comment')} as any);
 
     this.initializeFieldValue();
+  }
+
+  public get value() {
+    return this._value;
+  }
+
+  public set value(val:any) {
+    this._value = val;
   }
 
   public get required() {
