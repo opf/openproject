@@ -77,6 +77,7 @@ export class WorkPackageChangeset {
 
   public reset(key:string) {
     delete this.changes[key];
+    this.buildResource();
   }
 
   public clear() {
