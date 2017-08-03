@@ -150,6 +150,7 @@ export class WorkPackageInlineCreateController {
         // Set editing context to table
         const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
         this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
+        this.workPackageEditForm.changeset.clear();
 
         const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
         this.timelineBuilder.insert('new', this.table.timelineBody);

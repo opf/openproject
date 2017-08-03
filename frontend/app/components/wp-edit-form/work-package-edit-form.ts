@@ -159,6 +159,9 @@ export class WorkPackageEditForm {
   public activateMissingFields() {
     this.changeset.getForm().then((form:any) => {
       _.each(form.validationErrors, (val:any, key:string) => {
+        if (key === 'id') {
+          return;
+        }
         this.activateWhenNeeded(key);
       });
     });
