@@ -357,7 +357,7 @@ describe Project, type: :model do
 
   it 'should descendants' do
     d = Project.find(1).descendants.pluck(:id)
-    assert_equal [3,4,5,6], d.sort
+    assert_equal [3, 4, 5, 6], d.sort
   end
 
   it 'should allowed parents should be empty for non member user' do

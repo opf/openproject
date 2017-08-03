@@ -108,19 +108,19 @@ class RedmineMailHandler
     self.issue_attributes = {}
 
     opts = GetoptLong.new(
-      [ '--help',           '-h', GetoptLong::NO_ARGUMENT ],
-      [ '--version',        '-V', GetoptLong::NO_ARGUMENT ],
-      [ '--verbose',        '-v', GetoptLong::NO_ARGUMENT ],
-      [ '--url',            '-u', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--project',        '-p', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--status',         '-s', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--type',           '-t', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--category',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
-      [ '--no-permission-check',  GetoptLong::NO_ARGUMENT]
+      ['--help',           '-h', GetoptLong::NO_ARGUMENT],
+      ['--version',        '-V', GetoptLong::NO_ARGUMENT],
+      ['--verbose',        '-v', GetoptLong::NO_ARGUMENT],
+      ['--url',            '-u', GetoptLong::REQUIRED_ARGUMENT],
+      ['--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
+      ['--project',        '-p', GetoptLong::REQUIRED_ARGUMENT],
+      ['--status',         '-s', GetoptLong::REQUIRED_ARGUMENT],
+      ['--type',           '-t', GetoptLong::REQUIRED_ARGUMENT],
+      ['--category',             GetoptLong::REQUIRED_ARGUMENT],
+      ['--priority',             GetoptLong::REQUIRED_ARGUMENT],
+      ['--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
+      ['--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
+      ['--no-permission-check',  GetoptLong::NO_ARGUMENT]
     )
 
     opts.each do |opt, arg|

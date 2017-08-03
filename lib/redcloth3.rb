@@ -545,7 +545,7 @@ class RedCloth3 < String
             depth = []
             lines.each_with_index do |line, line_id|
                 if line =~ LISTS_CONTENT_RE
-                    tl,atts,content = $~[1..3]
+                    tl, atts, content = $~[1..3]
                     if depth.last
                         if depth.last.length > tl.length
                             (depth.length - 1).downto(0) do |i|
@@ -591,7 +591,7 @@ class RedCloth3 < String
         indent = 0
         lines.each do |line|
           line =~ QUOTES_CONTENT_RE
-          bq,content = $1, $2
+          bq, content = $1, $2
           l = bq.count('>')
           if l != indent
             quotes << ("\n\n" +
@@ -619,7 +619,7 @@ class RedCloth3 < String
 
     def inline_textile_code(text)
       text.gsub!(CODE_RE) do |_m|
-        before, lang,code, after = $~[1..4]
+        before, lang, code, after = $~[1..4]
         lang = " lang=\"#{ lang }\"" if lang
         rip_offtags("#{before}<code#{lang}>#{code}</code>#{after}", false)
       end
@@ -709,7 +709,7 @@ class RedCloth3 < String
 
     def block_textile_prefix( text )
         if text =~ BLOCK_RE
-            tag,tagpre,num,atts,cite,content = $~[1..6]
+            tag, tagpre, num, atts, cite, content = $~[1..6]
             atts = pba( atts )
 
             # pass to prefix handler
@@ -780,13 +780,13 @@ class RedCloth3 < String
 
                 case rtype
                 when :limit
-                    sta,oqs,qtag,content,oqa = $~[1..6]
+                    sta, oqs, qtag, content, oqa = $~[1..6]
                     atts = nil
                     if content =~ /^(#{C})(.+)$/
                       atts, content = $~[1..2]
                     end
                 else
-                    qtag,atts,cite,content = $~[1..4]
+                    qtag, atts, cite, content = $~[1..4]
                     sta = ''
                 end
                 atts = pba( atts )
@@ -819,7 +819,7 @@ class RedCloth3 < String
     #"
     def inline_textile_link( text )
         text.gsub!( LINK_RE ) do |_m|
-          all,pre,atts,text,title,url,proto,slash,post = $~[1..9]
+          all, pre, atts, text, title, url, proto, slash, post = $~[1..9]
           if text.include?('<br />')
             all
           else
@@ -941,7 +941,7 @@ class RedCloth3 < String
 
     def inline_textile_image( text )
         text.gsub!( IMAGE_RE ) do |_m|
-            stln,algn,atts,url,title,href,href_a1,href_a2 = $~[1..8]
+            stln, algn, atts, url, title, href, href_a1, href_a2 = $~[1..8]
             htmlesc title
             atts = pba( atts )
             atts = " src=\"#{ htmlesc url.dup }\"#{ atts }"

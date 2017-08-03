@@ -51,7 +51,7 @@ namespace :ldap do
     attributes = ['dn', ldap.attr_firstname, ldap.attr_lastname, ldap.attr_mail, ldap.attr_login]
 
     # Map user attributes to their ldap counterpart
-    ar_map = Hash[ %w(firstname lastname mail login).zip(attributes.drop(1)) ]
+    ar_map = Hash[%w(firstname lastname mail login).zip(attributes.drop(1))]
 
     # Parse filter string if available
     filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, 'objectClass = *')
