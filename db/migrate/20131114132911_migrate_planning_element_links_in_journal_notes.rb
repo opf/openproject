@@ -34,7 +34,7 @@ class MigratePlanningElementLinksInJournalNotes < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   COLUMNS_PER_TABLE = {
-    'journals' => { columns: ['notes'], update_journal: false },
+    'journals' => { columns: ['notes'], update_journal: false }
   }
 
   def up
