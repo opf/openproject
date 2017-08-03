@@ -50,12 +50,10 @@ describe UserPreference do
 
   it 'should update' do
     user = FactoryGirl.create :user
-    pref = FactoryGirl.create :user_preference, user: user, hide_mail: true
+    FactoryGirl.create :user_preference, user: user, hide_mail: true
     assert_equal true, user.pref.hide_mail
-
     user.pref['preftest'] = 'value'
     assert user.pref.save
-
     user.reload
     assert_equal 'value', user.pref['preftest']
   end

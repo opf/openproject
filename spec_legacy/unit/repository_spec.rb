@@ -38,7 +38,8 @@ describe Repository, type: :model do
   end
 
   it 'should create' do
-    repository = Repository::Subversion.new(project: Project.find(3), scm_type: 'existing')
+    repository = Repository::Subversion.new(project: Project.find(3),
+                                            scm_type: 'existing')
     assert !repository.save
 
     repository.url = 'svn://localhost'
@@ -52,9 +53,9 @@ describe Repository, type: :model do
   it 'should destroy' do
     changesets = Changeset.where('repository_id = 10').size
     changes = Change.includes(:changeset)
-      .where("#{Changeset.table_name}.repository_id = 10")
-      .references(:changesets)
-      .size
+                    .where("#{Changeset.table_name}.repository_id = 10")
+                    .references(:changesets)
+                    .size
     assert_difference 'Changeset.count', -changesets do
       assert_difference 'Change.count', -changes do
         Repository.find(10).destroy
@@ -107,8 +108,13 @@ describe Repository, type: :model do
     assert_equal 5, ActionMailer::Base.deliveries.size
     mail = ActionMailer::Base.deliveries.first
     assert_kind_of Mail::Message, mail
-    assert mail.subject.starts_with?("[#{fixed_work_package.project.name} - #{fixed_work_package.type.name} ##{fixed_work_package.id}]")
-    assert mail.body.encoded.include?("Status changed from #{old_status} to #{fixed_work_package.status}")
+    assert mail.subject
+               .starts_with?("[#{fixed_work_package.project.name} -
+                              #{fixed_work_package.type.name}
+                              #{fixed_work_package.id}]")
+    assert mail.body
+      .encoded.include?("Status changed from #{old_status} to
+                        #{fixed_work_package.status}")
 
     # ignoring commits referencing an issue of another project
     assert_equal [], WorkPackage.find(4).changesets
@@ -121,20 +127,23 @@ describe Repository, type: :model do
       url: 'svn://:login:password@host:/path/to/the/repository'
     )
     comment = 'This is a looooooooooooooong comment' + (' ' * 80 + "\n") * 5
-    changeset = Changeset.new(
-      comments: comment, commit_date: Time.now, revision: 0, scmid: 'f39b7922fb3c',
-      committer: 'foo <foo@example.com>', committed_on: Time.now, repository: repository)
+    changeset = Changeset.new(comments: comment,
+                              commit_date: Time.now,
+                              revision: 0,
+                              scmid: 'f39b7922fb3c',
+                              committer: 'foo <foo@example.com>',
+                              committed_on: Time.now,
+                              repository: repository)
     assert(changeset.save)
     refute_equal(comment, changeset.comments)
     assert_equal('This is a looooooooooooooong comment', changeset.comments)
   end
 
   it 'should for urls strip' do
-    repository = Repository::Subversion.create(
-      project: Project.find(4),
-      url: ' svn://:login:password@host:/path/to/the/repository',
-      scm_type: 'existing',
-      log_encoding: 'UTF-8')
+    repository = Repository::Subversion.create(project: Project.find(4),
+                                               url: 'svn://:login:password@host:/path/to/the/repository',
+                                               scm_type: 'existing',
+                                               log_encoding: 'UTF-8')
     repository.root_url = 'foo  ' # can't mass-assign this attr
     assert repository.save
     repository.reload
@@ -144,23 +153,38 @@ describe Repository, type: :model do
 
   it 'should manual user mapping' do
     assert_no_difference "Changeset.where('user_id <> 2').count" do
-      c = Changeset.create!(repository: @repository, committer: 'foo', committed_on: Time.now, revision: 100, comments: 'Committed by foo.')
+      c = Changeset.create!(repository: @repository,
+                            committer: 'foo',
+                            committed_on: Time.now,
+                            revision: 100, comments: 'Committed by foo.')
       assert_nil c.user
       @repository.committer_ids = { 'foo' => '2' }
       assert_equal User.find(2), c.reload.user
       # committer is now mapped
-      c = Changeset.create!(repository: @repository, committer: 'foo', committed_on: Time.now, revision: 101, comments: 'Another commit by foo.')
+      c = Changeset.create!(repository: @repository,
+                            committer: 'foo',
+                            committed_on: Time.now,
+                            revision: 101,
+                            comments: 'Another commit by foo.')
       assert_equal User.find(2), c.user
     end
   end
 
   it 'should auto user mapping by username' do
-    c = Changeset.create!(repository: @repository, committer: 'jsmith', committed_on: Time.now, revision: 100, comments: 'Committed by john.')
+    c = Changeset.create!(repository: @repository,
+                          committer: 'jsmith',
+                          committed_on: Time.now,
+                          revision: 100,
+                          comments: 'Committed by john.')
     assert_equal User.find(2), c.user
   end
 
   it 'should auto user mapping by email' do
-    c = Changeset.create!(repository: @repository, committer: 'john <jsmith@somenet.foo>', committed_on: Time.now, revision: 100, comments: 'Committed by john.')
+    c = Changeset.create!(repository: @repository,
+                          committer: 'john <jsmith@somenet.foo>',
+                          committed_on: Time.now,
+                          revision: 100,
+                          comments: 'Committed by john.')
     assert_equal User.find(2), c.user
   end
 end

@@ -156,10 +156,12 @@ describe User, type: :model do
     end
 
     it 'should select the exact matching user first' do
-      case_sensitive_user = FactoryGirl.create(:user, login: 'changed', password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
+      case_sensitive_user = FactoryGirl.create(:user,
+                                               login: 'changed',
+                                               password: 'adminADMIN!',
+                                               password_confirmation: 'adminADMIN!')
       # bypass validations to make it appear like existing data
       case_sensitive_user.update_attribute(:login, 'ADMIN')
-
       user = User.try_to_login('ADMIN', 'adminADMIN!')
       assert_kind_of User, user
       assert_equal 'ADMIN', user.login
@@ -407,7 +409,6 @@ describe User, type: :model do
   context '#allowed_to?' do
     context 'with a unique project' do
       it 'should return false if project is archived' do
-        project = Project.find(1)
         allow_any_instance_of(Project).to receive(:status).and_return(Project::STATUS_ARCHIVED)
         assert !@admin.allowed_to?(:view_work_packages, Project.find(1))
       end
