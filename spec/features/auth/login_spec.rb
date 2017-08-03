@@ -52,7 +52,7 @@ describe 'Login', type: :feature do
                          firstname: 'Bo',
                          lastname: 'B',
                          password: user_password,
-                         password_confirmation: user_password,
+                         password_confirmation: user_password
                         )
     end
 

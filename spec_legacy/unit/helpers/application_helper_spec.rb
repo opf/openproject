@@ -225,7 +225,7 @@ RAW
       # source
       'source:/some/file'                     => 'source:/some/file',
       "#{@project.identifier}:source:/some/file" => source_link,
-      'invalid:source:/some/file' => 'invalid:source:/some/file',
+      'invalid:source:/some/file' => 'invalid:source:/some/file'
     )
 
     # helper.format_text "sees" the text is parses from the_other_project (and not @project)
