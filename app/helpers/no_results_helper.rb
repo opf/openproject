@@ -29,7 +29,6 @@
 #++
 
 module NoResultsHelper
-
   # Helper to render the /common/no_results partial custamizable content.
   # Example usage:
   # no_results_box action_url: new_project_version_path(@project),

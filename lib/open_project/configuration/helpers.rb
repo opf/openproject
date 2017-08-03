@@ -34,7 +34,6 @@ module OpenProject
     # To be included into OpenProject::Configuration in order to provide
     # helper methods for easier access to certain configuration options.
     module Helpers
-
       ##
       # Carrierwave storage type. Possible values are, among others, :file and :fog.
       # The latter requires further configuration.

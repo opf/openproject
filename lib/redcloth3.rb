@@ -319,7 +319,9 @@ class RedCloth3 < String
     end
 
   #######
+
   private
+
     #######
     #
     # Mapping of 8-bit ASCII codes to HTML numerical entity equivalents.
