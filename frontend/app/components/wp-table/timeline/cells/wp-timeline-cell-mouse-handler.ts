@@ -217,7 +217,7 @@ export function registerWorkPackageMouseHandler(this: void,
       renderInfo.changeset.clear();
       renderer.update(bar, renderInfo);
       workPackageTimeline.refreshView();
-    } else {
+    } else if (!renderInfo.changeset.empty) {
       // Persist the changes
       saveWorkPackage(renderInfo.changeset)
         .finally(() => {
