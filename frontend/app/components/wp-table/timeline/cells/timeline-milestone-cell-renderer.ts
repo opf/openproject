@@ -216,7 +216,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     if (!activeDragNDrop) {
       // normal display
-      if (labels.labelRight) {
+      if (labels.labelRight && date) {
         labels.labelRight.textContent = this.TimezoneService.formattedDate(date);
       }
       if (labels.labelFarRight) {
