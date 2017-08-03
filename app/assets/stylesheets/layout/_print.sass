@@ -22,8 +22,12 @@
     background: #fff
     overflow: visible !important
 
+    &.hidden-navigation
+      width: 99%
+      margin-left: 0
+
   #wiki_add_attachment
-    display:none
+    display: none
 
   .hide-when-print
     display: none
@@ -70,24 +74,57 @@
           position: relative // For printing in FF
           margin: 0
           width: 100%
-          padding: 10px
+          padding: 0
           overflow: visible !important
+
+          &.hidden-navigation
+            width: 99%
+            margin-left: 0
+
           .work-packages-list-view--container
-            display: block
+            // display: block
+            padding-left: 0
+            .toolbar-container
+              // display: none
             .work-packages-split-view
               overflow: visible
-              display: block // For printing in FF
+              // display: block // For printing in FF
               .work-packages-split-view--tabletimeline-side
-                display: block // For printing in FF
+                // display: block // For printing in FF
                 .work-packages-split-view--tabletimeline-content
-                  display: block // For printing in FF
+                  // display: block // For printing in FF
+
+                  .wp-table--hierarchy-aditional-row,
+                  tr.-checked,
+                  .row-hovered
+                    // Remove highlighting of first and selected rows:
+                    background-color: transparent
 
               .work-packages-tabletimeline--table-side
-                contain: initial // For printing in Chrome
+                contain: initial // For printing in Chrome§
+                overflow: visible
 
-                .wp-table--hierarchy-aditional-row
-                  background-color: transparent // remove highlighting of first row
+                &:not(.-timeline-visible)
+                  // Only repeat table header when only table visible and no
+                  // timelines.
+                  thead.-sticky th
+                    position: initial
 
+                &.-timeline-visible
+                  thead
+                    // Do not repeat header on second printed page
+                    display: block
+
+                .wp-table--details-column
+                  display: none // remove column for info icon.
+
+
+                .wp-inline-create-button-row
+                  display: none // remove row with plus icon
+
+              .work-packages-tabletimeline--timeline-side
+                .wp-timeline-cell
+                  page-break-inside: avoid
 
       .work-packages--list-table-area
         height: 100%
