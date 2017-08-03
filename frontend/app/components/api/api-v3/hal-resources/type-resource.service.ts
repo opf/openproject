@@ -50,10 +50,6 @@ export class TypeResource extends HalResource {
     });
   }
 
-  public idFromLink():string {
-    return this.$href!.split('/').pop()!;
-  }
-
   public get state() {
     return states.types.get(this.href as string);
   }

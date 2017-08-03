@@ -71,6 +71,18 @@ export class HalResource {
 
   public _name:string;
 
+  public static idFromLink(href:string):string {
+    return href.split('/').pop()!;
+  }
+
+  public get idFromLink():string {
+    if (this.$href) {
+      return HalResource.idFromLink(this.$href);
+    }
+
+    return '';
+  }
+
   public get $isHal():boolean {
     return true;
   }

@@ -137,7 +137,7 @@ export class WorkPackageCreateController {
 
       const hasChanges = !changeset.empty;
       const typeEmpty = (!changeType && !type);
-      const typeMatches = (changeType && changeType.idFromLink() === type.toString());
+      const typeMatches = (changeType && changeType.idFromLink === type.toString());
 
       if (hasChanges && (typeEmpty || typeMatches)) {
         return this.$q.when(changeset);

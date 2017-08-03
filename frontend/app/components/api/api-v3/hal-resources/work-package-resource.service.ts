@@ -130,18 +130,6 @@ export class WorkPackageResource extends HalResource {
     return this.$source.id || this.idFromLink;
   }
 
-  public static idFromLink(href:string):string {
-    return href.split('/').pop()!;
-  }
-
-  public get idFromLink():string {
-    if (this.href) {
-      return WorkPackageResource.idFromLink(this.href);
-    }
-
-    return '';
-  }
-
   /**
    * Return the ids of all its ancestors, if any
    */
