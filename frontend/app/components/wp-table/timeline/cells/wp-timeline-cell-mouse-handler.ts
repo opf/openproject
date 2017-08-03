@@ -210,18 +210,18 @@ export function registerWorkPackageMouseHandler(this: void,
     mouseDownStartDay = null;
     dateStates = {};
 
-    renderer.onMouseDownEnd(labels, renderInfo.changeset);
-
     // const renderInfo = getRenderInfo();
     if (cancelled) {
       renderInfo.changeset.clear();
       renderer.update(bar, renderInfo);
+      renderer.onMouseDownEnd(labels, renderInfo.changeset);
       workPackageTimeline.refreshView();
     } else if (!renderInfo.changeset.empty) {
       // Persist the changes
       saveWorkPackage(renderInfo.changeset)
         .finally(() => {
           renderInfo.changeset.clear();
+          renderer.onMouseDownEnd(labels, renderInfo.changeset);
           workPackageTimeline.refreshView();
         });
     }
