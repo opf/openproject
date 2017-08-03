@@ -249,7 +249,7 @@ module ApplicationHelper
       identifier = element[:project].id
       tag_options = {
         value: h(identifier),
-        title: h(element[:project].name),
+        title: h(element[:project].name)
       }
 
       if !selected.nil? && selected.id == identifier

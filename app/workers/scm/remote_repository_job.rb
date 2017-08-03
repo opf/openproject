@@ -98,7 +98,7 @@ class Scm::RemoteRepositoryJob < ApplicationJob
       project: {
         id: project.id,
         name: project.name,
-        identifier: project.identifier,
+        identifier: project.identifier
       }
     }
   end

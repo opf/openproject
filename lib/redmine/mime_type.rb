@@ -79,7 +79,7 @@ module Redmine
       'video/x-ms-wmv' => 'wmv',
       'video/quicktime' => 'qt,mov',
       'video/vnd.vivo' => 'viv,vivo',
-      'video/x-msvideo' => 'avi',
+      'video/x-msvideo' => 'avi'
     }.freeze
 
     EXTENSIONS = MIME_TYPES.inject({}) { |map, (type, exts)|

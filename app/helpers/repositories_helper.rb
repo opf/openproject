@@ -246,7 +246,7 @@ module RepositoriesHelper
                data: {
                  remote: true,
                  url: url_for(controller: '/repositories',
-                              action: 'edit', project_id: @project.id),
+                              action: 'edit', project_id: @project.id)
                },
                disabled: (repository && !repository.new_record?)
               )

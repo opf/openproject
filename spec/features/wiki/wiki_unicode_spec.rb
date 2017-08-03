@@ -65,7 +65,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
       'base-de-donnees',
       'base-de-donnees',
       'base-de-donnees-1',
-      'alert-foo',
+      'alert-foo'
     ]
   }
 

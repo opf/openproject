@@ -235,11 +235,11 @@ describe Api::V2::PlanningElementsController, type: :controller do
         before do
           @project_a_wps = [
             FactoryGirl.create(:work_package, project_id: project_a.id),
-            FactoryGirl.create(:work_package, project_id: project_a.id),
+            FactoryGirl.create(:work_package, project_id: project_a.id)
           ]
           @project_b_wps = [
             FactoryGirl.create(:work_package, project_id: project_b.id),
-            FactoryGirl.create(:work_package, project_id: project_b.id),
+            FactoryGirl.create(:work_package, project_id: project_b.id)
           ]
           @project_c_wps = [
             FactoryGirl.create(:work_package, project_id: project_c.id),

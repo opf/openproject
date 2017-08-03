@@ -419,7 +419,7 @@ describe Repository::Git, type: :model do
               "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89')
             expect(changesets.map(&:revision))
               .to eq(['64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
-                      '4fc55c43bf3d3dc2efb66145365ddc17639ce81e',
+                      '4fc55c43bf3d3dc2efb66145365ddc17639ce81e'
                      ])
 
             changesets = instance.latest_changesets(

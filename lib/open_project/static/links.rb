@@ -90,7 +90,7 @@ module OpenProject
             api_docs: {
               href: 'https://www.openproject.org/api',
               label: :label_api_documentation
-            },
+            }
           }
         end
       end

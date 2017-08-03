@@ -40,7 +40,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration[4.2]
     # 'end_date' => 'due_date',
     'planning_element_types' => 'type',
     'project_type' => 'type',
-    'project_status' => 'status',
+    'project_status' => 'status'
   }
 
   def up

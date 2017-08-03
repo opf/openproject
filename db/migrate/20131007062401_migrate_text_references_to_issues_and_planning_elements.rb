@@ -39,7 +39,7 @@ class MigrateTextReferencesToIssuesAndPlanningElements < ActiveRecord::Migration
     'news' => { columns: ['summary', 'description'], update_journal: false },
     'projects' => { columns: ['description'], update_journal: false },
     'wiki_contents' => { columns: ['text'], update_journal: true },
-    'work_packages' => { columns: ['description'], update_journal: true },
+    'work_packages' => { columns: ['description'], update_journal: true }
   }
 
   def up
