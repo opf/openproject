@@ -44,7 +44,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   def prepend(child)
     raise(ArgumentError, 'Child already added') if @children_hash.has_key?(child.name)
 
-    @children_hash[child.name]  = child
+    @children_hash[child.name] = child
     @children = [child] + @children
     child.parent = self
     child
@@ -56,7 +56,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   def add_at(child, position)
     raise(ArgumentError, 'Child already added') if @children_hash.has_key?(child.name)
 
-    @children_hash[child.name]  = child
+    @children_hash[child.name] = child
     @children = @children.insert(position, child)
     child.parent = self
     child
@@ -65,7 +65,7 @@ class Redmine::MenuManager::TreeNode < Tree::TreeNode
   def add_last(child)
     raise(ArgumentError, 'Child already added') if @children_hash.has_key?(child.name)
 
-    @children_hash[child.name]  = child
+    @children_hash[child.name] = child
     @children << child
     @last_items_count += 1
     child.parent = self

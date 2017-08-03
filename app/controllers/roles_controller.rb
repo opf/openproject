@@ -94,7 +94,7 @@ class RolesController < ApplicationController
     redirect_to action: 'index'
     notify_changed_roles(:removed, @role)
   rescue
-    flash[:error] =  l(:error_can_not_remove_role)
+    flash[:error] = l(:error_can_not_remove_role)
     redirect_to action: 'index'
   end
 

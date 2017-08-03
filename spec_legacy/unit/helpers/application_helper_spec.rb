@@ -190,7 +190,7 @@ RAW
 
     to_test = {
       # versions
-      'version:"1.0"'                         => 'version:"1.0"',
+      'version:"1.0"' => 'version:"1.0"',
       "#{@project.identifier}:version:\"1.0\"" => "<a class=\"version\" href=\"/versions/#{version.id}\">1.0</a>",
       'invalid:version:"1.0"'                 => 'invalid:version:"1.0"'
     }
@@ -220,12 +220,12 @@ RAW
     to_test.merge!(
       # changeset
       "r#{changeset.revision}"                => "r#{changeset.revision}",
-      "#{@project.identifier}:r#{changeset.revision}"  => changeset_link,
+      "#{@project.identifier}:r#{changeset.revision}" => changeset_link,
       "invalid:r#{changeset.revision}"        => "invalid:r#{changeset.revision}",
       # source
       'source:/some/file'                     => 'source:/some/file',
-      "#{@project.identifier}:source:/some/file"       => source_link,
-      'invalid:source:/some/file'             => 'invalid:source:/some/file',
+      "#{@project.identifier}:source:/some/file" => source_link,
+      'invalid:source:/some/file' => 'invalid:source:/some/file',
     )
 
     # helper.format_text "sees" the text is parses from the_other_project (and not @project)

@@ -828,9 +828,9 @@ class RedCloth3 < String
 
             # Idea below : an URL with unbalanced parethesis and
             # ending by ')' is put into external parenthesis
-            if ( url[-1]==?) and ((url.count("(") - url.count(")")) < 0 ) )
-              url=url[0..-2] # discard closing parenth from url
-              post = ")"+post # add closing parenth to post
+            if ( url[-1] == ?) and ((url.count("(") - url.count(")")) < 0 ) )
+              url = url[0..-2] # discard closing parenth from url
+              post = ")" + post # add closing parenth to post
             end
             atts = pba( atts )
             atts = " href=\"#{ htmlesc url }#{ slash }\"#{ atts }"

@@ -87,14 +87,14 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should use of backslashes followed by numbers in headers' do
     assert_html_output({
-                         'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
+                         'h1. 2009\02\09' => '<h1>2009\02\09</h1>'
                        }, false)
   end
 
   it 'should double dashes should not strikethrough' do
     assert_html_output(
-      'double -- dashes -- test'  => 'double -- dashes -- test',
-      'double -- *dashes* -- test'  => 'double -- <strong>dashes</strong> -- test'
+      'double -- dashes -- test' => 'double -- dashes -- test',
+      'double -- *dashes* -- test' => 'double -- <strong>dashes</strong> -- test'
     )
   end
 

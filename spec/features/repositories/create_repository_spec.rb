@@ -96,7 +96,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
 
         expect(scm_type.value).to eq(type)
 
-        content = find("#"+"#{vendor}-#{type}", visible: false)
+        content = find("#" + "#{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
         scm_type.should be_checked
       end
@@ -110,7 +110,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
         expect(selector[:selected]).to be_falsey
         expect(selector[:disabled]).to be_falsey
 
-        content = find("#"+"#{vendor}-#{type}", visible: false)
+        content = find("#" + "#{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
         expect(content[:style]).to match("display: none")
       end
@@ -125,7 +125,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
         content = find("#attributes-group--content-#{type}")
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
-        content = find("#"+"#{vendor}-#{type}", visible: false)
+        content = find("#" + "#{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
         expect(content[:style]).not_to match("display: none")
 
@@ -133,7 +133,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
         content = find('#attributes-group--content-managed')
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
-        content = find("#"+"#{vendor}-managed", visible: false)
+        content = find("#" + "#{vendor}-managed", visible: false)
         expect(content).not_to be_nil
         expect(content[:style]).not_to match("display: none")
       end
