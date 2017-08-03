@@ -192,7 +192,7 @@ module TimelogHelper
   end
 
   def polymorphic_new_time_entry_path(object)
-    polymorphic_path([:new, object, :time_entry,])
+    polymorphic_path([:new, object, :time_entry])
   end
 
   def polymorphic_time_entries_report_path(object)

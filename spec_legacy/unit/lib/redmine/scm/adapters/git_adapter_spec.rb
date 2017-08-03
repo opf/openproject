@@ -77,14 +77,14 @@ describe OpenProject::Scm::Adapters::Git, type: :model do
       'latin-1-path-encoding',
       'master',
       'test-latin-1',
-      'test_branch',
+      'test_branch'
     ], @adapter.branches
   end
 
   it 'should tags' do
     assert_equal [
       'tag00.lightweight',
-      'tag01.annotated',
+      'tag01.annotated'
     ], @adapter.tags
   end
 

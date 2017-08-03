@@ -104,7 +104,7 @@ describe RepositoriesController, 'Git', type: :controller do
     @repository.reload
     [
       'tag00.lightweight',
-      'tag01.annotated',
+      'tag01.annotated'
     ].each do |t1|
       get :show, params: { project_id: 3, rev: t1 }
       assert_response :success
