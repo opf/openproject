@@ -85,7 +85,7 @@ module UsersHelper
     [:locked, true]      => [[:unlock_and_reset_failed_logins, 'unlock']],
     [:registered, false] => [[:activate, 'activate']],
     [:registered, true]  => [[:activate_and_reset_failed_logins, 'activate']]
-  }
+  }.freeze
 
   # Create buttons to lock/unlock a user and reset failed logins
   def build_change_user_status_action(user)

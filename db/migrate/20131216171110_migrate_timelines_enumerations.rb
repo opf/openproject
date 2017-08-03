@@ -29,7 +29,7 @@
 #++
 
 class MigrateTimelinesEnumerations < ActiveRecord::Migration[4.2]
-  PROJECT_STATUS_TYPE_NAME = { 'Timelines::ReportedProjectStatus' => 'ReportedProjectStatus' }
+  PROJECT_STATUS_TYPE_NAME = { 'Timelines::ReportedProjectStatus' => 'ReportedProjectStatus' }.freeze
 
   def up
     migrate_reported_project_statuses(PROJECT_STATUS_TYPE_NAME)

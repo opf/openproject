@@ -162,7 +162,7 @@ module Migration::Utils
       }
     end
 
-    COLUMNS = ['changed_data', 'version', 'journaled_id']
+    COLUMNS = ['changed_data', 'version', 'journaled_id'].freeze
 
     def invalid_custom_values(legacy_journal_type)
       result = []

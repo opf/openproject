@@ -62,7 +62,7 @@
 
 module OpenProject
   class FileCommandContentTypeDetector
-    SENSIBLE_DEFAULT = 'application/binary'
+    SENSIBLE_DEFAULT = 'application/binary'.freeze
 
     def initialize(filename)
       @filename = filename

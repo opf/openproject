@@ -40,7 +40,7 @@ class MigrateTextReferencesToIssuesAndPlanningElements < ActiveRecord::Migration
     'projects' => { columns: ['description'], update_journal: false },
     'wiki_contents' => { columns: ['text'], update_journal: true },
     'work_packages' => { columns: ['description'], update_journal: true }
-  }
+  }.freeze
 
   def up
     COLUMNS_PER_TABLE.each_pair do |table, options|

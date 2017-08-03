@@ -44,7 +44,7 @@ describe Redmine::WikiFormatting::Textile::Formatter do
     '-' => 'del',    # deleted
     '^' => 'sup',    # superscript
     '~' => 'sub'     # subscript
-  }
+  }.freeze
 
   it 'should modifiers' do
     assert_html_output(

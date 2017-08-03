@@ -38,7 +38,7 @@ module Redmine
         include ActionView::Helpers::TagHelper
 
         # auto_link rule after textile rules so that it doesn't break !image_url! tags
-        RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto]
+        RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto].freeze
 
         def initialize(*args)
           super

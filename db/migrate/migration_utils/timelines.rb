@@ -36,9 +36,9 @@ module Migration
   module Utils
     TimelineWithHistoricalComparison = Struct.new(:id, :from_date, :to_date)
 
-    OPTIONS_COLUMN = 'options'
-    HISTORICAL_DATE_FROM = 'compare_to_historical_one'
-    HISTORICAL_DATE_TO = 'compare_to_historical_two'
+    OPTIONS_COLUMN = 'options'.freeze
+    HISTORICAL_DATE_FROM = 'compare_to_historical_one'.freeze
+    HISTORICAL_DATE_TO = 'compare_to_historical_two'.freeze
 
     def timelines_with_historical_comparisons
       timelines = select_all <<-SQL

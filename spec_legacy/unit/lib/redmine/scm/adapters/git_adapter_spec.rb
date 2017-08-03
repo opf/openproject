@@ -36,9 +36,9 @@ require 'legacy_spec_helper'
 describe OpenProject::Scm::Adapters::Git, type: :model do
   let(:git_repository_path) { Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository' }
 
-  FELIX_UTF8 = 'Felix Schäfer'
-  FELIX_HEX  = "Felix Sch\xC3\xA4fer"
-  CHAR_1_HEX = "\xc3\x9c"
+  FELIX_UTF8 = 'Felix Schäfer'.freeze
+  FELIX_HEX  = "Felix Sch\xC3\xA4fer".freeze
+  CHAR_1_HEX = "\xc3\x9c".freeze
 
   ## Ruby uses ANSI api to fork a process on Windows.
   ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem

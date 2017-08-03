@@ -44,7 +44,7 @@ class Project < ActiveRecord::Base
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w( new level_list )
+  RESERVED_IDENTIFIERS = %w( new level_list ).freeze
 
   # Specific overridden Activities
   has_many :time_entry_activities

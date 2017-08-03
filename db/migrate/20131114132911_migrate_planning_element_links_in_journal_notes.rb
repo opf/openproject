@@ -35,7 +35,7 @@ class MigratePlanningElementLinksInJournalNotes < ActiveRecord::Migration[4.2]
 
   COLUMNS_PER_TABLE = {
     'journals' => { columns: ['notes'], update_journal: false }
-  }
+  }.freeze
 
   def up
     COLUMNS_PER_TABLE.each_pair do |table, options|

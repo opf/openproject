@@ -38,7 +38,7 @@ class UserSearchService
     'group_id',
     'status',
     'name'
-  ]
+  ].freeze
 
   def initialize(params, users_only: false)
     self.params = params

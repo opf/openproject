@@ -56,7 +56,7 @@ class MyController < ApplicationController
                       'right' => ['issuesreportedbyme']
                    }.freeze
 
-  DRAG_AND_DROP_CONTAINERS = ['top', 'left', 'right']
+  DRAG_AND_DROP_CONTAINERS = ['top', 'left', 'right'].freeze
 
   verify xhr: true,
          only: [:add_block, :remove_block, :order_blocks]

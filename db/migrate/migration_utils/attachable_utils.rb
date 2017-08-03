@@ -107,7 +107,7 @@ module Migration::Utils
       }
     end
 
-    COLUMNS = ['changed_data', 'version', 'journaled_id']
+    COLUMNS = ['changed_data', 'version', 'journaled_id'].freeze
 
     def invalid_attachments(legacy_journal_type)
       result = []

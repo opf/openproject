@@ -100,7 +100,7 @@ module Net
 end
 
 class RedmineMailHandler
-  VERSION = '0.1'
+  VERSION = '0.1'.freeze
 
   attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key
 

@@ -39,8 +39,8 @@ describe Repository::Git, type: :model do
     path
   }
 
-  FELIX_HEX2  = "Felix Sch\xC3\xA4fer"
-  CHAR_1_HEX2 = "\xc3\x9c"
+  FELIX_HEX2  = "Felix Sch\xC3\xA4fer".freeze
+  CHAR_1_HEX2 = "\xc3\x9c".freeze
 
   ## Ruby uses ANSI api to fork a process on Windows.
   ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem

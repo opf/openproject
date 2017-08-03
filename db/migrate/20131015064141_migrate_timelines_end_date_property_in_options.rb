@@ -33,11 +33,11 @@ require_relative 'migration_utils/timelines'
 class MigrateTimelinesEndDatePropertyInOptions < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
-  COLUMN = 'options'
+  COLUMN = 'options'.freeze
 
   OPTIONS = {
     'end_date' => 'due_date'
-  }
+  }.freeze
 
   def up
     say_with_time_silently 'Update timelines options' do

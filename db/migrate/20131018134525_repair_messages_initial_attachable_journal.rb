@@ -34,7 +34,7 @@ class RepairMessagesInitialAttachableJournal < ActiveRecord::Migration[4.2]
   include Migration::Utils
   include Migration::Utils::AttachableUtils
 
-  JOURNAL_TYPE = 'Message'
+  JOURNAL_TYPE = 'Message'.freeze
 
   def up
     say_with_time_silently "Repair message's initial attachable journals" do

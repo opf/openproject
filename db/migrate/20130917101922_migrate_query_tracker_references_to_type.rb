@@ -35,7 +35,7 @@ require_relative 'migration_utils/queries'
 class MigrateQueryTrackerReferencesToType < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
-  KEY = { 'tracker_id' => 'type_id', 'tracker' => 'type' }
+  KEY = { 'tracker_id' => 'type_id', 'tracker' => 'type' }.freeze
 
   def up
     say_with_time_silently 'Update tracker references in queries' do

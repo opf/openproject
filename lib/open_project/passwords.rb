@@ -42,7 +42,7 @@ module OpenProject
       RULES = { 'uppercase' => /.*[A-Z].*/u,
                 'lowercase' => /.*[a-z].*/u,
                 'special'   => /.*[^\da-zA-Z].*/u,
-                'numeric'   => /.*\d.*/u }
+                'numeric'   => /.*\d.*/u }.freeze
       # Check whether password conforms to password complexity settings.
       # Checks complexity rules and password length.
       def self.conforming?(password)

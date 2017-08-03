@@ -35,7 +35,7 @@ class MigrateRemainingCoreSettings < ActiveRecord::Migration[4.2]
     'issue_status' => 'status',
     'issue_field' => 'field',
     'updated_on' => 'updated_at'
-  }
+  }.freeze
   def self.up
     # Delete old plugin settings no longer needed
     ActiveRecord::Base.connection.execute <<-SQL

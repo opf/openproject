@@ -34,8 +34,8 @@ class RepairWorkPackagesInitialAttachableJournal < ActiveRecord::Migration[4.2]
   include Migration::Utils
   include Migration::Utils::AttachableUtils
 
-  LEGACY_JOURNAL_TYPE = 'IssueJournal'
-  JOURNAL_TYPE = 'WorkPackage'
+  LEGACY_JOURNAL_TYPE = 'IssueJournal'.freeze
+  JOURNAL_TYPE = 'WorkPackage'.freeze
 
   def up
     say_with_time_silently 'Repair initial attachable journals' do

@@ -79,7 +79,7 @@ class WikiPage < ActiveRecord::Base
   }
 
   # Wiki pages that are protected by default
-  DEFAULT_PROTECTED_PAGES = %w(sidebar)
+  DEFAULT_PROTECTED_PAGES = %w(sidebar).freeze
 
   after_destroy :delete_wiki_menu_item
 

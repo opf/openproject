@@ -34,7 +34,7 @@ module OpenProject
   module Configuration
     extend Helpers
 
-    ENV_PREFIX = 'OPENPROJECT_'
+    ENV_PREFIX = 'OPENPROJECT_'.freeze
 
     # Configuration default values
     @defaults = {

@@ -39,7 +39,7 @@ class Principal < ActiveRecord::Base
     registered: 2,
     locked: 3,
     invited: 4
-  }
+  }.freeze
 
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
