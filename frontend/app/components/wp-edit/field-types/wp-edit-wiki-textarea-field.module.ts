@@ -28,6 +28,7 @@
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {$injectFields, $injectNow} from '../../angular/angular-injector-bridge.functions';
 
 export class WikiTextareaEditField extends EditField {
 
@@ -35,41 +36,42 @@ export class WikiTextareaEditField extends EditField {
   public template:string = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
 
   // Dependencies
-  protected $sce:ng.ISCEService = <ng.ISCEService> WikiTextareaEditField.$injector.get('$sce');
-  protected $http:ng.IHttpService = <ng.IHttpService> WikiTextareaEditField.$injector.get('$http');
-  protected TextileService:ng.IServiceProvider = <ng.ISCEProvider> WikiTextareaEditField.$injector.get('TextileService');
-  protected $timeout:ng.ITimeoutService = <ng.ITimeoutService> WikiTextareaEditField.$injector.get('$timeout');
-  protected I18n:op.I18n = <op.I18n> WikiTextareaEditField.$injector.get('I18n');
-
-  // wp resource
-  protected workPackage:WorkPackageResource;
+  protected $sce:ng.ISCEService;
+  protected $http:ng.IHttpService;
+  protected TextileService:ng.IServiceProvider;
+  protected $timeout:ng.ITimeoutService;
+  protected I18n:op.I18n;
 
   // Values used in template
-  public fieldVal:any;
   public isBusy:boolean = false;
   public isPreview:boolean = false;
   public previewHtml:string;
+  public text:Object;
 
-  public text: Object;
+  protected initialize() {
+    $injectFields(this, '$sce', '$http', 'TextileService', '$timeout', 'I18n');
 
-
-  constructor(workPackage:WorkPackageResource, fieldName:string, schema:op.FieldSchema) {
-    super(workPackage, fieldName, schema);
-
-    this.fieldVal = workPackage[fieldName];
-    this.workPackage = workPackage;
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
-      save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
-      cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
+      save: this.I18n.t('js.inplace.button_save', {attribute: this.schema.name}),
+      cancel: this.I18n.t('js.inplace.button_cancel', {attribute: this.schema.name})
     };
+  }
+
+  public get rawValue() {
+    const formatted = this.value;
+    return _.get(formatted, 'raw', '');
+  }
+
+  public set rawValue(val:string) {
+    this.value = {raw: val};
   }
 
   public get isFormattable() {
     return true;
   }
 
-  public isEmpty(): boolean {
+  public isEmpty():boolean {
     return !(this.value && this.value.raw);
   }
 
@@ -85,18 +87,18 @@ export class WikiTextareaEditField extends EditField {
     this.isPreview = !this.isPreview;
     this.previewHtml = '';
 
-    if (!this.fieldVal.raw) {
+    if (!this.rawValue) {
       return;
     }
 
     if (this.isPreview) {
       this.isBusy = true;
-      this.workPackage.getForm().then((form:any) => {
+      this.changeset.getForm().then((form:any) => {
         const link = form.previewMarkup.$link;
         this.$http({
           method: link.method,
           url: link.href,
-          data: this.fieldVal.raw,
+          data: this.rawValue,
           headers: {'Content-Type': 'text/plain; charset=UTF-8'}
         })
           .then(result => {

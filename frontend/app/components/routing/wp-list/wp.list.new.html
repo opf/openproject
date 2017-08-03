@@ -2,29 +2,30 @@
     class="work-packages--details"
     ng-if="$ctrl.newWorkPackage"
 >
-  <div class="work-packages--details-content -create-mode">
-    <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel"></span>
-    <div has-edit-mode="true"
-         wp-edit-form="$ctrl.newWorkPackage"
-         wp-edit-form-on-save="$ctrl.refreshAfterSave(workPackage, 'work-packages.list.details.overview')">
-      <h2>
-        <div class="work-packages-show-view-button wp--details--switch-fullscreen hidden-for-accessibility"
-             ng-click="$ctrl.switchToFullscreen()">
-          <span class="icon-context icon-to-fullscreen"></span>
-        </div>
-        {{ $ctrl.header }}
-      </h2>
-      <wp-edit-field-group work-package-id="$ctrl.newWorkPackage.id" in-edit-mode="true">
-        <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
-        <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
-      </wp-edit-field-group>
+  <wp-edit-field-group work-package="$ctrl.newWorkPackage"
+                       success-state="$ctrl.successState"
+                       in-edit-mode="true">
+    <div class="work-packages--details-content -create-mode">
+      <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="focusAnchorLabel"></span>
+      <div has-edit-mode="true"
+           wp-edit-form="$ctrl.newWorkPackage"
+           wp-edit-form-on-save="$ctrl.refreshAfterSave(workPackage, 'work-packages.list.details.overview')">
+        <h2>
+          <div class="work-packages-show-view-button wp--details--switch-fullscreen hidden-for-accessibility"
+               ng-click="$ctrl.switchToFullscreen()">
+            <span class="icon-context icon-to-fullscreen"></span>
+          </div>
+          {{ $ctrl.header }}
+        </h2>
+          <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
+          <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
+      </div>
     </div>
-  </div>
 
-  <div class="work-packages--details-toolbar-container">
-    <edit-actions-bar
-        on-save="$ctrl.saveWorkPackage()"
-        on-cancel="$ctrl.cancelAndBackToList()"
-    ></edit-actions-bar>
-  </div>
+    <div class="work-packages--details-toolbar-container">
+      <edit-actions-bar
+          on-cancel="$ctrl.cancelAndBackToList()"
+      ></edit-actions-bar>
+    </div>
+  </wp-edit-field-group>
 </div>

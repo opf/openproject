@@ -35,16 +35,24 @@ import {SingleViewEditContext} from '../../wp-edit-form/single-view-edit-context
 import {input} from 'reactivestates';
 import {scopeDestroyed$} from '../../../helpers/angular-rx-utils';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
+import {WorkPackageNotificationService} from '../wp-notification.service';
 
 export class WorkPackageEditFieldGroupController {
-  public workPackageId:string;
+  public workPackage:WorkPackageResourceInterface
+  public successState?:string;
   public inEditMode:boolean;
+  public form:WorkPackageEditForm;
   public fields:{ [attribute:string]:WorkPackageEditFieldController } = {};
   private registeredFields = input<string[]>();
+  private unregisterListener:Function;
 
   constructor(protected $scope:ng.IScope,
+              protected $state:ng.ui.IStateService,
               protected states:States,
               protected wpEditing:WorkPackageEditingService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpTableSelection:WorkPackageTableSelection,
               protected $rootScope:ng.IRootScopeService,
               protected $window:ng.IWindowService,
               protected ConfigurationService:any,
@@ -53,10 +61,14 @@ export class WorkPackageEditFieldGroupController {
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
-    $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+    this.unregisterListener = $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+      if (!this.editMode) {
+        return;
+      }
+
       // Show confirmation message when transitioning to a new state
       // that's not withing the edit mode.
-      if (this.isEditing && !this.allowedStateChange(toState, toParams, fromState, fromParams)) {
+      if (!this.allowedStateChange(toState, toParams, fromState, fromParams)) {
         if (requiresConfirmation && !$window.confirm(confirmText)) {
           return event.preventDefault();
         }
@@ -64,14 +76,22 @@ export class WorkPackageEditFieldGroupController {
         this.stop();
       }
     });
+    
+    $scope.$on('$destroy', () => {
+      this.unregisterListener();
+      this.form.destroy();
+    });
   }
 
   public $onInit() {
-    this.states.workPackages.get(this.workPackageId)
+    const context = new SingleViewEditContext(this);
+    this.form = WorkPackageEditForm.createInContext(context, this.workPackage, this.inEditMode);
+
+    this.states.workPackages.get(this.workPackage.id)
       .values$()
       .takeUntil(scopeDestroyed$(this.$scope))
       .subscribe((wp) => {
-        _.each(this.fields, (ctrl) => this.update(ctrl, wp));
+        _.each(this.fields, (ctrl) => this.updateDisplayField(ctrl, wp));
       });
 
     if (this.inEditMode) {
@@ -79,23 +99,21 @@ export class WorkPackageEditFieldGroupController {
     }
   }
 
-  public get isEditing() {
-    const form = this.editingForm;
-    return (form && form.editMode);
+  public get editMode() {
+    return this.inEditMode && this.form.editMode;
   }
 
   public register(field:WorkPackageEditFieldController) {
     this.fields[field.fieldName] = field;
     this.registeredFields.putValue(_.keys(this.fields));
-    const form = this.editingForm;
 
-    if (form && form.editMode) {
-      field.activateOnForm(form, true);
+    if (this.inEditMode) {
+      field.activateOnForm(this.form, true);
     } else {
       this.states.workPackages
-        .get(this.workPackageId)
+        .get(this.workPackage.id)
         .valuesPromise()
-        .then(wp => this.update(field, wp!));
+        .then(wp => this.updateDisplayField(field, wp!));
     }
   }
 
@@ -109,26 +127,33 @@ export class WorkPackageEditFieldGroupController {
   }
 
   public start() {
-    const form = this.wpEditing.startEditing(this.workPackageId, this.editContext, true);
-    _.each(this.fields, ctrl => form.activate(ctrl.fieldName));
+    _.each(this.fields, ctrl => this.form.activate(ctrl.fieldName));
   }
 
   public stop() {
-    this.wpEditing.stopEditing(this.workPackageId);
+    this.wpEditing.stopEditing(this.workPackage.id);
   }
 
-  private update(field:WorkPackageEditFieldController, wp:WorkPackageResourceInterface) {
+  public saveWorkPackage() {
+    const isInitial = this.workPackage.isNew;
+    return this.form
+      .submit()
+      .then((savedWorkPackage) => {
+        this.wpEditing.stopEditing(this.workPackage.id);
+
+        if (this.successState) {
+          this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
+            .then(() => {
+              this.wpTableSelection.focusOn(savedWorkPackage.id);
+              this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
+            });
+        }
+      });
+  }
+
+  private updateDisplayField(field:WorkPackageEditFieldController, wp:WorkPackageResourceInterface) {
     field.workPackage = wp;
     field.render();
-  }
-
-  private get editContext() {
-    return new SingleViewEditContext(this);
-  }
-
-  private get editingForm():WorkPackageEditForm | undefined {
-    const state = this.wpEditing.editState(this.workPackageId);
-    return state.value;
   }
 
   private allowedStateChange(toState:any, toParams:any, fromState:any, fromParams:any) {
@@ -148,8 +173,10 @@ opWorkPackagesModule.directive('wpEditFieldGroup', function() {
     restrict: 'EA',
     controller: WorkPackageEditFieldGroupController,
     bindToController: true,
+    controllerAs: '$fieldGroupCtrl',
     scope: {
-      workPackageId: '=',
+      workPackage: '=',
+      successState: '=?',
       inEditMode: '=?'
     }
   };

@@ -27,10 +27,8 @@
 // ++
 
 import {Subscription} from 'rxjs/Subscription';
-import {injectorBridge} from '../angular/angular-injector-bridge.functions';
+import {$injectFields, injectorBridge} from '../angular/angular-injector-bridge.functions';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
-import {SchemaResource} from '../api/api-v3/hal-resources/schema-resource.service';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {EditField} from '../wp-edit/wp-edit-field/wp-edit-field.module';
@@ -39,6 +37,14 @@ import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service
 import {WorkPackageEditContext} from './work-package-edit-context';
 import {WorkPackageEditFieldHandler} from './work-package-edit-field-handler';
 import {debugLog} from '../../helpers/debug_output';
+import {WorkPackageChangeset} from './work-package-changeset';
+import {FormResourceInterface} from '../api/api-v3/hal-resources/form-resource.service';
+import {WorkPackageEditingService} from './work-package-editing-service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+
+export const activeFieldContainerClassName = 'wp-inline-edit--active-field';
+export const activeFieldClassName = 'wp-inline-edit--field';
 
 export class WorkPackageEditForm {
   // Injections
@@ -47,11 +53,10 @@ export class WorkPackageEditForm {
   public $rootScope:ng.IRootScopeService;
   public states:States;
   public wpCacheService:WorkPackageCacheService;
+  public wpEditing:WorkPackageEditingService;
   public wpEditField:WorkPackageEditFieldService;
+  public wpTableRefresh:WorkPackageTableRefreshService;
   public wpNotificationsService:WorkPackageNotificationService;
-
-  // Other fields
-  public workPackage:WorkPackageResourceInterface;
 
   // All current active (open) edit fields
   public activeFields:{ [fieldName:string]:WorkPackageEditFieldHandler } = {};
@@ -59,30 +64,53 @@ export class WorkPackageEditForm {
   // Errors of the last operation (required when adding opening fields afterwards)
   public errorsPerAttribute:{ [fieldName:string]:string[] } = {};
 
-  // The last field that got activated
-  public lastActiveField:string;
+  // The current edit context to use the form with
+  public editContext:WorkPackageEditContext;
 
-  // The work package cache service subscription
-  protected subscription:Subscription;
+  // Subscribe to changes to the temporary edit form
+  protected resourceSubscription:Subscription;
 
-  constructor(public workPackageId:string,
-              public editContext:WorkPackageEditContext,
-              public editMode = false) {
-    injectorBridge(this);
+  public static createInContext(editContext:WorkPackageEditContext,
+                                wp:WorkPackageResourceInterface,
+                                editMode:boolean = false) {
 
-    this.subscription = this.wpCacheService.loadWorkPackage(workPackageId)
+    const form = new WorkPackageEditForm(wp, editMode);
+    form.editContext = editContext;
+
+    return form;
+  }
+
+  constructor(public workPackage:WorkPackageResourceInterface, public editMode:boolean = false) {
+    $injectFields(this,
+      'wpCacheService', '$timeout', '$q', '$rootScope',
+      'wpEditField', 'wpNotificationsService',
+      'wpEditing', 'states', 'wpTableRefresh'
+    );
+
+    this.resourceSubscription = this.wpEditing.temporaryEditResource(workPackage.id)
       .values$()
-      .subscribe((wp:WorkPackageResourceInterface) => {
-        this.workPackage = wp;
-        this.workPackage.getForm();
-
-        _.each(this.activeFields, (_handler, name) => this.refresh(name!));
+      .subscribe(() => {
+        if (!this.changeset.empty) {
+          debugLog('Refreshing active edit fields after form update.');
+          _.each(this.activeFields, (_handler, name) => this.refresh(name!));
+        }
       });
+  }
+
+  /**
+   * Return the current or a new changeset for the given work package.
+   * This will always return a valid (potentially empty) changeset.
+   *
+   * @return {WorkPackageChangeset}
+   */
+  public get changeset():WorkPackageChangeset {
+    return this.wpEditing.changesetFor(this.workPackage);
   }
 
   /**
    * Active the edit field upon user's request.
    * @param fieldName
+   * @param noWarnings Ignore warnings if the field cannot be opened
    */
   public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
     return this.buildField(fieldName).then((field:EditField) => {
@@ -91,11 +119,15 @@ export class WorkPackageEditForm {
         return this.$q.reject();
       }
 
-      this.workPackage.storePristine(fieldName);
       return this.renderField(fieldName, field);
     });
   }
 
+  /**
+   * Refreshes an active field by simply updating the fieldHandler $scope.
+   * @param {string} fieldName
+   * @return {Promise<any>}
+   */
   public refresh(fieldName:string) {
     const handler = this.activeFields[fieldName];
     if (!handler) {
@@ -105,17 +137,6 @@ export class WorkPackageEditForm {
 
     return this.buildField(fieldName).then((field:EditField) => {
       this.editContext.refreshField(field, handler);
-    });
-  }
-
-  /**
-   * Update the form and embedded schema.
-   * In edit-all mode, this allows fields to cause changes to the form (e.g., type switch)
-   * without saving the resource.
-   */
-  public updateForm() {
-    this.workPackage.updateForm(this.workPackage.$source).then(() => {
-      this.wpCacheService.updateWorkPackage(this.workPackage);
     });
   }
 
@@ -136,16 +157,22 @@ export class WorkPackageEditForm {
    * Activate all fields that are returned in validation errors
    */
   public activateMissingFields() {
-    this.workPackage.getForm().then((form:any) => {
+    this.changeset.getForm().then((form:any) => {
       _.each(form.validationErrors, (val:any, key:string) => {
+        if (key === 'id') {
+          return;
+        }
         this.activateWhenNeeded(key);
       });
     });
   }
 
-  public submit() {
-    if (!(this.workPackage.dirty || this.workPackage.isNew)) {
-      this.stopEditing();
+  /**
+   * Save the active changeset.
+   * @return {any}
+   */
+  public submit():ng.IPromise<WorkPackageResourceInterface> {
+    if (this.changeset.empty && !this.workPackage.isNew) {
       return this.$q.when(this.workPackage);
     }
 
@@ -157,27 +184,20 @@ export class WorkPackageEditForm {
 
     const openFields = _.keys(this.activeFields);
 
-    this.workPackage.save()
+    this.changeset.save()
       .then(savedWorkPackage => {
-        this.workPackage = savedWorkPackage;
-
         // Close all current fields
         this.closeEditFields(openFields);
 
         deferred.resolve(savedWorkPackage);
 
         this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
-        this.editContext.onSaved(savedWorkPackage, isInitial);
-
-        // Only stop editing if the user didn't open any other fields
-        // in the meantime (otherwise, they would be closed here, which is annoying).
-        if (_.size(this.activeFields) === 0) {
-          this.stopEditing();
-        }
-
+        this.editMode = false;
+        this.wpTableRefresh.request(false, `Saved work package ${savedWorkPackage.id}`);
       })
-      .catch((error) => {
+      .catch((error:ErrorResource|Object) => {
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
+
         if (error instanceof ErrorResource) {
           this.handleSubmissionErrors(error, deferred);
         }
@@ -186,18 +206,26 @@ export class WorkPackageEditForm {
     return deferred.promise;
   }
 
-  public stopEditing() {
-    // Close all edit fields
-    this.closeEditFields();
-
+  /**
+   * Close all fields and unsubscribe the observers on this form.
+   */
+  public destroy() {
     // Unsubscribe changes
-    this.subscription.unsubscribe();
+    this.resourceSubscription.unsubscribe();
 
-    // Destroy this form
-    this.states.editing.get(this.workPackageId.toString()).clear('Editing completed');
+    // Kill all active fields
+    // Without resetting the changeset, if, e.g., we're moving an active edit
+    _.each(this.activeFields, (handler) => {
+      handler && handler.deactivate();
+    });
   }
 
-  protected closeEditFields(fields?:string[]) {
+  /**
+   * Close the given or all open fields.
+   *
+   * @param {string[]} fields
+   */
+  public closeEditFields(fields?:string[]) {
     if (!fields) {
       fields = _.keys(this.activeFields);
     }
@@ -205,6 +233,7 @@ export class WorkPackageEditForm {
     fields.forEach((name:string) => {
       const handler = this.activeFields[name];
       handler && handler.deactivate();
+      this.changeset.reset(name);
     });
   }
 
@@ -215,55 +244,66 @@ export class WorkPackageEditForm {
   }
 
   protected handleErroneousAttributes(error:any) {
-    const attributes = error.getInvolvedAttributes();
+    // Get attributes withe errors
+    const erroneousAttributes = error.getInvolvedAttributes();
+
     // Save erroneous fields for when new fields appear
     this.errorsPerAttribute = error.getMessagesPerAttribute();
-    if (attributes.length === 0) {
+    if (erroneousAttributes.length === 0) {
       return;
     }
 
-    // Iterate all erroneous fields and close these that are valid
-    const validFields = _.keys(this.activeFields);
+    return this.setErrorsForFields(erroneousAttributes);
+  }
 
+  private setErrorsForFields(erroneousFields:string[]) {
     // Accumulate errors for the given response
-    _.each(attributes, (fieldName:string) => {
-      this.editContext.requireVisible(fieldName).then(() => {
-        this.activateWhenNeeded(fieldName);
+    let promises:Promise<any>[] = erroneousFields.map((fieldName:string) => {
+      return this.editContext.requireVisible(fieldName).then(() => {
+        if (this.activeFields[fieldName]) {
+          this.activeFields[fieldName].setErrors(this.errorsPerAttribute[fieldName] || []);
+        }
+
+        return this.activateWhenNeeded(fieldName) as any;
       });
     });
 
-    // Now close remaining fields (valid)
-    _.each(validFields, (fieldName:string) => {
-      this.activeFields[fieldName].deactivate();
-    });
-
-    // Focus the first field that are still remaining
-    let firstActiveField = this.lastActiveField || this.editContext.firstField(_.keys(this.activeFields));
-
-    if (this.activeFields[firstActiveField]) {
-      this.activeFields[firstActiveField].focus();
-    }
+    Promise.all(promises)
+      .then(() => {
+        this.$timeout(() => {
+          // Focus the first field that is erroneous
+          jQuery(`.${activeFieldContainerClassName}.-error .${activeFieldClassName}`)
+            .first()
+            .focus();
+        });
+      })
+      .catch(() => {
+        console.error('Failed to activate all erroneous fields.');
+      });
   }
 
   private buildField(fieldName:string):Promise<EditField> {
     return new Promise((resolve, reject) => {
-      this.workPackage.loadFormSchema()
-        .then((schema:SchemaResource) => {
-            const fieldSchema = schema[fieldName];
+      this.changeset.getForm()
+        .then((form:FormResourceInterface) => {
+          const fieldSchema = form.schema[fieldName];
 
-            if (!fieldSchema) {
-              return reject();
-            }
+          if (!fieldSchema) {
+            return reject();
+          }
 
-            const field = this.wpEditField.getField(
-              this.workPackage,
-              fieldName,
-              fieldSchema
-            ) as EditField;
+          const field = this.wpEditField.getField(
+            this.changeset,
+            fieldName,
+            fieldSchema
+          ) as EditField;
 
-            resolve(field);
-          })
-        .catch(reject);
+          resolve(field);
+        })
+        .catch((error) => {
+          console.error('Failed to build edit field: %o', error);
+          this.wpNotificationsService.handleRawError(error);
+        });
     });
   }
 
@@ -271,16 +311,14 @@ export class WorkPackageEditForm {
     const promise = this.editContext.activateField(this,
       field,
       this.errorsPerAttribute[fieldName] || []);
-    return promise.then((fieldHandler) => {
-      this.lastActiveField = fieldName;
-      this.activeFields[fieldName] = fieldHandler;
-      return fieldHandler;
-    });
+    return promise
+      .then((fieldHandler) => {
+        this.activeFields[fieldName] = fieldHandler;
+        return fieldHandler;
+      })
+      .catch((error) => {
+        console.error('Failed to render edit field:' + error);
+        this.wpNotificationsService.handleRawError(error);
+      });
   }
 }
-
-WorkPackageEditForm.$inject = [
-  'wpCacheService', '$timeout', '$q', '$rootScope',
-  'wpEditField', 'wpNotificationsService',
-  'states'
-];

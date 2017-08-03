@@ -13,6 +13,7 @@ import {
 } from '../../../wp-edit-form/display-field-renderer';
 import {WorkPackageEditingService} from '../../../wp-edit-form/work-package-editing-service';
 import {ClickPositionMapper} from '../../../common/set-click-position/set-click-position';
+import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 
 export class EditCellHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
@@ -54,12 +55,13 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     const rowElement = target.closest(`.${tableRowClassName}`);
     // Get the work package we're editing
     const workPackageId = rowElement.data('workPackageId');
+    const workPackage = this.states.workPackages.get(workPackageId).value!;
     // Get the row context
     const classIdentifier = rowElement.data('classIdentifier');
 
     // Get any existing edit state for this work package
     const editContext = new TableRowEditContext(workPackageId, classIdentifier);
-    const form = this.wpEditing.startEditing(workPackageId, editContext);
+    const form = WorkPackageEditForm.createInContext(editContext, workPackage, false);
 
     // Get the position where the user clicked.
     const positionOffset = ClickPositionMapper.getPosition(evt);

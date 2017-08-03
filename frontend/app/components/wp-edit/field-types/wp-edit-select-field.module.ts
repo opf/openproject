@@ -36,11 +36,7 @@ export class SelectEditField extends EditField {
   public template:string = '/components/wp-edit/field-types/wp-edit-select-field.directive.html';
   public text:{requiredPlaceholder:string, placeholder:string};
 
-  public currentValueInvalid:boolean = false;
-
-  constructor(workPackage:WorkPackageResourceInterface, fieldName:string, schema:op.FieldSchema) {
-    super(workPackage, fieldName, schema);
-
+  protected initialize() {
     const I18n:any = this.$injector.get('I18n');
     this.text = {
       requiredPlaceholder: I18n.t('js.placeholders.selection'),
@@ -88,11 +84,10 @@ export class SelectEditField extends EditField {
 
     this.options = availableValues;
     this.addEmptyOption();
-    this.checkCurrentValueValidity();
   }
 
-  private checkCurrentValueValidity() {
-    this.currentValueInvalid = !!(
+  public get currentValueInvalid():boolean {
+    return !!(
       (this.value && !_.some(this.options, (option:HalResource) => (option.href === this.value.href)))
       ||
       (!this.value && this.schema.required)

@@ -65,18 +65,20 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
   }
 
   updateWorkPackageList(list:WorkPackageResourceInterface[]) {
-    for (var wp of list) {
+    for (var i of list) {
+      const wp = i;
       const workPackageId = getWorkPackageId(wp.id);
-      const wpState = this.multiState.get(workPackageId);
-      const lastValue = wpState.value;
-      const wpForPublish = lastValue && lastValue.dirty
-        ? lastValue // dirty, use current wp
-        : wp; // not dirty or unknown, use new wp
+
+      // If the work package is new, ignore the schema
+      if (wp.isNew) {
+        this.multiState.get(workPackageId).putValue(wp);
+        continue;
+      }
 
       // Ensure the schema is loaded
       // so that no consumer needs to call schema#$load manually
       this.schemaCacheService.ensureLoaded(wp).then(() => {
-        wpState.putValue(wpForPublish);
+        this.multiState.get(workPackageId).putValue(wp);
       });
     }
   }
@@ -92,7 +94,7 @@ export class WorkPackageCacheService extends StateCacheService<WorkPackageResour
         this.wpNotificationsService.showSave(workPackage);
         deferred.resolve(workPackage);
       })
-      .catch((error) => {
+      .catch((error:any) => {
         this.wpNotificationsService.handleErrorResponse(error, workPackage);
         deferred.reject(workPackage);
       });

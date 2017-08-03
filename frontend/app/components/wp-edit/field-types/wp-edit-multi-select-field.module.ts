@@ -27,9 +27,9 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
-import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 
 export class MultiSelectEditField extends EditField {
   public options:any[];
@@ -38,19 +38,17 @@ export class MultiSelectEditField extends EditField {
   public isMultiselect: boolean;
 
   // Dependencies
-  protected I18n:op.I18n = <op.I18n> MultiSelectEditField.$injector.get('I18n');
+  public I18n:op.I18n;
 
   public currentValueInvalid:boolean = false;
 
-  constructor(workPackage:WorkPackageResourceInterface, fieldName:string, schema:op.FieldSchema) {
-    super(workPackage, fieldName, schema);
-
+  protected initialize() {
+    $injectFields(this, 'I18n');
     this.isMultiselect = this.isValueMulti();
 
-    const I18n:any = this.$injector.get('I18n');
     this.text = {
-      requiredPlaceholder: I18n.t('js.placeholders.selection'),
-      placeholder: I18n.t('js.placeholders.default'),
+      requiredPlaceholder: this.I18n.t('js.placeholders.selection'),
+      placeholder: this.I18n.t('js.placeholders.default'),
       save: this.I18n.t('js.inplace.button_save', { attribute: this.schema.name }),
       cancel: this.I18n.t('js.inplace.button_cancel', { attribute: this.schema.name })
     };
@@ -72,23 +70,30 @@ export class MultiSelectEditField extends EditField {
   }
 
   public get value() {
-    if (this.isMultiselect) {
-      return this.resource[this.name];
+    const val = this.changeset.value(this.name);
+
+    if (!Array.isArray(val) || this.isMultiselect) {
+      return val;
     } else {
-      return this.resource[this.name][0];
+      return val[0];
     }
   }
 
   public set value(val) {
+    this.changeset.setValue(this.name, this.parseValue(val));
+  }
+
+  protected parseValue(val:any) {
     if (Array.isArray(val)) {
-      this.resource[this.name] = val;
+      return val;
     } else {
-      this.resource[this.name] = [val];
+      return [val];
     }
   }
 
   public isValueMulti() {
-    return this.resource[this.name].length > 1;
+    const val = this.changeset.value(this.name);
+    return val && val.length > 1;
   }
 
   public toggleMultiselect() {
@@ -121,7 +126,7 @@ export class MultiSelectEditField extends EditField {
     }
     else {
       // If no value but required
-      this.currentValueInvalid == this.schema.required;
+      this.currentValueInvalid = !!this.schema.required;
     }
   }
 

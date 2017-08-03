@@ -9,6 +9,7 @@ import {
   WorkPackageCellLabels
 } from './wp-timeline-cell';
 import Moment = moment.Moment;
+import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 
 interface CellMilestoneMovement {
   // Target value to move milestone to
@@ -52,30 +53,23 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    * For generic work packages, assigns start and due date.
    *
    */
-  public assignDateValues(wp:WorkPackageResourceInterface,
+  public assignDateValues(changeset:WorkPackageChangeset,
                           labels:WorkPackageCellLabels,
                           dates:CellMilestoneMovement) {
 
-    this.assignDate(wp, 'date', dates.date!);
-    this.updateLabels(true, labels, wp!);
-  }
-
-  /**
-   * Restore the original date, if any was set.
-   */
-  public onCancel(wp:WorkPackageResourceInterface) {
-    wp.restoreFromPristine('date');
+    this.assignDate(changeset, 'date', dates.date!);
+    this.updateLabels(true, labels, changeset);
   }
 
   /**
    * Handle movement by <delta> days of milestone.
    */
-  public onDaysMoved(wp:WorkPackageResourceInterface,
+  public onDaysMoved(changeset:WorkPackageChangeset,
                      dayUnderCursor:Moment,
                      delta:number,
                      direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
 
-    const initialDate = wp.$pristine['date'];
+    const initialDate = changeset.workPackage.date;
     let dates:CellMilestoneMovement = {};
 
     if (initialDate) {
@@ -98,8 +92,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
       return 'both'; // irrelevant
     }
 
-    let direction:'left' | 'right' | 'both' | 'create' | 'dragright' = 'both';
-    renderInfo.workPackage.storePristine('date');
+    let direction: "left" | "right" | "both" | "create" | "dragright" = "both";
     this.forceCursor('ew-resize');
 
     if (dateForCreate) {
@@ -108,29 +101,30 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
       return direction;
     }
 
-    this.updateLabels(true, labels, renderInfo.workPackage);
+    this.updateLabels(true, labels, renderInfo.changeset);
 
     return direction;
   }
 
-  public update(timelineCell:HTMLElement, element:HTMLDivElement, renderInfo:RenderInfo):boolean {
-    const wp = renderInfo.workPackage;
-    const viewParams = renderInfo.viewParams;
-    const date = moment(wp.date as any);
+  public update(element: HTMLDivElement, renderInfo: RenderInfo): boolean {
+    const changeset = renderInfo.changeset || new WorkPackageChangeset(renderInfo.workPackage);
 
-    // abort if no start or due date
-    if (!wp.date) {
+    const viewParams = renderInfo.viewParams;
+    const date = moment(changeset.value('dueDate'));
+
+    // abort if no date
+    if (!date) {
       return false;
     }
 
     const diamond = jQuery('.diamond', element)[0];
 
-    element.style.width = 15 + 'px';
-    element.style.height = 15 + 'px';
-    diamond.style.width = 15 + 'px';
-    diamond.style.height = 15 + 'px';
-    diamond.style.marginLeft = -(15 / 2) + (renderInfo.viewParams.pixelPerDay / 2) + 'px';
-    diamond.style.backgroundColor = this.typeColor(wp);
+    element.style.width = 15 + "px";
+    element.style.height = 15 + "px";
+    diamond.style.width = 15 + "px";
+    diamond.style.height = 15 + "px";
+    diamond.style.marginLeft = -(15 / 2) + (renderInfo.viewParams.pixelPerDay / 2) + "px";
+    diamond.style.backgroundColor = this.typeColor(renderInfo.workPackage);
 
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, 'days');
@@ -200,19 +194,22 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     containerRight.appendChild(labelFarRight);
 
     const labels = new WorkPackageCellLabels(null, labelLeft, labelRight, labelFarRight);
-    this.updateLabels(false, labels, renderInfo.workPackage);
+    this.updateLabels(false, labels, renderInfo.changeset);
 
     return labels;
   }
 
-  protected updateLabels(activeDragNDrop:boolean, labels:WorkPackageCellLabels, workPackage:WorkPackageResourceInterface) {
+  protected updateLabels(activeDragNDrop:boolean,
+                         labels:WorkPackageCellLabels,
+                         changeset:WorkPackageChangeset) {
 
     if (!this.TimezoneService) {
       this.TimezoneService = $injectNow('TimezoneService');
     }
 
-    const subject:string = workPackage.subject;
-    const date:Moment | null = workPackage.date ? moment(workPackage.date) : null;
+    const subject:string = changeset.value('subject');
+    const dateStr = changeset.value('date');
+    const date:Moment | null = dateStr ? moment(dateStr) : null;
 
     if (!activeDragNDrop) {
       // normal display

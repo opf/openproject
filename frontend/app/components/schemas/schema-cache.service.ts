@@ -48,17 +48,13 @@ export class SchemaCacheService {
    * @return A promise with the loaded schema.
    */
   ensureLoaded(workPackage:WorkPackageResource):PromiseLike<any> {
-    if (workPackage.hasOverriddenSchema) {
-      return this.$q.resolve();
-    }
-
     const state = this.state(workPackage);
 
-    if (!state.hasValue()) {
-      this.load(workPackage);
+    if (state.hasValue()) {
+      return this.$q.when(state.value);
+    } else {
+      return this.load(workPackage).valuesPromise();
     }
-
-    return state.valuesPromise();
   }
 
   /**

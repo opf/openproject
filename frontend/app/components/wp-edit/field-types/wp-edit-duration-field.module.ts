@@ -27,7 +27,13 @@
 // ++
 
 import {EditField} from "../wp-edit-field/wp-edit-field.module";
+import moment = require('moment');
 
 export class DurationEditField extends EditField {
-  public template:string = '/components/wp-edit/field-types/wp-edit-duration-field.directive.html'
+
+  protected parseValue(val:moment.Moment) {
+    return val.toISOString();
+  }
+
+  public template:string = '/components/wp-edit/field-types/wp-edit-duration-field.directive.html';
 }

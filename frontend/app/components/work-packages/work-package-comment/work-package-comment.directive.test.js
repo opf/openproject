@@ -95,7 +95,8 @@ describe('workPackageCommentDirectiveTest', function() {
         $link: {
           href: 'addComment'
         }
-      }
+      },
+      $plain: function() { return {}; }
     };
 
     scope.workPackage = workPackage;

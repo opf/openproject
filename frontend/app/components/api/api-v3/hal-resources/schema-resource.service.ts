@@ -41,7 +41,7 @@ export class SchemaResource extends HalResource {
     return states.schemas.get(this.href as string);
   }
 
-  protected $initialize(source:any) {
+  public $initialize(source:any) {
     super.$initialize(source);
 
     initializeSchemaResource(this);

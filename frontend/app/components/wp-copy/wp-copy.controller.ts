@@ -30,6 +30,7 @@ import {wpDirectivesModule} from "../../angular-modules";
 import {scopedObservable} from "../../helpers/angular-rx-utils";
 import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCreateController} from "../wp-create/wp-create.controller";
+import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams:any) {
@@ -38,9 +39,10 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
     scopedObservable(
       this.$scope,
       this.wpCacheService.loadWorkPackage(stateParams.copiedFromWorkPackageId).values$())
-      .subscribe((wp: WorkPackageResourceInterface) => {
-        this.createCopyFrom(wp).then((newWorkPackage: WorkPackageResourceInterface) => {
-          deferred.resolve(newWorkPackage);
+      .take(1)
+      .subscribe((wp:WorkPackageResourceInterface) => {
+        this.createCopyFrom(wp).then((changeset:WorkPackageChangeset) => {
+          deferred.resolve(changeset);
         });
       });
 
@@ -48,7 +50,8 @@ export class WorkPackageCopyController extends WorkPackageCreateController {
   }
 
   private createCopyFrom(wp:WorkPackageResourceInterface) {
-    return wp.getForm().then((form:any) => {
+    const changeset = this.wpEditing.changesetFor(wp);
+    return changeset.getForm().then((form:any) => {
       return this.wpCreate.copyWorkPackage(form, wp.project.identifier);
     });
   }

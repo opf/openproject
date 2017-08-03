@@ -106,9 +106,7 @@ export class WorkPackageEditFieldHandler {
    * Handle a user submitting the field (e.g, ng-change)
    */
   public handleUserSubmit() {
-    if (this.form.editMode) {
-      this.form.updateForm();
-    } else {
+    if (!this.form.editMode) {
       this.form.submit();
     }
   }
@@ -142,8 +140,7 @@ export class WorkPackageEditFieldHandler {
    * Cancel any pending changes
    */
   public reset() {
-    this.workPackage.restoreFromPristine(this.fieldName);
-    delete this.workPackage.$pristine[this.fieldName];
+    this.form.changeset.reset(this.fieldName);
     this.deactivate(true);
   }
 

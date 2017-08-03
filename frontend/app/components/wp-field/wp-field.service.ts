@@ -42,7 +42,7 @@ export class WorkPackageFieldService {
   constructor(protected $injector:ng.auto.IInjectorService) {
   }
 
-  public getField(resource:HalResource, fieldName:string, schema:op.FieldSchema):Field {
+  public getField(resource:any, fieldName:string, schema:op.FieldSchema):Field {
     return (this.constructor as typeof WorkPackageFieldService).fieldFactory.create(resource, fieldName, schema);
   }
 
@@ -50,7 +50,7 @@ export class WorkPackageFieldService {
     return (this.constructor as typeof WorkPackageFieldService).fieldFactory.getType(name);
   }
 
-  public addFieldType(fieldClass:typeof Field, displayType:string, fields:string[]) {
+  public addFieldType(fieldClass:any, displayType:string, fields:string[]) {
     fieldClass.type = displayType;
     fieldClass.$injector = this.$injector;
     (this.constructor as typeof WorkPackageFieldService).fieldFactory.register(fieldClass, fields);

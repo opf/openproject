@@ -27,10 +27,7 @@
 // ++
 
 import {wpDirectivesModule} from '../../angular-modules';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
 import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
 import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
@@ -39,16 +36,17 @@ import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service
 import {WorkPackageCreateService} from './wp-create.service';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
-import IRootScopeService = angular.IRootScopeService;
-import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
+import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCreateController {
-  public newWorkPackage:WorkPackageResource | any;
-  public parentWorkPackage:WorkPackageResource | any;
-  public form:WorkPackageEditForm;
+  public newWorkPackage:WorkPackageResourceInterface;
+  public parentWorkPackage:WorkPackageResourceInterface;
+  public changeset:WorkPackageChangeset;
 
   public get header():string {
-    if (!this.newWorkPackage.type) {
+    const type = this.changeset.value('type');
+
+    if (!type) {
       return this.I18n.t('js.work_packages.create.header_no_type');
     }
 
@@ -56,17 +54,17 @@ export class WorkPackageCreateController {
       return this.I18n.t(
         'js.work_packages.create.header_with_parent',
         {
-          type: this.newWorkPackage.type.name,
+          type: type.name,
           parent_type: this.parentWorkPackage.type.name,
           id: this.parentWorkPackage.id
         }
       );
     }
 
-    if (this.newWorkPackage.type) {
+    if (type) {
       return this.I18n.t(
         'js.work_packages.create.header',
-        {type: this.newWorkPackage.type.name}
+        {type: type.name}
       );
     }
 
@@ -83,28 +81,29 @@ export class WorkPackageCreateController {
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
               protected wpCacheService:WorkPackageCacheService,
+              protected v3Path:any,
               protected $location:ng.ILocationService,
               protected RootDm:RootDmService) {
 
     this.newWorkPackageFromParams($state.params)
-      .then(wp => {
-        this.newWorkPackage = wp;
-        wpCacheService.updateWorkPackage(wp);
+      .then((changeset:WorkPackageChangeset) => {
+        this.changeset = changeset;
+        this.newWorkPackage = changeset.workPackage;
+        wpCacheService.updateWorkPackage(changeset.workPackage);
 
-        scopedObservable(this.$scope,
-          this.states.editing.get(wp.id).values$())
-          .subscribe(form => {
-            this.form = form;
+        if ($state.params['parent_id']) {
+          this.changeset.setValue(
+            'parent',
+            {href: v3Path.wp({wp: $state.params['parent_id']})}
+          );
+        }
 
-            this.form.editContext.successState = this.successState;
-          });
-
+        // Load the parent simply to display the type name :-/
         if ($state.params['parent_id']) {
           scopedObservable(this.$scope,
             wpCacheService.loadWorkPackage($state.params['parent_id']).values$())
             .subscribe(parent => {
               this.parentWorkPackage = parent;
-              this.newWorkPackage.parent = parent;
             });
         }
       })
@@ -131,20 +130,26 @@ export class WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams:any) {
     const type = parseInt(stateParams.type);
 
+    // If there is an open edit for this type, continue it
+    const changeset = this.wpEditing.state('new').value;
+    if (changeset !== undefined) {
+      const changeType = changeset.workPackage.type;
+
+      const hasChanges = !changeset.empty;
+      const typeEmpty = (!changeType && !type);
+      const typeMatches = (changeType && changeType.idFromLink === type.toString());
+
+      if (hasChanges && (typeEmpty || typeMatches)) {
+        return this.$q.when(changeset);
+      }
+    }
+
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type);
   }
 
   public cancelAndBackToList() {
     this.wpEditing.stopEditing(this.newWorkPackage.id);
     this.$state.go('work-packages.list', this.$state.params);
-  }
-
-  public saveWorkPackage():ng.IPromise<any> {
-    return this.wpEditing
-      .saveChanges(this.newWorkPackage.id)
-      .then((wp) => {
-        this.wpEditing.stopEditing(this.newWorkPackage.id);
-      });
   }
 }
 

@@ -56,7 +56,7 @@ export class QueryFilterInstanceSchemaResource extends SchemaResource {
     return this.operator.allowedValues;
   }
 
-  protected $initialize(source:any) {
+  public $initialize(source:any) {
     super.$initialize(source);
 
     if (source._dependencies) {

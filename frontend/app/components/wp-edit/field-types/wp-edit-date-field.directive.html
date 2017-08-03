@@ -3,14 +3,14 @@
   on-change="vm.handleUserSubmit()"
   on-change="vm.handleUserSubmit()">
 
-  <input ng-model="vm.workPackage[vm.fieldName]"
+  <input ng-model="vm.field.value"
          type="text"
          class="wp-inline-edit--field"
          transform-date-value
          ng-blur="vm.onlyInAccessibilityMode(vm.handleUserBlur)"
          ng-keydown="vm.handleUserSubmitOnEnter($event)"
          ng-required="vm.field.required"
-         ng-disabled="vm.workPackage.inFlight"
+         ng-disabled="vm.field.inFlight"
          ng-attr-id="{{vm.htmlId}}" />
 
 </op-date-picker>
