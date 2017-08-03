@@ -92,7 +92,7 @@ class BoardsController < ApplicationController
 
   def set_topics
     @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-               .includes(:author,  last_reply: :author)
+               .includes(:author, last_reply: :author)
                .page(params[:page])
                .per_page(per_page_param)
   end

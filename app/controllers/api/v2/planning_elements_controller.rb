@@ -332,7 +332,7 @@ module Api
         # .tap and the following block here were useless as the block's return value is ignored.
         # Keeping this code to show its original intention, but not fixing it to not
         # break things for clients that might not properly use the parameter.
-        params[:include]  # .tap { |i| i.present? && i.include?("journals") }
+        params[:include] # .tap { |i| i.present? && i.include?("journals") }
       end
 
       # Actual protected methods

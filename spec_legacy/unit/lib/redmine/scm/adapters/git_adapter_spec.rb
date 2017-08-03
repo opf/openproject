@@ -34,7 +34,7 @@
 require 'legacy_spec_helper'
 
 describe OpenProject::Scm::Adapters::Git, type: :model do
-  let(:git_repository_path) {  Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository' }
+  let(:git_repository_path) { Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository' }
 
   FELIX_UTF8 = 'Felix Schäfer'
   FELIX_HEX  = "Felix Sch\xC3\xA4fer"
@@ -57,7 +57,7 @@ describe OpenProject::Scm::Adapters::Git, type: :model do
       'ISO-8859-1'
     )
     assert @adapter
-    @char_1        = CHAR_1_HEX.dup
+    @char_1 = CHAR_1_HEX.dup
     if @char_1.respond_to?(:force_encoding)
       @char_1.force_encoding('UTF-8')
     end

@@ -97,7 +97,7 @@ describe 'user deletion: ', type: :feature, js: true do
       find(:css, "#settings_users_deletable_by_self").set(true)
 
       within '#tab-content-users' do
-        click_on  'Save'
+        click_on 'Save'
       end
 
       expect(Setting.users_deletable_by_admins?).to eq true

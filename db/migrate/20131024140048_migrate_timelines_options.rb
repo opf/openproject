@@ -125,7 +125,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration[4.2]
   def migrate_planning_element_types(timelines_opts, pe_type_id_map, calling_class)
     pe_types = []
 
-    pe_types =  timelines_opts[PE_TYPE_KEY].delete_if(&:nil?) if timelines_opts.has_key? PE_TYPE_KEY
+    pe_types = timelines_opts[PE_TYPE_KEY].delete_if(&:nil?) if timelines_opts.has_key? PE_TYPE_KEY
 
     calling_class.contains_none_element = calling_class.contains_none_element? || pe_types.empty?
 

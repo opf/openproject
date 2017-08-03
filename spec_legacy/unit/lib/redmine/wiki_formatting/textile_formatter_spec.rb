@@ -81,7 +81,7 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should escaping' do
     assert_html_output(
-      'this is a <script>'      => 'this is a &lt;script&gt;'
+      'this is a <script>' => 'this is a &lt;script&gt;'
     )
   end
 
@@ -108,13 +108,13 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should inline auto link' do
     assert_html_output(
-      'Autolink to http://www.google.com' =>         'Autolink to <a class="external icon-context icon-copy" href="http://www.google.com">http://www.google.com</a>'
+      'Autolink to http://www.google.com' => 'Autolink to <a class="external icon-context icon-copy" href="http://www.google.com">http://www.google.com</a>'
     )
   end
 
   it 'should ignore links inside macros' do
     assert_html_output(
-      '{{embed_youtube(http://www.google.com)}}' =>         '{{embed_youtube(http://www.google.com)}}'
+      '{{embed_youtube(http://www.google.com)}}' => '{{embed_youtube(http://www.google.com)}}'
     )
   end
 

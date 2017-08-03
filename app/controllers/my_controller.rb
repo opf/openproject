@@ -88,7 +88,7 @@ class MyController < ApplicationController
 
   # Manage user's password
   def password
-    @user = User.current  # required by "my" layout
+    @user = User.current # required by "my" layout
     @username = @user.login
     redirect_if_password_change_not_allowed_for(@user)
   end
@@ -97,7 +97,7 @@ class MyController < ApplicationController
   def change_password
     return render_404 if OpenProject::Configuration.disable_password_login?
 
-    @user = User.current  # required by "my" layout
+    @user = User.current # required by "my" layout
     @username = @user.login
     return if redirect_if_password_change_not_allowed_for(@user)
     if @user.check_password?(params[:password], update_legacy: false)

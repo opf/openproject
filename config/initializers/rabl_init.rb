@@ -33,7 +33,7 @@ Rabl.configure do |config|
   config.include_json_root = true
   config.include_xml_root  = false
   config.include_child_root = false
-  config.xml_options = { dasherize:  false, skip_types: false }
+  config.xml_options = { dasherize: false, skip_types: false }
 
   # Commented as these are defaults
   # config.cache_all_output = false

@@ -99,13 +99,13 @@ end
 Given (/^there are the following issues with attributes:$/) do |table|
   table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
   table.hashes.each do |type_attributes|
-    project  = get_project(type_attributes.delete('project'))
+    project = get_project(type_attributes.delete('project'))
     attributes = type_attributes.merge(project_id: project.id) if project
 
     assignee = User.find_by_login(attributes.delete('assignee'))
     attributes.merge! assigned_to_id: assignee.id if assignee
 
-    author   = User.find_by_login(attributes.delete('author'))
+    author = User.find_by_login(attributes.delete('author'))
     attributes.merge! author_id: author.id if author
 
     responsible = User.find_by_login(attributes.delete('responsible'))

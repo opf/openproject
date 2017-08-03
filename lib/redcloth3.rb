@@ -940,7 +940,7 @@ class RedCloth3 < String
         /x
 
     def inline_textile_image( text )
-        text.gsub!( IMAGE_RE )  do |_m|
+        text.gsub!( IMAGE_RE ) do |_m|
             stln,algn,atts,url,title,href,href_a1,href_a2 = $~[1..8]
             htmlesc title
             atts = pba( atts )

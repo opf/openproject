@@ -31,7 +31,7 @@ module BasicData
   class WorkflowSeeder < Seeder
     def seed_data!
       colors = PlanningElementTypeColor.all
-      colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
+      colors = colors.map { |c| { c.name => c.id } }.reduce({}, :merge)
 
       if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(type_id: nil).any?
         # Fixes work packages that do not have a type yet. They receive the standard type.
@@ -111,7 +111,7 @@ module BasicData
 
     def workflows
       types = Type.all
-      types = types.map { |t| { t.name =>  t.id } }.reduce({}, :merge)
+      types = types.map { |t| { t.name => t.id } }.reduce({}, :merge)
 
       new              = Status.find_by(name: I18n.t(:default_status_new))
       in_specification = Status.find_by(name: I18n.t(:default_status_in_specification))

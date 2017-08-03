@@ -61,7 +61,7 @@ describe Activity::WorkPackageActivityProvider, type: :model do
       end
 
       context 'when a work package has been created and then closed' do
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.yesterday, Date.tomorrow,  limit: 10).first.try :event_type }
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 10).first.try :event_type }
 
         before do
           login_as(user)

@@ -33,7 +33,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   xml.link    "rel" => "alternate", "href" => home_url(:only_path => false)
   xml.id      url_for(:controller => '/welcome', :only_path => false)
   xml.updated((journals.first ? journals.first.created_at : Time.now).xmlschema)
-  xml.author  { xml.name "#{Setting.app_title}" }
+  xml.author { xml.name "#{Setting.app_title}" }
   journals.each do |change|
     work_package = change.journable
     xml.entry do

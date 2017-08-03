@@ -169,7 +169,7 @@ See redmine:email:receive_imap for more options and examples.
 END_DESC
 
     task receive_pop3: :environment do
-      pop_options  = { host: ENV['host'],
+      pop_options = { host: ENV['host'],
                        port: ENV['port'],
                        apop: ENV['apop'],
                        username: ENV['username'],

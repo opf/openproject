@@ -567,7 +567,7 @@ EXPECTED
 
     subject(:html) { format_text(wiki_text) }
 
-    it 'does not expand the macro within <pre>'  do
+    it 'does not expand the macro within <pre>' do
       expect(html).to be_html_eql(%[
         <pre>{{ $root.DOUBLE_LEFT_CURLY_BRACE }}include(wiki)}}</pre>
         <p>

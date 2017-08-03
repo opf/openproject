@@ -425,7 +425,7 @@ describe User, type: :model do
         expect(SystemUser.first).to eq(@u)
       end
 
-      it 'returns existing SystemUser'  do
+      it 'returns existing SystemUser' do
         expect {
           system_user = User.system
           expect(system_user).to eq(@u)

@@ -72,12 +72,12 @@ module OpenProject
       'email_delivery_method' => nil,
       'smtp_address' => nil,
       'smtp_port' => nil,
-      'smtp_domain' => nil,  # HELO domain
+      'smtp_domain' => nil, # HELO domain
       'smtp_authentication' => nil,
       'smtp_user_name' => nil,
       'smtp_password' => nil,
       'smtp_enable_starttls_auto' => nil,
-      'smtp_openssl_verify_mode' => nil,  # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
+      'smtp_openssl_verify_mode' => nil, # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
       'sendmail_location' => '/usr/sbin/sendmail',
       'sendmail_arguments' => '-i',
 

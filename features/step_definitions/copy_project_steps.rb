@@ -28,6 +28,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Given /^Delayed Job is turned off$/  do
+Given /^Delayed Job is turned off$/ do
   Delayed::Worker.delay_jobs = false
 end

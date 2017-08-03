@@ -185,7 +185,7 @@ describe Api::V2::TimelinesController, type: :controller do
       end
 
       describe 'w/ a different project' do
-        let(:other_project)  { FactoryGirl.create(:project, identifier: 'other') }
+        let(:other_project) { FactoryGirl.create(:project, identifier: 'other') }
 
         it 'raises ActiveRecord::RecordNotFound errors' do
           expect {

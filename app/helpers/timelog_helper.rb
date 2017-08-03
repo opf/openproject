@@ -185,7 +185,7 @@ module TimelogHelper
   end
 
   def to_utf8_for_timelogs(s)
-    s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s  end
+    s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s end
 
   def polymorphic_time_entries_path(object)
     polymorphic_path([object, :time_entries])

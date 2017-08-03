@@ -131,7 +131,7 @@ describe Api::V2::UsersController, type: :controller do
       include_context 'As a normal user'
 
       let(:project) { FactoryGirl.create :project }
-      let!(:member)  { FactoryGirl.create :user, member_in_project: project }
+      let!(:member) { FactoryGirl.create :user, member_in_project: project }
 
       let!(:non_member) { FactoryGirl.create :user }
 

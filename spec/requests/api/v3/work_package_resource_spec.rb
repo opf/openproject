@@ -133,7 +133,7 @@ describe 'API v3 Work package resource', type: :request do
 
       describe 'response body' do
         subject(:parsed_response) { JSON.parse(last_response.body) }
-        let!(:timeline)    { FactoryGirl.create(:timeline,     project_id: project.id) }
+        let!(:timeline)    { FactoryGirl.create(:timeline, project_id: project.id) }
         let!(:other_wp)    {
           FactoryGirl.create(:work_package, project_id: project.id,
                                             status: closed_status)

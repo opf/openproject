@@ -121,7 +121,7 @@ class RolesController < ApplicationController
     size = params[:page_limit].to_i
     page = params[:page].to_i
 
-    @roles = Role.paginated_search(params[:q],  page: page, page_limit: size)
+    @roles = Role.paginated_search(params[:q], page: page, page_limit: size)
     # we always get all the items on a page, so just check if we just got the last
     @more = @roles.total_pages > page
     @total = @roles.total_entries

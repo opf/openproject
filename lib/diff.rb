@@ -124,7 +124,7 @@ module RedmineDiff
           i += 1
           while df[i] && df[i][0] == whot && df[i][1] == last + 1
             s << df[i][2]
-            last  = df[i][1]
+            last = df[i][1]
             i += 1
           end
           curdiff.push [whot, p, s]

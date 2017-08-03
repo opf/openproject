@@ -172,7 +172,7 @@ class JournalManager
     end
   end
 
-  def self.create_journal(journable, journal_attributes, user = User.current,  notes = '')
+  def self.create_journal(journable, journal_attributes, user = User.current, notes = '')
     type = base_class(journable.class)
     extended_journal_attributes = journal_attributes.merge(journable_type: type.to_s)
                                   .merge(notes: notes)

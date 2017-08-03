@@ -52,7 +52,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
     before do
       allow(User).to receive(:current).and_return(admin)
 
-      assign(:project,  sample_project)
+      assign(:project, sample_project)
       render
     end
 
@@ -125,13 +125,13 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
                          name: 'Grand-Parent',
                          identifier: 'granny')
     }
-    let(:parent_project)       {
+    let(:parent_project) {
       FactoryGirl.create(:project,
                          name: 'Parent',
                          identifier: 'parent',
                          is_public: false).tap { |p| p.move_to_child_of(grand_parent_project.id) }
     }
-    let(:project)              { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id) } }
+    let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id) } }
 
     before do
       allow(User).to receive(:current).and_return anonymous

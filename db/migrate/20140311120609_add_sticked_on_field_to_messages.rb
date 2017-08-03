@@ -30,6 +30,6 @@
 
 class AddStickedOnFieldToMessages < ActiveRecord::Migration[4.2]
   def change
-    add_column :messages, :sticked_on, :datetime,  default: nil,  null: true
+    add_column :messages, :sticked_on, :datetime, default: nil, null: true
   end
 end

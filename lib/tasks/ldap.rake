@@ -54,13 +54,13 @@ namespace :ldap do
     ar_map = Hash[ %w(firstname lastname mail login).zip(attributes.drop(1)) ]
 
     # Parse filter string if available
-    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter,  'objectClass = *')
+    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, 'objectClass = *')
 
     # Open LDAP connection
     ldap_con = ldap.send(:initialize_ldap_con, ldap.account, ldap.account_password)
 
     User.transaction do
-      results = ldap_con.search(base: ldap.base_dn, filter: filter)  do |entry|
+      results = ldap_con.search(base: ldap.base_dn, filter: filter) do |entry|
 
         user = User.find_or_initialize_by(login: entry[ldap.attr_login])
         user.attributes = {

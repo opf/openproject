@@ -66,7 +66,7 @@ class PlanningElementTypeColor < ActiveRecord::Base
         self.hexcode = '#' + hexcode
       end
 
-      if hexcode.size == 4  # =~ /#.../
+      if hexcode.size == 4 # =~ /#.../
         self.hexcode = hexcode.gsub(/([^#])/, '\1\1')
       end
     end

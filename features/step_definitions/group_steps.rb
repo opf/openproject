@@ -31,7 +31,7 @@
 Given /^there is 1 group with the following:$/ do |table|
   group = FactoryGirl.build(:group)
 
-  send_table_to_object group, table,  name: Proc.new { |group, name| group.lastname = name }
+  send_table_to_object group, table, name: Proc.new { |group, name| group.lastname = name }
 end
 
 Given /^the group "(.+)" is a "(.+)" in the project "(.+)"$/ do |group_name, role_name, project_identifier|

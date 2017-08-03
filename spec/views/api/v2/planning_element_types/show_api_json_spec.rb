@@ -61,7 +61,7 @@ describe 'api/v2/planning_element_types/show.api.rabl', type: :view do
     end
 
     it 'should render all detail-information for the planning-element-type' do
-      expected_json =  { name: 'Awesometastic Planning Element Type',
+      expected_json = { name: 'Awesometastic Planning Element Type',
 
                          in_aggregation: false,
                          is_milestone: true,

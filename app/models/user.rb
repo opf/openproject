@@ -409,7 +409,7 @@ class User < Principal
   #
   def failed_too_many_recent_login_attempts?
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
-    return false if block_threshold == 0  # disabled
+    return false if block_threshold == 0 # disabled
     (last_failed_login_within_block_time? and
             failed_login_count >= block_threshold)
   end

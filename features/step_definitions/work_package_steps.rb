@@ -52,7 +52,7 @@ Given /^a relation between "(.*?)" and "(.*?)"$/ do |work_package_from, work_pac
   FactoryGirl.create :relation, from: from, to: to
 end
 
-Given /^user is already watching "(.*?)"$/  do |work_package_subject|
+Given /^user is already watching "(.*?)"$/ do |work_package_subject|
   work_package = WorkPackage.find_by(subject: work_package_subject)
   user = User.find(page.get_rack_session['user_id'])
 

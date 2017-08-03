@@ -29,7 +29,7 @@
 #++
 
 class UserMailer < BaseMailer
-  helper :application,  # for format_text
+  helper :application, # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
   helper IssuesHelper
@@ -455,7 +455,7 @@ class DueIssuesReminder
   def initialize(days = nil, project_id = nil, type_id = nil, user_ids = [])
     @days     = days ? days.to_i : 7
     @project  = Project.find_by(id: project_id)
-    @type  = ::Type.find_by(id: type_id)
+    @type = ::Type.find_by(id: type_id)
     @user_ids = user_ids
   end
 

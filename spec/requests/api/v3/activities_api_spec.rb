@@ -70,7 +70,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
     shared_context 'edit activity' do
       before {
         patch api_v3_paths.activity(journal.id),
-              { comment: comment }.to_json,  'CONTENT_TYPE' => 'application/json'
+              { comment: comment }.to_json, 'CONTENT_TYPE' => 'application/json'
       }
     end
 

@@ -279,7 +279,7 @@ describe WikiController, type: :controller do
                                     data: FactoryGirl.build(:journal_wiki_content_journal,
                                                             text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
 
-    get :annotate, params: { project_id: 1, id:  'CookBook documentation', version: journal_to.version }
+    get :annotate, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version }
     assert_response :success
     assert_template 'annotate'
     # Line 1

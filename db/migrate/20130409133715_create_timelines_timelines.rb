@@ -31,7 +31,7 @@
 class CreateTimelinesTimelines < ActiveRecord::Migration[4.2]
   def self.up
     create_table :timelines_timelines do |t|
-      t.column :name,        :string,  null: false
+      t.column :name,        :string, null: false
       t.column :content,     :text
 
       t.belongs_to :project

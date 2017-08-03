@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Enumerations', type: :feature do
-  let(:admin)  { FactoryGirl.create(:admin) }
+  let(:admin) { FactoryGirl.create(:admin) }
 
   before do
     login_as(admin)

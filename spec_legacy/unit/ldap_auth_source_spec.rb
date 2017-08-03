@@ -52,7 +52,7 @@ describe LdapAuthSource, type: :model do
 
       context 'with a valid LDAP user' do
         it 'should return the user attributes' do
-          attributes =  @auth.authenticate('example1', '123456')
+          attributes = @auth.authenticate('example1', '123456')
           assert attributes.is_a?(Hash), 'An hash was not returned'
           assert_equal 'Example', attributes[:firstname]
           assert_equal 'One', attributes[:lastname]

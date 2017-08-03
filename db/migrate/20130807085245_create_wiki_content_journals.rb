@@ -34,9 +34,9 @@ class CreateWikiContentJournals < ActiveRecord::Migration[4.2]
       t.integer :journal_id,                         null: false
       t.integer :page_id,                            null: false
       t.integer :author_id
-      t.text :text,         limit: (1.gigabyte - 1)
-      t.datetime :updated_on,                         null: false
-      t.integer :lock_version,                       null: false
+      t.text :text, limit: (1.gigabyte - 1)
+      t.datetime :updated_on, null: false
+      t.integer :lock_version, null: false
     end
   end
 end

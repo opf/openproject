@@ -125,7 +125,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
   describe 'with a planning element having a parent' do
     let(:project) { FactoryGirl.create(:project) }
 
-    let(:parent_element)   {
+    let(:parent_element) {
       FactoryGirl.create(:work_package,
                          id:         1337,
                          subject:       'Parent Element',
@@ -186,7 +186,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
   end
 
   describe 'with a planning element having a responsible' do
-    let(:responsible)      {
+    let(:responsible) {
       FactoryGirl.create(:user,
                          id: 1341,
                          firstname: 'Paul',

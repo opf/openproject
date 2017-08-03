@@ -59,7 +59,7 @@ describe Repository::Git, type: :model do
       path_encoding: 'ISO-8859-1'
     )
     assert @repository
-    @char_1        = CHAR_1_HEX2.dup
+    @char_1 = CHAR_1_HEX2.dup
     if @char_1.respond_to?(:force_encoding)
       @char_1.force_encoding('UTF-8')
     end
@@ -281,7 +281,7 @@ describe Repository::Git, type: :model do
   it 'should log utf8' do
     @repository.fetch_changesets
     @repository.reload
-    str_felix_hex  = FELIX_HEX2.dup
+    str_felix_hex = FELIX_HEX2.dup
     if str_felix_hex.respond_to?(:force_encoding)
       str_felix_hex.force_encoding('UTF-8')
     end

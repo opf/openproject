@@ -104,7 +104,7 @@ module ActionController #:nodoc:
     def verify_presence_of_keys_in_hash_flash_or_params(options) # :nodoc:
       [*options[:params]].find { |v| v && params[v.to_sym].nil?  } ||
         [*options[:session]].find { |v| session[v].nil? } ||
-        [*options[:flash]].find { |v| flash[v].nil?   }
+        [*options[:flash]].find { |v| flash[v].nil? }
     end
 
     def verify_method(options) # :nodoc:

@@ -206,7 +206,7 @@ class WikiController < ApplicationController
     if @page.new_record? ? @page.save : @content.save
       attachments = Attachment.attach_files(@page, permitted_params.attachments.to_h)
       render_attachment_warning_if_needed(@page)
-      call_hook(:controller_wiki_edit_after_save,  params: params, page: @page)
+      call_hook(:controller_wiki_edit_after_save, params: params, page: @page)
       flash[:notice] = l(:notice_successful_update)
       redirect_to_show
     else

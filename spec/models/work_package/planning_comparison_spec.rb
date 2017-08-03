@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Planning Comparison', type: :model do
   let (:project) { FactoryGirl.create(:project) }
-  let (:admin)  { FactoryGirl.create(:admin) }
+  let (:admin) { FactoryGirl.create(:admin) }
 
   before do
     # query implicitly uses the logged in user to check for allowed work_packages/projects

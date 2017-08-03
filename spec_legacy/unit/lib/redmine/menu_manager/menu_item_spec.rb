@@ -41,8 +41,8 @@ describe Redmine::MenuManager::MenuItem do
 
   Redmine::MenuManager.map :test_menu do |menu|
     menu.push(:parent, '/test', {})
-    menu.push(:child_menu, '/test',  parent: :parent)
-    menu.push(:child2_menu, '/test',  parent: :parent)
+    menu.push(:child_menu, '/test', parent: :parent)
+    menu.push(:child2_menu, '/test', parent: :parent)
   end
 
   # context new menu item
@@ -112,7 +112,7 @@ describe Redmine::MenuManager::MenuItem do
 
   it 'should new should not allow setting the parent item to the current item' do
     assert_raises ArgumentError do
-      Redmine::MenuManager::MenuItem.new(:test_error, '/test',  parent: :test_error)
+      Redmine::MenuManager::MenuItem.new(:test_error, '/test', parent: :test_error)
     end
   end
 

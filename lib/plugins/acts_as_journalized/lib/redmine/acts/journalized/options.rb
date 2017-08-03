@@ -89,7 +89,7 @@ module Redmine::Acts::Journalized
       # The method is overridden in feature modules that require specific options outside the
       # standard +has_many+ associations.
       def prepare_journaled_options(options)
-        result_options =  options.symbolize_keys
+        result_options = options.symbolize_keys
         result_options.reverse_merge!(Configuration.options)
         result_options.reverse_merge!(
           class_name: Journal.name,
