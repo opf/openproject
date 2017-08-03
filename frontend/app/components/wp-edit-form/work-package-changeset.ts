@@ -105,8 +105,10 @@ export class WorkPackageChangeset {
   public setValue(key:string, val:any) {
     this.changes[key] = val;
 
-    // Update the form for fields that may alter the form itself.
-    if (key === 'project' || key === 'type') {
+    // Update the form for fields that may alter the form itself
+    // when the work package is new. Otherwise, the save request afterwards
+    // will update the form automatically.
+    if (this.workPackage.isNew && (key === 'project' || key === 'type')) {
       this.updateForm();
     }
   }
