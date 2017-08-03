@@ -1,8 +1,7 @@
-import IAugmentedJQuery = angular.IAugmentedJQuery;
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {UploadFile} from '../../../api/op-file-upload/op-file-upload.service';
 
 export class PasteModel {
-  public files:File[] = [];
+  public files:UploadFile[] = [];
 
   constructor(protected dataTransfer:DataTransfer) {
     this.extractFiles(dataTransfer.files);
@@ -11,6 +10,17 @@ export class PasteModel {
     // to support older versions of Chrome.
     if (this.files.length === 0) {
       this.extractItems(dataTransfer.items);
+    }
+
+    for (let i = 0; i < this.files.length; i++) {
+      const file = this.files[i];
+      const date = Date.now().toString();
+      const extension = file.type.split('/')[1];
+      const newName = `${date}-${i}.${extension}`;
+
+      if (!file.name || file.name.indexOf('image.') === 0) {
+        file.customName = newName;
+      }
     }
   }
 
