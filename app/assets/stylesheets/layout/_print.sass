@@ -15,7 +15,6 @@
 
   #main
     background: #fff
-    display: block // For printing in FF
 
   #content-wrapper
     width: 99%
@@ -68,34 +67,27 @@
         top: 0
         padding: 0
         border: none
-        position: relative // For printing in FF
         overflow: visible !important
-        display: block // For printing in FF
+        position: relative
 
         #content-wrapper,
         #content
-          position: relative // For printing in FF
           margin: 0
           width: 100%
           padding: 0
           overflow: visible !important
+          position: relative
 
           &.hidden-navigation
             width: 99%
             margin-left: 0
 
           .work-packages-list-view--container
-            // display: block
             padding-left: 0
-            .toolbar-container
-              // display: none
             .work-packages-split-view
               overflow: visible
-              // display: block // For printing in FF
               .work-packages-split-view--tabletimeline-side
-                // display: block // For printing in FF
                 .work-packages-split-view--tabletimeline-content
-                  // display: block // For printing in FF
 
                   .wp-table--hierarchy-aditional-row,
                   tr.-checked,
@@ -104,7 +96,7 @@
                     background-color: transparent
 
               .work-packages-tabletimeline--table-side
-                contain: initial // For printing in Chrome§
+                contain: initial // For printing in Chrome
                 overflow: visible
 
                 &:not(.-timeline-visible)
@@ -136,3 +128,34 @@
         overflow: hidden
       .wp-timeline--scroll-wrapper
         border-left-width: 3px
+
+  html.-browser-firefox
+    body
+      &.controller-work_packages.action-index,
+      &.controller-work_packages.action-show,
+      &.controller-work_packages.full-create
+        #main
+          display: block
+
+          #content-wrapper,
+          #content
+            .work-packages-list-view--container
+              display: block
+              .toolbar-container
+                display: none
+              .work-packages-split-view
+                display: block
+                .work-packages-split-view--tabletimeline-side
+                  display: block
+                  .work-packages-split-view--tabletimeline-content
+                    display: block
+                    .work-packages-split-view--tabletimeline-side
+                      display: none
+                    .work-packages-tabletimeline--table-side
+                      &.-timeline-visible
+                        thead
+                          // Undo that hack from above for FF
+                          display: table-header-group
+                    .work-packages-tabletimeline--timeline-side
+                      // As this print is worthless, we remove it for FF
+                      display: none !important
