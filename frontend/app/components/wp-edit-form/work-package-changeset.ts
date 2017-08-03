@@ -75,9 +75,6 @@ export class WorkPackageChangeset {
     this.buildResource();
   }
 
-  public startEditing(key:string) {
-  }
-
   public reset(key:string) {
     delete this.changes[key];
   }

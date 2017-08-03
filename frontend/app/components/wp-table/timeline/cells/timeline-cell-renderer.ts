@@ -144,8 +144,6 @@ export class TimelineCellRenderer {
     }
 
     const changeset = renderInfo.changeset;
-    changeset.startEditing("startDate");
-    changeset.startEditing("dueDate");
     let direction:"left" | "right" | "both" | "create" | "dragright";
 
     // Update the cursor and maybe set start/due values

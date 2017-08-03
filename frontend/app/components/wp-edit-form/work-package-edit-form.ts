@@ -113,8 +113,6 @@ export class WorkPackageEditForm {
    * @param noWarnings Ignore warnings if the field cannot be opened
    */
   public activate(fieldName:string, noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
-    this.changeset.startEditing(fieldName);
-
     return this.buildField(fieldName).then((field:EditField) => {
       if (!field.writable && !noWarnings) {
         this.wpNotificationsService.showEditingBlockedError(field.displayName);
