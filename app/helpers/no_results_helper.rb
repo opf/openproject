@@ -54,7 +54,7 @@ module NoResultsHelper
     action_text = custom_action_text || t('.no_results_content_text')
 
     render partial: '/common/no_results',
-            locals: {
+           locals: {
                       title_text:  title,
                       action_text: display_action ? action_text : '',
                       action_url:  action_url || ''

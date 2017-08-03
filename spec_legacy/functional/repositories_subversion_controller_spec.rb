@@ -167,7 +167,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_template 'entry'
     # this line was removed in r3 and file was moved in r6
     assert_select 'td', attributes: { class: /line-code/ },
-               content: /Here's the code/
+                        content: /Here's the code/
   end
 
   it 'should entry not found' do
@@ -175,7 +175,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     @repository.reload
     get :entry, params: { project_id: PRJ_ID, path: 'subversion_test/zzz.c' }
     assert_select 'div', attributes: { id: /errorExplanation/ },
-               content: /The entry or revision was not found in the repository/
+                         content: /The entry or revision was not found in the repository/
   end
 
   it 'should entry download' do

@@ -155,9 +155,9 @@ class RedmineMailHandler
     headers = { 'User-Agent' => "Redmine mail handler/#{VERSION}" }
 
     data = { 'key' => key, 'email' => email,
-                           'allow_override' => allow_override,
-                           'unknown_user' => unknown_user,
-                           'no_permission_check' => no_permission_check}
+             'allow_override' => allow_override,
+             'unknown_user' => unknown_user,
+             'no_permission_check' => no_permission_check}
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
 
     debug "Posting to #{uri}..."

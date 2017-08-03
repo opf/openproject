@@ -103,8 +103,8 @@ describe TimeEntry, type: :model do
       @public_project = FactoryGirl.create(:project, is_public: true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
       FactoryGirl.create(:time_entry, spent_on: '2010-01-01',
-                          work_package: @issue,
-                          project: @public_project)
+                                      work_package: @issue,
+                                      project: @public_project)
     end
 
     context 'without a project' do
@@ -126,8 +126,8 @@ describe TimeEntry, type: :model do
       @public_project = FactoryGirl.create(:project, is_public: true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
       FactoryGirl.create(:time_entry, spent_on: '2010-01-01',
-                          work_package: @issue,
-                          project: @public_project)
+                                      work_package: @issue,
+                                      project: @public_project)
     end
 
     context 'without a project' do

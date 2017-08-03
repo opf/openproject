@@ -45,10 +45,10 @@ describe 'IssueNestedSet', type: :model do
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
       i.attributes = { project_id: 2,
-                             type_id: 1,
-                             author_id: 1,
-                             subject: 'child',
-                             parent_id: issue.id }
+                       type_id: 1,
+                       author_id: 1,
+                       subject: 'child',
+                       parent_id: issue.id }
     end
     assert !child.save
     refute_empty child.errors[:parent_id]
@@ -59,10 +59,10 @@ describe 'IssueNestedSet', type: :model do
     issue = create_issue!
     child = WorkPackage.new.tap do |i|
       i.attributes = { project_id: 2,
-                             type_id: 1,
-                             author_id: 1,
-                             subject: 'child',
-                             parent_id: issue.id }
+                       type_id: 1,
+                       author_id: 1,
+                       subject: 'child',
+                       parent_id: issue.id }
     end
     assert child.save
     assert_empty child.errors[:parent_id]
@@ -109,18 +109,18 @@ describe 'IssueNestedSet', type: :model do
     issue4 = create_issue!
     (r1 = Relation.new.tap do |i|
       i.attributes = { from: issue1,
-                             to: issue2,
-                             relation_type: Relation::TYPE_PRECEDES }
+                       to: issue2,
+                       relation_type: Relation::TYPE_PRECEDES }
     end).save!
     (r2 = Relation.new.tap do |i|
       i.attributes = { from: issue1,
-                             to: issue3,
-                             relation_type: Relation::TYPE_PRECEDES }
+                       to: issue3,
+                       relation_type: Relation::TYPE_PRECEDES }
     end).save!
     (r3 = Relation.new.tap do |i|
       i.attributes = { from: issue2,
-                             to: issue4,
-                             relation_type: Relation::TYPE_PRECEDES }
+                       to: issue4,
+                       relation_type: Relation::TYPE_PRECEDES }
     end).save!
     issue2.reload
     issue2.parent_id = issue1.id

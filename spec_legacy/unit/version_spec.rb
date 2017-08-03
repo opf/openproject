@@ -281,10 +281,10 @@ describe Version, type: :model do
   def add_work_package(version, attributes = {})
     (v = WorkPackage.new.tap do |v|
       v.attributes = { project: version.project,
-                             fixed_version: version,
-                             subject: 'Test',
-                             author: User.first,
-                             type: version.project.types.first }.merge(attributes)
+                       fixed_version: version,
+                       subject: 'Test',
+                       author: User.first,
+                       type: version.project.types.first }.merge(attributes)
     end).save!
 
     v

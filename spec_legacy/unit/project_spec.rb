@@ -829,16 +829,16 @@ describe Project, type: :model do
       Setting.cross_project_work_package_relations = '1'
 
       second_issue = FactoryGirl.create(:work_package, status_id: 5,
-                                           subject: 'copy issue relation',
-                                           type_id: 1,
-                                           assigned_to_id: 2,
-                                           project_id: @source_project.id)
+                                                       subject: 'copy issue relation',
+                                                       type_id: 1,
+                                                       assigned_to_id: 2,
+                                                       project_id: @source_project.id)
       source_relation = FactoryGirl.create(:relation, from: WorkPackage.find(4),
-                                           to: second_issue,
-                                           relation_type: 'relates')
+                                                      to: second_issue,
+                                                      relation_type: 'relates')
       source_relation_cross_project = FactoryGirl.create(:relation, from: WorkPackage.find(1),
-                                                         to: second_issue,
-                                                         relation_type: 'duplicates')
+                                                                    to: second_issue,
+                                                                    relation_type: 'duplicates')
 
       assert @project.copy(@source_project)
       assert_equal @source_project.work_packages.count, @project.work_packages.count
