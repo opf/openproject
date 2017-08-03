@@ -66,7 +66,6 @@ describe 'API v3 Revisions by work package resource', type: :request do
 
     it_behaves_like 'API V3 collection response', 0, 0, 'Revision'
 
-
     context 'with existing revisions' do
       let(:revisions) {
         FactoryGirl.build_list(:changeset,

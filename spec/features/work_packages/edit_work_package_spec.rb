@@ -181,7 +181,6 @@ describe 'edit work package', js: true do
       wp_page.expect_notification message: "#{custom_field.name} can't be blank.",
                                   type: 'error'
 
-
       cf_field = wp_page.edit_field("customField#{custom_field.id}")
       cf_field.expect_active!
       cf_field.expect_value('')

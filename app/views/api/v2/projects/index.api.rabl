@@ -35,7 +35,6 @@ attributes :id,
            :parent_id,
            :responsible_id
 
-
 node :type_ids, if: lambda{|project| project.types.present? } do |project|
   project.types.map(&:id)
 end

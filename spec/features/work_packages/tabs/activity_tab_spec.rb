@@ -78,7 +78,6 @@ describe 'Activity tab', js: true, selenium: true do
         expect(page).to have_selector(date_selector,
                                       text: journal.created_at.to_date.strftime("%B %-d, %Y"))
 
-
         activity = page.find("#activity-#{idx + 1}")
 
         if journal.id != note_1.id

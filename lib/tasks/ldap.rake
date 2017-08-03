@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -78,7 +79,6 @@ namespace :ldap do
     end
   end
 
-
   desc 'Register a LDAP auth source for the given LDAP URL and attribute mapping: ' \
        'rake ldap:register["url=<URL> name=<Name> onthefly=<true,false>map_{login,firstname,lastname,mail,admin}=attribute"]'
   task register: :environment do
@@ -88,7 +88,6 @@ namespace :ldap do
     unless %w(ldap ldaps).include?(url.scheme)
       raise "Expected #{args[:url]} to be a valid ldap(s) URI."
     end
-
 
     source = LdapAuthSource.find_or_initialize_by(name: args[:name])
 

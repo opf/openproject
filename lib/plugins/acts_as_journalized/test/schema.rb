@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 ActiveRecord::Base.establish_connection(
   adapter: defined?(RUBY_ENGINE) && RUBY_ENGINE == 'jruby' ? 'jdbcsqlite3' : 'sqlite3',
   database: File.join(File.dirname(__FILE__), 'test.db')

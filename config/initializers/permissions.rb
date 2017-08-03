@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -267,7 +268,6 @@ Redmine::AccessControl.map do |map|
 
     repo.permission :view_changesets,
                     repositories: [:show, :revisions, :revision]
-
 
     repo.permission :view_commit_author_statistics,
                     {}

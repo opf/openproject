@@ -58,7 +58,6 @@ describe 'Wiki menu_items migration', type: :feature do
     expect(menu_item.title).to eq('My linked page')
   end
 
-
   describe 'visiting the wiki' do
     let(:user) { FactoryGirl.create :admin }
 

@@ -38,7 +38,6 @@ describe ::API::V3::Users::UserRepresenter do
 
     it do is_expected.to include_json('User'.to_json).at_path('_type') end
 
-
     context 'as regular user' do
       it 'hides as much information as possible' do
         is_expected.to have_json_path('id')

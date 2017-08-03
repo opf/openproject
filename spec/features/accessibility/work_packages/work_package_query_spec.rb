@@ -95,7 +95,6 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
       it_behaves_like 'sort column'
     end
 
-
     shared_examples_for 'sortable column' do
       before do expect(page).to have_selector(column_header_selector) end
 

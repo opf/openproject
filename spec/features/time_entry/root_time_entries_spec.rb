@@ -71,7 +71,6 @@ describe "/time_entries", type: :feature do
       expect(page).to have_selector('td.comments', "TE 1")
       expect(page).to have_selector('td.comments', "TE 3")
 
-
       click_on "Comment"
       ajax_indicator_saveguard
       expect(shown_comments).to eq comments.sort

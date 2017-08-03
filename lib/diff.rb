@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 module RedmineDiff
   class Diff
     VERSION = 0.3
