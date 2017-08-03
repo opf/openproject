@@ -409,20 +409,20 @@ describe User, type: :model do
       it 'should return false if project is archived' do
         project = Project.find(1)
         allow_any_instance_of(Project).to receive(:status).and_return(Project::STATUS_ARCHIVED)
-        assert ! @admin.allowed_to?(:view_work_packages, Project.find(1))
+        assert !@admin.allowed_to?(:view_work_packages, Project.find(1))
       end
 
       it 'should return false if related module is disabled' do
         project = Project.find(1)
         project.enabled_module_names = ['work_package_tracking']
         assert @admin.allowed_to?(:add_work_packages, project)
-        assert ! @admin.allowed_to?(:view_wiki_pages, project)
+        assert !@admin.allowed_to?(:view_wiki_pages, project)
       end
 
       it 'should authorize nearly everything for admin users' do
         project = Project.find(1)
         project.enabled_module_names = ['work_package_tracking', 'news', 'wiki', 'repository']
-        assert ! @admin.member_of?(project)
+        assert !@admin.member_of?(project)
         %w(edit_work_packages delete_work_packages manage_news manage_repository manage_wiki).each do |p|
           assert @admin.allowed_to?(p.to_sym, project)
         end
@@ -432,20 +432,20 @@ describe User, type: :model do
         project = Project.find(1)
         project.enabled_module_names = ['boards']
         assert @jsmith.allowed_to?(:delete_messages, project)    # Manager
-        assert ! @dlopper.allowed_to?(:delete_messages, project) # Developper
+        assert !@dlopper.allowed_to?(:delete_messages, project) # Developper
       end
 
       it 'should only managers are allowed to export tickets' do
         project = Project.find(1)
         project.enabled_module_names = ['work_package_tracking']
         assert @jsmith.allowed_to?(:export_work_packages, project)    # Manager
-        assert ! @dlopper.allowed_to?(:export_work_packages, project) # Developper
+        assert !@dlopper.allowed_to?(:export_work_packages, project) # Developper
       end
     end
 
     context 'with multiple projects' do
       it 'should return false if array is empty' do
-        assert ! @admin.allowed_to?(:view_project, [])
+        assert !@admin.allowed_to?(:view_project, [])
       end
 
       it 'should return true only if user has permission on all these projects' do
@@ -455,9 +455,9 @@ describe User, type: :model do
         end
 
         assert @admin.allowed_to?(:view_project, Project.all)
-        assert ! @dlopper.allowed_to?(:view_project, Project.all) # cannot see Project(2)
+        assert !@dlopper.allowed_to?(:view_project, Project.all) # cannot see Project(2)
         assert @jsmith.allowed_to?(:edit_work_packages, @jsmith.projects) # Manager or Developer everywhere
-        assert ! @jsmith.allowed_to?(:delete_work_package_watchers, @jsmith.projects) # Dev cannot delete_work_package_watchers
+        assert !@jsmith.allowed_to?(:delete_work_package_watchers, @jsmith.projects) # Dev cannot delete_work_package_watchers
       end
 
       it 'should behave correctly with arrays of 1 project' do
@@ -470,9 +470,9 @@ describe User, type: :model do
         @dlopper2 = User.find(5) # only Developper on a project, not Manager anywhere
         @anonymous = User.find(6)
         assert @jsmith.allowed_to?(:delete_work_package_watchers, nil, global: true)
-        assert ! @dlopper2.allowed_to?(:delete_work_package_watchers, nil, global: true)
+        assert !@dlopper2.allowed_to?(:delete_work_package_watchers, nil, global: true)
         assert @dlopper2.allowed_to?(:add_work_packages, nil, global: true)
-        assert ! @anonymous.allowed_to?(:add_work_packages, nil, global: true)
+        assert !@anonymous.allowed_to?(:add_work_packages, nil, global: true)
         assert @anonymous.allowed_to?(:view_work_packages, nil, global: true)
       end
     end
