@@ -53,7 +53,7 @@ export class OpenProjectFileUploadService {
     const uploads = _.map(files, (file:UploadFile) => {
       const metadata = {
         description: file.description,
-        fileName: file.name
+        fileName: this.getFileName(file)
       };
 
       // need to wrap the metadata into a JSON ourselves as ngFileUpload
@@ -67,6 +67,24 @@ export class OpenProjectFileUploadService {
     });
     const finished = this.$q.all(uploads);
     return {uploads, finished};
+  }
+
+  private getFileName(file:UploadFile) {
+    if (file.name) {
+      return file.name;
+    }
+
+    let name = 'unnamed_upload';
+    try {
+      if (file.type.indexOf('image') === 0) {
+        name += '.' + file.type.split('/')[1];
+      }
+
+      return name;
+    } catch (e) {
+      console.error('Failed to get file name from mime type: ' + e);
+      return 'unnamed_upload';
+    }
   }
 }
 
