@@ -100,7 +100,7 @@ Redmine::AccessControl.map do |map|
                    planning_element_journals: [:index],
                    # This is api/v2/planning_element_types
                    planning_element_types: [:index,
-                                               :show]
+                                            :show]
 
     wpt.permission :export_work_packages,
                    work_packages: [:index, :all]
