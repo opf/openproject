@@ -149,7 +149,6 @@ export function registerWorkPackageMouseHandler(this: void,
     // abort if mouse leaves cell
     cell.onmouseleave = () => {
       placeholderForEmptyCell.remove();
-      deactivate(true);
     };
 
     // create logic
