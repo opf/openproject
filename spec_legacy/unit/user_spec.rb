@@ -431,14 +431,14 @@ describe User, type: :model do
       it 'should authorize normal users depending on their roles' do
         project = Project.find(1)
         project.enabled_module_names = ['boards']
-        assert @jsmith.allowed_to?(:delete_messages, project)    # Manager
+        assert @jsmith.allowed_to?(:delete_messages, project) # Manager
         assert !@dlopper.allowed_to?(:delete_messages, project) # Developper
       end
 
       it 'should only managers are allowed to export tickets' do
         project = Project.find(1)
         project.enabled_module_names = ['work_package_tracking']
-        assert @jsmith.allowed_to?(:export_work_packages, project)    # Manager
+        assert @jsmith.allowed_to?(:export_work_packages, project) # Manager
         assert !@dlopper.allowed_to?(:export_work_packages, project) # Developper
       end
     end
