@@ -64,7 +64,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
       'FocusHelper', '$q', '$timeout', 'templateRenderer', '$state', 'wpNotificationsService', 'wpTableSelection');
   }
 
-  public async activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):Promise<WorkPackageEditFieldHandler> {
+  public async activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler> {
     const ctrl = await this.fieldCtrl(field.name);
     const container = ctrl.editContainer;
 
