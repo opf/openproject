@@ -34,29 +34,29 @@ describe 'API v3 Watcher resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:current_user) {
+  let!(:current_user) do
     FactoryGirl.create :user, member_in_project: project, member_through_role: role
-  }
+  end
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [] }
   let(:view_work_packages_role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:available_watcher) {
+  let!(:available_watcher) do
     FactoryGirl.create :user,
                        firstname: 'Something',
                        lastname: 'Strange',
                        member_in_project: project,
                        member_through_role: view_work_packages_role
-  }
+  end
 
-  let(:watching_user) {
+  let!(:watching_user) do
     FactoryGirl.create :user,
                        member_in_project: project,
                        member_through_role: view_work_packages_role
-  }
-  let(:existing_watcher) {
+  end
+  let!(:existing_watcher) do
     FactoryGirl.create(:watcher, watchable: work_package, user: watching_user)
-  }
+  end
 
   subject(:response) { last_response }
 
@@ -67,7 +67,7 @@ describe 'API v3 Watcher resource', type: :request do
 
   describe '#get' do
     let(:get_path) { api_v3_paths.work_package_watchers work_package.id }
-    let(:permissions) { [:view_work_packages, :view_work_package_watchers] }
+    let(:permissions) { %i(view_work_packages view_work_package_watchers) }
 
     before do
       get get_path
@@ -90,14 +90,14 @@ describe 'API v3 Watcher resource', type: :request do
 
   describe '#post' do
     let(:post_path) { api_v3_paths.work_package_watchers work_package.id }
-    let(:post_body) {
+    let!(:post_body) do
       {
         user: { href: api_v3_paths.user(new_watcher.id) }
       }.to_json
-    }
+    end
     let(:new_watcher) { available_watcher }
 
-    let(:permissions) { [:add_work_package_watchers, :view_work_packages] }
+    let(:permissions) { %i(add_work_package_watchers view_work_packages) }
 
     before do
       post post_path, post_body, 'CONTENT_TYPE' => 'application/json'
@@ -133,11 +133,11 @@ describe 'API v3 Watcher resource', type: :request do
     end
 
     context 'when the user does not exist' do
-      let(:post_body) {
+      let!(:post_body) do
         {
           user: { href: api_v3_paths.user(99999) }
         }.to_json
-      }
+      end
 
       it_behaves_like 'not found'
     end
@@ -177,7 +177,7 @@ describe 'API v3 Watcher resource', type: :request do
     end
 
     context 'authorized user' do
-      let(:permissions) { [:delete_work_package_watchers, :view_work_packages] }
+      let(:permissions) { %i(delete_work_package_watchers view_work_packages) }
 
       it 'should respond with 204' do
         expect(subject.status).to eq(204)
@@ -226,11 +226,9 @@ describe 'API v3 Watcher resource', type: :request do
   end
 
   describe '#available_watchers' do
-    let(:permissions) { [:add_work_package_watchers, :view_work_packages] }
+    let(:permissions) { %i(add_work_package_watchers view_work_packages) }
     let(:available_watchers_path) { api_v3_paths.available_watchers work_package.id }
-    let(:returned_user_ids) {
-      JSON.parse(subject.body)['_embedded']['elements'].map {|user| user['id'] }
-    }
+    let(:returned_user_ids) { JSON.parse(subject.body)['_embedded']['elements'].map { |user| user['id'] } }
 
     before do
       available_watcher
@@ -252,11 +250,11 @@ describe 'API v3 Watcher resource', type: :request do
     end
 
     describe 'searching for a user' do
-      let(:available_watchers_path) {
+      let!(:available_watchers_path) do
         path = api_v3_paths.available_watchers work_package.id
         filters = %([{ "name": { "operator": "~", "values": ["#{query}"] } }])
         "#{path}?filters=#{filters}"
-      }
+      end
 
       context 'that does not exist' do
         let(:query) { 'asdfasdfasdfasdf' }
