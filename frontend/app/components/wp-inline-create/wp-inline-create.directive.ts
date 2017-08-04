@@ -144,27 +144,27 @@ export class WorkPackageInlineCreateController {
       const wp = this.currentWorkPackage = changeset.workPackage;
       (this.currentWorkPackage as any).inlineCreated = true;
 
-      this.applyDefaultsFromFilters(this.currentWorkPackage!).then(() => {
-        this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+      this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-        // Set editing context to table
-        const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
-        this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
-        this.workPackageEditForm.changeset.clear();
+      // Set editing context to table
+      const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
+      this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
+      this.workPackageEditForm.changeset.clear();
 
-        const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-        this.timelineBuilder.insert('new', this.table.timelineBody);
-        this.$element.append(row);
+      const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
+      this.timelineBuilder.insert('new', this.table.timelineBody);
+      this.$element.append(row);
 
-        this.$timeout(() => {
-          this.workPackageEditForm!.activateMissingFields();
-          this.hideRow();
-        });
+      this.$timeout(() => {
+        this.workPackageEditForm!.activateMissingFields();
+        this.hideRow();
       });
     });
   }
 
-  private applyDefaultsFromFilters(workPackage:WorkPackageResourceInterface) {
+/*  private applyDefaultsFromFilters(workPackage:WorkPackageResourceInterface) {
+    return this.$q.when();
+
     let filters = this.wpTableFilters.current as QueryFilterInstanceResource[];
 
     let promises:ng.IPromise<void>[] = [];
@@ -187,7 +187,7 @@ export class WorkPackageInlineCreateController {
     });
 
     return this.$q.all(promises);
-  }
+  }*/
 
   /**
    * Reset the new work package row and refocus on the button
