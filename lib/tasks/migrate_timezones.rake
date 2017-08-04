@@ -40,14 +40,13 @@ namespace :migrations do
     def mysql?
       @mysql ||= ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'mysql2'
     end
-
-    raise 'Error: Adapting Timestamps from system timezone to UTC is only supported for ' +
-      'postgres and mysql yet.' unless postgres? || mysql?
-
+    unless postgres? || mysql?
+      raise 'Error: Adapting Timestamps from system timezone to UTC is only supported for postgres and mysql yet.'
+    end
     def readOldTimezone
       if postgres?
-        @old_timezone = ActiveRecord::Base.connection.select_all(
-          "SELECT current_setting('timezone') AS timezone").first['timezone']
+        @old_timezone = ActiveRecord::Base.connection.select_all("SELECT current_setting('timezone') AS
+                                                                 timezone").first['timezone']
       end
     end
 
@@ -56,8 +55,9 @@ namespace :migrations do
         from_timezone = ENV['FROM'] || 'LOCAL'
         ActiveRecord::Base.connection.execute "SET TIME ZONE #{from_timezone}"
       elsif mysql?
-        converted_time = ActiveRecord::Base.connection.select_all( \
-          "SELECT CONVERT_TZ('2013-11-06 15:13:42', 'SYSTEM', 'UTC')").first.values.first
+        converted_time = ActiveRecord::Base.connection.select_all(
+          "SELECT CONVERT_TZ('2013-11-06 15:13:42', 'SYSTEM', 'UTC')"
+        ).first.values.first
 
         if converted_time.nil?
           raise <<-error
@@ -99,11 +99,9 @@ namespace :migrations do
 
     begin
       setFromTimezone
-
       getQueries.each do |statement|
         ActiveRecord::Base.connection.execute statement.values.first
       end
-
     ensure
       setOldTimezone
     end

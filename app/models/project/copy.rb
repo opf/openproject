@@ -43,11 +43,11 @@ module Project::Copy
   module CopyMethods
     def copy_attributes(project)
       super
-      with_model(project) do |project|
-        self.enabled_module_names = project.enabled_module_names
-        self.types = project.types
-        self.custom_values = project.custom_values.map(&:clone)
-        self.work_package_custom_fields = project.work_package_custom_fields
+      with_model(project) do |proj|
+        self.enabled_module_names = proj.enabled_module_names
+        self.types = proj.types
+        self.custom_values = proj.custom_values.map(&:clone)
+        self.work_package_custom_fields = proj.work_package_custom_fields
       end
       return self
     rescue ActiveRecord::RecordNotFound
@@ -163,14 +163,19 @@ module Project::Copy
         work_packages << new_issue
 
         if new_issue.new_record?
-          logger.info "Project#copy_work_packages: work unit ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
+          if logger && logger.info
+            logger.info "Project#copy_work_packages: work unit ##{issue.id}
+             could not be copied: #{new_issue.errors.full_messages}"
+          end
         else
           work_packages_map[issue.id] = new_issue unless new_issue.new_record?
         end
       end
 
       # reload all work_packages in our map, they might be modified by movement in their tree
-      work_packages_map.each do |_, v| v.reload end
+      work_packages_map.each do |_, v|
+        v.reload
+      end
 
       # Relations after in case issues related each other
       project.work_packages.each do |issue|
