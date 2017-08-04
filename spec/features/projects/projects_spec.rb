@@ -93,7 +93,6 @@ describe 'Projects', type: :feature do
       expect(current_path).to eq '/projects'
     end
 
-
   end
 
   describe 'project types' do

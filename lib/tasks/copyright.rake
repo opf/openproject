@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -212,7 +213,6 @@ namespace :copyright do
     excluded = ['app/assets/javascripts/date-de-DE.js',
                 'app/assets/javascripts/date-en-US.js',
                 'app/assets/javascripts/jstoolbar/']
-
 
     rewrite_copyright('js', excluded, :js, args[:arg1])
   end

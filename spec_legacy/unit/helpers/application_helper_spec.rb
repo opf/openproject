@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -48,9 +49,9 @@ describe ApplicationHelper, type: :helper do
     @issue = FactoryGirl.create :work_package, project: @project, author: @project_member, type: @project.types.first
 
     file = LegacyFileHelpers.mock_uploaded_file name: 'logo.gif',
-                                          content_type: 'image/gif',
-                                          content: 'not actually a gif',
-                                          binary: true
+                                                content_type: 'image/gif',
+                                                content: 'not actually a gif',
+                                                binary: true
     @attachment = FactoryGirl.create :attachment,
                                      author: @project_member,
                                      file: file,
@@ -108,7 +109,7 @@ describe ApplicationHelper, type: :helper do
       # inline styles should be stripped
       'with style !{width:100px;height100px}http://foo.bar/image.jpg!' => 'with style <img src="http://foo.bar/image.jpg" alt="" />',
       'with title !http://foo.bar/image.jpg(This is a title)!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a title" alt="This is a title" />',
-      'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" alt="This is a double-quoted &quot;title&quot;" />',
+      'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" alt="This is a double-quoted &quot;title&quot;" />'
     }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
@@ -133,7 +134,7 @@ RAW
       'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="" />',
       'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="" />',
       # link image
-      '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}\" title=\"This is a logo\" alt=\"This is a logo\" /></a>",
+      '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}\" title=\"This is a logo\" alt=\"This is a logo\" /></a>"
     }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, attachments: [@attachment]) }
   end
@@ -152,7 +153,7 @@ RAW
       # two exclamation marks
       '"a link":http://example.net/path!602815048C7B5C20!302.html' => '<a href="http://example.net/path!602815048C7B5C20!302.html" class="external">a link</a>',
       # escaping
-      '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>',
+      '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>'
     }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
@@ -162,7 +163,7 @@ RAW
       # shouldn't change non-relative links
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
-      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
+      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>'
     }.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
   end
 
@@ -178,7 +179,7 @@ RAW
       # shouldn't change non-relative links
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
-      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
+      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>'
     }.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
   end
 
@@ -189,7 +190,7 @@ RAW
 
     to_test = {
       # versions
-      'version:"1.0"'                         => 'version:"1.0"',
+      'version:"1.0"' => 'version:"1.0"',
       "#{@project.identifier}:version:\"1.0\"" => "<a class=\"version\" href=\"/versions/#{version.id}\">1.0</a>",
       'invalid:version:"1.0"'                 => 'invalid:version:"1.0"'
     }
@@ -219,12 +220,12 @@ RAW
     to_test.merge!(
       # changeset
       "r#{changeset.revision}"                => "r#{changeset.revision}",
-      "#{@project.identifier}:r#{changeset.revision}"  => changeset_link,
+      "#{@project.identifier}:r#{changeset.revision}" => changeset_link,
       "invalid:r#{changeset.revision}"        => "invalid:r#{changeset.revision}",
       # source
       'source:/some/file'                     => 'source:/some/file',
-      "#{@project.identifier}:source:/some/file"       => source_link,
-      'invalid:source:/some/file'             => 'invalid:source:/some/file',
+      "#{@project.identifier}:source:/some/file" => source_link,
+      'invalid:source:/some/file' => 'invalid:source:/some/file'
     )
 
     # helper.format_text "sees" the text is parses from the_other_project (and not @project)
@@ -243,11 +244,11 @@ RAW
                                controller: 'repositories',
                                action:     'revision',
                                project_id: @project.identifier,
-                               rev:        'abcd',
+                               rev:        'abcd'
                              },
                              class: 'changeset', title: 'test commit')
     to_test = {
-      'commit:abcd' => changeset_link,
+      'commit:abcd' => changeset_link
     }
     r = Repository::Git.create!(project: @project, scm_type: 'local', url: '/tmp/test/git')
     assert r
@@ -288,7 +289,7 @@ RAW
       "<pre onmouseover='alert(1)'>some text</pre>" => '<pre>some text</pre>',
       # xss
       '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
-      '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
+      '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>'
     }
     to_test.each { |text, result| assert_dom_equal result, helper.format_text(text) }
   end
@@ -359,7 +360,7 @@ EXPECTED
                 '(_text within parentheses_)' => '(<em>text within parentheses</em>)',
                 'a *Humane Web* Text Generator' => 'a <strong>Humane Web</strong> Text Generator',
                 'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
-                'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
+                'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator'
               }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
@@ -491,7 +492,7 @@ RAW
                 Date.today + 20000 => 'Due in over 54 years',
                 Date.today - 1 => '1 day late',
                 Date.today - 100 => 'about 3 months late',
-                Date.today - 20000 => 'over 54 years late',
+                Date.today - 20000 => 'over 54 years late'
                }
     ::I18n.locale = :en
     to_test.each do |date, expected|

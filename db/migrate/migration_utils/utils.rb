@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -87,7 +88,7 @@ module Migration
     def select_rows_from_database(table, column_list, conditions)
       columns = (column_list.nil?) ? '' : ', ' + column_list.join(', ')
       from_clause = table
-      where_clause =  conditions.nil? ? '1 = 1' : conditions
+      where_clause = conditions.nil? ? '1 = 1' : conditions
 
       select_all <<-SQL
         SELECT id#{columns}

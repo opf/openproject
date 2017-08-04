@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 #
 #-- copyright
 # OpenProject is a project management system.
@@ -101,7 +102,7 @@ namespace :timelines do
           { name: 'Deployment ATU1',   color: 'pjPurple', is_milestone: true },
           { name: 'Deployment ATU2',   color: 'pjTeal', is_milestone: true },
           { name: 'Backup',            color: 'pjAqua' },
-          { name: 'Reporting',         color: 'pjSilver' },
+          { name: 'Reporting',         color: 'pjSilver' }
         ],
 
         'Anforderung' => [

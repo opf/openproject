@@ -102,7 +102,6 @@ describe CategoriesController, type: :controller do
       get :edit, params: { id: category_id }
     end
 
-
     context 'valid category' do
       let(:category_id) { category.id }
       it { is_expected.to be_success }

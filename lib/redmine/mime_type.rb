@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -78,7 +79,7 @@ module Redmine
       'video/x-ms-wmv' => 'wmv',
       'video/quicktime' => 'qt,mov',
       'video/vnd.vivo' => 'viv,vivo',
-      'video/x-msvideo' => 'avi',
+      'video/x-msvideo' => 'avi'
     }.freeze
 
     EXTENSIONS = MIME_TYPES.inject({}) { |map, (type, exts)|

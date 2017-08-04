@@ -121,7 +121,7 @@ describe WorkPackage, type: :model do
     let(:wp) { FactoryGirl.build(:work_package) }
 
     it 'validate, that versions of the project can be assigned to workpackages' do
-      assignable_version   = FactoryGirl.create(:version, project: wp.project)
+      assignable_version = FactoryGirl.create(:version, project: wp.project)
 
       wp.fixed_version = assignable_version
       expect(wp).to be_valid
@@ -138,7 +138,7 @@ describe WorkPackage, type: :model do
     end
 
     it 'validate, that closed or locked versions cannot be assigned' do
-      non_assignable_version   = FactoryGirl.create(:version, project: wp.project)
+      non_assignable_version = FactoryGirl.create(:version, project: wp.project)
 
       %w{locked closed}.each do |status|
         non_assignable_version.update_attribute(:status, status)

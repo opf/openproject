@@ -66,7 +66,7 @@ describe ApplicationHelper, type: :helper do
         OpenProject::Footer.add_content('openproject', 'footer')
       end
 
-      it { expect(footer_content.include?(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy  }
+      it { expect(footer_content.include?(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy }
       it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy  }
     end
 
@@ -76,7 +76,7 @@ describe ApplicationHelper, type: :helper do
         OpenProject::Footer.add_content('openproject', Proc.new { Date.parse(Time.now.to_s) })
       end
 
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_truthy  }
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_truthy }
     end
 
     context 'proc which returns nothing' do

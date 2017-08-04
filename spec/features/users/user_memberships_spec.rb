@@ -35,7 +35,7 @@ feature 'user memberships through user page', type: :feature, js: true do
   let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
   let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
 
-  let(:user_page)   { Pages::Admin::User.new(admin.id) }
+  let(:user_page) { Pages::Admin::User.new(admin.id) }
 
   before do
     login_as(admin)
@@ -63,7 +63,7 @@ feature 'user memberships through user page', type: :feature, js: true do
 
   context 'when user has an inherited role' do
     let(:group)     { FactoryGirl.create :group, lastname: 'A-Team' }
-    let(:group_page)   { Pages::Groups.new.group(group.id) }
+    let(:group_page) { Pages::Groups.new.group(group.id) }
 
     before do
       group.add_member! admin

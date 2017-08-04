@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,10 +35,10 @@ class CreateTimeEntryJournals < ActiveRecord::Migration[4.2]
       t.integer :project_id,      null: false
       t.integer :user_id,         null: false
       t.integer :work_package_id
-      t.float :hours,           null: false
+      t.float :hours, null: false
       t.string :comments
-      t.integer :activity_id,     null: false
-      t.date :spent_on,        null: false
+      t.integer :activity_id, null: false
+      t.date :spent_on, null: false
       t.integer :tyear,           null: false
       t.integer :tmonth,          null: false
       t.integer :tweek,           null: false

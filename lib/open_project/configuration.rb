@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,11 +34,11 @@ module OpenProject
   module Configuration
     extend Helpers
 
-    ENV_PREFIX = 'OPENPROJECT_'
+    ENV_PREFIX = 'OPENPROJECT_'.freeze
 
     # Configuration default values
     @defaults = {
-      'attachments_storage'     => 'file',
+      'attachments_storage' => 'file',
       'attachments_storage_path' => nil,
       'autologin_cookie_name'   => 'autologin',
       'autologin_cookie_path'   => '/',
@@ -71,12 +72,12 @@ module OpenProject
       'email_delivery_method' => nil,
       'smtp_address' => nil,
       'smtp_port' => nil,
-      'smtp_domain' => nil,  # HELO domain
+      'smtp_domain' => nil, # HELO domain
       'smtp_authentication' => nil,
       'smtp_user_name' => nil,
       'smtp_password' => nil,
       'smtp_enable_starttls_auto' => nil,
-      'smtp_openssl_verify_mode' => nil,  # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
+      'smtp_openssl_verify_mode' => nil, # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
       'sendmail_location' => '/usr/sbin/sendmail',
       'sendmail_arguments' => '-i',
 
@@ -105,7 +106,7 @@ module OpenProject
       # before health check fails
       'health_checks_jobs_queue_count_threshold' => 50,
       # Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
-      'health_checks_jobs_never_ran_minutes_ago' => 5,
+      'health_checks_jobs_never_ran_minutes_ago' => 5
     }
 
     @config = nil

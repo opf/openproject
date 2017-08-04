@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -103,7 +104,7 @@ describe RepositoriesController, 'Git', type: :controller do
     @repository.reload
     [
       'tag00.lightweight',
-      'tag01.annotated',
+      'tag01.annotated'
     ].each do |t1|
       get :show, params: { project_id: 3, rev: t1 }
       assert_response :success
@@ -215,9 +216,9 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_template 'annotate'
     # Line 23, changeset 2f9c0091
     assert_select 'th', content: /24/,
-               sibling: { tag: 'td', child: { tag: 'a', content: /2f9c0091/ } },
-               sibling: { tag: 'td', content: /jsmith/ },
-               sibling: { tag: 'td', content: /watcher =/ }
+                        sibling: { tag: 'td', child: { tag: 'a', content: /2f9c0091/ } },
+                        sibling: { tag: 'td', content: /jsmith/ },
+                        sibling: { tag: 'td', content: /watcher =/ }
   end
 
   it 'should annotate at given revision' do
@@ -236,7 +237,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response 200
 
     assert_select 'p', attributes: { class: /nodata/ },
-               content: I18n.t('repositories.warnings.cannot_annotate')
+                       content: I18n.t('repositories.warnings.cannot_annotate')
   end
 
   it 'should revision' do

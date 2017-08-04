@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 require File.join(File.dirname(__FILE__), 'test_helper')
 
 class OptionsTest < Test::Unit::TestCase

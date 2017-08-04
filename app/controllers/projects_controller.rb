@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -187,7 +188,6 @@ class ProjectsController < ApplicationController
       end
     end
   end
-
 
   def types
     if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)

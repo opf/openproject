@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -65,7 +66,7 @@ describe 'ProjectNestedSet', type: :model do
           @b1  => [@b.id, 8, 11],
           @b11 => [@b1.id, 9, 10],
           @b2  => [@b.id, 12, 13],
-          @c   => [nil,  15, 18],
+          @c   => [nil, 15, 18],
           @c1  => [@c.id, 16, 17]
         )
       end
@@ -78,7 +79,7 @@ describe 'ProjectNestedSet', type: :model do
         end
         assert_nested_set_values(
           @a   => [nil,   1, 10],
-          @a2  => [@a.id, 4,  9],
+          @a2  => [@a.id, 4, 9],
           @b1  => [@a2.id, 5,  8],
           @b11 => [@b1.id, 6,  7],
           @b   => [nil,  11, 14],
@@ -98,7 +99,7 @@ describe 'ProjectNestedSet', type: :model do
             @a1 => [@a.id, 2,  3],
             @a2 => [@a.id, 4,  5],
             @c  => [nil,   7, 10],
-            @c1 => [@c.id, 8,  9]
+            @c1 => [@c.id, 8, 9]
           )
         end
       end
@@ -109,10 +110,10 @@ describe 'ProjectNestedSet', type: :model do
             Project.find_by(name: 'Project B1').destroy
           end
           assert_nested_set_values(
-            @a  => [nil,   1,  6],
+            @a  => [nil,   1, 6],
             @b  => [nil,   7, 10],
-            @b2 => [@b.id, 8,  9],
-            @c  => [nil,  11, 14]
+            @b2 => [@b.id, 8, 9],
+            @c  => [nil, 11, 14]
           )
         end
       end

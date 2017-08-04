@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -93,7 +94,7 @@ class RolesController < ApplicationController
     redirect_to action: 'index'
     notify_changed_roles(:removed, @role)
   rescue
-    flash[:error] =  l(:error_can_not_remove_role)
+    flash[:error] = l(:error_can_not_remove_role)
     redirect_to action: 'index'
   end
 
@@ -120,7 +121,7 @@ class RolesController < ApplicationController
     size = params[:page_limit].to_i
     page = params[:page].to_i
 
-    @roles = Role.paginated_search(params[:q],  page: page, page_limit: size)
+    @roles = Role.paginated_search(params[:q], page: page, page_limit: size)
     # we always get all the items on a page, so just check if we just got the last
     @more = @roles.total_pages > page
     @total = @roles.total_entries

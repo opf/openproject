@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -51,7 +52,7 @@ module LegacyAssertionsAndHelpers
                                       original_filename: a.attributes['filename']
         rescue # imaginary file: create it on-the-fly
           a.file = LegacyFileHelpers.mock_uploaded_file name: a.attributes['filename'],
-                                                  content_type: a.attributes['content_type']
+                                                        content_type: a.attributes['content_type']
         end
 
         a.save!

@@ -49,7 +49,7 @@ describe '/api/v2/users/index.api.rabl', type: :view do
     let(:users) {
       [
         FactoryGirl.build(:user, firstname: 'Peter', lastname: 'Test'),
-        FactoryGirl.build(:user, firstname: 'Mary', lastname: 'Test'),
+        FactoryGirl.build(:user, firstname: 'Mary', lastname: 'Test')
       ]
     }
 

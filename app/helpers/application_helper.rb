@@ -249,7 +249,7 @@ module ApplicationHelper
       identifier = element[:project].id
       tag_options = {
         value: h(identifier),
-        title: h(element[:project].name),
+        title: h(element[:project].name)
       }
 
       if !selected.nil? && selected.id == identifier
@@ -455,7 +455,7 @@ module ApplicationHelper
     text.to_s
       .gsub(/\r\n?/, "\n")                    # \r\n and \r -> \n
       .gsub(/\n\n+/, '<br /><br />')          # 2+ newline  -> 2 br
-      .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />')  # 1 newline   -> br
+      .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />') # 1 newline   -> br
       .html_safe
   end
 

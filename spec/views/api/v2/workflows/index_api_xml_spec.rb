@@ -71,7 +71,7 @@ describe 'api/v2/workflows/index.api.rabl', type: :view do
       it { expect(subject).to have_selector('workflows workflow transition', count: 4) }
 
       context 'type 0' do
-        it 'type 0 has correct number of transitions'  do
+        it 'type 0 has correct number of transitions' do
           expect(subject).to have_selector('workflows workflow type_id', text: 0) do |tag|
             expect(tag).to have_selector('transitions', count: 2)
           end
@@ -79,7 +79,7 @@ describe 'api/v2/workflows/index.api.rabl', type: :view do
       end
 
       context 'type 1' do
-        it 'type 1 has correct number of transitions'  do
+        it 'type 1 has correct number of transitions' do
           expect(subject).to have_selector('workflows workflow type_id', text: 1) do |tag|
             expect(tag).to have_selector('transitions', count: 2)
           end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -80,7 +81,7 @@ class MessagesController < ApplicationController
     @message.attach_files(permitted_params.attachments.to_h)
 
     if @message.save
-      call_hook(:controller_messages_new_after_save,  params: params, message: @message)
+      call_hook(:controller_messages_new_after_save, params: params, message: @message)
 
       redirect_to topic_path(@message)
     else
@@ -99,7 +100,7 @@ class MessagesController < ApplicationController
 
     @topic.children << @reply
     if !@reply.new_record?
-      call_hook(:controller_messages_reply_after_save,  params: params, message: @reply)
+      call_hook(:controller_messages_reply_after_save, params: params, message: @reply)
       attachments = Attachment.attach_files(@reply, permitted_params.attachments)
       render_attachment_warning_if_needed(@reply)
     end

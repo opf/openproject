@@ -31,7 +31,7 @@
 require 'bundler'
 require 'json'
 
-DEFAULT_GROUPS  = [:opf_plugins]
+DEFAULT_GROUPS  = [:opf_plugins].freeze
 DEFAULT_GEMFILE = File.expand_path('../../Gemfile', __FILE__)
 
 def plugin_names(gemfile = DEFAULT_GEMFILE)

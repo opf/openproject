@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@
 module VersionsHelper
   include WorkPackagesFilterHelper
 
-  STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to)
+  STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to).freeze
 
   def render_status_by(version, criteria)
     criteria = 'category' unless STATUS_BY_CRITERIAS.include?(criteria)

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -184,14 +185,14 @@ module TimelogHelper
   end
 
   def to_utf8_for_timelogs(s)
-    s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s  end
+    s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s end
 
   def polymorphic_time_entries_path(object)
     polymorphic_path([object, :time_entries])
   end
 
   def polymorphic_new_time_entry_path(object)
-    polymorphic_path([:new, object, :time_entry,])
+    polymorphic_path([:new, object, :time_entry])
   end
 
   def polymorphic_time_entries_report_path(object)

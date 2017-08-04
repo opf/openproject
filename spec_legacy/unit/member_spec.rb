@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -42,8 +43,8 @@ describe Member, type: :model do
   it 'should create' do
     member = Member.new.tap do |m|
       m.attributes = { project_id: @project.id,
-                             user_id: FactoryGirl.create(:user).id,
-                             role_ids: [@role.id] }
+                       user_id: FactoryGirl.create(:user).id,
+                       role_ids: [@role.id] }
     end
     assert member.save
     member.reload
@@ -74,8 +75,8 @@ describe Member, type: :model do
     2.times do
       members << Member.new.tap do |m|
         m.attributes = { project_id: @project.id,
-                               user_id: user_id,
-                               role_ids: [@role.id] }
+                         user_id: user_id,
+                         role_ids: [@role.id] }
       end
     end
 
@@ -85,8 +86,8 @@ describe Member, type: :model do
 
     member = Member.new.tap do |m|
       m.attributes = { project_id: @project,
-                             user_id: FactoryGirl.create(:user).id,
-                             role_ids: [] }
+                       user_id: FactoryGirl.create(:user).id,
+                       role_ids: [] }
     end
     # must have one role at least
     assert !member.save
@@ -132,8 +133,8 @@ describe Member, type: :model do
       before do
         (@member = Member.new.tap do |m|
           m.attributes = { project_id: @private_project.id,
-                                 user_id: @watcher_user.id,
-                                 role_ids: [@private_role.id, FactoryGirl.create(:role).id] }
+                           user_id: @watcher_user.id,
+                           role_ids: [@private_role.id, FactoryGirl.create(:role).id] }
         end).save!
       end
 
@@ -162,8 +163,8 @@ describe Member, type: :model do
         @group = FactoryGirl.create :group
         @member = (Member.new.tap do |m|
           m.attributes = { project_id: @private_project.id,
-                                 user_id: @group.id,
-                                 role_ids: [@private_role.id, FactoryGirl.create(:role).id] }
+                           user_id: @group.id,
+                           role_ids: [@private_role.id, FactoryGirl.create(:role).id] }
         end)
 
         @group.members << @member

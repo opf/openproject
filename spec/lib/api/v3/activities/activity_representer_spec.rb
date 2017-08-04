@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Activities::ActivityRepresenter do
-  let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
+  let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:journal) { Journal::AggregatedJournal.aggregated_journals.first }
   let(:project) { work_package.project }

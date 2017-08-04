@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -41,7 +42,7 @@ class ProjectAssociation < ActiveRecord::Base
            :validate_projects_not_identical
 
   scope :with_projects, -> (projects) {
-    projects = [projects] unless  projects.is_a? Array
+    projects = [projects] unless projects.is_a? Array
     project_ids = projects.first.respond_to?(:id) ? projects.map(&:id).join(',') : projects
 
     where(["#{table_name}.project_a_id in (?) or #{table_name}.project_b_id in (?)", project_ids, project_ids])

@@ -56,7 +56,7 @@ describe ReportingsController, type: :controller do
   end
 
   describe 'new.html' do
-    let(:project)   { FactoryGirl.create(:project) }
+    let(:project) { FactoryGirl.create(:project) }
     def fetch
       FactoryGirl.create(:public_project) # reporting candidate
 
@@ -67,7 +67,7 @@ describe ReportingsController, type: :controller do
   end
 
   describe 'create.html' do
-    let(:project)   { FactoryGirl.create(:project) }
+    let(:project) { FactoryGirl.create(:project) }
     def fetch
       post 'create',
            params: {

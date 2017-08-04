@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -147,7 +148,6 @@ module OpenProject
       parsed
     end
 
-
     MACROS_RE = /
                   (!)?                        # escaping
                   (
@@ -285,7 +285,7 @@ module OpenProject
             wiki_title = wiki_page.nil? ? page : wiki_page.title
             url = case options[:wiki_links]
                   when :local; "#{title}.html"
-                  when :anchor; "##{title}"   # used for single-file wiki export
+                  when :anchor; "##{title}" # used for single-file wiki export
                   else
                     wiki_page_id = wiki_page.nil? ? page.to_url : wiki_page.slug
                     url_for(only_path: only_path, controller: '/wiki', action: 'show', project_id: link_project, id: wiki_page_id, anchor: anchor)

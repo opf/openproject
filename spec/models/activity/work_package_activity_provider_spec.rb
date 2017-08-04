@@ -5,7 +5,8 @@
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
-# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine.
+# The copyright follows:
 # Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
@@ -48,20 +49,36 @@ describe Activity::WorkPackageActivityProvider, type: :model do
   describe '#event_type' do
     describe 'latest events' do
       context 'when a work package has been created' do
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.yesterday, Date.tomorrow, {}).last.try :event_type }
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(
+          event_scope,
+          user,
+          Date.yesterday,
+          Date.tomorrow,
+          {}).last.try :event_type }
         before do work_package.save! end
 
         it { is_expected.to eq(work_package_edit_event) }
       end
 
       context 'should be selected and ordered correctly' do
-        let!(:work_packages) { (1..20).map { (FactoryGirl.create :work_package, author: user).id.to_s } }
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.yesterday, Date.tomorrow, limit: 10).map { |a| a.journable_id.to_s } }
+        let!(:work_packages) { (1..20).map { (FactoryGirl.create :work_package,
+          author: user).id.to_s } }
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(
+          event_scope,
+          user,
+          Date.yesterday,
+          Date.tomorrow,
+          limit: 10).map { |a| a.journable_id.to_s } }
         it { is_expected.to eq(work_packages.reverse.first(10)) }
       end
 
       context 'when a work package has been created and then closed' do
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(event_scope, user, Date.yesterday, Date.tomorrow,  limit: 10).first.try :event_type }
+        let(:subject) { Activity::WorkPackageActivityProvider.find_events(
+          event_scope,
+          user,
+          Date.yesterday,
+          Date.tomorrow,
+          limit: 10).first.try :event_type }
 
         before do
           login_as(user)

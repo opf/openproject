@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -49,8 +50,8 @@ namespace :migrations do
 
     private
 
-    PE_TYPE_KEY = 'planning_element_types'
-    PE_TIME_TYPE_KEY = 'planning_element_time_types'
+    PE_TYPE_KEY = 'planning_element_types'.freeze
+    PE_TIME_TYPE_KEY = 'planning_element_time_types'.freeze
 
     # We create the migration class dynamically because rake would try to
     # execute the migration on 'rake db:migrate' otherwise.

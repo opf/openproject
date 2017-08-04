@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -56,7 +57,7 @@ class WorkPackages::BulkController < ApplicationController
       attributes = parse_params_for_bulk_work_package_attributes params, work_package.project
       work_package.assign_attributes attributes
 
-      call_hook(:controller_work_packages_bulk_edit_before_save,  params: params, work_package: work_package)
+      call_hook(:controller_work_packages_bulk_edit_before_save, params: params, work_package: work_package)
       JournalManager.send_notification = params[:send_notification] == '0' ? false : true
       unless work_package.save
         unsaved_work_package_ids << work_package.id

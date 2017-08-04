@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,8 +39,8 @@ describe Repository::Git, type: :model do
     path
   }
 
-  FELIX_HEX2  = "Felix Sch\xC3\xA4fer"
-  CHAR_1_HEX2 = "\xc3\x9c"
+  FELIX_HEX2  = "Felix Sch\xC3\xA4fer".freeze
+  CHAR_1_HEX2 = "\xc3\x9c".freeze
 
   ## Ruby uses ANSI api to fork a process on Windows.
   ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem
@@ -58,7 +59,7 @@ describe Repository::Git, type: :model do
       path_encoding: 'ISO-8859-1'
     )
     assert @repository
-    @char_1        = CHAR_1_HEX2.dup
+    @char_1 = CHAR_1_HEX2.dup
     if @char_1.respond_to?(:force_encoding)
       @char_1.force_encoding('UTF-8')
     end
@@ -70,7 +71,7 @@ describe Repository::Git, type: :model do
 
     assert_equal 22, @repository.changesets.count
     file_count = @repository.file_changes.count
-    assert([33,34].include? file_count) # Mac OS X reports one file less changed
+    assert([33, 34].include? file_count) # Mac OS X reports one file less changed
 
     commit = @repository.changesets.reorder('committed_on ASC').first
     assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
@@ -120,7 +121,7 @@ describe Repository::Git, type: :model do
     assert_equal [
       'deff712f05a90d96edbd70facc47d944be5897e3',
       '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-      '7234cb2750b63f47bff735edc50a1c0a433c2518',
+      '7234cb2750b63f47bff735edc50a1c0a433c2518'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('README', nil)
@@ -130,65 +131,65 @@ describe Repository::Git, type: :model do
       '713f4944648826f558cf548222f813dabe7cbb04',
       '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
       '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-      '7234cb2750b63f47bff735edc50a1c0a433c2518',
+      '7234cb2750b63f47bff735edc50a1c0a433c2518'
     ], changesets.map(&:revision)
 
     # with path, revision and limit
     changesets = @repository.latest_changesets('images', '899a15dba')
     assert_equal [
       '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-      '7234cb2750b63f47bff735edc50a1c0a433c2518',
+      '7234cb2750b63f47bff735edc50a1c0a433c2518'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('images', '899a15dba', 1)
     assert_equal [
-      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('README', '899a15dba')
     assert_equal [
       '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-      '7234cb2750b63f47bff735edc50a1c0a433c2518',
+      '7234cb2750b63f47bff735edc50a1c0a433c2518'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('README', '899a15dba', 1)
     assert_equal [
-      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9'
     ], changesets.map(&:revision)
 
     # with path, tag and limit
     changesets = @repository.latest_changesets('images', 'tag01.annotated')
     assert_equal [
       '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-      '7234cb2750b63f47bff735edc50a1c0a433c2518',
+      '7234cb2750b63f47bff735edc50a1c0a433c2518'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('images', 'tag01.annotated', 1)
     assert_equal [
-      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('README', 'tag01.annotated')
     assert_equal [
       '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-      '7234cb2750b63f47bff735edc50a1c0a433c2518',
+      '7234cb2750b63f47bff735edc50a1c0a433c2518'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('README', 'tag01.annotated', 1)
     assert_equal [
-      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9'
     ], changesets.map(&:revision)
 
     # with path, branch and limit
     changesets = @repository.latest_changesets('images', 'test_branch')
     assert_equal [
       '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-      '7234cb2750b63f47bff735edc50a1c0a433c2518',
+      '7234cb2750b63f47bff735edc50a1c0a433c2518'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('images', 'test_branch', 1)
     assert_equal [
-      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
+      '899a15dba03a3b350b89c3f537e4bbe02a03cdc9'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('README', 'test_branch')
@@ -196,13 +197,13 @@ describe Repository::Git, type: :model do
       '713f4944648826f558cf548222f813dabe7cbb04',
       '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
       '899a15dba03a3b350b89c3f537e4bbe02a03cdc9',
-      '7234cb2750b63f47bff735edc50a1c0a433c2518',
+      '7234cb2750b63f47bff735edc50a1c0a433c2518'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets('README', 'test_branch', 2)
     assert_equal [
       '713f4944648826f558cf548222f813dabe7cbb04',
-      '61b685fbe55ab05b5ac68402d5720c1a6ac973d1',
+      '61b685fbe55ab05b5ac68402d5720c1a6ac973d1'
     ], changesets.map(&:revision)
 
     # latin-1 encoding path
@@ -210,13 +211,13 @@ describe Repository::Git, type: :model do
       "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89')
     assert_equal [
       '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
-      '4fc55c43bf3d3dc2efb66145365ddc17639ce81e',
+      '4fc55c43bf3d3dc2efb66145365ddc17639ce81e'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets(
       "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89', 1)
     assert_equal [
-      '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
+      '64f1f3e89ad1cb57976ff0ad99a107012ba3481d'
     ], changesets.map(&:revision)
   end
 
@@ -229,7 +230,7 @@ describe Repository::Git, type: :model do
       changesets = @repository.latest_changesets(
         "latin-1-dir/test-#{@char_1}-subdir", '1ca7f5ed')
       assert_equal [
-        '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127',
+        '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'
       ], changesets.map(&:revision)
     end
   end
@@ -280,7 +281,7 @@ describe Repository::Git, type: :model do
   it 'should log utf8' do
     @repository.fetch_changesets
     @repository.reload
-    str_felix_hex  = FELIX_HEX2.dup
+    str_felix_hex = FELIX_HEX2.dup
     if str_felix_hex.respond_to?(:force_encoding)
       str_felix_hex.force_encoding('UTF-8')
     end

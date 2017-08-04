@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -96,7 +97,6 @@ class Scm::CheckoutInstructionsService
   def supported_but_not_enabled?
     repository.supports_checkout_info? && !checkout_enabled?
   end
-
 
   ##
   # Determines whether permissions for the given repository

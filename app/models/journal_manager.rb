@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -171,7 +172,7 @@ class JournalManager
     end
   end
 
-  def self.create_journal(journable, journal_attributes, user = User.current,  notes = '')
+  def self.create_journal(journable, journal_attributes, user = User.current, notes = '')
     type = base_class(journable.class)
     extended_journal_attributes = journal_attributes.merge(journable_type: type.to_s)
                                   .merge(notes: notes)

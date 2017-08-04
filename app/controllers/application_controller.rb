@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -443,7 +444,7 @@ class ApplicationController < ActionController::Base
       params[:back_url],
       hostname: request.host,
       default: default,
-      return_escaped: use_escaped,
+      return_escaped: use_escaped
     )
 
     redirect_to policy.redirect_url

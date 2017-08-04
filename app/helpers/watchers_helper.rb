@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -53,10 +54,8 @@ module WatchersHelper
       l(:button_unwatch) :
       l(:button_watch)
 
-    link_to(content_tag(:i,'', class: watched ? 'button--icon icon-watched' : ' button--icon icon-unwatched') + ' ' +
+    link_to(content_tag(:i, '', class: watched ? 'button--icon icon-watched' : ' button--icon icon-unwatched') + ' ' +
       content_tag(:span, label, class: 'button--text'), path, html_options.merge(remote: true, method: method))
-
-
 
   end
 

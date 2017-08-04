@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -44,7 +45,7 @@ module Migration
       'column_names' => { is_text_column: false },
       'sort_criteria' => { is_text_column: false },
       'group_by' => { is_text_column: true }
-    }
+    }.freeze
 
     def update_query_reference(keys, columns)
       Proc.new do |row|

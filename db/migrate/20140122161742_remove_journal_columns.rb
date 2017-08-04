@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -66,7 +67,7 @@ class RemoveJournalColumns < ActiveRecord::Migration[4.2]
 
   def down
     change_table :work_package_journals do |t|
-      t.integer :lock_version,                    default: 0,  null: false
+      t.integer :lock_version, default: 0, null: false
       t.datetime :created_at
       t.integer :root_id
       t.integer :lft
@@ -74,7 +75,7 @@ class RemoveJournalColumns < ActiveRecord::Migration[4.2]
     end
 
     change_table :wiki_content_journals do |t|
-      t.integer :lock_version,                     default: 0,  null: false
+      t.integer :lock_version, default: 0, null: false
     end
 
     change_table :time_entry_journals do |t|
@@ -102,7 +103,7 @@ class RemoveJournalColumns < ActiveRecord::Migration[4.2]
     end
 
     create_table :journal_details do |t|
-      t.integer :journal_id,               default: 0,  null: false
+      t.integer :journal_id, default: 0, null: false
       t.string :property,   limit: 30, default: '', null: false
       t.string :prop_key,   limit: 30, default: '', null: false
       t.text :old_value

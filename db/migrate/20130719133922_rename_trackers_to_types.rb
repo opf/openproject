@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -74,7 +75,7 @@ class RenameTrackersToTypes < ActiveRecord::Migration[4.2]
     remove_index :workflows,
                  name: :wkfs_role_tracker_old_status
 
-    rename_column :workflows,     :tracker_id, :type_id
+    rename_column :workflows, :tracker_id, :type_id
 
     add_index :workflows,
               [:role_id, :type_id, :old_status_id],

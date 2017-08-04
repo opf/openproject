@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -43,7 +44,7 @@ class Project < ActiveRecord::Base
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w( new level_list )
+  RESERVED_IDENTIFIERS = %w( new level_list ).freeze
 
   # Specific overridden Activities
   has_many :time_entry_activities

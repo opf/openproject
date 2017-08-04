@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,12 +39,12 @@ class Setting < ActiveRecord::Base
     '%d %B %Y',
     '%b %d, %Y',
     '%B %d, %Y'
-  ]
+  ].freeze
 
   TIME_FORMATS = [
     '%H:%M',
     '%I:%M %p'
-  ]
+  ].freeze
 
   ENCODINGS = %w(US-ASCII
                  windows-1250
@@ -83,7 +84,7 @@ class Setting < ActiveRecord::Base
                  EUC-KR
                  Big5
                  Big5-HKSCS
-                 TIS-620)
+                 TIS-620).freeze
 
   cattr_accessor :available_settings
 

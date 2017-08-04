@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #                                vim:ts=4:sw=4:
 # = RedCloth - Textile and Markdown Hybrid for Ruby
 #
@@ -318,7 +319,9 @@ class RedCloth3 < String
     end
 
   #######
+
   private
+
     #######
     #
     # Mapping of 8-bit ASCII codes to HTML numerical entity equivalents.
@@ -544,7 +547,7 @@ class RedCloth3 < String
             depth = []
             lines.each_with_index do |line, line_id|
                 if line =~ LISTS_CONTENT_RE
-                    tl,atts,content = $~[1..3]
+                    tl, atts, content = $~[1..3]
                     if depth.last
                         if depth.last.length > tl.length
                             (depth.length - 1).downto(0) do |i|
@@ -590,7 +593,7 @@ class RedCloth3 < String
         indent = 0
         lines.each do |line|
           line =~ QUOTES_CONTENT_RE
-          bq,content = $1, $2
+          bq, content = $1, $2
           l = bq.count('>')
           if l != indent
             quotes << ("\n\n" +
@@ -618,7 +621,7 @@ class RedCloth3 < String
 
     def inline_textile_code(text)
       text.gsub!(CODE_RE) do |_m|
-        before, lang,code, after = $~[1..4]
+        before, lang, code, after = $~[1..4]
         lang = " lang=\"#{ lang }\"" if lang
         rip_offtags("#{before}<code#{lang}>#{code}</code>#{after}", false)
       end
@@ -708,7 +711,7 @@ class RedCloth3 < String
 
     def block_textile_prefix( text )
         if text =~ BLOCK_RE
-            tag,tagpre,num,atts,cite,content = $~[1..6]
+            tag, tagpre, num, atts, cite, content = $~[1..6]
             atts = pba( atts )
 
             # pass to prefix handler
@@ -779,13 +782,13 @@ class RedCloth3 < String
 
                 case rtype
                 when :limit
-                    sta,oqs,qtag,content,oqa = $~[1..6]
+                    sta, oqs, qtag, content, oqa = $~[1..6]
                     atts = nil
                     if content =~ /^(#{C})(.+)$/
                       atts, content = $~[1..2]
                     end
                 else
-                    qtag,atts,cite,content = $~[1..4]
+                    qtag, atts, cite, content = $~[1..4]
                     sta = ''
                 end
                 atts = pba( atts )
@@ -818,7 +821,7 @@ class RedCloth3 < String
     #"
     def inline_textile_link( text )
         text.gsub!( LINK_RE ) do |_m|
-          all,pre,atts,text,title,url,proto,slash,post = $~[1..9]
+          all, pre, atts, text, title, url, proto, slash, post = $~[1..9]
           if text.include?('<br />')
             all
           else
@@ -827,9 +830,9 @@ class RedCloth3 < String
 
             # Idea below : an URL with unbalanced parethesis and
             # ending by ')' is put into external parenthesis
-            if ( url[-1]==?) and ((url.count("(") - url.count(")")) < 0 ) )
-              url=url[0..-2] # discard closing parenth from url
-              post = ")"+post # add closing parenth to post
+            if ( url[-1] == ?) and ((url.count("(") - url.count(")")) < 0 ) )
+              url = url[0..-2] # discard closing parenth from url
+              post = ")" + post # add closing parenth to post
             end
             atts = pba( atts )
             atts = " href=\"#{ htmlesc url }#{ slash }\"#{ atts }"
@@ -939,8 +942,8 @@ class RedCloth3 < String
         /x
 
     def inline_textile_image( text )
-        text.gsub!( IMAGE_RE )  do |_m|
-            stln,algn,atts,url,title,href,href_a1,href_a2 = $~[1..8]
+        text.gsub!( IMAGE_RE ) do |_m|
+            stln, algn, atts, url, title, href, href_a1, href_a2 = $~[1..8]
             htmlesc title
             atts = pba( atts )
             atts = " src=\"#{ htmlesc url.dup }\"#{ atts }"
@@ -1164,7 +1167,7 @@ class RedCloth3 < String
         'h5' => nil,
         'h6' => nil,
         'blockquote' => ['cite']
-    }
+    }.freeze
 
     def clean_html( text, tags = BASIC_TAGS )
         text.gsub!( /<!\[CDATA\[/, '' )
@@ -1191,7 +1194,7 @@ class RedCloth3 < String
         end
     end
 
-    ALLOWED_TAGS = %w(redpre pre code notextile)
+    ALLOWED_TAGS = %w(redpre pre code notextile).freeze
 
     def escape_html_tags(text)
       text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) {|_m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' unless $3.blank?}" }

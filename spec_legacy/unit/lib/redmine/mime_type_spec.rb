@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,7 +33,7 @@ describe Redmine::MimeType do
   it 'should of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text/plain',
-                'test.c' => 'text/x-c',
+                'test.c' => 'text/x-c'
                }
     to_test.each do |name, expected|
       assert_equal expected, Redmine::MimeType.of(name)
@@ -42,7 +43,7 @@ describe Redmine::MimeType do
   it 'should css class of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text-plain',
-                'test.c' => 'text-x-c',
+                'test.c' => 'text-x-c'
                }
     to_test.each do |name, expected|
       assert_equal expected, Redmine::MimeType.css_class_of(name)
@@ -52,7 +53,7 @@ describe Redmine::MimeType do
   it 'should main mimetype of' do
     to_test = { 'test.unk' => nil,
                 'test.txt' => 'text',
-                'test.c' => 'text',
+                'test.c' => 'text'
                }
     to_test.each do |name, expected|
       assert_equal expected, Redmine::MimeType.main_mimetype_of(name)
@@ -62,7 +63,7 @@ describe Redmine::MimeType do
   it 'should is type' do
     to_test = { ['text', 'test.unk'] => false,
                 ['text', 'test.txt'] => true,
-                ['text', 'test.c'] => true,
+                ['text', 'test.c'] => true
                }
     to_test.each do |args, expected|
       assert_equal expected, Redmine::MimeType.is_type?(*args)

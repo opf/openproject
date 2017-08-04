@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -99,7 +100,7 @@ module Net
 end
 
 class RedmineMailHandler
-  VERSION = '0.1'
+  VERSION = '0.1'.freeze
 
   attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key
 
@@ -107,19 +108,19 @@ class RedmineMailHandler
     self.issue_attributes = {}
 
     opts = GetoptLong.new(
-      [ '--help',           '-h', GetoptLong::NO_ARGUMENT ],
-      [ '--version',        '-V', GetoptLong::NO_ARGUMENT ],
-      [ '--verbose',        '-v', GetoptLong::NO_ARGUMENT ],
-      [ '--url',            '-u', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--project',        '-p', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--status',         '-s', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--type',           '-t', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--category',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
-      [ '--no-permission-check',  GetoptLong::NO_ARGUMENT]
+      ['--help',           '-h', GetoptLong::NO_ARGUMENT],
+      ['--version',        '-V', GetoptLong::NO_ARGUMENT],
+      ['--verbose',        '-v', GetoptLong::NO_ARGUMENT],
+      ['--url',            '-u', GetoptLong::REQUIRED_ARGUMENT],
+      ['--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
+      ['--project',        '-p', GetoptLong::REQUIRED_ARGUMENT],
+      ['--status',         '-s', GetoptLong::REQUIRED_ARGUMENT],
+      ['--type',           '-t', GetoptLong::REQUIRED_ARGUMENT],
+      ['--category',             GetoptLong::REQUIRED_ARGUMENT],
+      ['--priority',             GetoptLong::REQUIRED_ARGUMENT],
+      ['--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
+      ['--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
+      ['--no-permission-check',  GetoptLong::NO_ARGUMENT]
     )
 
     opts.each do |opt, arg|
@@ -154,9 +155,9 @@ class RedmineMailHandler
     headers = { 'User-Agent' => "Redmine mail handler/#{VERSION}" }
 
     data = { 'key' => key, 'email' => email,
-                           'allow_override' => allow_override,
-                           'unknown_user' => unknown_user,
-                           'no_permission_check' => no_permission_check}
+             'allow_override' => allow_override,
+             'unknown_user' => unknown_user,
+             'no_permission_check' => no_permission_check}
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
 
     debug "Posting to #{uri}..."

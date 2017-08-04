@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -43,7 +44,7 @@ describe Redmine::WikiFormatting::Textile::Formatter do
     '-' => 'del',    # deleted
     '^' => 'sup',    # superscript
     '~' => 'sub'     # subscript
-  }
+  }.freeze
 
   it 'should modifiers' do
     assert_html_output(
@@ -80,20 +81,20 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should escaping' do
     assert_html_output(
-      'this is a <script>'      => 'this is a &lt;script&gt;'
+      'this is a <script>' => 'this is a &lt;script&gt;'
     )
   end
 
   it 'should use of backslashes followed by numbers in headers' do
     assert_html_output({
-                         'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
+                         'h1. 2009\02\09' => '<h1>2009\02\09</h1>'
                        }, false)
   end
 
   it 'should double dashes should not strikethrough' do
     assert_html_output(
-      'double -- dashes -- test'  => 'double -- dashes -- test',
-      'double -- *dashes* -- test'  => 'double -- <strong>dashes</strong> -- test'
+      'double -- dashes -- test' => 'double -- dashes -- test',
+      'double -- *dashes* -- test' => 'double -- <strong>dashes</strong> -- test'
     )
   end
 
@@ -107,13 +108,13 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should inline auto link' do
     assert_html_output(
-      'Autolink to http://www.google.com' =>         'Autolink to <a class="external icon-context icon-copy" href="http://www.google.com">http://www.google.com</a>'
+      'Autolink to http://www.google.com' => 'Autolink to <a class="external icon-context icon-copy" href="http://www.google.com">http://www.google.com</a>'
     )
   end
 
   it 'should ignore links inside macros' do
     assert_html_output(
-      '{{embed_youtube(http://www.google.com)}}' =>         '{{embed_youtube(http://www.google.com)}}'
+      '{{embed_youtube(http://www.google.com)}}' => '{{embed_youtube(http://www.google.com)}}'
     )
   end
 

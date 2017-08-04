@@ -37,7 +37,6 @@ node :permissions do |project|
   }
 end
 
-
 node :parent, if: lambda{|project| visible_parent_project(project).present?} do |project|
   child :parent do
     attributes :id, :name, :identifier
@@ -52,7 +51,6 @@ end
 node :project_type, if: lambda{|project| project.project_type.present?} do |project|
   {id: project.project_type.id, name: project.project_type.name}
 end
-
 
 node :created_on, if: lambda{|project| project.created_on.present?} {|project| project.created_on.utc.iso8601}
 node :updated_on, if: lambda{|project| project.updated_on.present?} {|project| project.updated_on.utc.iso8601}

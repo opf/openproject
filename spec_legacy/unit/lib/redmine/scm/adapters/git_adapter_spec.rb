@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,11 +34,11 @@
 require 'legacy_spec_helper'
 
 describe OpenProject::Scm::Adapters::Git, type: :model do
-  let(:git_repository_path) {  Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository' }
+  let(:git_repository_path) { Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository' }
 
-  FELIX_UTF8 = 'Felix Schäfer'
-  FELIX_HEX  = "Felix Sch\xC3\xA4fer"
-  CHAR_1_HEX = "\xc3\x9c"
+  FELIX_UTF8 = 'Felix Schäfer'.freeze
+  FELIX_HEX  = "Felix Sch\xC3\xA4fer".freeze
+  CHAR_1_HEX = "\xc3\x9c".freeze
 
   ## Ruby uses ANSI api to fork a process on Windows.
   ## Japanese Shift_JIS and Traditional Chinese Big5 have 0x5c(backslash) problem
@@ -56,7 +57,7 @@ describe OpenProject::Scm::Adapters::Git, type: :model do
       'ISO-8859-1'
     )
     assert @adapter
-    @char_1        = CHAR_1_HEX.dup
+    @char_1 = CHAR_1_HEX.dup
     if @char_1.respond_to?(:force_encoding)
       @char_1.force_encoding('UTF-8')
     end
@@ -76,14 +77,14 @@ describe OpenProject::Scm::Adapters::Git, type: :model do
       'latin-1-path-encoding',
       'master',
       'test-latin-1',
-      'test_branch',
+      'test_branch'
     ], @adapter.branches
   end
 
   it 'should tags' do
     assert_equal [
       'tag00.lightweight',
-      'tag01.annotated',
+      'tag01.annotated'
     ], @adapter.tags
   end
 

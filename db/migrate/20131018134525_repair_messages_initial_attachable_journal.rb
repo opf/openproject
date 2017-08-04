@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,7 +34,7 @@ class RepairMessagesInitialAttachableJournal < ActiveRecord::Migration[4.2]
   include Migration::Utils
   include Migration::Utils::AttachableUtils
 
-  JOURNAL_TYPE = 'Message'
+  JOURNAL_TYPE = 'Message'.freeze
 
   def up
     say_with_time_silently "Repair message's initial attachable journals" do

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,7 +33,7 @@ Rabl.configure do |config|
   config.include_json_root = true
   config.include_xml_root  = false
   config.include_child_root = false
-  config.xml_options = { dasherize:  false, skip_types: false }
+  config.xml_options = { dasherize: false, skip_types: false }
 
   # Commented as these are defaults
   # config.cache_all_output = false

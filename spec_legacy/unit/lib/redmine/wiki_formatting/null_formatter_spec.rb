@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -40,7 +41,7 @@ describe Redmine::WikiFormatting::NullFormatter::Formatter do
 
   it 'should escaping' do
     assert_html_output(
-      'this is a <script>'      => 'this is a &lt;script&gt;'
+      'this is a <script>' => 'this is a &lt;script&gt;'
     )
   end
 

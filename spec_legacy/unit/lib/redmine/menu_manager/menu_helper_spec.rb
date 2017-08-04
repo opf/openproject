@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -172,7 +173,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'issues', action: 'index' },
 
-                                                     children: Proc.new { |_p| Redmine::MenuManager::MenuItem.new('test_child', { controller: 'issues', action: 'index' }, {}) },
+                                                     children: Proc.new { |_p| Redmine::MenuManager::MenuItem.new('test_child', { controller: 'issues', action: 'index' }, {}) }
                                                     )
 
     assert_raises Redmine::MenuManager::MenuError, ':children must be an array of MenuItems' do

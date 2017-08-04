@@ -205,7 +205,7 @@ describe UserMailer, type: :mailer do
 
   it 'sends plain text mail' do
     Setting.plain_text_mail = 1
-    user  = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -217,7 +217,7 @@ describe UserMailer, type: :mailer do
 
   it 'sends html mail' do
     Setting.plain_text_mail = 0
-    user  = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -229,7 +229,7 @@ describe UserMailer, type: :mailer do
 
   context 'with mail_from set', with_settings: { mail_from: 'Redmine app <redmine@example.net>' } do
     it 'should mail from with phrase' do
-      user  = FactoryGirl.create(:user)
+      user = FactoryGirl.create(:user)
       FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
       UserMailer.test_mail(user).deliver_now
       mail = ActionMailer::Base.deliveries.last
@@ -279,7 +279,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should message posted message id' do
-    user    = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     message = FactoryGirl.create(:message)
     UserMailer.message_posted(user, message, user).deliver_now
@@ -294,7 +294,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should reply posted message id' do
-    user    = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     parent  = FactoryGirl.create(:message)
     message = FactoryGirl.create(:message, parent: parent)
@@ -472,7 +472,7 @@ describe UserMailer, type: :mailer do
                                        type: type,
                                        project: project)
 
-    issue   = FactoryGirl.create(:work_package,
+    issue = FactoryGirl.create(:work_package,
                                  subject: 'My awesome Ticket',
                                  type: type,
                                  project: project,

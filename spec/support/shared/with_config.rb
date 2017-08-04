@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -46,7 +47,7 @@ RSpec.configure do |config|
       config = aggregate_mocked_configuration(example, config)
 
       allow(OpenProject::Configuration).to receive(:[]).and_call_original
-      config.each do |k,v|
+      config.each do |k, v|
         allow(OpenProject::Configuration)
           .to receive(:[])
           .with(k.to_s)

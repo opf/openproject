@@ -11,7 +11,7 @@ describe 'subject inplace editor', js: true, selenium: true do
   let(:property_title) { 'Subject' }
   let(:work_package) { FactoryGirl.create :work_package, project: project }
   let(:user) { FactoryGirl.create :admin }
-  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package,project) }
+  let(:work_packages_page) { Pages::SplitWorkPackage.new(work_package, project) }
   let(:field) { work_packages_page.edit_field(property_name) }
   let(:notification) { ::PageObjects::Notifications.new(page) }
 

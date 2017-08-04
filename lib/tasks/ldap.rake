@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -50,16 +51,16 @@ namespace :ldap do
     attributes = ['dn', ldap.attr_firstname, ldap.attr_lastname, ldap.attr_mail, ldap.attr_login]
 
     # Map user attributes to their ldap counterpart
-    ar_map = Hash[ %w(firstname lastname mail login).zip(attributes.drop(1)) ]
+    ar_map = Hash[%w(firstname lastname mail login).zip(attributes.drop(1))]
 
     # Parse filter string if available
-    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter,  'objectClass = *')
+    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, 'objectClass = *')
 
     # Open LDAP connection
     ldap_con = ldap.send(:initialize_ldap_con, ldap.account, ldap.account_password)
 
     User.transaction do
-      results = ldap_con.search(base: ldap.base_dn, filter: filter)  do |entry|
+      results = ldap_con.search(base: ldap.base_dn, filter: filter) do |entry|
 
         user = User.find_or_initialize_by(login: entry[ldap.attr_login])
         user.attributes = {
@@ -78,7 +79,6 @@ namespace :ldap do
     end
   end
 
-
   desc 'Register a LDAP auth source for the given LDAP URL and attribute mapping: ' \
        'rake ldap:register["url=<URL> name=<Name> onthefly=<true,false>map_{login,firstname,lastname,mail,admin}=attribute"]'
   task register: :environment do
@@ -88,7 +88,6 @@ namespace :ldap do
     unless %w(ldap ldaps).include?(url.scheme)
       raise "Expected #{args[:url]} to be a valid ldap(s) URI."
     end
-
 
     source = LdapAuthSource.find_or_initialize_by(name: args[:name])
 

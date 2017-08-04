@@ -131,13 +131,13 @@ describe Project, type: :model do
 
   it 'should members should be active users' do
     Project.all.each do |project|
-      assert_nil project.members.detect { |m| !(m.user.is_a?(User) && m.user.active?) }
+      assert_nil(project.members.detect { |m| !(m.user.is_a?(User) && m.user.active?) })
     end
   end
 
   it 'should users should be active users' do
     Project.all.each do |project|
-      assert_nil project.users.detect { |u| !(u.is_a?(User) && u.active?) }
+      assert_nil(project.users.detect { |u| !(u.is_a?(User) && u.active?) })
     end
   end
 
@@ -194,7 +194,9 @@ describe Project, type: :model do
 
     @ecookbook.destroy
     # make sure that the project non longer exists
-    assert_raises(ActiveRecord::RecordNotFound) do Project.find(@ecookbook.id) end
+    assert_raises(ActiveRecord::RecordNotFound) do
+      Project.find(@ecookbook.id)
+    end
     # make sure related data was removed
     assert_equal 0, Member.where(project_id: @ecookbook.id).count
     assert_equal 0, Board.where(project_id: @ecookbook.id).count
@@ -254,7 +256,7 @@ describe Project, type: :model do
 
   it 'should not move a project to its children' do
     sub = @ecookbook
-    assert !(sub.set_parent!(Project.find(3)))
+    assert !sub.set_parent!(Project.find(3))
   end
 
   it 'should set parent should add roots in alphabetical order' do
@@ -292,7 +294,6 @@ describe Project, type: :model do
 
     Project.update_all('lft = NULL, rgt = NULL')
     Project.rebuild!
-
     parent.reload
     assert_equal 4, parent.children.size
     assert_equal parent.children.sort_by(&:name), parent.children
@@ -324,9 +325,15 @@ describe Project, type: :model do
     issue_with_local_fixed_version.reload
     issue_with_hierarchy_fixed_version.reload
 
-    assert_equal 4, issue_with_local_fixed_version.fixed_version_id, 'Fixed version was not keep on an issue local to the moved project'
-    assert_equal nil, issue_with_hierarchy_fixed_version.fixed_version_id, 'Fixed version is still set after moving the Project out of the hierarchy where the version is defined in'
-    assert_equal nil, parent_issue.fixed_version_id, 'Fixed version is still set after moving the Version out of the hierarchy for the issue.'
+    assert_equal(4,
+                 issue_with_local_fixed_version.fixed_version_id,
+                 'Fixed version was not keep on an issue local to the moved project')
+    assert_equal(nil,
+                 issue_with_hierarchy_fixed_version.fixed_version_id,
+                 'Fixed version is still set after moving the Project out of the hierarchy where the version is defined in')
+    assert_equal(nil,
+                 parent_issue.fixed_version_id,
+                 'Fixed version is still set after moving the Version out of the hierarchy for the issue.')
   end
 
   it 'should parent' do
@@ -357,7 +364,7 @@ describe Project, type: :model do
 
   it 'should descendants' do
     d = Project.find(1).descendants.pluck(:id)
-    assert_equal [3,4,5,6], d.sort
+    assert_equal [3, 4, 5, 6], d.sort
   end
 
   it 'should allowed parents should be empty for non member user' do
@@ -459,12 +466,12 @@ describe Project, type: :model do
   context '#rolled_up_versions' do
     before do
       @project = FactoryGirl.create(:project)
-      @parent_version_1 = FactoryGirl.create(:version, project: @project)
-      @parent_version_2 = FactoryGirl.create(:version, project: @project)
+      @parentversion1 = FactoryGirl.create(:version, project: @project)
+      @parentversion2 = FactoryGirl.create(:version, project: @project)
     end
 
     it 'should include the versions for the current project' do
-      assert_same_elements [@parent_version_1, @parent_version_2], @project.rolled_up_versions
+      assert_same_elements [@parentversion1, @parentversion2], @project.rolled_up_versions
     end
 
     it 'should include versions for a subproject' do
@@ -473,8 +480,8 @@ describe Project, type: :model do
       @subproject_version = FactoryGirl.create(:version, project: @subproject)
 
       assert_same_elements [
-        @parent_version_1,
-        @parent_version_2,
+        @parentversion1,
+        @parentversion2,
         @subproject_version
       ], @project.rolled_up_versions
     end
@@ -489,8 +496,8 @@ describe Project, type: :model do
       @project.reload
 
       assert_same_elements [
-        @parent_version_1,
-        @parent_version_2,
+        @parentversion1,
+        @parentversion2,
         @sub_subproject_version
       ], @project.rolled_up_versions
     end
@@ -504,7 +511,7 @@ describe Project, type: :model do
       @project.reload
 
       assert !@subproject.active?
-      assert_same_elements [@parent_version_1, @parent_version_2], @project.rolled_up_versions
+      assert_same_elements [@parentversion1, @parentversion2], @project.rolled_up_versions
     end
   end
 
@@ -733,12 +740,12 @@ describe Project, type: :model do
   it 'should close completed versions' do
     Version.update_all("status = 'open'")
     project = Project.find(1)
-    refute_nil project.versions.detect { |v| v.completed? && v.status == 'open' }
-    refute_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
+    refute_nil(project.versions.detect { |v| v.completed? && v.status == 'open' })
+    refute_nil(project.versions.detect { |v| !v.completed? && v.status == 'open' })
     project.close_completed_versions
     project.reload
-    assert_nil project.versions.detect { |v| v.completed? && v.status != 'closed' }
-    refute_nil project.versions.detect { |v| !v.completed? && v.status == 'open' }
+    assert_nil(project.versions.detect { |v| v.completed? && v.status != 'closed' })
+    refute_nil(project.versions.detect { |v| !v.completed? && v.status == 'open' })
   end
 
   it 'should export work packages is allowed' do
@@ -757,12 +764,12 @@ describe Project, type: :model do
     end
 
     it 'should copy work units' do
-      work_package = FactoryGirl.create( :work_package,
-                                         status: Status.find_by_name('Closed'),
-                                         subject: 'copy issue status',
-                                         type_id: 1,
-                                         assigned_to_id: 2,
-                                         project_id: @source_project.id)
+      work_package = FactoryGirl.create(:work_package,
+                                        status: Status.find_by_name('Closed'),
+                                        subject: 'copy issue status',
+                                        type_id: 1,
+                                        assigned_to_id: 2,
+                                        project_id: @source_project.id)
 
       @source_project.work_packages << work_package
       assert @project.valid?
@@ -829,16 +836,16 @@ describe Project, type: :model do
       Setting.cross_project_work_package_relations = '1'
 
       second_issue = FactoryGirl.create(:work_package, status_id: 5,
-                                           subject: 'copy issue relation',
-                                           type_id: 1,
-                                           assigned_to_id: 2,
-                                           project_id: @source_project.id)
+                                                       subject: 'copy issue relation',
+                                                       type_id: 1,
+                                                       assigned_to_id: 2,
+                                                       project_id: @source_project.id)
       source_relation = FactoryGirl.create(:relation, from: WorkPackage.find(4),
-                                           to: second_issue,
-                                           relation_type: 'relates')
+                                                      to: second_issue,
+                                                      relation_type: 'relates')
       source_relation_cross_project = FactoryGirl.create(:relation, from: WorkPackage.find(1),
-                                                         to: second_issue,
-                                                         relation_type: 'duplicates')
+                                                                    to: second_issue,
+                                                                    relation_type: 'duplicates')
 
       assert @project.copy(@source_project)
       assert_equal @source_project.work_packages.count, @project.work_packages.count
@@ -975,10 +982,10 @@ describe Project, type: :model do
 
       assert @project.copy(@source_project)
 
-      @project.work_packages.each do |issue|
-        assert issue.category
-        assert_equal 'Stock management', issue.category.name # Same name
-        refute_equal Category.find(3), issue.category # Different record
+      @project.work_packages.each do |_issue|
+        assert _issue.category
+        assert_equal 'Stock management', _issue.category.name # Same name
+        refute_equal Category.find(3), _issue.category # Different record
       end
     end
 
@@ -1076,18 +1083,31 @@ describe Project, type: :model do
       it 'should return 100 if the version has only closed issues' do
         v1 = FactoryGirl.create(:version, project: @project)
         v2 = FactoryGirl.create(:version, project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v1)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('Closed'), fixed_version: v2)
-
+        FactoryGirl.create([:work_package,
+                            project: @project,
+                            status: Status.find_by_name('Closed'),
+                            fixed_version: v1])
+        FactoryGirl.create([:work_package,
+                            project: @project,
+                            status: Status.find_by_name('Closed'),
+                            fixed_version: v2])
         assert_equal 100, @project.completed_percent
       end
 
       it 'should return the averaged completed percent of the versions (not weighted)' do
         v1 = FactoryGirl.create(:version, project: @project)
         v2 = FactoryGirl.create(:version, project: @project)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v1)
-        FactoryGirl.create(:work_package, project: @project, status: Status.find_by_name('New'), estimated_hours: 10, done_ratio: 50, fixed_version: v2)
-
+        FactoryGirl.create([:work_package,
+                            project: @project,
+                            status: Status.find_by_name('New'),
+                            estimated_hours: 10,
+                            done_ratio: 50,
+                            fixed_version: v1])
+        FactoryGirl.create([:work_package,
+                            project: @project,
+                            status: Status.find_by_name('New'),
+                            estimated_hours: 10, done_ratio: 50,
+                            fixed_version: v2])
         assert_equal 50, @project.completed_percent
       end
     end
@@ -1097,14 +1117,17 @@ describe Project, type: :model do
     before do
       @project = FactoryGirl.create(:project)
       @role = FactoryGirl.create(:role)
-
-      @user_with_membership_notification = FactoryGirl.create(:user, mail_notification: 'selected')
-      Member.create!(project: @project, principal: @user_with_membership_notification, mail_notification: true) do |member|
+      @user_with_membership_notification = FactoryGirl.create(:user,
+                                                              mail_notification: 'selected')
+      Member.create!(project: @project,
+                     principal: @user_with_membership_notification,
+                     mail_notification: true) do |member|
         member.role_ids = [@role.id]
       end
 
       @all_events_user = FactoryGirl.create(:user, mail_notification: 'all')
-      Member.create!(project: @project, principal: @all_events_user) do |member|
+      Member.create!(project: @project,
+                     principal: @all_events_user) do |member|
         member.role_ids = [@role.id]
       end
 
@@ -1113,8 +1136,10 @@ describe Project, type: :model do
         member.role_ids = [@role.id]
       end
 
-      @only_my_events_user = FactoryGirl.create(:user, mail_notification: 'only_my_events')
-      Member.create!(project: @project, principal: @only_my_events_user) do |member|
+      @only_my_events_user = FactoryGirl.create(:user,
+                                                mail_notification: 'only_my_events')
+      Member.create!(project: @project,
+                     principal: @only_my_events_user) do |member|
         member.role_ids = [@role.id]
       end
 
@@ -1123,8 +1148,10 @@ describe Project, type: :model do
         member.role_ids = [@role.id]
       end
 
-      @only_owned_user = FactoryGirl.create(:user, mail_notification: 'only_owner')
-      Member.create!(project: @project, principal: @only_owned_user) do |member|
+      @only_owned_user = FactoryGirl.create(:user,
+                                            mail_notification: 'only_owner')
+      Member.create!(project: @project,
+                     principal: @only_owned_user) do |member|
         member.role_ids = [@role.id]
       end
     end

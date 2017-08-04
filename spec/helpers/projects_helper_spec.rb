@@ -41,7 +41,7 @@ describe ProjectsHelper, type: :helper do
     User.current = nil
   end
 
-  let(:test_project)  { FactoryGirl.create :valid_project }
+  let(:test_project) { FactoryGirl.create :valid_project }
 
   describe 'a version' do
     let(:version) { FactoryGirl.create :version, project: test_project }

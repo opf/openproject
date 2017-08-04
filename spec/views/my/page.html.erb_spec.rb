@@ -48,7 +48,7 @@ describe 'my/page', type: :view do
     end
 
     it 'renders the timelog block' do
-      assign :blocks,  'top' => ['timelog'], 'left' => [], 'right' => []
+      assign :blocks, 'top' => ['timelog'], 'left' => [], 'right' => []
 
       render
 
@@ -79,7 +79,7 @@ describe 'my/page', type: :view do
     before do
       allow(User).to receive(:current).and_return(watching_user)
       assign(:user, watching_user)
-      assign :blocks,  'top' => [], 'left' => ['issueswatched'], 'right' => []
+      assign :blocks, 'top' => [], 'left' => ['issueswatched'], 'right' => []
 
       render
     end

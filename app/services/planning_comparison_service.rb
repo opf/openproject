@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -128,6 +129,6 @@ SQL
 
   def self.resolve_statuses(work_packages)
     status_ids = work_packages.map(&:status_id).uniq.compact
-    statuses  = Hash[Status.find(status_ids).map { |status| [status.id, status] }]
+    statuses = Hash[Status.find(status_ids).map { |status| [status.id, status] }]
   end
 end

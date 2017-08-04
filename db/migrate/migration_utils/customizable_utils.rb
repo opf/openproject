@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -161,7 +162,7 @@ module Migration::Utils
       }
     end
 
-    COLUMNS = ['changed_data', 'version', 'journaled_id']
+    COLUMNS = ['changed_data', 'version', 'journaled_id'].freeze
 
     def invalid_custom_values(legacy_journal_type)
       result = []

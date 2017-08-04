@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -37,7 +38,7 @@ module Redmine
         include ActionView::Helpers::TagHelper
 
         # auto_link rule after textile rules so that it doesn't break !image_url! tags
-        RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto]
+        RULES = [:textile, :block_markdown_rule, :inline_auto_link, :inline_auto_mailto].freeze
 
         def initialize(*args)
           super

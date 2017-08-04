@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,7 +34,7 @@ class FixIssueInNotifications < ActiveRecord::Migration[4.2]
     'issue_updated' => 'work_package_updated',
     'issue_priority_updated' => 'work_package_priority_updated',
     'issue_note_added' => 'work_package_note_added'
-  }
+  }.freeze
   def up
     Setting['notified_events'] = replace(Setting['notified_events'], REPLACED)
   end

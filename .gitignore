@@ -44,7 +44,7 @@ npm-debug.log*
 # Ignore RubyMine files
 /.idea
 /frontend/.idea
-
+/.powder
 /backup
 /.project
 /.loadpath

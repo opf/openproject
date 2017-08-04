@@ -45,7 +45,7 @@ describe 'Search', type: :feature do
     def expect_range(a, b)
       (a..b).each do |n|
         expect(page.body).to include("No. #{n}")
-        expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n-1].id)}']")
+        expect(page.body).to have_selector("a[href*='#{work_package_path(work_packages[n - 1].id)}']")
       end
     end
 

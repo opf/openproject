@@ -255,7 +255,6 @@ describe 'form configuration', type: :feature, js: true do
                     { key: :estimated_time, translation: 'Estimated time' },
                     { key: :spent_time, translation: 'Spent time' }
 
-
         expect_group 'Whatever',
                     'Whatever',
                     { key: :date, translation: 'Date' },
@@ -342,7 +341,6 @@ describe 'form configuration', type: :feature, js: true do
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
       end
     end
-
 
     describe 'custom fields' do
       let(:project_settings_page) { ProjectSettingsPage.new(project) }

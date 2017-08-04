@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 module JournalChanges
   def get_changes
     return @changes if @changes

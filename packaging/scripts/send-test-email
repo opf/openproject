@@ -38,8 +38,8 @@ else
   smtp.enable_starttls_auto if ENV.fetch('SMTP_ENABLE_STARTTLS_AUTO', 'false') == 'true'
   smtp.start(
     ENV.fetch('SMTP_DOMAIN'),
-    ENV.fetch('SMTP_USERNAME',nil),
-    ENV.fetch('SMTP_PASSWORD',nil),
+    ENV.fetch('SMTP_USERNAME', nil),
+    ENV.fetch('SMTP_PASSWORD', nil),
     smtp_authentication
   )
   smtp.send_message msgstr, from, admin_email

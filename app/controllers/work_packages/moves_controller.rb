@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -45,7 +46,11 @@ class WorkPackages::MovesController < ApplicationController
     @work_packages.each do |work_package|
       work_package.reload
 
-      call_hook(:controller_work_packages_move_before_save,  params: params, work_package: work_package, target_project: @target_project, copy: !!@copy)
+      call_hook(:controller_work_packages_move_before_save,
+                params: params,
+                work_package: work_package,
+                target_project: @target_project,
+                copy: !!@copy)
 
       permitted_params = params.permit(:copy,
                                        :assigned_to_id,

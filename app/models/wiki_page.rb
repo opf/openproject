@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -78,7 +79,7 @@ class WikiPage < ActiveRecord::Base
   }
 
   # Wiki pages that are protected by default
-  DEFAULT_PROTECTED_PAGES = %w(sidebar)
+  DEFAULT_PROTECTED_PAGES = %w(sidebar).freeze
 
   after_destroy :delete_wiki_menu_item
 

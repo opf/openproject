@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -168,12 +169,12 @@ See redmine:email:receive_imap for more options and examples.
 END_DESC
 
     task receive_pop3: :environment do
-      pop_options  = { host: ENV['host'],
-                       port: ENV['port'],
-                       apop: ENV['apop'],
-                       username: ENV['username'],
-                       password: ENV['password'],
-                       delete_unprocessed: ENV['delete_unprocessed'] }
+      pop_options = { host: ENV['host'],
+                      port: ENV['port'],
+                      apop: ENV['apop'],
+                      username: ENV['username'],
+                      password: ENV['password'],
+                      delete_unprocessed: ENV['delete_unprocessed'] }
 
       Redmine::POP3.check(pop_options, options_from_env)
     end

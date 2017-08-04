@@ -154,7 +154,7 @@ module Tasks
 
       def user_agrees_to_delete_versions_and_projects_documents
         questions = ['CAUTION: This rake task will delete ALL attachments attached to versions or projects!',
-                    "DISCLAIMER: This is the final warning: You're going to lose information!"]
+                     "DISCLAIMER: This is the final warning: You're going to lose information!"]
 
         ask_for_confirmation(questions)
       end

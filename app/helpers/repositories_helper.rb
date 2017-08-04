@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -200,7 +201,7 @@ module RepositoriesHelper
       str.force_encoding('UTF-8')
       if !str.valid_encoding?
         str = str.encode("US-ASCII", invalid: :replace,
-                         undef: :replace, replace: '?').encode("UTF-8")
+                                     undef: :replace, replace: '?').encode("UTF-8")
       end
     else
       # removes invalid UTF8 sequences
@@ -245,7 +246,7 @@ module RepositoriesHelper
                data: {
                  remote: true,
                  url: url_for(controller: '/repositories',
-                              action: 'edit', project_id: @project.id),
+                              action: 'edit', project_id: @project.id)
                },
                disabled: (repository && !repository.new_record?)
               )

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,8 +39,8 @@ class MigrateTextReferencesToIssuesAndPlanningElements < ActiveRecord::Migration
     'news' => { columns: ['summary', 'description'], update_journal: false },
     'projects' => { columns: ['description'], update_journal: false },
     'wiki_contents' => { columns: ['text'], update_journal: true },
-    'work_packages' => { columns: ['description'], update_journal: true },
-  }
+    'work_packages' => { columns: ['description'], update_journal: true }
+  }.freeze
 
   def up
     COLUMNS_PER_TABLE.each_pair do |table, options|

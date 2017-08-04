@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -81,8 +82,8 @@ module OpenProject
   class ContentTypeDetector
     # application/binary is more secure than application/octet-stream
     # see: http://security.stackexchange.com/q/12896
-    SENSIBLE_DEFAULT = 'application/binary'
-    EMPTY_TYPE = 'inode/x-empty'
+    SENSIBLE_DEFAULT = 'application/binary'.freeze
+    EMPTY_TYPE = 'inode/x-empty'.freeze
 
     def initialize(filename)
       @filename = filename

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -91,7 +92,7 @@ class BoardsController < ApplicationController
 
   def set_topics
     @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-               .includes(:author,  last_reply: :author)
+               .includes(:author, last_reply: :author)
                .page(params[:page])
                .per_page(per_page_param)
   end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,7 +35,7 @@ require_relative 'migration_utils/utils'
 class MigrateUserRights < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
-  COLUMN = 'permissions'
+  COLUMN = 'permissions'.freeze
 
   PERMISSIONS = {
     view_issues: :view_work_packages,
@@ -59,7 +60,7 @@ class MigrateUserRights < ActiveRecord::Migration[4.2]
 
     edit_own_issue_notes: :edit_own_work_package_notes,
     move_planning_elements_to_trash: nil
-  }
+  }.freeze
 
   def up
     say_with_time_silently 'Update role permissions' do
