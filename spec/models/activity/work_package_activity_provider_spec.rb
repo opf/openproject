@@ -38,53 +38,61 @@ describe Activity::WorkPackageActivityProvider, type: :model do
   let(:role)          { FactoryGirl.create :role }
   let(:status_closed) { FactoryGirl.create :closed_status }
   let(:work_package)  { FactoryGirl.build :work_package }
-  let!(:workflow)     {
+  let!(:workflow) do
     FactoryGirl.create :workflow,
                        old_status: work_package.status,
                        new_status: status_closed,
                        type_id: work_package.type_id,
                        role: role
-  }
+  end
 
   describe '#event_type' do
     describe 'latest events' do
       context 'when a work package has been created' do
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(
-          event_scope,
-          user,
-          Date.yesterday,
-          Date.tomorrow,
-          {}).last.try :event_type }
-        before do work_package.save! end
-
+        let(:subject) do
+          Activity::WorkPackageActivityProvider.find_events(
+            event_scope,
+            user,
+            Date.yesterday,
+            Date.tomorrow,
+            {}
+          ).last.try :event_type
+        end
+        before { work_package.save! }
         it { is_expected.to eq(work_package_edit_event) }
       end
 
       context 'should be selected and ordered correctly' do
-        let!(:work_packages) { (1..20).map { (FactoryGirl.create :work_package,
-          author: user).id.to_s } }
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(
-          event_scope,
-          user,
-          Date.yesterday,
-          Date.tomorrow,
-          limit: 10).map { |a| a.journable_id.to_s } }
+        let!(:work_packages) do
+          (1..20).map do
+            FactoryGirl.create(:work_package, author: user).id.to_s
+          end
+        end
+        let(:subject) do
+          Activity::WorkPackageActivityProvider.find_events(
+            event_scope,
+            user,
+            Date.yesterday,
+            Date.tomorrow,
+            limit: 10
+          ).map { |a| a.journable_id.to_s }
+        end
         it { is_expected.to eq(work_packages.reverse.first(10)) }
       end
 
       context 'when a work package has been created and then closed' do
-        let(:subject) { Activity::WorkPackageActivityProvider.find_events(
-          event_scope,
-          user,
-          Date.yesterday,
-          Date.tomorrow,
-          limit: 10).first.try :event_type }
-
+        let(:subject) do
+          Activity::WorkPackageActivityProvider.find_events(
+            event_scope,
+            user,
+            Date.yesterday,
+            Date.tomorrow,
+            limit: 10
+          ).first.try :event_type
+        end
         before do
           login_as(user)
-
           work_package.save!
-
           work_package.status = status_closed
           work_package.save!
         end
