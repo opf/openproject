@@ -634,15 +634,15 @@ describe Query, type: :model do
       it 'should search assigned to for users assigned to any Role (all)' do
         @query = Query.new(name: '_')
         @query.add_filter('assigned_to_role', '*', [''])
-
-        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
+        assert_query_statement_includes(@query,
+                                        "#{WorkPackage.table_name}.assigned_to_id IN
+                                        ('#{@manager.id}','#{@developer.id}','#{@boss.id}')")
         assert_find_issues_with_query_is_successful @query
       end
 
       it 'should return no results on empty set' do
         @query = Query.new(name: '_')
         @query.add_filter('assigned_to_role', '=', [@empty_role.id.to_s])
-
         assert_query_statement_includes @query, '(0=1)'
         assert find_issues_with_query(@query).empty?
       end
@@ -650,7 +650,6 @@ describe Query, type: :model do
       it 'should return results on disallowed empty set' do
         @query = Query.new(name: '_')
         @query.add_filter('assigned_to_role', '!', [@empty_role.id.to_s])
-
         assert_query_statement_includes @query, '(1=1)'
         assert_find_issues_with_query_is_successful @query
       end
