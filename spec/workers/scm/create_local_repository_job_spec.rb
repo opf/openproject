@@ -71,7 +71,7 @@ describe Scm::CreateLocalRepositoryJob do
     end
 
     context 'with mode set' do
-      let(:mode) { 0770 }
+      let(:mode) { 0o770 }
 
       it 'uses the correct mode' do
         expect(subject).to receive(:create).with(mode)
@@ -82,9 +82,9 @@ describe Scm::CreateLocalRepositoryJob do
     end
 
     context 'with string mode' do
-      let(:mode) { 0770 }
+      let(:mode) { 0o770 }
       it 'uses the correct mode' do
-        expect(subject).to receive(:create).with(0770)
+        expect(subject).to receive(:create).with(0o770)
         subject.perform
       end
 
@@ -94,7 +94,7 @@ describe Scm::CreateLocalRepositoryJob do
     context 'with no mode set' do
       let(:mode) { nil }
       it 'uses the default mode' do
-        expect(subject).to receive(:create).with(0700)
+        expect(subject).to receive(:create).with(0o700)
         subject.perform
       end
 
