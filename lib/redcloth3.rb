@@ -168,8 +168,8 @@
 
 class RedCloth3 < String
 
-    VERSION = '3.0.4'.freeze
-    DEFAULT_RULES = [:textile, :markdown].freeze
+    VERSION = '3.0.4'
+    DEFAULT_RULES = [:textile, :markdown]
 
     #
     # Two accessor for setting security restrictions.
@@ -342,26 +342,26 @@ class RedCloth3 < String
     #
     A_HLGN = /(?:(?:<>|<|>|\=|[()]+)+)/
     A_VLGN = /[\-^~]/
-    C_CLAS = '(?:\([^)]+\))'.freeze
-    C_LNGE = '(?:\[[^\[\]]+\])'.freeze
-    C_STYL = '(?:\{[^}]+\})'.freeze
-    S_CSPN = '(?:\\\\\d+)'.freeze
-    S_RSPN = '(?:/\d+)'.freeze
-    A = "(?:#{A_HLGN}?#{A_VLGN}?|#{A_VLGN}?#{A_HLGN}?)".freeze
-    S = "(?:#{S_CSPN}?#{S_RSPN}|#{S_RSPN}?#{S_CSPN}?)".freeze
-    C = "(?:#{C_CLAS}?#{C_STYL}?#{C_LNGE}?|#{C_STYL}?#{C_LNGE}?#{C_CLAS}?|#{C_LNGE}?#{C_STYL}?#{C_CLAS}?)".freeze
+    C_CLAS = '(?:\([^)]+\))'
+    C_LNGE = '(?:\[[^\[\]]+\])'
+    C_STYL = '(?:\{[^}]+\})'
+    S_CSPN = '(?:\\\\\d+)'
+    S_RSPN = '(?:/\d+)'
+    A = "(?:#{A_HLGN}?#{A_VLGN}?|#{A_VLGN}?#{A_HLGN}?)"
+    S = "(?:#{S_CSPN}?#{S_RSPN}|#{S_RSPN}?#{S_CSPN}?)"
+    C = "(?:#{C_CLAS}?#{C_STYL}?#{C_LNGE}?|#{C_STYL}?#{C_LNGE}?#{C_CLAS}?|#{C_LNGE}?#{C_STYL}?#{C_CLAS}?)"
     # PUNCT = Regexp::quote( '!"#$%&\'()*+,-./:;<=>?@[\\]^_`{|}~' )
     PUNCT = Regexp::quote( '!"#$%&\'*+,-./:;=?@\\^_`|~' )
     PUNCT_NOQ = Regexp::quote( '!"#$&\',./:;=?@\\`|' )
     PUNCT_Q = Regexp::quote( '*-_+^~%' )
-    HYPERLINK = '(\S+?)([^\w\s/;=\?]*?)(?=\s|<|$)'.freeze
+    HYPERLINK = '(\S+?)([^\w\s/;=\?]*?)(?=\s|<|$)'
 
     # Text markup tags, don't conflict with block tags
     SIMPLE_HTML_TAGS = [
         'tt', 'b', 'i', 'big', 'small', 'em', 'strong', 'dfn', 'code',
         'samp', 'kbd', 'var', 'cite', 'abbr', 'acronym', 'a', 'img', 'br',
         'br', 'map', 'q', 'sub', 'sup', 'span', 'bdo'
-    ].freeze
+    ]
 
     QTAGS = [
         ['**', 'b', :limit],
@@ -374,7 +374,7 @@ class RedCloth3 < String
         ['+', 'ins', :limit],
         ['^', 'sup', :limit],
         ['~', 'sub', :limit]
-    ].freeze
+    ]
     QTAGS_JOIN = QTAGS.map {|rc, _ht, _rtype| Regexp::quote rc}.join('|')
 
     QTAGS.map! do |rc, ht, rtype|
@@ -423,20 +423,20 @@ class RedCloth3 < String
       #   [ /\b ?[(\[]TM[\])]/i, '&#8482;' ], # trademark
       #   [ /\b ?[(\[]R[\])]/i, '&#174;' ], # registered
       #   [ /\b ?[(\[]C[\])]/i, '&#169;' ] # copyright
-    ].freeze
+    ]
 
     H_ALGN_VALS = {
         '<' => 'left',
         '=' => 'center',
         '>' => 'right',
         '<>' => 'justify'
-    }.freeze
+    }
 
     V_ALGN_VALS = {
         '^' => 'top',
         '-' => 'middle',
         '~' => 'bottom'
-    }.freeze
+    }
 
     #
     # Flexible HTML escaping
