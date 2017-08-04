@@ -77,7 +77,6 @@ namespace :scm do
 
       unless missing.empty?
         puts <<-WARNING
-
 -- SCM vendor #{vendor} --
 
 Found #{missing.length} repositories in #{managed}
@@ -104,7 +103,6 @@ To resolve these cases, you can either:
 
   desc 'Setup a repository checkout base URL for the given vendor: rake scm:set_checkout_url[git=<url>, subversion=<url>]'
   task set_checkout_url: :environment do |_t, args|
-
     checkout_data = Setting.repository_checkout_data
     args.extras.each do |tuple|
       vendor, base_url = tuple.split('=')
@@ -121,11 +119,9 @@ To resolve these cases, you can either:
 
   namespace :migrate do
     desc 'Migrate existing repositories to managed for a given URL prefix'
-    task managed: :environment do |task, args|
-
+    task managed: :environment do |_task, args|
       urls = args.extras
-      abort "Requires at least one URL prefix to identify existing repositories" if urls.length < 1
-
+      abort 'Requires at least one URL prefix to identify existing repositories' if urls.empty?
       urls.each do |url|
         Repository.where('url LIKE ?', "#{url}%").update_all(scm_type: :managed)
       end
