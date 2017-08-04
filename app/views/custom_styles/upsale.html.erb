@@ -37,7 +37,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p>
   <%= t('admin.custom_styles.enterprise_notice') %>
 </p>
-<%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-custom-style",
+<%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=#{CGI.escape request.base_url}&utm_medium=custom-edition&utm_campaign=custom-styles",
       { class: 'button -alt-highlight',
         aria: {label: t('admin.enterprise.order')},
         title: t('admin.enterprise.order')}) do %>

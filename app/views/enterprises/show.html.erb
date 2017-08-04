@@ -3,7 +3,7 @@
 <%= toolbar title: t(:label_enterprise_edition) do %>
   <% if EnterpriseToken.show_banners? %>
     <li class="toolbar-item">
-      <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-token-admin",
+      <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=#{CGI.escape request.base_url}&utm_medium=custom-edition&utm_campaign=enterprise-admin",
             { class: 'button -alt-highlight',
               title: t('admin.enterprise.order')}) do %>
         <%= op_icon('button--icon icon-add') %>
@@ -36,7 +36,7 @@
       <p>
         <b><%= t('homescreen.blocks.upsale.become_hero') %></b> <%= t('homescreen.blocks.upsale.you_contribute') %>
       </p>
-      <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-enterprise-admin",
+      <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=#{CGI.escape request.base_url}&utm_medium=custom-edition&utm_campaign=enterprise-admin",
             { class: 'button -alt-highlight',
               aria: {label: t('admin.enterprise.order')},
               title: t('admin.enterprise.order')}) do %>
