@@ -96,7 +96,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     this.forceCursor('ew-resize');
 
     if (dateForCreate) {
-      renderInfo.workPackage.date = dateForCreate;
+      renderInfo.changeset.setValue('date', dateForCreate);
       direction = 'create';
       return direction;
     }
@@ -107,13 +107,11 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   public update(element: HTMLDivElement, renderInfo: RenderInfo): boolean {
-    const changeset = renderInfo.changeset || new WorkPackageChangeset(renderInfo.workPackage);
-
     const viewParams = renderInfo.viewParams;
-    const date = moment(changeset.value('dueDate'));
+    const date = moment(renderInfo.changeset.value('date'));
 
     // abort if no date
-    if (!date) {
+    if (_.isNaN(date.valueOf())) {
       return false;
     }
 
@@ -136,8 +134,8 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   }
 
   getMarginLeftOfLeftSide(renderInfo:RenderInfo):number {
-    const wp = renderInfo.workPackage;
-    let start = moment(wp.date as any);
+    const changeset = renderInfo.changeset;
+    let start = moment(changeset.value('date') as any);
     const offsetStart = start.diff(renderInfo.viewParams.dateDisplayStart, 'days');
     return calculatePositionValueForDayCountingPx(renderInfo.viewParams, offsetStart);
   }
