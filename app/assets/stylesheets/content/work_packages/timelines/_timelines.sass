@@ -30,6 +30,12 @@
   position: relative
   width: 100%
 
+.wp-table-timeline--relations
+  z-index: 0
+
+.wp-table-timeline--grid
+  z-index: -2
+
 .wp-table-timeline--relations,
 .wp-table-timeline--grid
   position: absolute
@@ -37,8 +43,6 @@
   // Position 45px below header
   top: $generic-table--header-height
   height: calc(100% - #{$generic-table--header-height})
-  // Position above the cells container
-  z-index: 1
   // Disable pointer-events to allow cells to handle them
   pointer-events: none
 

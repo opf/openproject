@@ -25,7 +25,6 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {States} from '../../../states.service';
@@ -36,6 +35,8 @@ import {RenderInfo} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {TimelineMilestoneCellRenderer} from './timeline-milestone-cell-renderer';
 import {registerWorkPackageMouseHandler} from './wp-timeline-cell-mouse-handler';
+import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
+import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
@@ -56,6 +57,7 @@ export class WorkPackageCellLabels {
 export class WorkPackageTimelineCell {
   public wpCacheService:WorkPackageCacheService;
   public wpTableRefresh:WorkPackageTableRefreshService;
+  public wpNotificationsService:WorkPackageNotificationService;
   public states:States;
   public loadingIndicator:LoadingIndicatorService;
 
@@ -64,7 +66,6 @@ export class WorkPackageTimelineCell {
   private elementShape:string;
 
   private timelineCell:JQuery;
-
   private labels:WorkPackageCellLabels;
 
   constructor(public workPackageTimeline:WorkPackageTimelineTableController,
@@ -72,7 +73,8 @@ export class WorkPackageTimelineCell {
               public latestRenderInfo:RenderInfo,
               public classIdentifier:string,
               public workPackageId:string) {
-    injectorBridge(this);
+    $injectFields(this, 'loadingIndicator', 'wpCacheService', 'wpNotificationsService',
+      'wpTableRefresh', 'states', 'TimezoneService');
   }
 
   getMarginLeftOfLeftSide():number {
@@ -148,6 +150,7 @@ export class WorkPackageTimelineCell {
         this.workPackageTimeline,
         this.wpCacheService,
         this.wpTableRefresh,
+        this.wpNotificationsService,
         this.loadingIndicator,
         cell[0],
         this.wpElement,
@@ -175,12 +178,12 @@ export class WorkPackageTimelineCell {
     const cell = this.lazyInit(renderer, renderInfo);
 
     // Render the upgrade from renderInfo
-    const shouldBeDisplayed = renderer.update(cell[0], this.wpElement as HTMLDivElement, renderInfo);
+    const shouldBeDisplayed = renderer.update(
+      this.wpElement as HTMLDivElement,
+      renderInfo);
     if (!shouldBeDisplayed) {
       this.clear();
     }
   }
 
 }
-
-WorkPackageTimelineCell.$inject = ['loadingIndicator', 'wpCacheService', 'wpTableRefresh', 'states', 'TimezoneService'];

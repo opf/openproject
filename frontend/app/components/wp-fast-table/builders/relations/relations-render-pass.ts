@@ -11,6 +11,7 @@ import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.se
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
+import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 
 export interface RelationRenderInfo extends RowRenderInfo {
   data:{
@@ -102,9 +103,9 @@ export class RelationsRenderPass {
 
   public refreshRelationRow(renderedRow:RelationRenderInfo,
                             workPackage:WorkPackageResourceInterface,
-                            editing:WorkPackageEditForm | undefined,
+                            changeset:WorkPackageChangeset,
                             oldRow:JQuery) {
-    const newRow = this.relationRowBuilder.refreshRow(workPackage, editing, oldRow);
+    const newRow = this.relationRowBuilder.refreshRow(workPackage, changeset, oldRow);
     this.relationRowBuilder.appendRelationLabel(newRow,
       renderedRow.belongsTo!,
       renderedRow.data.relation,

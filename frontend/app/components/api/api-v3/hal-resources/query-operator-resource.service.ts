@@ -35,19 +35,19 @@ interface QueryOperatorResourceEmbedded {
 interface QueryOperatorResourceLinks {
 }
 
-
 export class QueryOperatorResource extends HalResource {
 
-  public $embedded: QueryOperatorResourceEmbedded;
-  public $links: QueryOperatorResourceLinks;
+  public $embedded:QueryOperatorResourceEmbedded;
+  public $links:QueryOperatorResourceLinks;
 
   public get id():string {
     return this.$source.id || this.idFromLink;
   }
 
   public get idFromLink():string {
-    if (this.href) {
-      return decodeURIComponent(this.href.split('/').pop()!);
+    if (this.$href) {
+      const idPart = HalResource.idFromLink(this.$href);
+      return decodeURIComponent(idPart);
     }
 
     return '';

@@ -64,9 +64,6 @@ export class States extends StatesGroup {
   // Current focused work package (e.g, row preselected for details button)
   focusedWorkPackage = input<string>();
 
-  // Open editing forms
-  editing = multiInput<WorkPackageEditForm>();
-
 }
 
 export class TableState extends StatesGroup {

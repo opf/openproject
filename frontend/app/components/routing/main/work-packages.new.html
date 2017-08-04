@@ -23,13 +23,13 @@
     </ul>
   </div>
 
-  <wp-edit-field-group work-package-id="$ctrl.newWorkPackage.id"
+  <wp-edit-field-group work-package="$ctrl.newWorkPackage"
+                       success-state="$ctrl.successState"
                        in-edit-mode="true">
     <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
     <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
+    <edit-actions-bar
+        on-cancel="$ctrl.cancelAndBackToList()"
+    ></edit-actions-bar>
   </wp-edit-field-group>
-  <edit-actions-bar
-      on-save="$ctrl.saveWorkPackage()"
-      on-cancel="$ctrl.cancelAndBackToList()"
-  ></edit-actions-bar>
 </div>

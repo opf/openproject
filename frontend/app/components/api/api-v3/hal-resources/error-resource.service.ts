@@ -28,6 +28,7 @@
 
 import {HalResource} from './hal-resource.service';
 import {opApiModule} from '../../../../angular-modules';
+import {FormResourceInterface} from './form-resource.service';
 
 export const v3ErrorIdentifierQueryInvalid = 'urn:openproject-org:api:v3:errors:InvalidQuery';
 export const v3ErrorIdentifierMultipleErrors = 'urn:openproject-org:api:v3:errors:MultipleErrors';
@@ -37,6 +38,28 @@ export class ErrorResource extends HalResource {
   public message:string;
   public details:any;
   public errorIdentifier:string;
+
+  public isValidationError:boolean = false;
+
+  public static fromFormResponse(form:FormResourceInterface):ErrorResource|null {
+    const errors = _.values(form.validationErrors);
+    const count = errors.length;
+
+    if (count === 0) {
+      return null;
+    }
+
+    let resource ;
+    if (count === 1)  {
+      resource = new ErrorResource(errors[0], true);
+    } else {
+      resource = new ErrorResource({});
+      resource.errorIdentifier = v3ErrorIdentifierMultipleErrors;
+      resource.errors = errors;
+    }
+    resource.isValidationError = true;
+    return resource;
+  }
 
   public get errorMessages():string[] {
     if (this.isMultiErrorMessage()) {

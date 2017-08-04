@@ -27,7 +27,6 @@
 // ++
 
 import * as moment from 'moment';
-import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {keyCodes} from '../../../common/keyCodes.enum';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
@@ -36,6 +35,8 @@ import {WorkPackageTimelineTableController} from '../container/wp-timeline-conta
 import {RenderInfo, timelineElementCssClass} from '../wp-timeline';
 import {TimelineCellRenderer} from './timeline-cell-renderer';
 import {WorkPackageCellLabels} from './wp-timeline-cell';
+import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
+import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
 import Moment = moment.Moment;
 
 const classNameBar = 'bar';
@@ -44,19 +45,21 @@ export const classNameRightHandle = 'rightHandle';
 export const classNameBarLabel = 'bar-label';
 
 
-export function registerWorkPackageMouseHandler(this:void,
-                                                getRenderInfo:() => RenderInfo,
-                                                workPackageTimeline:WorkPackageTimelineTableController,
-                                                wpCacheService:WorkPackageCacheService,
-                                                wpTableRefresh:WorkPackageTableRefreshService,
-                                                loadingIndicator:LoadingIndicatorService,
-                                                cell:HTMLElement,
-                                                bar:HTMLDivElement,
+export function registerWorkPackageMouseHandler(this: void,
+                                                getRenderInfo: () => RenderInfo,
+                                                workPackageTimeline: WorkPackageTimelineTableController,
+                                                wpCacheService: WorkPackageCacheService,
+                                                wpTableRefresh: WorkPackageTableRefreshService,
+                                                wpNotificationsService: WorkPackageNotificationService,
+                                                loadingIndicator: LoadingIndicatorService,
+                                                cell: HTMLElement,
+                                                bar: HTMLDivElement,
                                                 labels:WorkPackageCellLabels,
-                                                renderer:TimelineCellRenderer,
-                                                renderInfo:RenderInfo) {
+                                                renderer: TimelineCellRenderer,
+                                                renderInfo: RenderInfo) {
 
   let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
+  renderInfo.changeset = new WorkPackageChangeset(renderInfo.workPackage);
 
   let dateStates:any;
   let placeholderForEmptyCell:HTMLElement;
@@ -73,14 +76,9 @@ export function registerWorkPackageMouseHandler(this:void,
   // handles initial creation of start/due values
   cell.onmousemove = handleMouseMoveOnEmptyCell;
 
-  function applyDateValues(dates:{ [name:string]:Moment }) {
-    const wp = renderInfo.workPackage;
-
+  function applyDateValues(renderInfo:RenderInfo, dates:{[name:string]: Moment}) {
     // Let the renderer decide which fields we change
-    renderer.assignDateValues(wp, labels, dates);
-
-    // Update the work package to refresh dates columns
-    wpCacheService.updateWorkPackage(wp);
+    renderer.assignDateValues(renderInfo.changeset, labels, dates);
   }
 
   function getCursorOffsetInDaysFromLeft(renderInfo:RenderInfo, ev:MouseEvent) {
@@ -123,9 +121,10 @@ export function registerWorkPackageMouseHandler(this:void,
       const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
       const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
 
-      dateStates = renderer.onDaysMoved(renderInfo.workPackage, dayUnderCursor, days, direction);
-      applyDateValues(dateStates);
-    };
+      dateStates = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, days, direction);
+      applyDateValues(renderInfo, dateStates);
+      renderer.update(bar, renderInfo);
+    }
   }
 
   function keyPressFn(ev:JQueryEventObject) {
@@ -162,7 +161,7 @@ export function registerWorkPackageMouseHandler(this:void,
       const clickStart = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayStart, 'days');
       const dateForCreate = clickStart.format('YYYY-MM-DD');
       const mouseDownType = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels, bar);
-      renderer.update(cell, bar, renderInfo);
+      renderer.update(bar, renderInfo);
 
       if (mouseDownType === 'create') {
         deactivate(false);
@@ -174,10 +173,9 @@ export function registerWorkPackageMouseHandler(this:void,
         const offsetDayCurrent = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
         const dayUnderCursor = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayCurrent, 'days');
         const widthInDays = offsetDayCurrent - offsetDayStart;
-        const moved = renderer.onDaysMoved(wp, dayUnderCursor, widthInDays, mouseDownType);
-        renderer.assignDateValues(wp, labels, moved);
-        wpCacheService.updateWorkPackage(wp);
-
+        const moved = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, widthInDays, mouseDownType);
+        renderer.assignDateValues(renderInfo.changeset, labels, moved);
+        renderer.update(bar, renderInfo);
       };
 
       cell.onmouseleave = () => {
@@ -212,37 +210,32 @@ export function registerWorkPackageMouseHandler(this:void,
     mouseDownStartDay = null;
     dateStates = {};
 
-    renderer.onMouseDownEnd(labels, renderInfo.workPackage);
-
     // const renderInfo = getRenderInfo();
-    const wp = renderInfo.workPackage;
     if (cancelled) {
-      // cancelled
-      renderer.onCancel(wp);
-      wpCacheService.updateWorkPackage(wp);
+      renderInfo.changeset.clear();
+      renderer.update(bar, renderInfo);
+      renderer.onMouseDownEnd(labels, renderInfo.changeset);
       workPackageTimeline.refreshView();
-    } else {
+    } else if (!renderInfo.changeset.empty) {
       // Persist the changes
-      saveWorkPackage(wp);
+      saveWorkPackage(renderInfo.changeset)
+        .finally(() => {
+          renderInfo.changeset.clear();
+          renderer.onMouseDownEnd(labels, renderInfo.changeset);
+          workPackageTimeline.refreshView();
+        });
     }
+
   }
 
-  function saveWorkPackage(workPackage:WorkPackageResourceInterface) {
-    if (!(workPackage.dirty || workPackage.isNew)) {
-      return;
-    }
-
-    loadingIndicator.table.promise = wpCacheService.saveWorkPackage(workPackage)
-      .then(() => {
-        wpTableRefresh.request(true, `Moved work package ${workPackage.id} through timeline`);
+  function saveWorkPackage(changeset:WorkPackageChangeset) {
+    return loadingIndicator.table.promise = changeset.save()
+      .then((wp) => {
+        wpNotificationsService.showSave(wp);
+        wpTableRefresh.request(true, `Moved work package ${changeset.workPackage.id} through timeline`);
       })
-      .catch(() => {
-        if (!workPackage.isNew) {
-          // Reset the changes on error
-          renderer.onCancel(workPackage);
-        }
-
-        workPackageTimeline.refreshView();
+      .catch((error) => {
+        wpNotificationsService.handleErrorResponse(error, renderInfo.workPackage);
       });
   }
 }

@@ -40,10 +40,6 @@ export class Field {
     return this.resource[this.name];
   }
 
-  public set value(value) {
-    this.resource[this.name] = value;
-  }
-
   public get type():string {
     return (this.constructor as typeof Field).type;
   }
@@ -86,20 +82,20 @@ export class FieldFactory {
   public static defaultType:string;
 
   protected static fields:{[field:string]: string} = {};
-  protected static classes:{[type:string]: typeof Field} = {};
+  protected static classes:{[type:string]: any} = {};
 
   public static register(fieldClass:typeof Field, fields:string[] = []) {
     fields.forEach((field:string) => this.fields[field] = fieldClass.type);
     this.classes[fieldClass.type] = fieldClass;
   }
 
-  public static create(workPackage:HalResource,
+  public static create(resource:any,
                        fieldName:string,
                        schema:op.FieldSchema):Field {
     let type = this.getType(schema.type);
     let fieldClass = this.classes[type];
 
-    return new fieldClass(workPackage, fieldName, schema);
+    return new fieldClass(resource, fieldName, schema);
   }
 
   public static getClassFor(fieldName:string):typeof Field {

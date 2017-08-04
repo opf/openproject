@@ -1,4 +1,4 @@
-<div wp-edit-field-group work-package-id="$ctrl.workPackage.id"
+<div wp-edit-field-group work-package="$ctrl.workPackage"
      class="work-packages--show-view"
      ng-if="$ctrl.workPackage">
     <div class="toolbar-container">
@@ -46,7 +46,7 @@
     <div class="work-packages-full-view--split-container">
       <div class="work-packages-full-view--split-left">
         <div class="work-packages--panel-inner">
-          <wp-single-view></wp-single-view>
+          <wp-single-view work-package="$ctrl.workPackage"></wp-single-view>
         </div>
       </div>
       <div class="work-packages-full-view--split-right">

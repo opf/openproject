@@ -12,6 +12,7 @@ import {WorkPackageTable} from '../../wp-fast-table';
 import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
 import {RelationCellbuilder} from '../relation-cell-builder';
 import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
+import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -107,7 +108,7 @@ export class SingleRowBuilder {
   /**
    * Refresh a row that is currently being edited, that is, some edit fields may be open
    */
-  public refreshRow(workPackage:WorkPackageResourceInterface, editForm:WorkPackageEditForm|undefined, jRow:JQuery):JQuery {
+  public refreshRow(workPackage:WorkPackageResourceInterface, changeset:WorkPackageChangeset, jRow:JQuery):JQuery {
     // Detach all current edit cells
     const cells = jRow.find(`.${wpCellTdClassName}`).detach();
 
@@ -118,7 +119,7 @@ export class SingleRowBuilder {
       const oldTd = cells.filter(`td.${column.id}`);
 
       // Skip the replacement of the column if this is being edited.
-      if (this.isColumnBeingEdited(editForm, column)) {
+      if (this.isColumnBeingEdited(changeset, column)) {
         newCells.push(oldTd[0]);
         return;
       }
@@ -132,8 +133,8 @@ export class SingleRowBuilder {
     return jRow;
   }
 
-  protected isColumnBeingEdited(editForm:WorkPackageEditForm | undefined, column:QueryColumn) {
-    return editForm && editForm.activeFields[column.id];
+  protected isColumnBeingEdited(changeset:WorkPackageChangeset, column:QueryColumn) {
+    return changeset && changeset.isOverridden(column.id);
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResourceInterface, row:HTMLElement):[HTMLElement, boolean] {

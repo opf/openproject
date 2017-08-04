@@ -46,14 +46,6 @@ export class QueryFilterResource extends HalResource {
   public set id(newId:string) {
     this.$source.id = newId;
   }
-
-  public get idFromLink():string {
-    if (this.href) {
-      return this.href.split('/').pop()!;
-    }
-
-    return '';
-  }
 }
 
 function queryFilterResource() {

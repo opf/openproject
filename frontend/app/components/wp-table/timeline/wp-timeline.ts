@@ -32,6 +32,7 @@ import {
   WorkPackageResourceInterface
 } from '../../api/api-v3/hal-resources/work-package-resource.service';
 import Moment = moment.Moment;
+import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 
 export const timelineElementCssClass = 'timeline-element';
 export const timelineGridElementCssClass = 'wp-timeline--grid-element';
@@ -105,6 +106,7 @@ export class TimelineViewParameters {
 export interface RenderInfo {
   viewParams:TimelineViewParameters;
   workPackage:WorkPackageResourceInterface;
+  changeset:WorkPackageChangeset;
 }
 
 /**
