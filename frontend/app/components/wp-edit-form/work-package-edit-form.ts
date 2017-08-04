@@ -173,6 +173,7 @@ export class WorkPackageEditForm {
    */
   public submit():ng.IPromise<WorkPackageResourceInterface> {
     if (this.changeset.empty && !this.workPackage.isNew) {
+      this.closeEditFields();
       return this.$q.when(this.workPackage);
     }
 

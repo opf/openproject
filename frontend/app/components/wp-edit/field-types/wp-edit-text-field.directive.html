@@ -5,6 +5,6 @@
        ng-required="vm.field.required"
        ng-focus="vm.handleUserFocus()"
        ng-disabled="vm.field.inFlight"
-       ng-keydown="vm.handleUserSubmitOnEnter($event)"
+       ng-keydown="vm.handleUserKeydown($event)"
        focus="vm.field.name === 'subject'"
        ng-attr-id="{{vm.htmlId}}" />

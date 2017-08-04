@@ -64,17 +64,6 @@ export class WorkPackageEditFieldHandler {
     if (withErrors !== undefined) {
       this.setErrors(withErrors);
     }
-
-
-
-    Mousetrap(element[0]).bind('escape', () => {
-      if (!this.inEditMode) {
-        this.handleUserCancel();
-        return false;
-      }
-
-      return true;
-    });
   }
 
   /**
@@ -117,10 +106,25 @@ export class WorkPackageEditFieldHandler {
    * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
    * (and on what field he did that).
    */
-  public handleUserSubmitOnEnter(event:JQueryEventObject) {
-    if (this.inEditMode && event.which === keyCodes.ENTER) {
-      this.form.submit();
+  public handleUserKeydown(event:JQueryEventObject) {
+    // Only handle submission in edit mode
+    if (this.inEditMode) {
+      if (event.which === keyCodes.ENTER) {
+        this.form.submit();
+        return false;
+      }
+      return true;
     }
+
+    // Escape editing when not in edit mode
+    if (event.which === keyCodes.ESCAPE) {
+      this.handleUserCancel();
+      return false;
+    }
+
+    // If enter is pressed here, it will continue to handleUserSubmit()
+    // due to the form submission event.
+    return true;
   }
 
   public onlyInAccessibilityMode(callback:Function) {

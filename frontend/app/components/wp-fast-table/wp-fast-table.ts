@@ -17,6 +17,7 @@ import {RowsBuilder} from './builders/modes/rows-builder';
 import {WorkPackageTimelineTableController} from '../wp-table/timeline/container/wp-timeline-container.directive';
 import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
 import {debugLog} from '../../helpers/debug_output';
+import {WorkPackageTableEditingContext} from "./wp-table-editing";
 
 export class WorkPackageTable {
   public wpCacheService:WorkPackageCacheService;
@@ -36,6 +37,10 @@ export class WorkPackageTable {
 
   // Last render pass used for refreshing single rows
   private lastRenderPass:PrimaryRenderPass|null = null;
+
+  // Work package editing context handler in the table, which handles open forms
+  // and their contexts
+  public editing:WorkPackageTableEditingContext = new WorkPackageTableEditingContext();
 
   constructor(public container:HTMLElement,
               public tbody:HTMLElement,
@@ -105,6 +110,7 @@ export class WorkPackageTable {
    * Redraw all elements in the table section only
    */
   public redrawTable() {
+    this.editing.reset();
     const renderPass = this.lastRenderPass = this.rowBuilder.buildRows();
 
     this.tbody.innerHTML = '';
