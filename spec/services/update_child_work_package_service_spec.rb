@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,15 +32,19 @@ require 'spec_helper'
 
 describe UpdateChildWorkPackageService, type: :model do
   let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:project) {
+  let(:project) do
     p = FactoryGirl.build_stubbed(:project)
+    allow(Project)
+      .to receive(:find)
+      .with(p.id)
+      .and_return(p)
     allow(p).to receive(:shared_versions).and_return([])
 
     p
-  }
+  end
   let(:type) { FactoryGirl.build_stubbed(:type) }
   let(:status) { FactoryGirl.build_stubbed(:status) }
-  let(:work_package) {
+  let(:work_package) do
     wp = FactoryGirl.build_stubbed(:work_package,
                                    type: type,
                                    status: status,
@@ -51,29 +56,37 @@ describe UpdateChildWorkPackageService, type: :model do
     wp.send(:clear_changes_information)
 
     wp
-  }
+  end
   let(:instance) do
     UpdateChildWorkPackageService.new(user: user,
                                       work_package: work_package)
   end
 
-  describe '.contract' do
-    it 'uses the UpdateContract contract' do
-      expect(described_class.contract).to eql WorkPackages::UpdateContract
-    end
-  end
-
   describe 'call' do
-    let(:mock_contract) do
-      double(WorkPackages::UpdateContract,
-             new: mock_contract_instance)
+    let(:set_attributes_service) do
+      service = double("SetAttributesWorkPackageService",
+                       new: set_attributes_service_instance)
+
+      stub_const('SetAttributesWorkPackageService', service)
+
+      service
     end
-    let(:mock_contract_instance) do
-      mock_model(WorkPackages::UpdateContract)
+    let(:set_attributes_service_instance) do
+      instance = double("SetAttributesWorkPackageServiceInstance")
+
+      allow(instance)
+        .to receive(:call) do |attributes|
+        work_package.attributes = attributes
+
+        set_service_results
+      end
+
+      instance
     end
+    let(:set_service_results) { double('result', success?: true, errors: work_package.errors) }
 
     before do
-      allow(described_class).to receive(:contract).and_return(mock_contract)
+      set_attributes_service
     end
 
     let(:send_notifications) { true }
@@ -85,21 +98,20 @@ describe UpdateChildWorkPackageService, type: :model do
         .and_yield
 
       allow(work_package).to receive(:save).and_return true
-      allow(mock_contract_instance).to receive(:validate).and_return true
     end
 
     context 'when switching the project' do
-      let(:target_project) {
+      let(:target_project) do
         p = FactoryGirl.build_stubbed(:project)
         allow(p).to receive(:types).and_return([type])
 
         p
-      }
+      end
 
       context 'fixed_version' do
-        let(:version) {
+        let(:version) do
           FactoryGirl.build_stubbed(:version)
-        }
+        end
 
         before do
           work_package.fixed_version = version

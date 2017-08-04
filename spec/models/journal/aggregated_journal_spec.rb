@@ -74,8 +74,8 @@ describe Journal::AggregatedJournal, type: :model do
 
   before do
     allow(User).to receive(:current).and_return(initial_author)
-    allow(UpdateWorkPackageService).to receive(:contract).and_return(NoopContract)
-    allow(AddWorkPackageNoteService).to receive(:contract).and_return(NoopContract)
+    stub_const('WorkPackages::UpdateContract', NoopContract)
+    stub_const('WorkPackages::CreateNoteContract', NoopContract)
     work_package.save!
   end
 
