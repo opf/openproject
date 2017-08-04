@@ -62,6 +62,10 @@ class SetAttributesWorkPackageService
 
     unify_dates if work_package_now_milestone?
 
+    # Take over any default custom values
+    # for new custom fields
+    work_package.set_default_values! if custom_field_context_changed?
+
     reschedule(attributes)
   end
 
@@ -74,6 +78,10 @@ class SetAttributesWorkPackageService
   def unify_dates
     unified_date = work_package.due_date || work_package.start_date
     work_package.start_date = work_package.due_date = unified_date
+  end
+
+  def custom_field_context_changed?
+    work_package.type_id_changed? || work_package.project_id_changed?
   end
 
   def work_package_now_milestone?
