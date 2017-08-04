@@ -49,16 +49,16 @@ describe Scm::CreateLocalRepositoryJob do
     include_context 'with tmpdir'
 
     let(:project) { FactoryGirl.build(:project) }
-    let(:repository) {
+    let!(:repository) do
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo
-    }
+    end
 
-    let(:config) {
+    let!(:config) do
       { subversion: { mode: mode, manages: tmpdir } }
-    }
+    end
 
     shared_examples 'creates a directory with mode' do |expected|
       it 'creates the directory' do
@@ -82,7 +82,7 @@ describe Scm::CreateLocalRepositoryJob do
     end
 
     context 'with string mode' do
-      let(:mode) { '0770' }
+      let(:mode) { 0770 }
       it 'uses the correct mode' do
         expect(subject).to receive(:create).with(0770)
         subject.perform
