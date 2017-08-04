@@ -28,6 +28,7 @@
 
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
+import {PathHelperFunctions} from "../common/path-heleper/path-helper.functions";
 
 var $state:ng.ui.IStateService;
 var $window:ng.IWindowService;
@@ -60,8 +61,9 @@ export class WorkPackageMoreMenuService {
         this.deleteSelectedWorkPackage();
         break;
       default:
-        if (this.isLinkToAnguluar(link)) {
-          $location.path(link);
+        const normalized = PathHelperFunctions.removeBasePathFromLink(link);
+        if (this.isLinkToAnguluar(normalized)) {
+          $location.path(normalized);
         } else {
           $window.location.href = link;
         }
