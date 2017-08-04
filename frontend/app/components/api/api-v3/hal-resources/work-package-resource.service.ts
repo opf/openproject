@@ -267,6 +267,14 @@ export class WorkPackageResource extends HalResource {
     }
   }
 
+  public getSchemaName(name:string):string {
+    if (this.isMilestone && (name === 'startDate' || name === 'dueDate')) {
+      return 'date';
+    } else {
+      return name;
+    }
+  }
+
   public allowedValuesFor(field:string):ng.IPromise<HalResource[]> {
     var deferred = $q.defer();
 

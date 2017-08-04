@@ -37,7 +37,7 @@ export interface WorkPackageEditContext {
   /**
    * Activate the field, returning the element and associated field handler
    */
-  activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):Promise<WorkPackageEditFieldHandler>;
+  activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):Promise<WorkPackageEditFieldHandler>;
 
   /**
    * Refresh an open field template, replacing its edit field.

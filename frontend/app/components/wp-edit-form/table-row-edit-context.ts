@@ -60,11 +60,11 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public findContainer(fieldName:string):JQuery {
-    return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editCellContainer}`);
+    return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editCellContainer}`).first();
   }
 
-  public activateField(form:WorkPackageEditForm, field:EditField, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler> {
-    const cell = this.findContainer(field.name);
+  public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler> {
+    const cell = this.findContainer(fieldName);
 
     // Create a field handler for the newly active field
     const fieldHandler = new WorkPackageEditFieldHandler(

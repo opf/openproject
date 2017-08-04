@@ -26,7 +26,8 @@ export class DisplayFieldRenderer {
 
   public render(workPackage:WorkPackageResourceInterface, name:string, placeholder = cellEmptyPlaceholder):HTMLSpanElement {
     const span = document.createElement('span');
-    const fieldSchema = workPackage.schema[name];
+    const schemaName = workPackage.getSchemaName(name);
+    const fieldSchema = workPackage.schema[schemaName];
 
     // If the work package does not have that field, return an empty
     // span (e.g., for the table).
@@ -34,7 +35,7 @@ export class DisplayFieldRenderer {
       return span;
     }
 
-    const field = this.getField(workPackage, fieldSchema, name);
+    const field = this.getField(workPackage, fieldSchema, schemaName);
 
     this.setSpanAttributes(span, field, name, workPackage);
 
