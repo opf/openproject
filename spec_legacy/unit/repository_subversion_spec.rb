@@ -54,7 +54,9 @@ describe Repository::Subversion, type: :model do
   it 'should fetch changesets incremental' do
     @repository.fetch_changesets
     # Remove changesets with revision > 5
-    @repository.changesets.each do |c| c.destroy if c.revision.to_i > 5 end
+    @repository.changesets.each do |c|
+      c.destroy if c.revision.to_i > 5
+    end
     @repository.reload
     assert_equal 5, @repository.changesets.count
 
@@ -91,11 +93,12 @@ describe Repository::Subversion, type: :model do
 
   it 'should directory listing with square brackets in base' do
     @project = Project.find(3)
+    url = '/subversion_test/[folder_with_brackets]'
     @repository = Repository::Subversion.create(
       project: @project,
       scm_type: 'local',
-      url: "file:///#{self.class.repository_path('subversion')}/subversion_test/[folder_with_brackets]")
-
+      url: "file:///#{self.class.repository_path('subversion')}/#{url}"
+    )
     @repository.fetch_changesets
     @repository.reload
 
@@ -143,16 +146,19 @@ describe Repository::Subversion, type: :model do
   end
 
   it 'should activities' do
-    c = Changeset.create(repository: @repository, committed_on: Time.now,
-                         revision: '1', comments: 'test')
+    Changeset.create(repository: @repository,
+                     committed_on: Time.now,
+                     revision: '1',
+                     comments: 'test')
     event = find_events(User.find(2)).first # manager
     assert event.event_title.include?('1:')
     assert event.event_path =~ /\?rev=1$/
   end
 
   it 'should activities nine digit' do
-    c = Changeset.create(repository: @repository, committed_on: Time.now,
-                         revision: '123456789', comments: 'test')
+    Changeset.create(repository: @repository,
+                     committed_on: Time.now,
+                     revision: '123456789', comments: 'test')
     event = find_events(User.find(2)).first # manager
     assert event.event_title.include?('123456789:')
     assert event.event_path =~ /\?rev=123456789$/
