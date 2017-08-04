@@ -31,13 +31,12 @@ require 'legacy_spec_helper'
 
 describe Repository::Git, type: :model do
   fixtures :all
-
   # No '..' in the repository path
-  let(:git_repository_path) {
+  let!(:git_repository_path) do
     path = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
     path.gsub!(/\//, '\\') if Redmine::Platform.mswin?
     path
-  }
+  end
 
   FELIX_HEX2  = "Felix Sch\xC3\xA4fer".freeze
   CHAR_1_HEX2 = "\xc3\x9c".freeze
@@ -59,9 +58,9 @@ describe Repository::Git, type: :model do
       path_encoding: 'ISO-8859-1'
     )
     assert @repository
-    @char_1 = CHAR_1_HEX2.dup
-    if @char_1.respond_to?(:force_encoding)
-      @char_1.force_encoding('UTF-8')
+    @char1 = CHAR_1_HEX2.dup
+    if @char1.respond_to?(:force_encoding)
+      @char1.force_encoding('UTF-8')
     end
   end
 
@@ -71,7 +70,7 @@ describe Repository::Git, type: :model do
 
     assert_equal 22, @repository.changesets.count
     file_count = @repository.file_changes.count
-    assert([33, 34].include? file_count) # Mac OS X reports one file less changed
+    assert([33, 34].include?(file_count)) # Mac OS X reports one file less changed
 
     commit = @repository.changesets.reorder('committed_on ASC').first
     assert_equal "Initial import.\nThe repository contains 3 files.", commit.comments
@@ -208,14 +207,19 @@ describe Repository::Git, type: :model do
 
     # latin-1 encoding path
     changesets = @repository.latest_changesets(
-      "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89')
+      "latin-1-dir/test-#{@char_1}-2.txt",
+      '64f1f3e89'
+    )
     assert_equal [
       '64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
       '4fc55c43bf3d3dc2efb66145365ddc17639ce81e'
     ], changesets.map(&:revision)
 
     changesets = @repository.latest_changesets(
-      "latin-1-dir/test-#{@char_1}-2.txt", '64f1f3e89', 1)
+      "latin-1-dir/test-#{@char_1}-2.txt",
+      '64f1f3e89',
+      1
+    )
     assert_equal [
       '64f1f3e89ad1cb57976ff0ad99a107012ba3481d'
     ], changesets.map(&:revision)
@@ -228,7 +232,9 @@ describe Repository::Git, type: :model do
       @repository.fetch_changesets
       @repository.reload
       changesets = @repository.latest_changesets(
-        "latin-1-dir/test-#{@char_1}-subdir", '1ca7f5ed')
+        "latin-1-dir/test-#{@char_1}-subdir",
+        '1ca7f5ed'
+      )
       assert_equal [
         '1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'
       ], changesets.map(&:revision)
@@ -267,12 +273,13 @@ describe Repository::Git, type: :model do
   end
 
   it 'should activities' do
-    c = Changeset.create(repository: @repository,
-                         committed_on: Time.now,
-                         revision: 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
-                         scmid:    'abc7234cb2750b63f47bff735edc50a1c0a433c2',
-                         comments: 'test')
-
+    Changeset.create(
+      repository: @repository,
+      committed_on: Time.now,
+      revision: 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
+      scmid:    'abc7234cb2750b63f47bff735edc50a1c0a433c2',
+      comments: 'test'
+    )
     event = find_events(User.find(2)).first # manager
     assert event.event_title.include?('abc7234c:')
     assert event.event_path =~ /\?rev=abc7234cb2750b63f47bff735edc50a1c0a433c2$/
