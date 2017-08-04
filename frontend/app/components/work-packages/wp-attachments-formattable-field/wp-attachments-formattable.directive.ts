@@ -11,6 +11,7 @@ import {DropModel} from './models/drop-model';
 import {SingleAttachmentModel} from './models/single-attachment';
 import {WorkPackageSingleViewController} from '../wp-single-view/wp-single-view.directive';
 import {CommentFieldDirectiveController} from '../work-package-comment/work-package-comment.directive';
+import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
 
 export class WpAttachmentsFormattableController {
   constructor(protected $scope:ng.IScope,
@@ -103,7 +104,7 @@ export class WpAttachmentsFormattableController {
     return [viewMode, model];
   }
 
-  protected uploadAndInsert(files:File[], model:EditorModel | WorkPackageFieldModel) {
+  protected uploadAndInsert(files:UploadFile[], model:EditorModel | WorkPackageFieldModel) {
     const wp = this.$scope.workPackage as WorkPackageResourceInterface;
     if (wp.isNew) {
       return this.insertDelayedAttachments(files, model, wp);
@@ -155,11 +156,13 @@ export class WpAttachmentsFormattableController {
     }
   }
 
-  protected insertDelayedAttachments(files:File[], description:any, workPackage:WorkPackageResourceInterface):void {
+  protected insertDelayedAttachments(files:UploadFile[], description:any, workPackage:WorkPackageResourceInterface):void {
     for (var i = 0; i < files.length; i++) {
       var currentFile = new SingleAttachmentModel(files[i]);
       var insertMode = currentFile.isAnImage ? InsertMode.INLINE : InsertMode.ATTACHMENT;
-      description.insertAttachmentLink(files[i].name.replace(/ /g, '_'), insertMode, true);
+      const name = files[i].customName || files[i].name;
+
+      description.insertAttachmentLink(name.replace(/ /g, '_'), insertMode, true);
       workPackage.pendingAttachments.push((files[i]));
     }
 
