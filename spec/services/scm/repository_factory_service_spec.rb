@@ -53,9 +53,9 @@ describe Scm::RepositoryFactoryService do
   end
 
   context 'with valid vendor' do
-    let(:params_hash) {
+    let!(:params_hash) do
       { scm_vendor: 'subversion' }
-    }
+    end
 
     it 'should allow temporary build repository' do
       expect(service.build_temporary).to be true
@@ -71,9 +71,9 @@ describe Scm::RepositoryFactoryService do
   end
 
   context 'with invalid vendor' do
-    let(:params_hash) {
+    let!(:params_hash) do
       { scm_vendor: 'not_subversion', scm_type: 'foo' }
-    }
+    end
 
     it 'should not allow to temporary build repository' do
       expect { service.build_temporary }.not_to raise_error
@@ -91,9 +91,9 @@ describe Scm::RepositoryFactoryService do
   end
 
   context 'with vendor and type' do
-    let(:params_hash) {
+    let!(:params_hash) do
       { scm_vendor: 'subversion', scm_type: 'existing' }
-    }
+    end
 
     it 'should not allow to persist a repository without URL' do
       expect(service.build_and_save).not_to be true
@@ -104,12 +104,12 @@ describe Scm::RepositoryFactoryService do
   end
 
   context 'with invalid hash' do
-    let(:params_hash) {
+    let!(:params_hash) do
       {
         scm_vendor: 'subversion', scm_type: 'existing',
         repository: { url: '/tmp/foo.svn' }
       }
-    }
+    end
 
     it 'should not allow to persist a repository URL' do
       expect(service.build_and_save).not_to be true
@@ -120,12 +120,12 @@ describe Scm::RepositoryFactoryService do
   end
 
   context 'with valid hash' do
-    let(:params_hash) {
+    let!(:params_hash) do
       {
         scm_vendor: 'subversion', scm_type: 'existing',
         repository: { url: 'file:///tmp/foo.svn' }
       }
-    }
+    end
 
     it 'should allow to persist a repository without URL' do
       expect(service.build_and_save).to be true
