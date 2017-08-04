@@ -42,19 +42,19 @@ describe OpenProject::TextFormatting do
   describe '.format_text' do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
-    let(:project_member) {
+    let!(:project_member) do
+      permissions = %i(view_work_packages edit_work_packages browse_repository view_changesets view_wiki_pages)
       FactoryGirl.create :user,
                          member_in_project: project,
                          member_through_role: FactoryGirl.create(:role,
-                                                                 permissions: [:view_work_packages, :edit_work_packages,
-                                                                               :browse_repository, :view_changesets, :view_wiki_pages])
-    }
-    let(:issue) {
+                                                                 permissions: permissions)
+    end
+    let!(:issue) do
       FactoryGirl.create :work_package,
                          project: project,
                          author: project_member,
                          type: project.types.first
-    }
+    end
 
     before do
       @project = project
@@ -79,16 +79,16 @@ describe OpenProject::TextFormatting do
                                   repository: repository,
                                   comments: 'This commit fixes #1, #2 and references #1 & #3'
       end
-      let(:changeset_link) {
+      let!(:changeset_link) do
         link_to("r#{changeset1.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset1.revision },
                 class: 'changeset', title: 'My very first commit')
-      }
-      let(:changeset_link2) {
+      end
+      let!(:changeset_link2) do
         link_to("r#{changeset2.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset2.revision },
                 class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3')
-      }
+      end
 
       before do
         allow(project).to receive(:repository).and_return(repository)
@@ -137,16 +137,16 @@ describe OpenProject::TextFormatting do
     end
 
     context 'Version link' do
-      let!(:version) {
+      let!(:version) do
         FactoryGirl.create :version,
                            name: '1.0',
                            project: project
-      }
-      let(:version_link) {
+      end
+      let!(:version_link) do
         link_to('1.0',
                 { controller: 'versions', action: 'show', id: version.id },
                 class: 'version')
-      }
+      end
 
       context 'Link with version id' do
         subject { format_text("version##{version.id}") }
@@ -187,11 +187,11 @@ describe OpenProject::TextFormatting do
     context 'Message links' do
       let(:board) { FactoryGirl.create :board, project: project }
       let(:message1) { FactoryGirl.create :message, board: board }
-      let(:message2) {
+      let!(:message2) do
         FactoryGirl.create :message,
                            board: board,
                            parent: message1
-      }
+      end
 
       before do
         message1.reload
@@ -206,16 +206,23 @@ describe OpenProject::TextFormatting do
       context 'Message with parent' do
         subject { format_text("message##{message2.id}") }
 
-        it { is_expected.to be_html_eql("<p>#{link_to(message2.subject, topic_path(message1, anchor: "message-#{message2.id}", r: message2.id), class: 'message')}</p>") }
+        it do
+          link_tag = link_to(message2.subject,
+                             topic_path(message1,
+                                        anchor: "message-#{message2.id}",
+                                        r: message2.id),
+                             class: 'message')
+          is_expected.to be_html_eql("<p>#{link_tag}</p>")
+        end
       end
     end
 
     context 'Issue links' do
-      let(:issue_link) {
+      let!(:issue_link) do
         link_to("##{issue.id}",
                 work_package_path(issue),
                 class: 'issue work_package status-3 priority-1 created-by-me', title: "#{issue.subject} (#{issue.status})")
-      }
+      end
 
       context 'Plain issue link' do
         subject { format_text("##{issue.id}, [##{issue.id}], (##{issue.id}) and ##{issue.id}.") }
@@ -236,12 +243,12 @@ describe OpenProject::TextFormatting do
       end
 
       context 'Cyclic Description Links' do
-        let(:issue2) {
+        let!(:issue2) do
           FactoryGirl.create :work_package,
                              project: project,
                              author: project_member,
                              type: project.types.first
-        }
+        end
 
         before do
           issue2.description = "####{issue.id}"
@@ -292,136 +299,201 @@ describe OpenProject::TextFormatting do
     context 'Url links' do
       subject { format_text('http://foo.bar/FAQ#3') }
 
-      it { is_expected.to be_html_eql('<p><a class="external icon-context icon-copy" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>') }
+      it do
+        html = '<p><a class="external icon-context icon-copy" href="http://foo.bar/FAQ#3">http://foo.bar/FAQ#3</a></p>'
+        is_expected.to be_html_eql(html)
+      end
     end
 
     context 'Wiki links' do
-      let(:project_2) {
+      let!(:project2) do
         FactoryGirl.create :valid_project,
                            identifier: 'onlinestore'
-      }
-      let(:wiki_1) {
+      end
+      let!(:wiki1) do
         FactoryGirl.create :wiki,
                            start_page: 'CookBook documentation',
                            project: project
-      }
-      let(:wiki_page_1_1) {
+      end
+      let!(:wiki1_page1) do
         FactoryGirl.create :wiki_page_with_content,
-                           wiki: wiki_1,
+                           wiki: wiki1,
                            title: 'CookBook documentation'
-      }
-      let(:wiki_page_1_2) {
+      end
+      let!(:wiki1_page2) do
         FactoryGirl.create :wiki_page_with_content,
-                           wiki: wiki_1,
+                           wiki: wiki1,
                            title: 'Another page'
-      }
-      let(:wiki_page_1_3) {
+      end
+      let!(:wiki1_page3) do
         FactoryGirl.create :wiki_page_with_content,
-                           wiki: wiki_1,
+                           wiki: wiki1,
                            title: '<script>alert("FOO")</script>'
-      }
+      end
 
       before do
-        project_2.reload
+        project2.reload
 
-        wiki_page_2_1 = FactoryGirl.create :wiki_page_with_content,
-                                           wiki: project_2.wiki,
-                                           title: 'Start Page'
+        wiki2_page1 = FactoryGirl.create(:wiki_page_with_content,
+                                         wiki: project2.wiki,
+                                         title: 'Start Page')
 
-        project_2.wiki.pages << wiki_page_2_1
-        project_2.wiki.start_page = 'Start Page'
-        project_2.wiki.save!
+        project2.wiki.pages << wiki2_page1
+        project2.wiki.start_page = 'Start Page'
+        project2.wiki.save!
 
-        project.wiki = wiki_1
+        project.wiki = wiki1
 
-        wiki_1.pages << wiki_page_1_1
-        wiki_1.pages << wiki_page_1_2
-        wiki_1.pages << wiki_page_1_3
+        wiki1.pages << wiki1_page1
+        wiki1.pages << wiki1_page2
+        wiki1.pages << wiki1_page3
       end
 
       context 'Plain wiki link' do
         subject { format_text('[[CookBook documentation]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation\">CookBook documentation</a></p>") }
+        it do
+          href = "/projects/#{project.identifier}/wiki/cookbook-documentation"
+          html = "<p><a class=\"wiki-page\" href=\"#{href}\">CookBook documentation</a></p>"
+
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Arbitrary wiki link' do
         title = '<script>alert("FOO")</script>'
         subject { format_text("[[#{title}]]") }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/alert-foo\">#{h(title)}</a></p>") }
+        it do
+          href = "/projects/#{project.identifier}/wiki/alert-foo"
+          html = "<p><a class=\"wiki-page\" href=\"#{href}\">#{h(title)}</a></p>"
+
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Plain wiki page link' do
         subject { format_text('[[Another page|Page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></p>") }
+        it do
+          href = "/projects/#{project.identifier}/wiki/another-page"
+          html = "<p><a class=\"wiki-page\" href=\"#{href}\">Page</a></p>"
+
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Wiki link with anchor' do
         subject { format_text('[[CookBook documentation#One-section]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/cookbook-documentation#One-section\">CookBook documentation</a></p>") }
+        it do
+          href = "/projects/#{project.identifier}/wiki/cookbook-documentation#One-section"
+          html = "<p><a class=\"wiki-page\" href=\"#{href}\">CookBook documentation</a></p>"
+
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Wiki page link with anchor' do
         subject { format_text('[[Another page#anchor|Page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page#anchor\">Page</a></p>") }
+        it do
+          href = "/projects/#{project.identifier}/wiki/another-page#anchor"
+          html = "<p><a class=\"wiki-page\" href=\"#{href}\">Page</a></p>"
+
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Wiki link to an unknown page' do
         subject { format_text('[[Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page\">Unknown page</a></p>") }
+        it do
+          href = "/projects/#{project.identifier}/wiki/unknown-page"
+          html = "<p><a class=\"wiki-page new\" href=\"#{href}\">Unknown page</a></p>"
+
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Wiki page link to an unknown page' do
         subject { format_text('[[Unknown page|404]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/#{project.identifier}/wiki/unknown-page\">404</a></p>") }
+        it do
+          href = "/projects/#{project.identifier}/wiki/unknown-page"
+          html = "<p><a class=\"wiki-page new\" href=\"#{href}\">404</a></p>"
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context "Link to another project's wiki" do
         subject { format_text('[[onlinestore:]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">onlinestore</a></p>") }
+        it do
+          href = "/projects/onlinestore/wiki/start-page"
+          html = "<p><a class=\"wiki-page\" href=\"#{href}\">onlinestore</a></p>"
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context "Link to another project's wiki with label" do
         subject { format_text('[[onlinestore:|Wiki]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">Wiki</a></p>") }
+        it do
+          href = "/projects/onlinestore/wiki/start-page"
+          html = "<p><a class=\"wiki-page\" href=\"#{href}\">Wiki</a></p>"
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context "Link to another project's wiki page" do
         subject { format_text('[[onlinestore:Start page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">Start Page</a></p>") }
+        it do
+          href = "/projects/onlinestore/wiki/start-page"
+          html = "<p><a class=\"wiki-page\" href=\"#{href}\">Start Page</a></p>"
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context "Link to another project's wiki page with label" do
         subject { format_text('[[onlinestore:Start page|Text]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page\" href=\"/projects/onlinestore/wiki/start-page\">Text</a></p>") }
+        it do
+          href = "/projects/onlinestore/wiki/start-page"
+          html = "<p><a class=\"wiki-page\" href=\"#{href}\">Text</a></p>"
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Link to an unknown wiki page in another project' do
         subject { format_text('[[onlinestore:Unknown page]]') }
 
-        it { is_expected.to be_html_eql("<p><a class=\"wiki-page new\" href=\"/projects/onlinestore/wiki/unknown-page\">Unknown page</a></p>") }
+        it do
+          href = "/projects/onlinestore/wiki/unknown-page"
+          html = "<p><a class=\"wiki-page new\" href=\"#{href}\">Unknown page</a></p>"
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Struck through link to wiki page' do
         subject { format_text('-[[Another page|Page]]-') }
 
-        it { is_expected.to be_html_eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a></del></p>") }
+        it do
+          href = "/projects/#{project.identifier}/wiki/another-page"
+          html = "<p><del><a class=\"wiki-page\" href=\"#{href}\">Page</a></del></p>"
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Named struck through link to wiki page' do
         subject { format_text('-[[Another page|Page]] link-') }
 
-        it { is_expected.to be_html_eql("<p><del><a class=\"wiki-page\" href=\"/projects/#{project.identifier}/wiki/another-page\">Page</a> link</del></p>") }
+        it do
+          href = "/projects/#{project.identifier}/wiki/another-page"
+          html = "<p><del><a class=\"wiki-page\" href=\"#{href}\">Page</a> link</del></p>"
+          is_expected.to be_html_eql(html)
+        end
       end
 
       context 'Escaped link to wiki page' do
@@ -470,18 +542,42 @@ describe OpenProject::TextFormatting do
 
         @to_test = {
           # source
-          'source:/some/file'           => link_to('source:/some/file', source_url, class: 'source'),
-          'source:/some/file.'          => link_to('source:/some/file', source_url, class: 'source') + '.',
-          'source:/some/file.ext.'      => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
-          'source:/some/file. '         => link_to('source:/some/file', source_url, class: 'source') + '.',
-          'source:/some/file.ext. '     => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
-          'source:/some/file, '         => link_to('source:/some/file', source_url, class: 'source') + ',',
-          'source:/some/file@52'        => link_to('source:/some/file@52', source_url.merge(rev: 52), class: 'source'),
-          'source:/some/file.ext@52'    => link_to('source:/some/file.ext@52', source_url_with_ext.merge(rev: 52), class: 'source'),
-          'source:/some/file#L110'      => link_to('source:/some/file#L110', source_url.merge(anchor: 'L110'), class: 'source'),
-          'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(anchor: 'L110'), class: 'source'),
-          'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url.merge(rev: 52, anchor: 'L110'), class: 'source'),
-          'export:/some/file'           => link_to('export:/some/file', source_url.merge(format: 'raw'), class: 'source download'),
+          'source:/some/file'           => link_to('source:/some/file',
+                                                   source_url,
+                                                   class: 'source'),
+          'source:/some/file.'          => link_to('source:/some/file',
+                                                   source_url,
+                                                   class: 'source') + '.',
+          'source:/some/file.ext.'      => link_to('source:/some/file.ext',
+                                                   source_url_with_ext,
+                                                   class: 'source') + '.',
+          'source:/some/file. '         => link_to('source:/some/file',
+                                                   source_url,
+                                                   class: 'source') + '.',
+          'source:/some/file.ext. '     => link_to('source:/some/file.ext',
+                                                   source_url_with_ext,
+                                                   class: 'source') + '.',
+          'source:/some/file, '         => link_to('source:/some/file',
+                                                   source_url,
+                                                   class: 'source') + ',',
+          'source:/some/file@52'        => link_to('source:/some/file@52',
+                                                   source_url.merge(rev: 52),
+                                                   class: 'source'),
+          'source:/some/file.ext@52'    => link_to('source:/some/file.ext@52',
+                                                   source_url_with_ext.merge(rev: 52),
+                                                   class: 'source'),
+          'source:/some/file#L110'      => link_to('source:/some/file#L110',
+                                                   source_url.merge(anchor: 'L110'),
+                                                   class: 'source'),
+          'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110',
+                                                   source_url_with_ext.merge(anchor: 'L110'),
+                                                   class: 'source'),
+          'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110',
+                                                   source_url.merge(rev: 52, anchor: 'L110'),
+                                                   class: 'source'),
+          'export:/some/file'           => link_to('export:/some/file',
+                                                   source_url.merge(format: 'raw'),
+                                                   class: 'source download'),
           # escaping
           '!source:/some/file'          => 'source:/some/file',
           # invalid expressions
@@ -497,41 +593,41 @@ describe OpenProject::TextFormatting do
     end
 
     context 'Pre content should not parse wiki and redmine links' do
-      let(:wiki) {
+      let!(:wiki) do
         FactoryGirl.create :wiki,
                            start_page: 'CookBook documentation',
                            project: project
-      }
-      let(:wiki_page) {
+      end
+      let!(:wiki_page) do
         FactoryGirl.create :wiki_page_with_content,
                            wiki: wiki,
                            title: 'CookBook documentation'
-      }
-      let(:raw) {
-        <<-RAW
-[[CookBook documentation]]
+      end
+      let!(:raw) do
+        <<-RAW.strip_heredoc
+           [[CookBook documentation]]
 
-##{issue.id}
+           ##{issue.id}
 
-<pre>
-[[CookBook documentation]]
+           <pre>
+              [[CookBook documentation]]
 
-##{issue.id}
-</pre>
-RAW
-      }
+              ##{issue.id}
+           </pre>
+        RAW
+      end
 
-      let(:expected) {
-        <<-EXPECTED
-<p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
-<p><a class="issue work_package status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
-<pre>
-[[CookBook documentation]]
+      let!(:expected) do
+        <<-EXPECTED.strip_heredoc
+            <p><a class="wiki-page" href="/projects/#{project.identifier}/wiki/cookbook-documentation">CookBook documentation</a></p>
+            <p><a class="issue work_package status-3 priority-1 created-by-me" href="/work_packages/#{issue.id}" title="#{issue.subject} (#{issue.status})">##{issue.id}</a></p>
+            <pre>
+                [[CookBook documentation]]
 
-##{issue.id}
-</pre>
-EXPECTED
-      }
+                ##{issue.id}
+            </pre>
+        EXPECTED
+      end
 
       before do
         project.wiki = wiki
@@ -557,13 +653,13 @@ EXPECTED
   end
 
   describe 'macros within pre block' do
-    let(:wiki_text) {
-      <<-WIKI_TEXT
-      <pre>{{include(wiki)}}</pre>
+    let!(:wiki_text) do
+      <<-WIKI_TEXT.strip_heredoc
+          <pre>{{include(wiki)}}</pre>
 
-      {{include(wiki)}}
+          {{include(wiki)}}
       WIKI_TEXT
-    }
+    end
 
     subject(:html) { format_text(wiki_text) }
 
@@ -579,44 +675,44 @@ EXPECTED
 
   describe '{{toc}}', 'table of contents macro' do
     # Source: http://en.wikipedia.org/wiki/Orange_(fruit)
-    let(:wiki_text) {
-      <<-WIKI_TEXT
-{{toc}}
+    let!(:wiki_text) do
+      <<-WIKI_TEXT.strip_heredoc
+          {{toc}}
 
-h1. Orange
+          h1. Orange
 
-h2. Varietes
+          h2. Varietes
 
-h3. Common Oranges
+          h3. Common Oranges
 
-h4. Valencia
+          h4. Valencia
 
-h5. Naranjito
+          h5. Naranjito
 
-h4. Hart's Tardiff Valencia
+          h4. Hart's Tardiff Valencia
 
-h3. Navel Oranges
+          h3. Navel Oranges
 
-h3. Blood Oranges
+          h3. Blood Oranges
 
-h3. Acidless Oranges
+          h3. Acidless Oranges
 
-h2. Attributes
+          h2. Attributes
 
-WIKI_TEXT
-    }
+      WIKI_TEXT
+    end
 
     subject(:html) { format_text(wiki_text) }
 
     context 'w/ request present' do
-      let(:request) {
+      let!(:request) do
         ActionDispatch::TestRequest.new(
           Rack::MockRequest.env_for('/test',
-            'HTTP_HOST'       => 'test.host',
-            'REMOTE_ADDR'     => '0.0.0.0',
-            'HTTP_USER_AGENT' => 'Rails Testing')
+                                    'HTTP_HOST'       => 'test.host',
+                                    'REMOTE_ADDR'     => '0.0.0.0',
+                                    'HTTP_USER_AGENT' => 'Rails Testing')
         )
-      }
+      end
 
       it 'emits a table of contents for headings h1-h4 with links present' do
         expect(html).to be_html_eql(%{
