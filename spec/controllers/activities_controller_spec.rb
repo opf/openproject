@@ -69,13 +69,13 @@ describe ActivitiesController, type: :controller do
         render_views
 
         it do
-        assert_select 'h3',
-                     content: /#{3.day.ago.to_date.day}/,
-                     sibling: { tag: 'dl',
-                                child: { tag: 'dt',
-                                         attributes: { class: /work_package/ },
-                                         child: { tag: 'a',
-                                                  content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
+          assert_select 'h3',
+                       content: /#{3.day.ago.to_date.day}/,
+                       sibling: { tag: 'dl',
+                                  child: { tag: 'dt',
+                                           attributes: { class: /work_package/ },
+                                           child: { tag: 'a',
+                                                    content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
         end
       end
 
@@ -139,9 +139,9 @@ describe ActivitiesController, type: :controller do
           before { get 'index', format: 'atom' }
 
           it do
-          assert_select 'entry',
-                       child: { tag: 'link',
-                                attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
+            assert_select 'entry',
+                         child: { tag: 'link',
+                                  attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
           end
         end
 

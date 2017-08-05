@@ -29,8 +29,8 @@ object @reporting
 attributes :id
 
 node :reported_project_status, if: ->(reporting){ reporting.reported_project_status } do |reporting|
- {id: reporting.reported_project_status.id,
-  name: reporting.reported_project_status.name}
+  {id: reporting.reported_project_status.id,
+   name: reporting.reported_project_status.name}
 end
 
 node :reported_project_status_comment, id: ->(reporting){ reporting.reported_project_status_comment.present? } do |reporting|

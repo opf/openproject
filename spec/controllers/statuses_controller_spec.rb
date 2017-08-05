@@ -105,8 +105,8 @@ describe StatusesController, type: :controller do
         render_views
 
         it do
-        assert_select 'p',
-                        {content: Status.human_attribute_name(:is_default)}, false
+          assert_select 'p',
+                          {content: Status.human_attribute_name(:is_default)}, false
         end
       end
     end
@@ -124,8 +124,8 @@ describe StatusesController, type: :controller do
         render_views
 
         it do
-        assert_select 'div',
-                     content: Status.human_attribute_name(:is_default)
+          assert_select 'div',
+                       content: Status.human_attribute_name(:is_default)
         end
       end
     end

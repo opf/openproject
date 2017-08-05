@@ -72,7 +72,7 @@ describe ::API::V3::Users::UserRepresenter do
       let(:current_user) { FactoryGirl.build_stubbed(:admin) }
 
       it 'shows everything' do
-       is_expected.to have_json_path('id')
+        is_expected.to have_json_path('id')
        is_expected.to have_json_path('login')
        is_expected.to have_json_path('firstName')
        is_expected.to have_json_path('lastName')
