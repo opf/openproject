@@ -77,7 +77,7 @@ class MigrateUserRights < ActiveRecord::Migration[4.2]
     end
 
     ambiguous_permissions = PERMISSIONS.select { |_k, v| PERMISSIONS.values.count(v) > 1 }
-                            .keys
+                                       .keys
 
     say <<-WARNING
       This down migration can't restore the following permission: #{ambiguous_permissions.inspect}

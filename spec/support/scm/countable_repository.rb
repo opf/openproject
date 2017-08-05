@@ -68,7 +68,7 @@ shared_examples_for 'is a countable repository' do
   describe 'count methods' do
     it 'uses du when available' do
       expect(::Open3).to receive(:capture3).with('du', any_args)
-        .and_return(["1234\t.", '', 0])
+                                           .and_return(["1234\t.", '', 0])
       expect(repository.scm).not_to receive(:count_storage_fallback)
 
       expect(repository.scm.count_repository!).to eq(1234)
@@ -76,7 +76,7 @@ shared_examples_for 'is a countable repository' do
 
     it 'falls back to using ruby when du is unavailable' do
       expect(::Open3).to receive(:capture3).with('du', any_args)
-        .and_raise(SystemCallError.new 'foo')
+                                           .and_raise(SystemCallError.new 'foo')
       expect(repository.scm).to receive(:count_storage_fallback).and_return(12345)
 
       expect(repository.scm.count_repository!).to eq(12345)
@@ -84,7 +84,7 @@ shared_examples_for 'is a countable repository' do
 
     it 'falls back to using ruby when du is incompatible' do
       expect(::Open3).to receive(:capture3).with('du', any_args)
-        .and_return(['no output', nil, 1])
+                                           .and_return(['no output', nil, 1])
       expect(repository.scm).to receive(:count_storage_fallback).and_return(12345)
 
       expect(repository.scm.count_repository!).to eq(12345)

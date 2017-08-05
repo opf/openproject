@@ -164,10 +164,10 @@ class Journal < ActiveRecord::Base
 
   def predecessor
     @predecessor ||= self.class
-                     .where(journable_type: journable_type, journable_id: journable_id)
-                     .where("#{self.class.table_name}.version < ?", version)
-                     .order("#{self.class.table_name}.version DESC")
-                     .first
+                         .where(journable_type: journable_type, journable_id: journable_id)
+                         .where("#{self.class.table_name}.version < ?", version)
+                         .order("#{self.class.table_name}.version DESC")
+                         .first
   end
 
   def journalized_object_type

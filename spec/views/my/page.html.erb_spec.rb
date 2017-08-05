@@ -70,7 +70,7 @@ describe 'my/page', type: :view do
                          member_in_project: project,
                          member_through_role: role,
                          firstname: 'Mahboobeh')
-        .tap do |user|
+                 .tap do |user|
         Watcher.create(watchable: open_wp, user: user)
         Watcher.create(watchable: closed_wp, user: user)
       end

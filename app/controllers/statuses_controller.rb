@@ -38,7 +38,7 @@ class StatusesController < ApplicationController
   verify method: :get, only: :index, render: { nothing: true, status: :method_not_allowed }
   def index
     @statuses = Status.page(params[:page])
-                .per_page(per_page_param)
+                      .per_page(per_page_param)
 
     render action: 'index', layout: false if request.xhr?
   end

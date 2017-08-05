@@ -171,7 +171,7 @@ module OpenProject::NestedSet
 
       def persist_nested_set_attributes
         self.class.where(['id = ?', id])
-          .update_all("root_id = #{root_id}, " +
+            .update_all("root_id = #{root_id}, " +
                               "#{quoted_left_column_name} = #{lft}, " +
                               "#{quoted_right_column_name} = #{rgt}")
       end
@@ -197,7 +197,7 @@ module OpenProject::NestedSet
         self.class.where(['root_id = ? AND ' +
          "#{quoted_left_column_name} >= ? AND " +
          "#{quoted_right_column_name} <= ? ", old_root_id, lft, rgt])
-          .update_all("root_id = #{root_id}, " +
+            .update_all("root_id = #{root_id}, " +
                               "#{quoted_left_column_name} = lft + #{offset}, " +
                               "#{quoted_right_column_name} = rgt + #{offset}")
 
@@ -231,7 +231,7 @@ module OpenProject::NestedSet
         # removed_span = removed_nodes * 2
 
         self.class.where(["root_id = ? AND #{quoted_right_column_name} > ?", old_root_id, rgt_offset])
-          .update_all("#{quoted_right_column_name} = #{quoted_right_column_name} - #{removed_span}, " +
+            .update_all("#{quoted_right_column_name} = #{quoted_right_column_name} - #{removed_span}, " +
                               "#{quoted_left_column_name} = CASE " +
                                 "WHEN #{quoted_left_column_name} > #{rgt_offset} " +
                                   "THEN #{quoted_left_column_name} - #{removed_span} " +

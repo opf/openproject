@@ -53,8 +53,8 @@ class VersionsController < ApplicationController
     unless @selected_type_ids.empty?
       @versions.each do |version|
         issues = version.fixed_issues.visible.includes(:project, :status, :type, :priority)
-                 .where(type_id: @selected_type_ids, project_id: project_ids)
-                 .order("#{Project.table_name}.lft, #{::Type.table_name}.position, #{WorkPackage.table_name}.id")
+                        .where(type_id: @selected_type_ids, project_id: project_ids)
+                        .order("#{Project.table_name}.lft, #{::Type.table_name}.position, #{WorkPackage.table_name}.id")
         @issues_by_version[version] = issues
       end
     end
@@ -63,7 +63,7 @@ class VersionsController < ApplicationController
 
   def show
     @issues = @version.fixed_issues.visible.includes(:status, :type, :priority)
-              .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
+                      .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
   end
 
   def new

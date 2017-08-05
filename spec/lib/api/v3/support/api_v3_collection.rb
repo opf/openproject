@@ -43,7 +43,7 @@ shared_examples_for 'generic APIv3 collection' do
   describe 'elements are typed correctly' do
     it do
       expect(collection).to be_json_eql(collection_inner_type.to_json)
-                              .at_path('_embedded/elements/0/_type')
+        .at_path('_embedded/elements/0/_type')
     end
   end
 end

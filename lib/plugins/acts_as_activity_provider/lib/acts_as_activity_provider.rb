@@ -163,7 +163,7 @@ module Redmine
             if perm && perm.project_module
               m = EnabledModule.arel_table
               subquery = m.where(m[:name].eq(perm.project_module))
-                         .project(m[:project_id])
+                          .project(m[:project_id])
 
               query = query.where(projects_table[:id].in(subquery))
             end

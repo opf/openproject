@@ -144,7 +144,7 @@ module Type::Attributes
       else
         key = attr_i18n_key(name)
         I18n.t("activerecord.attributes.work_package.#{key}", default: '')
-          .presence || I18n.t("attributes.#{key}")
+            .presence || I18n.t("attributes.#{key}")
       end
     end
   end

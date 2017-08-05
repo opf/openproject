@@ -152,11 +152,11 @@ class MigrateTimelinesOptions < ActiveRecord::Migration[4.2]
     return timelines_opts unless timelines_opts.has_key? VERTICAL_PE_TYPES
 
     vertical_pes = timelines_opts[VERTICAL_PE_TYPES].split(',')
-                   .map(&:strip)
+                                                    .map(&:strip)
 
     unless vertical_pes.empty?
       mapped_pes = vertical_pes.map { |v| pe_id_map[v.to_i] }
-                   .compact
+                               .compact
 
       timelines_opts[VERTICAL_PE_TYPES] = mapped_pes.join(',')
     end

@@ -40,16 +40,16 @@ module VersionsHelper
     begin
       # Total issue count
       WorkPackage.group(criteria)
-        .where(["#{WorkPackage.table_name}.fixed_version_id = ?", version.id])
-        .count.each do |c, s|
+                 .where(["#{WorkPackage.table_name}.fixed_version_id = ?", version.id])
+                 .count.each do |c, s|
         h[c][0] = s
       end
       # Open issues count
       WorkPackage.group(criteria)
-        .includes(:status)
-        .where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false])
-        .references(:statuses)
-        .count.each do |c, s|
+                 .includes(:status)
+                 .where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false])
+                 .references(:statuses)
+                 .count.each do |c, s|
         h[c][1] = s
       end
     rescue ActiveRecord::RecordNotFound

@@ -91,7 +91,7 @@ module Api
 
       def build_associations
         association_attributes = ProjectAssociation.with_projects(@projects_by_id.keys)
-                                 .map(&:attributes)
+                                                   .map(&:attributes)
 
         associations = association_attributes.map { |attributes| OpenStruct.new(attributes) }
 

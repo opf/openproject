@@ -125,6 +125,6 @@ class ::Type < ActiveRecord::Base
     workflows.where(old_status_id: status_id_a,
                     new_status_id: status_id_b,
                     role_id: role_ids)
-      .any?
+             .any?
   end
 end

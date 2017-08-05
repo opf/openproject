@@ -384,7 +384,7 @@ class Project < ActiveRecord::Base
           raise ActiveRecord::Rollback, 'Overridding TimeEntryActivity was not successfully saved'
         else
           time_entries.where(['activity_id = ?', parent_activity.id])
-            .update_all("activity_id = #{project_activity.id}")
+                      .update_all("activity_id = #{project_activity.id}")
         end
       end
     end
@@ -415,10 +415,10 @@ class Project < ActiveRecord::Base
     # to one of the project or descendant versions
     v_ids = self_and_descendants.map(&:version_ids).flatten
     if v_ids.any? && WorkPackage.includes(:project)
-                     .where(["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
+                                .where(["(#{Project.table_name}.lft < ? OR #{Project.table_name}.rgt > ?)" +
                         " AND #{WorkPackage.table_name}.fixed_version_id IN (?)", lft, rgt, v_ids])
-                     .references(:projects)
-                     .first
+                                .references(:projects)
+                                .first
       return false
     end
     Project.transaction do
@@ -506,9 +506,9 @@ class Project < ActiveRecord::Base
   def rolled_up_types
     @rolled_up_types ||=
       ::Type.joins(:projects)
-      .select("DISTINCT #{::Type.table_name}.*")
-      .where(["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
-      .order("#{::Type.table_name}.position")
+            .select("DISTINCT #{::Type.table_name}.*")
+            .where(["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
+            .order("#{::Type.table_name}.position")
   end
 
   # Closes open and locked project versions that are completed
@@ -526,8 +526,8 @@ class Project < ActiveRecord::Base
   def rolled_up_versions
     @rolled_up_versions ||=
       Version.includes(:project)
-      .where(["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
-      .references(:projects)
+             .where(["#{Project.table_name}.lft >= ? AND #{Project.table_name}.rgt <= ? AND #{Project.table_name}.status = #{STATUS_ACTIVE}", lft, rgt])
+             .references(:projects)
   end
 
   # Returns a scope of the Versions used by the project
@@ -536,14 +536,14 @@ class Project < ActiveRecord::Base
       r = root? ? self : root
 
       Version.includes(:project)
-      .where("#{Project.table_name}.id = #{id}" +
+             .where("#{Project.table_name}.id = #{id}" +
                                     " OR (#{Project.table_name}.status = #{Project::STATUS_ACTIVE} AND (" +
                                           " #{Version.table_name}.sharing = 'system'" +
                                           " OR (#{Project.table_name}.lft >= #{r.lft} AND #{Project.table_name}.rgt <= #{r.rgt} AND #{Version.table_name}.sharing = 'tree')" +
                                           " OR (#{Project.table_name}.lft < #{lft} AND #{Project.table_name}.rgt > #{rgt} AND #{Version.table_name}.sharing IN ('hierarchy', 'descendants'))" +
                                           " OR (#{Project.table_name}.lft > #{lft} AND #{Project.table_name}.rgt < #{rgt} AND #{Version.table_name}.sharing = 'hierarchy')" +
                                           '))')
-      .references(:projects)
+             .references(:projects)
     end
   end
 
@@ -848,11 +848,11 @@ class Project < ActiveRecord::Base
   def system_activities_and_project_overrides(include_inactive = false)
     if include_inactive
       TimeEntryActivity.shared
-        .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
+                       .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
         time_entry_activities
     else
       TimeEntryActivity.shared.active
-        .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
+                       .where(['id NOT IN (?)', time_entry_activities.map(&:parent_id)]) +
         time_entry_activities.active
     end
   end

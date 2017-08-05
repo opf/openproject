@@ -61,7 +61,7 @@ class JournalManager
 
     # we generally ignore changes from blank to blank
     predecessor.map { |k, v| current[k.to_s] != v && (v.present? || current[k.to_s].present?) }
-      .any?
+               .any?
   end
 
   def self.association_changed?(journable, journal_association, association, id, key, value)
@@ -175,9 +175,9 @@ class JournalManager
   def self.create_journal(journable, journal_attributes, user = User.current, notes = '')
     type = base_class(journable.class)
     extended_journal_attributes = journal_attributes.merge(journable_type: type.to_s)
-                                  .merge(notes: notes)
-                                  .except(:details)
-                                  .except(:id)
+                                                    .merge(notes: notes)
+                                                    .except(:details)
+                                                    .except(:id)
 
     unless extended_journal_attributes.has_key? :user_id
       extended_journal_attributes[:user_id] = user.id

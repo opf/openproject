@@ -523,7 +523,7 @@ describe SysController, type: :controller do
     it 'should use cache' do
       allow(Rails.cache).to receive(:fetch).and_call_original
       expect(Rails.cache).to receive(:fetch).with(cache_key, expires_in: cache_expiry) \
-        .and_return(Marshal.dump(valid_user.id.to_s))
+                                            .and_return(Marshal.dump(valid_user.id.to_s))
       controller.send(:cached_user_login, valid_user.login, valid_user_password)
     end
 

@@ -96,8 +96,8 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration[4.2]
         journables.each do |type, id|
           sub_say "Reordering journals for #{type} ##{id}"
           journals = Journal
-                       .where(journable_type: type, journable_id: id)
-                       .order('version ASC, created_at ASC')
+                     .where(journable_type: type, journable_id: id)
+                     .order('version ASC, created_at ASC')
           journals.each_with_index do |journal, index|
             version = index + 1
             Journal.where(id: journal.id).update_all(version: version)

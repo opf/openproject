@@ -128,7 +128,7 @@ class Member < ActiveRecord::Base
   #       Accordingly it has to be changed there too should this bit change at all.
   def remove_from_category_assignments
     Category.where(['project_id = ? AND assigned_to_id = ?', project_id, user_id])
-      .update_all 'assigned_to_id = NULL' if user
+            .update_all 'assigned_to_id = NULL' if user
   end
 
   ##

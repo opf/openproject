@@ -122,10 +122,10 @@ module Api
         case params[:only]
         when 'via_source'
           @reportings = @project.reportings_via_source.includes(:project)
-                        .where(conditions).references(:projects)
+                                .where(conditions).references(:projects)
         when 'via_target'
           @reportings = @project.reportings_via_target.includes(:project)
-                        .where(conditions).references(:projects)
+                                .where(conditions).references(:projects)
         else
           @reportings = @project.reportings
         end
@@ -149,10 +149,10 @@ module Api
         case params[:only]
         when 'via_source'
           @ancestor_reportings = @project.reportings_via_source
-                                 .includes(:project).where(conditions).references(:projects)
+                                         .includes(:project).where(conditions).references(:projects)
         when 'via_target'
           @ancestor_reportings = @project.reportings_via_target
-                                 .includes(:project).where(conditions).references(:projects)
+                                         .includes(:project).where(conditions).references(:projects)
         else
           @ancestor_reportings = @project.reportings
         end

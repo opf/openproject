@@ -73,7 +73,7 @@ describe OpenProject::Scm::Adapters::Git do
         it 'should set the correct client version' do
           expect(adapter)
             .to receive(:scm_version_from_command_line)
-                  .and_return(git_string)
+            .and_return(git_string)
 
           expect(adapter.client_version).to eq(expected_version)
           expect(adapter.client_available).to be true

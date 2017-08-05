@@ -123,12 +123,12 @@ class PermittedParams
 
   def planning_element_type
     params.require(:planning_element_type)
-      .permit(*self.class.permitted_attributes[:planning_element_type])
+          .permit(*self.class.permitted_attributes[:planning_element_type])
   end
 
   def planning_element_type_move
     params.require(:planning_element_type)
-      .permit(*self.class.permitted_attributes[:move_to])
+          .permit(*self.class.permitted_attributes[:move_to])
   end
 
   def planning_element(args = {})

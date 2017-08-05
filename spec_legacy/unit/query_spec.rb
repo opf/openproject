@@ -325,9 +325,9 @@ describe Query, type: :model do
     assert c
     assert c.sortable
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
-             .where(q.statement)
-             .order(Array(c.sortable).map { |s| "#{s} DESC" }.join(', '))
-             .references(:projects)
+                        .where(q.statement)
+                        .order(Array(c.sortable).map { |s| "#{s} DESC" }.join(', '))
+                        .references(:projects)
     values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
     assert_equal values.sort.reverse, values

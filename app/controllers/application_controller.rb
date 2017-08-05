@@ -409,8 +409,8 @@ class ApplicationController < ActionController::Base
   # Filter for bulk work package operations
   def find_work_packages
     @work_packages = WorkPackage.includes(:project)
-                     .where(id: params[:work_package_id] || params[:ids])
-                     .order('id ASC')
+                                .where(id: params[:work_package_id] || params[:ids])
+                                .order('id ASC')
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
     @projects = @work_packages.map(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1

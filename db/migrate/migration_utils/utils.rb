@@ -102,7 +102,7 @@ module Migration
 
       updated_rows.each do |row|
         values = column_list.map { |c| "#{c}=#{quote(row[c])}" }
-                 .join(', ')
+                            .join(', ')
 
         update <<-SQL
           UPDATE #{table}

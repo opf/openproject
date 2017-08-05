@@ -78,7 +78,7 @@ module Migration
         end
       elsif value.is_a? Hash
         keys.select { |k| value[k.to_s] }
-          .each_pair { |k, v| value[v] = value.delete k }
+            .each_pair { |k, v| value[v] = value.delete k }
       end
 
       YAML.dump value

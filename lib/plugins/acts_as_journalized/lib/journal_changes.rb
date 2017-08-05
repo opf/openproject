@@ -37,8 +37,8 @@ module JournalChanges
 
     if predecessor.nil?
       @changes = data.journaled_attributes
-                 .reject { |_, new_value| new_value.nil? }
-                 .inject({}) do |result, (attribute, new_value)|
+                     .reject { |_, new_value| new_value.nil? }
+                     .inject({}) do |result, (attribute, new_value)|
                    result[attribute] = [nil, new_value]
                    result
                  end

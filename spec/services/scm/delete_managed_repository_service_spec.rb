@@ -164,7 +164,7 @@ describe Scm::DeleteManagedRepositoryService do
           .to eq("Calling the managed remote failed with message 'An error occurred' (Code: 400)")
         expect(WebMock)
           .to have_requested(:post, url)
-                .with(body: hash_including(action: 'delete'))
+          .with(body: hash_including(action: 'delete'))
       end
     end
   end

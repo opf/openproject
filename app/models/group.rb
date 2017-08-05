@@ -121,7 +121,7 @@ class Group < Principal
     WorkPackage.where(assigned_to_id: id).update_all(assigned_to_id: deleted_user.id)
 
     Journal::WorkPackageJournal.where(assigned_to_id: id)
-      .update_all(assigned_to_id: deleted_user.id)
+                               .update_all(assigned_to_id: deleted_user.id)
   end
 
   def uniqueness_of_groupname

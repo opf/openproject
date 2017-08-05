@@ -50,7 +50,7 @@ class WorkPackages::ReportsController < ApplicationController
 
   def report_details
     @report = Reports::ReportsService.new(@project)
-              .report_for(params[:detail])
+                                     .report_for(params[:detail])
 
     respond_to do |format|
       if @report

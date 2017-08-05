@@ -163,7 +163,7 @@ module OpenProject::NestedSet::RebuildPatch
                      [roots]
                    else
                      where("#{quoted_parent_column_name} IS NULL")
-                     .order([quoted_left_column_name,
+                       .order([quoted_left_column_name,
                              quoted_right_column_name,
                              acts_as_nested_set_options[:order]].compact.join(', '))
                    end

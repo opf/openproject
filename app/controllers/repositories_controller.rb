@@ -100,7 +100,7 @@ class RepositoriesController < ApplicationController
     if request.post? && params.key?(:committers)
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values
-        .inject({}) { |h, c|
+                                                     .inject({}) { |h, c|
           h[c.first] = c.last
           h
         }
@@ -170,9 +170,9 @@ class RepositoriesController < ApplicationController
 
   def revisions
     @changesets = @repository.changesets
-                  .includes(:user, :repository)
-                  .page(params[:page])
-                  .per_page(per_page_param)
+                             .includes(:user, :repository)
+                             .page(params[:page])
+                             .per_page(per_page_param)
 
     respond_to do |format|
       format.html do
@@ -390,12 +390,12 @@ class RepositoriesController < ApplicationController
     end
 
     changes_by_day = Change.includes(:changeset)
-                     .where(["#{Changeset.table_name}.repository_id = ? "\
+                           .where(["#{Changeset.table_name}.repository_id = ? "\
                              "AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?",
                              repository.id, @date_from, @date_to])
-                     .references(:changesets)
-                     .group(:commit_date)
-                     .size
+                           .references(:changesets)
+                           .group(:commit_date)
+                           .size
     changes_by_month = [0] * 12
     changes_by_day.each do |c|
       changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last
@@ -438,10 +438,10 @@ class RepositoriesController < ApplicationController
     end
 
     changes_by_author = Change.includes(:changeset)
-                        .where(["#{Changeset.table_name}.repository_id = ?", repository.id])
-                        .references(:changesets)
-                        .group(:committer)
-                        .size
+                              .where(["#{Changeset.table_name}.repository_id = ?", repository.id])
+                              .references(:changesets)
+                              .group(:committer)
+                              .size
     h = changes_by_author.inject({}) do |o, i|
       o[i.first] = i.last
       o

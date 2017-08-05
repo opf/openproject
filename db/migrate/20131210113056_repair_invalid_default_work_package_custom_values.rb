@@ -88,7 +88,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
 
   def custom_field_default_values
     @custom_field_default_values ||= CustomField.select { |c| !c.default_value.blank? }
-                                     .each_with_object({}) { |c, h| h[c.id] = c.default_value unless h[c.id] }
+                                                .each_with_object({}) { |c, h| h[c.id] = c.default_value unless h[c.id] }
   end
 
   def affected_journals

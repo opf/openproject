@@ -119,8 +119,8 @@ describe Setting, type: :model do
     context 'cache is empty' do
       it 'requests the settings once from database' do
         expect(Setting).to receive(:pluck).with(:name, :value)
-          .once
-          .and_call_original
+                                          .once
+                                          .and_call_original
 
         expect(Rails.cache).to receive(:fetch).once.and_call_original
         expect(RequestStore).to receive(:fetch).exactly(3).times.and_call_original

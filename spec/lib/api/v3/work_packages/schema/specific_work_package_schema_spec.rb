@@ -78,7 +78,7 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
 
     it 'calls through to the work package' do
       expect(work_package).to receive(:new_statuses_allowed_to).with(current_user)
-        .and_return(status_result)
+                                                               .and_return(status_result)
       expect(subject.assignable_values(:status, current_user)).to eql(status_result)
     end
 

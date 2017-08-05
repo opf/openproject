@@ -468,9 +468,9 @@ class DueIssuesReminder
     s << "#{WorkPackage.table_name}.type_id = #{@type.id}" if @type
 
     issues_by_assignee = WorkPackage.includes(:status, :assigned_to, :project, :type)
-                         .where(s.conditions)
-                         .references(:projects)
-                         .group_by(&:assigned_to)
+                                    .where(s.conditions)
+                                    .references(:projects)
+                                    .group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
       UserMailer.reminder_mail(assignee, issues, @days).deliver_now if assignee && assignee.active?
     end

@@ -76,7 +76,7 @@ SQL
 
     # 2 fetch latest journal-entries for the given time
     journal_ids = Journal.find_by_sql([@@journal_sql, at_time, work_package_ids])
-                  .map(&:id)
+                         .map(&:id)
 
     # 3&4 fetch the journaled data and make rails think it is actually a work_package
     work_packages = WorkPackage.find_by_sql([@@work_package_select, journal_ids])
@@ -91,9 +91,9 @@ SQL
     query.add_filters(filter[:f], filter[:op], filter[:v])
 
     WorkPackage.for_projects(projects)
-      .with_query(query)
-      .joins(:status, :project)
-      .pluck(:id)
+               .with_query(query)
+               .joins(:status, :project)
+               .pluck(:id)
   end
 
   def self.unfiltered_work_packages(projects)

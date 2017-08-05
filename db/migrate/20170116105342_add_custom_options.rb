@@ -213,8 +213,8 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
 
   def custom_values_id_map(custom_field_id)
     values = CustomOption
-              .where(custom_field_id: custom_field_id)
-              .pluck(:value, :id)
+             .where(custom_field_id: custom_field_id)
+             .pluck(:value, :id)
 
     Hash[values]
   end

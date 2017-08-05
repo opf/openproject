@@ -82,8 +82,8 @@ feature 'group memberships through project members page', type: :feature do
       context 'with the members having roles of their own' do
         before do
           project.members
-            .select { |m| m.user_id == alice.id }
-            .each   { |m| m.add_and_save_role alpha }
+                 .select { |m| m.user_id == alice.id }
+                 .each   { |m| m.add_and_save_role alpha }
         end
 
         scenario 'removing the group leaves the user without their group roles' do

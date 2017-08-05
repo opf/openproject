@@ -82,8 +82,8 @@ class BoardsController < ApplicationController
       end
       format.atom do
         @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-                    .includes(:author, :board)
-                    .limit(Setting.feeds_limit.to_i)
+                          .includes(:author, :board)
+                          .limit(Setting.feeds_limit.to_i)
 
         render_feed(@messages, title: "#{@project}: #{@board}")
       end
@@ -92,9 +92,9 @@ class BoardsController < ApplicationController
 
   def set_topics
     @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-               .includes(:author, last_reply: :author)
-               .page(params[:page])
-               .per_page(per_page_param)
+                     .includes(:author, last_reply: :author)
+                     .page(params[:page])
+                     .per_page(per_page_param)
   end
 
   def new

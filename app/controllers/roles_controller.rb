@@ -37,8 +37,8 @@ class RolesController < ApplicationController
 
   def index
     @roles = Role.order('builtin, position')
-             .page(page_param)
-             .per_page(per_page_param)
+                 .page(page_param)
+                 .per_page(per_page_param)
 
     render action: 'index', layout: false if request.xhr?
   end

@@ -49,8 +49,8 @@ module Api
 
       def check_scope_supplied
         render_400 if params.select { |k, _v| UserSearchService::SEARCH_SCOPES.include? k }
-                      .select { |_k, v| not v.blank? }
-                      .empty?
+                            .select { |_k, v| not v.blank? }
+                            .empty?
       end
     end
   end

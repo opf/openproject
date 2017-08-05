@@ -339,7 +339,7 @@ module ApplicationHelper
   def html_hours(text)
     text.gsub(%r{(\d+)\.(\d+)},
               '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
-      .html_safe
+        .html_safe
   end
 
   def authoring(created, author, options = {})
@@ -453,10 +453,10 @@ module ApplicationHelper
   # Same as Rails' simple_format helper without using paragraphs
   def simple_format_without_paragraph(text)
     text.to_s
-      .gsub(/\r\n?/, "\n")                    # \r\n and \r -> \n
-      .gsub(/\n\n+/, '<br /><br />')          # 2+ newline  -> 2 br
-      .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />') # 1 newline   -> br
-      .html_safe
+        .gsub(/\r\n?/, "\n")                    # \r\n and \r -> \n
+        .gsub(/\n\n+/, '<br /><br />')          # 2+ newline  -> 2 br
+        .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />') # 1 newline   -> br
+        .html_safe
   end
 
   def lang_options_for_select(blank = true)

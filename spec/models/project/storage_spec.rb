@@ -32,7 +32,7 @@ describe Project::Storage, type: :model do
 
   let(:project1) do
     FactoryGirl.create(:project)
-      .reload # Reload required for wiki association to be available
+               .reload # Reload required for wiki association to be available
   end
   let(:project2) { FactoryGirl.create(:project) }
 

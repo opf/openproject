@@ -102,7 +102,7 @@ describe RedirectPolicy, type: :controller do
     before do
       allow(OpenProject::Configuration)
         .to receive(:[]).with('rails_relative_url_root')
-        .and_return(relative_root)
+                        .and_return(relative_root)
     end
 
     it_behaves_like 'valid redirect URL', '/mysubdir/work_packages/1234'

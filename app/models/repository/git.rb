@@ -175,6 +175,6 @@ class Repository::Git < Repository
     return [] if revisions.nil? || revisions.empty?
 
     changesets.where(['scmid IN (?)', revisions.map!(&:scmid)])
-      .order('committed_on DESC')
+              .order('committed_on DESC')
   end
 end

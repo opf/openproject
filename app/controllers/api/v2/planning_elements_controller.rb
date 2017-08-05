@@ -375,7 +375,7 @@ module Api
         # we explicitly need to re-construct the array of child-ids
         @planning_elements.each do |pe|
           pe.child_ids = @planning_elements.select { |child| child.parent_id == pe.id }
-            .map(&:id)
+                                           .map(&:id)
         end
       end
 

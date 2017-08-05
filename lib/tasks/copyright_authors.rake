@@ -59,7 +59,7 @@ namespace :copyright do
 
       authors.each do |a|
         first, last = contributions.select { |c| c.author == a }
-                      .minmax { |a, b| a.date <=> b.date }
+                                   .minmax { |a, b| a.date <=> b.date }
         contribution_periods << CONTRIBUTION_PERIOD.new(a, first.date.year, last.date.year)
       end
 

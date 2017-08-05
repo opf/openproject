@@ -302,8 +302,8 @@ describe WorkPackages::BulkController, type: :controller do
 
           subject do
             WorkPackage.where(id: work_package_ids)
-              .map { |w| w.custom_value_for(custom_field_1.id).value }
-              .uniq
+                       .map { |w| w.custom_value_for(custom_field_1.id).value }
+                       .uniq
           end
 
           it { is_expected.to match_array(result) }
@@ -315,8 +315,8 @@ describe WorkPackages::BulkController, type: :controller do
 
             subject do
               WorkPackage.where(id: work_package_ids)
-                .map { |w| w.last_journal.notes }
-                .uniq
+                         .map { |w| w.last_journal.notes }
+                         .uniq
             end
 
             it { is_expected.to match_array(result) }
@@ -327,8 +327,8 @@ describe WorkPackages::BulkController, type: :controller do
 
             subject do
               WorkPackage.where(id: work_package_ids)
-                .map { |w| w.last_journal.details.size }
-                .uniq
+                         .map { |w| w.last_journal.details.size }
+                         .uniq
             end
 
             it { is_expected.to match_array(result) }
