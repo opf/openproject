@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= form_tag({}, method: :get) do %>
+<%= form_tag('/users', method: :get) do %>
    <% collapsed_class =  initially_visible? ? '' : 'collapsed' %>
   <fieldset class="simple-filters--container <%= collapsed_class %>">
     <legend><%= t(:label_filter_plural) %></legend>
