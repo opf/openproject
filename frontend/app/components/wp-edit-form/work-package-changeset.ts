@@ -70,13 +70,11 @@ export class WorkPackageChangeset {
     if (form !== undefined) {
       this.wpForm.putValue(form);
     }
-
-    // Start with a resource from the current work package knowledge.
-    this.buildResource();
   }
 
   public reset(key:string) {
     delete this.changes[key];
+    this.buildResource();
   }
 
   public clear() {

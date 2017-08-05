@@ -44,9 +44,7 @@ module HomescreenHelper
   ##
   # Returns the user avatar or a default image
   def homescreen_user_avatar
-    avatar = avatar(User.current)
-
-    avatar.presence || op_icon('icon-context icon-user')
+    op_icon('icon-context icon-user')
   end
 
   ##

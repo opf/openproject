@@ -20,7 +20,7 @@
 </p>
 
 <div class="widget-box--blocks--buttons">
-  <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}?utm_source=ce-homescreen",
+  <%= link_to "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=#{CGI.escape request.base_url}&utm_medium=custom-edition&utm_campaign=home-screen",
         { class: 'button -alt-highlight',
           aria: {label: t('homescreen.blocks.upsale.more_info')},
           title: t('homescreen.blocks.upsale.more_info')} do %>

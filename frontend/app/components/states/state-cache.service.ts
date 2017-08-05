@@ -81,7 +81,6 @@ export abstract class StateCacheService<T> {
 
     // Refresh when stale or being forced
     if (this.stale(state) || force) {
-      state.clear();
       return this.load(id);
     }
 

@@ -9,7 +9,7 @@
             ng-href="{{ ::attachment.downloadLocation.href || '#' }}"
             download>
 
-          {{ ::attachment.fileName || attachment.name }}
+          {{ ::attachment.fileName || attachment.customName || attachment.name }}
         </a>
       </span>
       <a

@@ -286,7 +286,8 @@ export class WorkPackageEditForm {
     return new Promise((resolve, reject) => {
       this.changeset.getForm()
         .then((form:FormResourceInterface) => {
-          const fieldSchema = form.schema[fieldName];
+          const schemaName = this.workPackage.getSchemaName(fieldName);
+          const fieldSchema = form.schema[schemaName];
 
           if (!fieldSchema) {
             return reject();
@@ -294,7 +295,7 @@ export class WorkPackageEditForm {
 
           const field = this.wpEditField.getField(
             this.changeset,
-            fieldName,
+            schemaName,
             fieldSchema
           ) as EditField;
 
@@ -310,6 +311,7 @@ export class WorkPackageEditForm {
   private renderField(fieldName:string, field:EditField):Promise<WorkPackageEditFieldHandler> {
     const promise = this.editContext.activateField(this,
       field,
+      fieldName,
       this.errorsPerAttribute[fieldName] || []);
     return promise
       .then((fieldHandler) => {
