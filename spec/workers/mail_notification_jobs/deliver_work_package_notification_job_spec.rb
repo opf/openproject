@@ -33,15 +33,15 @@ require 'spec_helper'
 describe DeliverWorkPackageNotificationJob, type: :model do
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:recipient) {
+  let!(:recipient) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:author) { FactoryGirl.create(:user) }
-  let(:work_package) {
+  let!(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
                        author: author)
-  }
+  end
   let(:journal) { work_package.journals.first }
   subject { described_class.new(journal.id, recipient.id, author.id) }
 
@@ -52,10 +52,9 @@ describe DeliverWorkPackageNotificationJob, type: :model do
   end
 
   it 'sends a mail' do
-    expect(UserMailer).to receive(:work_package_added).with(
-                            recipient,
-                            an_instance_of(Journal::AggregatedJournal),
-                            author)
+    expect(UserMailer).to receive(:work_package_added).with(recipient,
+                                                            an_instance_of(Journal::AggregatedJournal),
+                                                            author)
     subject.perform
   end
 
@@ -81,8 +80,9 @@ describe DeliverWorkPackageNotificationJob, type: :model do
     end
 
     it 'uses the deleted user as author' do
-      expect(UserMailer).to receive(:work_package_added)
-                              .with(anything, anything, DeletedUser.first)
+      expect(UserMailer).to receive(:work_package_added).with(anything,
+                                                              anything,
+                                                              DeletedUser.first)
 
       subject.perform
     end
