@@ -73,10 +73,10 @@ describe ::API::V3::Users::UserRepresenter do
 
       it 'shows everything' do
         is_expected.to have_json_path('id')
-       is_expected.to have_json_path('login')
-       is_expected.to have_json_path('firstName')
-       is_expected.to have_json_path('lastName')
-       is_expected.to have_json_path('name')
+        is_expected.to have_json_path('login')
+        is_expected.to have_json_path('firstName')
+        is_expected.to have_json_path('lastName')
+        is_expected.to have_json_path('name')
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do

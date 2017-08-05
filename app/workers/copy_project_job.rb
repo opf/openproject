@@ -40,10 +40,10 @@ class CopyProjectJob < ApplicationJob
   def initialize(user_id:, source_project_id:, target_project_params:,
                  associations_to_copy:, send_mails: false)
     @user_id               = user_id
-   @source_project_id     = source_project_id
-   @target_project_params = target_project_params
-   @associations_to_copy  = associations_to_copy
-   @send_mails            = send_mails
+    @source_project_id     = source_project_id
+    @target_project_params = target_project_params
+    @associations_to_copy  = associations_to_copy
+    @send_mails            = send_mails
   end
 
   def perform

@@ -41,7 +41,7 @@ module Pages
       @parent_work_package = parent_work_package
     end
 
-    def expect_heading(type=nil)
+    def expect_heading(type = nil)
       if type.nil?
         expect(page).to have_selector('h2', text: I18n.t('js.work_packages.create.header_no_type'))
 
