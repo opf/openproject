@@ -37,25 +37,25 @@ node :permissions do |project|
   }
 end
 
-node :parent, if: lambda{|project| visible_parent_project(project).present?} do |project|
+node :parent, if: lambda{ |project| visible_parent_project(project).present? } do |project|
   child :parent do
     attributes :id, :name, :identifier
   end
 
 end
 
-node :responsible, if: lambda{|project| project.responsible.present?} do |project|
+node :responsible, if: lambda{ |project| project.responsible.present? } do |project|
   {id: project.responsible.id, name: project.responsible.name}
 end
 
-node :project_type, if: lambda{|project| project.project_type.present?} do |project|
+node :project_type, if: lambda{ |project| project.project_type.present? } do |project|
   {id: project.project_type.id, name: project.project_type.name}
 end
 
-node :created_on, if: lambda{|project| project.created_on.present?} {|project| project.created_on.utc.iso8601}
-node :updated_on, if: lambda{|project| project.updated_on.present?} {|project| project.updated_on.utc.iso8601}
+node :created_on, if: lambda{ |project| project.created_on.present? } { |project| project.created_on.utc.iso8601 }
+node :updated_on, if: lambda{ |project| project.updated_on.present? } { |project| project.updated_on.utc.iso8601 }
 
-node :types, if: lambda{|project| project.types.present? } do |project|
+node :types, if: lambda{ |project| project.types.present? } do |project|
   project.types.map do |type|
     type_hash = {id: type.id,
                  name: type.name,
@@ -65,7 +65,7 @@ node :types, if: lambda{|project| project.types.present? } do |project|
   end
 end
 
-node :project_associations, unless: lambda{|project| project.project_associations.visible.empty?} do |project|
+node :project_associations, unless: lambda{ |project| project.project_associations.visible.empty? } do |project|
   project.project_associations.visible.map do |project_association|
     other_project = project_association.project(project)
     {id: project_association.id,
@@ -76,7 +76,7 @@ node :project_associations, unless: lambda{|project| project.project_association
   end
 end
 
-node :parent, if: lambda{|project| visible_parent_project(project).present?} do |project|
+node :parent, if: lambda{ |project| visible_parent_project(project).present? } do |project|
   parent = visible_parent_project(project)
   { id: parent.id, name: parent.name, identifier: parent.identifier }
 end

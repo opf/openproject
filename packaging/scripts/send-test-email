@@ -24,7 +24,7 @@ END_OF_MESSAGE
 if delivery_method == "sendmail"
   puts "sending test email using sendmail..."
   tmpfile = Tempfile.new("mail-test")
-  File.open(tmpfile.path, "w+") {|f| f << msgstr}
+  File.open(tmpfile.path, "w+") { |f| f << msgstr }
   system("cat #{tmpfile.path} | sendmail -i -t") || exit(1)
 else
   smtp_authentication = ENV.fetch('SMTP_AUTHENTICATION', "none").to_sym

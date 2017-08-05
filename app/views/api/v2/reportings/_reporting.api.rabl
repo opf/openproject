@@ -28,17 +28,17 @@
 object @reporting
 attributes :id
 
-node :reported_project_status, if: ->(reporting){reporting.reported_project_status} do |reporting|
+node :reported_project_status, if: ->(reporting){ reporting.reported_project_status } do |reporting|
  {id: reporting.reported_project_status.id,
   name: reporting.reported_project_status.name}
 end
 
-node :reported_project_status_comment, id: ->(reporting){reporting.reported_project_status_comment.present?} do |reporting|
+node :reported_project_status_comment, id: ->(reporting){ reporting.reported_project_status_comment.present? } do |reporting|
   reporting.reported_project_status_comment
 end
 
-node :created_at, if: lambda{|project| project.created_at.present?} {|project| project.created_at.utc.iso8601}
-node :updated_at, if: lambda{|project| project.updated_at.present?} {|project| project.updated_at.utc.iso8601}
+node :created_at, if: lambda{ |project| project.created_at.present? } { |project| project.created_at.utc.iso8601 }
+node :updated_at, if: lambda{ |project| project.updated_at.present? } { |project| project.updated_at.utc.iso8601 }
 
 child :project do
   attributes :id, :identifier, :name

@@ -94,7 +94,7 @@ module Net
       request.initialize_http_header(headers)
       http = new(url.host, url.port)
       http.use_ssl = (url.scheme == 'https')
-      http.start {|h| h.request(request) }
+      http.start { |h| h.request(request) }
     end
   end
 end

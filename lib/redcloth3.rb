@@ -375,7 +375,7 @@ class RedCloth3 < String
         ['^', 'sup', :limit],
         ['~', 'sub', :limit]
     ]
-    QTAGS_JOIN = QTAGS.map {|rc, _ht, _rtype| Regexp::quote rc}.join('|')
+    QTAGS_JOIN = QTAGS.map { |rc, _ht, _rtype| Regexp::quote rc }.join('|')
 
     QTAGS.map! do |rc, ht, rtype|
         rcq = Regexp::quote rc
@@ -1197,6 +1197,6 @@ class RedCloth3 < String
     ALLOWED_TAGS = %w(redpre pre code notextile).freeze
 
     def escape_html_tags(text)
-      text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) {|_m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' unless $3.blank?}" }
+      text.gsub!(%r{<(\/?([!\w]+)[^<>\n]*)(>?)}) { |_m| ALLOWED_TAGS.include?($2) ? "<#{$1}#{$3}" : "&lt;#{$1}#{'&gt;' unless $3.blank?}" }
     end
 end

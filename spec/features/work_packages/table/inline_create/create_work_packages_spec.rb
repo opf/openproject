@@ -4,7 +4,7 @@ describe 'inline create work package', js: true do
   let(:type) { FactoryGirl.create(:type) }
   let(:types) { [type] }
 
-  let(:permissions) { %i(view_work_packages add_work_packages)}
+  let(:permissions) { %i(view_work_packages add_work_packages) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
   let(:user) do
     FactoryGirl.create :user,
@@ -125,7 +125,7 @@ describe 'inline create work package', js: true do
 
     it_behaves_like 'inline create work package' do
       let(:callback) do
-        ->() { }
+        ->() {}
       end
     end
 
