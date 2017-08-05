@@ -155,9 +155,9 @@ describe Setting, type: :model do
     end
 
     context 'cache is not empty' do
-      let(:cached_hash) {
+      let(:cached_hash) do
         { 'available_languages' => "---\n- en\n- de\n" }
-      }
+      end
 
       before do
         Rails.cache.write(cache_key, cached_hash)

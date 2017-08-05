@@ -36,12 +36,12 @@ describe JournalNotificationMailer do
                       mail_notification: 'all',
                       member_in_project: project)
   end
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
                        author: user,
                        type: project.types.first)
-  }
+  end
   let(:journal) { work_package.journals.last }
   let(:send_notification) { true }
   let(:notifications) { [] }
@@ -82,12 +82,12 @@ describe JournalNotificationMailer do
 
       context 'insufficient work package changes' do
         let(:journal) { another_work_package.journals.last }
-        let(:another_work_package) {
+        let(:another_work_package) do
           FactoryGirl.create(:work_package,
                              project: project,
                              author: user,
                              type: project.types.first)
-        }
+        end
         before do
           another_work_package.add_journal(user)
           another_work_package.description = 'needs more changes'

@@ -49,15 +49,15 @@ describe 'api/v2/planning_element_priorities/index.api.rabl', type: :view do
 
   describe 'with 3 work package priorities available' do
     let!(:priority_0) { FactoryGirl.create(:priority) }
-    let!(:priority_1) {
+    let!(:priority_1) do
       FactoryGirl.create(:priority,
                          position: 1)
-    }
-    let!(:priority_2) {
+    end
+    let!(:priority_2) do
       FactoryGirl.create(:priority,
                          position: 2,
                          is_default: true)
-    }
+    end
 
     before do
       assign(:priorities, [priority_0, priority_1, priority_2])

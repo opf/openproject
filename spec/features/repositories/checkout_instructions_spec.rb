@@ -44,23 +44,23 @@ describe 'Create repository', type: :feature, js: true do
 
   context 'managed repositories' do
     include_context 'with tmpdir'
-    let(:config) {
+    let(:config) do
       {
         git: { manages: File.join(tmpdir, 'git') }
       }
-    }
-    let(:checkout_data) {
+    end
+    let(:checkout_data) do
       { 'git' => { 'enabled' => '1', 'base_url' => 'http://localhost/git/' } }
-    }
+    end
 
-    let!(:repository) {
+    let!(:repository) do
       repo = FactoryGirl.build(:repository_git, scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo.save!
 
       repo
-    }
+    end
 
     it 'toggles checkout instructions' do
       visit project_repository_path(project)

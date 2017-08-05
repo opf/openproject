@@ -32,9 +32,9 @@ describe ::API::V3::Statuses::StatusCollectionRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:statuses) { FactoryGirl.build_list(:status, 3) }
-  let(:representer) {
+  let(:representer) do
     described_class.new(statuses, api_v3_paths.statuses, current_user: double('current_user'))
-  }
+  end
 
   context 'generation' do
     subject(:collection) { representer.to_json }

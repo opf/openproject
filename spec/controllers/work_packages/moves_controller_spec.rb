@@ -30,28 +30,28 @@ require 'spec_helper'
 
 describe WorkPackages::MovesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
-  let(:role) {
+  let(:role) do
     FactoryGirl.create :role,
                        permissions: [:move_work_packages]
-  }
+  end
   let(:type) { FactoryGirl.create :type }
   let(:type_2) { FactoryGirl.create :type }
   let(:status) { FactoryGirl.create :default_status }
   let(:target_status) { FactoryGirl.create :status }
   let(:priority) { FactoryGirl.create :priority }
   let(:target_priority) { FactoryGirl.create :priority }
-  let(:project) {
+  let(:project) do
     FactoryGirl.create(:project,
                        is_public: false,
                        types: [type, type_2])
-  }
-  let(:work_package) {
+  end
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project_id: project.id,
                        type: type,
                        author: user,
                        priority: priority)
-  }
+  end
 
   let(:current_user) { FactoryGirl.create(:user) }
 
@@ -116,12 +116,12 @@ describe WorkPackages::MovesController, type: :controller do
 
     let!(:member) { FactoryGirl.create(:member, user: current_user, project: target_project, roles: [role]) }
     let(:target_project) { FactoryGirl.create(:project, is_public: false) }
-    let(:work_package_2) {
+    let(:work_package_2) do
       FactoryGirl.create(:work_package,
                          project_id: project.id,
                          type: type_2,
                          priority: priority)
-    }
+    end
 
     describe 'an issue to another project' do
       context 'w/o following' do
@@ -401,22 +401,22 @@ describe WorkPackages::MovesController, type: :controller do
         end
 
         context 'child work package from one project to other' do
-          let(:to_project) {
+          let(:to_project) do
             FactoryGirl.create(:project,
                                types: [type])
-          }
-          let!(:member) {
+          end
+          let!(:member) do
             FactoryGirl.create(:member,
                                user: current_user,
                                roles: [role],
                                project: to_project)
-          }
-          let(:child_wp) {
+          end
+          let(:child_wp) do
             FactoryGirl.create(:work_package,
                                type: type,
                                project: project,
                                parent_id: work_package.id)
-          }
+          end
 
           shared_examples_for 'successful move' do
             it { expect(flash[:notice]).to eq(I18n.t(:notice_successful_create)) }

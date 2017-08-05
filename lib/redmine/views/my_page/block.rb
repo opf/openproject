@@ -35,7 +35,7 @@ module Redmine
         def self.additional_blocks
           # look at the gemspecs of all plugins trying to find views in a /my/blocks subdirectory
           @@additional_blocks ||= Dir.glob(
-            Plugin.registered_plugins.map { |plugin_id, _|
+            Plugin.registered_plugins.map do |plugin_id, _|
               gem_name = plugin_id.to_s.gsub('openproject_', 'openproject-') if plugin_id.to_s.starts_with?('openproject_')
               gem_spec = Gem.loaded_specs[gem_name]
               if gem_spec.nil?
@@ -45,12 +45,12 @@ module Redmine
               else
                 gem_spec.full_gem_path + '/app/views/my/blocks/_*.{rhtml,erb}'
               end
-            }.compact
-          ).inject({}) { |h, file|
+            end.compact
+          ).inject({}) do |h, file|
             name = File.basename(file).split('.').first.gsub(/\A_/, '')
             h[name] = ('label_' + name).to_sym
             h
-          }
+          end
         end
       end
     end

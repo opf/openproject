@@ -30,12 +30,12 @@ require 'spec_helper'
 
 describe 'API v2', type: :request do
   let(:valid_password) { 'foobar!1234!foobar' }
-  let(:admin) {
+  let(:admin) do
     FactoryGirl.create :admin,
                        login: 'admin',
                        password: valid_password,
                        password_confirmation: valid_password
-  }
+  end
   let(:project) { FactoryGirl.create(:project) }
 
   before do
@@ -67,9 +67,9 @@ describe 'API v2', type: :request do
 
     shared_examples_for 'API Basic Auth access' do
       let(:used_password) { valid_password }
-      let(:credentials) {
+      let(:credentials) do
         ActionController::HttpAuthentication::Basic.encode_credentials('admin', used_password)
-      }
+      end
 
       before do
         allow(OpenProject::Configuration).to receive(:apiv2_enable_basic_auth?).and_return(enabled)

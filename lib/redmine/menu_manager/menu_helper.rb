@@ -153,9 +153,9 @@ module Redmine::MenuManager::MenuHelper
 
     content_tag :li do
       # Standard children
-      standard_children_list = node.children.map { |child|
+      standard_children_list = node.children.map do |child|
         render_menu_node(child, project)
-      }.join.html_safe
+      end.join.html_safe
 
       # Unattached children
       unattached_children_list = render_unattached_children_menu(node, project)

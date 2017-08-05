@@ -35,7 +35,7 @@ module OpenProject
       # Checks whether the given user is authorized to login by calling
       # all registered callbacks. If all callbacks approve the user is authorized and may log in.
       def self.authorized?(auth_hash)
-        rejection = callbacks.find_map { |callback|
+        rejection = callbacks.find_map do |callback|
           d = callback.authorize auth_hash
 
           if d.is_a? Decision
@@ -43,7 +43,7 @@ module OpenProject
           else
             fail ArgumentError, 'Expecting Callback#authorize to return a Decision.'
           end
-        }
+        end
 
         rejection || Approval.new
       end

@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe EnumerationsController, type: :controller do
-  before do allow(controller).to receive(:require_admin).and_return(true) end
+  before { allow(controller).to receive(:require_admin).and_return(true) }
 
   describe '#destroy' do
     describe '#priority' do
@@ -51,10 +51,10 @@ describe EnumerationsController, type: :controller do
 
       describe 'in use' do
         let!(:enum_to_reassign) { FactoryGirl.create(:priority_high) }
-        let!(:work_package) {
+        let!(:work_package) do
           FactoryGirl.create(:work_package,
                              priority: enum_to_delete)
-        }
+        end
 
         describe 'no reassign' do
           before do

@@ -91,12 +91,12 @@ module Redmine::MenuManager::TopMenu::HelpMenu
       result << static_link_item(:upsale, href_suffix: "?utm_source=ce-helpmenu")
     end
     result << static_link_item(:user_guides)
-    result << content_tag(:li) {
+    result << content_tag(:li) do
       link_to l('homescreen.links.shortcuts'),
               '',
               title: l('homescreen.links.shortcuts'),
               onClick: 'modalHelperInstance.createModal(\'/help/keyboard_shortcuts\');'
-    }
+    end
     result << static_link_item(:boards)
     result << static_link_item(:professional_support)
     result << content_tag(:hr, '', class: 'form--separator')

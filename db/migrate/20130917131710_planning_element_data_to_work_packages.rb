@@ -325,13 +325,13 @@ class PlanningElementDataToWorkPackages < ActiveRecord::Migration[4.2]
   end
 
   def skip_on_no_planning_elements
-    planning_element = suppress_messages {
+    planning_element = suppress_messages do
       select_one <<-SQL
         SELECT #{db_column('id')}
         FROM #{db_planning_elements_table}
         LIMIT 1
       SQL
-    }
+    end
 
     if planning_element.present?
       false

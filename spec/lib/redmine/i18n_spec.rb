@@ -39,7 +39,7 @@ module OpenProject
     end
 
     describe 'with user time zone' do
-      before do allow(User.current).to receive(:time_zone).and_return(ActiveSupport::TimeZone['Athens']) end
+      before { allow(User.current).to receive(:time_zone).and_return(ActiveSupport::TimeZone['Athens']) }
       it 'returns a date in the user timezone for a utc timestamp' do
         Time.zone = 'UTC'
         time = Time.zone.local(2013, 06, 30, 23, 59)
@@ -54,7 +54,7 @@ module OpenProject
     end
 
     describe 'without user time zone' do
-      before do allow(User.current).to receive(:time_zone).and_return(nil) end
+      before { allow(User.current).to receive(:time_zone).and_return(nil) }
 
       it 'returns a date in the local system timezone for a utc timestamp' do
         Time.zone = 'UTC'
@@ -160,9 +160,9 @@ module OpenProject
 
     describe 'link_translation' do
       let(:locale) { :en }
-      let(:urls) {
+      let(:urls) do
         { url_1: 'http://openproject.com/foobar', url_2: '/baz' }
-      }
+      end
 
       before do
         allow(::I18n)

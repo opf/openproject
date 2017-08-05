@@ -250,13 +250,13 @@ class MembersController < ApplicationController
   end
 
   def each_comma_seperated(array, &block)
-    array.map { |e|
+    array.map do |e|
       if e.to_s.match /\d(,\d)*/
         block.call(e)
       else
         e
       end
-    }.flatten
+    end.flatten
   end
 
   def transform_array_of_comma_seperated_ids(array)

@@ -98,17 +98,17 @@ describe 'Copying Models' do
     { 'attribute1' => 'attribute1',
       'attribute2' => 'attribute2' }
   end
-  let(:dummy) {
+  let(:dummy) do
     dummy_class.new
-  }
-  let(:copied) {
+  end
+  let(:copied) do
     copied = dummy_class.new
     allow(dummy_class)
       .to receive(:new)
       .and_return(copied)
 
     copied
-  }
+  end
 
   before do
     expect(dummy_class)

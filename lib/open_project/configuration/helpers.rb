@@ -58,9 +58,9 @@ module OpenProject
       end
 
       def hidden_menu_items
-        menus = self['hidden_menu_items'].map { |label, nodes|
+        menus = self['hidden_menu_items'].map do |label, nodes|
           [label, array(nodes)]
-        }
+        end
 
         Hash[menus]
       end

@@ -40,7 +40,7 @@ Given /^the principal "(.+)" is a "(.+)" in the project "(.+)"$/ do |principal_n
   project.add_member!(principal, role)
 end
 
-InstanceFinder.register(Principal, Proc.new { |name|
+InstanceFinder.register(Principal, Proc.new do |name|
   princ = Principal.where(['lastname = ? OR login = ?', name, name]).first
   princ || Principal.find { |principal| principal.name == name }
-})
+end)

@@ -153,10 +153,10 @@ class SysController < ActionController::Base
     end
     user = nil
     user_id = Rails.cache.fetch(OpenProject::RepositoryAuthentication::CACHE_PREFIX + Digest::SHA1.hexdigest("#{username}#{password}"),
-                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) {
+                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) do
       user = user_login(username, password)
       user ? user.id.to_s : '-1'
-    }
+    end
 
     return nil if user_id.blank? or user_id == '-1'
 

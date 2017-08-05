@@ -84,14 +84,14 @@ module PaginationHelper
   # Constructs the 'n items per page' entries
   # determined from available options in the settings.
   def per_page_links(paginator, options)
-    Setting.per_page_options_array.inject('') { |html, n|
+    Setting.per_page_options_array.inject('') do |html, n|
       if n == paginator.per_page
         html + content_tag(:li, n, class: 'pagination--item -current')
       else
         link = link_to_content_update(n, options.merge(page: 1, per_page: n))
         html + content_tag(:li, link.html_safe, class: 'pagination--item')
       end
-    }.html_safe
+    end.html_safe
   end
 
   # Returns page option used for pagination
@@ -151,9 +151,9 @@ module PaginationHelper
 
   class LinkRenderer < ::WillPaginate::ActionView::LinkRenderer
     def to_html
-      pagination.inject('') { |html, item|
+      pagination.inject('') do |html, item|
         html + (item.is_a?(Fixnum) ? page_number(item) : send(item))
-      }.html_safe
+      end.html_safe
     end
 
     protected

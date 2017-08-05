@@ -138,7 +138,7 @@ module OpenProject
       def override_config!(config, source = default_override_source)
         config.keys
           .select { |key| source.include? key.upcase }
-          .each   do |key| config[key] = extract_value key, source[key.upcase] end
+          .each   { |key| config[key] = extract_value key, source[key.upcase] }
 
         config.deep_merge! merge_config(config, source)
       end

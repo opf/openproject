@@ -197,7 +197,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_for_field_prefix(content, options)
 
     label_options[:lang] = options[:lang]
-    label_options.reject! do |_k, v| v.nil? end
+    label_options.reject! { |_k, v| v.nil? }
 
     @template.label(@object_name, field, content, label_options)
   end

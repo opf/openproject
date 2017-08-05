@@ -57,9 +57,9 @@ module OpenProject::NestedSet::RebuildPatch
       }
 
       scope :invalid_duplicates_in_columns, -> {
-        scope_string = Array(acts_as_nested_set_options[:scope]).map { |c|
+        scope_string = Array(acts_as_nested_set_options[:scope]).map do |c|
           "#{quoted_table_name}.#{connection.quote_column_name(c)} = duplicates.#{connection.quote_column_name(c)}"
-        }.join(' AND ')
+        end.join(' AND ')
 
         scope_string = scope_string.size > 0 ? scope_string + ' AND ' : ''
 
@@ -72,9 +72,9 @@ module OpenProject::NestedSet::RebuildPatch
       }
 
       scope :invalid_roots, -> {
-        scope_string = Array(acts_as_nested_set_options[:scope]).map { |c|
+        scope_string = Array(acts_as_nested_set_options[:scope]).map do |c|
           "#{quoted_table_name}.#{connection.quote_column_name(c)} = other.#{connection.quote_column_name(c)}"
-        }.join(' AND ')
+        end.join(' AND ')
 
         scope_string = scope_string.size > 0 ? scope_string + ' AND ' : ''
 
@@ -121,9 +121,9 @@ module OpenProject::NestedSet::RebuildPatch
       scope = lambda { |_node| }
       if acts_as_nested_set_options[:scope]
         scope = lambda { |node|
-          scope_column_names.inject('') {|str, column_name|
+          scope_column_names.inject('') do |str, column_name|
             str << "AND #{connection.quote_column_name(column_name)} = #{connection.quote(node.send(column_name.to_sym))} "
-          }
+          end
         }
       end
 
@@ -142,15 +142,15 @@ module OpenProject::NestedSet::RebuildPatch
                            quoted_right_column_name,
                            acts_as_nested_set_options[:order]].compact.join(', '))
 
-        children.each do |n| set_left_and_rights.call(n) end
+        children.each { |n| set_left_and_rights.call(n) }
 
         # set right
         node[right_column_name] = indices[scope.call(node)] += 1
 
-        changes = node.changes.inject({}) { |hash, (attribute, _values)|
+        changes = node.changes.inject({}) do |hash, (attribute, _values)|
           hash[attribute] = node.send(attribute.to_s)
           hash
-        }
+        end
 
         where(id: node.id).update_all(changes) unless changes.empty?
       }

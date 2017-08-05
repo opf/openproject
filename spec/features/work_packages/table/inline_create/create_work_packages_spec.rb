@@ -98,7 +98,7 @@ describe 'inline create work package', js: true do
     end
 
     it_behaves_like 'inline create work package' do
-      let(:callback) {
+      let(:callback) do
         ->() {
           # Set project
           project_field = wp_table.edit_field(nil, :project)
@@ -112,7 +112,7 @@ describe 'inline create work package', js: true do
 
           type_field.set_value type.name
         }
-      }
+      end
     end
   end
 
@@ -124,26 +124,26 @@ describe 'inline create work package', js: true do
     end
 
     it_behaves_like 'inline create work package' do
-      let(:callback) {
+      let(:callback) do
         ->() { }
-      }
+      end
     end
 
     context 'user has permissions in other project' do
       let(:permissions) { [:view_work_packages] }
 
       let(:project2) { FactoryGirl.create :project }
-      let(:role2) {
+      let(:role2) do
         FactoryGirl.create :role,
                            permissions: [:view_work_packages,
                                          :add_work_packages]
-      }
-      let!(:membership) {
+      end
+      let!(:membership) do
         FactoryGirl.create :member,
                            user: user,
                            project: project2,
                            roles: [role2]
-      }
+      end
 
       it 'renders the work packages, but no create' do
         wp_table.expect_work_package_listed(existing_wp)

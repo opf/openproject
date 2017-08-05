@@ -147,7 +147,7 @@ module ApplicationHelper
     return '' unless pages[node]
 
     content_tag :ul, class: 'pages-hierarchy' do
-      pages[node].map { |page|
+      pages[node].map do |page|
         content_tag :li do
           title = if options[:timestamp] && page.updated_on
                     l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
@@ -156,7 +156,7 @@ module ApplicationHelper
                          title: title)
           concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
         end
-      }.join.html_safe
+      end.join.html_safe
     end
   end
 
@@ -178,7 +178,7 @@ module ApplicationHelper
   def extract_objects_from_params(params)
     options = params.extract_options!.symbolize_keys
 
-    objects = Array.wrap(options.delete(:object) || params).map { |object|
+    objects = Array.wrap(options.delete(:object) || params).map do |object|
       object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
       object = convert_to_model(object)
 
@@ -187,7 +187,7 @@ module ApplicationHelper
       end
 
       object
-    }
+    end
 
     [objects.compact, options]
   end
@@ -318,13 +318,13 @@ module ApplicationHelper
   end
 
   def labeled_check_box_tags(name, collection, options = {})
-    collection.sort.map { |object|
+    collection.sort.map do |object|
       id = name.gsub(/[\[\]]+/, '_') + object.id.to_s
 
-      object_options = options.inject({}) { |h, (k, v)|
+      object_options = options.inject({}) do |h, (k, v)|
         h[k] = v.is_a?(Symbol) ? send(v, object) : v
         h
-      }
+      end
 
       object_options[:class] = Array(object_options[:class]) + %w(form--label-with-check-box)
 
@@ -333,7 +333,7 @@ module ApplicationHelper
           styled_check_box_tag(name, object.id, false, id: id) + object
         end
       end
-    }.join.html_safe
+    end.join.html_safe
   end
 
   def html_hours(text)
@@ -466,9 +466,9 @@ module ApplicationHelper
              []
            end
 
-    mapped_languages = valid_languages.map { |lang|
+    mapped_languages = valid_languages.map do |lang|
       [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    end
 
     auto + mapped_languages.sort { |x, y| x.last <=> y.last }
   end
@@ -476,9 +476,9 @@ module ApplicationHelper
   def all_lang_options_for_select(blank = true)
     initial_lang_options = blank ? [['(auto)', '']] : []
 
-    mapped_languages = all_languages.map { |lang|
+    mapped_languages = all_languages.map do |lang|
       [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    end
 
     initial_lang_options + mapped_languages.sort { |x, y| x.last <=> y.last }
   end

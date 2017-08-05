@@ -32,13 +32,13 @@ describe 'my/page', type: :view do
   let(:project)    { FactoryGirl.create :valid_project }
   let(:user)       { FactoryGirl.create :admin, member_in_project: project }
   let(:issue)      { FactoryGirl.create :work_package, project: project, author: user }
-  let(:time_entry) {
+  let(:time_entry) do
     FactoryGirl.create :time_entry,
                        project: project,
                        user: user,
                        work_package: issue,
                        hours: 1
-  }
+  end
 
   describe 'timelog block' do
     before do

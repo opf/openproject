@@ -59,7 +59,7 @@ describe 'Planning Comparison', type: :model do
       wp
     end
 
-    before do wp = journalized_work_package end
+    before { wp = journalized_work_package }
 
     it 'should return the changes as a work_package' do
       # beware of these date-conversions: 1.week.ago does not catch the change, as created_at is stored as a timestamp

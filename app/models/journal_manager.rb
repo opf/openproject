@@ -92,45 +92,45 @@ class JournalManager
   # This would lead to false change information, otherwise.
   # We need to be careful though, because we want to accept false (and false.blank? == true)
   def self.remove_empty_associations(associations, value)
-    associations.reject { |association|
+    associations.reject do |association|
       association.has_key?(value) &&
         association[value].blank? &&
         association[value] != false
-    }
+    end
   end
 
   def self.merge_reference_journals_by_id(new_journals, old_journals, id_key)
     all_associated_journal_ids = new_journals.map { |j| j[id_key] } |
                                  old_journals.map { |j| j[id_key] }
 
-    all_associated_journal_ids.each_with_object({}) { |id, result|
+    all_associated_journal_ids.each_with_object({}) do |id, result|
       result[id] = [old_journals.detect { |j| j[id_key] == id },
                     new_journals.detect { |j| j[id_key] == id }]
-    }
+    end
   end
 
   def self.added_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
+    merged_references.select do |_, (old_attributes, new_attributes)|
       old_attributes.nil? && !new_attributes.nil?
-    }.each_with_object({}) { |(id, (_, new_attributes)), result|
+    end.each_with_object({}) do |(id, (_, new_attributes)), result|
       result["#{key}_#{id}"] = [nil, new_attributes[value]]
-    }
+    end
   end
 
   def self.removed_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
+    merged_references.select do |_, (old_attributes, new_attributes)|
       !old_attributes.nil? && new_attributes.nil?
-    }.each_with_object({}) { |(id, (old_attributes, _)), result|
+    end.each_with_object({}) do |(id, (old_attributes, _)), result|
       result["#{key}_#{id}"] = [old_attributes[value], nil]
-    }
+    end
   end
 
   def self.changed_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
+    merged_references.select do |_, (old_attributes, new_attributes)|
       !old_attributes.nil? && !new_attributes.nil? && old_attributes[value] != new_attributes[value]
-    }.each_with_object({}) { |(id, (old_attributes, new_attributes)), result|
+    end.each_with_object({}) do |(id, (old_attributes, new_attributes)), result|
       result["#{key}_#{id}"] = [old_attributes[value], new_attributes[value]]
-    }
+    end
   end
 
   def self.recreate_initial_journal(type, journal, changed_data)
@@ -244,9 +244,9 @@ class JournalManager
   end
 
   def self.normalize_newlines(data)
-    data.each_with_object({}) { |e, h|
+    data.each_with_object({}) do |e, h|
       h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n") : e[1])
-    }
+    end
   end
 
   def self.with_send_notifications(send_notifications, &block)

@@ -32,22 +32,22 @@ describe JournalsController, type: :controller do
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:member) {
+  let(:member) do
     FactoryGirl.build(:member, project: project,
                                roles: [role],
                                principal: user)
-  }
-  let(:work_package) {
+  end
+  let(:work_package) do
     FactoryGirl.build(:work_package, type: project.types.first,
                                      author: user,
                                      project: project,
                                      description: '')
-  }
-  let(:journal) {
+  end
+  let(:journal) do
     FactoryGirl.create(:work_package_journal,
                        journable: work_package,
                        user: user)
-  }
+  end
   let(:permissions) { [:view_work_packages] }
 
   before do

@@ -171,7 +171,7 @@ module Pagination::Controller
     end
 
     def default_block
-      Proc.new {
+      Proc.new do
         # TODO: less evilness
         paginator = self.class.pagination[__method__]
         size = params[:page_limit].to_i || 10
@@ -204,11 +204,11 @@ module Pagination::Controller
 
           instance_eval(&paginator.response.to_proc)
         end
-      }
+      end
     end
 
     def default_response_block
-      Proc.new {
+      Proc.new do
         respond_to do |format|
           format.json do
             render json: { results:
@@ -218,7 +218,7 @@ module Pagination::Controller
           }
           end
         end
-      }
+      end
     end
   end
 

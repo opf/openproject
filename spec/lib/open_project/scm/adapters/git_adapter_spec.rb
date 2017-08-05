@@ -36,7 +36,7 @@ describe OpenProject::Scm::Adapters::Git do
     let(:url) { protocol + Rails.root.join('/tmp/does/not/exist.git').to_s }
     let(:config) { {} }
     let(:encoding) { nil }
-    let(:adapter) {
+    let(:adapter) do
       OpenProject::Scm::Adapters::Git.new(
         url,
         nil,
@@ -45,7 +45,7 @@ describe OpenProject::Scm::Adapters::Git do
         encoding,
         "test-identifier"
       )
-    }
+    end
 
     repos_dir = Dir.mktmpdir
 

@@ -207,7 +207,7 @@ END_DESC
       { issue: {} }.tap do |options|
         default_fields = (ENV['default_fields'] || '').split
         default_fields |= %w[project status type category priority assigned_to fixed_version]
-        default_fields.each do |field| options[:issue][field.to_sym] = ENV[field] if ENV[field] end
+        default_fields.each { |field| options[:issue][field.to_sym] = ENV[field] if ENV[field] }
 
         options[:allow_override] = ENV['allow_override'] if ENV['allow_override']
         options[:unknown_user] = ENV['unknown_user'] if ENV['unknown_user']

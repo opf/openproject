@@ -101,7 +101,7 @@ class TimeEntries::ReportsController < ApplicationController
     end
 
     respond_to do |format|
-      format.html do render layout: !request.xhr? end
+      format.html { render layout: !request.xhr? }
       format.csv  do
         render csv: report_to_csv(@criterias, @periods, @hours), filename: 'timelog.csv'
       end

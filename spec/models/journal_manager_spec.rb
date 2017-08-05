@@ -104,35 +104,35 @@ describe JournalManager, type: :model do
   describe 'self.#update_user_references' do
     let!(:work_package) { FactoryGirl.create :work_package }
     let!(:doomed_user) { work_package.author }
-    let!(:data1) {
+    let!(:data1) do
       FactoryGirl.build(:journal_work_package_journal,
                         subject: work_package.subject,
                         status_id: work_package.status_id,
                         type_id: work_package.type_id,
                         author_id: doomed_user.id,
                         project_id: work_package.project_id)
-    }
-    let!(:data2) {
+    end
+    let!(:data2) do
       FactoryGirl.build(:journal_work_package_journal,
                         subject: work_package.subject,
                         status_id: work_package.status_id,
                         type_id: work_package.type_id,
                         author_id: doomed_user.id,
                         project_id: work_package.project_id)
-    }
-    let!(:doomed_user_journal) {
+    end
+    let!(:doomed_user_journal) do
       FactoryGirl.create :work_package_journal,
                          notes: '1',
                          user: doomed_user,
                          journable_id: work_package.id,
                          data: data1
-    }
-    let!(:some_other_journal) {
+    end
+    let!(:some_other_journal) do
       FactoryGirl.create :work_package_journal,
                          notes: '2',
                          journable_id: work_package.id,
                          data: data2
-    }
+    end
 
     before do
       doomed_user.destroy

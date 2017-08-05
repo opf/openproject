@@ -46,11 +46,11 @@ class WorkflowsController < ApplicationController
     if request.post?
       Workflow.where(role_id: @role.id, type_id: @type.id).delete_all
       (params[:status] || []).each do |status_id, transitions|
-        transitions.each { |new_status_id, options|
+        transitions.each do |new_status_id, options|
           author = options.is_a?(Array) && options.include?('author') && !options.include?('always')
           assignee = options.is_a?(Array) && options.include?('assignee') && !options.include?('always')
           @role.workflows.build(type_id: @type.id, old_status_id: status_id, new_status_id: new_status_id, author: author, assignee: assignee)
-        }
+        end
       end
       if @role.save
         flash[:notice] = l(:notice_successful_update)

@@ -120,7 +120,7 @@ module Migration
 
     def update_work_package_macros(text, id_map, regex, macro_regex, new_macro)
       unless text.nil?
-        text = parse_non_pre_blocks(text) { |block|
+        text = parse_non_pre_blocks(text) do |block|
           block.gsub!(regex) do |match|
             if id_map.has_key? $~[:id].to_s
               prefix = $~.names.include?('prefix') ? $~[:prefix] : ' '
@@ -133,7 +133,7 @@ module Migration
               match
             end
           end
-        }
+        end
       end
 
       text
@@ -141,10 +141,10 @@ module Migration
 
     def update_issue_planning_element_links(text, id_map)
       unless text.nil?
-        text = parse_non_pre_blocks(text) { |block|
-          block.gsub!(work_package_link_regex) do |_| update_issue_planning_element_link_match $~, id_map end
+        text = parse_non_pre_blocks(text) do |block|
+          block.gsub!(work_package_link_regex) { |_| update_issue_planning_element_link_match $~, id_map }
           block.gsub!(rel_work_package_link_regex) { |_| update_issue_planning_element_link_match $~, id_map }
-        }
+        end
       end
 
       text
@@ -160,10 +160,10 @@ module Migration
 
     def restore_issue_planning_element_links(text, id_map)
       unless text.nil?
-        text = parse_non_pre_blocks(text) { |_block|
-          text.gsub!(restore_work_package_link_regex) do |_| restore_issue_planning_element_link_match $~, id_map end
+        text = parse_non_pre_blocks(text) do |_block|
+          text.gsub!(restore_work_package_link_regex) { |_| restore_issue_planning_element_link_match $~, id_map }
           text.gsub!(restore_rel_work_package_link_regex) { |_| restore_issue_planning_element_link_match $~, id_map }
-        }
+        end
       end
 
       text

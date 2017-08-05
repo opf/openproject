@@ -38,14 +38,14 @@ class ReportedProjectStatusesController < ApplicationController
   def index
     @reported_project_statuses = @base
     respond_to do |format|
-      format.html do render_404 end
+      format.html { render_404 }
     end
   end
 
   def show
     @reported_project_status = @base.find(params[:id])
     respond_to do |format|
-      format.html do render_404 end
+      format.html { render_404 }
     end
   end
 

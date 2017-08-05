@@ -42,13 +42,13 @@ describe WatcherNotificationMailer do
   end
 
   describe 'watcher setup' do
-    let(:work_package) {
+    let(:work_package) do
       work_package = FactoryGirl.build_stubbed(:work_package)
       journal = FactoryGirl.build_stubbed(:work_package_journal)
 
       allow(work_package).to receive(:journals).and_return([journal])
       work_package
-    }
+    end
 
     let(:watcher_setter) do
       FactoryGirl.build_stubbed(:user,
@@ -58,18 +58,18 @@ describe WatcherNotificationMailer do
 
     let(:watching_setting) { 'all' }
     let(:self_notified) { true }
-    let(:watching_user) {
+    let(:watching_user) do
       FactoryGirl.build_stubbed(:user,
                                 mail_notification: watching_setting,
                                 preference: user_pref)
-    }
-    let(:user_pref) {
+    end
+    let(:user_pref) do
       pref = FactoryGirl.build_stubbed(:user_preference)
 
       allow(pref).to receive(:self_notified?).and_return(self_notified)
 
       pref
-    }
+    end
 
     let(:watcher) do
       FactoryGirl.build_stubbed(:watcher, user: watching_user,

@@ -78,7 +78,7 @@ describe Member, type: :model do
         res = member.save
       end
 
-      context(:roles) do it { expect(member.roles).to include role } end
+      context(:roles) { it { expect(member.roles).to include role } }
       context(:errors) { it { expect(member.errors.map { |_k, v| v }).to include 'Please choose at least one role.' } }
     end
   end
@@ -120,7 +120,7 @@ describe Member, type: :model do
         member.reload
       end
 
-      context(:roles) do it { expect(member.roles.length).to eq(1) } end
+      context(:roles) { it { expect(member.roles.length).to eq(1) } }
       context(:member_roles) { it { expect(member.member_roles.length).to eq(1) } }
     end
 
@@ -130,8 +130,8 @@ describe Member, type: :model do
         member.mark_member_role_for_destruction(member_role)
       end
 
-      context(:roles) do it { expect(member.roles).not_to be_empty } end
-      context(:member_roles) do it { expect(member.member_roles).not_to be_empty } end
+      context(:roles) { it { expect(member.roles).not_to be_empty } }
+      context(:member_roles) { it { expect(member.member_roles).not_to be_empty } }
       context(:member) { it { expect(member).not_to be_valid } }
     end
   end

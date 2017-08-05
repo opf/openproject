@@ -32,15 +32,15 @@ require 'spec_helper'
 
 describe UpdateChildWorkPackageService, type: :model do
   let(:user) { FactoryGirl.build_stubbed(:user) }
-  let(:project) {
+  let(:project) do
     p = FactoryGirl.build_stubbed(:project)
     allow(p).to receive(:shared_versions).and_return([])
 
     p
-  }
+  end
   let(:type) { FactoryGirl.build_stubbed(:type) }
   let(:status) { FactoryGirl.build_stubbed(:status) }
-  let(:work_package) {
+  let(:work_package) do
     wp = FactoryGirl.build_stubbed(:work_package,
                                    type: type,
                                    status: status,
@@ -52,7 +52,7 @@ describe UpdateChildWorkPackageService, type: :model do
     wp.send(:clear_changes_information)
 
     wp
-  }
+  end
   let(:instance) do
     UpdateChildWorkPackageService.new(user: user,
                                       work_package: work_package)
@@ -90,17 +90,17 @@ describe UpdateChildWorkPackageService, type: :model do
     end
 
     context 'when switching the project' do
-      let(:target_project) {
+      let(:target_project) do
         p = FactoryGirl.build_stubbed(:project)
         allow(p).to receive(:types).and_return([type])
 
         p
-      }
+      end
 
       context 'fixed_version' do
-        let(:version) {
+        let(:version) do
           FactoryGirl.build_stubbed(:version)
-        }
+        end
 
         before do
           work_package.fixed_version = version

@@ -62,7 +62,7 @@ module WatchersHelper
   # Returns HTML for a list of users watching the given object
   def watchers_list(object)
     remove_allowed = User.current.allowed_to?("delete_#{object.class.name.underscore}_watchers".to_sym, object.project)
-    lis = object.watcher_users.sort.map { |user|
+    lis = object.watcher_users.sort.map do |user|
       watcher = object.watchers(true).find { |u| u.user_id == user.id }
       content_tag :li do
         avatar(user, class: 'avatar-mini') +
@@ -79,7 +79,7 @@ module WatchersHelper
           ''.html_safe
         end
       end
-    }
+    end
     lis.empty? ? ''.html_safe : content_tag(:ul, lis.reduce(:+))
   end
 end

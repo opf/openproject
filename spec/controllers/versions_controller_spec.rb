@@ -185,7 +185,7 @@ describe VersionsController, type: :controller do
 
   describe '#update' do
     context 'with valid params' do
-      let(:params) {
+      let(:params) do
         {
           id: version1.id,
           version: {
@@ -193,7 +193,7 @@ describe VersionsController, type: :controller do
             effective_date: Date.today.strftime('%Y-%m-%d')
           }
         }
-      }
+      end
       before do
         login_as(user)
         patch :update, params: params

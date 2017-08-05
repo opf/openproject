@@ -33,11 +33,11 @@ namespace :code do
   task :fix_line_endings do
     Dir.chdir(File.join(File.dirname(__FILE__), '../..')) do
       files = Dir['**/**{.rb,.html.erb,.rhtml,.rjs,.plain.erb,.rxml,.yml,.rake,.eml}']
-      files.reject! { |f|
+      files.reject! do |f|
         f.include?('lib/plugins') ||
           f.include?('lib/redcloth') ||
           f.include?('lib/diff')
-      }
+      end
 
       # handle files in chunks of 50 to avoid too long command lines
       while (slice = files.slice!(0, 50)).present?

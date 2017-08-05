@@ -104,7 +104,7 @@ class ProjectsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html do render action: 'new' end
+        format.html { render action: 'new' }
       end
     end
   end

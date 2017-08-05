@@ -31,19 +31,19 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe '#journal' do
     let(:type) { FactoryGirl.create :type }
-    let(:project) {
+    let(:project) do
       FactoryGirl.create :project,
                          types: [type]
-    }
+    end
     let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
-    let(:work_package) {
+    let(:work_package) do
       FactoryGirl.create(:work_package,
                          project_id: project.id,
                          type: type,
                          description: 'Description',
                          priority: priority)
-    }
+    end
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
@@ -61,7 +61,7 @@ describe WorkPackage, type: :model do
     end
 
     context 'nothing is changed' do
-      before do work_package.save! end
+      before { work_package.save! }
 
       it { expect(Journal.all.count).to eq(1) }
     end
@@ -80,15 +80,15 @@ describe WorkPackage, type: :model do
     context 'different newlines' do
       let(:description) { "Description\n\nwith newlines\n\nembedded" }
       let(:changed_description) { description.gsub("\n", "\r\n") }
-      let!(:work_package_1) {
+      let!(:work_package_1) do
         FactoryGirl.create(:work_package,
                            project_id: project.id,
                            type: type,
                            description: description,
                            priority: priority)
-      }
+      end
 
-      before do work_package_1.description = changed_description end
+      before { work_package_1.description = changed_description }
 
       context 'when a new journal is created tracking a simultaneously applied change' do
         before do
@@ -111,20 +111,20 @@ describe WorkPackage, type: :model do
       end
 
       context 'when there is a legacy journal containing non-escaped newlines' do
-        let!(:work_package_journal_1) {
+        let!(:work_package_journal_1) do
           FactoryGirl.create(:work_package_journal,
                              journable_id: work_package_1.id,
                              version: 2,
                              data: FactoryGirl.build(:journal_work_package_journal,
                                                      description: description))
-        }
-        let!(:work_package_journal_2) {
+        end
+        let!(:work_package_journal_2) do
           FactoryGirl.create(:work_package_journal,
                              journable_id: work_package_1.id,
                              version: 3,
                              data: FactoryGirl.build(:journal_work_package_journal,
                                                      description: changed_description))
-        }
+        end
 
         subject { work_package_1.journals.last.details }
 
@@ -133,12 +133,12 @@ describe WorkPackage, type: :model do
     end
 
     context 'on work package change' do
-      let(:parent_work_package) {
+      let(:parent_work_package) do
         FactoryGirl.create(:work_package,
                            project_id: project.id,
                            type: type,
                            priority: priority)
-      }
+      end
       let(:type_2) { FactoryGirl.create :type }
       let(:status_2) { FactoryGirl.create :status }
       let(:priority_2) { FactoryGirl.create :priority }
@@ -254,7 +254,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'attachment removed' do
-        before do work_package.attachments.delete(attachment) end
+        before { work_package.attachments.delete(attachment) }
 
         subject { work_package.journals.last.details }
 
@@ -266,12 +266,12 @@ describe WorkPackage, type: :model do
 
     context 'custom values' do
       let(:custom_field) { FactoryGirl.create :work_package_custom_field }
-      let(:custom_value) {
+      let(:custom_value) do
         FactoryGirl.create :custom_value,
                            value: 'false',
                            customized: work_package,
                            custom_field: custom_field
-      }
+      end
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
 
@@ -297,11 +297,11 @@ describe WorkPackage, type: :model do
       context 'custom value modified' do
         include_context 'work package with custom value'
 
-        let(:modified_custom_value) {
+        let(:modified_custom_value) do
           FactoryGirl.create :custom_value,
                              value: 'true',
                              custom_field: custom_field
-        }
+        end
         before do
           work_package.custom_values = [modified_custom_value]
           work_package.save!
@@ -317,11 +317,11 @@ describe WorkPackage, type: :model do
       context 'work package saved w/o change' do
         include_context 'work package with custom value'
 
-        let(:unmodified_custom_value) {
+        let(:unmodified_custom_value) do
           FactoryGirl.create :custom_value,
                              value: 'false',
                              custom_field: custom_field
-        }
+        end
         before do
           @original_journal_count = work_package.journals.count
 
@@ -350,18 +350,18 @@ describe WorkPackage, type: :model do
       end
 
       context 'custom value did not exist before' do
-        let(:custom_field) {
+        let(:custom_field) do
           FactoryGirl.create :work_package_custom_field,
                              is_required: false,
                              field_format: 'list',
                              possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
-        }
-        let(:custom_value) {
+        end
+        let(:custom_value) do
           FactoryGirl.create :custom_value,
                              value: '',
                              customized: work_package,
                              custom_field: custom_field
-        }
+        end
 
         describe 'empty values are recognized as unchanged' do
           include_context 'work package with custom value'

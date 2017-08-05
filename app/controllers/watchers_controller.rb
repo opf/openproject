@@ -67,7 +67,7 @@ class WatchersController < ApplicationController
     @watched.set_watcher(user, watching)
 
     respond_to do |format|
-      format.html do redirect_to :back end
+      format.html { redirect_to :back }
       format.js do
         if params[:replace].present?
           if params[:replace].is_a? Array

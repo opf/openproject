@@ -58,7 +58,7 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.file_changes.limit(1000).order('path').map { |change|
+    changes = @changeset.file_changes.limit(1000).order('path').map do |change|
       case change.action
       when 'A'
         # Detects moved/copied files
@@ -72,7 +72,7 @@ module RepositoriesHelper
       else
         change
       end
-    }.compact
+    end.compact
 
     tree = {}
     changes.each do |change|

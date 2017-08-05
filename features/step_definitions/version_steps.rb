@@ -35,9 +35,9 @@ Given /^the [Pp]roject (.+) has 1 version with(?: the following)?:$/ do |project
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
 
   as_admin do
-    v = FactoryGirl.build(:version) { |v|
+    v = FactoryGirl.build(:version) do |v|
       v.project = p
-    }
+    end
     send_table_to_object(v, table)
   end
 end

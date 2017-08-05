@@ -65,10 +65,10 @@ namespace :git do
     remote_branches = `git branch -r --merged`
                       .split("\n")
                       .map(&:strip)
-                      .reject{ |b|
+                      .reject do |b|
                         !b.starts_with?('origin') ||
                         excluded_branches.include?(b.split('/').drop(1).join('/'))
-                      }
+                      end
 
     local_branches = `git branch --merged`
                      .gsub(/^\* /, '')

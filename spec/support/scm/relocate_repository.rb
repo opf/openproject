@@ -1,7 +1,7 @@
 shared_examples_for 'repository can be relocated' do |vendor|
   let(:job) { ::Scm::RelocateRepositoryJob.new repository }
   let(:project) { FactoryGirl.build :project }
-  let(:repository) {
+  let(:repository) do
     repo = FactoryGirl.build("repository_#{vendor}".to_sym,
                              project: project,
                              scm_type: :managed)
@@ -10,7 +10,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
     repo.save!
 
     repo
-  }
+  end
 
   before do
     allow(::Scm::RelocateRepositoryJob).to receive(:new).and_return(job)
@@ -45,14 +45,14 @@ shared_examples_for 'repository can be relocated' do |vendor|
     let(:url) { 'http://myreposerver.example.com/api/' }
     let(:config) { { manages: url } }
 
-    let(:repository) {
+    let(:repository) do
       stub_request(:post, url)
         .to_return(status: 200,
                    body: { success: true, url: 'file:///foo/bar', path: '/tmp/foo/bar' }.to_json)
       FactoryGirl.create("repository_#{vendor}".to_sym,
                          project: project,
                          scm_type: :managed)
-    }
+    end
 
     before do
       stub_request(:post, url)

@@ -12,7 +12,7 @@ describe 'Activity tab', js: true, selenium: true do
   end
 
   let(:project) { FactoryGirl.create :project_with_types, is_public: true }
-  let!(:work_package) {
+  let!(:work_package) do
     work_package = FactoryGirl.create(:work_package,
                                       project: project,
                                       created_at: 5.days.ago.to_date.to_s(:db),
@@ -23,18 +23,18 @@ describe 'Activity tab', js: true, selenium: true do
     note_journal.update_attributes(created_at: 5.days.ago.to_date.to_s)
 
     work_package
-  }
+  end
 
   let(:initial_subject) { 'My Subject' }
   let(:initial_comment) { 'First comment on this wp.' }
   let(:comments_in_reverse) { false }
   let(:activity_tab) { ::Components::WorkPackages::Activities.new(work_package) }
 
-  let(:initial_note) {
+  let(:initial_note) do
     work_package.journals[0]
-  }
+  end
 
-  let!(:note_1) {
+  let!(:note_1) do
     attributes = { subject: 'New subject', description: 'Some not so long description.' }
 
     alter_work_package_at(work_package,
@@ -43,9 +43,9 @@ describe 'Activity tab', js: true, selenium: true do
                           user: user)
 
     work_package.journals.last
-  }
+  end
 
-  let!(:note_2) {
+  let!(:note_2) do
     attributes = { journal_notes: 'Another comment by a different user' }
 
     alter_work_package_at(work_package,
@@ -54,7 +54,7 @@ describe 'Activity tab', js: true, selenium: true do
                           user: FactoryGirl.create(:admin))
 
     work_package.journals.last
-  }
+  end
 
   before do
     login_as(user)
@@ -63,11 +63,11 @@ describe 'Activity tab', js: true, selenium: true do
   end
 
   shared_examples 'shows activities in order' do
-    let(:journals) {
+    let(:journals) do
       journals = [initial_note, note_1, note_2]
 
       journals
-    }
+    end
 
     it 'shows activities in ascending order' do
       journals.each_with_index do |journal, idx|
@@ -105,15 +105,15 @@ describe 'Activity tab', js: true, selenium: true do
     end
 
     context 'with permission' do
-      let(:role) {
+      let(:role) do
         FactoryGirl.create(:role, permissions: [:view_work_packages,
                                                 :add_work_package_notes])
-      }
-      let(:user) {
+      end
+      let(:user) do
         FactoryGirl.create(:user,
                            member_in_project: project,
                            member_through_role: role)
-      }
+      end
 
       context 'with ascending comments' do
         let(:comments_in_reverse) { false }
@@ -165,14 +165,14 @@ describe 'Activity tab', js: true, selenium: true do
     end
 
     context 'with no permission' do
-      let(:role) {
+      let(:role) do
         FactoryGirl.create(:role, permissions: [:view_work_packages])
-      }
-      let(:user) {
+      end
+      let(:user) do
         FactoryGirl.create(:user,
                            member_in_project: project,
                            member_through_role: role)
-      }
+      end
 
       it 'shows the activities, but does not allow commenting' do
         expect(page).not_to have_selector('.work-packages--activity--add-comment', visible: true)

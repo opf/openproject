@@ -143,11 +143,11 @@ describe Authorization::QueryTransformations do
 
       expected_order = [:transformation1, :transformation2]
 
-      expect {
+      expect do
         instance.register(:on, :transformation2, before: [:transformation1]) do |*args|
           args.join(', ')
         end
-      }.to raise_error "Cannot sort #{expected_order} into the list of transformations"
+      end.to raise_error "Cannot sort #{expected_order} into the list of transformations"
     end
   end
 end

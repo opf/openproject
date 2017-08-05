@@ -713,7 +713,7 @@ class User < Principal
     # save. Otherwise, password is nil.
     unless password.nil? or anonymous?
       password_errors = OpenProject::Passwords::Evaluator.errors_for_password(password)
-      password_errors.each do |error| errors.add(:password, error) end
+      password_errors.each { |error| errors.add(:password, error) }
 
       if former_passwords_include?(password)
         errors.add(:password,

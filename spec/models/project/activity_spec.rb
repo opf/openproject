@@ -29,23 +29,23 @@
 require 'spec_helper'
 
 describe Project::Activity, type: :model do
-  let(:project) {
+  let(:project) do
     FactoryGirl.create(:project)
-  }
+  end
 
   let(:initial_time) { Time.now }
 
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project)
-  }
+  end
 
-  let(:work_package2) {
+  let(:work_package2) do
     FactoryGirl.create(:work_package,
                        project: project)
-  }
+  end
 
-  let(:wiki_content) {
+  let(:wiki_content) do
     project.reload
 
     page = FactoryGirl.create(:wiki_page,
@@ -53,9 +53,9 @@ describe Project::Activity, type: :model do
 
     FactoryGirl.create(:wiki_content,
                        page: page)
-  }
+  end
 
-  let(:wiki_content2) {
+  let(:wiki_content2) do
     project.reload
 
     page = FactoryGirl.create(:wiki_page,
@@ -63,59 +63,59 @@ describe Project::Activity, type: :model do
 
     FactoryGirl.create(:wiki_content,
                        page: page)
-  }
+  end
 
-  let(:news) {
+  let(:news) do
     FactoryGirl.create(:news,
                        project: project)
-  }
+  end
 
-  let(:news2) {
+  let(:news2) do
     FactoryGirl.create(:news,
                        project: project)
-  }
+  end
 
-  let(:repository) {
+  let(:repository) do
     FactoryGirl.create(:repository_git,
                        project: project)
-  }
+  end
 
-  let(:changeset) {
+  let(:changeset) do
     FactoryGirl.create(:changeset,
                        repository: repository)
-  }
+  end
 
-  let(:changeset2) {
+  let(:changeset2) do
     FactoryGirl.create(:changeset,
                        repository: repository)
-  }
+  end
 
-  let(:board) {
+  let(:board) do
     FactoryGirl.create(:board,
                        project: project)
-  }
+  end
 
-  let(:message) {
+  let(:message) do
     FactoryGirl.create(:message,
                        board: board)
-  }
+  end
 
-  let(:message2) {
+  let(:message2) do
     FactoryGirl.create(:message,
                        board: board)
-  }
+  end
 
-  let(:time_entry) {
+  let(:time_entry) do
     FactoryGirl.create(:time_entry,
                        work_package: work_package,
                        project: project)
-  }
+  end
 
-  let(:time_entry2) {
+  let(:time_entry2) do
     FactoryGirl.create(:time_entry,
                        work_package: work_package,
                        project: project)
-  }
+  end
 
   def latest_activity
     Project.with_latest_activity.find(project.id).latest_activity_at

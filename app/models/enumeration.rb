@@ -158,7 +158,7 @@ class Enumeration < ActiveRecord::Base
   def self.sort_by_ancestor_last(entries)
     ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
 
-    ancestor_relationships.sort { |one, two|
+    ancestor_relationships.sort do |one, two|
       if one.last.include?(two.first)
         -1
       elsif two.last.include?(one.first)
@@ -166,7 +166,7 @@ class Enumeration < ActiveRecord::Base
       else
         0
       end
-    }.map(&:first)
+    end.map(&:first)
   end
 
   def check_integrity

@@ -30,16 +30,16 @@ require 'spec_helper'
 
 describe SortHelper, type: :helper do
   describe '#sort_header_tag' do
-    let(:output) {
+    let(:output) do
       helper.sort_header_tag('id')
-    }
+    end
     let(:sort_key) { '' }
     let(:sort_asc) { true }
-    let(:sort_criteria) {
+    let(:sort_criteria) do
       double('sort_criteria', first_key: sort_key,
                               first_asc?: sort_asc,
                               to_param: 'sort_criteria_params').as_null_object
-    }
+    end
 
     before do
       # helper relies on this instance var

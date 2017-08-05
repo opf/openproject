@@ -34,16 +34,16 @@ describe Scm::CheckoutInstructionsService do
   let(:project) { FactoryGirl.build(:project) }
 
   let(:url) { 'file:///tmp/some/svn/repo' }
-  let(:repository) {
+  let(:repository) do
     FactoryGirl.build(:repository_subversion,
                       url: url,
                       project: project)
-  }
+  end
 
   let(:base_url) { 'http://example.org/svn/' }
   let(:path) { nil }
   let(:text) { 'foo' }
-  let(:checkout_hash) {
+  let(:checkout_hash) do
     {
       'git' => { 'enabled' => '0' },
       'subversion' => { 'enabled' => '1',
@@ -51,7 +51,7 @@ describe Scm::CheckoutInstructionsService do
                         'base_url' => base_url
                       }
     }
-  }
+  end
 
   subject(:service) { Scm::CheckoutInstructionsService.new(repository, user: user, path: path) }
 

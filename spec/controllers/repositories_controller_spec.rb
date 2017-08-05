@@ -147,14 +147,14 @@ describe RepositoriesController, type: :controller do
     context 'with #show and checkout' do
       render_views
 
-      let(:checkout_hash) {
+      let(:checkout_hash) do
         {
           'subversion' => { 'enabled' => '1',
                             'text' => 'foo',
                             'base_url' => 'http://localhost'
           }
         }
-      }
+      end
 
       before do
         allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)
@@ -174,9 +174,9 @@ describe RepositoriesController, type: :controller do
       let(:root_url) { repo_dir }
       let(:url) { "file://#{root_url}" }
 
-      let(:repository) {
+      let(:repository) do
         FactoryGirl.create(:repository_subversion, project: project, url: url, root_url: url)
-      }
+      end
 
       describe 'commits per author graph' do
         before do
@@ -184,10 +184,10 @@ describe RepositoriesController, type: :controller do
         end
 
         context 'requested by an authorized user' do
-          let(:role) {
+          let(:role) do
             FactoryGirl.create(:role, permissions: [:browse_repository,
                                                     :view_commit_author_statistics])
-          }
+          end
 
           it 'should be successful' do
             expect(response).to be_success
@@ -241,10 +241,10 @@ describe RepositoriesController, type: :controller do
         end
 
         describe 'requested by a user with view_commit_author_statistics permission' do
-          let(:role) {
+          let(:role) do
             FactoryGirl.create(:role, permissions: [:browse_repository,
                                                     :view_commit_author_statistics])
-          }
+          end
 
           it 'show the commits per author graph' do
             expect(assigns(:show_commits_per_author)).to eq(true)
@@ -310,14 +310,14 @@ describe RepositoriesController, type: :controller do
         render_views
 
         let(:role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
-        let(:checkout_hash) {
+        let(:checkout_hash) do
           {
             'subversion' => { 'enabled' => '1',
                               'text' => 'foo',
                               'base_url' => 'http://localhost'
             }
           }
-        }
+        end
 
         before do
           allow(Setting).to receive(:repository_checkout_data).and_return(checkout_hash)

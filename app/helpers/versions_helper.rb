@@ -49,9 +49,9 @@ module VersionsHelper
         .includes(:status)
         .where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false])
         .references(:statuses)
-        .count.each { |c, s|
+        .count.each do |c, s|
         h[c][1] = s
-      }
+      end
     rescue ActiveRecord::RecordNotFound
       # When grouping by an association, Rails throws this exception if there's no result (bug)
     end

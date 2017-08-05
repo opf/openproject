@@ -34,7 +34,7 @@ end
 
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
   issue = WorkPackage.where(subject: issue_subject).order(:created_at).last
-  watchers.raw.flatten.each do |w| issue.add_watcher User.find_by_login(w) end
+  watchers.raw.flatten.each { |w| issue.add_watcher User.find_by_login(w) }
   issue.save
 end
 
@@ -90,7 +90,7 @@ When(/^I click the first delete attachment link$/) do
 end
 
 Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |project_name, table|
-  table.hashes.map do |h| h['project'] = project_name end
+  table.hashes.map { |h| h['project'] = project_name }
   modified_table = Cucumber::Core::Ast::DataTable.new(table.hashes, table.location)
   argument_table = Cucumber::MultilineArgument::DataTable.new modified_table
   step %{there are the following issues with attributes:}, argument_table
@@ -125,7 +125,7 @@ Given (/^there are the following issues with attributes:$/) do |table|
     issue = FactoryGirl.create(:work_package, attributes)
 
     if watchers
-      watchers.split(',').each do |w| issue.add_watcher User.find_by_login(w) end
+      watchers.split(',').each { |w| issue.add_watcher User.find_by_login(w) }
       issue.save
     end
   end

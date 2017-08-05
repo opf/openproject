@@ -31,9 +31,9 @@ require 'spec_helper'
 RSpec.feature 'Work package pagination', js: true do
 
   let(:admin) { FactoryGirl.create(:admin) }
-  let(:project) {
+  let(:project) do
     FactoryGirl.create(:project, name: 'project1', identifier: 'project1')
-  }
+  end
 
   shared_examples_for 'paginated work package list' do
     let!(:work_package_1) { FactoryGirl.create(:work_package, project: project) }

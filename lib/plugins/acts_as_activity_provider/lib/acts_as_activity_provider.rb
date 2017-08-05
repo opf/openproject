@@ -97,7 +97,7 @@ module Redmine
             end
 
             result.flatten!
-            result.each do |e| e.event_type = event_type.dup.singularize unless e.event_type end
+            result.each { |e| e.event_type = event_type.dup.singularize unless e.event_type }
             result
           end
 

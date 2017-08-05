@@ -103,9 +103,9 @@ end
 Given /^the plugin (.+) is loaded$/ do |plugin_name|
   plugin_name = plugin_name.gsub("\"", '')
 
-  Redmine::Plugin.all.detect { |x|
+  Redmine::Plugin.all.detect do |x|
     x.id == plugin_name.to_sym
-  }.present? ? nil : pending("Plugin #{plugin_name} not loaded")
+  end.present? ? nil : pending("Plugin #{plugin_name} not loaded")
 end
 
 Given /^(?:the )?[pP]roject "([^\"]*)" uses the following [mM]odules:$/ do |project, table|

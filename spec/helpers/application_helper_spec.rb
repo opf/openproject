@@ -91,19 +91,19 @@ describe ApplicationHelper, type: :helper do
 
   describe '.link_to_if_authorized' do
     let(:project) { FactoryGirl.create :valid_project }
-    let(:project_member) {
+    let(:project_member) do
       FactoryGirl.create :user,
                          member_in_project: project,
                          member_through_role: FactoryGirl.create(:role,
                                                                  permissions: [:view_work_packages, :edit_work_packages,
                                                                                :browse_repository, :view_changesets, :view_wiki_pages])
-    }
-    let(:issue) {
+    end
+    let(:issue) do
       FactoryGirl.create :work_package,
                          project: project,
                          author: project_member,
                          type: project.types.first
-    }
+    end
 
     context 'if user is authorized' do
       before do
@@ -190,11 +190,11 @@ describe ApplicationHelper, type: :helper do
       end
 
       context 'some time ago' do
-        let(:time) {
+        let(:time) do
           Timecop.travel(2.weeks.ago) do
             Time.now
           end
-        }
+        end
 
         it { is_expected.to match /^\<a/ }
         it { is_expected.to match /14 days/ }
@@ -213,11 +213,11 @@ describe ApplicationHelper, type: :helper do
       end
 
       context 'some time ago' do
-        let(:time) {
+        let(:time) do
           Timecop.travel(1.week.ago) do
             Time.now
           end
-        }
+        end
 
         it { is_expected.to match /^\<time/ }
         it { is_expected.to match /datetime=\"#{Regexp.escape(time.xmlschema)}\"/ }

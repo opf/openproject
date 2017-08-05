@@ -110,16 +110,16 @@ module SortHelper
     end
 
     def to_sql
-      sql = @criteria.map { |k, o|
+      sql = @criteria.map do |k, o|
         if s = @available_criteria[k]
           (o ? Array(s) : Array(s).map { |c| append_desc(c) }).join(', ')
         end
-      }.compact.join(', ')
+      end.compact.join(', ')
       sql.blank? ? nil : sql
     end
 
     def add!(key, asc)
-      @criteria.delete_if do |k, _o| k == key end
+      @criteria.delete_if { |k, _o| k == key }
       @criteria = [[key, asc]] + @criteria
       normalize!
     end
@@ -146,10 +146,10 @@ module SortHelper
 
     def normalize!
       @criteria ||= []
-      @criteria = @criteria.map { |s|
+      @criteria = @criteria.map do |s|
         s = s.to_a
         [s.first, !(s.last == false || s.last == 'desc')]
-      }
+      end
 
       if @available_criteria
         @criteria = @criteria.select { |k, _o| @available_criteria.has_key?(k) }

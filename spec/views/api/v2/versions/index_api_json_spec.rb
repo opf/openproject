@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'api/v2/versions/index.api.rabl', type: :view do
   let(:shared_with) { [42, 1, 2, 3] }
-  let(:version) {
+  let(:version) do
     Api::V2::VersionsController::Version.new(42,
                                              'My Version',
                                              'Some description',
@@ -39,9 +39,9 @@ describe 'api/v2/versions/index.api.rabl', type: :view do
                                              Date.today,
                                              Date.today + 1,
                                              shared_with)
-  }
+  end
 
-  before do params[:format] = 'json' end
+  before { params[:format] = 'json' }
 
   shared_context 'assign versions and render' do
     before do

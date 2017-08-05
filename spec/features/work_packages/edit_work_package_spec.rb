@@ -42,7 +42,7 @@ describe 'edit work package', js: true do
   let(:type) { FactoryGirl.create :type, custom_fields: [cf_all, cf_tp1] }
   let(:type2) { FactoryGirl.create :type, custom_fields: [cf_all, cf_tp2] }
   let(:project) { FactoryGirl.create(:project, types: [type, type2]) }
-  let(:work_package) {
+  let(:work_package) do
     work_package = FactoryGirl.create(:work_package,
                                       author: dev,
                                       project: project,
@@ -53,7 +53,7 @@ describe 'edit work package', js: true do
     note_journal.update_attributes(created_at: 5.days.ago.to_date.to_s)
 
     work_package
-  }
+  end
   let(:status) { work_package.status }
 
   let(:new_subject) { 'Some other subject' }
@@ -161,7 +161,7 @@ describe 'edit work package', js: true do
   end
 
   context 'switching to custom field with required CF' do
-    let(:custom_field) {
+    let(:custom_field) do
       FactoryGirl.create(
         :work_package_custom_field,
         field_format: 'string',
@@ -169,7 +169,7 @@ describe 'edit work package', js: true do
         is_required:  true,
         is_for_all:   true
       )
-    }
+    end
     let!(:type2) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
 
     it 'shows the required field when switching' do

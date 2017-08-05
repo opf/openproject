@@ -859,9 +859,9 @@ class AggregatedMigrations < ActiveRecord::Migration[4.2]
   end
 
   def aggregated_versions
-    @@aggregated_versions ||= @@migrations.split.map { |m|
+    @@aggregated_versions ||= @@migrations.split.map do |m|
       m.gsub(/_.*\z/, '').to_i
-    }
+    end
   end
 
   def all_versions

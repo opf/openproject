@@ -39,22 +39,22 @@ describe Timeline, 'filtering custom fields', type: :feature, js: true do
   let(:project) { FactoryGirl.create(:project) }
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:type) { project.types.first }
-  let(:bool_cf) {
+  let(:bool_cf) do
     field = FactoryGirl.create(:bool_wp_custom_field, is_filter: true, is_for_all: true)
 
     type.custom_fields << field
 
     field
-  }
-  let(:bool_cf_local) {
+  end
+  let(:bool_cf_local) do
     field = FactoryGirl.create(:bool_wp_custom_field, is_filter: true, is_for_all: false)
 
     type.custom_fields << field
     project.work_package_custom_fields << field
 
     field
-  }
-  let(:list_cf) {
+  end
+  let(:list_cf) do
     field = FactoryGirl.create(:list_wp_custom_field,
                                is_filter: true,
                                is_for_all: true,
@@ -63,8 +63,8 @@ describe Timeline, 'filtering custom fields', type: :feature, js: true do
     type.custom_fields << field
 
     field
-  }
-  let(:list_cf_local) {
+  end
+  let(:list_cf_local) do
     field = FactoryGirl.create(:list_wp_custom_field,
                                is_filter: true,
                                is_for_all: false,
@@ -74,7 +74,7 @@ describe Timeline, 'filtering custom fields', type: :feature, js: true do
     project.work_package_custom_fields << field
 
     field
-  }
+  end
   let(:wp1) do
     FactoryGirl.create(:work_package, project: project, type: type)
   end

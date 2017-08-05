@@ -85,7 +85,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
 
   describe 'with all minimum parameters' do
     let(:type) { project.types.order(:position).first }
-    let(:parameters) {
+    let(:parameters) do
       {
         _links: {
           project: {
@@ -94,7 +94,7 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
         },
         subject: 'lorem ipsum'
       }
-    }
+    end
 
     it 'has 0 validation errors' do
       expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')

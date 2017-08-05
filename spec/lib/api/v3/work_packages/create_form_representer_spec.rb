@@ -34,20 +34,20 @@ describe ::API::V3::WorkPackages::CreateFormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
-  let(:project) {
+  let(:project) do
     FactoryGirl.build_stubbed(:project)
-  }
+  end
   let(:work_package) do
     wp = FactoryGirl.build_stubbed(:work_package, project: project)
     allow(wp).to receive(:assignable_versions).and_return []
     wp
   end
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.build_stubbed(:user)
-  }
-  let(:representer) {
+  end
+  let(:representer) do
     described_class.new(work_package, current_user: current_user, errors: errors)
-  }
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }

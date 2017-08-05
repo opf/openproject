@@ -85,9 +85,9 @@ describe WorkPackage, type: :model do
         expect(child_1).to be_valid # yes, child-start-date can moved before parent-start-date...
         child_1.save
 
-        expect {
+        expect do
           parent.reload
-        }.to change { parent.start_date }
+        end.to change { parent.start_date }
           .from(late_date)
           .to(early_date) # ... but this changes the parent's start_date to the child's start_date
       end

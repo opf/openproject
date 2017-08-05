@@ -66,9 +66,9 @@ describe ::API::V3::Categories::CategoryRepresenter do
     end
 
     context 'default assignee set' do
-      let(:category) {
+      let(:category) do
         FactoryGirl.build(:category, assigned_to: user)
-      }
+      end
       it_behaves_like 'category has core values'
 
       it 'should link to its default assignee' do

@@ -37,11 +37,11 @@ describe WorkPackages::CreateContract do
   let(:user) { FactoryGirl.build_stubbed(:user) }
 
   subject(:contract) { described_class.new(work_package, user) }
-  let(:validated_contract) {
+  let(:validated_contract) do
     contract = subject
     contract.validate
     contract
-  }
+  end
 
   it_behaves_like 'work package contract'
 

@@ -118,9 +118,9 @@ class LdapAuthSource < AuthSource
     object_filter = Net::LDAP::Filter.eq('objectClass', '*')
     attrs = {}
 
-    Rails.logger.debug {
+    Rails.logger.debug do
       "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{(object_filter & login_filter).to_s})"
-    }
+    end
     ldap_con.search(base: base_dn,
                     filter: object_filter & login_filter,
                     attributes: search_attributes) do |entry|

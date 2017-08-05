@@ -34,7 +34,7 @@ class JournalIndices < ActiveRecord::Migration[4.2]
     # the real(tm) journals-table
     if ActiveRecord::Base.connection.table_exists? :legacy_journals
 
-      ActiveRecord::Base.connection.indexes(:legacy_journals).map(&:name).each do |index_name| remove_index :legacy_journals, name: index_name end
+      ActiveRecord::Base.connection.indexes(:legacy_journals).map(&:name).each { |index_name| remove_index :legacy_journals, name: index_name }
 
       add_index :legacy_journals, :activity_type, name: 'idx_lgcy_journals_on_activity_type'
       add_index :legacy_journals, :created_at, name: 'idx_lgcy_journals_on_created_at'

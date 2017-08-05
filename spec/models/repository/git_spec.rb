@@ -144,12 +144,12 @@ describe Repository::Git, type: :model do
   describe 'with an actual repository' do
     with_git_repository do |repo_dir|
       let(:url)      { repo_dir }
-      let(:instance) {
+      let(:instance) do
         FactoryGirl.create(:repository_git,
                            path_encoding: encoding,
                            url: url,
                            root_url: url)
-      }
+      end
 
       before do
         instance.fetch_changesets

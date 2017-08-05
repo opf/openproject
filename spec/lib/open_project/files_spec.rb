@@ -62,9 +62,9 @@ describe OpenProject::Files do
   describe 'build_uploaded_file' do
     let(:original_filename) { 'test.png' }
     let(:content_type) { 'image/png' }
-    let(:file) {
+    let(:file) do
       OpenProject::Files.create_temp_file(name: original_filename)
-    }
+    end
 
     subject { OpenProject::Files.build_uploaded_file(file, content_type) }
 

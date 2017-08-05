@@ -39,7 +39,7 @@ describe Workflow, type: :model do
     let(:type_target) { FactoryGirl.create(:type) }
 
     shared_examples_for 'copied workflow' do
-      before do Workflow.copy(type, role, type_target, role_target) end
+      before { Workflow.copy(type, role, type_target, role_target) }
 
       subject { Workflow.order('id DESC').first }
 
@@ -57,37 +57,37 @@ describe Workflow, type: :model do
     end
 
     describe 'workflow w/o author or assignee' do
-      let!(:workflow_src) {
+      let!(:workflow_src) do
         FactoryGirl.create(:workflow,
                            old_status: status_0,
                            new_status: status_1,
                            type_id: type.id,
                            role: role)
-      }
+      end
       it_behaves_like 'copied workflow'
     end
 
     describe 'workflow with author' do
-      let!(:workflow_src) {
+      let!(:workflow_src) do
         FactoryGirl.create(:workflow,
                            old_status: status_0,
                            new_status: status_1,
                            type_id: type.id,
                            role: role,
                            author: true)
-      }
+      end
       it_behaves_like 'copied workflow'
     end
 
     describe 'workflow with assignee' do
-      let!(:workflow_src) {
+      let!(:workflow_src) do
         FactoryGirl.create(:workflow,
                            old_status: status_0,
                            new_status: status_1,
                            type_id: type.id,
                            role: role,
                            assignee: true)
-      }
+      end
       it_behaves_like 'copied workflow'
     end
   end

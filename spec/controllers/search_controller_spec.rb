@@ -29,25 +29,25 @@
 require 'spec_helper'
 
 describe SearchController, type: :controller do
-  let!(:project) {
+  let!(:project) do
     FactoryGirl.create(:project,
                        name: 'eCookbook')
-  }
-  let(:user) {
+  end
+  let(:user) do
     FactoryGirl.create(:user,
                        member_in_project: project)
-  }
+  end
 
   shared_examples_for 'successful search' do
     it { expect(response).to be_success }
     it { expect(response).to render_template('index') }
   end
 
-  before do allow(User).to receive(:current).and_return user end
+  before { allow(User).to receive(:current).and_return user }
 
   describe 'project search' do
     context 'without a search parameter' do
-      before do get :index end
+      before { get :index }
 
       it_behaves_like 'successful search'
     end
@@ -72,7 +72,7 @@ describe SearchController, type: :controller do
   end
 
   describe 'scoped project search' do
-    before do get :index, params: { project_id: project.id } end
+    before { get :index, params: { project_id: project.id } }
 
     it_behaves_like 'successful search'
 
@@ -80,20 +80,20 @@ describe SearchController, type: :controller do
   end
 
   describe 'work package search' do
-    let!(:work_package_1) {
+    let!(:work_package_1) do
       FactoryGirl.create(:work_package,
                          subject: 'This is a test issue',
                          project: project)
-    }
-    let!(:work_package_2) {
+    end
+    let!(:work_package_2) do
       FactoryGirl.create(:work_package,
                          subject: 'Issue test 2',
                          project: project,
                          status: FactoryGirl.create(:closed_status))
-    }
+    end
 
     context 'when not searching for a note' do
-      before do get :index, params: { q: 'issue', work_packages: 1 } end
+      before { get :index, params: { q: 'issue', work_packages: 1 } }
 
       it_behaves_like 'successful search'
 
@@ -117,21 +117,21 @@ describe SearchController, type: :controller do
     end
 
     context 'when searching for a note' do
-      let!(:note_1) {
+      let!(:note_1) do
         FactoryGirl.create :work_package_journal,
                            journable_id: work_package_1.id,
                            notes: 'Test note 1',
                            version: 2
-      }
+      end
 
-      before do allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) end
+      before { allow_any_instance_of(Journal).to receive_messages(predecessor: note_1) }
 
-      let!(:note_2) {
+      let!(:note_2) do
         FactoryGirl.create :work_package_journal,
                            journable_id: work_package_1.id,
                            notes: 'Special note 2',
                            version: 3
-      }
+      end
 
       describe 'second note predecessor' do
         subject { note_2.send :predecessor }

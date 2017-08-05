@@ -280,7 +280,7 @@ class WikiAnnotate
     current_lines = current.journable.text.split(/\r?\n/)
     @lines = current_lines.map { |t| [nil, nil, t] }
     positions = []
-    current_lines.size.times do |i| positions << i end
+    current_lines.size.times { |i| positions << i }
     while current.previous
       d = current.previous.journable.text.split(/\r?\n/).diff(current.journable.text.split(/\r?\n/)).diffs.flatten
       d.each_slice(3) do |s|

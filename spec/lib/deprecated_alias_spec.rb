@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe DeprecatedAlias do
-  let(:clazz) {
+  let(:clazz) do
     Class.new do
       extend DeprecatedAlias
 
@@ -38,14 +38,14 @@ describe DeprecatedAlias do
       end
       deprecated_alias :special_key, :secret_key
     end
-  }
+  end
 
   subject(:object) { clazz.new }
 
-  let(:deprecation_warning) {
+  let(:deprecation_warning) do
     'special_key is deprecated and will be removed in a future OpenProject version. ' +
       'Please use secret_key instead.'
-  }
+  end
 
   before do
     expect(ActiveSupport::Deprecation).to receive(:warn)

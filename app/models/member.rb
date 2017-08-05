@@ -192,7 +192,7 @@ class Member < ActiveRecord::Base
     # Add new roles
     # Do this before destroying them, otherwise the Member is destroyed due to not having any
     # Roles assigned via MemberRoles.
-    new_role_ids.each do |id| do_add_role(id, nil, save_and_possibly_destroy) end
+    new_role_ids.each { |id| do_add_role(id, nil, save_and_possibly_destroy) }
 
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
     member_roles_to_destroy = member_roles.select { |mr| !ids.include?(mr.role_id) }

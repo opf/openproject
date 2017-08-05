@@ -30,7 +30,7 @@ shared_examples 'an auth aware field' do
   end
 
   context 'when user is not authorized' do
-    let(:user) {
+    let(:user) do
       FactoryGirl.create(
         :user,
         member_in_project: project,
@@ -39,7 +39,7 @@ shared_examples 'an auth aware field' do
           permissions: [:view_work_packages]
         )
       )
-    }
+    end
 
     it 'is not editable' do
       expect(field).not_to be_editable

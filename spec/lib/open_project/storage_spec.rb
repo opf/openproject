@@ -73,11 +73,11 @@ describe OpenProject::Storage do
   context 'with SCM configuration' do
     include_context 'with tmpdir'
 
-    let(:config) {
+    let(:config) do
       {
         git: { manages: File.join(tmpdir, 'git') }
       }
-    }
+    end
     let(:enabled_scms) { %w[git] }
     let(:returned_fs_info) { [{ id: 1, free: 1234 }] }
 

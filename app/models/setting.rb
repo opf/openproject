@@ -222,11 +222,11 @@ class Setting < ActiveRecord::Base
   # Unless one cache hits, it plucks from the database
   # Returns a hash of setting => (possibly serialized) value
   def self.cached_settings
-    RequestStore.fetch(:cached_settings) {
-      Rails.cache.fetch(cache_key) {
+    RequestStore.fetch(:cached_settings) do
+      Rails.cache.fetch(cache_key) do
         Hash[Setting.pluck(:name, :value)]
-      }
-    }
+      end
+    end
   end
 
   def self.cache_key

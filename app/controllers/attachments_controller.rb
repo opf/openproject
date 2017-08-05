@@ -48,7 +48,7 @@ class AttachmentsController < ApplicationController
     @attachment.container.attachments.delete(@attachment)
 
     respond_to do |format|
-      format.html do redirect_to url_for(destroy_response_url(@attachment.container)) end
+      format.html { redirect_to url_for(destroy_response_url(@attachment.container)) }
       format.js
     end
   end

@@ -34,8 +34,8 @@ feature 'group memberships through groups page', type: :feature, js: true do
   let(:admin)     { FactoryGirl.create :admin }
   let!(:peter)    { FactoryGirl.create :user, firstname: 'Peter', lastname: 'Pan' }
   let!(:hannibal) { FactoryGirl.create :user, firstname: 'Hannibal', lastname: 'Smith' }
-  let!(:crash)    { FactoryGirl.create :user, firstname: "<script>alert('h4x');</script>",
-                                              lastname: "<script>alert('h4x');</script>" }
+  let!(:crash)    do FactoryGirl.create :user, firstname: "<script>alert('h4x');</script>",
+                                              lastname: "<script>alert('h4x');</script>" end
 
   let(:group) { FactoryGirl.create :group, lastname: 'A-Team' }
 

@@ -43,9 +43,9 @@ module API
                         required: false,
                         writable: false,
                         show_if: -> (*) {
-                          Setting.work_package_list_summable_columns.any? { |column_name|
+                          Setting.work_package_list_summable_columns.any? do |column_name|
                             /cf_(\d+)/.match(column_name)
-                          }
+                          end
                         }
         end
 

@@ -71,13 +71,13 @@ describe ::API::V3::Queries::QueryRepresenter do
       query.group_by = 'project'
     end
 
-    let(:request_body) {
+    let(:request_body) do
       {
         '_links' => {
           'groupBy' => { 'href' => nil }
         }
       }
-    }
+    end
 
     it 'should unset group_by' do
       expect(query).to be_grouped

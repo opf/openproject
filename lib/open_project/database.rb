@@ -53,9 +53,9 @@ module OpenProject
     # returns the identifier of the specified connection
     # (defaults to ActiveRecord::Base.connection)
     def self.name(connection = ActiveRecord::Base.connection)
-      supported_adapters.find(proc { [:unknown, //] }) { |_adapter, regex|
+      supported_adapters.find(proc { [:unknown, //] }) do |_adapter, regex|
         adapter_name(connection) =~ regex
-      }[0]
+      end[0]
     end
 
     # Provide helper methods to quickly check the database type

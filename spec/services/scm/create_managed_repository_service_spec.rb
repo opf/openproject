@@ -56,11 +56,11 @@ describe Scm::CreateManagedRepositoryService do
 
   context 'with managed repository' do
     # Must not .create a managed repository, or it will call this service itself!
-    let(:repository) {
+    let(:repository) do
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project
       repo
-    }
+    end
 
     context 'but no managed config' do
       it 'does not create a filesystem repository' do
@@ -72,19 +72,19 @@ describe Scm::CreateManagedRepositoryService do
 
   context 'with managed local config' do
     include_context 'with tmpdir'
-    let(:config) {
+    let(:config) do
       {
         subversion: { manages: File.join(tmpdir, 'svn') },
         git: { manages: File.join(tmpdir, 'git') }
       }
-    }
+    end
 
-    let(:repository) {
+    let(:repository) do
       repo = Repository::Subversion.new(scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo
-    }
+    end
 
     before do
       allow_any_instance_of(Scm::CreateLocalRepositoryJob)
@@ -140,18 +140,18 @@ describe Scm::CreateManagedRepositoryService do
 
   context 'with managed remote config', webmock: true do
     let(:url) { 'http://myreposerver.example.com/api/' }
-    let(:config) {
+    let(:config) do
       {
         subversion: { manages: url }
       }
-    }
+    end
 
-    let(:repository) {
+    let(:repository) do
       repo = FactoryGirl.build(:repository_subversion, scm_type: :managed)
       repo.project = project
       repo.configure(:managed, nil)
       repo
-    }
+    end
 
     it 'detects the remote config' do
       expect(repository.class.managed_remote.to_s).to eq(url)
@@ -196,11 +196,11 @@ describe Scm::CreateManagedRepositoryService do
 
       context 'with https' do
         let(:url) { 'https://myreposerver.example.com/api/' }
-        let(:config) {
+        let(:config) do
           {
             subversion: { manages: url, insecure: insecure }
           }
-        }
+        end
 
         let(:job) { Scm::CreateRemoteRepositoryJob.new(repository, perform_now: true) }
 

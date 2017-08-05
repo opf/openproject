@@ -184,10 +184,10 @@ describe Api::V2::PlanningElementsController, type: :controller do
           describe 'w/ 2 planning elements within a specific project and one PE requested' do
             context 'with rewire_parents=false' do
               let!(:wp_parent) { FactoryGirl.create(:work_package, project_id: project.id) }
-              let!(:wp_child)  {
+              let!(:wp_child)  do
                 FactoryGirl.create(:work_package, project_id: project.id,
                                                   parent_id: wp_parent.id)
-              }
+              end
 
               context 'with rewire_parents=false' do
                 before do
@@ -408,18 +408,18 @@ describe Api::V2::PlanningElementsController, type: :controller do
       let(:project_a) { FactoryGirl.create(:project) }
       let(:project_b) { FactoryGirl.create(:project) }
       let(:project_c) { FactoryGirl.create(:project) }
-      let!(:work_package_a) {
+      let!(:work_package_a) do
         FactoryGirl.create(:work_package,
                            project: project_a)
-      }
-      let!(:work_package_b) {
+      end
+      let!(:work_package_b) do
         FactoryGirl.create(:work_package,
                            project: project_b)
-      }
-      let!(:work_package_c) {
+      end
+      let!(:work_package_c) do
         FactoryGirl.create(:work_package,
                            project: project_c)
-      }
+      end
       let(:project_ids) { [project_a, project_b, project_c].map(&:id).join(',') }
       let(:wp_ids) { [work_package_a, work_package_b].map(&:id) }
 
@@ -714,9 +714,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect {
+            expect do
               get 'show', params: { project_id: project.id, id: '1337' }, format: 'xml'
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -802,10 +802,10 @@ describe Api::V2::PlanningElementsController, type: :controller do
     become_admin
 
     describe 'permissions' do
-      let(:planning_element) {
+      let(:planning_element) do
         FactoryGirl.create(:work_package,
                            project_id: project.id)
-      }
+      end
 
       def fetch
         post 'update',
@@ -978,12 +978,12 @@ describe Api::V2::PlanningElementsController, type: :controller do
       end
 
       context 'valid workflow exists' do
-        let!(:workflow) {
+        let!(:workflow) do
           FactoryGirl.create(:workflow,
                              old_status: status_a,
                              new_status: status_b,
                              type_id: planning_element.type_id)
-        }
+        end
 
         before { planning_element.project.add_member!(current_user, workflow.role) }
 
@@ -1039,9 +1039,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_delete_planning_element_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect {
+            expect do
               get 'destroy', params: { project_id: project.id, id: '1337' }, format: 'xml'
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -1095,9 +1095,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
             get 'destroy',
                 params: { project_id: project.id, id: planning_element.id },
                 format: :xml
-            expect {
+            expect do
               planning_element.reload
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end

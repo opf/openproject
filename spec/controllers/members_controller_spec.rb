@@ -33,11 +33,11 @@ describe MembersController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project, identifier: 'pet_project') }
   let(:role) { FactoryGirl.create(:role) }
-  let(:member) {
+  let(:member) do
     FactoryGirl.create(:member, project: project,
                                 user: user,
                                 roles: [role])
-  }
+  end
 
   before do
     allow(User).to receive(:current).and_return(admin)
@@ -67,9 +67,9 @@ describe MembersController, type: :controller do
         u.reload
         expect(u.memberships.size).to be >= 1
 
-        expect(u.memberships.find { |m|
+        expect(u.memberships.find do |m|
           expect(m.roles).to include(role)
-        }).not_to be_nil
+        end).not_to be_nil
       end
     end
   end
@@ -211,13 +211,13 @@ describe MembersController, type: :controller do
   end
 
   describe '#update' do
-    let(:action) {
+    let(:action) do
       post :update,
            params: {
              id: member.id,
              member: { role_ids: [role2.id], user_id: user.id }
            }
-    }
+    end
     let(:role2) { FactoryGirl.create(:role) }
 
     before do

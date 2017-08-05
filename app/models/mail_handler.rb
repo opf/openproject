@@ -261,10 +261,10 @@ class MailHandler < ActionMailer::Base
       addresses = [email.to, email.cc].flatten.compact.uniq.map { |a| a.strip.downcase }
       unless addresses.empty?
         watchers = User.active.where(['LOWER(mail) IN (?)', addresses])
-        watchers.each do |w| obj.add_watcher(w) end
+        watchers.each { |w| obj.add_watcher(w) }
         # FIXME: somehow the watchable attribute of the new watcher is not set, when the issue is not safed.
         # So we fix that here manually
-        obj.watchers.each do |w| w.watchable = obj end
+        obj.watchers.each { |w| w.watchable = obj }
       end
     end
   end
@@ -294,7 +294,7 @@ class MailHandler < ActionMailer::Base
     keys << all_attribute_translations(Setting.default_language)[attr] if Setting.default_language.present?
 
     keys.reject!(&:blank?)
-    keys.map! do |k| Regexp.escape(k) end
+    keys.map! { |k| Regexp.escape(k) }
     format ||= '.+'
     text.gsub!(/^(#{keys.join('|')})[ \t]*:[ \t]*(#{format})\s*$/i, '')
     $2 && $2.strip
@@ -435,16 +435,16 @@ class MailHandler < ActionMailer::Base
     keyword = keyword.to_s.downcase
     assignable = issue.assignable_assignees
     assignee = nil
-    assignee ||= assignable.detect {|a|
+    assignee ||= assignable.detect do |a|
       a.mail.to_s.downcase == keyword ||
       a.login.to_s.downcase == keyword
-    }
+    end
     if assignee.nil? && keyword.match(/ /)
       firstname, lastname = *keyword.split # "First Last Throwaway"
-      assignee ||= assignable.detect {|a|
+      assignee ||= assignable.detect do |a|
         a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
         a.lastname.to_s.downcase == lastname
-      }
+      end
     end
     if assignee.nil?
       assignee ||= assignable.detect { |a| a.is_a?(Group) && a.name.downcase == keyword }

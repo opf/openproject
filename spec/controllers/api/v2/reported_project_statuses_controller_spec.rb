@@ -45,9 +45,9 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
     describe 'index.xml' do
       describe 'with unknown project_type' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             get 'index', params: { project_type_id: '0' }, format: 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -104,17 +104,17 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
     describe 'show.xml' do
       describe 'with unknown project_type' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             get 'show', params: { project_type_id: '0', id: '1337' }, format: 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
       describe 'with unknown reported_project_status' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             get 'show', params: { project_type_id: project_type.id, id: '1337' }, format: 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -131,18 +131,18 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             get 'show', params: { project_type_id: project_type.id, id: '1337' }, format: 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
       describe 'with reported_project_status not available for project_type' do
         it 'raises ActiveRecord::RecordNotFound errors' do
           available_reported_project_status
-          expect {
+          expect do
             get 'show', params: { project_type_id: project_type.id, id: '1337' }, format: 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -205,9 +205,9 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
     describe 'show.xml' do
       describe 'with unknown reported_project_status' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             get 'show', params: { id: '1337' }, format: 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -219,9 +219,9 @@ describe Api::V2::ReportedProjectStatusesController, type: :controller do
         end
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             get 'show', params: { id: '1337' }, format: 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 

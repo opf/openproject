@@ -31,11 +31,11 @@ require 'spec_helper'
 describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:type) { FactoryGirl.build_stubbed(:type) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.build_stubbed(:work_package,
                               project: project,
                               type: type)
-  }
+  end
   let(:current_user) { double('current user') }
 
   subject { described_class.new(work_package: work_package) }
@@ -83,20 +83,20 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     context 'changed work package' do
-      let(:work_package) {
+      let(:work_package) do
         double('original work package',
                id: double,
                clone: cloned_wp,
                status: double('wrong status'),
                persisted?: true).as_null_object
-      }
-      let(:cloned_wp) {
+      end
+      let(:cloned_wp) do
         double('cloned work package',
                new_statuses_allowed_to: status_result)
-      }
-      let(:stored_status) {
+      end
+      let(:stored_status) do
         double('good status')
-      }
+      end
 
       before do
         allow(work_package).to receive(:persisted?).and_return(true)
@@ -123,11 +123,11 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
   end
 
   describe '#assignable_types' do
-    let(:result) {
+    let(:result) do
       result = double
       allow(result).to receive(:includes).and_return(result)
       result
-    }
+    end
 
     it 'calls through to the project' do
       expect(project).to receive(:types).and_return(result)

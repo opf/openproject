@@ -38,16 +38,16 @@ describe Authorization::UserGlobalRolesQuery do
   let(:role2) { FactoryGirl.build(:role) }
   let(:anonymous_role) { FactoryGirl.build(:anonymous_role) }
   let(:non_member) { FactoryGirl.build(:non_member) }
-  let(:member) {
+  let(:member) do
     FactoryGirl.build(:member, project: project,
                                roles: [role],
                                principal: user)
-  }
-  let(:member2) {
+  end
+  let(:member2) do
     FactoryGirl.build(:member, project: project2,
                                roles: [role2],
                                principal: user)
-  }
+  end
 
   describe '.query' do
     before do

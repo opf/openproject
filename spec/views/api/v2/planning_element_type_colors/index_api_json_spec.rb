@@ -43,13 +43,13 @@ describe 'api/v2/planning_element_type_colors/index.api.rabl', type: :view do
   end
 
   describe 'with 3 colors available' do
-    let(:colors) {
+    let(:colors) do
       [
         FactoryGirl.build(:color),
         FactoryGirl.build(:color),
         FactoryGirl.build(:color)
       ]
-    }
+    end
 
     before do
       assign(:colors, colors)

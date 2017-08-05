@@ -36,7 +36,7 @@ describe ::API::V3::Users::PaginatedUserCollectionRepresenter do
   let(:page_size) { 2 }
   let(:actual_count) { 3 }
 
-  let(:users) {
+  let(:users) do
     users = FactoryGirl.build_stubbed_list(:user,
                                            actual_count,
                                            created_on: Time.now,
@@ -52,14 +52,14 @@ describe ::API::V3::Users::PaginatedUserCollectionRepresenter do
       .and_return(users)
 
     users
-  }
-  let(:representer) {
+  end
+  let(:representer) do
     described_class.new(users,
                         '/api/v3/users',
                         per_page: page_size,
                         page: page,
                         current_user: users.first)
-  }
+  end
 
   context 'generation' do
     subject(:collection) { representer.to_json }

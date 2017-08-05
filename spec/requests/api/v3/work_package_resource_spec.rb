@@ -36,11 +36,11 @@ describe 'API v3 Work package resource', type: :request do
 
   let(:closed_status) { FactoryGirl.create(:closed_status) }
 
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create(:work_package, project_id: project.id,
                                       description: 'lorem ipsum'
                       )
-  }
+  end
   let(:project) do
     FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
   end
@@ -134,16 +134,16 @@ describe 'API v3 Work package resource', type: :request do
       describe 'response body' do
         subject(:parsed_response) { JSON.parse(last_response.body) }
         let!(:timeline)    { FactoryGirl.create(:timeline, project_id: project.id) }
-        let!(:other_wp)    {
+        let!(:other_wp)    do
           FactoryGirl.create(:work_package, project_id: project.id,
                                             status: closed_status)
-        }
-        let(:work_package) {
+        end
+        let(:work_package) do
           FactoryGirl.create(:work_package, project_id: project.id,
                                             description: description
                             )
-        }
-        let(:description) {
+        end
+        let(:description) do
           %{
       {{>toc}}
 
@@ -164,7 +164,7 @@ describe 'API v3 Work package resource', type: :request do
       * Debonaire
 
       {{timeline(#{timeline.id})}}
-        }}
+        } end
 
         it 'should respond with work package in HAL+JSON format' do
           expect(parsed_response['id']).to eq(work_package.id)
@@ -252,11 +252,11 @@ describe 'API v3 Work package resource', type: :request do
 
       context 'no permission to edit the work package' do
         let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-        let(:current_user) {
+        let(:current_user) do
           FactoryGirl.create(:user,
                              member_in_project: work_package.project,
                              member_through_role: role)
-        }
+        end
         let(:params) { valid_params }
 
         include_context 'patch request'
@@ -346,9 +346,9 @@ describe 'API v3 Work package resource', type: :request do
 
         context 'with value' do
           let(:raw) { '*Some text* _describing_ *something*...' }
-          let(:html) {
+          let(:html) do
             '<p><strong>Some text</strong> <em>describing</em> <strong>something</strong>...</p>'
-          }
+          end
           let(:params) { valid_params.merge(description: { raw: raw }) }
 
           include_context 'patch request'
@@ -395,16 +395,16 @@ describe 'API v3 Work package resource', type: :request do
         let(:status_parameter) { { _links: { status: { href: status_link } } } }
         let(:params) { valid_params.merge(status_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid status' do
-          let!(:workflow) {
+          let!(:workflow) do
             FactoryGirl.create(:workflow,
                                type_id: work_package.type.id,
                                old_status: work_package.status,
                                new_status: target_status,
                                role: current_user.memberships[0].roles[0])
-          }
+          end
 
           include_context 'patch request'
 
@@ -422,10 +422,10 @@ describe 'API v3 Work package resource', type: :request do
           include_context 'patch request'
 
           it_behaves_like 'constraint violation' do
-            let(:message) {
+            let(:message) do
               'Status ' + I18n.t('activerecord.errors.models.' \
                           'work_package.attributes.status_id.status_transition_invalid')
-            }
+            end
           end
         end
 
@@ -435,12 +435,12 @@ describe 'API v3 Work package resource', type: :request do
           include_context 'patch request'
 
           it_behaves_like 'invalid resource link' do
-            let(:message) {
+            let(:message) do
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'status',
                      expected: '/api/v3/statuses/:id',
                      actual: status_link)
-            }
+            end
           end
         end
       end
@@ -451,7 +451,7 @@ describe 'API v3 Work package resource', type: :request do
         let(:type_parameter) { { _links: { type: { href: type_link } } } }
         let(:params) { valid_params.merge(type_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid type' do
           before do
@@ -504,12 +504,12 @@ describe 'API v3 Work package resource', type: :request do
           include_context 'patch request'
 
           it_behaves_like 'invalid resource link' do
-            let(:message) {
+            let(:message) do
               I18n.t('api_v3.errors.invalid_resource',
                      property: 'type',
                      expected: '/api/v3/types/:id',
                      actual: type_link)
-            }
+            end
           end
         end
       end
@@ -572,24 +572,24 @@ describe 'API v3 Work package resource', type: :request do
       context 'assignee and responsible' do
         let(:user) { FactoryGirl.create(:user, member_in_project: project) }
         let(:params) { valid_params.merge(user_parameter) }
-        let(:work_package) {
+        let(:work_package) do
           FactoryGirl.create(:work_package,
                              project: project,
                              assigned_to: current_user,
                              responsible: current_user)
-        }
+        end
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         shared_context 'setup group membership' do |group_assignment|
           let(:group) { FactoryGirl.create(:group) }
           let(:group_role) { FactoryGirl.create(:role) }
-          let(:group_member) {
+          let(:group_member) do
             FactoryGirl.create(:member,
                                principal: group,
                                project: project,
                                roles: [group_role])
-          }
+          end
 
           before do
             allow(Setting).to receive(:work_package_group_assignment?).and_return(group_assignment)
@@ -657,11 +657,11 @@ describe 'API v3 Work package resource', type: :request do
               let(:user_href) { api_v3_paths.user 909090 }
 
               it_behaves_like 'constraint violation' do
-                let(:message) {
+                let(:message) do
                   I18n.t('api_v3.errors.validation.' \
                                      'invalid_user_assigned_to_work_package',
                          property: property.capitalize)
-                }
+                end
               end
             end
 
@@ -670,10 +670,10 @@ describe 'API v3 Work package resource', type: :request do
               let(:user_href) { api_v3_paths.user invalid_user.id }
 
               it_behaves_like 'constraint violation' do
-                let(:message) {
+                let(:message) do
                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                          property: property.capitalize)
-                }
+                end
               end
             end
 
@@ -683,12 +683,12 @@ describe 'API v3 Work package resource', type: :request do
               include_context 'patch request'
 
               it_behaves_like 'invalid resource link' do
-                let(:message) {
+                let(:message) do
                   I18n.t('api_v3.errors.invalid_resource',
                          property: property,
                          expected: '/api/v3/users/:id',
                          actual: user_href)
-                }
+                end
               end
             end
 
@@ -699,10 +699,10 @@ describe 'API v3 Work package resource', type: :request do
               include_context 'patch request'
 
               it_behaves_like 'constraint violation' do
-                let(:message) {
+                let(:message) do
                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
                          property: "#{property.capitalize}")
-                }
+                end
               end
             end
           end
@@ -723,7 +723,7 @@ describe 'API v3 Work package resource', type: :request do
         let(:version_parameter) { { _links: { version: { href: version_link } } } }
         let(:params) { valid_params.merge(version_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid' do
           include_context 'patch request'
@@ -745,7 +745,7 @@ describe 'API v3 Work package resource', type: :request do
         let(:category_parameter) { { _links: { category: { href: category_link } } } }
         let(:params) { valid_params.merge(category_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid' do
           include_context 'patch request'
@@ -767,7 +767,7 @@ describe 'API v3 Work package resource', type: :request do
         let(:priority_parameter) { { _links: { priority: { href: priority_link } } } }
         let(:params) { valid_params.merge(priority_parameter) }
 
-        before do allow(User).to receive(:current).and_return current_user end
+        before { allow(User).to receive(:current).and_return current_user }
 
         context 'valid' do
           include_context 'patch request'

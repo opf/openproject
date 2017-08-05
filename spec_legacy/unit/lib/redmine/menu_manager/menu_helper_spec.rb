@@ -97,7 +97,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'issues', action: 'index' },
 
-                                                     children: Proc.new {|_p|
+                                                     children: Proc.new do |_p|
                                                        children = []
                                                        3.times do |time|
                                                          children << Redmine::MenuManager::MenuItem.new("test_child_#{time}",
@@ -105,7 +105,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
                                                                                                         {})
                                                        end
                                                        children
-                                                     }
+                                                     end
                                                     )
     @response.body = render_menu_node(parent_node, Project.find(1))
 
@@ -126,25 +126,25 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'issues', action: 'index' },
 
-                                                     children: Proc.new {|_p|
+                                                     children: Proc.new do |_p|
                                                        children = []
                                                        3.times do |time|
                                                          children << Redmine::MenuManager::MenuItem.new("test_child_#{time}", { controller: 'issues', action: 'index' }, {})
                                                        end
                                                        children
-                                                     }
+                                                     end
                                                     )
 
     parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
                                                       { controller: 'issues', action: 'index' },
 
-                                                      children: Proc.new {|_p|
+                                                      children: Proc.new do |_p|
                                                         children = []
                                                         6.times do |time|
                                                           children << Redmine::MenuManager::MenuItem.new("test_dynamic_child_#{time}", { controller: 'issues', action: 'index' }, {})
                                                         end
                                                         children
-                                                      }
+                                                      end
                                                      )
 
     @response.body = render_menu_node(parent_node, Project.find(1))

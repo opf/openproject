@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory :status do
-    sequence(:name) do |n| "status #{n}" end
+    sequence(:name) { |n| "status #{n}" }
     is_closed false
 
     factory :closed_status do

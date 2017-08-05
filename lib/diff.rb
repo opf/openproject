@@ -61,14 +61,14 @@ module RedmineDiff
         aelem = a[aindex]
         next unless bmatches.has_key? aelem
         k = nil
-        bmatches[aelem].reverse_each { |bindex|
+        bmatches[aelem].reverse_each do |bindex|
           if k && (thresh[k] > bindex) && (thresh[k - 1] < bindex)
             thresh[k] = bindex
           else
             k = thresh.replacenextlarger(bindex, k)
           end
           links[k] = [(k == 0) ? nil : links[k - 1], aindex, bindex] if k
-        }
+        end
       end
 
       if !thresh.empty?
@@ -233,7 +233,7 @@ module Diffable
     ai = 0
     bi = 0
     diff.diffs.each do |d|
-      d.each { |mod|
+      d.each do |mod|
         case mod[0]
         when '-'
           while ai < mod[1]
@@ -253,7 +253,7 @@ module Diffable
         else
           raise 'Unknown diff action'
         end
-      }
+      end
     end
     while ai < length
       newary << self[ai]

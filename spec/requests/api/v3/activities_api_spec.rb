@@ -41,7 +41,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   end
 
   shared_examples_for 'valid activity request' do
-    before do allow(User).to receive(:current).and_return(admin) end
+    before { allow(User).to receive(:current).and_return(admin) }
 
     subject { last_response.body }
 
@@ -51,7 +51,7 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   end
 
   shared_examples_for 'invalid activity request' do |message|
-    before do allow(User).to receive(:current).and_return(admin) end
+    before { allow(User).to receive(:current).and_return(admin) }
 
     it_behaves_like 'constraint violation' do
       let(:message) { message }
@@ -61,17 +61,17 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
   describe 'PATCH /api/v3/activities/:activityId' do
     let(:work_package) { FactoryGirl.create(:work_package) }
     let(:wp_journal) { FactoryGirl.build(:journal_work_package_journal) }
-    let(:journal) {
+    let(:journal) do
       FactoryGirl.create(:work_package_journal,
                          data: wp_journal,
                          journable_id: work_package.id)
-    }
+    end
 
     shared_context 'edit activity' do
-      before {
+      before do
         patch api_v3_paths.activity(journal.id),
               { comment: comment }.to_json, 'CONTENT_TYPE' => 'application/json'
-      }
+      end
     end
 
     it_behaves_like 'safeguarded API' do
@@ -83,11 +83,11 @@ describe API::V3::Activities::ActivitiesAPI, type: :request do
     end
 
     it_behaves_like 'invalid activity request', 'Version is invalid' do
-      let(:errors) {
+      let(:errors) do
         ActiveModel::Errors.new(journal).tap do |e|
           e.add(:version)
         end
-      }
+      end
 
       before do
         allow_any_instance_of(Journal).to receive(:save).and_return(false)

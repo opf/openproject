@@ -134,8 +134,8 @@ class VersionsController < ApplicationController
 
   def status_by
     respond_to do |format|
-      format.html do render action: 'show' end
-      format.js do render_status_by @version, params[:status_by] end
+      format.html { render action: 'show' }
+      format.js { render_status_by @version, params[:status_by] }
     end
   end
 

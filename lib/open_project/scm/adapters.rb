@@ -89,13 +89,13 @@ module OpenProject
 
       class Revisions < Array
         def latest
-          sort { |x, y|
+          sort do |x, y|
             if x.time.nil? or y.time.nil?
               0
             else
               x.time <=> y.time
             end
-          }.last
+          end.last
         end
       end
 

@@ -95,7 +95,7 @@ class MigrateUserRights < ActiveRecord::Migration[4.2]
       unless row[COLUMN].nil?
         role_permissions = YAML.load row[COLUMN]
 
-        role_permissions.map! do |p| permissions.has_key?(p) ? permissions[p] : p end
+        role_permissions.map! { |p| permissions.has_key?(p) ? permissions[p] : p }
 
         row[COLUMN] = YAML.dump role_permissions.flatten
       end

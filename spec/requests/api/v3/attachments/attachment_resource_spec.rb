@@ -33,9 +33,9 @@ describe 'API v3 Attachment resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }

@@ -157,11 +157,11 @@ describe WorkPackagesHelper, type: :helper do
     let(:statuses) { (1..5).map { |_i| FactoryGirl.build_stubbed(:status) } }
     let(:priority) { FactoryGirl.build_stubbed :priority, is_default: true }
     let(:status) { statuses[0] }
-    let(:stub_work_package) {
+    let(:stub_work_package) do
       FactoryGirl.build_stubbed(:work_package,
                                 status: status,
                                 priority: priority)
-    }
+    end
 
     it 'should always have the work_package class' do
       expect(helper.work_package_css_classes(stub_work_package)).to include('work_package')

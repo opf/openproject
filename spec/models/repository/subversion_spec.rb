@@ -143,11 +143,11 @@ describe Repository::Subversion, type: :model do
   end
 
   describe 'with a remote repository' do
-    let(:instance) {
+    let(:instance) do
       FactoryGirl.build(:repository_subversion,
                         url: 'https://somewhere.example.org/svn/foo'
                        )
-    }
+    end
 
     it_behaves_like 'is not a countable repository' do
       let(:repository) { instance }
@@ -176,7 +176,7 @@ describe Repository::Subversion, type: :model do
         instance.fetch_changesets
 
         # Remove changesets with revision > 5
-        instance.changesets.each do |c| c.destroy if c.revision.to_i > 5 end
+        instance.changesets.each { |c| c.destroy if c.revision.to_i > 5 }
         instance.reload
         expect(instance.changesets.count).to eq(5)
 

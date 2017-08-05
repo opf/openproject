@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 shared_examples_for 'error response' do |code, id, provided_message = nil|
-  let(:expected_message) {
+  let(:expected_message) do
     provided_message || message
-  }
+  end
 
   it 'has the expected status code' do
     expect(last_response.status).to eq(code)

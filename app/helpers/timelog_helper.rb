@@ -48,7 +48,7 @@ module TimelogHelper
     else
       collection << ["--- #{l(:actionview_instancetag_blank_option)} ---", ''] unless activities.detect(&:is_default)
     end
-    activities.each do |a| collection << [a.name, a.id] end
+    activities.each { |a| collection << [a.name, a.id] }
     collection
   end
 
@@ -85,7 +85,7 @@ module TimelogHelper
   def entries_to_csv(entries)
     decimal_separator = l(:general_csv_decimal_separator)
     custom_fields = TimeEntryCustomField.all
-    export = CSV.generate(col_sep: l(:general_csv_separator)) { |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [TimeEntry.human_attribute_name(:spent_on),
                  TimeEntry.human_attribute_name(:user),
@@ -117,7 +117,7 @@ module TimelogHelper
 
         csv << WorkPackage::Exporter::CSV.encode_csv_columns(fields)
       end
-    }
+    end
     export
   end
 
@@ -137,12 +137,12 @@ module TimelogHelper
   end
 
   def report_to_csv(criterias, periods, hours)
-    export = CSV.generate(col_sep: l(:general_csv_separator)) { |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # Column headers
-      headers = criterias.map { |criteria|
+      headers = criterias.map do |criteria|
         label = @available_criterias[criteria][:label]
         label.is_a?(Symbol) ? l(label) : label
-      }
+      end
       headers += periods
       headers << l(:label_total)
       csv << headers.map { |c| to_utf8_for_timelogs(c) }
@@ -158,7 +158,7 @@ module TimelogHelper
       end
       row << '%.2f' % total
       csv << row
-    }
+    end
     export
   end
 

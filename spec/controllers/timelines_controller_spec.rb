@@ -164,9 +164,9 @@ describe TimelinesController, type: :controller do
           become_member_with_all_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect {
+            expect do
               fetch project_id: project.id, id: '1337'
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -188,9 +188,9 @@ describe TimelinesController, type: :controller do
         let(:other_project) { FactoryGirl.create(:project, identifier: 'other') }
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             fetch project_id: other_project.identifier, id: timeline.id
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 
@@ -350,10 +350,10 @@ describe TimelinesController, type: :controller do
     describe 'w/ everything set up' do
       let(:project)  { FactoryGirl.create(:project, identifier: 'test_project') }
       let(:timeline) { FactoryGirl.create(:timelines, project_id: project.id, name: 'b') }
-      let(:other_timelines) {
+      let(:other_timelines) do
         [FactoryGirl.create(:timelines, project_id: project.id, name: 'c'),
          FactoryGirl.create(:timelines, project_id: project.id, name: 'a')]
-      }
+      end
 
       become_member_with_view_permissions
 

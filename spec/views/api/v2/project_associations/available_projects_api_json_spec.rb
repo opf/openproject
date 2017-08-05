@@ -34,21 +34,21 @@ describe 'api/v2/project_associations/available_projects.api.rabl', type: :view 
   end
 
   describe 'with an assigned project_association' do
-    let(:project_a) {
+    let(:project_a) do
       FactoryGirl.create(:project, id: 1234,
                                    identifier: 'test_project_a',
                                    name: 'Test Project A',
                                    created_on: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                                    updated_on: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-    }
+    end
 
-    let(:project_b) {
+    let(:project_b) do
       FactoryGirl.create(:project, id: 2345,
                                    identifier: 'test_project_b',
                                    name: 'Test Project B',
                                    created_on: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                                    updated_on: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-    }
+    end
 
     let(:available_projects) { [{ project: project_a, level: 1 }] }
     let(:disabled_projects)  { [{ project: project_b, level: 1 }] }

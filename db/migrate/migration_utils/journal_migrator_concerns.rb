@@ -83,12 +83,12 @@ module Migration
       # sometimes there are attachments, which were deleted in a later journal entry
       # there is not need to add those attachments, so we filter them out here
       def remove_attachments_deleted_in_current_version(attachments, journal_to_insert)
-        deleted_attachments = attachments.select { |key|
+        deleted_attachments = attachments.select do |key|
           # journal_to_insert[key] is of the form
           # [nil, "filename.ext"] when the attachment was added
           # ["filename.ext", nil] when the attachment was removed
           journal_to_insert[key].first
-        }
+        end
         attachments.reject do |key|
           deleted_attachments.any? { |del_key| key =~ /attachments#{del_key[attachment_key_regexp, 1]}/ }
         end

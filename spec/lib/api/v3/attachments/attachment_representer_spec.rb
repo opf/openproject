@@ -31,9 +31,9 @@ require 'spec_helper'
 describe ::API::V3::Attachments::AttachmentRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:all_permissions) { [:view_work_packages, :edit_work_packages] }
@@ -42,9 +42,9 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   let(:container) { FactoryGirl.create(:work_package, project: project) }
 
   let(:attachment) { FactoryGirl.create(:attachment, container: container) }
-  let(:representer) {
+  let(:representer) do
     ::API::V3::Attachments::AttachmentRepresenter.new(attachment, current_user: current_user)
-  }
+  end
 
   subject { representer.to_json }
 

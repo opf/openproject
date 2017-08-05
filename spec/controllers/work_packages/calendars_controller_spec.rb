@@ -30,21 +30,21 @@ require 'spec_helper'
 
 describe WorkPackages::CalendarsController, type: :controller do
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) {
+  let(:role) do
     FactoryGirl.create(:role,
                        permissions: [:view_calendar])
-  }
-  let(:user) {
+  end
+  let(:user) do
     FactoryGirl.create(:user,
                        member_in_project: project,
                        member_through_role: role)
-  }
-  let(:work_package) {
+  end
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project)
-  }
+  end
 
-  before do login_as(user) end
+  before { login_as(user) }
 
   describe '#index' do
     shared_examples_for 'calendar#index' do
@@ -80,11 +80,11 @@ describe WorkPackages::CalendarsController, type: :controller do
     end
 
     context 'custom query' do
-      let (:query) {
+      let (:query) do
         FactoryGirl.create(:query,
                            project: nil,
                            user: user)
-      }
+      end
 
       before do
         get :index, params: { query_id: query.id }

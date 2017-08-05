@@ -52,17 +52,17 @@ module SettingsHelper
     end
 
     setting_label(setting, options) +
-      wrap_field_outer(options) {
+      wrap_field_outer(options) do
         styled_select_tag("settings[#{setting}]",
                           options_for_select(choices, Setting.send(setting).to_s), options)
-      }
+      end
   end
 
   def setting_multiselect(setting, choices, options = {})
     setting_label(setting, options) +
-      content_tag(:span, class: 'form--field-container -vertical') {
+      content_tag(:span, class: 'form--field-container -vertical') do
         hidden_field_tag("settings[#{setting}][]", '') +
-          choices.map { |choice|
+          choices.map do |choice|
             text, value = (choice.is_a?(Array) ? choice : [choice, choice])
 
             content_tag(:label, class: 'form--label-with-check-box') do
@@ -70,8 +70,8 @@ module SettingsHelper
                                    Setting.send(setting).include?(value), options) +
                 text.to_s
             end
-          }.join.html_safe
-      }
+          end.join.html_safe
+      end
   end
 
   def settings_matrix(settings, choices, options = {})
@@ -96,32 +96,32 @@ module SettingsHelper
     end
 
     setting_label(setting, options) +
-      wrap_field_outer(options) {
+      wrap_field_outer(options) do
         styled_text_field_tag("settings[#{setting}]", Setting.send(setting), options) +
           unit_html
-      }
+      end
   end
 
   def setting_text_area(setting, options = {})
     setting_label(setting, options) +
-      wrap_field_outer(options) {
+      wrap_field_outer(options) do
         styled_text_area_tag("settings[#{setting}]", Setting.send(setting), options)
-      }
+      end
   end
 
   def setting_check_box(setting, options = {})
     setting_label(setting, options) +
-      wrap_field_outer(options) {
+      wrap_field_outer(options) do
         tag(:input, type: 'hidden', name: "settings[#{setting}]", value: 0, id: "settings_#{setting}_hidden") +
           styled_check_box_tag("settings[#{setting}]", 1, Setting.send("#{setting}?"), options)
-      }
+      end
   end
 
   def setting_password(setting, options = {})
     setting_label(setting, options) +
-      wrap_field_outer(options) {
+      wrap_field_outer(options) do
         styled_password_field_tag("settings[#{setting}]", Setting.send(setting), options)
-      }
+      end
   end
 
   def setting_label(setting, options = {})
@@ -159,23 +159,23 @@ module SettingsHelper
     content_tag(:tr, class: 'form--matrix-header-row') do
       content_tag(:th, I18n.t(options[:label_choices] || :label_choices),
                   class: 'form--matrix-header-cell') +
-        settings.map { |setting|
+        settings.map do |setting|
           content_tag(:th, class: 'form--matrix-header-cell') do
             hidden_field_tag("settings[#{setting}][]", '') +
               I18n.t("setting_#{setting}")
           end
-        }.join.html_safe
+        end.join.html_safe
     end
   end
 
   def build_settings_matrix_body(settings, choices)
-    choices.map { |choice|
+    choices.map do |choice|
       value = choice[:value]
       caption = choice[:caption] || value.to_s
       exceptions = Array(choice[:except]).compact
       content_tag(:tr, class: 'form--matrix-row') do
         content_tag(:td, caption, class: 'form--matrix-cell') +
-          settings.map { |setting|
+          settings.map do |setting|
             content_tag(:td, class: 'form--matrix-checkbox-cell') do
               unless exceptions.include?(setting)
                 styled_check_box_tag("settings[#{setting}][]", value,
@@ -183,8 +183,8 @@ module SettingsHelper
                                      id: "#{setting}_#{value}")
               end
             end
-          }.join.html_safe
+          end.join.html_safe
       end
-    }.join.html_safe
+    end.join.html_safe
   end
 end

@@ -141,7 +141,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration[4.2]
 
     pe_time_types = timelines_opts[PE_TIME_TYPE_KEY]
 
-    pe_time_types.map! do |p| pe_type_id_map[p.to_i].to_s end
+    pe_time_types.map! { |p| pe_type_id_map[p.to_i].to_s }
 
     timelines_opts[PE_TIME_TYPE_KEY] = pe_time_types
 

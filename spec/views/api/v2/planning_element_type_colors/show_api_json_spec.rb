@@ -34,7 +34,7 @@ describe 'api/v2/planning_element_type_colors/show.api.rabl', type: :view do
   end
 
   describe 'with an assigned color' do
-    let(:color) {
+    let(:color) do
       FactoryGirl.build(:color,
                         id:       1,
                         name:     'Awesometastic color',
@@ -43,7 +43,7 @@ describe 'api/v2/planning_element_type_colors/show.api.rabl', type: :view do
 
                         created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                         updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-    }
+    end
 
     before do
       assign(:color, color)

@@ -90,7 +90,7 @@ module LegacyAssertionsAndHelpers
     FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
 
     page_path = Rails.root.join("tmp/pages/#{SecureRandom.hex(16)}.html").to_s
-    File.open(page_path, 'w') do |f| f.write(body) end
+    File.open(page_path, 'w') { |f| f.write(body) }
 
     Launchy.open(page_path)
 
@@ -112,7 +112,7 @@ module LegacyAssertionsAndHelpers
 
   def with_settings(options, &_block)
     saved_settings = options.keys.inject({}) { |h, k| h[k] = Setting[k].dup; h }
-    options.each do |k, v| Setting[k] = v end
+    options.each { |k, v| Setting[k] = v }
     yield
   ensure
     saved_settings.each { |k, v| Setting[k] = v }

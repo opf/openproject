@@ -77,11 +77,11 @@ class Journal::AggregatedJournal
         predecessors[journable_key] << journal
       end
 
-      aggregated_journals = raw_journals.map { |journal|
+      aggregated_journals = raw_journals.map do |journal|
         journable_key = [journal.journable_type, journal.journable_id]
 
         Journal::AggregatedJournal.new(journal, predecessor: predecessors[journable_key].shift)
-      }
+      end
 
       preload_associations(journable, aggregated_journals, includes)
 
@@ -314,7 +314,7 @@ class Journal::AggregatedJournal
                .group_by(&:journal_id)
              end
 
-      aggregated_journals.each { |journal|
+      aggregated_journals.each do |journal|
         if includes.include?(:customizable_journals)
           journal.set_preloaded_customizable_journals customizable_journals[journal.id]
         end
@@ -327,7 +327,7 @@ class Journal::AggregatedJournal
         if journable
           journal.set_preloaded_journable journable
         end
-      }
+      end
     end
   end
 

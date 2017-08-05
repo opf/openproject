@@ -36,11 +36,11 @@ describe RepositoriesController, 'Git', type: :controller do
   fixtures :all
 
   # No '..' in the repository path
-  let(:git_repository_path) {
+  let(:git_repository_path) do
     path = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
     path.gsub!(/\//, '\\') if Redmine::Platform.mswin?
     path
-  }
+  end
 
   before do
     skip 'Git test repository NOT FOUND. Skipping functional tests !!!' unless File.directory?(git_repository_path)

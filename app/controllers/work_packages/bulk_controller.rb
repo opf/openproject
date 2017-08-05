@@ -113,7 +113,7 @@ class WorkPackages::BulkController < ApplicationController
 
     safe_params = permitted_params.update_work_package project: project
     attributes = safe_params.reject { |_k, v| v.blank? }
-    attributes.keys.each do |k| attributes[k] = '' if attributes[k] == 'none' end
+    attributes.keys.each { |k| attributes[k] = '' if attributes[k] == 'none' }
     attributes[:custom_field_values].reject! { |_k, v| v.blank? } if attributes[:custom_field_values]
     attributes.delete :custom_field_values if not attributes.has_key?(:custom_field_values) or attributes[:custom_field_values].empty?
     attributes

@@ -34,25 +34,25 @@ describe 'time entry csv export', type: :feature do
   let(:project) { FactoryGirl.create(:project, enabled_module_names: %w(time_tracking)) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_time_entries]) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:project_time_entry) {
+  let(:project_time_entry) do
     FactoryGirl.build(:time_entry,
                       project: project,
                       work_package: work_package,
                       comments: 'la le lu')
-  }
+  end
   let(:project2) { FactoryGirl.create(:project) }
   let(:work_package2) { FactoryGirl.create(:work_package, project: project2) }
-  let(:project_time_entry2) {
+  let(:project_time_entry2) do
     FactoryGirl.build(:time_entry,
                       project: project2,
                       work_package: work_package2,
                       comments: 'la le lu la le lu')
-  }
-  let(:current_user) {
+  end
+  let(:current_user) do
     FactoryGirl.create(:user,
                        member_in_projects: [project, project2],
                        member_through_role: role)
-  }
+  end
 
   include Redmine::I18n
 
@@ -92,13 +92,13 @@ describe 'time entry csv export', type: :feature do
     end
 
     it_behaves_like 'csv export for time entries' do
-      let(:expected_values) {
+      let(:expected_values) do
         ["#{format_date(project_time_entry.spent_on)},#{project_time_entry.user}," +
           "#{project_time_entry.activity},#{project_time_entry.project}," +
           "#{project_time_entry.work_package_id},#{project_time_entry.work_package.type}" +
           ",#{project_time_entry.work_package.subject},#{project_time_entry.hours}" +
           ",#{project_time_entry.comments}\n"]
-      }
+      end
     end
   end
 
@@ -109,7 +109,7 @@ describe 'time entry csv export', type: :feature do
     end
 
     it_behaves_like 'csv export for time entries' do
-      let(:expected_values) {
+      let(:expected_values) do
         ["#{format_date(project_time_entry.spent_on)},#{project_time_entry.user}," +
           "#{project_time_entry.activity},#{project_time_entry.project}," +
           "#{project_time_entry.work_package_id},#{project_time_entry.work_package.type}" +
@@ -120,7 +120,7 @@ describe 'time entry csv export', type: :feature do
            "#{project_time_entry2.work_package_id},#{project_time_entry2.work_package.type}" +
            ",#{project_time_entry2.work_package.subject},#{project_time_entry2.hours}" +
            ",#{project_time_entry2.comments}\n"]
-      }
+      end
     end
   end
 end

@@ -47,7 +47,7 @@ describe ActivitiesController, type: :controller do
 
     describe 'global' do
       let(:work_package) { FactoryGirl.create(:work_package) }
-      let!(:journal) {
+      let!(:journal) do
         FactoryGirl.create(:work_package_journal,
                            journable_id: work_package.id,
                            created_at: 3.days.ago.to_date.to_s(:db),
@@ -57,9 +57,9 @@ describe ActivitiesController, type: :controller do
                                                    status_id: work_package.status_id,
                                                    type_id: work_package.type_id,
                                                    project_id: work_package.project_id))
-      }
+      end
 
-      before do get 'index' end
+      before { get 'index' }
 
       it_behaves_like 'valid index response'
 
@@ -91,10 +91,10 @@ describe ActivitiesController, type: :controller do
     end
 
     describe 'with activated activity module' do
-      let(:project) {
+      let(:project) do
         FactoryGirl.create(:project,
                            enabled_module_names: %w[activity wiki])
-      }
+      end
 
       it 'renders activity' do
         get 'index', params: { project_id: project.id }
@@ -104,10 +104,10 @@ describe ActivitiesController, type: :controller do
     end
 
     describe 'without activated activity module' do
-      let(:project) {
+      let(:project) do
         FactoryGirl.create(:project,
                            enabled_module_names: %w[wiki])
-      }
+      end
 
       it 'renders 403' do
         get 'index', params: { project_id: project.id }
@@ -127,16 +127,16 @@ describe ActivitiesController, type: :controller do
       let(:project) { FactoryGirl.create(:project) }
 
       context 'work_package' do
-        let!(:wp_1) {
+        let!(:wp_1) do
           FactoryGirl.create(:work_package,
                              project: project,
                              author: user)
-        }
+        end
 
         describe 'global' do
           render_views
 
-          before do get 'index', format: 'atom' end
+          before { get 'index', format: 'atom' }
 
           it do
           assert_select 'entry',
@@ -146,16 +146,16 @@ describe ActivitiesController, type: :controller do
         end
 
         describe 'list' do
-          let!(:wp_2) {
+          let!(:wp_2) do
             FactoryGirl.create(:work_package,
                                project: project,
                                author: user)
-          }
+          end
 
-          let(:params) {
+          let(:params) do
             { project_id: project.id,
               format: :atom }
-          }
+          end
 
           include_context 'index with params'
 
@@ -166,24 +166,24 @@ describe ActivitiesController, type: :controller do
       end
 
       context 'boards' do
-        let(:board) {
+        let(:board) do
           FactoryGirl.create(:board,
                              project: project)
-        }
-        let!(:message_1) {
+        end
+        let!(:message_1) do
           FactoryGirl.create(:message,
                              board: board)
-        }
-        let!(:message_2) {
+        end
+        let!(:message_2) do
           FactoryGirl.create(:message,
                              board: board)
-        }
-        let(:params) {
+        end
+        let(:params) do
           { project_id: project.id,
             apply: true,
             show_messages: 1,
             format: :atom }
-        }
+        end
 
         include_context 'index with params'
 

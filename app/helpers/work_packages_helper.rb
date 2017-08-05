@@ -238,13 +238,13 @@ module WorkPackagesHelper
 
     ret += content_tag(:p, l(:text_destroy_with_associated), class: 'bold')
 
-    ret += content_tag(:ul) {
+    ret += content_tag(:ul) do
       associated.inject(''.html_safe) do |list, associated_class|
         list += content_tag(:li, associated_class.model_name.human, class: 'decorated')
 
         list
       end
-    }
+    end
 
     ret
   end

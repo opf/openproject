@@ -35,20 +35,20 @@ describe User, 'deletion', type: :model do
   let(:member) { project.members.first }
   let(:role) { member.roles.first }
   let(:status) { FactoryGirl.create(:status) }
-  let(:issue) {
+  let(:issue) do
     FactoryGirl.create(:work_package, type: project.types.first,
                                       author: user,
                                       project: project,
                                       status: status,
                                       assigned_to: user)
-  }
-  let(:issue2) {
+  end
+  let(:issue2) do
     FactoryGirl.create(:work_package, type: project.types.first,
                                       author: user2,
                                       project: project,
                                       status: status,
                                       assigned_to: user2)
-  }
+  end
 
   let(:substitute_user) { DeletedUser.first }
 
@@ -186,11 +186,11 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has an issue created and assigned' do
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryGirl.build(:work_package, type: project.types.first,
                                        project: project,
                                        status: status)
-    }
+    end
     let(:associated_class) { WorkPackage }
     let(:associations) { [:author, :assigned_to, :responsible] }
 
@@ -198,11 +198,11 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has an issue updated and assigned' do
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryGirl.build(:work_package, type: project.types.first,
                                        project: project,
                                        status: status)
-    }
+    end
     let(:associated_class) { WorkPackage }
     let(:associations) { [:author, :assigned_to, :responsible] }
 
@@ -293,12 +293,12 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has created a time entry' do
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryGirl.build(:time_entry, project: project,
                                      work_package: issue,
                                      hours: 2,
                                      activity: FactoryGirl.create(:time_entry_activity))
-    }
+    end
     let(:associated_class) { TimeEntry }
     let(:associations) { [:user] }
 
@@ -306,12 +306,12 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has worked on time_entry' do
-    let(:associated_instance) {
+    let(:associated_instance) do
       FactoryGirl.build(:time_entry, project: project,
                                      work_package: issue,
                                      hours: 2,
                                      activity: FactoryGirl.create(:time_entry_activity))
-    }
+    end
     let(:associated_class) { TimeEntry }
     let(:associations) { [:user] }
 
@@ -321,10 +321,10 @@ describe User, 'deletion', type: :model do
   describe 'WHEN the user has commented' do
     let(:news) { FactoryGirl.create(:news, author: user) }
 
-    let(:associated_instance) {
+    let(:associated_instance) do
       Comment.new(commented: news,
                   comments: 'lorem')
-    }
+    end
 
     let(:associated_class) { Comment }
     let(:associations) { [:author] }
@@ -345,10 +345,10 @@ describe User, 'deletion', type: :model do
 
   describe 'WHEN the user is watching something' do
     let(:watched) { FactoryGirl.create(:work_package, project: project) }
-    let(:watch) {
+    let(:watch) do
       Watcher.new(user: user,
                   watchable: watched)
-    }
+    end
 
     before do
       watch.save!
@@ -360,11 +360,11 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user has a token created' do
-    let(:token) {
+    let(:token) do
       Token.new(user: user,
                 action: 'feeds',
                 value: 'loremipsum')
-    }
+    end
 
     before do
       token.save!
@@ -464,10 +464,10 @@ describe User, 'deletion', type: :model do
   end
 
   describe 'WHEN the user is assigned an issue category' do
-    let(:category) {
+    let(:category) do
       FactoryGirl.build(:category, assigned_to: user,
                                    project: project)
-    }
+    end
 
     before do
       category.save!

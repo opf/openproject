@@ -33,14 +33,14 @@ describe 'Workflow copy', type: :feature do
   let(:type) { FactoryGirl.create(:type) }
   let(:admin)  { FactoryGirl.create(:admin) }
   let(:statuses) { (1..2).map { |_i| FactoryGirl.create(:status) } }
-  let(:workflow) {
+  let(:workflow) do
     FactoryGirl.create(:workflow, role_id: role.id,
                                   type_id: type.id,
                                   old_status_id: statuses[0].id,
                                   new_status_id: statuses[1].id,
                                   author: false,
                                   assignee: false)
-  }
+  end
 
   before do
     allow(User).to receive(:current).and_return(admin)

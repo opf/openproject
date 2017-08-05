@@ -57,10 +57,10 @@ describe PlanningElementTypeColor, type: :model do
   end
 
   describe '- Validations ' do
-    let(:attributes) {
+    let(:attributes) do
       { name:    'Color No. 1',
         hexcode: '#FFFFFF' }
-    }
+    end
 
     describe 'name' do
       it 'is invalid w/o a name' do

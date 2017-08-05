@@ -92,11 +92,11 @@ module OpenProject
                                              edit: edit)
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
       @parsed_headings = []
-      text = parse_non_pre_blocks(text) { |text|
+      text = parse_non_pre_blocks(text) do |text|
         [:execute_macros, :parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
           send method_name, text, project, obj, attr, only_path, options
         end
-      }
+      end
 
       if @parsed_headings.any?
         replace_toc(text, @parsed_headings)

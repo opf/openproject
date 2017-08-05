@@ -32,18 +32,18 @@ describe WorkPackage, type: :model do
   describe '#custom_fields' do
     let(:type) { FactoryGirl.create(:type_standard) }
     let(:project) { FactoryGirl.create(:project, types: [type]) }
-    let(:work_package) {
+    let(:work_package) do
       FactoryGirl.build(:work_package,
                         project: project,
                         type: type)
-    }
-    let (:custom_field) {
+    end
+    let (:custom_field) do
       FactoryGirl.create(:work_package_custom_field,
                          name: 'Database',
                          field_format: 'list',
                          possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
                          is_required: true)
-    }
+    end
 
     shared_context 'project with required custom field' do
       before do
@@ -84,7 +84,7 @@ describe WorkPackage, type: :model do
             end
 
             describe 'error message' do
-              before do work_package.save end
+              before { work_package.save }
 
               subject { work_package.errors[custom_field_key] }
 
@@ -137,7 +137,7 @@ describe WorkPackage, type: :model do
         end
 
         context 'full error message' do
-          before do change_custom_field_value(work_package, 'SQLServer') end
+          before { change_custom_field_value(work_package, 'SQLServer') }
 
           subject { work_package.errors.full_messages.first }
 
@@ -148,7 +148,7 @@ describe WorkPackage, type: :model do
       end
 
       describe 'valid value given' do
-        before do change_custom_field_value(work_package, 'PostgreSQL') end
+        before { change_custom_field_value(work_package, 'PostgreSQL') }
 
         context 'errors' do
           subject { work_package.errors[:custom_values] }
@@ -184,10 +184,10 @@ describe WorkPackage, type: :model do
 
     describe 'work package type change' do
       let (:custom_field_2) { FactoryGirl.create(:work_package_custom_field) }
-      let(:type_feature) {
+      let(:type_feature) do
         FactoryGirl.create(:type_feature,
                            custom_fields: [custom_field_2])
-      }
+      end
 
       before do
         project.work_package_custom_fields << custom_field_2
@@ -215,11 +215,11 @@ describe WorkPackage, type: :model do
       end
 
       context 'w/o initial type' do
-        let(:work_package_without_type) {
+        let(:work_package_without_type) do
           FactoryGirl.build_stubbed(:work_package,
                                     project: project,
                                     type: type)
-        }
+        end
 
         describe 'pre-condition' do
           subject { work_package_without_type.custom_field_values }
@@ -228,7 +228,7 @@ describe WorkPackage, type: :model do
         end
 
         context 'with assigning type' do
-          before do work_package_without_type.type = type_feature end
+          before { work_package_without_type.type = type_feature }
 
           subject { work_package_without_type.custom_field_values }
 
@@ -259,21 +259,21 @@ describe WorkPackage, type: :model do
 
     describe "custom field type 'text'" do
       let(:value) { 'text' * 1024 }
-      let(:custom_field) {
+      let(:custom_field) do
         FactoryGirl.create(:work_package_custom_field,
                            name: 'Test Text',
                            field_format: 'text',
                            is_required: true)
-      }
+      end
 
       include_context 'project with required custom field'
 
       it_behaves_like 'work package with required custom field'
 
       describe 'value' do
-        let(:relevant_journal) {
+        let(:relevant_journal) do
           work_package.journals.find { |j| j.customizable_journals.size > 0 }
-        }
+        end
         subject { relevant_journal.customizable_journals.first.value }
 
         before do

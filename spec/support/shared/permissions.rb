@@ -29,7 +29,7 @@
 module PermissionSpecHelpers
   def spec_permissions(test_denied = true)
     describe 'w/ valid auth' do
-      before do allow(User).to receive(:current).and_return valid_user end
+      before { allow(User).to receive(:current).and_return valid_user }
 
       it 'grants access' do
         fetch
@@ -54,7 +54,7 @@ module PermissionSpecHelpers
     end
 
     describe 'w/o valid auth' do
-      before do allow(User).to receive(:current).and_return invalid_user end
+      before { allow(User).to receive(:current).and_return invalid_user }
 
       it 'denies access' do
         fetch

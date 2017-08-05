@@ -172,9 +172,9 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
 
       context 'and managed repositories' do
         include_context 'with tmpdir'
-        let(:config) {
+        let(:config) do
           { subversion: { manages: tmpdir } }
-        }
+        end
         it_behaves_like 'has managed and other type', 'existing', 'subversion'
         it_behaves_like 'it can create the managed repository'
         it_behaves_like 'it can create the repository of type with url',
@@ -188,17 +188,17 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
 
       it_behaves_like 'has only the type which is selected', 'local', 'git'
       context 'and managed repositories, but not ours' do
-        let(:config) {
+        let(:config) do
           { subversion: { manages: '/tmp/whatever' } }
-        }
+        end
         it_behaves_like 'has only the type which is selected', 'local', 'git'
       end
 
       context 'and managed repositories' do
         include_context 'with tmpdir'
-        let(:config) {
+        let(:config) do
           { git: { manages: tmpdir } }
-        }
+        end
 
         it_behaves_like 'has managed and other type', 'local', 'git'
         it_behaves_like 'it can create the managed repository'
@@ -211,11 +211,11 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
     describe 'remote managed repositories', webmock: true do
       let(:vendor) { 'git' }
       let(:url) { 'http://myreposerver.example.com/api/' }
-      let(:config) {
+      let(:config) do
         {
           git: { manages: url }
         }
-      }
+      end
 
       before do
         stub_request(:post, url)

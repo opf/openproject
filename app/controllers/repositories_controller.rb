@@ -251,7 +251,7 @@ class RepositoriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js do render layout: false end
+      format.js { render layout: false }
     end
   rescue ChangesetNotFound
     show_error_not_found
@@ -442,10 +442,10 @@ class RepositoriesController < ApplicationController
                         .references(:changesets)
                         .group(:committer)
                         .size
-    h = changes_by_author.inject({}) { |o, i|
+    h = changes_by_author.inject({}) do |o, i|
       o[i.first] = i.last
       o
-    }
+    end
 
     fields = commits_by_author.map(&:first)
     commits_data = commits_by_author.map(&:last)

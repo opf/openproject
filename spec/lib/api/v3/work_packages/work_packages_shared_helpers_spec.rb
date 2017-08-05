@@ -37,7 +37,7 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
   let(:permissions) { [:view_work_packages, :add_work_packages] }
   let(:env) { { 'api.request.body' => { 'subject' => 'foo' } } }
 
-  let(:helper_class) {
+  let(:helper_class) do
     Class.new do
       include ::API::V3::WorkPackages::WorkPackagesSharedHelpers
 
@@ -61,7 +61,7 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
       def status(_code)
       end
     end
-  }
+  end
   let(:helper) { helper_class.new(user, env) }
 
   describe '#create_work_package_form' do

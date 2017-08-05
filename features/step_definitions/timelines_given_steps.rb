@@ -74,8 +74,8 @@ end
 Given /^there are the following project associations:$/ do |table|
   table = table.map_headers { |h| h.delete(' ').underscore }
 
-  table.map_column!('project_a') do |name| Project.find_by!(name: name) end
-  table.map_column!('project_b') do |name| Project.find_by!(name: name) end
+  table.map_column!('project_a') { |name| Project.find_by!(name: name) }
+  table.map_column!('project_b') { |name| Project.find_by!(name: name) }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:project_association, type_attributes)
@@ -103,9 +103,9 @@ end
 Given /^the following types are enabled for projects of type "(.*?)"$/ do |project_type_name, type_name_table|
   project_type = ProjectType.find_by(name: project_type_name)
   projects = Project.where(project_type_id: project_type.id)
-  types = type_name_table.raw.flatten.map { |type_name|
+  types = type_name_table.raw.flatten.map do |type_name|
     ::Type.find_by(name: type_name) || FactoryGirl.create(:type, name: type_name)
-  }
+  end
 
   projects.each do |project|
     project.types = types

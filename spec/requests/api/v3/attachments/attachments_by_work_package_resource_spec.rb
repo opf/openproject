@@ -34,11 +34,11 @@ describe 'API v3 Attachments by work package resource', type: :request do
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.create(:user,
                        member_in_project: project,
                        member_through_role: role)
-  }
+  end
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
@@ -121,9 +121,9 @@ describe 'API v3 Attachments by work package resource', type: :request do
 
     context 'file is too large' do
       let(:file) { mock_uploaded_file(content: 'a' * 2.kilobytes) }
-      let(:expanded_localization) {
+      let(:expanded_localization) do
         I18n.t('activerecord.errors.messages.file_too_large', count: max_file_size.kilobytes)
-      }
+      end
 
       it_behaves_like 'constraint violation' do
         let(:message) { "File #{expanded_localization}" }

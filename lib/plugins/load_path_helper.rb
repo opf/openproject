@@ -29,15 +29,15 @@
 module Plugins
   module LoadPathHelper
     def self.spec_load_paths
-      plugin_load_paths.map { |path|
+      plugin_load_paths.map do |path|
         File.join(path, 'spec')
-      }.keep_if{ |path| File.directory?(path) }
+      end.keep_if{ |path| File.directory?(path) }
     end
 
     def self.cucumber_load_paths
-      plugin_load_paths.map { |path|
+      plugin_load_paths.map do |path|
         File.join(path, 'features')
-      }.keep_if{ |path| File.directory?(path) }
+      end.keep_if{ |path| File.directory?(path) }
     end
 
     private

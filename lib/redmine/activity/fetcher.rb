@@ -52,15 +52,15 @@ module Redmine
 
         @event_types = Redmine::Activity.available_event_types
         if @project
-          @event_types = @event_types.select { |o|
+          @event_types = @event_types.select do |o|
             @project.self_and_descendants.detect do |_p|
-              permissions = constantized_providers(o).map { |p|
+              permissions = constantized_providers(o).map do |p|
                 p.activity_provider_options[o].try(:[], :permission)
-              }.compact
+              end.compact
               return @user.allowed_to?("view_#{o}".to_sym, @project) if permissions.blank?
               permissions.all? { |p| @user.allowed_to?(p, @project) }
             end
-          }
+          end
         end
         @event_types
       end
@@ -108,7 +108,7 @@ module Redmine
           e.project = projects.find { |p| p.id == e.project_id } if e.project_id
         end
 
-        e.sort! do |a, b| b.event_datetime <=> a.event_datetime end
+        e.sort! { |a, b| b.event_datetime <=> a.event_datetime }
         e
       end
 

@@ -31,20 +31,20 @@ require 'spec_helper'
 describe 'Wiki unicode title spec', type: :feature, js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
-  let(:wiki_page_1) {
+  let(:wiki_page_1) do
     FactoryGirl.build :wiki_page_with_content,
                        title: '<script>alert("FOO")</script>'
-  }
-  let(:wiki_page_2) {
+  end
+  let(:wiki_page_2) do
     FactoryGirl.build :wiki_page_with_content,
                        title: 'Base de données'
-  }
-  let(:wiki_page_3) {
+  end
+  let(:wiki_page_3) do
     FactoryGirl.build :wiki_page_with_content,
                        title: 'Base_de_données'
-  }
+  end
 
-  let(:wiki_body) {
+  let(:wiki_body) do
     <<-EOS
     [[Base de données]] should link to wiki_page_2
 
@@ -57,9 +57,9 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
     [[<script>alert("FOO")</script>]]
 
     EOS
-  }
+  end
 
-  let(:expected_slugs) {
+  let(:expected_slugs) do
     [
       'base-de-donnees',
       'base-de-donnees',
@@ -67,9 +67,9 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
       'base-de-donnees-1',
       'alert-foo'
     ]
-  }
+  end
 
-  let(:expected_titles) {
+  let(:expected_titles) do
     [
       'Base de données',
       'Base de données',
@@ -77,7 +77,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
       'Base_de_données',
       '<script>alert("FOO")</script>'
     ]
-  }
+  end
 
   before do
     login_as(user)

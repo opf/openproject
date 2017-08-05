@@ -35,14 +35,14 @@ describe 'Cancel editing work package', js: true do
   let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
   let(:wp_page) { ::Pages::AbstractWorkPackage.new(work_package) }
   let(:wp_table) { ::Pages::WorkPackagesTable.new }
-  let(:paths) {
+  let(:paths) do
     [
       new_work_packages_path,
       new_split_work_packages_path,
       new_project_work_packages_path(project),
       new_split_project_work_packages_path(project)
     ]
-  }
+  end
 
   before do
     work_package

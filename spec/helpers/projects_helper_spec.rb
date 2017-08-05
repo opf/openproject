@@ -61,7 +61,7 @@ describe ProjectsHelper, type: :helper do
 
     describe 'with a valid user' do
       let(:user) { FactoryGirl.create :user, member_in_project: test_project }
-      before do login_as(user) end
+      before { login_as(user) }
 
       it 'generates a link' do
         expect(link_to_version(version)).to eq("<a href=\"/versions/#{version.id}\">#{test_project.name} - #{version.name}</a>")

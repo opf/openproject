@@ -33,9 +33,9 @@ describe 'API v3 Activity resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
@@ -93,11 +93,11 @@ describe 'API v3 Activity resource', type: :request do
   describe '#patch' do
     subject(:response) { last_response }
     let(:patch_path) { api_v3_paths.activity activity.id }
-    let(:valid_params) {
+    let(:valid_params) do
       {
         comment: 'a fancy comment!'
       }
-    }
+    end
 
     context 'authorized user' do
       before do

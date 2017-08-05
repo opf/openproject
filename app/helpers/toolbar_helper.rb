@@ -6,9 +6,9 @@ module ToolbarHelper
     classes = ['toolbar-container', html[:class]].compact.join(' ')
     content_tag :div, class: classes do
       toolbar = content_tag :div, class: 'toolbar' do
-        dom_title(title, link_to) + dom_toolbar {
+        dom_title(title, link_to) + dom_toolbar do
           yield if block_given?
-        }
+        end
       end
       next toolbar if subtitle.blank?
       toolbar + content_tag(:p, subtitle, class: 'subtitle')

@@ -41,9 +41,9 @@ describe SettingsHelper, type: :helper do
       expect(Setting).to receive(:field).and_return('2')
     end
 
-    subject(:output) {
+    subject(:output) do
       helper.setting_select :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -60,9 +60,9 @@ describe SettingsHelper, type: :helper do
       expect(Setting).to receive(:field).at_least(:once).and_return('1')
     end
 
-    subject(:output) {
+    subject(:output) do
       helper.setting_multiselect :field, [['Popsickle', '1'], ['Jello', '2'], ['Ice Cream', '3']], options
-    }
+    end
 
     it_behaves_like 'wrapped in container' do
       let(:container_count) { 3 }
@@ -87,7 +87,7 @@ describe SettingsHelper, type: :helper do
       expect(Setting).to receive(:field_b).at_least(:once).and_return('3')
     end
 
-    subject(:output) {
+    subject(:output) do
       settings = [:field_a, :field_b]
       choices = [
         {
@@ -107,7 +107,7 @@ describe SettingsHelper, type: :helper do
         }
       ]
       helper.settings_matrix settings, choices
-    }
+    end
 
     it_behaves_like 'not wrapped in container'
 
@@ -160,9 +160,9 @@ describe SettingsHelper, type: :helper do
       expect(Setting).to receive(:field).and_return('important value')
     end
 
-    subject(:output) {
+    subject(:output) do
       helper.setting_text_field :field, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -181,9 +181,9 @@ describe SettingsHelper, type: :helper do
       expect(Setting).to receive(:field).and_return('important text')
     end
 
-    subject(:output) {
+    subject(:output) do
       helper.setting_text_area :field, options
-    }
+    end
 
     it_behaves_like 'labelled by default'
     it_behaves_like 'wrapped in field-container by default'
@@ -198,9 +198,9 @@ important text</textarea>
   end
 
   describe '#setting_check_box' do
-    subject(:output) {
+    subject(:output) do
       helper.setting_check_box :field, options
-    }
+    end
 
     context 'when setting is true' do
       before do
@@ -234,9 +234,9 @@ important text</textarea>
   end
 
   describe '#setting_label' do
-    subject(:output) {
+    subject(:output) do
       helper.setting_label :field
-    }
+    end
 
     it_behaves_like 'labelled'
     it_behaves_like 'not wrapped in container'
@@ -247,9 +247,9 @@ important text</textarea>
       expect(Setting).to receive(:notified_events).and_return(%w(interesting_stuff))
     end
 
-    subject(:output) {
+    subject(:output) do
       helper.notification_field(notifiable, options)
-    }
+    end
 
     context 'when setting includes option' do
       let(:notifiable) { OpenStruct.new(name: 'interesting_stuff') }

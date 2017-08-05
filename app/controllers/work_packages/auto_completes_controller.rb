@@ -37,7 +37,7 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     @work_packages = work_package_with_id | work_packages_by_subject_or_id
 
     respond_to do |format|
-      format.html do render layout: false end
+      format.html { render layout: false }
       format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string(@work_packages) }
     end
   end
@@ -99,7 +99,7 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
   def wp_hashes_with_string(work_packages)
     work_packages.map do |work_package|
       wp_hash = Hash.new
-      work_package.attributes.each do |key, value| wp_hash[key] = Rack::Utils.escape_html(value) end
+      work_package.attributes.each { |key, value| wp_hash[key] = Rack::Utils.escape_html(value) }
       wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
       wp_hash
     end

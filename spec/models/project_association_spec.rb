@@ -68,15 +68,15 @@ describe ProjectAssociation, type: :model do
   end
 
   describe '- Validations ' do
-    let(:attributes) {
+    let(:attributes) do
       { project_a_id: 1,
         project_b_id: 2 }
-    }
+    end
 
-    before {
+    before do
       FactoryGirl.create(:project, id: 1)
       FactoryGirl.create(:project, id: 2)
-    }
+    end
 
     it { expect(ProjectAssociation.new.tap { |a| a.send(:assign_attributes, attributes) }).to be_valid }
 

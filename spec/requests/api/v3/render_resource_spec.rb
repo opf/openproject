@@ -82,12 +82,12 @@ describe 'API v3 Render resource' do
             let(:id) { work_package.id }
             let(:href) { "/work_packages/#{id}" }
             let(:title) { "#{work_package.subject} (#{work_package.status})" }
-            let(:text) {
+            let(:text) do
               '<p>Hello World! Have a look at <a '\
                   "class=\"issue work_package status-1 priority-1\" "\
                   "href=\"#{href}\" "\
                   "title=\"#{title}\">##{id}</a></p>"
-            }
+            end
 
             context 'with work package context' do
               let(:context) { api_v3_paths.work_package work_package.id }
@@ -106,9 +106,9 @@ describe 'API v3 Render resource' do
         describe 'invalid' do
           context 'content type' do
             let(:content_type) { 'application/json' }
-            let(:params) {
+            let(:params) do
               { 'text' => "Hello World! Have a look at ##{work_package.id}" }.to_json
-            }
+            end
 
             it_behaves_like 'unsupported content type',
                             I18n.t('api_v3.errors.invalid_content_type',

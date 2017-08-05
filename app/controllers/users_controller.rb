@@ -82,7 +82,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html do render layout: 'base' end
+      format.html { render layout: 'base' }
     end
   end
 
@@ -111,7 +111,7 @@ class UsersController < ApplicationController
       @auth_sources = AuthSource.all
 
       respond_to do |format|
-        format.html do render action: 'new' end
+        format.html { render action: 'new' }
       end
     end
   end
@@ -275,10 +275,10 @@ class UsersController < ApplicationController
        !User.current.admin?
 
       respond_to do |format|
-        format.html do render_403 end
-        format.xml  do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
-        format.js   do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
-        format.json do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
+        format.html { render_403 }
+        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
       end
 
       false

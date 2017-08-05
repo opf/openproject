@@ -9,12 +9,12 @@ describe 'Watcher tab', js: true, selenium: true do
 
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) {
+  let(:permissions) do
     %i(view_work_packages
        view_work_package_watchers
        delete_work_package_watchers
        add_work_package_watchers)
-  }
+  end
 
   let(:watch_button) { find '#watch-button' }
 
@@ -76,12 +76,12 @@ describe 'Watcher tab', js: true, selenium: true do
     end
 
     context 'with a user with arbitrary characters' do
-      let!(:html_user) {
+      let!(:html_user) do
         FactoryGirl.create :user,
                            firstname: '<em>foo</em>',
                            member_in_project: project,
                            member_through_role: role
-      }
+      end
 
       it 'escapes the user name' do
         autocomplete = find('.wp-watcher--autocomplete')

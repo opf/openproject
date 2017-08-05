@@ -152,10 +152,10 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration[4.2]
   end
 
   def customizable_journals_to_hash(customizable_journals)
-    customizable_journals.inject({}) { |hash, custom_journal|
+    customizable_journals.inject({}) do |hash, custom_journal|
       hash[custom_journal.custom_field_id] = custom_journal.value
       hash
-    }
+    end
   end
 
   def sub_say(message)

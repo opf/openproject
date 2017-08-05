@@ -94,18 +94,18 @@ module BasicData
         StatusSeeder.new.seed!
 
         # Workflow - Each type has its own workflow
-        workflows.each { |type_id, statuses_for_type|
-          statuses_for_type.each { |old_status|
-            statuses_for_type.each { |new_status|
-              [manager.id, member.id].each { |role_id|
+        workflows.each do |type_id, statuses_for_type|
+          statuses_for_type.each do |old_status|
+            statuses_for_type.each do |new_status|
+              [manager.id, member.id].each do |role_id|
                 Workflow.create type_id: type_id,
                                 role_id: role_id,
                                 old_status_id: old_status.id,
                                 new_status_id: new_status.id
-              }
-            }
-          }
-        }
+              end
+            end
+          end
+        end
       end
     end
 

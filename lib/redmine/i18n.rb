@@ -177,9 +177,9 @@ module Redmine
       @cached_attribute_translations ||= {}
       @cached_attribute_translations[locale] ||= (
         general_attributes = ::I18n.t('attributes', locale: locale)
-        ::I18n.t('activerecord.attributes', locale: locale).inject(general_attributes) { |attr_t, model_t|
+        ::I18n.t('activerecord.attributes', locale: locale).inject(general_attributes) do |attr_t, model_t|
           attr_t.merge(model_t.last || {})
-        })
+        end)
       @cached_attribute_translations[locale]
     end
   end

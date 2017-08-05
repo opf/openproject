@@ -83,7 +83,7 @@ describe WorkPackage, type: :model do
   end
 
   describe '- Validations ' do
-    let(:attributes) {
+    let(:attributes) do
       { subject:    'workpackage No. 1',
         start_date: Date.today,
         due_date:   Date.today + 2.weeks,
@@ -91,7 +91,7 @@ describe WorkPackage, type: :model do
         type:       project.types.first,
         author:     user
       }
-    }
+    end
 
     it { expect(WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }).to be_valid }
 
@@ -241,7 +241,7 @@ describe WorkPackage, type: :model do
     # it also checks, that the type is available for the project the pe lives in.
     let(:pe_status)   { FactoryGirl.create(:status) }
 
-    let(:pe) {
+    let(:pe) do
       FactoryGirl.create(:work_package,
                          subject:                         'Plan A',
                          author:                          responsible,
@@ -253,7 +253,7 @@ describe WorkPackage, type: :model do
                          type_id:                         type.id,
                          status_id:                       pe_status.id
                         )
-    }
+    end
 
     it "has an initial journal, so that it's creation shows up in activity" do
       expect(pe.journals.size).to eq(1)
@@ -291,7 +291,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'workpackage hierarchies' do
-      let(:child_pe) {
+      let(:child_pe) do
         FactoryGirl.create(:work_package,
                            parent_id:         pe.id,
                            subject:           'Plan B',
@@ -303,7 +303,7 @@ describe WorkPackage, type: :model do
                            project_id:        project.id,
                            responsible_id:    responsible.id
                           )
-      }
+      end
 
       it 'creates a journal in the parent when end date is changed indirectly' do
         child_pe # trigger creation of child and parent

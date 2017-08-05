@@ -49,7 +49,7 @@ module Migration::Utils
     def repair_customizable_journal_entries(journal_type, legacy_journal_type)
       result = invalid_custom_values(legacy_journal_type)
 
-      result.map do |m| m.journaled_type = journal_type end
+      result.map { |m| m.journaled_type = journal_type }
 
       repair_journals(result)
     end
@@ -57,7 +57,7 @@ module Migration::Utils
     def remove_customizable_journal_entries(journal_type, legacy_journal_type)
       result = invalid_custom_values(legacy_journal_type)
 
-      result.map do |m| m.journaled_type = journal_type end
+      result.map { |m| m.journaled_type = journal_type }
 
       remove_initial_journals(result)
     end
@@ -153,13 +153,13 @@ module Migration::Utils
           AND tmp.journal_value IS NULL
       SQL
 
-      result.map { |row|
+      result.map do |row|
         MissingCustomValue.new(row['customized_id'],
                                row['customized_type'],
                                row['custom_field_id'],
                                row['current_value'],
                                row['last_version'])
-      }
+      end
     end
 
     COLUMNS = ['changed_data', 'version', 'journaled_id'].freeze
@@ -202,13 +202,13 @@ module Migration::Utils
                                                              version,
                                                              removed_customvalues)
 
-      missing_entries.map { |e|
+      missing_entries.map do |e|
         MissingCustomValue.new(journaled_id,
                                nil,
                                e[:id],
                                e[:value],
                                version.to_i - 1)
-      }
+      end
     end
 
     #############################################

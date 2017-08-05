@@ -34,14 +34,14 @@ describe 'api/v2/project_types/show.api.rabl', type: :view do
   end
 
   describe 'with an assigned project type' do
-    let(:project_type) {
+    let(:project_type) do
       FactoryGirl.build(:project_type, id: 1,
                                        name: 'Awesometastic Project Type',
                                        allows_association: false,
                                        position: 100,
                                        created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                                        updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-    }
+    end
 
     before do
       assign(:project_type, project_type)

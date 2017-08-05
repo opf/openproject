@@ -94,10 +94,10 @@ class WikiMenuItemsController < ApplicationController
   def select_main_menu_item
     @page = WikiPage.find params[:id]
     @possible_wiki_pages = @project.wiki.pages.includes(:parent)
-                           .reject { |page|
+                           .reject do |page|
                              page != @page && page.menu_item.present? &&
                              page.menu_item.is_main_item?
-                           }
+                           end
   end
 
   def replace_main_menu_item

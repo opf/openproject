@@ -101,9 +101,9 @@ class Wiki < ActiveRecord::Base
   end
 
   def create_menu_item_for_start_page
-    wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) { |item|
+    wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) do |item|
       item.name = 'wiki'
-    }
+    end
     wiki_menu_item.new_wiki_page = true
     wiki_menu_item.index_page = true
 
