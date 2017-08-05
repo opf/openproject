@@ -38,10 +38,10 @@ module OpenProject
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
-      @adapters ||= ({
+      @adapters ||= {
         mysql: /mysql/i,
         postgresql: /postgres/i
-      })
+      }
     end
 
     # Get the raw name of the currently used database adapter.

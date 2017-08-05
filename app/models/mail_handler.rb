@@ -440,7 +440,7 @@ class MailHandler < ActionMailer::Base
       a.login.to_s.downcase == keyword
     }
     if assignee.nil? && keyword.match(/ /)
-      firstname, lastname = *(keyword.split) # "First Last Throwaway"
+      firstname, lastname = *keyword.split # "First Last Throwaway"
       assignee ||= assignable.detect {|a|
         a.is_a?(User) && a.firstname.to_s.downcase == firstname &&
         a.lastname.to_s.downcase == lastname

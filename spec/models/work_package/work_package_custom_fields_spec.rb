@@ -303,7 +303,7 @@ describe WorkPackage, type: :model do
         expect(work_package.valid?).to be_falsey
 
         expect(work_package.errors.full_messages.first)
-          .to eq ('PIN is too long (maximum is 4 characters).')
+          .to eq 'PIN is too long (maximum is 4 characters).'
       end
     end
   end

@@ -30,7 +30,7 @@ xml.instruct!
 xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   first_item = @items.first
   first_item_event = (!first_item.nil? && first_item.respond_to?(:data)) ? first_item.data : first_item
-  updated_time = (first_item_event.nil?) ? Time.now : first_item_event.event_datetime
+  updated_time = first_item_event.nil? ? Time.now : first_item_event.event_datetime
 
   xml.title   truncate_single_line(@title, :length => 100)
   xml.link    "rel" => "self", "href" => url_for(only_path: false)

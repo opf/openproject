@@ -88,7 +88,7 @@ class WorkPackages::MovesController < ApplicationController
 
   def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
     if unsaved_work_package_ids.empty? and not work_packages.empty?
-      flash[:notice] = (@copy) ? l(:notice_successful_create) : l(:notice_successful_update)
+      flash[:notice] = @copy ? l(:notice_successful_create) : l(:notice_successful_update)
     else
       flash[:error] = l(:notice_failed_to_save_work_packages,
                         count: unsaved_work_package_ids.size,

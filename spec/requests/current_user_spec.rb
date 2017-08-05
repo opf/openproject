@@ -61,13 +61,13 @@ describe ResetCurrentUser, type: :request do
   it 'resets User.current between requests' do
     expect(ResetCurrentUserCallback).to receive(:current_user_before).with(User.anonymous)
     get '/my/page'
-    expect(response.body).to include (user.name)
+    expect(response.body).to include user.name
 
     # without the ResetCurrentUser middleware the following expectation
     # fails as User.current still has the value from the last request
 
     expect(ResetCurrentUserCallback).to receive(:current_user_before).with(User.anonymous)
     get '/my/page'
-    expect(response.body).to include (user.name)
+    expect(response.body).to include user.name
   end
 end

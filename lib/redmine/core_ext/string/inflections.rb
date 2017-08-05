@@ -34,7 +34,7 @@ module Redmine #:nodoc:
       # Custom string inflections
       module Inflections
         def with_leading_slash
-          starts_with?('/') ? self : "/#{ self }"
+          starts_with?('/') ? self : "/#{self}"
         end
       end
     end

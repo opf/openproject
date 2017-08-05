@@ -44,7 +44,7 @@ class SearchController < ApplicationController
       when 'my_projects'
         User.current.memberships.map(&:project)
       when 'subprojects'
-        @project ? (@project.self_and_descendants.active) : nil
+        @project ? @project.self_and_descendants.active : nil
       else
         @project
       end
@@ -103,8 +103,8 @@ class SearchController < ApplicationController
       else
         @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
         if @results.size > limit
-          @pagination_previous_date = @results[-(limit)].event_datetime
-          @results = @results[-(limit), limit]
+          @pagination_previous_date = @results[-limit].event_datetime
+          @results = @results[-limit, limit]
         end
       end
     else

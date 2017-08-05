@@ -217,7 +217,7 @@ module Redmine
                                                                  nil,
                                                                  nil)
 
-              result << ((provider.respond_to?(:format_event)) ? provider.format_event(event, e, activity) : event)
+              result << (provider.respond_to?(:format_event) ? provider.format_event(event, e, activity) : event)
             end
           end
 

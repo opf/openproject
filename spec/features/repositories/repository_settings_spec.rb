@@ -31,7 +31,7 @@ require 'features/repositories/repository_settings_page'
 require 'features/support/components/danger_zone'
 
 describe 'Repository Settings', type: :feature, js: true do
-  let(:current_user) { FactoryGirl.create (:admin) }
+  let(:current_user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
   let(:dangerzone) { DangerZone.new(page) }

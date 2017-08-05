@@ -62,14 +62,14 @@ describe 'time entry csv export', type: :feature do
       expect(page.response_headers['Content-Type']).to include('charset=utf-8')
 
       expected_header = ["#{TimeEntry.human_attribute_name(:spent_on)}," +
-                         "#{TimeEntry.human_attribute_name(:user)}," +
-                         "#{TimeEntry.human_attribute_name(:activity)}," +
-                         "#{TimeEntry.human_attribute_name(:project)}," +
-                         "#{TimeEntry.human_attribute_name(:issue)}," +
-                         "#{TimeEntry.human_attribute_name(:type)}," +
-                         "#{TimeEntry.human_attribute_name(:subject)}," +
-                         "#{TimeEntry.human_attribute_name(:hours)}," +
-                         "#{TimeEntry.human_attribute_name(:comments)}\n"]
+        "#{TimeEntry.human_attribute_name(:user)}," +
+        "#{TimeEntry.human_attribute_name(:activity)}," +
+        "#{TimeEntry.human_attribute_name(:project)}," +
+        "#{TimeEntry.human_attribute_name(:issue)}," +
+        "#{TimeEntry.human_attribute_name(:type)}," +
+        "#{TimeEntry.human_attribute_name(:subject)}," +
+        "#{TimeEntry.human_attribute_name(:hours)}," +
+        "#{TimeEntry.human_attribute_name(:comments)}\n"]
 
       expected_lines = expected_header + expected_values
 

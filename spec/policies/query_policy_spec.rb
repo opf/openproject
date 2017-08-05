@@ -43,7 +43,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'viewing queries' do |global|
-      context "#{ global ? 'in global context' : 'in project context' }" do
+      context global ? 'in global context' : 'in project context' do
         let(:other_user) { FactoryGirl.build_stubbed(:user) }
         if global
           let(:project) { nil }
@@ -76,7 +76,7 @@ describe QueryPolicy, type: :controller do
     end
 
     shared_examples 'action on persisted' do |action, global|
-      context "for #{action} #{ global ? 'in global context' : 'in project context' }" do
+      context "for #{action} #{global ? 'in global context' : 'in project context'}" do
         if global
           let(:project) { nil }
         end
@@ -88,99 +88,87 @@ describe QueryPolicy, type: :controller do
 
         it 'is false if the user has no permission in the project' do
           allow(user).to receive(:allowed_to?).and_return false
-
           expect(subject.allowed?(query, action)).to be_falsy
         end
 
-        it 'is false if the user has the save_query permission in the project ' +
-          'AND the query is not persisted' do
+        it 'is false if the user has the save_query permission in the project
+        AND the query is not persisted' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return true
+                                              .and_return true
           allow(query).to receive(:persisted?).and_return false
-
           expect(subject.allowed?(query, action)).to be_falsy
         end
-
-        it 'is true if the user has the save_query permission in the project ' +
-          'AND it is his query' do
+        it 'is true if the user has the save_query permission in the project
+        AND it is his query' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return true
+                                              .and_return true
           query.user = user
-
           expect(subject.allowed?(query, action)).to be_truthy
         end
 
-        it 'is false if the user has the save_query permission in the project ' +
-          'AND it is not his query' do
+        it 'is false if the user has the save_query permission in the project
+        AND it is not his query' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return true
-
+                                              .and_return true
           query.user = FactoryGirl.build_stubbed(:user)
-
           expect(subject.allowed?(query, action)).to be_falsy
         end
 
-        it 'is false if the user lacks the save_query permission in the project ' +
-          'AND it is his query' do
+        it 'is false if the user lacks the save_query permission in the project
+        AND it is his query' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return false
-
+                                              .and_return false
           query.user = user
-
           expect(subject.allowed?(query, action)).to be_falsy
         end
 
-        it 'is true if the user has the manage_public_query permission in the project ' +
-          'AND it is anothers query ' +
-          'AND the query is public' do
+        it 'is true if the user has the manage_public_query permission in the
+        project AND it is anothers query
+        AND the query is public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return true
+                                              .and_return true
           query.user = FactoryGirl.build_stubbed(:user)
           query.is_public = true
-
           expect(subject.allowed?(query, action)).to be_truthy
         end
 
-        it 'is false if the user lacks the manage_public_query permission in the project ' +
-          'AND it is anothers query ' +
-          'AND the query is public' do
+        it 'is false if the user lacks the manage_public_query permission in
+        the project AND it is anothers query AND the query is public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return false
+                                              .and_return false
           query.user = FactoryGirl.build_stubbed(:user)
           query.is_public = true
-
           expect(subject.allowed?(query, action)).to be_falsy
         end
 
-        it 'is false if the user has the manage_public_query permission in the project ' +
-          'AND it is anothers query ' +
-          'AND the query is not public' do
+        it 'is false if the user has the manage_public_query permission
+        in the project AND it is anothers query
+        AND the query is not public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return true
+                                              .and_return true
           query.user = FactoryGirl.build_stubbed(:user)
           query.is_public = false
-
           expect(subject.allowed?(query, action)).to be_falsy
         end
       end
     end
 
     shared_examples 'action on unpersisted' do |action, global|
-      context "for #{action} #{ global ? 'in global context' : 'in project context' }" do
+      context "for #{action} #{global ? 'in global context' : 'in project context'}" do
         if global
           let(:project) { nil }
         end
@@ -192,118 +180,105 @@ describe QueryPolicy, type: :controller do
 
         it 'is false if the user has no permission in the project' do
           allow(user).to receive(:allowed_to?).and_return false
-
           expect(subject.allowed?(query, action)).to be_falsy
         end
-
         it 'is true if the user has the save_query permission in the project' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: global)
-            .and_return true
-
+                                              .and_return true
           expect(subject.allowed?(query, action)).to be_truthy
         end
 
-        it 'is false if the user has the save_query permission in the project ' +
-          'AND the query is persisted' do
+        it 'is false if the user has the save_query permission in the project
+        AND the query is persisted' do
           allow(user).to receive(:allowed_to?).with(:save_queries,
                                                     project,
                                                     global: global)
-            .and_return true
-
+                                              .and_return true
           allow(query).to receive(:new_record?).and_return false
-
           expect(subject.allowed?(query, action)).to be_falsy
         end
       end
     end
 
     shared_examples 'publicize' do |global|
-      context "#{ global ? 'in global context' : 'in project context' }" do
+      context global ? 'in global context' : 'in project context' do
         if global
           let(:project) { nil }
         end
 
         it 'is false if the user has no permission in the project' do
           allow(user).to receive(:allowed_to?).and_return false
-
           expect(subject.allowed?(query, :publicize)).to be_falsy
         end
 
-        it 'is true if the user has the manage_public_query permission in the project ' +
-          'AND it is his query' do
+        it 'is true if the user has the manage_public_query permission in the
+        project AND it is his query' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return true
-
+                                              .and_return true
           expect(subject.allowed?(query, :publicize)).to be_truthy
         end
 
-        it 'is false if the user has the manage_public_query permission in the project ' +
-          'AND the query is not public ' +
-          'AND it is not his query' do
+        it 'is false if the user has the manage_public_query permission in
+        the project AND the query is not public
+        AND it is not his query' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return true
+                                              .and_return true
           query.user = FactoryGirl.build_stubbed(:user)
           query.is_public = false
-
           expect(subject.allowed?(query, :publicize)).to be_falsy
         end
       end
     end
 
     shared_examples 'depublicize' do |global|
-      context "#{ global ? 'in global context' : 'in project context' }" do
+      context global ? 'in global context' : 'in project context' do
         if global
           let(:project) { nil }
         end
 
         it 'is false if the user has no permission in the project' do
           allow(user).to receive(:allowed_to?).and_return false
-
           expect(subject.allowed?(query, :depublicize)).to be_falsy
         end
 
-        it 'is true if the user has the manage_public_query permission in the project ' +
-          'AND the query belongs to another user' +
-          'AND the query is public' do
+        it 'is true if the user has the manage_public_query permission in the
+        project AND the query belongs to another user
+        AND the query is public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return true
-
+                                              .and_return true
           query.user = FactoryGirl.build_stubbed(:user)
           query.is_public = true
-
           expect(subject.allowed?(query, :depublicize)).to be_truthy
         end
 
-        it 'is false if the user has the manage_public_query permission in the project ' +
-          'AND the query is not public' do
+        it 'is false if the user has the manage_public_query permission in
+        the project AND the query is not public' do
           allow(user).to receive(:allowed_to?).with(:manage_public_queries,
                                                     project,
                                                     global: project.nil?)
-            .and_return true
+                                              .and_return true
           query.is_public = false
-
           expect(subject.allowed?(query, :depublicize)).to be_falsy
         end
       end
     end
 
     shared_examples 'star' do |global|
-      context "#{ global ? 'in global context' : 'in project context' }" do
+      context global ? 'in global context' : 'in project context' do
         if global
           let(:project) { nil }
         end
 
         it 'is false if the user has no permission in the project' do
           allow(user).to receive(:allowed_to?).and_return false
-
           expect(subject.allowed?(query, :star)).to be_falsy
         end
       end

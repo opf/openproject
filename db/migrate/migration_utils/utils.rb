@@ -86,7 +86,7 @@ module Migration
     private
 
     def select_rows_from_database(table, column_list, conditions)
-      columns = (column_list.nil?) ? '' : ', ' + column_list.join(', ')
+      columns = column_list.nil? ? '' : ', ' + column_list.join(', ')
       from_clause = table
       where_clause = conditions.nil? ? '1 = 1' : conditions
 
@@ -98,7 +98,7 @@ module Migration
     end
 
     def update_rows_in_database(table, column_list, updated_rows)
-      columns = (column_list.nil?) ? '' : column_list.join(', ')
+      columns = column_list.nil? ? '' : column_list.join(', ')
 
       updated_rows.each do |row|
         values = column_list.map { |c| "#{c}=#{quote(row[c])}" }

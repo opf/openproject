@@ -254,7 +254,7 @@ class RedCloth3 < String
     #     #=>"<h1>A &lt;b&gt;bold&lt;/b&gt; man</h1>"
     #
     def initialize(string, restrictions = [])
-        restrictions.each { |r| method("#{ r }=").call(true) }
+        restrictions.each { |r| method("#{r}=").call(true) }
         super(string)
     end
 
@@ -334,7 +334,7 @@ class RedCloth3 < String
          [140, 338], [141, 0], [142, 0], [143, 0], [144, 0], [145, 8216], [146, 8217],
          [147, 8220], [148, 8221], [149, 8226], [150, 8211], [151, 8212], [152, 732],
          [153, 8482], [154, 353], [155, 8250], [156, 339], [157, 0], [158, 0], [159, 376]].map! do |a, b|
-            [a.chr, (b.zero? and "" or "&#{ b };")]
+            [a.chr, (b.zero? and "" or "&#{b};")]
         end
 
     #
@@ -473,10 +473,10 @@ class RedCloth3 < String
         if element == 'td'
             colspan = $1 if text =~ /\\(\d+)/
             rowspan = $1 if text =~ /\/(\d+)/
-            style << "vertical-align:#{ v_align($&) };" if text =~ A_VLGN
+            style << "vertical-align:#{v_align($&)};" if text =~ A_VLGN
         end
 
-        style << "#{ htmlesc $1 };" if text.sub!(/\{([^}]*)\}/, '') && !filter_styles
+        style << "#{htmlesc $1};" if text.sub!(/\{([^}]*)\}/, '') && !filter_styles
 
         lang = $1 if
             text.sub!(/\[([^)]+?)\]/, '')
@@ -484,22 +484,22 @@ class RedCloth3 < String
         cls = $1 if
             text.sub!(/\(([^()]+?)\)/, '')
 
-        style << "padding-left:#{ $1.length }em;" if
+        style << "padding-left:#{$1.length}em;" if
             text.sub!(/([(]+)/, '')
 
-        style << "padding-right:#{ $1.length }em;" if text.sub!(/([)]+)/, '')
+        style << "padding-right:#{$1.length}em;" if text.sub!(/([)]+)/, '')
 
-        style << "text-align:#{ h_align($&) };" if text =~ A_HLGN
+        style << "text-align:#{h_align($&)};" if text =~ A_HLGN
 
         cls, id = $1, $2 if cls =~ /^(.*?)#(.*)$/
 
         atts = ''
-        atts << " style=\"#{ style.join }\"" unless style.empty?
-        atts << " class=\"#{ cls }\"" unless cls.to_s.empty?
-        atts << " lang=\"#{ lang }\"" if lang
-        atts << " id=\"#{ id }\"" if id
-        atts << " colspan=\"#{ colspan }\"" if colspan
-        atts << " rowspan=\"#{ rowspan }\"" if rowspan
+        atts << " style=\"#{style.join}\"" unless style.empty?
+        atts << " class=\"#{cls}\"" unless cls.to_s.empty?
+        atts << " lang=\"#{lang}\"" if lang
+        atts << " id=\"#{id}\"" if id
+        atts << " colspan=\"#{colspan}\"" if colspan
+        atts << " rowspan=\"#{rowspan}\"" if rowspan
 
         atts
     end
@@ -527,12 +527,12 @@ class RedCloth3 < String
                     catts, cell = pba($1, 'td'), $2 if cell =~ /^(_?#{S}#{A}#{C}\. ?)(.*)/
 
                     catts = shelve(catts) if catts
-                    cells << "\t\t\t<t#{ ctyp }#{ catts }>#{ cell }</t#{ ctyp }>"
+                    cells << "\t\t\t<t#{ctyp}#{catts}>#{cell}</t#{ctyp}>"
                 end
                 ratts = shelve(ratts) if ratts
-                rows << "\t\t<tr#{ ratts }>\n#{ cells.join("\n") }\n\t\t</tr>"
+                rows << "\t\t<tr#{ratts}>\n#{cells.join("\n")}\n\t\t</tr>"
             end
-            "\t<table#{ tatts }>\n#{ rows.join("\n") }\n\t</table>\n\n"
+            "\t<table#{tatts}>\n#{rows.join("\n")}\n\t</table>\n\n"
         end
     end
 
@@ -564,9 +564,9 @@ class RedCloth3 < String
                         depth << tl
                         atts = pba(atts)
                         atts = shelve(atts) if atts
-                        lines[line_id] = "\t<#{LT(tl)}l#{ atts }>\n\t<li>#{content}"
+                        lines[line_id] = "\t<#{LT(tl)}l#{atts}>\n\t<li>#{content}"
                     else
-                        lines[line_id] = "\t\t<li>#{ content }"
+                        lines[line_id] = "\t\t<li>#{content}"
                     end
                     last_line = line_id
 
@@ -622,7 +622,7 @@ class RedCloth3 < String
     def inline_textile_code(text)
       text.gsub!(CODE_RE) do |_m|
         before, lang, code, after = $~[1..4]
-        lang = " lang=\"#{ lang }\"" if lang
+        lang = " lang=\"#{lang}\"" if lang
         rip_offtags("#{before}<code#{lang}>#{code}</code>#{after}", false)
       end
     end
@@ -668,13 +668,13 @@ class RedCloth3 < String
                     end
                     if block_applied.zero?
                         if deep_code
-                            blk = "\t<pre><code>#{ blk }</code></pre>"
+                            blk = "\t<pre><code>#{blk}</code></pre>"
                         else
-                            blk = "\t<p>#{ blk }</p>"
+                            blk = "\t<p>#{blk}</p>"
                         end
                     end
                     # hard_break blk
-                    blk + "\n#{ code_blk }"
+                    blk + "\n#{code_blk}"
                 end
             end
 
@@ -683,14 +683,14 @@ class RedCloth3 < String
 
     def textile_bq(_tag, atts, cite, content)
         cite, cite_title = check_refs(cite)
-        cite = " cite=\"#{ cite }\"" if cite
+        cite = " cite=\"#{cite}\"" if cite
         atts = shelve(atts) if atts
-        "\t<blockquote#{ cite }>\n\t\t<p#{ atts }>#{ content }</p>\n\t</blockquote>"
+        "\t<blockquote#{cite}>\n\t\t<p#{atts}>#{content}</p>\n\t</blockquote>"
     end
 
     def textile_p(tag, atts, _cite, content)
         atts = shelve(atts) if atts
-        "\t<#{ tag }#{ atts }>#{ content }</#{ tag }>"
+        "\t<#{tag}#{atts}>#{content}</#{tag}>"
     end
 
     alias textile_h1 textile_p
@@ -701,10 +701,10 @@ class RedCloth3 < String
     alias textile_h6 textile_p
 
     def textile_fn_(_tag, num, atts, _cite, content)
-        atts << " id=\"fn#{ num }\" class=\"footnote\""
-        content = "<sup>#{ num }</sup> #{ content }"
+        atts << " id=\"fn#{num}\" class=\"footnote\""
+        content = "<sup>#{num}</sup> #{content}"
         atts = shelve(atts) if atts
-        "\t<p#{ atts }>#{ content }</p>"
+        "\t<p#{atts}>#{content}</p>"
     end
 
     BLOCK_RE = /^(([a-z]+)(\d*))(#{A}#{C})\.(?::(\S+))? (.*)$/m
@@ -716,10 +716,10 @@ class RedCloth3 < String
 
             # pass to prefix handler
             replacement = nil
-            if respond_to? "textile_#{ tag }", true
-              replacement = method("textile_#{ tag }").call(tag, atts, cite, content)
-            elsif respond_to? "textile_#{ tagpre }_", true
-              replacement = method("textile_#{ tagpre }_").call(tagpre, num, atts, cite, content)
+            if respond_to? "textile_#{tag}", true
+              replacement = method("textile_#{tag}").call(tag, atts, cite, content)
+            elsif respond_to? "textile_#{tagpre}_", true
+              replacement = method("textile_#{tagpre}_").call(tagpre, num, atts, cite, content)
             end
             text.gsub!($&) { replacement } if replacement
         end
@@ -729,7 +729,7 @@ class RedCloth3 < String
     def block_markdown_setext(text)
         if text =~ SETEXT_RE
             tag = if $2 == "="; "h1"; else; "h2"; end
-            blk, cont = "<#{ tag }>#{ $1 }</#{ tag }>", $'
+            blk, cont = "<#{tag}>#{$1}</#{tag}>", $'
             blocks cont
             text.replace(blk + cont)
         end
@@ -743,8 +743,8 @@ class RedCloth3 < String
               $/x
     def block_markdown_atx(text)
         if text =~ ATX_RE
-            tag = "h#{ $1.length }"
-            blk, cont = "<#{ tag }>#{ $2 }</#{ tag }>\n\n", $'
+            tag = "h#{$1.length}"
+            blk, cont = "<#{tag}>#{$2}</#{tag}>\n\n", $'
             blocks cont
             text.replace(blk + cont)
         end
@@ -758,7 +758,7 @@ class RedCloth3 < String
             flush_left blk
             blocks blk
             blk.gsub!(/^(\S)/, "\t\\1")
-            "<blockquote>\n#{ blk }\n</blockquote>\n\n"
+            "<blockquote>\n#{blk}\n</blockquote>\n\n"
         end
     end
 
@@ -794,7 +794,7 @@ class RedCloth3 < String
                 atts = pba(atts)
                 atts = shelve(atts) if atts
 
-                "#{ sta }#{ oqs }<#{ ht }#{ atts }>#{ content }</#{ ht }>#{ oqa }"
+                "#{sta}#{oqs}<#{ht}#{atts}>#{content}</#{ht}>#{oqa}"
 
             end
         end
@@ -835,13 +835,13 @@ class RedCloth3 < String
               post = ")" + post # add closing parenth to post
             end
             atts = pba(atts)
-            atts = " href=\"#{ htmlesc url }#{ slash }\"#{ atts }"
-            atts << " title=\"#{ htmlesc title }\"" if title
+            atts = " href=\"#{htmlesc url}#{slash}\"#{atts}"
+            atts << " title=\"#{htmlesc title}\"" if title
             atts = shelve(atts) if atts
 
             external = (url =~ /^https?:\/\//) ? ' class="external"' : ''
 
-            "#{ pre }<a#{ atts }#{ external }>#{ text }</a>#{ post }"
+            "#{pre}<a#{atts}#{external}>#{text}</a>#{post}"
           end
         end
     end
@@ -863,11 +863,11 @@ class RedCloth3 < String
                 url, title = check_refs(id)
             end
 
-            atts = " href=\"#{ url }\""
-            atts << " title=\"#{ title }\"" if title
+            atts = " href=\"#{url}\""
+            atts << " title=\"#{title}\"" if title
             atts = shelve(atts)
 
-            "<a#{ atts }>#{ text }</a>"
+            "<a#{atts}>#{text}</a>"
         end
     end
 
@@ -889,11 +889,11 @@ class RedCloth3 < String
         text.gsub!(MARKDOWN_LINK_RE) do |_m|
             text, url, quote, title = $~[1..4]
 
-            atts = " href=\"#{ url }\""
-            atts << " title=\"#{ title }\"" if title
+            atts = " href=\"#{url}\""
+            atts << " title=\"#{title}\"" if title
             atts = shelve(atts)
 
-            "<a#{ atts }>#{ text }</a>"
+            "<a#{atts}>#{text}</a>"
         end
     end
 
@@ -946,9 +946,9 @@ class RedCloth3 < String
             stln, algn, atts, url, title, href, href_a1, href_a2 = $~[1..8]
             htmlesc title
             atts = pba(atts)
-            atts = " src=\"#{ htmlesc url.dup }\"#{ atts }"
-            atts << " title=\"#{ title }\"" if title
-            atts << " alt=\"#{ title }\""
+            atts = " src=\"#{htmlesc url.dup}\"#{atts}"
+            atts << " title=\"#{title}\"" if title
+            atts << " alt=\"#{title}\""
             # size = @getimagesize($url);
             # if($size) $atts.= " $size[3]";
 
@@ -956,16 +956,16 @@ class RedCloth3 < String
             url, url_title = check_refs(url)
 
             out = ''
-            out << "<a#{ shelve(" href=\"#{ href }\"") }>" if href
-            out << "<img#{ shelve(atts) } />"
-            out << "</a>#{ href_a1 }#{ href_a2 }" if href
+            out << "<a#{shelve(" href=\"#{href}\"")}>" if href
+            out << "<img#{shelve(atts)} />"
+            out << "</a>#{href_a1}#{href_a2}" if href
 
             if algn
                 algn = h_align(algn)
                 if stln == "<p>"
-                    out = "<p style=\"float:#{ algn }\">#{ out }"
+                    out = "<p style=\"float:#{algn}\">#{out}"
                 else
-                    out = "#{ stln }<div style=\"float:#{ algn }\">#{ out }</div>"
+                    out = "#{stln}<div style=\"float:#{algn}\">#{out}</div>"
                 end
             else
                 out = stln + out
@@ -977,12 +977,12 @@ class RedCloth3 < String
 
     def shelve(val)
         @shelf << val
-        " :redsh##{ @shelf.length }:"
+        " :redsh##{@shelf.length}:"
     end
 
     def retrieve(text)
         @shelf.each_with_index do |r, i|
-            text.gsub!(" :redsh##{ i + 1 }:", r)
+            text.gsub!(" :redsh##{i + 1}:", r)
         end
     end
 
@@ -1085,12 +1085,12 @@ class RedCloth3 < String
                         ### NB: some changes were made not to use $N variables, because we use "match"
                         ###   and it breaks following lines
                         htmlesc(aftertag, :NoQuotes) if aftertag && escape_aftertag && !first.match(/<code\s+class="(\w+)">/)
-                        line = "<redpre##{ @pre_list.length }>"
+                        line = "<redpre##{@pre_list.length}>"
                         first.match(/<#{ OFFTAGS }([^>]*)>/)
                         tag = $1
                         $2.to_s.match(/(class\=("[^"]+"|'[^']+'))/i)
                         tag << " #{$1}" if $1
-                        @pre_list << "<#{ tag }>#{ aftertag }"
+                        @pre_list << "<#{tag}>#{aftertag}"
                     end
                 elsif $1 and codepre > 0
                     if codepre - used_offtags.length > 0

@@ -128,7 +128,7 @@ class Enumeration < ActiveRecord::Base
 
   # Does the +new+ Hash override the previous Enumeration?
   def self.overridding_change?(new, previous)
-    if (same_active_state?(new['active'], previous.active)) && same_custom_values?(new, previous)
+    if same_active_state?(new['active'], previous.active) && same_custom_values?(new, previous)
       return false
     else
       return true

@@ -48,7 +48,7 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   end
 
   def self.work_package_title(id, subject, type_name, status_name, is_standard)
-    title = "#{(is_standard) ? '' : "#{type_name}"} ##{id}: #{subject}"
+    title = "#{is_standard ? '' : "#{type_name}"} ##{id}: #{subject}"
     title << " (#{status_name})" unless status_name.blank?
   end
 

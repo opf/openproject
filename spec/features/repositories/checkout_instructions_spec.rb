@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Create repository', type: :feature, js: true do
-  let(:current_user) { FactoryGirl.create (:admin) }
+  let(:current_user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create(:project) }
   let(:enabled_scms) { %w[git] }
 

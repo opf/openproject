@@ -46,7 +46,7 @@ Hash.class_eval do
   def identical?(o)
     return false unless self.class === o
     (o.keys + keys).uniq.all? do |key|
-      (o[key].identical?(self[key]))
+      o[key].identical?(self[key])
     end
   end
 end
