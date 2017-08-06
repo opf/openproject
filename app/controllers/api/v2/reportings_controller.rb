@@ -99,7 +99,9 @@ module Api
           condition += ' AND ' unless condition.empty?
 
           project_parents = params[:project_parents].split(/,/).map(&:to_i)
-          nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each { |i| r << i }; r }
+          nested_set_selection = Project.find(project_parents).map do |p|
+            p.lft..p.rgt
+          end.inject([]) { |r, e| e.each { |i| r << i }; r }
 
           temp_condition += "#{Project.quoted_table_name}.lft IN (?)"
           condition_params << nested_set_selection
@@ -131,7 +133,11 @@ module Api
         end
 
         # get all reportings for which projects have ancestors.
-        nested_sets_for_parents = (@reportings.inject([]) { |r, e| r << e.reporting_to_project; r << e.project }).uniq.map { |p| [p.lft, p.rgt] }
+        nested_sets_for_parents = (
+          @reportings.inject([]) do |r, e|
+            r << e.reporting_to_project
+            r << e.project
+          end).uniq.map { |p| [p.lft, p.rgt] }
 
         condition_params = []
         temp_condition = ''
