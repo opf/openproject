@@ -286,7 +286,7 @@ export class WorkPackageEditForm {
     return new Promise((resolve, reject) => {
       this.changeset.getForm()
         .then((form:FormResourceInterface) => {
-          const schemaName = this.workPackage.getSchemaName(fieldName);
+          const schemaName = this.changeset.getSchemaName(fieldName);
           const fieldSchema = form.schema[schemaName];
 
           if (!fieldSchema) {

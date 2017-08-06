@@ -243,7 +243,7 @@ class CustomField < ActiveRecord::Base
   def cache_key
     tag = multi_value? ? "mv" : "sv"
 
-    ["work_package_custom_fields", id, tag].join("/")
+    super + '/' + tag
   end
 
   private

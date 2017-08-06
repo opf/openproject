@@ -115,7 +115,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       change = { subject: 'new subject' }
       note = { journal_notes: 'a comment' }
 
-      allow(UpdateWorkPackageService).to receive(:contract).and_return(NoopContract)
+      allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
       service = UpdateWorkPackageService.new(user: author, work_package: work_package)
 
       expect(service.call(attributes: note)).to be_success

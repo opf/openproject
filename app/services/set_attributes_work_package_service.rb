@@ -28,36 +28,55 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Concerns::Contracted
-  extend ActiveSupport::Concern
+class SetAttributesWorkPackageService
+  include Concerns::Contracted
 
-  included do
-    class << self
-      attr_accessor :contract
-    end
+  attr_accessor :user,
+                :work_package,
+                :contract
 
-    private
+  def initialize(user:, work_package:, contract:)
+    self.user = user
+    self.work_package = work_package
 
-    attr_accessor :contract
+    self.contract = contract.new(work_package, user)
+  end
 
-    def validate_and_save(object)
-      if !contract.validate
-        [false, contract.errors]
-      elsif !object.save
-        [false, object.errors]
-      else
-        [true, object.errors]
-      end
-    end
+  def call(attributes)
+    set_attributes(attributes)
 
-    def validate(object)
-      if !contract.validate
-        [false, contract.errors]
-      elsif !object.valid?
-        [false, object.errors]
-      else
-        [true, object.errors]
-      end
-    end
+    validate_and_result
+  end
+
+  private
+
+  def validate_and_result
+    boolean, errors = validate(work_package)
+
+    ServiceResult.new(success: boolean,
+                      errors: errors)
+  end
+
+  def set_attributes(attributes)
+    work_package.attributes = attributes
+
+    unify_dates if work_package_now_milestone?
+
+    reschedule(attributes)
+  end
+
+  def reschedule(attributes)
+    ScheduleWorkPackageService
+      .new(user: user, work_package: work_package)
+      .call(attributes: attributes)
+  end
+
+  def unify_dates
+    unified_date = work_package.due_date || work_package.start_date
+    work_package.start_date = work_package.due_date = unified_date
+  end
+
+  def work_package_now_milestone?
+    work_package.type_id_changed? && work_package.milestone?
   end
 end

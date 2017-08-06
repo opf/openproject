@@ -29,18 +29,18 @@
 #++
 
 class UpdateChildWorkPackageService < UpdateWorkPackageService
-  self.contract = WorkPackages::UpdateContract
-
   private
 
   def set_attributes(attributes)
-    super
+    ret_values = super
 
     if work_package.project_id_changed?
       set_fixed_version_to_nil
       reassign_category
       reassign_type
     end
+
+    ret_values
   end
 
   def set_fixed_version_to_nil

@@ -300,6 +300,14 @@ export class WorkPackageChangeset {
     return this.wpForm.getValueOr(this.workPackage).schema;
   }
 
+  public getSchemaName(attribute:string):string {
+    if (this.schema.hasOwnProperty('date') && (attribute === 'startDate' || attribute === 'dueDate')) {
+      return 'date';
+    } else {
+      return attribute;
+    }
+  }
+
   private buildResource() {
     const hasForm = this.wpForm.hasValue();
     let payload:any = this.workPackage.$plain();
