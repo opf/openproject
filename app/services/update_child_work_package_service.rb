@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,18 +29,18 @@
 #++
 
 class UpdateChildWorkPackageService < UpdateWorkPackageService
-  self.contract = WorkPackages::UpdateContract
-
   private
 
   def set_attributes(attributes)
-    super
+    ret_values = super
 
     if work_package.project_id_changed?
       set_fixed_version_to_nil
       reassign_category
       reassign_type
     end
+
+    ret_values
   end
 
   def set_fixed_version_to_nil

@@ -4,7 +4,6 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {DisplayField} from '../wp-display/wp-display-field/wp-display-field.module';
 import {MultipleLinesStringObjectsDisplayField} from '../wp-display/field-types/wp-display-multiple-lines-string-objects-field.module';
 import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
-import {WorkPackageChangeset} from './work-package-changeset';
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
