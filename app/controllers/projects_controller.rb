@@ -301,11 +301,11 @@ class ProjectsController < ApplicationController
   protected
 
   def determine_base
-    if params[:project_type_id]
-      @base = ProjectType.find(params[:project_type_id]).projects
+    @base = if params[:project_type_id]
+      ProjectType.find(params[:project_type_id]).projects
     else
-      @base = Project
-    end
+      Project
+            end
   end
 
   # Validates parent_id param according to user's permissions

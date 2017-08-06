@@ -187,11 +187,11 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
   end
 
   def make_description_row(seg, first: false, last: false)
-    if first
-      label = make_description_label
+    label = if first
+      make_description_label
     else
-      label = make_empty_label
-    end
+      make_empty_label
+            end
 
     if last
       label.borders = [:left, :bottom]

@@ -91,11 +91,11 @@ class Message < ActiveRecord::Base
   end
 
   def set_sticked_on_date
-    if sticky?
-      self.sticked_on = sticked_on.nil? ? Time.now : sticked_on
+    self.sticked_on = if sticky?
+      sticked_on.nil? ? Time.now : sticked_on
     else
-      self.sticked_on = nil
-    end
+      nil
+                      end
   end
 
   def update_last_reply_in_parent

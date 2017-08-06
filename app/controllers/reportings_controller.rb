@@ -123,14 +123,14 @@ class ReportingsController < ApplicationController
     condition += temp_condition
     conditions = [condition] + condition_params unless condition.empty?
 
-    case params[:only]
+    @reportings = case params[:only]
     when 'via_source'
-      @reportings = @project.reportings_via_source.includes(:project).where(conditions)
+      @project.reportings_via_source.includes(:project).where(conditions)
     when 'via_target'
-      @reportings = @project.reportings_via_target.includes(:project).where(conditions)
+      @project.reportings_via_target.includes(:project).where(conditions)
     else
-      @reportings = @project.reportings.all
-    end
+      @project.reportings.all
+                  end
 
     # get all reportings for which projects have ancestors.
     nested_sets_for_parents = (@reportings.inject([]) { |r, e| r << e.reporting_to_project; r << e.project }).uniq.map { |p| [p.lft, p.rgt] }
@@ -148,14 +148,14 @@ class ReportingsController < ApplicationController
 
     conditions = [condition] + condition_params unless condition.empty?
 
-    case params[:only]
+    @ancestor_reportings = case params[:only]
     when 'via_source'
-      @ancestor_reportings = @project.reportings_via_source.includes(:project).where(conditions)
+      @project.reportings_via_source.includes(:project).where(conditions)
     when 'via_target'
-      @ancestor_reportings = @project.reportings_via_target.includes(:project).where(conditions)
+      @project.reportings_via_target.includes(:project).where(conditions)
     else
-      @ancestor_reportings = @project.reportings
-    end
+      @project.reportings
+                           end
 
     @reportings = (@reportings + @ancestor_reportings).uniq
 

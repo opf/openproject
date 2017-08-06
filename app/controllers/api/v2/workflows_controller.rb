@@ -80,11 +80,11 @@ module Api
       def workflow_select_statement
         stmt = 'type_id, old_status_id, new_status_id, '
 
-        if ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
-          stmt += 'MAX(CAST(assignee AS INT)) AS assignee, MAX(CAST(author AS INT)) AS author'
+        stmt += if ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
+          'MAX(CAST(assignee AS INT)) AS assignee, MAX(CAST(author AS INT)) AS author'
         else
-          stmt += 'MAX(assignee) AS assignee, MAX(author) AS author'
-        end
+          'MAX(assignee) AS assignee, MAX(author) AS author'
+                end
 
         stmt
       end

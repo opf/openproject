@@ -101,7 +101,10 @@ module Api
           project_parents = params[:project_parents].split(/,/).map(&:to_i)
           nested_set_selection = Project.find(project_parents).map do |p|
             p.lft..p.rgt
-          end.inject([]) { |r, e| e.each { |i| r << i }; r }
+          end.inject([]) do |r, e|
+            e.each { |i| r << i }
+            r
+          end
 
           temp_condition += "#{Project.quoted_table_name}.lft IN (?)"
           condition_params << nested_set_selection
@@ -121,16 +124,16 @@ module Api
         condition += temp_condition
         conditions = [condition] + condition_params unless condition.empty?
 
-        case params[:only]
+        @reportings = case params[:only]
         when 'via_source'
-          @reportings = @project.reportings_via_source.includes(:project)
+          @project.reportings_via_source.includes(:project)
                                 .where(conditions).references(:projects)
         when 'via_target'
-          @reportings = @project.reportings_via_target.includes(:project)
+          @project.reportings_via_target.includes(:project)
                                 .where(conditions).references(:projects)
         else
-          @reportings = @project.reportings
-        end
+          @project.reportings
+                      end
 
         # get all reportings for which projects have ancestors.
         nested_sets_for_parents = (
@@ -152,16 +155,16 @@ module Api
 
         conditions = [condition] + condition_params unless condition.empty?
 
-        case params[:only]
+        @ancestor_reportings = case params[:only]
         when 'via_source'
-          @ancestor_reportings = @project.reportings_via_source
+          @project.reportings_via_source
                                          .includes(:project).where(conditions).references(:projects)
         when 'via_target'
-          @ancestor_reportings = @project.reportings_via_target
+          @project.reportings_via_target
                                          .includes(:project).where(conditions).references(:projects)
         else
-          @ancestor_reportings = @project.reportings
-        end
+          @project.reportings
+                               end
 
         @reportings = (@reportings.to_a + @ancestor_reportings.to_a).uniq
 

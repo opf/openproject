@@ -69,15 +69,15 @@ class WatchersController < ApplicationController
     respond_to do |format|
       format.html { redirect_to :back }
       format.js do
-        if params[:replace].present?
+        @replace_selectors = if params[:replace].present?
           if params[:replace].is_a? Array
-            @replace_selectors = params[:replace]
+            params[:replace]
           else
-            @replace_selectors = params[:replace].split(',').map(&:strip)
-          end
+            params[:replace].split(',').map(&:strip)
+                               end
         else
-          @replace_selectors = ['#watcher']
-        end
+          ['#watcher']
+                             end
         @user = user
         render template: 'watchers/set_watcher'
       end

@@ -32,16 +32,16 @@ module ::TypesHelper
   def icon_for_type(type)
     return unless type
 
-    if type.is_milestone?
-      css_class = 'timelines-milestone'
+    css_class = if type.is_milestone?
+      'timelines-milestone'
     else
-      css_class = 'timelines-phase'
-    end
-    if type.color.present?
-      color = type.color.hexcode
+      'timelines-phase'
+                end
+    color = if type.color.present?
+      type.color.hexcode
     else
-      color = '#CCC'
-    end
+      '#CCC'
+            end
 
     content_tag(:span, ' ',
                 class: css_class,

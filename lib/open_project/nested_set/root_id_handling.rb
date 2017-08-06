@@ -133,11 +133,11 @@ module OpenProject::NestedSet
       # of the parent. If no parent is provided, the new node defines it's own
       # set.
       def initial_root_id
-        if parent
-          self.root_id = parent.root_id
+        self.root_id = if parent
+          parent.root_id
         else
-          self.root_id = id
-        end
+          id
+                       end
 
         set_default_left_and_right
         persist_nested_set_attributes

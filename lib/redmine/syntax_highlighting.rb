@@ -35,11 +35,11 @@ module Redmine
       delegate :highlight_by_filename, :highlight_by_language, to: :highlighter
 
       def highlighter=(name)
-        if name.is_a?(Module)
-          @highlighter = name
+        @highlighter = if name.is_a?(Module)
+          name
         else
-          @highlighter = const_get(name)
-        end
+          const_get(name)
+                       end
       end
     end
 

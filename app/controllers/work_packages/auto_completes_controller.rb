@@ -68,14 +68,14 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     scope = determine_scope
     query_term = params[:q].to_s
 
-    if query_term =~ /\A\d+\z/
-      sql_query = ["#{WorkPackage.table_name}.subject LIKE :q OR
+    sql_query = if query_term =~ /\A\d+\z/
+      ["#{WorkPackage.table_name}.subject LIKE :q OR
                    CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
                    { q: "%#{query_term}%" }]
     else
-      sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q",
+      ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q",
                    { q: "%#{query_term.downcase}%" }]
-    end
+                end
 
     # The filter on subject in combination with the ORDER BY on id
     # seems to trip MySql's usage of indexes on the order statement

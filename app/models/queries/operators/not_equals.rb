@@ -39,13 +39,13 @@ module Queries::Operators
 
       sql = ''
 
-      if values.present?
-        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" +
+      sql = if values.present?
+        "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" +
               values.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + '))'
       else
         # empty set of forbidden values allows all results
-        sql = '1=1'
-      end
+        '1=1'
+            end
 
       sql
     end

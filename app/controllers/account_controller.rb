@@ -532,11 +532,11 @@ class AccountController < ApplicationController
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
                 " at #{Time.now.utc} (NOT ACTIVATED)"
 
-    if Setting.self_registration == '1'
-      flash_hash[:error] = I18n.t('account.error_inactive_activation_by_mail')
+    flash_hash[:error] = if Setting.self_registration == '1'
+      I18n.t('account.error_inactive_activation_by_mail')
     else
-      flash_hash[:error] = I18n.t('account.error_inactive_manual_activation')
-    end
+      I18n.t('account.error_inactive_manual_activation')
+                         end
   end
 
   def invited_account_not_activated(user)
@@ -554,11 +554,11 @@ class AccountController < ApplicationController
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
                 " at #{Time.now.utc}"
 
-    if Setting.brute_force_block_after_failed_logins.to_i == 0
-      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials)
+    flash_hash[:error] = if Setting.brute_force_block_after_failed_logins.to_i == 0
+      I18n.t(:notice_account_invalid_credentials)
     else
-      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)
-    end
+      I18n.t(:notice_account_invalid_credentials_or_blocked)
+                         end
   end
 
   def account_pending

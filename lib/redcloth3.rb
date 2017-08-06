@@ -655,11 +655,11 @@ class RedCloth3 < String
             block_applied += 1 if (rule_name.to_s.match /^block_/ and method(rule_name).call(blk))
           end
           if block_applied.zero?
-            if deep_code
-              blk = "\t<pre><code>#{blk}</code></pre>"
+            blk = if deep_code
+              "\t<pre><code>#{blk}</code></pre>"
             else
-              blk = "\t<p>#{blk}</p>"
-            end
+              "\t<p>#{blk}</p>"
+                  end
           end
             # hard_break blk
           blk + "\n#{code_blk}"
@@ -950,11 +950,11 @@ class RedCloth3 < String
 
       if algn
         algn = h_align(algn)
-        if stln == "<p>"
-          out = "<p style=\"float:#{algn}\">#{out}"
+        out = if stln == "<p>"
+          "<p style=\"float:#{algn}\">#{out}"
         else
-          out = "#{stln}<div style=\"float:#{algn}\">#{out}</div>"
-        end
+          "#{stln}<div style=\"float:#{algn}\">#{out}</div>"
+              end
       else
         out = stln + out
       end

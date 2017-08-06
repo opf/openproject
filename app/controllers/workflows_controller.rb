@@ -75,16 +75,16 @@ class WorkflowsController < ApplicationController
   end
 
   def copy
-    if params[:source_type_id].blank? || params[:source_type_id] == 'any'
-      @source_type = nil
+    @source_type = if params[:source_type_id].blank? || params[:source_type_id] == 'any'
+      nil
     else
-      @source_type = ::Type.find_by(id: params[:source_type_id].to_i)
-    end
-    if params[:source_role_id].blank? || params[:source_role_id] == 'any'
-      @source_role = nil
+      ::Type.find_by(id: params[:source_type_id].to_i)
+                   end
+    @source_role = if params[:source_role_id].blank? || params[:source_role_id] == 'any'
+      nil
     else
-      @source_role = Role.find_by(id: params[:source_role_id].to_i)
-    end
+      Role.find_by(id: params[:source_role_id].to_i)
+                   end
 
     @target_types = params[:target_type_ids].blank? ? nil : ::Type.where(id: params[:target_type_ids])
     @target_roles = params[:target_role_ids].blank? ? nil : Role.where(id: params[:target_role_ids])

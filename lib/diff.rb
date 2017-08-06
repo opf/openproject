@@ -225,11 +225,11 @@ module Diffable
 
   def patch(diff)
     newary = nil
-    if diff.difftype == String
-      newary = diff.difftype.new('')
+    newary = if diff.difftype == String
+      diff.difftype.new('')
     else
-      newary = diff.difftype.new
-    end
+      diff.difftype.new
+             end
     ai = 0
     bi = 0
     diff.diffs.each do |d|

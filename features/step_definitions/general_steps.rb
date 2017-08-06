@@ -368,11 +368,11 @@ When(/^I wait for "(.*?)" minutes$/) do |number_of_minutes|
 end
 
 def get_project(project_name = nil)
-  if project_name.blank?
-    project = @project
+  project = if project_name.blank?
+    @project
   else
-    project = Project.find_by(name: project_name)
-  end
+    Project.find_by(name: project_name)
+            end
   if project.nil?
     if project_name.blank?
       raise "Could not identify the current project. Make sure to use the 'I am working in project \"Project Name\" step beforehand."

@@ -137,11 +137,11 @@ module Redmine
         @require = options[:require]
         @project_module = options[:project_module]
         hash.each do |controller, actions|
-          if actions.is_a? Array
-            @actions << actions.map { |action| "#{controller}/#{action}" }
+          @actions << if actions.is_a? Array
+            actions.map { |action| "#{controller}/#{action}" }
           else
-            @actions << "#{controller}/#{actions}"
-          end
+            "#{controller}/#{actions}"
+                      end
         end
         @actions.flatten!
       end

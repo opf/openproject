@@ -66,11 +66,11 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
     state = ''
     journal = Journal.find(event['event_id'])
 
-    if journal.details.empty? && !journal.initial?
-      state = '-note'
+    state = if journal.details.empty? && !journal.initial?
+      '-note'
     else
-      state = ActiveRecord::Type::Boolean.new.cast(event['status_closed']) ? '-closed' : '-edit'
-    end
+      ActiveRecord::Type::Boolean.new.cast(event['status_closed']) ? '-closed' : '-edit'
+            end
 
     "work_package#{state}"
   end

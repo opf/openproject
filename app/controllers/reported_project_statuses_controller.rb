@@ -52,10 +52,10 @@ class ReportedProjectStatusesController < ApplicationController
   protected
 
   def determine_base
-    if params[:project_type_id]
-      @base = ProjectType.find(params[:project_type_id]).reported_project_statuses.active
+    @base = if params[:project_type_id]
+      ProjectType.find(params[:project_type_id]).reported_project_statuses.active
     else
-      @base = ReportedProjectStatus.active
-    end
+      ReportedProjectStatus.active
+            end
   end
 end

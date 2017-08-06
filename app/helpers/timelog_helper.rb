@@ -36,11 +36,11 @@ module TimelogHelper
   # is active.
   def activity_collection_for_select_options(time_entry = nil, project = nil)
     project ||= @project
-    if project.nil?
-      activities = TimeEntryActivity.shared.active
+    activities = if project.nil?
+      TimeEntryActivity.shared.active
     else
-      activities = project.activities
-    end
+      project.activities
+                 end
 
     collection = []
     if time_entry && time_entry.activity && !time_entry.activity.active?

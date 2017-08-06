@@ -363,11 +363,11 @@ class UserMailer < BaseMailer
   end
 
   def self.mail_timestamp(object)
-    if object.respond_to? :created_at
-      timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
+    timestamp = if object.respond_to? :created_at
+      object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
     else
-      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-    end
+      object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+                end
   end
 
   def self.host

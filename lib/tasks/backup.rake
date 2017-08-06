@@ -145,12 +145,12 @@ namespace :backup do
 
     def default_db_filename
       filename = "openproject-#{Rails.env}-db-#{date_string}"
-      case database_configuration['adapter']
+      filename << case database_configuration['adapter']
       when /PostgreSQL/i
-        filename << '.backup'
+        '.backup'
       else
-        filename << '.sql'
-      end
+        '.sql'
+                  end
       Rails.root.join('backup', sanitize_filename(filename))
     end
 

@@ -120,16 +120,16 @@ module OpenProject
         project_link_name = icon_wrapper('icon-context icon-star', I18n.t(:description_my_project).html_safe + '&nbsp;'.html_safe) + project_link_name
       end
 
-      if project.active?
+      link << if project.active?
         # backwards compatibility
         if options.delete(:action) == 'settings'
-          link << link_to(project_link_name, settings_project_path_or_url(project, options), html_options)
+          link_to(project_link_name, settings_project_path_or_url(project, options), html_options)
         else
-          link << link_to(project_link_name, project_path_or_url(project, options), html_options)
-        end
+          link_to(project_link_name, project_path_or_url(project, options), html_options)
+                end
       else
-        link << project_link_name
-      end
+        project_link_name
+              end
 
       link.html_safe
     end
