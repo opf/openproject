@@ -15,7 +15,7 @@ end
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
 # Set up S3 uploads if desired
-if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS']
+if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_KEY_ID']
   Capybara::Screenshot.s3_configuration = {
     s3_client_credentials: {
       access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID'),
