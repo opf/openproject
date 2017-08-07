@@ -108,7 +108,7 @@ class WorkPackages::MovesController < ApplicationController
     unless @project
       # TODO: let users bulk move/copy work packages from different projects
       render_error I18n.t('work_packages.move.unsupported_for_multiple_projects')
-      return false
+      false
     end
   end
 

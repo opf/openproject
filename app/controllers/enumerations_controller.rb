@@ -32,7 +32,7 @@ class EnumerationsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_enumeration, only: [:edit, :update, :destroy]
+  before_action :find_enumeration, only: %i[edit update destroy]
 
   include CustomFieldsHelper
 

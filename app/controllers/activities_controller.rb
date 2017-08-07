@@ -71,7 +71,6 @@ class ActivitiesController < ApplicationController
         end
       end
     end
-
   rescue ActiveRecord::RecordNotFound
     render_404
   end

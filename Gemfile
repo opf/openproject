@@ -37,13 +37,13 @@ gem 'rails', '~> 5.0.4'
 gem 'responders', '~> 2.4'
 
 gem 'coderay', '~> 1.1.0'
-gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
+gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize', ref: '38443bcd', require: false
+gem 'gravatar_image_tag', '~> 1.2.0'
 gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
 gem 'request_store', '~> 1.3.1'
-gem 'gravatar_image_tag', '~> 1.2.0'
 
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
@@ -121,8 +121,8 @@ gem 'transactional_lock', git: 'https://github.com/finnlabs/transactional_lock.g
 gem 'prawn', '~> 2.2'
 gem 'prawn-table', '~> 0.2.2'
 
-gem 'cells-rails', '~> 0.0.6'
 gem 'cells-erb', '~> 0.0.8'
+gem 'cells-rails', '~> 0.0.6'
 
 group :production do
   # we use dalli as standard memcache client
@@ -153,15 +153,15 @@ gem 'nokogiri', '~> 1.8.0'
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
 # fog dependency chain. We only need aws here, so we can avoid it
 # at the cost of referencing carrierwave#master for now.
-gem 'fog-aws'
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
+gem 'fog-aws'
 
 gem 'openproject-token', '~> 1.0.1'
 
 group :test do
+  gem 'launchy', '~> 2.4.3'
   gem 'rack-test', '~> 0.6.3'
   gem 'shoulda-context', '~> 1.2'
-  gem 'launchy', '~> 2.4.3'
 
   # Require factory_girl for usage with openproject plugins testing
   # FactoryGirl needs to be available when loading app otherwise factory
@@ -177,8 +177,8 @@ group :test do
   # not possible to upgrade to 3.6+ until rails is 5.1+
   gem 'rspec', '~> 3.5.0'
   # also add to development group, so "spec" rake task gets loaded
-  gem 'rspec-rails', '~> 3.5.2', group: :development
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
+  gem 'rspec-rails', '~> 3.5.2', group: :development
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.0'
@@ -192,18 +192,18 @@ group :test do
 
   gem 'aws-sdk', '~> 2.10.1'
   gem 'capybara', '~> 2.14.0'
-  gem 'capybara-screenshot', '~> 1.0.14'
-  gem 'fuubar', '~> 2.2.0'
-  gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'capybara-ng', '~> 0.2.7'
+  gem 'capybara-screenshot', '~> 1.0.14'
+  gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
+  gem 'fuubar', '~> 2.2.0'
   gem 'selenium-webdriver', '~> 3.4'
   gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.0.0', require: false
 
-  gem 'simplecov', '~> 0.14.0', require: false
-  gem 'shoulda-matchers', '~> 3.1', require: nil
-  gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'
+  gem 'json_spec', '~> 1.1.4'
+  gem 'shoulda-matchers', '~> 3.1', require: nil
+  gem 'simplecov', '~> 0.14.0', require: false
 
   gem 'parallel_tests', '~> 2.14.0'
 end
@@ -213,22 +213,22 @@ group :ldap do
 end
 
 group :development do
-  gem 'letter_opener'
   gem 'faker'
+  gem 'letter_opener'
   gem 'livingstyleguide', '~> 2.0.1'
 
-  gem 'rubocop'
   gem 'active_record_query_trace'
+  gem 'rubocop'
 end
 
 group :development, :test do
   gem 'thin', '~> 1.7.2'
 
-  gem 'pry-rails', '~> 0.3.6'
-  gem 'pry-stack_explorer', '~> 0.4.9.2'
-  gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
   gem 'pry-doc', '~> 0.10'
+  gem 'pry-rails', '~> 0.3.6'
+  gem 'pry-rescue', '~> 1.4.5'
+  gem 'pry-stack_explorer', '~> 0.4.9.2'
 end
 
 # API gems
@@ -271,10 +271,10 @@ group :docker do
   gem 'passenger'
 
   # Used to easily precompile assets
-  gem 'sqlite3', require: false
-  gem 'rails_12factor', require: !!ENV['HEROKU']
   gem 'health_check', require: !!ENV['HEROKU']
   gem 'newrelic_rpm', require: !!ENV['HEROKU']
+  gem 'rails_12factor', require: !!ENV['HEROKU']
+  gem 'sqlite3', require: false
 end
 
 # Load Gemfile.local, Gemfile.plugins, plugins', and custom Gemfiles

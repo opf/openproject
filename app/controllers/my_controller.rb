@@ -49,17 +49,15 @@ class MyController < ApplicationController
                      'issueswatched'              => :label_watched_work_packages,
                      'news'                       => :label_news_latest,
                      'calendar'                   => :label_calendar,
-                     'timelog'                    => :label_spent_time
-           }.freeze
+                     'timelog'                    => :label_spent_time }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'],
-                      'right' => ['issuesreportedbyme']
-                   }.freeze
+                      'right' => ['issuesreportedbyme'] }.freeze
 
   DRAG_AND_DROP_CONTAINERS = ['top', 'left', 'right'].freeze
 
   verify xhr: true,
-         only: [:add_block, :remove_block, :order_blocks]
+         only: %i[add_block remove_block order_blocks]
 
   def self.available_blocks
     @available_blocks ||= DEFAULT_BLOCKS.merge(Redmine::Views::MyPage::Block.additional_blocks)

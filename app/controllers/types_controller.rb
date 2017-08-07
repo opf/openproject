@@ -122,9 +122,9 @@ class TypesController < ApplicationController
       flash[:notice] = l(:notice_successful_delete)
     else
       flash[:error] = if @type.is_standard?
-        t(:error_can_not_delete_standard_type)
-      else
-        t(:error_can_not_delete_type)
+                        t(:error_can_not_delete_standard_type)
+                      else
+                        t(:error_can_not_delete_type)
                       end
     end
     redirect_to action: 'index'

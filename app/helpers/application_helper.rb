@@ -168,7 +168,7 @@ module ApplicationHelper
     unless error_messages.empty?
       render partial: 'common/validation_error',
              locals: { error_messages: error_messages,
-                       object_name: options[:object_name].to_s.gsub('_', '') }
+                       object_name: options[:object_name].to_s.delete('_') }
     end
   end
 
@@ -401,8 +401,7 @@ module ApplicationHelper
                         url.merge("#{name}[move_to]" => 'lowest'),
                         method: method,
                         title: l(:label_sort_lowest)),
-                class: 'reorder-icons'
-               )
+                class: 'reorder-icons')
   end
 
   def other_formats_links(&block)
@@ -427,7 +426,7 @@ module ApplicationHelper
       title += @html_title
     end
 
-    title.select { |t| !t.blank? }.join(' - ').html_safe
+    title.reject(&:blank?).join(' - ').html_safe
   end
 
   # Returns the theme, controller name, and action as css classes for the
@@ -470,7 +469,7 @@ module ApplicationHelper
       [ll(lang.to_s, :general_lang_name), lang.to_s]
     end
 
-    auto + mapped_languages.sort { |x, y| x.last <=> y.last }
+    auto + mapped_languages.sort_by(&:last)
   end
 
   def all_lang_options_for_select(blank = true)
@@ -480,7 +479,7 @@ module ApplicationHelper
       [ll(lang.to_s, :general_lang_name), lang.to_s]
     end
 
-    initial_lang_options + mapped_languages.sort { |x, y| x.last <=> y.last }
+    initial_lang_options + mapped_languages.sort_by(&:last)
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)

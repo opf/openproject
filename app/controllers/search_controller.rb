@@ -52,7 +52,6 @@ class SearchController < ApplicationController
     offset = begin
       Time.at(Rational(search_params[:offset])) if search_params[:offset]
     rescue; end
-
     # quick jump to an work_package
     scan_work_package_reference @question do |id|
       return redirect_to work_package_path(id: id) if WorkPackage.visible.find_by(id: id.to_i)
@@ -128,7 +127,7 @@ class SearchController < ApplicationController
   end
 
   def scan_work_package_reference(query, &blk)
-    query.match(/\A#?(\d+)\z/) && ((blk && blk.call($1)) || true)
+    query.match(/\A#?(\d+)\z/) && ((blk && yield($1)) || true)
   end
 
   def search_params

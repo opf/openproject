@@ -76,7 +76,7 @@ module AvatarHelper
     options.reverse_merge(default_options)
   end
 
-  def with_default_avatar_options(user, options, &block)
+  def with_default_avatar_options(user, options)
     if options.delete(:size)
       warn <<-DOC
 
@@ -87,8 +87,7 @@ module AvatarHelper
     end
 
     if Setting.gravatar_enabled? && (email = extract_email_address(user)).present?
-      block.call email.to_s.downcase,
-                 options.merge(gravatar: default_gravatar_options)
+      yield email.to_s.downcase, options.merge(gravatar: default_gravatar_options)
     end
   end
 

@@ -43,12 +43,12 @@ class RepositoriesController < ApplicationController
   include RepositoriesHelper
 
   menu_item :repository
-  menu_item :settings, only: [:edit, :destroy_info]
+  menu_item :settings, only: %i[edit destroy_info]
   default_search_scope :changesets
 
   before_action :find_project_by_project_id
   before_action :authorize
-  before_action :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
+  before_action :find_repository, except: %i[edit update create destroy destroy_info]
   accept_key_auth :revisions
 
   rescue_from OpenProject::Scm::Exceptions::ScmError, with: :show_error_command_failed
@@ -101,9 +101,9 @@ class RepositoriesController < ApplicationController
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values
                                                      .inject({}) { |h, c|
-          h[c.first] = c.last
-          h
-        }
+        h[c.first] = c.last
+        h
+      }
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'committers', project_id: @project
     end
@@ -392,7 +392,7 @@ class RepositoriesController < ApplicationController
     changes_by_day = Change.includes(:changeset)
                            .where(["#{Changeset.table_name}.repository_id = ? "\
                              "AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?",
-                             repository.id, @date_from, @date_to])
+                                   repository.id, @date_from, @date_to])
                            .references(:changesets)
                            .group(:commit_date)
                            .size

@@ -125,14 +125,14 @@ module Api
         conditions = [condition] + condition_params unless condition.empty?
 
         @reportings = case params[:only]
-        when 'via_source'
-          @project.reportings_via_source.includes(:project)
+                      when 'via_source'
+                        @project.reportings_via_source.includes(:project)
                                 .where(conditions).references(:projects)
-        when 'via_target'
-          @project.reportings_via_target.includes(:project)
+                      when 'via_target'
+                        @project.reportings_via_target.includes(:project)
                                 .where(conditions).references(:projects)
-        else
-          @project.reportings
+                      else
+                        @project.reportings
                       end
 
         # get all reportings for which projects have ancestors.
@@ -156,14 +156,14 @@ module Api
         conditions = [condition] + condition_params unless condition.empty?
 
         @ancestor_reportings = case params[:only]
-        when 'via_source'
-          @project.reportings_via_source
+                               when 'via_source'
+                                 @project.reportings_via_source
                                          .includes(:project).where(conditions).references(:projects)
-        when 'via_target'
-          @project.reportings_via_target
+                               when 'via_target'
+                                 @project.reportings_via_target
                                          .includes(:project).where(conditions).references(:projects)
-        else
-          @project.reportings
+                               else
+                                 @project.reportings
                                end
 
         @reportings = (@reportings.to_a + @ancestor_reportings.to_a).uniq

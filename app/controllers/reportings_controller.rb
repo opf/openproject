@@ -35,10 +35,10 @@ class ReportingsController < ApplicationController
   before_action :find_project_by_project_id
   before_action :authorize
 
-  before_action :find_reporting, only: [:show, :edit, :update, :confirm_destroy, :destroy]
+  before_action :find_reporting, only: %i[show edit update confirm_destroy destroy]
   before_action :build_reporting, only: :create
 
-  before_action :check_visibility, except: [:create, :index, :new, :available_projects]
+  before_action :check_visibility, except: %i[create index new available_projects]
 
   accept_key_auth :index, :show
 
@@ -124,12 +124,12 @@ class ReportingsController < ApplicationController
     conditions = [condition] + condition_params unless condition.empty?
 
     @reportings = case params[:only]
-    when 'via_source'
-      @project.reportings_via_source.includes(:project).where(conditions)
-    when 'via_target'
-      @project.reportings_via_target.includes(:project).where(conditions)
-    else
-      @project.reportings.all
+                  when 'via_source'
+                    @project.reportings_via_source.includes(:project).where(conditions)
+                  when 'via_target'
+                    @project.reportings_via_target.includes(:project).where(conditions)
+                  else
+                    @project.reportings.all
                   end
 
     # get all reportings for which projects have ancestors.
@@ -149,12 +149,12 @@ class ReportingsController < ApplicationController
     conditions = [condition] + condition_params unless condition.empty?
 
     @ancestor_reportings = case params[:only]
-    when 'via_source'
-      @project.reportings_via_source.includes(:project).where(conditions)
-    when 'via_target'
-      @project.reportings_via_target.includes(:project).where(conditions)
-    else
-      @project.reportings
+                           when 'via_source'
+                             @project.reportings_via_source.includes(:project).where(conditions)
+                           when 'via_target'
+                             @project.reportings_via_target.includes(:project).where(conditions)
+                           else
+                             @project.reportings
                            end
 
     @reportings = (@reportings + @ancestor_reportings).uniq

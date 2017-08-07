@@ -55,9 +55,9 @@ module NoResultsHelper
 
     render partial: '/common/no_results',
            locals: {
-                      title_text:  title,
-                      action_text: display_action ? action_text : '',
-                      action_url:  action_url || ''
-                    }
+             title_text:  title,
+             action_text: display_action ? action_text : '',
+             action_url:  action_url || ''
+           }
   end
 end

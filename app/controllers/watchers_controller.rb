@@ -31,7 +31,7 @@
 class WatchersController < ApplicationController
   before_action :find_watched_by_object, except: [:destroy]
   before_action :find_project
-  before_action :require_login, :check_project_privacy, only: [:watch, :unwatch]
+  before_action :require_login, :check_project_privacy, only: %i[watch unwatch]
 
   def watch
     if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
@@ -70,13 +70,13 @@ class WatchersController < ApplicationController
       format.html { redirect_to :back }
       format.js do
         @replace_selectors = if params[:replace].present?
-          if params[:replace].is_a? Array
-            params[:replace]
-          else
-            params[:replace].split(',').map(&:strip)
-                               end
-        else
-          ['#watcher']
+                               if params[:replace].is_a? Array
+                                 params[:replace]
+                               else
+                                 params[:replace].split(',').map(&:strip)
+                                                    end
+                             else
+                               ['#watcher']
                              end
         @user = user
         render template: 'watchers/set_watcher'

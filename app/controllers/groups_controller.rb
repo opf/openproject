@@ -32,9 +32,9 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_group, only: [:destroy, :autocomplete_for_user,
-                                    :show, :create_memberships, :destroy_membership,
-                                    :edit_membership]
+  before_action :find_group, only: %i[destroy autocomplete_for_user
+                                      show create_memberships destroy_membership
+                                      edit_membership]
 
   # GET /groups
   # GET /groups.xml

@@ -29,7 +29,7 @@
 #++
 
 class WorkPackages::ReportsController < ApplicationController
-  menu_item :summary_field, only: [:report, :report_details]
+  menu_item :summary_field, only: %i[report report_details]
   before_action :find_project_by_project_id, :authorize
 
   def report

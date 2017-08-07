@@ -42,8 +42,7 @@ module SettingsHelper
      { name: 'work_packages', partial: 'settings/work_packages', label: :label_work_package_tracking },
      { name: 'notifications', partial: 'settings/notifications', label: Proc.new { User.human_attribute_name(:mail_notification) } },
      { name: 'mail_handler', partial: 'settings/mail_handler', label: :label_incoming_emails },
-     { name: 'repositories', partial: 'settings/repositories', label: :label_repository_plural }
-    ]
+     { name: 'repositories', partial: 'settings/repositories', label: :label_repository_plural }]
   end
 
   def setting_select(setting, choices, options = {})
@@ -91,7 +90,7 @@ module SettingsHelper
       unit_html = content_tag(:span,
                               unit,
                               class: 'form--field-affix',
-                              :'aria-hidden' => true,
+                              'aria-hidden': true,
                               id: unit_id)
     end
 
@@ -151,7 +150,7 @@ module SettingsHelper
     if options[:label] != false
       content_tag(:span, class: 'form--field-container', &block)
     else
-      block.call
+      yield
     end
   end
 

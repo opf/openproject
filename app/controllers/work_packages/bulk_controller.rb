@@ -68,19 +68,7 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def destroy
-    unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
-
-      respond_to do |format|
-        format.html do
-          render locals: { work_packages: @work_packages,
-                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
-        end
-        format.json do
-          render json: { error_message: 'Clean up of associated objects required' }, status: 420
-        end
-      end
-
-    else
+    if WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
 
       destroy_work_packages(@work_packages)
 
@@ -92,6 +80,18 @@ class WorkPackages::BulkController < ApplicationController
           head :ok
         end
       end
+    else
+
+      respond_to do |format|
+        format.html do
+          render locals: { work_packages: @work_packages,
+                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
+        end
+        format.json do
+          render json: { error_message: 'Clean up of associated objects required' }, status: 420
+        end
+      end
+
     end
   end
 

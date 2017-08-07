@@ -48,21 +48,21 @@ require 'htmldiff'
 class WikiController < ApplicationController
   default_search_scope :wiki_pages
   before_action :find_wiki, :authorize
-  before_action :find_existing_page, only: [:edit_parent_page,
-                                            :update_parent_page,
-                                            :rename,
-                                            :protect,
-                                            :history,
-                                            :diff,
-                                            :annotate,
-                                            :add_attachment,
-                                            :list_attachments,
-                                            :destroy]
-  before_action :build_wiki_page_and_content, only: [:new, :create]
+  before_action :find_existing_page, only: %i[edit_parent_page
+                                              update_parent_page
+                                              rename
+                                              protect
+                                              history
+                                              diff
+                                              annotate
+                                              add_attachment
+                                              list_attachments
+                                              destroy]
+  before_action :build_wiki_page_and_content, only: %i[new create]
 
   verify method: :post, only: [:protect], redirect_to: { action: :show }
-  verify method: :get,  only: [:new, :new_child], render: { nothing: true, status: :method_not_allowed }
-  verify method: :post, only: :create,            render: { nothing: true, status: :method_not_allowed }
+  verify method: :get,  only: %i[new new_child], render: { nothing: true, status: :method_not_allowed }
+  verify method: :post, only: :create, render: { nothing: true, status: :method_not_allowed }
 
   include AttachmentsHelper
   include PaginationHelper
@@ -93,8 +93,7 @@ class WikiController < ApplicationController
     @pages_by_date = @pages.group_by { |p| p.updated_on.to_date }
   end
 
-  def new
-  end
+  def new; end
 
   def new_child
     find_existing_page
@@ -212,7 +211,6 @@ class WikiController < ApplicationController
     else
       render action: 'edit'
     end
-
   rescue ActiveRecord::StaleObjectError
     # Optimistic locking exception
     flash.now[:error] = l(:notice_locking_conflict)
@@ -235,7 +233,8 @@ class WikiController < ApplicationController
           old_name: @page.title,
           new_name: attributes["title"],
           existing_caption: item.caption,
-          existing_identifier: item.name)
+          existing_identifier: item.name
+        )
 
         redirect_to_show
       elsif @page.update_attributes(attributes)
@@ -431,7 +430,7 @@ class WikiController < ApplicationController
   # Returns the default content of a new wiki page
   def initial_page_content(page)
     helper = Redmine::WikiFormatting.helper_for(Setting.text_formatting)
-    extend helper unless self.instance_of?(helper)
+    extend helper unless instance_of?(helper)
     helper.instance_method(:initial_page_content).bind(self).call(page)
   end
 

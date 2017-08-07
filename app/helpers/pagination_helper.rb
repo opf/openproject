@@ -140,19 +140,19 @@ module PaginationHelper
   def per_page_param(options = params)
     per_page_candidates = [options[:per_page].to_i, session[:per_page].to_i, options[:limit].to_i]
 
-    unless (union = per_page_candidates & Setting.per_page_options_array).empty?
+    if (union = per_page_candidates & Setting.per_page_options_array).empty?
+      Setting.per_page_options_array.sort.first
+    else
       session[:per_page] = union.first
 
       union.first
-    else
-      Setting.per_page_options_array.sort.first
     end
   end
 
   class LinkRenderer < ::WillPaginate::ActionView::LinkRenderer
     def to_html
       pagination.inject('') do |html, item|
-        html + (item.is_a?(Fixnum) ? page_number(item) : send(item))
+        html + (item.is_a?(Integer) ? page_number(item) : send(item))
       end.html_safe
     end
 

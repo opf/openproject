@@ -77,7 +77,7 @@ module RepositoriesHelper
     tree = {}
     changes.each do |change|
       p = tree
-      dirs = change.path.to_s.split('/').select { |d| !d.blank? }
+      dirs = change.path.to_s.split('/').reject(&:blank?)
       path = ''
       dirs.each do |dir|
         path += with_leading_slash(dir)
@@ -248,8 +248,7 @@ module RepositoriesHelper
                  url: url_for(controller: '/repositories',
                               action: 'edit', project_id: @project.id)
                },
-               disabled: (repository && !repository.new_record?)
-              )
+               disabled: (repository && !repository.new_record?))
   end
 
   def git_path_encoding_options(repository)
@@ -260,7 +259,7 @@ module RepositoriesHelper
   ##
   # Determines whether the repository settings save button should be shown.
   # By default, it is not shown when repository exists and is managed.
-  def show_settings_save_button?(repository)
+  def show_settings_save_button?(_repository)
     @repository.nil? ||
       @repository.new_record? ||
       !@repository.managed?

@@ -30,8 +30,8 @@
 
 class MembersController < ApplicationController
   model_object Member
-  before_action :find_model_object_and_project, except: [:autocomplete_for_member, :paginate_users]
-  before_action :find_project_by_project_id, only: [:autocomplete_for_member, :paginate_users]
+  before_action :find_model_object_and_project, except: %i[autocomplete_for_member paginate_users]
+  before_action :find_project_by_project_id, only: %i[autocomplete_for_member paginate_users]
   before_action :authorize
 
   include Pagination::Controller
@@ -239,7 +239,7 @@ class MembersController < ApplicationController
           # The invitation can pretty much only fail due to the user already
           # having been invited. So look them up if it does.
           user = UserInvitation.invite_new_user(email: id) ||
-            User.find_by_mail(id)
+                 User.find_by_mail(id)
 
           user.id if user
         end
@@ -249,10 +249,10 @@ class MembersController < ApplicationController
     end.compact
   end
 
-  def each_comma_seperated(array, &block)
+  def each_comma_seperated(array)
     array.map do |e|
-      if e.to_s.match /\d(,\d)*/
-        block.call(e)
+      if e.to_s =~ /\d(,\d)*/
+        yield(e)
       else
         e
       end

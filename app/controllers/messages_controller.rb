@@ -34,7 +34,7 @@ class MessagesController < ApplicationController
   default_search_scope :messages
   model_object Message, scope: Board
   before_action :find_object_and_scope, except: [:preview]
-  before_action :authorize, except: [:preview, :edit, :update, :destroy]
+  before_action :authorize, except: %i[preview edit update destroy]
 
   include AttachmentsHelper
   include PaginationHelper

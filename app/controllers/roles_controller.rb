@@ -100,7 +100,7 @@ class RolesController < ApplicationController
 
   def report
     @roles = Role.order('builtin, position')
-    @permissions = Redmine::AccessControl.permissions.select { |p| !p.public? }
+    @permissions = Redmine::AccessControl.permissions.reject(&:public?)
   end
 
   def bulk_update

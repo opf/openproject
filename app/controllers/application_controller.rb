@@ -225,8 +225,10 @@ class ApplicationController < ActionController::Base
 
   def log_requesting_user
     return unless Setting.log_requesting_user?
-    login_and_mail = " (#{escape_for_logging(User.current.login)} ID: #{User.current.id} " \
-                     "<#{escape_for_logging(User.current.mail)}>)" unless User.current.anonymous?
+    unless User.current.anonymous?
+      login_and_mail = " (#{escape_for_logging(User.current.login)} ID: #{User.current.id} " \
+                       "<#{escape_for_logging(User.current.mail)}>)"
+    end
     logger.info "OpenProject User: #{escape_for_logging(User.current.name)}#{login_and_mail}"
   end
 
@@ -254,9 +256,10 @@ class ApplicationController < ActionController::Base
         format.any(:html, :atom) { redirect_to signin_path(back_url: login_back_url) }
 
         auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(
-          request_headers: request.headers)
+          request_headers: request.headers
+        )
 
-        format.any(:xml, :js, :json)  do
+        format.any(:xml, :js, :json) do
           head :unauthorized,
                'X-Reason' => 'login needed',
                'WWW-Authenticate' => auth_header
@@ -361,7 +364,6 @@ class ApplicationController < ActionController::Base
     else
       @project = Project.find(params[:project_id])
     end
-
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -377,7 +379,6 @@ class ApplicationController < ActionController::Base
     associated.each do |a|
       instance_variable_set('@' + a.class.to_s.downcase, a)
     end
-
   rescue ActiveRecord::RecordNotFound
     render_404
   end

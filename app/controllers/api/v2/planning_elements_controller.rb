@@ -276,7 +276,7 @@ module Api
 
       def custom_values_for(model)
         model
-          .custom_values.select { |cv| cv.value != '' }
+          .custom_values.reject { |cv| cv.value == '' }
           .map { |custom_value| convert_custom_value_to_struct(custom_value) }
       end
 
@@ -343,8 +343,7 @@ module Api
                        when 'json'; { json: { 'errors' => errors } }
                        else
                          raise "Unknown format #{params[:format]} in #render_validation_errors"
-          end
-                      )
+          end)
         render options
       end
 
@@ -382,7 +381,11 @@ module Api
       private
 
       def parse_changed_since
-        @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400
+        @since = begin
+                   Time.at(Float(params[:changed_since] || 0).to_i)
+                 rescue
+                   render_400
+                 end
       end
 
       def parse_work_package_ids

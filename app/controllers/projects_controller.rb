@@ -36,12 +36,12 @@ class ProjectsController < ApplicationController
   helper :timelines
 
   before_action :disable_api
-  before_action :find_project, except: [:index, :level_list, :new, :create]
-  before_action :authorize, only: [
-    :show, :settings, :edit, :update, :modules, :types, :custom_fields
+  before_action :find_project, except: %i[index level_list new create]
+  before_action :authorize, only: %i[
+    show settings edit update modules types custom_fields
   ]
-  before_action :authorize_global, only: [:new, :create]
-  before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
+  before_action :authorize_global, only: %i[new create]
+  before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
   before_action :jump_to_project_menu_item, only: :show
   before_action :load_project_settings, only: :settings
   before_action :determine_base
@@ -140,8 +140,7 @@ class ProjectsController < ApplicationController
     @altered_project ||= @project
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @altered_project = Project.find(@project.id)
@@ -302,9 +301,9 @@ class ProjectsController < ApplicationController
 
   def determine_base
     @base = if params[:project_type_id]
-      ProjectType.find(params[:project_type_id]).projects
-    else
-      Project
+              ProjectType.find(params[:project_type_id]).projects
+            else
+              Project
             end
   end
 

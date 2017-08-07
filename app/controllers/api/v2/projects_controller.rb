@@ -33,7 +33,7 @@ module Api
     class ProjectsController < ::ProjectsController
       include ::Api::V2::ApiController
 
-      before_action :find_project, except: [:index, :level_list]
+      before_action :find_project, except: %i[index level_list]
       before_action :authorize, only: :show
       before_action :require_permissions, only: :planning_element_custom_fields
 
@@ -74,7 +74,7 @@ module Api
       end
 
       def planning_element_custom_fields
-        @custom_fields = @project.all_work_package_custom_fields include: [:projects, :types]
+        @custom_fields = @project.all_work_package_custom_fields include: %i[projects types]
 
         respond_to do |format|
           format.api

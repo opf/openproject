@@ -45,7 +45,7 @@ class TimeEntries::ReportsController < ApplicationController
     @criterias.uniq!
     @criterias = @criterias[0, 3]
 
-    @columns = (params[:columns] && %w(year month week day).include?(params[:columns])) ? params[:columns] : 'month'
+    @columns = params[:columns] && %w(year month week day).include?(params[:columns]) ? params[:columns] : 'month'
 
     retrieve_date_range
 
@@ -72,7 +72,7 @@ class TimeEntries::ReportsController < ApplicationController
         when 'week'
           row['week'] = "#{row['tyear']}-#{row['tweek']}"
         when 'day'
-          row['day'] = "#{row['spent_on']}"
+          row['day'] = (row['spent_on']).to_s
         end
       end
 
@@ -85,7 +85,7 @@ class TimeEntries::ReportsController < ApplicationController
       while date_from <= @to.to_time && @periods.length < 100
         case @columns
         when 'year'
-          @periods << "#{date_from.year}"
+          @periods << date_from.year.to_s
           date_from = (date_from + 1.year).at_beginning_of_year
         when 'month'
           @periods << "#{date_from.year}-#{date_from.month}"
@@ -94,7 +94,7 @@ class TimeEntries::ReportsController < ApplicationController
           @periods << "#{date_from.year}-#{date_from.to_date.cweek}"
           date_from = (date_from + 7.day).at_beginning_of_week
         when 'day'
-          @periods << "#{date_from.to_date}"
+          @periods << date_from.to_date.to_s
           date_from = date_from + 1.day
         end
       end
@@ -131,8 +131,7 @@ class TimeEntries::ReportsController < ApplicationController
                                              label: :label_activity },
                              'work_package' => { sql: "#{TimeEntry.table_name}.work_package_id",
                                                  klass: WorkPackage,
-                                                 label: WorkPackage.model_name.human }
-                           }
+                                                 label: WorkPackage.model_name.human } }
 
     # Add list and boolean custom fields as available criterias
     custom_fields = (@project.nil? ? WorkPackageCustomField.for_all : @project.all_work_package_custom_fields)

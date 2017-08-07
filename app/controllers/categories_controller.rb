@@ -31,9 +31,9 @@
 class CategoriesController < ApplicationController
   menu_item :settings
   model_object Category
-  before_action :find_model_object, except: [:new, :create]
-  before_action :find_project_from_association, except: [:new, :create]
-  before_action :find_project, only: [:new, :create]
+  before_action :find_model_object, except: %i[new create]
+  before_action :find_project_from_association, except: %i[new create]
+  before_action :find_project, only: %i[new create]
   before_action :authorize
 
   def new

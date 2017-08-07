@@ -31,9 +31,9 @@
 class VersionsController < ApplicationController
   menu_item :roadmap
   model_object Version
-  before_action :find_model_object, except: [:index, :new, :create, :close_completed]
-  before_action :find_project_from_association, except: [:index, :new, :create, :close_completed]
-  before_action :find_project, only: [:index, :new, :create, :close_completed]
+  before_action :find_model_object, except: %i[index new create close_completed]
+  before_action :find_project_from_association, except: %i[index new create close_completed]
+  before_action :find_project, only: %i[index new create close_completed]
   before_action :authorize
 
   include VersionsHelper
@@ -94,8 +94,7 @@ class VersionsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if request.patch? && permitted_params.version
@@ -149,7 +148,7 @@ class VersionsController < ApplicationController
 
   def retrieve_selected_type_ids(selectable_types, default_types = nil)
     if ids = params[:type_ids]
-      @selected_type_ids = (ids.is_a? Array) ? ids.map { |id| id.to_i.to_s } : ids.split('/').map { |id| id.to_i.to_s }
+      @selected_type_ids = ids.is_a? Array ? ids.map { |id| id.to_i.to_s } : ids.split('/').map { |id| id.to_i.to_s }
     else
       @selected_type_ids = (default_types || selectable_types).map { |t| t.id.to_s }
     end

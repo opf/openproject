@@ -81,9 +81,9 @@ module Api
         stmt = 'type_id, old_status_id, new_status_id, '
 
         stmt += if ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
-          'MAX(CAST(assignee AS INT)) AS assignee, MAX(CAST(author AS INT)) AS author'
-        else
-          'MAX(assignee) AS assignee, MAX(author) AS author'
+                  'MAX(CAST(assignee AS INT)) AS assignee, MAX(CAST(author AS INT)) AS author'
+                else
+                  'MAX(assignee) AS assignee, MAX(author) AS author'
                 end
 
         stmt

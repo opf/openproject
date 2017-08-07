@@ -69,11 +69,11 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     query_term = params[:q].to_s
 
     sql_query = if query_term =~ /\A\d+\z/
-      ["#{WorkPackage.table_name}.subject LIKE :q OR
-                   CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
+                  ["#{WorkPackage.table_name}.subject LIKE :q OR
+                               CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
                    { q: "%#{query_term}%" }]
-    else
-      ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q",
+                else
+                  ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q",
                    { q: "%#{query_term.downcase}%" }]
                 end
 

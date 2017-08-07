@@ -37,9 +37,9 @@ module TimelogHelper
   def activity_collection_for_select_options(time_entry = nil, project = nil)
     project ||= @project
     activities = if project.nil?
-      TimeEntryActivity.shared.active
-    else
-      project.activities
+                   TimeEntryActivity.shared.active
+                 else
+                   project.activities
                  end
 
     collection = []
@@ -95,8 +95,7 @@ module TimelogHelper
                  TimeEntry.human_attribute_name(:type),
                  TimeEntry.human_attribute_name(:subject),
                  TimeEntry.human_attribute_name(:hours),
-                 TimeEntry.human_attribute_name(:comments)
-                ]
+                 TimeEntry.human_attribute_name(:comments)]
       # Export custom fields
       headers += custom_fields.map(&:name)
 
@@ -111,8 +110,7 @@ module TimelogHelper
                   (entry.work_package ? entry.work_package.type : nil),
                   (entry.work_package ? entry.work_package.subject : nil),
                   entry.hours.to_s.gsub('.', decimal_separator),
-                  entry.comments
-                 ]
+                  entry.comments]
         fields += custom_fields.map { |f| show_value(entry.custom_value_for(f)) }
 
         csv << WorkPackage::Exporter::CSV.encode_csv_columns(fields)

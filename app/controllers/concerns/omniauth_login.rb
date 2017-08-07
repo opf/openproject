@@ -37,9 +37,9 @@ module Concerns::OmniauthLogin
     # disable CSRF protection since that should be covered by the omniauth strategy
     # the other filters are not applicable either since OmniAuth is doing authentication
     # itself
-    [
-      :verify_authenticity_token, :user_setup,
-      :check_if_login_required, :check_session_lifetime
+    %i[
+      verify_authenticity_token user_setup
+      check_if_login_required check_session_lifetime
     ]
       .each { |key| skip_before_action key, only: [:omniauth_login] }
 
