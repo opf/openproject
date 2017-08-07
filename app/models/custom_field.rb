@@ -81,7 +81,8 @@ class CustomField < ActiveRecord::Base
         ids.first
       end
     else
-      read_attribute :default_value
+      val = read_attribute :default_value
+      cast_value val
     end
   end
 
