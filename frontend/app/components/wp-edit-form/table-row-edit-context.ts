@@ -69,6 +69,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     // Create a field handler for the newly active field
     const fieldHandler = new WorkPackageEditFieldHandler(
       form,
+      fieldName,
       field,
       cell,
       errors
