@@ -58,9 +58,4 @@ export interface WorkPackageEditContext {
    * Return the first relevant field from the given list of attributes.
    */
   firstField(names:string[]):string;
-
-  /**
-   * ui-state to redirect to after successful saving
-   */
-  successState:string;
 }
