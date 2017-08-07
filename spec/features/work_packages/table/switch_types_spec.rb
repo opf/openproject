@@ -172,6 +172,58 @@ describe 'Switching types in work package table', js: true do
     end
   end
 
+  describe 'switching to required bool CF with default value' do
+    let(:cf_req_bool) {
+      FactoryGirl.create(
+        :work_package_custom_field,
+        field_format: 'bool',
+        is_required: true,
+        default_value: false
+      )
+    }
+
+    let(:type_task) { FactoryGirl.create(:type_task) }
+    let(:type_bug) { FactoryGirl.create(:type_bug, custom_fields: [cf_req_bool]) }
+
+    let(:project) {
+      FactoryGirl.create(
+        :project,
+        types: [type_task, type_bug],
+        work_package_custom_fields: [cf_req_bool]
+      )
+    }
+    let(:work_package) do
+      FactoryGirl.create(:work_package,
+                         subject: 'Foobar',
+                         type: type_task,
+                         project: project)
+    end
+    let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+    let(:type_field) { wp_page.edit_field :type }
+
+    before do
+      login_as user
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+    end
+
+    it  'can switch to the bug type without errors' do
+      type_field.expect_state_text type_task.name
+      type_field.update type_bug.name
+
+      # safegurards
+      wp_page.expect_notification message: 'Successful update.'
+      wp_page.dismiss_notification!
+      wp_page.expect_no_notification message: 'Successful update.'
+
+      type_field.expect_state_text type_bug.name
+
+      work_package.reload
+      expect(work_package.type_id).to eq(type_bug.id)
+      expect(work_package.send("custom_field_#{cf_req_bool.id}")).to eq(false)
+    end
+  end
+
   describe 'switching to list CF' do
     let!(:wp_page) { Pages::FullWorkPackageCreate.new }
     let!(:type_with_cf) { FactoryGirl.create(:type_task, custom_fields: [custom_field]) }

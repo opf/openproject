@@ -45,6 +45,17 @@ describe 'description inplace editor', js: true, selenium: true do
       field.activate!
       field.expect_value description_text
       field.cancel_by_click
+
+      # Activate the field
+      field.activate!
+
+      # Pressing escape does nothing here
+      field.cancel_by_escape
+      field.expect_active!
+
+      # Cancelling through the action panel
+      field.cancel_by_click
+      field.expect_inactive!
     end
   end
 
@@ -86,6 +97,5 @@ describe 'description inplace editor', js: true, selenium: true do
     end
   end
 
-  it_behaves_like 'a cancellable field'
   it_behaves_like 'an autocomplete field'
 end

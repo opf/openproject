@@ -47,34 +47,25 @@ export class WorkPackageEditFieldHandler {
 
   // Other fields
   public editContext:WorkPackageEditContext;
-  public fieldName:string;
+  public schemaName:string;
+
 
   // Current errors of the field
   public errors:string[];
 
   constructor(public form:WorkPackageEditForm,
+              public fieldName:string,
               public field:EditField,
               public element:JQuery,
               public withErrors:string[]) {
     $injectFields(this, 'I18n', 'ConfigurationService', 'FocusHelper');
 
     this.editContext = form.editContext;
-    this.fieldName = field.name;
+    this.schemaName = field.name;
 
     if (withErrors !== undefined) {
       this.setErrors(withErrors);
     }
-
-
-
-    Mousetrap(element[0]).bind('escape', () => {
-      if (!this.inEditMode) {
-        this.handleUserCancel();
-        return false;
-      }
-
-      return true;
-    });
   }
 
   /**
@@ -117,10 +108,25 @@ export class WorkPackageEditFieldHandler {
    * In an edit mode, we can't derive from a submit event wheteher the user pressed enter
    * (and on what field he did that).
    */
-  public handleUserSubmitOnEnter(event:JQueryEventObject) {
-    if (this.inEditMode && event.which === keyCodes.ENTER) {
-      this.form.submit();
+  public handleUserKeydown(event:JQueryEventObject, onlyCancel:boolean = false) {
+    // Only handle submission in edit mode
+    if (this.inEditMode && !onlyCancel) {
+      if (event.which === keyCodes.ENTER) {
+        this.form.submit();
+        return false;
+      }
+      return true;
     }
+
+    // Escape editing when not in edit mode
+    if (event.which === keyCodes.ESCAPE) {
+      this.handleUserCancel();
+      return false;
+    }
+
+    // If enter is pressed here, it will continue to handleUserSubmit()
+    // due to the form submission event.
+    return true;
   }
 
   public onlyInAccessibilityMode(callback:Function) {
@@ -174,7 +180,7 @@ export class WorkPackageEditFieldHandler {
    * Returns whether the field has been changed
    */
   public isChanged():boolean {
-    return this.workPackage.$pristine[this.fieldName] !== this.workPackage[this.fieldName];
+    return this.form.changeset.isOverridden(this.schemaName);
   }
 
   /**

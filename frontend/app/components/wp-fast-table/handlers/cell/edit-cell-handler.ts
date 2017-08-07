@@ -20,6 +20,8 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
   public states:States;
   public wpEditing:WorkPackageEditingService;
 
+  // Keep a reference to all
+
   public get EVENT() {
     return 'click.table.cell, keydown.table.cell';
   }
@@ -60,8 +62,7 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
     const classIdentifier = rowElement.data('classIdentifier');
 
     // Get any existing edit state for this work package
-    const editContext = new TableRowEditContext(workPackageId, classIdentifier);
-    const form = WorkPackageEditForm.createInContext(editContext, workPackage, false);
+    const form = table.editing.startEditing(workPackage, classIdentifier);
 
     // Get the position where the user clicked.
     const positionOffset = ClickPositionMapper.getPosition(evt);

@@ -80,8 +80,8 @@ export class TimelineCellRenderer {
                           labels:WorkPackageCellLabels,
                           dates:CellDateMovement) {
 
-    this.assignDate(changeset, "startDate", dates.startDate!);
-    this.assignDate(changeset, "dueDate", dates.dueDate!);
+    this.assignDate(changeset, 'startDate', dates.startDate!);
+    this.assignDate(changeset, 'dueDate', dates.dueDate!);
 
     this.updateLabels(true, labels, changeset);
   }
@@ -93,7 +93,7 @@ export class TimelineCellRenderer {
   public onDaysMoved(changeset:WorkPackageChangeset,
                      dayUnderCursor:Moment,
                      delta:number,
-                     direction:"left" | "right" | "both" | "create" | "dragright"):CellDateMovement {
+                     direction:'left' | 'right' | 'both' | 'create' | 'dragright'):CellDateMovement {
 
     const initialStartDate = changeset.workPackage.startDate;
     const initialDueDate = changeset.workPackage.dueDate;
@@ -144,7 +144,7 @@ export class TimelineCellRenderer {
     }
 
     const changeset = renderInfo.changeset;
-    let direction:"left" | "right" | "both" | "create" | "dragright";
+    let direction:'left' | 'right' | 'both' | 'dragright';
 
     // Update the cursor and maybe set start/due values
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
@@ -172,13 +172,6 @@ export class TimelineCellRenderer {
       changeset.setValue('dueDate', dateForCreate);
       direction = 'dragright';
     }
-
-    // RR: Keept this code as comment, since it might be useful in the future.
-    // Determine if the left or right handle was clicked
-    // if (!jQuery(ev.target).hasClass(classNameRightHandle) && renderInfo.workPackage.startDate) {
-    // }
-    // if (!jQuery(ev.target).hasClass(classNameLeftHandle) && renderInfo.workPackage.dueDate) {
-    // }
 
     this.updateLabels(true, labels, renderInfo.changeset);
 
@@ -296,9 +289,9 @@ export class TimelineCellRenderer {
    * start to due date.
    */
   public render(renderInfo:RenderInfo):HTMLDivElement {
-    const bar = document.createElement("div");
-    const left = document.createElement("div");
-    const right = document.createElement("div");
+    const bar = document.createElement('div');
+    const left = document.createElement('div');
+    const right = document.createElement('div');
 
     bar.className = timelineElementCssClass + ' ' + this.type;
     left.className = classNameLeftHandle;
@@ -357,7 +350,7 @@ export class TimelineCellRenderer {
 
   protected assignDate(changeset:WorkPackageChangeset, attributeName:string, value:moment.Moment) {
     if (value) {
-      changeset.setValue(attributeName, value.format("YYYY-MM-DD"));
+      changeset.setValue(attributeName, value.format('YYYY-MM-DD'));
     }
   }
 
