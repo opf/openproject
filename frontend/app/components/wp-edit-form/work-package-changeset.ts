@@ -309,6 +309,12 @@ export class WorkPackageChangeset {
   }
 
   private buildResource() {
+    if (this.empty) {
+      this.resource = null;
+      this.wpEditing.updateValue(this.workPackage.id, this);
+      return;
+    }
+
     const hasForm = this.wpForm.hasValue();
     let payload:any = this.workPackage.$plain();
 
