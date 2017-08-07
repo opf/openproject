@@ -11,6 +11,7 @@
     ng-focus="vm.handleUserFocus()"
     ng-disabled="vm.field.inFlight"
     ng-attr-id="{{vm.htmlId}}"
+    ng-keydown="vm.handleUserKeydown($event, true)"
     ng-change="vm.handleUserSubmit()"
   >
     <option
