@@ -92,7 +92,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
       return 'both'; // irrelevant
     }
 
-    let direction: "left" | "right" | "both" | "create" | "dragright" = "both";
+    let direction:'both' | 'create' = 'both';
     this.forceCursor('ew-resize');
 
     if (dateForCreate) {
@@ -106,7 +106,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return direction;
   }
 
-  public update(element: HTMLDivElement, renderInfo: RenderInfo): boolean {
+  public update(element:HTMLDivElement, renderInfo:RenderInfo): boolean {
     const viewParams = renderInfo.viewParams;
     const date = moment(renderInfo.changeset.value('date'));
 
@@ -117,11 +117,11 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     const diamond = jQuery('.diamond', element)[0];
 
-    element.style.width = 15 + "px";
-    element.style.height = 15 + "px";
-    diamond.style.width = 15 + "px";
-    diamond.style.height = 15 + "px";
-    diamond.style.marginLeft = -(15 / 2) + (renderInfo.viewParams.pixelPerDay / 2) + "px";
+    element.style.width = 15 + 'px';
+    element.style.height = 15 + 'px';
+    diamond.style.width = 15 + 'px';
+    diamond.style.height = 15 + 'px';
+    diamond.style.marginLeft = -(15 / 2) + (renderInfo.viewParams.pixelPerDay / 2) + 'px';
     diamond.style.backgroundColor = this.typeColor(renderInfo.workPackage);
 
     // offset left
