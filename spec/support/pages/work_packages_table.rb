@@ -103,7 +103,7 @@ module Pages
       row_element = row(work_package)
       row_element.hover
 
-      row_element.find('.wp-table--details-link').click
+      row_element.find('.wp-table-context-menu-link').click
 
       split_page
     end

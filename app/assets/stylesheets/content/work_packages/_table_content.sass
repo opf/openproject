@@ -54,28 +54,24 @@
 
 
 // Shrink column of details / inline-create icons
-.wp-table--details-column
-  // Set a minimum width for the cell to avoid movement
-  min-width: 40px
+.wp-table--context-menu-column
+  width: 40px
   // Center the th icon
   text-align: center !important
   // Take care that the header can overlap the icon
   z-index: 1
-
-// Details link column width
-.work-package-table
-  col:last-of-type
-    width: 40px
+  padding: 0 !important
 
 // Show details view button when hovering
-.wp-table--details-link
+.wp-table-context-menu-link
   .issue:hover &,
   &:focus
     // override the hidden-for-sighted definition
     position: relative
-    left: 0
+    left: -5px
     width: initial
     height: initial
+    font-size: 0.7rem
 
     .icon:before
       color: $body-font-color

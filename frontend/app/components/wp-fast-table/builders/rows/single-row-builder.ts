@@ -1,18 +1,14 @@
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {CellBuilder, wpCellTdClassName} from '../cell-builder';
-import {DetailsLinkBuilder} from '../details-link-builder';
 import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {checkedClassName} from '../ui-state-link-builder';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
 import {RelationCellbuilder} from '../relation-cell-builder';
-import {WorkPackageEditForm} from '../../../wp-edit-form/work-package-edit-form';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
+import {ContextLinkIconBuilder} from "../context-link-icon-builder";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -35,7 +31,7 @@ export class SingleRowBuilder {
   protected relationCellBuilder = new RelationCellbuilder();
 
   // Details Link builder
-  protected detailsLinkBuilder = new DetailsLinkBuilder();
+  protected contextLinkBuilder = new ContextLinkIconBuilder();
 
   constructor(protected workPackageTable:WorkPackageTable) {
     $injectFields(this, 'wpTableSelection', 'wpTableColumns', 'I18n');
@@ -53,7 +49,7 @@ export class SingleRowBuilder {
    * we add for buttons and timeline.
    */
   public get augmentedColumns():QueryColumn[] {
-    return this.columns.concat(internalDetailsColumn);
+    return [internalDetailsColumn].concat(this.columns);
   }
 
   public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
@@ -66,7 +62,7 @@ export class SingleRowBuilder {
     // Handle property types
     switch (column.id) {
       case internalDetailsColumn.id:
-        return this.detailsLinkBuilder.build(workPackage);
+        return this.contextLinkBuilder.build();
       default:
         return this.cellBuilder.build(workPackage, column.id);
     }
