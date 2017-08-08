@@ -89,8 +89,7 @@ describe WorkPackage, type: :model do
         due_date:   Date.today + 2.weeks,
         project_id: project.id,
         type:       project.types.first,
-        author:     user
-      }
+        author:     user }
     end
 
     it { expect(WorkPackage.new.tap { |pe| pe.send(:assign_attributes, attributes) }).to be_valid }
@@ -146,9 +145,9 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        error_message = I18n.t(:greater_than_or_equal_to_start_date, scope: [:activerecord,
-                                                                             :errors,
-                                                                             :messages])
+        error_message = I18n.t(:greater_than_or_equal_to_start_date,
+                               scope: %i(activerecord errors messages))
+
         expect(planning_element.errors[:due_date]).to eq([error_message])
       end
 
@@ -161,12 +160,9 @@ describe WorkPackage, type: :model do
         expect(planning_element).not_to be_valid
 
         expect(planning_element.errors[:due_date]).to be_present
-        error_message = I18n.t(:not_start_date, scope: [:activerecord,
-                                                        :errors,
-                                                        :models,
-                                                        :work_package,
-                                                        :attributes,
-                                                        :due_date])
+        error_message = I18n.t(:not_start_date,
+                               scope: %i(activerecord errors models work_package attributes due_date))
+
         expect(planning_element.errors[:due_date]).to eq([error_message])
       end
     end
@@ -212,9 +208,9 @@ describe WorkPackage, type: :model do
     describe 'start_date' do
       it 'equals the minimum start date of all children' do
         @pe11.reload
-        @pe11.update_attributes(start_date: Date.new(2000, 01, 20), due_date: Date.new(2001, 01, 20))
+        @pe11.update_attributes(start_date: Date.new(2000, 1, 20), due_date: Date.new(2001, 1, 20))
         @pe12.reload
-        @pe12.update_attributes(start_date: Date.new(2000, 03, 20), due_date: Date.new(2001, 03, 20))
+        @pe12.update_attributes(start_date: Date.new(2000, 3, 20), due_date: Date.new(2001, 3, 20))
 
         @pe1.reload
         expect(@pe1.start_date).to eq(@pe11.start_date)
@@ -224,9 +220,9 @@ describe WorkPackage, type: :model do
     describe 'due_date' do
       it 'equals the maximum end date of all children' do
         @pe11.reload
-        @pe11.update_attributes(start_date: Date.new(2000, 01, 20), due_date: Date.new(2001, 01, 20))
+        @pe11.update_attributes(start_date: Date.new(2000, 1, 20), due_date: Date.new(2001, 1, 20))
         @pe12.reload
-        @pe12.update_attributes(start_date: Date.new(2000, 03, 20), due_date: Date.new(2001, 03, 20))
+        @pe12.update_attributes(start_date: Date.new(2000, 3, 20), due_date: Date.new(2001, 3, 20))
 
         @pe1.reload
         expect(@pe1.due_date).to eq(@pe12.due_date)
@@ -251,8 +247,7 @@ describe WorkPackage, type: :model do
                          project_id:                      project.id,
                          responsible_id:                  responsible.id,
                          type_id:                         type.id,
-                         status_id:                       pe_status.id
-                        )
+                         status_id:                       pe_status.id)
     end
 
     it "has an initial journal, so that it's creation shows up in activity" do
@@ -301,8 +296,7 @@ describe WorkPackage, type: :model do
                            start_date:        Date.new(2012, 1, 24),
                            due_date:          Date.new(2012, 1, 31),
                            project_id:        project.id,
-                           responsible_id:    responsible.id
-                          )
+                           responsible_id:    responsible.id)
       end
 
       it 'creates a journal in the parent when end date is changed indirectly' do
@@ -348,7 +342,7 @@ describe WorkPackage, type: :model do
       pe11  = FactoryGirl.create(:work_package, project_id: project.id, parent_id: pe1.id)
       pe12  = FactoryGirl.create(:work_package, project_id: project.id, parent_id: pe1.id)
       pe121 = FactoryGirl.create(:work_package, project_id: project.id, parent_id: pe12.id)
-      pe2   = FactoryGirl.create(:work_package, project_id: project.id)
+      # pe2   = FactoryGirl.create(:work_package, project_id: project.id) # useless variable
 
       pe1.destroy
 
