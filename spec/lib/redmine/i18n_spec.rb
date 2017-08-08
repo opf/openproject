@@ -42,13 +42,13 @@ module OpenProject
       before { allow(User.current).to receive(:time_zone).and_return(ActiveSupport::TimeZone['Athens']) }
       it 'returns a date in the user timezone for a utc timestamp' do
         Time.zone = 'UTC'
-        time = Time.zone.local(2013, 06, 30, 23, 59)
+        time = Time.zone.local(2013, 6, 30, 23, 59)
         expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
 
       it 'returns a date in the user timezone for a non-utc timestamp' do
         Time.zone = 'Berlin'
-        time = Time.zone.local(2013, 06, 30, 23, 59)
+        time = Time.zone.local(2013, 6, 30, 23, 59)
         expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
     end
@@ -58,14 +58,14 @@ module OpenProject
 
       it 'returns a date in the local system timezone for a utc timestamp' do
         Time.zone = 'UTC'
-        time = Time.zone.local(2013, 06, 30, 23, 59)
-        allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone['Athens'].local(2013, 07, 01, 01, 59))
+        time = Time.zone.local(2013, 6, 30, 23, 59)
+        allow(time).to receive(:localtime).and_return(ActiveSupport::TimeZone['Athens'].local(2013, 7, 1, 1, 59))
         expect(format_time_as_date(time, format)).to eq '01/07/2013'
       end
 
       it 'returns a date in the original timezone for a non-utc timestamp' do
         Time.zone = 'Berlin'
-        time = Time.zone.local(2013, 06, 30, 23, 59)
+        time = Time.zone.local(2013, 6, 30, 23, 59)
         expect(format_time_as_date(time, format)).to eq '30/06/2013'
       end
     end
@@ -80,7 +80,7 @@ module OpenProject
       end
 
       it 'should return no js language as they are duplicates of the rest of the other language' do
-        expect(all_languages.any? { |l| /\Ajs-/.match(l.to_s) }).to be_falsey
+        expect(all_languages.any? { |l| l.to_s.start_with?('js') }).to be_falsey
       end
 
       # it is OK if more languages exist
@@ -176,7 +176,8 @@ module OpenProject
 
         expect(translated).to eq(
           "There is a <a href=\"http://openproject.com/foobar\">link</a> in this translation!" +
-          " Maybe even <a href=\"/baz\">two</a>?")
+          " Maybe even <a href=\"/baz\">two</a>?"
+        )
       end
 
       context 'with locale' do
@@ -186,7 +187,8 @@ module OpenProject
 
           expect(translated).to eq(
             "There is a <a href=\"http://openproject.com/foobar\">link</a> in this translation!" +
-            " Maybe even <a href=\"/baz\">two</a>?")
+            " Maybe even <a href=\"/baz\">two</a>?"
+          )
         end
       end
     end
