@@ -30,8 +30,12 @@
 .wp--row
   user-select: none
 
-.wp-table--row.-collapsed
-  display: none
+.wp-table--row
+  cursor: pointer
+
+  // Hide collapsed rows (hierarchies, relations)
+  &.-collapsed
+    display: none
 
 .work-package-table--container table.generic-table tbody td
   padding-left: 0

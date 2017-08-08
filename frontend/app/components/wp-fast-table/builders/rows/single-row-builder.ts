@@ -1,6 +1,5 @@
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {CellBuilder, wpCellTdClassName} from '../cell-builder';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
 import {checkedClassName} from '../ui-state-link-builder';
@@ -9,14 +8,15 @@ import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
 import {RelationCellbuilder} from '../relation-cell-builder';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {ContextLinkIconBuilder} from "../context-link-icon-builder";
+import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
 // Work package and timeline rows
 export const commonRowClassName = 'wp--row';
 
-export const internalDetailsColumn = {
-  id: '__internal-detailsLink'
+export const internalContextMenuColumn = {
+  id: '__internal-contextMenu'
 } as QueryColumn;
 
 export class SingleRowBuilder {
@@ -49,7 +49,7 @@ export class SingleRowBuilder {
    * we add for buttons and timeline.
    */
   public get augmentedColumns():QueryColumn[] {
-    return [internalDetailsColumn].concat(this.columns);
+    return [internalContextMenuColumn].concat(this.columns);
   }
 
   public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
@@ -61,7 +61,7 @@ export class SingleRowBuilder {
 
     // Handle property types
     switch (column.id) {
-      case internalDetailsColumn.id:
+      case internalContextMenuColumn.id:
         return this.contextLinkBuilder.build();
       default:
         return this.cellBuilder.build(workPackage, column.id);
@@ -111,7 +111,7 @@ export class SingleRowBuilder {
     // Remember the order of all new edit cells
     const newCells:HTMLElement[] = [];
 
-    this.columns.forEach((column:QueryColumn) => {
+    this.augmentedColumns.forEach((column:QueryColumn) => {
       const oldTd = cells.filter(`td.${column.id}`);
 
       // Skip the replacement of the column if this is being edited.

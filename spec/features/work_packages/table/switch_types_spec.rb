@@ -41,7 +41,7 @@ describe 'Switching types in work package table', js: true do
 
     let(:query) do
       query = FactoryGirl.build(:query, user: user, project: project)
-      query.column_names = ['subject', 'type', "cf_#{cf_text.id}"]
+      query.column_names = ['id', 'subject', 'type', "cf_#{cf_text.id}"]
 
       query.save!
       query

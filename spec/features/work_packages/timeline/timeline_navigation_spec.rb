@@ -156,7 +156,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
 
     let!(:query) do
       query              = FactoryGirl.build(:query, user: user, project: project)
-      query.column_names = ['subject', 'category']
+      query.column_names = ['id', 'subject', 'category']
       query.show_hierarchies = false
       query.timeline_visible = true
 

@@ -15,7 +15,7 @@ export class ContextMenuClickHandler extends ContextMenuHandler {
   }
 
   public get SELECTOR() {
-    return `.${tableRowClassName},.${contextMenuLinkClassName}`;
+    return `.${contextMenuLinkClassName}`;
   }
 
   public handleEvent(table: WorkPackageTable, evt:JQueryEventObject):boolean {
