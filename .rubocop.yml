@@ -33,6 +33,11 @@ BlockLength:
 BlockNesting:
   Enabled: false
 
+# requires the last param to be wrapped in braces if it's a hash,
+# but only when the penultimate param is also a hash
+BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
+
 CaseEquality:
   Enabled: false
 
