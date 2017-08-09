@@ -33,6 +33,8 @@ module API
   module V3
     module Users
       class UsersAPI < ::API::OpenProjectAPI
+        helpers ::API::Utilities::ParamsHelper
+
         helpers do
           def user_transition(allowed)
             if allowed
@@ -50,10 +52,6 @@ module API
             unless current_user.admin?
               fail ::API::Errors::Unauthorized
             end
-          end
-
-          def to_i_or_nil(string)
-            string ? string.to_i : nil
           end
         end
 

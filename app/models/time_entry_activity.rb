@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -42,5 +43,19 @@ class TimeEntryActivity < Enumeration
 
   def transfer_relations(to)
     time_entries.update_all("activity_id = #{to.id}")
+  end
+
+  def activated_projects
+    scope = Project.all
+
+    scope = if active?
+              scope
+                .where.not(id: children.select(:project_id))
+            else
+              scope
+                .where('1=0')
+            end
+
+    scope.or(Project.where(id: children.where(active: true).select(:project_id)))
   end
 end

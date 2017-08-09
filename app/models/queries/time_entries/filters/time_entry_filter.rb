@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,32 +28,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module V3
-    module Relations
-      module RelationsHelper
-        def filter_attributes(relation)
-          relation
-            .attributes
-            .with_indifferent_access
-            .reject { |_key, value| value.blank? }
-        end
+class Queries::TimeEntries::Filters::TimeEntryFilter < Queries::Filters::Base
+  self.model = TimeEntry
 
-        def representer
-          ::API::V3::Relations::RelationRepresenter
-        end
-
-        def project_id_for_relation(id)
-          relations = Relation.table_name
-          work_packages = WorkPackage.table_name
-
-          Relation
-            .joins(:from)
-            .where("#{relations}.id" => id)
-            .pluck("#{work_packages}.project_id")
-            .first
-        end
-      end
-    end
+  def human_name
+    TimeEntry.human_attribute_name(name)
   end
 end

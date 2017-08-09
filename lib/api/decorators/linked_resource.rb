@@ -185,7 +185,7 @@ module API
         def associated_resources_default_getter(name,
                                                 representer)
 
-          representer ||= default_representer(name)
+          representer ||= default_representer(name.to_s.singularize)
 
           ->(*) do
             return unless represented.send(name)

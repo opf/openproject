@@ -30,11 +30,7 @@ module API
   module V3
     module WorkPackages
       class WatchersAPI < ::API::OpenProjectAPI
-        helpers do
-          def to_i_or_nil(string)
-            string ? string.to_i : nil
-          end
-        end
+        helpers ::API::Utilities::ParamsHelper
 
         get '/available_watchers' do
           authorize(:add_work_package_watchers, context: @work_package.project)

@@ -109,7 +109,7 @@ module API
       end
 
       def authorize_by_with_raise(callable)
-        is_authorized = callable.call
+        is_authorized = callable.respond_to?(:call) ? callable.call : callable
 
         return true if is_authorized
 
@@ -129,7 +129,7 @@ module API
       # checks whether the user has
       # any of the provided permission in any of the provided
       # projects
-      def authorize_any(permissions, projects: nil, global: false, user: current_user)
+      def authorize_any(permissions, projects: nil, global: false, user: current_user, &block)
         raise ArgumentError if projects.nil? && !global
 
         projects = Array(projects)
@@ -145,8 +145,7 @@ module API
           end
         end
 
-        raise API::Errors::Unauthorized unless authorized
-        authorized
+        authorize_by_with_raise(authorized, &block)
       end
 
       def raise_invalid_query_on_service_failure
