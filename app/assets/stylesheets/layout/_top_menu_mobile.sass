@@ -102,11 +102,12 @@
     #projects-menu
       font-size: 15px
       .button--dropdown-text
-        // Viewport minus #account-nav-right minus padding.
-        max-width: calc(100vW - 110px - 49px)
+        // Viewport minus #account-nav-right when logged out minus padding
+        // (french: Connexion).
+        max-width: calc(100vW - 150px - 49px)
     .drop-down
-      // Viewport minus #account-nav-right
-      max-width: calc(100vW - 110px)
+      // Viewport minus #account-nav-right when logged out (french: Connexion)
+      max-width: calc(100vW - 150px)
       ul
         width: 100vw
         border: none
