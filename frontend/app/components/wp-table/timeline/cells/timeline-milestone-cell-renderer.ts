@@ -93,7 +93,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     }
 
     let direction:'both' | 'create' = 'both';
-    this.forceCursor('ew-resize');
+    this.workPackageTimeline.forceCursor('ew-resize');
 
     if (dateForCreate) {
       renderInfo.changeset.setValue('date', dateForCreate);

@@ -150,21 +150,21 @@ export class TimelineCellRenderer {
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
       // only left
       direction = 'left';
-      this.forceCursor('ew-resize');
+      this.workPackageTimeline.forceCursor('ew-resize');
       if (changeset.value('startDate') === null) {
         changeset.setValue('startDate', changeset.value('dueDate'));
       }
     } else if (jQuery(ev.target).hasClass(classNameRightHandle) || dateForCreate) {
       // only right
       direction = 'right';
-      this.forceCursor('ew-resize');
+      this.workPackageTimeline.forceCursor('ew-resize');
       if (changeset.value('dueDate') === null) {
         changeset.setValue('dueDate', changeset.value('startDate'));
       }
     } else {
       // both
       direction = 'both';
-      this.forceCursor('ew-resize');
+      this.workPackageTimeline.forceCursor('ew-resize');
     }
 
     if (dateForCreate) {
@@ -352,14 +352,6 @@ export class TimelineCellRenderer {
     if (value) {
       changeset.setValue(attributeName, value.format('YYYY-MM-DD'));
     }
-  }
-
-  /**
-   * Force the cursor to the given cursor type.
-   */
-  protected forceCursor(cursor:string) {
-    jQuery('.hascontextmenu').css('cursor', cursor);
-    jQuery('.' + timelineElementCssClass).css('cursor', cursor);
   }
 
   /**

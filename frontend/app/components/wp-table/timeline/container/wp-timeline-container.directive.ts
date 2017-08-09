@@ -1,3 +1,4 @@
+import {Moment} from 'moment';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -32,19 +33,19 @@ import {TypeResource} from '../../../api/api-v3/hal-resources/type-resource.serv
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../../../states.service';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
-import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
-import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-timeline';
-import {WorkPackagesTableController} from '../../wp-table.directive';
-import {timelineMarkerSelectionStartClass, TimelineViewParameters} from '../wp-timeline';
-import {WorkPackageTable} from '../../../wp-fast-table/wp-fast-table';
+import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
 import {WorkPackageTableHierarchiesService} from '../../../wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
+import {WorkPackageTable} from '../../../wp-fast-table/wp-fast-table';
+import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-timeline';
+import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 
 import {selectorTimelineSide} from '../../wp-table-scroll-sync';
-import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
+import {WorkPackagesTableController} from '../../wp-table.directive';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
-import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
-import {Moment} from "moment";
-import {RenderedRow} from '../../../wp-fast-table/builders/primary-render-pass';
+import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
+import {timelineElementCssClass, timelineMarkerSelectionStartClass, TimelineViewParameters} from '../wp-timeline';
+import {classNameBar, classNameLeftHandle, classNameRightHandle} from '../cells/wp-timeline-cell-mouse-handler';
 
 
 export class WorkPackageTimelineTableController {
@@ -259,6 +260,22 @@ export class WorkPackageTimelineTableController {
     const viewPortRight = scrollLeft + width;
     const daysUntilViewPortEnds = Math.ceil(viewPortRight / this.viewParameters.pixelPerDay) + 1;
     return this.viewParameters.dateDisplayStart.clone().add(daysUntilViewPortEnds, "days");
+  }
+
+  forceCursor(cursor:string) {
+    // TODO not working
+    jQuery('.' + timelineElementCssClass).css('cursor', cursor + ' !important');
+    jQuery('.hascontextmenu').css('cursor', cursor + ' !important');
+  }
+
+  resetCursor() {
+    // TODO not working
+    jQuery('.' + timelineElementCssClass).css('cursor', '');
+    jQuery('.hascontextmenu').css('cursor', 'context-menu');
+
+    // jQuery('.' + classNameLeftHandle).css('cursor', '');
+    // jQuery('.' + classNameBar).css('cursor', '');
+    // jQuery('.' + classNameRightHandle).css('cursor', '');
   }
 
   private resetSelectionMode() {
