@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -39,7 +40,7 @@ module Api
                     .visible_by_user(User.current)
                     .includes(:projects, :types)
                     .order(:id)
-                    .uniq
+
         other_fields = CustomField.where("type != 'WorkPackageCustomField'")
                                   .order(:type, :id)
 

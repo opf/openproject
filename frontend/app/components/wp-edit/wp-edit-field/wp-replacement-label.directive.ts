@@ -26,29 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {WorkPackageEditFormController} from "./../wp-edit-form.directive";
-
+import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directive';
 export class WorkPackageReplacementLabelController {
-  public formCtrl: WorkPackageEditFormController;
+  public wpEditFieldGroup:WorkPackageEditFieldGroupController;
   public fieldName:string;
 
-  constructor(
-    protected $scope:ng.IScope,
-    protected $element:ng.IAugmentedJQuery) {
+  constructor(protected $scope:ng.IScope,
+              protected $element:ng.IAugmentedJQuery) {
   }
 
-  public activate() {
-    this.formCtrl.fields[this.fieldName].activate();
+  public activate(evt:JQueryEventObject) {
+    // Skip clicks on help texts
+    const target = jQuery(evt.target);
+    if (target.closest('.help-text--entry').length) {
+      return true;
+    }
+
+    this.wpEditFieldGroup.fields[this.fieldName].handleUserActivate(null);
+    return false;
   }
 }
 
-function wpReplacementLabelLink(
-  scope:ng.IScope,
-  element:ng.IAugmentedJQuery,
-  attrs:ng.IAttributes,
-  controllers: [WorkPackageEditFormController, WorkPackageReplacementLabelController]) {
+function wpReplacementLabelLink(scope:ng.IScope,
+                                element:ng.IAugmentedJQuery,
+                                attrs:ng.IAttributes,
+                                controllers:[WorkPackageEditFieldGroupController, WorkPackageReplacementLabelController]) {
 
-  controllers[1].formCtrl = controllers[0];
+  controllers[1].wpEditFieldGroup = controllers[0];
 }
 
 function wpReplacementLabel() {
@@ -61,7 +65,7 @@ function wpReplacementLabel() {
       fieldName: '=wpReplacementLabel',
     },
 
-    require: ['^wpEditForm', 'wpReplacementLabel'],
+    require: ['^wpEditFieldGroup', 'wpReplacementLabel'],
     link: wpReplacementLabelLink,
 
     controller: WorkPackageReplacementLabelController,

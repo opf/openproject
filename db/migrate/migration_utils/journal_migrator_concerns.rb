@@ -43,12 +43,14 @@ module Migration
           # ["blubs.png", nil]
           removed_filename, added_filename = *to_insert[key]
           if added_filename && !removed_filename
-            # The attachment was added
-            attachable = ActiveRecord::Base.connection.select_all <<-SQL
+            query = <<-SQL
               SELECT *
               FROM #{attachable_table_name} AS a
               WHERE a.journal_id = #{quote_value(journal_id)} AND a.attachment_id = #{attachment_id};
             SQL
+
+            # The attachment was added
+            attachable = ActiveRecord::Base.connection.select_all(query).to_a
             if attachable.size > 1
               raise AmbiguousAttachableJournalError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
                 It appears there are ambiguous attachable journal data.

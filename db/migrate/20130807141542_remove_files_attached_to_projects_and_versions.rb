@@ -36,6 +36,9 @@ class RemoveFilesAttachedToProjectsAndVersions < ActiveRecord::Migration[4.2]
             "\n\n"\
             "If you don't need those attachments, use the following rake task:\n"\
             "'migrations:attachments:delete_from_projects_and_versions'."\
+            "\n\n"\
+            "You can also move all attachments to newly created wiki pages using:\n"\
+            "'migrations:attachments:move_to_wiki'\n\n"\
             "\n\n\n"
     end
   end

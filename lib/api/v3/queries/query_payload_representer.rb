@@ -28,70 +28,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module Queries
-      class QueryPayloadRepresenter < ::API::Decorators::Single
-        prepend QuerySerialization
+      class QueryPayloadRepresenter < QueryRepresenter
+        include ::API::Utilities::PayloadRepresenter
 
-        links :columns do
-          represented.columns.map do |column|
-            { href: api_v3_paths.query_column(convert_attribute(column.name)) }
-          end
-        end
-
-        link :groupBy do
-          column = represented.group_by_column
-
-          if column
-            { href: api_v3_paths.query_group_by(convert_attribute(column.name)) }
-          else
-            { href: nil }
-          end
-        end
-
-        links :sortBy do
-          represented.sort_criteria.map do |column, dir|
-            name = ::API::Utilities::PropertyNameConverter.from_ar_name column
-
-            { href: api_v3_paths.query_sort_by(name, dir) }
-          end
-        end
-
-        linked_property :project, title_getter: ->(*) { nil }
-
-        property :name
-        property :filters,
-                 exec_context: :decorator,
-                 getter: ->(*) { trimmed_filters filters }
-
-        property :display_sums, as: :sums
-        property :is_public, as: :public
-
-        # Timeline properties
-        property :timeline_visible
-
-        property :show_hierarchies
-
-        private
-
-        ##
-        # Uses the normal query's filter representation and removes the bits
-        # we don't want for a payload.
-        def trimmed_filters(filters)
-          filters.map(&:to_hash).map { |v| trim_links v }
-        end
-
-        def trim_links(value)
-          if value.is_a? ::Hash
-            ::Hash[value.except("_type", "name", "title", "schema").map { |k, v| [k, trim_links(v)] }]
-          elsif value.is_a? Array
-            value.map { |v| trim_links v }
-          else
-            value
+        def filters
+          represented.filters.map do |filter|
+            ::API::V3::Queries::Filters::QueryFilterInstancePayloadRepresenter
+              .new(filter)
           end
         end
       end

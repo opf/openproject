@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -53,19 +54,17 @@ module API
         { href: @self_link }
       end
 
-      property :total, getter: -> (*) { @total }, exec_context: :decorator
-      property :count, getter: -> (*) { count }
+      property :total, getter: ->(*) { @total }, exec_context: :decorator
+      property :count, getter: ->(*) { count }
 
       collection :elements,
-                 getter: -> (*) {
-                   represented.map { |model|
+                 getter: ->(*) {
+                   represented.map do |model|
                      element_decorator.create(model, current_user: current_user)
-                   }
+                   end
                  },
                  exec_context: :decorator,
                  embedded: true
-
-      private
 
       def _type
         'Collection'

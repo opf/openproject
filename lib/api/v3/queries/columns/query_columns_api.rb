@@ -49,10 +49,10 @@ module API
             route_param :id do
               get do
                 ar_id = convert_to_ar(params[:id]).to_sym
-                column = Query.all_columns.detect { |candidate| candidate.name == ar_id }
+                column = Query.available_columns.detect { |candidate| candidate.name == ar_id }
 
                 if column
-                  ::API::V3::Queries::Columns::QueryColumnRepresenter.new(column)
+                  QueryColumnsFactory.create(column)
                 else
                   raise API::Errors::NotFound
                 end

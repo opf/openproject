@@ -60,8 +60,16 @@ namespace :packager do
     # Persist configuration
     Setting.sys_api_enabled = 1
     Setting.sys_api_key = ENV['SYS_API_KEY']
-    Setting.protocol = ENV.fetch('SERVER_PROTOCOL', Setting.protocol)
     Setting.host_name = ENV.fetch('SERVER_HOSTNAME', Setting.host_name)
+
+    # Allow overriding the protocol setting from ENV
+    # to allow instances where SSL is terminated earlier to respect that setting
+    Setting.protocol =
+      if ENV['SERVER_PROTOCOL_FORCE_HTTPS']
+        'https'
+      else
+        ENV.fetch('SERVER_PROTOCOL', Setting.protocol)
+      end
 
     # Run customization step, if it is defined.
     # Use to define custom postinstall steps required after each configure,

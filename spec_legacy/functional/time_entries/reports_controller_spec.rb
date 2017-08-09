@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+require_relative '../../legacy_spec_helper'
 
 describe TimeEntries::ReportsController, type: :controller do
   render_views
@@ -35,11 +36,11 @@ describe TimeEntries::ReportsController, type: :controller do
   fixtures :all
 
   it 'should report at project level' do
-    get :show, project_id: 'ecookbook'
+    get :show, params: { project_id: 'ecookbook' }
     assert_response :success
     assert_template 'time_entries/reports/show'
     assert_select 'form',
-               attributes: { action: '/projects/ecookbook/time_entries/report', id: 'query_form' }
+                  attributes: { action: '/projects/ecookbook/time_entries/report', id: 'query_form' }
   end
 
   it 'should report all projects' do
@@ -47,7 +48,7 @@ describe TimeEntries::ReportsController, type: :controller do
     assert_response :success
     assert_template 'time_entries/reports/show'
     assert_select 'form',
-               attributes: { action: '/time_entries/report', id: 'query_form' }
+                  attributes: { action: '/time_entries/report', id: 'query_form' }
   end
 
   it 'should report all projects denied' do
@@ -59,7 +60,7 @@ describe TimeEntries::ReportsController, type: :controller do
   end
 
   it 'should report all projects one criteria' do
-    get :show, columns: 'week', from: '2007-04-01', to: '2007-04-30', criterias: ['project']
+    get :show, params: { columns: 'week', from: '2007-04-01', to: '2007-04-30', criterias: ['project'] }
     assert_response :success
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
@@ -67,7 +68,7 @@ describe TimeEntries::ReportsController, type: :controller do
   end
 
   it 'should report all time' do
-    get :show, project_id: 1, criterias: ['project', 'issue']
+    get :show, params: { project_id: 1, criterias: ['project', 'issue'] }
     assert_response :success
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
@@ -75,7 +76,7 @@ describe TimeEntries::ReportsController, type: :controller do
   end
 
   it 'should report all time by day' do
-    get :show, project_id: 1, criterias: ['project', 'issue'], columns: 'day'
+    get :show, params: { project_id: 1, criterias: ['project', 'issue'], columns: 'day' }
     assert_response :success
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
@@ -84,7 +85,7 @@ describe TimeEntries::ReportsController, type: :controller do
   end
 
   it 'should report one criteria' do
-    get :show, project_id: 1, columns: 'week', from: '2007-04-01', to: '2007-04-30', criterias: ['project']
+    get :show, params: { project_id: 1, columns: 'week', from: '2007-04-01', to: '2007-04-30', criterias: ['project'] }
     assert_response :success
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
@@ -92,7 +93,11 @@ describe TimeEntries::ReportsController, type: :controller do
   end
 
   it 'should report two criterias' do
-    get :show, project_id: 1, columns: 'month', from: '2007-01-01', to: '2007-12-31', criterias: ['member', 'activity']
+    get :show, params: { project_id: 1,
+                         columns: 'month',
+                         from: '2007-01-01',
+                         to: '2007-12-31',
+                         criterias: ['member', 'activity'] }
     assert_response :success
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
@@ -100,7 +105,7 @@ describe TimeEntries::ReportsController, type: :controller do
   end
 
   it 'should report one day' do
-    get :show, project_id: 1, columns: 'day', from: '2007-03-23', to: '2007-03-23', criterias: ['member', 'activity']
+    get :show, params: { project_id: 1, columns: 'day', from: '2007-03-23', to: '2007-03-23', criterias: ['member', 'activity'] }
     assert_response :success
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
@@ -108,17 +113,22 @@ describe TimeEntries::ReportsController, type: :controller do
   end
 
   it 'should report at issue level' do
-    get :show, project_id: 1, work_package_id: 1, columns: 'month', from: '2007-01-01', to: '2007-12-31', criterias: ['member', 'activity']
+    get :show, params: { project_id: 1,
+                         work_package_id: 1,
+                         columns: 'month',
+                         from: '2007-01-01',
+                         to: '2007-12-31',
+                         criterias: ['member', 'activity'] }
     assert_response :success
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
     assert_equal '154.25', '%.2f' % assigns(:total_hours)
     assert_select 'form',
-               attributes: { action: work_package_time_entries_report_path(1), id: 'query_form' }
+                  attributes: { action: work_package_time_entries_report_path(1), id: 'query_form' }
   end
 
   it 'should report custom field criteria' do
-    get :show, project_id: 1, criterias: ['project', 'cf_1', 'cf_7']
+    get :show, params: { project_id: 1, criterias: ['project', 'cf_1', 'cf_7'] }
     assert_response :success
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
@@ -128,16 +138,17 @@ describe TimeEntries::ReportsController, type: :controller do
     # Custom field column
     assert_select 'th', descendant: { content: /\s*Database\s*/ }
     # Custom field row
-    assert_select 'td', content: 'MySQL',
-               sibling: { tag: 'td', attributes: { class: 'hours' },
-                          child: { tag: 'span', attributes: { class: 'hours hours-int' },
-                                   content: '1' } }
+    assert_select 'td',
+                  content: 'MySQL',
+                  sibling: { tag: 'td', attributes: { class: 'hours' },
+                             child: { tag: 'span', attributes: { class: 'hours hours-int' },
+                                      content: '1' } }
     # Second custom field column
     assert_select 'th', descendant: { content: /\s*Billable\s*/ }
   end
 
   it 'should report one criteria no result' do
-    get :show, project_id: 1, columns: 'week', from: '1998-04-01', to: '1998-04-30', criterias: ['project']
+    get :show, params: { project_id: 1, columns: 'week', from: '1998-04-01', to: '1998-04-30', criterias: ['project'] }
     assert_response :success
     assert_template 'time_entries/reports/show'
     refute_nil assigns(:total_hours)
@@ -145,7 +156,11 @@ describe TimeEntries::ReportsController, type: :controller do
   end
 
   it 'should report all projects csv export' do
-    get :show, columns: 'month', from: '2007-01-01', to: '2007-06-30', criterias: ['project', 'member', 'activity'], format: 'csv'
+    get :show, params: { columns: 'month',
+                         from: '2007-01-01',
+                         to: '2007-06-30',
+                         criterias: ['project', 'member', 'activity'],
+                         format: 'csv' }
     assert_response :success
     assert_match(/text\/csv/, response.content_type)
     lines = response.body.chomp.split("\n")
@@ -156,7 +171,12 @@ describe TimeEntries::ReportsController, type: :controller do
   end
 
   it 'should report csv export' do
-    get :show, project_id: 1, columns: 'month', from: '2007-01-01', to: '2007-06-30', criterias: ['project', 'member', 'activity'], format: 'csv'
+    get :show, params: { project_id: 1,
+                         columns: 'month',
+                         from: '2007-01-01',
+                         to: '2007-06-30',
+                         criterias: ['project', 'member', 'activity'],
+                         format: 'csv' }
     assert_response :success
     assert_match(/text\/csv/, response.content_type)
     lines = response.body.chomp.split("\n")

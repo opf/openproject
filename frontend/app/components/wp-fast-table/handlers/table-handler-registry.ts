@@ -12,6 +12,8 @@ import {RowClickHandler} from "./row/click-handler";
 import {WorkPackageStateLinksHandler} from "./row/wp-state-links-handler";
 import {EditCellHandler} from "./cell/edit-cell-handler";
 import {HierarchyClickHandler} from "./row/hierarchy-click-handler";
+import {RelationsCellHandler} from './cell/relations-cell-handler';
+import {RelationsTransformer} from './state/relations-transformer';
 
 export interface TableEventHandler {
   EVENT:string;
@@ -37,6 +39,8 @@ export class TableHandlerRegistry {
     t => new ContextMenuHandler(t),
     // SHIFT+ALT+F10 on rows
     t => new ContextMenuKeyboardHandler(t),
+    // Clicking on relations cells
+    t => new RelationsCellHandler(t)
   ];
 
   static stateTransformers = [
@@ -44,7 +48,8 @@ export class TableHandlerRegistry {
     RowsTransformer,
     ColumnsTransformer,
     TimelineTransformer,
-    HierarchyTransformer
+    HierarchyTransformer,
+    RelationsTransformer
   ];
 
   static attachTo(table: WorkPackageTable) {

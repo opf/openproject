@@ -27,8 +27,6 @@ describe 'custom field inplace editor', js: true do
 
     wp_page.visit!
     wp_page.ensure_page_loaded
-
-    wp_page.view_all_attributes
   end
 
   def expect_update(value, update_args)
@@ -47,8 +45,20 @@ describe 'custom field inplace editor', js: true do
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
     let(:field) { WorkPackageTextAreaField.new wp_page, :customField1 }
 
+    it 'can cancel through the button only' do
+      # Activate the field
+      field.activate!
+
+      # Pressing escape does nothing here
+      field.cancel_by_escape
+      field.expect_active!
+
+      # Cancelling through the action panel
+      field.cancel_by_click
+      field.expect_inactive!
+    end
+
     it_behaves_like 'a previewable field'
-    it_behaves_like 'a cancellable field'
     it_behaves_like 'an autocomplete field'
   end
 

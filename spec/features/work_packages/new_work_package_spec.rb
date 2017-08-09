@@ -167,10 +167,6 @@ describe 'new work package', js: true do
         }
 
         it do
-          within '.panel-toggler' do
-            find('a', text: 'Show all attributes').click
-          end
-
           ids = custom_fields.map(&:id)
           cf1 = find(".customField#{ids.first} input")
           expect(cf1).not_to be_nil

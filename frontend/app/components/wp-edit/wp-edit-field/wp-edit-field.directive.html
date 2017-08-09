@@ -1,42 +1,15 @@
-<div class="wp-edit-field inplace-edit"
-     ng-switch="vm.active"
-     ng-class="[
-      vm.errorenous && '-error' || '',
-      vm.isEditable && '-editable' || '',
-      vm.active && '-active' || '',
+<div ng-class="[
+      vm.editFieldContainerClass,
       vm.fieldName,
-      vm.wrapperClasses === undefined ? '-small' : vm.wrapperClasses
+      vm.active && '-active' || '',
+      vm.wrapperClasses || '-small'
      ]">
 
-  <form ng-switch-when="true"
-        ng-click="vm.haltUserFormClick($event)"
-        ng-dblclick="vm.haltUserFormClick($event)"
-        name="vm.fieldForm"
-        ng-submit="vm.handleUserSubmit()"
-        ng-keydown="vm.handleUserKey($event)"
-        role="form"
-        tabindex="-1">
+  <div class="__d_edit_container">
+  </div>
 
-    <label for="{{::vm.htmlId}}"
-           class="hidden-for-sighted">
-      {{::vm.fieldLabel}}
-
-      {{vm.errorMessageOnLabel}}
-    </label>
-
-    <ng-include src="vm.field.template"></ng-include>
-  </form>
-
-  <wp-display-attr ng-switch-when="false"
-                   attribute="::vm.fieldName"
-                   schema="vm.workPackage.schema"
-                   work-package="::vm.formCtrl.workPackage"
-                   placeholder="::vm.displayPlaceholder"
-                   label="vm.fieldLabel"
-                   class="inplace-edit--read-value __d__inplace-edit--read-value"
-                   ng-class="vm.displayClasses"
-                   ng-click="vm.activateIfEditable($event)"
-                   data-click-on-keypress="[13, 32]"
-                   focus="vm.shouldFocus()">
-  </wp-display-attr>
+  <div ng-click="vm.activateIfEditable($event)"
+       data-click-on-keypress="[13, 32]"
+       tabindex="-1"
+       class="__d_display_container"></div>
 </div>

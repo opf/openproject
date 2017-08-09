@@ -173,6 +173,7 @@
 <li><span class="icon icon-relation-follows"></span>relation-follows</li>
 <li><span class="icon icon-relation-new-child"></span>relation-new-child</li>
 <li><span class="icon icon-relation-precedes"></span>relation-precedes</li>
+<li><span class="icon icon-relations"></span>relations</li>
 <li><span class="icon icon-reload"></span>reload</li>
 <li><span class="icon icon-reminder"></span>reminder</li>
 <li><span class="icon icon-remove"></span>remove</li>

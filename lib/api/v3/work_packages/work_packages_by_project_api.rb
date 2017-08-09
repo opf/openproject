@@ -53,7 +53,6 @@ module API
             end
           end
 
-          mount ::API::V3::Projects::WorkPackageColumnsAPI
           mount ::API::V3::WorkPackages::CreateProjectFormAPI
         end
       end

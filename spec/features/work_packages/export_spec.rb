@@ -122,7 +122,8 @@ describe 'work package export', type: :feature do
     select 'Progress (%)', from: 'add_filter_select'
     fill_in 'values-percentageDone', with: '25'
 
-    expect(page).to have_no_content(wp_2.description) # safeguard
+    wp_table.expect_work_package_listed(wp_1)
+    wp_table.expect_work_package_not_listed(wp_2, wp_3)
 
     export!
 

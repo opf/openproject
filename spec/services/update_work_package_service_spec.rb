@@ -50,23 +50,33 @@ describe UpdateWorkPackageService, type: :model do
                                  work_package: work_package)
   end
 
-  describe '.contract' do
-    it 'uses the UpdateContract contract' do
-      expect(described_class.contract).to eql WorkPackages::UpdateContract
-    end
-  end
-
   describe 'call' do
-    let(:mock_contract) do
-      double(WorkPackages::UpdateContract,
-             new: mock_contract_instance)
+    let(:set_attributes_service) do
+      service = double("SetAttributesWorkPackageService",
+                       new: set_attributes_service_instance)
+
+      stub_const('SetAttributesWorkPackageService', service)
+
+      service
     end
-    let(:mock_contract_instance) do
-      mock_model(WorkPackages::UpdateContract)
+    let(:set_attributes_service_instance) do
+      instance = double("SetAttributesWorkPackageServiceInstance")
+
+      allow(instance)
+        .to receive(:call) do |attributes|
+        work_package.attributes = attributes
+
+        set_service_results
+      end
+
+      instance
     end
+    let(:errors) { double('errors') }
+    let(:set_service_results) { double('result', success?: true, errors: errors) }
+    let(:work_package_save_result) { true }
 
     before do
-      allow(described_class).to receive(:contract).and_return(mock_contract)
+      set_attributes_service
     end
 
     let(:send_notifications) { true }
@@ -77,8 +87,9 @@ describe UpdateWorkPackageService, type: :model do
         .with(send_notifications)
         .and_yield
 
-      allow(work_package).to receive(:save).and_return true
-      allow(mock_contract_instance).to receive(:validate).and_return true
+      allow(work_package)
+        .to receive(:save)
+        .and_return work_package_save_result
     end
 
     shared_examples_for 'service call' do
@@ -100,10 +111,9 @@ describe UpdateWorkPackageService, type: :model do
         expect(subject.errors).to be_empty
       end
 
-      context 'when the contract does not validate' do
-        before do
-          expect(mock_contract_instance).to receive(:validate).and_return false
-        end
+      context 'when setting the attributes is unsuccessful (invalid)' do
+        let(:errors) { double('errors') }
+        let(:set_service_results) { double('result', success?: false, errors: errors) }
 
         it 'is unsuccessful' do
           expect(subject.success?).to be_falsey
@@ -115,10 +125,7 @@ describe UpdateWorkPackageService, type: :model do
           expect(work_package).to_not receive(:save)
         end
 
-        it "exposes the contract's errors" do
-          errors = double('errors')
-          allow(mock_contract_instance).to receive(:errors).and_return(errors)
-
+        it 'exposes the errors' do
           subject
 
           expect(subject.errors).to eql errors
@@ -126,9 +133,7 @@ describe UpdateWorkPackageService, type: :model do
       end
 
       context 'when the saving is unsuccessful' do
-        before do
-          expect(work_package).to receive(:save).and_return false
-        end
+        let(:work_package_save_result) { false }
 
         it 'is unsuccessful' do
           expect(subject.success?).to be_falsey
@@ -141,12 +146,14 @@ describe UpdateWorkPackageService, type: :model do
         end
 
         it "exposes the work_packages's errors" do
-          errors = double('errors')
-          allow(work_package).to receive(:errors).and_return(errors)
+          saving_errors = double('saving_errors')
+          allow(work_package)
+            .to receive(:errors)
+            .and_return(saving_errors)
 
           subject
 
-          expect(subject.errors).to eql errors
+          expect(subject.errors).to eql saving_errors
         end
       end
     end
@@ -281,104 +288,6 @@ describe UpdateWorkPackageService, type: :model do
             .to receive(:reset_custom_values!)
 
           instance.call(attributes: { type: target_type })
-        end
-      end
-
-      context 'with a type that is no milestone' do
-        before do
-          allow(target_type)
-            .to receive(:is_milestone?)
-            .and_return(false)
-        end
-
-        it 'sets the start date to the due date' do
-          work_package.due_date = Date.today
-
-          instance.call(attributes: { type: target_type })
-
-          expect(work_package.start_date).to be_nil
-        end
-      end
-
-      context 'with a type that is a milestone' do
-        before do
-          allow(target_type)
-            .to receive(:is_milestone?)
-            .and_return(true)
-        end
-
-        it 'sets the start date to the due date' do
-          date = Date.today
-          work_package.due_date = date
-
-          instance.call(attributes: { type: target_type })
-
-          expect(work_package.start_date).to eql date
-        end
-
-        it 'set the due date to the start date if the due date is nil' do
-          date = Date.today
-          work_package.start_date = date
-
-          instance.call(attributes: { type: target_type })
-
-          expect(work_package.due_date).to eql date
-        end
-      end
-    end
-
-    context 'when setting a parent' do
-      let(:parent) { FactoryGirl.build_stubbed(:work_package) }
-
-      context "with the parent being restricted in it's ability to be moved" do
-        let(:soonest_date) { Date.today + 3.days }
-
-        before do
-          allow(parent)
-            .to receive(:soonest_start)
-            .and_return(soonest_date)
-        end
-
-        it 'sets the start date to the earliest possible date' do
-          instance.call(attributes: { parent: parent })
-
-          expect(work_package.start_date).to eql(Date.today + 3.days)
-        end
-      end
-
-      context 'with the parent being resticted but the attributes define a later date' do
-        let(:soonest_date) { Date.today + 3.days }
-
-        before do
-          allow(parent)
-            .to receive(:soonest_start)
-            .and_return(soonest_date)
-        end
-
-        it 'sets the dates to provided dates' do
-          instance.call(attributes: { parent: parent, start_date: Date.today + 4.days, due_date: Date.today + 5.days })
-
-          expect(work_package.start_date).to eql(Date.today + 4.days)
-          expect(work_package.due_date).to eql(Date.today + 5.days)
-        end
-      end
-
-      context 'with the parent being resticted but the attributes define an earlier date' do
-        let(:soonest_date) { Date.today + 3.days }
-
-        before do
-          allow(parent)
-            .to receive(:soonest_start)
-            .and_return(soonest_date)
-        end
-
-        # This would be invalid but the dates should be set nevertheless
-        # so we can have a correct error handling.
-        it 'sets the dates to provided dates' do
-          instance.call(attributes: { parent: parent, start_date: Date.today + 1.days, due_date: Date.today + 2.days })
-
-          expect(work_package.start_date).to eql(Date.today + 1.days)
-          expect(work_package.due_date).to eql(Date.today + 2.days)
         end
       end
     end

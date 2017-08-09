@@ -26,45 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryColumn} from '../api/api-v3/hal-resources/query-resource.service'
-import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service'
-import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service'
-import {Observable} from 'rxjs/Observable';
-import {WorkPackageTableBaseState, WorkPackageTableQueryState} from "./wp-table-base";
+import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
+import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
+import {WorkPackageTableBaseState} from './wp-table-base';
+import {QueryColumn} from '../wp-query/query-column';
 
-export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColumn[]> implements WorkPackageTableQueryState {
-
-  // Available columns
-  public available:QueryColumn[]|undefined;
+export class WorkPackageTableColumns extends WorkPackageTableBaseState<QueryColumn[]> {
 
   // The selected columns state of the current table instance
   public current:QueryColumn[];
 
-  constructor(query:QueryResource, schema?:QuerySchemaResourceInterface) {
+  constructor(query:QueryResource) {
     super();
-    this.update(query, schema);
-  }
-
-  public hasChanged(query:QueryResource) {
-    const comparer = (columns:QueryColumn[]) => columns.map(c => c.href);
-
-    return !_.isEqual(
-      comparer(query.columns),
-      comparer(this.current)
-    );
-  }
-
-  public applyToQuery(query:QueryResource) {
-    query.columns = _.cloneDeep(this.current);
+    this.update(query);
   }
 
   public update(query:QueryResource|null, schema?:QuerySchemaResourceInterface) {
     if (query) {
       this.current = angular.copy(query.columns);
-    }
-
-    if (schema) {
-      this.available = angular.copy(schema.columns.allowedValues as QueryColumn[]);
     }
   }
 

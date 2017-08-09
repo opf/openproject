@@ -1,97 +1,80 @@
-<div class="work-packages--show-view"
-     ng-class="{'edit-all-mode': $ctrl.wpEditModeState.active}"
-     wp-edit-form="$ctrl.workPackage"
-     wp-edit-form-on-save="$ctrl.onWorkPackageSave()"
-     has-edit-mode="true"
+<div wp-edit-field-group work-package="$ctrl.workPackage"
+     class="work-packages--show-view"
      ng-if="$ctrl.workPackage">
-  <div class="toolbar-container">
-    <div id="toolbar">
-      <div class="wp-show--back-button">
-          <accessible-by-keyboard execute="$ctrl.goToList()"
-                          link-class="work-packages-list-view-button button"
-                          link-aria-label="{{ ::$ctrl.text.goToList }}"
-                          link-title="{{ ::$ctrl.text.goToList }}">
-            <op-icon icon-classes="button--icon icon-back-up"></op-icon>
-        </accessible-by-keyboard>
+    <div class="toolbar-container">
+      <div id="toolbar">
+        <div class="wp-show--back-button">
+            <accessible-by-keyboard execute="$ctrl.goToList()"
+                            link-class="work-packages-list-view-button button"
+                            link-aria-label="{{ ::$ctrl.text.goToList }}"
+                            link-title="{{ ::$ctrl.text.goToList }}">
+              <op-icon icon-classes="button--icon icon-back-up"></op-icon>
+          </accessible-by-keyboard>
+        </div>
+        <ul id="toolbar-items" class="toolbar-items">
+          <li class="toolbar-item">
+            <wp-create-button project-identifier="$ctrl.projectIdentifier"
+                              allowed="!!$ctrl.workPackage.addChild"
+                              state-name="work-packages.new"></wp-create-button>
+          </li>
+          <li class="toolbar-item" ng-if="$ctrl.displayWatchButton">
+            <wp-watcher-button work-package="$ctrl.workPackage"></wp-watcher-button>
+          </li>
+          <li class="toolbar-item">
+            <wp-zen-mode-toggle-button>
+            </wp-zen-mode-toggle-button>
+          </li>
+          <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
+            <button class="button dropdown-relative toolbar-icon"
+                    ng-disabled="!actionsAvailable"
+                    has-dropdown-menu
+                    target="ShowMoreDropdownMenu"
+                    locals="permittedActions,actionsAvailable,triggerMoreMenuAction"
+                    title="{{I18n.t('js.button_more')}}">
+              <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+            </button>
+          </li>
+        </ul>
+        <ul class="subject-header">
+          <li class="subject-header-inner">
+            <wp-subject></wp-subject>
+          </li>
+        </ul>
       </div>
-      <ul id="toolbar-items" class="toolbar-items">
-        <li class="toolbar-item">
-          <wp-create-button project-identifier="$ctrl.projectIdentifier"
-                            allowed="!!$ctrl.workPackage.addChild"
-                            ng-hide="$ctrl.wpEditModeState.active"
-                            state-name="work-packages.new"></wp-create-button>
-        </li>
-        <li class="toolbar-item">
-          <button class="button edit-all-button toolbar-icon"
-                  ng-disabled="$ctrl.wpEditModeState.active"
-                  ng-click="$ctrl.wpEditModeState.start()"
-                  ng-disabled="!$ctrl.wpEditModeState.form.isEditable"
-                  title="{{I18n.t('js.button_edit')}}">
-            <op-icon icon-classes="button--icon icon-edit"></op-icon>
-          </button>
-        </li>
-        <li class="toolbar-item" ng-if="$ctrl.displayWatchButton">
-          <wp-watcher-button work-package="$ctrl.workPackage" disabled="$ctrl.wpEditModeState.active"></wp-watcher-button>
-        </li>
-        <li class="toolbar-item">
-          <wp-zen-mode-toggle-button>
-          </wp-zen-mode-toggle-button>
-        </li>
-        <li class="toolbar-item action_menu_main" id="action-show-more-dropdown-menu">
-          <button class="button dropdown-relative toolbar-icon"
-                  ng-disabled="!actionsAvailable || $ctrl.wpEditModeState.active"
-                  has-dropdown-menu
-                  target="ShowMoreDropdownMenu"
-                  locals="permittedActions,actionsAvailable,triggerMoreMenuAction"
-                  title="{{I18n.t('js.button_more')}}">
-            <op-icon icon-classes="button--icon icon-show-more"></op-icon>
-          </button>
-        </li>
-      </ul>
-      <ul class="subject-header">
-        <li class="subject-header-inner">
-          <wp-subject></wp-subject>
-        </li>
-      </ul>
     </div>
-  </div>
 
-  <div class="work-packages-full-view--split-container">
-    <div class="work-packages-full-view--split-left">
-      <div class="work-packages--panel-inner">
-        <wp-single-view></wp-single-view>
-        <edit-actions-bar
-            ng-show="$ctrl.wpEditModeState.active"
-            on-save="$ctrl.wpEditModeState.save()"
-            on-cancel="$ctrl.wpEditModeState.cancel()"
-        ></edit-actions-bar>
-      </div>
-    </div>
-    <div class="work-packages-full-view--split-right">
-      <div class="work-packages--panel-inner">
-        <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="$ctrl.focusAnchorLabel"></span>
-        <div id="tabs">
-          <ul class="tabrow">
-            <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
-            properly. Thus, don't remove the hrefs or the empty URLs! -->
-            <li ui-sref="work-packages.show.activity({workPackageId: $ctrl.workPackage.id})"
-                ui-sref-active="selected">
-              <a href="" ng-bind="::$ctrl.text.tabs.activity"/>
-            </li>
-            <li ui-sref="work-packages.show.relations({workPackageId: $ctrl.workPackage.id})"
-                ui-sref-active="selected">
-              <a href="" ng-bind="::$ctrl.text.tabs.relations"/>
-            </li>
-            <li ng-if="$ctrl.canViewWorkPackageWatchers()"
-                ui-sref="work-packages.show.watchers({workPackageId: $ctrl.workPackage.id})"
-                ui-sref-active="selected">
-              <a href="" ng-bind="::$ctrl.text.tabs.watchers"/>
-            </li>
-          </ul>
+    <div class="work-packages-full-view--split-container">
+      <div class="work-packages-full-view--split-left">
+        <div class="work-packages--panel-inner">
+          <wp-single-view work-package="$ctrl.workPackage"></wp-single-view>
         </div>
-        <div class="tabcontent" ui-view>
+      </div>
+      <div class="work-packages-full-view--split-right">
+        <div class="work-packages--panel-inner">
+          <span class="hidden-for-sighted" tabindex="-1" focus ng-bind="$ctrl.focusAnchorLabel"></span>
+          <div id="tabs">
+            <ul class="tabrow">
+              <!-- The hrefs with empty URLs are necessary for IE10 to focus these links
+              properly. Thus, don't remove the hrefs or the empty URLs! -->
+              <li ui-sref="work-packages.show.activity({workPackageId: $ctrl.workPackage.id})"
+                  ui-sref-active="selected">
+                <a href="" ng-bind="::$ctrl.text.tabs.activity"/>
+              </li>
+              <li ui-sref="work-packages.show.relations({workPackageId: $ctrl.workPackage.id})"
+                  ui-sref-active="selected">
+                <a href="" ng-bind="::$ctrl.text.tabs.relations"/>
+                <wp-relations-count wp-id="::$ctrl.workPackage.id"></wp-relations-count>
+              </li>
+              <li ng-if="$ctrl.canViewWorkPackageWatchers()"
+                  ui-sref="work-packages.show.watchers({workPackageId: $ctrl.workPackage.id})"
+                  ui-sref-active="selected">
+                <a href="" ng-bind="::$ctrl.text.tabs.watchers"/>
+              </li>
+            </ul>
+          </div>
+          <div class="tabcontent" ui-view>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 </div>

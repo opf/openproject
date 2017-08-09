@@ -131,10 +131,8 @@ table.generic-table
       font-weight: bold
 
   tbody
-    tr
+    tr:not(.-no-highlighting)
       border-bottom: 1px solid $table-row-border-color
-      &:hover
-        background: $table-row-highlighting-color
 
     td
       max-width: 300px
@@ -206,7 +204,7 @@ html.-supports-sticky-headers
 
 .generic-table--header-outer,
 .generic-table--sort-header-outer,
-  padding:      0 6px
+  padding:      0 12px 0 6px
   line-height:  $generic-table--header-height
   z-index:      1
   border-bottom: 1px solid $table-row-border-color
@@ -238,20 +236,18 @@ html.-supports-sticky-headers
   white-space: nowrap
   width:   100%
   clear:   both
-  display: block
   min-width: 40px
-
-  & > a,
-  & > span
-    display: block
-    font-weight: bold
-    overflow: hidden
-    text-overflow: ellipsis
+  display: flex
 
   & > a
-    float: left
+    flex: 1 1 0
     width: 100%
-    padding-right: 30px
+    font-weight: bold
+
+  & > op-icon
+    flex: 0 0 0
+    padding-left: 15px
+
 
 .generic-table--sort-header-outer
   .dropdown-indicator
@@ -260,7 +256,6 @@ html.-supports-sticky-headers
     min-width: 1em
     visibility: hidden
     position: relative
-    right: 15px
 
   &:hover .dropdown-indicator
     visibility: visible

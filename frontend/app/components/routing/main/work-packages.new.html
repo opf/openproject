@@ -1,9 +1,6 @@
 <div
     class="work-package--new-state work-packages--show-view toolbar-container"
-    ng-if="$ctrl.newWorkPackage"
-    has-edit-mode="true"
-    wp-edit-form="$ctrl.newWorkPackage"
-    wp-edit-form-on-save="$ctrl.refreshAfterSave(workPackage, 'work-packages.show')">
+    ng-if="$ctrl.newWorkPackage">
   <div class="toolbar">
     <div class="title-container">
       <h2>{{ $ctrl.header }}</h2>
@@ -26,10 +23,13 @@
     </ul>
   </div>
 
-  <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
-  <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
-  <edit-actions-bar
-      on-save="$ctrl.saveWorkPackage()"
-      on-cancel="$ctrl.cancelAndBackToList()"
-  ></edit-actions-bar>
+  <wp-edit-field-group work-package="$ctrl.newWorkPackage"
+                       success-state="$ctrl.successState"
+                       in-edit-mode="true">
+    <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
+    <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
+    <edit-actions-bar
+        on-cancel="$ctrl.cancelAndBackToList()"
+    ></edit-actions-bar>
+  </wp-edit-field-group>
 </div>

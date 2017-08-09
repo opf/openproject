@@ -69,6 +69,13 @@ en:
     is_active: currently displayed
     is_inactive: currently not displayed
 
+  attribute_help_texts:
+    text_overview: 'In this view, you can create custom help texts for attributes view. When defined, these texts can be shown by clicking the help icon next to its belonging attribute.'
+    label_plural: 'Attribute help texts'
+    show_preview: 'Preview text'
+    add_new: 'Add help text'
+    edit: "Edit help text for %{attribute_caption}"
+
   auth_sources:
     index:
       no_results_content_title: There are currently no authentication modes.
@@ -85,6 +92,7 @@ en:
     is_enabled_globally: 'Is enabled globally'
     enabled_in_project: 'Enabled in project'
     contained_in_type: 'Contained in type'
+    confirm_destroy_option: "Deleting an option will delete all of its occurrences (e.g. in work packages). Are you sure you want to delete it?"
     tab:
       no_results_title_text: There are currently no custom fields.
       no_results_content_text: Create a new custom field
@@ -262,13 +270,13 @@ en:
   activemodel:
     errors:
       models:
-        "queries/base_contract":
+        query:
           attributes:
             project:
               error_not_found: "not found"
             public:
               error_unauthorized: "- The user has no permission to create public queries."
-        "relations/base_contract":
+        relation:
           attributes:
             to:
               error_not_found: "work package in `to` position not found or not visible"
@@ -276,7 +284,7 @@ en:
             from:
               error_not_found: "work package in `from` position not found or not visible"
               error_readonly: "an existing relation's `from` link is immutable"
-        "users/base_contract":
+        user:
           attributes:
             status:
               invalid_on_create: "is not a valid status for new users."
@@ -297,6 +305,9 @@ en:
         file: "File"
         filename: "File"
         filesize: "Size"
+      attribute_help_text:
+        attribute_name: 'Attribute'
+        help_text: 'Help text'
       auth_source:
         account: "Account"
         attr_firstname: "Firstname attribute"
@@ -353,6 +364,8 @@ en:
         work_packages: "Work Packages"
       query:
         column_names: "Columns"
+        relations_to_type_column: "Relations to %{type}"
+        relations_of_type_column: "%{type} relations"
         group_by: "Group results by"
         filters: "Filters"
       repository:
@@ -468,7 +481,10 @@ en:
         before: "must be before %{date}."
         before_or_equal_to: "must be before or equal to %{date}."
         could_not_be_copied: "could not be (fully) copied."
+        regex_invalid: "could not be validated with the associated regular expression."
       models:
+        custom_field:
+          at_least_one_custom_option: "At least one option needs to be available."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
         project:
@@ -541,6 +557,7 @@ en:
 
     models:
       attachment: "File"
+      attribute_help_text: "Attribute help text"
       board: "Forum"
       comment: "Comment"
       custom_field: "Custom field"
@@ -586,6 +603,7 @@ en:
     content: "Content"
     created_at: "Created on"
     created_on: "Created on"
+    custom_options: "Possible values"
     custom_values: "Custom fields"
     date: "Date"
     default_columns: "Default columns"
@@ -866,6 +884,7 @@ en:
   enumeration_reported_project_statuses: "Reported project status"
 
   error_can_not_archive_project: "This project cannot be archived"
+  error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Unable to delete custom field"
   error_can_not_delete_type: "This type contains work packages and cannot be deleted."
   error_can_not_delete_standard_type: "Standard types cannot be deleted."
@@ -1603,6 +1622,9 @@ en:
   notice_logged_out: "You have been logged out."
   notice_wont_delete_auth_source: The authentication mode cannot be deleted as long as there are still users using it.
   notice_project_cannot_update_custom_fields: "You cannot update the project's available custom fields. The project is invalid: %{errors}"
+  notice_attachment_migration_wiki_page: >
+    This page was generated automatically during the update of OpenProject.
+    It contains all attachments previously associated with the %{container_type} "%{container_name}".
 
   # Default format for numbers
   number:
@@ -1793,7 +1815,10 @@ en:
     git:
       instructions:
         managed_url: "This is the URL of the managed (local) Git repository."
-        path: "Specify the path to your local Git repository ( e.g., %{example_path} )."
+        path: >-
+          Specify the path to your local Git repository ( e.g., %{example_path} ).
+          You can also use remote repositories which are cloned to a local copy by
+          using a value starting with http(s):// or file://.
         path_encoding: "Override Git path encoding (Default: UTF-8)"
       local_title: "Link existing local Git repository"
       local_url: "Local URL"
@@ -1929,7 +1954,7 @@ en:
   setting_session_ttl: "Session expiry time after inactivity"
   setting_session_ttl_hint: "Value below 5 works like disabled"
   setting_session_ttl_enabled: "Session expires"
-  setting_start_of_week: "Start calendars on"
+  setting_start_of_week: "Week starts on"
   setting_sys_api_enabled: "Enable repository management web service"
   setting_sys_api_description: "The repository management web service provides integration and user authorization for accessing repositories."
   setting_text_formatting: "Text formatting"
@@ -1956,6 +1981,7 @@ en:
 
   status_active: "active"
   status_invited: invited
+  status_locked: locked
   status_registered: registered
 
   # Used in array.to_sentence.
@@ -1971,14 +1997,8 @@ en:
   text_are_you_sure_with_children: "Delete work package and all child work packages?"
   text_assign_to_project: "Assign to the project"
   text_form_configuration: >
-    You can customize which fields will be displayed
-    in work package forms. You can freely group the
-    fields to reflect the needs for your domain.
-
-    By default fields will only be shown in
-    the collapsed work package view if they have a value.
-    Fields that are 'Always displayed' will be visibile even
-    if they don't have a value.
+    You can customize which fields will be displayed in work package forms.
+    You can freely group the fields to reflect the needs for your domain.
   text_form_configuration_drag_to_activate: "Drag fields from here to activate them"
   text_form_configuration_required_attribute: "Attribute is marked required and thus always shown"
   text_caracters_maximum: "%{count} characters maximum."
@@ -2283,10 +2303,6 @@ en:
     When used with active users their status will be changed to 'invited'.
 
   tooltip:
-    attribute_visibility:
-      default: Show if not empty
-      visible: Show even if empty
-      hidden: Hide by default
     setting_email_login: >
       If enabled a user will be unable to chose a login during registration.
       Instead their given e-mail address will serve as the login.

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'search_controller'
 
 describe SearchController, type: :controller do
@@ -40,7 +41,7 @@ describe SearchController, type: :controller do
   end
 
   it 'should search all projects' do
-    get :index, q: 'recipe subproject commit', submit: 'Search'
+    get :index, params: { q: 'recipe subproject commit', submit: 'Search' }
     assert_response :success
     assert_template 'index'
 
@@ -54,7 +55,7 @@ describe SearchController, type: :controller do
   end
 
   it 'should search project and subprojects' do
-    get :index, project_id: 1, q: 'recipe subproject', scope: 'subprojects', submit: 'Search'
+    get :index, params: { project_id: 1, q: 'recipe subproject', scope: 'subprojects', submit: 'Search' }
     assert_response :success
     assert_template 'index'
     assert assigns(:results).include?(WorkPackage.find(1))
@@ -64,18 +65,18 @@ describe SearchController, type: :controller do
   it 'should search without searchable custom fields' do
     CustomField.update_all "searchable = #{ActiveRecord::Base.connection.quoted_false}"
 
-    get :index, project_id: 1
+    get :index, params: { project_id: 1 }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:project)
 
-    get :index, project_id: 1, q: 'can'
+    get :index, params: { project_id: 1, q: 'can' }
     assert_response :success
     assert_template 'index'
   end
 
   it 'should search with searchable custom fields' do
-    get :index, project_id: 1, q: 'stringforcustomfield'
+    get :index, params: { project_id: 1, q: 'stringforcustomfield' }
     assert_response :success
     results = assigns(:results)
     refute_nil results
@@ -85,7 +86,7 @@ describe SearchController, type: :controller do
 
   it 'should search all words' do
     # 'all words' is on by default
-    get :index, project_id: 1, q: 'recipe updating saving'
+    get :index, params: { project_id: 1, q: 'recipe updating saving' }
     results = assigns(:results)
     refute_nil results
     assert_equal 1, results.size
@@ -93,7 +94,7 @@ describe SearchController, type: :controller do
   end
 
   it 'should search one of the words' do
-    get :index, project_id: 1, q: 'recipe updating saving', submit: 'Search'
+    get :index, params: { project_id: 1, q: 'recipe updating saving', submit: 'Search' }
     results = assigns(:results)
     refute_nil results
     assert_equal 3, results.size
@@ -101,45 +102,45 @@ describe SearchController, type: :controller do
   end
 
   it 'should search titles only without result' do
-    get :index, project_id: 1, q: 'recipe updating saving', all_words: '1', titles_only: '1', submit: 'Search'
+    get :index, params: { project_id: 1, q: 'recipe updating saving', all_words: '1', titles_only: '1', submit: 'Search' }
     results = assigns(:results)
     refute_nil results
     assert_equal 0, results.size
   end
 
   it 'should search titles only' do
-    get :index, project_id: 1, q: 'recipe', titles_only: '1', submit: 'Search'
+    get :index, params: { project_id: 1, q: 'recipe', titles_only: '1', submit: 'Search' }
     results = assigns(:results)
     refute_nil results
     assert_equal 2, results.size
   end
 
   it 'should search with invalid project id' do
-    get :index, project_id: 195, q: 'recipe'
+    get :index, params: { project_id: 195, q: 'recipe' }
     assert_response 404
     assert_nil assigns(:results)
   end
 
   it 'should quick jump to work packages' do
     # work_package of a public project
-    get :index, q: '3'
+    get :index, params: { q: '3' }
     assert_redirected_to '/work_packages/3'
   end
 
   it 'should not jump to an invisible WP' do
-    get :index, q: '4'
+    get :index, params: { q: '4' }
     assert_response :success
     assert_template 'index'
   end
 
   it 'should large integer' do
-    get :index, q: '4615713488'
+    get :index, params: { q: '4615713488' }
     assert_response :success
     assert_template 'index'
   end
 
   it 'should tokens with quotes' do
-    get :index, project_id: 1, q: '"good bye" hello "bye bye"'
+    get :index, params: { project_id: 1, q: '"good bye" hello "bye bye"' }
     assert_equal ['good bye', 'hello', 'bye bye'], assigns(:tokens)
   end
 end

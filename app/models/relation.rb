@@ -71,19 +71,19 @@ class Relation < ActiveRecord::Base
       sym: TYPE_PRECEDES, reverse: TYPE_PRECEDES
     },
     TYPE_INCLUDES => {
-      name: :label_includes, sym_name: :label_includes, order: 8,
+      name: :label_includes, sym_name: :label_part_of, order: 8,
       sym: TYPE_PARTOF
     },
     TYPE_PARTOF => {
-      name: :label_part_of, sym_name: :label_part_of, order: 9,
+      name: :label_part_of, sym_name: :label_includes, order: 9,
       sym: TYPE_INCLUDES, reverse: TYPE_INCLUDES
     },
     TYPE_REQUIRES => {
-      name: :label_requires, sym_name: :label_requires, order: 10,
+      name: :label_requires, sym_name: :label_required, order: 10,
       sym: TYPE_REQUIRED
     },
     TYPE_REQUIRED => {
-      name: :label_required, sym_name: :label_required, order: 11,
+      name: :label_required, sym_name: :label_requires, order: 11,
       sym: TYPE_REQUIRES, reverse: TYPE_REQUIRES
     }
   }.freeze
@@ -97,6 +97,11 @@ class Relation < ActiveRecord::Base
            :validate_no_circular_dependency
 
   before_save :update_schedule
+
+  def self.visible(user = User.current)
+    where(from_id: WorkPackage.visible(user))
+      .where(to_id: WorkPackage.visible(user))
+  end
 
   def other_work_package(work_package)
     from_id == work_package.id ? to : from

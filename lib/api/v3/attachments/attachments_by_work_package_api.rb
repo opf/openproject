@@ -37,7 +37,7 @@ module API
             def parse_metadata(json)
               return nil unless json
 
-              metadata = Hashie::Mash.new
+              metadata = OpenStruct.new
               ::API::V3::Attachments::AttachmentMetadataRepresenter.new(metadata).from_json(json)
 
               unless metadata.file_name

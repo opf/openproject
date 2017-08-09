@@ -28,13 +28,12 @@
 
 source 'https://rubygems.org'
 
-# We do not yet support 2.4
 ruby '~> 2.4.1'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
-gem 'activerecord-session_store', '~> 1.0.0'
-gem 'rails', '~> 5.0.3'
+gem 'activerecord-session_store', '~> 1.1.0'
+gem 'rails', '~> 5.0.4'
 gem 'responders', '~> 2.4'
 
 gem 'coderay', '~> 1.1.0'
@@ -42,7 +41,7 @@ gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee
 gem 'rdoc', '>= 2.4.2'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize', ref: '38443bcd', require: false
-gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '8385bc0'
+gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
 gem 'request_store', '~> 1.3.1'
 gem 'gravatar_image_tag', '~> 1.2.0'
 
@@ -52,11 +51,11 @@ gem 'warden-basic_auth', '~> 0.2.1'
 # TODO: adds #auto_link which was deprecated in rails 3.1
 gem 'rails_autolink', '~> 1.1.6'
 gem 'will_paginate', '~> 3.1.0'
-gem 'acts_as_list', '~> 0.9.5'
+
+gem 'friendly_id', '~> 5.2.1'
+
+gem 'acts_as_list', '~> 0.9.7'
 gem 'acts_as_tree', '~> 2.6.1'
-
-gem 'friendly_id', git: 'https://github.com/norman/friendly_id', ref: 'aff05645' # '~> 5.1.0'
-
 gem 'awesome_nested_set', '~> 3.1.3'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'
@@ -84,13 +83,13 @@ gem 'sys-filesystem', '~> 1.1.4', require: false
 
 gem 'bcrypt', '~> 3.1.6'
 
+gem 'multi_json', '~> 1.12.1'
+gem 'oj', '~> 3.3.2'
 # We rely on this specific version, which is the latest as of now (end of 2016),
 # because we have to apply to it a bugfix which could break things in other versions.
 # This can be removed as soon as said bugfix is integrated into rabl itself.
 # See: config/initializers/rabl_hack.rb
 gem 'rabl', '~> 0.13.0'
-gem 'multi_json', '~> 1.12.1'
-gem 'oj', '~> 3.0.6'
 
 gem 'daemons'
 gem 'delayed_job_active_record', '~> 4.1.1'
@@ -135,12 +134,12 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'sprockets', '~> 3.7.0'
-gem 'sass-rails', '~> 5.0.6'
-gem 'sass', '3.5.0.pre.rc.1'
-gem 'autoprefixer-rails', '~> 6.7.7.2'
+gem 'autoprefixer-rails', '~> 7.1.2.3'
 gem 'bourbon', '~> 4.3.4'
 gem 'i18n-js', '~> 3.0.0'
+gem 'sass', '3.5.1'
+gem 'sass-rails', '~> 5.0.6'
+gem 'sprockets', '~> 3.7.0'
 
 # small wrapper around the command line
 gem 'cocaine', '~> 0.5.8'
@@ -149,7 +148,7 @@ gem 'cocaine', '~> 0.5.8'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.7.2'
+gem 'nokogiri', '~> 1.8.0'
 
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
 # fog dependency chain. We only need aws here, so we can avoid it
@@ -157,7 +156,7 @@ gem 'nokogiri', '~> 1.7.2'
 gem 'fog-aws'
 gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
 
-gem 'openproject-token', '~> 1.0.0'
+gem 'openproject-token', '~> 1.0.1'
 
 group :test do
   gem 'rack-test', '~> 0.6.3'
@@ -173,8 +172,8 @@ group :test do
 
   gem 'cucumber', '~> 2.4.0'
   gem 'cucumber-rails', '~> 1.4.4', require: false
+  gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
-  gem 'database_cleaner', '~> 1.5.3'
   # not possible to upgrade to 3.6+ until rails is 5.1+
   gem 'rspec', '~> 3.5.0'
   # also add to development group, so "spec" rake task gets loaded
@@ -182,29 +181,26 @@ group :test do
   gem 'rspec-activemodel-mocks', '~> 1.0.3', git: 'https://github.com/rspec/rspec-activemodel-mocks'
 
   # Retry failures within the same environment
+  gem 'retriable', '~> 3.0'
   gem 'rspec-retry', '~> 0.5.2'
-  gem 'retriable', '~> 2.1'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
 
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
-  # TODO: 1.0.1 still contains an issue that breaks helper inclusion in view specs
-  # Constrain value once new version released.
-  # More information: https://github.com/rspec/rspec-rails/issues/1644
-  gem 'rails-controller-testing', git: 'https://github.com/rails/rails-controller-testing/'
+  gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'capybara', '~> 2.13.0'
+  gem 'aws-sdk', '~> 2.10.1'
+  gem 'capybara', '~> 2.14.0'
   gem 'capybara-screenshot', '~> 1.0.14'
-  gem 'aws-sdk', '~> 2.9.25'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'capybara-ng', '~> 0.2.7'
-  gem 'selenium-webdriver', '~> 2.53.4'
-  gem 'timecop', '~> 0.8.1'
+  gem 'selenium-webdriver', '~> 3.4'
+  gem 'timecop', '~> 0.9.0'
   gem 'webmock', '~> 3.0.0', require: false
 
-  gem 'simplecov', '~> 0.12.0', require: false
+  gem 'simplecov', '~> 0.14.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
   gem 'json_spec', '~> 1.1.4'
   gem 'equivalent-xml', '~> 0.6'
@@ -226,22 +222,21 @@ group :development do
 end
 
 group :development, :test do
-  gem 'thin', '~> 1.7.0'
+  gem 'thin', '~> 1.7.2'
 
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
   gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
   gem 'pry-doc', '~> 0.10'
-
 end
 
 # API gems
-gem 'grape', '~> 0.19.2'
-gem 'grape-cache_control', '~> 1.0.1'
+gem 'grape', '~> 1.0'
 
-gem 'roar',   '~> 1.0.0'
-gem 'reform', '~> 1.2.6', require: false
+gem 'reform', '~> 2.2.0'
+gem 'reform-rails', '~> 0.1.7'
+gem 'roar', '~> 1.1.0'
 
 platforms :mri, :mingw, :x64_mingw do
   group :mysql2 do
@@ -249,7 +244,7 @@ platforms :mri, :mingw, :x64_mingw do
   end
 
   group :postgres do
-    gem 'pg', '~> 0.20.0'
+    gem 'pg', '~> 0.21.0'
   end
 end
 
@@ -266,7 +261,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'stable/7'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'release/7.2'
 end
 
 # TODO: Make this group :optional when bundler v10.x

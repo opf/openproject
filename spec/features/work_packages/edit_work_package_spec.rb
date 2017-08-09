@@ -108,8 +108,6 @@ describe 'edit work package', js: true do
   end
 
   it 'allows updating and seeing the results' do
-    wp_page.view_all_attributes
-
     wp_page.update_attributes subject: 'a new subject',
                               type: type2.name,
                               startDate: '2013-03-04',
@@ -141,8 +139,6 @@ describe 'edit work package', js: true do
   end
 
   it 'correctly assigns and un-assigns users' do
-    wp_page.view_all_attributes
-
     wp_page.update_attributes assignee: manager.name
     wp_page.expect_attributes assignee: manager.name
     wp_page.expect_activity_message("Assignee set to #{manager.name}")
@@ -158,7 +154,6 @@ describe 'edit work package', js: true do
                                   wait: 10,
                                   count: 2)
 
-    wp_page.view_all_attributes
     wp_page.expect_attributes assignee: '-'
 
     work_package.reload
@@ -178,17 +173,18 @@ describe 'edit work package', js: true do
     let!(:type2) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
 
     it 'shows the required field when switching' do
-      page.click_button(I18n.t('js.button_edit'))
       type_field = wp_page.edit_field(:type)
 
+      type_field.activate!
       type_field.set_value type2.name
-      expect(type_field.input_element).to have_selector('option:checked', text: type2.name)
+
+      wp_page.expect_notification message: "#{custom_field.name} can't be blank.",
+                                  type: 'error'
+
 
       cf_field = wp_page.edit_field("customField#{custom_field.id}")
       cf_field.expect_active!
       cf_field.expect_value('')
-
-      find('#work-packages--edit-actions-cancel').click
     end
   end
 
@@ -209,7 +205,6 @@ describe 'edit work package', js: true do
 
   it 'updates the presented custom fields based on the selected type' do
     wp_page.ensure_page_loaded
-    wp_page.view_all_attributes
 
     wp_page.expect_attributes "customField#{cf_all.id}" => '',
                               "customField#{cf_tp1.id}" => ''
@@ -235,9 +230,9 @@ describe 'edit work package', js: true do
   end
 
   it 'submits the edit mode when pressing enter' do
-    page.click_button(I18n.t('js.button_edit'))
     subject_field = wp_page.edit_field(:subject)
 
+    subject_field.activate!
     subject_field.set_value 'My new subject!'
     subject_field.input_element.send_keys(:return)
 

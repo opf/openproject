@@ -25,24 +25,25 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import * as moment from "moment";
+import * as moment from 'moment';
+import {TimelineZoomLevel} from '../../api/api-v3/hal-resources/query-resource.service';
 import {
-  WorkPackageResourceInterface,
-  WorkPackageResource
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
+  WorkPackageResource,
+  WorkPackageResourceInterface
+} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import Moment = moment.Moment;
-import {TimelineZoomLevel} from "../../api/api-v3/hal-resources/query-resource.service";
+import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 
-export const timelineElementCssClass = "timeline-element";
-export const timelineGridElementCssClass = "wp-timeline--grid-element";
-export const timelineMarkerSelectionStartClass = "selection-start";
+export const timelineElementCssClass = 'timeline-element';
+export const timelineGridElementCssClass = 'wp-timeline--grid-element';
+export const timelineMarkerSelectionStartClass = 'selection-start';
 
 /**
  *
  */
 export class TimelineViewParametersSettings {
 
-  zoomLevel: TimelineZoomLevel = 'days';
+  zoomLevel:TimelineZoomLevel = 'days';
 
 }
 
@@ -57,19 +58,24 @@ export const zoomLevelOrder:TimelineZoomLevel[] = [
  */
 export class TimelineViewParameters {
 
-  readonly now: Moment = moment({hour: 0, minute: 0, seconds: 0});
+  readonly now:Moment = moment({hour: 0, minute: 0, seconds: 0});
 
-  dateDisplayStart: Moment = moment({hour: 0, minute: 0, seconds: 0});
+  dateDisplayStart:Moment = moment({hour: 0, minute: 0, seconds: 0});
 
-  dateDisplayEnd: Moment = this.dateDisplayStart.clone().add(1, "day");
+  dateDisplayEnd:Moment = this.dateDisplayStart.clone().add(1, 'day');
 
-  settings: TimelineViewParametersSettings = new TimelineViewParametersSettings();
+  settings:TimelineViewParametersSettings = new TimelineViewParametersSettings();
 
-  activeSelectionMode: null|((wp: WorkPackageResource) => any) = null;
+  activeSelectionMode:null | ((wp:WorkPackageResource) => any) = null;
 
-  selectionModeStart: null|string = null;
+  selectionModeStart:null | string = null;
 
-  get pixelPerDay(): number {
+  /**
+   * The visible viewport (at the time the view parameters were calculated last!!!)
+   */
+  visibleViewportAtCalculationTime:[Moment, Moment];
+
+  get pixelPerDay():number {
     switch (this.settings.zoomLevel) {
       case 'days':
         return 30;
@@ -89,7 +95,7 @@ export class TimelineViewParameters {
   }
 
   get maxSteps():number {
-    return this.dateDisplayEnd.diff(this.dateDisplayStart, "days");
+    return this.dateDisplayEnd.diff(this.dateDisplayStart, 'days');
   }
 
 }
@@ -98,14 +104,15 @@ export class TimelineViewParameters {
  *
  */
 export interface RenderInfo {
-  viewParams: TimelineViewParameters;
-  workPackage: WorkPackageResourceInterface;
+  viewParams:TimelineViewParameters;
+  workPackage:WorkPackageResourceInterface;
+  changeset:WorkPackageChangeset;
 }
 
 /**
  *
  */
-export function calculatePositionValueForDayCountingPx(viewParams: TimelineViewParameters, days: number): number {
+export function calculatePositionValueForDayCountingPx(viewParams:TimelineViewParameters, days:number):number {
   const daysInPx = days * viewParams.pixelPerDay;
   return daysInPx;
 }
@@ -113,9 +120,48 @@ export function calculatePositionValueForDayCountingPx(viewParams: TimelineViewP
 /**
  *
  */
-export function calculatePositionValueForDayCount(viewParams: TimelineViewParameters, days: number): string {
+export function calculatePositionValueForDayCount(viewParams:TimelineViewParameters, days:number):string {
   const value = calculatePositionValueForDayCountingPx(viewParams, days);
-    return value + "px";
+  return value + 'px';
 }
 
+export function getTimeSlicesForHeader(vp:TimelineViewParameters,
+                                       unit:moment.unitOfTime.DurationConstructor,
+                                       startView:Moment,
+                                       endView:Moment) {
 
+  const inViewport:[Moment, Moment][] = [];
+  const rest:[Moment, Moment][] = [];
+
+  const time = startView.clone().startOf(unit);
+  const end = endView.clone().endOf(unit);
+
+  while (time.isBefore(end)) {
+    const sliceStart = moment.max(time, startView).clone();
+    const sliceEnd = moment.min(time.clone().endOf(unit), endView).clone();
+    time.add(1, unit);
+
+    const viewport = vp.visibleViewportAtCalculationTime;
+    if ((sliceStart.isSameOrAfter(viewport[0]) && sliceStart.isSameOrBefore(viewport[1]))
+      || (sliceEnd.isSameOrAfter(viewport[0]) && sliceEnd.isSameOrBefore(viewport[1]))) {
+
+      inViewport.push([sliceStart, sliceEnd]);
+    } else {
+      rest.push([sliceStart, sliceEnd]);
+    }
+  }
+
+  const firstRest:[Moment, Moment] = rest.splice(0, 1)[0];
+  const lastRest:[Moment, Moment] = rest.pop()!;
+  const inViewportAndBoundaries = _.concat(
+    [firstRest].filter(e => !_.isNil(e)),
+    inViewport,
+    [lastRest].filter(e => !_.isNil(e))
+  );
+
+  return {
+    inViewportAndBoundaries,
+    rest
+  };
+
+}

@@ -26,9 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from "../../../angular-modules";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {WorkPackageRelationsService} from "../../wp-relations/wp-relations.service";
+import {wpDirectivesModule} from '../../../angular-modules';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export class RelationsPanelController {
   public workPackage:WorkPackageResourceInterface;

@@ -72,8 +72,9 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     it 'sends a mail' do
-      expect(Delayed::Job).to receive(:enqueue)
-                                .with(an_instance_of DeliverWorkPackageNotificationJob)
+      expect(Delayed::Job)
+        .to receive(:enqueue)
+        .with(an_instance_of DeliverWorkPackageNotificationJob)
       subject.perform
     end
   end
@@ -114,7 +115,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       change = { subject: 'new subject' }
       note = { journal_notes: 'a comment' }
 
-      allow(UpdateWorkPackageService).to receive(:contract).and_return(NoopContract)
+      allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
       service = UpdateWorkPackageService.new(user: author, work_package: work_package)
 
       expect(service.call(attributes: note)).to be_success
@@ -185,7 +186,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     context 'journal 3 created after timeout of 1 and 2' do
-      # This is a normal case again, ensuring nobody takes responsiblity when not neccessary.
+      # This is a normal case again, ensuring nobody takes responsibility when not necessary.
 
       before do
         journal_2.created_at = journal_1.created_at + (timeout / 2)

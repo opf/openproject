@@ -32,6 +32,7 @@ rvm:
   - 2.4.1
 
 sudo: false
+dist: precise
 
 cache:
   bundler: true

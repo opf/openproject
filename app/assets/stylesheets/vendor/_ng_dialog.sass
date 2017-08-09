@@ -40,10 +40,12 @@
     z-index: 99
 
   .modal--header .icon-context
-    color: $font-color-on-primary
+    @include varprop(background, header-bg-color)
+    @include varprop(color, header-item-font-color)
 
   .ngdialog-content
     background: $body-background
+    min-width: 200px
     max-width: 600px
     z-index: 100
     // Required for close icon

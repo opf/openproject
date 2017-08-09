@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageCommentField} from './wp-comment-field.module';
 import {ErrorResource} from '../../api/api-v3/hal-resources/error-resource.service';
@@ -43,7 +42,7 @@ export class CommentFieldDirectiveController {
   protected editing = false;
   protected canAddComment:boolean;
   protected showAbove:boolean;
-  protected _forceFocus: boolean = false;
+  protected _forceFocus:boolean = false;
 
   constructor(protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
@@ -96,7 +95,9 @@ export class CommentFieldDirectiveController {
   public activate(withText?:string) {
     this._forceFocus = true;
     this.field.initializeFieldValue(withText);
-    return this.editing = true;
+    this.editing = true;
+    
+    this.$timeout(() => this.$element.find('.wp-inline-edit--field').focus());
   }
 
   public handleUserSubmit() {
@@ -141,8 +142,7 @@ function workPackageComment() {
     restrict: 'E',
     replace: true,
     transclude: true,
-    templateUrl: '/components/work-packages/work-package-comment/' +
-    'work-package-comment.directive.html',
+    templateUrl: '/components/work-packages/work-package-comment/work-package-comment.directive.html',
     scope: {
       workPackage: '=',
       activities: '='

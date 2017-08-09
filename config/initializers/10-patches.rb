@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,123 +34,11 @@ module ActiveRecord
   class Base
     include Redmine::I18n
 
-    # Translate attribute names for validation errors display
     def self.human_attribute_name(attr, options = {})
-      options_with_raise = { raise: true, default: false }.merge options
       attr = attr.to_s.gsub(/_id\z/, '')
-      super(attr, options_with_raise)
-    rescue I18n::MissingTranslationData => e
-      included_in_general_attributes = I18n.t('attributes').keys.map(&:to_s).include? attr
-      included_in_superclasses = ancestors.select { |a| a.ancestors.include? ActiveRecord::Base }.any? { |klass| !(I18n.t("activerecord.attributes.#{klass.name.underscore}.#{attr}").include? 'translation missing:') }
-      unless included_in_general_attributes or included_in_superclasses
-        # TODO: remove this method once no warning is displayed when running a server/console/tests/tasks etc.
-        warn "[DEPRECATION] Relying on Redmine::I18n addition of `field_` to your translation key \"#{attr}\" on the \"#{self}\" model is deprecated. Please use proper ActiveRecord i18n! \n Caught: #{e.message}"
-      end
-      super(attr, options)
+      super
     end
   end
-end
-
-module ActiveModel
-  class Errors
-    ##
-    # ActiveRecord errors do provide no means to access the symbols initially used to create an
-    # error. E.g. errors.add :foo, :bar instantly translates :bar, making it hard to write code
-    # dependent on specific errors (which we use in the APIv3).
-    # We therefore add a second information store containing pairs of [symbol, translated_message].
-    def add_with_storing_error_symbols(attribute, message = :invalid, options = {})
-      error_symbol = options.fetch(:error_symbol) { message }
-      add_without_storing_error_symbols(attribute, message, options)
-
-      if store_new_symbols?
-        if error_symbol.is_a?(Symbol)
-          symbol = error_symbol
-          partial_message = normalize_message(attribute, message, options)
-          full_message = full_message(attribute, partial_message)
-        else
-          symbol = :unknown
-          full_message = message
-        end
-
-        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
-      end
-    end
-
-    alias_method_chain :add, :storing_error_symbols
-
-    def symbols_and_messages_for(attribute)
-      writable_symbols_and_messages_for(attribute).dup
-    end
-
-    def symbols_for(attribute)
-      symbols_and_messages_for(attribute).map(&:first)
-    end
-
-    def full_message(attribute, message)
-      return message if attribute == :base
-
-      # if a model acts_as_customizable it will inject attributes like 'custom_field_1' into itself
-      # using attr_name_override we resolve names of such attributes.
-      # The rest of the method should reflect the original method implementation of ActiveModel
-      attr_name_override = nil
-      match = /\Acustom_field_(?<id>\d+)\z/.match(attribute)
-      if match
-        attr_name_override = CustomField.find_by(id: match[:id]).name
-      end
-
-      attr_name = attribute.to_s.gsub('.', '_').humanize
-      attr_name = @base.class.human_attribute_name(attribute, default: attr_name)
-      I18n.t(:"errors.format",                                default: '%{attribute} %{message}',
-                                                              attribute: attr_name_override || attr_name,
-                                                              message: message)
-    end
-
-    # Need to do the house keeping along with AR::Errors
-    # so that the symbols are removed when a new validation round starts
-    def clear_with_storing_error_symbols
-      clear_without_storing_error_symbols
-
-      @error_symbols = Hash.new
-    end
-
-    alias_method_chain :clear, :storing_error_symbols
-
-    private
-
-    def error_symbols
-      @error_symbols ||= Hash.new
-    end
-
-    def writable_symbols_and_messages_for(attribute)
-      error_symbols[attribute.to_sym] ||= []
-    end
-
-    # Kind of a hack: We need the possibility to temporarily disable symbol storing in the subclass
-    # Reform::Contract::Errors, because otherwise we end up with duplicate entries
-    # I feel dirty for doing that, but on the other hand I see no other way out... Please, stop me!
-    def store_new_symbols?
-      @store_new_symbols = true if @store_new_symbols.nil?
-      @store_new_symbols
-    end
-  end
-end
-
-require 'reform/contract'
-
-class Reform::Contract::Errors
-  def merge_with_storing_error_symbols!(errors, prefix)
-    @store_new_symbols = false
-    merge_without_storing_error_symbols!(errors, prefix)
-    @store_new_symbols = true
-
-    errors.keys.each do |attribute|
-      errors.symbols_and_messages_for(attribute).each do |symbol, full_message, partial_message|
-        writable_symbols_and_messages_for(attribute) << [symbol, full_message, partial_message]
-      end
-    end
-  end
-
-  alias_method_chain :merge!, :storing_error_symbols
 end
 
 module ActionView
@@ -246,14 +135,6 @@ module ActionView
         end
       end
     end
-
-    module AssetTagHelper
-      def auto_discovery_link_tag_with_no_atom_feeds(type = :rss, url_options = {}, tag_options = {})
-        return if (type == :atom) && Setting.table_exists? && !Setting.feeds_enabled?
-        auto_discovery_link_tag_without_no_atom_feeds(type, url_options, tag_options)
-      end
-      alias_method_chain :auto_discovery_link_tag, :no_atom_feeds
-    end
   end
 end
 
@@ -267,23 +148,5 @@ ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
   end
 end
 
-module ActiveRecord
-  class Errors
-    #  def on_with_id_handling(attribute)
-    #    attribute = attribute.to_s
-    #    if attribute.ends_with? '_id'
-    #      on_without_id_handling(attribute) || on_without_id_handling(attribute[0..-4])
-    #    else
-    #      on_without_id_handling(attribute)
-    #    end
-    #  end
-
-    #  alias_method_chain :on, :id_handling
-  end
-end
-
 # Patch acts_as_list before any class includes the module
 require 'open_project/patches/acts_as_list'
-
-# Backports some useful ruby 2.3 methods for Hash
-require 'open_project/patches/hash'

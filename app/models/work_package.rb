@@ -73,7 +73,7 @@ class WorkPackage < ActiveRecord::Base
     where(project_id: Project.allowed_to(args.first || User.current, :view_work_packages))
   }
 
-  scope :in_status, -> (*args) do
+  scope :in_status, ->(*args) do
                       where(status_id: (args.first.respond_to?(:id) ? args.first.id : args.first))
                     end
 
@@ -390,7 +390,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def to_s
-    "#{(kind.is_standard) ? '' : "#{kind.name}"} ##{id}: #{subject}"
+    "#{kind.is_standard ? '' : kind.name} ##{id}: #{subject}"
   end
 
   # Return true if the work_package is closed, otherwise false
@@ -419,19 +419,17 @@ class WorkPackage < ActiveRecord::Base
 
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default = false)
-    return [] if status.nil?
+    return Status.where('1=0') if status.nil?
 
-    statuses = status.find_new_statuses_allowed_to(
-      user.roles_for_project(project),
-      type,
-      author == user,
-      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
-    )
-    statuses << Status.default if include_default
-    statuses.reject!(&:is_closed?) if blocked?
-    statuses << status
+    current_status = Status.where(id: status_id)
 
-    statuses.uniq.sort
+    statuses = new_statuses_allowed_by_workflow_to(user)
+               .or(current_status)
+
+    statuses = statuses.or(Status.where(id: Status.default.id)) if include_default
+    statuses = statuses.where(is_closed: false) if blocked?
+
+    statuses.order_by_position
   end
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -475,7 +473,7 @@ class WorkPackage < ActiveRecord::Base
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
-    (project && type) ? (project.all_work_package_custom_fields & type.custom_fields) : []
+    project && type ? (project.all_work_package_custom_fields & type.custom_fields) : []
   end
 
   def status_id=(sid)
@@ -525,8 +523,8 @@ class WorkPackage < ActiveRecord::Base
   # see Redmine::Acts::Journalized::Permissions#journal_editable_by
   def editable_by?(user)
     project = self.project
-    allowed = user.allowed_to? :edit_work_package_notes, project,  global: project.present?
-    allowed = user.allowed_to? :edit_own_work_package_notes, project,  global: project.present?  unless allowed
+    allowed = user.allowed_to? :edit_work_package_notes, project, global: project.present?
+    allowed = user.allowed_to? :edit_own_work_package_notes, project, global: project.present? unless allowed
     allowed
   end
 
@@ -569,6 +567,84 @@ class WorkPackage < ActiveRecord::Base
   # the user is create a work package in
   def self.allowed_target_projects_on_create(user)
     Project.allowed_to(user, :add_work_packages)
+  end
+
+  # Unassigns issues from +version+ if it's no longer shared with issue's project
+  def self.update_versions_from_sharing_change(version)
+    # Update issues assigned to the version
+    update_versions(["#{WorkPackage.table_name}.fixed_version_id = ?", version.id])
+  end
+
+  # Unassigns issues from versions that are no longer shared
+  # after +project+ was moved
+  def self.update_versions_from_hierarchy_change(project)
+    moved_project_ids = project.self_and_descendants.reload.map(&:id)
+    # Update issues of the moved projects and issues assigned to a version of a moved project
+    update_versions(
+      ["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)",
+       moved_project_ids,
+       moved_project_ids]
+    )
+  end
+
+  # Extracted from the ReportsController.
+  def self.by_type(project)
+    count_and_group_by project: project,
+                       field: 'type_id',
+                       joins: ::Type.table_name
+  end
+
+  def self.by_version(project)
+    count_and_group_by project: project,
+                       field: 'fixed_version_id',
+                       joins: Version.table_name
+  end
+
+  def self.by_priority(project)
+    count_and_group_by project: project,
+                       field: 'priority_id',
+                       joins: IssuePriority.table_name
+  end
+
+  def self.by_category(project)
+    count_and_group_by project: project,
+                       field: 'category_id',
+                       joins: Category.table_name
+  end
+
+  def self.by_assigned_to(project)
+    count_and_group_by project: project,
+                       field: 'assigned_to_id',
+                       joins: User.table_name
+  end
+
+  def self.by_responsible(project)
+    count_and_group_by project: project,
+                       field: 'responsible_id',
+                       joins: User.table_name
+  end
+
+  def self.by_author(project)
+    count_and_group_by project: project,
+                       field: 'author_id',
+                       joins: User.table_name
+  end
+
+  def self.by_subproject(project)
+    return unless project.descendants.active.any?
+
+    ActiveRecord::Base.connection.select_all(
+      "select    s.id as status_id,
+        s.is_closed as closed,
+        i.project_id as project_id,
+        count(i.id) as total
+      from
+        #{WorkPackage.table_name} i, #{Status.table_name} s
+      where
+        i.status_id=s.id
+        and i.project_id IN (#{project.descendants.active.map(&:id).join(',')})
+      group by s.id, s.is_closed, i.project_id"
+    ).to_a
   end
 
   protected
@@ -726,79 +802,6 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  # Unassigns issues from +version+ if it's no longer shared with issue's project
-  def self.update_versions_from_sharing_change(version)
-    # Update issues assigned to the version
-    update_versions(["#{WorkPackage.table_name}.fixed_version_id = ?", version.id])
-  end
-
-  # Unassigns issues from versions that are no longer shared
-  # after +project+ was moved
-  def self.update_versions_from_hierarchy_change(project)
-    moved_project_ids = project.self_and_descendants.reload.map(&:id)
-    # Update issues of the moved projects and issues assigned to a version of a moved project
-    update_versions(
-      ["#{Version.table_name}.project_id IN (?) OR #{WorkPackage.table_name}.project_id IN (?)",
-       moved_project_ids,
-       moved_project_ids])
-  end
-
-  # Extracted from the ReportsController.
-  def self.by_type(project)
-    count_and_group_by project: project,
-                       field: 'type_id',
-                       joins: ::Type.table_name
-  end
-
-  def self.by_version(project)
-    count_and_group_by project: project,
-                       field: 'fixed_version_id',
-                       joins: Version.table_name
-  end
-
-  def self.by_priority(project)
-    count_and_group_by project: project,
-                       field: 'priority_id',
-                       joins: IssuePriority.table_name
-  end
-
-  def self.by_category(project)
-    count_and_group_by project: project,
-                       field: 'category_id',
-                       joins: Category.table_name
-  end
-
-  def self.by_assigned_to(project)
-    count_and_group_by project: project,
-                       field: 'assigned_to_id',
-                       joins: User.table_name
-  end
-
-  def self.by_responsible(project)
-    count_and_group_by project: project,
-                       field: 'responsible_id',
-                       joins: User.table_name
-  end
-
-  def self.by_author(project)
-    count_and_group_by project: project,
-                       field: 'author_id',
-                       joins: User.table_name
-  end
-
-  def self.by_subproject(project)
-    ActiveRecord::Base.connection.select_all(
-      "select    s.id as status_id,
-        s.is_closed as closed,
-        i.project_id as project_id,
-        count(i.id) as total
-      from
-        #{WorkPackage.table_name} i, #{Status.table_name} s
-      where
-        i.status_id=s.id
-        and i.project_id IN (#{project.descendants.active.map(&:id).join(',')})
-      group by s.id, s.is_closed, i.project_id").to_a if project.descendants.active.any?
-  end
   # End ReportsController extraction
   # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
@@ -823,6 +826,15 @@ class WorkPackage < ActiveRecord::Base
                               spent_on: Date.today)
 
     time_entries.build(attributes)
+  end
+
+  def new_statuses_allowed_by_workflow_to(user)
+    status.new_statuses_allowed_to(
+      user.roles_for_project(project),
+      type,
+      author == user,
+      assigned_to_id_changed? ? assigned_to_id_was == user.id : assigned_to_id == user.id
+    )
   end
 
   ##
@@ -925,7 +937,8 @@ class WorkPackage < ActiveRecord::Base
         i.status_id=s.id
         and #{where}
         and i.project_id=#{project.id}
-      group by s.id, s.is_closed, j.id").to_a
+      group by s.id, s.is_closed, j.id"
+    ).to_a
   end
   private_class_method :count_and_group_by
 

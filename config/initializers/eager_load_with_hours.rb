@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,22 +35,28 @@
 # this patch has been added which is based on
 # https://github.com/rails/rails/issues/15185#issuecomment-142230234
 
+module OpenProject::Patches
+  module ActiveRecordJoinPartPatch
+    def instantiate(row, aliases)
+      if base_klass == WorkPackage && row.has_key?('hours')
+        aliases_with_hours = aliases + [['hours', 'hours']]
+
+        super(row, aliases_with_hours)
+      else
+        super(row, aliases)
+      end
+    end
+  end
+end
+
 require 'active_record'
 
 module ActiveRecord
   module Associations
     class JoinDependency
       JoinBase && class JoinPart
-        def instantiate_with_hours(row, aliases)
-          if base_klass == WorkPackage && row.has_key?('hours')
-            aliases_with_hours = aliases + [['hours', 'hours']]
-
-            instantiate_without_hours(row, aliases_with_hours)
-          else
-            instantiate_without_hours(row, aliases)
-          end
-        end; alias_method_chain :instantiate, :hours
-      end
+                    prepend OpenProject::Patches::ActiveRecordJoinPartPatch
+                  end
     end
   end
 end

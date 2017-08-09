@@ -1,13 +1,11 @@
 <input type="text"
        class="wp-inline-edit--field"
        wp-edit-field-requirements="vm.field.schema"
-       ng-model="vm.workPackage[vm.fieldName]"
+       ng-model="vm.field.value"
        ng-required="vm.field.required"
        ng-focus="vm.handleUserFocus()"
        ng-blur="vm.handleUserBlur()"
-       ng-keydown="vm.handleUserSubmitOnEnter($event)"
+       ng-keydown="vm.handleUserKeydown($event)"
        transform-float-value
-       ng-disabled="vm.workPackage.inFlight"
-       focus="vm.shouldFocus()"
-       focus-priority="vm.shouldFocus()"
+       ng-disabled="vm.field.inFlight"
        ng-attr-id="{{vm.htmlId}}" />

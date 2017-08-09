@@ -29,17 +29,11 @@
 #++
 
 class UpdateWorkPackageService
-  include Concerns::Contracted
-
   attr_accessor :user, :work_package
-
-  self.contract = WorkPackages::UpdateContract
 
   def initialize(user:, work_package:)
     self.user = user
     self.work_package = work_package
-
-    self.contract = self.class.contract.new(work_package, user)
   end
 
   def call(attributes: {}, send_notifications: true)
@@ -53,31 +47,30 @@ class UpdateWorkPackageService
   private
 
   def update(attributes)
-    set_attributes(attributes)
+    result = set_attributes(attributes)
 
-    changed_attributes = work_package.changes.dup
-    save_result, save_errors = validate_and_save(work_package)
-
-    if save_result
-      cleanup_result, cleanup_errors = cleanup(changed_attributes)
+    all_valid = result.success? && work_package.save
+    if all_valid
+      cleanup_result, cleanup_errors = cleanup
 
       ServiceResult.new(success: cleanup_result,
                         errors: cleanup_errors)
     else
-      ServiceResult.new(success: save_result,
-                        errors: save_errors)
+      ServiceResult.new(success: all_valid,
+                        errors: result.success? ? work_package.errors : result.errors)
     end
   end
 
   def set_attributes(attributes)
-    work_package.attributes = attributes
-
-    unify_dates if work_package_now_milestone?
-
-    reschedule(attributes)
+    SetAttributesWorkPackageService
+      .new(user: user,
+           work_package: work_package,
+           contract: WorkPackages::UpdateContract)
+      .call(attributes)
   end
 
-  def cleanup(attributes)
+  def cleanup
+    attributes = work_package.changes.dup
     result = true
     errors = work_package.errors
 
@@ -119,20 +112,5 @@ class UpdateWorkPackageService
     end
 
     [true, work_package.errors]
-  end
-
-  def reschedule(attributes)
-    ScheduleWorkPackageService
-      .new(user: user, work_package: work_package)
-      .call(attributes: attributes)
-  end
-
-  def unify_dates
-    unified_date = work_package.due_date || work_package.start_date
-    work_package.start_date = work_package.due_date = unified_date
-  end
-
-  def work_package_now_milestone?
-    work_package.type_id_changed? && work_package.milestone?
   end
 end

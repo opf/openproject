@@ -168,9 +168,9 @@ class ::Query::Results
   def transform_group_keys(groups)
     column = query.group_by_column
 
-    if column.is_a?(QueryCustomFieldColumn) && column.custom_field.list?
+    if column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn) && column.custom_field.list?
       transform_list_group_by_keys(column.custom_field, groups)
-    elsif column.is_a?(QueryCustomFieldColumn)
+    elsif column.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
       transform_custom_field_keys(column.custom_field, groups)
     else
       groups

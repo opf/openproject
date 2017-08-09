@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,7 +33,10 @@ module API
     module Queries
       module Columns
         class QueryColumnRepresenter < ::API::Decorators::Single
-          self_link id_attribute: ->(*) { converted_name },
+          include API::Utilities::RepresenterToJsonCache
+
+          self_link path: 'query_column',
+                    id_attribute: ->(*) { converted_name },
                     title_getter: ->(*) { represented.caption }
 
           def initialize(model, *_)
@@ -45,20 +49,18 @@ module API
           property :caption,
                    as: :name
 
-          private
-
           def converted_name
             convert_attribute(represented.name)
           end
 
           alias :id :converted_name
 
-          def _type
-            'QueryColumn'
-          end
-
           def convert_attribute(attribute)
             ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+          end
+
+          def json_cache_key
+            [represented.name, represented.caption]
           end
         end
       end

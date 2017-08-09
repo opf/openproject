@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {States} from "../../states.service";
 import {WorkPackageTableTimelineService} from "../../wp-fast-table/state/wp-table-timeline.service";
 
 angular
@@ -38,27 +37,30 @@ function WorkPackageContextMenuHelper(
   UrlParamsHelper:any,
   wpTableTimeline:WorkPackageTableTimelineService,
   PathHelper:any,
-  I18n: op.I18n,
-  states: States) {
+  I18n: op.I18n) {
 
   const BULK_ACTIONS = [
     {
+      text: I18n.t('js.work_packages.bulk_actions.edit'),
       icon: 'edit',
       link: 'update',
       href: PathHelper.staticBase + '/work_packages/bulk/edit'
     },
     // TODO: reenable watch
     {
+      text: I18n.t('js.work_packages.bulk_actions.move'),
       icon: 'move',
       link: 'move',
       href: PathHelper.staticBase + '/work_packages/move/new'
     },
     {
+      text: I18n.t('js.work_packages.bulk_actions.copy'),
       icon: 'copy',
       link: 'copy',
       href: PathHelper.staticBase + '/work_packages/move/new?copy=true'
     },
     {
+      text: I18n.t('js.work_packages.bulk_actions.delete'),
       icon: 'delete',
       link: 'delete',
       href: PathHelper.staticBase + '/work_packages/bulk?_method=delete'
@@ -121,7 +123,7 @@ function WorkPackageContextMenuHelper(
 
     angular.forEach(actions, function(action) {
       if (workPackage.hasOwnProperty(action.link)) {
-        action.text = I18n.t('js.button_' + action.icon);
+        action.text = action.text || I18n.t('js.button_' + action.icon);
         allowedActions.push(action);
       }
     });

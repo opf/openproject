@@ -43,6 +43,12 @@
   // position explicitly.
   visibility: hidden
 
+  // Avoid a context menu that MAY get too large for the screen
+  // to exceed it, but rather limit its height to the view port.
+  &.-overflow-in-view
+    max-height: 100vh
+    overflow: auto
+
 .dropdown,
 .toolbar .legacy-actions-more
   position: absolute
@@ -114,12 +120,13 @@
     list-style: none
     padding: 0
     margin: 0
-    line-height: 18px
+    line-height: 20px
 
 .dropdown .dropdown-menu,
 .toolbar .legacy-actions-more
   LI > A,
-  LABEL
+  LABEL,
+  .menu-item
     display: block
     @include varprop(color, context-menu-unselected-font-color)
     text-decoration: none
@@ -131,6 +138,13 @@
       background-color: #F0F0F0
       @include varprop(color, context-menu-hover-font-color)
       cursor: pointer
+
+    .icon-hierarchy
+      padding-right: 5px
+      font-size: 20px
+
+    .no-icon
+      margin-left: 19.09px //for whatever reasons it is the right dimension
 
   LI > A.inactive
     color: #999999

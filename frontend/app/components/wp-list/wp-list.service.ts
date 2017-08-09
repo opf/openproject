@@ -26,31 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
-import {QueryFormResource} from "../api/api-v3/hal-resources/query-form-resource.service";
-import {PaginationObject, QueryDmService} from "../api/api-v3/hal-resource-dms/query-dm.service";
-import {QueryFormDmService} from "../api/api-v3/hal-resource-dms/query-form-dm.service";
-import {States} from "../states.service";
-import {SchemaResource} from "../api/api-v3/hal-resources/schema-resource.service";
-import {
-  ErrorResource,
-  v3ErrorIdentifierQueryInvalid
-} from '../api/api-v3/hal-resources/error-resource.service';
-import {WorkPackageCollectionResource} from "../api/api-v3/hal-resources/wp-collection-resource.service";
-import {QuerySchemaResourceInterface} from "../api/api-v3/hal-resources/query-schema-resource.service";
-import {QueryFilterInstanceSchemaResource} from "../api/api-v3/hal-resources/query-filter-instance-schema-resource.service";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableSortByService} from "../wp-fast-table/state/wp-table-sort-by.service";
-import {WorkPackageTableGroupByService} from "../wp-fast-table/state/wp-table-group-by.service";
-import {WorkPackageTableFiltersService} from "../wp-fast-table/state/wp-table-filters.service";
-import {WorkPackageTableSumService} from "../wp-fast-table/state/wp-table-sum.service";
-import {WorkPackageTablePaginationService} from "../wp-fast-table/state/wp-table-pagination.service";
-import {WorkPackagesListInvalidQueryService} from "./wp-list-invalid-query.service";
-import {WorkPackageTableTimelineService} from "./../wp-fast-table/state/wp-table-timeline.service";
-import {WorkPackageTableHierarchiesService} from "./../wp-fast-table/state/wp-table-hierarchy.service";
-import {SchemaCacheService} from "../schemas/schema-cache.service";
-import {Observable} from "rxjs";
+import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
+import {QueryFormResource} from '../api/api-v3/hal-resources/query-form-resource.service';
+import {PaginationObject, QueryDmService} from '../api/api-v3/hal-resource-dms/query-dm.service';
+import {QueryFormDmService} from '../api/api-v3/hal-resource-dms/query-form-dm.service';
+import {States} from '../states.service';
+import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
+import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,
@@ -61,16 +46,8 @@ export class WorkPackagesListService {
               protected QueryDm:QueryDmService,
               protected QueryFormDm:QueryFormDmService,
               protected states:States,
-              protected wpCacheService:WorkPackageCacheService,
-              protected schemaCacheService:SchemaCacheService,
-              protected wpTableColumns:WorkPackageTableColumnsService,
-              protected wpTableSortBy:WorkPackageTableSortByService,
-              protected wpTableGroupBy:WorkPackageTableGroupByService,
-              protected wpTableFilters:WorkPackageTableFiltersService,
-              protected wpTableSum:WorkPackageTableSumService,
-              protected wpTableTimeline:WorkPackageTableTimelineService,
-              protected wpTableHierarchies:WorkPackageTableHierarchiesService,
               protected wpTablePagination:WorkPackageTablePaginationService,
+              protected wpStatesInitialization:WorkPackageStatesInitializationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
               protected I18n:op.I18n,
               protected queryMenuItemFactory:any) {
@@ -129,7 +106,7 @@ export class WorkPackagesListService {
   public loadResultsList(query:QueryResource, additionalParams:PaginationObject):ng.IPromise<WorkPackageCollectionResource> {
     let wpListPromise = this.QueryDm.loadResults(query, additionalParams);
 
-    return this.updateStatesFromWPListOnPromise(wpListPromise);
+    return this.updateStatesFromWPListOnPromise(query, wpListPromise);
   }
 
   /**
@@ -156,7 +133,7 @@ export class WorkPackagesListService {
 
   public loadForm(query:QueryResource):ng.IPromise<QueryFormResource> {
     return this.QueryFormDm.load(query).then((form:QueryFormResource) => {
-      this.updateStatesFromForm(query, form);
+      this.wpStatesInitialization.updateStatesFromForm(query, form);
 
       return form;
     });
@@ -166,9 +143,8 @@ export class WorkPackagesListService {
    * Persist the current query in the backend.
    * After the update, the new query is reloaded (e.g. for the work packages)
    */
-  public create(name:string) {
-    let query = this.currentQuery;
-    let form = this.states.table.form.value!;
+  public create(query:QueryResource, name:string):ng.IPromise<QueryResource> {
+    let form = this.states.query.form.value!;
 
     query.name = name;
 
@@ -178,6 +154,7 @@ export class WorkPackagesListService {
       .then(query => {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_create'));
         this.reloadQuery(query);
+        return query;
       });
 
     return promise;
@@ -211,7 +188,7 @@ export class WorkPackagesListService {
   public save(query?:QueryResource) {
     query = query || this.currentQuery;
 
-    let form = this.states.table.form.value!;
+    let form = this.states.query.form.value!;
 
     let promise = this.QueryDm.save(query, form);
 
@@ -226,7 +203,7 @@ export class WorkPackagesListService {
         // We should actually put the query newly received
         // from the backend in here.
         // But the backend does currently not return work packages (results).
-        this.states.table.query.putValue(query!);
+        this.states.query.resource.putValue(query!);
       })
       .catch((error:ErrorResource) => {
         this.NotificationsService.addError(error.message);
@@ -235,15 +212,11 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  public toggleStarred() {
-    let query = this.currentQuery;
-
+  public toggleStarred(query:QueryResource):ng.IPromise<any> {
     let promise = this.QueryDm.toggleStarred(query);
 
-    let starred = !query.starred;
-
     promise.then((query) => {
-      this.states.table.query.putValue(query);
+      this.states.query.resource.putValue(query);
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
@@ -265,10 +238,10 @@ export class WorkPackagesListService {
   private conditionallyLoadForm(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {
     promise.then(query => {
 
-      let currentForm = this.states.table.form.value;
+      let currentForm = this.states.query.form.value;
 
       if (!currentForm || query.$links.update.$href !== currentForm.$href) {
-        this.loadForm(query);
+        setTimeout(() => this.loadForm(query), 0);
       }
 
       return query;
@@ -280,8 +253,9 @@ export class WorkPackagesListService {
   private updateStatesFromQueryOnPromise(promise:ng.IPromise<QueryResource>):ng.IPromise<QueryResource> {
     promise
       .then(query => {
-        this.states.table.context.doAndTransition('Query loaded', () => {
-          this.updateStatesFromQuery(query);
+        this.states.query.context.doAndTransition('Query loaded', () => {
+          this.wpStatesInitialization.initialize(query, query.results);
+          return this.states.tableRendering.onQueryUpdated.valuesPromise();
         });
 
         return query;
@@ -290,66 +264,19 @@ export class WorkPackagesListService {
     return promise;
   }
 
-  private updateStatesFromWPListOnPromise(promise:ng.IPromise<WorkPackageCollectionResource>):ng.IPromise<WorkPackageCollectionResource> {
+  private updateStatesFromWPListOnPromise(query:QueryResource, promise:ng.IPromise<WorkPackageCollectionResource>):ng.IPromise<WorkPackageCollectionResource> {
     return promise.then((results) => {
-      this.states.table.context.doAndTransition('Query loaded', () => {
-        this.updateStatesFromWPCollection(results);
+      this.states.query.context.doAndTransition('Query loaded', () => {
+        this.wpStatesInitialization.updateFromResults(results);
+        return this.states.tableRendering.onQueryUpdated.valuesPromise();
       });
 
       return results;
     });
   }
 
-  private updateStatesFromQuery(query:QueryResource) {
-    this.updateStatesFromWPCollection(query.results);
-
-    this.states.table.query.putValue(query);
-
-    this.wpTableSum.initialize(query);
-    this.wpTableColumns.initialize(query);
-    this.wpTableGroupBy.initialize(query);
-    this.wpTableTimeline.initialize(query);
-    this.wpTableHierarchies.initialize(query);
-
-    this.AuthorisationService.initModelAuth('query', query.$links);
-  }
-
-  private updateStatesFromWPCollection(results:WorkPackageCollectionResource) {
-    if (results.schemas) {
-      _.each(results.schemas.elements, (schema:SchemaResource) => {
-        this.states.schemas.get(schema.href as string).putValue(schema);
-      });
-    }
-
-    this.states.table.rows.putValue(results.elements);
-
-    this.wpCacheService.updateWorkPackageList(results.elements);
-
-    this.states.table.results.putValue(results);
-
-    this.states.table.groups.putValue(angular.copy(results.groups));
-
-    this.wpTablePagination.initialize(results);
-
-    this.AuthorisationService.initModelAuth('work_packages', results.$links);
-  }
-
-  private updateStatesFromForm(query:QueryResource, form:QueryFormResource) {
-    let schema = form.schema as QuerySchemaResourceInterface;
-
-    _.each(schema.filtersSchemas.elements, (schema:QueryFilterInstanceSchemaResource) => {
-      this.states.schemas.get(schema.href as string).putValue(schema);
-    });
-
-    this.states.table.form.putValue(form);
-    this.wpTableSortBy.initialize(query, schema);
-    this.wpTableFilters.initialize(query, schema);
-    this.wpTableGroupBy.update(query, schema);
-    this.wpTableColumns.update(query, schema);
-  }
-
   private get currentQuery() {
-    return this.states.table.query.value!;
+    return this.states.query.resource.value!;
   }
 
   private updateQueryMenu() {
@@ -367,35 +294,32 @@ export class WorkPackagesListService {
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
     let deferred = this.$q.defer();
 
-    if (error.errorIdentifier === v3ErrorIdentifierQueryInvalid) {
-      this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
+    this.NotificationsService.addError(this.I18n.t('js.work_packages.faulty_query.description'), error.message);
 
-      this.QueryFormDm.loadWithParams(queryProps, queryId, projectIdentifier)
-        .then(form => {
-          this.QueryDm.findDefault({pageSize: 0}, projectIdentifier)
-            .then((query:QueryResource) => {
-              this.wpListInvalidQueryService.restoreQuery(query, form);
+    this.QueryFormDm.loadWithParams(queryProps, queryId, projectIdentifier)
+      .then(form => {
+        this.QueryDm.findDefault({pageSize: 0}, projectIdentifier)
+          .then((query:QueryResource) => {
+            this.wpListInvalidQueryService.restoreQuery(query, form);
 
-              query.results.pageSize = queryProps.pageSize;
-              query.results.total = 0;
+            query.results.pageSize = queryProps.pageSize;
+            query.results.total = 0;
 
-              if (queryId) {
-                query.id = queryId;
-              }
+            if (queryId) {
+              query.id = queryId;
+            }
 
-              this.states.table.context.doAndTransition('Query loaded', () => {
-                this.updateStatesFromQuery(query);
-                this.updateStatesFromForm(query, form);
-              });
+            this.states.query.context.doAndTransition('Query loaded', () => {
+              this.wpStatesInitialization.initialize(query, query.results);
+              this.wpStatesInitialization.updateStatesFromForm(query, form);
 
-              deferred.resolve(query);
+              return this.states.tableRendering.onQueryUpdated.valuesPromise();
             });
-        });
 
-    } else {
-      this.NotificationsService.addError(error.message, []);
-      deferred.resolve();
-    }
+            deferred.resolve(query);
+          });
+      });
+
     return deferred.promise;
   }
 

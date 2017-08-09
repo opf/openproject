@@ -77,7 +77,7 @@ module NavigationHelpers
       '/admin/groups'
 
     when /^the admin page of pending users$/
-      '/users?sort=created_on:desc&status=2'
+      '/users?sort=created_on:desc&status=registered'
 
     when /^the edit menu item page of the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
       project_identifier = $2.gsub("\"", '')

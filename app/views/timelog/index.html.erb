@@ -29,8 +29,6 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= include_gon %>
 
-<%= render_timelog_breadcrumb %>
-
 <%= toolbar title: l(:label_spent_time) do %>
   <% if User.current.allowed_to?({controller: :timelog, action: :new}, @project) %>
       <li class="toolbar-item">
@@ -58,8 +56,8 @@ See doc/COPYRIGHT.rdoc for more details.
     <modal-loading></modal-loading>
 
     <%= other_formats_links do |f| %>
-      <%= f.link_to 'Atom', url: params.merge({issue_id: @issue, key: User.current.rss_key}) %>
-      <%= f.link_to 'CSV', url: params %>
+      <%= f.link_to 'Atom', url: permitted_params.timelog.to_h.merge({issue_id: @issue, key: User.current.rss_key}) %>
+      <%= f.link_to 'CSV', url: permitted_params.timelog.to_h %>
     <% end %>
   <% end %>
 </div>

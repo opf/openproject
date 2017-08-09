@@ -163,12 +163,6 @@ When /^I click the edit work package button$/ do
   end
 end
 
-When /^I show all attributes$/ do
-  within '.panel-toggler' do
-    find('a', text: 'Show all attributes').click
-  end
-end
-
 When /^I click the watch work package button$/ do
   within('#toolbar-items') do
     find('#watch-button').click

@@ -26,14 +26,13 @@
 //++
 
 import {opWorkPackagesModule} from '../../../angular-modules';
-import {WorkPackageEditModeStateService} from "../../wp-edit/wp-edit-mode-state.service";
 
 import {States} from '../../states.service';
 
-function CreateWpDropdownMenuController($scope:ng.IScope, wpEditModeState: WorkPackageEditModeStateService) {
-
-  if (wpEditModeState.form && wpEditModeState.form.workPackage) {
-    wpEditModeState.form.workPackage.getForm().then(
+function CreateWpDropdownMenuController($scope:ng.IScope, states:States) {
+  const wp = states.workPackages.get('new').value;
+  if (wp) {
+    wp.getForm().then(
       (loadedForm:any) => {
         $scope.configureFormLink = loadedForm.configureForm;
         $scope.queryCustomFields = loadedForm.customFields;

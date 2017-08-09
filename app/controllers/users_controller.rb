@@ -54,7 +54,7 @@ class UsersController < ApplicationController
   def index
     @groups = Group.all.sort
     @status = Users::UserFilterCell.status_param params
-    @users = Users::UserFilterCell.filter User.all, params
+    @users = Users::UserFilterCell.filter params
 
     respond_to do |format|
       format.html do
@@ -166,7 +166,7 @@ class UsersController < ApplicationController
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_to :back
+          redirect_back(fallback_location: edit_user_path(@user))
         end
       end
     else
@@ -176,7 +176,9 @@ class UsersController < ApplicationController
       @user.password = @user.password_confirmation = nil
 
       respond_to do |format|
-        format.html do render action: :edit end
+        format.html do
+          render action: :edit
+        end
       end
     end
   rescue ::ActionController::RedirectBackError

@@ -31,10 +31,6 @@
 describe('WorkPackageContextMenuHelper', function() {
   var PERMITTED_CONTEXT_MENU_ACTIONS:any = [
     {
-      icon: 'edit',
-      link: 'update'
-    },
-    {
       icon: 'log_time',
       link: 'logTime'
     },
@@ -123,11 +119,6 @@ describe('WorkPackageContextMenuHelper', function() {
       it('returns the link of a listed action', function() {
         expectPermitted(workPackages, { icon: 'move',
                                         link: '/work_packages/move/new?ids%5B%5D=123' });
-      });
-
-      it('returns the link of a listed action that has an alias', function() {
-        expectPermitted(workPackages, { icon: 'edit',
-                                        link: '/work_packages/123/edit' });
       });
 
       it('does not return the link of an action which is not listed', function() {

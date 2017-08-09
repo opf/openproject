@@ -26,14 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opWorkPackagesModule} from "../../../angular-modules";
-import {scopedObservable} from "../../../helpers/angular-rx-utils";
-import {debugLog} from "../../../helpers/debug_output";
-import {WorkPackageResourceInterface} from "../../api/api-v3/hal-resources/work-package-resource.service";
-import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
-import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
-import {WorkPackageEditFormController} from "../../wp-edit/wp-edit-form.directive";
-import {WorkPackageCacheService} from "../work-package-cache.service";
+import {opWorkPackagesModule} from '../../../angular-modules';
+import {scopedObservable} from '../../../helpers/angular-rx-utils';
+import {debugLog} from '../../../helpers/debug_output';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
+import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
+import {WorkPackageCacheService} from '../work-package-cache.service';
+import {WorkPackageEditFieldGroupController} from "../../wp-edit/wp-edit-field/wp-edit-field-group.directive";
+import {
+  WorkPackageEditingService
+} from '../../wp-edit-form/work-package-editing-service';
+import {States} from '../../states.service';
 
 interface FieldDescriptor {
   name:string;
@@ -50,131 +54,82 @@ interface GroupDescriptor {
 }
 
 export class WorkPackageSingleViewController {
-  public formCtrl: WorkPackageEditFormController;
-  public workPackage: WorkPackageResourceInterface;
+  public wpEditFieldGroup:WorkPackageEditFieldGroupController;
+  public workPackage:WorkPackageResourceInterface;
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
   // Special fields (project, type)
-  public specialFields:FieldDescriptor[];
-  public hideEmptyFields: boolean = true;
-  public text: any;
-  public scope: any;
+  public specialFields:FieldDescriptor[] = [];
+  public text:any;
+  public scope:any;
 
-  protected firstTimeFocused: boolean = false;
+  protected firstTimeFocused:boolean = false;
 
   constructor(protected $scope:ng.IScope,
               protected $rootScope:ng.IRootScopeService,
               protected $stateParams:ng.ui.IStateParamsService,
               protected I18n:op.I18n,
+              protected states:States,
+              protected wpEditing:WorkPackageEditingService,
               protected wpDisplayField:WorkPackageDisplayFieldService,
               protected wpCacheService:WorkPackageCacheService) {
+  }
 
+  public initialize() {
     // Create I18n texts
     this.setupI18nTexts();
-
-    // Subscribe to work package
-    const workPackageId = this.workPackage ? this.workPackage.id : $stateParams['workPackageId'];
-    scopedObservable(
-      $scope,
-      wpCacheService.loadWorkPackage(workPackageId).values$())
-      .subscribe((wp: WorkPackageResourceInterface) => {
-        this.init(wp);
-      });
-  }
-
-  /**
-   * Determines whether the given field can be hidden
-   * according to its type configuration and current work package.
-   */
-  public canHideField(field:DisplayField) {
-    var attrVisibility = field.visibility;
-    var notRequired = !field.required || field.hasDefault;
-    var empty = field.isEmpty();
-    var visible = attrVisibility === 'visible';
-    var hidden = attrVisibility === 'hidden';
-
-    if (this.workPackage.isNew) {
-      return !visible && (field.name === 'author' || notRequired || hidden);
-    }
-
-    return notRequired && !visible && (empty || hidden);
-  }
-
-  /**
-   * Determines whether we should hide the given group
-   */
-  public shouldHideGroup(group:GroupDescriptor) {
-    // Hide if the group is empty
-    if (group.members.length === 0) {
-      return true;
-    }
-
-    // Hide group if all fields are hidden
-    if (this.hideEmptyFields) {
-      return _.every(group.members, (d:FieldDescriptor) => this.shouldHideField(d.field || d.fields![0]));
-    }
-
-    return false;
-  }
-
-  /**
-   * Determines whether we should hide the given field.
-   */
-  public shouldHideField(field:DisplayField) {
-    let hideEmpty = this.hideEmptyFields;
-    const editField = this.formCtrl.fields[field.name];
-
-    if (editField) {
-      hideEmpty = !editField.hasFocus() && this.hideEmptyFields;
-    }
-
-    const hidden = field.visibility === 'hidden';
-    return this.canHideField(field) && (hideEmpty || hidden);
-  };
-
-  public setFocus() {
-    if (!this.firstTimeFocused) {
-      this.firstTimeFocused = true;
-      angular.element('.work-packages--details--subject .focus-input').focus();
-    }
-  }
-
-  /*
-  * Returns the work package label
-  */
-  public get idLabel() {
-    const label = this.I18n.t('js.label_work_package');
-    return `${label} #${this.workPackage.id}`;
-  }
-
-  private init(wp:WorkPackageResourceInterface) {
-    this.workPackage = wp;
 
     if (this.workPackage.attachments) {
       this.workPackage.attachments.updateElements();
     }
 
-    this.setFocus();
+    scopedObservable(this.$scope, this.wpEditing.temporaryEditResource(this.workPackage.id).values$())
+      .subscribe((resource:WorkPackageResourceInterface) => {
+        // Prepare the fields that are required always
+        this.specialFields = this.getFields(resource, ['project', 'status']);
 
-    // Accept the fields you always need to show.
-    this.specialFields = this.getFields(['project', 'status']);
+        // Get attribute groups if they are available (in project context)
+        const attributeGroups = resource.schema._attributeGroups;
 
-    // Get attribute groups if they are available (in project context)
-    const attributeGroups = this.workPackage.schema._attributeGroups;
+        if (!attributeGroups) {
+          this.groupedFields = [];
+          return;
+        }
 
-    if (!attributeGroups) {
-      this.groupedFields = [];
-      return;
-    }
+        this.groupedFields = attributeGroups.map((groups:any[]) => {
+          return {
+            name: groups[0],
+            members: this.getFields(resource, groups[1])
+          };
+        });
+      });
+  }
 
-    this.groupedFields = attributeGroups.map((groups:any[]) => {
-      return {
-        name: groups[0],
-        members: this.getFields(groups[1])
-      };
-    });
+  /**
+   * Returns whether a group should be hidden due to being empty
+   * (e.g., consists only of CFs and none of them are active in this project.
+   */
+  public shouldHideGroup(group:GroupDescriptor) {
+    // Hide if the group is empty
+    return group.members.length === 0;
+  }
 
+  /**
+   * Hide read-only fields, but only when in the create mode
+   * @param {FieldDescriptor} field
+   */
+  public shouldHideField(descriptor:FieldDescriptor) {
+    const field = descriptor.field || descriptor.fields![0];
+    return this.wpEditFieldGroup.inEditMode && !field.writable;
+  }
+
+  /*
+   * Returns the work package label
+   */
+  public get idLabel() {
+    const label = this.I18n.t('js.label_work_package');
+    return `${label} #${this.workPackage.id}`;
   }
 
   private setupI18nTexts() {
@@ -199,26 +154,26 @@ export class WorkPackageSingleViewController {
    * Maps the grouped fields into their display fields.
    * May return multiple fields (for the date virtual field).
    */
-  private getFields(fieldNames:string[]):FieldDescriptor[] {
+  private getFields(resource:WorkPackageResourceInterface, fieldNames:string[]):FieldDescriptor[] {
     const descriptors:FieldDescriptor[] = [];
 
     fieldNames.forEach((fieldName:string) => {
       if (fieldName === 'date') {
-        descriptors.push(this.getDateField());
+        descriptors.push(this.getDateField(resource));
         return;
       }
 
-      if (!this.workPackage.schema[fieldName]) {
+      if (!resource.schema[fieldName]) {
         debugLog('Unknown field for current schema', fieldName);
         return;
       }
 
-      const field:DisplayField = this.displayField(fieldName);
+      const field:DisplayField = this.displayField(resource, fieldName);
       descriptors.push({
         name: fieldName,
         label: field.label,
         multiple: false,
-        spanAll: field.isLargeField,
+        spanAll: field.isFormattable,
         field: field
       });
     });
@@ -231,43 +186,38 @@ export class WorkPackageSingleViewController {
    * 'date' field vs. all other types which should display a
    * combined 'start' and 'due' date field.
    */
-  private getDateField():FieldDescriptor {
+  private getDateField(resource:WorkPackageResourceInterface):FieldDescriptor {
     let object:any = {
       name: 'date',
       label: this.I18n.t('js.work_packages.properties.date'),
       multiple: false
     };
 
-    if (this.workPackage.isMilestone) {
-      object.field = this.displayField('date');
+    if (resource.schema.hasOwnProperty('date')) {
+      object.field = this.displayField(resource, 'date');
     } else {
-      object.fields = [this.displayField('startDate'), this.displayField('dueDate')];
+      object.fields = [this.displayField(resource, 'startDate'), this.displayField(resource, 'dueDate')];
       object.multiple = true;
     }
 
     return object;
   }
 
-
-  private displayField(name:string):DisplayField {
+  private displayField(resource:WorkPackageResourceInterface, name:string):DisplayField {
     return this.wpDisplayField.getField(
-      this.workPackage,
+      resource,
       name,
-      this.workPackage.schema[name]
+      resource.schema[name]
     ) as DisplayField;
+  }
+
+  private get form() {
+    return this.wpEditFieldGroup.form;
   }
 
 }
 
 function wpSingleViewDirective() {
-
-  function wpSingleViewLink(scope:ng.IScope,
-                            element:ng.IAugmentedJQuery,
-                            attrs:ng.IAttributes,
-                            controllers: [WorkPackageEditFormController, WorkPackageSingleViewController]) {
-
-    controllers[1].formCtrl = controllers[0];
-  }
 
   return {
     restrict: 'E',
@@ -277,9 +227,14 @@ function wpSingleViewDirective() {
       workPackage: '=?'
     },
 
-    require: ['^wpEditForm', 'wpSingleView'],
-    link: wpSingleViewLink,
-
+    require: ['^wpEditFieldGroup'],
+    link: (scope:any,
+           element:ng.IAugmentedJQuery,
+           attrs:any,
+           controllers: [WorkPackageEditFieldGroupController]) => {
+      scope.$ctrl.wpEditFieldGroup = controllers[0];
+      scope.$ctrl.initialize();
+    },
     bindToController: true,
     controller: WorkPackageSingleViewController,
     controllerAs: '$ctrl'

@@ -27,10 +27,9 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= form_tag({}, method: :get) do %>
+<%= form_tag(users_path, method: :get) do %>
    <% collapsed_class =  initially_visible? ? '' : 'collapsed' %>
   <fieldset class="simple-filters--container <%= collapsed_class %>">
-    <a title="{{ ::I18n.t('js.close_filter_title') }}" class="simple-filters--close icon-context icon-close" onClick="toggleMemberFilter()"></a>
     <legend><%= t(:label_filter_plural) %></legend>
     <% custom_class = ''
       if groups.present? || roles.present?

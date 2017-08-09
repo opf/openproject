@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe ActivitiesController, type: :controller do
   fixtures :all
@@ -36,7 +37,6 @@ describe ActivitiesController, type: :controller do
 
   it 'project index' do
     Journal.delete_all
-    project = Project.find(1)
     public_project = FactoryGirl.create :public_project
     issue = FactoryGirl.create :work_package,
                                project: public_project,
@@ -62,21 +62,24 @@ describe ActivitiesController, type: :controller do
                                                type_id: issue.type_id,
                                                project_id: issue.project_id)
 
-    get :index, id: 1, with_subprojects: 0
+    get :index, params: { id: 1, with_subprojects: 0 }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:events_by_day)
 
     assert_select 'h3',
-               content: /#{1.day.ago.to_date.day}/,
-               sibling: { tag: 'dl',
-                          child: { tag: 'dt',
-                                   attributes: { class: /work_package/ },
-                                   child: { tag: 'a',
-                                            content: /#{ERB::Util.h(Status.find(2).name)}/
-                   }
-                 }
-               }
+                  content: /#{1.day.ago.to_date.day}/,
+                  sibling: {
+                    tag: 'dl',
+                    child: {
+                      tag: 'dt',
+                      attributes: { class: /work_package/ },
+                      child: {
+                        tag: 'a',
+                        content: /#{ERB::Util.h(Status.find(2).name)}/
+                      }
+                    }
+                  }
   end
 
   it 'previous project index' do
@@ -90,21 +93,24 @@ describe ActivitiesController, type: :controller do
                                                type_id: issue.type_id,
                                                project_id: issue.project_id)
 
-    get :index, id: 1, from: 3.days.ago.to_date
+    get :index, params: { id: 1, from: 3.days.ago.to_date }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:events_by_day)
 
     assert_select 'h3',
-               content: /#{3.day.ago.to_date.day}/,
-               sibling: { tag: 'dl',
-                          child: { tag: 'dt',
-                                   attributes: { class: /work_package/ },
-                                   child: { tag: 'a',
-                                            content: /#{ERB::Util.h(issue.subject)}/
-                   }
-                 }
-               }
+                  content: /#{3.day.ago.to_date.day}/,
+                  sibling: {
+                    tag: 'dl',
+                    child: {
+                      tag: 'dt',
+                      attributes: { class: /work_package/ },
+                      child: {
+                        tag: 'a',
+                        content: /#{ERB::Util.h(issue.subject)}/
+                      }
+                    }
+                  }
   end
 
   it 'user index' do
@@ -119,20 +125,23 @@ describe ActivitiesController, type: :controller do
                                                type_id: issue.type_id,
                                                project_id: issue.project_id)
 
-    get :index, user_id: 2
+    get :index, params: { user_id: 2 }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:events_by_day)
 
     assert_select 'h3',
-               content: /#{3.day.ago.to_date.day}/,
-               sibling: { tag: 'dl',
-                          child: { tag: 'dt',
-                                   attributes: { class: /work_package/ },
-                                   child: { tag: 'a',
-                                            content: /#{ERB::Util.h(WorkPackage.find(1).subject)}/
-                   }
-                 }
-               }
+                  content: /#{3.day.ago.to_date.day}/,
+                  sibling: {
+                    tag: 'dl',
+                    child: {
+                      tag: 'dt',
+                      attributes: { class: /work_package/ },
+                      child: {
+                        tag: 'a',
+                        content: /#{ERB::Util.h(WorkPackage.find(1).subject)}/
+                      }
+                    }
+                  }
   end
 end

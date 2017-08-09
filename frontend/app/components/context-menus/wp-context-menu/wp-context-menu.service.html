@@ -7,13 +7,13 @@
       </a>
     </li>
     <li ng-if="!row.object.isNew" class="open detailsViewMenuItem">
-      <a role="menuitem" focus ui-sref="work-packages.list.details.overview({workPackageId: row.object.id})">
+      <a role="menuitem" focus ui-sref="work-packages.list.details.overview({workPackageId: workPackageId})">
         <op-icon icon-classes="icon-action-menu icon-view-split"></op-icon>
         <span ng-bind="I18n.t('js.button_open_details')"/>
       </a>
     </li>
     <li ng-if="!row.object.isNew" class="openFullScreenView">
-      <a role="menuitem" ui-sref="work-packages.show({workPackageId: row.object.id})">
+      <a role="menuitem" ui-sref="work-packages.show({workPackageId: workPackageId})">
         <op-icon icon-classes="icon-action-menu icon-view-fullscreen"></op-icon>
         <span ng-bind="I18n.t('js.button_open_fullscreen')"/>
       </a>

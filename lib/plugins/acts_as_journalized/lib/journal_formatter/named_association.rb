@@ -77,6 +77,10 @@ class JournalFormatter::NamedAssociation < JournalFormatter::Attribute
     end
   end
 
+  def label(key)
+    @journal.journable.class.human_attribute_name(key.to_s.gsub(/_id$/, ''))
+  end
+
   def class_from_field(field)
     association = @journal.journable.class.reflect_on_association(field)
 

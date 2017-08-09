@@ -1,14 +1,19 @@
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {InputState} from "reactivestates";
-import {opServicesModule} from "../../../angular-modules";
-import {States} from "../../states.service";
-import { TableStateStates, WorkPackageTableBaseService } from './wp-table-base.service';
-import { WorkPackageTableHierarchies } from "../wp-table-hierarchies";
+import {opServicesModule} from '../../../angular-modules';
+import {States} from '../../states.service';
+import {
+  TableStateStates,
+  WorkPackageQueryStateService,
+  WorkPackageTableBaseService
+} from './wp-table-base.service';
+import {WorkPackageTableHierarchies} from '../wp-table-hierarchies';
+import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 
-export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService {
+export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'hierarchies' as TableStateStates;
 
-  constructor(public states:States) {
+  constructor(public states:States,
+              public wpCacheService:WorkPackageCacheService) {
     super(states);
   }
 
@@ -17,26 +22,44 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
     this.state.putValue(current);
   }
 
+  public hasChanged(query:QueryResource) {
+    return query.showHierarchies !== this.isEnabled;
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.showHierarchies = this.isEnabled;
+
+    // We need to visibly load the ancestors when the mode is activated.
+    return this.isEnabled;
+  }
+
   /**
    * Return whether the current hierarchy mode is active
    */
-   public get isEnabled():boolean {
+  public get isEnabled():boolean {
     return this.currentState.isEnabled;
-   }
+  }
 
-   public setEnabled(active:boolean = true) {
-     const state = this.currentState;
-     state.current = active;
+  public setEnabled(active:boolean = true) {
+    const state = this.currentState;
+    state.current = active;
 
-     this.state.putValue(state);
-   }
+    // hierarchies and group by are mutually exclusive
+    if (active) {
+      var groupBy = this.states.table.groupBy.value!;
+      groupBy.current = undefined;
+      this.states.table.groupBy.putValue(groupBy);
+    }
 
-   /**
-    * Toggle the hierarchy state
-    */
-   public toggleState() {
+    this.state.putValue(state);
+  }
+
+  /**
+   * Toggle the hierarchy state
+   */
+  public toggleState() {
     this.setEnabled(!this.isEnabled);
-   }
+  }
 
   /**
    * Return whether the given wp ID is collapsed.

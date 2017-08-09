@@ -233,6 +233,10 @@ describe ::API::V3::WorkPackages::Schema::SpecificWorkPackageSchema do
     end
 
     context 'date' do
+      before do
+        allow(work_package.type).to receive(:is_milestone?).and_return(true)
+      end
+
       it 'is not writable when the work package is a parent' do
         allow(work_package).to receive(:leaf?).and_return(false)
         expect(subject.writable?(:date)).to be false

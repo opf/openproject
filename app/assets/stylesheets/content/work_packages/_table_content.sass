@@ -36,6 +36,7 @@
 .work-package-table--container table.generic-table tbody td
   padding-left: 0
   line-height: 24px
+  height: 41px
 
 // Styles for inline editable attributes
 .work-package-table--container td.-editable
@@ -100,6 +101,7 @@ table.generic-table tbody tr.issue .checkbox
   pointer-events: none
 
   .inplace-edit
+    display: initial
     pointer-events: all
 
 .inplace-editing--container
@@ -108,4 +110,10 @@ table.generic-table tbody tr.issue .checkbox
   border-radius: 2px
   overflow: visible
   width: 100%
+
+
+// Special width rules for more or less fixed with fields
+.wp-table--cell-td.startDate,
+.wp-table--cell-td.dueDate
+  width: 160px
 

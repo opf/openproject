@@ -50,10 +50,9 @@ feature 'invite user via email', type: :feature, js: true do
       expect(members_page).to have_selected_new_principal('Invite finkelstein@openproject.com')
 
       click_on 'Add'
-      expect(members_page).to have_added_user('finkelstein @openproject.com', visible: false)
-      click_on 'filter-member-button' # toggle filters
-      select 'all', from: 'status'
-      click_on 'Apply'
+
+      expect(members_page).to have_added_user('finkelstein @openproject.com')
+
       expect(members_page).to have_user 'finkelstein @openproject.com'
     end
   end

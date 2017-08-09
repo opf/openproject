@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::Relations::RelationQuery, type: :model do
   let(:instance) { described_class.new }
-  let(:base_scope) { Relation.all }
+  let(:base_scope) { Relation.visible }
 
   context 'without a filter' do
     describe '#results' do

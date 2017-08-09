@@ -42,7 +42,7 @@ upgrade. Security issues will always take precedence over anything else in the p
 ## License
 
 OpenProject is licensed under the terms of the GNU General Public License version 3.
-See [doc/COPYRIGHT.rdoc](doc/COPYRIGHT.rdoc) for details.
+See [docs/COPYRIGHT.rdoc](docs/COPYRIGHT.rdoc) for details.
 
 ## Credits
 

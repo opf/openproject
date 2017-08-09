@@ -1,13 +1,9 @@
-import {commonRowClassName} from '../builders/rows/single-row-builder';
+
 /**
  * Return the row html id attribute for the given work package ID.
  */
 export function rowId(workPackageId:string):string {
-  return `wp-row-${workPackageId}`;
-}
-
-export function rowClass(workPackageId:string):string {
-  return `${commonRowClassName}-${workPackageId}`;
+  return `wp-table-row-${workPackageId}`;
 }
 
 /**

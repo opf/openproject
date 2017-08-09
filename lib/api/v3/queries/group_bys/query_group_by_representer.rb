@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,9 +33,10 @@ module API
     module Queries
       module GroupBys
         class QueryGroupByRepresenter < ::API::Decorators::Single
+          include API::Utilities::RepresenterToJsonCache
+
           self_link id_attribute: ->(*) { converted_name },
                     title_getter: ->(*) { represented.caption }
-
           def initialize(model, *_)
             super(model, current_user: nil, embed_links: true)
           end
@@ -44,8 +46,6 @@ module API
 
           property :caption,
                    as: :name
-
-          private
 
           def converted_name
             convert_attribute(represented.name)
@@ -59,6 +59,10 @@ module API
 
           def convert_attribute(attribute)
             ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
+          end
+
+          def json_cache_key
+            [represented.name, represented.caption]
           end
         end
       end

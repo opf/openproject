@@ -74,7 +74,7 @@ function wpUploadDirective(): IDirective {
         ngf-select
         ngf-change="$ctrl.uploadFiles($files)"
         ngf-multiple="true"
-        ngf-max-size="{{ ::$ctrl.maxFileSize }}"
+        ngf-validate="{ size: {max: ::$ctrl.maxFileSize} }"
         tabindex="0"
         aria-label="{{ ::$ctrl.text.uploadLabel }}"
         click-on-keypress="[13, 32]"

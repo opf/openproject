@@ -46,20 +46,8 @@
 .wp-table--hierarchy-td
   min-width: 0px !important
 
-// Highlight the additional hierarchy
-// so it becomes clear they're not part of the sort
-body:not(.accessibility-mode ) .wp-table--hierarchy-aditional-row
-  @include varprop(color, gray-dark)
-  .wp-table--hierarchy-indicator
-    @include varprop(color, gray-dark)
-
-  // Fix padding on additional row/id field
-  // since we don't have the edit-span's padding here
-  .hierarchy-row--id-cell
-    padding-left: 5px !important
-
-
 .hierarchy-header--outer-span
+  white-space: nowrap
   & > .dropdown-indicator
     width: 1em
     text-align: right
@@ -71,9 +59,6 @@ body:not(.accessibility-mode ) .wp-table--hierarchy-aditional-row
     visibility: visible
 
 // Style hierarchy column differently
-.hierarchy-header--sort-title
-  width: calc(100% - 48px)
-  display: inline-block
 
 // Padding for the hierarchy mode
 .wp-table--cell-td.subject:not(.-with-hierarchy)
@@ -83,9 +68,17 @@ body:not(.accessibility-mode ) .wp-table--hierarchy-aditional-row
   .wp-table--cell-span
     padding-left: 0
 
+// Highlight additional hierarchy table rows
+// that are not part of the normal result list
+body:not(.accessibility-mode)
+  .wp-table--hierarchy-aditional-row,
+  .wp-table--hierarchy-aditional-row .wp-table--hierarchy-indicator-icon
+    color: $table-row-hierarchies-row-font-color
+
 .hierarchy-header--icon
   cursor: pointer
   display: inline-block
+  flex: 0 0 0
   width: 20px
 
   i:before

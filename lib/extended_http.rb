@@ -47,6 +47,6 @@ module ExtendedHTTP
   #
   # This is especially useful for successful update actions.
   def no_content
-    render text: '', status: :no_content
+    render body: '', status: :no_content
   end
 end

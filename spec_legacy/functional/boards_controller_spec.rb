@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 require 'boards_controller'
 
 describe BoardsController, type: :controller do
@@ -37,7 +38,7 @@ describe BoardsController, type: :controller do
   end
 
   it 'should index' do
-    get :index, project_id: 1
+    get :index, params: { project_id: 1 }
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:boards)
@@ -45,7 +46,7 @@ describe BoardsController, type: :controller do
   end
 
   it 'should index not found' do
-    get :index, project_id: 97
+    get :index, params: { project_id: 97 }
     assert_response 404
   end
 
@@ -53,7 +54,7 @@ describe BoardsController, type: :controller do
     boards = Project.find(1).boards
     boards.take(boards.count - 1).each(&:destroy)
 
-    get :index, project_id: 1
+    get :index, params: { project_id: 1 }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:topics)
@@ -62,13 +63,13 @@ describe BoardsController, type: :controller do
   it 'should create' do
     session[:user_id] = 2
     assert_difference 'Board.count' do
-      post :create, project_id: 1, board: { name: 'Testing', description: 'Testing board creation' }
+      post :create, params: { project_id: 1, board: { name: 'Testing', description: 'Testing board creation' } }
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
   end
 
   it 'should show' do
-    get :show, project_id: 1, id: 1
+    get :show, params: { project_id: 1, id: 1 }
     assert_response :success
     assert_template 'show'
     refute_nil assigns(:board)
@@ -77,7 +78,7 @@ describe BoardsController, type: :controller do
   end
 
   it 'should show atom' do
-    get :show, project_id: 1, id: 1, format: 'atom'
+    get :show, params: { project_id: 1, id: 1, format: 'atom' }
     assert_response :success
     assert_template 'common/feed'
     refute_nil assigns(:board)
@@ -88,7 +89,7 @@ describe BoardsController, type: :controller do
   it 'should update' do
     session[:user_id] = 2
     assert_no_difference 'Board.count' do
-      put :update, project_id: 1, id: 2, board: { name: 'Testing', description: 'Testing board update' }
+      put :update, params: { project_id: 1, id: 2, board: { name: 'Testing', description: 'Testing board update' } }
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_equal 'Testing', Board.find(2).name
@@ -97,7 +98,7 @@ describe BoardsController, type: :controller do
   it 'should post destroy' do
     session[:user_id] = 2
     assert_difference 'Board.count', -1 do
-      post :destroy, project_id: 1, id: 2
+      post :destroy, params: { project_id: 1, id: 2 }
     end
     assert_redirected_to '/projects/ecookbook/settings/boards'
     assert_nil Board.find_by(id: 2)
@@ -106,7 +107,7 @@ describe BoardsController, type: :controller do
   it 'should index should 404 with no board' do
     Project.find(1).boards.each(&:destroy)
 
-    get :index, project_id: 1
+    get :index, params: { project_id: 1 }
     assert_response 404
   end
 end

@@ -154,12 +154,16 @@ describe WorkPackage, 'status', type: :model do
     let(:role) { FactoryGirl.build_stubbed(:role) }
     let(:type) { FactoryGirl.build_stubbed(:type) }
     let(:user) { FactoryGirl.build_stubbed(:user) }
+    let(:assignee_user) { FactoryGirl.build_stubbed(:user) }
+    let(:author_user) { FactoryGirl.build_stubbed(:user) }
     let(:current_status) { FactoryGirl.build_stubbed(:status) }
     let(:work_package) do
       FactoryGirl.build_stubbed(:work_package,
-                                status: current_status)
+                                assigned_to: assignee_user,
+                                author: author_user,
+                                status: current_status,
+                                type: type)
     end
-    let(:other_status) { FactoryGirl.build_stubbed(:status) }
     let(:default_status) do
       status = FactoryGirl.build_stubbed(:status)
 
@@ -173,80 +177,80 @@ describe WorkPackage, 'status', type: :model do
     let(:roles) { [role] }
 
     before do
+      default_status
+
       expect(user)
         .to receive(:roles_for_project)
         .with(work_package.project)
         .and_return(roles)
-
-      allow(current_status)
-        .to receive(:find_new_statuses_allowed_to)
-        .and_return([])
     end
 
     shared_examples_for 'new_statuses_allowed_to' do
-      it 'returns the statuses' do
-        expect(work_package.new_statuses_allowed_to(user))
-          .to match_array([current_status, other_status])
+      let(:base_scope) do
+        current_status
+          .new_statuses_allowed_to([role], type, author, assignee)
+          .or(Status.where(id: current_status.id))
+      end
+
+      it 'returns a scope that returns current_status and those available by workflow' do
+        expect(work_package.new_statuses_allowed_to(user).to_sql)
+          .to eql base_scope.order_by_position.to_sql
       end
 
       it 'adds the default status when the parameter is set accordingly' do
-        default_status
+        expected = base_scope.or(Status.where(id: Status.default.id)).order_by_position
 
-        expect(work_package.new_statuses_allowed_to(user, true))
-          .to match_array([current_status, other_status, default_status])
+        expect(work_package.new_statuses_allowed_to(user, true).to_sql)
+          .to eql expected.to_sql
       end
 
       it 'removes closed statuses if blocked' do
-        other_status.is_closed = true
-
         allow(work_package)
           .to receive(:blocked?)
           .and_return(true)
 
-        expect(work_package.new_statuses_allowed_to(user))
-          .to match_array([current_status])
+        expected = base_scope.where(is_closed: false).order_by_position
+
+        expect(work_package.new_statuses_allowed_to(user).to_sql)
+          .to eql expected.to_sql
       end
     end
 
     context 'with somebody else asking' do
-      before do
-        allow(current_status)
-          .to receive(:find_new_statuses_allowed_to)
-          .with(roles, work_package.type, false, false)
-          .and_return([other_status])
+      it_behaves_like 'new_statuses_allowed_to' do
+        let(:author) { false }
+        let(:assignee) { false }
       end
-
-      it_behaves_like 'new_statuses_allowed_to'
     end
 
     context 'with the author asking' do
-      before do
-        work_package.author = user
+      let(:user) { author_user }
 
-        allow(current_status)
-          .to receive(:find_new_statuses_allowed_to)
-          .with(roles, work_package.type, true, false)
-          .and_return([other_status])
+      it_behaves_like 'new_statuses_allowed_to' do
+        let(:author) { true }
+        let(:assignee) { false }
       end
-
-      it_behaves_like 'new_statuses_allowed_to'
     end
 
     context 'with the assignee asking' do
+      let(:user) { assignee_user }
+
+      it_behaves_like 'new_statuses_allowed_to' do
+        let(:author) { false }
+        let(:assignee) { true }
+      end
+    end
+
+    context 'with the assignee changing and asking as new assignee' do
       before do
-        work_package.assigned_to_id = user.id
-
-        allow(work_package)
-          .to receive(:assigned_to_id_changed?)
-          .and_return false
-
-        allow(current_status)
-          .to receive(:find_new_statuses_allowed_to)
-          .with(roles, work_package.type, false, true)
-          .and_return([other_status])
+        work_package.assigned_to = user
       end
 
-      it_behaves_like 'new_statuses_allowed_to'
+      # is using the former assignee
+      it_behaves_like 'new_statuses_allowed_to' do
+        let(:author) { false }
+        let(:assignee) { false }
+      end
     end
   end
 end

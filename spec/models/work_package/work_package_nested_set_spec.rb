@@ -105,7 +105,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe 'an existant instance receives a parent' do
+  describe 'an existent instance receives a parent' do
     before do
       parent.save!
       instance.save!
@@ -116,7 +116,7 @@ describe WorkPackage, type: :model do
     it_should_behave_like 'first child'
   end
 
-  describe 'an existant instance becomes a root' do
+  describe 'an existent instance becomes a root' do
     before do
       parent.save!
       instance.parent = parent
@@ -132,7 +132,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe 'an existant instance receives a new parent (new tree)' do
+  describe 'an existent instance receives a new parent (new tree)' do
     before do
       parent.save!
       parent2.save!
@@ -150,7 +150,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe "an existant instance
+  describe "an existent instance
             with a right sibling receives a new parent" do
     let(:other_child) { work_package3 }
 
@@ -196,7 +196,7 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe 'an existant instance receives a new parent (same tree)' do
+  describe 'an existent instance receives a new parent (same tree)' do
     before do
       parent.save!
       parent2.save!
@@ -210,7 +210,7 @@ describe WorkPackage, type: :model do
     it_should_behave_like 'first child'
   end
 
-  describe 'an existant instance with children receives a new parent (itself)' do
+  describe 'an existent instance with children receives a new parent (itself)' do
     let(:child) { work_package3 }
 
     before do

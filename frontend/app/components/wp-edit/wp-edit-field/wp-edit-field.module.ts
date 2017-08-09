@@ -26,16 +26,56 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
-import {Field} from '../../wp-field/wp-field.module';
-import {FieldFactory} from '../../wp-field/wp-field.module';
+import {Field, FieldFactory} from '../../wp-field/wp-field.module';
+import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 
 export class EditField extends Field {
   public template:string;
+
+  constructor(public changeset:WorkPackageChangeset,
+              public name:string,
+              public schema:op.FieldSchema) {
+    super(changeset.workPackage, name, schema);
+    this.initialize();
+  }
+
+  public get inFlight() {
+    return this.changeset.inFlight;
+  }
+
+  public get value() {
+    return this.changeset.value(this.name);
+  }
+
+  public set value(value:any) {
+    this.changeset.setValue(this.name, this.parseValue(value));
+  }
+
+  /**
+   * Initialize the field after constructor was called.
+   */
+  protected initialize() {
+  }
+
+  /**
+   * Parse the value from the model for setting
+   */
+  protected parseValue(val:any) {
+    return val;
+  }
 }
 
-export class EditFieldFactory extends FieldFactory{
+export class EditFieldFactory extends FieldFactory {
 
-  protected static fields = {};
-  protected static classes = {};
+  public static create(changeset:WorkPackageChangeset,
+                       fieldName:string,
+                       schema:op.FieldSchema):EditField {
+    let type = this.getType(schema.type);
+    let fieldClass = this.classes[type];
+
+    return new fieldClass(changeset, fieldName, schema);
+  }
+
+  protected static fields:{ [field:string]:string } = {};
+  protected static classes:{ [type:string]:typeof EditField } = {};
 }

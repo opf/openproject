@@ -29,49 +29,56 @@
 import {wpControllersModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackagesListService} from '../../wp-list/wp-list.service';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 
-function ShareModalController(this:any,
-                              $scope:any,
-                              shareModal:any,
-                              states:States,
-                              AuthorisationService:any,
-                              NotificationsService:any,
-                              wpListService:WorkPackagesListService,
-                              $q:ng.IQService) {
-  this.name = 'Share';
-  this.closeMe = shareModal.deactivate;
+export class ShareModalController {
+  public query:QueryResource;
+  public name:string = 'Share';
 
-  $scope.query = states.table.query.value;
-  let form = states.table.form.value!;
+  public isStarred:boolean;
+  public isPublic:boolean;
 
-  $scope.canStar = AuthorisationService.can('query', 'star') || AuthorisationService.can('query', 'unstar');
-  $scope.canPublicize = form.schema.public.writable;
+  constructor(private shareModal:any,
+              private states:States,
+              private NotificationsService:any,
+              private wpListService:WorkPackagesListService,
+              private $q:ng.IQService) {
+    this.name = 'Share';
+    this.query = this.states.query.resource.value!;
 
-  $scope.shareSettings = {
-    starred: !!$scope.query.unstar,
-    public: $scope.query.public
-  };
-
-  function closeAndReport(message:any) {
-    shareModal.deactivate();
-    NotificationsService.addSuccess(message.text);
+    this.isStarred = this.query.starred;
+    this.isPublic = this.query.public;
   }
 
-  $scope.saveQuery = () => {
+  public setValues(isStarred:boolean, isPublic:boolean) {
+    this.isStarred = isStarred;
+    this.isPublic = isPublic;
+  }
+
+  public closeModal() {
+    this.shareModal.deactivate();
+  }
+
+  public closeAndReport(message:any) {
+    this.shareModal.deactivate();
+    this.NotificationsService.addSuccess(message.text);
+  }
+
+  public saveQuery() {
     let promises = [];
 
-    if ($scope.query.public !== $scope.shareSettings.public) {
-      $scope.query.public = $scope.shareSettings.public;
+    if (this.query.public !== this.isPublic) {
+      this.query.public = this.isPublic;
 
-      promises.push(wpListService.save($scope.query));
+      promises.push(this.wpListService.save(this.query));
     }
 
-    if ($scope.query.starred !== $scope.shareSettings.starred) {
-      promises.push(wpListService.toggleStarred());
+    if (this.query.starred !== this.isStarred) {
+      promises.push(this.wpListService.toggleStarred(this.query));
     }
 
-    $q.all(promises).then(() => {
-      shareModal.deactivate();
+    this.$q.all(promises).then(() => {
+      this.shareModal.deactivate();
     });
   };
 }

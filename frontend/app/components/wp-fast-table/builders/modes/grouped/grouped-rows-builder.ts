@@ -7,7 +7,7 @@ import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-re
 import {GroupedRenderPass} from './grouped-render-pass';
 import {groupedRowClassName, groupIdentifier} from './grouped-rows-helpers';
 import {GroupHeaderBuilder} from './group-header-builder';
-import {rowClassName} from '../../rows/single-row-builder';
+import {tableRowClassName} from '../../rows/single-row-builder';
 
 export const rowGroupClassName = 'wp-table--group-header';
 export const collapsedRowClass = '-collapsed';
@@ -85,12 +85,12 @@ export class GroupedRowsBuilder extends RowsBuilder {
       affected.toggleClass(collapsedRowClass, group.collapsed);
 
       // Update the hidden section of the rendered state
-      affected.filter(`.${rowClassName}`).each((i, el) => {
+      affected.filter(`.${tableRowClassName}`).each((i, el) => {
         // Get the index of this row
         const index = jQuery(el).index();
 
         // Update the hidden state
-        rendered.renderedOrder[index].hidden = !!group.collapsed;
+        rendered[index].hidden = !!group.collapsed;
       });
     });
 

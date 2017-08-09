@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,7 +37,8 @@ describe Queries::Users::Filters::GroupFilter, type: :model do
   before do
     allow(Group)
       .to receive(:pluck)
-      .and_return([[group1.name, group1.id.to_s], [group2.name, group2.id.to_s]])
+      .with(:id)
+      .and_return([group1.id, group2.id])
   end
 
   it_behaves_like 'basic query filter' do
@@ -46,7 +48,7 @@ describe Queries::Users::Filters::GroupFilter, type: :model do
 
     describe '#allowed_values' do
       it 'is a list of the possible values' do
-        expected = [[group1.name, group1.id.to_s], [group2.name, group2.id.to_s]]
+        expected = [[group1.id, group1.id.to_s], [group2.id, group2.id.to_s]]
 
         expect(instance.allowed_values).to match_array(expected)
       end
@@ -58,5 +60,6 @@ describe Queries::Users::Filters::GroupFilter, type: :model do
     let(:model) { User }
     let(:joins) { :groups }
     let(:valid_values) { [group1.id.to_s] }
+    let(:expected_table_name) { 'groups_users' }
   end
 end

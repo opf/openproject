@@ -26,72 +26,89 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {
-  QueryResource,
-  QueryColumn
-} from '../../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../../api/api-v3/hal-resources/query-schema-resource.service';
 import {QueryGroupByResource} from '../../api/api-v3/hal-resources/query-group-by-resource.service';
 import {opServicesModule} from '../../../angular-modules';
-import {
-  States
-} from '../../states.service';
+import {States} from '../../states.service';
 import {WorkPackageTableGroupBy} from '../wp-table-group-by';
 import {
-  WorkPackageTableBaseService,
-  TableStateStates
+  TableStateStates,
+  WorkPackageQueryStateService,
+  WorkPackageTableBaseService
 } from './wp-table-base.service';
+import {QueryColumn} from '../../wp-query/query-column';
 
-export class WorkPackageTableGroupByService extends WorkPackageTableBaseService {
+export class WorkPackageTableGroupByService extends WorkPackageTableBaseService implements WorkPackageQueryStateService {
   protected stateName = 'groupBy' as TableStateStates;
 
-  constructor(protected states: States) {
-    super(states)
+  constructor(protected states:States) {
+    super(states);
   }
 
-  public initialize(query:QueryResource, schema?:QuerySchemaResourceInterface) {
-    let state = this.create(query, schema);
-
-    this.state.putValue(state);
+  public initialize(query:QueryResource) {
+    this.state.putValue(new WorkPackageTableGroupBy(query));
   }
 
-  public update(query:QueryResource, schema?:QuerySchemaResourceInterface) {
+  public update(query:QueryResource) {
     let currentState = this.currentState;
 
     if (currentState) {
-      currentState.update(query, schema);
+      currentState.update(query);
       this.state.putValue(currentState);
     } else {
-      this.initialize(query, schema);
+      this.initialize(query);
     }
   }
 
-  protected create(query:QueryResource, schema?:QuerySchemaResourceInterface) {
-    return new WorkPackageTableGroupBy(query, schema)
+  public hasChanged(query:QueryResource) {
+    const comparer = (groupBy:QueryColumn|undefined) => groupBy ? groupBy.href : null;
+
+    return !_.isEqual(
+      comparer(query.groupBy),
+      comparer(this.current)
+    );
+  }
+
+  public applyToQuery(query:QueryResource) {
+    query.groupBy = _.cloneDeep(this.current);
+    return true;
   }
 
   public isGroupable(column:QueryColumn):boolean {
-    return !!this.currentState.isGroupable(column);
+    return !!_.find(this.available, candidate => candidate.id === column.id);
   }
 
-  public set(groupBy:QueryGroupByResource) {
+  public set(groupBy:QueryGroupByResource|undefined) {
     let currentState = this.currentState;
 
     currentState.current = groupBy;
+
+    // hierarchies and group by are mutually exclusive
+    if (groupBy) {
+      var hierarchy = this.states.table.hierarchies.value!;
+      hierarchy.current = false;
+      this.states.table.hierarchies.putValue(hierarchy);
+    }
 
     this.state.putValue(currentState);
   }
 
   public setBy(column:QueryColumn) {
     let currentState = this.currentState;
+    let groupBy = _.find(this.available, candidate => candidate.id === column.id);
 
-    currentState.setBy(column);
-
-    this.state.putValue(currentState);
+    if (groupBy) {
+      this.set(groupBy);
+    }
   }
 
   protected get currentState():WorkPackageTableGroupBy {
     return this.state.value as WorkPackageTableGroupBy;
+  }
+
+  protected get availableState() {
+    return this.states.query.available.groupBy;
   }
 
   public get current():QueryGroupByResource|undefined {
@@ -107,11 +124,11 @@ export class WorkPackageTableGroupByService extends WorkPackageTableBaseService 
   }
 
   public get available():QueryGroupByResource[] {
-    return this.currentState.available;
+    return this.availableState.getValueOr([]);
   }
 
   public isCurrentlyGroupedBy(column:QueryColumn):boolean {
-    return this.currentState.isCurrentlyGroupedBy(column);
+    return !!(this.current && this.current.id === column.id);
   }
 }
 

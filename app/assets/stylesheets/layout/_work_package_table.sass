@@ -31,6 +31,7 @@
 .controller-work_packages.full-create
   @extend %absolute-layout-mode
 
+  #content-wrapper,
   #content
     padding: 0
 
@@ -76,6 +77,11 @@
   display: flex
   // Required for correctly scrolling the inner containers
   overflow: hidden
+
+  .row-hovered
+    background: rgba(  $table-row-highlighting-color, 0.6)
+    z-index: 100
+
 
 // Left part of the split view
 // == flex container for (table|timeline)
@@ -239,5 +245,19 @@
   .controller-work_packages.action-index
     #main
       overflow: overlay
+    #content-wrapper,
     #content
       overflow-y: auto
+
+// Implement two column layout for WP full screen view
+@media screen and (min-width: 90rem)
+  .action-show .attributes-group,
+  .full-create .attributes-group
+    .-columns-2
+      column-count: 2
+      column-gap: 4rem
+
+      .attributes-key-value
+        -webkit-column-break-inside: avoid
+        page-break-inside: avoid
+        break-inside: avoid

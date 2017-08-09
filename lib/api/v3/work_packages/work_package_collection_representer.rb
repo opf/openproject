@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -147,14 +148,12 @@ module API
 
         property :total_sums,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    if total_sums
                      ::API::V3::WorkPackages::WorkPackageSumsRepresenter.create(total_sums)
                    end
                  },
                  render_nil: false
-
-        private
 
         def current_user_allowed_to_add_work_packages?
           current_user.allowed_to?(:add_work_packages, project, global: project.nil?)

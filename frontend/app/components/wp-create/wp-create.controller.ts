@@ -26,30 +26,27 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {wpDirectivesModule} from "../../angular-modules";
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {States} from "../states.service";
+import {wpDirectivesModule} from '../../angular-modules';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../states.service';
 import {RootDmService} from '../api/api-v3/hal-resource-dms/root-dm.service';
 import {RootResource} from '../api/api-v3/hal-resources/root-resource.service';
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
-import {WorkPackageNotificationService} from "../wp-edit/wp-notification.service";
-import {WorkPackageTableSelection} from "../wp-fast-table/state/wp-table-selection.service";
-import {WorkPackageCreateService} from "./wp-create.service";
-import IRootScopeService = angular.IRootScopeService;
-import {scopedObservable} from "../../helpers/angular-rx-utils";
-import {WorkPackageTableRefreshService} from "../wp-table/wp-table-refresh-request.service";
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
+import {WorkPackageCreateService} from './wp-create.service';
+import {scopedObservable} from '../../helpers/angular-rx-utils';
+import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
+import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCreateController {
-  public newWorkPackage:WorkPackageResource|any;
-  public parentWorkPackage:WorkPackageResource|any;
-  public successState:string;
+  public newWorkPackage:WorkPackageResourceInterface;
+  public parentWorkPackage:WorkPackageResourceInterface;
+  public changeset:WorkPackageChangeset;
 
-  public get header(): string {
-    if (!this.newWorkPackage.type) {
+  public get header():string {
+    const type = this.changeset.value('type');
+
+    if (!type) {
       return this.I18n.t('js.work_packages.create.header_no_type');
     }
 
@@ -57,66 +54,73 @@ export class WorkPackageCreateController {
       return this.I18n.t(
         'js.work_packages.create.header_with_parent',
         {
-          type: this.newWorkPackage.type.name,
+          type: type.name,
           parent_type: this.parentWorkPackage.type.name,
           id: this.parentWorkPackage.id
         }
       );
     }
 
-    if (this.newWorkPackage.type) {
+    if (type) {
       return this.I18n.t(
         'js.work_packages.create.header',
-        {type: this.newWorkPackage.type.name}
+        {type: type.name}
       );
     }
 
     return '';
   }
 
-  constructor(protected $state: ng.ui.IStateService,
-              protected $scope: ng.IScope,
-              protected $q: ng.IQService,
-              protected I18n: op.I18n,
-              protected wpNotificationsService: WorkPackageNotificationService,
-              protected states: States,
-              protected loadingIndicator: any,
-              protected wpCreate: WorkPackageCreateService,
-              protected wpEditModeState: WorkPackageEditModeStateService,
-              protected wpTableSelection: WorkPackageTableSelection,
+  constructor(protected $state:ng.ui.IStateService,
+              protected $scope:ng.IScope,
+              protected $q:ng.IQService,
+              protected I18n:op.I18n,
+              protected successState:string,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected states:States,
+              protected wpCreate:WorkPackageCreateService,
+              protected wpEditing:WorkPackageEditingService,
               protected wpCacheService:WorkPackageCacheService,
-              protected wpTableRefresh:WorkPackageTableRefreshService,
+              protected v3Path:any,
               protected $location:ng.ILocationService,
-              protected RootDm:RootDmService,
-              protected v3Path:any) {
+              protected RootDm:RootDmService) {
 
     this.newWorkPackageFromParams($state.params)
-      .then(wp => {
-        this.newWorkPackage = wp;
-        this.wpEditModeState.start();
-        wpCacheService.updateWorkPackage(wp);
+      .then((changeset:WorkPackageChangeset) => {
+        this.changeset = changeset;
+        this.newWorkPackage = changeset.workPackage;
+        this.wpEditing.updateValue('new', changeset);
+        wpCacheService.updateWorkPackage(changeset.workPackage);
 
         if ($state.params['parent_id']) {
-          scopedObservable(this.$scope, wpCacheService.loadWorkPackage($state.params['parent_id']).values$())
+          this.changeset.setValue(
+            'parent',
+            {href: v3Path.wp({wp: $state.params['parent_id']})}
+          );
+        }
+
+        // Load the parent simply to display the type name :-/
+        if ($state.params['parent_id']) {
+          scopedObservable(this.$scope,
+            wpCacheService.loadWorkPackage($state.params['parent_id']).values$())
             .subscribe(parent => {
               this.parentWorkPackage = parent;
-              this.newWorkPackage.parent = parent;
             });
         }
       })
       .catch(error => {
-        if (error.errorIdentifier == "urn:openproject-org:api:v3:errors:MissingPermission") {
+        if (error.errorIdentifier === 'urn:openproject-org:api:v3:errors:MissingPermission') {
           this.RootDm.load().then((root:RootResource) => {
             if (!root.user) {
               // Not logged in
-              let url: string = $location.absUrl();
+              let url:string = $location.absUrl();
               $location.path('/login').search({back_url: url});
-              let loginUrl: string = $location.absUrl();
+              let loginUrl:string = $location.absUrl();
               window.location.href = loginUrl;
-            };
+            }
           });
           this.wpNotificationsService.handleErrorResponse(error);
-        };
+        }
       });
   }
 
@@ -124,29 +128,29 @@ export class WorkPackageCreateController {
     this.$state.go('work-packages.new', this.$state.params);
   }
 
-  protected newWorkPackageFromParams(stateParams: any) {
+  protected newWorkPackageFromParams(stateParams:any) {
     const type = parseInt(stateParams.type);
+
+    // If there is an open edit for this type, continue it
+    const changeset = this.wpEditing.state('new').value;
+    if (changeset !== undefined) {
+      const changeType = changeset.workPackage.type;
+
+      const hasChanges = !changeset.empty;
+      const typeEmpty = (!changeType && !type);
+      const typeMatches = (changeType && changeType.idFromLink === type.toString());
+
+      if (hasChanges && (typeEmpty || typeMatches)) {
+        return this.$q.when(changeset);
+      }
+    }
 
     return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type);
   }
 
   public cancelAndBackToList() {
-    this.wpEditModeState.cancel();
+    this.wpEditing.stopEditing(this.newWorkPackage.id);
     this.$state.go('work-packages.list', this.$state.params);
-  }
-
-  public saveWorkPackage(): Promise<any> {
-    return this.wpEditModeState.save();
-  }
-
-  public refreshAfterSave(wp: WorkPackageResourceInterface, successState: string) {
-    this.wpEditModeState.onSaved();
-    this.wpTableSelection.focusOn(wp.id);
-    this.loadingIndicator.mainPage = this.$state.go(successState, {workPackageId: wp.id})
-      .then(() => {
-        this.wpTableRefresh.request(false, `Saved work package ${wp.id}`);
-        this.wpNotificationsService.showSave(wp, true);
-      });
   }
 }
 

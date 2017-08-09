@@ -27,13 +27,12 @@
 // ++
 
 import {opDirective} from '../open-project.module';
-import {WorkPackageEditModeStateService} from "../wp-edit/wp-edit-mode-state.service";
 
 export interface ButtonControllerText {
-  activate: string;
-  deactivate: string;
-  label: string;
-  buttonText: string;
+  activate:string;
+  deactivate:string;
+  label:string;
+  buttonText:string;
 }
 
 export abstract class WorkPackageButtonController {
@@ -91,7 +90,6 @@ export abstract class WorkPackageButtonController {
   public abstract performAction():void;
 }
 
-
 export abstract class WorkPackageNavigationButtonController extends WorkPackageButtonController {
   public activeState:string;
   public accessKey:number;
@@ -104,7 +102,7 @@ export abstract class WorkPackageNavigationButtonController extends WorkPackageB
     return this.activationPrefix + this.text.label;
   }
 
-  public get activeAccessKey():number|void {
+  public get activeAccessKey():number | void {
     if (!this.isActive()) return this.accessKey;
   }
 
@@ -112,7 +110,6 @@ export abstract class WorkPackageNavigationButtonController extends WorkPackageB
     return this.$state.includes(this.activeState);
   }
 }
-
 
 export function wpButtonDirective(config:Object):ng.IDirective {
   return opDirective({

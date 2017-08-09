@@ -32,9 +32,12 @@ require 'model_contract'
 
 module WorkPackages
   class BaseContract < ::ModelContract
+    def self.model
+      WorkPackage
+    end
+
     attribute :subject
     attribute :description
-    attribute :start_date, :due_date
     attribute :status_id
     attribute :type_id
     attribute :priority_id
@@ -42,6 +45,16 @@ module WorkPackages
     attribute :fixed_version_id
     attribute :lock_version
     attribute :project_id
+
+    attribute :done_ratio,
+              writeable: ->(*) {
+                model.leaf? && Setting.work_package_done_ratio == 'field'
+              }
+
+    attribute :estimated_hours,
+              writeable: ->(*) {
+                model.leaf?
+              }
 
     attribute :parent_id do
       if model.changed.include? 'parent_id'
@@ -65,28 +78,10 @@ module WorkPackages
                               model.project.possible_responsible_members
     end
 
-    attribute :done_ratio do
-      if model.changed.include?('done_ratio')
-        if !model.leaf?
-          errors.add :done_ratio, :error_readonly
-        elsif Setting.work_package_done_ratio == 'status'
-          errors.add :done_ratio, :error_readonly
-        elsif Setting.work_package_done_ratio == 'disabled'
-          errors.add :done_ratio, :error_readonly
-        end
-      end
-    end
-
-    attribute :estimated_hours do
-      if !model.leaf? && model.changed.include?('estimated_hours')
-        errors.add :estimated_hours, :error_readonly
-      end
-    end
-
-    attribute :start_date do
-      if !model.leaf? && model.changed.include?('start_date')
-        errors.add :start_date, :error_readonly
-      end
+    attribute :start_date,
+              writeable: ->(*) {
+                model.leaf?
+              } do
       if start_before_parents_soonest_start?
         message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_parent_relationships',
                          soonest_start: Date.today + 4.days)
@@ -95,17 +90,20 @@ module WorkPackages
       end
     end
 
-    attribute :due_date do
-      if !model.leaf? && model.changed.include?('due_date')
-        errors.add :due_date, :error_readonly
-      end
-    end
+    attribute :due_date,
+              writeable: ->(*) {
+                model.leaf?
+              }
 
     def initialize(work_package, user)
       super(work_package)
 
       @user = user
       @can = WorkPackagePolicy.new(user)
+    end
+
+    def writable_attributes
+      super + model.available_custom_fields.map { |cf| "custom_field_#{cf.id}" }
     end
 
     private

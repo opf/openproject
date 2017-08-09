@@ -104,7 +104,7 @@ class WorkPackagesPage
   def select_query_from_dropdown(query)
     within('.title-container') do
       find('a').click
-      find('a', text: query.name).click
+      find('li', text: query.name).click
     end
   end
 

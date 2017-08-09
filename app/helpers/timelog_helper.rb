@@ -29,21 +29,6 @@
 
 module TimelogHelper
   include ApplicationHelper
-  include WorkPackage::CsvExporter
-
-  def render_timelog_breadcrumb
-    links = []
-    links << link_to(l(:label_project_all), project_id: nil, work_package_id: nil)
-    links << link_to(h(@project), project_id: @project, work_package_id: nil) if @project
-    if @issue
-      if @issue.visible?
-        links << link_to_work_package(@issue, subject: false)
-      else
-        links << "##{@issue.id}".html_safe
-      end
-    end
-    breadcrumb links
-  end
 
   # Returns a collection of activities for a select field.  time_entry
   # is optional and will be used to check if the selected TimeEntryActivity
@@ -114,7 +99,7 @@ module TimelogHelper
       # Export custom fields
       headers += custom_fields.map(&:name)
 
-      csv << encode_csv_columns(headers)
+      csv << WorkPackage::Exporter::CSV.encode_csv_columns(headers)
       # csv lines
       entries.each do |entry|
         fields = [format_date(entry.spent_on),
@@ -129,7 +114,7 @@ module TimelogHelper
                  ]
         fields += custom_fields.map { |f| show_value(entry.custom_value_for(f)) }
 
-        csv << encode_csv_columns(fields)
+        csv << WorkPackage::Exporter::CSV.encode_csv_columns(fields)
       end
     }
     export

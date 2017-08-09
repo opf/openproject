@@ -88,6 +88,11 @@ $filters--border-color: $gray !default
     @include breakpoint(large)
     max-width: 33.33%
 
+    &.-full-width
+      flex-basis: 100%
+      max-width: 100%
+      margin-bottom: 1rem
+
     @media only screen and (max-width: 1200px)
       margin-bottom: 1rem
       max-width: 100%
@@ -107,6 +112,7 @@ $filters--border-color: $gray !default
 
     .form--radio-button-container
       margin-right: 20px
+      flex-grow: 0
 
   .simple-filters--controls
     padding: 0 0 0 1rem

@@ -33,7 +33,7 @@ require 'open3'
 module OpenProject
   module VERSION #:nodoc:
     MAJOR = 7
-    MINOR = 1
+    MINOR = 2
     PATCH = 0
     TINY  = PATCH # Redmine compat
 

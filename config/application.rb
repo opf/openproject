@@ -48,10 +48,6 @@ end
 
 require 'rails/all'
 
-if Rails.env.production? || (Rails.env.test? && ENV['CI'])
-  ActiveSupport::Deprecation.behavior = :silence
-end
-
 if defined?(Bundler)
   # lib directory has to be added to the load path so that
   # the open_project/plugins files can be found (places under lib).
@@ -71,7 +67,6 @@ if defined?(Bundler)
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
-require File.dirname(__FILE__) + '/../app/middleware/params_parser_with_exclusion'
 require File.dirname(__FILE__) + '/../app/middleware/reset_current_user'
 
 module OpenProject
@@ -94,11 +89,6 @@ module OpenProject
                                       content_type = headers['Content-Type']
                                       content_type != 'application/x-gzip'
                                     }
-
-    config.middleware.use ::ParamsParserWithExclusion,
-                          exclude: -> (env) {
-                            env['PATH_INFO'] =~ /\/api\/v3/
-                          }
 
     config.middleware.use Rack::Attack
     # Ensure that tempfiles are cleared after request

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -63,30 +64,88 @@ module Type::Attributes
       OpenProject::Cache.fetch('all_work_package_form_attributes',
                                *WorkPackageCustomField.pluck('max(updated_at), count(id)').flatten,
                                merge_date) do
-        rattrs = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter.representable_attrs
-        definitions = rattrs[:definitions]
-        skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
-        attributes = definitions.keys
-                                .reject { |key| skip.include?(key) || definitions[key][:required] }
-                                .map { |key| [key, JSON::parse(definitions[key].to_json)] }.to_h
+        calculate_all_work_package_form_attributes(merge_date)
+      end
+    end
 
-        # within the form date is shown as a single entry including start and due
-        if merge_date
-          attributes['date'] = { required: false, has_default: false }
-          attributes.delete 'due_date'
-          attributes.delete 'start_date'
-        end
+    def translated_work_package_form_attributes(merge_date: false)
+      all_work_package_form_attributes(merge_date: merge_date)
+        .each_with_object({}) do |(k, v), hash|
+        hash[k] = translated_attribute_name(k, v)
+      end
+    end
 
-        WorkPackageCustomField.includes(:custom_options).all.each do |field|
-          attributes["custom_field_#{field.id}"] = {
-            required: field.is_required,
-            has_default: field.default_value.present?,
-            is_cf: true,
-            display_name: field.name
-          }
-        end
+    def translated_attribute_name(name, attr)
+      if attr[:name_source]
+        attr[:name_source].call
+      else
+        attr[:display_name] || attr_translate(name)
+      end
+    end
 
-        attributes
+    private
+
+    def calculate_all_work_package_form_attributes(merge_date)
+      attributes = calculate_default_work_package_form_attributes
+
+      # within the form date is shown as a single entry including start and due
+      if merge_date
+        merge_date_for_form_attributes(attributes)
+      end
+
+      add_custom_fields_to_form_attributes(attributes)
+
+      attributes
+    end
+
+    def calculate_default_work_package_form_attributes
+      representable_config = API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter
+                             .representable_attrs
+
+      # For reasons beyond me, Representable::Config contains the definitions
+      #  * nested in [:definitions] in some envs, e.g. development
+      #  * directly in other envs, e.g. test
+      definitions = representable_config.key?(:definitions) ? representable_config[:definitions] : representable_config
+
+      skip = ['_type', '_dependencies', 'attribute_groups', 'links', 'parent_id', 'parent', 'description']
+      definitions.keys
+                 .reject { |key| skip.include?(key) || definitions[key][:required] }
+                 .map { |key| [key, JSON::parse(definitions[key].to_json)] }.to_h
+    end
+
+    def merge_date_for_form_attributes(attributes)
+      attributes['date'] = { required: false, has_default: false }
+      attributes.delete 'due_date'
+      attributes.delete 'start_date'
+    end
+
+    def add_custom_fields_to_form_attributes(attributes)
+      WorkPackageCustomField.includes(:custom_options).all.each do |field|
+        attributes["custom_field_#{field.id}"] = {
+          required: field.is_required,
+          has_default: field.default_value.present?,
+          is_cf: true,
+          display_name: field.name
+        }
+      end
+    end
+
+
+    def attr_i18n_key(name)
+      if name == 'percentage_done'
+        'done_ratio'
+      else
+        name
+      end
+    end
+
+    def attr_translate(name)
+      if name == 'date'
+        I18n.t('label_date')
+      else
+        key = attr_i18n_key(name)
+        I18n.t("activerecord.attributes.work_package.#{key}", default: '')
+          .presence || I18n.t("attributes.#{key}")
       end
     end
   end
@@ -95,40 +154,13 @@ module Type::Attributes
     {
       key: key,
       is_cf: custom_field?(key),
-      always_visible: attr_visibility(key) == 'visible',
       is_required: represented[:required] && !represented[:has_default],
-      translation: translated_attribute_name(key, represented)
+      translation: self.class.translated_attribute_name(key, represented)
     }
-  end
-
-  def attr_i18n_key(name)
-    if name == 'percentage_done'
-      'done_ratio'
-    else
-      name
-    end
   end
 
   def custom_field?(attribute_name)
     attribute_name.to_s.start_with? 'custom_field_'
-  end
-
-  def attr_translate(name)
-    if name == 'date'
-      I18n.t('label_date')
-    else
-      key = attr_i18n_key(name)
-      I18n.t("activerecord.attributes.work_package.#{key}", default: '')
-          .presence || I18n.t("attributes.#{key}")
-    end
-  end
-
-  def translated_attribute_name(name, attr)
-    if attr[:name_source]
-      attr[:name_source].call
-    else
-      attr[:display_name] || attr_translate(name)
-    end
   end
 
   ##
@@ -146,7 +178,6 @@ module Type::Attributes
   # If a project context is given, that context is passed
   # to the constraint validator.
   def passes_attribute_constraint?(attribute, project: nil)
-
     # Check custom field constraints
     if custom_field?(attribute) && !project.nil?
       return custom_field_in_project?(attribute, project)
@@ -161,7 +192,9 @@ module Type::Attributes
   # Returns whether this type has the custom field currently
   # (e.g. because it was checked in the removed CF view).
   def has_custom_field?(attribute)
-    custom_field_ids.map { |id| "custom_field_#{id}" }.include? attribute
+    @has_custom_field_custom_field_ids ||= custom_field_ids.map { |id| "custom_field_#{id}" }
+
+    @has_custom_field_custom_field_ids.include? attribute
   end
 
   ##

@@ -1,4 +1,3 @@
-import { WorkPackageTableHierarchiesService } from './../../wp-fast-table/state/wp-table-hierarchy.service';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,10 +26,10 @@ import { WorkPackageTableHierarchiesService } from './../../wp-fast-table/state/
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {WorkPackageTableHierarchiesService} from './../../wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableColumnsService} from '../../wp-fast-table/state/wp-table-columns.service';
 import {WorkPackageTableSortByService} from '../../wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableGroupByService} from '../../wp-fast-table/state/wp-table-group-by.service';
-import {QueryColumn} from '../../api/api-v3/hal-resources/query-resource.service';
 
 angular
   .module('openproject.workPackages')
@@ -47,20 +46,20 @@ function ColumnContextMenuController($scope:any,
 
   $scope.I18n = I18n;
   $scope.text = {
-    group_by: I18n.t('js.work_packages.query.group'),
-    group_by_disabled_by_hierarchy: I18n.t('js.work_packages.query.group_by_disabled_by_hierarchy')
+    sortAscending: I18n.t('js.work_packages.query.sort_ascending'),
+    sortDescending: I18n.t('js.work_packages.query.sort_descending'),
+    groupBy: I18n.t('js.work_packages.query.group'),
+    moveLeft: I18n.t('js.work_packages.query.move_column_left'),
+    moveRight: I18n.t('js.work_packages.query.move_column_right'),
+    hide: I18n.t('js.work_packages.query.hide_column'),
+    insert: I18n.t('js.work_packages.query.insert_columns')
   };
 
   $scope.$watch('column', function () {
     // fall back to 'id' column as the default
     $scope.column = $scope.column || {name: 'id', sortable: true};
     $scope.isGroupable = wpTableGroupBy.isGroupable($scope.column) && !wpTableGroupBy.isCurrentlyGroupedBy($scope.column);
-    $scope.isGroupableDisabled = wpTableHierarchies.isEnabled;
-    $scope.isSortable = wpTableSortBy.isSortable($scope.column)
-  });
-
-  wpTableHierarchies.observeOnScope($scope).subscribe(() => {
-    $scope.isGroupableDisabled = wpTableHierarchies.isEnabled;
+    $scope.isSortable = wpTableSortBy.isSortable($scope.column);
   });
 
   // context menu actions

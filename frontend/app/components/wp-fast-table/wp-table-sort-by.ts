@@ -27,39 +27,21 @@
 // ++
 
 import {
-  QuerySortByResource,
   QUERY_SORT_BY_ASC,
-  QUERY_SORT_BY_DESC
+  QUERY_SORT_BY_DESC,
+  QuerySortByResource
 } from '../api/api-v3/hal-resources/query-sort-by-resource.service';
-import {
-  QueryResource,
-  QueryColumn
-} from '../api/api-v3/hal-resources/query-resource.service';
+import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {QuerySchemaResourceInterface} from '../api/api-v3/hal-resources/query-schema-resource.service';
-import {WorkPackageTableBaseState, WorkPackageTableQueryState} from "./wp-table-base";
-import {HalResource} from "../api/api-v3/hal-resources/hal-resource.service";
+import {WorkPackageTableBaseState} from './wp-table-base';
+import {QueryColumn} from '../wp-query/query-column';
 
-export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortByResource[]> implements WorkPackageTableQueryState {
-  public available: QuerySortByResource[] = [];
+export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortByResource[]> {
   public current:QuerySortByResource[] = [];
 
-  constructor(query:QueryResource, schema:QuerySchemaResourceInterface) {
+  constructor(query:QueryResource) {
     super();
     this.current = angular.copy(query.sortBy);
-    this.available = angular.copy(schema.sortBy.allowedValues as QuerySortByResource[]);
-  }
-
-  public hasChanged(query:QueryResource) {
-    const comparer = (sortBy:QuerySortByResource[]) => sortBy.map(el => el.href);
-
-    return !_.isEqual(
-      comparer(query.sortBy),
-      comparer(this.current)
-    );
-  }
-
-  public applyToQuery(query:QueryResource) {
-    query.sortBy = _.cloneDeep(this.current);
   }
 
   public addCurrent(sortBy:QuerySortByResource) {
@@ -76,36 +58,5 @@ export class WorkPackageTableSortBy extends WorkPackageTableBaseState<QuerySortB
     _.reverse(sortBys);
 
     _.each(sortBys, sortBy => this.addCurrent(sortBy));
-  }
-
-  public addCurrentAsc(column:QueryColumn) {
-    let available = this.findAvailableDirection(column, QUERY_SORT_BY_ASC);
-
-    if (available) {
-      this.addCurrent(available);
-    }
-  }
-
-  public addCurrentDesc(column:QueryColumn) {
-    let available = this.findAvailableDirection(column, QUERY_SORT_BY_DESC);
-
-    if (available) {
-      this.addCurrent(available);
-    }
-  }
-
-  public isSortable(column:QueryColumn):boolean {
-    return !!this.findAnyAvailable(column);
-  }
-
-  public findAnyAvailable(column:QueryColumn):QuerySortByResource|null {
-    return _.find(this.available,
-                  (candidate) => candidate.column.$href === column.$href) || null;
-  }
-
-  public findAvailableDirection(column:QueryColumn, direction:string):QuerySortByResource|null {
-    return _.find(this.available,
-                  (candidate) => (candidate.column.$href === column.$href &&
-                                  candidate.direction.$href === direction)) || null;
   }
 }

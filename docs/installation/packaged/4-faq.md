@@ -13,7 +13,7 @@ Please follow the following steps:
 1. Make a dump of your bitnami MySQL database to export your data. You can refer to the [Bitnami documentation][bitnami-mysql].
 1. Make a dump of files your might have uploaded. You can refer to the [Bitnami documentation][bitnami-backup] to perform a full dump.
 1. Copy both dumps to the server you want to install OpenProject on.
-1. Install OpenProject usign the packaged installation.
+1. Install OpenProject using the packaged installation.
 1. Import the MySQL dump into your new MySQL database. You can get your MySQL configuration by running `sudo openproject config:get DATABASE_URL`
 1. Extract the bitnami backup, and copy your file assets into the relevant directory (e.g. in `/var/db/openproject/files` for uploaded files)
 1. Restart OpenProject

@@ -4,46 +4,24 @@
       <a>
         <i
             class="icon-close"
-            ng-click="$ctrl.closeMe()"
+            ng-click="$ctrl.closeModal()"
             title="{{ ::I18n.t('js.close_popup_title') }}">
         </i>
       </a>
     </div>
 
-    <h3>{{ ::I18n.t('js.label_share') }}</h3>
+    <h3>{{ ::I18n.t('js.label_visibility_settings') }}</h3>
 
-    <div class="form--field -wide-label">
-      <div class="form--field-container -vertical">
-        <label class="form--label-with-check-box">
-          <div class="form--check-box-container">
-            <input type="checkbox"
-                   name="is_public"
-                   id="show-public"
-                   ng-model="shareSettings.public"
-                   ng-disabled="!canPublicize"
-                   class="form--check-box"
-                   focus />
-          </div>
-          {{ ::I18n.t('js.label_visible_for_others') }}
-        </label>
-        <label class="form--label-with-check-box">
-          <div class="form--check-box-container">
-            <input type="checkbox"
-                   name="show_in_menu"
-                   id="show-in-menu"
-                   ng-model="shareSettings.starred"
-                   ng-disabled="!canStar"
-                   class="form--check-box" />
-          </div>
-          {{ ::I18n.t('js.label_show_in_menu') }}
-        </label>
-      </div>
-    </div>
+    <query-sharing-form
+      on-change="$ctrl.setValues(isStarred, isPublic)"
+      is-starred="$ctrl.isStarred"
+      is-public="$ctrl.isPublic">
+    </query-sharing-form>
 
-    <button class="button -highlight -with-icon icon-checkmark" ng-click="saveQuery()">
+    <button class="button -highlight -with-icon icon-checkmark" ng-click="$ctrl.saveQuery()">
       {{ ::I18n.t('js.modals.button_save') }}
     </button>
-    <button class="button" ng-click="$ctrl.closeMe()">
+    <button class="button" ng-click="$ctrl.closeModal()">
       {{ ::I18n.t('js.modals.button_cancel') }}
     </button>
   </div>

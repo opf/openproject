@@ -26,9 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {HalResource} from "../../api/api-v3/hal-resources/hal-resource.service";
-import {Field, FieldFactory} from "../../wp-field/wp-field.module";
-import {WorkPackageDisplayAttributeController} from "../../work-packages/wp-display-attr/wp-display-attr.directive";
+import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
+import {Field, FieldFactory} from '../../wp-field/wp-field.module';
 
 export class DisplayField extends Field {
   public static type: string;
@@ -36,7 +35,7 @@ export class DisplayField extends Field {
   public I18n: op.I18n;
   public mode:string|null = null;
 
-  public get isLargeField():boolean {
+  public get isFormattable():boolean {
     return false;
   }
 
@@ -70,7 +69,6 @@ export class DisplayField extends Field {
   }
 
   public render(element:HTMLElement, displayText:string): void {
-    element.setAttribute('title', displayText);
     element.textContent = displayText;
   }
 

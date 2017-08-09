@@ -52,8 +52,8 @@ describe Queries::Users::UserQuery, type: :model do
       it 'is the same as handwriting the query' do
         expected = base_scope
                    .merge(User
-                          .where(["LOWER(CONCAT(firstname, CONCAT(' ', lastname))) LIKE ?",
-                                  "%a user%"]))
+                   .where(["LOWER(CONCAT(users.firstname, CONCAT(' ', users.lastname))) LIKE ?",
+                           "%a user%"]))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end
@@ -116,7 +116,7 @@ describe Queries::Users::UserQuery, type: :model do
         expected = base_scope
                    .merge(User
                           .joins(:groups)
-                          .where("groups.id IN ('#{group_1.id}')"))
+                          .where("groups_users.id IN ('#{group_1.id}')"))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end

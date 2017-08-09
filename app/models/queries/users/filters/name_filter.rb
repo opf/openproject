@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,48 +29,5 @@
 #++
 
 class Queries::Users::Filters::NameFilter < Queries::Users::Filters::UserFilter
-  def type
-    :string
-  end
-
-  def self.key
-    :name
-  end
-
-  def where
-    case operator
-    when '='
-      ["#{sql_concat_name} IN (?)", sql_value]
-    when '!'
-      ["#{sql_concat_name} NOT IN (?)", sql_value]
-    when '~'
-      ["#{sql_concat_name} LIKE ?", "%#{sql_value}%"]
-    when '!~'
-      ["#{sql_concat_name} NOT LIKE ?", "%#{sql_value}%"]
-    end
-  end
-
-  private
-
-  def sql_value
-    case operator
-    when '=', '!'
-      values.map { |val| self.class.connection.quote_string(val.downcase) }.join(',')
-    when '~', '!~'
-      values.first.downcase
-    end
-  end
-
-  def sql_concat_name
-    case Setting.user_format
-    when :firstname_lastname, :lastname_coma_firstname
-      "LOWER(CONCAT(firstname, CONCAT(' ', lastname)))"
-    when :firstname
-      'LOWER(firstname)'
-    when :lastname_firstname
-      "LOWER(CONCAT(lastname, CONCAT(' ', firstname)))"
-    when :username
-      "LOWER(login)"
-    end
-  end
+  include Queries::Filters::Shared::UserNameFilter
 end

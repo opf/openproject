@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,10 +28,37 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.join(__FILE__, '../csv_exporter')
-require File.join(__FILE__, '../pdf_exporter')
+module WorkPackage::Exporter
+  def self.for_list(type)
+    @for_list[type]
+  end
 
-class WorkPackage::Exporter
-  extend ::WorkPackage::PdfExporter
-  extend ::WorkPackage::CsvExporter
+  def self.register_for_list(type, exporter)
+    @for_list ||= {}
+
+    @for_list[type] = exporter
+  end
+
+  def self.list_formats
+    @for_list.keys
+  end
+
+  def self.for_single(type)
+    @for_single[type]
+  end
+
+  def self.register_for_single(type, exporter)
+    @for_single ||= {}
+
+    @for_single[type] = exporter
+  end
+
+  def self.single_formats
+    @for_single.keys
+  end
+
+  register_for_list(:csv, WorkPackage::Exporter::CSV)
+  register_for_list(:pdf, WorkPackage::Exporter::PDF)
+
+  register_for_single(:pdf, WorkPackage::Exporter::PDF)
 end

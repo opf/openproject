@@ -164,10 +164,7 @@ ul.export-options
 .modal-wrapper .ngdialog-close,
 .ngdialog-theme-openproject .ngdialog-close
   @include varprop(line-height, header-height)
-  @include varprop(color, body-font-color)
-  &:hover
-    @include varprop(color, content-link-color)
-
+  @include varprop(color, header-item-font-color)
 
 .modal--header
   display: flex
@@ -193,6 +190,54 @@ ul.export-options
   margin: 1em 0
   padding: 0 1.5rem
 
+  &.-formattable
+    p:last-of-type
+      margin-bottom: 0px
+
 .modal--footer
   margin: 1em 0
   padding: 0 1.5rem
+
+.ngdialog-theme-openproject.-light
+
+  .modal--header
+    background-color: $body-background
+    padding: 0
+    margin: 0 1.5rem
+    margin-top: 1.5rem
+    height: 33px
+    border-bottom: 1px solid #dddddd
+
+    *
+      background-color: $body-background
+      line-height: 25px
+      font-size: 18px
+      padding-bottom: 6px
+
+    h2
+      color: $body-font-color
+      color: var(--body-font-color)
+      font-weight: normal
+
+    .icon-context
+      @include varprop(color, content-icon-color)
+      font-size: 1rem
+      margin-right: 0
+
+  .ngdialog-close
+    color: $body-font-color
+    color: var(--body-font-color)
+    padding-right: 0.75rem
+    margin-top: 1.5rem
+    line-height: 25px
+
+  .modal--footer
+    margin: 1em 0 0.5em 0
+
+.ngdialog-theme-openproject.-wide
+
+  .ngdialog-content
+    width: 40%
+
+  .modal--footer
+    justify-content: inherit

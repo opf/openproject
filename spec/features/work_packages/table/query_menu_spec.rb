@@ -69,7 +69,7 @@ describe 'Query menu item', js: true do
       expect(URI.parse(page.current_url).query).to include("query_id=#{last_query.id}&query_props=")
 
       # Publish query
-      wp_table.click_setting_item 'Share'
+      wp_table.click_setting_item 'Publish'
       find('#show-in-menu').set true
       find('.button', text: 'Save').click
 

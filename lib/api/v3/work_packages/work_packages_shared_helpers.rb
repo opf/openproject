@@ -36,7 +36,7 @@ module API
         extend Grape::API::Helpers
 
         def merge_hash_into_work_package!(hash, work_package)
-          payload = ::API::V3::WorkPackages::WorkPackagePayloadRepresenter.create(work_package)
+          payload = ::API::V3::WorkPackages::WorkPackagePayloadRepresenter.create(work_package, current_user: current_user)
           payload.from_hash(Hash(hash))
         end
 
@@ -60,10 +60,12 @@ module API
 
         def create_work_package_form(work_package, contract_class:, form_class:, action: :update)
           write_work_package_attributes(work_package, request_body, reset_lock_version: true)
-          contract = contract_class.new(work_package, current_user)
-          contract.validate
 
-          api_errors = ::API::Errors::ErrorBase.create_errors(contract.errors)
+          result = SetAttributesWorkPackageService
+                   .new(user: current_user, work_package: work_package, contract: contract_class)
+                   .call({})
+
+          api_errors = ::API::Errors::ErrorBase.create_errors(result.errors)
 
           # errors for invalid data (e.g. validation errors) are handled inside the form
           if only_validation_errors(api_errors)
@@ -89,7 +91,7 @@ module API
         end
 
         def notify_according_to_params
-          !(params[:notify] == 'false')
+          params[:notify] != 'false'
         end
       end
     end

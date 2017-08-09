@@ -27,7 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'legacy_spec_helper'
+require_relative '../../legacy_spec_helper'
 
 describe 'ApiTest: DisabledRestApiTest', type: :request do
   fixtures :all
@@ -62,7 +62,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
         before do
           @user = FactoryGirl.create(:user, password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
-          get '/api/v2/projects.xml', nil, authorization: @authorization
+          get '/api/v2/projects.xml', params: { authorization: @authorization }
         end
 
         it { is_expected.to respond_with :unauthorized }
@@ -77,7 +77,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
           @user = FactoryGirl.create(:user)
           @token = FactoryGirl.create(:token, user: @user, action: 'api')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'X')
-          get '/api/v2/projects.xml', nil, authorization: @authorization
+          get '/api/v2/projects.xml', params: { authorization: @authorization }
         end
 
         it { is_expected.to respond_with :unauthorized }
@@ -107,7 +107,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
         before do
           @user = FactoryGirl.create(:user, password: 'adminADMIN!', password_confirmation: 'adminADMIN!')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@user.login, 'adminADMIN!')
-          get '/api/v2/projects.json', nil, authorization: @authorization
+          get '/api/v2/projects.json', params: { authorization: @authorization }
         end
 
         it { is_expected.to respond_with :unauthorized }
@@ -122,7 +122,7 @@ describe 'ApiTest: DisabledRestApiTest', type: :request do
           @user = FactoryGirl.create(:user)
           @token = FactoryGirl.create(:token, user: @user, action: 'api')
           @authorization = ActionController::HttpAuthentication::Basic.encode_credentials(@token.value, 'DoesNotMatter')
-          get '/api/v2/projects.json', nil, authorization: @authorization
+          get '/api/v2/projects.json', params: { authorization: @authorization }
         end
 
         it { is_expected.to respond_with :unauthorized }

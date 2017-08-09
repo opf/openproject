@@ -31,16 +31,17 @@ import IQService = angular.IQService;
 import IPromise = angular.IPromise;
 
 export interface UploadFile extends File {
-  description?: string;
+  description?:string;
+  customName?:string;
 }
 
 export interface UploadResult {
-  uploads: IPromise<any>[];
-  finished: IPromise<any>;
+  uploads:IPromise<any>[];
+  finished:IPromise<any>;
 }
 
 export class OpenProjectFileUploadService {
-  constructor(protected $q: IQService,
+  constructor(protected $q:IQService,
               protected Upload:any) {
   }
 
@@ -48,20 +49,22 @@ export class OpenProjectFileUploadService {
    * Upload multiple files using `ngFileUpload` and return a single promise.
    * Ignore directories.
    */
-  public upload(url: string, files: UploadFile[]): UploadResult {
+  public upload(url:string, files:UploadFile[]):UploadResult {
     files = _.filter(files, (file:UploadFile) => file.type !== 'directory');
-    const uploads = _.map(files, (file: UploadFile) => {
-      const params = {
-        fields: {
-          metadata: {
-            description: file.description,
-            fileName: file.name,
-          }
-        },
-        file, url
+    const uploads = _.map(files, (file:UploadFile) => {
+      const metadata = {
+        description: file.description,
+        fileName: file.customName || file.name
       };
 
-      return this.Upload.upload(params);
+      // need to wrap the metadata into a JSON ourselves as ngFileUpload
+      // will otherwise break up the metadata into individual parts
+      const data =  {
+        metadata: JSON.stringify(metadata),
+        file
+      };
+
+      return this.Upload.upload({data, url});
     });
     const finished = this.$q.all(uploads);
     return {uploads, finished};

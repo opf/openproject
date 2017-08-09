@@ -27,7 +27,8 @@ import {opApiModule} from "../../../../angular-modules";
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 import {HalResource} from "./hal-resource.service";
-import {WorkPackageResource} from "./work-package-resource.service";
+import {WorkPackageResource, WorkPackageResourceInterface} from "./work-package-resource.service";
+import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
 
 interface RelationResourceLinks {
   delete(): ng.IPromise<any>;
@@ -36,10 +37,8 @@ interface RelationResourceLinks {
 
 export class RelationResource extends HalResource {
 
-  static TYPES():string[] {
-    return [
-      'parent',
-      'children',
+  static RELATION_TYPES(includeParentChild:boolean = true):string[] {
+    const types = [
       'relates',
       'duplicates',
       'duplicated',
@@ -52,6 +51,21 @@ export class RelationResource extends HalResource {
       'requires',
       'required'
     ];
+
+    if (includeParentChild) {
+      types.push('parent', 'children');
+    }
+
+    return types;
+  }
+
+  static LOCALIZED_RELATION_TYPES(includeParentchild:boolean = true) {
+    const relationTypes = RelationResource.RELATION_TYPES(includeParentchild);
+    const I18n:op.I18n = $injectNow('I18n') as op.I18n;
+
+    return relationTypes.map((key:string) => {
+      return {name: key, label: I18n.t('js.relation_labels.' + key)};
+    });
   }
 
   static DEFAULT() {
@@ -70,14 +84,35 @@ export class RelationResource extends HalResource {
   public to:WorkPackageResource;
   public from:WorkPackageResource;
 
-  public normalizedType(workPackage:WorkPackageResource) {
-    if (this.to.href === workPackage.href) {
-      return this.reverseType;
-    }
-
-    return this.type;
+  public normalizedType(workPackage:WorkPackageResourceInterface) {
+    return this.denormalized(workPackage).relationType;
   }
 
+  /**
+   * Return the denormalized relation data, seeing the relation.from to be `workPackage`.
+   *
+   * @param workPackage
+   * @return {{id, href, relationType: string, workPackageType}}
+   */
+  public denormalized(workPackage:WorkPackageResourceInterface):DenormalizedRelationData {
+    const target = (this.to.href === workPackage.href) ? 'from' : 'to';
+
+    return {
+      target: this[target],
+      targetId: this[target].id,
+      relationType: target === 'from' ? this.reverseType : this.type,
+      reverseRelationType: target === 'from' ? this.type : this.reverseType
+    };
+  }
+
+  /**
+   * Return whether the given work package id is involved in this relation.
+   * @param wpId
+   * @return {boolean}
+   */
+  public isInvolved(wpId:string) {
+    return _.values(this.ids).indexOf(wpId.toString()) >= 0;
+  }
 
   /**
    * Get the involved IDs, returning an object to the ids.
@@ -99,6 +134,13 @@ export class RelationResource extends HalResource {
 }
 
 export interface RelationResourceInterface extends RelationResourceLinks, RelationResource {
+}
+
+export interface DenormalizedRelationData {
+  target:WorkPackageResource;
+  targetId:string;
+  relationType:string;
+  reverseRelationType:string;
 }
 
 function relationResource() {

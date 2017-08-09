@@ -86,6 +86,7 @@ describe 'Going back and forth through the browser history', type: :feature, js:
     query
   end
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:filters) { ::Components::WorkPackages::Filters.new }
 
   before do
     login_as(user)
@@ -101,18 +102,24 @@ describe 'Going back and forth through the browser history', type: :feature, js:
   it 'updates the filters and query results on history back and forth', retry: 1 do
     wp_table.visit!
     wp_table.expect_title('Work packages')
+
     wp_table.visit_query(assignee_query)
     wp_table.expect_title(assignee_query.name)
+    wp_table.expect_work_package_listed work_package_2
+
     wp_table.visit_query(version_query)
     wp_table.expect_title(version_query.name)
-    wp_table.add_filter('Assignee', 'is', user.name)
+    wp_table.expect_work_package_listed work_package_3
 
+    wp_table.add_filter('Assignee', 'is', user.name)
+    filters.expect_filter_count 3
     wp_table.expect_no_work_package_listed
 
     page.evaluate_script('window.history.back()')
 
     wp_table.expect_title(version_query.name)
     wp_table.expect_work_package_listed work_package_3
+    filters.expect_filter_count 2
     wp_table.expect_filter('Status', 'open', nil)
     wp_table.expect_filter('Version', 'is', version.name)
 

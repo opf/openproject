@@ -30,5 +30,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% content = escape_javascript render(partial: 'memberships') %>
 <% flash_message = escape_javascript render(partial: "members/common_notice",
                                             locals: { message: l(:notice_successful_delete) }) %>
-jQuery('#tab-content-memberships').html('<%= content %>');
+var compiledContent = OpenProject.Helpers.Angular.compile('<%= content %>');
+jQuery('#tab-content-memberships').html(compiledContent);
 jQuery('#tab-content-memberships').prepend('<%= flash_message %>');

@@ -31,4 +31,3 @@ require('./controllers');
 require('./directives');
 require('./helpers');
 require('./models');
-require('./tabs');

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,22 +32,43 @@ require 'reform'
 require 'reform/form/active_model/model_validations'
 
 class ModelContract < Reform::Contract
-  def self.writable_attributes
-    @writable_attributes ||= []
-  end
-
-  def self.attribute_validations
-    @attribute_validations ||= []
-  end
-
-  def self.attribute(*attributes, &block)
-    attributes.each do |attribute|
-      property attribute
+  class << self
+    def writable_attributes
+      @writable_attributes ||= []
     end
 
-    writable_attributes.concat attributes.map(&:to_s)
-    if block
-      attribute_validations << block
+    def writable_conditions
+      @writable_conditions ||= []
+    end
+
+    def attribute_validations
+      @attribute_validations ||= []
+    end
+
+    def attribute(attribute, options = {}, &block)
+      property attribute
+
+      add_writable(attribute, options[:writeable])
+
+      if block
+        attribute_validations << block
+      end
+    end
+
+    private
+
+    def add_writable(attribute, writeable)
+      attribute_name = attribute.to_s.gsub /_id\z/, ''
+
+      unless writeable == false
+        writable_attributes << attribute_name
+        # allow the _id variant as well
+        writable_attributes << "#{attribute_name}_id"
+      end
+
+      if writeable.respond_to?(:call)
+        writable_conditions << [attribute_name, writeable]
+      end
     end
   end
 
@@ -60,13 +82,19 @@ class ModelContract < Reform::Contract
   end
 
   def writable_attributes
-    collect_ancestor_attributes(:writable_attributes)
+    writable = collect_ancestor_attributes(:writable_attributes)
+
+    collect_ancestor_attributes(:writable_conditions).each do |attribute, condition|
+      writable -= [attribute, "#{attribute}_id"] unless instance_exec(&condition)
+    end
+
+    writable
   end
 
-  validate :readonly_attributes_unchanged
-  validate :run_attribute_validations
-
   def validate
+    readonly_attributes_unchanged
+    run_attribute_validations
+
     super
     model.valid?
 
@@ -78,6 +106,18 @@ class ModelContract < Reform::Contract
 
     errors.empty?
   end
+
+  # Methods required to get ActiveModel error messages working
+  extend ActiveModel::Naming
+
+  def self.model_name
+    ActiveModel::Name.new(model, nil)
+  end
+
+  def self.model
+    raise NotImplementedError
+  end
+  # end Methods required to get ActiveModel error messages working
 
   private
 

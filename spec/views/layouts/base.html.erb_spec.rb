@@ -220,6 +220,7 @@ describe 'layouts/base', type: :view do
     context "EE does not allow custom styles" do
       before do
         allow(EnterpriseToken).to receive(:current).and_return(a_token)
+        allow(a_token).to receive(:expired?).and_return(false)
         allow(a_token).to receive(:allows_to?).with(:define_custom_style).and_return(false)
 
         render

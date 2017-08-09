@@ -26,38 +26,37 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= error_messages_for 'custom_field' %>
-
 <section class="form--section" id="custom_field_form">
   <div class="form--field -required" id="custom_field_name_attributes">
-    <%= f.text_field :name, required: true %>
+    <%= f.text_field :name, required: true, container_class: '-middle' %>
   </div>
   <div class="form--field">
     <%= f.select :field_format,
                  custom_field_formats_for_select(@custom_field),
-                 {},
+                 { container_class: '-slim' },
                  disabled: !@custom_field.new_record? %>
   </div>
   <div class="form--grouping" id="custom_field_length">
     <div class="form--grouping-label">
-      <%= l(:label_min_max_length) %> <br>
-      <small>(<%= l(:text_min_max_length_info ) %>)</small>
+      <%= t(:label_min_max_length) %> <br>
+      <small>(<%= t(:text_min_max_length_info ) %>)</small>
     </div>
     <div class="form--grouping-row">
       <div class="form--field">
-        <%= f.text_field :min_length %>
+        <%= f.number_field :min_length, container_class: '-xslim' %>
       </div>
       <div class="form--field">
-        <%= f.text_field :max_length %>
+        <%= f.number_field :max_length, container_class: '-xslim' %>
       </div>
     </div>
   </div>
 
   <div class="form--field">
     <%= f.text_field :regexp,
-                     size: 50 %>
+                     size: 50,
+                     container_class: '-wide' %>
     <span class="form--field-instructions">
-      <%=l(:text_regexp_info)%>
+      <%= t(:text_regexp_info) %>
     </span>
   </div>
 
@@ -78,18 +77,18 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 
   <% if @custom_field.new_record? || @custom_field.field_format == 'list' %>
-    <fieldset class="form--fieldset">
+    <fieldset class="form--fieldset" id="custom_field_possible_values_attributes">
       <legend class="form--fieldset-legend"><%= I18n.t("activerecord.attributes.custom_field.possible_values") %></legend>
-      <div class="form--field" id="custom_field_possible_values_attributes">
-          <%= render partial: "custom_fields/custom_options", locals: { custom_options: @custom_field.custom_options, f: f } %>
-          <a id="add-custom-option" href="#" class="icon icon-add"><%= t(:button_add) %></a>
+      <div class="form--field">
+        <%= render partial: "custom_fields/custom_options", locals: { custom_field: @custom_field, f: f } %>
+        <a id="add-custom-option" href="#" class="icon icon-add"><%= t(:button_add) %></a>
       </div>
     </fieldset>
   <% end %>
   <div id="custom_field_default_value_attributes">
     <div class="form--field" id="default_value_text">
       <% if @custom_field.new_record? || @custom_field.field_format != 'bool' %>
-        <%= f.text_field(:default_value) %>
+        <%= f.text_field(:default_value, container_class: '-wide') %>
       <% end %>
     </div>
     <div class="form--field" style="display:none" id="default_value_bool">
@@ -123,4 +122,3 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
   <%= call_hook(:"view_custom_fields_form_#{@custom_field.type.to_s.underscore}", custom_field: @custom_field, form: f) %>
 </section>
-

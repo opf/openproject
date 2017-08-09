@@ -35,7 +35,15 @@ jQuery(function() {
     document.documentElement.classList.add('-browser-safari');
   }
 
+  if (bowser.firefox) {
+    document.documentElement.classList.add('-browser-firefox');
+  }
+
   if (bowser.windows) {
     document.documentElement.classList.add('-browser-windows');
+  }
+
+  if (bowser.ios) {
+    document.documentElement.classList.add('-browser-ios');
   }
 });

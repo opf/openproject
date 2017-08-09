@@ -33,7 +33,7 @@ module Components
       include RSpec::Matchers
 
       def open_for(work_package)
-        find("#wp-row-#{work_package.id}").right_click
+        find(".wp-row-#{work_package.id}-table").right_click
         expect_open
       end
 

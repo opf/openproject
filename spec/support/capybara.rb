@@ -15,7 +15,7 @@ end
 Capybara::Screenshot.prune_strategy = :keep_last_run
 
 # Set up S3 uploads if desired
-if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS']
+if ENV['OPENPROJECT_ENABLE_CAPYBARA_SCREENSHOT_S3_UPLOADS'] && ENV['AWS_ACCESS_KEY_ID']
   Capybara::Screenshot.s3_configuration = {
     s3_client_credentials: {
       access_key_id: ENV.fetch('AWS_ACCESS_KEY_ID'),
@@ -42,7 +42,9 @@ Capybara.register_driver :selenium do |app|
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
                                               Selenium::WebDriver::Firefox::Binary.path
 
-  capabilities = Selenium::WebDriver::Remote::Capabilities.internet_explorer
+  # need to disable marionette as noted
+  # https://github.com/teamcapybara/capybara#capybara
+  capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
   capabilities["elementScrollBehavior"] = 1
 
   client = Selenium::WebDriver::Remote::Http::Default.new

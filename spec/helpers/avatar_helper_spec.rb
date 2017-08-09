@@ -69,13 +69,13 @@ describe AvatarHelper, type: :helper do
       describe 'default avatar dependent on settings' do
         context 'with wavatars', with_settings: { gravatar_default: 'Wavatars' } do
           it 'should be set to value of setting' do
-            expect(helper.default_gravatar_options[:default_image]).to eq 'Wavatars'
+            expect(helper.default_gravatar_options[:default]).to eq 'Wavatars'
           end
         end
 
         context 'when empty' do
           it 'should be set to nil' do
-            expect(helper.default_gravatar_options[:default_image]).to be_nil
+            expect(helper.default_gravatar_options[:default]).to be_nil
           end
         end
       end

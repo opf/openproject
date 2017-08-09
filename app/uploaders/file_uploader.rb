@@ -44,7 +44,7 @@ module FileUploader
   end
 
   def readable?
-    File.readable? local_file
+    file && File.readable?(local_file)
   end
 
   module ClassMethods

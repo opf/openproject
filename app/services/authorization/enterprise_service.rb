@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,6 +31,12 @@
 class Authorization::EnterpriseService
   attr_accessor :token
 
+  GUARDED_ACTIONS = %i(define_custom_style
+                       multiselect_custom_fields
+                       edit_attribute_groups
+                       work_package_query_relation_columns
+                       attribute_help_texts).freeze
+
   def initialize(token)
     self.token = token
   end
@@ -49,16 +56,8 @@ class Authorization::EnterpriseService
   private
 
   def process(action)
-    case action
-    when :define_custom_style
-      true # Every non-expired token
-    when :multiselect_custom_fields
-      true
-    when :edit_attribute_groups
-      true
-    else
-      false
-    end
+    # Every non-expired token
+    GUARDED_ACTIONS.include?(action)
   end
 
   def result(bool)

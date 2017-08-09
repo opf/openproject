@@ -10,10 +10,13 @@
   .other-formats
     display: none
 
+  .notification-box
+    display: none !important
+
   #main
     background: #fff
 
-  #content
+  #content-wrapper
     width: 99%
     margin: 0
     padding: 0
@@ -21,8 +24,12 @@
     background: #fff
     overflow: visible !important
 
+    &.hidden-navigation
+      width: 99%
+      margin-left: 0
+
   #wiki_add_attachment
-    display:none
+    display: none
 
   .hide-when-print
     display: none
@@ -47,24 +54,119 @@
   //
   // WORK PACKAGE table
   //
-  .controller-work_packages.action-index,
-  .controller-work_packages.action-show,
-  .controller-work_packages.full-create
-    .wp-timeline--slider-wrapper
-      display: none !important
-    #content
-      margin: 0
-      width: 100%
-      height: 100%
-      padding: 10px
-    #main
-      top: 0
-      padding: 0
-      border: none
-    .work-packages--list-table-area
-      height: 100%
-    .work-package-table--container,
-    .generic-table--results-container
-      overflow: hidden
-    .wp-timeline--scroll-wrapper
-      border-left-width: 3px
+  body
+    &.controller-work_packages.action-index,
+    &.controller-work_packages.action-show,
+    &.controller-work_packages.full-create
+      .wp-timeline--slider-wrapper
+        display: none !important
+      #wrapper
+        overflow: visible !important
+
+      #main
+        top: 0
+        padding: 0
+        border: none
+        overflow: visible !important
+        position: relative
+
+        #content-wrapper,
+        #content
+          margin: 0
+          width: 100%
+          padding: 0
+          overflow: visible !important
+          position: relative
+
+          &.hidden-navigation
+            width: 99%
+            margin-left: 0
+
+          .work-packages-list-view--container
+            padding-left: 0
+            .work-packages-split-view
+              overflow: visible
+
+              // Really hacky and only works for A4 from page 1 to page 2:
+              // This avoids that timeline rows get big at page break,
+              // so that relations line are in good positions again.
+              @media print and (orientation: landscape)
+                margin-top: 22px
+
+              .work-packages-split-view--tabletimeline-side
+                .work-packages-split-view--tabletimeline-content
+
+                  .wp-table--hierarchy-aditional-row,
+                  tr.-checked,
+                  .row-hovered
+                    // Remove highlighting of first and selected rows:
+                    background-color: transparent
+
+              .work-packages-tabletimeline--table-side
+                contain: initial // For printing in Chrome
+                overflow: visible
+
+                &:not(.-timeline-visible)
+                  // Only repeat table header when only table visible and no
+                  // timelines.
+                  thead.-sticky th
+                    position: initial
+
+                &.-timeline-visible
+                  thead
+                    // Do not repeat header on second printed page
+                    display: table-row-group
+
+                  tr.wp-table--row
+                    page-break-inside: avoid
+
+                .wp-table--details-column
+                  display: none // remove column for info icon.
+
+
+                .wp-inline-create-button-row
+                  display: none // remove row with plus icon
+
+              .work-packages-tabletimeline--timeline-side
+                .wp-timeline-cell
+                  page-break-inside: avoid
+
+      .work-packages--list-table-area
+        height: 100%
+      .work-package-table--container,
+      .generic-table--results-container
+        overflow: hidden
+      .wp-timeline--scroll-wrapper
+        border-left-width: 3px
+
+  html.-browser-firefox
+    body
+      &.controller-work_packages.action-index,
+      &.controller-work_packages.action-show,
+      &.controller-work_packages.full-create
+        #main
+          display: block
+
+          #content-wrapper,
+          #content
+            .work-packages-list-view--container
+              display: block
+              .toolbar-container
+                display: none
+              .work-packages-split-view
+                display: block
+
+                .work-packages-split-view--tabletimeline-side
+                  display: block
+                  .work-packages-split-view--tabletimeline-content
+                    display: block
+                    .work-packages-split-view--tabletimeline-side
+                      display: none
+                    .work-packages-tabletimeline--table-side
+                      &.-timeline-visible
+                        thead
+                          // Undo that hack from above for FF
+                          display: table-header-group
+                    .work-packages-tabletimeline--timeline-side
+                      // As this print is worthless, we remove it for FF
+                      display: none !important

@@ -30,10 +30,14 @@ import {HalResource} from '../api-v3/hal-resources/hal-resource.service';
 import {opApiModule} from '../../../angular-modules';
 import {HalRequestService} from '../api-v3/hal-request/hal-request.service';
 import {WorkPackageResource, } from '../api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageCollectionResource, } from '../api-v3/hal-resources/wp-collection-resource.service';
+import {
+  WorkPackageCollectionResource,
+  WorkPackageCollectionResourceInterface,
+} from '../api-v3/hal-resources/wp-collection-resource.service';
 import {States} from '../../states.service';
 import IPromise = angular.IPromise;
 import {SchemaResource} from '../api-v3/hal-resources/schema-resource.service';
+import {ApiV3FilterBuilder, buildApiV3Filter} from '../api-v3/api-v3-filter-builder';
 
 export class ApiWorkPackagesService {
   constructor(protected $q:ng.IQService,
@@ -57,6 +61,25 @@ export class ApiWorkPackagesService {
         enabled: !force
       }
     });
+  }
+
+  /**
+   * Loads the work packages collection for the given work package IDs.
+   * Returns a WP Collection with schemas and results embedded.
+   *
+   * @param ids
+   * @return {WorkPackageCollectionResourceInterface[]}
+   */
+  public loadWorkPackagesCollectionsFor(ids:string[]) {
+    return this.halRequest.getAllPaginated(
+      this.v3Path.wps(),
+      ids.length,
+      {
+        filters: buildApiV3Filter('id', '=', ids).toJson(),
+      },
+      {
+        caching: { enabled: false }
+      });
   }
 
   /**

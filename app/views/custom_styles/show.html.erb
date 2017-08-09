@@ -141,26 +141,28 @@ See doc/COPYRIGHT.rdoc for more details.
       <legend class="form--fieldset-legend"><%= I18n.t('admin.custom_styles.custom_colors') %></legend>
 
       <% DesignColor.setables.each do |design_color|  %>
-        <div class="form--field -required">
+        <div class="form--field">
           <label class="form--label"><%= design_color.variable %>:</label>
           <span class="form--field-container">
-            <span class="form--text-field-container">
-              <%= styled_text_field_tag "design_colors[]" + design_color.variable,
+            <span class="form--text-field-container -xslim">
+              <%= text_field_tag "design_colors[]" + design_color.variable,
                                         design_color.hexcode,
-                                        placeholder: (DesignColor.defaults[design_color.variable] =~ /#[0-9A-F]{6}/ ? DesignColor.defaults[design_color.variable] : '') %>
+                                        placeholder: (DesignColor.defaults[design_color.variable] =~ /#[0-9A-F]{6}/ ? DesignColor.defaults[design_color.variable] : ''),
+                                        maxlength: 7 %>
             </span>
+            <%= icon_for_color OpenStruct.new( variable: design_color.variable,
+                                               hexcode: design_color.get_hexcode ),
+                               class: 'timelines-x-update-color color-preview',
+                               data: { target: "#design_colors_#{design_color.variable}" } %>
           </span>
-          <%= icon_for_color OpenStruct.new( variable: design_color.variable,
-                                             hexcode: design_color.get_hexcode ),
-                             class: 'timelines-x-update-color timelines-color-properties-preview',
-                             data:  { target: '#color_hexcode' } %>
+
           <div class="form--field-instructions">
             <%= t("admin.custom_styles.instructions.#{design_color.variable.tr('-', '_')}") %>
           </div>
         </div>
       <% end %>
 
-      <button type="submit" class="button">Save</button>
+      <%= styled_button_tag l(:button_save), class: '-with-icon icon-checkmark' %>
 
     </fieldset>
   </section>

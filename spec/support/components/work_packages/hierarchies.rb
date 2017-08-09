@@ -33,8 +33,13 @@ module Components
       include RSpec::Matchers
 
       def enable_hierarchy
-        find('#work-packages-settings-button').click
-        page.find('#settingsDropdown a.menu-item', text: 'Display hierarchy').click
+        SettingsMenu.new.open_and_choose('Display hierarchy')
+      end
+
+      alias_method :enable_via_menu, :enable_hierarchy
+
+      def enable_via_header
+        page.find('.wp-table--table-header .icon-no-hierarchy').click
       end
 
       def disable_hierarchy
@@ -47,9 +52,19 @@ module Components
         expect(page).to have_no_selector('.wp-table--hierarchy-span')
       end
 
+      alias_method :expect_mode_disabled, :expect_no_hierarchies
+
+      def expect_mode_enabled
+        expect(page).to have_selector('.wp-table--table-header .icon-hierarchy')
+      end
+
+      def expect_mode_disabled
+        expect(page).to have_selector('.wp-table--table-header .icon-no-hierarchy')
+      end
+
       def expect_leaf_at(*work_packages)
         work_packages.each do |wp|
-          expect(page).to have_selector("#wp-row-#{wp.id} .wp-table--leaf-indicator")
+          expect(page).to have_selector(".wp-row-#{wp.id} .wp-table--leaf-indicator")
         end
       end
 
@@ -57,7 +72,7 @@ module Components
         collapsed_sel = ".-hierarchy-collapsed"
 
         work_packages.each do |wp|
-          selector = "#wp-row-#{wp.id} .wp-table--hierarchy-indicator"
+          selector = ".wp-row-#{wp.id} .wp-table--hierarchy-indicator"
 
           if collapsed
             expect(page).to have_selector("#{selector}#{collapsed_sel}")
@@ -70,12 +85,12 @@ module Components
 
       def expect_hidden(*work_packages)
         work_packages.each do |wp|
-          expect(page).to have_selector("#wp-row-#{wp.id}", visible: :hidden)
+          expect(page).to have_selector(".wp-row-#{wp.id}", visible: :hidden)
         end
       end
 
       def toggle_row(work_package)
-        find("#wp-row-#{work_package.id} .wp-table--hierarchy-indicator").click
+        find(".wp-row-#{work_package.id} .wp-table--hierarchy-indicator").click
       end
     end
   end

@@ -88,6 +88,7 @@ describe 'filter work packages', js: true do
 
       filters.add_filter_by('Version', 'is', version.name)
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_with_version]
       expect(wp_table).not_to have_work_packages_listed [work_package_without_version]
 
@@ -95,12 +96,14 @@ describe 'filter work packages', js: true do
 
       filters.remove_filter 'version'
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_with_version, work_package_without_version]
 
       last_query = Query.last
 
       wp_table.visit_query(last_query)
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_with_version]
       expect(wp_table).not_to have_work_packages_listed [work_package_without_version]
 
@@ -110,6 +113,7 @@ describe 'filter work packages', js: true do
 
       filters.set_operator 'Version', 'is not'
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_without_version]
       expect(wp_table).not_to have_work_packages_listed [work_package_with_version]
     end
@@ -135,6 +139,7 @@ describe 'filter work packages', js: true do
                             [(Date.today - 1.day).strftime('%Y-%m-%d'), Date.today.strftime('%Y-%m-%d')],
                             'dueDate')
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_with_due_date]
       expect(wp_table).not_to have_work_packages_listed [work_package_without_due_date]
 
@@ -142,12 +147,14 @@ describe 'filter work packages', js: true do
 
       filters.remove_filter 'dueDate'
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_with_due_date, work_package_without_due_date]
 
       last_query = Query.last
 
       wp_table.visit_query(last_query)
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_with_due_date]
       expect(wp_table).not_to have_work_packages_listed [work_package_without_due_date]
 
@@ -160,6 +167,7 @@ describe 'filter work packages', js: true do
 
       filters.set_filter 'Due date', 'in more than', '1', 'dueDate'
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_without_due_date]
       expect(wp_table).not_to have_work_packages_listed [work_package_with_due_date]
     end
@@ -208,11 +216,14 @@ describe 'filter work packages', js: true do
     it 'allows filtering, saving and retrieving the saved filter' do
       filters.open
 
+      expect(page).to have_selector('#add_filter_select option', text: list_cf.name, wait: 10)
+
       filters.add_filter_by(list_cf.name,
                             'is not',
                             list_cf.custom_options.last.value,
                             "customField#{list_cf.id}")
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_with_list_value]
       expect(wp_table).not_to have_work_packages_listed [work_package_with_anti_list_value]
 
@@ -220,12 +231,14 @@ describe 'filter work packages', js: true do
 
       filters.remove_filter "customField#{list_cf.id}"
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_with_list_value, work_package_with_anti_list_value]
 
       last_query = Query.last
 
       wp_table.visit_query(last_query)
 
+      loading_indicator_saveguard
       expect(wp_table).to have_work_packages_listed [work_package_with_list_value]
       expect(wp_table).not_to have_work_packages_listed [work_package_with_anti_list_value]
 

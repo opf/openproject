@@ -48,13 +48,6 @@ module API
                  exec_context: :decorator,
                  getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
 
-        property :attribute_visibility,
-                 getter: ->(_args) {
-                   attribute_visibility
-                     .map { |entry| entry.map { |value| value.to_s.camelize(:lower) } }
-                     .to_h
-                 }
-
         def _type
           'Type'
         end

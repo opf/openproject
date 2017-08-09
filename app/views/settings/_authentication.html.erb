@@ -27,17 +27,18 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= styled_form_tag({action: 'edit', tab: 'authentication'}) do %>
+<%= styled_form_tag({ action: 'edit', tab: 'authentication' }) do %>
 
   <section class="form--section">
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:general, scope: [:settings]) %></legend>
       <div class="form--field"><%= setting_check_box :login_required %></div>
 
-      <div class="form--field"><%= setting_select :self_registration, [[l(:label_disabled), "0"],
-                                                [l(:label_registration_activation_by_email), "1"],
-                                                [l(:label_registration_manual_activation), "2"],
-                                                [l(:label_registration_automatic_activation), "3"]] %>
+      <div class="form--field"><%= setting_select :self_registration, [[t(:label_disabled), "0"],
+                                                [t(:label_registration_activation_by_email), "1"],
+                                                [t(:label_registration_manual_activation), "2"],
+                                                [t(:label_registration_automatic_activation), "3"]],
+                                                container_class: '-middle' %>
       </div>
 
       <div class="form--field">
@@ -55,21 +56,21 @@ See doc/COPYRIGHT.rdoc for more details.
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:passwords, scope: [:settings]) %></legend>
       <% if !OpenProject::Configuration.disable_password_login? %>
-        <div class="form--field"><%= setting_text_field :password_min_length, size: 6 %></div>
-        <div class="form--field"><%= setting_multiselect :password_active_rules,
+        <div class="form--field -wide-label"><%= setting_text_field :password_min_length, size: 6, container_class: '-xslim' %></div>
+        <div class="form--field -wide-label"><%= setting_multiselect :password_active_rules,
                   OpenProject::Passwords::Evaluator.known_rules.map do |r|
-                    [l("label_password_rule_#{r}"), r]
+                    [t("label_password_rule_#{r}"), r]
                   end %></div>
-        <div class="form--field"><%= setting_text_field :password_min_adhered_rules, size: 6 %></div>
-        <div class="form--field"><%= setting_text_field :password_days_valid, size: 6 %>
+        <div class="form--field -wide-label"><%= setting_text_field :password_min_adhered_rules, size: 6, container_class: '-xslim' %></div>
+        <div class="form--field -wide-label"><%= setting_text_field :password_days_valid, size: 6, container_class: '-xslim' %>
           <span class="form--field-instructions">
-            <%= l(:text_hint_disable_with_0) %>
+            <%= t(:text_hint_disable_with_0) %>
           </span>
         </div>
-        <div class="form--field"><%= setting_text_field :password_count_former_banned, size: 6 %></div>
-        <div class="form--field"><%= setting_check_box :lost_password, label: :label_password_lost %></div>
+        <div class="form--field -wide-label"><%= setting_text_field :password_count_former_banned, size: 6, container_class: '-xslim' %></div>
+        <div class="form--field -wide-label"><%= setting_check_box :lost_password, label: :label_password_lost %></div>
       <% else %>
-        <div class="form--field">
+        <div class="form--field -wide-label">
           <label><b><%= I18n.t :note %>: </b>
             <%=
               url = 'https://github.com/opf/openproject/blob/dev/doc/CONFIGURATION.md#disable-password-login'
@@ -87,26 +88,27 @@ See doc/COPYRIGHT.rdoc for more details.
     <% unless OpenProject::Configuration.disable_password_login? %>
       <fieldset class="form--fieldset">
         <legend class="form--fieldset-legend"><%= I18n.t(:brute_force_prevention, scope: [:settings]) %></legend>
-        <div class="form--field"><%= setting_text_field :brute_force_block_after_failed_logins %>
+        <div class="form--field -wide-label"><%= setting_text_field :brute_force_block_after_failed_logins, container_class: '-xslim' %>
           <span class="form--field-instructions">
-            <%= l(:text_hint_disable_with_0) %>
+            <%= t(:text_hint_disable_with_0) %>
           </span>
         </div>
-        <div class="form--field"><%= setting_text_field :brute_force_block_minutes, unit: l(:label_minute_plural) %></div>
+        <div class="form--field -wide-label"><%= setting_text_field :brute_force_block_minutes, unit: t(:label_minute_plural), container_class: '-xslim' %></div>
       </fieldset>
     <% end %>
 
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:session, scope: [:settings]) %></legend>
-      <div class="form--field"><%= setting_select :autologin,
-                 ([[l(:label_disabled), 0]] +
+      <div class="form--field -wide-label"><%= setting_select :autologin,
+                 ([[t(:label_disabled), 0]] +
                   [1, 7, 30, 365].collect do |days|
-                    [l('datetime.distance_in_words.x_days', count: days),
+                    [t('datetime.distance_in_words.x_days', count: days),
                     days.to_s]
-                  end) %>
+                  end),
+                  container_class: '-xslim' %>
       </div>
-      <div class="form--field"><%= setting_check_box :session_ttl_enabled %></div>
-      <div class="form--field" id="settings_session_ttl_container" style="display:none;">
+      <div class="form--field -wide-label"><%= setting_check_box :session_ttl_enabled %></div>
+      <div class="form--field -wide-label" id="settings_session_ttl_container" style="display:none;">
         <%= setting_text_field :session_ttl, size: 6 %> min
         <span class="form--field-instructions">
           <%= I18n.t('setting_session_ttl_hint') %>
@@ -116,14 +118,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <fieldset class="form--fieldset">
       <legend class="form--fieldset-legend"><%= I18n.t(:other, scope: [:settings]) %></legend>
-      <div class="form--field"><%= setting_check_box :log_requesting_user %></div>
-      <div class="form--field"><%= setting_check_box :rest_api_enabled %></div>
+      <div class="form--field -wide-label"><%= setting_check_box :log_requesting_user %></div>
+      <div class="form--field -wide-label"><%= setting_check_box :rest_api_enabled %></div>
     </fieldset>
   </section>
   <% unless OpenProject::Configuration.disable_password_login? %>
     <div style="float:right;">
-      <%= link_to l(:label_ldap_authentication), {controller: '/ldap_auth_sources', action: 'index'}, class: 'icon icon-server-key' %>
+      <%= link_to t(:label_ldap_authentication), {controller: '/ldap_auth_sources', action: 'index'}, class: 'icon icon-server-key' %>
     </div>
   <% end %>
-  <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+  <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

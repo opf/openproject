@@ -29,19 +29,31 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= error_messages_for 'color' %>
 
-<%= toolbar title: (color.new_record? ? l('timelines.new_color') : l('timelines.edit_color')) %>
+<%= toolbar title: (color.new_record? ? t('timelines.new_color') : t('timelines.edit_color')) %>
 
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
+  <legend class="form--fieldset-legend"><%= t('timelines.properties') %></legend>
 
   <div class="form--field">
-    <%= f.text_field :name, required: true %>
+    <%= f.text_field :name, required: true, container_class: '-slim' %>
   </div>
   <div class="form--field">
-    <%= f.text_field :hexcode, required: true %>
-    <%= icon_for_color(color, class: 'timelines-x-update-color timelines-color-properties-preview', data: { target: '#color_hexcode' }) %>
+    <label class="form--label -required">
+      <%= t('activerecord.attributes.planning_element_type_color.hexcode') %>
+      <span class="form--label-required" aria-hidden="true">*</span>
+    </label>
+    <span class="form--field-container">
+      <span class="form--text-field-container -xslim">
+        <%= text_field_tag "color_hexcode",
+                           color.hexcode,
+                           required: true,
+                           name: "color[hexcode]",
+                           maxlength: 7 %>
+      </span>
+      <%= icon_for_color(color, class: 'timelines-x-update-color color-preview', data: { target: '#color_hexcode' }) %>
+    </span>
   </div>
 </fieldset>
 
-<%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
-<%= link_to l(:button_cancel), colors_path, class: 'button' %>
+<%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
+<%= link_to t(:button_cancel), colors_path, class: 'button' %>

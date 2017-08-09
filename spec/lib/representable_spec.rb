@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -64,15 +65,15 @@ describe Representable do
 
   describe 'as_strategy with class not responding to #call?' do
     it 'raises error' do
-      expect {
+      expect do
         class FailRepresenter < Representable::Decorator
           include Representable::JSON
 
-          self.as_strategy = Object.new
+          self.as_strategy = ::Object.new
 
           property :title
         end
-      }.to raise_error(RuntimeError)
+      end.to raise_error(RuntimeError)
     end
   end
 end

@@ -170,10 +170,6 @@ OpenProject::Application.routes.draw do
     resource :wiki_menu_item, only: [:edit, :update]
   end
 
-  scope 'projects/:project_id/query/:query_id' do
-    resources :query_menu_items, except: [:show]
-  end
-
   # generic route for adding/removing watchers.
   # Models declared as acts_as_watchable will be automatically added to
   # OpenProject::Acts::Watchable::Routes.watched
@@ -385,6 +381,8 @@ OpenProject::Application.routes.draw do
     post 'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
     resource :custom_style, only: [:update, :show, :create], path: 'design'
 
+    resources :attribute_help_texts, only: %i(index new create edit update destroy)
+
     resources :groups do
       member do
         get :autocomplete_for_user
@@ -506,6 +504,17 @@ OpenProject::Application.routes.draw do
     post :preview, on: :collection
   end
 
+  # redirect for backwards compatibility
+  scope constraints: { id: /\d+/, filename: /[^\/]*/ } do
+    get '/attachments/download/:id/:filename',
+        to: redirect("#{rails_relative_url_root}/attachments/%{id}/%{filename}"),
+        format: false
+
+    get '/attachments/download/:id',
+        to: redirect("#{rails_relative_url_root}/attachments/%{id}"),
+        format: false
+  end
+
   resources :attachments, only: [:destroy], format: false do
     member do
       scope via: :get, constraints: { id: /\d+/, filename: /[^\/]*/ } do
@@ -520,12 +529,6 @@ OpenProject::Application.routes.draw do
       get :wiki_syntax_detailed
       get :keyboard_shortcuts
     end
-  end
-
-  # redirect for backwards compatibility
-  scope constraints: { id: /\d+/, filename: /[^\/]*/ } do
-    get '/attachments/download/:id/:filename' => redirect("#{rails_relative_url_root}/attachments/%{id}/download/%{filename}"), format: false
-    get '/attachments/download/:id' => redirect("#{rails_relative_url_root}/attachments/%{id}/download"), format: false
   end
 
   scope controller: 'sys' do

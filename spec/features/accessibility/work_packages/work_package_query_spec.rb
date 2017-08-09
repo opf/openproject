@@ -176,15 +176,15 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
 
     context 'focus' do
       let(:first_link_selector) do
-        "#wp-row-#{work_package.id} td.id a"
+        ".wp-row-#{work_package.id} td.id a"
       end
       let(:second_link_selector) do
-        "#wp-row-#{another_work_package.id} td.id a"
+        ".wp-row-#{another_work_package.id} td.id a"
       end
 
       it 'navigates with J and K' do
-        expect(page).to have_selector("#wp-row-#{work_package.id}")
-        expect(page).to have_selector("#wp-row-#{another_work_package.id}")
+        expect(page).to have_selector(".wp-row-#{work_package.id}")
+        expect(page).to have_selector(".wp-row-#{another_work_package.id}")
 
         find('body').native.send_keys('j')
         expect(page).to have_focus_on(first_link_selector)

@@ -32,15 +32,15 @@ require 'spec_helper'
 # it does not work as intended (setting user has no effect, but by chance :role overrides base spec)
 # it does not check the actual href/method
 shared_examples_for 'action link' do
-  let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages, :edit_work_packages]) }
-  let(:user) {
+  let(:role) { FactoryGirl.create(:role, permissions: %i(view_work_packages edit_work_packages)) }
+  let(:user) do
     FactoryGirl.create(:user, member_in_project: project,
                               member_through_role: role)
-  }
+  end
 
   let(:href) { nil }
 
-  before do login_as(user) end
+  before { login_as(user) }
 
   it { expect(subject).not_to have_json_path("_links/#{action}/href") }
 
@@ -94,6 +94,10 @@ shared_examples_for 'has an empty link' do
   it 'has no embedded resource' do
     is_expected.not_to have_json_path("_embedded/#{link}")
   end
+end
+
+shared_examples_for 'has an empty link collection' do
+  it { is_expected.to be_json_eql([].to_json).at_path("_links/#{link}") }
 end
 
 shared_examples_for 'has no link' do

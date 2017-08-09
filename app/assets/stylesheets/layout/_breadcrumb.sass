@@ -37,18 +37,14 @@
   background: none repeat scroll 0 0
   @include varprop(background-color, body-background)
   border: none
-  margin: 0 0 0 ($main-menu-width - $main-menu-item-border-width)
   width: auto
   overflow: hidden
   position: relative
   &.nosidebar
-    margin-left: 0
-    // (Contents 40px) - (icons 7px)
-    padding-left: 33px
+    // 7px of the icon to align breadcrumb with content
+    margin-left: -7px
     ul
       margin: 0
-  &.hidden-navigation
-    margin-left: $main-menu-folded-width
 
   a
     font-size: 12px
@@ -67,7 +63,7 @@
     display: block
 
 ul.breadcrumb
-  margin: 0 0 0 13px
+  margin: 0 0 0 0
   padding: 0
   list-style: none
   list-style-position: outside

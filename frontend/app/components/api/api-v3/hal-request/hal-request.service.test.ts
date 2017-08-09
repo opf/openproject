@@ -218,5 +218,24 @@ describe('halRequest service', () => {
         $httpBackend.flush();
       });
     });
+
+    describe('#getAllPaginated', () => {
+      const params = {};
+      let promise:any;
+
+      beforeEach(() => {
+        promise = halRequest.getAllPaginated('href', 25, params);
+
+        $httpBackend.expectGET('href?offset=1').respond(200, { count: 12, total: 25 });
+        $httpBackend.expectGET('href?offset=2').respond(200, { count: 12, total: 25 });
+        $httpBackend.expectGET('href?offset=3').respond(200, { count: 1, total: 25 });
+      });
+
+      it('should resolve with three results', () => {
+        expect(promise).to.eventually.be.fulfilled.then(allResults => {
+          expect(allResults.length).to.eq(3);
+        });
+      });
+    });
   });
 });

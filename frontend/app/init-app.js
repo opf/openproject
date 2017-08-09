@@ -107,9 +107,15 @@ opApp
         // See https://github.com/opf/rails-angular-xss for more information.
         $rootScope.DOUBLE_LEFT_CURLY_BRACE = ExpressionService.UNESCAPED_EXPRESSION;
 
-        $rootScope.showNavigation =
-            $window.sessionStorage.getItem('openproject:navigation-toggle') !==
-            'collapsed';
+        if ($window.innerWidth < 680) {
+          // On mobile sized screens navigation shall allways be callapsed when
+          // window loads.
+          $rootScope.showNavigation = false
+        } else {
+          $rootScope.showNavigation =
+              $window.sessionStorage.getItem('openproject:navigation-toggle') !==
+              'collapsed';
+        }
 
         TimezoneService.setupLocale();
         KeyboardShortcutService.activate();

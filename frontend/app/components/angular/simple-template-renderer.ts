@@ -52,7 +52,7 @@ export class SimpleTemplateRenderer {
    *
    * All content of the element is replaced.
    */
-  public renderIsolated(element:HTMLElement,
+  public renderIsolated(element:JQuery,
                         scope:ng.IScope,
                         template:string,
                         scopeValues:Object):ng.IPromise<ng.IAugmentedJQuery> {
@@ -61,10 +61,10 @@ export class SimpleTemplateRenderer {
 
     const templateEl = angular.element(this.$templateCache.get(template) as string);
     this.$compile(templateEl)(scope, (clonedElement:ng.IAugmentedJQuery) => {
-      element.innerHTML = '';
-      element.appendChild(clonedElement[0]);
+      element[0].innerHTML = '';
+      element.append(clonedElement);
 
-      deferred.resolve(clonedElement);
+      deferred.resolve(element);
     });
 
     return deferred.promise;

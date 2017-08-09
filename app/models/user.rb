@@ -97,14 +97,17 @@ class User < Principal
   scope :not_blocked, -> { create_blocked_scope(self, false) }
 
   def self.create_blocked_scope(scope, blocked)
+    scope.where(blocked_condition(blocked))
+  end
+
+  def self.blocked_condition(blocked)
     block_duration = Setting.brute_force_block_minutes.to_i.minutes
     blocked_if_login_since = Time.now - block_duration
     negation = blocked ? '' : 'NOT'
-    scope.where(
-      "#{negation} (failed_login_count >= ? AND last_failed_login_on > ?)",
-      Setting.brute_force_block_after_failed_logins.to_i,
-      blocked_if_login_since
-    )
+
+    ["#{negation} (users.failed_login_count >= ? AND users.last_failed_login_on > ?)",
+     Setting.brute_force_block_after_failed_logins.to_i,
+     blocked_if_login_since]
   end
 
   acts_as_customizable
@@ -680,19 +683,23 @@ class User < Principal
 
   def self.system
     system_user = SystemUser.first
+
     if system_user.nil?
-      (system_user = SystemUser.new.tap do |u|
-        u.lastname = 'System'
-        u.login = ''
-        u.firstname = ''
-        u.mail = ''
-        u.admin = false
-        u.status = User::STATUSES[:locked]
-        u.first_login = false
-        u.random_password!
-      end).save
-      raise 'Unable to create the automatic migration user.' if system_user.new_record?
+      system_user = SystemUser.new(
+        firstname: "",
+        lastname: "System",
+        login: "",
+        mail: "",
+        admin: false,
+        status: User::STATUSES[:locked],
+        first_login: false
+      )
+
+      system_user.save(validate: false)
+
+      raise 'Unable to create the automatic migration user.' unless system_user.persisted?
     end
+
     system_user
   end
 

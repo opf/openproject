@@ -69,7 +69,9 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def select(field, choices, options = {}, html_options = {})
     html_options[:class] = Array(html_options[:class]) + %w(form--select)
-
+    if html_options[:container_class].present?
+      options[:container_class] = html_options[:container_class]
+    end
     merge_required_attributes(options[:required], html_options)
     label_for_field(field, options) + container_wrap_field(super, 'select', options)
   end

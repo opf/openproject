@@ -71,7 +71,7 @@ end
 ##
 # Many specs required any repository to be available,
 # often Filesystem adapter was used, even though
-# no actual filesystem access occured.
+# no actual filesystem access occurred.
 # Instead, we wrap these repository specs in a virtual
 # subversion repository which does not exist on disk.
 def with_virtual_subversion_repository(&block)

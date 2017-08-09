@@ -35,16 +35,18 @@ import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-fil
 import {WorkPackageCreateService} from "../wp-create/wp-create.service";
 import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
 import {
-  InlineCreateRowBuilder, inlineCreateCancelClassName,
+  inlineCreateCancelClassName,
+  InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from "./inline-create-row-builder";
 import {scopeDestroyed$, scopedObservable} from "../../helpers/angular-rx-utils";
 import {States} from "../states.service";
 import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
 import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
-import {WorkPackageTableRow} from "../wp-fast-table/wp-table.interfaces";
-import {WorkPackageTableTimelineService} from "../wp-fast-table/state/wp-table-timeline.service";
 import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
+import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
+import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 
 export class WorkPackageInlineCreateController {
 
@@ -68,6 +70,7 @@ export class WorkPackageInlineCreateController {
     public FocusHelper:any,
     public states:States,
     public wpCacheService:WorkPackageCacheService,
+    public wpEditing:WorkPackageEditingService,
     public wpCreate:WorkPackageCreateService,
     public wpTableColumns:WorkPackageTableColumnsService,
     private wpTableFilters:WorkPackageTableFiltersService,
@@ -92,7 +95,7 @@ export class WorkPackageInlineCreateController {
     });
 
     // Remove temporary rows on creation of new work package
-    scopedObservable(this.$scope, this.wpCacheService.onNewWorkPackage())
+    scopedObservable(this.$scope, this.wpCreate.onNewWorkPackage())
       .subscribe((wp:WorkPackageResourceInterface) => {
 
         if (this.currentWorkPackage === wp) {
@@ -111,14 +114,8 @@ export class WorkPackageInlineCreateController {
       .takeUntil(scopeDestroyed$($scope)).subscribe(() => {
         const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 
-        if (rowElement.length) {
-          const data = {
-            element: rowElement[0],
-            object: this.currentWorkPackage,
-            workPackageId: 'new',
-            position: 0
-          };
-          this.rowBuilder.refreshRow(data as WorkPackageTableRow, this.workPackageEditForm);
+        if (rowElement.length && this.currentWorkPackage) {
+          this.rowBuilder.refreshRow(this.currentWorkPackage, this.workPackageEditForm!.changeset, rowElement);
         }
     });
 
@@ -139,31 +136,35 @@ export class WorkPackageInlineCreateController {
   }
 
   public addWorkPackageRow() {
-    this.wpCreate.createNewWorkPackage(this.projectIdentifier).then(wp => {
-      if (!wp) {
+    this.wpCreate.createNewWorkPackage(this.projectIdentifier).then((changeset:WorkPackageChangeset) => {
+      if (!changeset) {
         throw "No new work package was created";
       }
 
-      this.currentWorkPackage = wp;
+      const wp = this.currentWorkPackage = changeset.workPackage;
       (this.currentWorkPackage as any).inlineCreated = true;
 
-      this.applyDefaultsFromFilters(this.currentWorkPackage!).then(() => {
-        this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+      this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-        this.workPackageEditForm = new WorkPackageEditForm('new');
-        const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-        this.timelineBuilder.insert(wp, this.table.timelineBody);
-        this.$element.append(row);
+      // Set editing context to table
+      const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
+      this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
+      this.workPackageEditForm.changeset.clear();
 
-        this.$timeout(() => {
-          this.workPackageEditForm!.activateMissingFields();
-          this.hideRow();
-        });
+      const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
+      this.timelineBuilder.insert('new', this.table.timelineBody);
+      this.$element.append(row);
+
+      this.$timeout(() => {
+        this.workPackageEditForm!.activateMissingFields();
+        this.hideRow();
       });
     });
   }
 
-  private applyDefaultsFromFilters(workPackage:WorkPackageResourceInterface) {
+/*  private applyDefaultsFromFilters(workPackage:WorkPackageResourceInterface) {
+    return this.$q.when();
+
     let filters = this.wpTableFilters.current as QueryFilterInstanceResource[];
 
     let promises:ng.IPromise<void>[] = [];
@@ -186,7 +187,7 @@ export class WorkPackageInlineCreateController {
     });
 
     return this.$q.all(promises);
-  }
+  }*/
 
   /**
    * Reset the new work package row and refocus on the button
@@ -202,10 +203,10 @@ export class WorkPackageInlineCreateController {
 
   public removeWorkPackageRow() {
     this.currentWorkPackage = null;
-    this.states.editing.get('new').clear();
+    this.wpEditing.stopEditing('new');
     this.states.workPackages.get('new').clear();
-    this.$element.find('#wp-row-new').remove();
-    jQuery(this.table.timelineBody).find('#wp-timeline-row-new').remove();
+    this.$element.find('.wp-row-new').remove();
+    jQuery(this.table.timelineBody).find('.wp-row-new-timeline').remove();
   }
 
   public showRow() {

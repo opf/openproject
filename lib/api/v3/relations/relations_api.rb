@@ -66,7 +66,7 @@ module API
               service = ::UpdateRelationService.new relation: Relation.find_by_id!(params[:id]),
                                                     user: current_user
               call = service.call attributes: attributes,
-                                  send_notifications: !(params[:notify] == 'false')
+                                  send_notifications: (params[:notify] != 'false')
 
               if call.success?
                 representer.new call.result, current_user: current_user, embed_links: true

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,27 +29,32 @@
 #++
 
 class WorkPackageCustomField < CustomField
-  has_and_belongs_to_many :projects, join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}", foreign_key: 'custom_field_id'
-  has_and_belongs_to_many :types, join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}", foreign_key: 'custom_field_id'
-  has_many :work_packages, through: :work_package_custom_values
+  has_and_belongs_to_many :projects,
+                          join_table: "#{table_name_prefix}custom_fields_projects#{table_name_suffix}",
+                          foreign_key: 'custom_field_id'
+  has_and_belongs_to_many :types,
+                          join_table: "#{table_name_prefix}custom_fields_types#{table_name_suffix}",
+                          foreign_key: 'custom_field_id'
+  has_many :work_packages,
+           through: :work_package_custom_values
 
-  scope :visible_by_user, -> (user) {
-    unless user.admin?
-      joins('LEFT OUTER JOIN custom_fields_projects AS cfp ON (custom_fields.id = cfp.custom_field_id) ' \
-            'LEFT OUTER JOIN projects AS p ON (cfp.project_id = p.id) ' \
-            'LEFT OUTER JOIN members AS m ON (p.id = m.project_id)')
-        .where("p.is_public = #{ActiveRecord::Base.connection.quoted_true} " \
-             "OR custom_fields.is_for_all = #{ActiveRecord::Base.connection.quoted_true} " \
-             'OR m.user_id = ?', user.id)
+  scope :visible_by_user, ->(user) {
+    if user.allowed_to_globally?(:edit_projects)
+      all
+    else
+      where(projects: { id: Project.visible(user) })
+        .where(types: { id: Type.enabled_in(Project.visible(user)) })
+        .or(where(is_for_all: true).references(:projects, :types))
+        .includes(:projects, :types)
     end
   }
 
   def self.summable
-    ids = Setting.work_package_list_summable_columns.map { |column_name|
+    ids = Setting.work_package_list_summable_columns.map do |column_name|
       if match = /cf_(\d+)/.match(column_name)
         match[1]
       end
-    }.compact
+    end.compact
 
     where(id: ids)
   end

@@ -86,21 +86,22 @@ module Members
     def edit_link
       link_to_function(
         op_icon('icon icon-edit'),
-        edit_javascript,
+        toggle_javascript,
+        class: toggle_item_class_name,
         title: t(:button_edit)
       )
     end
 
-    def edit_javascript
-      "jQuery('##{roles_css_id}').hide(); jQuery('##{roles_css_id}-form').show();"
-    end
-
-    def cancel_edit_javascript
-      "jQuery('##{roles_css_id}').show(); jQuery('##{roles_css_id}-form').hide();"
+    def toggle_javascript
+      "jQuery('.#{toggle_item_class_name}').toggle();"
     end
 
     def roles_css_id
       "member-#{member.id}-roles"
+    end
+
+    def toggle_item_class_name
+      "member-#{member.id}--edit-toggle-item"
     end
 
     def delete_link

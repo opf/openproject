@@ -232,6 +232,9 @@ $form--field-types: (text-field, text-area, select, check-box, radio-button, ran
   padding:        1rem 0 0
   margin-bottom:  1rem
   border:         0
+  // Flexbox needs that parents of children with overflow set to have a width:
+  min-width: 0
+
 
 %form--fieldset-legend-or-section-title
   color:          lighten($body-font-color, 10)
@@ -448,6 +451,7 @@ fieldset.form--fieldset
 .form--field-instructions
   @extend %form--field-after-container
   font-style: italic
+  max-width: 500px // improve readability
 
   &.-no-italic
     font-style: normal
@@ -522,6 +526,11 @@ select
 
   &:hover, &:focus, &:active
     border-color: #999
+
+select
+  &[disabled=disabled]
+    background-color: $inplace-edit--bg-color--disabled
+    cursor: not-allowed
 
 input[readonly].-clickable
   cursor: pointer
@@ -747,6 +756,11 @@ input[readonly].-clickable
 // Foundation applies following rule to paragraphs
 textarea
   text-rendering: optimizeLegibility
+
+.color-preview
+  margin-left: -34px
+  margin-top: auto
+  margin-bottom: auto
 
 
 // Overwriting Foundation color variables.

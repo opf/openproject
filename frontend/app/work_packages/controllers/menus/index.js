@@ -29,10 +29,6 @@
 
 angular.module('openproject.workPackages')
   .constant('PERMITTED_CONTEXT_MENU_ACTIONS', [
-    {
-      icon: 'edit',
-      link: 'update'
-    },
     // TODO: reenable watch
     {
       icon: 'log_time',
@@ -64,7 +60,7 @@ angular.module('openproject.workPackages')
     function(ngContextMenu) {
       return ngContextMenu({
         templateUrl: '/templates/work_packages/menus/details_more_dropdown_menu.html',
-        container: '.work-packages--details-toolbar'
+        container: '#content'
       });
     }
   ]);

@@ -36,7 +36,7 @@ describe Queries::WorkPackages::Filter::VersionFilter, type: :model do
     let(:type) { :list_optional }
     let(:class_key) { :fixed_version_id }
     let(:values) { [version.id.to_s] }
-    let(:name) { WorkPackage.human_attribute_name('fixed_version_id') }
+    let(:name) { WorkPackage.human_attribute_name('fixed_version') }
 
     before do
       if project

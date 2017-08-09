@@ -35,23 +35,24 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= error_messages_for :auth_source %>
 
 <section class="form--section">
-  <div class="form--field"><%= f.text_field 'name', required: true %></div>
-  <div class="form--field"><%= f.text_field 'host', required: true %></div>
-  <div class="form--field"><%= f.text_field 'port', required: true, size: 6 %></div>
+  <div class="form--field"><%= f.text_field 'name', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'host', required: true, container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'port', required: true, size: 6, container_class: '-xslim' %></div>
   <div class="form--field"><%= f.check_box 'tls', label: 'LDAPS' %> </div>
-  <div class="form--field"><%= f.text_field 'account'  %></div>
+  <div class="form--field"><%= f.text_field 'account', container_class: '-middle'  %></div>
   <div class="form--field"><%= f.password_field 'account_password',
             label: AuthSource.human_attribute_name(:password),
-            placeholder: ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('●'*15)) %></div>
-  <div class="form--field"><%= f.text_field 'base_dn', size: 60 %></div>
+            placeholder: ((@auth_source.new_record? || @auth_source.account_password.blank?) ? '' : ('●'*15)),
+            container_class: '-middle' %></div>
+  <div class="form--field"><%= f.text_field 'base_dn', size: 60, container_class: '-wide' %></div>
   <div class="form--field"><%= f.check_box 'onthefly_register', label: AuthSource.human_attribute_name(:onthefly) %></div>
 </section>
 
 <fieldset class="form--fieldset">
-  <legend class="form--fieldset-legend"><%=l(:label_attribute_plural)%></legend>
-  <div class="form--field"><%= f.text_field 'attr_login', label: AuthSource.human_attribute_name(:login), required: true, size: 20  %></div>
-  <div class="form--field"><%= f.text_field 'attr_firstname', label: AuthSource.human_attribute_name(:firstname), size: 20  %></div>
-  <div class="form--field"><%= f.text_field 'attr_lastname', label: AuthSource.human_attribute_name(:lastname), size: 20  %></div>
-  <div class="form--field"><%= f.text_field 'attr_mail', label: AuthSource.human_attribute_name(:mail), size: 20  %></div>
-  <div class="form--field"><%= f.text_field 'attr_admin', label: AuthSource.human_attribute_name(:admin), size: 20  %></div>
+  <legend class="form--fieldset-legend"><%=t(:label_attribute_plural)%></legend>
+  <div class="form--field"><%= f.text_field 'attr_login', label: AuthSource.human_attribute_name(:login), required: true, size: 20, container_class: '-middle'  %></div>
+  <div class="form--field"><%= f.text_field 'attr_firstname', label: AuthSource.human_attribute_name(:firstname), size: 20, container_class: '-middle'  %></div>
+  <div class="form--field"><%= f.text_field 'attr_lastname', label: AuthSource.human_attribute_name(:lastname), size: 20, container_class: '-middle'  %></div>
+  <div class="form--field"><%= f.text_field 'attr_mail', label: AuthSource.human_attribute_name(:mail), size: 20, container_class: '-middle'  %></div>
+  <div class="form--field"><%= f.text_field 'attr_admin', label: AuthSource.human_attribute_name(:admin), size: 20, container_class: '-middle'  %></div>
 </fieldset>

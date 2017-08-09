@@ -182,6 +182,14 @@ describe ::API::V3::Queries::Schemas::FilterDependencyRepresenterFactory do
       end
     end
 
+    context 'id filter' do
+      let(:filter) { Queries::WorkPackages::Filter::IdFilter.new }
+
+      it 'is the id dependency' do
+        is_expected.to be_a(::API::V3::Queries::Schemas::IdFilterDependencyRepresenter)
+      end
+    end
+
     context 'prioritiy filter' do
       let(:filter) { Queries::WorkPackages::Filter::PriorityFilter.new }
 
