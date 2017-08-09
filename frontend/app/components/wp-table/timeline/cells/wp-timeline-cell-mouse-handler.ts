@@ -204,9 +204,9 @@ export function registerWorkPackageMouseHandler(this: void,
     jBody.off('keyup');
     jQuery('.hascontextmenu').css('cursor', 'context-menu');
     jQuery('.' + timelineElementCssClass).css('cursor', '');
-    jQuery('.' + classNameLeftHandle).css('cursor', 'w-resize');
+    jQuery('.' + classNameLeftHandle).css('cursor', 'ew-resize');
     jQuery('.' + classNameBar).css('cursor', 'ew-resize');
-    jQuery('.' + classNameRightHandle).css('cursor', 'e-resize');
+    jQuery('.' + classNameRightHandle).css('cursor', 'ew-resize');
     mouseDownStartDay = null;
     dateStates = {};
 

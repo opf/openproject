@@ -150,14 +150,14 @@ export class TimelineCellRenderer {
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
       // only left
       direction = 'left';
-      this.forceCursor('w-resize');
+      this.forceCursor('ew-resize');
       if (changeset.value('startDate') === null) {
         changeset.setValue('startDate', changeset.value('dueDate'));
       }
     } else if (jQuery(ev.target).hasClass(classNameRightHandle) || dateForCreate) {
       // only right
       direction = 'right';
-      this.forceCursor('e-resize');
+      this.forceCursor('ew-resize');
       if (changeset.value('dueDate') === null) {
         changeset.setValue('dueDate', changeset.value('startDate'));
       }
