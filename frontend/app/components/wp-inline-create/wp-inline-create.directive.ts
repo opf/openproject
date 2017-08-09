@@ -100,6 +100,7 @@ export class WorkPackageInlineCreateController {
 
         if (this.currentWorkPackage === wp) {
           // Remove this row and add another
+          this.table.editing.stopEditing('new');
           this.removeWorkPackageRow();
           this.addWorkPackageRow();
 
@@ -144,6 +145,7 @@ export class WorkPackageInlineCreateController {
       const wp = this.currentWorkPackage = changeset.workPackage;
       (this.currentWorkPackage as any).inlineCreated = true;
 
+      this.wpEditing.updateValue('new', changeset);
       this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
       // Set editing context to table
@@ -203,7 +205,7 @@ export class WorkPackageInlineCreateController {
 
   public removeWorkPackageRow() {
     this.currentWorkPackage = null;
-    this.wpEditing.stopEditing('new');
+    this.table.editing.stopEditing('new');
     this.states.workPackages.get('new').clear();
     this.$element.find('.wp-row-new').remove();
     jQuery(this.table.timelineBody).find('.wp-row-new-timeline').remove();
