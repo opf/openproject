@@ -30,16 +30,16 @@ import * as moment from 'moment';
 import {keyCodes} from '../../../common/keyCodes.enum';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
-import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {RenderInfo, timelineElementCssClass} from '../wp-timeline';
-import {TimelineCellRenderer} from './timeline-cell-renderer';
-import {WorkPackageCellLabels} from './wp-timeline-cell';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
+import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {RenderInfo} from '../wp-timeline';
+import {TimelineCellRenderer} from './timeline-cell-renderer';
+import {WorkPackageCellLabels} from './wp-timeline-cell';
 import Moment = moment.Moment;
 
-const classNameBar = 'bar';
+export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
 export const classNameRightHandle = 'rightHandle';
 export const classNameBarLabel = 'bar-label';
@@ -202,11 +202,8 @@ export function registerWorkPackageMouseHandler(this: void,
     jBody.off('mouseup');
     jBody.off('mousemove');
     jBody.off('keyup');
-    jQuery('.hascontextmenu').css('cursor', 'context-menu');
-    jQuery('.' + timelineElementCssClass).css('cursor', '');
-    jQuery('.' + classNameLeftHandle).css('cursor', 'w-resize');
-    jQuery('.' + classNameBar).css('cursor', 'ew-resize');
-    jQuery('.' + classNameRightHandle).css('cursor', 'e-resize');
+    workPackageTimeline.resetCursor();
+
     mouseDownStartDay = null;
     dateStates = {};
 
