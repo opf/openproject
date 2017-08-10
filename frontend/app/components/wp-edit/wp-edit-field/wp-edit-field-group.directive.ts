@@ -107,7 +107,8 @@ export class WorkPackageEditFieldGroupController {
     this.fields[field.fieldName] = field;
     this.registeredFields.putValue(_.keys(this.fields));
 
-    if (this.inEditMode) {
+    const skip = field.fieldName === 'type' || field.fieldName === 'status';
+    if (this.inEditMode && !skip) {
       field.activateOnForm(this.form, true);
     } else {
       this.states.workPackages

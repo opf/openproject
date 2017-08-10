@@ -43,34 +43,6 @@ export class WorkPackageCreateController {
   public parentWorkPackage:WorkPackageResourceInterface;
   public changeset:WorkPackageChangeset;
 
-  public get header():string {
-    const type = this.changeset.value('type');
-
-    if (!type) {
-      return this.I18n.t('js.work_packages.create.header_no_type');
-    }
-
-    if (this.parentWorkPackage) {
-      return this.I18n.t(
-        'js.work_packages.create.header_with_parent',
-        {
-          type: type.name,
-          parent_type: this.parentWorkPackage.type.name,
-          id: this.parentWorkPackage.id
-        }
-      );
-    }
-
-    if (type) {
-      return this.I18n.t(
-        'js.work_packages.create.header',
-        {type: type.name}
-      );
-    }
-
-    return '';
-  }
-
   constructor(protected $state:ng.ui.IStateService,
               protected $scope:ng.IScope,
               protected $q:ng.IQService,

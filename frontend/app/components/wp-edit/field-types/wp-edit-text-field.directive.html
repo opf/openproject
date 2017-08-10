@@ -6,5 +6,6 @@
        ng-focus="vm.handleUserFocus()"
        ng-disabled="vm.field.inFlight"
        ng-keydown="vm.handleUserKeydown($event)"
+       ng-attr-placeholder="{{ vm.field.placeholder }}"
        focus="vm.field.name === 'subject'"
        ng-attr-id="{{vm.htmlId}}" />

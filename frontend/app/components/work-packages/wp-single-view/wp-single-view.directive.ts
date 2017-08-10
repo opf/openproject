@@ -95,7 +95,7 @@ export class WorkPackageSingleViewController {
     scopedObservable(this.$scope, this.wpEditing.temporaryEditResource(this.workPackage.id).values$())
       .subscribe((resource:WorkPackageResourceInterface) => {
         // Prepare the fields that are required always
-        this.specialFields = this.getFields(resource, ['status']);
+        // this.specialFields = this.getFields(resource, ['status']);
 
         if (!resource.project) {
           this.projectContext = { matches: false, href: null };
