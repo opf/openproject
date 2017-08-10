@@ -194,6 +194,7 @@ export class WorkPackageEditForm {
 
         this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
         this.editMode = false;
+        this.editContext.onSaved(isInitial, savedWorkPackage);
         this.wpTableRefresh.request(false, `Saved work package ${savedWorkPackage.id}`);
       })
       .catch((error:ErrorResource|Object) => {

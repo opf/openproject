@@ -40,6 +40,14 @@ module Pages
             parent_work_package: parent_work_package)
     end
 
+    def edit_field(attribute)
+      super(attribute, container)
+    end
+
+    def container
+      find('.work-packages--new')
+    end
+
     private
 
     def path

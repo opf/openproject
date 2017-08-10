@@ -107,8 +107,7 @@ export class WorkPackageEditFieldGroupController {
     this.fields[field.fieldName] = field;
     this.registeredFields.putValue(_.keys(this.fields));
 
-    const skip = field.fieldName === 'type' || field.fieldName === 'status';
-    if (this.inEditMode && !skip) {
+    if (this.inEditMode && !this.skipField(field)) {
       field.activateOnForm(this.form, true);
     } else {
       this.states.workPackages
@@ -140,21 +139,32 @@ export class WorkPackageEditFieldGroupController {
     return this.form
       .submit()
       .then((savedWorkPackage) => {
-        this.wpEditing.stopEditing(this.workPackage.id);
-
-        if (this.successState) {
-          this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
-            .then(() => {
-              this.wpTableSelection.focusOn(savedWorkPackage.id);
-              this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
-            });
-        }
+        this.onSaved(isInitial, savedWorkPackage);
       });
+  }
+
+  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface) {
+    this.wpEditing.stopEditing(this.workPackage.id);
+
+    if (this.successState) {
+      this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
+        .then(() => {
+          this.wpTableSelection.focusOn(savedWorkPackage.id);
+          this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
+        });
+    }
   }
 
   private updateDisplayField(field:WorkPackageEditFieldController, wp:WorkPackageResourceInterface) {
     field.workPackage = wp;
     field.render();
+  }
+
+  private skipField(field:WorkPackageEditFieldController) {
+    const fieldName = field.fieldName;
+
+    const isSkipField = fieldName === 'status' || fieldName === 'type';
+    return (isSkipField && this.workPackage[fieldName]);
   }
 
   private allowedStateChange(toState:any, toParams:any, fromState:any, fromParams:any) {

@@ -90,8 +90,8 @@ describe 'new work package', js: true do
 
       create_method.call('Bug', project.name)
       expect(page).to have_selector(safeguard_selector, wait: 10)
-      expect(page).to have_select(WorkPackage.human_attribute_name(:type),
-                                  selected: 'Bug')
+
+      type_field.expect_state_text 'Bug'
     end
 
     it 'saves the work package with enter' do
@@ -130,7 +130,8 @@ describe 'new work package', js: true do
 
       it 'can switch types and keep attributes' do
         wp_page.subject_field.set(subject)
-        wp_page.select_type('Bug')
+        type_field.activate!
+        type_field.set_value 'Bug'
 
         save_work_package!
 
