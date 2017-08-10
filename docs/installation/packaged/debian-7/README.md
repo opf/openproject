@@ -7,7 +7,7 @@ All steps need to be run as `root`.
 Import the PGP key used to sign our packages. Since we're using the _packager.io_ platform to distribute our packages, both package source and signing key are tied to their service.
 
 ```bash
-wget -qO - https://deb.packager.io/key | sudo apt-key add -
+wget -qO- https://dl.packager.io/srv/opf/openproject-ce/key | sudo apt-key add -
 ```
 
 **2. Install apt-https suppport**
@@ -21,13 +21,10 @@ apt-get install apt-transport-https
 
 **3. Add the OpenProject package source**
 
-Create the file `/etc/apt/sources.list.d/openproject.list` with the following contents
-
-
 ```
-deb https://deb.packager.io/gh/opf/openproject-ce wheezy stable/7
+sudo wget -O /etc/apt/sources.list.d/openproject-ce.list \
+  https://dl.packager.io/srv/opf/openproject-ce/stable/7/installer/debian/7.repo
 ```
-
 
 **4. Install the OpenProject Community Edition package**
 
