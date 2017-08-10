@@ -287,6 +287,7 @@ describe 'Switching types in work package table', js: true do
 
       # Switch type
       type_field = wp_page.edit_field :type
+      type_field.activate!
       type_field.set_value type_with_cf.name
 
       cf_edit_field.field_container.find('.wp-inline-edit--toggle-multiselect').click

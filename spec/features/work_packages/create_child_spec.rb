@@ -104,14 +104,16 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     original_work_package_page = Pages::FullWorkPackage.new(original_work_package)
 
     child_work_package_page = original_work_package_page.add_child
+    type_field = child_work_package_page.edit_field :type
 
-    child_work_package_page.expect_heading
+    type_field.expect_active!
+    expect(type_field.input_element).to have_selector('option[selected]', text: 'Please select')
     child_work_package_page.expect_current_path
 
     child_work_package_page.update_attributes Subject: 'Child work package',
                                               Type: 'None'
 
-    child_work_package_page.expect_heading('None')
+    expect(type_field.input_element).to have_selector('option[selected]', text: 'None')
     child_work_package_page.save!
 
     expect(page).to have_selector('.notification-box--content',
@@ -134,14 +136,15 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
     original_work_package_page = Pages::SplitWorkPackage.new(original_work_package, project)
 
     child_work_package_page = original_work_package_page.add_child
+    type_field = child_work_package_page.edit_field :type
 
-    child_work_package_page.expect_heading
+    expect(type_field.input_element).to have_selector('option[selected]', text: 'Please select')
     child_work_package_page.expect_current_path
 
     child_work_package_page.update_attributes Subject: 'Child work package',
                                               Type: 'None'
 
-    child_work_package_page.expect_heading('None')
+    expect(type_field.input_element).to have_selector('option[selected]', text: 'None')
     child_work_package_page.save!
 
     expect(page).to have_selector('.notification-box--content',

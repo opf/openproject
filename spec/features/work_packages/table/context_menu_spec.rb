@@ -51,7 +51,7 @@ describe 'Work package table context menu', js: true do
     goto_context_menu
     menu.choose('Copy')
     # Split view open in copy state
-    expect(page).to have_selector('.work-packages--details', text: "New #{work_package.type}")
+    expect(page).to have_selector('.wp-new-top-row', text: "#{work_package.status.name} #{work_package.type}")
     expect(page).to have_field('wp-new-inline-edit--field-subject', with: work_package.subject)
 
     # Open Delete
@@ -63,10 +63,7 @@ describe 'Work package table context menu', js: true do
     goto_context_menu
     menu.choose('Create new child')
     expect(page).to have_selector('.wp-edit-field.subject input')
-
-    task_name = work_package.type.name
-    select task_name, from: 'wp-new-inline-edit--field-type'
-    expect(page).to have_selector('.work-packages--details-content h2', text: "New #{task_name} (Child of #{task_name} ##{work_package.id})")
+    expect(page).to have_selector('.wp-edit-field--display-field.type')
 
     find('#work-packages--edit-actions-cancel').click
     expect(page).to have_no_selector('.wp-edit-field.subject input')
