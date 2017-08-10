@@ -7,6 +7,30 @@
     <op-date-time date-time-value="$ctrl.workPackage.updatedAt"></op-date-time>.
   </div>
 
+  <div class="attributes-group -project-context" ng-if="$ctrl.projectContext.field">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container"></div>
+    </div>
+    <div class="">
+      <p ng-hide="$ctrl.projectContext.href" ng-bind="::$ctrl.text.project.required"></p>
+      <div class="attributes-key-value"
+           ng-class="{'-span-all-columns': descriptor.spanAll }"
+           ng-repeat="descriptor in $ctrl.projectContext.field track by descriptor.name">
+        <div class="attributes-key-value--key"
+             wp-replacement-label="descriptor.name">
+          {{ descriptor.label }}
+          <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
+          <attribute-help-text title-text="descriptor.label" attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
+        </div>
+        <div class="attributes-key-value--value-container">
+          <wp-edit-field work-package-id="$ctrl.workPackage.id" field-name="descriptor.name"></wp-edit-field>
+        </div>
+      </div>
+    </div>
+    </div>
+  </div>
+
+
   <div class="attributes-group -special-fields">
     <div class="attributes-group--header">
       <div class="attributes-group--header-container">
@@ -26,6 +50,25 @@
           <wp-edit-field work-package-id="$ctrl.workPackage.id" field-name="descriptor.name"></wp-edit-field>
         </div>
       </div>
+    </div>
+  </div>
+
+  <div class="attributes-group -project-context" ng-if="!$ctrl.workPackage.isNew && !$ctrl.projectContext.matches">
+    <div class="attributes-group--header">
+      <div class="attributes-group--header-container">
+        <h3 class="attributes-group--header-text"
+            ng-bind="$ctrl.text.project.context"></h3>
+      </div>
+    </div>
+    <div class="">
+      <p>
+        <span ng-bind-html="$ctrl.projectContextText"></span>
+        <br/>
+        <a ng-href="{{ $ctrl.projectContext.href }}"
+           class="project-context--switch-link"
+           ng-bind="::$ctrl.text.project.switchTo">
+        </a>
+      </p>
     </div>
   </div>
 

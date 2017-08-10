@@ -44,16 +44,18 @@ describe('currentProject service', function() {
 
     describe('with no meta present', () => {
       it('returns null values', () => {
-        expect(currentProject.projectId).to.be.null;
-        expect(currentProject.projectIdentifier).to.be.null;
+        expect(currentProject.id).to.be.null;
+        expect(currentProject.identifier).to.be.null;
+        expect(currentProject.name).to.be.null;
         expect(currentProject.apiv3Path).to.be.null;
+        expect(currentProject.inProjectContext).to.be.false;
       });
     });
 
     describe('with a meta value present', () => {
       beforeEach(() => {
         var html = `
-          <meta name="current_project" data-project-id="1" data-project-identifier="foobar"/>
+          <meta name="current_project" data-name="Foo 1234" data-project-id="1" data-project-identifier="foobar"/>
         `;
 
         element = angular.element(html);
@@ -66,8 +68,10 @@ describe('currentProject service', function() {
       }));
 
       it('returns correct values', () => {
-        expect(currentProject.projectId).to.eq('1');
-        expect(currentProject.projectIdentifier).to.eq('foobar')
+        expect(currentProject.inProjectContext).to.be.true;
+        expect(currentProject.id).to.eq('1');
+        expect(currentProject.name).to.eq('Foo 1234');
+        expect(currentProject.identifier).to.eq('foobar')
         expect(currentProject.apiv3Path).to.eq('/api/v3/projects/1');
       });
     });

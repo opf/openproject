@@ -29,7 +29,7 @@
 import {opServicesModule} from '../../angular-modules';
 
 export class CurrentProjectService {
-  private current:{ id:string, identifier:string };
+  private current:{ id:string, identifier:string, name:string };
 
   constructor(private PathHelper:any) {
     this.detect();
@@ -37,6 +37,14 @@ export class CurrentProjectService {
 
   public get inProjectContext():boolean {
     return this.current !== undefined;
+  }
+
+  public get path():string|null {
+    if (this.current) {
+      return this.PathHelper.projectPath(this.current.identifier);
+    }
+
+    return null;
   }
 
   public get apiv3Path():string|null {
@@ -47,17 +55,21 @@ export class CurrentProjectService {
     return null;
   }
 
-  public get projectId():string|null {
-    if (this.current) {
-      return this.current.id.toString();
-    }
-
-    return null;
+  public get id():string|null {
+    return this.getCurrent('id');
   }
 
-  public get projectIdentifier():string|null {
-    if (this.current) {
-      return this.current.identifier;
+  public get name():string|null {
+    return this.getCurrent('name');
+  }
+
+  public get identifier():string|null {
+    return this.getCurrent('identifier');
+  }
+
+  private getCurrent(key:'id'|'identifier'|'name' ) {
+    if (this.current && this.current[key]) {
+      return this.current[key].toString();
     }
 
     return null;
@@ -71,6 +83,7 @@ export class CurrentProjectService {
     if (element.length) {
       this.current = {
         id: element.data('projectId'),
+        name: element.data('projectName'),
         identifier: element.data('projectIdentifier')
       };
     }
