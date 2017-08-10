@@ -47,7 +47,6 @@ describe 'new work package', js: true do
     loading_indicator_saveguard
     wp_page.subject_field.set(subject)
 
-    project_field.set_value project
     sleep 1
   end
 

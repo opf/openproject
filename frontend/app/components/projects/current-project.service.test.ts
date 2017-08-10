@@ -55,7 +55,7 @@ describe('currentProject service', function() {
     describe('with a meta value present', () => {
       beforeEach(() => {
         var html = `
-          <meta name="current_project" data-name="Foo 1234" data-project-id="1" data-project-identifier="foobar"/>
+          <meta name="current_project" data-project-name="Foo 1234" data-project-id="1" data-project-identifier="foobar"/>
         `;
 
         element = angular.element(html);

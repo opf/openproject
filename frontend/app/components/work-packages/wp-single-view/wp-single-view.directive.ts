@@ -101,7 +101,7 @@ export class WorkPackageSingleViewController {
           this.projectContext = { matches: false, href: null };
         } else {
           this.projectContext = {
-            href: this.PathHelper.projectWorkPackagePath(resource.project.identifier, this.workPackage.id),
+            href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id),
             matches: resource.project.href === this.currentProject.apiv3Path
           };
         }
