@@ -66,20 +66,26 @@
   z-index: 1
   padding: 0 !important
 
-// Show details view button when hovering
-.wp-table-context-menu-link
-  .issue:hover &,
-  &:focus
+// Hide the context menu button outside mobile
+html:not(.-browser-mobile)
+  .wp-table-context-menu-link
+    @extend .hidden-for-sighted
+
+  .issue:hover .wp-table-context-menu-link,
+  .wp-table-context-menu-link:focus
     // override the hidden-for-sighted definition
     position: relative
     left: -5px
     width: initial
     height: initial
-    font-size: 0.7rem
 
-    .icon:before
-      color: $body-font-color
-      padding: 0 0 0 0.25rem
+
+// Show context menu button when hovering
+.wp-table-context-menu-link
+  font-size: 0.7rem
+  .icon:before
+    color: $body-font-color
+    padding: 0 0 0 0.25rem
   &:hover
     text-decoration: none
 

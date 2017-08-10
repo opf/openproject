@@ -46,4 +46,8 @@ jQuery(function() {
   if (bowser.ios) {
     document.documentElement.classList.add('-browser-ios');
   }
+
+  if (bowser.mobile || bowser.ios || bowser.android) {
+    document.documentElement.classList.add('-browser-mobile');
+  }
 });

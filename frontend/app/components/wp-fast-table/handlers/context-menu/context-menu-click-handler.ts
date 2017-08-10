@@ -1,6 +1,5 @@
 import {debugLog} from "../../../../helpers/debug_output";
 import {WorkPackageTable} from "../../wp-fast-table";
-import {tableRowClassName} from "../../builders/rows/single-row-builder";
 import {uiStateLinkClass} from "../../builders/ui-state-link-builder";
 import {ContextMenuHandler} from "./context-menu-handler";
 import {contextMenuLinkClassName} from "../../builders/context-link-icon-builder";

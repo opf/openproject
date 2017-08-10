@@ -1,6 +1,4 @@
-import {WorkPackageResource} from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {$injectFields, injectorBridge} from '../../angular/angular-injector-bridge.functions';
-import {UiStateLinkBuilder} from './ui-state-link-builder';
+import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {opIconElement} from "../../../helpers/op-icon-builder";
 import {wpCellTdClassName} from "./cell-builder";
 
@@ -28,7 +26,7 @@ export class ContextLinkIconBuilder {
 
     // Enter the context menu arrow
     let detailsLink = document.createElement('a');
-    detailsLink.classList.add(contextMenuLinkClassName, 'hidden-for-sighted');
+    detailsLink.classList.add(contextMenuLinkClassName);
     detailsLink.appendChild(opIconElement('icon', 'icon-pulldown'));
     td.appendChild(detailsLink);
 
