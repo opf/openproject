@@ -95,7 +95,14 @@ export class WorkPackageSingleViewController {
     scopedObservable(this.$scope, this.wpEditing.temporaryEditResource(this.workPackage.id).values$())
       .subscribe((resource:WorkPackageResourceInterface) => {
         // Prepare the fields that are required always
-        // this.specialFields = this.getFields(resource, ['status']);
+        const isNew = this.workPackage.isNew;
+
+        // Status selector is separated in the create form
+        if (isNew) {
+          this.specialFields = [];
+        } else {
+          this.specialFields = this.getFields(resource, ['status']);
+        }
 
         if (!resource.project) {
           this.projectContext = { matches: false, href: null };
@@ -106,7 +113,7 @@ export class WorkPackageSingleViewController {
           };
         }
 
-        if (this.workPackage.isNew && !this.currentProject.inProjectContext) {
+        if (isNew && !this.currentProject.inProjectContext) {
           this.projectContext.field = this.getFields(resource, ['project']);
         }
 
