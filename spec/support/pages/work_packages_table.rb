@@ -137,6 +137,8 @@ module Pages
 
     def open_full_screen_by_link(work_package)
       row(work_package).click_link(work_package.id)
+
+      FullWorkPackage.new(work_package)
     end
 
     def row(work_package)
