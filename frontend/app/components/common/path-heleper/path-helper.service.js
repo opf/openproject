@@ -82,6 +82,9 @@ function PathHelper() {
     projectWikiPath: function(projectId) {
       return PathHelper.projectPath(projectId) + '/wiki';
     },
+    projectWorkPackagePath: function(projectId, wpId) {
+      return PathHelper.projectWorkPackagesPath(projectId) + '/' + wpId;
+    },
     projectWorkPackagesPath: function(projectId) {
       return PathHelper.projectPath(projectId) + '/work_packages';
     },

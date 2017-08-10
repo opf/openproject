@@ -240,6 +240,12 @@ en:
       selection: 'Please select'
       relation_description: 'Click to add description for this relation'
 
+    project:
+      required_outside_context: 'You are not within a project context. Please choose the project context first in order to select type and status'
+      context: 'Project context'
+      work_package_belongs_to: 'This work package belongs to project %{projectname}.'
+      click_to_switch_context: 'Click here to open the work package in this project.'
+
     text_are_you_sure: "Are you sure?"
 
     types:
