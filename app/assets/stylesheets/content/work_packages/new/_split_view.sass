@@ -2,24 +2,29 @@
   // Override the top header in create mode
   &.-create-mode
     top: 0
-
 // Details header containing switch icon and status|type row
 .work-packages--new-details-header
-  margin-top: 0.375em
+  margin: 0.375em 0
   display: flex
   align-items: stretch
 
 // Full screen toggle indicator on the
 // left side of the details container
-.wp--details--switch-fullscreen
+.wp--details--switch-fullscreen-wrapper
   flex: 1
+  text-align: right
+
+.wp--details--switch-fullscreen
+  color: $body-font-color
   display: inline-block
   width: 20px
   cursor: pointer
 
+  &:hover
+    text-decoration: none
+
   // Align icon
   font-size: 0.9rem
-  text-align: right
   padding-top: 14px
 
   span:before
