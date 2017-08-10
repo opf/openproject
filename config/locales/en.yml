@@ -979,6 +979,7 @@ en:
       forums: "Forums"
       blog: "OpenProject blog"
       boards: "Community forum"
+      newsletter: "Security alerts / Newsletter"
 
 
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
