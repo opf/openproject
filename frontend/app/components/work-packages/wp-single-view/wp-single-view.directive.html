@@ -1,4 +1,11 @@
 <div ng-if="$ctrl.workPackage" class="work-package--single-view">
+  <div class="wp-new--subject-wrapper" ng-if="$ctrl.workPackage.isNew">
+    <wp-edit-field work-package-id="$ctrl.workPackage.id"
+                   wrapper-classes="'-no-label'"
+                   field-name="'subject'"></wp-edit-field>
+  </div>
+
+
   <div class="work-packages--info-row" ng-if="!$ctrl.workPackage.isNew">
     <span ng-bind="$ctrl.idLabel"/>:
     <span ng-bind="$ctrl.text.infoRow.createdBy"/>

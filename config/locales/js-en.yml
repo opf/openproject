@@ -237,6 +237,7 @@ en:
 
     placeholders:
       default: '-'
+      subject: 'Enter subject here'
       selection: 'Please select'
       relation_description: 'Click to add description for this relation'
 

@@ -28,14 +28,17 @@
 
 import {Field, FieldFactory} from '../../wp-field/wp-field.module';
 import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
+import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 
 export class EditField extends Field {
   public template:string;
+  protected I18n:op.I18n;
 
   constructor(public changeset:WorkPackageChangeset,
               public name:string,
               public schema:op.FieldSchema) {
     super(changeset.workPackage, name, schema);
+    $injectFields(this, 'I18n');
     this.initialize();
   }
 
@@ -49,6 +52,14 @@ export class EditField extends Field {
 
   public set value(value:any) {
     this.changeset.setValue(this.name, this.parseValue(value));
+  }
+
+  public get placeholder() {
+    if (this.name === 'subject') {
+      return this.I18n.t('js.placeholders.subject');
+    }
+
+    return '';
   }
 
   /**

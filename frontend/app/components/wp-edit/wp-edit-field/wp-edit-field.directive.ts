@@ -93,8 +93,8 @@ export class WorkPackageEditFieldController {
 
   public get resource() {
     return this.wpEditing
-      .temporaryEditResource(this.workPackage.id)
-      .getValueOr(this.workPackage);
+      .temporaryEditResource(this.workPackageId)
+      .getValueOr(this.wpEditFieldGroup.workPackage);
   }
 
   public get isEditable() {
@@ -120,7 +120,7 @@ export class WorkPackageEditFieldController {
     const promise = form.activate(this.fieldName, noWarnings);
     promise
       .then(() => this.active = true)
-      .catch(() => this.deactivate(true))
+      .catch(() => this.deactivate(true));
 
     return promise;
   }
