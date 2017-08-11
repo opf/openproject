@@ -34,12 +34,6 @@ See doc/COPYRIGHT.rdoc for more details.
   </h2>
 </div>
 
-<% if show_onboarding_modal? %>
-  <modal-wrapper initialize="true" iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>" modal-params="{ appendClassName: 'onboarding-modal modal-wrapper' }">
-    <%= render partial: '/onboarding/starting_video_modal' %>
-  </modal-wrapper>
-<% end %>
-
 <%= render partial: 'announcements/show' %>
 
 <% if @homescreen[:blocks].any? %>
