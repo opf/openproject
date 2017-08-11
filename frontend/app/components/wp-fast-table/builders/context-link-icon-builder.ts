@@ -27,7 +27,7 @@ export class ContextLinkIconBuilder {
     // Enter the context menu arrow
     let detailsLink = document.createElement('a');
     detailsLink.classList.add(contextMenuLinkClassName);
-    detailsLink.appendChild(opIconElement('icon', 'icon-pulldown'));
+    detailsLink.appendChild(opIconElement('icon', 'icon-show-more-horizontal'));
     td.appendChild(detailsLink);
 
     return td;

@@ -82,9 +82,10 @@ html:not(.-browser-mobile)
 
 // Show context menu button when hovering
 .wp-table-context-menu-link
-  font-size: 0.7rem
+  font-size: 1.2rem
+  vertical-align: -3px
   .icon:before
-    color: $body-font-color
+    @include varprop(color, content-link-color)
     padding: 0 0 0 0.25rem
   &:hover
     text-decoration: none
@@ -122,4 +123,3 @@ table.generic-table tbody tr.issue .checkbox
 .wp-table--cell-td.startDate,
 .wp-table--cell-td.dueDate
   width: 160px
-
