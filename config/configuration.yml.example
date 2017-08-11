@@ -344,6 +344,10 @@ default:
   # Uncomment the following line to restrict APIv3 access to session.
   # apiv3_enable_basic_auth: false
 
+  # You can configure where users should be sent after the login
+  # after_login_default_redirect_url: '/my/page'
+  # after_first_login_redirect_url: '/projects/demo'
+
 
 # specific configuration options for production environment
 # that overrides the default ones
