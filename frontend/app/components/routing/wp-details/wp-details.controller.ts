@@ -54,20 +54,6 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
     } else if (!this.wpTableSelection.isSelected(wpId)) {
       this.wpTableSelection.setRowState(wpId, true);
     }
-
-    scopedObservable(
-      $scope,
-      this.states.focusedWorkPackage.values$())
-      .map(wpId => wpId.toString())
-      .distinctUntilChanged()
-      .subscribe((newId) => {
-        if (wpId !== newId && $state.includes('work-packages.list.details')) {
-          $state.go(
-            ($state.current.name as string),
-            {workPackageId: newId, focus: false }
-          );
-        }
-      });
   }
 
   public close() {

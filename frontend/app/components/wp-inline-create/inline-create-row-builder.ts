@@ -10,7 +10,7 @@ import {States} from '../states.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
 import {
-  internalDetailsColumn,
+  internalContextMenuColumn,
   tableRowClassName,
   SingleRowBuilder, commonRowClassName
 } from '../wp-fast-table/builders/rows/single-row-builder';
@@ -41,7 +41,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
   public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
     switch (column.id) {
-      case internalDetailsColumn.id:
+      case internalContextMenuColumn.id:
         return this.buildCancelButton();
       default:
         return super.buildCell(workPackage, column);

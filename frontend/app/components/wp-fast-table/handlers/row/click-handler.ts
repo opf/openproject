@@ -1,19 +1,22 @@
 import {debugLog} from '../../../../helpers/debug_output';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
 import {TableEventHandler} from '../table-handler-registry';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {tdClassName} from '../../builders/cell-builder';
+import {KeepTabService} from "../../../wp-panels/keep-tab/keep-tab.service";
 
 export class RowClickHandler implements TableEventHandler {
   // Injections
+  public $state:ng.ui.IStateService;
   public states:States;
+  public keepTab:KeepTabService;
   public wpTableSelection:WorkPackageTableSelection;
 
   constructor(table: WorkPackageTable) {
-    injectorBridge(this);
+    $injectFields(this, 'keepTab', '$state', 'states', 'wpTableSelection');
   }
 
   public get EVENT() {
@@ -57,6 +60,10 @@ export class RowClickHandler implements TableEventHandler {
     // Thus save that row for the details view button.
     let [index, row] = table.findRenderedRow(classIdentifier);
     this.states.focusedWorkPackage.putValue(wpId);
+    this.$state.go(
+      this.keepTab.currentDetailsState,
+      { workPackageId: wpId, focus: true }
+    );
 
     // Update single selection if no modifier present
     if (!(evt.ctrlKey || evt.metaKey || evt.shiftKey)) {
@@ -77,4 +84,3 @@ export class RowClickHandler implements TableEventHandler {
   }
 }
 
-RowClickHandler.$inject = ['states', 'wpTableSelection'];

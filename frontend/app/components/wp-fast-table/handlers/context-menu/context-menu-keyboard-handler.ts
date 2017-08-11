@@ -1,16 +1,13 @@
 import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
 import {WorkPackageTable} from "../../wp-fast-table";
-import {TableEventHandler} from "../table-handler-registry";
 import {tableRowClassName} from "../../builders/rows/single-row-builder";
 import {ContextMenuService} from "../../../context-menus/context-menu.service";
 import {keyCodes} from "../../../common/keyCodes.enum";
+import {ContextMenuHandler} from "./context-menu-handler";
 
-export class ContextMenuKeyboardHandler implements TableEventHandler {
-  // Injections
-  public contextMenu:ContextMenuService;
-
-  constructor(private table:WorkPackageTable) {
-    injectorBridge(this);
+export class ContextMenuKeyboardHandler extends ContextMenuHandler {
+  constructor(table:WorkPackageTable) {
+    super(table);
   }
 
   public get EVENT() {
@@ -18,11 +15,7 @@ export class ContextMenuKeyboardHandler implements TableEventHandler {
   }
 
   public get SELECTOR() {
-    return `.${tableRowClassName}`;
-  }
-
-  public eventScope(table:WorkPackageTable) {
-    return jQuery(table.tbody);
+    return this.rowSelector;
   }
 
   public handleEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {
@@ -38,14 +31,12 @@ export class ContextMenuKeyboardHandler implements TableEventHandler {
     // Locate the row from event
     const element = target.closest(this.SELECTOR);
     const wpId = element.data('workPackageId');
-    const [index,] = table.findRenderedRow(element.data('workPackageId'));
 
     // Set position args to open at element
     let position = { of: target };
 
-    this.contextMenu.activate('WorkPackageContextMenu', evt, { workPackageId: wpId, rowIndex: index, table: this.table}, position);
+    super.openContextMenu(evt, wpId, position);
+
     return false;
   }
 }
-
-ContextMenuKeyboardHandler.$inject = ['contextMenu'];
