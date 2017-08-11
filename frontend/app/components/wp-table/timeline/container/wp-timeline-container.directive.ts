@@ -45,7 +45,6 @@ import {WorkPackagesTableController} from '../../wp-table.directive';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {timelineElementCssClass, timelineMarkerSelectionStartClass, TimelineViewParameters} from '../wp-timeline';
-import {classNameBar, classNameLeftHandle, classNameRightHandle} from '../cells/wp-timeline-cell-mouse-handler';
 
 
 export class WorkPackageTimelineTableController {
@@ -154,8 +153,6 @@ export class WorkPackageTimelineTableController {
 
   /**
    * Return the index of a given row by its class identifier
-   * @param cell
-   * @return {number}
    */
   workPackageIndex(classIdentifier:string):number {
     return this.workPackageIdOrder.findIndex((el) => el.classIdentifier === classIdentifier);
@@ -191,7 +188,7 @@ export class WorkPackageTimelineTableController {
       return;
     }
 
-    timeOutput("refreshView() in timeline container", () => {
+    timeOutput('refreshView() in timeline container', () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.css('width', 'auto');
 
@@ -217,7 +214,7 @@ export class WorkPackageTimelineTableController {
       .withLatestFrom(this.states.table.timelineVisible.values$())
       .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([, timelineState]) => this.initialized && timelineState.isVisible)
-      .map(([[wpId],]) => wpId)
+      .map(([[wpId]]) => wpId)
       .filter((wpId) => this.cellsRenderer.hasCell(wpId))
       .subscribe((wpId) => {
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
@@ -233,7 +230,7 @@ export class WorkPackageTimelineTableController {
   startAddRelationPredecessor(start:WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
-        .addCommonRelation(start as any, "follows", end.id)
+        .addCommonRelation(start as any, 'follows', end.id)
         .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
     });
   }
@@ -241,7 +238,7 @@ export class WorkPackageTimelineTableController {
   startAddRelationFollower(start:WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
-        .addCommonRelation(start as any, "precedes", end.id)
+        .addCommonRelation(start as any, 'precedes', end.id)
         .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
     });
   }
@@ -250,7 +247,7 @@ export class WorkPackageTimelineTableController {
     const outerContainer = this.getParentScrollContainer();
     const scrollLeft = outerContainer.scrollLeft;
     const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay);
-    return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, "days");
+    return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, 'days');
   }
 
   getLastDayInViewport() {
@@ -259,7 +256,7 @@ export class WorkPackageTimelineTableController {
     const width = outerContainer.offsetWidth;
     const viewPortRight = scrollLeft + width;
     const daysUntilViewPortEnds = Math.ceil(viewPortRight / this.viewParameters.pixelPerDay) + 1;
-    return this.viewParameters.dateDisplayStart.clone().add(daysUntilViewPortEnds, "days");
+    return this.viewParameters.dateDisplayStart.clone().add(daysUntilViewPortEnds, 'days');
   }
 
   forceCursor(cursor:string) {
@@ -371,7 +368,7 @@ export class WorkPackageTimelineTableController {
     // Calculate the visible viewport
     const firstDayInViewport = this.getFirstDayInViewport();
     const lastDayInViewport = this.getLastDayInViewport();
-    const viewport: [Moment, Moment] = [firstDayInViewport, lastDayInViewport];
+    const viewport:[Moment, Moment] = [firstDayInViewport, lastDayInViewport];
     this._viewParameters.visibleViewportAtCalculationTime = viewport;
 
     return changed;
