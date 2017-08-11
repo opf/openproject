@@ -49,7 +49,7 @@ export class SingleRowBuilder {
    * we add for buttons and timeline.
    */
   public get augmentedColumns():QueryColumn[] {
-    return [internalContextMenuColumn].concat(this.columns);
+    return this.columns.concat([internalContextMenuColumn]);
   }
 
   public buildCell(workPackage:WorkPackageResourceInterface, column:QueryColumn):HTMLElement {
