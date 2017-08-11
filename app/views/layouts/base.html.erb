@@ -141,6 +141,11 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
           <%= render_flash_messages %>
           <notifications></notifications>
+          <% if show_onboarding_modal? %>
+            <modal-wrapper initialize="true" iframe-url="<%= OpenProject::Configuration.onboarding_video_url %>" modal-params="{ appendClassName: 'onboarding-modal modal-wrapper' }">
+              <%= render partial: '/onboarding/starting_video_modal' %>
+            </modal-wrapper>
+          <% end %>
           <div id="content" class="<%= initial_classes %>"
                ng-class="{ 'hidden-navigation': !showNavigation }">
             <h1 class="hidden-for-sighted"><%= l(:label_content) %></h1>
