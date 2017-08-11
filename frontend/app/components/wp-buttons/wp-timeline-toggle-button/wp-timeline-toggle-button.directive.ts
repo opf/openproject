@@ -27,13 +27,9 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
-import {
-  ButtonControllerText, WorkPackageButtonController,
-  wpButtonDirective
-} from '../wp-buttons.module';
-import { WorkPackageTableTimelineService } from "../../wp-fast-table/state/wp-table-timeline.service";
-import {zoomLevelOrder} from "../../wp-table/timeline/wp-timeline";
-import {TimelineZoomLevel} from "../../api/api-v3/hal-resources/query-resource.service";
+import {TimelineZoomLevel} from '../../api/api-v3/hal-resources/query-resource.service';
+import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
+import {ButtonControllerText, WorkPackageButtonController, wpButtonDirective} from '../wp-buttons.module';
 
 interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
