@@ -50,13 +50,17 @@
 .work-packages-split-view--left-timeline
   border-left: 5px solid #888
 
+// Add bottom border to timeline
+.wp-table-timeline--body
+  border-bottom: 1px solid $table-row-border-color
+
 // Ensure the height of table and timeline rows
 .wp-timeline-cell
   height: $table-timeline--row-height
 
   &:first-child
     // The first table child is 1px larger
-    height: #{$table-timeline--row-height} + 1px
+    height: calc(#{$table-timeline--row-height} + 1px)
 
 .wp-timeline-cell
   // Vertically center elements
