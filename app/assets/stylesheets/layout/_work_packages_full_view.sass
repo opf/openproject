@@ -180,19 +180,23 @@ body.controller-work_packages.full-create
 .work-packages--show-view
   padding: 0 0 0 15px
 
+  .wp-show--header-container
+    @media only screen and (max-width: 679px)
+      width: 100%
+    @media only screen and (min-width: 679px)
+      flex: 1 1 auto
+      display: flex
+      margin-bottom: 6px
+
   .subject-header
     margin: 0
     padding: 0
-    min-height: 50px
-    width: initial
     align-self: center
-    flex-grow: 1
     /* Leave space for the back button */
-    max-width: calc(100% - 100px)
+    flex-basis: calc(100% - 90px)
     @media only screen and (max-width: 679px)
       // let use full width
-      width: 100%
-      max-width: 100%
+      flex-basis: 100%
 
     .wp-table--cell-span
       white-space: normal
@@ -214,9 +218,14 @@ body.controller-work_packages.full-create
         // give subject full width
         width: 100%
 
-    .work-packages--subject-element .wp-inline-edit--field
-      height: 1.75rem
-      margin-top: 8px
+    .work-packages--subject-element
+      &.work-packages--details--subject
+        .work-packages--details--subject.-active
+          @media only screen and (max-width: 679px)
+            margin-top: 8px
+
+      .wp-inline-edit--field
+        height: 34px
 
   > .toolbar-container
     margin: 10px 0 5px 0
@@ -246,9 +255,10 @@ body.controller-work_packages.full-create
   .wp-table--cell-span
     padding-right: 5px !important
 
-  .wp-edit-field--container.-active
-    margin-right: 80px !important
-    width: 95%
+  @media only screen and (min-width: 679px)
+    .wp-edit-field--container.-active
+      margin-right: 80px !important
+      width: 95%
 
   .inplace-edit--read-value--value-span
     white-space: nowrap
