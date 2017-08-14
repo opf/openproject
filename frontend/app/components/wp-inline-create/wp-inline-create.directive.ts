@@ -84,6 +84,13 @@ export class WorkPackageInlineCreateController {
       create: I18n.t('js.label_create_work_package')
     };
 
+    // Maintain temporary row when re-rendered
+    scopedObservable(this.$scope, this.states.table.rendered.values$())
+      .filter(() => this.isHidden)
+      .subscribe(() => {
+        this.timelineBuilder.insert('new', this.table.timelineBody, ['timeline-inline-create-row']);
+      });
+
     // Remove temporary rows on creation of new work package
     scopedObservable(this.$scope, this.wpCreate.onNewWorkPackage())
       .subscribe((wp:WorkPackageResourceInterface) => {
