@@ -218,9 +218,14 @@ body.controller-work_packages.full-create
         // give subject full width
         width: 100%
 
-    .work-packages--subject-element .wp-inline-edit--field
-      height: 1.75rem
-      margin-top: 8px
+    .work-packages--subject-element
+      &.work-packages--details--subject
+        .work-packages--details--subject.-active
+          @media only screen and (max-width: 679px)
+            margin-top: 8px
+
+      .wp-inline-edit--field
+        height: 34px
 
   > .toolbar-container
     margin: 10px 0 5px 0
