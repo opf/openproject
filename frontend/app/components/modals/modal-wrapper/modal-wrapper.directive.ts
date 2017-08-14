@@ -81,7 +81,7 @@ export class ModalWrapperController {
 
   private appendIframe(url:string) {
     let subdom = angular.element(this.modalBody);
-    let iframe = angular.element('<iframe frameborder="0" height="282" allowfullscreen>></iframe>');
+    let iframe = angular.element('<iframe frameborder="0" height="305" allowfullscreen>></iframe>');
     iframe.attr('src', url);
 
     subdom.find(this.iframeSelector).append(iframe);;
