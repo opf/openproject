@@ -86,7 +86,6 @@ export class WorkPackageInlineCreateController {
 
     // Maintain temporary row when re-rendered
     scopedObservable(this.$scope, this.states.table.rendered.values$())
-      .filter(() => this.isHidden)
       .subscribe(() => {
         this.timelineBuilder.insert('new', this.table.timelineBody, ['timeline-inline-create-row']);
       });
@@ -151,7 +150,6 @@ export class WorkPackageInlineCreateController {
       this.workPackageEditForm.changeset.clear();
 
       const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-      this.timelineBuilder.insert('new', this.table.timelineBody, ['timeline-inline-create-row']);
       this.$element.append(row);
 
       this.$timeout(() => {
