@@ -1,4 +1,3 @@
-import {Moment} from 'moment';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,6 +25,9 @@ import {Moment} from 'moment';
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+
+import {Moment} from 'moment';
+import {InputState} from 'reactivestates';
 import {openprojectModule} from '../../../../angular-modules';
 import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
@@ -45,6 +47,7 @@ import {WorkPackagesTableController} from '../../wp-table.directive';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {timelineElementCssClass, timelineMarkerSelectionStartClass, TimelineViewParameters} from '../wp-timeline';
+import moment = require('moment');
 
 
 export class WorkPackageTimelineTableController {
@@ -117,8 +120,47 @@ export class WorkPackageTimelineTableController {
       .takeUntil(this.states.table.stopAllSubscriptions)
       .filter(() => this.initialized)
       .subscribe((orderedRows) => {
+
+        console.error('11111111111111111');
+
         // Remember all visible rows in their order of appearance.
         this.workPackageIdOrder = orderedRows.filter(row => !row.hidden);
+
+
+        // calculate zoom level
+        let earliest:Moment = moment();
+        let latest:Moment = moment();
+
+        console.error('this.workPackageIdOrder', this.workPackageIdOrder);
+        this.workPackageIdOrder.forEach((renderedRow) => {
+          const wpId = renderedRow.workPackageId;
+          console.log('wpId', wpId);
+
+          if (!wpId) {
+            return;
+          }
+          const workPackageState:InputState<WorkPackageResourceInterface> = this.states.workPackages.get(wpId);
+          const workPackage:WorkPackageResourceInterface = workPackageState.value!;
+          // console.error(workPackage);
+
+          console.log('start', workPackage.startDate);
+          console.log('due', workPackage.dueDate);
+
+          const start = workPackage.startDate ? workPackage.startDate : workPackage.date;
+          if (start && moment(start).isBefore(earliest)) {
+            earliest = moment(start);
+          }
+
+          const due = workPackage.dueDate ? workPackage.dueDate : workPackage.date;
+          if (due && moment(due).isAfter(latest)) {
+            latest = moment(due);
+          }
+        });
+
+        const daysSpan = latest.diff(earliest, "days");
+        console.log("daysSpan", daysSpan);
+        //
+
         this.refreshView();
       });
 
