@@ -503,6 +503,8 @@ en:
         repository:
           not_available: "SCM vendor is not available"
           not_whitelisted: "is not allowed by the configuration."
+          invalid_url: "is not a valid repository URL or path."
+          must_not_be_ssh: "must not be an SSH url."
           no_directory: "is not a directory."
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
