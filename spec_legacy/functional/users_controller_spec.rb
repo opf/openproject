@@ -52,8 +52,6 @@ describe UsersController, type: :controller do
     assert_response :success
     assert_template 'index'
     refute_nil assigns(:users)
-    # active users only
-    assert_nil(assigns(:users).detect { |u| !u.active? })
   end
 
   it 'should index with name filter' do
