@@ -161,7 +161,8 @@ export class WorkPackageSingleViewController {
   }
 
   public get projectContextText():string {
-    let projectPath = this.currentProject.path;
+    let id = this.workPackage.project.idFromLink;
+    let projectPath = this.PathHelper.projectPath(id);
     let project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
     return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
   }
