@@ -23,10 +23,10 @@ class UserFilterCell < RailsCell
 
     ##
     # Returns the selected status from the parameters
-    # or the default status to be filtered by (active)
+    # or the default status to be filtered by (all)
     # if no status is given.
     def status_param(params)
-      params[:status].presence || :active
+      params[:status].presence || 'all'
     end
 
     def filter_name(query, name)
