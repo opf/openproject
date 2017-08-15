@@ -573,6 +573,8 @@ en:
       form_submit:
         title: 'Confirm to continue'
         text: 'Are you sure you want to perform this action?'
+      upsale_relation_columns: 'Need to see relations in the work package list?'
+      upsale_relation_columns_link: 'Check out the Enterprise Edition.'
 
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
