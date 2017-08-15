@@ -84,15 +84,12 @@ export class WorkPackageInlineCreateController {
       create: I18n.t('js.label_create_work_package')
     };
 
-    // Mirror the row in timeline
-    const mirrorRow = jQuery('<div id="wp-timeline-mirror-cell" class="wp-timeline-cell"></div>');
-    $scope.$watch('$ctrl.isHidden', (hidden) => {
-      const container = jQuery('.wp-table-timeline--inline-create-mirror');
-      container.empty();
-      if (!hidden) {
-        jQuery('.wp-table-timeline--inline-create-mirror').empty().append(mirrorRow);
-      }
-    });
+    // Maintain temporary row when re-rendered
+    scopedObservable(this.$scope, this.states.table.rendered.values$())
+      .filter(() => this.isHidden)
+      .subscribe(() => {
+        this.timelineBuilder.insert('new', this.table.timelineBody, ['timeline-inline-create-row']);
+      });
 
     // Remove temporary rows on creation of new work package
     scopedObservable(this.$scope, this.wpCreate.onNewWorkPackage())
@@ -154,7 +151,7 @@ export class WorkPackageInlineCreateController {
       this.workPackageEditForm.changeset.clear();
 
       const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-      this.timelineBuilder.insert('new', this.table.timelineBody);
+      this.timelineBuilder.insert('new', this.table.timelineBody, ['timeline-inline-create-row']);
       this.$element.append(row);
 
       this.$timeout(() => {
@@ -208,7 +205,7 @@ export class WorkPackageInlineCreateController {
     this.table.editing.stopEditing('new');
     this.states.workPackages.get('new').clear();
     this.$element.find('.wp-row-new').remove();
-    jQuery(this.table.timelineBody).find('.wp-row-new-timeline').remove();
+    jQuery(this.table.timelineBody).find('.timeline-inline-create-row').remove();
   }
 
   public showRow() {

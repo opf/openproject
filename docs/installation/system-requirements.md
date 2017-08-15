@@ -44,7 +44,7 @@ strive to make OpenProject easy and fun to use we had to drop support
 for some older browsers.
 
 * [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (Version >= 45 ESR)
-* [Microsoft Egde](https://www.microsoft.com/de-de/windows/microsoft-edge)
+* [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 
 ## Screen reader support (accessibility)

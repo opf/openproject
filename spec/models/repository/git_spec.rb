@@ -31,8 +31,8 @@ require 'spec_helper'
 describe Repository::Git, type: :model do
   let(:encoding) { 'UTF-8' }
   let(:instance) { FactoryGirl.build(:repository_git, path_encoding: encoding) }
-  let(:adapter)  { instance.scm }
-  let(:config)   { {} }
+  let(:adapter) { instance.scm }
+  let(:config) { {} }
   let(:enabled_scm) { %w[git] }
 
   before do
@@ -99,7 +99,7 @@ describe Repository::Git, type: :model do
       context 'with string disabled types' do
         before do
           allow(OpenProject::Configuration).to receive(:default_override_source)
-            .and_return('OPENPROJECT_SCM_GIT_DISABLED__TYPES' => '[managed,local]')
+                                                 .and_return('OPENPROJECT_SCM_GIT_DISABLED__TYPES' => '[managed,local]')
 
           OpenProject::Configuration.load
           allow(adapter.class).to receive(:config).and_call_original
@@ -141,9 +141,43 @@ describe Repository::Git, type: :model do
     end
   end
 
+  describe 'URL validation' do
+    let(:instance) { FactoryGirl.build(:repository_git, url: url) }
+
+    shared_examples 'repository url is valid' do
+      it 'is valid' do
+        expect(instance).to be_valid
+      end
+    end
+
+    context 'file:// URLs' do
+      let(:url) { 'file:///foo/bar' }
+      it_behaves_like 'repository url is valid'
+    end
+
+    context 'absolute paths' do
+      let(:url) { 'file:///foo/bar' }
+      it_behaves_like 'repository url is valid'
+    end
+
+    context 'https URLs' do
+      let(:url) { 'https://localhost/git/foo' }
+      it_behaves_like 'repository url is valid'
+    end
+
+    context 'SSH URLs' do
+      let(:url) { 'ssh://-oProxyCommand=echo/wat' }
+
+      it 'is invalid' do
+        expect(instance).not_to be_valid
+        expect(instance.errors.full_messages).to eq(["URL must not be an SSH url."])
+      end
+    end
+  end
+
   describe 'with an actual repository' do
     with_git_repository do |repo_dir|
-      let(:url)      { repo_dir }
+      let(:url) { repo_dir }
       let(:instance) {
         FactoryGirl.create(:repository_git,
                            path_encoding: encoding,
@@ -383,7 +417,7 @@ describe Repository::Git, type: :model do
           Changeset.create(repository: instance,
                            committed_on: Time.now,
                            revision: 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
-                           scmid:    'abc7234cb2750b63f47bff735edc50a1c0a433c2',
+                           scmid: 'abc7234cb2750b63f47bff735edc50a1c0a433c2',
                            comments: 'test')
 
           event = find_events(user).first
