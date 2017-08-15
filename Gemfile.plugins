@@ -1,7 +1,7 @@
 # Dependencies (need to be called before the actual gem)
 group :opf_plugins do
-  gem "openproject-costs",           :git => "https://github.com/finnlabs/openproject-costs.git",         :branch => "dev"
-  gem "reporting_engine",            :git => "https://github.com/finnlabs/reporting_engine.git",          :branch => "dev"
+  gem "openproject-costs",           :git => "https://github.com/finnlabs/openproject-costs.git",         :branch => ENV['TRAVIS_BRANCH']
+  gem "reporting_engine",            :git => "https://github.com/finnlabs/reporting_engine.git",          :branch => ENV['TRAVIS_BRANCH']
 
   # Used by travis to bundle this plugin with the OpenProject core.
   # The tested plugin will be moved to the path `./plugins/this`

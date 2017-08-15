@@ -87,7 +87,44 @@ module CostQuery::CustomFieldMixin
     @class_name = class_name
     dont_inherit :group_fields
     db_field table_name
-    join_table (<<-SQL % [CustomValue.table_name, table_name, field.id, field.name, SQL_TYPES[field.field_format]]).gsub(/^    /, '')
+    if field.list?
+      join_table list_join_table(field)
+    else
+      join_table default_join_table(field)
+    end
+    instance_eval(&on_prepare)
+    self
+  end
+
+  def list_join_table(field)
+    cast_as = SQL_TYPES[field.field_format]
+    cf_name = "custom_field#{field.id}"
+
+    custom_values_table = CustomValue.table_name
+    custom_options_table = CustomOption.table_name
+
+    <<-SQL
+    -- BEGIN Custom Field Join: #{cf_name}
+    LEFT OUTER JOIN (
+    SELECT
+      CAST(co.value AS #{cast_as}) AS #{cf_name},
+      cv.customized_type,
+      cv.custom_field_id,
+      cv.customized_id
+      FROM #{custom_values_table} cv
+      INNER JOIN #{custom_options_table} co
+      ON cv.custom_field_id = co.custom_field_id AND CAST(cv.value AS decimal(60,3)) = co.id
+    ) AS #{cf_name}
+    ON #{cf_name}.customized_type = 'WorkPackage'
+
+    AND #{cf_name}.custom_field_id = #{field.id}
+    AND #{cf_name}.customized_id = entries.work_package_id
+    -- END Custom Field Join: #{cf_name}
+    SQL
+  end
+
+  def default_join_table(field)
+    <<-SQL % [CustomValue.table_name, table_name, field.id, field.name, SQL_TYPES[field.field_format]]
     -- BEGIN Custom Field Join: "%4$s"
     LEFT OUTER JOIN (
     \tSELECT
@@ -103,8 +140,6 @@ module CostQuery::CustomFieldMixin
     AND %2$s.customized_id = entries.work_package_id
     -- END Custom Field Join: "%4$s"
     SQL
-    instance_eval(&on_prepare)
-    self
   end
 
   def new(*)
