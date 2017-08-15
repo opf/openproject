@@ -74,6 +74,10 @@ class UserFilterCell < RailsCell
 
   # INSTANCE METHODS:
 
+  def filter_path
+    users_path
+  end
+
   def initially_visible?
     true
   end
