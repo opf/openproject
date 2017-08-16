@@ -87,13 +87,22 @@ module CostQuery::CustomFieldMixin
     @class_name = class_name
     dont_inherit :group_fields
     db_field table_name
-    if field.list?
+    if field.list? && all_values_int?(field)
       join_table list_join_table(field)
     else
       join_table default_join_table(field)
     end
     instance_eval(&on_prepare)
     self
+  end
+
+  ##
+  # HACK: CustomValues of lists MAY have non-integer values when the list
+  # contained invalid values.
+  def all_values_int?(field)
+    field.custom_values.pluck(:value).all? { |val| val.to_i > 0 }
+  rescue
+    false
   end
 
   def list_join_table(field)

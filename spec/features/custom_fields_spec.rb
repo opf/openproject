@@ -47,11 +47,6 @@ describe 'Custom fields reporting', type: :feature, js: true do
                        hours: 2.50
   }
 
-  before do
-    login_as(user)
-    visit '/cost_reports'
-  end
-
   context 'with multi value cf' do
     let!(:custom_field) do
       FactoryGirl.create(
@@ -65,6 +60,11 @@ describe 'Custom fields reporting', type: :feature, js: true do
     end
 
     let(:initial_custom_values) { { custom_field.id => 1 } }
+
+    before do
+      login_as(user)
+      visit '/cost_reports'
+    end
 
     it 'groups by the multi CF (Regression #26050)' do
       expect(page).to have_selector('#group-by--add-columns')
@@ -92,6 +92,60 @@ describe 'Custom fields reporting', type: :feature, js: true do
         expect(row_elements[0].text).to eq('12.50 hours')
       end
     end
+
+    context 'with additional WP with invalid value' do
+      let!(:custom_field_2) do
+        FactoryGirl.create(
+            :list_wp_custom_field,
+            name: "Invalid List CF",
+            multi_value: true,
+            types: [type],
+            projects: [project],
+            possible_values: ['A', 'B']
+        )
+      end
+
+      let!(:work_package2) {
+        FactoryGirl.create :work_package,
+                           project: project,
+                           custom_values: { custom_field_2.id => 1}
+      }
+
+      let!(:time_entry1) {
+        FactoryGirl.create :time_entry,
+                           user: user,
+                           work_package: work_package2,
+                           project: project,
+                           hours: 10
+      }
+
+      before do
+        CustomValue.find_by(customized_id: work_package2.id).update_columns(value: 'invalid')
+        work_package2.reload
+
+        login_as(user)
+        visit '/cost_reports'
+      end
+
+      it 'groups by the raw values when an invalid value exists' do
+        expect(work_package2.send("custom_field_#{custom_field_2.id}")).to eq(['invalid not found'])
+
+        expect(page).to have_selector('#group-by--add-columns')
+        expect(page).to have_selector('#group-by--add-rows')
+
+        select 'Invalid List CF', from: 'group-by--add-columns'
+        select 'Work package', from: 'group-by--add-rows'
+
+        find('#query-icon-apply-button').click
+
+        # Expect row of work package
+        within('#result-table') do
+          expect(page).to have_selector('a.issue', text: "#{work_package.type.to_s} ##{work_package.id}")
+          expect(page).to have_selector('th.inner', text: '1')
+          expect(page).to have_no_selector('th.inner', text: 'invalid!')
+        end
+      end
+    end
   end
 
   context 'with text CF' do
@@ -104,6 +158,11 @@ describe 'Custom fields reporting', type: :feature, js: true do
       )
     end
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
+
+    before do
+      login_as(user)
+      visit '/cost_reports'
+    end
 
     it 'groups by a text CF' do
       expect(page).to have_selector('#group-by--add-columns')
