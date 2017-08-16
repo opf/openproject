@@ -100,14 +100,14 @@ describe 'Work Package table relations', js: true do
       wp_timeline.toggle_timeline
       wp_timeline.expect_timeline!(open: true)
 
-      # 3 WPs + 2 expanded relations + inline create
-      wp_timeline.expect_row_count(6)
+      # 3 WPs + 2 expanded relations
+      wp_timeline.expect_row_count(5)
 
       # Collapse
       wp_from_row.find(".#{type_column_follows} .wp-table--relation-indicator").click
       expect(page).to have_no_selector(".__relations-expanded-from-#{wp_from.id}")
 
-      wp_timeline.expect_row_count(4)
+      wp_timeline.expect_row_count(3)
     end
   end
 
