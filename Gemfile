@@ -170,6 +170,10 @@ group :test do
   # require factory_girl_rails for convenience in core development
   gem 'factory_girl_rails', '~> 4.7', require: false
 
+  # Test prof provides factories from code
+  # and other niceties
+  gem 'test-prof'
+
   gem 'cucumber', '~> 2.4.0'
   gem 'cucumber-rails', '~> 1.4.4', require: false
   gem 'database_cleaner', '~> 1.6'
