@@ -133,9 +133,9 @@ module API
           representer ||= default_representer(name)
 
           ->(*) do
-            return unless represented.send(name) && embed_links
-
-            representer.new(represented.send(name), current_user: current_user)
+            if represented.send(name) && embed_links
+              representer.new(represented.send(name), current_user: current_user)
+            end
           end
         end
 
@@ -188,10 +188,10 @@ module API
           representer ||= default_representer(name)
 
           ->(*) do
-            return unless represented.send(name)
-
-            represented.send(name).map do |associated|
-              representer.new(associated, current_user: current_user)
+            if represented.send(name)
+              represented.send(name).map do |associated|
+                representer.new(associated, current_user: current_user)
+              end
             end
           end
         end
