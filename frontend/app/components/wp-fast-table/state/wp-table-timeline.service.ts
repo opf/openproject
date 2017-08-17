@@ -122,6 +122,14 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
     }
   }
 
+  public toggleAutoZoom() {
+    this.states.table.timelineAutoZoom.putValue(!this.states.table.timelineAutoZoom.value);
+  }
+
+  public isAutoZoomEnabled():boolean {
+    return this.states.table.timelineAutoZoom.value!;
+  }
+
   public get current():WorkPackageTableTimelineState {
     return this.state.value as WorkPackageTableTimelineState;
   }

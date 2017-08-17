@@ -34,6 +34,7 @@ import {ButtonControllerText, WorkPackageButtonController, wpButtonDirective} fr
 interface TimelineButtonText extends ButtonControllerText {
   zoomOut:string;
   zoomIn:string;
+  zoomAuto:string;
 }
 
 export class WorkPackageTimelineButtonController extends WorkPackageButtonController {
@@ -57,6 +58,7 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
 
     this.text.zoomIn = I18n.t('js.timelines.zoom.in');
     this.text.zoomOut = I18n.t('js.timelines.zoom.out');
+    this.text.zoomAuto = I18n.t('js.timelines.zoom.auto');
   }
 
   public get label():string {
@@ -75,6 +77,10 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
     return this.wpTableTimeline.isVisible;
   }
 
+  public isAutoZoomEnabled():boolean {
+    return this.wpTableTimeline.isAutoZoomEnabled();
+  }
+
   public updateZoom(delta:number) {
     this.wpTableTimeline.updateZoom(delta);
   }
@@ -90,6 +96,11 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
   public toggleTimeline() {
     this.wpTableTimeline.toggle();
   }
+
+  public toggleAutoZoom() {
+    this.wpTableTimeline.toggleAutoZoom();
+  }
+
 }
 
 function wpTimelineToggleButton():ng.IDirective {

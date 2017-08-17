@@ -91,9 +91,9 @@ export class WorkPackagesTableController {
 
   private readonly scrollSyncUpdate = createScrollSync(this.$element);
 
-  private table:HTMLElement;
+  public table:HTMLElement;
 
-  private timeline:HTMLElement;
+  public timeline:HTMLElement;
 
   constructor(private $scope:ng.IScope,
               public $element:ng.IAugmentedJQuery,
