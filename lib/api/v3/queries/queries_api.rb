@@ -148,12 +148,14 @@ module API
               end
               query_menu_item.save!
 
+              @query.valid_subset!
               query_representer_response(@query, {})
             end
 
             patch :unstar do
               authorize_by_policy(:unstar)
 
+              @query.valid_subset!
               representer = query_representer_response(@query, {})
 
               query_menu_item = @query.query_menu_item
