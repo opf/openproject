@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require 'hashie'
+
 module API
   module V3
     module WorkPackages
