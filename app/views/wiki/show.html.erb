@@ -33,6 +33,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <% else %>
   <% title = h(@page.title) %>
 <% end %>
+<% if @page.project.is_public %>
+  <% title "#{t(:project_module_wiki)} | #{title}" %>
+  <% description strip_tags(format_text(@content, :text)) %>
+<% end %>
 <%= toolbar title: title, html: {class: '-with-dropdown'} do %>
   <% if @editable %>
     <% if User.current.allowed_to? :edit_wiki_pages, @project %>
