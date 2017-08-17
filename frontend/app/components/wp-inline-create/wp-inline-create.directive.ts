@@ -47,6 +47,7 @@ import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-ro
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
+import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
 
 export class WorkPackageInlineCreateController {
 
@@ -137,52 +138,28 @@ export class WorkPackageInlineCreateController {
       }
 
       const wp = this.currentWorkPackage = changeset.workPackage;
-      (this.currentWorkPackage as any).inlineCreated = true;
 
-      this.wpEditing.updateValue('new', changeset);
-      this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+      // Apply filter values
+      const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current);
+      filter.applyDefaultsFromFilters().then(() => {
+        this.wpEditing.updateValue('new', changeset);
+        this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-      // Set editing context to table
-      const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
-      this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
-      this.workPackageEditForm.changeset.clear();
+        // Set editing context to table
+        const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
+        this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
+        this.workPackageEditForm.changeset.clear();
 
-      const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-      this.$element.append(row);
+        const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
+        this.$element.append(row);
 
-      this.$timeout(() => {
-        this.workPackageEditForm!.activateMissingFields();
-        this.hideRow();
-      });
+        this.$timeout(() => {
+          this.workPackageEditForm!.activateMissingFields();
+          this.hideRow();
+        });
+      })
     });
   }
-
-  /*  private applyDefaultsFromFilters(workPackage:WorkPackageResourceInterface) {
-      return this.$q.when();
-
-      let filters = this.wpTableFilters.current as QueryFilterInstanceResource[];
-
-      let promises:ng.IPromise<void>[] = [];
-
-      angular.forEach(filters, filter => {
-        // Ignore any filters except =
-        if (filter.operator.id !== '=') {
-          return;
-        }
-
-        // Select the first value
-        var value = filter.values[0];
-
-        // Avoid empty values
-        if (!value) {
-          return;
-        }
-
-        promises.push(workPackage.setAllowedValueFor(filter.id, value));
-      });
-
-      return this.$q.all(promises);
-    }*/
 
   /**
    * Reset the new work package row and refocus on the button

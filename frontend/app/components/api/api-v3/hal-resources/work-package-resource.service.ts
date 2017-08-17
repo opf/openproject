@@ -275,49 +275,6 @@ export class WorkPackageResource extends HalResource {
     }
   }
 
-  public allowedValuesFor(field:string):ng.IPromise<HalResource[]> {
-    var deferred = $q.defer();
-
-    this.getForm().then((form:any) => {
-      const fieldSchema = form.$embedded.schema[field];
-
-      if (!fieldSchema) {
-        deferred.resolve([]);
-      } else if (fieldSchema.allowedValues && fieldSchema.allowedValues['$load']) {
-        let allowedValues = fieldSchema.allowedValues;
-
-        return allowedValues.$load().then((loadedValues:CollectionResource) => {
-          deferred.resolve(loadedValues.elements);
-        });
-      } else {
-        deferred.resolve(fieldSchema.allowedValues);
-      }
-    });
-
-    return deferred.promise;
-  }
-
-  public setAllowedValueFor(field:string, value:string | HalResource) {
-    return this.allowedValuesFor(field).then(allowedValues => {
-      let newValue;
-
-      if ((value as HalResource)['$href']) {
-        newValue = _.find(allowedValues,
-          (entry:any) => entry.$href === (value as HalResource).$href);
-      } else if (allowedValues) {
-        newValue = _.find(allowedValues, (entry:any) => entry === value);
-      } else {
-        newValue = value;
-      }
-
-      if (newValue) {
-        (this as any)[field] = newValue;
-      }
-
-      wpCacheService.updateWorkPackage(this as any);
-    });
-  }
-
   public isParentOf(otherWorkPackage:WorkPackageResourceInterface) {
     return otherWorkPackage.parent.$links.self.$link.href === this.$links.self.$link.href;
   }
