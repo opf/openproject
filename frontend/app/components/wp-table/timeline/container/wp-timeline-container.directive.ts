@@ -135,6 +135,7 @@ export class WorkPackageTimelineTableController {
     this.states.table.timelineAutoZoom.values$()
       .takeUntil(this.states.table.stopAllSubscriptions)
       .filter(() => this.initialized)
+      .filter(enabled => enabled)
       .subscribe(() => {
         this.refreshView();
       });
