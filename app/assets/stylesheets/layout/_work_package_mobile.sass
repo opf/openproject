@@ -158,3 +158,13 @@
           #main-menu
             height: initial
             min-height: calc(100vh - 55px - 5px)
+
+@include breakpoint(680px down)
+  body.controller-work_packages.action-show
+    .work-packages--show-view
+      padding-left: 0
+    .work-packages-full-view--split-container
+      .work-packages-full-view--split-left
+        padding: 0
+      .work-packages-full-view--split-right .work-packages--panel-inner
+        padding: 0 10px 0 10px
