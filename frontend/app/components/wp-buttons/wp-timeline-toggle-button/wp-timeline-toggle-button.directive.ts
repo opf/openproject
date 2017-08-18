@@ -101,6 +101,10 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
     this.wpTableTimeline.toggleAutoZoom();
   }
 
+  public getAutoZoomToggleClass():string {
+    return this.isAutoZoomEnabled() ? '-pressed' : '';
+  }
+
 }
 
 function wpTimelineToggleButton():ng.IDirective {

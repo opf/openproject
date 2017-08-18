@@ -112,6 +112,10 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
   }
 
   public updateZoom(delta:number) {
+    if (this.isAutoZoomEnabled()) {
+      this.toggleAutoZoom();
+    }
+
     let currentState = this.current;
     let idx = zoomLevelOrder.indexOf(this.current.zoomLevel);
     idx += delta;
