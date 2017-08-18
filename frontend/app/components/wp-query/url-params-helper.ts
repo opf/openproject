@@ -70,6 +70,10 @@ export class UrlParamsHelperService {
       paramsData.tv = query.timelineVisible;
     }
 
+    if (!_.isEmpty(query.timelineLabels)) {
+      paramsData.tll = JSON.stringify(query.timelineLabels);
+    }
+
     paramsData.tzl = query.timelineZoomLevel;
     paramsData.hi = !!query.showHierarchies;
 
@@ -127,6 +131,9 @@ export class UrlParamsHelperService {
     }
     if (!!properties.tv) {
       queryData.timelineVisible = properties.tv;
+    }
+    if (!!properties.tll) {
+      queryData.timelineLabels = JSON.stringify(properties.tll);
     }
 
     if (properties.tzl) {

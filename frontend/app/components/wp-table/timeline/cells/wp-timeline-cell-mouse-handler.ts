@@ -123,7 +123,7 @@ export function registerWorkPackageMouseHandler(this: void,
 
       dateStates = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, days, direction);
       applyDateValues(renderInfo, dateStates);
-      renderer.update(bar, renderInfo);
+      renderer.update(bar, labels, renderInfo);
     }
   }
 
@@ -161,7 +161,7 @@ export function registerWorkPackageMouseHandler(this: void,
       const clickStart = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayStart, 'days');
       const dateForCreate = clickStart.format('YYYY-MM-DD');
       const mouseDownType = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels, bar);
-      renderer.update(bar, renderInfo);
+      renderer.update(bar, labels, renderInfo);
 
       if (mouseDownType === 'create') {
         deactivate(false);
@@ -175,7 +175,7 @@ export function registerWorkPackageMouseHandler(this: void,
         const widthInDays = offsetDayCurrent - offsetDayStart;
         const moved = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, widthInDays, mouseDownType);
         renderer.assignDateValues(renderInfo.changeset, labels, moved);
-        renderer.update(bar, renderInfo);
+        renderer.update(bar, labels, renderInfo);
       };
 
       cell.onmouseleave = () => {
@@ -208,12 +208,12 @@ export function registerWorkPackageMouseHandler(this: void,
     dateStates = {};
 
     // const renderInfo = getRenderInfo();
-    if (cancelled) {
+    if (cancelled || renderInfo.changeset.empty) {
       renderInfo.changeset.clear();
-      renderer.update(bar, renderInfo);
+      renderer.update(bar, labels, renderInfo);
       renderer.onMouseDownEnd(labels, renderInfo.changeset);
       workPackageTimeline.refreshView();
-    } else if (!renderInfo.changeset.empty) {
+    } else {
       // Persist the changes
       saveWorkPackage(renderInfo.changeset)
         .finally(() => {

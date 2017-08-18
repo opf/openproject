@@ -112,6 +112,13 @@ module API
                  has_default: true,
                  visibility: false
 
+          schema :timeline_labels,
+                 type: 'QueryTimelineLabels',
+                 required: false,
+                 writable: true,
+                 has_default: true,
+                 visibility: false
+
           schema :show_hierarchies,
                  type: 'Boolean',
                  required: false,

@@ -2,14 +2,16 @@ import * as moment from 'moment';
 import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {calculatePositionValueForDayCountingPx, RenderInfo, timelineElementCssClass} from '../wp-timeline';
-import {TimelineCellRenderer} from './timeline-cell-renderer';
+import {LabelPosition, TimelineCellRenderer} from './timeline-cell-renderer';
 import {
-  classNameFarRightLabel,
-  classNameLeftLabel, classNameRightContainer, classNameRightLabel, classNameShowOnHover,
+  classNameFarRightLabel, classNameHideOnHover, classNameHoverStyle,
+  classNameLeftLabel, classNameRightContainer, classNameRightHoverLabel, classNameRightLabel,
+  classNameShowOnHover,
   WorkPackageCellLabels
 } from './wp-timeline-cell';
 import Moment = moment.Moment;
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
+import {TimelineLabels} from '../../../api/api-v3/hal-resources/query-resource.service';
 
 interface CellMilestoneMovement {
   // Target value to move milestone to
@@ -106,7 +108,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return direction;
   }
 
-  public update(element:HTMLDivElement, renderInfo:RenderInfo): boolean {
+  public update(element:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo): boolean {
     const viewParams = renderInfo.viewParams;
     const date = moment(renderInfo.changeset.value('date'));
 
@@ -127,6 +129,11 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     // offset left
     const offsetStart = date.diff(viewParams.dateDisplayStart, 'days');
     element.style.left = calculatePositionValueForDayCountingPx(viewParams, offsetStart) + 'px';
+
+    // Update labels if any
+    if (labels) {
+      this.updateLabels(false, labels, renderInfo.changeset);
+    }
 
     this.checkForActiveSelectionMode(renderInfo, diamond);
 
@@ -170,8 +177,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   createAndAddLabels(renderInfo:RenderInfo, element:HTMLElement):WorkPackageCellLabels {
     // create left label
     const labelLeft = document.createElement('div');
-    labelLeft.classList.add(classNameLeftLabel);
-    labelLeft.classList.add(classNameShowOnHover);
+    labelLeft.classList.add(classNameLeftLabel, classNameHideOnHover);
     element.appendChild(labelLeft);
 
     // create right container
@@ -181,62 +187,26 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
 
     // create right label
     const labelRight = document.createElement('div');
-    labelRight.classList.add(classNameRightLabel);
-    labelRight.classList.add(classNameShowOnHover);
+    labelRight.classList.add(classNameRightLabel, classNameHideOnHover);
     containerRight.appendChild(labelRight);
 
     // create far right label
     const labelFarRight = document.createElement('div');
-    labelFarRight.classList.add(classNameFarRightLabel);
-    labelFarRight.classList.add(classNameShowOnHover);
+    labelFarRight.classList.add(classNameFarRightLabel, classNameHideOnHover);
     containerRight.appendChild(labelFarRight);
 
-    const labels = new WorkPackageCellLabels(null, labelLeft, labelRight, labelFarRight);
+    // Create right hover label
+    const labelHoverRight = document.createElement('div');
+    labelHoverRight.classList.add(classNameRightHoverLabel, classNameShowOnHover, classNameHoverStyle);
+    element.appendChild(labelHoverRight);
+
+    const labels = new WorkPackageCellLabels(null, labelLeft, null, labelRight, labelHoverRight, labelFarRight);
     this.updateLabels(false, labels, renderInfo.changeset);
 
     return labels;
   }
 
-  protected updateLabels(activeDragNDrop:boolean,
-                         labels:WorkPackageCellLabels,
-                         changeset:WorkPackageChangeset) {
-
-    if (!this.TimezoneService) {
-      this.TimezoneService = $injectNow('TimezoneService');
-    }
-
-    const subject:string = changeset.value('subject');
-    const dateStr = changeset.value('date');
-    const date:Moment | null = dateStr ? moment(dateStr) : null;
-
-    if (!activeDragNDrop) {
-      // normal display
-      if (labels.labelRight && date) {
-        labels.labelRight.textContent = this.TimezoneService.formattedDate(date);
-      }
-      if (labels.labelFarRight) {
-        labels.labelFarRight.textContent = subject;
-      }
-    } else {
-      // active drag'n'drop
-      if (labels.labelRight && date) {
-        labels.labelRight.textContent = this.TimezoneService.formattedDate(date);
-      }
-    }
-
-    if (labels.labelLeft) {
-      if (_.isEmpty(labels.labelLeft.textContent)) {
-        labels.labelLeft.classList.remove('not-empty');
-      } else {
-        labels.labelLeft.classList.add('not-empty');
-      }
-    }
-    if (labels.labelRight) {
-      if (_.isEmpty(labels.labelRight.textContent)) {
-        labels.labelRight.classList.remove('not-empty');
-      } else {
-        labels.labelRight.classList.add('not-empty');
-      }
-    }
+  protected renderHoverLabels(labels:WorkPackageCellLabels, changeset:WorkPackageChangeset) {
+    this.renderLabel(changeset, labels, 'rightHover', 'date');
   }
 }

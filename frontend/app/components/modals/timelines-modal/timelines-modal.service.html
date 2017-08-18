@@ -1,0 +1,45 @@
+<div class="ng-modal-window">
+  <div class="ng-modal-inner modal-content">
+    <div class="modal-header">
+      <a><op-icon icon-classes="icon-close" ng-click="$ctrl.closeMe()" title="{{ ::text.close }}"></op-icon></a></div>
+
+    <h3>{{ ::text.title }}</h3>
+
+    <form name="modalTimelinesForm">
+      <div id="modal-timelines"
+           class="modal-content-container">
+        <p ng-bind="::text.labels.description"></p>
+        <section class="form--section">
+          <div class="form--row" ng-repeat="(key, value) in labels">
+            <div class="form--field">
+              <label
+                  for="modal-timelines-label-{{key}}"
+                  class="form--label">
+                {{ text.labels[key] }}
+              </label>
+              <div class="form--field-container">
+                <div class="form--select-container">
+                  <select
+                      id="modal-timelines-label-{{key}}"
+                      ng-model="labels[key]"
+                      focus="$first"
+                      class="form--select"
+                      ng-options="c.id as c.name for c in availableAttributes">
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+      <button class="button -highlight"
+              ng-bind="::text.apply"
+              ng-click="updateLabels()">
+      </button>
+      <button class="button"
+              ng-bind="::text.cancel"
+              ng-click="$ctrl.closeMe()">
+      </button>
+    </form>
+  </div>
+</div>

@@ -342,6 +342,17 @@ en:
     text_query_destroy_confirmation: "Are you sure you want to delete the selected query?"
     text_attachment_destroy_confirmation: "Are you sure you want to delete the attachment?"
     timelines:
+      gantt_chart: 'Gantt chart'
+      labels:
+        bar: 'Bar labels'
+        left: 'Left'
+        right: 'Right'
+        farRight: 'Far right'
+        showNone: '-- No label --'
+        description: >
+          Select the attributes you want to be shown in the respective positions of the gantt chart at all times.
+          Note that when hovering an element, its date labels will be shown instead of these attributes.
+
       button_activate: 'Activate timeline mode'
       button_deactivate: 'Deactivate timeline mode'
       cancel: Cancel

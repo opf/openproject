@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,31 +26,41 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+module Components
+  module Timelines
+    class ConfigurationModal
+      include Capybara::DSL
+      include RSpec::Matchers
 
-# Load any local boot extras that is kept out of source control
-# (e.g., silencing of deprecations)
-if File.exists?(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
-  instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
-end
+      attr_reader :settings_menu
 
+      def initialize
+        @settings_menu = ::Components::WorkPackages::SettingsMenu.new
+      end
 
-require 'bundler/setup' # Set up gems listed in the Gemfile.
+      def open!
+        @settings_menu.open_and_choose 'Gantt chart ...'
+      end
 
-# Rails is not yet loaded here
-if ENV['RAILS_ENV'] == 'development'
-  $stderr.puts "Starting with bootsnap."
+      def get_select(position)
+        page.find("#modal-timelines-label-#{position}")
+      end
 
-  require 'bootsnap'
+      def expect_labels!(left:, right:, farRight:)
+        expect(page).to have_select('modal-timelines-label-left', selected: left)
+        expect(page).to have_select('modal-timelines-label-right', selected: right)
+        expect(page).to have_select('modal-timelines-label-farRight', selected: farRight)
+      end
 
-  is_mac = RUBY_PLATFORM.include? 'darwin'
-  Bootsnap.setup(
-    cache_dir:            'tmp/cache', # Path to your cache
-    development_mode:     true,
-    load_path_cache:      true,        # Should we optimize the LOAD_PATH with a cache?
-    autoload_paths_cache: true,        # Should we optimize ActiveSupport autoloads with cache?
-    disable_trace:        false,       # Sets `RubyVM::InstructionSequence.compile_option = { trace_instruction: false }`
-    compile_cache_iseq:   is_mac,      # Should compile Ruby code into ISeq cache?
-    compile_cache_yaml:   is_mac       # Should compile YAML into a cache?
-  )
+      def update_labels(left:, right:, farRight:)
+        get_select(:left).find('option', text: left).select_option
+        get_select(:right).find('option', text: right).select_option
+        get_select(:farRight).find('option', text: farRight).select_option
+
+        page.within '.ng-modal-window' do
+          click_on 'Apply'
+        end
+      end
+    end
+  end
 end

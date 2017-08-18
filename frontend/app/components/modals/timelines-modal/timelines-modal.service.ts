@@ -1,4 +1,4 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,43 +24,17 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {WorkPackageTableBaseState} from './wp-table-base';
-import {
-  QueryResourceInterface, TimelineLabels,
-  TimelineZoomLevel
-} from '../api/api-v3/hal-resources/query-resource.service';
+import {wpControllersModule} from '../../../angular-modules';
 
-export class WorkPackageTableTimelineState extends WorkPackageTableBaseState<boolean> {
-  public visible:boolean;
-  public zoomLevel:TimelineZoomLevel;
-  public labels:TimelineLabels;
-
-  constructor(query:QueryResourceInterface) {
-    super();
-    this.visible = query.timelineVisible;
-    this.zoomLevel = query.timelineZoomLevel;
-    this.labels = query.timelineLabels;
-  }
-
-  public get current():boolean {
-    return this.isVisible;
-  }
-
-  public toggle() {
-    this.visible = !this.visible;
-  }
-
-  public get isVisible() {
-    return this.visible;
-  }
-
-  public get defaultLabels():TimelineLabels {
-    return {
-      left: '',
-      right: '',
-      farRight: 'subject'
-    };
-  }
+function timelinesModalService(btfModal:any) {
+  return btfModal({
+    controller: 'TimelinesModalController',
+    controllerAs: '$ctrl',
+    afterFocusOn: '#work-packages-settings-button',
+    templateUrl: '/components/modals/timelines-modal/timelines-modal.service.html'
+  });
 }
+
+wpControllersModule.factory('timelinesModal', timelinesModalService);

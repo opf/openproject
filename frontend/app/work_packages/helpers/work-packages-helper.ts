@@ -26,12 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
+import {HalResource} from '../../components/api/api-v3/hal-resources/hal-resource.service';
+
+module.exports = function(TimezoneService:any, currencyFilter:any, CustomFieldHelper:any) {
 
   var WorkPackagesHelper = {
-    getRowObjectContent: function(object, option) {
+    getRowObjectContent: function(object:any, option:any) {
       var content = object[option];
-      var displayContent = function(content) {
+      var displayContent = function(content:any) {
         return content.name || content.subject || content.title || content.value || '';
       };
 
@@ -51,7 +53,7 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
       }
     },
 
-    augmentWorkPackageWithData: function(workPackage, attributeName, isCustomValue, data) {
+    augmentWorkPackageWithData: function(workPackage:any, attributeName:any, isCustomValue:any, data:any) {
       if (isCustomValue && data) {
         if (workPackage.custom_values) {
           workPackage.custom_values.push(data);
@@ -63,10 +65,10 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
       }
     },
 
-    getFormattedCustomValue: function(object, customField) {
+    getFormattedCustomValue: function(object:any, customField:any) {
       if (!object.custom_values) { return null; }
 
-      var values = object.custom_values.filter(function(customValue){
+      var values = object.custom_values.filter(function(customValue:any){
         return customValue && customValue.custom_field_id === customField.id;
       });
 
@@ -75,7 +77,7 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
       }
     },
 
-    getColumnDataId: function(object, column) {
+    getColumnDataId: function(object:any, column:any) {
       var custom_field_id = column.name.match(/^cf_(\d+)$/);
 
       if (custom_field_id) {
@@ -88,9 +90,9 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
       }
     },
 
-    getCFColumnDataId: function(object, custom_field_id) {
+    getCFColumnDataId: function(object:any, custom_field_id:any) {
 
-      var custom_value = _.find(object.custom_values, function(elem) {
+      var custom_value = _.find(object.custom_values, function(elem:any) {
         return elem && (elem.custom_field_id === custom_field_id);
       });
 
@@ -102,7 +104,7 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
       }
     },
 
-    getStaticColumnDataId: function(object, column) {
+    getStaticColumnDataId: function(object:any, column:any) {
       switch (column.name) {
         case 'parent':
           return object.parent_id;
@@ -116,13 +118,13 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
       }
     },
 
-    getFormattedColumnData: function(object, column) {
+    getFormattedColumnData: function(object:any, column:any) {
       var value = WorkPackagesHelper.getRowObjectContent(object, column.name);
 
       return WorkPackagesHelper.formatValue(value, column.meta_data.data_type);
     },
 
-    formatValue: function(value, dataType) {
+    formatValue: function(value:any, dataType:any) {
       switch(dataType) {
         case 'datetime':
           var dateTime;
@@ -143,11 +145,14 @@ module.exports = function(TimezoneService, currencyFilter, CustomFieldHelper) {
         case 'Date':
           return TimezoneService.formattedDate(value);
         default:
+          if (value instanceof HalResource) {
+            return value.name;
+          }
           return value;
       }
     },
 
-    parseDateTime: function(value) {
+    parseDateTime: function(value:any) {
       return new Date(Date.parse(value.replace(/(A|P)M$/, '')));
     }
   };
