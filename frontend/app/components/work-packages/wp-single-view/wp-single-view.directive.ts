@@ -128,8 +128,7 @@ export class WorkPackageSingleViewController {
    * Returns the work package label
    */
   public get idLabel() {
-    const label = this.I18n.t('js.label_work_package');
-    return `${label} #${this.workPackage.id}`;
+    return `#${this.workPackage.id}`;
   }
 
   private setupI18nTexts() {
