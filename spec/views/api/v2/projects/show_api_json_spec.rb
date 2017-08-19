@@ -269,7 +269,8 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
     before do
       custom_value = CustomValue.new(
         custom_field: custom_field,
-        value: 'Wurst')
+        value: 'Wurst'
+)
       project.custom_values << custom_value
 
       assign(:project, project)

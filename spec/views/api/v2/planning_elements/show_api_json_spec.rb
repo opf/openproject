@@ -68,7 +68,8 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     before do
       custom_value = CustomValue.new(
         custom_field: custom_field,
-        value: 'Wurst')
+        value: 'Wurst'
+)
       planning_element.custom_values << custom_value
 
       assign(:planning_element, planning_element)

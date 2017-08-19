@@ -109,9 +109,9 @@ module Members
         link_to(
           op_icon('icon icon-delete'),
           { controller: '/members', action: 'destroy', id: model, page: params[:page] },
-          method: :delete,
-          data: { confirm: delete_link_confirmation },
-          title: delete_title
+          { method: :delete,
+            data: { confirm: delete_link_confirmation },
+            title: delete_title }
         )
       end
     end

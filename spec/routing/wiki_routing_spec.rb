@@ -85,7 +85,8 @@ describe WikiController, type: :routing do
         action: 'show',
         project_id: 'abc',
         id: 'abc_wiki',
-        version: '3')
+        version: '3'
+)
     end
 
     it 'should connect GET /projects/:project_id/wiki/:id/parent_page to wiki/edit_parent_page' do
@@ -94,7 +95,8 @@ describe WikiController, type: :routing do
           controller: 'wiki',
           action: 'edit_parent_page',
           project_id: 'abc',
-          id: 'abc_wiki')
+          id: 'abc_wiki'
+)
     end
 
     it 'should connect PATCH /projects/:project_id/wiki/:id/parent_page to wiki/update_parent_page' do
@@ -103,7 +105,8 @@ describe WikiController, type: :routing do
           controller: 'wiki',
           action: 'update_parent_page',
           project_id: 'abc',
-          id: 'abc_wiki')
+          id: 'abc_wiki'
+)
     end
 
     it 'should connect GET /projects/:project_id/wiki/:id/toc to wiki#index' do

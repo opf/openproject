@@ -36,8 +36,7 @@ describe 'Omniauth authentication', type: :feature do
                        login: 'omnibob',
                        mail: 'omnibob@example.com',
                        firstname: 'omni',
-                       lastname: 'bob'
-                      )
+                       lastname: 'bob')
   end
 
   before do

@@ -43,7 +43,8 @@ module DemoData
         query = Query.create!(attributes)
 
         query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by(
-          navigatable_id: query.id) do |item|
+          navigatable_id: query.id
+) do |item|
             item.name  = SecureRandom.uuid
             item.title = query.name
           end

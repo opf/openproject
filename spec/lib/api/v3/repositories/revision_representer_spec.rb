@@ -42,8 +42,7 @@ describe ::API::V3::Repositories::RevisionRepresenter do
                       repository: repository,
                       comments: commit_message,
                       committer: 'foo bar <foo@example.org>',
-                      committed_on: DateTime.now
-                      )
+                      committed_on: DateTime.now)
   end
 
   let(:commit_message) { 'Some commit message' }

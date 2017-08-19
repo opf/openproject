@@ -84,7 +84,8 @@ describe MembersController, type: :controller do
         :member,
         project: project_2,
         user: admin,
-        roles: [role_1])
+        roles: [role_1]
+)
     end
 
     before do

@@ -354,7 +354,7 @@ module ApplicationHelper
                       action: 'index',
                       project_id: @project,
                       from: time.to_date },
-              title: format_time(time))
+              { title: format_time(time) })
     else
       datetime = time.acts_like?(:time) ? time.xmlschema : time.iso8601
       content_tag(:time, text, datetime: datetime,

@@ -71,8 +71,7 @@ class Scm::RemoteRepositoryJob < ApplicationJob
       raise OpenProject::Scm::Exceptions::ScmError.new(
               I18n.t('repositories.errors.remote_call_failed',
                      code: response.code,
-                     message: info['message']
-              )
+                     message: info['message'])
             )
     end
 

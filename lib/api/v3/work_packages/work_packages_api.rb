@@ -98,7 +98,8 @@ module API
               call = UpdateWorkPackageService
                      .new(
                        user: current_user,
-                       work_package: @work_package)
+                       work_package: @work_package
+)
                      .call(send_notifications: notify_according_to_params)
 
               if call.success?

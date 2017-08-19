@@ -118,8 +118,7 @@ describe OpenProject::Storage do
             .to eq(1 => { labels: [I18n.t(:label_managed_repositories_vendor, vendor: 'Git')],
                           data: returned_fs_info[0] },
                    2 => { labels: [I18n.t('attributes.attachments')],
-                          data: returned_fs_info[1] }
-                  )
+                          data: returned_fs_info[1] })
         end
       end
     end

@@ -474,7 +474,8 @@ describe AccountController, type: :controller do
 
         it 'preserves the back url' do
           expect(response).to redirect_to(
-            '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url')
+            '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url'
+)
         end
       end
 

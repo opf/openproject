@@ -46,7 +46,8 @@ class Scm::RelocateRepositoryJob < Scm::RemoteRepositoryJob
   def relocate_remote
     response = send_request(repository_request.merge(
        action: :relocate,
-       old_identifier: File.basename(repository.root_url)))
+       old_identifier: File.basename(repository.root_url)
+))
     repository.root_url = response['path']
     repository.url = response['url']
 

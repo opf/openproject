@@ -155,14 +155,16 @@ class Repository::Git < Repository
             scmid:      rev.scmid,
             committer:  rev.author,
             committed_on: rev.time,
-            comments:   rev.message)
+            comments:   rev.message
+)
 
           if changeset.save
             rev.paths.each do |file|
               Change.create(
                 changeset: changeset,
                 action:    file[:action],
-                path:      file[:path])
+                path:      file[:path]
+)
             end
           end
         end

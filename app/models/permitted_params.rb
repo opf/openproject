@@ -346,7 +346,8 @@ class PermittedParams
 
   def time_entry
     permitted_params = params.fetch(:time_entry, {}).permit(
-      :hours, :comments, :work_package_id, :activity_id, :spent_on)
+      :hours, :comments, :work_package_id, :activity_id, :spent_on
+)
 
     permitted_params.merge(custom_field_values(:time_entry, required: false))
   end

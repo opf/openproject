@@ -86,9 +86,9 @@ module BreadcrumbHelper
       ancestors << project
       ancestors.map do |p|
         if p == project
-          link_to_project(p, { only_path: false }, title: p, class: 'breadcrumb-project-title nocut').html_safe
+          link_to_project(p, { only_path: false }, { title: p, class: 'breadcrumb-project-title nocut' }).html_safe
         else
-          link_to_project(p, { jump: current_menu_item }, title: p, class: 'breadcrumb-project-title').html_safe
+          link_to_project(p, { jump: current_menu_item }, { title: p, class: 'breadcrumb-project-title' }).html_safe
         end
       end
     end

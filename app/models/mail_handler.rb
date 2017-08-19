@@ -242,13 +242,15 @@ class MailHandler < ActionMailer::Base
           name: attachment.filename,
           content_type: attachment.mime_type,
           content: attachment.decoded,
-          binary: true)
+          binary: true
+)
 
         obj.attachments << Attachment.create(
           container: obj,
           file: file,
           author: user,
-          content_type: attachment.mime_type)
+          content_type: attachment.mime_type
+)
       end
     end
   end

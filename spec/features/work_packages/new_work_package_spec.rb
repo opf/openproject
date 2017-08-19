@@ -154,7 +154,8 @@ describe 'new work package', js: true do
             field_format: 'list',
             possible_values: %w(foo bar xyz),
             is_required: false,
-            is_for_all: true)
+            is_for_all: true
+)
         end
         let(:custom_fields) do
           [custom_field1, custom_field2]

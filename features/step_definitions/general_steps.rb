@@ -171,8 +171,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
                            time = number.to_i.send(time_unit.to_sym).send(tempus.to_sym)
                            object.spent_on = time
                            object.save!
-                         end
-                        )
+                         end)
   end
 end
 
@@ -404,8 +403,7 @@ def modify_user(u, table)
                              r.user_id    = user.id
                              r.project    = user.projects.last
                            end.save!
-                         end
-                        )
+                         end)
 
     u.save!
   end

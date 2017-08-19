@@ -160,7 +160,8 @@ describe AccountController, type: :controller do
 
           auth_source_registration = omniauth_hash.merge(
             omniauth: true,
-            timestamp: Time.new)
+            timestamp: Time.new
+)
           session[:auth_source_registration] = auth_source_registration
           post :register,
                params: {
@@ -184,7 +185,8 @@ describe AccountController, type: :controller do
           before do
             session[:auth_source_registration] = omniauth_hash.merge(
               omniauth: true,
-              timestamp: Time.new - 42.days)
+              timestamp: Time.new - 42.days
+)
           end
 
           it 'does not register the user when providing all the missing fields' do

@@ -409,21 +409,24 @@ describe Repository::Git, type: :model do
             instance.fetch_changesets
             instance.reload
             changesets = instance.latest_changesets(
-              "latin-1-dir/test-#{char1_hex}-subdir", '1ca7f5ed')
+              "latin-1-dir/test-#{char1_hex}-subdir", '1ca7f5ed'
+)
             expect(changesets.map(&:revision))
               .to eq(['1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'])
           end
 
           it 'should browse changesets' do
             changesets = instance.latest_changesets(
-              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89')
+              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89'
+)
             expect(changesets.map(&:revision))
               .to eq(['64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
                       '4fc55c43bf3d3dc2efb66145365ddc17639ce81e'
                      ])
 
             changesets = instance.latest_changesets(
-              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89', 1)
+              "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89', 1
+)
             expect(changesets.map(&:revision))
               .to eq(['64f1f3e89ad1cb57976ff0ad99a107012ba3481d'])
           end

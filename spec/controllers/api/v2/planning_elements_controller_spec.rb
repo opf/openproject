@@ -648,7 +648,8 @@ describe Api::V2::PlanningElementsController, type: :controller do
           :work_package,
           author: author,
           type: type,
-          project: project)
+          project: project
+)
       end
 
       it 'creates a new planning element with the given custom field value' do

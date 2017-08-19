@@ -43,7 +43,8 @@ module API
               unless metadata.file_name
                 raise ::API::Errors::Validation.new(
                   :file_name,
-                  "fileName #{I18n.t('activerecord.errors.messages.blank')}.")
+                  "fileName #{I18n.t('activerecord.errors.messages.blank')}."
+)
               end
 
               metadata
@@ -66,7 +67,8 @@ module API
 
             unless metadata && file
               raise ::API::Errors::InvalidRequestBody.new(
-                I18n.t('api_v3.errors.multipart_body_error'))
+                I18n.t('api_v3.errors.multipart_body_error')
+)
             end
 
             uploaded_file = OpenProject::Files.build_uploaded_file file[:tempfile],

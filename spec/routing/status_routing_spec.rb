@@ -53,7 +53,8 @@ describe StatusesController, type: :routing do
     it do
       expect(post('/statuses/update_work_package_done_ratio')).to route_to(
         controller: 'statuses',
-        action: 'update_work_package_done_ratio')
+        action: 'update_work_package_done_ratio'
+)
     end
   end
 end

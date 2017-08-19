@@ -436,7 +436,9 @@ module OpenProject
                 $1,
                 Revision.new(
                   identifier: identifier,
-                  author: authors_by_commit[identifier]))
+                  author: authors_by_commit[identifier]
+)
+)
               identifier = ''
             end
           end

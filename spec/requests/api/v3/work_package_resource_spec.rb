@@ -38,8 +38,7 @@ describe 'API v3 Work package resource', type: :request do
 
   let(:work_package) do
     FactoryGirl.create(:work_package, project_id: project.id,
-                                      description: 'lorem ipsum'
-                      )
+                                      description: 'lorem ipsum')
   end
   let(:project) do
     FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
@@ -140,8 +139,7 @@ describe 'API v3 Work package resource', type: :request do
         end
         let(:work_package) do
           FactoryGirl.create(:work_package, project_id: project.id,
-                                            description: description
-                            )
+                                            description: description)
         end
         let(:description) do
           %{

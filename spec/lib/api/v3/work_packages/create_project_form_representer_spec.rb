@@ -53,7 +53,8 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
     describe '_links' do
       it do
         is_expected.to be_json_eql(
-          api_v3_paths.create_project_work_package_form(work_package.project_id).to_json)
+          api_v3_paths.create_project_work_package_form(work_package.project_id).to_json
+)
           .at_path('_links/self/href')
       end
 
@@ -64,7 +65,8 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
       describe 'validate' do
         it do
           is_expected.to be_json_eql(
-            api_v3_paths.create_project_work_package_form(work_package.project_id).to_json)
+            api_v3_paths.create_project_work_package_form(work_package.project_id).to_json
+)
             .at_path('_links/validate/href')
         end
 
@@ -77,7 +79,9 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
         it do
           is_expected.to be_json_eql(
             api_v3_paths.render_markup(
-              link: api_v3_paths.project(work_package.project_id)).to_json)
+              link: api_v3_paths.project(work_package.project_id)
+).to_json
+)
             .at_path('_links/previewMarkup/href')
         end
 
@@ -98,7 +102,8 @@ describe ::API::V3::WorkPackages::CreateProjectFormRepresenter do
         context 'valid work package' do
           it do
             is_expected.to be_json_eql(
-              api_v3_paths.work_packages_by_project(work_package.project_id).to_json)
+              api_v3_paths.work_packages_by_project(work_package.project_id).to_json
+)
               .at_path('_links/commit/href')
           end
 
