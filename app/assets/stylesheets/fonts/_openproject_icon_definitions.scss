@@ -1420,15 +1420,21 @@
 .icon-zen-mode:before {
 	content: "\f1ec";
 }
-@mixin icon-mixin-zoom-in {
+@mixin icon-mixin-zoom-auto {
     content: "\f1ed";
 }
-.icon-zoom-in:before {
+.icon-zoom-auto:before {
 	content: "\f1ed";
 }
-@mixin icon-mixin-zoom-out {
+@mixin icon-mixin-zoom-in {
     content: "\f1ee";
 }
-.icon-zoom-out:before {
+.icon-zoom-in:before {
 	content: "\f1ee";
+}
+@mixin icon-mixin-zoom-out {
+    content: "\f1ef";
+}
+.icon-zoom-out:before {
+	content: "\f1ef";
 }
