@@ -30,10 +30,10 @@ See doc/COPYRIGHT.rdoc for more details.
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<%= I18n.locale.to_s %>" xml:lang="<%= I18n.locale.to_s %>" class="<%= 'in_modal' unless show_decoration %>">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title><%= html_title %></title>
     <meta name="viewport" content="width=device-width">
-    <meta name="description" content="<%= OpenProject::Info.app_name %>" />
-    <meta name="keywords" content="issue,bug,type" />
+
+    <%= display_meta_tags site: Setting.app_title, title: html_title %>
+
     <meta name="app_base_path" content="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>" />
     <base href="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>/" />
     <meta name="current_menu_item" content="<%= current_menu_item %>" />
