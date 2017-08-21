@@ -32,7 +32,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width">
 
-    <%= display_meta_tags site: OpenProject::Info.app_name, title: html_title %>
+    <%= display_meta_tags site: Setting.app_title, title: html_title %>
 
     <meta name="app_base_path" content="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>" />
     <base href="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>/" />
