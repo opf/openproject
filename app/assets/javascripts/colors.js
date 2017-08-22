@@ -44,7 +44,7 @@
       }
 
       func = function () {
-        let previewColor = '';
+        var previewColor = '';
 
         if(input.val() && input.val().length > 0) {
           previewColor = input.val();
