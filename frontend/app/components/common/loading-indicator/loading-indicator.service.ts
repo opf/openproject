@@ -34,12 +34,16 @@ export class LoadingIndicator {
 
   constructor(public indicator:JQuery, public element:JQuery) {}
 
-  public set promise(promise:ng.IPromise<any>) {
+  public set promise(promise:Promise<any>) {
     this.start();
-    promise.finally(() => {
-      // Delay hiding the indicator a little bit.
+
+    const stop = () => {
       setTimeout(() => this.stop(), 25);
-    });
+    };
+
+    promise
+      .then(stop)
+      .catch(stop);
   }
 
   public start() {
