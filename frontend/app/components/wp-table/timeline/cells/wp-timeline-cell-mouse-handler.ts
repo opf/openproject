@@ -94,7 +94,7 @@ export function registerWorkPackageMouseHandler(this: void,
     // add/remove css class while drag'n'drop is active
     const classNameActiveDrag = 'active-drag';
     bar.classList.add(classNameActiveDrag);
-    jBody.on('mouseup', () => bar.classList.remove(classNameActiveDrag));
+    jBody.on('mouseup.timelinecell', () => bar.classList.remove(classNameActiveDrag));
 
     workPackageTimeline.disableViewParamsCalculation = true;
     mouseDownStartDay = getCursorOffsetInDaysFromLeft(renderInfo, ev);
@@ -108,9 +108,9 @@ export function registerWorkPackageMouseHandler(this: void,
     // Determine what attributes of the work package should be changed
     const direction = renderer.onMouseDown(ev, null, renderInfo, labels, bar);
 
-    jBody.on('mousemove', createMouseMoveFn(direction));
-    jBody.on('keyup', keyPressFn);
-    jBody.on('mouseup', () => deactivate(false));
+    jBody.on('mousemove.timelinecell', createMouseMoveFn(direction));
+    jBody.on('keyup.timelinecell', keyPressFn);
+    jBody.on('mouseup.timelinecell', () => deactivate(false));
   }
 
   function createMouseMoveFn(direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
@@ -186,7 +186,7 @@ export function registerWorkPackageMouseHandler(this: void,
         deactivate(false);
       };
 
-      jBody.on('keyup', keyPressFn);
+      jBody.on('keyup.timelinecell', keyPressFn);
     };
   }
 
@@ -199,11 +199,9 @@ export function registerWorkPackageMouseHandler(this: void,
     cell.onmouseup = _.noop;
 
     bar.style.pointerEvents = 'auto';
-    jBody.off('mouseup');
-    jBody.off('mousemove');
-    jBody.off('keyup');
-    workPackageTimeline.resetCursor();
 
+    jBody.off('.timelinecell');
+    workPackageTimeline.resetCursor();
     mouseDownStartDay = null;
     dateStates = {};
 
