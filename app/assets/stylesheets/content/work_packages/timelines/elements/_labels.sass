@@ -12,15 +12,17 @@
   .labelLeft.not-empty,
   .labelHoverLeft.not-empty
     pointer-events: none
-    top: 0
     white-space: nowrap
     // Position container left of bar
     position: absolute
-    top: 3px
     left: 0px
     // Then translate by its own width + some margin
     transform: translateX(calc(-100% - 10px))
     font-size: 12px
+
+  // Add some top padding to the text (NOT the hover labels!)
+  .labelLeft
+    top: 3px
 
   .containerRight
     pointer-events: none
