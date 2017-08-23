@@ -107,7 +107,7 @@ See doc/COPYRIGHT.rdoc for more details.
               onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
               class="group-name">
             </group-edit-in-place>
-            <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
+            <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
           </div>
           <div class="attributes" dragula='"attributes"'>
           </div>
@@ -125,7 +125,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   class="group-name">
                   <%= @type.translated_attribute_group(group) %>
                 </group-edit-in-place>
-                <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
+                <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
               </div>
               <div class="attributes" dragula='"attributes"'>
                 <% attributes.each do |attribute| %>
@@ -137,7 +137,7 @@ See doc/COPYRIGHT.rdoc for more details.
                         <span class="attribute-cf-label"><%= CustomField.model_name.human %></span>
                       <% end %>
                     </span>
-                    <span class="delete-attribute icon icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
+                    <span class="delete-attribute icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
                   </div>
                 <% end %>
               </div>
@@ -161,7 +161,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     <span class="attribute-cf-label"><%= CustomField.model_name.human %></span>
                   <% end %>
                 </span>
-                <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
+                <span class="delete-group icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
               </div>
             <% end %>
           </div>
