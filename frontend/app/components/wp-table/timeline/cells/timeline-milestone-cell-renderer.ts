@@ -209,4 +209,42 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   protected renderHoverLabels(labels:WorkPackageCellLabels, changeset:WorkPackageChangeset) {
     this.renderLabel(changeset, labels, 'rightHover', 'date');
   }
+
+  protected updateLabels(activeDragNDrop:boolean,
+                         labels:WorkPackageCellLabels,
+                         changeset:WorkPackageChangeset) {
+
+    const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(changeset.workPackage);
+
+    if (!activeDragNDrop) {
+      // normal display
+
+      // Show only one date field if left=start, right=dueDate
+      if (labelConfiguration.left === 'startDate' && labelConfiguration.right === 'dueDate') {
+        this.renderLabel(changeset, labels, 'left', null);
+        this.renderLabel(changeset, labels, 'right', 'date');
+      } else {
+        this.renderLabel(changeset, labels, 'left', labelConfiguration.left);
+        this.renderLabel(changeset, labels, 'right', labelConfiguration.right);
+      }
+
+      this.renderLabel(changeset, labels, 'farRight', labelConfiguration.farRight);
+    }
+
+    // Update hover labels
+    this.renderHoverLabels(labels, changeset);
+  }
+
+  protected renderLabel(changeset:WorkPackageChangeset,
+                        labels:WorkPackageCellLabels,
+                        position:LabelPosition|'leftHover'|'rightHover',
+                        attribute:string|null) {
+    // Normalize attribute
+    if (attribute === 'startDate' || attribute === 'dueDate') {
+      attribute = 'date';
+    }
+
+    super.renderLabel(changeset, labels, position, attribute);
+  }
+
 }

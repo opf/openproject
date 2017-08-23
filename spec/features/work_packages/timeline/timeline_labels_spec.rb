@@ -152,5 +152,28 @@ RSpec.feature 'Work package timeline labels',
     row.expect_labels left: '-',
                       right: milestone_type.name,
                       farRight: milestone_work_package.status.name
+
+    # Set labels to start|due|subject
+    config_modal.open!
+    config_modal.expect_labels! left: 'Assignee',
+                                right: 'Type',
+                                farRight: 'Status'
+
+    config_modal.update_labels left: 'Start date',
+                               right: 'Due date',
+                               farRight: 'Subject'
+
+    # Check overriden labels
+    row = wp_timeline.timeline_row work_package.id
+    row.expect_labels left: '2017-08-21',
+                      right: '2017-08-25',
+                      farRight: work_package.subject
+
+    # Check default labels (milestone)
+    row = wp_timeline.timeline_row milestone_work_package.id
+    row.expect_labels left: nil,
+                      right: '2017-08-30',
+                      farRight: milestone_work_package.subject
+
   end
 end

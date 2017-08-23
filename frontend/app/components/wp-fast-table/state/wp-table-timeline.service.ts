@@ -103,7 +103,7 @@ export class WorkPackageTableTimelineService extends WorkPackageTableBaseService
       // Set to null to explicitly disable
       if (attribute === '') {
         labels[position] = null;
-      } else if (workPackage.schema[attribute]) {
+      } else {
         labels[position] = attribute;
       }
     });
