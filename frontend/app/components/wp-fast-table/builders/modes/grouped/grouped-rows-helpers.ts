@@ -2,6 +2,15 @@ import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-re
 
 export function groupIdentifier(group:GroupObject) {
   let value = group.value || 'nullValue';
+
+  if (group.href) {
+    try {
+      value += group.href.map(el => el.href).join('-');
+    } catch (e) {
+      console.error('Failed to extract group identifier for ' + group.value);
+    }
+  }
+
   value = value.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   return `${groupByProperty(group)}-${value}`;
 }
