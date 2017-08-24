@@ -43,6 +43,15 @@ See doc/COPYRIGHT.rdoc for more details.
 <% html_title l(:label_backlogs) %>
 <%= toolbar title: l(:label_backlogs) %>
 
+<% if (@owner_backlogs.empty? && @sprint_backlogs.empty?) %>
+  <%= no_results_box action_url: new_project_version_path(@project),
+                     display_action: authorize_for('versions', 'new'),
+                     custom_title: t(:backlogs_empty_title),
+                     custom_action_text: t(:backlogs_empty_action_text)
+
+  %>
+<% end %>
+
 <div id="rb">
   <div id="backlogs_container" class="clearfix">
     <div id="owner_backlogs_container">
