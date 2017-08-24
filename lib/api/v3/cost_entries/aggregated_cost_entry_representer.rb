@@ -48,6 +48,12 @@ module API
                  exec_context: :decorator,
                  getter: ->(*) { @spent_units }
 
+        link :staticPath do
+          {
+              href: cost_object_path(@cost_type.id)
+          }
+        end
+
         def _type
           'AggregatedCostEntry'
         end
