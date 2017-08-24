@@ -28,33 +28,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::AssignedToFilter <
-  Queries::WorkPackages::Filter::PrincipalBaseFilter
-  def allowed_values
-    @allowed_values ||= begin
-      values = principal_loader.user_values
-
-      if Setting.work_package_group_assignment?
-        values += principal_loader.group_values
+module API
+  module V3
+    module Queries
+      module Schemas
+        class AssigneeOrGroupFilterDependencyRepresenter <
+          AssignedToFilterDependencyRepresenter
+        end
       end
-
-      me_value + values.sort
     end
-  end
-
-  def type
-    :list_optional
-  end
-
-  def order
-    4
-  end
-
-  def human_name
-    WorkPackage.human_attribute_name('assigned_to')
-  end
-
-  def self.key
-    :assigned_to_id
   end
 end
