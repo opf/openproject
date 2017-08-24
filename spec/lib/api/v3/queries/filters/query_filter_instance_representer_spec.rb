@@ -93,6 +93,30 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
         .at_path('name')
     end
 
+    context 'with an invalid value_objects' do
+      let(:filter) do
+        Queries::WorkPackages::Filter::AssignedToFilter.new(operator: operator, values: values)
+      end
+      let(:values) { ['1'] }
+
+      before do
+        allow(filter)
+          .to receive(:value_objects)
+                .and_return([User.anonymous])
+      end
+
+      it "has a 'values' collection" do
+        expected = {
+          href: nil,
+          title: 'Anonymous'
+        }
+
+        is_expected
+          .to be_json_eql([expected].to_json)
+                .at_path('_links/values')
+      end
+    end
+
     context 'with a non ar object filter' do
       let(:values) { ['lorem ipsum'] }
       let(:filter) do
