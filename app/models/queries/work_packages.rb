@@ -33,6 +33,7 @@ module Queries::WorkPackages
   register = Queries::Register
 
   register.filter Query, filters_module::AssignedToFilter
+  register.filter Query, filters_module::AssigneeOrGroupFilter
   register.filter Query, filters_module::AuthorFilter
   register.filter Query, filters_module::CategoryFilter
   register.filter Query, filters_module::CreatedAtFilter

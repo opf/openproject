@@ -28,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::AssignedToFilter <
+class Queries::WorkPackages::Filter::AssigneeOrGroupFilter <
   Queries::WorkPackages::Filter::PrincipalBaseFilter
   def allowed_values
     @allowed_values ||= begin
@@ -51,10 +51,42 @@ class Queries::WorkPackages::Filter::AssignedToFilter <
   end
 
   def human_name
-    WorkPackage.human_attribute_name('assigned_to')
+    I18n.t('query_fields.assignee_or_group')
   end
 
   def self.key
-    :assigned_to_id
+    :assignee_or_group
+  end
+
+  def where
+    operator_strategy.sql_for_field(
+      values_replaced,
+      self.class.model.table_name,
+      'assigned_to_id'
+    )
+  end
+
+  private
+
+  def values_replaced
+    vals = super
+    vals += group_members_added(vals)
+    vals + user_groups_added(vals)
+  end
+
+  def group_members_added(vals)
+    User
+      .joins(:groups)
+      .where(groups_users: { id: vals })
+      .pluck(:id)
+      .map(&:to_s)
+  end
+
+  def user_groups_added(vals)
+    Group
+      .joins(:users)
+      .where(users_users: { id: vals })
+      .pluck(:id)
+      .map(&:to_s)
   end
 end
