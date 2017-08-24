@@ -31,9 +31,8 @@ export class TableHandlerRegistry {
     t => new EditCellHandler(t),
     // Clicking on the details view
     t => new WorkPackageStateLinksHandler(t),
-    // Clicking on the row (not within a cell)
+    // (Double) Clicking on the row (not within a cell)
     t => new RowClickHandler(t),
-    t => new RowDoubleClickHandler(t),
     // Clicking on group headers
     t => new GroupRowHandler(t),
     // Right clicking on rows
