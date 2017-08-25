@@ -7,14 +7,35 @@ class DummyAuthSource < AuthSource
     existing_user(login, password) || on_the_fly_user(login)
   end
 
+  def find_user(login)
+    find_registered_user(login) || find_on_the_fly_user(login)
+  end
+
   def auth_method_name
     'LDAP'
   end
 
   private
 
+  def find_registered_user(login)
+    registered_login?(login) &&
+      User
+        .find_by(login: login)
+        .attributes
+        .slice("firstname", "lastname", "mail")
+        .merge(auth_source_id: id)
+  end
+
+  def find_on_the_fly_user(login)
+    dummy_login?(login) && on_the_fly_user(login)
+  end
+
+  def dummy_login?(login)
+    login =~ /\Adummy_/
+  end
+
   def existing_user(login, password)
-    registered_login?(login) && password == 'dummy'
+    registered_login?(login) && password == 'dummy' && find_registered_user(login)
   end
 
   def on_the_fly_user(login)

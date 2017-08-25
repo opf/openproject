@@ -81,6 +81,7 @@ module OpenProject
       'sendmail_arguments' => '-i',
 
       'disable_password_login' => false,
+      'auth_source_sso' => nil,
       'omniauth_direct_login_provider' => nil,
       'internal_password_confirmation' => true,
 
