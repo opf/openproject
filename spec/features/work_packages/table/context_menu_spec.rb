@@ -7,6 +7,7 @@ describe 'Work package table context menu', js: true do
   let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:wp_timeline) { Pages::WorkPackagesTimeline.new(work_package.project) }
   let(:menu) { Components::WorkPackages::ContextMenu.new }
+  let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
   def goto_context_menu
     # Go to table
@@ -57,7 +58,8 @@ describe 'Work package table context menu', js: true do
     # Open Delete
     goto_context_menu
     menu.choose('Delete')
-    wp_table.dismiss_alert_dialog!
+    destroy_modal.expect_listed(work_package)
+    destroy_modal.cancel_deletion
 
     # Open create new child
     goto_context_menu

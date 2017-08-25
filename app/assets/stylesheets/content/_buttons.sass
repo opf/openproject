@@ -48,6 +48,15 @@ a.button
     &::before
       padding: 0 $button--text-icon-spacing 0 0
 
+  &.-danger
+    background: $content-form-danger-zone-bg-color
+    color: $content-form-danger-zone-font-color
+    border-color: $content-form-danger-zone-bg-color
+    &.icon:before,
+    &.icon-context:before
+      color: $content-form-danger-zone-font-color
+      padding-left: 0px
+
   &.-highlight
     @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
     @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), $button--highlight-font-color, $button-style)
