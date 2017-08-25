@@ -62,6 +62,17 @@ describe Query, type: :model do
       query.timeline_visible = true
       expect(query.timeline_visible).to be_truthy
     end
+
+    it 'validates the timeline labels hash keys' do
+      expect(query.timeline_labels).to eq({})
+      expect(query).to be_valid
+
+      query.timeline_labels = { 'left' => 'foobar', 'xyz' => 'bar' }
+      expect(query).not_to be_valid
+
+      query.timeline_labels = { 'left' => 'foobar', 'right' => 'bar', 'farRight' => 'blub' }
+      expect(query).to be_valid
+    end
   end
 
   describe 'hierarchies' do

@@ -245,6 +245,8 @@ module API
 
         property :timeline_zoom_level
 
+        property :timeline_labels
+
         attr_accessor :results,
                       :params
 

@@ -35,6 +35,7 @@ import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.servi
 import {QueryFormResource} from '../../api/api-v3/hal-resources/query-form-resource.service';
 
 import {States} from '../../states.service';
+import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
 
 interface IMyScope extends ng.IScope {
   displaySumsLabel:string;
@@ -71,10 +72,12 @@ function SettingsDropdownMenuController($scope:IMyScope,
                                         shareModal:any,
                                         sortingModal:any,
                                         groupingModal:any,
+                                        timelinesModal:any,
                                         contextMenu:ContextMenuService,
                                         wpTableHierarchies:WorkPackageTableHierarchiesService,
                                         wpTableSum:WorkPackageTableSumService,
                                         wpTableGroupBy:WorkPackageTableGroupByService,
+                                        wpTableTimeline:WorkPackageTableTimelineService,
                                         wpListService:WorkPackagesListService,
                                         states:States,
                                         AuthorisationService:any,
@@ -122,6 +125,7 @@ function SettingsDropdownMenuController($scope:IMyScope,
 
     form = formUpdate;
 
+    $scope.timelinesVisible = wpTableTimeline.isVisible;
     $scope.displayHierarchies = wpTableHierarchies.isEnabled;
     $scope.displaySums = wpTableSum.isEnabled;
     $scope.isGrouped = wpTableGroupBy.isEnabled;
@@ -245,6 +249,11 @@ function SettingsDropdownMenuController($scope:IMyScope,
 
   $scope.saveQueryInvalid = function () {
     return AuthorisationService.cannot('query', 'updateImmediately');
+  };
+
+  $scope.showTimelinesModal = function (event:JQueryEventObject) {
+    event.stopPropagation();
+    showModal.call(timelinesModal);
   };
 
   function showModal(this:any) {

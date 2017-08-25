@@ -41,15 +41,21 @@ import {$injectFields} from '../../../angular/angular-injector-bridge.functions'
 export const classNameLeftLabel = 'labelLeft';
 export const classNameRightContainer = 'containerRight';
 export const classNameRightLabel = 'labelRight';
+export const classNameLeftHoverLabel = 'labelHoverLeft';
+export const classNameRightHoverLabel = 'labelHoverRight';
+export const classNameHoverStyle = '-label-style';
 export const classNameFarRightLabel = 'labelFarRight';
 export const classNameShowOnHover = 'show-on-hover';
+export const classNameHideOnHover = 'hide-on-hover';
 
 export class WorkPackageCellLabels {
 
-  constructor(public readonly labelCenter:HTMLDivElement | null,
-              public readonly labelLeft:HTMLDivElement | null,
-              public readonly labelRight:HTMLDivElement | null,
-              public readonly labelFarRight:HTMLDivElement | null) {
+  constructor(public readonly center:HTMLDivElement | null,
+              public readonly left:HTMLDivElement,
+              public readonly leftHover:HTMLDivElement | null,
+              public readonly right:HTMLDivElement,
+              public readonly rightHover:HTMLDivElement | null,
+              public readonly farRight:HTMLDivElement) {
   }
 
 }
@@ -180,7 +186,9 @@ export class WorkPackageTimelineCell {
     // Render the upgrade from renderInfo
     const shouldBeDisplayed = renderer.update(
       this.wpElement as HTMLDivElement,
+      this.labels,
       renderInfo);
+
     if (!shouldBeDisplayed) {
       this.clear();
     }

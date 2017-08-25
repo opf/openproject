@@ -24,6 +24,18 @@ export class DisplayFieldRenderer {
   }
 
   public render(workPackage:WorkPackageResourceInterface, name:string, placeholder = cellEmptyPlaceholder):HTMLSpanElement {
+    const [field, span] = this.renderFieldValue(workPackage, name, placeholder);
+
+    if (field === null) {
+      return span;
+    }
+
+    this.setSpanAttributes(span, field, name, workPackage);
+
+    return span;
+  }
+
+  public renderFieldValue(workPackage:WorkPackageResourceInterface, name:string, placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
     const schemaName = workPackage.getSchemaName(name);
     const fieldSchema = workPackage.schema[schemaName];
@@ -31,18 +43,15 @@ export class DisplayFieldRenderer {
     // If the work package does not have that field, return an empty
     // span (e.g., for the table).
     if (!fieldSchema) {
-      return span;
+      return [null, span];
     }
 
     const field = this.getField(workPackage, fieldSchema, schemaName);
-
-    this.setSpanAttributes(span, field, name, workPackage);
-
     field.render(span, this.getText(field, placeholder));
     span.setAttribute('title', this.getLabel(field, workPackage));
     span.setAttribute('aria-label', this.getAriaLabel(field, workPackage));
 
-    return span;
+    return [field, span];
   }
 
   public getField(workPackage:WorkPackageResourceInterface, fieldSchema:op.FieldSchema, name:string):DisplayField {

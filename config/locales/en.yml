@@ -368,6 +368,7 @@ en:
         relations_of_type_column: "%{type} relations"
         group_by: "Group results by"
         filters: "Filters"
+        timeline_labels: "Timeline labels"
       repository:
         url: "URL"
       role:

@@ -7,41 +7,12 @@
     transform: rotate(45deg)
     transform-origin: center center
 
-  .containerRight
-    pointer-events: none
-    display: inline-block
-    position: absolute
-    margin: 0 0 0 0
-    padding: 0 0 0 0
-    top: -2px
-    left: 100%
-    white-space: nowrap
-    line-height: 10px
-    height: 16px
-
-  .labelRight.not-empty
-    pointer-events: none
-    display: none
-    //display: inline-block
-    background-color: white
-    border: 1px solid #d4d4d4
-    border-radius: 5px
-    padding: 2px 5px 2px 5px
-    margin-left: 20px
-    margin-right: -15px
-    font-size: 12px
-
-  .labelFarRight
-    height: 16px
-    display: inline-block
-    white-space: nowrap
-    font-style: italic
-    margin-left: 15px
-    padding: 5px 5px 2px 5px
-    font-size: 13px
-
   &.-editable
     cursor: ew-resize
+
+  // Add more margin to hover right
+  .labelHoverRight
+    transform: translateX(calc(100% + 20px))
 
 .active-selection-mode
 
