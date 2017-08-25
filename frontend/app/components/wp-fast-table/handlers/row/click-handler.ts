@@ -15,7 +15,10 @@ export class RowClickHandler implements TableEventHandler {
   public keepTab:KeepTabService;
   public wpTableSelection:WorkPackageTableSelection;
 
-  constructor(table: WorkPackageTable) {
+  private clicks = 0;
+  private timer:number;
+
+  constructor(table:WorkPackageTable) {
     $injectFields(this, 'keepTab', '$state', 'states', 'wpTableSelection');
   }
 
@@ -31,7 +34,31 @@ export class RowClickHandler implements TableEventHandler {
     return jQuery(table.tbody);
   }
 
-  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
+  public handleEvent(table:WorkPackageTable, evt:JQueryEventObject) {
+    let target = jQuery(evt.target);
+
+    // Ignore links
+    if (target.is('a') || target.parent().is('a')) {
+      return true;
+    }
+
+    // Count whether a double click occurs
+    this.clicks++;
+    if (this.clicks === 1) {
+      this.timer = setTimeout(() => {
+        this.clicks = 0;
+        this.handleSingle(table, evt);
+      }, 200);
+    } else {
+      clearTimeout(this.timer);
+      this.clicks = 0;
+      this.handleDoubleClick(table, evt);
+    }
+
+    return false;
+  }
+
+  private handleSingle(table:WorkPackageTable, evt:JQueryEventObject) {
     let target = jQuery(evt.target);
 
     // Shortcut to any clicks within a cell
@@ -62,7 +89,7 @@ export class RowClickHandler implements TableEventHandler {
     this.states.focusedWorkPackage.putValue(wpId);
     this.$state.go(
       this.keepTab.currentDetailsState,
-      { workPackageId: wpId, focus: true }
+      {workPackageId: wpId, focus: true}
     );
 
     // Update single selection if no modifier present
@@ -79,6 +106,36 @@ export class RowClickHandler implements TableEventHandler {
     if (evt.ctrlKey || evt.metaKey) {
       this.wpTableSelection.toggleRow(wpId);
     }
+
+    return false;
+  }
+
+  private handleDoubleClick(table:WorkPackageTable, evt:JQueryEventObject) {
+    let target = jQuery(evt.target);
+
+    // Shortcut to any clicks within a cell
+    // We don't want to handle these.
+    if (target.parents(`.${tdClassName}`).length) {
+      debugLog('Skipping click on inner cell');
+      return true;
+    }
+
+    // Locate the row from event
+    let element = target.closest(this.SELECTOR);
+    let wpId = element.data('workPackageId');
+
+    // Ignore links
+    if (target.is('a') || target.parent().is('a')) {
+      return true;
+    }
+
+    // Save the currently focused work package
+    this.states.focusedWorkPackage.putValue(wpId);
+
+    this.$state.go(
+      'work-packages.show',
+      {workPackageId: wpId}
+    );
 
     return false;
   }
