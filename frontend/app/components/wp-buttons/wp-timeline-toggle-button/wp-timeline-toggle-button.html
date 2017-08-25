@@ -16,7 +16,7 @@
             class="button timeline-toolbar--button toolbar-icon"
             title="{{ vm.text.zoomOut }}"
             ng-disabled="vm.currentZoom == vm.maxZoomLevel"
-            ng-click="vm.updateZoom(1)">
+            ng-click="vm.updateZoomWithDelta(1)">
       <op-icon icon-classes="icon-zoom-out button--icon"></op-icon>
     </button>
   </li>
@@ -26,7 +26,7 @@
             class="button timeline-toolbar--button toolbar-icon"
             title="{{ vm.text.zoomIn }}"
             ng-disabled="vm.currentZoom == vm.minZoomLevel"
-            ng-click="vm.updateZoom(-1)">
+            ng-click="vm.updateZoomWithDelta(-1)">
       <op-icon icon-classes="icon-zoom-in button--icon"></op-icon>
     </button>
   </li>

@@ -407,10 +407,10 @@ export class WorkPackageTimelineTableController {
       if (visibleDays >= daysSpan || zoomLevel === _.last(zoomLevelOrder)) {
         // Zoom level is enough
         const previousZoomLevel = this._viewParameters.settings.zoomLevel;
-        this._viewParameters.settings.zoomLevel = zoomLevel;
 
         // did the zoom level changed?
         if (previousZoomLevel !== zoomLevel) {
+          this.wpTableTimeline.setZoomLevel(zoomLevel);
           this.wpTableDirective.timeline.scrollLeft = 0;
         }
         return;

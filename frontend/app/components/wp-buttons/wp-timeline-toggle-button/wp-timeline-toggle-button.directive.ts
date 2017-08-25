@@ -81,8 +81,8 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
     return this.wpTableTimeline.isAutoZoomEnabled();
   }
 
-  public updateZoom(delta:number) {
-    this.wpTableTimeline.updateZoom(delta);
+  public updateZoomWithDelta(delta:number) {
+    this.wpTableTimeline.updateZoomWithDelta(delta);
   }
 
   public get currentZoom() {
