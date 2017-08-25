@@ -44,6 +44,7 @@ function wpContextMenuController($scope:any,
                                  WorkPackageService:any,
                                  wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
                                  contextMenu:ContextMenuService,
+                                 wpDestroyModal:any,
                                  I18n:op.I18n,
                                  $window:ng.IWindowService,
                                  wpTableSelection:WorkPackageTableSelection,
@@ -105,9 +106,8 @@ function wpContextMenuController($scope:any,
   }
 
   function deleteSelectedWorkPackages() {
-    let ids = wpTableSelection.getSelectedWorkPackageIds();
-
-    WorkPackageService.performBulkDelete(ids, true);
+    var selected = getSelectedWorkPackages();
+    wpDestroyModal.activate({ workPackages: selected });
   }
 
   function editSelectedWorkPackages(link:any) {

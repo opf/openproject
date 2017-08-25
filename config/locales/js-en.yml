@@ -192,6 +192,7 @@ en:
     label_total_progress: "%{percent}% Total progress"
     label_visible_for_others: "Page visible for others"
     label_updated_on: "updated on"
+    label_warning: "Warning"
     label_work_package: "Work package"
     label_work_package_plural: "Work packages"
     label_watch: "Watch"
@@ -575,6 +576,12 @@ en:
         text: 'Are you sure you want to perform this action?'
       upsale_relation_columns: 'Need to see relations in the work package list?'
       upsale_relation_columns_link: 'Check out the Enterprise Edition.'
+      destroy_work_package:
+        title: "Confirm deletion of %{label}"
+        text: "Are you sure you want to delete the following %{label} ?"
+        has_children: "The work package has %{childUnits}:"
+        deletes_children: "All child work packages will also be deleted."
+
 
     notice_successful_create: "Successful creation."
     notice_successful_delete: "Successful deletion."
@@ -606,6 +613,12 @@ en:
     error_could_not_resolve_user_name: "Couldn't resolve user name"
 
     units:
+      workPackage:
+        one: "work package"
+        other: "work packages"
+      child_work_packages:
+        one: "one child work package"
+        other: "%{count} work package children"
       hour:
         one: "1 hour"
         other: "%{count} hours"
