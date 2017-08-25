@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
+describe Queries::WorkPackages::Filter::AssigneeOrGroupFilter, type: :model do
   let(:instance) do
     filter = described_class.new
     filter.values = values
@@ -102,9 +102,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         group.users << assignee
       end
 
-      it 'does not return the work package' do
+      it 'returns the work package' do
         is_expected
-          .to be_empty
+          .to match_array [work_package]
       end
     end
 
@@ -126,9 +126,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         group.users << user
       end
 
-      it 'does not return the work package' do
+      it 'returns the work package' do
         is_expected
-          .to be_empty
+          .to match_array [work_package]
       end
     end
 
@@ -156,7 +156,8 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
   it_behaves_like 'basic query filter' do
     let(:order) { 4 }
     let(:type) { :list_optional }
-    let(:class_key) { :assigned_to_id }
+    let(:class_key) { :assignee_or_group }
+    let(:human_name) { I18n.t('query_fields.assignee_or_group') }
 
     describe '#valid_values!' do
       let(:user) { FactoryGirl.build_stubbed(:user) }
