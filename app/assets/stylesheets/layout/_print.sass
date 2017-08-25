@@ -87,12 +87,6 @@
             .work-packages-split-view
               overflow: visible
 
-              // Really hacky and only works for A4 from page 1 to page 2:
-              // This avoids that timeline rows get big at page break,
-              // so that relations line are in good positions again.
-              @media print and (orientation: landscape)
-                margin-top: 22px
-
               .work-packages-split-view--tabletimeline-side
                 .work-packages-split-view--tabletimeline-content
 
@@ -113,23 +107,17 @@
                     position: initial
 
                 &.-timeline-visible
-                  thead
-                    // Do not repeat header on second printed page
-                    display: table-row-group
-
-                  tr.wp-table--row
-                    page-break-inside: avoid
+                  // Do not show table on timelines print outs.
+                  display: none
 
                 .wp-table--context-menu-column
                   display: none // remove column for info icon.
-
 
                 .wp-inline-create-button-row
                   display: none // remove row with plus icon
 
               .work-packages-tabletimeline--timeline-side
-                .wp-timeline-cell
-                  page-break-inside: avoid
+                  contain: initial // For printing in Chrome
 
       .work-packages--list-table-area
         height: 100%
@@ -163,6 +151,9 @@
                     .work-packages-split-view--tabletimeline-side
                       display: none
                     .work-packages-tabletimeline--table-side
+                      &.-timeline-visible
+                        display: initial
+
                       &.-timeline-visible
                         thead
                           // Undo that hack from above for FF
