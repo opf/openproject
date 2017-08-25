@@ -75,6 +75,8 @@ fi:
   backlogs_velocity_missing: "Tälle projektille ei voitu laskea nopeutta"
   backlogs_velocity_varies: "Nopeus vaihtelee huomattavasti sprinttien välillä"
   backlogs_wiki_template: "Mallipohja sprintin wikisivusta"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Muokkaa wiki-sivua"
   error_intro_plural: "Seuraavat virheet ilmenivät:"
   error_intro_singular: "Ilmeni seuraava virhe:"

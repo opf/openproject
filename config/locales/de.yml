@@ -75,6 +75,8 @@ de:
   backlogs_velocity_missing: "Es konnte keine Geschwindigkeit für dieses Projekt berechnet werden"
   backlogs_velocity_varies: "Die Geschwindigkeit variiert stark zwischen den Sprints"
   backlogs_wiki_template: "Vorlage für das Sprint-Wiki"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Wiki Seite bearbeiten"
   error_intro_plural: "Die folgenden Fehler sind aufgetreten:"
   error_intro_singular: "Der folgende Fehler ist aufgetreten:"

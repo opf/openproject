@@ -75,6 +75,8 @@ ja:
   backlogs_velocity_missing: "このプロジェクトのベロシティを計算できなかった"
   backlogs_velocity_varies: "ベロシティがスプリントと大幅に異なります"
   backlogs_wiki_template: "スプリントのWikiページのテンプレート"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Wikiページの編集"
   error_intro_plural: "次のエラーが発生しました："
   error_intro_singular: "次のエラーが発生しました："

@@ -75,6 +75,8 @@ pt:
   backlogs_velocity_missing: "Não foi possível calcular velocidade para este projeto"
   backlogs_velocity_varies: "A velocidade varia significativamente ao longo dos sprints"
   backlogs_wiki_template: "Modelo para a página wiki de sprint"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Editar página wiki"
   error_intro_plural: "Os seguintes erros foram encontrados:"
   error_intro_singular: "Foi encontrado o seguinte erro:"

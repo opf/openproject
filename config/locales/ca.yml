@@ -75,6 +75,8 @@ ca:
   backlogs_velocity_missing: "No es pot calcular la velocitat d'aquest projecte"
   backlogs_velocity_varies: "La velocitat varia significativament d'un sprint a l'altre"
   backlogs_wiki_template: "Plantilla per a la pàgina wiki de l'sprint"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Editar pàgina wiki"
   error_intro_plural: "S'han produït els següents errors:"
   error_intro_singular: "S'ha produït el següent error:"

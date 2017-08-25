@@ -75,6 +75,8 @@ hr:
   backlogs_velocity_missing: "Brzina ne može biti izračunata za ovaj projekt"
   backlogs_velocity_varies: "Brzina se značajno razlikuje u odnosu na periode razvoja"
   backlogs_wiki_template: "Predlošci peridoa razvoja za wiki stranicu"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Uredi wiki stranicu"
   error_intro_plural: "Nastupile su sljedeće pogreške:"
   error_intro_singular: "Nastupila je sljedeća pogreška:"

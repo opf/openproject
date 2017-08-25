@@ -75,6 +75,8 @@ sv:
   backlogs_velocity_missing: "Ingen hastighet kunde beräknas för detta projekt"
   backlogs_velocity_varies: "Hastigheten varierar betydligt över sprinter"
   backlogs_wiki_template: "Mall för sprint wiki-sida"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Redigera wiki-sidor"
   error_intro_plural: "Följande fel uppstod:"
   error_intro_singular: "Följande fel uppstod:"

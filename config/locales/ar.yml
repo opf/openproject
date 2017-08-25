@@ -75,6 +75,8 @@ ar:
   backlogs_velocity_missing: "لا يمكن احتساب السرعة في هذا المشروع"
   backlogs_velocity_varies: "السرعة تتفاوت بشكل ملحوظ على السباقات"
   backlogs_wiki_template: "نموذج لصفحة ويكي wiki الخاصة بالسباق"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "عدّل صفحة ويكي wiki"
   error_intro_plural: "تم مصادفة الأخطاء التالية:"
   error_intro_singular: "تمت مصادفة الخطأ التالي:"

@@ -75,6 +75,8 @@ ko:
   backlogs_velocity_missing: "이 프로젝트에 대한 속도를 계산할 수 없습니다."
   backlogs_velocity_varies: "속도는 스프린트에서 상당히 다릅니다."
   backlogs_wiki_template: "스프린트 위키 페이지에 대한 템플릿"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "위키 페이지 편집"
   error_intro_plural: "다음 오류가 발생했습니다."
   error_intro_singular: "다음 오류가 발생했습니다."

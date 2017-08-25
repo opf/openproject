@@ -75,6 +75,8 @@ es:
   backlogs_velocity_missing: "No se puede calcular la velocidad de este proyecto"
   backlogs_velocity_varies: "La velocidad varía significativamente a lo largo de las iteraciones"
   backlogs_wiki_template: "Plantilla para la página wiki de iteración"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Editar página wiki"
   error_intro_plural: "Se encontraron los siguientes errores:"
   error_intro_singular: "Se ha encontrado el siguiente error:"

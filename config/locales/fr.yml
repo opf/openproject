@@ -75,6 +75,8 @@ fr:
   backlogs_velocity_missing: "Aucune vélocité n'a pu être calculée pour ce projet"
   backlogs_velocity_varies: "La vélocité varie significativement d'un sprint à l'autre"
   backlogs_wiki_template: "Modèle pour page wiki de sprint"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "Éditer la page du wiki"
   error_intro_plural: "Les erreurs suivantes ont été rencontrées :"
   error_intro_singular: "L'erreur suivante a été rencontrée :"

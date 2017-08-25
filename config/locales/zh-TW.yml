@@ -75,6 +75,8 @@ zh-TW:
   backlogs_velocity_missing: "專案沒有進度完成速度可以計算"
   backlogs_velocity_varies: "完成速度在不同進度中差異很大"
   backlogs_wiki_template: "進度的 Wiki 頁面樣板"
+  backlogs_empty_title: "No versions are defined to be used in backlogs"
+  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
   button_edit_wiki: "編輯 Wiki 頁面"
   error_intro_plural: "發生以下的錯誤:"
   error_intro_singular: "發生以下的錯誤:"
