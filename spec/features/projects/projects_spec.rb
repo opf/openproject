@@ -104,7 +104,7 @@ describe 'Projects', type: :feature do
     it "have the correct types checked for the project's types" do
       visit admin_index_path
       click_on 'Foo project'
-      click_on 'Types'
+      click_on 'Work package types'
 
       field_checked = find_field('Phase', visible: false)['checked']
       expect(field_checked).to be_truthy
