@@ -334,7 +334,7 @@ module OpenProject
     #     identifier:version:1.0.0
     #     identifier:source:some/file
     def parse_redmine_links(text, project, obj, attr, only_path, options)
-      text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |_m|
+      text.gsub!(%r{([\s\(,\-\[\>]|^)(!)?(([a-z0-9\-_]+):)?(attachment|version|commit|source|export|message|project|user)?((#+|r)(\d+)|(:)([^"\s<>][^\s<>]*?|"[^"]+?"))(?=(?=[[:punct:]]\W)|,|\s|\]|<|$)}) do |_m|
         leading = $1
         esc = $2
         project_prefix = $3
@@ -379,6 +379,10 @@ module OpenProject
             when 'project'
               if p = Project.visible.find_by(id: oid)
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
+              end
+            when 'user'
+              if user = User.in_visible_project.find_by(id: oid)
+                link = link_to_user(user, class: 'user')
               end
             end
           elsif sep == '##'
