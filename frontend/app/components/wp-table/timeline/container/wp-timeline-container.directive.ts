@@ -282,19 +282,19 @@ export class WorkPackageTimelineTableController {
   }
 
   forceCursor(cursor:string) {
-    // TODO not working
-    jQuery('.' + timelineElementCssClass).css('cursor', cursor + ' !important');
-    jQuery('.hascontextmenu').css('cursor', cursor + ' !important');
+    jQuery('.' + timelineElementCssClass).css('cursor', cursor);
+    jQuery('.wp-timeline-cell').css('cursor', cursor);
+    jQuery('.hascontextmenu').css('cursor', cursor);
+    jQuery('.leftHandle').css('cursor', cursor);
+    jQuery('.rightHandle').css('cursor', cursor);
   }
 
   resetCursor() {
-    // TODO not working
     jQuery('.' + timelineElementCssClass).css('cursor', '');
-    jQuery('.hascontextmenu').css('cursor', 'context-menu');
-
-    // jQuery('.' + classNameLeftHandle).css('cursor', '');
-    // jQuery('.' + classNameBar).css('cursor', '');
-    // jQuery('.' + classNameRightHandle).css('cursor', '');
+    jQuery('.wp-timeline-cell').css('cursor', '');
+    jQuery('.hascontextmenu').css('cursor', '');
+    jQuery('.leftHandle').css('cursor', '');
+    jQuery('.rightHandle').css('cursor', '');
   }
 
   private resetSelectionMode() {
