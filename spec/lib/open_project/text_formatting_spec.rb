@@ -289,6 +289,47 @@ describe OpenProject::TextFormatting do
       end
     end
 
+    context 'User links' do
+      let(:role) do
+        FactoryGirl.create :role,
+                           permissions: [:view_work_packages, :edit_work_packages,
+                                         :browse_repository, :view_changesets, :view_wiki_pages]
+      end
+
+      let(:linked_project_member) do
+        FactoryGirl.create :user,
+                           member_in_project: project,
+                           member_through_role: role
+      end
+
+      context 'User link via ID' do
+        context 'when linked user visible for reader' do
+          subject { format_text("user##{linked_project_member.id}") }
+
+          it {
+            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user')}</p>")
+          }
+        end
+
+        context 'when linked user not visible for reader' do
+          let(:role) { FactoryGirl.create(:non_member) }
+
+          subject { format_text("user##{linked_project_member.id}") }
+
+          it {
+            is_expected.to be_html_eql("<p>user##{linked_project_member.id}</p>")
+          }
+        end
+
+      end
+
+      # context 'User link via login name' do
+      #   subject { format_text("user:#{linked_user.login}") }
+      #
+      #   it { is_expected.to be_html_eql("<p>#{link_to(linked_user.name, user_url, class: 'user')}</p>") }
+      # end
+    end
+
     context 'Url links' do
       subject { format_text('http://foo.bar/FAQ#3') }
 
