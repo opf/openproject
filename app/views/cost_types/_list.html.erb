@@ -106,7 +106,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
     </div>
   </div>
 <%# Moved from assets since this is the only remaining confirmation JS from the old costs code %>
-<%= javascript_tag do %>
+<%= nonced_javascript_tag  do %>
   function submitForm(event, el) {
     submitFormWithConfirmation(event, el, true);
   }
