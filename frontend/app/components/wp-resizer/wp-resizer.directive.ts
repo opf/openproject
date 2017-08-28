@@ -42,7 +42,7 @@ export class WorkPackageResizerController {
     this.elementFlex = localStorageValue ? parseInt(localStorageValue, 10) : 582;
     this.detailsSide.style.flexBasis = this.elementFlex + 'px';
     // Apply two column layout
-    this.elementFlex > 700 ? this.detailsSide.classList.add('-columns-2') : this.detailsSide.classList.remove('-columns-2');
+    this.detailsSide.classList.toggle('-columns-2', this.elementFlex > 700);
 
     // Add event listener
     this.$element[0].addEventListener('mousedown', this.handleMouseDown.bind(this));
@@ -74,7 +74,7 @@ export class WorkPackageResizerController {
     // When the mouseup is outside the container these values will differ
     // which will cause problems at the next movement start
     let localStorageValue = localStorage.getItem("detailsSideFlexBasis");
-    if(localStorageValue) this.elementFlex = parseInt(localStorageValue, 10);
+    if(localStorageValue) { this.elementFlex = parseInt(localStorageValue, 10) };
   }
 
   private resizeElement(element:HTMLElement, e:MouseEvent) {
@@ -95,7 +95,7 @@ export class WorkPackageResizerController {
     localStorage.setItem("detailsSideFlexBasis", String(newValue));
 
     // Apply two column layout
-    newValue > 700 ? element.classList.add('-columns-2') : element.classList.remove('-columns-2');
+    element.classList.toggle('-columns-2', newValue > 700);
 
     // Set new width
     element.style.flexBasis = newValue + 'px';
