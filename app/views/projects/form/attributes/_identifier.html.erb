@@ -38,13 +38,13 @@ See docs/COPYRIGHT.rdoc for more details.
   <% if identifier_editable %>
     <%= form.text_field :identifier, container_class: '-middle'%>
 
-    <script type="text/javascript" charset="utf-8">
+    <%= nonced_javascript_tag do %>
       projectIdentifierMaxLength = <%= id_max_length %>;
       projectIdentifierDefault = '<%= id %>';
       projectIdentifierLocked = false;
       observeProjectIdentifier();
       observeProjectName();
-    </script>
+    <% end %>
 
     <div class="form--field-instructions">
       <%= l(:text_length_between, min: 1,

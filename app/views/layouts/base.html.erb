@@ -176,7 +176,7 @@ See docs/COPYRIGHT.rdoc for more details.
     </div>
     <%# Properly decides main menu expanded state before its drawn. Fixes flickering side menu
         where menu is first expanded, then being collapsed in angular. %>
-    <%= javascript_tag do %>
+    <%= nonced_javascript_tag do %>
     (function($) {
       var wrapper = $('#wrapper');
       if (window.sessionStorage.getItem('openproject:navigation-toggle') === 'collapsed') {

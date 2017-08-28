@@ -27,7 +27,7 @@ See docs/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<%= include_gon %>
+<%= include_gon(nonce: content_security_policy_nonce(:script)) %>
 
 <div id="add-message" style="display:none;">
   <% if authorize_for('messages', 'new') %>

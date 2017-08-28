@@ -102,6 +102,9 @@ gem 'rack-protection', '~> 2.0.0'
 # https://github.com/kickstarter/rack-attack
 gem 'rack-attack', '~> 5.0.1'
 
+# CSP headers
+gem 'secure_headers', '~> 3.7.0'
+
 # Providing health checks
 gem 'okcomputer', '~> 1.16.0'
 

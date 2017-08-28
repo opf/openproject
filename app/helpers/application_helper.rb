@@ -469,7 +469,7 @@ module ApplicationHelper
 
   def calendar_for(field_id)
     include_calendar_headers_tags
-    javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
+    nonced_javascript_tag("jQuery(function() { jQuery('##{field_id}').datepicker(); })")
   end
 
   def include_calendar_headers_tags
@@ -490,8 +490,9 @@ module ApplicationHelper
                           '""'
         end
         # FIXME: Get rid of this abomination
-        js = "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };"
-        javascript_tag(js)
+        nonced_javascript_tag do
+          "var CS = { lang: '#{current_language.to_s.downcase}', firstDay: #{start_of_week} };".html_safe
+        end.html_safe
       end
     end
   end
@@ -499,7 +500,8 @@ module ApplicationHelper
   # Returns the javascript tags that are included in the html layout head
   def user_specific_javascript_includes
     tags = ''
-    tags += javascript_tag(%{
+    tags += nonced_javascript_tag do
+      %{
       window.openProject = new OpenProject({
         urlRoot : '#{OpenProject::Configuration.rails_relative_url_root}',
         environment: '#{Rails.env}',
@@ -507,7 +509,8 @@ module ApplicationHelper
       });
       I18n.defaultLocale = "#{I18n.default_locale}";
       I18n.locale = "#{I18n.locale}";
-    })
+      }.html_safe
+    end
 
     tags.html_safe
   end

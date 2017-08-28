@@ -70,7 +70,7 @@ See docs/COPYRIGHT.rdoc for more details.
               method: :post %>
 </div>
 
-<%= javascript_tag do -%>
+<%= nonced_javascript_tag  do -%>
   jQuery(document).ready(function () {
     Administration.init_language_selection_handling();
   });

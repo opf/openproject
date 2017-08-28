@@ -44,7 +44,7 @@ module Redmine
                                     :'aria-label' => ::I18n.t('js.inplace.link_formatting_help'),
                                     title: ::I18n.t('js.inplace.link_formatting_help')
 
-          javascript_tag(<<-EOF)
+          nonced_javascript_tag(<<-EOF)
             // initialSetup the toolbar later, so that i18n-js has a chance to set the translations
             // for the wiki-buttons first.
             jQuery(document).ready(function(){

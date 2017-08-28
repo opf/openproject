@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<style>
+<% nonced_javascript_tag do %>
   <% if CustomStyle.current.logo.present? %>
     #logo .home-link {
       margin-top: 12px;
@@ -77,4 +77,4 @@ See doc/COPYRIGHT.rdoc for more details.
       }
     <% end %>
   <% end %>
-</style>
+<% end %>
