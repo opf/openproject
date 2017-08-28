@@ -26,28 +26,60 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 import {openprojectModule} from '../../angular-modules';
-import {WorkPackageResizerService} from './wp-resizer.service';
 
 export class WorkPackageResizerController {
+  private detailsSide:HTMLElement;
+  private mouseMoveHandler;
 
-  constructor(wpResizer:WorkPackageResizerService) {
+  constructor(public $element:ng.IAugmentedJQuery) {
+    // Add event listener
+    this.$element[0].addEventListener('mousedown', this.handleMouseDown.bind(this));
+    window.addEventListener('mouseup', this.handleMouseUp.bind(this));
+  }
 
-    console.log('Controller constructor');
+  private handleMouseDown(e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-    wpResizer.printTestComment();
+    // Get element and starting width
+    this.detailsSide = document.getElementsByClassName('work-packages-split-view--details-side')[0];
+    this.elementFlex = parseInt(this.detailsSide.style.flexBasis, 10) || 582;
+
+    // Necessary to encapsulate this to be able to remove the eventlistener later
+    this.mouseMoveHandler = this.resizeElement.bind(this, this.detailsSide);
+
+    // Enable mouse move
+    window.addEventListener('mousemove', this.mouseMoveHandler);
+  }
+
+  private handleMouseUp(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Disable mouse move
+    window.removeEventListener('mousemove', this.mouseMoveHandler);
+  }
+
+  private resizeElement(element, e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    // Get new value depending on the delta
+    // The detailsSide is not allowed to be smaller than 480px and greater than 1300px
+    this.elementFlex = this.elementFlex - e.movementX;
+    let newValue = this.elementFlex < 480 ? 480 : this.elementFlex;
+    newValue = newValue > 1300 ? 1300 : newValue;
+
+    // Set new width
+    element.style.flexBasis = newValue + 'px';
   }
 }
 
 function wpResizer() {
-
   return {
     restrict: 'E',
     templateUrl: '/components/wp-resizer/wp-resizer.directive.html',
-    scope: {
-    },
-
-    link: function(scope:any, attr:any, element:any) {
-    },
+    scope: {},
 
     bindToController: true,
     controllerAs: '$ctrl',
