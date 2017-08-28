@@ -34,6 +34,13 @@ export class WorkPackageResizerController {
   private mouseMoveHandler:any;
 
   constructor(public $element:ng.IAugmentedJQuery) {
+    // Get element & starting width
+    this.detailsSide = <HTMLElement>document.getElementsByClassName('work-packages-split-view--details-side')[0];
+    this.elementFlex = localStorage.getItem("detailsSideFlexBasis") ? parseInt(localStorage.getItem("detailsSideFlexBasis")) : 582;
+
+    // Apply width if stored in local storage
+    this.detailsSide.style.flexBasis = this.elementFlex + 'px';
+
     // Add event listener
     this.$element[0].addEventListener('mousedown', this.handleMouseDown.bind(this));
     window.addEventListener('mouseup', this.handleMouseUp.bind(this));
@@ -43,9 +50,7 @@ export class WorkPackageResizerController {
     e.preventDefault();
     e.stopPropagation();
 
-    // Get element, starting width and starting position
-    this.detailsSide = <HTMLElement>document.getElementsByClassName('work-packages-split-view--details-side')[0];
-    this.elementFlex = this.detailsSide.style.flexBasis ? parseInt(this.detailsSide.style.flexBasis, 10) : 582;
+    // Gettig starting position
     this.oldPosition = e.clientX;
 
     // Necessary to encapsulate this to be able to remove the eventlistener later
@@ -76,6 +81,9 @@ export class WorkPackageResizerController {
     this.elementFlex = this.elementFlex + delta;
     let newValue = this.elementFlex < 480 ? 480 : this.elementFlex;
     newValue = newValue > 1300 ? 1300 : newValue;
+
+    // Store item in local storage
+    localStorage.setItem("detailsSideFlexBasis", String(newValue));
 
     // Set new width
     element.style.flexBasis = newValue + 'px';
