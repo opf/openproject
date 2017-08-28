@@ -32,7 +32,7 @@ import {WorkPackageTableColumns} from '../wp-fast-table/wp-table-columns';
 
 export class WorkPackageResizerService {
 
-  private changeTimelineWidthOnColumnCountChange(columns:WorkPackageTableColumns, table:HTMLElement, timeline:HTMLElement) {
+  public changeTimelineWidthOnColumnCountChange(columns:WorkPackageTableColumns, table:HTMLElement, timeline:HTMLElement) {
     const colCount = columns.current.length;
     if (colCount === 0) {
       table.style.flex = `0 1 45px`;

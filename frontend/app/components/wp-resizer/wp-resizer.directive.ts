@@ -29,7 +29,9 @@ import {openprojectModule} from '../../angular-modules';
 
 export class WorkPackageResizerController {
   private detailsSide:HTMLElement;
-  private mouseMoveHandler;
+  private elementFlex:number;
+  private oldPosition:number;
+  private mouseMoveHandler:any;
 
   constructor(public $element:ng.IAugmentedJQuery) {
     // Add event listener
@@ -37,13 +39,14 @@ export class WorkPackageResizerController {
     window.addEventListener('mouseup', this.handleMouseUp.bind(this));
   }
 
-  private handleMouseDown(e) {
+  private handleMouseDown(e:MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 
-    // Get element and starting width
-    this.detailsSide = document.getElementsByClassName('work-packages-split-view--details-side')[0];
-    this.elementFlex = parseInt(this.detailsSide.style.flexBasis, 10) || 582;
+    // Get element, starting width and starting position
+    this.detailsSide = <HTMLElement>document.getElementsByClassName('work-packages-split-view--details-side')[0];
+    this.elementFlex = this.detailsSide.style.flexBasis ? parseInt(this.detailsSide.style.flexBasis, 10) : 582;
+    this.oldPosition = e.clientX;
 
     // Necessary to encapsulate this to be able to remove the eventlistener later
     this.mouseMoveHandler = this.resizeElement.bind(this, this.detailsSide);
@@ -52,7 +55,7 @@ export class WorkPackageResizerController {
     window.addEventListener('mousemove', this.mouseMoveHandler);
   }
 
-  private handleMouseUp(e) {
+  private handleMouseUp(e:MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -60,13 +63,17 @@ export class WorkPackageResizerController {
     window.removeEventListener('mousemove', this.mouseMoveHandler);
   }
 
-  private resizeElement(element, e) {
+  private resizeElement(element:HTMLElement, e:MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 
+    // Get delta to resize
+    let delta = this.oldPosition - e.clientX;
+    this.oldPosition = e.clientX;
+
     // Get new value depending on the delta
     // The detailsSide is not allowed to be smaller than 480px and greater than 1300px
-    this.elementFlex = this.elementFlex - e.movementX;
+    this.elementFlex = this.elementFlex + delta;
     let newValue = this.elementFlex < 480 ? 480 : this.elementFlex;
     newValue = newValue > 1300 ? 1300 : newValue;
 
