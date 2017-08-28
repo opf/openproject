@@ -34,12 +34,15 @@ export class WorkPackageResizerController {
   private mouseMoveHandler:any;
 
   constructor(public $element:ng.IAugmentedJQuery) {
-    // Get element & starting width
+    // Get element
     this.detailsSide = <HTMLElement>document.getElementsByClassName('work-packages-split-view--details-side')[0];
-    this.elementFlex = localStorage.getItem("detailsSideFlexBasis") ? parseInt(localStorage.getItem("detailsSideFlexBasis")) : 582;
 
-    // Apply width if stored in local storage
+    // Get inital width from local storage and apply
+    let localStorageValue = localStorage.getItem("detailsSideFlexBasis");
+    this.elementFlex = localStorageValue ? parseInt(localStorageValue, 10) : 582;
     this.detailsSide.style.flexBasis = this.elementFlex + 'px';
+    // Apply two column layout
+    this.elementFlex > 700 ? this.detailsSide.classList.add('-columns-2') : this.detailsSide.classList.remove('-columns-2');
 
     // Add event listener
     this.$element[0].addEventListener('mousedown', this.handleMouseDown.bind(this));
@@ -66,6 +69,12 @@ export class WorkPackageResizerController {
 
     // Disable mouse move
     window.removeEventListener('mousemove', this.mouseMoveHandler);
+
+    // Take care at the end that the elemntFlex-Value is the same as the acutal value
+    // When the mouseup is outside the container these values will differ
+    // which will cause problems at the next movement start
+    let localStorageValue = localStorage.getItem("detailsSideFlexBasis");
+    if(localStorageValue) this.elementFlex = parseInt(localStorageValue, 10);
   }
 
   private resizeElement(element:HTMLElement, e:MouseEvent) {
@@ -84,6 +93,9 @@ export class WorkPackageResizerController {
 
     // Store item in local storage
     localStorage.setItem("detailsSideFlexBasis", String(newValue));
+
+    // Apply two column layout
+    newValue > 700 ? element.classList.add('-columns-2') : element.classList.remove('-columns-2');
 
     // Set new width
     element.style.flexBasis = newValue + 'px';
