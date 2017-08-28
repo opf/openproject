@@ -86,6 +86,27 @@ export class QueryDmService {
     return this.halRequest.get(url, queryData, {caching: {enabled: false} });
   }
 
+  public loadIdsUpdatedSince(ids:any, timestamp:any):ng.IPromise<WorkPackageCollectionResource> {
+    const filters = [
+      {
+        id: {
+          operator: '=',
+          values: ids.filter((n:String|null) => n) // no null values
+        },
+      },
+      {
+        updatedAt: {
+          operator: '<>d',
+          values: [timestamp, '']
+        }
+      }
+    ];
+
+    return this.halRequest.get(this.v3Path.wps(),
+                               {filters: JSON.stringify(filters)},
+                               {caching: {enabled: false} });
+  }
+
   public save(query:QueryResource, form:FormResource) {
     return this.extractPayload(query, form).then(payload => {
       return query.updateImmediately(payload);
