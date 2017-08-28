@@ -44,7 +44,7 @@ See doc/COPYRIGHT.md for more details.
     <%= no_results_box %>
   <% end -%>
 
-  <%= javascript_tag(show_meeting_content_editor?(content, content_type) ? "jQuery('.show-#{content_type}').hide();" : "jQuery('.edit-#{content_type}').hide();") %>
+  <%= nonced_javascript_tag(show_meeting_content_editor?(content, content_type) ? "jQuery('.show-#{content_type}').hide();" : "jQuery('.edit-#{content_type}').hide();") %>
 </div>
 
 <%= render :partial => 'shared/meeting_header' %>
