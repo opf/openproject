@@ -1,4 +1,3 @@
-import {Moment} from 'moment';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -26,6 +25,8 @@ import {Moment} from 'moment';
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+
+import {Moment} from 'moment';
 import {openprojectModule} from '../../../../angular-modules';
 import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
@@ -44,8 +45,16 @@ import {selectorTimelineSide} from '../../wp-table-scroll-sync';
 import {WorkPackagesTableController} from '../../wp-table.directive';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
-import {timelineElementCssClass, timelineMarkerSelectionStartClass, TimelineViewParameters} from '../wp-timeline';
-import {classNameBar, classNameLeftHandle, classNameRightHandle} from '../cells/wp-timeline-cell-mouse-handler';
+import {
+  calculateDaySpan,
+  getPixelPerDayForZoomLevel,
+  timelineElementCssClass,
+  timelineLeftSpacingInDays,
+  timelineMarkerSelectionStartClass,
+  TimelineViewParameters,
+  zoomLevelOrder
+} from '../wp-timeline';
+import moment = require('moment');
 
 
 export class WorkPackageTimelineTableController {
@@ -123,6 +132,14 @@ export class WorkPackageTimelineTableController {
         this.refreshView();
       });
 
+    this.states.table.timelineAutoZoom.values$()
+      .takeUntil(this.states.table.stopAllSubscriptions)
+      .filter(() => this.initialized)
+      .filter(enabled => enabled)
+      .subscribe(() => {
+        this.refreshView();
+      });
+
     // Refresh timeline view when becoming visible
     this.states.table.timelineVisible.values$()
       .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
@@ -154,8 +171,6 @@ export class WorkPackageTimelineTableController {
 
   /**
    * Return the index of a given row by its class identifier
-   * @param cell
-   * @return {number}
    */
   workPackageIndex(classIdentifier:string):number {
     return this.workPackageIdOrder.findIndex((el) => el.classIdentifier === classIdentifier);
@@ -191,9 +206,13 @@ export class WorkPackageTimelineTableController {
       return;
     }
 
-    timeOutput("refreshView() in timeline container", () => {
+    timeOutput('refreshView() in timeline container', () => {
       // Reset the width of the outer container if its content shrinks
       this.outerContainer.css('width', 'auto');
+
+      if (this.states.table.timelineAutoZoom.value!) {
+        this.applyAutoZoomLevel();
+      }
 
       this.calculateViewParams(this._viewParameters);
 
@@ -217,7 +236,7 @@ export class WorkPackageTimelineTableController {
       .withLatestFrom(this.states.table.timelineVisible.values$())
       .takeUntil(scopeDestroyed$(this.$scope))
       .filter(([, timelineState]) => this.initialized && timelineState.isVisible)
-      .map(([[wpId],]) => wpId)
+      .map(([[wpId]]) => wpId)
       .filter((wpId) => this.cellsRenderer.hasCell(wpId))
       .subscribe((wpId) => {
         const viewParamsChanged = this.calculateViewParams(this._viewParameters);
@@ -233,7 +252,7 @@ export class WorkPackageTimelineTableController {
   startAddRelationPredecessor(start:WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
-        .addCommonRelation(start as any, "follows", end.id)
+        .addCommonRelation(start as any, 'follows', end.id)
         .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
     });
   }
@@ -241,7 +260,7 @@ export class WorkPackageTimelineTableController {
   startAddRelationFollower(start:WorkPackageResourceInterface) {
     this.activateSelectionMode(start.id, end => {
       this.wpRelations
-        .addCommonRelation(start as any, "precedes", end.id)
+        .addCommonRelation(start as any, 'precedes', end.id)
         .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, end));
     });
   }
@@ -250,7 +269,7 @@ export class WorkPackageTimelineTableController {
     const outerContainer = this.getParentScrollContainer();
     const scrollLeft = outerContainer.scrollLeft;
     const nonVisibleDaysLeft = Math.floor(scrollLeft / this.viewParameters.pixelPerDay);
-    return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, "days");
+    return this.viewParameters.dateDisplayStart.clone().add(nonVisibleDaysLeft, 'days');
   }
 
   getLastDayInViewport() {
@@ -259,7 +278,7 @@ export class WorkPackageTimelineTableController {
     const width = outerContainer.offsetWidth;
     const viewPortRight = scrollLeft + width;
     const daysUntilViewPortEnds = Math.ceil(viewPortRight / this.viewParameters.pixelPerDay) + 1;
-    return this.viewParameters.dateDisplayStart.clone().add(daysUntilViewPortEnds, "days");
+    return this.viewParameters.dateDisplayStart.clone().add(daysUntilViewPortEnds, 'days');
   }
 
   forceCursor(cursor:string) {
@@ -346,7 +365,7 @@ export class WorkPackageTimelineTableController {
     });
 
     // left spacing
-    newParams.dateDisplayStart.subtract(3, 'days');
+    newParams.dateDisplayStart.subtract(timelineLeftSpacingInDays, 'days');
 
     // right spacing
     const width = this.$element.width();
@@ -371,11 +390,34 @@ export class WorkPackageTimelineTableController {
     // Calculate the visible viewport
     const firstDayInViewport = this.getFirstDayInViewport();
     const lastDayInViewport = this.getLastDayInViewport();
-    const viewport: [Moment, Moment] = [firstDayInViewport, lastDayInViewport];
+    const viewport:[Moment, Moment] = [firstDayInViewport, lastDayInViewport];
     this._viewParameters.visibleViewportAtCalculationTime = viewport;
 
     return changed;
   }
+
+  private applyAutoZoomLevel() {
+    const daysSpan = calculateDaySpan(this.workPackageIdOrder, this.states.workPackages);
+    const timelineWidthInPx = this.outerContainer.width();
+
+    for (let zoomLevel of zoomLevelOrder) {
+      const pixelPerDay = getPixelPerDayForZoomLevel(zoomLevel);
+      const visibleDays = timelineWidthInPx / pixelPerDay;
+
+      if (visibleDays >= daysSpan || zoomLevel === _.last(zoomLevelOrder)) {
+        // Zoom level is enough
+        const previousZoomLevel = this._viewParameters.settings.zoomLevel;
+
+        // did the zoom level changed?
+        if (previousZoomLevel !== zoomLevel) {
+          this.wpTableTimeline.setZoomLevel(zoomLevel);
+          this.wpTableDirective.timeline.scrollLeft = 0;
+        }
+        return;
+      }
+    }
+  }
+
 }
 
 openprojectModule.component('wpTimelineContainer', {

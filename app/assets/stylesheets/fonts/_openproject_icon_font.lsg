@@ -239,6 +239,7 @@
 <li><span class="icon icon-workflow"></span>workflow</li>
 <li><span class="icon icon-yes"></span>yes</li>
 <li><span class="icon icon-zen-mode"></span>zen-mode</li>
+<li><span class="icon icon-zoom-auto"></span>zoom-auto</li>
 <li><span class="icon icon-zoom-in"></span>zoom-in</li>
 <li><span class="icon icon-zoom-out"></span>zoom-out</li>
 </ul>
