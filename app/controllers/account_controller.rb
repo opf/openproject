@@ -267,7 +267,7 @@ class AccountController < ApplicationController
       account_inactive user, flash_now: true
     end
 
-    flash.now[:warning] = "Single Sign-On (SSO) for user '#{failure[:login]}' failed"
+    flash.now[:warning] = I18n.t :error_auth_source_sso_failed, value: failure[:login]
 
     render action: 'login', back_url: failure[:back_url]
   end
