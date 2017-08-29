@@ -28,17 +28,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-desc <<-END_DESC
-Send reminders about issues due in the next days.
+desc <<-END_DESC.strip_indent
+  Send reminders about issues due in the next days.
 
-Available options:
-  * days     => number of days to remind about (defaults to 7)
-  * type     => id of type (defaults to all type)
-  * project  => id or identifier of project (defaults to all projects)
-  * users    => comma separated list of user ids who should be reminded
+  Available options:
+    * days     => number of days to remind about (defaults to 7)
+    * type     => id of type (defaults to all type)
+    * project  => id or identifier of project (defaults to all projects)
+    * users    => comma separated list of user ids who should be reminded
 
-Example:
-  rake redmine:send_reminders days=7 users="1,23, 56" RAILS_ENV="production"
+  Example:
+    rake redmine:send_reminders days=7 users="1,23, 56" RAILS_ENV="production"
 END_DESC
 
 namespace :redmine do

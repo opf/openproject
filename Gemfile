@@ -230,12 +230,12 @@ end
 group :development, :test do
   gem 'thin', '~> 1.7.2'
 
+  gem 'bootsnap', '~> 1.1.2', require: false
   gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
   gem 'pry-doc', '~> 0.10'
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
-  gem 'bootsnap', '~> 1.1.2', require: false
 end
 
 # API gems

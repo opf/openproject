@@ -41,14 +41,14 @@ describe Redmine::WikiFormatting do
   end
 
   it 'should link urls and email addresses' do
-    raw = <<-DIFF
-This is a sample *text* with a link: http://www.redmine.org
-and an email address foo@example.net
+    raw = <<-DIFF.strip_indent
+      This is a sample *text* with a link: http://www.redmine.org
+      and an email address foo@example.net
 DIFF
 
-    expected = <<-EXPECTED
-<p>This is a sample *text* with a link: <a href="http://www.redmine.org">http://www.redmine.org</a><br />
-and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
+    expected = <<-EXPECTED.strip_indent
+      <p>This is a sample *text* with a link: <a href="http://www.redmine.org">http://www.redmine.org</a><br />
+      and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')

@@ -401,14 +401,18 @@ class AggregatedMigrations < ActiveRecord::Migration[4.2]
       t.integer 'project_id',      default: 0, null: false
     end
 
-    add_index 'custom_fields_projects', ['custom_field_id', 'project_id'], name: 'index_custom_fields_projects_on_custom_field_id_and_project_id'
+    add_index 'custom_fields_projects',
+              ['custom_field_id', 'project_id'],
+              name: 'index_custom_fields_projects_on_custom_field_id_and_project_id'
 
     create_table 'custom_fields_trackers', id: false, force: true do |t|
       t.integer 'custom_field_id', default: 0, null: false
       t.integer 'tracker_id',      default: 0, null: false
     end
 
-    add_index 'custom_fields_trackers', ['custom_field_id', 'tracker_id'], name: 'index_custom_fields_trackers_on_custom_field_id_and_tracker_id'
+    add_index 'custom_fields_trackers',
+              ['custom_field_id', 'tracker_id'],
+              name: 'index_custom_fields_trackers_on_custom_field_id_and_tracker_id'
 
     create_table 'custom_values', force: true do |t|
       t.string 'customized_type', limit: 30, default: '', null: false
