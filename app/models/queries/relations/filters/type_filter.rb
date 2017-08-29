@@ -47,9 +47,13 @@ module Queries
         end
 
         def where
-          operator_strategy.sql_for_field(values,
-                                          self.class.model.table_name,
-                                          'relation_type')
+          Array(values).map do |value|
+            column = Relation.relation_column(value)
+
+            operator_strategy.sql_for_field(['1'],
+                                            self.class.model.table_name,
+                                            column)
+          end.join(' OR ')
         end
       end
     end

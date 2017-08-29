@@ -268,7 +268,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'setting disabled' do
-          before do allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') end
+          before do
+            allow(Setting)
+              .to receive(:work_package_done_ratio)
+              .and_return('disabled')
+          end
 
           it { is_expected.to_not have_json_path('percentageDone') }
         end
@@ -714,7 +718,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:work_package) do
               FactoryGirl.create(:work_package,
                                  project: project,
-                                 parent_id: visible_parent.id)
+                                 parent: visible_parent)
             end
 
             it_behaves_like 'has a titled link' do
@@ -732,7 +736,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:work_package) do
               FactoryGirl.create(:work_package,
                                  project: project,
-                                 parent_id: invisible_parent.id)
+                                 parent: invisible_parent)
             end
 
             it_behaves_like 'has no link' do
@@ -783,17 +787,17 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let!(:forbidden_work_package) {
             FactoryGirl.create(:work_package,
                                project: forbidden_project,
-                               parent_id: work_package.id)
+                               parent: work_package)
           }
 
           it { expect(subject).not_to have_json_path('_links/children') }
 
           describe 'visible and invisible children' do
-            let!(:child) {
+            let!(:child) do
               FactoryGirl.create(:work_package,
                                  project: project,
-                                 parent_id: work_package.id)
-            }
+                                 parent: work_package)
+            end
 
             it { expect(subject).to have_json_size(1).at_path('_links/children') }
 

@@ -142,9 +142,13 @@ module Project::Copy
       # value.  Used to map the two together for issue relations.
       work_packages_map = {}
 
-      # Get issues sorted by root_id, lft so that parent issues
-      # get copied before their children
-      project.work_packages.reorder('root_id, lft').each do |issue|
+      # Get issues sorted by their depth in the hierarchy tree
+      # so that parents get copied before their children.
+      to_copy = project
+                .work_packages
+                .order_by_ancestors('asc')
+
+      to_copy.each do |issue|
         new_issue = WorkPackage.new
         new_issue.copy_from(issue)
         new_issue.project = self
@@ -165,16 +169,18 @@ module Project::Copy
           new_issue.category = categories.detect { |c| c.name == issue.category.name }
         end
         # Parent issue
-        if issue.parent_id
-          if (copied_parent = work_packages_map[issue.parent_id]) && copied_parent.reload
-            new_issue.parent_id = copied_parent.id
+        if issue.parent
+          if (copied_parent = work_packages_map[issue.parent.id]) && copied_parent.reload
+            new_issue.parent = copied_parent
           end
         end
         work_packages << new_issue
 
-        if new_issue.new_record?
-          logger.info "Project#copy_work_packages: work unit ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
-        else
+        if new_issue.new_record? && logger && logger.info
+          logger.info <<-MSG
+            Project#copy_work_packages: work package ##{issue.id} could not be copied: #{new_issue.errors.full_messages}
+          MSG
+        elsif new_issue.persisted?
           work_packages_map[issue.id] = new_issue unless new_issue.new_record?
         end
       end
@@ -196,9 +202,9 @@ module Project::Copy
         end
 
         # Relations
-        issue.relations_from.each do |source_relation|
+        issue.relations_to.non_hierarchy.direct.each do |source_relation|
           new_relation = Relation.new
-          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
+          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
           new_relation.to = work_packages_map[source_relation.to_id]
           if new_relation.to.nil? && Setting.cross_project_work_package_relations?
             new_relation.to = source_relation.to
@@ -207,9 +213,9 @@ module Project::Copy
           new_relation.save
         end
 
-        issue.relations_to.each do |source_relation|
+        issue.relations_from.non_hierarchy.direct.each do |source_relation|
           new_relation = Relation.new
-          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
+          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
           new_relation.from = work_packages_map[source_relation.from_id]
           if new_relation.from.nil? && Setting.cross_project_work_package_relations?
             new_relation.from = source_relation.from

@@ -191,9 +191,10 @@ describe UpdateWorkPackageService, type: :model do
             .to receive(:cross_project_work_package_relations?)
             .and_return false
           expect(work_package)
-            .to receive_message_chain(:relations_from, :clear)
-          expect(work_package)
-            .to receive_message_chain(:relations_to, :clear)
+            .to receive_message_chain(:relations,
+                                      :non_hierarchy,
+                                      :direct,
+                                      :destroy_all)
 
           instance.call(attributes: { project: target_project })
         end

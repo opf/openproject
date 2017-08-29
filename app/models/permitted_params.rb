@@ -272,20 +272,6 @@ class PermittedParams
     params.permit(*self.class.permitted_attributes[:search])
   end
 
-  def work_package
-    params.require(:work_package).permit(:subject,
-                                         :description,
-                                         :start_date,
-                                         :due_date,
-                                         :note,
-                                         :planning_element_type_id,
-                                         :planning_element_status_comment,
-                                         :planning_element_status_id,
-                                         :parent_id,
-                                         :responsible_id,
-                                         :lock_version)
-  end
-
   def wiki_page_rename
     permitted = permitted_attributes(:wiki_page)
 
@@ -623,7 +609,6 @@ class PermittedParams
           end,
           # attributes unique to planning_element
           :note,
-          :planning_element_status_comment,
           custom_fields: [ # json
             :id,
             :value,

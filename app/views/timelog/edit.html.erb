@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="form--field">
     <%= f.text_field :work_package_id, size: 6, container_class: '-xslim' %>
     <div class="form--field-instructions">
-      <%= h("#{(@time_entry.work_package.kind.nil?) ? '' : @time_entry.work_package.kind.name} ##{@time_entry.work_package.id}: #{@time_entry.work_package.subject}") if @time_entry.work_package%>
+      <%= h("#{(@time_entry.work_package.type.nil?) ? '' : @time_entry.work_package.type.name} ##{@time_entry.work_package.id}: #{@time_entry.work_package.subject}") if @time_entry.work_package%>
     </div>
   </div>
 

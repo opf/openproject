@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,46 +36,134 @@ describe Relation, type: :model do
   let(:relation) { FactoryGirl.build(:relation, from: from, to: to, relation_type: type) }
 
   describe 'all relation types' do
-    Relation::TYPES.each do |_, type_hash|
-      let(:type) { type_hash[:sym] }
+    Relation::TYPES.each do |key, type_hash|
+      let(:type) { key }
+      let(:column_name) { type_hash[:sym] }
       let(:reversed) { type_hash[:reverse] }
 
-      it 'should create' do
-        expect(relation.save).to eq(true)
+      before do
+        relation.save!
+      end
 
+      it "sets the correct type for for '#{key}'" do
         if reversed.nil?
           expect(relation.relation_type).to eq(type)
         else
           expect(relation.relation_type).to eq(reversed)
         end
       end
+
+      it "sets the correct column for '#{key}' to 1" do
+        expect(relation.send(column_name))
+          .to eql 1
+      end
+    end
+  end
+
+  describe '#relation_type' do
+    Relation::TYPES.each do |key, type_hash|
+      let(:column_name) { type_hash[:sym] }
+      let(:type) { key }
+      let(:reversed) { type_hash[:reverse] }
+      let(:relation) do
+        FactoryGirl.build_stubbed(:relation,
+                                  relation_type: nil,
+                                  column_name => column_count)
+      end
+
+      context 'with the column set to 1' do
+        let(:column_count) { 1 }
+
+        it 'deduces the name from the column' do
+          if reversed.nil?
+            expect(relation.relation_type).to eq(type)
+          else
+            expect(relation.relation_type).to eq(reversed)
+          end
+        end
+      end
+
+      context 'with the column set to 2' do
+        let(:column_count) { 2 }
+
+        it 'deduces the name from the column' do
+          if reversed.nil?
+            expect(relation.relation_type).to eq(type)
+          else
+            expect(relation.relation_type).to eq(reversed)
+          end
+        end
+      end
+
+      context 'with the column set to 1 and another column also set to 1' do
+        let(:column_count) { 1 }
+        let(:other_column) do
+          if type == Relation::TYPE_RELATES
+            Relation::TYPE_DUPLICATES
+          else
+            Relation::TYPE_RELATES
+          end
+        end
+        let(:relation) do
+          FactoryGirl.build_stubbed(:relation,
+                                    relation_type: nil,
+                                    column_name => 1,
+                                    other_column => 1)
+        end
+
+        it 'is "mixed"' do
+          expect(relation.relation_type)
+            .to eql 'mixed'
+        end
+      end
     end
   end
 
   describe 'follows / precedes' do
-    let(:type) { Relation::TYPE_FOLLOWS }
-    it 'should follows relation should be reversed' do
-      expect(relation.save).to eq(true)
-      relation.reload
+    context 'for FOLLOWS' do
+      let(:type) { Relation::TYPE_FOLLOWS }
 
-      expect(relation.relation_type).to eq(Relation::TYPE_PRECEDES)
-      expect(relation.from).to eq(to)
-      expect(relation.to).to eq(from)
+      it 'is not reversed' do
+        expect(relation.save).to eq(true)
+        relation.reload
+
+        expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)
+        expect(relation.to).to eq(to)
+        expect(relation.from).to eq(from)
+      end
+
+      it 'fails validation with invalid date and reverses' do
+        relation.delay = 'xx'
+        expect(relation).not_to be_valid
+        expect(relation.save).to eq(false)
+
+        expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)
+        expect(relation.to).to eq(to)
+        expect(relation.from).to eq(from)
+      end
     end
 
-    it 'should fail validation with invalid date and does not reverse type' do
-      relation.delay = 'xx'
-      expect(relation).not_to be_valid
-      expect(relation.save).to eq(false)
+    context 'for PRECEDES' do
+      let(:type) { Relation::TYPE_PRECEDES }
 
-      expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)
-      expect(relation.from).to eq(from)
-      expect(relation.to).to eq(to)
+      it 'is reversed' do
+        expect(relation.save).to eq(true)
+        relation.reload
+
+        expect(relation.relation_type).to eq(Relation::TYPE_FOLLOWS)
+        expect(relation.from).to eq(to)
+        expect(relation.to).to eq(from)
+      end
     end
   end
 
-  describe 'without :to and with delay set' do
-    let(:relation) { FactoryGirl.build(:relation, from: from, relation_type: type, delay: 1) }
+  describe 'without to and with delay set' do
+    let(:relation) do
+      FactoryGirl.build(:relation,
+                        from: from,
+                        relation_type: type,
+                        delay: 1)
+    end
     let(:type) { Relation::TYPE_PRECEDES }
 
     it 'should set dates of target without to' do
@@ -140,20 +229,20 @@ describe Relation, type: :model do
 
   describe 'it should validate circular dependency' do
     let(:otherwp) { FactoryGirl.create(:work_package) }
-    let(:relation) {
+    let(:relation) do
       FactoryGirl.build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
-    }
-    let(:relation2) {
+    end
+    let(:relation2) do
       FactoryGirl.build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
-    }
+    end
 
-    let(:invalid_precedes_relation) {
+    let(:invalid_precedes_relation) do
       FactoryGirl.build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
-    }
+    end
 
-    let(:invalid_follows_relation) {
+    let(:invalid_follows_relation) do
       FactoryGirl.build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
-    }
+    end
 
     it 'prevents invalid precedes relations' do
       expect(relation.save).to eq(true)

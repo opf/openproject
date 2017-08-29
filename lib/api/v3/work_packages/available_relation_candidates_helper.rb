@@ -39,36 +39,12 @@ module API
         # @param query [String] The ID or part of a subject to filter by
         # @param from [WorkPackage] The work package in the `from` position of a relation.
         # @param limit [Integer] Maximum number of results to retrieve.
-        def work_package_query(query, from, limit)
-          wps = visible_work_packages_without_related_or_self(from)
-                .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
-                       query.to_i, "%#{query.downcase}%")
-                .limit(limit)
-
-          if Setting.cross_project_work_package_relations?
-            wps
-          else
-            wps.where(project_id: from.project_id) # has to be same project
-          end
-        end
-
-        def filter_work_packages(work_packages, from, type)
-          work_packages.reject { |to| illegal_relation? type, from, to }
-        end
-
-        def illegal_relation?(type, from, to)
-          if type != 'parent'
-            rel = Relation.new(relation_type: type, from: from, to: to)
-
-            rel.shared_hierarchy? || rel.circular_dependency?
-          end
-        end
-
-        def visible_work_packages_without_related_or_self(wp)
-          WorkPackage.visible
-                     .where.not(id: wp.id) # can't relate to itself
-                     .where.not(id: wp.relations_from.select(:to_id))
-                     .where.not(id: wp.relations_to.select(:from_id))
+        def work_package_queried(query, from, limit)
+          WorkPackage
+            .relateable_to(from)
+            .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
+                   query.to_i, "%#{query.downcase}%")
+            .limit(limit)
         end
       end
     end

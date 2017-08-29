@@ -1256,19 +1256,6 @@ describe WorkPackage, type: :model do
     end
   end
 
-  describe 'parent work package' do
-    describe 'with parent_id for a not existing work package' do
-      let(:project) { FactoryGirl.create(:project) }
-      let(:invalid_work_package) do
-        FactoryGirl.build(:work_package, project: project, parent_id: 1)
-      end
-
-      it 'should raise an error' do
-        expect(invalid_work_package).not_to be_valid
-      end
-    end
-  end
-
   describe 'custom fields' do
     let(:included_cf) { FactoryGirl.build(:work_package_custom_field) }
     let(:other_cf) { FactoryGirl.build(:work_package_custom_field) }

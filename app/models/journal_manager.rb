@@ -158,7 +158,7 @@ class JournalManager
                                journable_type: journal_class_name(journable.class),
                                version: version,
                                activity_type: journable.send(:activity_type),
-                               details: journable.attributes.symbolize_keys }
+                               details: journable_details(journable) }
 
         journal = create_journal journable, journal_attributes, user, notes
 
@@ -261,6 +261,20 @@ class JournalManager
   end
 
   private
+
+  def self.journable_details(journable)
+    calculated_proc = journable.class.vestal_journals_options[:calculate]
+
+    attributes = journable.attributes.symbolize_keys
+
+    if calculated_proc
+      attributes
+        .merge!(journable.instance_exec(&calculated_proc))
+    end
+
+    attributes
+  end
+  private_class_method :journable_details
 
   def self.journal_class_name(type)
     "#{base_class(type).name}Journal"

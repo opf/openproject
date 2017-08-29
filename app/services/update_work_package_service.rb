@@ -88,8 +88,7 @@ class UpdateWorkPackageService
 
   def delete_relations
     unless Setting.cross_project_work_package_relations?
-      work_package.relations_from.clear
-      work_package.relations_to.clear
+      work_package.relations.non_hierarchy.direct.destroy_all
     end
   end
 

@@ -59,9 +59,7 @@ class TimelogController < ApplicationController
 
     cond = ARCondition.new
     if @issue
-      cond << "#{WorkPackage.table_name}.root_id = #{@issue.root_id} " +
-              "AND #{WorkPackage.table_name}.lft >= #{@issue.lft} " +
-              "AND #{WorkPackage.table_name}.rgt <= #{@issue.rgt}"
+      cond << WorkPackage.self_and_descendants_of_condition(@issue)
     elsif @project
       cond << @project.project_condition(Setting.display_subprojects_work_packages?)
     end

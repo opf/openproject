@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,29 +28,14 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json/hal'
-
 module API
   module V3
     module Relations
       class RelationRepresenter < ::API::Decorators::Single
+        include API::Decorators::LinkedResource
+
         link :self do
           { href: api_v3_paths.relation(represented.id) }
-        end
-
-        link :from do
-          {
-            href: api_v3_paths.work_package(represented.from_id),
-            title: represented.from.subject
-          }
-        end
-
-        link :to do
-          {
-            href: api_v3_paths.work_package(represented.to_id),
-            title: represented.to.subject
-          }
         end
 
         link :updateImmediately do
@@ -77,55 +63,26 @@ module API
         property :reverse_type, as: :reverseType, exec_context: :decorator
 
         ##
-        # The `delay` property is only used for the relation type "precedes".
-        # Consequently it also makes sense with its reverse "follows".
-        # However, relations will always be saved as "precedes" with the reverse of "follows".
-        # See `Relation#update_schedule` and `Relation#reverse_if_needed` which are both
-        # run before saving any relation.
+        # The `delay` property is only used for the relation type "precedes/follows".
         property :delay,
                  render_nil: true,
-                 if: -> (*) {
+                 if: ->(*) {
                    # the relation type may be blank when parsing for an update
-                   relation_type == "precedes" || relation_type.blank?
+                   [Relation::TYPE_FOLLOWS, Relation::TYPE_PRECEDES].include?(relation_type) ||
+                     relation_type.blank?
                  }
 
         property :description, render_nil: true
 
-        property :from, embedded: true, exec_context: :decorator, if: -> (*) { embed_links }
-        property :to, embedded: true, exec_context: :decorator, if: -> (*) { embed_links }
+        associated_resource :from,
+                            v3_path: :work_package,
+                            link_title_attribute: :subject,
+                            representer: ::API::V3::WorkPackages::WorkPackageRepresenter
 
-        ##
-        # Used while parsing JSON to initialize `from` and `to` through the given links.
-        def initialize_embedded_links!(data)
-          from_id = parse_wp_id data, "from"
-          to_id = parse_wp_id data, "to"
-
-          represented.from_id = from_id if from_id
-          represented.to_id = to_id if to_id
-        end
-
-        ##
-        # Overrides Roar::JSON::HAL::Resources#from_hash
-        def from_hash(hash, *)
-          if hash["_links"]
-            initialize_embedded_links! hash
-          end
-
-          super
-        end
-
-        def parse_wp_id(data, link_name)
-          value = data.dig("_links", link_name, "href")
-
-          if value
-            ::API::Utilities::ResourceLinkParser.parse_id(
-              value,
-              property: :from,
-              expected_version: "3",
-              expected_namespace: "work_packages"
-            )
-          end
-        end
+        associated_resource :to,
+                            v3_path: :work_package,
+                            link_title_attribute: :subject,
+                            representer: ::API::V3::WorkPackages::WorkPackageRepresenter
 
         def _type
           @_type ||= "Relation"
@@ -144,7 +101,7 @@ module API
         end
 
         def reverse_type
-          Relation::TYPES[represented.relation_type][:sym]
+          represented.reverse_type
         end
 
         def reverse_type=(reverse_type)
@@ -153,22 +110,6 @@ module API
 
         def manage_relations?
           current_user_allowed_to :manage_work_package_relations, context: represented.from.project
-        end
-
-        def from
-          represent_work_package(represented.from)
-        end
-
-        def to
-          represent_work_package(represented.to)
-        end
-
-        def represent_work_package(wp)
-          ::API::V3::WorkPackages::WorkPackageRepresenter.create(
-            wp,
-            current_user: current_user,
-            embed_links: false
-          )
         end
 
         self.to_eager_load = [:to,

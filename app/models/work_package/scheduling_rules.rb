@@ -32,7 +32,43 @@ module WorkPackage::SchedulingRules
   extend ActiveSupport::Concern
 
   included do
-    # add class-methods (validations, scope) here
+    after_save :reschedule_following_work_packages
+  end
+
+  # Updates start/due dates of following work packages.
+  # If
+  #   * no start/due dates are set
+  #     => no scheduling will happen.
+  #   * a due date is set and the due date is moved backwards
+  #     => following work package is moved backwards as well
+  #   * a due date is set and the due date is moved forward
+  #     => following work package is moved forward to the point that
+  #        the work package is again scheduled to be after this work package.
+  #        If a delay is defined, that delay is adhered to.
+  #   * only a start date is set and the start date is moved backwards
+  #     => following work package is moved backwards as well
+  #   * only a start date is set and the start date is moved forward
+  #     => following work package is moved forward to the point that
+  #        the work package is again scheduled to be after this work package.
+  #        If a delay is defined, that delay is adhered to.
+  def reschedule_following_work_packages
+    delta = date_rescheduling_delta
+
+    if delta < 0
+      precedes_relations.each { |r| r.move_target_dates_by(delta) }
+    elsif start_date_changed? || due_date_changed?
+      precedes_relations.each(&:set_dates_of_target)
+    end
+  end
+
+  def date_rescheduling_delta
+    if due_date.present?
+      due_date - (due_date_was || due_date)
+    elsif start_date.present?
+      start_date - (start_date_was || start_date)
+    else
+      0
+    end
   end
 
   def reschedule_by(delta)
@@ -40,7 +76,7 @@ module WorkPackage::SchedulingRules
 
     if leaf?
       # Avoid setting the dates if either is unset
-      return if (start_date.nil? || due_date.nil?)
+      return if start_date.nil? || due_date.nil?
 
       # HACK: On some more deeply nested settings (not sure what causes it)
       # the work package can already have been updated by one of the other after_save hooks.
@@ -91,6 +127,33 @@ module WorkPackage::SchedulingRules
         leaf.reschedule_after(date)
       end
     end
+  end
+
+  # Calculates the minimum date that
+  # will not violate the precedes relations (max(due date, start date) + delay)
+  # of this work package or its ancestors
+  # e.g.
+  # AP(due_date: 2017/07/24, delay: 1)-precedes-A
+  #                                             |
+  #                                           parent
+  #                                             |
+  # BP(due_date: 2017/07/22, delay: 2)-precedes-B
+  #                                             |
+  #                                           parent
+  #                                             |
+  # BP(due_date: 2017/07/25, delay: 2)-precedes-C
+  #
+  # Then soonest_start for:
+  #   C is 2017/07/27
+  #   B is 2017/07/25
+  #   A is 2017/07/25
+  def soonest_start
+    @soonest_start ||=
+      Relation.from_work_package_or_ancestors(self)
+              .with_type_columns(follows: 1)
+              .map(&:successor_soonest_start)
+              .compact
+              .max
   end
 
   # Returns the time scheduled for this work package.
