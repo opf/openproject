@@ -382,7 +382,7 @@ module OpenProject
               end
             when 'user'
               if user = User.in_visible_project.find_by(id: oid)
-                link = link_to_user(user, class: 'user')
+                link = link_to_user(user, class: 'user-mention')
               end
             end
           elsif sep == '##'
@@ -444,6 +444,10 @@ module OpenProject
                   .first
               if p
                 link = link_to_project(p, { only_path: only_path }, class: 'project')
+              end
+            when 'user'
+              if user = User.in_visible_project.find_by(login: name)
+                link = link_to_user(user, class: 'user-mention')
               end
             end
           end
