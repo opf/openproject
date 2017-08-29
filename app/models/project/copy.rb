@@ -40,7 +40,7 @@ module Project::Copy
   end
 
   module CopyMethods
-    def copy_attributes(project, selected_copies = [])
+    def copy_attributes(project)
       super
       with_model(project) do |project|
         self.enabled_module_names = project.enabled_module_names
@@ -64,6 +64,7 @@ module Project::Copy
       # Check that the source project has a wiki first
       unless project.wiki.nil?
         self.wiki = build_wiki(project.wiki.attributes.dup.except('id', 'project_id'))
+        self.wiki.wiki_menu_items.delete_all
         copy_wiki_pages(project)
         copy_wiki_menu_items(project)
       end

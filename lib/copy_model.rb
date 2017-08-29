@@ -34,7 +34,7 @@ module CopyModel
     # Copies all attributes from +from_model+
     # except those specified in self.class#not_to_copy.
     # Does NOT save self.
-    def copy_attributes(from_model, selected_copies)
+    def copy_attributes(from_model)
       with_model(from_model) do |model|
         # clear unique attributes
         self.attributes = model.attributes.dup.except(*Array(self.class.not_to_copy).map(&:to_s))
@@ -81,7 +81,7 @@ module CopyModel
           end
           self
         end
-      end
+    end
     end
 
     # copies everything (associations and attributes) based on
