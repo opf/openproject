@@ -12,7 +12,7 @@ module Concerns
       if login = read_sso_login
         user = find_user_from_auth_source(login) || create_user_from_auth_source(login)
 
-        handle_sso_for! user
+        handle_sso_for! user, login
       end
     end
 
@@ -111,7 +111,7 @@ module Concerns
       user.nil? || user.new_record? || !user.active?
     end
 
-    def handle_sso_for!(user)
+    def handle_sso_for!(user, login)
       if sso_login_failed?(user)
         handle_sso_failure! user, login
       else # valid user
