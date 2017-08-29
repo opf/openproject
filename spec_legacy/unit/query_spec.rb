@@ -556,7 +556,9 @@ describe Query, type: :model do
         @query = Query.new(name: '_')
         @query.add_filter('member_of_group', '=', [@group.id.to_s])
 
-        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}')"
+        assert_query_statement_includes @query,
+        "#{WorkPackage.table_name}.assigned_to_id IN ('#{@user_in_group.id}',
+                                                      '#{@second_user_in_group.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
