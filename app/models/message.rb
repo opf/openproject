@@ -71,7 +71,7 @@ class Message < ActiveRecord::Base
   after_update :update_ancestors
   after_destroy :reset_counters
 
-  scope :visible, -> (*args) {
+  scope :visible, ->(*args) {
     includes(board: :project)
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_messages))
@@ -92,9 +92,7 @@ class Message < ActiveRecord::Base
 
   def set_sticked_on_date
     self.sticked_on = if sticky?
-      sticked_on.nil? ? Time.now : sticked_on
-    else
-      nil
+                        sticked_on.nil? ? Time.now : sticked_on
                       end
   end
 

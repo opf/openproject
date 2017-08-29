@@ -211,7 +211,7 @@ module OpenProject::Plugins
       end
 
       def add_api_attribute(on:,
-                            writable_for: [:create, :update],
+                            writable_for: %i[create update],
                             ar_name:,
                             writeable: true,
                             &block)

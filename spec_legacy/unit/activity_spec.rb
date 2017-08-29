@@ -90,7 +90,7 @@ describe Activity, type: :model do
     user = User.find(2)
     events = Redmine::Activity::Fetcher.new(User.anonymous, author: user).events(nil, nil, limit: 10)
 
-    assert(events.size > 0)
+    assert(!events.empty?)
     assert(events.size <= 10)
     assert_nil(events.detect { |e| e.event_author != user })
   end

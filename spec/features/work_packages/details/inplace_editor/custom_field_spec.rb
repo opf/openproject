@@ -65,13 +65,13 @@ describe 'custom field inplace editor', js: true do
   describe 'custom field lists' do
     let(:custom_field1) do
       FactoryGirl.create(:list_wp_custom_field,
-                        is_required: false,
-                        possible_values: %w(foo bar baz))
+                         is_required: false,
+                         possible_values: %w(foo bar baz))
     end
     let(:custom_field2) do
       FactoryGirl.create(:list_wp_custom_field,
-                        is_required: false,
-                        possible_values: %w(X Y Z))
+                         is_required: false,
+                         possible_values: %w(X Y Z))
     end
 
     let(:custom_fields) { [custom_field1, custom_field2] }
@@ -117,7 +117,6 @@ describe 'custom field inplace editor', js: true do
 
       wp_page.expect_attributes customField1: 'bar',
                                 customField2: 'X'
-
     end
   end
 

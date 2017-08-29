@@ -98,7 +98,6 @@ module TimelinesCollectionProxy
           # If somebody uses :first and :last, s/he will get strange results.
           # Let's fix it, when it happens
           break if found.present? and found.is_a?(Enumerable)
-
         rescue ActiveRecord::RecordNotFound
           error = $!
         end

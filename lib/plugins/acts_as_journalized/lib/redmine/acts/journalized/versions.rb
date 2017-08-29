@@ -80,9 +80,9 @@ module Redmine::Acts::Journalized
       to_number = journal_at(to)
       return [] if from_number.nil? || to_number.nil?
 
-      condition = (from_number == to_number) ? to_number : Range.new(*[from_number, to_number].sort)
+      condition = from_number == to_number ? to_number : Range.new(*[from_number, to_number].sort)
       where(version: condition)
-        .order("#{Journal.table_name}.version #{(from_number > to_number) ? 'DESC' : 'ASC'}")
+        .order("#{Journal.table_name}.version #{from_number > to_number ? 'DESC' : 'ASC'}")
     end
 
     # Returns all journal records created before the journal associated with the given value.

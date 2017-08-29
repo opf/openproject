@@ -88,7 +88,7 @@ namespace :migrations do
 
             # Compare strings instead of plain integers because timelines
             # options may contain strings or integers.
-            pe_types.map! { |t| (t.to_s == '0') ? @standard_type.id.to_s : t.to_s }
+            pe_types.map! { |t| t.to_s == '0' ? @standard_type.id.to_s : t.to_s }
 
             options[key] = pe_types
           end

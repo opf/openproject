@@ -144,7 +144,7 @@ class Journal::AggregatedJournal
         .query_aggregated_journals(
           journable: successor.journable,
           until_version: successor.version - 1
-)
+        )
         .where("#{version_projection} = #{predecessor.version}")
         .exists?
     end

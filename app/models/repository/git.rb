@@ -156,7 +156,7 @@ class Repository::Git < Repository
             committer:  rev.author,
             committed_on: rev.time,
             comments:   rev.message
-)
+          )
 
           if changeset.save
             rev.paths.each do |file|
@@ -164,7 +164,7 @@ class Repository::Git < Repository
                 changeset: changeset,
                 action:    file[:action],
                 path:      file[:path]
-)
+              )
             end
           end
         end

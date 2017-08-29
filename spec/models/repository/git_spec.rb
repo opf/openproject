@@ -55,7 +55,7 @@ describe Repository::Git, type: :model do
     end
 
     context 'with disabled types' do
-      let(:config) { { disabled_types: [:local, :managed] } }
+      let(:config) { { disabled_types: %i[local managed] } }
 
       it 'does not have any types' do
         expect(instance.class.available_types).to be_empty
@@ -84,7 +84,7 @@ describe Repository::Git, type: :model do
 
       it 'is manageable' do
         expect(instance.manageable?).to be true
-        expect(instance.class.available_types).to eq([:local, :managed])
+        expect(instance.class.available_types).to eq(%i[local managed])
       end
 
       context 'with disabled managed typed' do
@@ -107,7 +107,7 @@ describe Repository::Git, type: :model do
 
         it 'is no longer manageable' do
           expect(instance.class.available_types).to eq([])
-          expect(instance.class.disabled_types).to eq([:managed, :local])
+          expect(instance.class.disabled_types).to eq(%i[managed local])
           expect(instance.manageable?).to be false
         end
       end
@@ -410,7 +410,7 @@ describe Repository::Git, type: :model do
             instance.reload
             changesets = instance.latest_changesets(
               "latin-1-dir/test-#{char1_hex}-subdir", '1ca7f5ed'
-)
+            )
             expect(changesets.map(&:revision))
               .to eq(['1ca7f5ed374f3cb31a93ae5215c2e25cc6ec5127'])
           end
@@ -418,15 +418,14 @@ describe Repository::Git, type: :model do
           it 'should browse changesets' do
             changesets = instance.latest_changesets(
               "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89'
-)
+            )
             expect(changesets.map(&:revision))
               .to eq(['64f1f3e89ad1cb57976ff0ad99a107012ba3481d',
-                      '4fc55c43bf3d3dc2efb66145365ddc17639ce81e'
-                     ])
+                      '4fc55c43bf3d3dc2efb66145365ddc17639ce81e'])
 
             changesets = instance.latest_changesets(
               "latin-1-dir/test-#{char1_hex}-2.txt", '64f1f3e89', 1
-)
+            )
             expect(changesets.map(&:revision))
               .to eq(['64f1f3e89ad1cb57976ff0ad99a107012ba3481d'])
           end
@@ -436,7 +435,6 @@ describe Repository::Git, type: :model do
       it_behaves_like 'is a countable repository' do
         let(:repository) { instance }
       end
-
     end
   end
 

@@ -56,7 +56,7 @@ module Redmine
         @@formatters.keys.map
       end
 
-      def to_html(format, text, options = {}, &block)
+      def to_html(format, text, options = {})
         edit = !!options[:edit]
         text = if Setting.cache_formatted_text? && text.size > 2.kilobyte && cache_store && cache_key = cache_key_for(format, options[:object], options[:attribute], edit)
                  # Text retrieved from the cache store may be frozen

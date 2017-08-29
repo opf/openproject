@@ -151,8 +151,7 @@ describe RepositoriesController, type: :controller do
         {
           'subversion' => { 'enabled' => '1',
                             'text' => 'foo',
-                            'base_url' => 'http://localhost'
-          }
+                            'base_url' => 'http://localhost' }
         }
       end
 
@@ -185,8 +184,8 @@ describe RepositoriesController, type: :controller do
 
         context 'requested by an authorized user' do
           let(:role) do
-            FactoryGirl.create(:role, permissions: [:browse_repository,
-                                                    :view_commit_author_statistics])
+            FactoryGirl.create(:role, permissions: %i[browse_repository
+                                                      view_commit_author_statistics])
           end
 
           it 'should be successful' do
@@ -242,8 +241,8 @@ describe RepositoriesController, type: :controller do
 
         describe 'requested by a user with view_commit_author_statistics permission' do
           let(:role) do
-            FactoryGirl.create(:role, permissions: [:browse_repository,
-                                                    :view_commit_author_statistics])
+            FactoryGirl.create(:role, permissions: %i[browse_repository
+                                                      view_commit_author_statistics])
           end
 
           it 'show the commits per author graph' do
@@ -314,8 +313,7 @@ describe RepositoriesController, type: :controller do
           {
             'subversion' => { 'enabled' => '1',
                               'text' => 'foo',
-                              'base_url' => 'http://localhost'
-            }
+                              'base_url' => 'http://localhost' }
           }
         end
 

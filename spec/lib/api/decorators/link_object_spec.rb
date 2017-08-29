@@ -71,7 +71,7 @@ describe ::API::Decorators::LinkObject do
         it 'throws an error' do
           expect { representer.from_hash parsed_hash }.to raise_error(
             ::API::Errors::InvalidResourceLink
-)
+          )
         end
       end
     end
@@ -121,8 +121,8 @@ describe ::API::Decorators::LinkObject do
 
         it 'throws an error' do
           expect { representer.from_hash parsed_hash }.to raise_error(
-                                                            ::API::Errors::InvalidResourceLink
-)
+            ::API::Errors::InvalidResourceLink
+          )
         end
       end
     end

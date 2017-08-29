@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'WorkPackage#aggregate_done_ratio', type: :model do
   shared_examples 'done ratio of parent having children' do
-    let(:statuses) { [:open, :open, :open] }
+    let(:statuses) { %i[open open open] }
     let(:done_ratios) { [0, 0, 0] }
     let(:estimated_hours) { [nil, nil, nil] }
 
@@ -60,7 +60,7 @@ describe 'WorkPackage#aggregate_done_ratio', type: :model do
 
   context 'with no estimated hours and no progress' do
     it_behaves_like 'done ratio of parent having children' do
-      let(:statuses) { [:open, :open, :open] }
+      let(:statuses) { %i[open open open] }
 
       let(:aggregate_done_ratio) { 0.0 }
     end
@@ -68,7 +68,7 @@ describe 'WorkPackage#aggregate_done_ratio', type: :model do
 
   context 'with 1 out of 3 tasks having estimated hours and 2 out of 3 tasks done' do
     it_behaves_like 'done ratio of parent having children' do
-      let(:statuses) { [:open, :closed, :closed] }
+      let(:statuses) { %i[open closed closed] }
       let(:estimated_hours) { [0.0, 2.0, 0.0] }
 
       let(:aggregate_done_ratio) { 66.67 } # previous wrong result: 133
@@ -76,7 +76,7 @@ describe 'WorkPackage#aggregate_done_ratio', type: :model do
 
     context 'with mixed nil and 0 values for estimated hours' do
       it_behaves_like 'done ratio of parent having children' do
-        let(:statuses) { [:open, :closed, :closed] }
+        let(:statuses) { %i[open closed closed] }
         let(:estimated_hours) { [nil, 2.0, 0.0] }
 
         let(:aggregate_done_ratio) { 66.67 } # previous wrong result: 100
@@ -106,7 +106,7 @@ describe 'WorkPackage#aggregate_done_ratio', type: :model do
 
     context 'with the last 2 tasks closed (therefore at 100%)' do
       it_behaves_like 'done ratio of parent having children' do
-        let(:statuses) { [:open, :closed, :closed] }
+        let(:statuses) { %i[open closed closed] }
         let(:estimated_hours) { hours }
 
         let(:aggregate_done_ratio) { 87.5 } # (2 + 5 = 7) / 8 estimated hours done
@@ -116,10 +116,10 @@ describe 'WorkPackage#aggregate_done_ratio', type: :model do
     context 'with mixed done ratios, statuses' do
       it_behaves_like 'done ratio of parent having children' do
         let(:done_ratios) { [50, 75, 42] }
-        let(:statuses) { [:open, :open, :closed] }
+        let(:statuses) { %i[open open closed] }
         let(:estimated_hours) { hours }
-                                            #  50%       75%        100% (42 ignored)
-                                            # (0.5 * 1 + 0.75 * 2 + 1 * 5 [since closed] = 7)
+        #  50%       75%        100% (42 ignored)
+        # (0.5 * 1 + 0.75 * 2 + 1 * 5 [since closed] = 7)
         let(:aggregate_done_ratio) { 87.5 } # (0.5 + 1.5 + 5 = 7) / 8 estimated hours done
       end
     end
@@ -127,7 +127,7 @@ describe 'WorkPackage#aggregate_done_ratio', type: :model do
 
   context 'with everything playing together' do
     it_behaves_like 'done ratio of parent having children' do
-      let(:statuses) { [:open, :open, :closed, :open] }
+      let(:statuses) { %i[open open closed open] }
       let(:done_ratios) { [0, 0, 0, 50] }
       let(:estimated_hours) { [0.0, 3.0, nil, 7.0] }
 

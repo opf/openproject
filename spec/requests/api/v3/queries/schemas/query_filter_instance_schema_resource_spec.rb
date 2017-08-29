@@ -76,8 +76,8 @@ describe 'API v3 Query Filter Schema resource', type: :request do
   end
 
   describe '#get queries/filter_instance_schemas' do
-    [:global,
-     :project].each do |current_path|
+    %i[global
+       project].each do |current_path|
       context current_path do
         let(:path) { send "#{current_path}_path".to_sym }
 

@@ -4,8 +4,8 @@ require 'features/page_objects/notification'
 describe 'edit work package', js: true do
   let(:dev_role) do
     FactoryGirl.create :role,
-                       permissions: [:view_work_packages,
-                                     :add_work_packages]
+                       permissions: %i[view_work_packages
+                                       add_work_packages]
   end
   let(:dev) do
     FactoryGirl.create :user,
@@ -16,8 +16,8 @@ describe 'edit work package', js: true do
   end
   let(:manager_role) do
     FactoryGirl.create :role,
-                       permissions: [:view_work_packages,
-                                     :edit_work_packages]
+                       permissions: %i[view_work_packages
+                                       edit_work_packages]
   end
   let(:manager) do
     FactoryGirl.create :admin,

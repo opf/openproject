@@ -106,7 +106,7 @@ describe StatusesController, type: :controller do
 
         it do
           assert_select 'p',
-                          {content: Status.human_attribute_name(:is_default)}, false
+                        { content: Status.human_attribute_name(:is_default) }, false
         end
       end
     end
@@ -125,7 +125,7 @@ describe StatusesController, type: :controller do
 
         it do
           assert_select 'div',
-                       content: Status.human_attribute_name(:is_default)
+                        content: Status.human_attribute_name(:is_default)
         end
       end
     end

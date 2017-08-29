@@ -56,7 +56,7 @@ describe Group, type: :model do
         author: user,
         project: project,
         status: status
-)
+      )
 
       work_packages.first.tap do |wp|
         wp.assigned_to = group

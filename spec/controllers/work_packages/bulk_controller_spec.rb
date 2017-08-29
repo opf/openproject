@@ -55,9 +55,9 @@ describe WorkPackages::BulkController, type: :controller do
   end
   let(:role) do
     FactoryGirl.create(:role,
-                       permissions: [:edit_work_packages,
-                                     :view_work_packages,
-                                     :manage_subtasks])
+                       permissions: %i[edit_work_packages
+                                       view_work_packages
+                                       manage_subtasks])
   end
   let(:member1_p1) do
     FactoryGirl.create(:member,
@@ -170,7 +170,7 @@ describe WorkPackages::BulkController, type: :controller do
         subject { response }
 
         describe '#parent' do
-          it { assert_select 'input', {attributes: { name: 'work_package[parent_id]' }}, false }
+          it { assert_select 'input', { attributes: { name: 'work_package[parent_id]' } }, false }
         end
 
         context 'custom_field' do
@@ -179,7 +179,7 @@ describe WorkPackages::BulkController, type: :controller do
           end
 
           describe '#project' do
-            it { assert_select 'select', {attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" }}, false }
+            it { assert_select 'select', { attributes: { name: "work_package[custom_field_values][#{custom_field_2.id}]" } }, false }
           end
         end
       end

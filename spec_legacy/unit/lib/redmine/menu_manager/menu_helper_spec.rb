@@ -97,7 +97,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'issues', action: 'index' },
 
-                                                     children: Proc.new do |_p|
+                                                     { children: Proc.new do |_p|
                                                        children = []
                                                        3.times do |time|
                                                          children << Redmine::MenuManager::MenuItem.new("test_child_#{time}",
@@ -105,7 +105,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
                                                                                                         {})
                                                        end
                                                        children
-                                                     end)
+                                                     end })
     @response.body = render_menu_node(parent_node, Project.find(1))
 
     html_node = Nokogiri::HTML(@response.body)
@@ -125,24 +125,24 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'issues', action: 'index' },
 
-                                                     children: Proc.new do |_p|
+                                                     { children: Proc.new do |_p|
                                                        children = []
                                                        3.times do |time|
                                                          children << Redmine::MenuManager::MenuItem.new("test_child_#{time}", { controller: 'issues', action: 'index' }, {})
                                                        end
                                                        children
-                                                     end)
+                                                     end })
 
     parent_node << Redmine::MenuManager::MenuItem.new(:child_node,
                                                       { controller: 'issues', action: 'index' },
 
-                                                      children: Proc.new do |_p|
+                                                      { children: Proc.new do |_p|
                                                         children = []
                                                         6.times do |time|
                                                           children << Redmine::MenuManager::MenuItem.new("test_dynamic_child_#{time}", { controller: 'issues', action: 'index' }, {})
                                                         end
                                                         children
-                                                      end)
+                                                      end })
 
     @response.body = render_menu_node(parent_node, Project.find(1))
 
@@ -170,7 +170,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'issues', action: 'index' },
 
-                                                     children: Proc.new { |_p| Redmine::MenuManager::MenuItem.new('test_child', { controller: 'issues', action: 'index' }, {}) })
+                                                     { children: Proc.new { |_p| Redmine::MenuManager::MenuItem.new('test_child', { controller: 'issues', action: 'index' }, {}) } })
 
     assert_raises Redmine::MenuManager::MenuError, ':children must be an array of MenuItems' do
       @response.body = render_menu_node(parent_node, Project.find(1))
@@ -181,7 +181,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
     parent_node = Redmine::MenuManager::MenuItem.new(:parent_node,
                                                      { controller: 'issues', action: 'index' },
 
-                                                     children: Proc.new { |_p| ['a string'] })
+                                                     { children: Proc.new { |_p| ['a string'] } })
 
     assert_raises Redmine::MenuManager::MenuError, ':children must be an array of MenuItems' do
       @response.body = render_menu_node(parent_node, Project.find(1))
@@ -236,7 +236,7 @@ describe Redmine::MenuManager::MenuHelper, type: :helper do
       menu.push(:a_menu, { controller: 'issues', action: 'index' }, {})
       menu.push(:unallowed,
                 { controller: 'issues', action: 'index' },
-                if: Proc.new { false })
+                { if: Proc.new { false } })
     end
 
     User.current = User.find(1)

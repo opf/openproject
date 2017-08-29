@@ -484,9 +484,9 @@ describe UserMailer, type: :mailer do
 
     describe 'html mail' do
       let(:expected_translation) do
-        I18n.t(:done_ratio, scope: [:activerecord,
-                                    :attributes,
-                                    :work_package])
+        I18n.t(:done_ratio, scope: %i[activerecord
+                                      attributes
+                                      work_package])
       end
       let(:expected_prefix) { "<li><strong>#{expected_translation}</strong>" }
 

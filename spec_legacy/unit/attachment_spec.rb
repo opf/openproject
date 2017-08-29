@@ -75,7 +75,7 @@ describe Attachment, type: :model do
         @issue,
         '1' => { 'file' => LegacyFileHelpers.mock_uploaded_file, 'description' => 'test 1' },
         '2' => { 'file' => LegacyFileHelpers.mock_uploaded_file, 'description' => 'test 2' }
-)
+      )
 
       assert response[:unsaved].present?
       assert_equal 2, response[:unsaved].length

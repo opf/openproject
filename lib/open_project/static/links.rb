@@ -32,7 +32,6 @@ module OpenProject
   module Static
     module Links
       class << self
-
         def help_link_overridden?
           OpenProject::Configuration.force_help_link.present?
         end

@@ -36,7 +36,7 @@ describe ::API::V3::Attachments::AttachmentRepresenter do
   end
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:all_permissions) { [:view_work_packages, :edit_work_packages] }
+  let(:all_permissions) { %i[view_work_packages edit_work_packages] }
   let(:permissions) { all_permissions }
 
   let(:container) { FactoryGirl.create(:work_package, project: project) }

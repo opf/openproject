@@ -72,7 +72,7 @@ class Wiki < ActiveRecord::Base
     title = start_page if title.blank?
 
     page = pages.where(slug: title.to_url).first
-    if !page && !(options[:with_redirect] == false)
+    if !page && options[:with_redirect] != false
       # search for a redirect
       redirect = matching_redirect(title)
       page = find_page(redirect.redirects_to, with_redirect: false) if redirect

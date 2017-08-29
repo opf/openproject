@@ -200,8 +200,10 @@ shared_examples_for 'multiple errors of the same type with messages' do
   end
 
   before do
-    raise "Need to have 'message' defined to state\
-           which message is expected".squish unless defined?(message)
+    unless defined?(message)
+      raise "Need to have 'message' defined to state\
+             which message is expected".squish
+    end
   end
 
   it { expect(actual_messages).to match_array(Array(message)) }

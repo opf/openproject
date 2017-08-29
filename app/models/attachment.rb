@@ -31,7 +31,7 @@
 require 'digest/md5'
 
 class Attachment < ActiveRecord::Base
-  ALLOWED_IMAGE_TYPES = %w[ image/gif image/jpeg image/png image/tiff image/bmp ].freeze
+  ALLOWED_IMAGE_TYPES = %w[image/gif image/jpeg image/png image/tiff image/bmp].freeze
 
   belongs_to :container, polymorphic: true
 
@@ -131,7 +131,7 @@ class Attachment < ActiveRecord::Base
     if attachments
       attachments.each_value do |attachment|
         file = attachment['file']
-        next unless file && file.size > 0
+        next unless file && !file.empty?
         a = Attachment.create(container: obj,
                               file: file,
                               description: attachment['description'].to_s.strip,

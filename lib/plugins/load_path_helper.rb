@@ -31,13 +31,13 @@ module Plugins
     def self.spec_load_paths
       plugin_load_paths.map do |path|
         File.join(path, 'spec')
-      end.keep_if{ |path| File.directory?(path) }
+      end.keep_if { |path| File.directory?(path) }
     end
 
     def self.cucumber_load_paths
       plugin_load_paths.map do |path|
         File.join(path, 'features')
-      end.keep_if{ |path| File.directory?(path) }
+      end.keep_if { |path| File.directory?(path) }
     end
 
     private

@@ -61,7 +61,7 @@ module OpenProject::NestedSet::RebuildPatch
           "#{quoted_table_name}.#{connection.quote_column_name(c)} = duplicates.#{connection.quote_column_name(c)}"
         end.join(' AND ')
 
-        scope_string = scope_string.size > 0 ? scope_string + ' AND ' : ''
+        scope_string = !scope_string.empty? ? scope_string + ' AND ' : ''
 
         joins("LEFT OUTER JOIN #{quoted_table_name} AS duplicates ON " +
           scope_string +
@@ -76,7 +76,7 @@ module OpenProject::NestedSet::RebuildPatch
           "#{quoted_table_name}.#{connection.quote_column_name(c)} = other.#{connection.quote_column_name(c)}"
         end.join(' AND ')
 
-        scope_string = scope_string.size > 0 ? scope_string + ' AND ' : ''
+        scope_string = !scope_string.empty? ? scope_string + ' AND ' : ''
 
         joins("LEFT OUTER JOIN #{quoted_table_name} AS other ON " +
           "#{quoted_table_name}.#{primary_key} != other.#{primary_key} AND " +
@@ -99,7 +99,7 @@ module OpenProject::NestedSet::RebuildPatch
 
       invalid_roots, invalid_descendants = all_invalid.partition { |node| node.send(parent_column_name).nil? }
 
-      while invalid_descendants.size > 0
+      while !invalid_descendants.empty?
         invalid_descendants_parents = invalid_descendants.map { |node| find(node.send(parent_column_name)) }
 
         new_invalid_roots, invalid_descendants = invalid_descendants_parents.partition { |node| node.send(parent_column_name).nil? }
@@ -164,8 +164,8 @@ module OpenProject::NestedSet::RebuildPatch
                    else
                      where("#{quoted_parent_column_name} IS NULL")
                        .order([quoted_left_column_name,
-                             quoted_right_column_name,
-                             acts_as_nested_set_options[:order]].compact.join(', '))
+                               quoted_right_column_name,
+                               acts_as_nested_set_options[:order]].compact.join(', '))
                    end
 
       root_nodes.each do |root_node|

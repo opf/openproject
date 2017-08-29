@@ -40,10 +40,10 @@ node(:identifier)   { |p| p[:project].identifier }
 node(:has_children) { |p| !p[:project].leaf? }
 node(:level)        { |p| p[:level] }
 
-node(:created_on, :if => lambda { |p| p[:project].created_on }) do |p|
+node(:created_on, if: lambda { |p| p[:project].created_on }) do |p|
   p[:project].created_on.utc
 end
 
-node(:updated_on, :if => lambda { |p| p[:project].updated_on }) do |p|
+node(:updated_on, if: lambda { |p| p[:project].updated_on }) do |p|
   p[:project].updated_on.utc
 end

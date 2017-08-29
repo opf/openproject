@@ -66,8 +66,7 @@ describe 'api/v2/planning_element_types/show.api.rabl', type: :view do
                         in_aggregation: false,
                         is_milestone: true,
                         is_default: true,
-                        position: 100
-      }.to_json
+                        position: 100 }.to_json
 
       is_expected.to be_json_eql(expected_json).at_path('planning_element_type')
     end

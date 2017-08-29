@@ -27,7 +27,7 @@
 #++
 
 object false
-node :journals do |journals|
+node :journals do |_journals|
   @journals.map do |journal|
     partial "api/v2/planning_element_journals/journal", object: journal
   end

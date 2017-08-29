@@ -33,8 +33,8 @@ describe 'API::V3::WorkPackages::AvailableProjectsOnEditAPI', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:edit_role) do
-    FactoryGirl.create(:role, permissions: [:edit_work_packages,
-                                            :view_work_packages])
+    FactoryGirl.create(:role, permissions: %i[edit_work_packages
+                                              view_work_packages])
   end
   let(:move_role) do
     FactoryGirl.create(:role, permissions: [:move_work_packages])

@@ -40,7 +40,6 @@ describe WikiPage, type: :model do
   end
 
   describe '#create' do
-
     context 'when another project with same title exists' do
       let(:project2) { FactoryGirl.create(:project) }
       let(:wiki2) { project2.wiki }

@@ -53,7 +53,7 @@ module API
 
               def authorize_edit_own(activity)
                 authorize({ controller: :journals, action: :edit },
-                          context: activity.journable.project)
+                          { context: activity.journable.project })
               end
             end
 

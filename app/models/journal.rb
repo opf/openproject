@@ -40,7 +40,7 @@ class Journal < ActiveRecord::Base
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, scope: [:journable_id, :journable_type]
+  validates_uniqueness_of :version, scope: %i[journable_id journable_type]
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
@@ -171,6 +171,6 @@ class Journal < ActiveRecord::Base
   end
 
   def journalized_object_type
-    "#{journaled_type.gsub('Journal', '')}".constantize
+    journaled_type.gsub('Journal', '').to_s.constantize
   end
 end

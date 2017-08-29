@@ -34,7 +34,7 @@ describe WorkPackage, type: :model do
 
   describe 'validations' do
     # validations
-    [:subject, :priority, :project, :type, :author, :status].each do |field|
+    %i[subject priority project type author status].each do |field|
       it { is_expected.to validate_presence_of field }
     end
 

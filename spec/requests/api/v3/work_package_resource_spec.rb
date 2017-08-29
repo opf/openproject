@@ -44,7 +44,7 @@ describe 'API v3 Work package resource', type: :request do
     FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
   end
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :view_timelines, :edit_work_packages] }
+  let(:permissions) { %i[view_work_packages view_timelines edit_work_packages] }
   let(:current_user) do
     user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
 
@@ -162,7 +162,8 @@ describe 'API v3 Work package resource', type: :request do
       * Debonaire
 
       {{timeline(#{timeline.id})}}
-        } end
+        }
+        end
 
         it 'should respond with work package in HAL+JSON format' do
           expect(parsed_response['id']).to eq(work_package.id)
@@ -614,7 +615,7 @@ describe 'API v3 Work package resource', type: :request do
 
           describe 'valid' do
             shared_examples_for 'valid user assignment' do
-              let(:title) { "#{assigned_user.name}".to_json }
+              let(:title) { assigned_user.name.to_s.to_json }
 
               it { expect(response.status).to eq(200) }
 
@@ -699,7 +700,7 @@ describe 'API v3 Work package resource', type: :request do
               it_behaves_like 'constraint violation' do
                 let(:message) do
                   I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                         property: "#{property.capitalize}")
+                         property: property.capitalize.to_s)
                 end
               end
             end
@@ -958,7 +959,7 @@ describe 'API v3 Work package resource', type: :request do
     subject { last_response }
 
     context 'with required permissions' do
-      let(:permissions) { [:view_work_packages, :delete_work_packages] }
+      let(:permissions) { %i[view_work_packages delete_work_packages] }
 
       it 'responds with HTTP No Content' do
         expect(subject.status).to eq 204
@@ -997,7 +998,7 @@ describe 'API v3 Work package resource', type: :request do
 
   describe '#post' do
     let(:path) { api_v3_paths.work_packages }
-    let(:permissions) { [:add_work_packages, :view_project] }
+    let(:permissions) { %i[add_work_packages view_project] }
     let(:status) { FactoryGirl.build(:status, is_default: true) }
     let(:priority) { FactoryGirl.build(:priority, is_default: true) }
     let(:type) { project.types.first }
@@ -1024,7 +1025,7 @@ describe 'API v3 Work package resource', type: :request do
     end
 
     context 'notifications' do
-      let(:permissions) { [:add_work_packages, :view_project, :view_work_packages] }
+      let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
         expect(ActionMailer::Base.deliveries.count).to eq(1)

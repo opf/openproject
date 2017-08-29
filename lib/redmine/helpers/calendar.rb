@@ -78,14 +78,14 @@ module Redmine
       # 1 = Monday ... 7 = Sunday
       def first_wday
         @first_dow ||= case Setting.start_of_week.to_i
-        when 1
-          (1 - 1) % 7 + 1
-        when 6
-          (6 - 1) % 7 + 1
-        when 7
-          (7 - 1) % 7 + 1
-        else
-          (l(:general_first_day_of_week).to_i - 1) % 7 + 1
+                       when 1
+                         (1 - 1) % 7 + 1
+                       when 6
+                         (6 - 1) % 7 + 1
+                       when 7
+                         (7 - 1) % 7 + 1
+                       else
+                         (l(:general_first_day_of_week).to_i - 1) % 7 + 1
                        end
       end
 

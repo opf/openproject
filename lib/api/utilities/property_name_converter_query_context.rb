@@ -42,8 +42,7 @@ module API
         super(WorkPackage.new)
       end
 
-      def subproject_id
-      end
+      def subproject_id; end
     end
   end
 end

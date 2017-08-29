@@ -36,9 +36,9 @@ module Redmine
 
       def highlighter=(name)
         @highlighter = if name.is_a?(Module)
-          name
-        else
-          const_get(name)
+                         name
+                       else
+                         const_get(name)
                        end
       end
     end

@@ -78,34 +78,42 @@ module API
         end
 
         link :sumsSchema do
-          {
-            href: api_v3_paths.work_package_sums_schema
-          } if total_sums || groups && groups.any?(&:has_sums?)
+          if total_sums || groups && groups.any?(&:has_sums?)
+            {
+              href: api_v3_paths.work_package_sums_schema
+            }
+          end
         end
 
         link :createWorkPackage do
-          {
-            href: api_v3_paths.create_work_package_form,
-            method: :post
-          } if current_user_allowed_to_add_work_packages?
+          if current_user_allowed_to_add_work_packages?
+            {
+              href: api_v3_paths.create_work_package_form,
+              method: :post
+            }
+          end
         end
 
         link :createWorkPackageImmediate do
-          {
-            href: api_v3_paths.work_packages,
-            method: :post
-          } if current_user_allowed_to_add_work_packages?
+          if current_user_allowed_to_add_work_packages?
+            {
+              href: api_v3_paths.work_packages,
+              method: :post
+            }
+          end
         end
 
         link :schemas do
-          {
-            href: schemas_path
-          } if represented.any?
+          if represented.any?
+            {
+              href: schemas_path
+            }
+          end
         end
 
         link :customFields do
           if project.present? &&
-              (current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: project))
+             (current_user.try(:admin?) || current_user_allowed_to(:edit_project, context: project))
             {
               href: settings_project_path(project.identifier, tab: 'custom_fields'),
               type: 'text/html',
@@ -119,7 +127,7 @@ module API
         end
 
         collection :elements,
-                   getter: -> (*) {
+                   getter: ->(*) {
                      generated_classes = ::Hash.new do |hash, work_package|
                        hit = hash.values.find do |klass|
                          klass.customizable.type_id == work_package.type_id &&

@@ -95,7 +95,7 @@ module WorkPackage::PdfExport::Common
   def format_description_segments!(cells)
     cells.first.padding[0] = cell_padding[0] # top padding
     cells.last.padding[2] = cell_padding[2] # bottom padding
-    cells.last.borders = [:left, :right, :bottom]
+    cells.last.borders = %i[left right bottom]
     cells
   end
 
@@ -111,7 +111,7 @@ module WorkPackage::PdfExport::Common
 
   def make_description_segment(description, options = {})
     cell_options = {
-      borders: [:left, :right],
+      borders: %i[left right],
       padding: [0, cell_padding[1], 0, cell_padding[3]]
     }
 

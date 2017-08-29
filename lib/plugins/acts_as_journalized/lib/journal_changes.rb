@@ -39,9 +39,9 @@ module JournalChanges
       @changes = data.journaled_attributes
                      .reject { |_, new_value| new_value.nil? }
                      .inject({}) do |result, (attribute, new_value)|
-                   result[attribute] = [nil, new_value]
-                   result
-                 end
+        result[attribute] = [nil, new_value]
+        result
+      end
     else
       normalized_new_data = JournalManager.normalize_newlines(data.journaled_attributes)
       normalized_old_data = JournalManager.normalize_newlines(predecessor.data.journaled_attributes)
@@ -55,8 +55,8 @@ module JournalChanges
       end
     end
 
-    @changes.merge!(get_association_changes predecessor, 'attachable', 'attachments', :attachment_id, :filename)
-    @changes.merge!(get_association_changes predecessor, 'customizable', 'custom_fields', :custom_field_id, :value)
+    @changes.merge!(get_association_changes(predecessor, 'attachable', 'attachments', :attachment_id, :filename))
+    @changes.merge!(get_association_changes(predecessor, 'customizable', 'custom_fields', :custom_field_id, :value))
   end
 
   def get_association_changes(predecessor, journal_association, association, key, value)

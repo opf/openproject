@@ -33,9 +33,9 @@ describe AttachmentsController, type: :controller do
   let(:project) { FactoryGirl.create(:project) }
   let(:role) do
     FactoryGirl.create(:role,
-                       permissions: [:edit_work_packages,
-                                     :view_work_packages,
-                                     :delete_wiki_pages_attachments])
+                       permissions: %i[edit_work_packages
+                                       view_work_packages
+                                       delete_wiki_pages_attachments])
   end
   let!(:member) do
     FactoryGirl.create(:member,

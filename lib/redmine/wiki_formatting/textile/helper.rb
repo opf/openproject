@@ -42,7 +42,7 @@ module Redmine
                                     type: 'button',
                                     class: 'jstb_help',
                                     onclick: open_help,
-                                    :'aria-label' => ::I18n.t('js.inplace.link_formatting_help'),
+                                    'aria-label': ::I18n.t('js.inplace.link_formatting_help'),
                                     title: ::I18n.t('js.inplace.link_formatting_help')
 
           javascript_tag(<<-EOF)
@@ -61,8 +61,7 @@ module Redmine
           "h1. #{@page.title}"
         end
 
-        def heads_for_wiki_formatter
-        end
+        def heads_for_wiki_formatter; end
       end
     end
   end

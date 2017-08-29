@@ -28,7 +28,7 @@
 
 class ScenarioDisabler
   def self.empty_if_disabled(scenario)
-    if self.disabled?(scenario)
+    if disabled?(scenario)
       scenario.skip_invoke!
       true
     else

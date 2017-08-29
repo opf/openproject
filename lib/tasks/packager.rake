@@ -30,7 +30,6 @@
 
 require 'open3'
 namespace :packager do
-
   def shell_setup(cmd, raise_on_error: true)
     out_and_err, status = Open3.capture2e(ENV['APP_NAME'], *cmd)
 
@@ -48,7 +47,6 @@ namespace :packager do
   # avoids to load the environment multiple times.
   # Removes older assets
   task postinstall: [:environment, 'assets:clean', 'setup:scm'] do
-
     # We need to precompile assets when either
     # 1. packager requested it (e.g., due to a server prefix being set)
     # 2. When a custom Gemfile is added
@@ -85,7 +83,7 @@ namespace :packager do
       old_relative_root = ENV['RAILS_RELATIVE_URL_ROOT'] || ''
       relative_root = ENV['SERVER_PATH_PREFIX'] || '/'
 
-      if relative_root != '/' || "#{old_relative_root}/" != relative_root
+      if relative_root != '/' || relative_root != "#{old_relative_root}/"
         # Rails expects relative root not to have a trailing slash,
         # but most of our packager setup scripts require it, thus remove it here.
         new_root = relative_root.chomp('/')

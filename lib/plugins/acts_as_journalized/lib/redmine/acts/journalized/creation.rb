@@ -163,9 +163,8 @@ module Redmine::Acts::Journalized
       # default is to journal all columns. At any rate, the four "automagic" timestamp columns
       # maintained by Rails are never journaled.
       def journaled_columns
-        case
-        when vestal_journals_options[:only] then self.class.column_names & vestal_journals_options[:only]
-        when vestal_journals_options[:except] then self.class.column_names - vestal_journals_options[:except]
+        if vestal_journals_options[:only] then self.class.column_names & vestal_journals_options[:only]
+        elsif vestal_journals_options[:except] then self.class.column_names - vestal_journals_options[:except]
         else self.class.column_names
         end - %w(created_at updated_at)
       end
@@ -181,8 +180,7 @@ module Redmine::Acts::Journalized
       def journal_attributes
         { journaled_id: id, activity_type: activity_type,
           details: journal_changes, version: last_version + 1,
-          notes: journal_notes, user_id: (journal_user.try(:id) || User.current.try(:id))
-        }.merge(extra_journal_attributes || {})
+          notes: journal_notes, user_id: (journal_user.try(:id) || User.current.try(:id)) }.merge(extra_journal_attributes || {})
       end
     end
   end

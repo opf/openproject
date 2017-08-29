@@ -52,7 +52,7 @@ describe UserInvitation do
     let!(:token) { FactoryGirl.create :token, user: user, action: UserInvitation.token_action }
 
     it 'notifies listeners of the re-invite' do
-      expect(OpenProject::Notifications).to receive(:send) do |event, new_token|
+      expect(OpenProject::Notifications).to receive(:send) do |event, _new_token|
         expect(event).to eq 'user_reinvited'
       end
 

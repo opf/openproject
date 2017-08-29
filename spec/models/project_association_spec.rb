@@ -89,10 +89,10 @@ describe ProjectAssociation, type: :model do
 
       expect(project_association).not_to be_valid
 
-      expect(project_association.errors[:base]).to eq([I18n.t(:identical_projects, scope: [:activerecord,
-                                                                                           :errors,
-                                                                                           :models,
-                                                                                           :project_association])])
+      expect(project_association.errors[:base]).to eq([I18n.t(:identical_projects, scope: %i[activerecord
+                                                                                             errors
+                                                                                             models
+                                                                                             project_association])])
     end
 
     describe 'project_a' do

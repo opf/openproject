@@ -33,15 +33,15 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
   let(:project) { FactoryGirl.create :project }
   let(:wiki_page_1) do
     FactoryGirl.build :wiki_page_with_content,
-                       title: '<script>alert("FOO")</script>'
+                      title: '<script>alert("FOO")</script>'
   end
   let(:wiki_page_2) do
     FactoryGirl.build :wiki_page_with_content,
-                       title: 'Base de données'
+                      title: 'Base de données'
   end
   let(:wiki_page_3) do
     FactoryGirl.build :wiki_page_with_content,
-                       title: 'Base_de_données'
+                      title: 'Base_de_données'
   end
 
   let(:wiki_body) do

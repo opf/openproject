@@ -105,7 +105,7 @@ module OpenProject
       # @yieldparam user [User] User who has been logged in.
       # @yieldparam auth_hash [AuthHash] auth_hash OmniAuth authentication information
       #                                  including user info and credentials.
-      # @yieldparam context The context from which the callback is called, e.g. a Controller.                    
+      # @yieldparam context The context from which the callback is called, e.g. a Controller.
       def self.after_login(&block)
         add_after_login_callback AfterLoginBlockCallback.new(&block)
       end
@@ -255,9 +255,9 @@ module OpenProject
         ##
         # Passes each element to the given block and returns the
         # result of the block as soon as it's truthy.
-        def find_map(&block)
+        def find_map
           each do |e|
-            result = block.call e
+            result = yield e
 
             return result if result
           end

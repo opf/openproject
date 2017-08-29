@@ -389,7 +389,7 @@ module LegacyAssertionsAndHelpers
             @user = FactoryGirl.create(:user, admin: true)
             @token = FactoryGirl.create(:token, user: @user, action: 'api')
             # Simple url parse to add on ?key= or &key=
-            request_url = if url.match(/\?/)
+            request_url = if url =~ /\?/
                             url + "&key=#{@token.value}"
                           else
                             url + "?key=#{@token.value}"
@@ -409,7 +409,7 @@ module LegacyAssertionsAndHelpers
             @user = FactoryGirl.create(:user)
             @token = FactoryGirl.create(:token, user: @user, action: 'feeds')
             # Simple url parse to add on ?key= or &key=
-            request_url = if url.match(/\?/)
+            request_url = if url =~ /\?/
                             url + "&key=#{@token.value}"
                           else
                             url + "?key=#{@token.value}"
@@ -447,10 +447,9 @@ module LegacyAssertionsAndHelpers
   #
   # @param [String] url Request
   def should_respond_with_content_type_based_on_url(url)
-    case
-    when url.match(/xml/i)
+    if url =~ /xml/i
       should_respond_with_content_type 'application/xml'
-    when url.match(/json/i)
+    elsif url =~ /json/i
       should_respond_with_content_type 'application/json'
     else
       raise "Unknown content type for should_respond_with_content_type_based_on_url: #{url}"
@@ -464,10 +463,9 @@ module LegacyAssertionsAndHelpers
   #
   # @param [String] url Request
   def should_be_a_valid_response_string_based_on_url(url)
-    case
-    when url.match(/xml/i)
+    if url =~ /xml/i
       should_be_a_valid_xml_string
-    when url.match(/json/i)
+    elsif url =~ /json/i
       should_be_a_valid_json_string
     else
       raise "Unknown content type for should_be_a_valid_response_based_on_url: #{url}"

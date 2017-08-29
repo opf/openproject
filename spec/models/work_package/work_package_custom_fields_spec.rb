@@ -272,7 +272,7 @@ describe WorkPackage, type: :model do
 
       describe 'value' do
         let(:relevant_journal) do
-          work_package.journals.find { |j| j.customizable_journals.size > 0 }
+          work_package.journals.find { |j| !j.customizable_journals.empty? }
         end
         subject { relevant_journal.customizable_journals.first.value }
 

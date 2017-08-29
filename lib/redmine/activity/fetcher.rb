@@ -100,7 +100,7 @@ module Redmine
           end
         end
 
-        projects = Project.find(e.map(&:project_id).compact) if e.select { |e| !e.project_id.nil? }
+        projects = Project.find(e.map(&:project_id).compact) if e.reject { |e| e.project_id.nil? }
         users = User.find(e.map(&:author_id).compact)
 
         e.each do |e|

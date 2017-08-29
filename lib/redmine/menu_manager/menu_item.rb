@@ -86,6 +86,6 @@ class Redmine::MenuManager::MenuItem < Redmine::MenuManager::TreeNode
   def add_condition(new_condition)
     raise ArgumentError, 'Condition needs to be callable' unless new_condition.respond_to?(:call)
     old_condition = @condition
-    @condition = -> (project) { old_condition.call(project) && new_condition.call(project) }
+    @condition = ->(project) { old_condition.call(project) && new_condition.call(project) }
   end
 end

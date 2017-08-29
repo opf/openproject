@@ -42,8 +42,7 @@ class AuthSource < ActiveRecord::Base
   end
   prepend ::Mixins::UniqueFinder
 
-  def authenticate(_login, _password)
-  end
+  def authenticate(_login, _password); end
 
   # implemented by a subclass, should raise when no connection is possible and not raise on success
   def test_connection

@@ -53,7 +53,7 @@ FactoryGirl.define do
       (projects = evaluator.member_in_projects || [])
       projects << evaluator.member_in_project if evaluator.member_in_project
       if !projects.empty?
-        role = evaluator.member_through_role || FactoryGirl.build(:role, permissions: [:view_work_packages, :edit_work_packages])
+        role = evaluator.member_through_role || FactoryGirl.build(:role, permissions: %i[view_work_packages edit_work_packages])
         projects.each do |project|
           project.add_member! user, role if project
         end

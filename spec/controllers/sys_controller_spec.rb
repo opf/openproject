@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe SysController, type: :controller do
   let(:commit_role) do
-    FactoryGirl.create(:role, permissions: [:commit_access,
-                                            :browse_repository])
+    FactoryGirl.create(:role, permissions: %i[commit_access
+                                              browse_repository])
   end
   let(:browse_role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
   let(:guest_role) { FactoryGirl.create(:role, permissions: []) }

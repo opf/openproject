@@ -121,18 +121,18 @@ module CopyModel
     # Overwrite or set CLASS::NOT_TO_COPY to specify
     # which attributes are not safe to copy.
     def not_to_copy(should_not_be_copied = nil)
-      @not_to_copy ||= (should_not_be_copied || begin self::NOT_TO_COPY
+      @not_to_copy ||= beginshould_not_be_copied || begin self::NOT_TO_COPY
             rescue NameError
               []
-            end)
+            endend
       @not_to_copy
     end
 
     def copy_precedence(precedence = nil)
-      @copy_precedence ||= (precedence || begin self::COPY_PRECEDENCE
+      @copy_precedence ||= beginprecedence || begin self::COPY_PRECEDENCE
             rescue NameError
               []
-            end)
+            endend
       @copy_precedence
     end
 

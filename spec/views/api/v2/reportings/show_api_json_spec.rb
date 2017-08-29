@@ -72,8 +72,7 @@ describe 'api/v2/reportings/show.api.rabl', type: :view do
                                    name: 'Test Project A' },
                         reporting_to_project: { identifier: 'test_project_b',
                                                 name: 'Test Project B' },
-                        reported_project_status_comment: 'Sample Comment'
-                      }.to_json
+                        reported_project_status_comment: 'Sample Comment' }.to_json
 
       is_expected.to be_json_eql(expected_json).at_path('reporting')
     end

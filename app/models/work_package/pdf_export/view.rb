@@ -29,7 +29,6 @@
 #++
 
 class WorkPackage::PdfExport::View
-
   include Prawn::View
   include Redmine::I18n
 

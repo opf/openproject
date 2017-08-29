@@ -39,7 +39,7 @@ describe 'API v3 Activity resource', type: :request do
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:work_package) { FactoryGirl.create(:work_package, author: current_user, project: project) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :edit_work_package_notes] }
+  let(:permissions) { %i[view_work_packages edit_work_package_notes] }
   let(:activity) { work_package.journals.first }
 
   before do

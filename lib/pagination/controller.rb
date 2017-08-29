@@ -181,7 +181,7 @@ module Pagination::Controller
           page = page.to_i
 
           methods = {}
-          [:pagination, :search].each do |meth|
+          %i[pagination search].each do |meth|
             methods[meth] = if paginator.send(meth).respond_to?(:call)
                               paginator.send(meth)
                             else
@@ -214,8 +214,7 @@ module Pagination::Controller
             render json: { results:
             { items: @paginated_items.map { |item| { id: item.id, name: item.name } },
               total: @total ? @total : @paginated_items.size,
-              more:  @more ? @more : 0 }
-          }
+              more:  @more ? @more : 0 } }
           end
         end
       end

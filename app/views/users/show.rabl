@@ -31,4 +31,3 @@ attributes :id,
            :name,
            :firstname,
            :lastname
-

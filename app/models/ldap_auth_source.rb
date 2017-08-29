@@ -68,7 +68,7 @@ class LdapAuthSource < AuthSource
   private
 
   def strip_ldap_attributes
-    [:attr_login, :attr_firstname, :attr_lastname, :attr_mail, :attr_admin].each do |attr|
+    %i[attr_login attr_firstname attr_lastname attr_mail attr_admin].each do |attr|
       write_attribute(attr, read_attribute(attr).strip) unless read_attribute(attr).nil?
     end
   end
@@ -77,9 +77,8 @@ class LdapAuthSource < AuthSource
     options = { host: host,
                 port: port,
                 force_no_page: true,
-                encryption: (tls ? :simple_tls : nil)
-              }
-    options.merge!(auth: { method: :simple, username: ldap_user, password: ldap_password }) unless ldap_user.blank? && ldap_password.blank?
+                encryption: (tls ? :simple_tls : nil) }
+    options[:auth] = { method: :simple, username: ldap_user, password: ldap_password } unless ldap_user.blank? && ldap_password.blank?
     Net::LDAP.new options
   end
 
@@ -119,15 +118,15 @@ class LdapAuthSource < AuthSource
     attrs = {}
 
     Rails.logger.debug do
-      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{(object_filter & login_filter).to_s})"
+      "LDAP initializing search (BASE=#{base_dn}), (FILTER=#{(object_filter & login_filter)})"
     end
     ldap_con.search(base: base_dn,
                     filter: object_filter & login_filter,
                     attributes: search_attributes) do |entry|
       attrs = if onthefly_register?
-        get_user_attributes_from_ldap_entry(entry)
-      else
-        { dn: entry.dn }
+                get_user_attributes_from_ldap_entry(entry)
+              else
+                { dn: entry.dn }
               end
 
       Rails.logger.debug { "DN found for #{login}: #{attrs[:dn]}" }

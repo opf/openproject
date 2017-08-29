@@ -69,7 +69,7 @@ describe WorkPackage::SpentTime, type: :model do
   end
   let(:role) do
     FactoryGirl.build(:role,
-                      permissions: [:view_time_entries, :view_work_packages])
+                      permissions: %i[view_time_entries view_work_packages])
   end
   let(:role_without_view_time_entries) do
     FactoryGirl.build(:role,

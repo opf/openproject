@@ -70,7 +70,7 @@ module OpenProject
       class Entry
         attr_accessor :name, :path, :kind, :size, :lastrev
         def initialize(attributes = {})
-          [:name, :path, :kind, :size].each do |attr|
+          %i[name path kind size].each do |attr|
             send("#{attr}=", attributes[attr])
           end
 
@@ -79,11 +79,11 @@ module OpenProject
         end
 
         def file?
-          'file' == kind
+          kind == 'file'
         end
 
         def dir?
-          'dir' == kind
+          kind == 'dir'
         end
       end
 
@@ -104,7 +104,7 @@ module OpenProject
         attr_writer :identifier
 
         def initialize(attributes = {})
-          [:identifier, :scmid, :author, :time, :paths, :revision, :branch].each do |attr|
+          %i[identifier scmid author time paths revision branch].each do |attr|
             send("#{attr}=", attributes[attr])
           end
 

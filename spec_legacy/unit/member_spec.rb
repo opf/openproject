@@ -123,7 +123,7 @@ describe Member, type: :model do
       Watcher.create!(watchable: FactoryGirl.create(:wiki, project: @private_project), user: @watcher_user)
       @private_project.reload # to access @private_project.wiki
       Watcher.create!(watchable: FactoryGirl.create(:wiki_page, wiki: @private_project.wiki), user: @watcher_user)
-      @private_role = FactoryGirl.create :role, permissions: [:view_wiki_pages, :view_work_packages]
+      @private_role = FactoryGirl.create :role, permissions: %i[view_wiki_pages view_work_packages]
 
       @private_project.is_public = false
       @private_project.save

@@ -48,6 +48,6 @@ FactoryGirl.define do
       sequence(:name) { |n| "Global query #{n}" }
     end
 
-    callback(:after_build) { |query| query.add_default_filter }
+    callback(:after_build, &:add_default_filter)
   end
 end

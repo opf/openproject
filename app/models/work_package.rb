@@ -149,8 +149,8 @@ class WorkPackage < ActiveRecord::Base
   acts_as_searchable columns: ['subject',
                                "#{table_name}.description",
                                "#{Journal.table_name}.notes"],
-                     include: [:project, :journals],
-                     references: [:projects, :journals],
+                     include: %i[project journals],
+                     references: %i[projects journals],
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
@@ -790,7 +790,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def reload_lock_and_timestamps
-    reload(select: [:lock_version, :created_at, :updated_at])
+    reload(select: %i[lock_version created_at updated_at])
   end
 
   def <=>(issue)

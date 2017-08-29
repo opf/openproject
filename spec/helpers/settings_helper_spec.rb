@@ -88,7 +88,7 @@ describe SettingsHelper, type: :helper do
     end
 
     subject(:output) do
-      settings = [:field_a, :field_b]
+      settings = %i[field_a field_b]
       choices = [
         {
           caption: 'Popsickle',

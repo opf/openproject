@@ -48,7 +48,7 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   end
 
   def self.work_package_title(id, subject, type_name, status_name, is_standard)
-    title = "#{is_standard ? '' : "#{type_name}"} ##{id}: #{subject}"
+    title = "#{is_standard ? '' : type_name.to_s} ##{id}: #{subject}"
     title << " (#{status_name})" unless status_name.blank?
   end
 
@@ -67,9 +67,9 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
     journal = Journal.find(event['event_id'])
 
     state = if journal.details.empty? && !journal.initial?
-      '-note'
-    else
-      ActiveRecord::Type::Boolean.new.cast(event['status_closed']) ? '-closed' : '-edit'
+              '-note'
+            else
+              ActiveRecord::Type::Boolean.new.cast(event['status_closed']) ? '-closed' : '-edit'
             end
 
     "work_package#{state}"
@@ -89,6 +89,6 @@ class Activity::WorkPackageActivityProvider < Activity::BaseActivityProvider
   def notes_anchor(event)
     version = event['version'].to_i
 
-    (version > 1) ? "note-#{version - 1}" : ''
+    version > 1 ? "note-#{version - 1}" : ''
   end
 end

@@ -72,7 +72,8 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
                         permissions: {
                           edit_planning_elements: true,
                           delete_planning_elements: true,
-                          view_planning_elements: true },
+                          view_planning_elements: true
+                        },
                         custom_fields: [],
                         project_type: { name: 'SampleType' },
                         created_on: '2011-01-06T11:35:00Z',
@@ -270,7 +271,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
       custom_value = CustomValue.new(
         custom_field: custom_field,
         value: 'Wurst'
-)
+      )
       project.custom_values << custom_value
 
       assign(:project, project)

@@ -31,11 +31,11 @@ require 'spec_helper'
 describe Timeline, 'reporting and grouping', type: :feature, js: true do
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) do
-    [:view_work_packages,
-     :view_timelines,
-     :edit_timelines,
-     :view_reportings,
-     :edit_work_packages]
+    %i[view_work_packages
+       view_timelines
+       edit_timelines
+       view_reportings
+       edit_work_packages]
   end
   let(:project) { FactoryGirl.create(:project) }
   let(:empty_project) { FactoryGirl.create(:project, parent: empty_project_parent) }

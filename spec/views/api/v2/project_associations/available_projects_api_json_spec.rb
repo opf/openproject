@@ -67,8 +67,7 @@ describe 'api/v2/project_associations/available_projects.api.rabl', type: :view 
                         level: 1,
                         disabled: false,
                         created_on: '2011-01-06T11:35:00Z',
-                        updated_on: '2011-01-07T11:35:00Z'
-                       }.to_json
+                        updated_on: '2011-01-07T11:35:00Z' }.to_json
       is_expected.to be_json_eql(expected_json).at_path('projects/0')
     end
   end

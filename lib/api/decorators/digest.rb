@@ -39,12 +39,12 @@ module API
 
       property :algorithm,
                exec_context: :decorator,
-               getter: -> (*) { @algorithm },
+               getter: ->(*) { @algorithm },
                writable: false,
                render_nil: true
       property :hash,
                exec_context: :decorator,
-               getter: -> (*) { represented },
+               getter: ->(*) { represented },
                render_nil: true
     end
   end

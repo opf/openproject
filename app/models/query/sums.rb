@@ -101,7 +101,7 @@ module ::Query::Sums
 
   def crunch(num)
     return num if num.nil? or num.integer?
-    Float(format '%.2f', num.to_f)
+    Float(format('%.2f', num.to_f))
   end
 
   def group_for_issue(issue = @current_issue)

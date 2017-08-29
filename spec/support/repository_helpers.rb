@@ -35,7 +35,7 @@
 # due to performance.
 # As we do not write to the repository, we don't need this kind
 # of isolation.
-def with_filesystem_repository(vendor, command = nil, &block)
+def with_filesystem_repository(vendor, command = nil)
   repo_dir = File.join(Rails.root, 'tmp', 'test', "#{vendor}_repository")
   fixture = File.join(Rails.root, "spec/fixtures/repositories/#{vendor}_repository.tar.gz")
 
@@ -58,7 +58,7 @@ def with_filesystem_repository(vendor, command = nil, &block)
     FileUtils.remove_dir repo_dir
   end
 
-  block.call(repo_dir)
+  yield(repo_dir)
 end
 
 def with_subversion_repository(&block)
@@ -75,12 +75,12 @@ end
 # no actual filesystem access occurred.
 # Instead, we wrap these repository specs in a virtual
 # subversion repository which does not exist on disk.
-def with_virtual_subversion_repository(&block)
+def with_virtual_subversion_repository
   let(:repository) { FactoryGirl.create(:repository_subversion) }
 
   before do
     allow(Setting).to receive(:enabled_scm).and_return(['subversion'])
   end
 
-  block.call
+  yield
 end

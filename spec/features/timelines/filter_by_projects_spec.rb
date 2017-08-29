@@ -31,11 +31,11 @@ require 'spec_helper'
 describe Timeline, 'fitler by projects', type: :feature, js: true do
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) do
-    [:view_work_packages,
-     :view_timelines,
-     :view_reportings,
-     :edit_timelines,
-     :edit_work_packages]
+    %i[view_work_packages
+       view_timelines
+       view_reportings
+       edit_timelines
+       edit_work_packages]
   end
   let(:project) { FactoryGirl.create(:project) }
   let(:project1) { FactoryGirl.create(:project) }

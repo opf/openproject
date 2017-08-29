@@ -209,7 +209,7 @@ describe AccountController, type: :controller do
   end
 
   describe '#login with omniauth_direct_login enabled',
-            with_config: { omniauth_direct_login_provider: 'some_provider' } do
+           with_config: { omniauth_direct_login_provider: 'some_provider' } do
 
     describe 'GET' do
       it 'redirects to some_provider' do
@@ -475,7 +475,7 @@ describe AccountController, type: :controller do
         it 'preserves the back url' do
           expect(response).to redirect_to(
             '/login?back_url=https%3A%2F%2Fexample.net%2Fsome_back_url'
-)
+          )
         end
       end
 

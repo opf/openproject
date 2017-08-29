@@ -205,7 +205,7 @@ class JournalManager
 
   def self.create_journal_data(_journal_id, type, changed_data)
     journal_class = journal_class type
-    new_data = Hash[changed_data.map { |k, v| [k, (v.is_a? Array) ? v.last : v] }]
+    new_data = Hash[changed_data.map { |k, v| [k, v.is_a? Array ? v.last : v] }]
 
     journal_class.new new_data
   end

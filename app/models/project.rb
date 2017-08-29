@@ -44,7 +44,7 @@ class Project < ActiveRecord::Base
   IDENTIFIER_MAX_LENGTH = 100
 
   # reserved identifiers
-  RESERVED_IDENTIFIERS = %w( new level_list ).freeze
+  RESERVED_IDENTIFIERS = %w(new level_list).freeze
 
   # Specific overridden Activities
   has_many :time_entry_activities
@@ -65,7 +65,7 @@ class Project < ActiveRecord::Base
       .references(:principals, :roles)
   }, class_name: 'Member'
   # Read only
-  has_many :possible_assignees, -> (object){
+  has_many :possible_assignees, ->(object) {
     # Have to reference members and roles again although
     # possible_assignee_members does already specify it to be able to use the
     # Project.possible_principles_condition there
@@ -77,8 +77,8 @@ class Project < ActiveRecord::Base
       .references(:roles)
       .merge(Principal.order_by_name)
   },
-  through: :possible_assignee_members,
-  source: :principal
+           through: :possible_assignee_members,
+           source: :principal
   has_many :possible_responsible_members, -> {
     includes(:principal, :roles)
       .where(Project.possible_principles_condition)
@@ -163,7 +163,7 @@ class Project < ActiveRecord::Base
   # starts with lower-case letter, a-z, 0-9, dashes and underscores afterwards
   validates :identifier,
             format: { with: /\A[a-z][a-z0-9\-_]*\z/ },
-            if: -> (p) { p.identifier_changed? }
+            if: ->(p) { p.identifier_changed? }
   # reserved words
   validates_exclusion_of :identifier, in: RESERVED_IDENTIFIERS
 
@@ -216,22 +216,22 @@ class Project < ActiveRecord::Base
 
   include TimelinesCollectionProxy
 
-  collection_proxy :project_associations, for: [:project_a_associations,
-                                                :project_b_associations] do
+  collection_proxy :project_associations, for: %i[project_a_associations
+                                                  project_b_associations] do
     def visible(user = User.current)
       all.select { |assoc| assoc.visible?(user) }
     end
   end
 
-  collection_proxy :associated_projects, for: [:associated_a_projects,
-                                               :associated_b_projects] do
+  collection_proxy :associated_projects, for: %i[associated_a_projects
+                                                 associated_b_projects] do
     def visible(user = User.current)
       all.select { |other| other.visible?(user) }
     end
   end
 
-  collection_proxy :reportings, for: [:reportings_via_source,
-                                      :reportings_via_target],
+  collection_proxy :reportings, for: %i[reportings_via_source
+                                        reportings_via_target],
                                 leave_public: true
 
   def associated_project_candidates(user = User.current)
@@ -263,7 +263,7 @@ class Project < ActiveRecord::Base
   end
 
   def visible?(user = User.current)
-    self.active? and (self.is_public? or user.admin? or user.member_of?(self))
+    active? and (is_public? or user.admin? or user.member_of?(self))
   end
 
   def allows_association?

@@ -165,9 +165,9 @@ describe WorkPackage, type: :model do
         subject { work_package.journals.last.details }
 
         it 'contains all changes' do
-          [:subject, :description, :type_id, :status_id, :priority_id,
-           :start_date, :due_date, :estimated_hours, :assigned_to_id,
-           :responsible_id, :parent_id].each do |a|
+          %i[subject description type_id status_id priority_id
+             start_date due_date estimated_hours assigned_to_id
+             responsible_id parent_id].each do |a|
             expect(subject).to have_key(a.to_s), "Missing change for #{a}"
           end
         end
@@ -368,7 +368,7 @@ describe WorkPackage, type: :model do
 
           it { expect(work_package.journals.last.customizable_journals).to be_empty }
 
-          it { expect(JournalManager.changed? work_package).to be_falsey }
+          it { expect(JournalManager.changed?(work_package)).to be_falsey }
         end
 
         describe 'empty values handled as non existing' do

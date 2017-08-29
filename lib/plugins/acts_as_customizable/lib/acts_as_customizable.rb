@@ -243,11 +243,13 @@ module Redmine
         def respond_to_missing?(method, include_private = false)
           super_value = super
 
-          for_custom_field_accessor(method) do |custom_field|
-            # pro-actively add the accessors, the method will probably be called next
-            add_custom_field_accessors(custom_field)
-            return true
-          end unless super_value
+          unless super_value
+            for_custom_field_accessor(method) do |custom_field|
+              # pro-actively add the accessors, the method will probably be called next
+              add_custom_field_accessors(custom_field)
+              return true
+            end
+          end
 
           super_value
         end

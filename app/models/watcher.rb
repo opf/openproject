@@ -33,7 +33,7 @@ class Watcher < ActiveRecord::Base
   belongs_to :user
 
   validates_presence_of :watchable, :user
-  validates_uniqueness_of :user_id, scope: [:watchable_type, :watchable_id]
+  validates_uniqueness_of :user_id, scope: %i[watchable_type watchable_id]
 
   validate :validate_active_user
   validate :validate_user_allowed_to_watch
@@ -107,7 +107,7 @@ class Watcher < ActiveRecord::Base
                                           watchable_class.acts_as_watchable_permission)
                               .pluck(:id)
         watchers
-          .select { |w| !allowed_project_ids.include?(w.watchable.project.id) }
+          .reject { |w| allowed_project_ids.include?(w.watchable.project.id) }
           .each(&:destroy)
       end
     end
@@ -120,7 +120,7 @@ class Watcher < ActiveRecord::Base
                            .pluck(:id)
 
         watchers
-          .select { |c| !allowed_user_ids.include?(c.user_id) }
+          .reject { |c| allowed_user_ids.include?(c.user_id) }
           .each(&:destroy)
       end
     end

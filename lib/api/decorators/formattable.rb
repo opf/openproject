@@ -46,16 +46,16 @@ module API
 
       property :format,
                exec_context: :decorator,
-               getter: -> (*) { @format },
+               getter: ->(*) { @format },
                writable: false,
                render_nil: true
       property :raw,
                exec_context: :decorator,
-               getter: -> (*) { represented },
+               getter: ->(*) { represented },
                render_nil: true
       property :html,
                exec_context: :decorator,
-               getter: -> (*) { to_html },
+               getter: ->(*) { to_html },
                writable: false,
                render_nil: true
 

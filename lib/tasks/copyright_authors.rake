@@ -68,7 +68,7 @@ namespace :copyright do
 
     def format_contribution_periods(contribution_periods)
       contribution_periods.each_with_object({}) do |c, h|
-        date = (c.begin == c.end) ? c.begin.to_s : "#{c.begin} - #{c.end}"
+        date = c.begin == c.end ? c.begin.to_s : "#{c.begin} - #{c.end}"
         h[date] = [] unless h.has_key? date
         h[date] << c.author
       end

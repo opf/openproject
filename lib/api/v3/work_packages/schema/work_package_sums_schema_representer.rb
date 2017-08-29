@@ -60,7 +60,7 @@ module API
                  type: 'Duration',
                  required: false,
                  writable: false,
-                 show_if: -> (*) {
+                 show_if: ->(*) {
                    ::Setting.work_package_list_summable_columns.include?('estimated_hours')
                  }
         end

@@ -141,7 +141,7 @@ describe Authorization::QueryTransformations do
         args
       end
 
-      expected_order = [:transformation1, :transformation2]
+      expected_order = %i[transformation1 transformation2]
 
       expect do
         instance.register(:on, :transformation2, before: [:transformation1]) do |*args|

@@ -183,11 +183,11 @@ describe Api::V2::WorkflowsController, type: :controller do
 
                 it { expect(workflow_type_1_roles.length).to eq(3) }
 
-                it { expect(workflow_type_1_roles.uniq).to match_array([:role, :author, :assignee]) }
+                it { expect(workflow_type_1_roles.uniq).to match_array(%i[role author assignee]) }
 
                 it { expect(workflow_type_1_status_3.transitions.length).to eq(2) }
 
-                it { expect(workflow_type_1_status_3.transitions.map(&:scope)).to match_array([:author, :assignee]) }
+                it { expect(workflow_type_1_status_3.transitions.map(&:scope)).to match_array(%i[author assignee]) }
               end
             end
           end

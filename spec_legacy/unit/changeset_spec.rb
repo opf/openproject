@@ -191,7 +191,7 @@ describe Changeset, type: :model do
         project: Project.find(3),
         scm_type: 'existing',
         url:      'svn://localhost/test'
-)
+      )
 
       c = Changeset.new(repository: r,
                         committed_on: Time.now,
@@ -211,7 +211,7 @@ describe Changeset, type: :model do
       c = Changeset.new(
         scmid:    '7234cb2750b63f47bff735edc50a1c0a433c2518',
         revision: '7234cb2750b63f47bff735edc50a1c0a433c2518'
-)
+      )
       assert_equal 'commit:7234cb2750b63f47bff735edc50a1c0a433c2518', c.text_tag
     end
 

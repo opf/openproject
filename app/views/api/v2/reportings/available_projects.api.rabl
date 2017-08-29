@@ -37,6 +37,5 @@ node do |element|
                          level: level,
                          created_on: project.created_on.utc.iso8601,
                          updated_on: project.updated_on.utc.iso8601,
-                         disabled: @disabled.include?(project)
-                        }
+                         disabled: @disabled.include?(project) }
 end

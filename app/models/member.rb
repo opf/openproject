@@ -127,8 +127,10 @@ class Member < ActiveRecord::Base
   # Note: This logic is duplicated for mass deletion in `app/models/group/destroy.rb`.
   #       Accordingly it has to be changed there too should this bit change at all.
   def remove_from_category_assignments
-    Category.where(['project_id = ? AND assigned_to_id = ?', project_id, user_id])
-            .update_all 'assigned_to_id = NULL' if user
+    if user
+      Category.where(['project_id = ? AND assigned_to_id = ?', project_id, user_id])
+              .update_all 'assigned_to_id = NULL'
+    end
   end
 
   ##
@@ -164,7 +166,7 @@ class Member < ActiveRecord::Base
   end
 
   def do_add_role(role_or_role_id, inherited_from_id, save_immediately)
-    id = (role_or_role_id.is_a? Role) ? role_or_role_id.id : role_or_role_id
+    id = role_or_role_id.is_a? Role ? role_or_role_id.id : role_or_role_id
 
     if save_immediately
       member_roles << MemberRole.new.tap do |member_role|
@@ -183,10 +185,10 @@ class Member < ActiveRecord::Base
   # when no roles are left.
   def do_assign_roles(roles_or_role_ids, save_and_possibly_destroy)
     # ensure we have integer ids
-    ids = roles_or_role_ids.map { |r| (r.is_a? Role) ? r.id : r.to_i }
+    ids = roles_or_role_ids.map { |r| r.is_a? Role ? r.id : r.to_i }
 
     # Keep inherited roles
-    ids += member_roles.select { |mr| !mr.inherited_from.nil? }.map(&:role_id)
+    ids += member_roles.reject { |mr| mr.inherited_from.nil? }.map(&:role_id)
 
     new_role_ids = ids - role_ids
     # Add new roles
@@ -195,7 +197,7 @@ class Member < ActiveRecord::Base
     new_role_ids.each { |id| do_add_role(id, nil, save_and_possibly_destroy) }
 
     # Remove roles (Rails' #role_ids= will not trigger MemberRole#on_destroy)
-    member_roles_to_destroy = member_roles.select { |mr| !ids.include?(mr.role_id) }
+    member_roles_to_destroy = member_roles.reject { |mr| ids.include?(mr.role_id) }
     member_roles_to_destroy.each { |mr| do_remove_member_role(mr, save_and_possibly_destroy) }
   end
 

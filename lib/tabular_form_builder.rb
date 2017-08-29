@@ -129,7 +129,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                               prefix.html_safe,
                               class: 'form--field-affix',
                               id: options[:prefix_id],
-                              :'aria-hidden' => true)
+                              'aria-hidden': true)
     end
 
     if suffix
@@ -137,7 +137,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                              suffix.html_safe,
                              class: 'form--field-affix',
                              id: options[:suffix_id],
-                             :'aria-hidden' => true)
+                             'aria-hidden': true)
     end
 
     field_container_wrap_field(ret, options)
@@ -145,7 +145,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def merge_required_attributes(required, options = nil)
     if required
-      options.merge!(required: true, :'aria-required' => 'true')
+      options.merge!(required: true, 'aria-required': 'true')
     end
   end
 
@@ -217,11 +217,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       content << content_tag('span',
                              '*',
                              class: 'form--label-required',
-                             :'aria-hidden' => true)
+                             'aria-hidden': true)
     end
   end
 
-  def label_for_field_for(options, label_options, field)
+  def label_for_field_for(options, label_options, _field)
     label_options[:for] = options[:for]
   end
 

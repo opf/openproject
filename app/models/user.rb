@@ -32,10 +32,10 @@ require 'digest/sha1'
 
 class User < Principal
   USER_FORMATS_STRUCTURE = {
-    firstname_lastname:       [:firstname, :lastname],
+    firstname_lastname:       %i[firstname lastname],
     firstname:                [:firstname],
-    lastname_firstname:       [:lastname, :firstname],
-    lastname_coma_firstname:  [:lastname, :firstname],
+    lastname_firstname:       %i[lastname firstname],
+    lastname_coma_firstname:  %i[lastname firstname],
     username:                 [:login]
   }.freeze
 
@@ -141,11 +141,11 @@ class User < Principal
   before_destroy :reassign_associated
   before_destroy :remove_from_filter
 
-  scope :in_group, -> (group) {
+  scope :in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where(["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }
-  scope :not_in_group, -> (group) {
+  scope :not_in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
     where(["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
   }
@@ -469,8 +469,10 @@ class User < Principal
   def notified_project_ids=(ids)
     Member.where(['user_id = ?', id])
           .update_all("mail_notification = #{self.class.connection.quoted_false}")
-    Member.where(['user_id = ? AND project_id IN (?)', id, ids])
-          .update_all("mail_notification = #{self.class.connection.quoted_true}") if ids && !ids.empty?
+    if ids && !ids.empty?
+      Member.where(['user_id = ? AND project_id IN (?)', id, ids])
+            .update_all("mail_notification = #{self.class.connection.quoted_true}")
+    end
     @notified_projects_ids = nil
     notified_projects_ids
   end
@@ -483,7 +485,7 @@ class User < Principal
   def self.valid_notification_options(user = nil)
     # Note that @user.membership.size would fail since AR ignores
     # :include association option when doing a count
-    if user.nil? || user.memberships.length < 1
+    if user.nil? || user.memberships.empty?
       MAIL_NOTIFICATION_OPTIONS.reject { |option| option.first == 'selected' }
     else
       MAIL_NOTIFICATION_OPTIONS
@@ -719,12 +721,12 @@ class User < Principal
         errors.add(:password,
                    I18n.t(:reused,
                           count: Setting[:password_count_former_banned].to_i,
-                          scope: [:activerecord,
-                                  :errors,
-                                  :models,
-                                  :user,
-                                  :attributes,
-                                  :password]))
+                          scope: %i[activerecord
+                                    errors
+                                    models
+                                    user
+                                    attributes
+                                    password]))
       end
     end
   end

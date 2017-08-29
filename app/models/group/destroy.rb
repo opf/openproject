@@ -70,13 +70,13 @@ module Group::Destroy
       MemberRole
         .joins("INNER JOIN #{member_roles} b on #{member_roles}.inherited_from = b.id")
         .joins("INNER JOIN #{members} on #{members}.id = b.member_id")
-        .where("#{members}.user_id" => self.id) # group ID
+        .where("#{members}.user_id" => id) # group ID
         .delete_all
 
       # Delete all MemberRoles associating this group itself with a project.
       MemberRole
         .joins("INNER JOIN #{members} on #{members}.id = #{member_roles}.member_id")
-        .where("#{members}.user_id" => self.id)
+        .where("#{members}.user_id" => id)
         .delete_all
 
       Watcher.prune(user: users, project_id: project_ids)
@@ -84,7 +84,7 @@ module Group::Destroy
       # Destroy member instances for this group itself to trigger
       # member destroyed notifications.
       Member
-        .where(user_id: self.id)
+        .where(user_id: id)
         .destroy_all
 
       # Remove category based auto assignments for this member.
@@ -96,7 +96,7 @@ module Group::Destroy
         .update_all "assigned_to_id = NULL"
 
       self.users.delete_all # remove all users from this group
-      self.reload # so associated member instances are not destroyed again
+      reload # so associated member instances are not destroyed again
 
       super # destroy the actual, now empty group
     end

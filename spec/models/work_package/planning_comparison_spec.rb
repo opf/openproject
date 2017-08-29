@@ -100,7 +100,7 @@ describe 'Planning Comparison', type: :model do
     let (:filter) do
       { f: ['assigned_to_id'],
         op: { 'assigned_to_id' => '=' },
-        v: { 'assigned_to_id' => ["#{assigned_to_user.id}"] } }
+        v: { 'assigned_to_id' => [assigned_to_user.id.to_s] } }
     end
 
     let (:work_package) do

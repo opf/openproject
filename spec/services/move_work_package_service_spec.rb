@@ -44,7 +44,7 @@ describe MoveWorkPackageService, type: :model do
   end
 
   def mock_allowed_to_move_to_project(project, is_allowed = true)
-    allowed_scope = double('allowed_scope', :'exists?' => is_allowed)
+    allowed_scope = double('allowed_scope', 'exists?': is_allowed)
 
     allow(WorkPackage)
       .to receive(:allowed_target_projects_on_move)

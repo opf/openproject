@@ -254,7 +254,7 @@ describe Query, type: :model do
   it 'should set column names' do
     q = Query.new name: '_'
     q.column_names = ['type', :subject, '', 'unknonw_column']
-    assert_equal [:type, :subject], q.columns.map(&:name)
+    assert_equal %i[type subject], q.columns.map(&:name)
     c = q.columns.first
     assert q.has_column?(c)
   end

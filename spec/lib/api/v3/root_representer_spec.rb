@@ -32,7 +32,7 @@ describe ::API::V3::RootRepresenter do
   include ::API::V3::Utilities::PathHelper
 
   let(:user) { FactoryGirl.build(:user) }
-  let(:representer) { described_class.new({}, current_user: user) }
+  let(:representer) { described_class.new({}, { current_user: user }) }
   let(:app_title) { 'Foo Project' }
   let(:version) { 'The version is over 9000!' }
 
@@ -87,7 +87,7 @@ describe ::API::V3::RootRepresenter do
       end
 
       context 'anonymous user' do
-        let(:representer) { described_class.new({}, current_user: User.anonymous) }
+        let(:representer) { described_class.new({}, { current_user: User.anonymous }) }
 
         it_behaves_like 'has no link' do
           let(:link) { 'user' }

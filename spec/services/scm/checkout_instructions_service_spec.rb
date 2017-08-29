@@ -48,8 +48,7 @@ describe Scm::CheckoutInstructionsService do
       'git' => { 'enabled' => '0' },
       'subversion' => { 'enabled' => '1',
                         'text' => text,
-                        'base_url' => base_url
-                      }
+                        'base_url' => base_url }
     }
   end
 

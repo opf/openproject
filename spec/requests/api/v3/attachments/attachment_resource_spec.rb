@@ -90,7 +90,7 @@ describe 'API v3 Attachment resource', type: :request do
     subject(:response) { last_response }
 
     context 'with required permissions' do
-      let(:permissions) { [:view_work_packages, :edit_work_packages] }
+      let(:permissions) { %i[view_work_packages edit_work_packages] }
 
       it 'responds with HTTP No Content' do
         expect(subject.status).to eq 204

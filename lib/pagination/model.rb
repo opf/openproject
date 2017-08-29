@@ -36,7 +36,7 @@ module Pagination::Model
   end
 
   def self.extended(base)
-    base.scope :like, -> (q) {
+    base.scope :like, ->(q) {
       s = "%#{q.to_s.strip.downcase}%"
       base.where(['LOWER(name) LIKE :s', { s: s }])
           .order('name')

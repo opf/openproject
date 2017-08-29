@@ -53,8 +53,7 @@ class Activity::BaseActivityProvider
   # if you need further information from different tables (e.g., projects     #
   # table) you may extend the query in this method.                           #
   #############################################################################
-  def extend_event_query(_query, _activity)
-  end
+  def extend_event_query(_query, _activity); end
 
   #############################################################################
   # This method returns a list of columns that the activity query needs to    #
@@ -87,7 +86,7 @@ class Activity::BaseActivityProvider
   end
 
   def format_event(event, event_data, activity)
-    [:event_name, :event_title, :event_type, :event_description, :event_datetime, :event_path, :event_url].each do |a|
+    %i[event_name event_title event_type event_description event_datetime event_path event_url].each do |a|
       event[a] = send(a, event_data, activity) if self.class.method_defined? a
     end
 

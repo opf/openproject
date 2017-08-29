@@ -135,8 +135,8 @@ describe 'inline create work package', js: true do
       let(:project2) { FactoryGirl.create :project }
       let(:role2) do
         FactoryGirl.create :role,
-                           permissions: [:view_work_packages,
-                                         :add_work_packages]
+                           permissions: %i[view_work_packages
+                                           add_work_packages]
       end
       let!(:membership) do
         FactoryGirl.create :member,

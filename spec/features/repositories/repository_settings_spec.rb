@@ -97,7 +97,7 @@ describe 'Repository Settings', type: :feature, js: true do
     end
   end
 
-  shared_examples 'manages the repository with' do |name, type, repository_type, project_name|
+  shared_examples 'manages the repository with' do |name, type, _repository_type, _project_name|
     let(:repository) do
       FactoryGirl.create("repository_#{name}".to_sym,
                          scm_type: type,

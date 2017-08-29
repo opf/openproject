@@ -101,9 +101,7 @@ module Redmine::Acts::Journalized
         class_attribute :vestal_journals_options
         self.vestal_journals_options = result_options.dup
 
-        result_options.merge!(
-          extend: Array(result_options[:extend]).unshift(Versions)
-        )
+        result_options[:extend] = Array(result_options[:extend]).unshift(Versions)
 
         result_options
       end

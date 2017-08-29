@@ -47,7 +47,7 @@ describe Api::V2::TimelinesController, type: :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, permissions: [:view_timelines, :edit_timelines, :delete_timelines])
+      role   = FactoryGirl.create(:role, permissions: %i[view_timelines edit_timelines delete_timelines])
       member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!

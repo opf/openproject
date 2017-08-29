@@ -80,11 +80,11 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
     Redmine::MenuManager::MenuItem.new(
       :list_projects,
       { controller: '/projects', action: 'index' },
-      caption: projects_label,
-      icon: "#{projects_class} #{icon_class}",
-      html: {
-        accesskey: OpenProject::AccessKeys.key_for(:project_search)
-      }
+      { caption: projects_label,
+        icon: "#{projects_class} #{icon_class}",
+        html: {
+          accesskey: OpenProject::AccessKeys.key_for(:project_search)
+        } }
     )
   end
 
@@ -99,14 +99,14 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
     Redmine::MenuManager::MenuItem.new(
       :new_project,
       { controller: '/projects', action: 'new' },
-      caption: Project.model_name.human,
-      icon: "icon-add #{icon_class}",
-      html: {
-        accesskey: OpenProject::AccessKeys.key_for(:new_project),
-        aria: {label: t(:label_project_new)},
-        title: t(:label_project_new)
-      },
-      if: Proc.new { User.current.allowed_to?(:add_project, nil, global: true) }
+      { caption: Project.model_name.human,
+        icon: "icon-add #{icon_class}",
+        html: {
+          accesskey: OpenProject::AccessKeys.key_for(:new_project),
+          aria: { label: t(:label_project_new) },
+          title: t(:label_project_new)
+        },
+        if: Proc.new { User.current.allowed_to?(:add_project, nil, global: true) } }
     )
   end
 end

@@ -76,7 +76,7 @@ shared_examples_for 'is a countable repository' do
 
     it 'falls back to using ruby when du is unavailable' do
       expect(::Open3).to receive(:capture3).with('du', any_args)
-                                           .and_raise(SystemCallError.new 'foo')
+                                           .and_raise(SystemCallError.new('foo'))
       expect(repository.scm).to receive(:count_storage_fallback).and_return(12345)
 
       expect(repository.scm.count_repository!).to eq(12345)

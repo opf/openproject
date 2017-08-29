@@ -33,7 +33,7 @@ describe Authorization::QueryTransformation do
   let(:name) { 'name' }
   let(:after) { 'after' }
   let(:before) { 'before' }
-  let(:block) { -> (*args) { args } }
+  let(:block) { ->(*args) { args } }
 
   let(:instance) do
     described_class.new on,

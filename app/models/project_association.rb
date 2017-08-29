@@ -41,7 +41,7 @@ class ProjectAssociation < ActiveRecord::Base
   validate :validate,
            :validate_projects_not_identical
 
-  scope :with_projects, -> (projects) {
+  scope :with_projects, ->(projects) {
     projects = [projects] unless projects.is_a? Array
     project_ids = projects.first.respond_to?(:id) ? projects.map(&:id).join(',') : projects
 
@@ -66,7 +66,7 @@ class ProjectAssociation < ActiveRecord::Base
 
     errors.add(:base, :project_association_already_exists) if c != 0
 
-    [:project_a, :project_b].each do |field|
+    %i[project_a project_b].each do |field|
       project = send(field)
       if project.present? # otherwise the presence_of validation will be triggered
         errors.add(field, :project_association_not_allowed) unless project.allows_association?

@@ -52,7 +52,7 @@ class Changeset < ActiveRecord::Base
   validates_uniqueness_of :revision, scope: :repository_id
   validates_uniqueness_of :scmid, scope: :repository_id, allow_nil: true
 
-  scope :visible, -> (*args) {
+  scope :visible, ->(*args) {
     includes(repository: :project)
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_changesets))
@@ -289,7 +289,7 @@ class Changeset < ActiveRecord::Base
     end
     normalized_encoding = encoding.blank? ? 'UTF-8' : encoding
     if str.respond_to?(:force_encoding)
-      if normalized_encoding.upcase != 'UTF-8'
+      if !normalized_encoding.casecmp('UTF-8').zero?
         str.force_encoding(normalized_encoding)
         str = str.encode('UTF-8', invalid: :replace,
                                   undef: :replace, replace: '?')

@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 RSpec.feature 'Work package index sums', js: true do
-
   let(:admin) { FactoryGirl.create(:admin) }
   let(:project) do
     FactoryGirl.create(:project, name: 'project1', identifier: 'project1')

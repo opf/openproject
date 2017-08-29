@@ -35,8 +35,10 @@ end
 
 shared_context 'ensure wp details pane update done' do
   after do
-    raise "Expect to have a let called 'update_user' defining which user \
-           is doing the update".squish unless update_user
+    unless update_user
+      raise "Expect to have a let called 'update_user' defining which user \
+             is doing the update".squish
+    end
 
     # safeguard to ensure all backend queries
     # have been answered before starting a new spec

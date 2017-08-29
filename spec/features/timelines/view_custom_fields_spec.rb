@@ -31,10 +31,10 @@ require 'spec_helper'
 describe Timeline, 'view custom fields', type: :feature, js: true do
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) do
-    [:view_work_packages,
-     :view_timelines,
-     :edit_timelines,
-     :edit_work_packages]
+    %i[view_work_packages
+       view_timelines
+       edit_timelines
+       edit_work_packages]
   end
   let(:project) { FactoryGirl.create(:project, name: "Lil'ol'project") }
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }

@@ -40,7 +40,7 @@ describe Attachment, type: :model do
       container:    work_package,
       content_type: nil, # so that it is detected
       file:         file
-)
+    )
   end
 
   describe 'create' do

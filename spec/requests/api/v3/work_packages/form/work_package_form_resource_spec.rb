@@ -487,7 +487,7 @@ describe 'API v3 Work package form resource', type: :request do
                     let(:error_message_path) { "_embedded/validationErrors/#{property}/message" }
                     let(:error_message) do
                       I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                             property: "#{property.capitalize}").to_json
+                             property: property.capitalize.to_s).to_json
                     end
 
                     include_context 'setup group membership', false

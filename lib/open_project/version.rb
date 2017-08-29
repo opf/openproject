@@ -85,12 +85,14 @@ module OpenProject
       release_date_from_file || release_date_from_git
     end
 
-    REVISION = self.revision
+    REVISION = revision
     ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
     STRING = ARRAY.join('.')
 
     def self.to_a; ARRAY end
+
     def self.to_s; STRING end
+
     def self.to_semver
       [MAJOR, MINOR, PATCH].join('.') + special
     end

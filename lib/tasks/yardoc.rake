@@ -45,7 +45,6 @@ begin
 
     t.options += ['--output-dir', './doc/app', '--files', static_files]
   end
-
 rescue LoadError
   # yard not installed (gem install yard)
   # http://yardoc.org

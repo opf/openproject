@@ -34,7 +34,7 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :add_work_packages] }
+  let(:permissions) { %i[view_work_packages add_work_packages] }
   let(:env) { { 'api.request.body' => { 'subject' => 'foo' } } }
 
   let(:helper_class) do
@@ -58,8 +58,7 @@ describe ::API::V3::WorkPackages::WorkPackagesSharedHelpers do
         @user
       end
 
-      def status(_code)
-      end
+      def status(_code); end
     end
   end
   let(:helper) { helper_class.new(user, env) }

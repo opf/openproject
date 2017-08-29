@@ -39,7 +39,7 @@ class Role < ActiveRecord::Base
     where('builtin = 0')
       .order('position')
   }
-  scope :builtin, -> (*args) {
+  scope :builtin, ->(*args) {
     compare = 'not' if args.first == true
     where("#{compare} builtin = 0")
   }
@@ -118,7 +118,7 @@ class Role < ActiveRecord::Base
 
   # Return true if the role is a project member role
   def member?
-    !self.builtin?
+    !builtin?
   end
 
   # Return true if role is allowed to do the specified action

@@ -29,7 +29,7 @@
 #++
 
 module WorkPackage::PdfExport::ToPdfHelper
-  def get_pdf(language)
+  def get_pdf(_language)
     ::WorkPackage::PdfExport::View.new(current_language)
   end
 end

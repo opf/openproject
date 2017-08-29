@@ -138,7 +138,7 @@ describe CopyProjectsController, type: :controller do
       true
     end
 
-    let(:permission) { [:copy_projects, :add_project] }
+    let(:permission) { %i[copy_projects add_project] }
     let(:project) { FactoryGirl.create(:project, is_public: false) }
 
     it_should_behave_like 'a controller action which needs project permissions'

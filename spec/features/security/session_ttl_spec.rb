@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe 'Session TTL',
-         with_settings: {session_ttl_enabled?: true, session_ttl: '10'},
+         with_settings: { session_ttl_enabled?: true, session_ttl: '10' },
          type: :feature do
   let!(:user) { FactoryGirl.create :admin }
   let!(:work_package) { FactoryGirl.create :work_package }

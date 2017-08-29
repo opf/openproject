@@ -80,7 +80,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert assigns(:entries).detect { |e| e.name == 'filemane with spaces.txt' && e.kind == 'file' }
     assert assigns(:entries).detect { |e| e.name == ' filename with a leading space.txt ' && e.kind == 'file' }
     refute_nil assigns(:changesets)
-    assigns(:changesets).size > 0
+    !assigns(:changesets).empty?
   end
 
   it 'should browse branch' do
@@ -96,7 +96,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert assigns(:entries).detect { |e| e.name == 'README' && e.kind == 'file' }
     assert assigns(:entries).detect { |e| e.name == 'test.txt' && e.kind == 'file' }
     refute_nil assigns(:changesets)
-    assigns(:changesets).size > 0
+    !assigns(:changesets).empty?
   end
 
   it 'should browse tag' do
@@ -110,9 +110,9 @@ describe RepositoriesController, 'Git', type: :controller do
       assert_response :success
       assert_template 'show'
       refute_nil assigns(:entries)
-      assigns(:entries).size > 0
+      !assigns(:entries).empty?
       refute_nil assigns(:changesets)
-      assigns(:changesets).size > 0
+      !assigns(:changesets).empty?
     end
   end
 
@@ -129,7 +129,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_equal 'file', entry.kind
     assert_equal 'images/edit.png', entry.path
     refute_nil assigns(:changesets)
-    assigns(:changesets).size > 0
+    !assigns(:changesets).empty?
   end
 
   it 'should browse at given revision' do
@@ -141,7 +141,7 @@ describe RepositoriesController, 'Git', type: :controller do
     refute_nil assigns(:entries)
     assert_equal ['delete.png'], assigns(:entries).map(&:name)
     refute_nil assigns(:changesets)
-    assigns(:changesets).size > 0
+    !assigns(:changesets).empty?
   end
 
   it 'should changes' do
@@ -149,8 +149,8 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response :success
     assert_template 'changes'
     assert_select 'div',
-               attributes: { class: 'repository-breadcrumbs' },
-               content: 'edit.png'
+                  attributes: { class: 'repository-breadcrumbs' },
+                  content: 'edit.png'
   end
 
   it 'should entry show' do
@@ -189,10 +189,10 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_template 'diff'
     # Line 22 removed
     assert_select 'th',
-               content: /22/,
-               sibling: { tag: 'td',
-                          attributes: { class: /diff_out/ },
-                          content: /def remove/ }
+                  content: /22/,
+                  sibling: { tag: 'td',
+                             attributes: { class: /diff_out/ },
+                             content: /def remove/ }
     assert_select 'h2', content: /2f9c0091/
   end
 
@@ -228,8 +228,8 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response :success
     assert_template 'annotate'
     assert_select 'div',
-               attributes: { class: 'repository-breadcrumbs' },
-               content: /at deff712f/
+                  attributes: { class: 'repository-breadcrumbs' },
+                  content: /at deff712f/
   end
 
   it 'should annotate binary file' do

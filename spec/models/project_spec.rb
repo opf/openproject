@@ -97,7 +97,7 @@ describe Project, type: :model do
   describe 'copy_allowed?' do
     let(:user) { FactoryGirl.create(:user) }
     let(:role_add_subproject) { FactoryGirl.create(:role, permissions: [:add_subprojects]) }
-    let(:role_copy_projects) { FactoryGirl.create(:role, permissions: [:edit_project, :copy_projects, :add_project]) }
+    let(:role_copy_projects) { FactoryGirl.create(:role, permissions: %i[edit_project copy_projects add_project]) }
     let(:parent_project) { FactoryGirl.create(:project) }
     let(:project) { FactoryGirl.create(:project, parent: parent_project) }
     let!(:subproject_member) do

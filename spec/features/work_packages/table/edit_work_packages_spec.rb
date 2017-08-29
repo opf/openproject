@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'Inline editing work packages', js: true do
   let(:manager_role) do
     FactoryGirl.create :role,
-                       permissions: [:view_work_packages,
-                                     :edit_work_packages]
+                       permissions: %i[view_work_packages
+                                       edit_work_packages]
   end
   let(:manager) do
     FactoryGirl.create :user,

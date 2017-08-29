@@ -44,10 +44,10 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
   let(:create_role) do
     FactoryGirl.create(:role,
-                       permissions: [:view_work_packages,
-                                     :add_work_packages,
-                                     :edit_work_packages,
-                                     :manage_subtasks])
+                       permissions: %i[view_work_packages
+                                       add_work_packages
+                                       edit_work_packages
+                                       manage_subtasks])
   end
   let(:project) { FactoryGirl.create(:project) }
   let(:original_work_package) do

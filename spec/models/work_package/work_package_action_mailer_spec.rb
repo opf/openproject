@@ -64,7 +64,11 @@ describe WorkPackage, type: :model do
         ActionMailer::Base.deliveries.clear
 
         work_package.subject = 'A different subject update'
-        work_package.save! rescue nil
+        begin
+          work_package.save!
+        rescue
+          nil
+        end
       end
 
       it { is_expected.to eq(0) }

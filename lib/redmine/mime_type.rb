@@ -98,7 +98,7 @@ module Redmine
     # the mime type of name
     def self.css_class_of(name)
       mime = of(name)
-      mime && mime.gsub('/', '-')
+      mime && mime.tr('/', '-')
     end
 
     def self.main_mimetype_of(name)
@@ -114,7 +114,7 @@ module Redmine
     end
 
     def self.narrow_type(name, content_type)
-      (content_type.split('/').first == main_mimetype_of(name)) ? of(name) : content_type
+      content_type.split('/').first == main_mimetype_of(name) ? of(name) : content_type
     end
   end
 end

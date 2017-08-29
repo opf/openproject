@@ -38,9 +38,9 @@ module Redmine
 
       def initialize(content_to, content_from)
         @words = content_to.to_s.split(/(\s+)/)
-        @words = @words.select { |word| word != ' ' }
+        @words = @words.reject { |word| word == ' ' }
         words_from = content_from.to_s.split(/(\s+)/)
-        words_from = words_from.select { |word| word != ' ' }
+        words_from = words_from.reject { |word| word == ' ' }
         @diff = words_from.diff @words
       end
 
@@ -76,8 +76,8 @@ module Redmine
             words.insert del_at - del_off + dels + words_add, ('<label class="hidden-for-sighted">' +
                                                                 WorkPackage.human_attribute_name(:begin_deletion) +
                                                                 '</label><del class="diffmod">').html_safe + deleted +
-                                                                ('</del><label class="hidden-for-sighted">' +
-                                                                WorkPackage.human_attribute_name(:end_deletion) + '</label>').html_safe
+                                                              ('</del><label class="hidden-for-sighted">' +
+                                                              WorkPackage.human_attribute_name(:end_deletion) + '</label>').html_safe
             dels += 1
             del_off += words_del
             words_del = 0

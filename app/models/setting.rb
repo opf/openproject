@@ -119,7 +119,7 @@ class Setting < ActiveRecord::Base
     class_eval src, __FILE__, __LINE__
   end
 
-  @@available_settings = YAML::load(File.open(Rails.root.join('config/settings.yml')))
+  @@available_settings = YAML::safe_load(File.open(Rails.root.join('config/settings.yml')))
 
   # Defines getter and setter for each setting
   # Then setting values can be read using: Setting.some_setting_name
@@ -179,7 +179,7 @@ class Setting < ActiveRecord::Base
   end
 
   # this should be fixed with globalize plugin
-  [:emails_header, :emails_footer].each do |mail|
+  %i[emails_header emails_footer].each do |mail|
     src = <<-END_SRC
     def self.localized_#{mail}
       I18n.fallbacks[I18n.locale].each do |lang|
@@ -248,7 +248,7 @@ class Setting < ActiveRecord::Base
   def self.deserialize(name, v)
     default = @@available_settings[name]
 
-    v = YAML::load(v) if default['serialized'] && v.is_a?(String)
+    v = YAML::safe_load(v) if default['serialized'] && v.is_a?(String)
 
     unless v.blank?
       v = v.to_sym if default['format'] == 'symbol'

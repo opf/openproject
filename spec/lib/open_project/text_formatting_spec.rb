@@ -82,12 +82,12 @@ describe OpenProject::TextFormatting do
       let!(:changeset_link) do
         link_to("r#{changeset1.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset1.revision },
-                class: 'changeset', title: 'My very first commit')
+                { class: 'changeset', title: 'My very first commit' })
       end
       let!(:changeset_link2) do
         link_to("r#{changeset2.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset2.revision },
-                class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3')
+                { class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3' })
       end
 
       before do
@@ -145,7 +145,7 @@ describe OpenProject::TextFormatting do
       let!(:version_link) do
         link_to('1.0',
                 { controller: 'versions', action: 'show', id: version.id },
-                class: 'version')
+                { class: 'version' })
       end
 
       context 'Link with version id' do

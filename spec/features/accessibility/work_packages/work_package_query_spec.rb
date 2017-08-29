@@ -233,14 +233,14 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.detailsViewMenuItem a' }
         let(:source_link) { '.work-package-table--container tr.issue td.id a' }
-        let(:keys) { [:shift, :alt, :f10] }
+        let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { true }
       end
 
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.openFullScreenView a' }
         let(:source_link) { '.work-package-table--container tr.issue td.id a' }
-        let(:keys) { [:shift, :alt, :f10] }
+        let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { false }
       end
     end

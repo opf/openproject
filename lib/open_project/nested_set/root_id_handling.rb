@@ -134,9 +134,9 @@ module OpenProject::NestedSet
       # set.
       def initial_root_id
         self.root_id = if parent
-          parent.root_id
-        else
-          id
+                         parent.root_id
+                       else
+                         id
                        end
 
         set_default_left_and_right

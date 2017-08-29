@@ -70,12 +70,12 @@ describe ActivitiesController, type: :controller do
 
         it do
           assert_select 'h3',
-                       content: /#{3.day.ago.to_date.day}/,
-                       sibling: { tag: 'dl',
-                                  child: { tag: 'dt',
-                                           attributes: { class: /work_package/ },
-                                           child: { tag: 'a',
-                                                    content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
+                        content: /#{3.day.ago.to_date.day}/,
+                        sibling: { tag: 'dl',
+                                   child: { tag: 'dt',
+                                            attributes: { class: /work_package/ },
+                                            child: { tag: 'a',
+                                                     content: /#{ERB::Util.html_escape(work_package.subject)}/ } } }
         end
       end
 
@@ -140,8 +140,8 @@ describe ActivitiesController, type: :controller do
 
           it do
             assert_select 'entry',
-                         child: { tag: 'link',
-                                  attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
+                          child: { tag: 'link',
+                                   attributes: { href: Regexp.new("/work_packages/#{wp_1.id}#") } }
           end
         end
 

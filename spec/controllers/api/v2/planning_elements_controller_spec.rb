@@ -649,7 +649,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
           author: author,
           type: type,
           project: project
-)
+        )
       end
 
       it 'creates a new planning element with the given custom field value' do
@@ -781,7 +781,8 @@ describe Api::V2::PlanningElementsController, type: :controller do
                            type: type,
                            project: project,
                            custom_values: [
-                             CustomValue.new(custom_field: custom_field, value: 'Mett')]
+                             CustomValue.new(custom_field: custom_field, value: 'Mett')
+                           ]
       end
 
       it 'should render the custom field values' do
@@ -878,7 +879,8 @@ describe Api::V2::PlanningElementsController, type: :controller do
                            type: type,
                            project: project,
                            custom_values: [
-                             CustomValue.new(custom_field: custom_field, value: 'Mett')]
+                             CustomValue.new(custom_field: custom_field, value: 'Mett')
+                           ]
       end
 
       it 'updates the custom field value' do

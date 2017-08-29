@@ -33,6 +33,5 @@ class CustomValue::StringStrategy < CustomValue::FormatStrategy
     value
   end
 
-  def validate_type_of_value
-  end
+  def validate_type_of_value; end
 end

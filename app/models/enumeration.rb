@@ -40,7 +40,7 @@ class Enumeration < ActiveRecord::Base
   before_destroy :check_integrity
 
   validates_presence_of :name
-  validates_uniqueness_of :name, scope: [:type, :project_id]
+  validates_uniqueness_of :name, scope: %i[type project_id]
   validates_length_of :name, maximum: 30
 
   scope :shared, -> { where(project_id: nil) }
@@ -63,7 +63,7 @@ class Enumeration < ActiveRecord::Base
     # Creates a fake default scope so Enumeration.default will check
     # it's type.  STI subclasses will automatically add their own
     # types to the finder.
-    if self.descends_from_active_record?
+    if descends_from_active_record?
       where(is_default: true, type: 'Enumeration').first
     else
       # STI classes are
@@ -129,9 +129,9 @@ class Enumeration < ActiveRecord::Base
   # Does the +new+ Hash override the previous Enumeration?
   def self.overridding_change?(new, previous)
     if same_active_state?(new['active'], previous.active) && same_custom_values?(new, previous)
-      return false
+      false
     else
-      return true
+      true
     end
   end
 
@@ -170,7 +170,7 @@ class Enumeration < ActiveRecord::Base
   end
 
   def check_integrity
-    raise "Can't delete enumeration" if self.in_use?
+    raise "Can't delete enumeration" if in_use?
   end
 end
 

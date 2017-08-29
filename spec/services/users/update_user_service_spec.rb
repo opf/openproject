@@ -83,7 +83,7 @@ describe Users::UpdateUserService do
   end
 
   describe '#call' do
-    subject { instance.call() }
+    subject { instance.call }
     let(:validates) { true }
     let(:saves) { true }
 

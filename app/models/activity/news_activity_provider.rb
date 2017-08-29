@@ -32,8 +32,7 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
   acts_as_activity_provider type: 'news',
                             permission: :view_news
 
-  def extend_event_query(_query, _activity)
-  end
+  def extend_event_query(_query, _activity); end
 
   def event_query_projection(activity)
     [

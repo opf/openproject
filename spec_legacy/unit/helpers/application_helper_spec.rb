@@ -43,8 +43,8 @@ describe ApplicationHelper, type: :helper do
     @project_member = FactoryGirl.create :user,
                                          member_in_project: @project,
                                          member_through_role: FactoryGirl.create(:role,
-                                                                                 permissions: [:view_work_packages, :edit_work_packages,
-                                                                                               :browse_repository, :view_changesets, :view_wiki_pages])
+                                                                                 permissions: %i[view_work_packages edit_work_packages
+                                                                                                 browse_repository view_changesets view_wiki_pages])
 
     @issue = FactoryGirl.create :work_package, project: @project, author: @project_member, type: @project.types.first
 
@@ -208,14 +208,14 @@ RAW
                             action: 'entry',
                             project_id: identifier,
                             path: 'some/file' },
-                          class: 'source')
+                          { class: 'source' })
     changeset_link = link_to("#{identifier}:r#{changeset.revision}",
                              { controller: 'repositories',
                                action: 'revision',
                                project_id: identifier,
                                rev: changeset.revision },
-                             class: 'changeset',
-                             title: 'This commit fixes #1, #2 and references #1 & #3')
+                             { class: 'changeset',
+                               title: 'This commit fixes #1, #2 and references #1 & #3' })
 
     to_test.merge!(
       # changeset
@@ -246,7 +246,7 @@ RAW
                                project_id: @project.identifier,
                                rev:        'abcd'
                              },
-                             class: 'changeset', title: 'test commit')
+                             { class: 'changeset', title: 'test commit' })
     to_test = {
       'commit:abcd' => changeset_link
     }
@@ -263,7 +263,7 @@ RAW
   end
 
   it 'should attachment links' do
-    attachment_link = link_to('logo.gif', { controller: 'attachments', action: 'download', id: @attachment }, class: 'attachment')
+    attachment_link = link_to('logo.gif', { controller: 'attachments', action: 'download', id: @attachment }, { class: 'attachment' })
     to_test = {
       'attachment:logo.gif' => attachment_link
     }
@@ -349,8 +349,7 @@ EXPECTED
     to_test = { "|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  "<tr><td><a class=\"wiki-page new\" href=\"/projects/#{@project.identifier}/wiki/page\">Link title</a></td>" +
                  "<td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/other-page\">Other title</a></td>" +
-                 "</tr><tr><td>Cell 21</td><td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/last-page\">Last page</a></td></tr>"
-    }
+                 "</tr><tr><td>Cell 21</td><td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/last-page\">Last page</a></td></tr>" }
 
     to_test.each { |text, result| assert_dom_equal "<table>#{result}</table>", helper.format_text(text).gsub(/[\t\n]/, '') }
   end
@@ -360,8 +359,7 @@ EXPECTED
                 '(_text within parentheses_)' => '(<em>text within parentheses</em>)',
                 'a *Humane Web* Text Generator' => 'a <strong>Humane Web</strong> Text Generator',
                 'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
-                'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator'
-              }
+                'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator' }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
@@ -451,7 +449,7 @@ RAW
                 '</li>' +
                 '</ul>'
 
-    assert helper.format_text(raw).gsub("\n", '').include?(expected), helper.format_text(raw)
+    assert helper.format_text(raw).delete("\n").include?(expected), helper.format_text(raw)
   end
 
   it 'should table of content should contain included page headings' do
@@ -475,7 +473,7 @@ RAW
                '<li><a href="#Child-page-1">Child page 1</a></li>' +
                '</ul>'
 
-    assert helper.format_text(raw).gsub("\n", '').include?(expected), helper.format_text(raw)
+    assert helper.format_text(raw).delete("\n").include?(expected), helper.format_text(raw)
   end
 
   it 'should default formatter' do
@@ -492,8 +490,7 @@ RAW
                 Date.today + 20000 => 'Due in over 54 years',
                 Date.today - 1 => '1 day late',
                 Date.today - 100 => 'about 3 months late',
-                Date.today - 20000 => 'over 54 years late'
-               }
+                Date.today - 20000 => 'over 54 years late' }
     ::I18n.locale = :en
     to_test.each do |date, expected|
       assert_equal expected, due_date_distance_in_words(date)
@@ -532,6 +529,6 @@ RAW
     assert_dom_equal %(<a href="#{root_url}projects/#{p_id}?jump=blah">#{p_name}</a>),
                      link_to_project(@project, only_path: false, jump: 'blah')
     assert_dom_equal %(<a class="project" href="/projects/#{p_id}/settings">#{p_name}</a>),
-                     link_to_project(@project, { action: 'settings' }, class: 'project')
+                     link_to_project(@project, { action: 'settings' }, { class: 'project' })
   end
 end

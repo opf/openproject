@@ -36,7 +36,7 @@ module API
       class TypesByProjectAPI < ::API::OpenProjectAPI
         resources :types do
           before do
-            authorize_any [:view_work_packages, :manage_types], projects: @project
+            authorize_any %i[view_work_packages manage_types], projects: @project
           end
 
           get do

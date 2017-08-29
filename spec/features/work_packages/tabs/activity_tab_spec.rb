@@ -5,7 +5,7 @@ require 'support/work_packages/work_package_field'
 
 describe 'Activity tab', js: true, selenium: true do
   def alter_work_package_at(work_package, attributes:, at:, user: User.current)
-    work_package.update_attributes(attributes.merge({ updated_at: at }))
+    work_package.update_attributes(attributes.merge(updated_at: at))
 
     note_journal = work_package.journals.last
     note_journal.update_attributes(created_at: at, user: attributes[:user])
@@ -106,8 +106,8 @@ describe 'Activity tab', js: true, selenium: true do
 
     context 'with permission' do
       let(:role) do
-        FactoryGirl.create(:role, permissions: [:view_work_packages,
-                                                :add_work_package_notes])
+        FactoryGirl.create(:role, permissions: %i[view_work_packages
+                                                  add_work_package_notes])
       end
       let(:user) do
         FactoryGirl.create(:user,

@@ -67,7 +67,7 @@ module RedmineDiff
           else
             k = thresh.replacenextlarger(bindex, k)
           end
-          links[k] = [(k == 0) ? nil : links[k - 1], aindex, bindex] if k
+          links[k] = [k == 0 ? nil : links[k - 1], aindex, bindex] if k
         end
       end
 
@@ -198,7 +198,7 @@ module Diffable
 
   def replacenextlarger(value, high = nil)
     high ||= length
-    if self.empty? || value > self[-1]
+    if empty? || value > self[-1]
       push value
       return high
     end
@@ -226,9 +226,9 @@ module Diffable
   def patch(diff)
     newary = nil
     newary = if diff.difftype == String
-      diff.difftype.new('')
-    else
-      diff.difftype.new
+               diff.difftype.new('')
+             else
+               diff.difftype.new
              end
     ai = 0
     bi = 0

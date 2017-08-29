@@ -70,8 +70,7 @@ describe 'api/v2/project_associations/show.api.rabl', type: :view do
     it 'renders the details of the association' do
       expected_json = { description: 'association description #1',
                         projects: [{ name: 'Test Project A', identifier: 'test_project_a' },
-                                   { name: 'Test Project B', identifier: 'test_project_b' }]
-                      }.to_json
+                                   { name: 'Test Project B', identifier: 'test_project_b' }] }.to_json
 
       is_expected.to be_json_eql(expected_json).at_path('project_association')
     end

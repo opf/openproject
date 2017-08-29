@@ -87,10 +87,10 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
 
   def make_attributes
     attrs = [
-      [:status, :priority],
-      [:author, :category],
-      [:created_at, :assigned_to],
-      [:updated_at, :due_date]
+      %i[status priority],
+      %i[author category],
+      %i[created_at assigned_to],
+      %i[updated_at due_date]
     ]
 
     attrs.map do |first, second|
@@ -188,14 +188,14 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
 
   def make_description_row(seg, first: false, last: false)
     label = if first
-      make_description_label
-    else
-      make_empty_label
+              make_description_label
+            else
+              make_empty_label
             end
 
     if last
-      label.borders = [:left, :bottom]
-      seg.borders = [:bottom, :right]
+      label.borders = %i[left bottom]
+      seg.borders = %i[bottom right]
     end
 
     [label, seg]

@@ -54,7 +54,7 @@ class TimeEntry < ActiveRecord::Base
   validate :validate_project_is_set
   validate :validate_consistency_of_work_package_id
 
-  scope :visible, -> (*args) {
+  scope :visible, ->(*args) {
     # TODO: check whether the visibility should also be influenced by the work
     # package the time entry is assigned to.  Currently a work package can
     # switch projects. But as the time entry is still part of it's original

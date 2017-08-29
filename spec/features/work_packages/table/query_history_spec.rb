@@ -38,8 +38,8 @@ describe 'Going back and forth through the browser history', type: :feature, js:
   let(:type) { project.types.first }
   let(:role) do
     FactoryGirl.create(:role,
-                       permissions: [:view_work_packages,
-                                     :save_queries])
+                       permissions: %i[view_work_packages
+                                       save_queries])
   end
 
   let(:work_package_1) do

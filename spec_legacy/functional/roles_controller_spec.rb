@@ -87,7 +87,7 @@ describe RolesController, type: :controller do
     assert_redirected_to roles_path
     role = Role.find_by(name: 'RoleWithoutWorkflowCopy')
     refute_nil role
-    assert_equal [:add_work_packages, :edit_work_packages, :log_time], role.permissions.sort
+    assert_equal %i[add_work_packages edit_work_packages log_time], role.permissions.sort
     assert !role.assignable?
   end
 
@@ -174,7 +174,7 @@ describe RolesController, type: :controller do
     assert_redirected_to roles_path
 
     assert_equal [:edit_work_packages], Role.find(1).permissions
-    assert_equal [:add_work_packages, :delete_work_packages], Role.find(3).permissions.sort
+    assert_equal %i[add_work_packages delete_work_packages], Role.find(3).permissions.sort
     assert Role.find(2).permissions.empty?
   end
 

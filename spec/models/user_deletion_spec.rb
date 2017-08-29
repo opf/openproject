@@ -192,7 +192,7 @@ describe User, 'deletion', type: :model do
                                        status: status)
     end
     let(:associated_class) { WorkPackage }
-    let(:associations) { [:author, :assigned_to, :responsible] }
+    let(:associations) { %i[author assigned_to responsible] }
 
     it_should_behave_like 'created journalized associated object'
   end
@@ -204,7 +204,7 @@ describe User, 'deletion', type: :model do
                                        status: status)
     end
     let(:associated_class) { WorkPackage }
-    let(:associations) { [:author, :assigned_to, :responsible] }
+    let(:associations) { %i[author assigned_to responsible] }
 
     before do
       allow(User).to receive(:current).and_return user2

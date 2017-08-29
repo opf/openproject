@@ -36,7 +36,7 @@ node :user do |e|
   partial('users/show', object: e.user)
 end
 
-child :activity => :activity do
+child activity: :activity do
   attributes :name
 end
 
@@ -47,9 +47,7 @@ end
 child :work_package do
   attributes :id, :subject
 
-  node :isVisible do |w|
-    w.visible?
-  end
+  node :isVisible, &:visible?
 end
 
 node :isEditable do |e|

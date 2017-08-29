@@ -29,7 +29,7 @@
 #++
 
 class Enterprise
-  def self.matches?(request)
+  def self.matches?(_request)
     OpenProject::Configuration.ee_manager_visible?
   end
 end

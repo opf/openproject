@@ -29,8 +29,7 @@
 #++
 
 class NoopContract
-  def initialize(*_)
-  end
+  def initialize(*_); end
 
   def validate
     true

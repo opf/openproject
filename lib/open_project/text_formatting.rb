@@ -93,7 +93,7 @@ module OpenProject
       # TODO: transform modifications into WikiFormatting Helper, or at least ask the helper if he wants his stuff to be modified
       @parsed_headings = []
       text = parse_non_pre_blocks(text) do |text|
-        [:execute_macros, :parse_inline_attachments, :parse_wiki_links, :parse_redmine_links, :parse_headings, :parse_relative_urls].each do |method_name|
+        %i[execute_macros parse_inline_attachments parse_wiki_links parse_redmine_links parse_headings parse_relative_urls].each do |method_name|
           send method_name, text, project, obj, attr, only_path, options
         end
       end
@@ -148,15 +148,17 @@ module OpenProject
       parsed
     end
 
-    MACROS_RE = /
-                  (!)?                        # escaping
-                  (
-                  \{\{                        # opening tag
-                  ([\w]+)                     # macro name
-                  (\(([^\}]*)\))?             # optional arguments
-                  \}\}                        # closing tag
-                  )
-                /x unless const_defined?(:MACROS_RE)
+    unless const_defined?(:MACROS_RE)
+      MACROS_RE = /
+                    (!)?                        # escaping
+                    (
+                    \{\{                        # opening tag
+                    ([\w]+)                     # macro name
+                    (\(([^\}]*)\))?             # optional arguments
+                    \}\}                        # closing tag
+                    )
+                  /x
+    end
 
     # Macros substitution
     def execute_macros(text, project, obj, _attr, _only_path, options)
@@ -184,20 +186,22 @@ module OpenProject
       end
     end
 
-    RELATIVE_LINK_RE = %r{
-      <a
-      (?:
-        (\shref=
-          (?:                         # the href and link
-            (?:'(\/[^>]+?)')|
-            (?:"(\/[^>]+?)")
-          )
-        )|
-        [^>]
-      )*
-      >
-      [^<]*?<\/a>                     # content and closing link tag.
-    }x unless const_defined?(:RELATIVE_LINK_RE)
+    unless const_defined?(:RELATIVE_LINK_RE)
+      RELATIVE_LINK_RE = %r{
+        <a
+        (?:
+          (\shref=
+            (?:                         # the href and link
+              (?:'(\/[^>]+?)')|
+              (?:"(\/[^>]+?)")
+            )
+          )|
+          [^>]
+        )*
+        >
+        [^<]*?<\/a>                     # content and closing link tag.
+      }x
+    end
 
     def parse_relative_urls(text, _project, _obj, _attr, only_path, _options)
       return if only_path
@@ -235,7 +239,7 @@ module OpenProject
           # search for the picture in attachments
           if found = attachments.detect { |att| att.filename.downcase == filename }
             image_url = url_for only_path: only_path, controller: '/attachments', action: 'download', id: found
-            desc = found.description.to_s.gsub('"', '')
+            desc = found.description.to_s.delete('"')
             if !desc.blank? && alttext.blank?
               alt = " title=\"#{desc}\" alt=\"#{desc}\""
             end
@@ -351,8 +355,8 @@ module OpenProject
             # project.changesets.visible raises an SQL error because of a double join on repositories
             if project && project.repository && (changeset = Changeset.visible.find_by(repository_id: project.repository.id, revision: identifier))
               link = link_to(h("#{project_prefix}r#{identifier}"), { only_path: only_path, controller: '/repositories', action: 'revision', project_id: project, rev: changeset.revision },
-                             class: 'changeset',
-                             title: truncate_single_line(changeset.comments, length: 100))
+                             { class: 'changeset',
+                               title: truncate_single_line(changeset.comments, length: 100) })
             end
           elsif sep == '#'
             oid = identifier.to_i
@@ -370,15 +374,15 @@ module OpenProject
             when 'version'
               if version = Version.visible.find_by(id: oid)
                 link = link_to h(version.name), { only_path: only_path, controller: '/versions', action: 'show', id: version },
-                               class: 'version'
+                               { class: 'version' }
               end
             when 'message'
               if message = Message.visible.includes(:parent).find_by(id: oid)
-                link = link_to_message(message, { only_path: only_path }, class: 'message')
+                link = link_to_message(message, { only_path: only_path }, { class: 'message' })
               end
             when 'project'
               if p = Project.visible.find_by(id: oid)
-                link = link_to_project(p, { only_path: only_path }, class: 'project')
+                link = link_to_project(p, { only_path: only_path }, { class: 'project' })
               end
             end
           elsif sep == '##'
@@ -405,13 +409,13 @@ module OpenProject
             when 'version'
               if project && version = project.versions.visible.find_by(name: name)
                 link = link_to h(version.name), { only_path: only_path, controller: '/versions', action: 'show', id: version },
-                               class: 'version'
+                               { class: 'version' }
               end
             when 'commit'
               if project && project.repository && (changeset = Changeset.visible.where(['repository_id = ? AND scmid LIKE ?', project.repository.id, "#{name}%"]).first)
                 link = link_to h("#{project_prefix}#{name}"), { only_path: only_path, controller: '/repositories', action: 'revision', project_id: project, rev: changeset.identifier },
-                               class: 'changeset',
-                               title: truncate_single_line(changeset.comments, length: 100)
+                               { class: 'changeset',
+                                 title: truncate_single_line(changeset.comments, length: 100) }
               end
             when 'source', 'export'
               if project && project.repository && User.current.allowed_to?(:browse_repository, project)
@@ -424,13 +428,13 @@ module OpenProject
                                                                           rev: rev,
                                                                           anchor: anchor,
                                                                           format: (prefix == 'export' ? 'raw' : nil) },
-                               class: (prefix == 'export' ? 'source download' : 'source')
+                               { class: (prefix == 'export' ? 'source download' : 'source') }
               end
             when 'attachment'
               attachments = options[:attachments] || (obj && obj.respond_to?(:attachments) ? obj.attachments : nil)
               if attachments && attachment = attachments.detect { |a| a.filename == name }
                 link = link_to h(attachment.filename), { only_path: only_path, controller: '/attachments', action: 'download', id: attachment },
-                               class: 'attachment'
+                               { class: 'attachment' }
               end
             when 'project'
               p = Project
@@ -439,7 +443,7 @@ module OpenProject
                           { s: name.downcase }])
                   .first
               if p
-                link = link_to_project(p, { only_path: only_path }, class: 'project')
+                link = link_to_project(p, { only_path: only_path }, { class: 'project' })
               end
             end
           end
@@ -481,12 +485,12 @@ module OpenProject
           div_class << ' left' if $1 == '<'
           out = "<fieldset class='form--fieldset -collapsible'>"
           out << "<legend class='form--fieldset-legend' title='" +
-            l(:description_toc_toggle) +
-            "' onclick='toggleFieldset(this);'>
-            <a href='javascript:'>
-              #{l(:label_table_of_contents)}
-            </a>
-            </legend><div>"
+                 l(:description_toc_toggle) +
+                 "' onclick='toggleFieldset(this);'>
+                 <a href='javascript:'>
+                   #{l(:label_table_of_contents)}
+                 </a>
+                 </legend><div>"
           out << "<ul class=\"#{div_class}\"><li>"
           root = headings.map(&:first).min
           current = root
@@ -522,7 +526,9 @@ module OpenProject
     end
 
     def current_request
-      request rescue nil
+      request
+    rescue
+      nil
     end
   end
 end

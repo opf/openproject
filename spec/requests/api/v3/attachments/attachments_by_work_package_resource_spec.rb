@@ -66,7 +66,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
   end
 
   describe '#post' do
-    let(:permissions) { [:view_work_packages, :edit_work_packages] }
+    let(:permissions) { %i[view_work_packages edit_work_packages] }
 
     let(:request_path) { api_v3_paths.attachments_by_work_package work_package.id }
     let(:request_parts) { { metadata: metadata, file: file } }
@@ -131,7 +131,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
     end
 
     context 'only allowed to add work packages, but no edit permission' do
-      let(:permissions) { [:view_work_packages, :add_work_packages] }
+      let(:permissions) { %i[view_work_packages add_work_packages] }
 
       it 'should respond with HTTP Created' do
         expect(subject.status).to eq(201)

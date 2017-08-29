@@ -171,7 +171,7 @@ describe ProjectsController, type: :routing do
         action: 'copy',
         id: '123',
         coming_from: 'settings'
-)
+      )
     end
 
     it do
@@ -180,7 +180,7 @@ describe ProjectsController, type: :routing do
         action: 'copy',
         id: '123',
         coming_from: 'admin'
-)
+      )
     end
   end
 

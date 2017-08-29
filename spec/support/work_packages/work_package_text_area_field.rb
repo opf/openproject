@@ -1,7 +1,6 @@
 require_relative './work_package_field'
 
 class WorkPackageTextAreaField < WorkPackageField
-
   def input_selector
     'textarea'
   end
@@ -39,7 +38,7 @@ class WorkPackageTextAreaField < WorkPackageField
   end
 
   def control_link(action = :save)
-    raise 'Invalid link' unless [:save, :cancel].include?(action)
+    raise 'Invalid link' unless %i[save cancel].include?(action)
     ".inplace-edit--control--#{action}"
   end
 end

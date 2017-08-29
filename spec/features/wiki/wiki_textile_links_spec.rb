@@ -74,7 +74,6 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
   end
 
   it 'renders correct links' do
-
     expect(page).to have_selector('a.issue', count: 3)
 
     links = page.all('a.issue')

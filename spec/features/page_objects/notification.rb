@@ -52,7 +52,7 @@ module PageObjects
     private
 
     def types
-      [:success, :error]
+      %i[success error]
     end
   end
 end
