@@ -259,13 +259,11 @@ class AccountController < ApplicationController
     failure = session.delete :auth_source_sso_failure
     user = failure[:user]
 
-    if user.nil?
-      invalid_credentials
-    elsif user.new_record?
+    if user.try(:new_record?)
       return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id
-    elsif not user.active?
-      account_inactive user, flash_now: true
     end
+
+    show_sso_error_for user
 
     flash.now[:warning] = I18n.t :error_auth_source_sso_failed, value: failure[:login]
 
@@ -273,6 +271,14 @@ class AccountController < ApplicationController
   end
 
   private
+
+  def show_sso_error_for(user)
+    if user.nil?
+      invalid_credentials
+    elsif not user.active?
+      account_inactive user, flash_now: true
+    end
+  end
 
   def registration_through_invitation!
     session[:auth_source_registration] = nil

@@ -63,7 +63,7 @@ module Concerns
     end
 
     def create_user_from_auth_source(login)
-      if attrs = AuthSource.find_user login
+      if attrs = AuthSource.find_user(login)
         # login is both safe and protected in chilis core code
         # in case it's intentional we keep it that way
         user = User.new attrs.except(:login)
