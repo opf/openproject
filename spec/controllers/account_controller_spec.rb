@@ -611,7 +611,7 @@ describe AccountController, type: :controller do
     context "with an invalid user" do
       let!(:duplicate) { FactoryGirl.create :user, mail: "login@DerpLAP.net" }
       let(:user) do
-        FactoryGirl.build(:user, mail: duplicate.mail).tap { |u| u.valid? }
+        FactoryGirl.build(:user, mail: duplicate.mail).tap(&:valid?)
       end
 
       it "should show the account creation form with an error" do

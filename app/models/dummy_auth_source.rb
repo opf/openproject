@@ -31,7 +31,7 @@ class DummyAuthSource < AuthSource
   end
 
   def dummy_login?(login)
-    login =~ /\Adummy_/
+    login.start_with? "dummy_"
   end
 
   def existing_user(login, password)

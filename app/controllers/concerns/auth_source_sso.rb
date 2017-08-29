@@ -7,22 +7,22 @@ module Concerns
     def find_current_user
       user = super
 
-      if user || sso_in_progress!
-        return user
-      end
+      return user if user || sso_in_progress!
 
-      if header_name && secret
-        login, given_secret = String(request.headers[header_name]).split(":")
-
-        return nil unless valid_credentials? login, given_secret
-
+      if login = read_sso_login
         user = find_user_from_auth_source(login) || create_user_from_auth_source(login)
 
-        if sso_login_failed?(user)
-          handle_sso_failure! user, login
-        else # valid user
-          handle_sso_success user
-        end
+        handle_sso_for! user
+      end
+    end
+
+    def read_sso_login
+      return nil unless header_name && secret
+
+      login, given_secret = String(request.headers[header_name]).split(":")
+
+      if valid_credentials? login, given_secret
+        login
       end
     end
 
@@ -45,19 +45,17 @@ module Concerns
           "(#{header_name}: #{request.headers[header_name]})"
         )
 
-        return false
-      end
-
-      if login.nil?
+        false
+      elsif login.nil?
         Rails.logger.error(
           "No login contained in auth source SSO header. " +
           "(#{header_name}: #{request.headers[header_name]})"
         )
 
-        return false
+        false
+      else
+        true
       end
-
-      true
     end
 
     def find_user_from_auth_source(login)
@@ -65,27 +63,29 @@ module Concerns
     end
 
     def create_user_from_auth_source(login)
-      attrs = AuthSource.find_user login
-
-      if attrs
+      if attrs = AuthSource.find_user login
         # login is both safe and protected in chilis core code
         # in case it's intentional we keep it that way
         user = User.new attrs.except(:login)
         user.login = login
         user.language = Setting.default_language
 
-        if user.save
-          user.reload
-
-          if logger && user.auth_source
-            logger.info(
-              "User '#{user.login}' created from external auth source: " +
-              "#{user.auth_source.type} - #{user.auth_source.name}"
-            )
-          end
-        end
+        save_user! user
 
         user
+      end
+    end
+
+    def save_user!(user)
+      if user.save
+        user.reload
+
+        if logger && user.auth_source
+          logger.info(
+            "User '#{user.login}' created from external auth source: " +
+            "#{user.auth_source.type} - #{user.auth_source.name}"
+          )
+        end
       end
     end
 
@@ -109,6 +109,14 @@ module Concerns
 
     def sso_login_failed?(user)
       user.nil? || user.new_record? || !user.active?
+    end
+
+    def handle_sso_for!(user)
+      if sso_login_failed?(user)
+        handle_sso_failure! user, login
+      else # valid user
+        handle_sso_success user
+      end
     end
 
     def handle_sso_success(user)
