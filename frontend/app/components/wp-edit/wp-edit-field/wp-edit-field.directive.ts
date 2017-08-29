@@ -44,6 +44,8 @@ import {WorkPackageEditFieldGroupController} from './wp-edit-field-group.directi
 import {ClickPositionMapper} from '../../common/set-click-position/set-click-position';
 import {WorkPackageEditFieldHandler} from '../../wp-edit-form/work-package-edit-field-handler';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {SelectionHelpers} from '../../../helpers/selection-helpers';
+import {debugLog} from '../../../helpers/debug_output';
 
 export class WorkPackageEditFieldController {
   public wpEditFieldGroup:WorkPackageEditFieldGroupController;
@@ -103,12 +105,20 @@ export class WorkPackageEditFieldController {
   }
 
   public activateIfEditable(event:JQueryEventObject) {
+    // Ignore selections
+    if (SelectionHelpers.hasSelectionWithin(event.target)) {
+      debugLog(`Not activating ${this.fieldName} because of active selection within`);
+      return true;
+    }
+
     if (this.isEditable) {
       this.handleUserActivate(event);
     }
 
     this.contextMenu.close();
     event.stopImmediatePropagation();
+
+    return false;
   }
 
   public activate(noWarnings:boolean = false):Promise<WorkPackageEditFieldHandler> {
