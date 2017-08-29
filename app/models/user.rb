@@ -143,11 +143,15 @@ class User < Principal
 
   scope :in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    where(["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
+    query = "#{User.table_name}.id IN (SELECT gu.user_id FROM
+      #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)"
+    where([query, group_id])
   }
   scope :not_in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    where(["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
+    query = "#{User.table_name}.id NOT IN (SELECT gu.user_id FROM
+      #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)"
+    where([query, group_id])
   }
   scope :admin, -> { where(admin: true) }
 
@@ -206,11 +210,11 @@ class User < Principal
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
-    user = if user
-             try_authentication_for_existing_user(user, password, session)
-           else
-             try_authentication_and_create_user(login, password)
-    end
+    user =  if user
+              try_authentication_for_existing_user(user, password, session)
+            else
+              try_authentication_and_create_user(login, password)
+            end
     unless prevent_brute_force_attack(user, login).nil?
       user.log_successful_login if user && !user.new_record?
       return user
@@ -264,7 +268,9 @@ class User < Principal
       user.language = Setting.default_language
       if user.save
         user.reload
-        logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
+        log = "User '#{user.login}' created from external auth source:
+          #{user.auth_source.type} - #{user.auth_source.name}"
+        logger.info(log) if logger && user.auth_source
       end
     end
     user
@@ -409,7 +415,7 @@ class User < Principal
   #
   def failed_too_many_recent_login_attempts?
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
-    return false if block_threshold == 0 # disabled
+    return false if block_threshold.zero? # disabled
     (last_failed_login_within_block_time? and
             failed_login_count >= block_threshold)
   end
@@ -500,7 +506,7 @@ class User < Principal
     # First look for an exact match
     user = where(["#{type_cast} login = ?", login]).first
     # Fail over to case-insensitive if none was found
-    user ||= where(["#{type_cast} LOWER(login) = ?", login.to_s.downcase]).first
+    user || where(["#{type_cast} LOWER(login) = ?", login.to_s.downcase]).first
   end
 
   def self.find_by_rss_key(key)
@@ -738,7 +744,7 @@ class User < Principal
   end
 
   def former_passwords_include?(password)
-    return false if Setting[:password_count_former_banned].to_i == 0
+    return false if Setting[:password_count_former_banned].to_i.zero?
     ban_count = Setting[:password_count_former_banned].to_i
     # make reducing the number of banned former passwords immediately effective
     # by only checking this number of former passwords
@@ -759,10 +765,10 @@ class User < Principal
 
     timelines.each do |timeline|
       timelines_filter.each do |field|
-        fieldOptions = timeline.options[field]
-        if fieldOptions && index = fieldOptions.index(id.to_s)
+        field_options = timeline.options[field]
+        if field_options && index = field_options.index(id.to_s)
           timeline.options_will_change!
-          fieldOptions[index] = substitute.id.to_s
+          field_options[index] = substitute.id.to_s
         end
       end
 
