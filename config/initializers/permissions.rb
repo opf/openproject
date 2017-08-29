@@ -32,8 +32,7 @@ require 'redmine/access_control'
 
 Redmine::AccessControl.map do |map|
   map.permission :view_project,
-                 { projects: [:show],
-                   activities: [:index] },
+                 { projects: [[:show], activities: [:index]] },
                  public: true
 
   map.permission :search_project,
@@ -95,7 +94,7 @@ Redmine::AccessControl.map do |map|
                    journals: [:index, :diff],
                    work_packages: [:show, :index],
                    work_packages_api: [:get],
-                   :'work_packages/reports' => [:report, :report_details],
+                   'work_packages/reports': [:report, :report_details],
                    planning_elements: [:index, :all, :show, :recycle_bin],
                    planning_element_journals: [:index],
                    # This is api/v2/planning_element_types
@@ -107,16 +106,16 @@ Redmine::AccessControl.map do |map|
 
     wpt.permission :add_work_packages,
                    issues: [:new, :create],
-                   :'issues/previews' => :create,
+                   'issues/previews': :create,
                    work_packages: [:new, :new_type, :preview, :create]
 
     wpt.permission :move_work_packages,
-                   { :'work_packages/moves' => [:new, :create] },
+                   { 'work_packages/moves': [:new, :create] },
                    require: :loggedin
 
     wpt.permission :edit_work_packages,
                    { issues: [:edit, :update],
-                     :'work_packages/bulk' => [:edit, :update],
+                     'work_packages/bulk': [:edit, :update],
                      work_packages: [:edit, :update, :new_type,
                                      :preview, :quoted],
                      journals: :preview,
@@ -139,7 +138,7 @@ Redmine::AccessControl.map do |map|
     wpt.permission :delete_work_packages,
                    { issues: :destroy,
                      work_packages: :destroy,
-                     :'work_packages/bulk' => :destroy,
+                     'work_packages/bulk': :destroy,
                      planning_elements: [:confirm_destroy,
                                          :destroy,
                                          :destroy_all,
@@ -195,7 +194,7 @@ Redmine::AccessControl.map do |map|
   map.project_module :news do |news|
     news.permission :manage_news,
                     { news: [:new, :create, :edit, :update, :destroy, :preview],
-                      :'news/comments' => [:destroy] },
+                      'news/comments': [:destroy] },
                     require: :member
 
     news.permission :view_news,
@@ -203,7 +202,7 @@ Redmine::AccessControl.map do |map|
                     public: true
 
     news.permission :comment_news,
-                    :'news/comments' => :create
+                    'news/comments': :create
   end
 
   map.project_module :wiki do |wiki|
@@ -305,7 +304,7 @@ Redmine::AccessControl.map do |map|
 
   map.project_module :calendar do |cal|
     cal.permission :view_calendar,
-                   :'work_packages/calendars' => [:index]
+                   'work_packages/calendars': [:index]
   end
 
   map.project_module :activity
