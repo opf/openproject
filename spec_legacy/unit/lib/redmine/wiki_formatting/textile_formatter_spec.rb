@@ -111,11 +111,24 @@ describe Redmine::WikiFormatting::Textile::Formatter do
     )
   end
 
+  it 'should inline auto link email addresses' do
+    assert_html_output(
+      'Mailto link to foo@bar.com' => 'Mailto link to <a class="email" href="mailto:foo@bar.com">foo@bar.com</a>'
+    )
+  end
+
+  it 'should ignore email addresses that are used as login names' do
+    assert_html_output(
+      'No mailto link to user:foo@bar.com' => 'No mailto link to user:foo@bar.com'
+    )
+  end
+
   it 'should ignore links inside macros' do
     assert_html_output(
       '{{embed_youtube(http://www.google.com)}}' =>         '{{embed_youtube(http://www.google.com)}}'
     )
   end
+
 
   it 'should blockquote' do
     # orig raw text
