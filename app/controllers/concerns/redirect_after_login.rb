@@ -33,7 +33,7 @@ module Concerns::RedirectAfterLogin
   def redirect_after_login(user)
     if user.first_login
       user.update_attribute(:first_login, false)
-      redirect_to home_url(first_time_user: true)
+      first_login_redirect
     else
       default_redirect
     end
@@ -42,6 +42,18 @@ module Concerns::RedirectAfterLogin
   #    * * *
 
   def default_redirect
-    redirect_back_or_default controller: '/my', action: 'page'
+    if url = OpenProject::Configuration.after_login_default_redirect_url
+      redirect_to url
+    else
+      redirect_back_or_default controller: '/my', action: 'page'
+    end
+  end
+
+  def first_login_redirect
+    if url = OpenProject::Configuration.after_first_login_redirect_url
+      redirect_to url
+    else
+      redirect_to home_url(first_time_user: true)
+    end
   end
 end

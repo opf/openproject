@@ -65,7 +65,7 @@ module OpenProject
         end
 
         def scm_version_from_command_line
-          capture_out(%w[--version --no-color])
+          capture_out(%w[--version])
         end
 
         def git_binary_version
@@ -196,7 +196,10 @@ module OpenProject
         end
 
         def checkout?
-          checkout_uri =~ /\A\w+:\/\/.+\Z/ # check if it starts file:// or http(s):// etc
+          parsed = URI.parse checkout_uri
+          %w(file http https git).include? parsed.scheme
+        rescue => e
+          false
         end
 
         def checkout_path

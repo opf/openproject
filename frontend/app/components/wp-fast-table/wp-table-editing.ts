@@ -1,32 +1,31 @@
-import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from '../api/api-v3/hal-resources/work-package-resource.service';
-
-import {States} from '../states.service';
-import {injectorBridge} from '../angular/angular-injector-bridge.functions';
-
-import {WorkPackageTableRow} from './wp-table.interfaces';
-import {TableHandlerRegistry} from './handlers/table-handler-registry';
-import {locateRow} from './helpers/wp-table-row-helpers';
-import {PlainRowsBuilder} from './builders/modes/plain/plain-rows-builder';
-import {GroupedRowsBuilder} from './builders/modes/grouped/grouped-rows-builder';
-import {HierarchyRowsBuilder} from './builders/modes/hierarchy/hierarchy-rows-builder';
-import {RowsBuilder} from './builders/modes/rows-builder';
-import {WorkPackageTimelineTableController} from '../wp-table/timeline/container/wp-timeline-container.directive';
-import {PrimaryRenderPass, RenderedRow} from './builders/primary-render-pass';
-import {debugLog} from '../../helpers/debug_output';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
 import {TableRowEditContext} from "../wp-edit-form/table-row-edit-context";
+import {WorkPackageEditingService} from "../wp-edit-form/work-package-editing-service";
+import {$injectFields} from "../angular/angular-injector-bridge.functions";
 
 export class WorkPackageTableEditingContext {
+  public wpEditing:WorkPackageEditingService;
+
+  constructor() {
+    $injectFields(this, 'wpEditing');
+  }
 
   public forms:{[wpId:string]:WorkPackageEditForm} = {};
 
   public reset() {
     _.each(this.forms, (form) => form.destroy());
     this.forms = {};
+  }
+
+  public stopEditing(workPackageId:string) {
+    this.wpEditing.stopEditing(workPackageId);
+
+    const existing = this.forms[workPackageId];
+    if (existing) {
+      existing.destroy();
+      delete this.forms[workPackageId];
+    }
   }
 
   public startEditing(workPackage:WorkPackageResourceInterface, classIdentifier:string):WorkPackageEditForm {

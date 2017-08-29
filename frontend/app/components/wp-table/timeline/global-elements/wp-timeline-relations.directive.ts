@@ -108,10 +108,11 @@ export class WorkPackageTableTimelineRelations {
     // for all visible WorkPackage rows...
     Observable.combineLatest(
       this.states.table.renderedWorkPackages.values$(),
-      this.states.table.timelineVisible.values$().filter(v => v.visible)
+      this.states.table.timelineVisible.values$()
     )
+      .filter(([rendered, timeline]) => timeline.isVisible)
       .takeUntil(scopeDestroyed$(this.$scope))
-      .map(([rendered, visible]) => rendered)
+      .map(([rendered, _]) => rendered)
       .subscribe(list => {
         // ... make sure that the corresponding relations are loaded ...
         const wps = _.compact(list.map(row => row.workPackageId) as string[]);
@@ -220,8 +221,11 @@ export class WorkPackageTableTimelineRelations {
     startCell:WorkPackageTimelineCell,
     endCell:WorkPackageTimelineCell) {
 
+    const rowFrom = this.workPackageIdOrder[idxFrom];
+    const rowTo = this.workPackageIdOrder[idxTo];
+
     // If any of the targets are hidden in the table, skip
-    if (this.workPackageIdOrder[idxFrom].hidden || this.workPackageIdOrder[idxTo].hidden) {
+    if (!(rowFrom && rowTo) || (rowFrom.hidden || rowTo.hidden)) {
       return;
     }
 

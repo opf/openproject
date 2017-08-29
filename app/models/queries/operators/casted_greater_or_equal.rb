@@ -35,7 +35,7 @@ module Queries::Operators
 
     def self.sql_for_field(values, db_table, db_field)
       "#{db_table}.#{db_field} != '' " +
-        "AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) <= #{values.first.to_f}"
+        "AND CAST(#{db_table}.#{db_field} AS decimal(60,4)) >= #{values.first.to_f}"
     end
   end
 end

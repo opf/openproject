@@ -73,6 +73,10 @@
         </label>
       </div>
     </div>
+    <div ng-if="$ctrl.eeShowBanners" class="ee-relation-columns-upsale">
+      {{$ctrl.text.upsaleRelationColumns}}
+      <a href="https://www.openproject.org/enterprise-edition/?op_edtion=community-edition&op_referrer=wp-list-columns#relations" target='blank' ng-bind="$ctrl.text.upsaleRelationColumnsLink"></a>
+    </div>
     <div>
       <button class="button -highlight" ng-click="$ctrl.updateSelectedColumns()">
         {{ ::$ctrl.text.applyButton }}

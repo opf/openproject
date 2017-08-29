@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
+import {$injectFields, $injectNow} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {
   calculatePositionValueForDayCount,
@@ -9,9 +9,9 @@ import {
   timelineMarkerSelectionStartClass
 } from '../wp-timeline';
 import {
-  classNameFarRightLabel,
+  classNameFarRightLabel, classNameHideOnHover, classNameHoverStyle, classNameLeftHoverLabel,
   classNameLeftLabel,
-  classNameRightContainer,
+  classNameRightContainer, classNameRightHoverLabel,
   classNameRightLabel,
   classNameShowOnHover,
   WorkPackageCellLabels
@@ -21,6 +21,10 @@ import Moment = moment.Moment;
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {hasChildrenInTable} from '../../../wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
+import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
+import WorkPackagesHelper = op.WorkPackagesHelper;
+import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
+import {TimelineLabels} from '../../../api/api-v3/hal-resources/query-resource.service';
 
 interface CellDateMovement {
   // Target values to move work package to
@@ -28,17 +32,21 @@ interface CellDateMovement {
   dueDate?:moment.Moment;
 }
 
+export type LabelPosition = 'left' | 'right' | 'farRight';
+
 function calculateForegroundColor(backgroundColor:string):string {
   return 'red';
 }
 
 export class TimelineCellRenderer {
-
-  protected TimezoneService:any;
+  public TimezoneService:any;
+  public wpTableTimeline:WorkPackageTableTimelineService;
+  public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer('table');
 
   protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
 
   constructor(public workPackageTimeline:WorkPackageTimelineTableController) {
+    $injectFields(this, 'TimezoneService', 'wpTableTimeline', 'WorkPackagesHelper');
   }
 
   public get type():string {
@@ -150,21 +158,21 @@ export class TimelineCellRenderer {
     if (jQuery(ev.target).hasClass(classNameLeftHandle)) {
       // only left
       direction = 'left';
-      this.forceCursor('w-resize');
+      this.workPackageTimeline.forceCursor('ew-resize');
       if (changeset.value('startDate') === null) {
         changeset.setValue('startDate', changeset.value('dueDate'));
       }
     } else if (jQuery(ev.target).hasClass(classNameRightHandle) || dateForCreate) {
       // only right
       direction = 'right';
-      this.forceCursor('e-resize');
+      this.workPackageTimeline.forceCursor('ew-resize');
       if (changeset.value('dueDate') === null) {
         changeset.setValue('dueDate', changeset.value('startDate'));
       }
     } else {
       // both
       direction = 'both';
-      this.forceCursor('ew-resize');
+      this.workPackageTimeline.forceCursor('ew-resize');
     }
 
     if (dateForCreate) {
@@ -186,7 +194,7 @@ export class TimelineCellRenderer {
    * @return true, if the element should still be displayed.
    *         false, if the element must be removed from the timeline.
    */
-  public update(bar:HTMLDivElement, renderInfo:RenderInfo):boolean {
+  public update(bar:HTMLDivElement, labels:WorkPackageCellLabels|null, renderInfo:RenderInfo):boolean {
     const changeset = renderInfo.changeset;
 
     // general settings - bar
@@ -230,6 +238,11 @@ export class TimelineCellRenderer {
     if (!_.isNaN(start.valueOf()) || !_.isNaN(due.valueOf())) {
       const minWidth = _.max([renderInfo.viewParams.pixelPerDay, 2]);
       bar.style.minWidth = minWidth + 'px';
+    }
+
+    // Update labels if any
+    if (labels) {
+      this.updateLabels(false, labels, changeset);
     }
 
     this.checkForActiveSelectionMode(renderInfo, bar);
@@ -312,8 +325,7 @@ export class TimelineCellRenderer {
 
     // create left label
     const labelLeft = document.createElement('div');
-    labelLeft.classList.add(classNameLeftLabel);
-    labelLeft.classList.add(classNameShowOnHover);
+    labelLeft.classList.add(classNameLeftLabel, classNameHideOnHover);
     element.appendChild(labelLeft);
 
     // create right container
@@ -323,17 +335,25 @@ export class TimelineCellRenderer {
 
     // create right label
     const labelRight = document.createElement('div');
-    labelRight.classList.add(classNameRightLabel);
-    labelRight.classList.add(classNameShowOnHover);
+    labelRight.classList.add(classNameRightLabel, classNameHideOnHover);
     containerRight.appendChild(labelRight);
 
     // create far right label
     const labelFarRight = document.createElement('div');
-    labelFarRight.classList.add(classNameFarRightLabel);
-    labelFarRight.classList.add(classNameShowOnHover);
+    labelFarRight.classList.add(classNameFarRightLabel, classNameHideOnHover);
     containerRight.appendChild(labelFarRight);
 
-    const labels = new WorkPackageCellLabels(labelCenter, labelLeft, labelRight, labelFarRight);
+    // create left hover label
+    const labelHoverLeft = document.createElement('div');
+    labelHoverLeft.classList.add(classNameLeftHoverLabel  , classNameShowOnHover, classNameHoverStyle);
+    element.appendChild(labelHoverLeft);
+
+    // create right hover label
+    const labelHoverRight = document.createElement('div');
+    labelHoverRight.classList.add(classNameRightHoverLabel, classNameShowOnHover, classNameHoverStyle);
+    element.appendChild(labelHoverRight);
+
+    const labels = new WorkPackageCellLabels(labelCenter, labelLeft, labelHoverLeft, labelRight, labelHoverRight, labelFarRight);
     this.updateLabels(false, labels, renderInfo.changeset);
 
     return labels;
@@ -352,14 +372,6 @@ export class TimelineCellRenderer {
     if (value) {
       changeset.setValue(attributeName, value.format('YYYY-MM-DD'));
     }
-  }
-
-  /**
-   * Force the cursor to the given cursor type.
-   */
-  protected forceCursor(cursor:string) {
-    jQuery('.hascontextmenu').css('cursor', cursor);
-    jQuery('.' + timelineElementCssClass).css('cursor', cursor);
   }
 
   /**
@@ -392,53 +404,52 @@ export class TimelineCellRenderer {
                          labels:WorkPackageCellLabels,
                          changeset:WorkPackageChangeset) {
 
-    if (!this.TimezoneService) {
-      this.TimezoneService = $injectNow('TimezoneService');
-    }
-
-    let startStr = changeset.value('startDate');
-    let dueStr = changeset.value('dueDate');
-
-    const subject:string = changeset.value('subject');
-    const start:Moment | null = startStr ? moment(startStr) : null;
-    const due:Moment | null = dueStr ? moment(dueStr) : null;
+    const labelConfiguration = this.wpTableTimeline.getNormalizedLabels(changeset.workPackage);
 
     if (!activeDragNDrop) {
       // normal display
-      if (labels.labelLeft && start) {
-        labels.labelLeft.textContent = this.TimezoneService.formattedDate(start);
-      }
-      if (labels.labelRight && due) {
-        labels.labelRight.textContent = this.TimezoneService.formattedDate(due);
-      }
-      if (labels.labelFarRight) {
-        labels.labelFarRight.textContent = subject;
-      }
-    } else {
-      // active drag'n'drop
-      if (labels.labelLeft && start) {
-        labels.labelLeft.textContent = this.TimezoneService.formattedDate(start);
-      }
-      if (labels.labelRight && due) {
-        labels.labelRight.textContent = this.TimezoneService.formattedDate(due);
-      }
+      this.renderLabel(changeset, labels, 'left', labelConfiguration.left);
+      this.renderLabel(changeset, labels, 'right', labelConfiguration.right);
+      this.renderLabel(changeset, labels, 'farRight', labelConfiguration.farRight);
     }
 
-    if (labels.labelLeft) {
-      if (_.isEmpty(labels.labelLeft.textContent)) {
-        labels.labelLeft.classList.remove('not-empty');
-      } else {
-        labels.labelLeft.classList.add('not-empty');
-      }
-    }
-    if (labels.labelRight) {
-      if (_.isEmpty(labels.labelRight.textContent)) {
-        labels.labelRight.classList.remove('not-empty');
-      } else {
-        labels.labelRight.classList.add('not-empty');
-      }
-    }
-
+    // Update hover labels
+    this.renderHoverLabels(labels, changeset);
   }
 
+  protected renderHoverLabels(labels:WorkPackageCellLabels, changeset:WorkPackageChangeset) {
+    this.renderLabel(changeset, labels, 'leftHover', 'startDate');
+    this.renderLabel(changeset, labels, 'rightHover', 'dueDate');
+  }
+
+  protected renderLabel(changeset:WorkPackageChangeset,
+                        labels:WorkPackageCellLabels,
+                        position:LabelPosition|'leftHover'|'rightHover',
+                        attribute:string|null) {
+
+    // Get the label position
+    // Skip label if it does not exist (milestones)
+    let label = labels[position];
+    if (!label) {
+      return;
+    }
+
+    // Reset label value
+    label.innerHTML = '';
+
+    if (attribute === null) {
+      label.classList.remove('not-empty');
+      return;
+    }
+
+    // Get the rendered field
+    let [field, span] = this.fieldRenderer.renderFieldValue(changeset.workPackage, attribute);
+
+    if (label && field && span) {
+      label.appendChild(span);
+      label.classList.add('not-empty');
+    } else if (label) {
+      label.classList.remove('not-empty');
+    }
+  }
 }

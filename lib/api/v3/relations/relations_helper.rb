@@ -51,10 +51,6 @@ module API
             .pluck("#{work_packages}.project_id")
             .first
         end
-
-        def to_i_or_nil(string)
-          string ? string.to_i : nil
-        end
       end
     end
   end

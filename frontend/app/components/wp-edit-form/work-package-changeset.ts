@@ -40,6 +40,8 @@ import {input} from 'reactivestates';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageEditingService} from './work-package-editing-service';
 import {ErrorResource} from '../api/api-v3/hal-resources/error-resource.service';
+import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {CollectionResource} from '../api/api-v3/hal-resources/collection-resource.service';
 
 export class WorkPackageChangeset {
   // Injections

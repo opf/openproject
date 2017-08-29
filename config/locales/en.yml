@@ -368,6 +368,7 @@ en:
         relations_of_type_column: "%{type} relations"
         group_by: "Group results by"
         filters: "Filters"
+        timeline_labels: "Timeline labels"
       repository:
         url: "URL"
       role:
@@ -503,6 +504,8 @@ en:
         repository:
           not_available: "SCM vendor is not available"
           not_whitelisted: "is not allowed by the configuration."
+          invalid_url: "is not a valid repository URL or path."
+          must_not_be_ssh: "must not be an SSH url."
           no_directory: "is not a directory."
         work_package:
           is_not_a_valid_target_for_time_entries: "Work package #%{id} is not a valid target for reassigning the time entries."
@@ -979,6 +982,7 @@ en:
       forums: "Forums"
       blog: "OpenProject blog"
       boards: "Community forum"
+      newsletter: "Security alerts / Newsletter"
 
 
   instructions_after_registration: "You can sign in as soon as your account has been activated by clicking %{signin}."
@@ -999,6 +1003,7 @@ en:
   label_accessibility: "Accessibility"
   label_account: "Account"
   label_active: "Active"
+  label_active_in_new_projects: "Active in new projects"
   label_activity: "Activity"
   label_add_edit_translations: "Add and edit translations"
   label_add_another_file: "Add another file"
@@ -1756,6 +1761,7 @@ en:
   query_fields:
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
+    assignee_or_group: "Assignee or belonging group"
     subproject_id: "Subproject"
 
   repositories:

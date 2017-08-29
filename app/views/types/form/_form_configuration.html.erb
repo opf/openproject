@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% form_attributes = @type.form_configuration_groups %>
 <section class="form--section">
   <%= f.hidden_field :attribute_groups, value: @type.attribute_groups.map { |group| [group[0], group[1], (group[0].is_a? Symbol)] }.to_json %>
-  <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl" ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  "/?utm_source=#{CGI.escape request.base_url}&utm_medium=custom-edition&utm_campaign=form-configuration" + '"' %>">
+  <div id="types-form-configuration" op-drag-scroll ng-controller="TypesFormConfigurationCtrl" ng-init="upsaleLink = <%= '"' + OpenProject::Static::Links.links[:upsale][:href] +  "/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration" + '"' %>">
     <div class="grid-block wrap">
       <div class="grid-content small-12 large-10">
       <div class="notification-box -info">
@@ -61,7 +61,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <br/>
               <b><%= t('homescreen.blocks.upsale.become_hero') %></b> <%= t('homescreen.blocks.upsale.you_contribute') %>
             </p>
-            <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=#{CGI.escape request.base_url}&utm_medium=custom-edition&utm_campaign=form-configuration",
+            <%= link_to( "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=form-configuration",
                   { class: 'button -alt-highlight',
                     aria: {label: t('admin.enterprise.order')},
                     title: t('admin.enterprise.order')}) do %>
@@ -107,7 +107,7 @@ See doc/COPYRIGHT.rdoc for more details.
               onupsale="<%= EnterpriseToken.allows_to?(:edit_attribute_groups) ? '' : 'showEEOnlyHint' %>"
               class="group-name">
             </group-edit-in-place>
-            <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
+            <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
           </div>
           <div class="attributes" dragula='"attributes"'>
           </div>
@@ -125,7 +125,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   class="group-name">
                   <%= @type.translated_attribute_group(group) %>
                 </group-edit-in-place>
-                <span class="delete-group icon icon-close" ng-click="deleteGroup($event)"></span>
+                <span class="delete-group icon-small icon-close" ng-click="deleteGroup($event)"></span>
               </div>
               <div class="attributes" dragula='"attributes"'>
                 <% attributes.each do |attribute| %>
@@ -137,7 +137,7 @@ See doc/COPYRIGHT.rdoc for more details.
                         <span class="attribute-cf-label"><%= CustomField.model_name.human %></span>
                       <% end %>
                     </span>
-                    <span class="delete-attribute icon icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
+                    <span class="delete-attribute icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
                   </div>
                 <% end %>
               </div>
@@ -161,7 +161,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     <span class="attribute-cf-label"><%= CustomField.model_name.human %></span>
                   <% end %>
                 </span>
-                <span class="delete-group icon icon-close" ng-click="deactivateAttribute($event)"></span>
+                <span class="delete-group icon-small icon-close" ng-click="deactivateAttribute($event)"></span>
               </div>
             <% end %>
           </div>

@@ -115,6 +115,10 @@ export class SingleViewEditContext implements WorkPackageEditContext {
     ctrl.deactivate(focus);
   }
 
+  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface) {
+    this.fieldGroup.onSaved(isInitial, savedWorkPackage);
+  }
+
   public requireVisible(fieldName:string):Promise<undefined> {
     const deferred = this.$q.defer<undefined>();
 

@@ -217,10 +217,10 @@ describe Query, type: :model do
 
     query = Query.new(name: '_', filters: [{ assigned_to_id: { operator: '=', values: ['me'] } }])
     result = query.results.work_packages
-    assert_equal WorkPackage.visible.where(assigned_to_id: ([2] + user.reload.group_ids)).sort_by(&:id), result.sort_by(&:id)
+    assert_equal WorkPackage.visible.where(assigned_to_id: ([2])).sort_by(&:id), result.sort_by(&:id)
 
     assert result.include?(i1)
-    assert result.include?(i2)
+    assert !result.include?(i2)
     assert !result.include?(i3)
 
     User.current = nil

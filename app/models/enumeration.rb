@@ -40,7 +40,7 @@ class Enumeration < ActiveRecord::Base
   before_destroy :check_integrity
 
   validates_presence_of :name
-  validates_uniqueness_of :name, scope: %i[type project_id]
+  validates_uniqueness_of :name, scope: %i(type project_id)
   validates_length_of :name, maximum: 30
 
   scope :shared, -> { where(project_id: nil) }
@@ -104,9 +104,8 @@ class Enumeration < ActiveRecord::Base
     objects_count != 0
   end
 
-  # Is this enumeration overriding a system level enumeration?
-  def is_override?
-    !parent.nil?
+  def shared?
+    parent_id.nil?
   end
 
   alias :destroy_without_reassign :destroy
@@ -152,8 +151,6 @@ class Enumeration < ActiveRecord::Base
     new == previous
   end
 
-  private
-
   # This is not a performant method.
   def self.sort_by_ancestor_last(entries)
     ancestor_relationships = entries.map { |entry| [entry, entry.ancestors] }
@@ -168,6 +165,8 @@ class Enumeration < ActiveRecord::Base
       end
     end.map(&:first)
   end
+
+  private
 
   def check_integrity
     raise "Can't delete enumeration" if in_use?

@@ -50,12 +50,12 @@ describe Project, type: :model do
     end
 
     it 'is active when :status equals STATUS_ACTIVE' do
-      project = FactoryGirl.create :project, status: 42
+      project = FactoryGirl.build :project, status: 42
       expect(project).to be_active
     end
 
     it "is not active when :status doesn't equal STATUS_ACTIVE" do
-      project = FactoryGirl.create :project, status: 99
+      project = FactoryGirl.build :project, status: 99
       expect(project).not_to be_active
     end
   end

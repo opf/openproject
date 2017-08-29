@@ -46,20 +46,18 @@ module API
       end
 
       link :user do
-        if current_user.logged?
-          {
-            href: api_v3_paths.user(current_user.id),
-            title: current_user.name
-          }
-        end
+        next unless current_user.logged?
+        {
+          href: api_v3_paths.user(current_user.id),
+          title: current_user.name
+        }
       end
 
       link :userPreferences do
-        if current_user.logged?
-          {
-            href: api_v3_paths.my_preferences
-          }
-        end
+        next unless current_user.logged?
+        {
+          href: api_v3_paths.my_preferences
+        }
       end
 
       link :priorities do
@@ -77,6 +75,12 @@ module API
       link :statuses do
         {
           href: api_v3_paths.statuses
+        }
+      end
+
+      link :time_entries do
+        {
+          href: api_v3_paths.time_entries
         }
       end
 

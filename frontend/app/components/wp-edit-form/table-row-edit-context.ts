@@ -63,8 +63,17 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return this.rowContainer.find(`.${tdClassName}.${fieldName} .${editCellContainer}`).first();
   }
 
+  public findCell(fieldName:string) {
+    return this.rowContainer.find(`.${tdClassName}.${fieldName}`).first();
+  }
+
   public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler> {
     const cell = this.findContainer(fieldName);
+
+    // Forcibly set the width since the edit field may otherwise
+    // be given more width
+    const td = this.findCell(fieldName);
+    td.css('width', td.css('width'));
 
     // Create a field handler for the newly active field
     const fieldHandler = new WorkPackageEditFieldHandler(
@@ -103,6 +112,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     const cell = this.findContainer(fieldName);
 
     if (cell.length) {
+      this.findCell(fieldName).css('width', '');
       this.cellBuilder.refresh(cell[0], workPackage, fieldName);
 
       if (focus) {
@@ -118,6 +128,10 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
   public firstField(names:string[]) {
     return 'subject';
+  }
+
+  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface) {
+    // Nothing to do here.
   }
 
   // Ensure the given field is visible.

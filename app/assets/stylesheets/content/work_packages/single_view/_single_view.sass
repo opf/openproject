@@ -179,6 +179,14 @@ i
     padding: 0
     margin: 0
 
+// Increase label width
+.action-show .attributes-group,
+.full-create .attributes-group
+  .attributes-key-value--key
+    @include grid-content(6)
+  .attributes-key-value--value-container
+    @include grid-content(6)
+
 // Implement two column layout for WP full screen view
 @media screen and (min-width: 90rem)
   .action-show .attributes-group,
@@ -197,10 +205,10 @@ i
         .attributes-key-value.-span-all-columns
           column-span: all
           .attributes-key-value--key
-            flex-basis: calc(16.65% - (4rem / 6))
+            flex-basis: calc(24.4% - (4rem / 6))
           .attributes-key-value--value-container
-            flex-basis: calc(83.35% + (4rem / 6))
-            max-width: calc(83.35% + (4rem / 6))
+            flex-basis: calc(75.6% + (4rem / 6))
+            max-width: calc(75.6% + (4rem / 6))
 
   @supports (column-span: all)
     // Remove the outline on focus since that breaks the column in chrome

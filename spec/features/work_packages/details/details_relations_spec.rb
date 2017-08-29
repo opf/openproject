@@ -250,6 +250,8 @@ describe 'Work package relations tab', js: true, selenium: true do
         # Save description
         created_row.find('.inplace-edit--control--save a').click
 
+        loading_indicator_saveguard
+
         ## Toggle description again
         relations.hover_action(relatable, :info)
         created_row = relations.find_row(relatable)

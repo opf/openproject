@@ -24,6 +24,10 @@ module Members
       self.class.filter(params)
     end
 
+    def filter_path
+      project_members_path(project)
+    end
+
     def self.base_query
       Queries::Members::MemberQuery
     end

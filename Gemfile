@@ -124,6 +124,8 @@ gem 'prawn-table', '~> 0.2.2'
 gem 'cells-erb', '~> 0.0.8'
 gem 'cells-rails', '~> 0.0.6'
 
+gem 'meta-tags', '~> 2.4.1'
+
 group :production do
   # we use dalli as standard memcache client
   # requires memcached 1.4+
@@ -169,6 +171,10 @@ group :test do
   gem 'factory_girl', '~> 4.5'
   # require factory_girl_rails for convenience in core development
   gem 'factory_girl_rails', '~> 4.7', require: false
+
+  # Test prof provides factories from code
+  # and other niceties
+  gem 'test-prof'
 
   gem 'cucumber', '~> 2.4.0'
   gem 'cucumber-rails', '~> 1.4.4', require: false
@@ -229,6 +235,7 @@ group :development, :test do
   gem 'pry-rails', '~> 0.3.6'
   gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-stack_explorer', '~> 0.4.9.2'
+  gem 'bootsnap', '~> 1.1.2', require: false
 end
 
 # API gems
@@ -261,7 +268,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'release/7.2'
 end
 
 # TODO: Make this group :optional when bundler v10.x

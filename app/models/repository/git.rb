@@ -32,6 +32,7 @@ require 'open_project/scm/adapters/git'
 
 class Repository::Git < Repository
   validates_presence_of :url
+  validate :validity_of_local_url
 
   def self.scm_adapter_class
     OpenProject::Scm::Adapters::Git
@@ -178,5 +179,17 @@ class Repository::Git < Repository
 
     changesets.where(['scmid IN (?)', revisions.map!(&:scmid)])
               .order('committed_on DESC')
+  end
+
+  private
+
+  def validity_of_local_url
+    parsed = URI.parse root_url.presence || url
+    if parsed.scheme == 'ssh'
+      errors.add :url, :must_not_be_ssh
+    end
+  rescue => e
+    Rails.logger.error "Failed to parse repository url for validation: #{e}"
+    errors.add :url, :invalid_url
   end
 end

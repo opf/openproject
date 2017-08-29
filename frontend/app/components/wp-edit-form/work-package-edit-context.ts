@@ -58,4 +58,9 @@ export interface WorkPackageEditContext {
    * Return the first relevant field from the given list of attributes.
    */
   firstField(names:string[]):string;
+
+  /**
+   * Optional callback when the form is being saved
+   */
+  onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface):void;
 }

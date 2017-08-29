@@ -31,6 +31,7 @@ require 'spec_helper'
 describe 'Delete work package', js: true do
   let(:user) { FactoryGirl.create(:admin) }
   let(:context_menu) { Components::WorkPackages::ContextMenu.new }
+  let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
 
   before do
     login_as(user)
@@ -47,13 +48,45 @@ describe 'Delete work package', js: true do
         context_menu.open_for(work_package)
         context_menu.choose('Delete')
 
-        split_view.accept_alert_dialog!
+        destroy_modal.expect_listed(work_package)
+        destroy_modal.confirm_deletion
+
+        loading_indicator_saveguard
       end
 
       it 'should close the split view' do
         split_view.closed?
         wp_table.expect_current_path
       end
+    end
+  end
+
+  describe 'deleting multiple work packages in the table' do
+    let!(:wp1) { FactoryGirl.create(:work_package) }
+    let!(:wp2) { FactoryGirl.create(:work_package) }
+    let!(:wp_child) { FactoryGirl.create(:work_package, parent: wp1) }
+
+    let(:wp_table) { Pages::WorkPackagesTable.new }
+
+    it 'shows deletion for all selected work packages' do
+      wp_table.visit!
+
+      wp_table.expect_work_package_listed wp1, wp2, wp_child
+      wp_table.table_container.send_keys [:control, 'a']
+
+      context_menu.open_for(wp1)
+      context_menu.choose('Bulk delete')
+
+      destroy_modal.expect_listed(wp1, wp2, wp_child)
+      destroy_modal.cancel_deletion
+      wp_table.expect_work_package_listed wp1, wp2, wp_child
+
+      context_menu.open_for(wp1)
+      context_menu.choose('Bulk delete')
+      destroy_modal.confirm_deletion
+
+      loading_indicator_saveguard
+      wp_table.expect_no_work_package_listed
     end
   end
 

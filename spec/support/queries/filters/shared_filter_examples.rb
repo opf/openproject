@@ -49,6 +49,7 @@ shared_examples_for 'basic query filter' do
   let(:instance_key) { nil }
   let(:class_key) { raise 'needs to be defined' }
   let(:type) { raise 'needs to be defined' }
+  let(:human_name) { nil }
   let(:order) { nil }
 
   describe '.key' do
@@ -79,7 +80,7 @@ shared_examples_for 'basic query filter' do
 
   describe '#human_name' do
     it 'is the l10 name for the filter' do
-      expect(instance.human_name).to eql(name)
+      expect(instance.human_name).to eql(human_name.presence || name)
     end
   end
 end

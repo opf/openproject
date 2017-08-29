@@ -30,16 +30,19 @@ import * as moment from 'moment';
 import {keyCodes} from '../../../common/keyCodes.enum';
 import {LoadingIndicatorService} from '../../../common/loading-indicator/loading-indicator.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
-import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import {RenderInfo, timelineElementCssClass} from '../wp-timeline';
-import {TimelineCellRenderer} from './timeline-cell-renderer';
-import {WorkPackageCellLabels} from './wp-timeline-cell';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {WorkPackageNotificationService} from '../../../wp-edit/wp-notification.service';
+import {WorkPackageTableRefreshService} from '../../wp-table-refresh-request.service';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {RenderInfo} from '../wp-timeline';
+import {TimelineCellRenderer} from './timeline-cell-renderer';
+import {WorkPackageCellLabels} from './wp-timeline-cell';
 import Moment = moment.Moment;
+import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
+import {States} from '../../../states.service';
+import {QueryDmService} from '../../../api/api-v3/hal-resource-dms/query-dm.service';
 
-const classNameBar = 'bar';
+export const classNameBar = 'bar';
 export const classNameLeftHandle = 'leftHandle';
 export const classNameRightHandle = 'rightHandle';
 export const classNameBarLabel = 'bar-label';
@@ -94,7 +97,7 @@ export function registerWorkPackageMouseHandler(this: void,
     // add/remove css class while drag'n'drop is active
     const classNameActiveDrag = 'active-drag';
     bar.classList.add(classNameActiveDrag);
-    jBody.on('mouseup', () => bar.classList.remove(classNameActiveDrag));
+    jBody.on('mouseup.timelinecell', () => bar.classList.remove(classNameActiveDrag));
 
     workPackageTimeline.disableViewParamsCalculation = true;
     mouseDownStartDay = getCursorOffsetInDaysFromLeft(renderInfo, ev);
@@ -108,9 +111,9 @@ export function registerWorkPackageMouseHandler(this: void,
     // Determine what attributes of the work package should be changed
     const direction = renderer.onMouseDown(ev, null, renderInfo, labels, bar);
 
-    jBody.on('mousemove', createMouseMoveFn(direction));
-    jBody.on('keyup', keyPressFn);
-    jBody.on('mouseup', () => deactivate(false));
+    jBody.on('mousemove.timelinecell', createMouseMoveFn(direction));
+    jBody.on('keyup.timelinecell', keyPressFn);
+    jBody.on('mouseup.timelinecell', () => deactivate(false));
   }
 
   function createMouseMoveFn(direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
@@ -123,7 +126,7 @@ export function registerWorkPackageMouseHandler(this: void,
 
       dateStates = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, days, direction);
       applyDateValues(renderInfo, dateStates);
-      renderer.update(bar, renderInfo);
+      renderer.update(bar, labels, renderInfo);
     }
   }
 
@@ -161,7 +164,7 @@ export function registerWorkPackageMouseHandler(this: void,
       const clickStart = renderInfo.viewParams.dateDisplayStart.clone().add(offsetDayStart, 'days');
       const dateForCreate = clickStart.format('YYYY-MM-DD');
       const mouseDownType = renderer.onMouseDown(ev, dateForCreate, renderInfo, labels, bar);
-      renderer.update(bar, renderInfo);
+      renderer.update(bar, labels, renderInfo);
 
       if (mouseDownType === 'create') {
         deactivate(false);
@@ -175,7 +178,7 @@ export function registerWorkPackageMouseHandler(this: void,
         const widthInDays = offsetDayCurrent - offsetDayStart;
         const moved = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, widthInDays, mouseDownType);
         renderer.assignDateValues(renderInfo.changeset, labels, moved);
-        renderer.update(bar, renderInfo);
+        renderer.update(bar, labels, renderInfo);
       };
 
       cell.onmouseleave = () => {
@@ -186,7 +189,7 @@ export function registerWorkPackageMouseHandler(this: void,
         deactivate(false);
       };
 
-      jBody.on('keyup', keyPressFn);
+      jBody.on('keyup.timelinecell', keyPressFn);
     };
   }
 
@@ -199,24 +202,19 @@ export function registerWorkPackageMouseHandler(this: void,
     cell.onmouseup = _.noop;
 
     bar.style.pointerEvents = 'auto';
-    jBody.off('mouseup');
-    jBody.off('mousemove');
-    jBody.off('keyup');
-    jQuery('.hascontextmenu').css('cursor', 'context-menu');
-    jQuery('.' + timelineElementCssClass).css('cursor', '');
-    jQuery('.' + classNameLeftHandle).css('cursor', 'w-resize');
-    jQuery('.' + classNameBar).css('cursor', 'ew-resize');
-    jQuery('.' + classNameRightHandle).css('cursor', 'e-resize');
+
+    jBody.off('.timelinecell');
+    workPackageTimeline.resetCursor();
     mouseDownStartDay = null;
     dateStates = {};
 
     // const renderInfo = getRenderInfo();
-    if (cancelled) {
+    if (cancelled || renderInfo.changeset.empty) {
       renderInfo.changeset.clear();
-      renderer.update(bar, renderInfo);
+      renderer.update(bar, labels, renderInfo);
       renderer.onMouseDownEnd(labels, renderInfo.changeset);
       workPackageTimeline.refreshView();
-    } else if (!renderInfo.changeset.empty) {
+    } else {
       // Persist the changes
       saveWorkPackage(renderInfo.changeset)
         .finally(() => {
@@ -229,10 +227,19 @@ export function registerWorkPackageMouseHandler(this: void,
   }
 
   function saveWorkPackage(changeset:WorkPackageChangeset) {
+    const queryDm:QueryDmService = $injectNow('QueryDm');
+    const states:States = $injectNow('states');
+
     return loadingIndicator.table.promise = changeset.save()
       .then((wp) => {
         wpNotificationsService.showSave(wp);
-        wpTableRefresh.request(true, `Moved work package ${changeset.workPackage.id} through timeline`);
+        const ids = _.map(states.table.rendered.value!, row => row.workPackageId);
+        loadingIndicator.table.promise =
+          queryDm.loadIdsUpdatedSince(ids, wp.updatedAt).then(workPackageCollection => {
+          wpCacheService.updateWorkPackageList(workPackageCollection.elements);
+
+          wpTableRefresh.request(false, `Moved work package ${wp.id} through timeline`);
+        });
       })
       .catch((error) => {
         wpNotificationsService.handleErrorResponse(error, renderInfo.workPackage);

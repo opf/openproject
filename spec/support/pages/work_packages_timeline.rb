@@ -36,7 +36,7 @@ module Pages
     end
 
     def timeline_row_selector(wp_id)
-      "#wp-timeline-row-#{wp_id}"
+      ".wp-row-#{wp_id}-timeline"
     end
 
     def timeline_container
@@ -79,6 +79,10 @@ module Pages
         expect(page).to have_no_selector('#work-packages-timeline-toggle-button.-active')
         expect(page).to have_no_selector('.wp-table-timeline--container .wp-timeline-cell', visible: true)
       end
+    end
+
+    def timeline_row(wp_id)
+      ::Components::Timelines::TimelineRow.new  page.find(timeline_row_selector(wp_id))
     end
 
     def zoom_in

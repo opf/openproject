@@ -72,10 +72,6 @@ function WorkPackageService($http:ng.IHttpService,
     },
 
     performBulkDelete: function (ids:any, defaultHandling:any) {
-      if (defaultHandling && !$window.confirm(I18n.t('js.text_work_packages_destroy_confirmation'))) {
-        return;
-      }
-
       var params = {
         'ids[]': ids
       };

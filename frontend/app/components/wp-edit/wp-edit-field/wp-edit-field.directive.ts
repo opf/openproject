@@ -93,8 +93,8 @@ export class WorkPackageEditFieldController {
 
   public get resource() {
     return this.wpEditing
-      .temporaryEditResource(this.workPackage.id)
-      .getValueOr(this.workPackage);
+      .temporaryEditResource(this.workPackageId)
+      .getValueOr(this.wpEditFieldGroup.workPackage);
   }
 
   public get isEditable() {
@@ -120,14 +120,25 @@ export class WorkPackageEditFieldController {
     const promise = form.activate(this.fieldName, noWarnings);
     promise
       .then(() => this.active = true)
-      .catch(() => this.deactivate(true))
+      .catch(() => this.deactivate(true));
 
     return promise;
   }
 
   public handleUserActivate(evt:JQueryEventObject|null) {
-    // Get the position where the user clicked.
-    const positionOffset = evt ? ClickPositionMapper.getPosition(evt) : 0;
+    let positionOffset = 0;
+
+    if (evt) {
+      // Skip activation if the user clicked on a link
+      const target = jQuery(evt.target);
+
+      if (target.closest('a', this.displayContainer[0]).length > 0) {
+        return true;
+      }
+
+      // Get the position where the user clicked.
+      positionOffset = ClickPositionMapper.getPosition(evt);
+    }
 
     this.activate()
       .then((handler) => {
@@ -135,6 +146,8 @@ export class WorkPackageEditFieldController {
         const input = handler.element.find('input');
         ClickPositionMapper.setPosition(input, positionOffset);
       });
+
+    return false;
   }
 
   public get displayContainer() {

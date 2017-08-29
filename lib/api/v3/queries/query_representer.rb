@@ -139,10 +139,10 @@ module API
 
         resources :sortBy,
                   getter: ->(*) {
-                    return unless represented.sort_criteria
-
-                    map_with_sort_by_as_decorated(represented.sort_criteria_columns) do |sort_by|
-                      ::API::V3::Queries::SortBys::QuerySortByRepresenter.new(sort_by)
+                    if represented.sort_criteria
+                      map_with_sort_by_as_decorated(represented.sort_criteria_columns) do |sort_by|
+                        ::API::V3::Queries::SortBys::QuerySortByRepresenter.new(sort_by)
+                      end
                     end
                   },
                   setter: ->(fragment:, **) {
@@ -163,11 +163,10 @@ module API
 
         resource :groupBy,
                  getter: ->(*) {
-                   return unless represented.grouped?
-
-                   column = represented.group_by_column
-
-                   ::API::V3::Queries::GroupBys::QueryGroupByRepresenter.new(column)
+                   if represented.grouped?
+                     column = represented.group_by_column
+                     ::API::V3::Queries::GroupBys::QueryGroupByRepresenter.new(column)
+                   end
                  },
                  setter: ->(fragment:, **) {
                    attr = id_from_href "queries/group_bys", fragment['href']
@@ -245,6 +244,8 @@ module API
         property :show_hierarchies
 
         property :timeline_zoom_level
+
+        property :timeline_labels
 
         attr_accessor :results,
                       :params

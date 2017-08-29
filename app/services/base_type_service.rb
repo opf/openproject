@@ -80,6 +80,6 @@ class BaseTypeService
       end
     end
 
-    type.custom_field_ids = active_cf_ids
+    type.custom_field_ids = active_cf_ids.uniq
   end
 end

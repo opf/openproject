@@ -41,22 +41,6 @@ module Pages
       @parent_work_package = parent_work_package
     end
 
-    def expect_heading(type = nil)
-      if type.nil?
-        expect(page).to have_selector('h2', text: I18n.t('js.work_packages.create.header_no_type'))
-
-      elsif parent_work_package
-        expect(page).to have_selector('h2',
-                                      text: I18n.t('js.work_packages.create.header_with_parent',
-                                                   type: type,
-                                                   parent_type: parent_work_package.type,
-                                                   id: parent_work_package.id))
-      else
-        expect(page).to have_selector('h2', text: I18n.t('js.work_packages.create.header',
-                                                         type: type))
-      end
-    end
-
     def update_attributes(attribute_map)
       # Only designed for text fields and selects for now
       attribute_map.each do |label, value|

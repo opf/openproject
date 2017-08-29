@@ -192,6 +192,7 @@
 <li><span class="icon icon-settings4"></span>settings4</li>
 <li><span class="icon icon-shortcuts"></span>shortcuts</li>
 <li><span class="icon icon-show-all-projects"></span>show-all-projects</li>
+<li><span class="icon icon-show-more-horizontal"></span>show-more-horizontal</li>
 <li><span class="icon icon-show-more"></span>show-more</li>
 <li><span class="icon icon-sort-ascending"></span>sort-ascending</li>
 <li><span class="icon icon-sort-by"></span>sort-by</li>
@@ -238,6 +239,7 @@
 <li><span class="icon icon-workflow"></span>workflow</li>
 <li><span class="icon icon-yes"></span>yes</li>
 <li><span class="icon icon-zen-mode"></span>zen-mode</li>
+<li><span class="icon icon-zoom-auto"></span>zoom-auto</li>
 <li><span class="icon icon-zoom-in"></span>zoom-in</li>
 <li><span class="icon icon-zoom-out"></span>zoom-out</li>
 </ul>

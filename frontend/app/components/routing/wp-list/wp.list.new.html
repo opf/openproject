@@ -1,5 +1,5 @@
 <div
-    class="work-packages--details"
+    class="work-packages--details work-packages--new"
     ng-if="$ctrl.newWorkPackage"
 >
   <wp-edit-field-group work-package="$ctrl.newWorkPackage"
@@ -10,14 +10,14 @@
       <div has-edit-mode="true"
            wp-edit-form="$ctrl.newWorkPackage"
            wp-edit-form-on-save="$ctrl.refreshAfterSave(workPackage, 'work-packages.list.details.overview')">
-        <h2>
-          <div class="work-packages-show-view-button wp--details--switch-fullscreen hidden-for-accessibility"
-               ng-click="$ctrl.switchToFullscreen()">
-            <span class="icon-context icon-to-fullscreen"></span>
+        <div class="work-packages--new-details-header">
+          <wp-type-status work-package="$ctrl.newWorkPackage"></wp-type-status>
+          <div class="hidden-for-accessibility wp--details--switch-fullscreen-wrapper">
+             <a ng-click="$ctrl.switchToFullscreen()" class="work-packages-show-view-button wp--details--switch-fullscreen ">
+               <span class="icon-context icon-to-fullscreen"></span>
+             </a>
           </div>
-          {{ $ctrl.header }}
-        </h2>
-          <wp-subject work-package="$ctrl.newWorkPackage"></wp-subject>
+        </div>
           <wp-single-view work-package="$ctrl.newWorkPackage"></wp-single-view>
       </div>
     </div>

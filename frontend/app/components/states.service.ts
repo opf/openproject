@@ -103,6 +103,10 @@ export class TableState extends StatesGroup {
 
   // State to determine timeline visibility
   timelineVisible = input<WorkPackageTableTimelineState>();
+
+  // auto zoom toggle
+  timelineAutoZoom = input<boolean>(true);
+
   // Subject used to unregister all listeners of states above.
   stopAllSubscriptions = new Subject();
   // Fire when table refresh is required

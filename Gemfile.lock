@@ -60,10 +60,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: e84bfaafff6beed10756cddbfed61cd8afd7932e
-  branch: dev
+  revision: 0eab9ccc05832aca5af142c59211df2abbee6833
+  branch: release/7.2
   specs:
-    openproject-translations (7.0.0)
+    openproject-translations (7.2.3)
       crowdin-api (~> 0.4.1)
       mixlib-shellout (~> 2.1.0)
       rails (~> 5.0.0)
@@ -171,6 +171,8 @@ GEM
     bcrypt (3.1.11)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootsnap (1.1.2)
+      msgpack (~> 1.0)
     bourbon (4.3.4)
       sass (~> 3.4)
       thor (~> 0.19)
@@ -345,12 +347,15 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.6)
       mime-types (>= 1.16, < 4)
+    meta-tags (2.4.1)
+      actionpack (>= 3.2.0, < 5.2)
     method_source (0.8.2)
     mime-types (2.99.3)
     mini_portile2 (2.2.0)
     minisyntax (0.2.5)
     minitest (5.10.3)
     mixlib-shellout (2.1.0)
+    msgpack (1.1.0)
     multi_json (1.12.1)
     multi_test (0.1.2)
     mustermann (1.0.0)
@@ -555,6 +560,7 @@ GEM
     syck (1.3.0)
     sys-filesystem (1.1.7)
       ffi
+    test-prof (0.1.0)
     thin (1.7.2)
       daemons (~> 1.0, >= 1.0.9)
       eventmachine (~> 1.0, >= 1.0.4)
@@ -617,6 +623,7 @@ DEPENDENCIES
   awesome_nested_set (~> 3.1.3)
   aws-sdk (~> 2.10.1)
   bcrypt (~> 3.1.6)
+  bootsnap (~> 1.1.2)
   bourbon (~> 4.3.4)
   capybara (~> 2.14.0)
   capybara-ng (~> 0.2.7)
@@ -654,6 +661,7 @@ DEPENDENCIES
   launchy (~> 2.4.3)
   letter_opener
   livingstyleguide (~> 2.0.1)
+  meta-tags (~> 2.4.1)
   multi_json (~> 1.12.1)
   mysql2 (~> 0.4.4)
   net-ldap (~> 0.16.0)
@@ -713,6 +721,7 @@ DEPENDENCIES
   svg-graph (~> 2.1.0)
   syck (~> 1.3.0)
   sys-filesystem (~> 1.1.4)
+  test-prof
   thin (~> 1.7.2)
   timecop (~> 0.9.0)
   transactional_lock!

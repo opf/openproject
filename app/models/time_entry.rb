@@ -115,6 +115,14 @@ class TimeEntry < ActiveRecord::Base
     scope.includes(:project).maximum(:spent_on)
   end
 
+  def authoritativ_activity
+    if activity.shared?
+      activity
+    else
+      activity.root
+    end
+  end
+
   private
 
   def validate_hours_are_in_range

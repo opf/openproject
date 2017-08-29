@@ -95,7 +95,7 @@ Feature: Project Settings
     And  I click on "Copy"
     Then I should see "Started to copy project"
     And  I go to the settings page of the project "copied-project"
-    And  I follow "Types" within "#content"
+    And  I follow "Work package types" within "#content"
     Then the "Phase1" checkbox should be checked
     And  the "Phase2" checkbox should be checked
 

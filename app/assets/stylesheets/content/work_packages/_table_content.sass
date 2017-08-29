@@ -30,8 +30,12 @@
 .wp--row
   user-select: none
 
-.wp-table--row.-collapsed
-  display: none
+.wp-table--row
+  cursor: pointer
+
+  // Hide collapsed rows (hierarchies, relations)
+  &.-collapsed
+    display: none
 
 .work-package-table--container table.generic-table tbody td
   padding-left: 0
@@ -54,32 +58,34 @@
 
 
 // Shrink column of details / inline-create icons
-.wp-table--details-column
-  // Set a minimum width for the cell to avoid movement
-  min-width: 40px
+.wp-table--context-menu-column
+  width: 40px
   // Center the th icon
   text-align: center !important
   // Take care that the header can overlap the icon
   z-index: 1
+  padding: 0 !important
 
-// Details link column width
-.work-package-table
-  col:last-of-type
-    width: 40px
+// Hide the context menu button outside mobile
+html:not(.-browser-mobile)
+  .wp-table-context-menu-link
+    @extend .hidden-for-sighted
 
-// Show details view button when hovering
-.wp-table--details-link
-  .issue:hover &,
-  &:focus
+  .issue:hover .wp-table-context-menu-link,
+  .wp-table-context-menu-link:focus
     // override the hidden-for-sighted definition
     position: relative
-    left: 0
+    left: -5px
     width: initial
     height: initial
 
-    .icon:before
-      color: $body-font-color
-      padding: 0 0 0 0.25rem
+
+// Show context menu button when hovering
+.wp-table-context-menu-link
+  vertical-align: -3px
+  .icon:before
+    @include varprop(color, content-link-color)
+    padding: 0 0 0 0.25rem
   &:hover
     text-decoration: none
 
@@ -111,3 +117,8 @@ table.generic-table tbody tr.issue .checkbox
   overflow: visible
   width: 100%
 
+
+// Special width rules for more or less fixed with fields
+.wp-table--cell-td.startDate,
+.wp-table--cell-td.dueDate
+  width: 160px

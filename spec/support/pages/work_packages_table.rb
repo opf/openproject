@@ -99,11 +99,9 @@ module Pages
     def open_split_view(work_package)
       split_page = SplitWorkPackage.new(work_package, project)
 
-      # Hover row to show split screen button
+      # The 'id' column should have enough space to be clicked
       row_element = row(work_package)
-      row_element.hover
-
-      row_element.find('.wp-table--details-link').click
+      row_element.find('td.id').click
 
       split_page
     end
@@ -128,11 +126,6 @@ module Pages
       expect(page).to have_select("values-#{filter_name}", selected: value) if value
     end
 
-    def click_on_row(work_package)
-      loading_indicator_saveguard
-      page.driver.browser.action.click(row(work_package).native).perform
-    end
-
     def open_full_screen_by_doubleclick(work_package)
       loading_indicator_saveguard
       # The 'id' column should have enough space to be clicked
@@ -144,6 +137,8 @@ module Pages
 
     def open_full_screen_by_link(work_package)
       row(work_package).click_link(work_package.id)
+
+      FullWorkPackage.new(work_package)
     end
 
     def row(work_package)

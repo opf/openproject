@@ -105,13 +105,4 @@ describe Enumeration, type: :model do
     assert @low_priority.respond_to?(:parent)
     assert @low_priority.respond_to?(:children)
   end
-
-  it 'should is override' do
-    # Defaults to off
-    assert !@low_priority.is_override?
-
-    # Setup as an override
-    @low_priority.parent = FactoryGirl.create :priority
-    assert @low_priority.is_override?
-  end
 end

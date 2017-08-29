@@ -102,9 +102,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         group.users << assignee
       end
 
-      it 'returns the work package' do
+      it 'does not return the work package' do
         is_expected
-          .to match_array [work_package]
+          .to be_empty
       end
     end
 
@@ -126,9 +126,9 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
         group.users << user
       end
 
-      it 'returns the work package' do
+      it 'does not return the work package' do
         is_expected
-          .to match_array [work_package]
+          .to be_empty
       end
     end
 

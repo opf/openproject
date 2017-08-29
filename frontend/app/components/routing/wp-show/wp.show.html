@@ -3,13 +3,20 @@
      ng-if="$ctrl.workPackage">
     <div class="toolbar-container">
       <div id="toolbar">
-        <div class="wp-show--back-button">
-            <accessible-by-keyboard execute="$ctrl.goToList()"
-                            link-class="work-packages-list-view-button button"
-                            link-aria-label="{{ ::$ctrl.text.goToList }}"
-                            link-title="{{ ::$ctrl.text.goToList }}">
-              <op-icon icon-classes="button--icon icon-back-up"></op-icon>
-          </accessible-by-keyboard>
+        <div class="wp-show--header-container">
+          <div class="wp-show--back-button">
+              <accessible-by-keyboard execute="$ctrl.goToList()"
+                              link-class="work-packages-list-view-button button"
+                              link-aria-label="{{ ::$ctrl.text.goToList }}"
+                              link-title="{{ ::$ctrl.text.goToList }}">
+                <op-icon icon-classes="button--icon icon-back-up"></op-icon>
+            </accessible-by-keyboard>
+          </div>
+          <ul class="subject-header">
+            <li class="subject-header-inner">
+              <wp-subject></wp-subject>
+            </li>
+          </ul>
         </div>
         <ul id="toolbar-items" class="toolbar-items">
           <li class="toolbar-item">
@@ -20,7 +27,7 @@
           <li class="toolbar-item" ng-if="$ctrl.displayWatchButton">
             <wp-watcher-button work-package="$ctrl.workPackage"></wp-watcher-button>
           </li>
-          <li class="toolbar-item">
+          <li class="toolbar-item hidden-for-mobile">
             <wp-zen-mode-toggle-button>
             </wp-zen-mode-toggle-button>
           </li>
@@ -33,11 +40,6 @@
                     title="{{I18n.t('js.button_more')}}">
               <op-icon icon-classes="button--icon icon-show-more"></op-icon>
             </button>
-          </li>
-        </ul>
-        <ul class="subject-header">
-          <li class="subject-header-inner">
-            <wp-subject></wp-subject>
           </li>
         </ul>
       </div>
