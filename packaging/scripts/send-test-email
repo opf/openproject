@@ -10,15 +10,15 @@ smtp_domain = ENV.fetch('SMTP_DOMAIN') { "example.net" }
 from = "no-reply@#{smtp_domain}"
 delivery_method = ENV.fetch('EMAIL_DELIVERY_METHOD') { "sendmail" }
 
-msgstr = <<END_OF_MESSAGE
-From: OpenProject <#{from}>
-To: #{admin_email}
-Subject: Test message
-Date: #{Time.now.httpdate}
-Message-Id: <#{SecureRandom.hex}@#{smtp_domain}>
+msgstr = <<END_OF_MESSAGE.strip_indent
+  From: OpenProject <#{from}>
+  To: #{admin_email}
+  Subject: Test message
+  Date: #{Time.now.httpdate}
+  Message-Id: <#{SecureRandom.hex}@#{smtp_domain}>
 
-This is a test message to verify your OpenProject settings.
-If you see this, this means OpenProject email settings are working properly.
+  This is a test message to verify your OpenProject settings.
+  If you see this, this means OpenProject email settings are working properly.
 END_OF_MESSAGE
 
 if delivery_method == "sendmail"

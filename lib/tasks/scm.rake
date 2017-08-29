@@ -76,25 +76,25 @@ namespace :scm do
       missing = scan_repositories(managed)
 
       unless missing.empty?
-        puts <<-WARNING
--- SCM vendor #{vendor} --
+        puts <<-WARNING.strip_indent
+          -- SCM vendor #{vendor} --
 
-Found #{missing.length} repositories in #{managed}
-without an associated project.
+          Found #{missing.length} repositories in #{managed}
+          without an associated project.
 
-#{missing.map { |identifier| "> #{identifier}" }.join("\n")}
+          #{missing.map { |identifier| "> #{identifier}" }.join("\n")}
 
-When using managed repositories of the vendor #{vendor}, OpenProject will not create
-repositories whose associated project identifier is contained in the list above.
+          When using managed repositories of the vendor #{vendor}, OpenProject will not create
+          repositories whose associated project identifier is contained in the list above.
 
-To resolve these cases, you can either:
+          To resolve these cases, you can either:
 
-1. Remove the affected repositories if they are only remnants of earlier projects
+          1. Remove the affected repositories if they are only remnants of earlier projects
 
-2. Move them out of the OpenProject managed directory '#{managed}'
+          2. Move them out of the OpenProject managed directory '#{managed}'
 
-3. Create an associated project and linking that repository
-   as existing through the Frontend.
+          3. Create an associated project and linking that repository
+             as existing through the Frontend.
 
         WARNING
       end

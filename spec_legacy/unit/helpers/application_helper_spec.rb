@@ -115,12 +115,12 @@ describe ApplicationHelper, type: :helper do
   end
 
   it 'should inline images inside tags' do
-    raw = <<-RAW
-h1. !foo.png! Heading
+    raw = <<-RAW.strip_indent
+      h1. !foo.png! Heading
 
-Centered image:
+      Centered image:
 
-p=. !bar.gif!
+      p=. !bar.gif!
 RAW
 
     assert helper.format_text(raw).include?('<img src="foo.png" alt="" />')
@@ -304,37 +304,37 @@ RAW
   end
 
   it 'should pre tags' do
-    raw = <<-RAW
-Before
+    raw = <<-RAW.strip_indent
+      Before
 
-<pre>
-<prepared-statement-cache-size>32</prepared-statement-cache-size>
-</pre>
+      <pre>
+      <prepared-statement-cache-size>32</prepared-statement-cache-size>
+      </pre>
 
-After
+      After
 RAW
 
-    expected = <<-EXPECTED
-<p>Before</p>
-<pre>
-&lt;prepared-statement-cache-size&gt;32&lt;/prepared-statement-cache-size&gt;
-</pre>
-<p>After</p>
+    expected = <<-EXPECTED.strip_indent
+      <p>Before</p>
+      <pre>
+      &lt;prepared-statement-cache-size&gt;32&lt;/prepared-statement-cache-size&gt;
+      </pre>
+      <p>After</p>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
   it 'should syntax highlight' do
-    raw = <<-RAW
-<pre><code class="ruby">
-# Some ruby code here
-</code></pre>
+    raw = <<-RAW.strip_indent
+      <pre><code class="ruby">
+      # Some ruby code here
+      </code></pre>
 RAW
 
-    expected = <<-EXPECTED
-<pre><code class="ruby CodeRay"><span class=\"CodeRay\"><span class="line-numbers"><a href=\"#n1\" name=\"n1\">1</a></span><span class="comment"># Some ruby code here</span></span>
-</code></pre>
+    expected = <<-EXPECTED.strip_indent
+      <pre><code class="ruby CodeRay"><span class=\"CodeRay\"><span class="line-numbers"><a href=\"#n1\" name=\"n1\">1</a></span><span class="comment"># Some ruby code here</span></span>
+      </code></pre>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')
@@ -369,15 +369,15 @@ EXPECTED
   end
 
   it 'should footnotes' do
-    raw = <<-RAW
-This is some text[1].
+    raw = <<-RAW.strip_indent
+      This is some text[1].
 
-fn1. This is the foot note
+      fn1. This is the foot note
 RAW
 
-    expected = <<-EXPECTED
-<p>This is some text<sup><a href=\"#fn1\">1</a></sup>.</p>
-<p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
+    expected = <<-EXPECTED.strip_indent
+      <p>This is some text<sup><a href=\"#fn1\">1</a></sup>.</p>
+      <p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')
@@ -396,32 +396,32 @@ EXPECTED
     FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
     FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'another Wiki'
 
-    raw = <<-RAW
-{{toc}}
+    raw = <<-RAW.strip_indent
+      {{toc}}
 
-h1. Title
+      h1. Title
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
 
-h2. Subtitle with a [[Wiki]] link
+      h2. Subtitle with a [[Wiki]] link
 
-Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+      Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 
-h2. Subtitle with [[Wiki|another Wiki]] link
+      h2. Subtitle with [[Wiki|another Wiki]] link
 
-h2. Subtitle with %{color:red}red text%
+      h2. Subtitle with %{color:red}red text%
 
-<pre>
-some code
-</pre>
+      <pre>
+      some code
+      </pre>
 
-h3. Subtitle with *some* _modifiers_
+      h3. Subtitle with *some* _modifiers_
 
-h1. Another title
+      h1. Another title
 
-h3. An "Internet link":http://www.redmine.org/ inside subtitle
+      h3. An "Internet link":http://www.redmine.org/ inside subtitle
 
-h2. "Project Name !/attachments/#{@attachment.id}/#{@attachment.filename}!":/projects/#{@project.identifier}/issues
+      h2. "Project Name !/attachments/#{@attachment.id}/#{@attachment.filename}!":/projects/#{@project.identifier}/issues
 
 RAW
 
@@ -460,12 +460,12 @@ RAW
     child.content = FactoryGirl.create :wiki_content, page: child, text: "h1. Child page 1\n\nThis is a child page"
     child.save!
 
-    raw = <<-RAW
-{{toc}}
+    raw = <<-RAW.strip_indent
+      {{toc}}
 
-h1. Included
+      h1. Included
 
-{{include(Child_1)}}
+      {{include(Child_1)}}
 RAW
 
     expected = '<ul class="toc">' +
