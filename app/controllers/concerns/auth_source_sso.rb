@@ -21,9 +21,7 @@ module Concerns
 
       login, given_secret = String(request.headers[header_name]).split(":")
 
-      if valid_credentials? login, given_secret
-        login
-      end
+      login if valid_credentials? login, given_secret
     end
 
     def sso_config
@@ -39,21 +37,23 @@ module Concerns
     end
 
     def valid_credentials?(login, secret)
+      !invalid_credentials?(login, secret)
+    end
+
+    def invalid_credentials?(login, secret)
       if secret != self.secret
         Rails.logger.error(
           "Secret contained in auth source SSO header not valid. " +
           "(#{header_name}: #{request.headers[header_name]})"
         )
 
-        false
+        true
       elsif login.nil?
         Rails.logger.error(
           "No login contained in auth source SSO header. " +
           "(#{header_name}: #{request.headers[header_name]})"
         )
 
-        false
-      else
         true
       end
     end
