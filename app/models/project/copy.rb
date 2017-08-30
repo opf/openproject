@@ -60,17 +60,18 @@ module Project::Copy
     private
 
     # Copies wiki from +project+
-    def copy_wiki(project)
+    def copy_wiki(project, selected_copies = [])
       # Check that the source project has a wiki first
       unless project.wiki.nil?
         self.wiki = build_wiki(project.wiki.attributes.dup.except('id', 'project_id'))
+        self.wiki.wiki_menu_items.delete_all
         copy_wiki_pages(project)
         copy_wiki_menu_items(project)
       end
     end
 
     # Copies wiki pages from +project+, requires a wiki to be already set
-    def copy_wiki_pages(project)
+    def copy_wiki_pages(project, selected_copies = [])
       wiki_pages_map = {}
       project.wiki.pages.each do |page|
         # Skip pages without content
@@ -83,6 +84,7 @@ module Project::Copy
         wiki_pages_map[page.id] = new_wiki_page
       end
       wiki.save
+
       # Reproduce page hierarchy
       project.wiki.pages.each do |page|
         if page.parent_id && wiki_pages_map[page.id]
@@ -90,10 +92,17 @@ module Project::Copy
           wiki_pages_map[page.id].save
         end
       end
+
+      # Copy attachments
+      if selected_copies.include? :wiki_page_attachments
+        wiki_pages_map.each do |old_page, new_page|
+          copy_attachments(old_page, new_page)
+        end
+      end
     end
 
     # Copies wiki_menu_items from +project+, requires a wiki to be already set
-    def copy_wiki_menu_items(project)
+    def copy_wiki_menu_items(project, selected_copies = [])
       wiki_menu_items_map = {}
       project.wiki.wiki_menu_items.each do |item|
         new_item = MenuItems::WikiMenuItem.new
@@ -110,7 +119,7 @@ module Project::Copy
     end
 
     # Copies versions from +project+
-    def copy_versions(project)
+    def copy_versions(project, selected_copies = [])
       project.versions.each do |version|
         new_version = Version.new
         new_version.attributes = version.attributes.dup.except('id', 'project_id', 'created_on', 'updated_at')
@@ -119,7 +128,7 @@ module Project::Copy
     end
 
     # Copies issue categories from +project+
-    def copy_categories(project)
+    def copy_categories(project, selected_copies = [])
       project.categories.each do |category|
         new_category = Category.new
         new_category.send(:assign_attributes, category.attributes.dup.except('id', 'project_id'))
@@ -128,7 +137,7 @@ module Project::Copy
     end
 
     # Copies issues from +project+
-    def copy_work_packages(project)
+    def copy_work_packages(project, selected_copies = [])
       # Stores the source issue id as a key and the copied issues as the
       # value.  Used to map the two together for issue relations.
       work_packages_map = {}
@@ -171,12 +180,17 @@ module Project::Copy
       # reload all work_packages in our map, they might be modified by movement in their tree
       work_packages_map.each do |_, v| v.reload end
 
-      # Relations after in case issues related each other
+      # Relations and attachments after in case issues related each other
       project.work_packages.each do |issue|
         new_issue = work_packages_map[issue.id]
         unless new_issue
           # Issue was not copied
           next
+        end
+
+        # Attachments
+        if selected_copies.include? :work_package_attachments
+          copy_attachments(issue, new_issue)
         end
 
         # Relations
@@ -205,7 +219,7 @@ module Project::Copy
     end
 
     # Copies members from +project+
-    def copy_members(project)
+    def copy_members(project, selected_copies = [])
       # Copy users first, then groups to handle members with inherited and given roles
       members_to_copy = []
       members_to_copy += project.memberships.select { |m| m.principal.is_a?(User) }
@@ -231,7 +245,7 @@ module Project::Copy
     end
 
     # Copies queries from +project+
-    def copy_queries(project)
+    def copy_queries(project, selected_copies = [])
       project.queries.each do |query|
         new_query = ::Query.new name: '_'
         new_query.attributes = query.attributes.dup.except('id', 'project_id', 'sort_criteria')
@@ -243,7 +257,7 @@ module Project::Copy
     end
 
     # Copies boards from +project+
-    def copy_boards(project)
+    def copy_boards(project, selected_copies = [])
       project.boards.each do |board|
         new_board = Board.new
         new_board.attributes = board.attributes.dup.except('id',
@@ -271,7 +285,7 @@ module Project::Copy
     end
 
     # copies timeline associations from +project+
-    def copy_timelines(project)
+    def copy_timelines(project, selected_copies = [])
       project.timelines.each do |timeline|
         copied_timeline = Timeline.new
         copied_timeline.attributes = timeline.attributes.dup.except('id', 'project_id', 'options')
@@ -282,7 +296,7 @@ module Project::Copy
     end
 
     # copies reporting associations from +project+
-    def copy_reportings(project)
+    def copy_reportings(project, selected_copies = [])
       project.reportings_via_source.each do |reporting|
         copied_reporting = Reporting.new
         copied_reporting.attributes = reporting.attributes.dup.except('id', 'project_id')
@@ -311,6 +325,22 @@ module Project::Copy
         new_topic.board = new_board
         new_topic.author_id = topic.author_id
         new_board.topics << new_topic
+      end
+    end
+
+    def copy_attachments(from_container, to_container)
+      from_container.attachments.each do |old_attachment|
+        begin
+          copied = old_attachment.dup
+          old_attachment.file.copy_to(copied)
+          to_container.attachments << copied
+
+          if copied.new_record?
+            Rails.logger.error "Project#copy_attachments: Attachments ##{old_attachment.id} could not be copied: #{copied.errors.full_messages}"
+          end
+        rescue => e
+          Rails.logger.error "Failed to copy attachments from #{from_container} to #{to_container}: #{e}"
+        end
       end
     end
   end

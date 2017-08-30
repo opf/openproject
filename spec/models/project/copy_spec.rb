@@ -127,6 +127,34 @@ describe Project::Copy, type: :model do
       let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
       let(:version) { FactoryGirl.create(:version, project: project) }
 
+      describe '#attachments' do
+        let!(:attachment) { FactoryGirl.create(:attachment, container: work_package) }
+
+        before do
+          copy.send :copy_work_packages, project, only
+        end
+
+        context 'when requested' do
+          let(:only) { [:work_package_attachments] }
+          it 'copies them' do
+            expect(copy.work_packages.count).to eq(1)
+
+            wp = copy.work_packages.first
+            expect(wp.attachments.count).to eq(1)
+          end
+        end
+
+        context 'when not requested' do
+          let(:only) { [] }
+          it 'ignores them' do
+            expect(copy.work_packages.count).to eq(1)
+
+            wp = copy.work_packages.first
+            expect(wp.attachments.count).to eq(0)
+          end
+        end
+      end
+
       describe '#relation' do
         before do
           wp = work_package
