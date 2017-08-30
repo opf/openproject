@@ -307,7 +307,7 @@ describe OpenProject::TextFormatting do
           subject { format_text("user##{linked_project_member.id}") }
 
           it {
-            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user')}</p>")
+            is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>")
           }
         end
 
@@ -323,11 +323,23 @@ describe OpenProject::TextFormatting do
 
       end
 
-      # context 'User link via login name' do
-      #   subject { format_text("user:#{linked_user.login}") }
-      #
-      #   it { is_expected.to be_html_eql("<p>#{link_to(linked_user.name, user_url, class: 'user')}</p>") }
-      # end
+      context 'User link via login name' do
+        context 'when linked user visible for reader' do
+          subject { format_text("user:#{linked_project_member.login}") }
+
+          it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+        end
+
+        context 'when linked user not visible for reader' do
+          let(:role) { FactoryGirl.create(:non_member) }
+
+          subject { format_text("user:#{linked_project_member.login}") }
+
+          it {
+            is_expected.to be_html_eql("<p>user:#{linked_project_member.login}</p>")
+          }
+        end
+      end
     end
 
     context 'Url links' do
