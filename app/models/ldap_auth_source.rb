@@ -51,6 +51,18 @@ class LdapAuthSource < AuthSource
     raise 'LdapError: ' + error.message
   end
 
+  def find_user(login)
+    return nil if login.blank?
+    attrs = get_user_dn(login)
+
+    if attrs && attrs[:dn]
+      Rails.logger.debug { "Lookup successful for '#{login}'" }
+      return attrs.except(:dn)
+    end
+  rescue  Net::LDAP::LdapError => error
+    raise 'LdapError: ' + error.message
+  end
+
   # test the connection to the LDAP
   def test_connection
     unless authenticate_dn(account, account_password)

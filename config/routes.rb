@@ -55,6 +55,8 @@ OpenProject::Application.routes.draw do
 
     match '/login', action: 'login',  as: 'signin', via: [:get, :post]
     get '/logout', action: 'logout', as: 'signout'
+
+    get '/sso', action: 'auth_source_sso_failed', as: 'sso_failure'
   end
 
   namespace :api do

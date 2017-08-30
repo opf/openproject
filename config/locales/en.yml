@@ -886,6 +886,7 @@ en:
   enumeration_system_activity: "System Activity"
   enumeration_reported_project_statuses: "Reported project status"
 
+  error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Unable to delete custom field"
