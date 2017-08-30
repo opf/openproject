@@ -104,7 +104,6 @@ function WorkPackagesListController($scope:any,
     // Update the title whenever the query changes
     states.query.resource.values$()
       .takeUntil(scopeDestroyed$($scope))
-      .distinctUntilChanged((query, formerQuery) => query.id === formerQuery.id)
       .subscribe((query) => {
         updateTitle(query);
       });
