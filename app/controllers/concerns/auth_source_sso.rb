@@ -25,7 +25,7 @@ module Concerns
     end
 
     def sso_config
-      @sso_config ||= OpenProject::Configuration.auth_source_sso
+      @sso_config ||= OpenProject::Configuration.auth_source_sso.try(:with_indifferent_access)
     end
 
     def header_name
@@ -41,7 +41,7 @@ module Concerns
     end
 
     def invalid_credentials?(login, secret)
-      if secret != self.secret
+      if secret != self.secret.to_s
         Rails.logger.error(
           "Secret contained in auth source SSO header not valid. " +
           "(#{header_name}: #{request.headers[header_name]})"

@@ -40,6 +40,8 @@ class AccountController < ApplicationController
   # See AccountController#handle_unverified_request for more information.
   before_action :disable_api
 
+  before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
+
   # Login request and validation
   def login
     user = User.current
@@ -265,12 +267,17 @@ class AccountController < ApplicationController
 
     show_sso_error_for user
 
-    flash.now[:warning] = I18n.t :error_auth_source_sso_failed, value: failure[:login]
+    flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
+      ": " + String(flash.now[:error])
 
     render action: 'login', back_url: failure[:back_url]
   end
 
   private
+
+  def check_auth_source_sso_failure
+    redirect_to home_url unless session[:auth_source_sso_failure].present?
+  end
 
   def show_sso_error_for(user)
     if user.nil?
