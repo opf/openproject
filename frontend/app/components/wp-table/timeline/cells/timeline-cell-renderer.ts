@@ -443,7 +443,7 @@ export class TimelineCellRenderer {
     }
 
     // Get the rendered field
-    let [field, span] = this.fieldRenderer.renderFieldValue(changeset.workPackage, attribute);
+    let [field, span] = this.fieldRenderer.renderFieldValue(changeset.workPackage, attribute, changeset);
 
     if (label && field && span) {
       label.appendChild(span);
