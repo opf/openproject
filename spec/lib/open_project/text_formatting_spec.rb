@@ -325,18 +325,33 @@ describe OpenProject::TextFormatting do
 
       context 'User link via login name' do
         context 'when linked user visible for reader' do
-          subject { format_text("user:#{linked_project_member.login}") }
+          context 'with a common login name' do
+            subject { format_text("user:\"#{linked_project_member.login}\"") }
 
-          it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+          end
+
+          context "with an email address as login name" do
+            let(:linked_project_member) do
+              FactoryGirl.create :user,
+                                 member_in_project: project,
+                                 member_through_role: role,
+                                 login: "foo@bar.com"
+            end
+            subject { format_text("user:\"#{linked_project_member.login}\"") }
+
+            it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
+          end
         end
+
 
         context 'when linked user not visible for reader' do
           let(:role) { FactoryGirl.create(:non_member) }
 
-          subject { format_text("user:#{linked_project_member.login}") }
+          subject { format_text("user:\"#{linked_project_member.login}\"") }
 
           it {
-            is_expected.to be_html_eql("<p>user:#{linked_project_member.login}</p>")
+            is_expected.to be_html_eql("<p>user:\"#{linked_project_member.login}\"</p>")
           }
         end
       end

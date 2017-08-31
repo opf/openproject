@@ -119,7 +119,7 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should ignore email addresses that are used as login names' do
     assert_html_output(
-      'No mailto link to user:foo@bar.com' => 'No mailto link to user:foo@bar.com'
+      'No mailto link to user:"foo@bar.com"' => 'No mailto link to user:"foo@bar.com"'
     )
   end
 
