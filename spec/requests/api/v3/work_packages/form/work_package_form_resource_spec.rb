@@ -34,10 +34,17 @@ describe 'API v3 Work package form resource', type: :request do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project, is_public: false) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-  let(:authorized_user) { FactoryGirl.create(:user, member_in_project: project) }
-  let(:unauthorized_user) { FactoryGirl.create(:user) }
+  before_all do
+    @project = FactoryGirl.create(:project, is_public: false)
+    @work_package = FactoryGirl.create(:work_package, project: @project)
+    @authorized_user = FactoryGirl.create(:user, member_in_project: @project)
+    @unauthorized_user = FactoryGirl.create(:user)
+  end
+
+  let(:project) { @project }
+  let(:work_package) { @work_package.reload }
+  let(:authorized_user) { @authorized_user }
+  let(:unauthorized_user) { @unauthorized_user }
 
   describe '#post' do
     let(:post_path) { api_v3_paths.work_package_form work_package.id }
@@ -58,7 +65,6 @@ describe 'API v3 Work package form resource', type: :request do
     end
 
     context 'user without needed permissions' do
-      let(:work_package) { FactoryGirl.create(:work_package, id: 42, project: project) }
       let(:params) { {} }
 
       include_context 'post request' do

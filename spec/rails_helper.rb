@@ -32,6 +32,7 @@ require 'factory_girl_rails'
 require 'rspec/rails'
 require 'shoulda/matchers'
 require 'rspec/example_disabler'
+require 'test_prof/recipes/rspec/before_all'
 
 ##
 # Start collecting coverage when desired
