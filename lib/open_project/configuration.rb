@@ -133,7 +133,7 @@ module OpenProject
 
         define_config_methods
 
-        @config
+        @config = @config.with_indifferent_access
       end
 
       # Replace config values for which an environment variable with the same key in upper case
@@ -349,10 +349,10 @@ module OpenProject
       def load_config_from_file(filename, env, config)
         if File.file?(filename)
           file_config = YAML::load(ERB.new(File.read(filename)).result)
-          unless file_config.is_a? Hash
-            warn "#{filename} is not a valid OpenProject configuration file, ignoring."
-          else
+          if file_config.is_a? Hash
             config.merge!(load_env_from_config(file_config, env))
+          else
+            warn "#{filename} is not a valid OpenProject configuration file, ignoring."
           end
         end
       end
