@@ -202,9 +202,5 @@ en:
 
   week: "week"
 
-  x_entries:
-    one: "1 entry"
-    other: "%{count} entries"
-
   js:
     text_are_you_sure: "Are you sure?"
