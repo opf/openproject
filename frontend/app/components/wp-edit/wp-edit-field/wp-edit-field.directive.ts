@@ -78,7 +78,7 @@ export class WorkPackageEditFieldController {
   }
 
   public render() {
-    const el = this.fieldRenderer.render(this.resource, this.fieldName, this.displayPlaceholder);
+    const el = this.fieldRenderer.render(this.resource, this.fieldName, null, this.displayPlaceholder);
     this.displayContainer[0].innerHTML = '';
     this.displayContainer[0].appendChild(el);
   }

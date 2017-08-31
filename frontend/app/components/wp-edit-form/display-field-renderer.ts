@@ -3,7 +3,7 @@ import {WorkPackageDisplayFieldService} from '../wp-display/wp-display-field/wp-
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {DisplayField} from '../wp-display/wp-display-field/wp-display-field.module';
 import {MultipleLinesStringObjectsDisplayField} from '../wp-display/field-types/wp-display-multiple-lines-string-objects-field.module';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageChangeset} from './work-package-changeset';
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -23,8 +23,11 @@ export class DisplayFieldRenderer {
     $injectFields(this, 'wpDisplayField', 'I18n');
   }
 
-  public render(workPackage:WorkPackageResourceInterface, name:string, placeholder = cellEmptyPlaceholder):HTMLSpanElement {
-    const [field, span] = this.renderFieldValue(workPackage, name, placeholder);
+  public render(workPackage:WorkPackageResourceInterface,
+                name:string,
+                changeset:WorkPackageChangeset|null,
+                placeholder = cellEmptyPlaceholder):HTMLSpanElement {
+    const [field, span] = this.renderFieldValue(workPackage, name, changeset, placeholder);
 
     if (field === null) {
       return span;
@@ -35,7 +38,10 @@ export class DisplayFieldRenderer {
     return span;
   }
 
-  public renderFieldValue(workPackage:WorkPackageResourceInterface, name:string, placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
+  public renderFieldValue(workPackage:WorkPackageResourceInterface,
+                          name:string,
+                          changeset:WorkPackageChangeset|null,
+                          placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
     const schemaName = workPackage.getSchemaName(name);
     const fieldSchema = workPackage.schema[schemaName];
@@ -46,7 +52,7 @@ export class DisplayFieldRenderer {
       return [null, span];
     }
 
-    const field = this.getField(workPackage, fieldSchema, schemaName);
+    const field = this.getField(workPackage, fieldSchema, schemaName, changeset);
     field.render(span, this.getText(field, placeholder));
     span.setAttribute('title', this.getLabel(field, workPackage));
     span.setAttribute('aria-label', this.getAriaLabel(field, workPackage));
@@ -54,14 +60,21 @@ export class DisplayFieldRenderer {
     return [field, span];
   }
 
-  public getField(workPackage:WorkPackageResourceInterface, fieldSchema:op.FieldSchema, name:string):DisplayField {
+  public getField(workPackage:WorkPackageResourceInterface,
+                  fieldSchema:op.FieldSchema,
+                  name:string,
+                  changeset:WorkPackageChangeset|null):DisplayField {
     // We handle multi value fields differently in the single view context
     const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;
+    let field:DisplayField;
     if (this.context === 'single-view' && isMultiLinesField) {
-      return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema);
+      field = new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema) as DisplayField;
+    } else {
+      field = this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
     }
+    field.changeset = changeset;
 
-    return this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
+    return field;
   }
 
   private getText(field:DisplayField, placeholder:string):string {
