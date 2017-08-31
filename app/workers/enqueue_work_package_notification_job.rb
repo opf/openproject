@@ -46,6 +46,8 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
     # sending the notification. Our job here is done.
     return nil unless @journal
 
+    @author = User.find_by(id: @author_id) || DeletedUser.first
+
     # Do not deliver notifications if a follow-up journal will already have sent a notification
     # on behalf of this job.
     unless Journal::AggregatedJournal.hides_notifications?(@journal.successor, @journal)
@@ -84,30 +86,31 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
 
     text = text_for_mentions
     user_ids = text.scan(/\buser#([\d]+)\b/).first.to_a
-    user_login_names = text.scan(/\buser:(.+?)\b/).first.to_a
+    user_login_names = text.scan(/\buser:"(.+?)"/).first.to_a
 
     user_ids.each do |user_id|
-      if user = User.in_visible_project.find_by(id: user_id)
-        mentioned_people << user
+      if user = User.in_visible_project(@author).find_by(id: user_id)
+        mentioned_people << user unless user.mail_notification == 'none'
       end
     end
 
     user_login_names.each do |name|
-      if user = User.in_visible_project.find_by(login: name)
-        mentioned_people << user
+      if user = User.in_visible_project(@author).find_by(login: name)
+        mentioned_people << user unless user.mail_notification == 'none'
       end
     end
+    mentioned_people
   end
 
   def text_for_mentions
     potential_text = ""
-    potential_text << @journal.notes if @journal.notes.present?
+    potential_text << @journal.notes if @journal.try(:notes)
 
-    ["description", "subject"].each do |field|
+    [:description, :subject].each do |field|
       if @journal.details[field].try(:any?)
         from = @journal.details[field].first
         to = @journal.details[field].second
-        potential_text << Redmine::Helpers::Diff.new(to, from).additions.join(' ')
+        potential_text << "\n" + Redmine::Helpers::Diff.new(to, from).additions.join(' ')
       end
     end
     potential_text
