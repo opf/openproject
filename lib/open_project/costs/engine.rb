@@ -144,9 +144,10 @@ module OpenProject::Costs
       include API::V3::CostsAPIUserPermissionCheck
 
       link :logCosts do
-        next unless represented.costs_enabled? &&
-                    current_user_allowed_to(:log_costs, context: represented.project) &&
-                    represented.persisted?
+        next unless represented.costs_enabled? && represented.persisted?
+        next unless current_user_allowed_to(:log_costs, context: represented.project) ||
+                    current_user_allowed_to(:log_own_costs, context: represented.project)
+
         {
           href: new_work_packages_cost_entry_path(represented),
           type: 'text/html',
