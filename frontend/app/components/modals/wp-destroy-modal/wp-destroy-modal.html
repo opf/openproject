@@ -14,6 +14,7 @@
         <h3 class="form--section-title" ng-bind="::$ctrl.text.title"></h3>
 
         <div ng-if="$ctrl.workPackages.length === 1"
+             class="modal-inner-scrolling-container"
              ng-init="workPackage = $ctrl.workPackages[0]; children = $ctrl.children(workPackage)">
           <p>
             <span ng-bind="$ctrl.text.text"></span>
@@ -42,7 +43,7 @@
           </div>
         </div>
 
-        <div ng-if="$ctrl.workPackages.length > 1">
+        <div class="modal-inner-scrolling-container" ng-if="$ctrl.workPackages.length > 1">
           <p class="danger-zone--warning">
             <span class="icon icon-error"></span>
             <strong ng-bind="$ctrl.text.text"></strong>
