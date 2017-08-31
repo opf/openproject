@@ -34,7 +34,7 @@ class FogFileUploader < CarrierWave::Uploader::Base
   storage :fog
 
   def copy_to(attachment)
-    attachment.file = remote_file.url
+    attachment.remote_file_url = remote_file.url
   end
 
   def store_dir

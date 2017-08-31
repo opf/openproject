@@ -148,6 +148,8 @@ module Project::Copy
         new_issue = WorkPackage.new
         new_issue.copy_from(issue)
         new_issue.project = self
+        # Reassign author to the current user
+        new_issue.author = User.current
         # Reassign fixed_versions by name, since names are unique per
         # project and the versions for self are not yet saved
         if issue.fixed_version
