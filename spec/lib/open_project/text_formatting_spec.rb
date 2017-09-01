@@ -42,19 +42,19 @@ describe OpenProject::TextFormatting do
   describe '.format_text' do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
-    let(:project_member) {
+    let(:project_member) do
       FactoryGirl.create :user,
                          member_in_project: project,
                          member_through_role: FactoryGirl.create(:role,
                                                                  permissions: [:view_work_packages, :edit_work_packages,
                                                                                :browse_repository, :view_changesets, :view_wiki_pages])
-    }
-    let(:issue) {
+    end
+    let(:issue) do
       FactoryGirl.create :work_package,
                          project: project,
                          author: project_member,
                          type: project.types.first
-    }
+    end
 
     before do
       @project = project
@@ -79,16 +79,16 @@ describe OpenProject::TextFormatting do
                                   repository: repository,
                                   comments: 'This commit fixes #1, #2 and references #1 & #3'
       end
-      let(:changeset_link) {
+      let(:changeset_link) do
         link_to("r#{changeset1.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset1.revision },
                 class: 'changeset', title: 'My very first commit')
-      }
-      let(:changeset_link2) {
+      end
+      let(:changeset_link2) do
         link_to("r#{changeset2.revision}",
                 { controller: 'repositories', action: 'revision', project_id: identifier, rev: changeset2.revision },
                 class: 'changeset', title: 'This commit fixes #1, #2 and references #1 & #3')
-      }
+      end
 
       before do
         allow(project).to receive(:repository).and_return(repository)
@@ -343,7 +343,6 @@ describe OpenProject::TextFormatting do
             it { is_expected.to be_html_eql("<p>#{link_to(linked_project_member.name, { controller: :users, action: :show, id: linked_project_member.id }, class: 'user-mention')}</p>") }
           end
         end
-
 
         context 'when linked user not visible for reader' do
           let(:role) { FactoryGirl.create(:non_member) }
