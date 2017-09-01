@@ -35,29 +35,40 @@ class ActivitiesController < ApplicationController
 
   def index
     @days = Setting.activity_days_default.to_i
-
     if params[:from]
       begin; @date_to = params[:from].to_date + 1; rescue; end
     end
 
     @date_to ||= User.current.today + 1
     @date_from = @date_to - @days
-    @with_subprojects = params[:with_subprojects].nil? ? Setting.display_subprojects_work_packages? : (params[:with_subprojects] == '1')
+    @with_subprojects = if params[:with_subprojects].nil?
+                          Setting.display_subprojects_work_packages?
+                        else
+                          (params[:with_subprojects] == '1')
+                        end
     @author = (params[:user_id].blank? ? nil : User.active.find(params[:user_id]))
-
-    @activity = Redmine::Activity::Fetcher.new(User.current, project: @project,
-                                                             with_subprojects: @with_subprojects,
-                                                             author: @author)
-
+    @activity = Redmine::Activity::Fetcher.new(User.current,
+                                               project: @project,
+                                               with_subprojects: @with_subprojects,
+                                               author: @author)
     set_activity_scope
-
     events = @activity.events(@date_from, @date_to)
     censor_events_from_projects_with_disabled_activity!(events) unless @project
-
-    if events.empty? || stale?(etag: [@activity.scope, @date_to, @date_from, @with_subprojects, @author, events.first, User.current, current_language])
+    if events.empty? || stale?(etag: [@activity.scope,
+                                      @date_to,
+                                      @date_from,
+                                      @with_subprojects,
+                                      @author,
+                                      events.first,
+                                      User.current,
+                                      current_language])
       respond_to do |format|
         format.html do
-          @events_by_day = events.group_by { |e| e.event_datetime.in_time_zone(User.current.time_zone).to_date }
+          @events_by_day = events.group_by do |e|
+            e.event_datetime
+             .in_time_zone(User.current.time_zone)
+             .to_date
+          end
           render layout: false if request.xhr?
         end
         format.atom do
@@ -109,7 +120,6 @@ class ActivitiesController < ApplicationController
     else
       @activity.scope = (@author.nil? ? :default : :all)
     end
-
     session[:activity] = @activity.scope
   end
 end
