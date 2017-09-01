@@ -216,7 +216,6 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
   end
 
-
   describe "#text_for_mentions" do
     it "returns a text" do
       subject.perform
