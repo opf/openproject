@@ -48,18 +48,18 @@ export const classNameRightHandle = 'rightHandle';
 export const classNameBarLabel = 'bar-label';
 
 
-export function registerWorkPackageMouseHandler(this: void,
-                                                getRenderInfo: () => RenderInfo,
-                                                workPackageTimeline: WorkPackageTimelineTableController,
-                                                wpCacheService: WorkPackageCacheService,
-                                                wpTableRefresh: WorkPackageTableRefreshService,
-                                                wpNotificationsService: WorkPackageNotificationService,
-                                                loadingIndicator: LoadingIndicatorService,
-                                                cell: HTMLElement,
-                                                bar: HTMLDivElement,
+export function registerWorkPackageMouseHandler(this:void,
+                                                getRenderInfo:() => RenderInfo,
+                                                workPackageTimeline:WorkPackageTimelineTableController,
+                                                wpCacheService:WorkPackageCacheService,
+                                                wpTableRefresh:WorkPackageTableRefreshService,
+                                                wpNotificationsService:WorkPackageNotificationService,
+                                                loadingIndicator:LoadingIndicatorService,
+                                                cell:HTMLElement,
+                                                bar:HTMLDivElement,
                                                 labels:WorkPackageCellLabels,
-                                                renderer: TimelineCellRenderer,
-                                                renderInfo: RenderInfo) {
+                                                renderer:TimelineCellRenderer,
+                                                renderInfo:RenderInfo) {
 
   let mouseDownStartDay:number | null = null; // also flag to signal active drag'n'drop
   renderInfo.changeset = new WorkPackageChangeset(renderInfo.workPackage);
@@ -79,7 +79,7 @@ export function registerWorkPackageMouseHandler(this: void,
   // handles initial creation of start/due values
   cell.onmousemove = handleMouseMoveOnEmptyCell;
 
-  function applyDateValues(renderInfo:RenderInfo, dates:{[name:string]: Moment}) {
+  function applyDateValues(renderInfo:RenderInfo, dates:{ [name:string]:Moment }) {
     // Let the renderer decide which fields we change
     renderer.assignDateValues(renderInfo.changeset, labels, dates);
   }
@@ -127,7 +127,7 @@ export function registerWorkPackageMouseHandler(this: void,
       dateStates = renderer.onDaysMoved(renderInfo.changeset, dayUnderCursor, days, direction);
       applyDateValues(renderInfo, dateStates);
       renderer.update(bar, labels, renderInfo);
-    }
+    };
   }
 
   function keyPressFn(ev:JQueryEventObject) {

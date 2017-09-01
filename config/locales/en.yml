@@ -886,6 +886,7 @@ en:
   enumeration_system_activity: "System Activity"
   enumeration_reported_project_statuses: "Reported project status"
 
+  error_auth_source_sso_failed: "Single Sign-On (SSO) for user '%{value}' failed"
   error_can_not_archive_project: "This project cannot be archived"
   error_can_not_delete_entry: "Unable to delete entry"
   error_can_not_delete_custom_field: "Unable to delete custom field"
@@ -1454,6 +1455,7 @@ en:
   label_wiki_dont_show_menu_item: "Do not show this wikipage in project navigation"
   label_wiki_edit: "Wiki edit"
   label_wiki_edit_plural: "Wiki edits"
+  label_wiki_page_attachments: "Wiki page attachments"
   label_wiki_page_id: "Wiki page ID"
   label_wiki_navigation: "Wiki navigation"
   label_wiki_page: "Wiki page"
@@ -1464,6 +1466,7 @@ en:
   label_wiki_show_submenu_item: "Show as submenu item of "
   label_work_package: "Work package"
   label_work_package_added: "Work package added"
+  label_work_package_attachments: "Work package attachments"
   label_work_package_category_new: "New category"
   label_work_package_category_plural: "Work package categories"
   label_work_package_hierarchy: "Work package hierarchy"

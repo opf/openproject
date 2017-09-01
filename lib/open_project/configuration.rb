@@ -82,6 +82,7 @@ module OpenProject
       'sendmail_arguments' => '-i',
 
       'disable_password_login' => false,
+      'auth_source_sso' => nil,
       'omniauth_direct_login_provider' => nil,
       'internal_password_confirmation' => true,
 
@@ -132,7 +133,7 @@ module OpenProject
 
         define_config_methods
 
-        @config
+        @config = @config.with_indifferent_access
       end
 
       # Replace config values for which an environment variable with the same key in upper case
@@ -346,7 +347,7 @@ module OpenProject
 
       def load_config_from_file(filename, env, config)
         if File.file?(filename)
-          file_config = YAML::safe_load(ERB.new(File.read(filename)).result)
+          file_config = YAML::load(ERB.new(File.read(filename)).result)
           if file_config.is_a? Hash
             config.merge!(load_env_from_config(file_config, env))
           else

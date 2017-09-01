@@ -34,7 +34,6 @@ class Attachment < ActiveRecord::Base
   ALLOWED_IMAGE_TYPES = %w[image/gif image/jpeg image/png image/tiff image/bmp].freeze
 
   belongs_to :container, polymorphic: true
-
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
 
   validates_presence_of :container, :author, :content_type, :filesize

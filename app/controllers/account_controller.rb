@@ -41,6 +41,8 @@ class AccountController < ApplicationController
   # See AccountController#handle_unverified_request for more information.
   before_action :disable_api
 
+  before_action :check_auth_source_sso_failure, only: :auth_source_sso_failed
+
   # Login request and validation
   def login
     user = User.current
@@ -256,7 +258,35 @@ class AccountController < ApplicationController
     render 'my/password', locals: { show_user_name: @user.force_password_change_was }
   end
 
+  def auth_source_sso_failed
+    failure = session.delete :auth_source_sso_failure
+    user = failure[:user]
+
+    if user.try(:new_record?)
+      return onthefly_creation_failed user, login: user.login, auth_source_id: user.auth_source_id
+    end
+
+    show_sso_error_for user
+
+    flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
+      ": " + String(flash.now[:error])
+
+    render action: 'login', back_url: failure[:back_url]
+  end
+
   private
+
+  def check_auth_source_sso_failure
+    redirect_to home_url unless session[:auth_source_sso_failure].present?
+  end
+
+  def show_sso_error_for(user)
+    if user.nil?
+      invalid_credentials
+    elsif not user.active?
+      account_inactive user, flash_now: true
+    end
+  end
 
   def registration_through_invitation!
     session[:auth_source_registration] = nil

@@ -54,12 +54,12 @@ describe 'Copying Models' do
          OpenStruct.new(name: 'association3', valid?: true)]
       end
 
-      def copy_association1(other)
+      def copy_association1(other, selected_copies = [])
         call_order << :association1
         self.association1 = other.association1
       end
 
-      def copy_association2(other)
+      def copy_association2(other, selected_copies = [])
         call_order << :association2
         self.association2 = other.association2
       end

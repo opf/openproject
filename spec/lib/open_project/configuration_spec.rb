@@ -46,6 +46,10 @@ describe OpenProject::Configuration do
 
     it 'should merge the config from the file into the given config hash' do
       expect(config['somesetting']).to eq('foo')
+
+      expect(OpenProject::Configuration['somesetting']).to eq('foo')
+      expect(OpenProject::Configuration[:somesetting]).to eq('foo')
+      expect(OpenProject::Configuration.somesetting).to eq('foo')
     end
   end
 

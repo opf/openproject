@@ -28,31 +28,38 @@
 
 import {HalResource} from '../../api/api-v3/hal-resources/hal-resource.service';
 import {Field, FieldFactory} from '../../wp-field/wp-field.module';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageChangeset} from '../../wp-edit-form/work-package-changeset';
 
 export class DisplayField extends Field {
-  public static type: string;
-  public static $injector: ng.auto.IInjectorService;
-  public I18n: op.I18n;
-  public mode:string|null = null;
+  public static type:string;
+  public static $injector:ng.auto.IInjectorService;
+  public I18n:op.I18n;
+  public mode:string | null = null;
+  public changeset:WorkPackageChangeset|null = null;
 
   public get isFormattable():boolean {
     return false;
   }
 
   public get value() {
-    if (this.schema) {
-      return this.resource[this.name];
+    if (!this.schema) {
+      return null;
+    }
+
+    if (this.changeset) {
+      return this.changeset.value(this.name);
     }
     else {
-      return null;
+      return this.resource[this.name];
     }
   }
 
-  public get type(): string {
+  public get type():string {
     return (this.constructor as typeof DisplayField).type;
   }
 
-  public get valueString(): string {
+  public get valueString():string {
     return this.value;
   }
 
@@ -64,16 +71,16 @@ export class DisplayField extends Field {
     return (this.schema.name || this.name);
   }
 
-  protected get $injector(): ng.auto.IInjectorService {
+  protected get $injector():ng.auto.IInjectorService {
     return (this.constructor as typeof DisplayField).$injector;
   }
 
-  public render(element:HTMLElement, displayText:string): void {
+  public render(element:HTMLElement, displayText:string):void {
     element.textContent = displayText;
   }
 
-  constructor(public resource: HalResource,
-              public name: string,
+  constructor(public resource:HalResource,
+              public name:string,
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
@@ -83,12 +90,12 @@ export class DisplayField extends Field {
 
 export class DisplayFieldFactory extends FieldFactory {
 
-  protected static fields:{[field:string]: string} = {};
-  protected static classes:{[type:string]: typeof DisplayField} = {};
+  protected static fields:{ [field:string]:string } = {};
+  protected static classes:{ [type:string]:typeof DisplayField } = {};
 
-  public static create(workPackage: HalResource,
-                       fieldName: string,
-                       schema: op.FieldSchema): DisplayField {
+  public static create(workPackage:WorkPackageResourceInterface,
+                       fieldName:string,
+                       schema:op.FieldSchema):DisplayField {
     let type = DisplayFieldFactory.getSpecificType(fieldName) ||
       schema && DisplayFieldFactory.getType(schema.type) ||
       DisplayFieldFactory.defaultType;
@@ -97,7 +104,7 @@ export class DisplayFieldFactory extends FieldFactory {
     return (new fieldClass(workPackage, fieldName, schema)) as DisplayField;
   }
 
-  protected static getSpecificType(type: string): string {
+  protected static getSpecificType(type:string):string {
     let fields = DisplayFieldFactory.fields;
 
     return fields[type];

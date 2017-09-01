@@ -17,7 +17,7 @@ export class CellBuilder {
 
     const container = document.createElement('span');
     container.classList.add(editCellContainer, editFieldContainerClass, attribute);
-    const displayElement = this.fieldRenderer.render(workPackage, attribute);
+    const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
 
     container.appendChild(displayElement);
     td.appendChild(container);
@@ -26,7 +26,7 @@ export class CellBuilder {
   }
 
   public refresh(container:HTMLElement, workPackage:WorkPackageResourceInterface, attribute:string) {
-    const displayElement = this.fieldRenderer.render(workPackage, attribute);
+    const displayElement = this.fieldRenderer.render(workPackage, attribute, null);
 
     container.innerHTML = '';
     container.appendChild(displayElement);

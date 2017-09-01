@@ -579,4 +579,50 @@ describe AccountController, type: :controller do
       end
     end
   end
+
+  describe 'GET #auth_source_sso_failed (/sso)' do
+    let(:failure) do
+      {
+        user: user,
+        login: user.login,
+        back_url: '/my/account',
+        ttl: 1
+      }
+    end
+
+    let(:user) { FactoryGirl.create :user, status: 2 }
+
+    before do
+      session[:auth_source_sso_failure] = failure
+    end
+
+    context "with a non-active user" do
+      it "should show the non-active error message" do
+        get :auth_source_sso_failed
+
+        expect(session[:auth_source_sso_failure]).not_to be_present
+
+        expect(response.body)
+          .to have_text "Your account has not yet been activated."
+        expect(response.body)
+          .to have_text "Single Sign-On (SSO) for user '#{user.login}' failed"
+      end
+    end
+
+    context "with an invalid user" do
+      let!(:duplicate) { FactoryGirl.create :user, mail: "login@DerpLAP.net" }
+      let(:user) do
+        FactoryGirl.build(:user, mail: duplicate.mail).tap(&:valid?)
+      end
+
+      it "should show the account creation form with an error" do
+        get :auth_source_sso_failed
+
+        expect(session[:auth_source_sso_failure]).not_to be_present
+
+        expect(response.body).to have_text "Create a new account"
+        expect(response.body).to have_text "This field is invalid: Email has already been taken."
+      end
+    end
+  end
 end
