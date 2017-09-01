@@ -102,7 +102,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
       before do
         allow(filter)
           .to receive(:value_objects)
-                .and_return([User.anonymous])
+          .and_return([User.anonymous])
       end
 
       it "has a 'values' collection" do
@@ -113,7 +113,7 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
 
         is_expected
           .to be_json_eql([expected].to_json)
-                .at_path('_links/values')
+          .at_path('_links/values')
       end
     end
 

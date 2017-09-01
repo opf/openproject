@@ -174,6 +174,5 @@ RSpec.feature 'Work package timeline labels',
     row.expect_labels left: nil,
                       right: '2017-08-30',
                       farRight: milestone_work_package.subject
-
   end
 end

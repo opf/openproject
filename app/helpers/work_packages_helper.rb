@@ -71,7 +71,7 @@ module WorkPackagesHelper
 
     # Prefix part
 
-    parts[:prefix] << "#{package.project}" if options[:project]
+    parts[:prefix] << package.project.to_s if options[:project]
 
     # Link part
 
@@ -81,7 +81,7 @@ module WorkPackagesHelper
 
     parts[:link] << "##{h(package.id)}" if options[:id]
 
-    parts[:link] << "#{h(package.status)}" if options[:id] && options[:status] && package.status
+    parts[:link] << h(package.status).to_s if options[:id] && options[:status] && package.status
 
     # Hidden link part
 
@@ -272,12 +272,12 @@ module WorkPackagesHelper
   def info_user_attributes(work_package)
     responsible = if work_package.responsible_id.present?
                     "<span class='label'>#{WorkPackage.human_attribute_name(:responsible)}:</span> " +
-                    "#{h(work_package.responsible.name)}"
+                      h(work_package.responsible.name).to_s
                   end
 
     assignee = if work_package.assigned_to_id.present?
                  "<span class='label'>#{WorkPackage.human_attribute_name(:assigned_to)}:</span> " +
-                 "#{h(work_package.assigned_to.name)}"
+                   h(work_package.assigned_to.name).to_s
                end
 
     [responsible, assignee].compact.join('<br>').html_safe

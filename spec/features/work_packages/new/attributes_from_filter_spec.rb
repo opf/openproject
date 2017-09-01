@@ -45,10 +45,10 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   let(:role) { FactoryGirl.create :existing_role, permissions: [:view_work_packages] }
   let!(:assignee) do
     FactoryGirl.create(:user,
-                      firstname: 'An',
-                      lastname: 'assignee',
-                      member_in_project: project,
-                      member_through_role: role)
+                       firstname: 'An',
+                       lastname: 'assignee',
+                       member_in_project: project,
+                       member_through_role: role)
   end
 
   let!(:query) do

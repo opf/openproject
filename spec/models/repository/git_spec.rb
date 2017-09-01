@@ -99,7 +99,7 @@ describe Repository::Git, type: :model do
       context 'with string disabled types' do
         before do
           allow(OpenProject::Configuration).to receive(:default_override_source)
-                                                 .and_return('OPENPROJECT_SCM_GIT_DISABLED__TYPES' => '[managed,local]')
+            .and_return('OPENPROJECT_SCM_GIT_DISABLED__TYPES' => '[managed,local]')
 
           OpenProject::Configuration.load
           allow(adapter.class).to receive(:config).and_call_original

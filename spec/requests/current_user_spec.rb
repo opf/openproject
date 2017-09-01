@@ -55,7 +55,7 @@ describe ResetCurrentUser, type: :request do
     ApplicationController.prepend InsertUserSetupCallback
 
     allow_any_instance_of(ApplicationController)
-      .to receive(:session).and_return({ user_id: user.id })
+      .to receive(:session).and_return(user_id: user.id)
   end
 
   it 'resets User.current between requests' do

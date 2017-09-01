@@ -28,7 +28,7 @@ if delivery_method == "sendmail"
   system("cat #{tmpfile.path} | sendmail -i -t") || exit(1)
 else
   smtp_authentication = ENV.fetch('SMTP_AUTHENTICATION', "none").to_sym
-  #set authentication to nil because :none is not supported by SMTP module
+  # set authentication to nil because :none is not supported by SMTP module
   smtp_authentication = nil if smtp_authentication == :none
   puts "sending test email using SMTP..."
   smtp = Net::SMTP.new(
@@ -45,4 +45,3 @@ else
   smtp.send_message msgstr, from, admin_email
   smtp.finish
 end
-

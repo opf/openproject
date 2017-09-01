@@ -33,14 +33,14 @@ module ::TypesHelper
     return unless type
 
     css_class = if type.is_milestone?
-      'timelines-milestone'
-    else
-      'timelines-phase'
+                  'timelines-milestone'
+                else
+                  'timelines-phase'
                 end
     color = if type.color.present?
-      type.color.hexcode
-    else
-      '#CCC'
+              type.color.hexcode
+            else
+              '#CCC'
             end
 
     content_tag(:span, ' ',

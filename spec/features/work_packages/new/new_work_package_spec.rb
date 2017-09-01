@@ -39,7 +39,7 @@ describe 'new work package', js: true do
     end
   end
 
-  def create_work_package(type, project)
+  def create_work_package(type, _project)
     loading_indicator_saveguard
 
     wp_page.click_create_wp_button(type)

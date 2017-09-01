@@ -2,8 +2,9 @@ AllCops:
   TargetRubyVersion: 2.2
   Exclude:
     - db/schema.rb
+    - app/helpers/timelog_helper.rb
 
-AccessorMethodName:
+  AccessorMethodName:
   Enabled: false
 
 ActionFilter:
