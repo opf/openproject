@@ -48,7 +48,7 @@ module Migration
       SQL
 
       timelines.each_with_object([]) do |r, l|
-        options = YAML.load(r[OPTIONS_COLUMN])
+        options = YAML.safe_load(r[OPTIONS_COLUMN])
         from_date = options[HISTORICAL_DATE_FROM]
         to_date = options[HISTORICAL_DATE_TO]
 
@@ -58,7 +58,7 @@ module Migration
 
     def update_options(callback)
       Proc.new do |row|
-        timelines_opts = YAML.load(row[OPTIONS_COLUMN].to_s)
+        timelines_opts = YAML.safe_load(row[OPTIONS_COLUMN].to_s)
         if timelines_opts
           migrated_options = callback.call(timelines_opts.clone) unless callback.nil?
 

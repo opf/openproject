@@ -390,9 +390,9 @@ module LegacyAssertionsAndHelpers
             @token = FactoryGirl.create(:token, user: @user, action: 'api')
             # Simple url parse to add on ?key= or &key=
             request_url = if url =~ /\?/
-              url + "&key=#{@token.value}"
-            else
-              url + "?key=#{@token.value}"
+                            url + "&key=#{@token.value}"
+                          else
+                            url + "?key=#{@token.value}"
             end
             send(http_method, request_url, params: parameters)
           end
@@ -409,7 +409,7 @@ module LegacyAssertionsAndHelpers
             @user = FactoryGirl.create(:user)
             @token = FactoryGirl.create(:token, user: @user, action: 'feeds')
             # Simple url parse to add on ?key= or &key=
-            request_url = if (url =~ /\?/)
+            request_url = if url =~ /\?/
                             url + "&key=#{@token.value}"
                           else
                             url + "?key=#{@token.value}"

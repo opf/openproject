@@ -39,11 +39,11 @@
 class AddUniqueIndexOnJournals < ActiveRecord::Migration[4.2]
   def up
     cleanup_duplicate_journals
-    add_index :journals, [:journable_type, :journable_id, :version], unique: true
+    add_index :journals, %i[journable_type journable_id version], unique: true
   end
 
   def down
-    remove_index :journals, [:journable_type, :journable_id, :version]
+    remove_index :journals, %i[journable_type journable_id version]
   end
 
   private
@@ -147,7 +147,7 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration[4.2]
       return a == b
     end
 
-    ignored = [:id, :journal_id, :created_at, :updated_at]
+    ignored = %i[id journal_id created_at updated_at]
     a.attributes.symbolize_keys.except(*ignored) == b.attributes.symbolize_keys.except(*ignored)
   end
 

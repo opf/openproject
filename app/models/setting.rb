@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,12 +39,12 @@ class Setting < ActiveRecord::Base
     '%d %B %Y',
     '%b %d, %Y',
     '%B %d, %Y'
-  ]
+  ].freeze
 
   TIME_FORMATS = [
     '%H:%M',
     '%I:%M %p'
-  ]
+  ].freeze
 
   ENCODINGS = %w(US-ASCII
                  windows-1250
@@ -83,7 +84,7 @@ class Setting < ActiveRecord::Base
                  EUC-KR
                  Big5
                  Big5-HKSCS
-                 TIS-620)
+                 TIS-620).freeze
 
   cattr_accessor :available_settings
 
@@ -116,7 +117,7 @@ class Setting < ActiveRecord::Base
     class_eval src, __FILE__, __LINE__
   end
 
-  @@available_settings = YAML::load(File.open(Rails.root.join('config/settings.yml')))
+  @@available_settings = YAML::safe_load(File.open(Rails.root.join('config/settings.yml')))
 
   # Defines getter and setter for each setting
   # Then setting values can be read using: Setting.some_setting_name
@@ -176,7 +177,7 @@ class Setting < ActiveRecord::Base
   end
 
   # this should be fixed with globalize plugin
-  [:emails_header, :emails_footer].each do |mail|
+  %i[emails_header emails_footer].each do |mail|
     src = <<-END_SRC
     def self.localized_#{mail}
       I18n.fallbacks[I18n.locale].each do |lang|
@@ -219,11 +220,11 @@ class Setting < ActiveRecord::Base
   # Unless one cache hits, it plucks from the database
   # Returns a hash of setting => (possibly serialized) value
   def self.cached_settings
-    RequestStore.fetch(:cached_settings) {
-      Rails.cache.fetch(cache_key) {
+    RequestStore.fetch(:cached_settings) do
+      Rails.cache.fetch(cache_key) do
         Hash[Setting.pluck(:name, :value)]
-      }
-    }
+      end
+    end
   end
 
   def self.cache_key
@@ -245,7 +246,7 @@ class Setting < ActiveRecord::Base
   def self.deserialize(name, v)
     default = @@available_settings[name]
 
-    v = YAML::load(v) if default['serialized'] && v.is_a?(String)
+    v = YAML::safe_load(v) if default['serialized'] && v.is_a?(String)
 
     unless v.blank?
       v = v.to_sym if default['format'] == 'symbol'

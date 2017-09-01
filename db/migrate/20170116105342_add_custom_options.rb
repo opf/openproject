@@ -130,7 +130,11 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
 
   def migrate_all_values!
     list_custom_fields.each do |custom_field|
-      name = custom_field.translations.first.name rescue custom_field.id
+      name = begin
+               custom_field.translations.first.name
+             rescue
+               custom_field.id
+             end
       id_map = custom_values_id_map(custom_field.id)
 
       say_with_time "Migrating CF '#{name}'" do

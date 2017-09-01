@@ -31,7 +31,7 @@
 class AddIndexesToTimelinesAlternateDatesToSecureAtScope < ActiveRecord::Migration[4.2]
   def self.up
     add_index :timelines_alternate_dates,
-              [:updated_at, :planning_element_id, :scenario_id],
+              %i[updated_at planning_element_id scenario_id],
               unique: true,
               name: 'index_ad_on_updated_at_and_planning_element_id'
   end

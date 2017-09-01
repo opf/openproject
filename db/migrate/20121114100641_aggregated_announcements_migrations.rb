@@ -18,7 +18,7 @@ class AggregatedAnnouncementsMigrations < ActiveRecord::Migration[4.2]
         t.boolean :active, default: false
         t.timestamps
       end
-      add_index :announcements, [:show_until, :active]
+      add_index :announcements, %i[show_until active]
     end
   end
 

@@ -77,7 +77,7 @@ Then(/^I should see the following fields:$/) do |table|
 end
 
 Then(/^"([^"]*)" should be the first row in table$/) do |name|
-  should have_selector('table.generic-table tbody tr td', text: Regexp.new("#{name}"))
+  should have_selector('table.generic-table tbody tr td', text: Regexp.new(name.to_s))
 end
 
 When(/^I click link "(.*?)"$/) do |selector|

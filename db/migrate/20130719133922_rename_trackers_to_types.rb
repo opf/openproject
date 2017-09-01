@@ -44,7 +44,7 @@ class RenameTrackersToTypes < ActiveRecord::Migration[4.2]
     rename_column :custom_fields_types, :tracker_id, :type_id
 
     add_index :custom_fields_types,
-              [:custom_field_id, :type_id],
+              %i[custom_field_id type_id],
               name: :custom_fields_types_unique,
               unique: true
 
@@ -62,7 +62,7 @@ class RenameTrackersToTypes < ActiveRecord::Migration[4.2]
               :project_id,
               name: :projects_types_project_id
     add_index :projects_types,
-              [:project_id, :type_id],
+              %i[project_id type_id],
               name: :projects_types_unique, unique: true
 
     # trackers
@@ -78,7 +78,7 @@ class RenameTrackersToTypes < ActiveRecord::Migration[4.2]
     rename_column :workflows, :tracker_id, :type_id
 
     add_index :workflows,
-              [:role_id, :type_id, :old_status_id],
+              %i[role_id type_id old_status_id],
               name: :wkfs_role_type_old_status
   end
 
@@ -90,7 +90,7 @@ class RenameTrackersToTypes < ActiveRecord::Migration[4.2]
 
     rename_table :custom_fields_types, :custom_fields_trackers
 
-    add_index :custom_fields_trackers, [:custom_field_id, :tracker_id]
+    add_index :custom_fields_trackers, %i[custom_field_id tracker_id]
 
     # projects_trackers
     remove_index :projects_types, name: :projects_types_project_id
@@ -104,7 +104,7 @@ class RenameTrackersToTypes < ActiveRecord::Migration[4.2]
               :project_id,
               name: :projects_trackers_project_id
     add_index :projects_trackers,
-              [:project_id, :tracker_id],
+              %i[project_id tracker_id],
               name: :projects_trackers_unique,
               unique: true
 
@@ -120,7 +120,7 @@ class RenameTrackersToTypes < ActiveRecord::Migration[4.2]
     rename_column :workflows, :type_id, :tracker_id
 
     add_index :workflows,
-              [:role_id, :tracker_id, :old_status_id],
+              %i[role_id tracker_id old_status_id],
               name: :wkfs_role_tracker_old_status
   end
 end

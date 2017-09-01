@@ -168,7 +168,7 @@ module Migration
           type and version is met.
         MESSAGE
 
-      elsif journal.size == 0
+      elsif journal.empty?
 
         journal = create_journal(legacy_journal)
 
@@ -241,7 +241,7 @@ module Migration
           journal_id is met.
         MESSAGE
 
-      elsif existing_data_journal.size == 0
+      elsif existing_data_journal.empty?
 
         existing_data_journal = create_data_journal(journal_id, to_insert)
 

@@ -86,7 +86,7 @@ class CreateWorkPackages < ActiveRecord::Migration[4.2]
     add_index :work_packages, :planning_element_status_id
 
     # Nested Set
-    add_index :work_packages, [:root_id, :lft, :rgt]
+    add_index :work_packages, %i[root_id lft rgt]
 
     change_table(:projects) do |t|
       t.belongs_to :work_packages_responsible

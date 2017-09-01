@@ -34,7 +34,7 @@ class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration[4.2]
 
     serialize :options, Hash
 
-    belongs_to :wiki, :foreign_key => 'wiki_id'
+    belongs_to :wiki, foreign_key: 'wiki_id'
 
     def index_page
       !!options[:index_page]
@@ -56,20 +56,20 @@ class CreateWikiMenuItemForExistingWikis < ActiveRecord::Migration[4.2]
   class OldWiki < ActiveRecord::Base
     self.table_name = "wikis"
 
-    belongs_to :project, :foreign_key => 'wiki_id'
-    has_many :pages, :class_name => 'WikiPage', :foreign_key => 'wiki_id'
-    has_many :wiki_menu_items, :class_name => 'MenuItems::WikiMenuItem', :foreign_key => 'wiki_id'
-    has_many :redirects, :class_name => 'WikiRedirect', :foreign_key => 'wiki_id'
+    belongs_to :project, foreign_key: 'wiki_id'
+    has_many :pages, class_name: 'WikiPage', foreign_key: 'wiki_id'
+    has_many :wiki_menu_items, class_name: 'MenuItems::WikiMenuItem', foreign_key: 'wiki_id'
+    has_many :redirects, class_name: 'WikiRedirect', foreign_key: 'wiki_id'
 
     # find the page with the given title
     def find_page(title, options = {})
       title = start_page if title.blank?
       title = titleize(title)
       page = find_first pages, title
-      if !page && !(options[:with_redirect] == false)
+      if !page && options[:with_redirect] != false
         # search for a redirect
         redirect = find_first redirects, title
-        page = find_page(redirect.redirects_to, :with_redirect => false) if redirect
+        page = find_page(redirect.redirects_to, with_redirect: false) if redirect
       end
       page
     end

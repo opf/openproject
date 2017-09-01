@@ -59,7 +59,7 @@ module Migration
                 that the unique constraint on journal_id and attachment_id
                 is met.
               MESSAGE
-            elsif attachable.size == 0
+            elsif attachable.empty?
               db_execute <<-SQL
                 INSERT INTO #{attachable_table_name}(journal_id, attachment_id, filename)
                 VALUES (#{quote_value(journal_id)}, #{quote_value(attachment_id)}, #{quote_value(added_filename)});
@@ -127,7 +127,7 @@ module Migration
               consistent and that the unique constraint on journal_id and
               custom_field_id is met.
             MESSAGE
-          elsif customizable.size == 0
+          elsif customizable.empty?
             db_execute <<-SQL
               INSERT INTO #{customizable_table_name}(journal_id, custom_field_id, value)
               VALUES (#{quote_value(journal_id)}, #{quote_value(custom_field_id)}, #{quote_value(value)});

@@ -65,7 +65,7 @@ Given /^the [rR]ole "([^\"]*)" may have the following [rR]ights:$/ do |role, tab
     table.raw.each do |_perm|
       perm = _perm.first
       unless perm.blank?
-        perm = perm.gsub(' ', '_').underscore.to_sym
+        perm = perm.tr(' ', '_').underscore.to_sym
         if available_perms.include?(:"#{perm}")
           r.add_permission! perm
         end

@@ -25,5 +25,5 @@ api_v3_options = {
   store: false
 }
 OpenProject::Authentication.update_strategies(API_V3, api_v3_options) do |_strategies|
-  [:global_basic_auth, :user_basic_auth, :basic_auth_failure, :session]
+  %i[global_basic_auth user_basic_auth basic_auth_failure session]
 end

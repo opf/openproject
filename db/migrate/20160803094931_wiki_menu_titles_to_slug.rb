@@ -14,7 +14,6 @@ class WikiMenuTitlesToSlug < ActiveRecord::Migration[4.2]
   def migrate_menu_items
     ActiveRecord::Base.transaction do
       ::MenuItems::WikiMenuItem.includes(:wiki).find_each do |item|
-
         # We need the associated wiki to be present
         wiki = item.wiki
         next if wiki.nil?

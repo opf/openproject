@@ -62,7 +62,7 @@ And(/^the json\-response for work_package "(.*?)" should have the responsible "(
 end
 Then(/^the json\-response for work_package "(.*?)" should have the due_date "(.*?)"$/) do |work_package_name, due_date|
   work_package = lookup_work_package(work_package_name)
-  expect(work_package['due_date']).to eql due_date.gsub('/', '-') # normalize the date-format
+  expect(work_package['due_date']).to eql due_date.tr('/', '-') # normalize the date-format
 end
 
 And(/^the json\-response should say that "(.*?)" is parent of "(.*?)"$/) do |parent_name, child_name|

@@ -66,7 +66,7 @@ module Migration
     def process_yaml_data(row, column, keys)
       return row[column] if row[column].blank?
 
-      value = YAML.load row[column]
+      value = YAML.safe_load row[column]
 
       if value.is_a? Array
         value.map! do |e|

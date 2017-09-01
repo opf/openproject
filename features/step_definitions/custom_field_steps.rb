@@ -34,7 +34,7 @@
 end
 
 Given /^the following (user|issue|work package) custom fields are defined:$/ do |type, table|
-  type = (type.gsub(' ', '_') + '_custom_field').to_sym
+  type = (type.tr(' ', '_') + '_custom_field').to_sym
 
   as_admin do
     table.hashes.each_with_index do |r, _i|

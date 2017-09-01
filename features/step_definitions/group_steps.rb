@@ -49,7 +49,7 @@ Given /^the group "(.+?)" has the following members:$/ do |name, table|
 
   not_found = user_names - users.map(&:login)
 
-  raise "Could not find users with login: #{not_found}" if not_found.size > 0
+  raise "Could not find users with login: #{not_found}" if !not_found.empty?
 
   group.add_member!(users)
 end

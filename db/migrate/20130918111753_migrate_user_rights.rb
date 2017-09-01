@@ -93,7 +93,7 @@ class MigrateUserRights < ActiveRecord::Migration[4.2]
   def update_role_permissions(permissions)
     Proc.new do |row|
       unless row[COLUMN].nil?
-        role_permissions = YAML.load row[COLUMN]
+        role_permissions = YAML.safe_load row[COLUMN]
 
         role_permissions.map! { |p| permissions.has_key?(p) ? permissions[p] : p }
 

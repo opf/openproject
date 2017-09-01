@@ -36,8 +36,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
     end
   end
 
-  def down
-  end
+  def down; end
 
   private
 
@@ -67,8 +66,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
     end
   end
 
-  def create_missing_custom_value(_table, _customized_id, _custom_field_id)
-  end
+  def create_missing_custom_value(_table, _customized_id, _custom_field_id); end
 
   def missing_custom_values
     @missing_custom_values ||= select_all <<-SQL
@@ -87,7 +85,7 @@ class RepairInvalidDefaultWorkPackageCustomValues < ActiveRecord::Migration[4.2]
   end
 
   def custom_field_default_values
-    @custom_field_default_values ||= CustomField.select { |c| !c.default_value.blank? }
+    @custom_field_default_values ||= CustomField.reject { |c| c.default_value.blank? }
                                                 .each_with_object({}) { |c, h| h[c.id] = c.default_value unless h[c.id] }
   end
 

@@ -32,7 +32,7 @@ module ActionView
   class Resolver
     def find_all(name, prefix = nil, partial = false, details = {}, key = nil, locals = [])
       cached(key, [name, prefix, partial], details, locals) do
-        if details[:formats] & [:xml, :json]
+        if details[:formats] & %i[xml json]
           details = details.dup
           details[:formats] = details[:formats].dup + [:api]
         end

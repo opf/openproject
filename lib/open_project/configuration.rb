@@ -347,7 +347,7 @@ module OpenProject
 
       def load_config_from_file(filename, env, config)
         if File.file?(filename)
-          file_config = YAML::load(ERB.new(File.read(filename)).result)
+          file_config = YAML::safe_load(ERB.new(File.read(filename)).result)
           if file_config.is_a? Hash
             config.merge!(load_env_from_config(file_config, env))
           else

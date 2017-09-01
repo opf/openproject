@@ -33,7 +33,6 @@ class RemoveFilesystemRepositories < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   def up
-
     ActiveRecord::Base.transaction do
       # Delete any changesets belonging to filesystem repositories
       ActiveRecord::Base.connection.execute <<-SQL

@@ -233,13 +233,13 @@ EXPECTED
 
   private
 
-    def assert_html_output(to_test, expect_paragraph = true)
-      to_test.each do |text, expected|
-        assert_dom_equal((expect_paragraph ? "<p>#{expected}</p>" : expected), @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n")
-      end
+  def assert_html_output(to_test, expect_paragraph = true)
+    to_test.each do |text, expected|
+      assert_dom_equal((expect_paragraph ? "<p>#{expected}</p>" : expected), @formatter.new(text).to_html, "Formatting the following text failed:\n===\n#{text}\n===\n")
     end
+  end
 
-    def to_html(text)
-      @formatter.new(text).to_html
-    end
+  def to_html(text)
+    @formatter.new(text).to_html
+  end
 end

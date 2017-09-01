@@ -217,7 +217,7 @@ describe Query, type: :model do
 
     query = Query.new(name: '_', filters: [{ assigned_to_id: { operator: '=', values: ['me'] } }])
     result = query.results.work_packages
-    assert_equal WorkPackage.visible.where(assigned_to_id: ([2])).sort_by(&:id), result.sort_by(&:id)
+    assert_equal WorkPackage.visible.where(assigned_to_id: [2]).sort_by(&:id), result.sort_by(&:id)
 
     assert result.include?(i1)
     assert !result.include?(i2)
@@ -557,8 +557,8 @@ describe Query, type: :model do
         @query.add_filter('member_of_group', '=', [@group.id.to_s])
 
         assert_query_statement_includes @query,
-        "#{WorkPackage.table_name}.assigned_to_id IN ('#{@user_in_group.id}',
-                                                      '#{@second_user_in_group.id}')"
+                                        "#{WorkPackage.table_name}.assigned_to_id IN ('#{@user_in_group.id}',
+                                                                                      '#{@second_user_in_group.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 

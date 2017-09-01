@@ -51,8 +51,8 @@ module NavigationHelpers
 
     when /^the(?: "(.+?)" tab of the)? settings page (?:of|for) the project called "(.+?)"$/
       tab = $1 || ''
-      project_identifier = $2.gsub("\"", '')
-      tab.gsub("\"", '')
+      project_identifier = $2.delete("\"")
+      tab.delete("\"")
 
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
 
@@ -64,7 +64,7 @@ module NavigationHelpers
 
     when /^the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
       wiki_page = $1
-      project_identifier = $2.gsub("\"", '')
+      project_identifier = $2.delete("\"")
       project = Project.find_by(name: project_identifier)
 
       wiki_page.gsub!(' ', '%20')
@@ -81,7 +81,7 @@ module NavigationHelpers
       '/users?sort=created_on:desc&status=registered'
 
     when /^the edit menu item page of the [wW]iki [pP]age "([^\"]+)" (?:for|of) the project called "([^\"]+)"$/
-      project_identifier = $2.gsub("\"", '')
+      project_identifier = $2.delete("\"")
       project = Project.find_by(name: project_identifier)
       project_identifier = project.identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/wiki/#{$1}/wiki_menu_item/edit"
@@ -110,12 +110,12 @@ module NavigationHelpers
       '/projects'
 
     when /^the (?:(?:overview |home ?))?page (?:for|of) the project(?: called)? "(.+)"$/
-      project_identifier = $1.gsub("\"", '')
+      project_identifier = $1.delete("\"")
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}"
 
     when /^the activity page of the project(?: called)? "(.+)"$/
-      project_identifier = $1.gsub("\"", '')
+      project_identifier = $1.delete("\"")
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/activity"
 
@@ -136,7 +136,7 @@ module NavigationHelpers
       "/projects/#{project.identifier}/work_packages/new?copy_from=#{package.id}"
 
     when /^the work packages? index page (?:for|of) (the)? project(?: called)? (.+)$/
-      project_identifier = $2.gsub("\"", '')
+      project_identifier = $2.delete("\"")
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/work_packages"
 
@@ -159,11 +159,11 @@ module NavigationHelpers
     when /^the wiki index page(?: below the (.+) page)? (?:for|of) (?:the)? project(?: called)? (.+)$/
       parent_page_title = $1
       project_identifier = $2
-      project_identifier.gsub!("\"", '')
+      project_identifier.delete!("\"")
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
 
       if parent_page_title.present?
-        parent_page_title.gsub!("\"", '')
+        parent_page_title.delete!("\"")
 
         "/projects/#{project_identifier}/wiki/#{parent_page_title}/toc"
       else
@@ -173,14 +173,14 @@ module NavigationHelpers
     when /^the wiki new child page below the (.+) page (?:for|of) (?:the)? project(?: called)? (.+)$/
       parent_page_title = $1
       project_identifier = $2
-      project_identifier.gsub!("\"", '')
-      parent_page_title.gsub!("\"", '')
+      project_identifier.delete!("\"")
+      parent_page_title.delete!("\"")
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
 
       "/projects/#{project_identifier}/wiki/#{parent_page_title}/new"
 
     when /^the edit page (?:for |of )(the )?role(?: called)? (.+)$/
-      role_identifier = $2.gsub("\"", '')
+      role_identifier = $2.delete("\"")
       role_identifier = Role.find_by(name: role_identifier).id
       "/roles/edit/#{role_identifier}"
 
@@ -188,18 +188,18 @@ module NavigationHelpers
       '/users/new'
 
     when /^the edit page (?:for |of )(the )?user(?: called)? (.+)$/
-      user_identifier = $2.gsub("\"", '')
+      user_identifier = $2.delete("\"")
       user_identifier = User.find_by_login(user_identifier).id
       "/users/#{user_identifier}/edit"
 
     when /^the (.+) tab of the edit page (?:for |of )(the )?user(?: called)? (.+)$/
       tab = $1
-      user_identifier = $3.gsub("\"", '')
+      user_identifier = $3.delete("\"")
       user_identifier = User.find_by_login(user_identifier).id
       "/users/#{user_identifier}/edit/#{tab}"
 
     when /^the show page (?:for |of )(the )?user(?: called)? (.+)$/
-      user_identifier = $2.gsub("\"", '')
+      user_identifier = $2.delete("\"")
       user_identifier = User.find_by_login(user_identifier).id
       "/users/#{user_identifier}"
 
@@ -207,18 +207,18 @@ module NavigationHelpers
       '/users'
 
     when /^the members page of the project(?: called)? (.+)$/
-      project_identifier = $1.gsub("\"", '')
+      project_identifier = $1.delete("\"")
       "/projects/#{project_identifier}/members"
 
     when /^the new member page of the project(?: called)? (.+)$/
-      project_identifier = $1.gsub("\"", '')
+      project_identifier = $1.delete("\"")
       "/projects/#{project_identifier}/members/new"
 
     when /^the global index page (?:for|of) (.+)$/
-      "/#{$1.gsub(' ', '_')}"
+      "/#{$1.tr(' ', '_')}"
 
     when /^the edit page (?:for |of )the version(?: called) (.+)$/
-      version_name = $1.gsub("\"", '')
+      version_name = $1.delete("\"")
       version = Version.find_by(name: version_name)
       "/versions/edit/#{version.id}"
 
@@ -226,24 +226,24 @@ module NavigationHelpers
     # but the path required differs from the standard
     # delete once the path is corrected
     when /the edit page (?:for |of )the (?:issue )?custom field(?: called) (.+)/
-      name = $1.gsub("\"", '')
+      name = $1.delete("\"")
       instance = InstanceFinder.find(CustomField, name)
       "/custom_fields/edit/#{instance.id}"
 
     when /^the new page (?:for|of) (.+)$/
-      model = $1.gsub!("\"", '').downcase
+      model = $1.delete!("\"").downcase
       "/#{model.pluralize}/new"
 
     when /^the edit page of the group called "([^\"]+)"$/
-      identifier = $1.gsub("\"", '')
+      identifier = $1.delete("\"")
       instance = InstanceFinder.find(Group, identifier)
       "/admin/groups/#{instance.id}/edit"
 
     when /^the edit page (?:for|of) (?:the )?([^\"]+?)(?: called)? "([^\"]+)"$/
       model = $1
       identifier = $2
-      identifier.gsub!("\"", '')
-      model = model.gsub("\"", '').gsub(/\s/, '_')
+      identifier.delete!("\"")
+      model = model.delete("\"").gsub(/\s/, '_')
 
       begin
         instance = InstanceFinder.find(model.camelize.constantize, identifier)
@@ -264,8 +264,8 @@ module NavigationHelpers
     when /^the activate registration page for the user called (.+) with (.+)$/
       name = $1.dup
       selection = $2.dup
-      name.gsub!("\"", '')
-      selection.gsub!("\"", '')
+      name.delete!("\"")
+      selection.delete!("\"")
       u = User.find_by_login(name)
       "/account/#{u.id}/activate?#{selection}"
 
@@ -353,8 +353,8 @@ module NavigationHelpers
 
     when /^the (.+) page (?:for|of) the project called "([^\"]+)"$/
       project_page = $1
-      project_identifier = $2.gsub("\"", '')
-      project_page = project_page.gsub(' ', '').underscore
+      project_identifier = $2.delete("\"")
+      project_page = project_page.delete(' ').underscore
       project_identifier = Project.find_by(name: project_identifier).identifier.gsub(' ', '%20')
       "/projects/#{project_identifier}/#{project_page}"
 
@@ -423,7 +423,7 @@ module NavigationHelpers
         send(path_components.push('path').join('_').to_sym)
       rescue NoMethodError, ArgumentError
         raise "Can't find mapping from \"#{page_name}\" to a path.\n" +
-          "Now, go and add a mapping in #{__FILE__}"
+              "Now, go and add a mapping in #{__FILE__}"
       end
     end
   end

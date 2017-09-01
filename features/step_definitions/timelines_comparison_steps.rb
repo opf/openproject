@@ -60,10 +60,10 @@ Given(/^there are the following work packages were added "(.*?)"(?: in project "
 
   # TODO provide better time support with some gem that can parse this:
   target_time = case time
-  when 'three weeks ago'
-    3.weeks.ago
-  else
-    Time.now
+                when 'three weeks ago'
+                  3.weeks.ago
+                else
+                  Time.now
                 end
   ::Timecop.freeze(target_time) do
     create_work_packages_from_table table, project
@@ -71,18 +71,18 @@ Given(/^there are the following work packages were added "(.*?)"(?: in project "
 end
 
 Given(/^the work package "(.*?)" was changed "(.*?)" to:$/) do |name, time, table|
-  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.tr(' ', '_') }
 
   # TODO provide better time support with some gem that can parse this:
   target_time = case time
-  when 'one week ago'
-    1.weeks.ago
-  when 'two weeks ago'
-    2.weeks.ago
-  when 'three weeks ago'
-    3.weeks.ago
-  else
-    Time.now
+                when 'one week ago'
+                  1.weeks.ago
+                when 'two weeks ago'
+                  2.weeks.ago
+                when 'three weeks ago'
+                  3.weeks.ago
+                else
+                  Time.now
                 end
 
   ::Timecop.freeze(target_time) do

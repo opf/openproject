@@ -269,7 +269,7 @@ class AccountController < ApplicationController
     show_sso_error_for user
 
     flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
-      ": " + String(flash.now[:error])
+                        ": " + String(flash.now[:error])
 
     render action: 'login', back_url: failure[:back_url]
   end
