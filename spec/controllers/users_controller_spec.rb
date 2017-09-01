@@ -254,6 +254,54 @@ describe UsersController, type: :controller do
     end
   end
 
+  describe '#change_status_info' do
+    let!(:registered_user) do
+      FactoryGirl.create(:user, status: User::STATUSES[:registered])
+    end
+
+    before do
+      as_logged_in_user admin do
+        get :change_status_info,
+            params: {
+              id: registered_user.id,
+              change_action: change_action
+            }
+      end
+    end
+
+    shared_examples 'valid status info' do
+      it 'renders the status info' do
+        expect(response).to be_success
+        expect(response).to render_template 'users/change_status_info'
+        expect(assigns(:user)).to eq(registered_user)
+        expect(assigns(:status_change)).to eq(change_action)
+      end
+    end
+
+    describe 'with valid activate' do
+      let(:change_action) { :activate }
+      it_behaves_like 'valid status info'
+    end
+
+    describe 'with valid unlock' do
+      let(:change_action) { :unlock }
+      it_behaves_like 'valid status info'
+    end
+
+    describe 'with valid lock' do
+      let(:change_action) { :lock }
+      it_behaves_like 'valid status info'
+    end
+
+    describe 'bogus status' do
+      let(:change_action) { :wtf }
+      it 'renders 400' do
+        expect(response.status).to eq(400)
+        expect(response).not_to render_template 'users/change_status_info'
+      end
+    end
+  end
+
   describe '#change_status',
            with_settings: {
              available_languages: %i(en de),

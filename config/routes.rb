@@ -481,6 +481,7 @@ OpenProject::Application.routes.draw do
 
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
+      match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
       post :change_status
       post :resend_invitation
       get :deletion_info
