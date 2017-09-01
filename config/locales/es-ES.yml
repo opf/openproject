@@ -169,8 +169,5 @@ es:
   text_reassign_time_and_cost_entries: "Reasignar horas y costos reportados para este paquete de trabajo:"
   text_warning_hidden_elements: "Algunas entradas han sido excluidas de la agregación."
   week: "semana"
-  x_entries:
-    one: "1 entrada"
-    other: "%{count} entradas"
   js:
     text_are_you_sure: "¿Estás seguro?"

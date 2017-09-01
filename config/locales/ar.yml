@@ -173,12 +173,5 @@ ar:
   text_reassign_time_and_cost_entries: "إعادة تعيين الساعات والتكاليف التي تم التبليغ عنها لمجموعة العمل هذه:"
   text_warning_hidden_elements: "من الممكن أنه تمّ استبعاد بعض الإدخالات من التجميع."
   week: "الأسبوع"
-  x_entries:
-    zero: "%{count} المدخلات"
-    one: "1 إدخال"
-    two: "%{count} المدخلات"
-    few: "%{count} المدخلات"
-    many: "%{count} المدخلات"
-    other: "%{count} المدخلات"
   js:
     text_are_you_sure: "هل أنت متأكد؟"

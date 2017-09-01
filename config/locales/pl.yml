@@ -170,9 +170,5 @@ pl:
   text_reassign_time_and_cost_entries: "Ponownie przypisz zgłoszone godziny i koszty do tego Zestawu zadań:"
   text_warning_hidden_elements: "Niektóre wpisy mogą zostać wyłączone ze zbioru."
   week: "tydzień"
-  x_entries:
-    one: "1 wpis"
-    few: "%{count} entries"
-    other: "%{count} wpisów"
   js:
     text_are_you_sure: "Jesteś pewny?"

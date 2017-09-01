@@ -169,8 +169,5 @@ hu:
   text_reassign_time_and_cost_entries: "Reassign reported hours and costs to this work package:"
   text_warning_hidden_elements: "Some entries may have been excluded from the aggregation."
   week: "hét"
-  x_entries:
-    one: "1 entry"
-    other: "%{count} entries"
   js:
     text_are_you_sure: "Biztos vagy benne?"

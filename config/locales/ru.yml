@@ -170,9 +170,5 @@ ru:
   text_reassign_time_and_cost_entries: "Переназначьте сообщенные часы и расходы на этот пакет работ:"
   text_warning_hidden_elements: "Некоторые записи были исключены из агрегирования."
   week: "неделя"
-  x_entries:
-    one: "1 запись"
-    few: "%{count} entries"
-    other: "%{count} entries"
   js:
     text_are_you_sure: "Уверены?"

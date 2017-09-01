@@ -170,9 +170,5 @@ hr:
   text_reassign_time_and_cost_entries: "Dodijeli prijavljene sate i troškove ovom radnom paketu:"
   text_warning_hidden_elements: "Pojedine stavke su izuzete iz agregacije."
   week: "tjedan"
-  x_entries:
-    one: "1 unos"
-    few: "%{count} unosa"
-    other: "%{count} unosa"
   js:
     text_are_you_sure: "Da li ste sigurni?"

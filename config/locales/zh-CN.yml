@@ -168,7 +168,5 @@ zh-CN:
   text_reassign_time_and_cost_entries: "将已上报的小时数和成本重新提交到工作包中："
   text_warning_hidden_elements: "一些条目可能已排除在聚合之外。"
   week: "周"
-  x_entries:
-    other: "%{count} 个条目"
   js:
     text_are_you_sure: "是否确定？"

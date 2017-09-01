@@ -169,8 +169,5 @@ it:
   text_reassign_time_and_cost_entries: "Riassegna orari e costi segnalati a questa macro-attività (work package):"
   text_warning_hidden_elements: "Alcune voci potrebbero essere state escluse dall'aggregazione."
   week: "settimana"
-  x_entries:
-    one: "1 voce"
-    other: "%{count} voci"
   js:
     text_are_you_sure: "Sei sicuro/a?"

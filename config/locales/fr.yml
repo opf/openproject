@@ -169,8 +169,5 @@ fr:
   text_reassign_time_and_cost_entries: "Réassigner les heures et coûts consignés à ce lot de travaux :"
   text_warning_hidden_elements: "Certaines entrées peuvent avoir été exclues de l'agrégation."
   week: "semaine"
-  x_entries:
-    one: "1 entrée"
-    other: "%{count} entrées"
   js:
     text_are_you_sure: "Êtes-vous sûr ?"

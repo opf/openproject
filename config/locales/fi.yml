@@ -169,8 +169,5 @@ fi:
   text_reassign_time_and_cost_entries: "Raportoitujen tunti- ja kustannuskirjausten siirtäminen työpaketille:"
   text_warning_hidden_elements: "Joitain merkintöjä on voitu jättää yhdistämisen ulkopuolelle."
   week: "viikko"
-  x_entries:
-    one: "1 merkintä"
-    other: "%{count} merkintää"
   js:
     text_are_you_sure: "Oletko varma?"

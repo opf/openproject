@@ -168,7 +168,5 @@ id:
   text_reassign_time_and_cost_entries: "Assign ulang laporan jam dan biaya pada work package ini:"
   text_warning_hidden_elements: "Beberapa entri mungkin tidak dipakai oleh agregasi yang dilakukan."
   week: "minggu"
-  x_entries:
-    other: "%{count} entries"
   js:
     text_are_you_sure: "Apakah anda yakin?"

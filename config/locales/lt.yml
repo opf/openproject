@@ -170,9 +170,5 @@ lt:
   text_reassign_time_and_cost_entries: "Iš naujo priskirti praneštas valandas ir kaštus šiam darbų paketui:"
   text_warning_hidden_elements: "Kai kurie įrašai galimai atskirti nuo agregacijos."
   week: "savaitė"
-  x_entries:
-    one: "1 įrašas"
-    few: "%{count} įrašai(-as, -ų)"
-    other: "%{count} įrašai(-as, -ų)"
   js:
     text_are_you_sure: "Ar esate įsitikinę?"

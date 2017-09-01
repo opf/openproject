@@ -168,7 +168,5 @@ ko:
   text_reassign_time_and_cost_entries: "보고된 시간 및 비용을 이 작업 패키지에 다시 할당:"
   text_warning_hidden_elements: "일부 항목이 집계에서 제외되었을 수 있습니다."
   week: "주"
-  x_entries:
-    other: "1개 항목\n%{count}개 항목"
   js:
     text_are_you_sure: "계속하시겠습니까?"

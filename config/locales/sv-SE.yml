@@ -169,8 +169,5 @@ sv:
   text_reassign_time_and_cost_entries: "Tilldela rapporterade timmar och kostnader på detta arbetspaket:"
   text_warning_hidden_elements: "Vissa poster kan ha undantagits från summeringen."
   week: "vecka"
-  x_entries:
-    one: "1 entry"
-    other: "%{count} entries"
   js:
     text_are_you_sure: "Är du säker?"

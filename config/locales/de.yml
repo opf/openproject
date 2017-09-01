@@ -169,8 +169,5 @@ de:
   text_reassign_time_and_cost_entries: "Gebuchte Aufwände diesem Ticket zuweisen:"
   text_warning_hidden_elements: "Es wurden möglicherweise nicht alle Einträge berücksichtigt."
   week: "Woche"
-  x_entries:
-    one: "1 Eintrag"
-    other: "%{count} Einträge"
   js:
     text_are_you_sure: "Sind Sie sicher?"
