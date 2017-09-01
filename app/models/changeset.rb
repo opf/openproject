@@ -306,11 +306,11 @@ class Changeset < ActiveRecord::Base
       begin
         txtar += str.encode('UTF-8', normalized_encoding)
       rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
-        txtar += $!.success
-        str = '?' + $!.failed[1, $!.failed.length]
+        txtar += $ERROR_INFO.success
+        str = '?' + $ERROR_INFO.failed[1, $ERROR_INFO.failed.length]
         retry
       rescue
-        txtar += $!.success
+        txtar += $ERROR_INFO.success
       end
       str = txtar
     end

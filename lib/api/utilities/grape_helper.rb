@@ -74,12 +74,12 @@ module API
             message = <<-MESSAGE
   Grape rescuing from error: #{e}
 
-  Original error: #{$!.inspect}
+  Original error: #{$ERROR_INFO.inspect}
 
   Stacktrace:
             MESSAGE
 
-            $@.each do |line|
+            $ERROR_POSITION.each do |line|
               message << "\n    #{line}"
             end
 

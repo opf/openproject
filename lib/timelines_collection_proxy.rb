@@ -99,7 +99,7 @@ module TimelinesCollectionProxy
           # Let's fix it, when it happens
           break if found.present? and found.is_a?(Enumerable)
         rescue ActiveRecord::RecordNotFound
-          error = $!
+          error = $ERROR_INFO
         end
       end
 

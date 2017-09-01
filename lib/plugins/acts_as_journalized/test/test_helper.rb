@@ -28,8 +28,8 @@
 
 #-- encoding: UTF-8
 
-$: << File.join(File.dirname(__FILE__), '..', 'lib')
-$: << File.dirname(__FILE__)
+$LOAD_PATH << File.join(File.dirname(__FILE__), '..', 'lib')
+$LOAD_PATH << File.dirname(__FILE__)
 
 require 'rubygems'
 require 'test/unit'
