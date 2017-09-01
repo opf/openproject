@@ -89,14 +89,18 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
     user_login_names = text.scan(/\buser:"(.+?)"/).first.to_a
 
     user_ids.each do |user_id|
-      if user = User.in_visible_project(@author).find_by(id: user_id)
-        mentioned_people << user unless user.mail_notification == 'none'
+      if user = User.find_by(id: user_id)
+        if @work_package.visible? user
+          mentioned_people << user unless user.mail_notification == 'none'
+        end
       end
     end
 
     user_login_names.each do |name|
-      if user = User.in_visible_project(@author).find_by(login: name)
-        mentioned_people << user unless user.mail_notification == 'none'
+      if user = User.find_by(login: name)
+        if @work_package.visible? user
+          mentioned_people << user unless user.mail_notification == 'none'
+        end
       end
     end
     mentioned_people
