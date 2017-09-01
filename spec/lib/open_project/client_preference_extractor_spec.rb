@@ -36,7 +36,7 @@ describe OpenProject::ClientPreferenceExtractor do
 
     shared_examples_for 'preference with timezone' do
       before do
-        expect(user).to receive(:pref) { pref }
+        allow(user).to receive(:pref) { pref }
       end
 
       subject { extractor.user_preferences(user) }
