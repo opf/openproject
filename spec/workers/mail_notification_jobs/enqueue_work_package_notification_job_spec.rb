@@ -256,7 +256,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       allow(subject).to receive(:text_for_mentions).and_return(added_text)
     end
 
-    context "both users are members in at least one project" do
+    context "recipient is allowed to view the work package" do
       let(:author) do
         FactoryGirl.create(:user,
                            member_in_project: project,
@@ -281,7 +281,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
                                member_through_role: role,
                                login: "foo@bar.com")
           end
-          
+
           it "detects the user" do
             expect(subject.send(:mentioned).first).to eq recipient
           end
@@ -315,7 +315,11 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
       end
     end
 
-    context "users are not members of one common project" do
+    context "mentioned user is not allowed to view the work package" do
+      let(:recipient) do
+        FactoryGirl.create(:user,
+                           login: "foo@bar.com")
+      end
       let(:added_text) do
         "Hello user:#{recipient.login}, hey user##{recipient.id}"
       end
