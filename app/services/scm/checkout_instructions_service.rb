@@ -134,7 +134,7 @@ class Scm::CheckoutInstructionsService
   # because otherwise OpenProject does not control the repository permissions.
   # Use +manages_permissions?+ to check whether this is the case.
   def may_checkout?
-    [:readwrite, :read].include?(permission)
+    %i[readwrite read].include?(permission)
   end
 
   ##

@@ -103,7 +103,7 @@ module DemoData
                             is_public: true,
                             show_hierarchies: true,
                             timeline_visible: true,
-                            column_names: [:subject, :type, :status],
+                            column_names: %i[subject type status],
                             sort_criteria: [['id', 'asc']],
                             timeline_zoom_level: 'weeks'
 

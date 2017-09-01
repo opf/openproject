@@ -24,7 +24,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
     it 'relocates when project identifier is updated' do
       current_path = repository.root_url
       expect(repository.root_url).to eq(repository.managed_repository_path)
-      expect(Dir.exists?(repository.managed_repository_path)).to be true
+      expect(Dir.exist?(repository.managed_repository_path)).to be true
 
       # Rename the project
       project.update_attributes!(identifier: 'somenewidentifier')
@@ -37,7 +37,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
       expect(current_path).not_to eq(repository.root_url)
       expect(repository.url).to eq(repository.managed_repository_url)
 
-      expect(Dir.exists?(repository.managed_repository_path)).to be true
+      expect(Dir.exist?(repository.managed_repository_path)).to be true
     end
   end
 

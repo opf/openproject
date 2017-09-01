@@ -60,7 +60,7 @@ module DemoData
     end
 
     def applicable?
-      not WorkPackageCustomField.any?
+      WorkPackageCustomField.none?
     end
   end
 end

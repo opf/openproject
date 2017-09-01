@@ -60,7 +60,7 @@ class UpdateProjectsTypesService < BaseProjectService
   end
 
   def missing_types(type_ids)
-    types_used_by_work_packages.select { |t| !type_ids.include?(t.id) }
+    types_used_by_work_packages.reject { |t| type_ids.include?(t.id) }
   end
 
   def types_used_by_work_packages

@@ -145,8 +145,10 @@ class MoveWorkPackageService
     parent_in_project =
       work_package.parent.nil? || work_package.parent.project == work_package.project
 
-    work_package.parent_id =
-      nil unless Setting.cross_project_work_package_relations? || parent_in_project
+    unless Setting.cross_project_work_package_relations? || parent_in_project
+      work_package.parent_id =
+        nil
+    end
   end
 
   def create_and_save_journal_note(work_package, journal_note)

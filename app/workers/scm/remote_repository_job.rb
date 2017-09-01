@@ -69,10 +69,10 @@ class Scm::RemoteRepositoryJob < ApplicationJob
 
     unless response.is_a? ::Net::HTTPSuccess
       raise OpenProject::Scm::Exceptions::ScmError.new(
-              I18n.t('repositories.errors.remote_call_failed',
-                     code: response.code,
-                     message: info['message'])
-            )
+        I18n.t('repositories.errors.remote_call_failed',
+               code: response.code,
+               message: info['message'])
+      )
     end
 
     info
@@ -82,8 +82,8 @@ class Scm::RemoteRepositoryJob < ApplicationJob
     JSON.parse(body)
   rescue JSON::JSONError => e
     raise OpenProject::Scm::Exceptions::ScmError.new(
-            I18n.t('repositories.errors.remote_invalid_response')
-          )
+      I18n.t('repositories.errors.remote_invalid_response')
+    )
   end
 
   def repository_request

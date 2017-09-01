@@ -37,6 +37,7 @@ class DeleteUserService
     @user = user
     @actor = actor
   end
+
   ##
   # Deletes the given user if allowed.
   #

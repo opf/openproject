@@ -73,7 +73,7 @@ describe OpenProject::Scm::Adapters::Subversion do
   describe 'invalid repository' do
     describe '.check_availability!' do
       it 'should not be available' do
-        expect(Dir.exists?(url)).to be false
+        expect(Dir.exist?(url)).to be false
         expect(adapter).not_to be_available
         expect { adapter.check_availability! }
           .to raise_error(OpenProject::Scm::Exceptions::ScmUnavailable)
@@ -134,11 +134,11 @@ describe OpenProject::Scm::Adapters::Subversion do
     describe '.create_empty_svn' do
       context 'with valid root_url' do
         it 'should create the repository' do
-          expect(Dir.exists?(root_url)).to be true
+          expect(Dir.exist?(root_url)).to be true
           expect(Dir.entries(root_url).length).to eq 2
           expect { adapter.create_empty_svn }.not_to raise_error
 
-          expect(Dir.exists?(root_url)).to be true
+          expect(Dir.exist?(root_url)).to be true
           expect(Dir.entries(root_url).length).to be >= 5
         end
       end
@@ -149,7 +149,7 @@ describe OpenProject::Scm::Adapters::Subversion do
           expect { adapter.create_empty_svn }
             .to raise_error(OpenProject::Scm::Exceptions::CommandFailed)
 
-          expect(Dir.exists?(root_url)).to be false
+          expect(Dir.exist?(root_url)).to be false
         end
       end
     end
@@ -172,7 +172,7 @@ describe OpenProject::Scm::Adapters::Subversion do
       end
 
       it 'is a valid repository' do
-        expect(Dir.exists?(repo_dir)).to be true
+        expect(Dir.exist?(repo_dir)).to be true
 
         out, process = Open3.capture2e('svn', 'info', url)
         expect(process.exitstatus).to eq(0)

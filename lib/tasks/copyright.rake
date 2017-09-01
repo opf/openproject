@@ -53,8 +53,8 @@ namespace :copyright do
   def copyright_file(options = {})
     path = 'doc/COPYRIGHT_short.rdoc'
     if options[:path]
-      path = File.join(options[:path], 'doc/COPYRIGHT_short.rdoc') if File.exists?(File.join(options[:path], 'doc/COPYRIGHT_short.rdoc'))
-      path = File.join(options[:path], 'doc/COPYRIGHT_short.md')   if File.exists?(File.join(options[:path], 'doc/COPYRIGHT_short.md'))
+      path = File.join(options[:path], 'doc/COPYRIGHT_short.rdoc') if File.exist?(File.join(options[:path], 'doc/COPYRIGHT_short.rdoc'))
+      path = File.join(options[:path], 'doc/COPYRIGHT_short.md')   if File.exist?(File.join(options[:path], 'doc/COPYRIGHT_short.md'))
     end
     path
   end
@@ -114,7 +114,7 @@ namespace :copyright do
     file_list = options[:file_list] || Dir[File.absolute_path(path) + "/**/*.#{ending}"]
     excluded = exluded_paths.concat(additional_excludes)
 
-    raise 'Path not found' unless Dir.exists?(path)
+    raise 'Path not found' unless Dir.exist?(path)
     file_list.each do |file_name|
       # Skip 3rd party code
       next if excluded.any? { |e| file_name.include?(e) }

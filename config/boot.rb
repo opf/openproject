@@ -32,7 +32,7 @@ ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
 
 # Load any local boot extras that is kept out of source control
 # (e.g., silencing of deprecations)
-if File.exists?(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
+if File.exist?(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
   instance_eval File.read(File.join(File.dirname(__FILE__), 'additional_boot.rb'))
 end
 

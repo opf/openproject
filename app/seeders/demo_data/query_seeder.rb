@@ -44,10 +44,10 @@ module DemoData
 
         query_menu_item = MenuItems::QueryMenuItem.find_or_initialize_by(
           navigatable_id: query.id
-) do |item|
-            item.name  = SecureRandom.uuid
-            item.title = query.name
-          end
+        ) do |item|
+          item.name = SecureRandom.uuid
+          item.title = query.name
+        end
         query_menu_item.save!
       end
 
@@ -68,31 +68,31 @@ module DemoData
                     type_id: { operator: "=", values: [bug_type.id.to_s] }],
           user_id: admin.id,
           is_public: true,
-          column_names: [:id, :type, :status, :priority, :subject, :assigned_to, :created_at] },
+          column_names: %i[id type status priority subject assigned_to created_at] },
         { name: "Milestones",
           filters: [status_id: { operator: "o" },
                     type_id: { operator: "=", values: [milestone_type.id.to_s] }],
           user_id: admin.id,
           is_public: true,
-          column_names: [:id, :type, :status, :subject, :start_date, :due_date] },
+          column_names: %i[id type status subject start_date due_date] },
         { name: "Phases",
           filters: [status_id: { operator: "o" },
                     type_id: { operator: "=", values: [phase_type.id.to_s] }],
           user_id: admin.id,
           is_public: true,
-          column_names: [:id, :type, :status, :subject, :start_date, :due_date] },
+          column_names: %i[id type status subject start_date due_date] },
         { name: "Tasks",
           filters: [status_id: { operator: "o" },
                     type_id: { operator: "=", values: [task_type.id.to_s] }],
           user_id: admin.id,
           is_public: true,
-          column_names: [:id, :type, :status, :priority, :subject, :assigned_to] },
+          column_names: %i[id type status priority subject assigned_to] },
         { name: "User Stories",
           filters: [status_id: { operator: "o" },
                     type_id: { operator: "=", values: [story_type.id.to_s] }],
           user_id: admin.id,
           is_public: true,
-          column_names: [:id, :type, :status, :priority, :subject, :assigned_to] }
+          column_names: %i[id type status priority subject assigned_to] }
       ]
     end
   end

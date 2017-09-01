@@ -63,7 +63,7 @@ describe Scm::CreateLocalRepositoryJob do
     shared_examples 'creates a directory with mode' do |expected|
       it 'creates the directory' do
         subject.perform
-        expect(Dir.exists?(repository.root_url)).to be true
+        expect(Dir.exist?(repository.root_url)).to be true
 
         file_mode = File.stat(repository.root_url).mode
         expect(sprintf("%o", file_mode)).to end_with(expected)

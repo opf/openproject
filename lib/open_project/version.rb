@@ -66,7 +66,7 @@ module OpenProject
     def self.product_version
       defined?(@product_version) || @product_version = begin
         path = Rails.root.join('config', 'PRODUCT_VERSION')
-        if File.exists? path
+        if File.exist? path
           File.read(path)
         end
       rescue => e
@@ -102,7 +102,7 @@ module OpenProject
     def self.release_date_from_file
       defined?(@file_date) || @file_date = begin
         path = Rails.root.join('config', 'RELEASE_DATE')
-        if File.exists? path
+        if File.exist? path
           s = File.read(path)
           Date.parse(s)
         end

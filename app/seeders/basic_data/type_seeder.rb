@@ -67,7 +67,7 @@ module BasicData
     end
 
     def type_names
-      [:task, :milestone, :phase, :feature, :epic, :user_story, :bug]
+      %i[task milestone phase feature epic user_story bug]
     end
 
     def type_table

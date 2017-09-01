@@ -40,7 +40,6 @@ module Members
 
     def call(attributes: {})
       User.execute_as current_user do
-
         process_attributes! attributes
 
         unless validate_attributes! attributes

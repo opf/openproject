@@ -103,6 +103,6 @@ class Scm::CreateLocalRepositoryJob < ApplicationJob
   end
 
   def default_mode
-    0700
+    0o700
   end
 end

@@ -320,7 +320,7 @@ class UserMailer < BaseMailer
   def self.generate_message_id(object, user)
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
-    journable = (object.is_a? Journal) ? object.journable : object
+    journable = object.is_a? Journal ? object.journable : object
 
     timestamp = mail_timestamp(object)
     hash = 'openproject'\
@@ -364,9 +364,9 @@ class UserMailer < BaseMailer
 
   def self.mail_timestamp(object)
     timestamp = if object.respond_to? :created_at
-      object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
-    else
-      object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+                  object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
+                else
+                  object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
                 end
   end
 
