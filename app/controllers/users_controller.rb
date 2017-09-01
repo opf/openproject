@@ -40,7 +40,6 @@ class UsersController < ApplicationController
                                      destroy
                                      deletion_info
                                      resend_invitation]
-  # should also contain destroy but post data can not be redirected
   before_action :require_login, only: [:deletion_info]
   before_action :authorize_for_user, only: [:destroy]
   before_action :check_if_deletion_allowed, only: %i[deletion_info
@@ -69,7 +68,8 @@ class UsersController < ApplicationController
     @memberships = @user.memberships
                         .visible(current_user)
 
-    events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
+    events = Redmine::Activity::Fetcher.new(User.current,
+                                            author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
     unless User.current.admin?
@@ -184,6 +184,12 @@ class UsersController < ApplicationController
     end
   rescue ::ActionController::RedirectBackError
     redirect_to controller: '/users', action: 'edit', id: @user
+  end
+
+  def change_status_info
+    @status_change = params[:change_action].to_sym
+
+    return render_400 unless %i(activate lock unlock).include? @status_change
   end
 
   def change_status

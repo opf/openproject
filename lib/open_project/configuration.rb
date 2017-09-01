@@ -67,6 +67,9 @@ module OpenProject
       'rails_force_ssl' => false,
       'rails_asset_host' => nil,
 
+      # user configuration
+      'default_comment_sort_order' => 'asc',
+
       # email configuration
       'email_delivery_configuration' => 'inapp',
       'email_delivery_method' => nil,

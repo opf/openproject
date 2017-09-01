@@ -279,7 +279,7 @@ class UserMailer < BaseMailer
     @user           = user
     @activation_url = url_for(controller: '/users',
                               action:     :index,
-                              status:     User::STATUSES[:registered],
+                              status:     'registered',
                               sort:       'created_at:desc')
 
     open_project_headers 'Type' => 'Account'

@@ -60,7 +60,7 @@ describe UserPreference do
 
   it 'should update_with_method' do
     user = FactoryGirl.create :user
-    assert_equal nil, user.pref.comments_sorting
+    assert_equal OpenProject::Configuration.default_comment_sort_order, user.pref.comments_sorting
     user.pref.comments_sorting = 'value'
     assert user.pref.save
 

@@ -46,7 +46,7 @@ class UserPreference < ActiveRecord::Base
   end
 
   def comments_sorting
-    others[:comments_sorting]
+    others.fetch(:comments_sorting, OpenProject::Configuration.default_comment_sort_order)
   end
 
   def comments_sorting=(order)
