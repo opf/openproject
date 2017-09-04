@@ -99,11 +99,17 @@ module Pages
     def open_split_view(work_package)
       split_page = SplitWorkPackage.new(work_package, project)
 
-      # The 'id' column should have enough space to be clicked
+      # Hover row to show split screen button
       row_element = row(work_package)
-      row_element.find('td.id').click
+      row_element.hover
+      row_element.find('.wp-table--details-link').click
 
       split_page
+    end
+
+    def click_on_row(work_package)
+      loading_indicator_saveguard
+      page.driver.browser.action.click(row(work_package).native).perform
     end
 
     def add_filter(label, operator, value)

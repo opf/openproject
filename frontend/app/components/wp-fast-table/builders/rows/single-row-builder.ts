@@ -62,7 +62,7 @@ export class SingleRowBuilder {
     // Handle property types
     switch (column.id) {
       case internalContextMenuColumn.id:
-        return this.contextLinkBuilder.build();
+        return this.contextLinkBuilder.build(workPackage);
       default:
         return this.cellBuilder.build(workPackage, column.id);
     }
