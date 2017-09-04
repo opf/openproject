@@ -30,6 +30,7 @@ describe 'Only see your own rates', type: :feature, js: true do
                                                        :view_cost_entries] }
   let(:work_package) {FactoryGirl.create :work_package }
   let(:other_work_package) {FactoryGirl.create :work_package, project: project }
+  let(:destroy_modal) { Components::WorkPackages::DestroyModal.new }
   let(:cost_type) {
     type = FactoryGirl.create :cost_type, name: 'Translations'
     FactoryGirl.create :cost_rate, cost_type: type,
@@ -56,7 +57,8 @@ describe 'Only see your own rates', type: :feature, js: true do
 
     click_link(I18n.t('js.button_delete'))
 
-    wp_page.accept_alert_dialog!
+    destroy_modal.expect_listed(work_package)
+    destroy_modal.confirm_deletion
 
     fill_in 'to_do_reassign_to_id', :with => other_work_package.id
 
