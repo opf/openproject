@@ -57,6 +57,10 @@ export class TimelineCellRenderer {
     return 'rgba(50, 50, 50, 0.1)';
   }
 
+  public canMoveDates(wp:WorkPackageResourceInterface) {
+    return wp.schema.startDate.writable && wp.schema.dueDate.writable;
+  }
+
   public isEmpty(wp:WorkPackageResourceInterface) {
     const start = moment(wp.startDate as any);
     const due = moment(wp.dueDate as any);
