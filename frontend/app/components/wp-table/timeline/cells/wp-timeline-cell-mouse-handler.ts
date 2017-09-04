@@ -144,7 +144,13 @@ export function registerWorkPackageMouseHandler(this:void,
       return;
     }
 
+    if (!(wp.isLeaf && renderer.canMoveDates(wp))) {
+      cell.style.cursor = 'not-allowed';
+      return;
+    }
+
     // placeholder logic
+    cell.style.cursor = '';
     placeholderForEmptyCell && placeholderForEmptyCell.remove();
     placeholderForEmptyCell = renderer.displayPlaceholderUnderCursor(ev, renderInfo);
     cell.appendChild(placeholderForEmptyCell);

@@ -29,6 +29,10 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
     return noDateValue;
   }
 
+  public canMoveDates(wp:WorkPackageResourceInterface) {
+    return wp.schema.date.writable;
+  }
+
   public displayPlaceholderUnderCursor(ev:MouseEvent, renderInfo:RenderInfo):HTMLElement {
     const days = Math.floor(ev.offsetX / renderInfo.viewParams.pixelPerDay);
 
