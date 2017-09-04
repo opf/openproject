@@ -62,7 +62,7 @@
 
 // Shrink column of details / inline-create icons
 .wp-table--context-menu-column
-  width: 40px
+  width: 60px
   // Center the th icon
   text-align: center !important
   // Take care that the header can overlap the icon
@@ -71,26 +71,35 @@
 
 // Hide the context menu button outside mobile
 html:not(.-browser-mobile)
-  .wp-table-context-menu-link
+  .wp-table--context-menu-td
+    width: 60px
+    // Override the default td line-height
+    line-height: initial !important
     @extend .hidden-for-sighted
 
-  .issue:hover .wp-table-context-menu-link,
-  .wp-table-context-menu-link:focus
+  .issue:hover .wp-table--context-menu-td,
+  .wp-table--context-menu-td:focus
     // override the hidden-for-sighted definition
     position: relative
-    left: -5px
+    left: 0
     width: initial
     height: initial
 
 
 // Show context menu button when hovering
-.wp-table-context-menu-link
+.wp-table--context-menu-td a
   vertical-align: -3px
   .icon:before
     @include varprop(color, content-link-color)
     padding: 0 0 0 0.25rem
   &:hover
     text-decoration: none
+
+.wp-table--details-link
+  padding-right: 5px
+
+.wp-table-context-menu-link
+  padding-left: 5px
 
 table.generic-table tbody tr.issue .checkbox
   overflow: visible
