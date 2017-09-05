@@ -46,7 +46,7 @@ your host machine in case something goes wrong.
 
 To achieve this, we recommend that you create a directory on your host system
 where the Docker Engine is installed (for instance: `/var/lib/openproject`)
-where all those data will be stored.
+where all this data will be stored.
 
 You can use the following commands to create the local directories where the
 data will be stored across container restarts, and start the container with
@@ -58,7 +58,7 @@ those directories mounted:
       -v /var/lib/openproject/pgdata:/var/lib/postgresql/9.4/main \
       -v /var/lib/openproject/logs:/var/log/supervisor \
       -v /var/lib/openproject/static:/var/db/openproject \
-      openproject/community:5.0
+      openproject/community:7
 
 Since we named the container, you can now stop it by running:
 
@@ -147,4 +147,3 @@ use MySQL instead of PostgreSQL if you wish. Here is how you would do it:
 
 The container will make sure that the database gets the migrations and demo
 data as well.
-
