@@ -32,6 +32,7 @@ import {HalResource} from 'core-components/api/api-v3/hal-resources/hal-resource
 import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
 
 interface ICostsByType {
+  costObjectId:string;
   costType:{
     name:string;
   };
@@ -67,13 +68,14 @@ export class CostsByTypeDisplayField extends DisplayField {
   }
 
   public render(element:HTMLElement, displayText:string):void {
-    if (this.isEmpty()) {
+    const showCosts = this.resource.showCosts;
+    if (this.isEmpty() || !showCosts) {
       return;
     }
 
     this.value.elements.forEach((val:ICostsByType, i:number) => {
       const link = document.createElement('a');
-      link.href = val.staticPath.href;
+      link.href = showCosts.href + '?cost_type_id=' + val.costObjectId;
       link.setAttribute('target', '_blank');
       link.textContent = val.spentUnits + ' ' + val.costType.name;
       element.appendChild(link);

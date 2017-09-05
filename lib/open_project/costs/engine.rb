@@ -155,6 +155,18 @@ module OpenProject::Costs
         }
       end
 
+      link :showCosts do
+        next unless represented.costs_enabled? && represented.persisted?
+        next unless current_user_allowed_to(:view_cost_entries, context: represented.project) ||
+            current_user_allowed_to(:view_own_cost_entries, context: represented.project)
+
+        {
+            href: work_packages_cost_entries_path(represented),
+            type: 'text/html',
+            title: "Show cost entries"
+        }
+      end
+
       link :timeEntries do
         next unless user_has_time_entry_permissions? &&
                     represented.persisted?

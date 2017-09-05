@@ -44,6 +44,12 @@ module API
                  },
                  setter: ->(*) {}
 
+        property :cost_object_id,
+                 exec_context: :decorator,
+                 getter: ->(*) {
+                   @cost_type.id
+                 }
+
         property :spent_units,
                  exec_context: :decorator,
                  getter: ->(*) { @spent_units }
