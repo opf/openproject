@@ -186,6 +186,15 @@ export class PathHelperService {
     return this.apiV3 + '/users/' + userId;
   }
 
+  public apiv3MentionablePrincipalsPath(projectId:string|number, term:string|null) {
+    var path = this.apiV3;
+    path = path + '/principals?filters=[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["' + projectId + '"]}},{"type":{"operator":"=","values":["User"]}}';
+    if (term && term.length > 0) {
+      path = path + ',{"name":{"operator":"~","values":["' + term + '"]}}';
+    }
+    return path + ']&sortBy=[["name","asc"]]&offset=1&pageSize=10';
+  }
+
   public apiV3UserMePath() {
     return this.apiV3UserPath('me');
   }
@@ -198,4 +207,3 @@ export class PathHelperService {
 angular
   .module('openproject.helpers')
   .service('PathHelper', PathHelperService);
-

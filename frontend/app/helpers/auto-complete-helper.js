@@ -27,10 +27,50 @@
 //++
 
 module.exports = function($http, PathHelper) {
-  var getAtWhoParameters = function(url, textarea) {
+  var getAtWhoParametersMentionable = function(at, textarea, projectId) {
+    return {
+      at: at,
+      startWithSpace: false,
+      searchKey: 'id_principal',
+      displayTpl: '<li data-value="user#${id}">${id}: ${firstName} ${lastName}</li>',
+      insertTpl: "user#${id}",
+      limit: 10,
+      suffix: '',
+      textarea: textarea,
+      callbacks: {
+        remoteFilter: function(query, callback) {
+          if (query.length > 0) {
+            $http.get(PathHelper.apiv3MentionablePrincipalsPath(projectId, query)).
+              success(function(data) {
+                // atjs needs the search key to be a string
+                principals = data["_embedded"]["elements"]
+                for (var i = principals.length - 1; i >= 0; i--) {
+                  principals[i]['id_principal'] = principals[i]['id'].toString() + ' ' + principals[i]['firstName'] + ' ' + principals[i]['lastName'];
+                }
+
+                if (angular.element(textarea).is(':visible')) {
+                  callback(principals);
+                }
+                else {
+                  // discard the results if the textarea is no longer visible,
+                  // i.e. nobody cares for the results
+                  callback([]);
+                }
+              });
+          }
+        },
+        sorter: function(query, items, search_key) {
+          return items; // we do not sort
+        }
+      }
+    };
+  };
+
+  var getAtWhoParametersWPID = function(textarea) {
+    var url = PathHelper.workPackageJsonAutoCompletePath();
     return {
       at: '#',
-      startWithSpace: false,
+      startWithSpace: true,
       searchKey: 'id_subject',
       displayTpl: '<li data-value="${atwho-at}${id}">${to_s}</li>',
       insertTpl: "${atwho-at}${id}",
@@ -65,13 +105,19 @@ module.exports = function($http, PathHelper) {
   };
 
   return {
-    enableTextareaAutoCompletion: function(textareas) {
+    enableTextareaAutoCompletion: function(textareas, projectId) {
       angular.forEach(textareas, function(textarea) {
-        var url = PathHelper.workPackageJsonAutoCompletePath();
 
-        if (url !== undefined && url.length > 0) {
-          angular.element(textarea).atwho(getAtWhoParameters(url, textarea));
+        // only activate autocompleter for mentioniong users if the user is
+        // in the context of a project and work package.
+        if(angular.element('body.controller-work_packages').length > 0 &&
+           projectId &&
+           projectId.length > 0) {
+          angular.element(textarea).atwho(getAtWhoParametersMentionable('@', textarea, projectId));
+          angular.element(textarea).atwho(getAtWhoParametersMentionable('user#', textarea, projectId));
         }
+
+        angular.element(textarea).atwho(getAtWhoParametersWPID(textarea));
       });
     }
   };

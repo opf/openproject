@@ -27,12 +27,15 @@
 // ++
 
 import {openprojectModule} from "../../angular-modules";
-function opAutoComplete(AutoCompleteHelper:any) {
+import {CurrentProjectService} from '../projects/current-project.service';
+
+function opAutoComplete(AutoCompleteHelper:any, currentProject:CurrentProjectService) {
   return {
     restrict: 'AC',
     scope: false,
     link: function(scope:ng.IScope, element:ng.IAugmentedJQuery) {
-      AutoCompleteHelper.enableTextareaAutoCompletion(element);
+      var projectId:string|null = currentProject.id;
+      AutoCompleteHelper.enableTextareaAutoCompletion(element, projectId);
     },
   };
 }
