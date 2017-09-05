@@ -28,10 +28,11 @@
 
 import {QuerySortByResource} from "../api/api-v3/hal-resources/query-sort-by-resource.service";
 import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
+import {PathHelperService} from '../common/path-heleper/path-helper.service';
 
 export class UrlParamsHelperService {
 
-  public constructor(public PaginationService:any) {
+  public constructor(public PaginationService:any, public PathHelper:PathHelperService) {
 
   }
 

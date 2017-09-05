@@ -48,6 +48,14 @@ module API
             end
           end
 
+          def current_user_if_logged
+            if User.current.logged?
+              User.current
+            else
+              fail ::API::Errors::Unauthorized
+            end
+          end
+
           def allow_only_admin
             unless current_user.admin?
               fail ::API::Errors::Unauthorized
@@ -87,7 +95,12 @@ module API
             helpers ::API::V3::Users::UpdateUser
 
             before do
-              @user = User.find_by_unique!(params[:id])
+              @user =
+                if params[:id] == 'me'
+                  current_user_if_logged
+                else
+                  User.find_by_unique!(params[:id])
+                end
             end
 
             get do

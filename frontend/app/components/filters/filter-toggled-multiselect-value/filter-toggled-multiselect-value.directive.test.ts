@@ -40,12 +40,13 @@ describe('toggledMultiselect Directive', function() {
                                    'openproject.templates',
                                    'openproject.services'));
 
-    beforeEach(inject(function($rootScope:any, $compile:any) {
+    beforeEach(inject(function($rootScope:any, $compile:any, $injector:any) {
       var html = '<filter-toggled-multiselect-value icon-name="cool-icon.png" filter="filter"></filter-toggled-multiselect-value>';
 
       element = angular.element(html);
       rootScope = $rootScope;
       scope = $rootScope.$new();
+      (window as any).ngInjector = $injector;
 
       allowedValues = [
         {
@@ -60,6 +61,7 @@ describe('toggledMultiselect Directive', function() {
 
       compile = function() {
         $compile(element)(scope);
+        angular.element(document.body).append(element);
         scope.$apply();
 
         controller = element.controller('filterToggledMultiselectValue');
@@ -72,6 +74,7 @@ describe('toggledMultiselect Directive', function() {
     }));
     afterEach(angular.mock.inject(() => {
       I18n.t.restore();
+      element.remove();
     }));
 
     describe('with values', function() {
@@ -126,10 +129,10 @@ describe('toggledMultiselect Directive', function() {
           expect(options.length).to.equal(2);
 
           expect(options[0].value).to.equal(allowedValues[0].$href);
-          expect(options[0].innerText).to.equal(allowedValues[0].name);
+          expect(options[0].textContent).to.equal(allowedValues[0].name);
 
           expect(options[1].value).to.equal(allowedValues[1].$href);
-          expect(options[1].innerText).to.equal(allowedValues[1].name);
+          expect(options[1].textContent).to.equal(allowedValues[1].name);
         });
 
         xit('should render a link that toggles multi-select', function() {
@@ -211,13 +214,15 @@ describe('toggledMultiselect Directive', function() {
           var options = select.find('option');
 
           expect(options.length).to.equal(3);
-          expect(options[0].innerText).to.equal('PLACEHOLDER');
+          expect(options[0].textContent).to.equal('PLACEHOLDER');
 
+          console.error(options[1].textContent)
+          console.error(options[2].textContent)
           expect(options[1].value).to.equal(allowedValues[0].$href);
-          expect(options[1].innerText).to.equal(allowedValues[0].name);
+          expect(options[1].textContent).to.equal(allowedValues[0].name);
 
           expect(options[2].value).to.equal(allowedValues[1].$href);
-          expect(options[2].innerText).to.equal(allowedValues[1].name);
+          expect(options[2].textContent).to.equal(allowedValues[1].name);
         });
       });
     });
