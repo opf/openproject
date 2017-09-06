@@ -56,6 +56,7 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
     this.activateLabel = I18n.t('js.timelines.button_activate');
     this.deactivateLabel = I18n.t('js.timelines.button_deactivate');
 
+
     this.text.zoomIn = I18n.t('js.timelines.zoom.in');
     this.text.zoomOut = I18n.t('js.timelines.zoom.out');
     this.text.zoomAuto = I18n.t('js.timelines.zoom.auto');

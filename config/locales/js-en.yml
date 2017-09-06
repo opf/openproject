@@ -400,6 +400,7 @@ en:
       zoom:
         in: "Zoom in"
         out: "Zoom out"
+        auto: "Auto zoom"
         days: "Days"
         weeks: "Weeks"
         months: "Months"
