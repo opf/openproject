@@ -30,7 +30,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <p><%= t(:mail_body_account_activation_request, value: @user.login) %></p>
 <p><%= link_to @activation_url, @activation_url %></p>
 
-<p><%= t('mail.further_actions') %></p>
+<p><%= t('mail.actions') %></p>
 <ul>
   <li><%= link_to t(:label_activate_user), change_status_info_user_url(@user, change_action: :activate) %></li>
   <li><%= link_to t(:label_lock_user), change_status_info_user_url(@user, change_action: :lock) %></li>
