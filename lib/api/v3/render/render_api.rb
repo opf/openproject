@@ -54,7 +54,7 @@ module API
 
             def check_format(format)
               supported_formats = ['plain']
-              supported_formats += Array(::Redmine::WikiFormatting.format_names)
+              supported_formats += ::Redmine::WikiFormatting.format_names.map(&:to_s)
               unless supported_formats.include?(format)
                 fail ::API::Errors::NotFound, I18n.t('api_v3.errors.code_404')
               end

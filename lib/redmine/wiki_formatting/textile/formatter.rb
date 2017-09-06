@@ -41,6 +41,7 @@ module Redmine
 
         def initialize(*args)
           super
+
           self.hard_breaks = true
           self.no_span_caps = true
           self.filter_styles = true
