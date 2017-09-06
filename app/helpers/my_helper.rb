@@ -67,7 +67,7 @@ module MyHelper
     assigned_to_ids = [User.current.id] + User.current.group_ids
 
     WorkPackage.visible
-      .open
+      .with_status_open
       .where(assigned_to_id: assigned_to_ids)
   end
 end

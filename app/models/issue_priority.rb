@@ -32,8 +32,6 @@ class IssuePriority < Enumeration
 
   OptionName = :enumeration_work_package_priorities
 
-  scope :active, -> { where(active: true) }
-
   def option_name
     OptionName
   end

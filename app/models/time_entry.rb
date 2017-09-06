@@ -53,7 +53,13 @@ class TimeEntry < ActiveRecord::Base
   validate :validate_project_is_set
   validate :validate_consistency_of_work_package_id
 
-  scope :visible, ->(*args) {
+
+  scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
+
+  after_initialize :set_default_activity
+  before_validation :set_default_project
+
+  def self.visible(*args)
     # TODO: check whether the visibility should also be influenced by the work
     # package the time entry is assigned to.  Currently a work package can
     # switch projects. But as the time entry is still part of it's original
@@ -61,12 +67,7 @@ class TimeEntry < ActiveRecord::Base
     # user lacks the view_work_packages permission in the moved to project.
     joins(:project)
       .merge(Project.allowed_to(args.first || User.current, :view_time_entries))
-  }
-
-  scope :on_work_packages, ->(work_packages) { where(work_package_id: work_packages) }
-
-  after_initialize :set_default_activity
-  before_validation :set_default_project
+  end
 
   def set_default_activity
     if new_record? && activity.nil?
