@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,13 +39,13 @@ module Queries::Operators
 
       sql = ''
 
-      if values.present?
-        sql = "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" +
-              values.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + '))'
-      else
-        # empty set of forbidden values allows all results
-        sql = '1=1'
-      end
+      sql = if values.present?
+              "(#{db_table}.#{db_field} IS NULL OR #{db_table}.#{db_field} NOT IN (" +
+                values.map { |val| "'#{connection.quote_string(val)}'" }.join(',') + '))'
+            else
+              # empty set of forbidden values allows all results
+              '1=1'
+            end
 
       sql
     end

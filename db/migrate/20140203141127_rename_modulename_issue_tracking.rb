@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,9 +37,9 @@ class RenameModulenameIssueTracking < ActiveRecord::Migration[4.2]
     SQL
 
     if Setting.find_by(name: 'default_projects_modules')
-      new_settings = Setting['default_projects_modules'].map { |m|
+      new_settings = Setting['default_projects_modules'].map do |m|
         m.gsub('issue_tracking', 'work_package_tracking')
-      }
+      end
 
       Setting['default_projects_modules'] = new_settings
     end
@@ -52,9 +53,9 @@ class RenameModulenameIssueTracking < ActiveRecord::Migration[4.2]
     SQL
 
     if Setting.find_by(name: 'default_projects_modules')
-      new_settings = Setting['default_projects_modules'].map { |m|
+      new_settings = Setting['default_projects_modules'].map do |m|
         m.gsub('work_package_tracking', 'issue_tracking')
-      }
+      end
 
       Setting['default_projects_modules'] = new_settings
     end

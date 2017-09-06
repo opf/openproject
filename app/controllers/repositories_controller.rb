@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -42,12 +43,12 @@ class RepositoriesController < ApplicationController
   include RepositoriesHelper
 
   menu_item :repository
-  menu_item :settings, only: [:edit, :destroy_info]
+  menu_item :settings, only: %i[edit destroy_info]
   default_search_scope :changesets
 
   before_action :find_project_by_project_id
   before_action :authorize
-  before_action :find_repository, except: [:edit, :update, :create, :destroy, :destroy_info]
+  before_action :find_repository, except: %i[edit update create destroy destroy_info]
   accept_key_auth :revisions
 
   rescue_from OpenProject::Scm::Exceptions::ScmError, with: :show_error_command_failed
@@ -99,10 +100,10 @@ class RepositoriesController < ApplicationController
     if request.post? && params.key?(:committers)
       # Build a hash with repository usernames as keys and corresponding user ids as values
       @repository.committer_ids = params[:committers].values
-        .inject({}) { |h, c|
-          h[c.first] = c.last
-          h
-        }
+                                                     .inject({}) { |h, c|
+        h[c.first] = c.last
+        h
+      }
       flash[:notice] = l(:notice_successful_update)
       redirect_to action: 'committers', project_id: @project
     end
@@ -169,9 +170,9 @@ class RepositoriesController < ApplicationController
 
   def revisions
     @changesets = @repository.changesets
-                  .includes(:user, :repository)
-                  .page(params[:page])
-                  .per_page(per_page_param)
+                             .includes(:user, :repository)
+                             .page(params[:page])
+                             .per_page(per_page_param)
 
     respond_to do |format|
       format.html do
@@ -250,7 +251,7 @@ class RepositoriesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.js do render layout: false end
+      format.js { render layout: false }
     end
   rescue ChangesetNotFound
     show_error_not_found
@@ -389,12 +390,12 @@ class RepositoriesController < ApplicationController
     end
 
     changes_by_day = Change.includes(:changeset)
-                     .where(["#{Changeset.table_name}.repository_id = ? "\
+                           .where(["#{Changeset.table_name}.repository_id = ? "\
                              "AND #{Changeset.table_name}.commit_date BETWEEN ? AND ?",
-                             repository.id, @date_from, @date_to])
-                     .references(:changesets)
-                     .group(:commit_date)
-                     .size
+                                   repository.id, @date_from, @date_to])
+                           .references(:changesets)
+                           .group(:commit_date)
+                           .size
     changes_by_month = [0] * 12
     changes_by_day.each do |c|
       changes_by_month[(@date_to.month - c.first.to_date.month) % 12] += c.last
@@ -437,14 +438,14 @@ class RepositoriesController < ApplicationController
     end
 
     changes_by_author = Change.includes(:changeset)
-                        .where(["#{Changeset.table_name}.repository_id = ?", repository.id])
-                        .references(:changesets)
-                        .group(:committer)
-                        .size
-    h = changes_by_author.inject({}) { |o, i|
+                              .where(["#{Changeset.table_name}.repository_id = ?", repository.id])
+                              .references(:changesets)
+                              .group(:committer)
+                              .size
+    h = changes_by_author.inject({}) do |o, i|
       o[i.first] = i.last
       o
-    }
+    end
 
     fields = commits_by_author.map(&:first)
     commits_data = commits_by_author.map(&:last)

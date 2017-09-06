@@ -44,9 +44,9 @@ RSpec.feature 'Work package copy', js: true, selenium: true do
 
   let(:create_role) do
     FactoryGirl.create(:role,
-                       permissions: [:view_work_packages,
-                                     :add_work_packages,
-                                     :edit_work_packages])
+                       permissions: %i[view_work_packages
+                                       add_work_packages
+                                       edit_work_packages])
   end
   let(:type) { FactoryGirl.create(:type) }
   let(:project) { FactoryGirl.create(:project, types: [type]) }

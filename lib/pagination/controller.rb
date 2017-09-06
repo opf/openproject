@@ -171,7 +171,7 @@ module Pagination::Controller
     end
 
     def default_block
-      Proc.new {
+      Proc.new do
         # TODO: less evilness
         paginator = self.class.pagination[__method__]
         size = params[:page_limit].to_i || 10
@@ -181,7 +181,7 @@ module Pagination::Controller
           page = page.to_i
 
           methods = {}
-          [:pagination, :search].each do |meth|
+          %i[pagination search].each do |meth|
             methods[meth] = if paginator.send(meth).respond_to?(:call)
                               paginator.send(meth)
                             else
@@ -190,7 +190,7 @@ module Pagination::Controller
           end
 
           if (options = paginator.search_options).respond_to?(:call)
-            options = instance_eval(&(options.to_proc))
+            options = instance_eval(&options.to_proc)
           end
 
           search_call = (options.presence ? methods[:search].call(params[:q], options) : methods[:search].call(params[:q]))
@@ -202,23 +202,22 @@ module Pagination::Controller
           @more = @paginated_items.total_pages > page
           @total = @paginated_items.total_entries
 
-          instance_eval(&(paginator.response.to_proc))
+          instance_eval(&paginator.response.to_proc)
         end
-      }
+      end
     end
 
     def default_response_block
-      Proc.new {
+      Proc.new do
         respond_to do |format|
           format.json do
             render json: { results:
             { items: @paginated_items.map { |item| { id: item.id, name: item.name } },
               total: @total ? @total : @paginated_items.size,
-              more:  @more ? @more : 0 }
-          }
+              more:  @more ? @more : 0 } }
           end
         end
-      }
+      end
     end
   end
 
@@ -236,7 +235,7 @@ module Pagination::Controller
 
       def paginate_model(model)
         pagination_class.resolve_model(model)
-        pagination[model] = (pagination_class.new(self, model))
+        pagination[model] = pagination_class.new(self, model)
         pagination[model].refresh_action!
       end
 

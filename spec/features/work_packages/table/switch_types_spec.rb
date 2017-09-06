@@ -4,33 +4,33 @@ describe 'Switching types in work package table', js: true do
   let(:user) { FactoryGirl.create :admin }
 
   describe 'switching to required CF' do
-    let(:cf_req_text) {
+    let(:cf_req_text) do
       FactoryGirl.create(
         :work_package_custom_field,
         field_format: 'string',
         is_required: true,
         is_for_all: false
       )
-    }
-    let(:cf_text) {
+    end
+    let(:cf_text) do
       FactoryGirl.create(
         :work_package_custom_field,
         field_format: 'string',
         is_required: false,
         is_for_all: false
       )
-    }
+    end
 
     let(:type_task) { FactoryGirl.create(:type_task, custom_fields: [cf_text]) }
     let(:type_bug) { FactoryGirl.create(:type_bug, custom_fields: [cf_req_text]) }
 
-    let(:project) {
+    let(:project) do
       FactoryGirl.create(
         :project,
         types: [type_task, type_bug],
         work_package_custom_fields: [cf_text, cf_req_text]
       )
-    }
+    end
     let(:work_package) do
       FactoryGirl.create(:work_package,
                          subject: 'Foobar',
@@ -173,25 +173,25 @@ describe 'Switching types in work package table', js: true do
   end
 
   describe 'switching to required bool CF with default value' do
-    let(:cf_req_bool) {
+    let(:cf_req_bool) do
       FactoryGirl.create(
         :work_package_custom_field,
         field_format: 'bool',
         is_required: true,
         default_value: false
       )
-    }
+    end
 
     let(:type_task) { FactoryGirl.create(:type_task) }
     let(:type_bug) { FactoryGirl.create(:type_bug, custom_fields: [cf_req_bool]) }
 
-    let(:project) {
+    let(:project) do
       FactoryGirl.create(
         :project,
         types: [type_task, type_bug],
         work_package_custom_fields: [cf_req_bool]
       )
-    }
+    end
     let(:work_package) do
       FactoryGirl.create(:work_package,
                          subject: 'Foobar',
@@ -207,7 +207,7 @@ describe 'Switching types in work package table', js: true do
       wp_page.ensure_page_loaded
     end
 
-    it  'can switch to the bug type without errors' do
+    it 'can switch to the bug type without errors' do
       type_field.expect_state_text type_task.name
       type_field.update type_bug.name
 

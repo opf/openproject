@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -37,9 +38,9 @@ class SysController < ActionController::Base
 
   def projects
     p = Project.active.has_module(:repository)
-        .includes(:repository)
-        .references(:repositories)
-        .order('identifier')
+               .includes(:repository)
+               .references(:repositories)
+               .order('identifier')
     respond_to do |format|
       format.json do
         render json: p.to_json(include: :repository)
@@ -61,7 +62,7 @@ class SysController < ActionController::Base
       projects << Project.active.has_module(:repository).find_by!(identifier: params[:id])
     else
       projects = Project.active.has_module(:repository)
-                 .includes(:repository).references(:repositories)
+                        .includes(:repository).references(:repositories)
     end
     projects.each do |project|
       if project.repository
@@ -152,10 +153,10 @@ class SysController < ActionController::Base
     end
     user = nil
     user_id = Rails.cache.fetch(OpenProject::RepositoryAuthentication::CACHE_PREFIX + Digest::SHA1.hexdigest("#{username}#{password}"),
-                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) {
+                                expires_in: OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER) do
       user = user_login(username, password)
       user ? user.id.to_s : '-1'
-    }
+    end
 
     return nil if user_id.blank? or user_id == '-1'
 

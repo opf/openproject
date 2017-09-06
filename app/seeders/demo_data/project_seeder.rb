@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -102,7 +103,7 @@ module DemoData
                             is_public: true,
                             show_hierarchies: true,
                             timeline_visible: true,
-                            column_names: [:subject, :type, :status],
+                            column_names: %i[subject type status],
                             sort_criteria: [['id', 'asc']],
                             timeline_zoom_level: 'weeks'
 

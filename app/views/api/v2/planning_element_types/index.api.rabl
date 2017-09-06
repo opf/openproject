@@ -28,4 +28,3 @@
 
 collection @types => :planning_element_types
 extends '/api/v2/planning_element_types/planning_element_type'
-

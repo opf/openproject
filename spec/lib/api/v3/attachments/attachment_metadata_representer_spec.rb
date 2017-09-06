@@ -31,12 +31,12 @@ require 'spec_helper'
 describe ::API::V3::Attachments::AttachmentMetadataRepresenter do
   include API::V3::Utilities::PathHelper
 
-  let(:metadata) {
+  let(:metadata) do
     data = Hashie::Mash.new
     data.file_name = original_file_name
     data.description = original_description
     data
-  }
+  end
   let(:original_file_name) { 'a file name' }
   let(:original_description) { 'a description' }
   let(:representer) { ::API::V3::Attachments::AttachmentMetadataRepresenter.new(metadata) }
@@ -57,12 +57,12 @@ describe ::API::V3::Attachments::AttachmentMetadataRepresenter do
   end
 
   describe 'parsing' do
-    let(:parsed_hash) {
+    let(:parsed_hash) do
       {
         'fileName' => 'the parsed name',
         'description' => { 'raw' => 'the parsed description' }
       }
-    }
+    end
 
     subject { metadata }
 

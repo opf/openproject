@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -44,14 +45,14 @@ describe EnabledModule, type: :model do
     it 'should not create a separate wiki when one exists already' do
       expect(project.wiki).to_not be_nil
 
-      expect {
+      expect do
         project.enabled_module_names = []
         project.reload
-      }.to_not change { Wiki.count }
+      end.to_not change { Wiki.count }
 
-      expect {
+      expect do
         project.enabled_module_names = ['wiki']
-      }.to_not change { Wiki.count }
+      end.to_not change { Wiki.count }
 
       expect(project.wiki).to_not be_nil
     end
@@ -87,14 +88,14 @@ describe EnabledModule, type: :model do
         project.reload
         expect(project.repository).to_not be_nil
 
-        expect {
+        expect do
           project.enabled_module_names = []
           project.reload
-        }.to_not change { Repository.count }
+        end.to_not change { Repository.count }
 
-        expect {
+        expect do
           project.enabled_module_names = ['repository']
-        }.to_not change { Repository.count }
+        end.to_not change { Repository.count }
 
         expect(project.repository).to_not be_nil
       end
@@ -114,11 +115,11 @@ describe EnabledModule, type: :model do
       let(:vendor) { 'git' }
 
       include_context 'with tmpdir'
-      let(:config) {
+      let(:config) do
         {
           git: { manages: File.join(tmpdir, 'git') }
         }
-      }
+      end
 
       before do
         allow(Setting).to receive(:enabled_scm).and_return(['git'])

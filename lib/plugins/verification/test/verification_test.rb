@@ -5,7 +5,7 @@ class VerificationTestController < ActionController::Base
          add_flash: { error: 'unguarded' },
          redirect_to: { action: 'unguarded' }
 
-  verify only: :guarded_two, params: %w( one two ),
+  verify only: :guarded_two, params: %w(one two),
          redirect_to: { action: 'unguarded' }
 
   verify only: :guarded_with_flash, params: 'one',
@@ -15,7 +15,7 @@ class VerificationTestController < ActionController::Base
   verify only: :guarded_in_session, session: 'one',
          redirect_to: { action: 'unguarded' }
 
-  verify only: [:multi_one, :multi_two], session: %w( one two ),
+  verify only: %i[multi_one multi_two], session: %w(one two),
          redirect_to: { action: 'unguarded' }
 
   verify only: :guarded_by_method, method: :post,
@@ -42,15 +42,15 @@ class VerificationTestController < ActionController::Base
          redirect_to: :back
 
   def guarded_one
-    render text: "#{params[:one]}"
+    render text: params[:one].to_s
   end
 
   def guarded_one_for_named_route_test
-    render text: "#{params[:one]}"
+    render text: params[:one].to_s
   end
 
   def guarded_with_flash
-    render text: "#{params[:one]}"
+    render text: params[:one].to_s
   end
 
   def guarded_two
@@ -58,7 +58,7 @@ class VerificationTestController < ActionController::Base
   end
 
   def guarded_in_session
-    render text: "#{session['one']}"
+    render text: session['one'].to_s
   end
 
   def multi_one
@@ -70,19 +70,19 @@ class VerificationTestController < ActionController::Base
   end
 
   def guarded_by_method
-    render text: "#{request.method}"
+    render text: request.method.to_s
   end
 
   def guarded_by_xhr
-    render text: "#{!!request.xhr?}"
+    render text: (!!request.xhr?).to_s
   end
 
   def guarded_by_not_xhr
-    render text: "#{!!request.xhr?}"
+    render text: (!!request.xhr?).to_s
   end
 
   def unguarded
-    render text: "#{params[:one]}"
+    render text: params[:one].to_s
   end
 
   def two_redirects
@@ -94,7 +94,7 @@ class VerificationTestController < ActionController::Base
   end
 
   def guarded_with_back
-    render text: "#{params[:one]}"
+    render text: params[:one].to_s
   end
 
   def no_default_action
@@ -188,7 +188,7 @@ class VerificationTest < ActionController::TestCase
   end
 
   def test_guarded_in_session_with_prereqs
-    get :guarded_in_session, {}, 'one' => 'here'
+    get :guarded_in_session, {}, { 'one' => 'here' }
     assert_equal 'here', @response.body
   end
 
@@ -198,7 +198,7 @@ class VerificationTest < ActionController::TestCase
   end
 
   def test_multi_one_with_prereqs
-    get :multi_one, {}, 'one' => 'here', 'two' => 'there'
+    get :multi_one, {}, { 'one' => 'here', 'two' => 'there' }
     assert_equal 'here:there', @response.body
   end
 
@@ -208,7 +208,7 @@ class VerificationTest < ActionController::TestCase
   end
 
   def test_multi_two_with_prereqs
-    get :multi_two, {}, 'one' => 'here', 'two' => 'there'
+    get :multi_two, {}, { 'one' => 'here', 'two' => 'there' }
     assert_equal 'there:here', @response.body
   end
 

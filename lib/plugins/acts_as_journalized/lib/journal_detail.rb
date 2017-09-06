@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 class JournalDetail
   attr_reader :prop_key, :value, :old_value
 

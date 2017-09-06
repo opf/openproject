@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -224,8 +225,10 @@ class ApplicationController < ActionController::Base
 
   def log_requesting_user
     return unless Setting.log_requesting_user?
-    login_and_mail = " (#{escape_for_logging(User.current.login)} ID: #{User.current.id} " \
-                     "<#{escape_for_logging(User.current.mail)}>)" unless User.current.anonymous?
+    unless User.current.anonymous?
+      login_and_mail = " (#{escape_for_logging(User.current.login)} ID: #{User.current.id} " \
+                       "<#{escape_for_logging(User.current.mail)}>)"
+    end
     logger.info "OpenProject User: #{escape_for_logging(User.current.name)}#{login_and_mail}"
   end
 
@@ -250,12 +253,13 @@ class ApplicationController < ActionController::Base
   def require_login
     unless User.current.logged?
       respond_to do |format|
-        format.any(:html, :atom) do redirect_to signin_path(back_url: login_back_url) end
+        format.any(:html, :atom) { redirect_to signin_path(back_url: login_back_url) }
 
         auth_header = OpenProject::Authentication::WWWAuthenticate.response_header(
-          request_headers: request.headers)
+          request_headers: request.headers
+        )
 
-        format.any(:xml, :js, :json)  do
+        format.any(:xml, :js, :json) do
           head :unauthorized,
                'X-Reason' => 'login needed',
                'WWW-Authenticate' => auth_header
@@ -282,7 +286,7 @@ class ApplicationController < ActionController::Base
   # Authorize the user for the requested action
   def authorize(ctrl = params[:controller], action = params[:action], global = false)
     context = @project || @projects
-    is_authorized = AuthorizationService.new({ controller: ctrl, action: action }, context: context, global: global).call
+    is_authorized = AuthorizationService.new({ controller: ctrl, action: action }, { context: context, global: global }).call
 
     unless is_authorized
       if @project && @project.archived?
@@ -360,7 +364,6 @@ class ApplicationController < ActionController::Base
     else
       @project = Project.find(params[:project_id])
     end
-
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -376,7 +379,6 @@ class ApplicationController < ActionController::Base
     associated.each do |a|
       instance_variable_set('@' + a.class.to_s.downcase, a)
     end
-
   rescue ActiveRecord::RecordNotFound
     render_404
   end
@@ -408,8 +410,8 @@ class ApplicationController < ActionController::Base
   # Filter for bulk work package operations
   def find_work_packages
     @work_packages = WorkPackage.includes(:project)
-                     .where(id: params[:work_package_id] || params[:ids])
-                     .order('id ASC')
+                                .where(id: params[:work_package_id] || params[:ids])
+                                .order('id ASC')
     fail ActiveRecord::RecordNotFound if @work_packages.empty?
     @projects = @work_packages.map(&:project).compact.uniq
     @project = @projects.first if @projects.size == 1
@@ -443,7 +445,7 @@ class ApplicationController < ActionController::Base
       params[:back_url],
       hostname: request.host,
       default: default,
-      return_escaped: use_escaped,
+      return_escaped: use_escaped
     )
 
     redirect_to policy.redirect_url
@@ -576,9 +578,9 @@ class ApplicationController < ActionController::Base
 
   # Converts the errors on an ActiveRecord object into a common JSON format
   def object_errors_to_json(object)
-    object.errors.map { |attribute, error|
+    object.errors.map do |attribute, error|
       { attribute => error }
-    }.to_json
+    end.to_json
   end
 
   # Renders API response on validation failure

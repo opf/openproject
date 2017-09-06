@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -54,9 +55,9 @@ describe Query, type: :model do
   end
 
   def assert_find_issues_with_query_is_successful(query)
-    expect {
+    expect do
       find_issues_with_query(query)
-    }.not_to raise_error
+    end.not_to raise_error
   end
 
   def assert_query_statement_includes(query, condition)
@@ -216,7 +217,7 @@ describe Query, type: :model do
 
     query = Query.new(name: '_', filters: [{ assigned_to_id: { operator: '=', values: ['me'] } }])
     result = query.results.work_packages
-    assert_equal WorkPackage.visible.where(assigned_to_id: ([2])).sort_by(&:id), result.sort_by(&:id)
+    assert_equal WorkPackage.visible.where(assigned_to_id: [2]).sort_by(&:id), result.sort_by(&:id)
 
     assert result.include?(i1)
     assert !result.include?(i2)
@@ -253,7 +254,7 @@ describe Query, type: :model do
   it 'should set column names' do
     q = Query.new name: '_'
     q.column_names = ['type', :subject, '', 'unknonw_column']
-    assert_equal [:type, :subject], q.columns.map(&:name)
+    assert_equal %i[type subject], q.columns.map(&:name)
     c = q.columns.first
     assert q.has_column?(c)
   end
@@ -324,9 +325,9 @@ describe Query, type: :model do
     assert c
     assert c.sortable
     issues = WorkPackage.includes(:assigned_to, :status, :type, :project, :priority)
-             .where(q.statement)
-             .order(Array(c.sortable).map { |s| "#{s} DESC" }.join(', '))
-             .references(:projects)
+                        .where(q.statement)
+                        .order(Array(c.sortable).map { |s| "#{s} DESC" }.join(', '))
+                        .references(:projects)
     values = issues.map { |i| i.custom_value_for(c.custom_field).to_s }
     assert !values.empty?
     assert_equal values.sort.reverse, values
@@ -555,7 +556,9 @@ describe Query, type: :model do
         @query = Query.new(name: '_')
         @query.add_filter('member_of_group', '=', [@group.id.to_s])
 
-        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IN ('#{@user_in_group.id}','#{@second_user_in_group.id}')"
+        assert_query_statement_includes @query,
+                                        "#{WorkPackage.table_name}.assigned_to_id IN ('#{@user_in_group.id}',
+                                                                                      '#{@second_user_in_group.id}')"
         assert_find_issues_with_query_is_successful @query
       end
 
@@ -633,15 +636,15 @@ describe Query, type: :model do
       it 'should search assigned to for users assigned to any Role (all)' do
         @query = Query.new(name: '_')
         @query.add_filter('assigned_to_role', '*', [''])
-
-        assert_query_statement_includes @query, "#{WorkPackage.table_name}.assigned_to_id IN ('#{@manager.id}','#{@developer.id}','#{@boss.id}')"
+        assert_query_statement_includes(@query,
+                                        "#{WorkPackage.table_name}.assigned_to_id IN
+                                        ('#{@manager.id}','#{@developer.id}','#{@boss.id}')")
         assert_find_issues_with_query_is_successful @query
       end
 
       it 'should return no results on empty set' do
         @query = Query.new(name: '_')
         @query.add_filter('assigned_to_role', '=', [@empty_role.id.to_s])
-
         assert_query_statement_includes @query, '(0=1)'
         assert find_issues_with_query(@query).empty?
       end
@@ -649,7 +652,6 @@ describe Query, type: :model do
       it 'should return results on disallowed empty set' do
         @query = Query.new(name: '_')
         @query.add_filter('assigned_to_role', '!', [@empty_role.id.to_s])
-
         assert_query_statement_includes @query, '(1=1)'
         assert_find_issues_with_query_is_successful @query
       end

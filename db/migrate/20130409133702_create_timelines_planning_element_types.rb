@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,13 +31,13 @@
 class CreateTimelinesPlanningElementTypes < ActiveRecord::Migration[4.2]
   def self.up
     create_table(:timelines_planning_element_types) do |t|
-      t.column :name,         :string,  null: false
+      t.column :name, :string, null: false
 
       t.column :in_aggregation, :boolean, default: true,  null: false
       t.column :is_milestone,   :boolean, default: false, null: false
       t.column :is_default,     :boolean, default: false, null: false
 
-      t.column :position,     :integer, default: 1,     null: false
+      t.column :position, :integer, default: 1, null: false
 
       t.belongs_to :color
       t.belongs_to :project_type

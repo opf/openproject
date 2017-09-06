@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -98,7 +99,12 @@ module Api
           condition += ' AND ' unless condition.empty?
 
           project_parents = params[:project_parents].split(/,/).map(&:to_i)
-          nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each do |i| r << i end; r }
+          nested_set_selection = Project.find(project_parents).map do |p|
+            p.lft..p.rgt
+          end.inject([]) do |r, e|
+            e.each { |i| r << i }
+            r
+          end
 
           temp_condition += "#{Project.quoted_table_name}.lft IN (?)"
           condition_params << nested_set_selection
@@ -118,19 +124,23 @@ module Api
         condition += temp_condition
         conditions = [condition] + condition_params unless condition.empty?
 
-        case params[:only]
-        when 'via_source'
-          @reportings = @project.reportings_via_source.includes(:project)
-                        .where(conditions).references(:projects)
-        when 'via_target'
-          @reportings = @project.reportings_via_target.includes(:project)
-                        .where(conditions).references(:projects)
-        else
-          @reportings = @project.reportings
-        end
+        @reportings = case params[:only]
+                      when 'via_source'
+                        @project.reportings_via_source.includes(:project)
+                                .where(conditions).references(:projects)
+                      when 'via_target'
+                        @project.reportings_via_target.includes(:project)
+                                .where(conditions).references(:projects)
+                      else
+                        @project.reportings
+                      end
 
         # get all reportings for which projects have ancestors.
-        nested_sets_for_parents = (@reportings.inject([]) { |r, e| r << e.reporting_to_project; r << e.project }).uniq.map { |p| [p.lft, p.rgt] }
+        nested_sets_for_parents = (
+          @reportings.inject([]) do |r, e|
+            r << e.reporting_to_project
+            r << e.project
+          end).uniq.map { |p| [p.lft, p.rgt] }
 
         condition_params = []
         temp_condition = ''
@@ -145,16 +155,16 @@ module Api
 
         conditions = [condition] + condition_params unless condition.empty?
 
-        case params[:only]
-        when 'via_source'
-          @ancestor_reportings = @project.reportings_via_source
-                                 .includes(:project).where(conditions).references(:projects)
-        when 'via_target'
-          @ancestor_reportings = @project.reportings_via_target
-                                 .includes(:project).where(conditions).references(:projects)
-        else
-          @ancestor_reportings = @project.reportings
-        end
+        @ancestor_reportings = case params[:only]
+                               when 'via_source'
+                                 @project.reportings_via_source
+                                         .includes(:project).where(conditions).references(:projects)
+                               when 'via_target'
+                                 @project.reportings_via_target
+                                         .includes(:project).where(conditions).references(:projects)
+                               else
+                                 @project.reportings
+                               end
 
         @reportings = (@reportings.to_a + @ancestor_reportings.to_a).uniq
 

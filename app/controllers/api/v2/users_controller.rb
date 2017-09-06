@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -48,8 +49,8 @@ module Api
 
       def check_scope_supplied
         render_400 if params.select { |k, _v| UserSearchService::SEARCH_SCOPES.include? k }
-                      .select { |_k, v| not v.blank? }
-                      .empty?
+                            .reject { |_k, v| v.blank? }
+                            .empty?
       end
     end
   end

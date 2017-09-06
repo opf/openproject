@@ -29,10 +29,10 @@
 object @color
 attributes :id, :name, :position, :hexcode
 
-node :created_at, if: ->(color){color.created_at.present?} do |color|
+node :created_at, if: ->(color) { color.created_at.present? } do |color|
   color.created_at.utc
 end
 
-node :updated_at, if: ->(color){color.updated_at.present?} do |color|
+node :updated_at, if: ->(color) { color.updated_at.present? } do |color|
   color.created_at.utc
 end

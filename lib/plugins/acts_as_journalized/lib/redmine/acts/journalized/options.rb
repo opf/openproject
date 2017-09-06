@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 # This file included as part of the acts_as_journalized plugin for
 # the redMine project management software; You can redistribute it
 # and/or modify it under the terms of the GNU General Public License
@@ -88,7 +89,7 @@ module Redmine::Acts::Journalized
       # The method is overridden in feature modules that require specific options outside the
       # standard +has_many+ associations.
       def prepare_journaled_options(options)
-        result_options =  options.symbolize_keys
+        result_options = options.symbolize_keys
         result_options.reverse_merge!(Configuration.options)
         result_options.reverse_merge!(
           class_name: Journal.name,
@@ -100,9 +101,7 @@ module Redmine::Acts::Journalized
         class_attribute :vestal_journals_options
         self.vestal_journals_options = result_options.dup
 
-        result_options.merge!(
-          extend: Array(result_options[:extend]).unshift(Versions)
-        )
+        result_options[:extend] = Array(result_options[:extend]).unshift(Versions)
 
         result_options
       end

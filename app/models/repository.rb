@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -217,7 +218,7 @@ class Repository < ActiveRecord::Base
   def find_changeset_by_name(name)
     name = name.to_s
     return nil if name.blank?
-    changesets.where((name.match(/\A\d*\z/) ? ['revision = ?', name] : ['revision LIKE ?', name + '%'])).first
+    changesets.where((name =~ /\A\d*\z/ ? ['revision = ?', name] : ['revision LIKE ?', name + '%'])).first
   end
 
   def latest_changeset
@@ -229,14 +230,14 @@ class Repository < ActiveRecord::Base
   def latest_changesets(path, _rev, limit = 10)
     if path.blank?
       changesets.includes(:user)
-        .order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
-        .limit(limit)
+                .order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
+                .limit(limit)
     else
       changesets.includes(changeset: :user)
-        .where(['path = ?', path.with_leading_slash])
-        .order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
-        .limit(limit)
-        .map(&:changeset)
+                .where(['path = ?', path.with_leading_slash])
+                .order("#{Changeset.table_name}.committed_on DESC, #{Changeset.table_name}.id DESC")
+                .limit(limit)
+                .map(&:changeset)
     end
   end
 
@@ -257,7 +258,7 @@ class Repository < ActiveRecord::Base
         if new_user_id && (new_user_id.to_i != user_id.to_i)
           new_user_id = (new_user_id.to_i > 0 ? new_user_id.to_i : nil)
           Changeset.where(['repository_id = ? AND committer = ?', id, committer])
-            .update_all("user_id = #{new_user_id.nil? ? 'NULL' : new_user_id}")
+                   .update_all("user_id = #{new_user_id.nil? ? 'NULL' : new_user_id}")
         end
       end
       @committers = nil
@@ -316,7 +317,6 @@ class Repository < ActiveRecord::Base
   def self.scan_changesets_for_work_package_ids
     all.each(&:scan_changesets_for_work_package_ids)
   end
-
 
   ##
   # Builds a model instance of type +Repository::#{vendor}+ with the given parameters.

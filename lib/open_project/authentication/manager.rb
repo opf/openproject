@@ -13,7 +13,7 @@ module OpenProject
         block = lambda { |config|
           self.class.configure_warden config
 
-          configure.call config if configure
+          yield config if configure
         }
 
         super app, options, &block
@@ -58,10 +58,10 @@ module OpenProject
           @strategies = Set.new
         end
 
-        def update!(opts, &block)
+        def update!(opts)
           self.store = opts[:store] if opts.include? :store
           self.realm = opts[:realm] if opts.include? :realm
-          self.strategies = block.call self.strategies if block_given?
+          self.strategies = yield strategies if block_given?
         end
       end
 

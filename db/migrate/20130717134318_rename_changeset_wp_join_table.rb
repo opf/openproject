@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,7 +36,7 @@ class RenameChangesetWpJoinTable < ActiveRecord::Migration[4.2]
     rename_column :changesets_work_packages, :issue_id, :work_package_id
 
     add_index :changesets_work_packages,
-              [:changeset_id, :work_package_id],
+              %i[changeset_id work_package_id],
               unique: true,
               name: :changesets_work_packages_ids
   end
@@ -47,7 +48,7 @@ class RenameChangesetWpJoinTable < ActiveRecord::Migration[4.2]
     rename_column :changesets_issues, :work_package_id, :issue_id
 
     add_index :changesets_issues,
-              [:changeset_id, :issue_id],
+              %i[changeset_id issue_id],
               unique: true,
               name: :changesets_issues_ids
   end

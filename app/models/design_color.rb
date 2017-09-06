@@ -51,7 +51,7 @@ class DesignColor < ActiveRecord::Base
     end
 
     def setables
-      overwritten_values = self.overwritten
+      overwritten_values = overwritten
       OpenProject::Design.customizable_variables.map do |varname|
         overwritten_value = overwritten_values.detect { |var| var.variable == varname }
         overwritten_value || new(variable: varname)
@@ -62,7 +62,7 @@ class DesignColor < ActiveRecord::Base
       overridable = OpenProject::Design.customizable_variables
 
       all.to_a.select do |color|
-        overridable.include?(color.variable) && self.defaults[color] != color.get_hexcode
+        overridable.include?(color.variable) && defaults[color] != color.get_hexcode
       end
     end
   end

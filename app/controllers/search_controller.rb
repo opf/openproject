@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -43,7 +44,7 @@ class SearchController < ApplicationController
       when 'my_projects'
         User.current.memberships.map(&:project)
       when 'subprojects'
-        @project ? (@project.self_and_descendants.active) : nil
+        @project ? @project.self_and_descendants.active : nil
       else
         @project
       end
@@ -51,7 +52,6 @@ class SearchController < ApplicationController
     offset = begin
       Time.at(Rational(search_params[:offset])) if search_params[:offset]
     rescue; end
-
     # quick jump to an work_package
     scan_work_package_reference @question do |id|
       return redirect_to work_package_path(id: id) if WorkPackage.visible.find_by(id: id.to_i)
@@ -102,8 +102,8 @@ class SearchController < ApplicationController
       else
         @pagination_next_date = @results[-1].event_datetime if offset && @results[-1]
         if @results.size > limit
-          @pagination_previous_date = @results[-(limit)].event_datetime
-          @results = @results[-(limit), limit]
+          @pagination_previous_date = @results[-limit].event_datetime
+          @results = @results[-limit, limit]
         end
       end
     else
@@ -127,7 +127,7 @@ class SearchController < ApplicationController
   end
 
   def scan_work_package_reference(query, &blk)
-    query.match(/\A#?(\d+)\z/) && ((blk && blk.call($1)) || true)
+    query.match(/\A#?(\d+)\z/) && ((blk && yield($1)) || true)
   end
 
   def search_params

@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'Inline editing work packages', js: true do
   let(:manager_role) do
     FactoryGirl.create :role,
-                       permissions: [:view_work_packages,
-                                     :edit_work_packages]
+                       permissions: %i[view_work_packages
+                                       edit_work_packages]
   end
   let(:manager) do
     FactoryGirl.create :user,
@@ -18,13 +18,13 @@ describe 'Inline editing work packages', js: true do
   let(:status2) { FactoryGirl.create :status }
 
   let(:project) { FactoryGirl.create(:project, types: [type]) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
                        type:    type,
                        status:  status1,
                        subject: 'Foobar')
-  }
+  end
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
 
@@ -116,7 +116,7 @@ describe 'Inline editing work packages', js: true do
   end
 
   context 'custom field' do
-    let(:custom_fields) {
+    let(:custom_fields) do
       fields = [
         FactoryGirl.create(
           :work_package_custom_field,
@@ -134,16 +134,16 @@ describe 'Inline editing work packages', js: true do
       ]
 
       fields
-    }
+    end
     let(:type) { FactoryGirl.create(:type_task, custom_fields: custom_fields) }
     let(:project) { FactoryGirl.create(:project, types: [type]) }
-    let(:work_package) {
+    let(:work_package) do
       FactoryGirl.create(:work_package,
                          subject: 'Foobar',
                          status:  status1,
                          type:    type,
                          project: project)
-    }
+    end
 
     before do
       work_package

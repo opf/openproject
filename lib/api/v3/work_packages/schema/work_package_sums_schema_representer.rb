@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -59,7 +60,7 @@ module API
                  type: 'Duration',
                  required: false,
                  writable: false,
-                 show_if: -> (*) {
+                 show_if: ->(*) {
                    ::Setting.work_package_list_summable_columns.include?('estimated_hours')
                  }
         end

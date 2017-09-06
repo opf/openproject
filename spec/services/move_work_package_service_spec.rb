@@ -32,11 +32,11 @@ describe MoveWorkPackageService, type: :model do
   let(:user) { FactoryGirl.create(:user) }
   let(:type) { FactoryGirl.create(:type_standard) }
   let(:project) { FactoryGirl.create(:project, types: [type]) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
                        type: type)
-  }
+  end
   let(:instance) { MoveWorkPackageService.new(work_package, user) }
 
   before do
@@ -44,7 +44,7 @@ describe MoveWorkPackageService, type: :model do
   end
 
   def mock_allowed_to_move_to_project(project, is_allowed = true)
-    allowed_scope = double('allowed_scope', :'exists?' => is_allowed)
+    allowed_scope = double('allowed_scope', 'exists?': is_allowed)
 
     allow(WorkPackage)
       .to receive(:allowed_target_projects_on_move)
@@ -90,16 +90,16 @@ describe MoveWorkPackageService, type: :model do
       end
 
       describe '#time_entries' do
-        let(:time_entry_1) {
+        let(:time_entry_1) do
           FactoryGirl.create(:time_entry,
                              project: project,
                              work_package: work_package)
-        }
-        let(:time_entry_2) {
+        end
+        let(:time_entry_2) do
           FactoryGirl.create(:time_entry,
                              project: project,
                              work_package: work_package)
-        }
+        end
 
         before do
           time_entry_1
@@ -128,10 +128,10 @@ describe MoveWorkPackageService, type: :model do
       end
 
       describe '#category' do
-        let(:category) {
+        let(:category) do
           FactoryGirl.create(:category,
                              project: project)
-        }
+        end
 
         before do
           work_package.category = category
@@ -141,11 +141,11 @@ describe MoveWorkPackageService, type: :model do
         end
 
         context 'with same category' do
-          let(:target_category) {
+          let(:target_category) do
             FactoryGirl.create(:category,
                                name: category.name,
                                project: target_project)
-          }
+          end
 
           before do
             target_category
@@ -179,17 +179,17 @@ describe MoveWorkPackageService, type: :model do
 
       describe '#version' do
         let(:sharing) { 'none' }
-        let(:version) {
+        let(:version) do
           FactoryGirl.create(:version,
                              status: 'open',
                              project: project,
                              sharing: sharing)
-        }
-        let(:work_package) {
+        end
+        let(:work_package) do
           FactoryGirl.create(:work_package,
                              fixed_version: version,
                              project: project)
-        }
+        end
 
         before do
           instance.call(target_project)
@@ -212,10 +212,10 @@ describe MoveWorkPackageService, type: :model do
         end
 
         context 'move work package in project hierarchy' do
-          let(:target_project) {
+          let(:target_project) do
             FactoryGirl.create(:project,
                                parent: project)
-          }
+          end
 
           context 'unshared version' do
             subject { work_package.fixed_version }
@@ -235,10 +235,10 @@ describe MoveWorkPackageService, type: :model do
 
       describe '#type' do
         let(:target_type) { FactoryGirl.create(:type) }
-        let(:target_project) {
+        let(:target_project) do
           FactoryGirl.create(:project,
                              types: [target_type])
-        }
+        end
 
         it 'is false if the current type is not defined for the new project' do
           expect(instance.call(target_project)).to be_falsey
@@ -248,26 +248,26 @@ describe MoveWorkPackageService, type: :model do
 
     describe 'when copying' do
       let(:custom_field) { FactoryGirl.create(:work_package_custom_field) }
-      let(:source_type) {
+      let(:source_type) do
         FactoryGirl.create(:type,
                            custom_fields: [custom_field])
-      }
-      let(:source_project) {
+      end
+      let(:source_project) do
         FactoryGirl.create(:project,
                            types: [source_type])
-      }
-      let(:work_package) {
+      end
+      let(:work_package) do
         FactoryGirl.create(:work_package,
                            project: source_project,
                            type: source_type,
                            author: user)
-      }
-      let(:custom_value) {
+      end
+      let(:custom_value) do
         FactoryGirl.create(:work_package_custom_value,
                            custom_field: custom_field,
                            customized: work_package,
                            value: false)
-      }
+      end
 
       shared_examples_for 'copied work package' do
         subject { copy.id }
@@ -276,10 +276,10 @@ describe MoveWorkPackageService, type: :model do
       end
 
       describe 'to the same project' do
-        let(:copy) {
+        let(:copy) do
           mock_allowed_to_move_to_project(source_project)
           instance.call(source_project, nil, copy: true)
-        }
+        end
 
         it_behaves_like 'copied work package'
 
@@ -292,10 +292,10 @@ describe MoveWorkPackageService, type: :model do
 
       describe 'to a different project' do
         let(:target_type) { FactoryGirl.create(:type) }
-        let(:target_project) {
+        let(:target_project) do
           FactoryGirl.create(:project,
                              types: [target_type])
-        }
+        end
         let(:copy) do
           mock_allowed_to_move_to_project(target_project)
           instance.call(target_project, target_type, copy: true)
@@ -326,22 +326,22 @@ describe MoveWorkPackageService, type: :model do
         end
 
         context 'required custom field in the target project' do
-          let(:custom_field) {
+          let(:custom_field) do
             FactoryGirl.create(
               :work_package_custom_field,
               field_format:    'text',
               is_required:     true,
               is_for_all:      false
             )
-          }
+          end
           let!(:target_type) { FactoryGirl.create(:type, custom_fields: [custom_field]) }
-          let!(:target_project) {
+          let!(:target_project) do
             FactoryGirl.create(
               :project,
               types: [target_type],
               work_package_custom_fields: [custom_field]
             )
-          }
+          end
           it 'does not copy the work package' do
             mock_allowed_to_move_to_project(target_project)
             result = instance.call(target_project, target_type, copy: true)
@@ -350,22 +350,22 @@ describe MoveWorkPackageService, type: :model do
         end
 
         describe '#attributes' do
-          let(:copy) {
+          let(:copy) do
             mock_allowed_to_move_to_project(target_project)
             instance.call(target_project,
                           target_type,
                           copy: true,
                           attributes: attributes)
-          }
+          end
 
           context 'assigned_to' do
             let(:target_user) { FactoryGirl.create(:user) }
-            let(:target_project_member) {
+            let(:target_project_member) do
               FactoryGirl.create(:member,
                                  project: target_project,
                                  principal: target_user,
                                  roles: [FactoryGirl.create(:role)])
-            }
+            end
             let(:attributes) { { assigned_to_id: target_user.id } }
 
             before do
@@ -416,21 +416,21 @@ describe MoveWorkPackageService, type: :model do
         end
 
         describe 'private project' do
-          let(:role) {
+          let(:role) do
             FactoryGirl.create(:role,
                                permissions: [:view_work_packages])
-          }
-          let(:target_project) {
+          end
+          let(:target_project) do
             FactoryGirl.create(:project,
                                is_public: false,
                                types: [target_type])
-          }
-          let(:source_project_member) {
+          end
+          let(:source_project_member) do
             FactoryGirl.create(:member,
                                project: source_project,
                                principal: user,
                                roles: [role])
-          }
+          end
 
           before do
             source_project_member
@@ -460,12 +460,12 @@ describe MoveWorkPackageService, type: :model do
 
             instance.call(target_project)
           end
-          let!(:child) {
+          let!(:child) do
             FactoryGirl.create(:work_package, parent: work_package, project: source_project)
-          }
-          let!(:grandchild) {
+          end
+          let!(:grandchild) do
             FactoryGirl.create(:work_package, parent: child, project: source_project)
-          }
+          end
 
           context 'cross project relations deactivated' do
             before do

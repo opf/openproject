@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -81,7 +82,7 @@ module OpenProject
         # Returns the entry identified by path and revision identifier
         # or nil if entry doesn't exist in the repository
         def entry(path = nil, identifier = nil)
-          parts = path.to_s.split(%r{[\/\\]}).select { |n| !n.blank? }
+          parts = path.to_s.split(%r{[\/\\]}).reject(&:blank?)
           search_entries(parts, identifier)
         end
 
@@ -135,12 +136,12 @@ module OpenProject
 
         def with_leading_slash(path)
           path ||= ''
-          (path[0, 1] != '/') ? "/#{path}" : path
+          path[0, 1] != '/' ? "/#{path}" : path
         end
 
         def with_trailling_slash(path)
           path ||= ''
-          (path[-1, 1] == '/') ? path : "#{path}/"
+          path[-1, 1] == '/' ? path : "#{path}/"
         end
 
         def without_leading_slash(path)
@@ -150,7 +151,7 @@ module OpenProject
 
         def without_trailling_slash(path)
           path ||= ''
-          (path[-1, 1] == '/') ? path[0..-2] : path
+          path[-1, 1] == '/' ? path[0..-2] : path
         end
       end
 

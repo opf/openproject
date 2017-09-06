@@ -39,7 +39,7 @@ describe WorkPackage, type: :model do
   let(:project) { FactoryGirl.create(:project, types: [type]) }
   let(:status) { FactoryGirl.create(:status) }
   let(:priority) { FactoryGirl.create(:priority) }
-  let(:work_package) {
+  let(:work_package) do
     WorkPackage.new.tap do |w|
       w.attributes = { project_id: project.id,
                        type_id: type.id,
@@ -50,7 +50,7 @@ describe WorkPackage, type: :model do
                        description: 'WorkPackage#create',
                        estimated_hours: '1:30' }
     end
-  }
+  end
 
   describe '.new' do
     context 'type' do
@@ -105,7 +105,7 @@ describe WorkPackage, type: :model do
     end
 
     describe 'minimal' do
-      let(:work_package_minimal) {
+      let(:work_package_minimal) do
         WorkPackage.new.tap do |w|
           w.attributes = { project_id: project.id,
                            type_id: type.id,
@@ -114,7 +114,7 @@ describe WorkPackage, type: :model do
                            priority: priority,
                            subject: 'test_create' }
         end
-      }
+      end
 
       context 'save' do
         subject { work_package_minimal.save }
@@ -142,10 +142,10 @@ describe WorkPackage, type: :model do
           allow(Setting).to receive(:work_package_group_assignment).and_return(true)
         end
 
-        subject {
+        subject do
           FactoryGirl.create(:work_package,
                              assigned_to: group).assigned_to
-        }
+        end
 
         it { is_expected.to eq(group) }
       end
@@ -181,7 +181,7 @@ describe WorkPackage, type: :model do
         end
 
         context 'errors' do
-          before do work_package.save end
+          before { work_package.save }
 
           subject { work_package.errors[:type_id] }
 
@@ -193,11 +193,11 @@ describe WorkPackage, type: :model do
 
   describe '#category' do
     let(:user_2) { FactoryGirl.create(:user, member_in_project: project) }
-    let(:category) {
+    let(:category) do
       FactoryGirl.create(:category,
                          project: project,
                          assigned_to: user_2)
-    }
+    end
 
     before do
       work_package.attributes = { category_id: category.id }
@@ -240,8 +240,9 @@ describe WorkPackage, type: :model do
   describe 'responsible' do
     let(:group) { FactoryGirl.create(:group) }
 
-    before do work_package.project.add_member! group, FactoryGirl.create(:role) end
-
+    before do
+      work_package.project.add_member! group, FactoryGirl.create(:role)
+    end
     shared_context 'assign group as responsible' do
       before { work_package.responsible = group }
     end
@@ -249,7 +250,9 @@ describe WorkPackage, type: :model do
     subject { work_package.valid? }
 
     context 'with assignable groups' do
-      before do allow(Setting).to receive(:work_package_group_assignment?).and_return(true) end
+      before do
+        allow(Setting).to receive(:work_package_group_assignment?).and_return(true)
+      end
 
       include_context 'assign group as responsible'
 
@@ -295,26 +298,26 @@ describe WorkPackage, type: :model do
   end
 
   describe '#assignable_versions' do
-    let(:work_package) {
+    let(:work_package) do
       FactoryGirl.build(:work_package,
                         project: project,
                         fixed_version: version)
-    }
-    let(:version_open) {
+    end
+    let(:version_open) do
       FactoryGirl.create(:version,
                          status: 'open',
                          project: project)
-    }
-    let(:version_locked) {
+    end
+    let(:version_locked) do
       FactoryGirl.create(:version,
                          status: 'locked',
                          project: project)
-    }
-    let(:version_closed) {
+    end
+    let(:version_closed) do
       FactoryGirl.create(:version,
                          status: 'closed',
                          project: project)
-    }
+    end
 
     describe '#assignment' do
       context 'open version' do
@@ -326,7 +329,7 @@ describe WorkPackage, type: :model do
       end
 
       shared_examples_for 'invalid version' do
-        before do work_package.save end
+        before { work_package.save }
 
         subject { work_package.errors[:fixed_version_id] }
 
@@ -348,28 +351,28 @@ describe WorkPackage, type: :model do
       context 'open version' do
         let(:version) { version_open }
 
-        before do work_package.save end
+        before { work_package.save }
 
         it { is_expected.to be_truthy }
       end
     end
 
     describe 'work package update' do
-      let(:status_closed) {
+      let(:status_closed) do
         FactoryGirl.create(:status,
                            is_closed: true)
-      }
-      let(:status_open) {
+      end
+      let(:status_open) do
         FactoryGirl.create(:status,
                            is_closed: false)
-      }
+      end
 
       context 'closed version' do
-        let(:version) {
+        let(:version) do
           FactoryGirl.create(:version,
                              status: 'open',
                              project: project)
-        }
+        end
 
         before do
           version_open
@@ -388,7 +391,7 @@ describe WorkPackage, type: :model do
         context 'attribute update' do
           include_context 'in closed version'
 
-          before do work_package.subject = 'Subject changed' end
+          before { work_package.subject = 'Subject changed' }
 
           subject { work_package.save }
 
@@ -396,21 +399,21 @@ describe WorkPackage, type: :model do
         end
 
         context 'status changed' do
-          let!(:workflow) {
+          let!(:workflow) do
             FactoryGirl.create(:workflow,
                                old_status: status_closed,
                                new_status: status_open,
                                type_id: work_package.type_id)
-          }
+          end
           let(:user) { FactoryGirl.create(:user) }
-          let!(:membership) {
+          let!(:membership) do
             FactoryGirl.create(:member,
                                user: user,
                                project: work_package.project,
                                roles: [workflow.role])
-          }
+          end
 
-          before do login_as(user) end
+          before { login_as(user) }
 
           shared_context 'in locked version' do
             before do
@@ -574,16 +577,16 @@ describe WorkPackage, type: :model do
   end
 
   describe '#destroy' do
-    let(:time_entry_1) {
+    let(:time_entry_1) do
       FactoryGirl.create(:time_entry,
                          project: project,
                          work_package: work_package)
-    }
-    let(:time_entry_2) {
+    end
+    let(:time_entry_2) do
       FactoryGirl.create(:time_entry,
                          project: project,
                          work_package: work_package)
-    }
+    end
 
     before do
       time_entry_1
@@ -606,36 +609,38 @@ describe WorkPackage, type: :model do
   end
 
   describe '#done_ratio' do
-    let(:status_new) {
+    let(:status_new) do
       FactoryGirl.create(:status,
                          name: 'New',
                          is_default: true,
                          is_closed: false,
                          default_done_ratio: 50)
-    }
-    let(:status_assigned) {
+    end
+    let(:status_assigned) do
       FactoryGirl.create(:status,
                          name: 'Assigned',
                          is_default: true,
                          is_closed: false,
                          default_done_ratio: 0)
-    }
-    let(:work_package_1) {
+    end
+    let(:work_package_1) do
       FactoryGirl.create(:work_package,
                          status: status_new)
-    }
-    let(:work_package_2) {
+    end
+    let(:work_package_2) do
       FactoryGirl.create(:work_package,
                          project: work_package_1.project,
                          status: status_assigned,
                          done_ratio: 30)
-    }
+    end
 
-    before do work_package_2 end
+    before { work_package_2 }
 
     describe '#value' do
       context 'work package field' do
-        before do allow(Setting).to receive(:work_package_done_ratio).and_return 'field' end
+        before do
+          allow(Setting).to receive(:work_package_done_ratio).and_return 'field'
+        end
 
         context 'work package 1' do
           subject { work_package_1.done_ratio }
@@ -651,7 +656,9 @@ describe WorkPackage, type: :model do
       end
 
       context 'work package status' do
-        before do allow(Setting).to receive(:work_package_done_ratio).and_return 'status' end
+        before do
+          allow(Setting).to receive(:work_package_done_ratio).and_return 'status'
+        end
 
         context 'work package 1' do
           subject { work_package_1.done_ratio }
@@ -724,25 +731,25 @@ describe WorkPackage, type: :model do
     let(:type_2) { FactoryGirl.create(:type) }
     let(:priority_2) { FactoryGirl.create(:priority) }
     let(:project) { FactoryGirl.create(:project, types: [type, type_2]) }
-    let(:version_1) {
+    let(:version_1) do
       FactoryGirl.create(:version,
                          project: project)
-    }
-    let(:version_2) {
+    end
+    let(:version_2) do
       FactoryGirl.create(:version,
                          project: project)
-    }
-    let(:category_1) {
+    end
+    let(:category_1) do
       FactoryGirl.create(:category,
                          project: project)
-    }
-    let(:category_2) {
+    end
+    let(:category_2) do
       FactoryGirl.create(:category,
                          project: project)
-    }
+    end
     let(:user_2) { FactoryGirl.create(:user) }
 
-    let(:work_package_1) {
+    let(:work_package_1) do
       FactoryGirl.create(:work_package,
                          author: user,
                          assigned_to: user,
@@ -752,8 +759,8 @@ describe WorkPackage, type: :model do
                          priority: priority,
                          fixed_version: version_1,
                          category: category_1)
-    }
-    let(:work_package_2) {
+    end
+    let(:work_package_2) do
       FactoryGirl.create(:work_package,
                          author: user_2,
                          assigned_to: user_2,
@@ -763,7 +770,7 @@ describe WorkPackage, type: :model do
                          priority: priority_2,
                          fixed_version: version_2,
                          category: category_2)
-    }
+    end
 
     before do
       version_1
@@ -830,16 +837,16 @@ describe WorkPackage, type: :model do
     end
 
     context 'by project' do
-      let(:project_2) {
+      let(:project_2) do
         FactoryGirl.create(:project,
                            parent: project)
-      }
-      let(:work_package_3) {
+      end
+      let(:work_package_3) do
         FactoryGirl.create(:work_package,
                            project: project_2)
-      }
+      end
 
-      before do work_package_3 end
+      before { work_package_3 }
 
       let(:groups) { WorkPackage.by_author(project) }
 
@@ -869,15 +876,15 @@ describe WorkPackage, type: :model do
   end
 
   describe '#on_active_project' do
-    let(:project_archived) {
+    let(:project_archived) do
       FactoryGirl.create(:project,
                          status: Project::STATUS_ARCHIVED)
-    }
+    end
     let!(:work_package) { FactoryGirl.create(:work_package) }
-    let(:work_package_in_archived_project) {
+    let(:work_package_in_archived_project) do
       FactoryGirl.create(:work_package,
                          project: project_archived)
-    }
+    end
 
     subject { WorkPackage.on_active_project.length }
 
@@ -885,7 +892,7 @@ describe WorkPackage, type: :model do
       it { is_expected.to eq(1) }
 
       context 'and one work package in archived projects' do
-        before do work_package_in_archived_project end
+        before { work_package_in_archived_project }
 
         it { is_expected.to eq(1) }
       end
@@ -894,16 +901,16 @@ describe WorkPackage, type: :model do
 
   describe '#with_author' do
     let(:user) { FactoryGirl.create(:user) }
-    let(:project_archived) {
+    let(:project_archived) do
       FactoryGirl.create(:project,
                          status: Project::STATUS_ARCHIVED)
-    }
+    end
     let!(:work_package) { FactoryGirl.create(:work_package, author: user) }
-    let(:work_package_in_archived_project) {
+    let(:work_package_in_archived_project) do
       FactoryGirl.create(:work_package,
                          project: project_archived,
                          author: user)
-    }
+    end
 
     subject { WorkPackage.with_author(user).length }
 
@@ -911,7 +918,7 @@ describe WorkPackage, type: :model do
       it { is_expected.to eq(1) }
 
       context 'and one work package in archived projects' do
-        before do work_package_in_archived_project end
+        before { work_package_in_archived_project }
 
         it { is_expected.to eq(2) }
       end
@@ -1102,9 +1109,9 @@ describe WorkPackage, type: :model do
   describe '.allowed_target_project_on_move' do
     let(:project) { FactoryGirl.create(:project) }
     let(:role) { FactoryGirl.create(:role, permissions: [:move_work_packages]) }
-    let(:user) {
+    let(:user) do
       FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-    }
+    end
 
     context 'when having the move_work_packages permission' do
       it 'returns the project' do
@@ -1126,9 +1133,9 @@ describe WorkPackage, type: :model do
   describe '.allowed_target_project_on_create' do
     let(:project) { FactoryGirl.create(:project) }
     let(:role) { FactoryGirl.create(:role, permissions: [:add_work_packages]) }
-    let(:user) {
+    let(:user) do
       FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-    }
+    end
 
     context 'when having the add_work_packages permission' do
       it 'returns the project' do
@@ -1221,22 +1228,22 @@ describe WorkPackage, type: :model do
     describe 'with done ratio disabled' do
       let(:project) { FactoryGirl.create(:project) }
       let(:work_package) { FactoryGirl.create(:work_package, project: project) }
-      let(:child) {
+      let(:child) do
         FactoryGirl.create(:work_package, parent: work_package,
                                           project: project)
-      }
+      end
       let(:closed_status) { FactoryGirl.create(:closed_status) }
-      let!(:workflow) {
+      let!(:workflow) do
         FactoryGirl.create(:workflow,
                            old_status: child.status,
                            new_status: closed_status,
                            type_id: child.type_id)
-      }
-      let(:user) {
+      end
+      let(:user) do
         FactoryGirl.create(:user,
                            member_in_project: project,
                            member_through_role: workflow.role)
-      }
+      end
 
       before do
         allow(Setting).to receive(:work_package_done_ratio).and_return('disabled')
@@ -1327,11 +1334,11 @@ describe WorkPackage, type: :model do
 
   describe 'changed_since' do
     let!(:work_package) do
-      work_package = Timecop.travel(5.hours.ago) {
+      Timecop.travel(5.hours.ago) do
         wp = FactoryGirl.create(:work_package)
         wp.save!
         wp
-      }
+      end
     end
 
     describe 'null' do

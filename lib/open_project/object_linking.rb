@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -56,7 +57,7 @@ module OpenProject
 
     def link_to_work_package_preview(context = nil, options = {})
       form_id = options[:form_id] || 'work_package-form-preview'
-      path = (context.is_a? WorkPackage) ? preview_work_package_path(context) : preview_work_packages_path
+      path = context.is_a? WorkPackage ? preview_work_package_path(context) : preview_work_packages_path
 
       preview_link path, "#{form_id}-preview"
     end
@@ -97,8 +98,7 @@ module OpenProject
         h(truncate(message.subject, length: 60)),
         topic_path_or_url(message.root,
                           { r: (message.parent_id && message.id),
-                            anchor: (message.parent_id ? "message-#{message.id}" : nil)
-                          }.merge(options)),
+                            anchor: (message.parent_id ? "message-#{message.id}" : nil) }.merge(options)),
         html_options
       )
     end
@@ -119,16 +119,16 @@ module OpenProject
         project_link_name = icon_wrapper('icon-context icon-star', I18n.t(:description_my_project).html_safe + '&nbsp;'.html_safe) + project_link_name
       end
 
-      if project.active?
-        # backwards compatibility
-        if options.delete(:action) == 'settings'
-          link << link_to(project_link_name, settings_project_path_or_url(project, options), html_options)
-        else
-          link << link_to(project_link_name, project_path_or_url(project, options), html_options)
-        end
-      else
-        link << project_link_name
-      end
+      link << if project.active?
+                # backwards compatibility
+                if options.delete(:action) == 'settings'
+                  link_to(project_link_name, settings_project_path_or_url(project, options), html_options)
+                else
+                  link_to(project_link_name, project_path_or_url(project, options), html_options)
+                        end
+              else
+                project_link_name
+              end
 
       link.html_safe
     end

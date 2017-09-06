@@ -94,6 +94,15 @@ describe 'form configuration', type: :feature, js: true do
     target = group.find('.attributes')
 
     scroll_to_element(group)
+
+    click_and_hold(page, handle)
+
+    scroll_to_element(group)
+
+    release_click(page, target)
+  end
+
+  def click_and_hold(page, handle)
     page
       .driver
       .browser
@@ -101,8 +110,9 @@ describe 'form configuration', type: :feature, js: true do
       .move_to(handle.native)
       .click_and_hold(handle.native)
       .perform
+  end
 
-    scroll_to_element(group)
+  def release_click(page, target)
     page
       .driver
       .browser
@@ -247,23 +257,22 @@ describe 'form configuration', type: :feature, js: true do
         expect_no_attribute('assignee', 'Cool Stuff')
 
         expect_group 'Cool Stuff',
-                    'Cool Stuff',
-                    { key: :responsible, translation: 'Responsible' }
+                     'Cool Stuff',
+                     key: :responsible, translation: 'Responsible'
 
         expect_group 'estimates_and_time',
-                    'Estimates and time',
-                    { key: :estimated_time, translation: 'Estimated time' },
-                    { key: :spent_time, translation: 'Spent time' }
-
+                     'Estimates and time',
+                     { key: :estimated_time, translation: 'Estimated time' },
+                     { key: :spent_time, translation: 'Spent time' }
 
         expect_group 'Whatever',
-                    'Whatever',
-                    { key: :date, translation: 'Date' },
-                    { key: :percentage_done, translation: 'Progress (%)' }
+                     'Whatever',
+                     { key: :date, translation: 'Date' },
+                     { key: :percentage_done, translation: 'Progress (%)' }
 
         expect_group 'New Group',
-                    'New Group',
-                    { key: :category, translation: 'Category' }
+                     'New Group',
+                     key: :category, translation: 'Category'
 
         expect_inactive(:version)
 
@@ -342,7 +351,6 @@ describe 'form configuration', type: :feature, js: true do
         expect(page).to have_selector('.flash.notice', text: 'Successful update.', wait: 10)
       end
     end
-
 
     describe 'custom fields' do
       let(:project_settings_page) { ProjectSettingsPage.new(project) }

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@ module BasicData
   class WorkflowSeeder < Seeder
     def seed_data!
       colors = PlanningElementTypeColor.all
-      colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
+      colors = colors.map { |c| { c.name => c.id } }.reduce({}, :merge)
 
       if WorkPackage.where(type_id: nil).any? || Journal::WorkPackageJournal.where(type_id: nil).any?
         # Fixes work packages that do not have a type yet. They receive the standard type.
@@ -93,24 +94,24 @@ module BasicData
         StatusSeeder.new.seed!
 
         # Workflow - Each type has its own workflow
-        workflows.each { |type_id, statuses_for_type|
-          statuses_for_type.each { |old_status|
-            statuses_for_type.each { |new_status|
-              [manager.id, member.id].each { |role_id|
+        workflows.each do |type_id, statuses_for_type|
+          statuses_for_type.each do |old_status|
+            statuses_for_type.each do |new_status|
+              [manager.id, member.id].each do |role_id|
                 Workflow.create type_id: type_id,
                                 role_id: role_id,
                                 old_status_id: old_status.id,
                                 new_status_id: new_status.id
-              }
-            }
-          }
-        }
+              end
+            end
+          end
+        end
       end
     end
 
     def workflows
       types = Type.all
-      types = types.map { |t| { t.name =>  t.id } }.reduce({}, :merge)
+      types = types.map { |t| { t.name => t.id } }.reduce({}, :merge)
 
       new              = Status.find_by(name: I18n.t(:default_status_new))
       in_specification = Status.find_by(name: I18n.t(:default_status_in_specification))

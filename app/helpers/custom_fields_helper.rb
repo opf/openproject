@@ -39,7 +39,7 @@ module CustomFieldsHelper
       { name: 'GroupCustomField', partial: 'custom_fields/tab', label: :label_group_plural },
       { name: 'TimeEntryActivityCustomField', partial: 'custom_fields/tab', label: TimeEntryActivity::OptionName },
       { name: 'IssuePriorityCustomField', partial: 'custom_fields/tab', label: IssuePriority::OptionName }
-     ]
+    ]
   end
 
   # Return custom field html tag corresponding to its format
@@ -86,7 +86,7 @@ module CustomFieldsHelper
   # Return custom field label tag
   def custom_field_label_tag(name, custom_value)
     content_tag 'label', h(custom_value.custom_field.name) +
-      (custom_value.custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),
+                         (custom_value.custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),
                 for: "#{name}_custom_field_values_#{custom_value.custom_field.id}",
                 class: "form--label #{(custom_value.errors.empty? ? nil : 'error')}",
                 lang: custom_value.custom_field.name_locale
@@ -94,7 +94,7 @@ module CustomFieldsHelper
 
   def hidden_custom_field_label_tag(name, custom_value)
     content_tag 'label', h(custom_value.custom_field.name) +
-      (custom_value.custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),
+                         (custom_value.custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),
                 for: "#{name}_custom_field_values_#{custom_value.custom_field.id}",
                 class: "hidden-for-sighted",
                 lang: custom_value.custom_field.name_locale
@@ -102,7 +102,7 @@ module CustomFieldsHelper
 
   def blank_custom_field_label_tag(name, custom_field)
     content_tag 'label', h(custom_field.name) +
-      (custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),
+                         (custom_field.is_required? ? content_tag('span', ' *', class: 'required') : ''),
                 for: "#{name}_custom_field_values_#{custom_field.id}",
                 class: 'form--label'
   end
@@ -112,7 +112,7 @@ module CustomFieldsHelper
     custom_field_label_tag(name, custom_value) + custom_field_tag(name, custom_value)
   end
 
-  def custom_field_tag_for_bulk_edit(name, custom_field, project=nil)
+  def custom_field_tag_for_bulk_edit(name, custom_field, project = nil)
     field_name = "#{name}[custom_field_values][#{custom_field.id}]"
     field_id = "#{name}_custom_field_values_#{custom_field.id}"
     field_format = OpenProject::CustomFieldFormat.find_by_name(custom_field.field_format)

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -47,7 +48,7 @@ class UserPassword::SHA1 < UserPassword
     l = a.unpack "C#{a.bytesize}"
 
     res = 0
-    b.each_byte do |byte| res |= byte ^ l.shift end
+    b.each_byte { |byte| res |= byte ^ l.shift }
     res == 0
   end
 

@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe 'Planning Comparison', type: :model do
   let (:project) { FactoryGirl.create(:project) }
-  let (:admin)  { FactoryGirl.create(:admin) }
+  let (:admin) { FactoryGirl.create(:admin) }
 
   before do
     # query implicitly uses the logged in user to check for allowed work_packages/projects
@@ -59,7 +59,7 @@ describe 'Planning Comparison', type: :model do
       wp
     end
 
-    before do wp = journalized_work_package end
+    before { wp = journalized_work_package }
 
     it 'should return the changes as a work_package' do
       # beware of these date-conversions: 1.week.ago does not catch the change, as created_at is stored as a timestamp
@@ -100,7 +100,7 @@ describe 'Planning Comparison', type: :model do
     let (:filter) do
       { f: ['assigned_to_id'],
         op: { 'assigned_to_id' => '=' },
-        v: { 'assigned_to_id' => ["#{assigned_to_user.id}"] } }
+        v: { 'assigned_to_id' => [assigned_to_user.id.to_s] } }
     end
 
     let (:work_package) do

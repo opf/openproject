@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,12 +36,12 @@ describe JournalNotificationMailer do
                       mail_notification: 'all',
                       member_in_project: project)
   end
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
                        author: user,
                        type: project.types.first)
-  }
+  end
   let(:journal) { work_package.journals.last }
   let(:send_notification) { true }
   let(:notifications) { [] }
@@ -62,13 +63,14 @@ describe JournalNotificationMailer do
   shared_examples_for 'enqueues a regular notification' do
     it do
       expect(Delayed::Job).to receive(:enqueue)
-                                .with(
-                                  an_instance_of(EnqueueWorkPackageNotificationJob),
-                                  run_at: anything)
+        .with(
+          an_instance_of(EnqueueWorkPackageNotificationJob),
+          run_at: anything
+        )
 
       # immediate delivery is not part of regular notfications, it only covers an edge-case
       expect(Delayed::Job).not_to receive(:enqueue)
-                                    .with(an_instance_of DeliverWorkPackageNotificationJob)
+        .with(an_instance_of(DeliverWorkPackageNotificationJob))
       call_listener
     end
   end
@@ -81,12 +83,12 @@ describe JournalNotificationMailer do
 
       context 'insufficient work package changes' do
         let(:journal) { another_work_package.journals.last }
-        let(:another_work_package) {
+        let(:another_work_package) do
           FactoryGirl.create(:work_package,
                              project: project,
                              author: user,
                              type: project.types.first)
-        }
+        end
         before do
           another_work_package.add_journal(user)
           another_work_package.description = 'needs more changes'
@@ -274,16 +276,18 @@ describe JournalNotificationMailer do
 
         it 'immediately delivers a mail on behalf of Journal 1' do
           expect(Delayed::Job).to receive(:enqueue)
-                                    .with(
-                                      an_instance_of(DeliverWorkPackageNotificationJob))
+            .with(
+              an_instance_of(DeliverWorkPackageNotificationJob)
+            )
           call_listener
         end
 
         it 'also enqueues a regular mail' do
           expect(Delayed::Job).to receive(:enqueue)
-                                    .with(
-                                      an_instance_of(EnqueueWorkPackageNotificationJob),
-                                      run_at: anything)
+            .with(
+              an_instance_of(EnqueueWorkPackageNotificationJob),
+              run_at: anything
+            )
           call_listener
         end
       end

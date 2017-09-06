@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -203,8 +204,8 @@ class Authorization::ProjectQuery < Authorization::AbstractQuery
 
   transformations.register :all,
                            :assigned_roles_join,
-                           after: [:permission_roles_join,
-                                   :members_member_roles_join] do |statement, user, action|
+                           after: %i[permission_roles_join
+                                     members_member_roles_join] do |statement, user, action|
     if user.admin?
       statement
     else

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -118,8 +119,8 @@ describe Setting, type: :model do
     context 'cache is empty' do
       it 'requests the settings once from database' do
         expect(Setting).to receive(:pluck).with(:name, :value)
-          .once
-          .and_call_original
+                                          .once
+                                          .and_call_original
 
         expect(Rails.cache).to receive(:fetch).once.and_call_original
         expect(RequestStore).to receive(:fetch).exactly(3).times.and_call_original
@@ -154,9 +155,9 @@ describe Setting, type: :model do
     end
 
     context 'cache is not empty' do
-      let(:cached_hash) {
+      let(:cached_hash) do
         { 'available_languages' => "---\n- en\n- de\n" }
-      }
+      end
 
       before do
         Rails.cache.write(cache_key, cached_hash)

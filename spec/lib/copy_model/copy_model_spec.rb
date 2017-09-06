@@ -35,7 +35,7 @@ describe 'Copying Models' do
 
       attr_accessor :call_order
 
-      copy_precedence([:association2, :association1])
+      copy_precedence(%i[association2 association1])
 
       attr_accessor :association1,
                     :association2,
@@ -46,8 +46,7 @@ describe 'Copying Models' do
           'attribute2' => 'attribute2' }
       end
 
-      def attributes=(_)
-      end
+      def attributes=(_); end
 
       def self.reflect_on_all_associations
         [OpenStruct.new(name: 'association1', valid?: true),
@@ -55,12 +54,12 @@ describe 'Copying Models' do
          OpenStruct.new(name: 'association3', valid?: true)]
       end
 
-      def copy_association1(other, selected_copies = [])
+      def copy_association1(other, _selected_copies = [])
         call_order << :association1
         self.association1 = other.association1
       end
 
-      def copy_association2(other, selected_copies = [])
+      def copy_association2(other, _selected_copies = [])
         call_order << :association2
         self.association2 = other.association2
       end
@@ -98,17 +97,17 @@ describe 'Copying Models' do
     { 'attribute1' => 'attribute1',
       'attribute2' => 'attribute2' }
   end
-  let(:dummy) {
+  let(:dummy) do
     dummy_class.new
-  }
-  let(:copied) {
+  end
+  let(:copied) do
     copied = dummy_class.new
     allow(dummy_class)
       .to receive(:new)
       .and_return(copied)
 
     copied
-  }
+  end
 
   before do
     expect(dummy_class)

@@ -1,7 +1,7 @@
 shared_examples_for 'repository can be relocated' do |vendor|
   let(:job) { ::Scm::RelocateRepositoryJob.new repository }
   let(:project) { FactoryGirl.build :project }
-  let(:repository) {
+  let(:repository) do
     repo = FactoryGirl.build("repository_#{vendor}".to_sym,
                              project: project,
                              scm_type: :managed)
@@ -10,7 +10,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
     repo.save!
 
     repo
-  }
+  end
 
   before do
     allow(::Scm::RelocateRepositoryJob).to receive(:new).and_return(job)
@@ -24,7 +24,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
     it 'relocates when project identifier is updated' do
       current_path = repository.root_url
       expect(repository.root_url).to eq(repository.managed_repository_path)
-      expect(Dir.exists?(repository.managed_repository_path)).to be true
+      expect(Dir.exist?(repository.managed_repository_path)).to be true
 
       # Rename the project
       project.update_attributes!(identifier: 'somenewidentifier')
@@ -37,7 +37,7 @@ shared_examples_for 'repository can be relocated' do |vendor|
       expect(current_path).not_to eq(repository.root_url)
       expect(repository.url).to eq(repository.managed_repository_url)
 
-      expect(Dir.exists?(repository.managed_repository_path)).to be true
+      expect(Dir.exist?(repository.managed_repository_path)).to be true
     end
   end
 
@@ -45,14 +45,14 @@ shared_examples_for 'repository can be relocated' do |vendor|
     let(:url) { 'http://myreposerver.example.com/api/' }
     let(:config) { { manages: url } }
 
-    let(:repository) {
+    let(:repository) do
       stub_request(:post, url)
         .to_return(status: 200,
                    body: { success: true, url: 'file:///foo/bar', path: '/tmp/foo/bar' }.to_json)
       FactoryGirl.create("repository_#{vendor}".to_sym,
                          project: project,
                          scm_type: :managed)
-    }
+    end
 
     before do
       stub_request(:post, url)

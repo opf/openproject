@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -32,18 +33,18 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
   include API::V3::Utilities::PathHelper
 
   let(:errors) { [] }
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.build(:work_package,
                       id: 42,
                       created_at: DateTime.now,
                       updated_at: DateTime.now)
-  }
-  let(:current_user) {
+  end
+  let(:current_user) do
     FactoryGirl.build(:user, member_in_project: work_package.project)
-  }
-  let(:representer) {
+  end
+  let(:representer) do
     described_class.new(work_package, current_user: current_user, errors: errors)
-  }
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -89,11 +90,11 @@ describe ::API::V3::WorkPackages::UpdateFormRepresenter do
 
         context 'user with insufficient permissions' do
           let(:role) { FactoryGirl.create(:role, permissions: []) }
-          let(:current_user) {
+          let(:current_user) do
             FactoryGirl.build(:user,
                               member_in_project: work_package.project,
                               member_through_role: role)
-          }
+          end
 
           it { is_expected.not_to have_json_path('_links/commit/href') }
         end

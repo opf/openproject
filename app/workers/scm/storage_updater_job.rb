@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -44,7 +45,7 @@ class Scm::StorageUpdaterJob < ApplicationJob
 
     repository.update_attributes!(
       required_storage_bytes: bytes,
-      storage_updated_at: Time.now,
+      storage_updated_at: Time.now
     )
   rescue ActiveRecord::RecordNotFound
     Rails.logger.warn("StorageUpdater requested for Repository ##{@id}, which could not be found.")

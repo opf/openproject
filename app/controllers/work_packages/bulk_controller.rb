@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -56,7 +57,7 @@ class WorkPackages::BulkController < ApplicationController
       attributes = parse_params_for_bulk_work_package_attributes params, work_package.project
       work_package.assign_attributes attributes
 
-      call_hook(:controller_work_packages_bulk_edit_before_save,  params: params, work_package: work_package)
+      call_hook(:controller_work_packages_bulk_edit_before_save, params: params, work_package: work_package)
       JournalManager.send_notification = params[:send_notification] == '0' ? false : true
       unless work_package.save
         unsaved_work_package_ids << work_package.id
@@ -67,19 +68,7 @@ class WorkPackages::BulkController < ApplicationController
   end
 
   def destroy
-    unless WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
-
-      respond_to do |format|
-        format.html do
-          render locals: { work_packages: @work_packages,
-                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
-        end
-        format.json do
-          render json: { error_message: 'Clean up of associated objects required' }, status: 420
-        end
-      end
-
-    else
+    if WorkPackage.cleanup_associated_before_destructing_if_required(@work_packages, current_user, params[:to_do])
 
       destroy_work_packages(@work_packages)
 
@@ -91,6 +80,18 @@ class WorkPackages::BulkController < ApplicationController
           head :ok
         end
       end
+    else
+
+      respond_to do |format|
+        format.html do
+          render locals: { work_packages: @work_packages,
+                           associated: WorkPackage.associated_classes_to_address_before_destruction_of(@work_packages) }
+        end
+        format.json do
+          render json: { error_message: 'Clean up of associated objects required' }, status: 420
+        end
+      end
+
     end
   end
 
@@ -112,7 +113,7 @@ class WorkPackages::BulkController < ApplicationController
 
     safe_params = permitted_params.update_work_package project: project
     attributes = safe_params.reject { |_k, v| v.blank? }
-    attributes.keys.each do |k| attributes[k] = '' if attributes[k] == 'none' end
+    attributes.keys.each { |k| attributes[k] = '' if attributes[k] == 'none' }
     attributes[:custom_field_values].reject! { |_k, v| v.blank? } if attributes[:custom_field_values]
     attributes.delete :custom_field_values if not attributes.has_key?(:custom_field_values) or attributes[:custom_field_values].empty?
     attributes

@@ -33,7 +33,7 @@ describe CopyProjectsController, type: :controller do
   let(:redirect_path) { "/projects/#{project.id}/settings" }
   let(:permission) { :copy_projects }
   let(:project) { FactoryGirl.create(:project_with_types, is_public: false) }
-  let(:copy_project_params) {
+  let(:copy_project_params) do
     {
       'description' => 'Some pretty description',
       'responsible_id' => current_user.id,
@@ -42,7 +42,7 @@ describe CopyProjectsController, type: :controller do
       'is_public' => project.is_public,
       'type_ids' => project.types.map(&:id)
     }
-  }
+  end
 
   before do
     allow(User).to receive(:current).and_return current_user
@@ -72,10 +72,10 @@ describe CopyProjectsController, type: :controller do
   end
 
   describe 'copy_from_settings without name and identifier' do
-    before {
+    before do
       post 'copy',
            params: { id: project.id, project: copy_project_params }
-    }
+    end
 
     it { expect(response).to render_template('copy_from_settings') }
     it 'should display error validation messages' do
@@ -138,7 +138,7 @@ describe CopyProjectsController, type: :controller do
       true
     end
 
-    let(:permission) { [:copy_projects, :add_project] }
+    let(:permission) { %i[copy_projects add_project] }
     let(:project) { FactoryGirl.create(:project, is_public: false) }
 
     it_should_behave_like 'a controller action which needs project permissions'

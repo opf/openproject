@@ -9,7 +9,7 @@ Rails.application.config.plugins_to_test_paths.each do |dir|
   ['disabled_specs.rb', 'disable_specs.rb', 'config_spec_helper.rb'].each do |file_name|
     file = File.join(dir, 'spec', file_name)
 
-    if File.exists?(file)
+    if File.exist?(file)
       puts "Loading #{file}"
       require file
     end

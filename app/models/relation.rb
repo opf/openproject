@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -119,7 +120,7 @@ class Relation < ActiveRecord::Base
   end
 
   def label_for(work_package)
-    TYPES[relation_type] ? TYPES[relation_type][(from_id == work_package.id) ? :name : :sym_name] : :unknown
+    TYPES[relation_type] ? TYPES[relation_type][from_id == work_package.id ? :name : :sym_name] : :unknown
   end
 
   def update_schedule

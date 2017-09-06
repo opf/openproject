@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -83,8 +84,8 @@ module UsersHelper
     [:locked, false]     => [[:unlock, 'unlock']],
     [:locked, true]      => [[:unlock_and_reset_failed_logins, 'unlock']],
     [:registered, false] => [[:activate, 'activate']],
-    [:registered, true]  => [[:activate_and_reset_failed_logins, 'activate']],
-  }
+    [:registered, true]  => [[:activate_and_reset_failed_logins, 'activate']]
+  }.freeze
 
   # Create buttons to lock/unlock a user and reset failed logins
   def build_change_user_status_action(user)
@@ -134,8 +135,7 @@ module UsersHelper
 
   def user_settings_tabs
     tabs = [{ name: 'general', partial: 'users/general', label: :label_general },
-            { name: 'memberships', partial: 'users/memberships', label: :label_project_plural }
-           ]
+            { name: 'memberships', partial: 'users/memberships', label: :label_project_plural }]
     if Group.all.any?
       tabs.insert 1, name: 'groups', partial: 'users/groups', label: :label_group_plural
     end

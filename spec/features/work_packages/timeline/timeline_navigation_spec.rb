@@ -64,7 +64,6 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
                          type: type2
     end
 
-
     let!(:query) do
       query              = FactoryGirl.build(:query, user: user, project: project)
       query.column_names = ['id', 'type', 'subject']

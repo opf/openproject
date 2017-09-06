@@ -32,7 +32,7 @@ FactoryGirl.define do
   factory :token do
     user
     action 'invite'
-    value do SecureRandom.hex(16) end
+    value { SecureRandom.hex(16) }
 
     factory :api_key do
       action 'api'

@@ -39,7 +39,8 @@ describe Attachment, type: :model do
       author:       author,
       container:    work_package,
       content_type: nil, # so that it is detected
-      file:         file)
+      file:         file
+    )
   end
 
   describe 'create' do
@@ -59,7 +60,7 @@ describe Attachment, type: :model do
     end
 
     it('should create a jpg file called test') do
-      expect(File.exists?(attachment.diskfile.path)).to eq true
+      expect(File.exist?(attachment.diskfile.path)).to eq true
     end
 
     it('have the content type "image/jpeg"') do
@@ -103,7 +104,7 @@ describe Attachment, type: :model do
     before do
       attachment.save!
 
-      expect(File.exists?(attachment.file.path)).to eq true
+      expect(File.exist?(attachment.file.path)).to eq true
 
       attachment.destroy
       attachment.run_callbacks(:commit)
@@ -112,7 +113,7 @@ describe Attachment, type: :model do
     end
 
     it "deletes the attachment's file" do
-      expect(File.exists?(attachment.file.path)).to eq false
+      expect(File.exist?(attachment.file.path)).to eq false
     end
   end
 end

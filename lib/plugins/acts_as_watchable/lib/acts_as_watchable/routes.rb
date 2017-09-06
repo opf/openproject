@@ -39,10 +39,10 @@ module OpenProject
             /\d+/.match(params[:object_id])
         end
 
-        private
+        private_class_method
 
         def self.watched?(object)
-          self.watchable_object? object
+          watchable_object? object
         end
 
         def self.watchable_object?(object)

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,10 +34,10 @@ class CreateMessageJournals < ActiveRecord::Migration[4.2]
       t.integer :journal_id,                       null: false
       t.integer :board_id,                         null: false
       t.integer :parent_id
-      t.string :subject,       default: '',    null: false
+      t.string :subject, default: '', null: false
       t.text :content
       t.integer :author_id
-      t.integer :replies_count, default: 0,     null: false
+      t.integer :replies_count, default: 0, null: false
       t.integer :last_reply_id
       t.datetime :created_on,                       null: false
       t.datetime :updated_on,                       null: false

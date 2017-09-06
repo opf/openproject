@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -64,11 +65,11 @@ class AddWorkPackageNoteService
 
   def validate_and_save
     if !contract.validate
-      return false, contract.errors
+      [false, contract.errors]
     elsif !work_package.save_journals
-      return false, work_package.errors
+      [false, work_package.errors]
     else
-      return true, work_package.errors
+      [true, work_package.errors]
     end
   end
 end

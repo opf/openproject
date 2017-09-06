@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-#!/usr/bin/env ruby
+# !/usr/bin/env ruby
 
 # == Synopsis
 #
@@ -93,13 +94,13 @@ module Net
       request.initialize_http_header(headers)
       http = new(url.host, url.port)
       http.use_ssl = (url.scheme == 'https')
-      http.start {|h| h.request(request) }
+      http.start { |h| h.request(request) }
     end
   end
 end
 
 class RedmineMailHandler
-  VERSION = '0.1'
+  VERSION = '0.1'.freeze
 
   attr_accessor :verbose, :issue_attributes, :allow_override, :unknown_user, :no_permission_check, :url, :key
 
@@ -107,19 +108,19 @@ class RedmineMailHandler
     self.issue_attributes = {}
 
     opts = GetoptLong.new(
-      [ '--help',           '-h', GetoptLong::NO_ARGUMENT ],
-      [ '--version',        '-V', GetoptLong::NO_ARGUMENT ],
-      [ '--verbose',        '-v', GetoptLong::NO_ARGUMENT ],
-      [ '--url',            '-u', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--project',        '-p', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--status',         '-s', GetoptLong::REQUIRED_ARGUMENT ],
-      [ '--type',           '-t', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--category',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--priority',             GetoptLong::REQUIRED_ARGUMENT],
-      [ '--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
-      [ '--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
-      [ '--no-permission-check',  GetoptLong::NO_ARGUMENT]
+      ['--help',           '-h', GetoptLong::NO_ARGUMENT],
+      ['--version',        '-V', GetoptLong::NO_ARGUMENT],
+      ['--verbose',        '-v', GetoptLong::NO_ARGUMENT],
+      ['--url',            '-u', GetoptLong::REQUIRED_ARGUMENT],
+      ['--key',            '-k', GetoptLong::REQUIRED_ARGUMENT],
+      ['--project',        '-p', GetoptLong::REQUIRED_ARGUMENT],
+      ['--status',         '-s', GetoptLong::REQUIRED_ARGUMENT],
+      ['--type',           '-t', GetoptLong::REQUIRED_ARGUMENT],
+      ['--category',             GetoptLong::REQUIRED_ARGUMENT],
+      ['--priority',             GetoptLong::REQUIRED_ARGUMENT],
+      ['--allow-override', '-o', GetoptLong::REQUIRED_ARGUMENT],
+      ['--unknown-user',         GetoptLong::REQUIRED_ARGUMENT],
+      ['--no-permission-check',  GetoptLong::NO_ARGUMENT]
     )
 
     opts.each do |opt, arg|
@@ -135,7 +136,7 @@ class RedmineMailHandler
       when '--version'
         puts VERSION; exit
       when '--project', '--status', '--type', '--category', '--priority'
-        self.issue_attributes[opt.gsub(%r{^\-\-}, '')] = arg.dup
+        issue_attributes[opt.gsub(%r{^\-\-}, '')] = arg.dup
       when '--allow-override'
         self.allow_override = arg.dup
       when '--unknown-user'
@@ -154,9 +155,9 @@ class RedmineMailHandler
     headers = { 'User-Agent' => "Redmine mail handler/#{VERSION}" }
 
     data = { 'key' => key, 'email' => email,
-                           'allow_override' => allow_override,
-                           'unknown_user' => unknown_user,
-                           'no_permission_check' => no_permission_check}
+             'allow_override' => allow_override,
+             'unknown_user' => unknown_user,
+             'no_permission_check' => no_permission_check }
     issue_attributes.each { |attr, value| data["issue[#{attr}]"] = value }
 
     debug "Posting to #{uri}..."
@@ -164,25 +165,25 @@ class RedmineMailHandler
     debug "Response received: #{response.code}"
 
     case response.code.to_i
-      when 403
-        warn "Request was denied by your Redmine server. " +
-             "Make sure that 'WS for incoming emails' is enabled in application settings and that you provided the correct API key."
-        return 77
-      when 422
-        warn "Request was denied by your Redmine server. " +
-             "Possible reasons: email is sent from an invalid email address or is missing some information."
-        return 77
-      when 400..499
-        warn "Request was denied by your Redmine server (#{response.code})."
-        return 77
-      when 500..599
-        warn "Failed to contact your Redmine server (#{response.code})."
-        return 75
-      when 201
-        debug "Proccessed successfully"
-        return 0
-      else
-        return 1
+    when 403
+      warn "Request was denied by your Redmine server. " +
+           "Make sure that 'WS for incoming emails' is enabled in application settings and that you provided the correct API key."
+      return 77
+    when 422
+      warn "Request was denied by your Redmine server. " +
+           "Possible reasons: email is sent from an invalid email address or is missing some information."
+      return 77
+    when 400..499
+      warn "Request was denied by your Redmine server (#{response.code})."
+      return 77
+    when 500..599
+      warn "Failed to contact your Redmine server (#{response.code})."
+      return 75
+    when 201
+      debug "Proccessed successfully"
+      return 0
+    else
+      return 1
     end
   end
 

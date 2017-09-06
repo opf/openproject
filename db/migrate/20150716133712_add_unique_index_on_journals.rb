@@ -39,11 +39,11 @@
 class AddUniqueIndexOnJournals < ActiveRecord::Migration[4.2]
   def up
     cleanup_duplicate_journals
-    add_index :journals, [:journable_type, :journable_id, :version], unique: true
+    add_index :journals, %i[journable_type journable_id version], unique: true
   end
 
   def down
-    remove_index :journals, [:journable_type, :journable_id, :version]
+    remove_index :journals, %i[journable_type journable_id version]
   end
 
   private
@@ -96,8 +96,8 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration[4.2]
         journables.each do |type, id|
           sub_say "Reordering journals for #{type} ##{id}"
           journals = Journal
-                       .where(journable_type: type, journable_id: id)
-                       .order('version ASC, created_at ASC')
+                     .where(journable_type: type, journable_id: id)
+                     .order('version ASC, created_at ASC')
           journals.each_with_index do |journal, index|
             version = index + 1
             Journal.where(id: journal.id).update_all(version: version)
@@ -147,15 +147,15 @@ class AddUniqueIndexOnJournals < ActiveRecord::Migration[4.2]
       return a == b
     end
 
-    ignored = [:id, :journal_id, :created_at, :updated_at]
+    ignored = %i[id journal_id created_at updated_at]
     a.attributes.symbolize_keys.except(*ignored) == b.attributes.symbolize_keys.except(*ignored)
   end
 
   def customizable_journals_to_hash(customizable_journals)
-    customizable_journals.inject({}) { |hash, custom_journal|
+    customizable_journals.inject({}) do |hash, custom_journal|
       hash[custom_journal.custom_field_id] = custom_journal.value
       hash
-    }
+    end
   end
 
   def sub_say(message)

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -99,25 +100,25 @@ describe Redmine::UnifiedDiff do
   end
 
   it 'should line starting with dashes' do
-    diff = Redmine::UnifiedDiff.new(<<-DIFF
---- old.txt Wed Nov 11 14:24:58 2009
-+++ new.txt Wed Nov 11 14:25:02 2009
-@@ -1,8 +1,4 @@
--Lines that starts with dashes:
--
--------------------------
---- file.c
--------------------------
-+A line that starts with dashes:
+    diff = Redmine::UnifiedDiff.new(<<-DIFF.strip_indent
+      --- old.txt Wed Nov 11 14:24:58 2009
+      +++ new.txt Wed Nov 11 14:25:02 2009
+      @@ -1,8 +1,4 @@
+      -Lines that starts with dashes:
+      -
+      -------------------------
+      --- file.c
+      -------------------------
+      +A line that starts with dashes:
 
- and removed.
+       and removed.
 
-@@ -23,4 +19,4 @@
+      @@ -23,4 +19,4 @@
 
 
 
--Another chunk of change
-+Another chunk of changes
+      -Another chunk of change
+      +Another chunk of changes
 
 DIFF
                                    )
@@ -125,31 +126,31 @@ DIFF
   end
 
   it 'should one line new files' do
-    diff = Redmine::UnifiedDiff.new(<<-DIFF
-diff -r 000000000000 -r ea98b14f75f0 README1
---- /dev/null
-+++ b/README1
-@@ -0,0 +1,1 @@
-+test1
-diff -r 000000000000 -r ea98b14f75f0 README2
---- /dev/null
-+++ b/README2
-@@ -0,0 +1,1 @@
-+test2
-diff -r 000000000000 -r ea98b14f75f0 README3
---- /dev/null
-+++ b/README3
-@@ -0,0 +1,3 @@
-+test4
-+test5
-+test6
-diff -r 000000000000 -r ea98b14f75f0 README4
---- /dev/null
-+++ b/README4
-@@ -0,0 +1,3 @@
-+test4
-+test5
-+test6
+    diff = Redmine::UnifiedDiff.new(<<-DIFF.strip_indent
+      diff -r 000000000000 -r ea98b14f75f0 README1
+      --- /dev/null
+      +++ b/README1
+      @@ -0,0 +1,1 @@
+      +test1
+      diff -r 000000000000 -r ea98b14f75f0 README2
+      --- /dev/null
+      +++ b/README2
+      @@ -0,0 +1,1 @@
+      +test2
+      diff -r 000000000000 -r ea98b14f75f0 README3
+      --- /dev/null
+      +++ b/README3
+      @@ -0,0 +1,3 @@
+      +test4
+      +test5
+      +test6
+      diff -r 000000000000 -r ea98b14f75f0 README4
+      --- /dev/null
+      +++ b/README4
+      @@ -0,0 +1,3 @@
+      +test4
+      +test5
+      +test6
 DIFF
                                    )
     assert_equal 4, diff.size

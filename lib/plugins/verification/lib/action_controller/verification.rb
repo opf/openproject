@@ -2,7 +2,9 @@ module ActionController #:nodoc:
   module Verification #:nodoc:
     extend ActiveSupport::Concern
 
-    include AbstractController::Callbacks, Flash, Rendering
+    include Rendering
+    include Flash
+    include AbstractController::Callbacks
 
     # This module provides a class-level method for specifying that certain
     # actions are guarded against being called without certain prerequisites
@@ -104,7 +106,7 @@ module ActionController #:nodoc:
     def verify_presence_of_keys_in_hash_flash_or_params(options) # :nodoc:
       [*options[:params]].find { |v| v && params[v.to_sym].nil?  } ||
         [*options[:session]].find { |v| session[v].nil? } ||
-        [*options[:flash]].find { |v| flash[v].nil?   }
+        [*options[:flash]].find { |v| flash[v].nil? }
     end
 
     def verify_method(options) # :nodoc:
@@ -116,13 +118,12 @@ module ActionController #:nodoc:
     end
 
     def apply_redirect_to(redirect_to_option) # :nodoc:
-      (redirect_to_option.is_a?(Symbol) && redirect_to_option != :back) ? __send__(redirect_to_option) : redirect_to_option
+      redirect_to_option.is_a?(Symbol) && redirect_to_option != :back ? __send__(redirect_to_option) : redirect_to_option
     end
 
     def apply_remaining_actions(options) # :nodoc:
-      case
-      when options[:render]; render(options[:render])
-      when options[:redirect_to]; redirect_to(apply_redirect_to(options[:redirect_to]))
+      if options[:render]; render(options[:render])
+      elsif options[:redirect_to]; redirect_to(apply_redirect_to(options[:redirect_to]))
       else head(:bad_request)
       end
     end

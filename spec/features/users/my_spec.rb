@@ -88,11 +88,11 @@ describe 'my', type: :feature, js: true do
         end
 
         context 'as admin' do
-          let(:user) {
+          let(:user) do
             FactoryGirl.create :admin,
                                password: user_password,
                                password_confirmation: user_password
-          }
+          end
 
           it 'requires the password' do
             dialog.confirm_flow_with(user_password)

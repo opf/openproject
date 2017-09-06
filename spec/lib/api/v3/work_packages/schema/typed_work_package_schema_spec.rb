@@ -73,7 +73,7 @@ describe ::API::V3::WorkPackages::Schema::TypedWorkPackageSchema do
     before do
       allow(type)
         .to receive(:is_milestone?)
-              .and_return(true)
+        .and_return(true)
     end
 
     it 'is the value the type has' do

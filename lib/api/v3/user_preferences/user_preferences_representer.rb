@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -56,7 +57,7 @@ module API
 
         property :hide_mail
         property :time_zone,
-                 getter: -> (*) { canonical_time_zone },
+                 getter: ->(*) { canonical_time_zone },
                  render_nil: true
 
         property :warn_on_leaving_unsaved

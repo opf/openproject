@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -44,7 +45,7 @@ class AddPlanningElementTypePropertiesToType < ActiveRecord::Migration[4.2]
     add_column :types, :updated_at, :datetime
 
     ::Type.where(created_at: nil, updated_at: nil)
-      .update_all({ created_at: Time.now, updated_at: Time.now })
+          .update_all(created_at: Time.now, updated_at: Time.now)
 
     change_column :types, :created_at, :datetime, null: false
     change_column :types, :updated_at, :datetime, null: false

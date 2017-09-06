@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -117,7 +118,7 @@ module Type::AttributeGroups
              .group_by { |key| default_group_key(key.to_sym) }
 
     ordered = []
-    default_groups.map do |groupkey, label_key|
+    default_groups.map do |groupkey, _label_key|
       members = values[groupkey]
       ordered << [groupkey, members.sort] if members.present?
     end

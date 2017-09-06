@@ -76,11 +76,11 @@ describe ProjectAssociationsController, type: :controller do
   describe 'edit.html' do
     let(:project)   { FactoryGirl.create(:project, is_public: false) }
     let(:project_b) { FactoryGirl.create(:project, is_public: true) }
-    let(:project_association) {
+    let(:project_association) do
       FactoryGirl.create(:project_association,
                          project_a_id: project.id,
                          project_b_id: project_b.id)
-    }
+    end
     def fetch
       get 'edit',
           params: {
@@ -96,11 +96,11 @@ describe ProjectAssociationsController, type: :controller do
   describe 'update.html' do
     let(:project)   { FactoryGirl.create(:project, is_public: false) }
     let(:project_b) { FactoryGirl.create(:project, is_public: true) }
-    let(:project_association) {
+    let(:project_association) do
       FactoryGirl.create(:project_association,
                          project_a_id: project.id,
                          project_b_id: project_b.id)
-    }
+    end
     def fetch
       post 'update',
            params: {
@@ -120,11 +120,11 @@ describe ProjectAssociationsController, type: :controller do
   describe 'confirm_destroy.html' do
     let(:project)   { FactoryGirl.create(:project, is_public: false) }
     let(:project_b) { FactoryGirl.create(:project, is_public: true) }
-    let(:project_association) {
+    let(:project_association) do
       FactoryGirl.create(:project_association,
                          project_a_id: project.id,
                          project_b_id: project_b.id)
-    }
+    end
     def fetch
       get 'confirm_destroy',
           params: {
@@ -141,11 +141,11 @@ describe ProjectAssociationsController, type: :controller do
   describe 'destroy.html' do
     let(:project)   { FactoryGirl.create(:project, is_public: false) }
     let(:project_b) { FactoryGirl.create(:project, is_public: true) }
-    let(:project_association) {
+    let(:project_association) do
       FactoryGirl.create(:project_association,
                          project_a_id: project.id,
                          project_b_id: project_b.id)
-    }
+    end
     def fetch
       post 'destroy',
            params: {

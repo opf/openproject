@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -39,7 +40,6 @@ module Members
 
     def call(attributes: {})
       User.execute_as current_user do
-
         process_attributes! attributes
 
         unless validate_attributes! attributes

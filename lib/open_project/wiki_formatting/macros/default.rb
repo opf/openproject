@@ -56,14 +56,14 @@ module OpenProject
 
         Redmine::WikiFormatting::Macros.register do
           desc "Displays a list of child pages. With no argument, it displays the child pages of the current wiki page. Examples:\n\n" +
-            "  !{{child_pages}} -- can be used from a wiki page only\n" +
-            "  !{{child_pages(Foo)}} -- lists all children of page Foo\n" +
-            '  !{{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo'
+               "  !{{child_pages}} -- can be used from a wiki page only\n" +
+               "  !{{child_pages(Foo)}} -- lists all children of page Foo\n" +
+               '  !{{child_pages(Foo, parent=1)}} -- same as above with a link to page Foo'
 
           macro :child_pages do |obj, args|
             args, options = extract_macro_options(args, :parent)
             page = nil
-            if args.size > 0
+            if !args.empty?
               page = Wiki.find_page(args.first.to_s, project: @project)
             elsif obj.is_a?(WikiContent)
               page = obj.page

@@ -32,12 +32,12 @@ describe 'users/show', type: :view do
   let(:project)    { FactoryGirl.create :valid_project }
   let(:user)       { FactoryGirl.create :admin, member_in_project: project }
   let(:custom_field) { FactoryGirl.create :text_user_custom_field }
-  let(:visibility_custom_value) {
+  let(:visibility_custom_value) do
     FactoryGirl.create(:principal_custom_value,
                        customized: user,
                        custom_field: custom_field,
                        value: 'TextUserCustomFieldValue')
-  }
+  end
 
   before do
     visibility_custom_value

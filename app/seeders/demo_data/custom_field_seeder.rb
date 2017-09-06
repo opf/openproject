@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -59,7 +60,7 @@ module DemoData
     end
 
     def applicable?
-      not WorkPackageCustomField.any?
+      WorkPackageCustomField.none?
     end
   end
 end

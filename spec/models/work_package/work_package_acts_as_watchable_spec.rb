@@ -32,10 +32,10 @@ require 'support/shared/acts_as_watchable'
 
 describe WorkPackage, type: :model do
   let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project)
-  }
+  end
 
   it_behaves_like 'acts_as_watchable included' do
     let(:model_instance) { FactoryGirl.create(:work_package) }

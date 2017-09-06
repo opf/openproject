@@ -28,8 +28,8 @@
 
 FactoryGirl.define do
   factory(:color, class: PlanningElementTypeColor) do
-    sequence(:name) do |n| "Color No. #{n}" end
-    hexcode do ('#%0.6x' % rand(0xFFFFFF)).upcase end
+    sequence(:name) { |n| "Color No. #{n}" }
+    hexcode { ('#%0.6x' % rand(0xFFFFFF)).upcase }
     sequence(:position) { |n| n }
   end
 end

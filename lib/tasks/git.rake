@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,11 +34,11 @@ namespace :git do
     # FIXME: change this to master once we are there
     main_branch       = 'dev'
     excluded_branches = [
-                          main_branch,
-                          'release/4.0',
-                          'release/4.1',
-                          'release/4.2'
-                        ].join('|')
+      main_branch,
+      'release/4.0',
+      'release/4.1',
+      'release/4.2'
+    ].join('|')
 
     # symbolic-ref gives us sth. like "refs/heads/foo" and we just need 'foo'
     current_branch = `git symbolic-ref HEAD`.chomp.split('/').last
@@ -64,16 +65,16 @@ namespace :git do
     remote_branches = `git branch -r --merged`
                       .split("\n")
                       .map(&:strip)
-                      .reject{ |b|
+                      .reject do |b|
                         !b.starts_with?('origin') ||
-                        excluded_branches.include?(b.split('/').drop(1).join('/'))
-                      }
+                          excluded_branches.include?(b.split('/').drop(1).join('/'))
+                      end
 
     local_branches = `git branch --merged`
                      .gsub(/^\* /, '')
                      .split("\n")
                      .map(&:strip)
-                     .reject{ |b| excluded_branches.include?(b) }
+                     .reject { |b| excluded_branches.include?(b) }
 
     if remote_branches.empty? && local_branches.empty?
       puts "No existing branches have been merged into #{current_branch}."

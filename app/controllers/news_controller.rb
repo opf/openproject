@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,10 +35,10 @@ class NewsController < ApplicationController
   default_search_scope :news
 
   before_action :disable_api
-  before_action :find_news_object, except: [:new, :create, :index, :preview]
-  before_action :find_project_from_association, except: [:new, :create, :index, :preview]
-  before_action :find_project, only: [:new, :create]
-  before_action :authorize, except: [:index, :preview]
+  before_action :find_news_object, except: %i[new create index preview]
+  before_action :find_project_from_association, except: %i[new create index preview]
+  before_action :find_project, only: %i[new create]
+  before_action :authorize, except: %i[index preview]
   before_action :find_optional_project, only: [:index]
   accept_key_auth :index
 
@@ -83,8 +84,7 @@ class NewsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @news.attributes = permitted_params.news

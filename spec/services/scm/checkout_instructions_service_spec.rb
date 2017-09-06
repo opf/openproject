@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -33,24 +34,23 @@ describe Scm::CheckoutInstructionsService do
   let(:project) { FactoryGirl.build(:project) }
 
   let(:url) { 'file:///tmp/some/svn/repo' }
-  let(:repository) {
+  let(:repository) do
     FactoryGirl.build(:repository_subversion,
                       url: url,
                       project: project)
-  }
+  end
 
   let(:base_url) { 'http://example.org/svn/' }
   let(:path) { nil }
   let(:text) { 'foo' }
-  let(:checkout_hash) {
+  let(:checkout_hash) do
     {
       'git' => { 'enabled' => '0' },
       'subversion' => { 'enabled' => '1',
                         'text' => text,
-                        'base_url' => base_url
-                      }
+                        'base_url' => base_url }
     }
-  }
+  end
 
   subject(:service) { Scm::CheckoutInstructionsService.new(repository, user: user, path: path) }
 
@@ -161,11 +161,11 @@ describe Scm::CheckoutInstructionsService do
       it 'returns the correct permissions' do
         expect(user)
           .to receive(:allowed_to?).with(:commit_access, any_args)
-          .and_return(true, false, false)
+                                   .and_return(true, false, false)
 
         expect(user)
           .to receive(:allowed_to?).with(:browse_repository, any_args)
-          .and_return(true, false)
+                                   .and_return(true, false)
 
         expect(service.permission).to eq(:readwrite)
         expect(service.permission).to eq(:read)
@@ -175,7 +175,7 @@ describe Scm::CheckoutInstructionsService do
       it 'returns the correct permissions for commit access' do
         allow(user)
           .to receive(:allowed_to?).with(:commit_access, any_args)
-          .and_return(true)
+                                   .and_return(true)
 
         expect(service.may_commit?).to be true
         expect(service.may_checkout?).to be true
@@ -184,10 +184,10 @@ describe Scm::CheckoutInstructionsService do
       it 'returns the correct permissions for read access' do
         allow(user)
           .to receive(:allowed_to?).with(:commit_access, any_args)
-          .and_return(false)
+                                   .and_return(false)
         allow(user)
           .to receive(:allowed_to?).with(:browse_repository, any_args)
-          .and_return(true)
+                                   .and_return(true)
 
         expect(service.may_commit?).to be false
         expect(service.may_checkout?).to be true

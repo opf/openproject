@@ -245,7 +245,7 @@ describe ProjectEnumerationsController, type: :controller do
     )
     assert project_activity.save
     assert TimeEntry.where(['project_id = ? AND activity_id = ?', 1, 9])
-      .update_all("activity_id = '#{project_activity.id}'")
+                    .update_all("activity_id = '#{project_activity.id}'")
     assert_equal 3, TimeEntry.where(activity_id: project_activity.id, project_id: 1).size
 
     delete :destroy, params: { project_id: 1 }

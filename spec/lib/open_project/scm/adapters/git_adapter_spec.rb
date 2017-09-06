@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,7 +36,7 @@ describe OpenProject::Scm::Adapters::Git do
     let(:url) { protocol + Rails.root.join('/tmp/does/not/exist.git').to_s }
     let(:config) { {} }
     let(:encoding) { nil }
-    let(:adapter) {
+    let(:adapter) do
       OpenProject::Scm::Adapters::Git.new(
         url,
         nil,
@@ -44,7 +45,7 @@ describe OpenProject::Scm::Adapters::Git do
         encoding,
         "test-identifier"
       )
-    }
+    end
 
     repos_dir = Dir.mktmpdir
 
@@ -72,7 +73,7 @@ describe OpenProject::Scm::Adapters::Git do
         it 'should set the correct client version' do
           expect(adapter)
             .to receive(:scm_version_from_command_line)
-                  .and_return(git_string)
+            .and_return(git_string)
 
           expect(adapter.client_version).to eq(expected_version)
           expect(adapter.client_available).to be true
@@ -88,7 +89,7 @@ describe OpenProject::Scm::Adapters::Git do
     describe 'invalid repository' do
       describe '.check_availability!' do
         it 'should not be available' do
-          expect(Dir.exists?(url)).to be false
+          expect(Dir.exist?(url)).to be false
           expect(adapter).not_to be_available
           expect { adapter.check_availability! }
             .to raise_error(OpenProject::Scm::Exceptions::ScmUnavailable)
@@ -153,7 +154,7 @@ describe OpenProject::Scm::Adapters::Git do
         end
 
         it 'is a valid repository' do
-          expect(Dir.exists?(repo_dir)).to be true
+          expect(Dir.exist?(repo_dir)).to be true
 
           out, process = Open3.capture2e('git', '--git-dir', repo_dir, 'branch')
           expect(process.exitstatus).to eq(0)

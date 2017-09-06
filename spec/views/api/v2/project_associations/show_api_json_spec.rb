@@ -34,18 +34,18 @@ describe 'api/v2/project_associations/show.api.rabl', type: :view do
   end
 
   describe 'with an assigned project_association' do
-    let(:project_a) {
+    let(:project_a) do
       FactoryGirl.create(:project, id: 1234,
                                    identifier: 'test_project_a',
                                    name: 'Test Project A')
-    }
-    let(:project_b) {
+    end
+    let(:project_b) do
       FactoryGirl.create(:project, id: 1235,
                                    identifier: 'test_project_b',
                                    name: 'Test Project B')
-    }
+    end
 
-    let(:project_association) {
+    let(:project_association) do
       FactoryGirl.build(:project_association,
                         id: 1,
                         project_a_id: project_a.id,
@@ -54,7 +54,7 @@ describe 'api/v2/project_associations/show.api.rabl', type: :view do
 
                         created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                         updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-    }
+    end
 
     before do
       assign(:project_association, project_association)
@@ -70,8 +70,7 @@ describe 'api/v2/project_associations/show.api.rabl', type: :view do
     it 'renders the details of the association' do
       expected_json = { description: 'association description #1',
                         projects: [{ name: 'Test Project A', identifier: 'test_project_a' },
-                                   { name: 'Test Project B', identifier: 'test_project_b' }]
-                      }.to_json
+                                   { name: 'Test Project B', identifier: 'test_project_b' }] }.to_json
 
       is_expected.to be_json_eql(expected_json).at_path('project_association')
     end

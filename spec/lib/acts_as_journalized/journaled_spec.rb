@@ -110,17 +110,17 @@ describe 'Journalized Objects' do
       let!(:user) { FactoryGirl.create(:user) }
       let!(:project) { FactoryGirl.create(:project_with_types) }
       let!(:role) { FactoryGirl.create(:role, permissions: [:edit_work_packages]) }
-      let!(:member) {
+      let!(:member) do
         FactoryGirl.create(:member, project: project,
                                     roles: [role],
                                     principal: user)
-      }
-      let!(:work_package) {
+      end
+      let!(:work_package) do
         FactoryGirl.build(:work_package, type: project.types.first,
                                          author: user,
                                          project: project,
                                          description: '')
-      }
+      end
 
       subject { work_package.journal_editable_by?(user) }
 

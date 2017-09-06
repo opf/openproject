@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -58,7 +59,7 @@ module Migration
                 that the unique constraint on journal_id and attachment_id
                 is met.
               MESSAGE
-            elsif attachable.size == 0
+            elsif attachable.empty?
               db_execute <<-SQL
                 INSERT INTO #{attachable_table_name}(journal_id, attachment_id, filename)
                 VALUES (#{quote_value(journal_id)}, #{quote_value(attachment_id)}, #{quote_value(added_filename)});
@@ -82,12 +83,12 @@ module Migration
       # sometimes there are attachments, which were deleted in a later journal entry
       # there is not need to add those attachments, so we filter them out here
       def remove_attachments_deleted_in_current_version(attachments, journal_to_insert)
-        deleted_attachments = attachments.select { |key|
+        deleted_attachments = attachments.select do |key|
           # journal_to_insert[key] is of the form
           # [nil, "filename.ext"] when the attachment was added
           # ["filename.ext", nil] when the attachment was removed
           journal_to_insert[key].first
-        }
+        end
         attachments.reject do |key|
           deleted_attachments.any? { |del_key| key =~ /attachments#{del_key[attachment_key_regexp, 1]}/ }
         end
@@ -126,7 +127,7 @@ module Migration
               consistent and that the unique constraint on journal_id and
               custom_field_id is met.
             MESSAGE
-          elsif customizable.size == 0
+          elsif customizable.empty?
             db_execute <<-SQL
               INSERT INTO #{customizable_table_name}(journal_id, custom_field_id, value)
               VALUES (#{quote_value(journal_id)}, #{quote_value(custom_field_id)}, #{quote_value(value)});

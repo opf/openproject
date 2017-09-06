@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -140,20 +141,20 @@ describe Relation, type: :model do
 
   describe 'it should validate circular dependency' do
     let(:otherwp) { FactoryGirl.create(:work_package) }
-    let(:relation) {
+    let(:relation) do
       FactoryGirl.build(:relation, from: from, to: to, relation_type: Relation::TYPE_PRECEDES)
-    }
-    let(:relation2) {
+    end
+    let(:relation2) do
       FactoryGirl.build(:relation, from: to, to: otherwp, relation_type: Relation::TYPE_PRECEDES)
-    }
+    end
 
-    let(:invalid_precedes_relation) {
+    let(:invalid_precedes_relation) do
       FactoryGirl.build(:relation, from: otherwp, to: from, relation_type: Relation::TYPE_PRECEDES)
-    }
+    end
 
-    let(:invalid_follows_relation) {
+    let(:invalid_follows_relation) do
       FactoryGirl.build(:relation, from: from, to: otherwp, relation_type: Relation::TYPE_FOLLOWS)
-    }
+    end
 
     it 'prevents invalid precedes relations' do
       expect(relation.save).to eq(true)

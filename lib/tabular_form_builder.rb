@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -128,7 +129,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                               prefix.html_safe,
                               class: 'form--field-affix',
                               id: options[:prefix_id],
-                              :'aria-hidden' => true)
+                              'aria-hidden': true)
     end
 
     if suffix
@@ -136,7 +137,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
                              suffix.html_safe,
                              class: 'form--field-affix',
                              id: options[:suffix_id],
-                             :'aria-hidden' => true)
+                             'aria-hidden': true)
     end
 
     field_container_wrap_field(ret, options)
@@ -144,7 +145,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
 
   def merge_required_attributes(required, options = nil)
     if required
-      options.merge!(required: true, :'aria-required' => 'true')
+      options.merge!(required: true, 'aria-required': 'true')
     end
   end
 
@@ -196,7 +197,7 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
     label_for_field_prefix(content, options)
 
     label_options[:lang] = options[:lang]
-    label_options.reject! do |_k, v| v.nil? end
+    label_options.reject! { |_k, v| v.nil? }
 
     @template.label(@object_name, field, content, label_options)
   end
@@ -216,11 +217,11 @@ class TabularFormBuilder < ActionView::Helpers::FormBuilder
       content << content_tag('span',
                              '*',
                              class: 'form--label-required',
-                             :'aria-hidden' => true)
+                             'aria-hidden': true)
     end
   end
 
-  def label_for_field_for(options, label_options, field)
+  def label_for_field_for(options, label_options, _field)
     label_options[:for] = options[:for]
   end
 

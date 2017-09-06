@@ -55,7 +55,8 @@ describe Group, type: :model do
         type: project.types.first,
         author: user,
         project: project,
-        status: status)
+        status: status
+      )
 
       work_packages.first.tap do |wp|
         wp.assigned_to = group
@@ -79,7 +80,7 @@ describe Group, type: :model do
       before do
         expect(::OpenProject::Notifications)
           .to receive(:send).with(:member_removed, any_args)
-          .exactly(projects.size).times
+                            .exactly(projects.size).times
 
         puts "Destroying group ..."
         start = Time.now.to_i

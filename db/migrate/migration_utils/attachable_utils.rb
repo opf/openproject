@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -46,7 +47,7 @@ module Migration::Utils
     def repair_attachable_journal_entries(journal_type, legacy_journal_type)
       result = invalid_attachments(legacy_journal_type)
 
-      result.map do |m| m.journaled_type = journal_type end
+      result.map { |m| m.journaled_type = journal_type }
 
       repair_journals(result)
     end
@@ -54,7 +55,7 @@ module Migration::Utils
     def remove_initial_journal_entries(journal_type, legacy_journal_type)
       result = invalid_attachments(legacy_journal_type)
 
-      result.map do |m| m.journaled_type = journal_type end
+      result.map { |m| m.journaled_type = journal_type }
 
       remove_initial_journals(result)
     end
@@ -97,16 +98,16 @@ module Migration::Utils
         WHERE aj_id IS NULL
       SQL
 
-      result.map { |row|
+      result.map do |row|
         MissingAttachment.new(row['journaled_id'],
                               row['journaled_type'],
                               row['attachment_id'],
                               row['filename'],
                               row['last_version'])
-      }
+      end
     end
 
-    COLUMNS = ['changed_data', 'version', 'journaled_id']
+    COLUMNS = ['changed_data', 'version', 'journaled_id'].freeze
 
     def invalid_attachments(legacy_journal_type)
       result = []
@@ -146,13 +147,13 @@ module Migration::Utils
                                                            version,
                                                            removed_attachments)
 
-      missing_entries.map { |e|
+      missing_entries.map do |e|
         MissingAttachment.new(journaled_id,
                               nil,
                               e[:id],
                               e[:filename],
                               version.to_i - 1)
-      }
+      end
     end
 
     ############################################

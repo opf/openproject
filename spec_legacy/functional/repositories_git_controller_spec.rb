@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,11 +36,11 @@ describe RepositoriesController, 'Git', type: :controller do
   fixtures :all
 
   # No '..' in the repository path
-  let(:git_repository_path) {
+  let(:git_repository_path) do
     path = Rails.root.to_s.gsub(%r{config\/\.\.}, '') + '/tmp/test/git_repository'
     path.gsub!(/\//, '\\') if Redmine::Platform.mswin?
     path
-  }
+  end
 
   before do
     skip 'Git test repository NOT FOUND. Skipping functional tests !!!' unless File.directory?(git_repository_path)
@@ -79,7 +80,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert assigns(:entries).detect { |e| e.name == 'filemane with spaces.txt' && e.kind == 'file' }
     assert assigns(:entries).detect { |e| e.name == ' filename with a leading space.txt ' && e.kind == 'file' }
     refute_nil assigns(:changesets)
-    assigns(:changesets).size > 0
+    !assigns(:changesets).empty?
   end
 
   it 'should browse branch' do
@@ -95,7 +96,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert assigns(:entries).detect { |e| e.name == 'README' && e.kind == 'file' }
     assert assigns(:entries).detect { |e| e.name == 'test.txt' && e.kind == 'file' }
     refute_nil assigns(:changesets)
-    assigns(:changesets).size > 0
+    !assigns(:changesets).empty?
   end
 
   it 'should browse tag' do
@@ -103,15 +104,15 @@ describe RepositoriesController, 'Git', type: :controller do
     @repository.reload
     [
       'tag00.lightweight',
-      'tag01.annotated',
+      'tag01.annotated'
     ].each do |t1|
       get :show, params: { project_id: 3, rev: t1 }
       assert_response :success
       assert_template 'show'
       refute_nil assigns(:entries)
-      assigns(:entries).size > 0
+      !assigns(:entries).empty?
       refute_nil assigns(:changesets)
-      assigns(:changesets).size > 0
+      !assigns(:changesets).empty?
     end
   end
 
@@ -128,7 +129,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_equal 'file', entry.kind
     assert_equal 'images/edit.png', entry.path
     refute_nil assigns(:changesets)
-    assigns(:changesets).size > 0
+    !assigns(:changesets).empty?
   end
 
   it 'should browse at given revision' do
@@ -140,7 +141,7 @@ describe RepositoriesController, 'Git', type: :controller do
     refute_nil assigns(:entries)
     assert_equal ['delete.png'], assigns(:entries).map(&:name)
     refute_nil assigns(:changesets)
-    assigns(:changesets).size > 0
+    !assigns(:changesets).empty?
   end
 
   it 'should changes' do
@@ -148,8 +149,8 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response :success
     assert_template 'changes'
     assert_select 'div',
-               attributes: { class: 'repository-breadcrumbs' },
-               content: 'edit.png'
+                  attributes: { class: 'repository-breadcrumbs' },
+                  content: 'edit.png'
   end
 
   it 'should entry show' do
@@ -188,10 +189,10 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_template 'diff'
     # Line 22 removed
     assert_select 'th',
-               content: /22/,
-               sibling: { tag: 'td',
-                          attributes: { class: /diff_out/ },
-                          content: /def remove/ }
+                  content: /22/,
+                  sibling: { tag: 'td',
+                             attributes: { class: /diff_out/ },
+                             content: /def remove/ }
     assert_select 'h2', content: /2f9c0091/
   end
 
@@ -215,9 +216,9 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_template 'annotate'
     # Line 23, changeset 2f9c0091
     assert_select 'th', content: /24/,
-               sibling: { tag: 'td', child: { tag: 'a', content: /2f9c0091/ } },
-               sibling: { tag: 'td', content: /jsmith/ },
-               sibling: { tag: 'td', content: /watcher =/ }
+                        sibling: { tag: 'td', child: { tag: 'a', content: /2f9c0091/ } },
+                        sibling: { tag: 'td', content: /jsmith/ },
+                        sibling: { tag: 'td', content: /watcher =/ }
   end
 
   it 'should annotate at given revision' do
@@ -227,8 +228,8 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response :success
     assert_template 'annotate'
     assert_select 'div',
-               attributes: { class: 'repository-breadcrumbs' },
-               content: /at deff712f/
+                  attributes: { class: 'repository-breadcrumbs' },
+                  content: /at deff712f/
   end
 
   it 'should annotate binary file' do
@@ -236,7 +237,7 @@ describe RepositoriesController, 'Git', type: :controller do
     assert_response 200
 
     assert_select 'p', attributes: { class: /nodata/ },
-               content: I18n.t('repositories.warnings.cannot_annotate')
+                       content: I18n.t('repositories.warnings.cannot_annotate')
   end
 
   it 'should revision' do

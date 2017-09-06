@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -268,7 +269,7 @@ class AccountController < ApplicationController
     show_sso_error_for user
 
     flash.now[:error] = I18n.t(:error_auth_source_sso_failed, value: failure[:login]) +
-      ": " + String(flash.now[:error])
+                        ": " + String(flash.now[:error])
 
     render action: 'login', back_url: failure[:back_url]
   end
@@ -461,7 +462,7 @@ class AccountController < ApplicationController
   def redirect_if_password_change_not_allowed(user)
     if user and not user.change_password_allowed?
       logger.warn "Password change for user '#{user}' forced, but user is not allowed " +
-        'to change password'
+                  'to change password'
       flash[:error] = l(:notice_can_t_change_password)
       redirect_to action: 'login'
       return true
@@ -561,14 +562,14 @@ class AccountController < ApplicationController
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
                 " at #{Time.now.utc} (NOT ACTIVATED)"
 
-    if Setting.self_registration == '1'
-      flash_hash[:error] = I18n.t('account.error_inactive_activation_by_mail')
-    else
-      flash_hash[:error] = I18n.t('account.error_inactive_manual_activation')
-    end
+    flash_hash[:error] = if Setting.self_registration == '1'
+                           I18n.t('account.error_inactive_activation_by_mail')
+                         else
+                           I18n.t('account.error_inactive_manual_activation')
+                         end
   end
 
-  def invited_account_not_activated(user)
+  def invited_account_not_activated(_user)
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
                 " at #{Time.now.utc} (invited, NOT ACTIVATED)"
 
@@ -583,11 +584,11 @@ class AccountController < ApplicationController
     logger.warn "Failed login for '#{params[:username]}' from #{request.remote_ip}" \
                 " at #{Time.now.utc}"
 
-    if Setting.brute_force_block_after_failed_logins.to_i == 0
-      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials)
-    else
-      flash_hash[:error] = I18n.t(:notice_account_invalid_credentials_or_blocked)
-    end
+    flash_hash[:error] = if Setting.brute_force_block_after_failed_logins.to_i == 0
+                           I18n.t(:notice_account_invalid_credentials)
+                         else
+                           I18n.t(:notice_account_invalid_credentials_or_blocked)
+                         end
   end
 
   def account_pending

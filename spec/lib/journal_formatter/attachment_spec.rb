@@ -47,10 +47,10 @@ describe OpenProject::JournalFormatter::Attachment do
     OpenStruct.new(id: id)
   end
   let(:user) { FactoryGirl.create(:user) }
-  let(:attachment) {
+  let(:attachment) do
     FactoryGirl.create(:attachment,
                        author: user)
-  }
+  end
   let(:key) { "attachments_#{attachment.id}" }
 
   describe '#render' do
@@ -72,33 +72,33 @@ describe OpenProject::JournalFormatter::Attachment do
     end
 
     describe 'WITH the first value beeing an id as string, and the second nil' do
-      let(:expected) {
+      let(:expected) do
         I18n.t(:text_journal_deleted,
                label: "<strong>#{I18n.t(:'activerecord.models.attachment')}</strong>",
                old: "<strike><i title=\"#{attachment.id}\">#{attachment.id}</i></strike>")
-      }
+      end
 
       it { expect(instance.render(key, [attachment.id.to_s, nil])).to eq(expected) }
     end
 
     describe "WITH the first value beeing nil, and the second an id as a string
               WITH specifying not to output html" do
-      let(:expected) {
+      let(:expected) do
         I18n.t(:text_journal_added,
                label: I18n.t(:'activerecord.models.attachment'),
                value: attachment.id)
-      }
+      end
 
       it { expect(instance.render(key, [nil, attachment.id.to_s], no_html: true)).to eq(expected) }
     end
 
     describe "WITH the first value beeing an id as string, and the second nil,
               WITH specifying not to output html" do
-      let(:expected) {
+      let(:expected) do
         I18n.t(:text_journal_deleted,
                label: I18n.t(:'activerecord.models.attachment'),
                old: attachment.id)
-      }
+      end
 
       it { expect(instance.render(key, [attachment.id.to_s, nil], no_html: true)).to eq(expected) }
     end

@@ -123,7 +123,7 @@ describe VersionsController, type: :controller do
 
     it { expect(response).to be_success }
     it { expect(response).to render_template('show') }
-    it {assert_select 'h2', content: version2.name }
+    it { assert_select 'h2', content: version2.name }
 
     subject { assigns(:version) }
     it { is_expected.to eq(version2) }
@@ -185,7 +185,7 @@ describe VersionsController, type: :controller do
 
   describe '#update' do
     context 'with valid params' do
-      let(:params) {
+      let(:params) do
         {
           id: version1.id,
           version: {
@@ -193,7 +193,7 @@ describe VersionsController, type: :controller do
             effective_date: Date.today.strftime('%Y-%m-%d')
           }
         }
-      }
+      end
       before do
         login_as(user)
         patch :update, params: params

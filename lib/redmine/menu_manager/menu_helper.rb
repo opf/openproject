@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -43,7 +44,7 @@ module Redmine::MenuManager::MenuHelper
       build_wiki_menus(project)
       build_work_packages_menu(project)
     end
-    render_menu((project && !project.new_record?) ? :project_menu : :application_menu, project)
+    render_menu(project && !project.new_record? ? :project_menu : :application_menu, project)
   end
 
   def build_work_packages_menu(_project)
@@ -152,9 +153,9 @@ module Redmine::MenuManager::MenuHelper
 
     content_tag :li do
       # Standard children
-      standard_children_list = node.children.map { |child|
+      standard_children_list = node.children.map do |child|
         render_menu_node(child, project)
-      }.join.html_safe
+      end.join.html_safe
 
       # Unattached children
       unattached_children_list = render_unattached_children_menu(node, project)
@@ -215,7 +216,7 @@ module Redmine::MenuManager::MenuHelper
         if block_given?
           yield node
         else
-          items << node  # TODO: not used?
+          items << node # TODO: not used?
         end
       end
     end
@@ -225,12 +226,12 @@ module Redmine::MenuManager::MenuHelper
   def extract_node_details(node, project = nil)
     item = node
     url = case item.url
-    when Hash
-      project.nil? ? item.url : { item.param => project }.merge(item.url)
-    when Symbol
-      send(item.url)
-    else
-      item.url
+          when Hash
+            project.nil? ? item.url : { item.param => project }.merge(item.url)
+          when Symbol
+            send(item.url)
+          else
+            item.url
     end
     caption = item.caption(project)
 
@@ -259,7 +260,7 @@ module Redmine::MenuManager::MenuHelper
 
   def visible_node?(menu, node)
     @hidden_menu_items ||= OpenProject::Configuration.hidden_menu_items
-    if @hidden_menu_items.length > 0
+    if !@hidden_menu_items.empty?
       hidden_nodes = @hidden_menu_items[menu.to_s] || []
       !hidden_nodes.include? node.name.to_s
     else

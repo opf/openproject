@@ -2,8 +2,9 @@ AllCops:
   TargetRubyVersion: 2.2
   Exclude:
     - db/schema.rb
+    - app/helpers/timelog_helper.rb
 
-AccessorMethodName:
+  AccessorMethodName:
   Enabled: false
 
 ActionFilter:
@@ -32,6 +33,11 @@ BlockLength:
 
 BlockNesting:
   Enabled: false
+
+# requires the last param to be wrapped in braces if it's a hash,
+# but only when the penultimate param is also a hash
+BracesAroundHashParameters:
+  EnforcedStyle: context_dependent
 
 CaseEquality:
   Enabled: false
@@ -197,6 +203,8 @@ SignalException:
 SpecialGlobalVars:
   Enabled: false
 
+Style/IndentHeredoc:
+  EnforcedStyle: powerpack
 # Forcing single quotes doesn't give any reasonable advantages. To the contrary:
 # it forces you to change the quotes every time you want to add interpolation,
 # newlines or other escape sequences (\n), or quotes (') to a string. Rubbish.

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -84,7 +85,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   describe 'active status' do
     let(:status) { 'active' }
 
-    let(:parameters) {
+    let(:parameters) do
       {
         status: status,
         login: 'myusername',
@@ -92,7 +93,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
         lastName: 'Bar',
         email: 'foobar@example.org'
       }
-    }
+    end
 
     context 'with auth_source' do
       let(:auth_source_id) { 'some_ldap' }
@@ -211,12 +212,12 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
   describe 'invited status' do
     let(:status) { 'invited' }
-    let(:invitation_request) {
+    let(:invitation_request) do
       {
         status: status,
         email: 'foo@example.org'
       }
-    }
+    end
 
     describe 'invitation successful' do
       before do

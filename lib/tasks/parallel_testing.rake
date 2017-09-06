@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -86,9 +87,9 @@ namespace :parallel do
       group_options += " --only-group #{group}" if group
 
       support_files = [Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths
-      support_files = support_files.map { |path|
+      support_files = support_files.map do |path|
         ['-r', Shellwords.escape(path)]
-      }.flatten.join(' ')
+      end.flatten.join(' ')
 
       feature_folders  = Plugins::LoadPathHelper.cucumber_load_paths.join(' ')
       cucumber_options = "-o ' -p rerun #{support_files}'"
@@ -123,9 +124,9 @@ namespace :parallel do
     group_options += " --only-group #{group}" if group
 
     support_files = [Rails.root.join('features').to_s] + Plugins::LoadPathHelper.cucumber_load_paths
-    support_files = support_files.map { |path|
+    support_files = support_files.map do |path|
       ['-r', Shellwords.escape(path)]
-    }.flatten.join(' ')
+    end.flatten.join(' ')
 
     cucumber_options = "-o ' -p rerun #{support_files}'"
 

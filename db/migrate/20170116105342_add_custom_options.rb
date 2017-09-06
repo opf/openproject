@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -129,7 +130,11 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
 
   def migrate_all_values!
     list_custom_fields.each do |custom_field|
-      name = custom_field.translations.first.name rescue custom_field.id
+      name = begin
+               custom_field.translations.first.name
+             rescue
+               custom_field.id
+             end
       id_map = custom_values_id_map(custom_field.id)
 
       say_with_time "Migrating CF '#{name}'" do
@@ -212,8 +217,8 @@ class AddCustomOptions < ActiveRecord::Migration[5.0]
 
   def custom_values_id_map(custom_field_id)
     values = CustomOption
-              .where(custom_field_id: custom_field_id)
-              .pluck(:value, :id)
+             .where(custom_field_id: custom_field_id)
+             .pluck(:value, :id)
 
     Hash[values]
   end

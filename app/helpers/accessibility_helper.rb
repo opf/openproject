@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -67,7 +68,7 @@ module AccessibilityHelper
     caption_content = menu_item.instance_variable_get(:@caption)
     locale_label = caption_content.is_a?(Symbol) ? caption_content : :"label_#{menu_item.name.to_s}"
 
-    (!locale_exists?(locale_label) || equals_english_locale(locale_label)) ? :en : nil
+    !locale_exists?(locale_label) || equals_english_locale(locale_label) ? :en : nil
   end
 
   private
@@ -92,7 +93,9 @@ module AccessibilityHelper
   end
 
   def locale_exists?(key, locale = I18n.locale)
-    I18n.t(key, locale: locale, raise: true) rescue false
+    I18n.t(key, locale: locale, raise: true)
+  rescue
+    false
   end
 
   def english_locale_set?

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -59,7 +60,7 @@ class RemoveAlternateDatesAndScenarios < ActiveRecord::Migration[4.2]
     add_index :alternate_dates, :scenario_id
 
     add_index :alternate_dates,
-              [:updated_at, :planning_element_id, :scenario_id],
+              %i[updated_at planning_element_id scenario_id],
               unique: true,
               name: 'index_ad_on_updated_at_and_planning_element_id'
   end

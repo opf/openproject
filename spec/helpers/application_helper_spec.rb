@@ -34,7 +34,11 @@ describe ApplicationHelper, type: :helper do
 
   describe 'format_activity_description' do
     it 'truncates given text' do
-      text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lore'
+      text = 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr,
+      sed diam nonumy eirmod tempor invidunt ut labore et dolore magna
+      aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo
+      dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus
+      est Lorem ipsum dolor sit amet. Lore'
       expect(format_activity_description(text).size).to eq(120)
     end
 
@@ -57,7 +61,11 @@ describe ApplicationHelper, type: :helper do
         OpenProject::Footer.content = nil
       end
 
-      it { expect(footer_content).to eq(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url))) }
+      it do
+        content = I18n.t(:text_powered_by,
+                         link: link_to(OpenProject::Info.app_name, OpenProject::Info.url))
+        expect(footer_content).to eq(content)
+      end
     end
 
     context 'string as additional footer content' do
@@ -66,8 +74,12 @@ describe ApplicationHelper, type: :helper do
         OpenProject::Footer.add_content('openproject', 'footer')
       end
 
-      it { expect(footer_content.include?(I18n.t(:text_powered_by, link: link_to(OpenProject::Info.app_name, OpenProject::Info.url)))).to be_truthy  }
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy  }
+      it do
+        content = I18n.t(:text_powered_by,
+                         link: link_to(OpenProject::Info.app_name, OpenProject::Info.url))
+        endexpect(footer_content.include?(content)).to be_truthy
+      end
+      it { expect(footer_content.include?("<span class=\"footer_openproject\">footer</span>")).to be_truthy }
     end
 
     context 'proc as additional footer content' do
@@ -76,7 +88,10 @@ describe ApplicationHelper, type: :helper do
         OpenProject::Footer.add_content('openproject', Proc.new { Date.parse(Time.now.to_s) })
       end
 
-      it { expect(footer_content.include?("<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>")).to be_truthy  }
+      it do
+        content = "<span class=\"footer_openproject\">#{Date.parse(Time.now.to_s)}</span>"
+        expect(footer_content.include?(content)).to be_truthy
+      end
     end
 
     context 'proc which returns nothing' do
@@ -91,28 +106,28 @@ describe ApplicationHelper, type: :helper do
 
   describe '.link_to_if_authorized' do
     let(:project) { FactoryGirl.create :valid_project }
-    let(:project_member) {
+    let(:project_member) do
+      permissions = %i(view_work_packages edit_work_packages browse_repository view_changesets view_wiki_pages)
+      member_through_role = FactoryGirl.create(:role, permissions: permissions)
       FactoryGirl.create :user,
                          member_in_project: project,
-                         member_through_role: FactoryGirl.create(:role,
-                                                                 permissions: [:view_work_packages, :edit_work_packages,
-                                                                               :browse_repository, :view_changesets, :view_wiki_pages])
-    }
-    let(:issue) {
+                         member_through_role: member_through_role
+    end
+    let(:issue) do
       FactoryGirl.create :work_package,
                          project: project,
                          author: project_member,
                          type: project.types.first
-    }
+    end
 
     context 'if user is authorized' do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
-        @response = link_to_if_authorized('link_content', {
-                                            controller: 'issues',
+        @response = link_to_if_authorized('link_content',
+                                          { controller: 'issues',
                                             action: 'show',
                                             id: issue },
-                                          class: 'fancy_css_class')
+                                          { class: 'fancy_css_class' })
       end
 
       subject { @response }
@@ -125,11 +140,11 @@ describe ApplicationHelper, type: :helper do
     context 'if user is unauthorized' do
       before do
         expect(self).to receive(:authorize_for).and_return(false)
-        @response = link_to_if_authorized('link_content', {
-                                            controller: 'issues',
+        @response = link_to_if_authorized('link_content',
+                                          { controller: 'issues',
                                             action: 'show',
                                             id: issue },
-                                          class: 'fancy_css_class')
+                                          { class: 'fancy_css_class' })
       end
 
       subject { @response }
@@ -157,7 +172,11 @@ describe ApplicationHelper, type: :helper do
       before do
         @links = other_formats_links { |f| f.link_to 'Atom', url: { controller: :projects, action: :index } }
       end
-      it { expect(@links).to be_html_eql("<p class=\"other-formats\">Also available in:<span><a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a></span></p>") }
+      it do
+        link = "<a class=\"icon icon-atom\" href=\"/projects.atom\" rel=\"nofollow\">Atom</a>"
+        content = "<p class=\"other-formats\">Also available in:<span>#{link}</span></p>"
+        expect(@links).to be_html_eql(content)
+      end
     end
 
     context 'link given but disabled' do
@@ -190,11 +209,11 @@ describe ApplicationHelper, type: :helper do
       end
 
       context 'some time ago' do
-        let(:time) {
+        let(:time) do
           Timecop.travel(2.weeks.ago) do
             Time.now
           end
-        }
+        end
 
         it { is_expected.to match /^\<a/ }
         it { is_expected.to match /14 days/ }
@@ -213,11 +232,11 @@ describe ApplicationHelper, type: :helper do
       end
 
       context 'some time ago' do
-        let(:time) {
+        let(:time) do
           Timecop.travel(1.week.ago) do
             Time.now
           end
-        }
+        end
 
         it { is_expected.to match /^\<time/ }
         it { is_expected.to match /datetime=\"#{Regexp.escape(time.xmlschema)}\"/ }

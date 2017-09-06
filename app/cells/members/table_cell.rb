@@ -4,7 +4,7 @@ module Members
     columns :lastname, :firstname, :mail, :roles, :groups, :status
 
     def initial_sort
-      [:lastname, :desc]
+      %i[lastname desc]
     end
 
     def headers
@@ -31,7 +31,7 @@ module Members
       query.order("users.type ASC")
     end
 
-    def join_group(sort_columns, query)
+    def join_group(_sort_columns, query)
       # we always join groups and group_users so we can later
       # filter by group in Members::UserFilterCell
       join_group_lastname query

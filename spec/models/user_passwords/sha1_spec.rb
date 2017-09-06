@@ -29,13 +29,13 @@
 require 'spec_helper'
 
 describe UserPassword::SHA1, type: :model do
-  let(:legacy_password) {
+  let(:legacy_password) do
     pass = FactoryGirl.build(:legacy_sha1_password, plain_password: 'adminAdmin!')
     expect(pass).to receive(:salt_and_hash_password!).and_return nil
 
     pass.save!
     pass
-  }
+  end
 
   describe '#matches_plaintext?' do
     it 'still matches for existing passwords' do

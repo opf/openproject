@@ -34,18 +34,18 @@ describe 'api/v2/reportings/show.api.rabl', type: :view do
   end
 
   describe 'with an assigned reporting' do
-    let(:project_a) {
+    let(:project_a) do
       FactoryGirl.create(:project, id: 1234,
                                    identifier: 'test_project_a',
                                    name: 'Test Project A')
-    }
-    let(:project_b) {
+    end
+    let(:project_b) do
       FactoryGirl.create(:project, id: 1235,
                                    identifier: 'test_project_b',
                                    name: 'Test Project B')
-    }
+    end
 
-    let(:reporting) {
+    let(:reporting) do
       FactoryGirl.build(:reporting,
                         id: 1,
                         project_id: project_a.id,
@@ -54,7 +54,7 @@ describe 'api/v2/reportings/show.api.rabl', type: :view do
 
                         created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                         updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-    }
+    end
 
     before do
       assign(:reporting, reporting)
@@ -72,23 +72,22 @@ describe 'api/v2/reportings/show.api.rabl', type: :view do
                                    name: 'Test Project A' },
                         reporting_to_project: { identifier: 'test_project_b',
                                                 name: 'Test Project B' },
-                        reported_project_status_comment: 'Sample Comment'
-                      }.to_json
+                        reported_project_status_comment: 'Sample Comment' }.to_json
 
       is_expected.to be_json_eql(expected_json).at_path('reporting')
     end
   end
 
   describe 'reporting node with reported_project_status' do
-    let(:reported_project_status) {
+    let(:reported_project_status) do
       FactoryGirl.create(:reported_project_status,
                          id: 1,
                          name: 'beste')
-    }
-    let(:reporting) {
+    end
+    let(:reporting) do
       FactoryGirl.build(:reporting,
                         reported_project_status_id: reported_project_status.id)
-    }
+    end
 
     before do
       assign(:reporting, reporting)

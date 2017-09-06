@@ -443,14 +443,14 @@ describe UsersController, type: :controller do
 
   describe 'update' do
     context 'fields' do
-      let(:user) {
+      let(:user) do
         FactoryGirl.create(:user, firstname: 'Firstname',
                                   admin: true,
                                   login: 'testlogin',
                                   mail_notification: 'all',
                                   force_password_change: false)
-      }
-      let(:params) {
+      end
+      let(:params) do
         {
           id: user.id,
           user: {
@@ -465,7 +465,7 @@ describe UsersController, type: :controller do
             comments_sorting: 'desc'
           }
         }
-      }
+      end
 
       before do
         as_logged_in_user(admin) do
@@ -586,18 +586,18 @@ describe UsersController, type: :controller do
     describe 'for user with Activity' do
       render_views
 
-      let(:work_package) {
+      let(:work_package) do
         FactoryGirl.create(:work_package,
                            author: user)
-      }
-      let!(:member) {
+      end
+      let!(:member) do
         FactoryGirl.create(:member,
                            project: work_package.project,
                            principal: user,
                            roles: [FactoryGirl.create(:role,
                                                       permissions: [:view_work_packages])])
-      }
-      let!(:journal_1) {
+      end
+      let!(:journal_1) do
         FactoryGirl.create(:work_package_journal,
                            user: user,
                            journable_id: work_package.id,
@@ -607,8 +607,8 @@ describe UsersController, type: :controller do
                                                    status_id: work_package.status_id,
                                                    type_id: work_package.type_id,
                                                    project_id: work_package.project_id))
-      }
-      let!(:journal_2) {
+      end
+      let!(:journal_2) do
         FactoryGirl.create(:work_package_journal,
                            user: user,
                            journable_id: work_package.id,
@@ -618,7 +618,7 @@ describe UsersController, type: :controller do
                                                    status_id: work_package.status_id,
                                                    type_id: work_package.type_id,
                                                    project_id: work_package.project_id))
-      }
+      end
 
       before do
         allow(User).to receive(:current).and_return(user.reload)

@@ -31,16 +31,16 @@ require 'spec_helper'
 describe WorkPackages::AutoCompletesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) {
+  let(:role) do
     FactoryGirl.create(:role,
                        permissions: [:view_work_packages])
-  }
-  let(:member) {
+  end
+  let(:member) do
     FactoryGirl.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
-  }
+  end
   let(:work_package_1) do
     FactoryGirl.create(:work_package, subject: "Can't print recipes",
                                       project: project)
@@ -165,11 +165,11 @@ describe WorkPackages::AutoCompletesController, type: :controller do
 
     describe 'returns work package for given id' do
       render_views
-      let(:work_package_4) {
+      let(:work_package_4) do
         FactoryGirl.create(:work_package,
                            subject: "<script>alert('danger!');</script>",
                            project: project)
-      }
+      end
       let(:expected_values) { work_package_4 }
 
       before do
@@ -190,16 +190,16 @@ describe WorkPackages::AutoCompletesController, type: :controller do
     end
 
     describe 'in different projects' do
-      let(:project_2) {
+      let(:project_2) do
         FactoryGirl.create(:project,
                            parent: project)
-      }
-      let(:member_2) {
+      end
+      let(:member_2) do
         FactoryGirl.create(:member,
                            project: project_2,
                            principal: user,
                            roles: [role])
-      }
+      end
       let(:work_package_4) do
         FactoryGirl.create(:work_package, subject: 'Foo Bar Baz',
                                           project: project_2)

@@ -28,9 +28,9 @@
 
 FactoryGirl.define do
   factory :news do
-    sequence(:title) do |n| "News title#{n}" end
-    sequence(:summary) do |n| "News summary#{n}" end
-    sequence(:description) do |n| "News description#{n}" end
+    sequence(:title) { |n| "News title#{n}" }
+    sequence(:summary) { |n| "News summary#{n}" }
+    sequence(:description) { |n| "News description#{n}" }
     author factory: :user
     project
   end

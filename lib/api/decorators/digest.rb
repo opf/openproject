@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,12 +39,12 @@ module API
 
       property :algorithm,
                exec_context: :decorator,
-               getter: -> (*) { @algorithm },
+               getter: ->(*) { @algorithm },
                writable: false,
                render_nil: true
       property :hash,
                exec_context: :decorator,
-               getter: -> (*) { represented },
+               getter: ->(*) { represented },
                render_nil: true
     end
   end

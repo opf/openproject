@@ -61,7 +61,7 @@ describe UpdateUserEmailSettingsService, type: :model do
 
     it 'does not alter mail_notification if not provided' do
       expect(user).to_not receive(:mail_notification=)
-      service.call()
+      service.call
     end
 
     it 'sets self_notified if provided' do
@@ -71,7 +71,7 @@ describe UpdateUserEmailSettingsService, type: :model do
 
     it 'does not alter no_self_notified if not provided' do
       expect(user.pref).not_to receive(:[]=)
-      service.call()
+      service.call
     end
 
     it 'set the notified_project_ids on successful saving and mail_notifications is "selected"' do
@@ -79,9 +79,9 @@ describe UpdateUserEmailSettingsService, type: :model do
       allow(user).to receive(:save).and_return true
       allow(user.pref).to receive(:save).and_return true
 
-      expect(user).to receive(:notified_project_ids=).with([1,2,3])
+      expect(user).to receive(:notified_project_ids=).with([1, 2, 3])
 
-      service.call(notified_project_ids: [1,2,3])
+      service.call(notified_project_ids: [1, 2, 3])
     end
   end
 end

@@ -29,10 +29,10 @@
 require 'spec_helper'
 
 describe CustomValue::FormatStrategy do
-  let(:custom_value) {
+  let(:custom_value) do
     double('CustomValue',
            value: value)
-  }
+  end
 
   describe '#value_present?' do
     subject { described_class.new(custom_value).value_present? }

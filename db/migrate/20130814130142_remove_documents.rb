@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@
 class RemoveDocuments < ActiveRecord::Migration[4.2]
   def up
     unless Redmine::Plugin.registered_plugins.include?(:openproject_documents)
-      if  Document.any? || Attachment.where(container_type: ['Document']).any?
+      if Document.any? || Attachment.where(container_type: ['Document']).any?
         raise 'Error: There are still documents and/or attachments attached to documents!'\
               "\n\n"\
               'You have the following options:'\
@@ -54,7 +55,7 @@ class RemoveDocuments < ActiveRecord::Migration[4.2]
       create_table 'documents', force: true do |t|
         t.integer 'project_id',                default: 0,  null: false
         t.integer 'category_id',               default: 0,  null: false
-        t.string 'title',       limit: 60, default: '', null: false
+        t.string 'title', limit: 60, default: '', null: false
         t.text 'description'
         t.datetime 'created_on'
       end

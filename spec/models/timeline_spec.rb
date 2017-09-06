@@ -31,7 +31,6 @@ require 'spec_helper'
 describe Timeline, type: :model do
   describe 'helper methods for creation' do
     describe 'available_responsibles' do
-
       let!(:ab) { FactoryGirl.create(:user, firstname: 'a', lastname: 'b') }
       let!(:ba) { FactoryGirl.create(:user, firstname: 'b', lastname: 'a') }
       let!(:t) { Timeline.new }

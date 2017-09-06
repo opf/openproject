@@ -104,9 +104,9 @@ describe 'API v3 Work package form resource', type: :request do
           it_behaves_like 'API V3 formattable', '_embedded/payload/description' do
             let(:format) { 'textile' }
             let(:raw) { defined?(raw_value) ? raw_value : work_package.description.to_s }
-            let(:html) {
+            let(:html) do
               defined?(html_value) ? html_value : ('<p>' + work_package.description.to_s + '</p>')
-            }
+            end
           end
         end
 
@@ -135,9 +135,9 @@ describe 'API v3 Work package form resource', type: :request do
           describe 'error body' do
             let(:error_id) { 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation' }
 
-            let(:error_body) {
+            let(:error_body) do
               parse_json(subject.body)['_embedded']['validationErrors'][property]
-            }
+            end
 
             it { expect(error_body['errorIdentifier']).to eq(error_id) }
           end
@@ -252,10 +252,10 @@ describe 'API v3 Work package form resource', type: :request do
 
               it_behaves_like 'valid payload' do
                 let(:raw_value) { description }
-                let(:html_value) {
+                let(:html_value) do
                   '<p><strong>Some text</strong> <em>describing</em> ' \
                   '<strong>something</strong>...</p>'
-                }
+                end
               end
 
               it_behaves_like 'having no errors'
@@ -323,13 +323,13 @@ describe 'API v3 Work package form resource', type: :request do
               let(:params) { valid_params.merge(status_parameter) }
 
               context 'valid status' do
-                let!(:workflow) {
+                let!(:workflow) do
                   FactoryGirl.create(:workflow,
                                      type_id: work_package.type.id,
                                      old_status: work_package.status,
                                      new_status: target_status,
                                      role: current_user.memberships[0].roles[0])
-                }
+                end
 
                 include_context 'post request'
 
@@ -361,9 +361,9 @@ describe 'API v3 Work package form resource', type: :request do
                 end
 
                 context 'status does not exist' do
-                  let(:error_id) {
+                  let(:error_id) do
                     'urn:openproject-org:api:v3:errors:MultipleErrors'.to_json
-                  }
+                  end
                   let(:status_link) { api_v3_paths.status -1 }
 
                   include_context 'post request'
@@ -383,12 +383,12 @@ describe 'API v3 Work package form resource', type: :request do
                   include_context 'post request'
 
                   it_behaves_like 'invalid resource link' do
-                    let(:message) {
+                    let(:message) do
                       I18n.t('api_v3.errors.invalid_resource',
                              property: 'status',
                              expected: '/api/v3/statuses/:id',
                              actual: status_link)
-                    }
+                    end
                   end
                 end
               end
@@ -398,12 +398,12 @@ describe 'API v3 Work package form resource', type: :request do
               shared_context 'setup group membership' do |group_assignment|
                 let(:group) { FactoryGirl.create(:group) }
                 let(:role) { FactoryGirl.create(:role) }
-                let(:group_member) {
+                let(:group_member) do
                   FactoryGirl.create(:member,
                                      principal: group,
                                      project: project,
                                      roles: [role])
-                }
+                end
 
                 before do
                   allow(Setting).to receive(:work_package_group_assignment?)
@@ -415,10 +415,10 @@ describe 'API v3 Work package form resource', type: :request do
 
               shared_examples_for 'handling people' do |property|
                 let(:path) { "_embedded/payload/_links/#{property}/href" }
-                let(:visible_user) {
+                let(:visible_user) do
                   FactoryGirl.create(:user,
                                      member_in_project: project)
-                }
+                end
                 let(:user_parameter) { { _links: { property => { href: user_link } } } }
                 let(:params) { valid_params.merge(user_parameter) }
 
@@ -479,22 +479,22 @@ describe 'API v3 Work package form resource', type: :request do
                     include_context 'post request'
 
                     it_behaves_like 'invalid resource link' do
-                      let(:message) {
+                      let(:message) do
                         I18n.t('api_v3.errors.invalid_resource',
                                property: property,
                                expected: '/api/v3/users/:id',
                                actual: user_link)
-                      }
+                      end
                     end
                   end
 
                   context 'group assignement disabled' do
                     let(:user_link) { api_v3_paths.user group.id }
                     let(:error_message_path) { "_embedded/validationErrors/#{property}/message" }
-                    let(:error_message) {
+                    let(:error_message) do
                       I18n.t('api_v3.errors.validation.invalid_user_assigned_to_work_package',
-                             property: "#{property.capitalize}").to_json
-                    }
+                             property: property.capitalize.to_s).to_json
+                    end
 
                     include_context 'setup group membership', false
                     include_context 'post request'
@@ -676,7 +676,7 @@ describe 'API v3 Work package form resource', type: :request do
             describe 'multiple errors' do
               let(:user_link) { api_v3_paths.user 4200 }
               let(:status_link) { api_v3_paths.status -1 }
-              let(:links) {
+              let(:links) do
                 {
                   _links: {
                     status: { href: status_link },
@@ -684,7 +684,7 @@ describe 'API v3 Work package form resource', type: :request do
                     responsible: { href: user_link }
                   }
                 }
-              }
+              end
               let(:params) { valid_params.merge(subject: nil).merge(links) }
 
               include_context 'post request'

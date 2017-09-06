@@ -100,7 +100,7 @@ describe 'Delete work package', js: true do
 
   describe 'when deleting it within a project context' do
     let(:project) { FactoryGirl.create(:project) }
-    let(:work_package) { FactoryGirl.create(:work_package, project:project) }
+    let(:work_package) { FactoryGirl.create(:work_package, project: project) }
     let(:split_view) { Pages::SplitWorkPackage.new(work_package, project.identifier) }
     let(:wp_table) { Pages::WorkPackagesTable.new(project.identifier) }
 

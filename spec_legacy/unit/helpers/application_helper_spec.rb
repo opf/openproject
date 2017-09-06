@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -42,15 +43,15 @@ describe ApplicationHelper, type: :helper do
     @project_member = FactoryGirl.create :user,
                                          member_in_project: @project,
                                          member_through_role: FactoryGirl.create(:role,
-                                                                                 permissions: [:view_work_packages, :edit_work_packages,
-                                                                                               :browse_repository, :view_changesets, :view_wiki_pages])
+                                                                                 permissions: %i[view_work_packages edit_work_packages
+                                                                                                 browse_repository view_changesets view_wiki_pages])
 
     @issue = FactoryGirl.create :work_package, project: @project, author: @project_member, type: @project.types.first
 
     file = LegacyFileHelpers.mock_uploaded_file name: 'logo.gif',
-                                          content_type: 'image/gif',
-                                          content: 'not actually a gif',
-                                          binary: true
+                                                content_type: 'image/gif',
+                                                content: 'not actually a gif',
+                                                binary: true
     @attachment = FactoryGirl.create :attachment,
                                      author: @project_member,
                                      file: file,
@@ -108,18 +109,18 @@ describe ApplicationHelper, type: :helper do
       # inline styles should be stripped
       'with style !{width:100px;height100px}http://foo.bar/image.jpg!' => 'with style <img src="http://foo.bar/image.jpg" alt="" />',
       'with title !http://foo.bar/image.jpg(This is a title)!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a title" alt="This is a title" />',
-      'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" alt="This is a double-quoted &quot;title&quot;" />',
+      'with title !http://foo.bar/image.jpg(This is a double-quoted "title")!' => 'with title <img src="http://foo.bar/image.jpg" title="This is a double-quoted &quot;title&quot;" alt="This is a double-quoted &quot;title&quot;" />'
     }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
   it 'should inline images inside tags' do
-    raw = <<-RAW
-h1. !foo.png! Heading
+    raw = <<-RAW.strip_indent
+      h1. !foo.png! Heading
 
-Centered image:
+      Centered image:
 
-p=. !bar.gif!
+      p=. !bar.gif!
 RAW
 
     assert helper.format_text(raw).include?('<img src="foo.png" alt="" />')
@@ -133,7 +134,7 @@ RAW
       'No match: !ogo.gif!' => 'No match: <img src="ogo.gif" alt="" />',
       'No match: !ogo.GIF!' => 'No match: <img src="ogo.GIF" alt="" />',
       # link image
-      '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}\" title=\"This is a logo\" alt=\"This is a logo\" /></a>",
+      '!logo.gif!:http://foo.bar/' => "<a href=\"http://foo.bar/\"><img src=\"/attachments/#{@attachment.id}\" title=\"This is a logo\" alt=\"This is a logo\" /></a>"
     }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, attachments: [@attachment]) }
   end
@@ -152,7 +153,7 @@ RAW
       # two exclamation marks
       '"a link":http://example.net/path!602815048C7B5C20!302.html' => '<a href="http://example.net/path!602815048C7B5C20!302.html" class="external">a link</a>',
       # escaping
-      '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>',
+      '"test":http://foo"bar' => '<a href="http://foo&quot;bar" class="external">test</a>'
     }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
@@ -162,7 +163,7 @@ RAW
       # shouldn't change non-relative links
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
-      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
+      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>'
     }.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
   end
 
@@ -178,7 +179,7 @@ RAW
       # shouldn't change non-relative links
       'This is a "link":http://foo.bar' => 'This is a <a href="http://foo.bar" class="external">link</a>',
       'This is an intern "link":/foo/bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a>',
-      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>',
+      'This is an intern "link":/foo/bar and an extern "link":http://foo.bar' => 'This is an intern <a href="http://test.host/foo/bar">link</a> and an extern <a href="http://foo.bar" class="external">link</a>'
     }.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text, only_path: false) }
   end
 
@@ -189,7 +190,7 @@ RAW
 
     to_test = {
       # versions
-      'version:"1.0"'                         => 'version:"1.0"',
+      'version:"1.0"' => 'version:"1.0"',
       "#{@project.identifier}:version:\"1.0\"" => "<a class=\"version\" href=\"/versions/#{version.id}\">1.0</a>",
       'invalid:version:"1.0"'                 => 'invalid:version:"1.0"'
     }
@@ -207,24 +208,24 @@ RAW
                             action: 'entry',
                             project_id: identifier,
                             path: 'some/file' },
-                          class: 'source')
+                          { class: 'source' })
     changeset_link = link_to("#{identifier}:r#{changeset.revision}",
                              { controller: 'repositories',
                                action: 'revision',
                                project_id: identifier,
                                rev: changeset.revision },
-                             class: 'changeset',
-                             title: 'This commit fixes #1, #2 and references #1 & #3')
+                             { class: 'changeset',
+                               title: 'This commit fixes #1, #2 and references #1 & #3' })
 
     to_test.merge!(
       # changeset
       "r#{changeset.revision}"                => "r#{changeset.revision}",
-      "#{@project.identifier}:r#{changeset.revision}"  => changeset_link,
+      "#{@project.identifier}:r#{changeset.revision}" => changeset_link,
       "invalid:r#{changeset.revision}"        => "invalid:r#{changeset.revision}",
       # source
       'source:/some/file'                     => 'source:/some/file',
-      "#{@project.identifier}:source:/some/file"       => source_link,
-      'invalid:source:/some/file'             => 'invalid:source:/some/file',
+      "#{@project.identifier}:source:/some/file" => source_link,
+      'invalid:source:/some/file' => 'invalid:source:/some/file'
     )
 
     # helper.format_text "sees" the text is parses from the_other_project (and not @project)
@@ -243,11 +244,11 @@ RAW
                                controller: 'repositories',
                                action:     'revision',
                                project_id: @project.identifier,
-                               rev:        'abcd',
+                               rev:        'abcd'
                              },
-                             class: 'changeset', title: 'test commit')
+                             { class: 'changeset', title: 'test commit' })
     to_test = {
-      'commit:abcd' => changeset_link,
+      'commit:abcd' => changeset_link
     }
     r = Repository::Git.create!(project: @project, scm_type: 'local', url: '/tmp/test/git')
     assert r
@@ -262,7 +263,7 @@ RAW
   end
 
   it 'should attachment links' do
-    attachment_link = link_to('logo.gif', { controller: 'attachments', action: 'download', id: @attachment }, class: 'attachment')
+    attachment_link = link_to('logo.gif', { controller: 'attachments', action: 'download', id: @attachment }, { class: 'attachment' })
     to_test = {
       'attachment:logo.gif' => attachment_link
     }
@@ -288,7 +289,7 @@ RAW
       "<pre onmouseover='alert(1)'>some text</pre>" => '<pre>some text</pre>',
       # xss
       '<pre><code class=""onmouseover="alert(1)">text</code></pre>' => '<pre><code>text</code></pre>',
-      '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>',
+      '<pre class=""onmouseover="alert(1)">text</pre>' => '<pre>text</pre>'
     }
     to_test.each { |text, result| assert_dom_equal result, helper.format_text(text) }
   end
@@ -303,37 +304,37 @@ RAW
   end
 
   it 'should pre tags' do
-    raw = <<-RAW
-Before
+    raw = <<-RAW.strip_indent
+      Before
 
-<pre>
-<prepared-statement-cache-size>32</prepared-statement-cache-size>
-</pre>
+      <pre>
+      <prepared-statement-cache-size>32</prepared-statement-cache-size>
+      </pre>
 
-After
+      After
 RAW
 
-    expected = <<-EXPECTED
-<p>Before</p>
-<pre>
-&lt;prepared-statement-cache-size&gt;32&lt;/prepared-statement-cache-size&gt;
-</pre>
-<p>After</p>
+    expected = <<-EXPECTED.strip_indent
+      <p>Before</p>
+      <pre>
+      &lt;prepared-statement-cache-size&gt;32&lt;/prepared-statement-cache-size&gt;
+      </pre>
+      <p>After</p>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')
   end
 
   it 'should syntax highlight' do
-    raw = <<-RAW
-<pre><code class="ruby">
-# Some ruby code here
-</code></pre>
+    raw = <<-RAW.strip_indent
+      <pre><code class="ruby">
+      # Some ruby code here
+      </code></pre>
 RAW
 
-    expected = <<-EXPECTED
-<pre><code class="ruby CodeRay"><span class=\"CodeRay\"><span class="line-numbers"><a href=\"#n1\" name=\"n1\">1</a></span><span class="comment"># Some ruby code here</span></span>
-</code></pre>
+    expected = <<-EXPECTED.strip_indent
+      <pre><code class="ruby CodeRay"><span class=\"CodeRay\"><span class="line-numbers"><a href=\"#n1\" name=\"n1\">1</a></span><span class="comment"># Some ruby code here</span></span>
+      </code></pre>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')
@@ -348,8 +349,7 @@ EXPECTED
     to_test = { "|[[Page|Link title]]|[[Other Page|Other title]]|\n|Cell 21|[[Last page]]|" =>
                  "<tr><td><a class=\"wiki-page new\" href=\"/projects/#{@project.identifier}/wiki/page\">Link title</a></td>" +
                  "<td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/other-page\">Other title</a></td>" +
-                 "</tr><tr><td>Cell 21</td><td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/last-page\">Last page</a></td></tr>"
-    }
+                 "</tr><tr><td>Cell 21</td><td><a class=\"wiki-page\" href=\"/projects/#{@project.identifier}/wiki/last-page\">Last page</a></td></tr>" }
 
     to_test.each { |text, result| assert_dom_equal "<table>#{result}</table>", helper.format_text(text).gsub(/[\t\n]/, '') }
   end
@@ -359,8 +359,7 @@ EXPECTED
                 '(_text within parentheses_)' => '(<em>text within parentheses</em>)',
                 'a *Humane Web* Text Generator' => 'a <strong>Humane Web</strong> Text Generator',
                 'a H *umane* W *eb* T *ext* G *enerator*' => 'a H <strong>umane</strong> W <strong>eb</strong> T <strong>ext</strong> G <strong>enerator</strong>',
-                'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator',
-              }
+                'a *H* umane *W* eb *T* ext *G* enerator' => 'a <strong>H</strong> umane <strong>W</strong> eb <strong>T</strong> ext <strong>G</strong> enerator' }
     to_test.each { |text, result| assert_dom_equal "<p>#{result}</p>", helper.format_text(text) }
   end
 
@@ -370,15 +369,15 @@ EXPECTED
   end
 
   it 'should footnotes' do
-    raw = <<-RAW
-This is some text[1].
+    raw = <<-RAW.strip_indent
+      This is some text[1].
 
-fn1. This is the foot note
+      fn1. This is the foot note
 RAW
 
-    expected = <<-EXPECTED
-<p>This is some text<sup><a href=\"#fn1\">1</a></sup>.</p>
-<p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
+    expected = <<-EXPECTED.strip_indent
+      <p>This is some text<sup><a href=\"#fn1\">1</a></sup>.</p>
+      <p id="fn1" class="footnote"><sup>1</sup> This is the foot note</p>
 EXPECTED
 
     assert_equal expected.gsub(%r{[\r\n\t]}, ''), helper.format_text(raw).gsub(%r{[\r\n\t]}, '')
@@ -397,32 +396,32 @@ EXPECTED
     FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'Wiki'
     FactoryGirl.create :wiki_page_with_content, wiki: @project.wiki, title: 'another Wiki'
 
-    raw = <<-RAW
-{{toc}}
+    raw = <<-RAW.strip_indent
+      {{toc}}
 
-h1. Title
+      h1. Title
 
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
 
-h2. Subtitle with a [[Wiki]] link
+      h2. Subtitle with a [[Wiki]] link
 
-Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+      Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
 
-h2. Subtitle with [[Wiki|another Wiki]] link
+      h2. Subtitle with [[Wiki|another Wiki]] link
 
-h2. Subtitle with %{color:red}red text%
+      h2. Subtitle with %{color:red}red text%
 
-<pre>
-some code
-</pre>
+      <pre>
+      some code
+      </pre>
 
-h3. Subtitle with *some* _modifiers_
+      h3. Subtitle with *some* _modifiers_
 
-h1. Another title
+      h1. Another title
 
-h3. An "Internet link":http://www.redmine.org/ inside subtitle
+      h3. An "Internet link":http://www.redmine.org/ inside subtitle
 
-h2. "Project Name !/attachments/#{@attachment.id}/#{@attachment.filename}!":/projects/#{@project.identifier}/issues
+      h2. "Project Name !/attachments/#{@attachment.id}/#{@attachment.filename}!":/projects/#{@project.identifier}/issues
 
 RAW
 
@@ -450,7 +449,7 @@ RAW
                 '</li>' +
                 '</ul>'
 
-    assert helper.format_text(raw).gsub("\n", '').include?(expected), helper.format_text(raw)
+    assert helper.format_text(raw).delete("\n").include?(expected), helper.format_text(raw)
   end
 
   it 'should table of content should contain included page headings' do
@@ -461,12 +460,12 @@ RAW
     child.content = FactoryGirl.create :wiki_content, page: child, text: "h1. Child page 1\n\nThis is a child page"
     child.save!
 
-    raw = <<-RAW
-{{toc}}
+    raw = <<-RAW.strip_indent
+      {{toc}}
 
-h1. Included
+      h1. Included
 
-{{include(Child_1)}}
+      {{include(Child_1)}}
 RAW
 
     expected = '<ul class="toc">' +
@@ -474,7 +473,7 @@ RAW
                '<li><a href="#Child-page-1">Child page 1</a></li>' +
                '</ul>'
 
-    assert helper.format_text(raw).gsub("\n", '').include?(expected), helper.format_text(raw)
+    assert helper.format_text(raw).delete("\n").include?(expected), helper.format_text(raw)
   end
 
   it 'should default formatter' do
@@ -491,8 +490,7 @@ RAW
                 Date.today + 20000 => 'Due in over 54 years',
                 Date.today - 1 => '1 day late',
                 Date.today - 100 => 'about 3 months late',
-                Date.today - 20000 => 'over 54 years late',
-               }
+                Date.today - 20000 => 'over 54 years late' }
     ::I18n.locale = :en
     to_test.each do |date, expected|
       assert_equal expected, due_date_distance_in_words(date)
@@ -531,6 +529,6 @@ RAW
     assert_dom_equal %(<a href="#{root_url}projects/#{p_id}?jump=blah">#{p_name}</a>),
                      link_to_project(@project, only_path: false, jump: 'blah')
     assert_dom_equal %(<a class="project" href="/projects/#{p_id}/settings">#{p_name}</a>),
-                     link_to_project(@project, { action: 'settings' }, class: 'project')
+                     link_to_project(@project, { action: 'settings' }, { class: 'project' })
   end
 end

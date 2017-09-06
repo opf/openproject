@@ -97,7 +97,7 @@ module Redmine
             end
 
             result.flatten!
-            result.each do |e| e.event_type = event_type.dup.singularize unless e.event_type end
+            result.each { |e| e.event_type = event_type.dup.singularize unless e.event_type }
             result
           end
 
@@ -163,7 +163,7 @@ module Redmine
             if perm && perm.project_module
               m = EnabledModule.arel_table
               subquery = m.where(m[:name].eq(perm.project_module))
-                         .project(m[:project_id])
+                          .project(m[:project_id])
 
               query = query.where(projects_table[:id].in(subquery))
             end
@@ -217,7 +217,7 @@ module Redmine
                                                                  nil,
                                                                  nil)
 
-              result << ((provider.respond_to?(:format_event)) ? provider.format_event(event, e, activity) : event)
+              result << (provider.respond_to?(:format_event) ? provider.format_event(event, e, activity) : event)
             end
           end
 

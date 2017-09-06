@@ -34,9 +34,9 @@ describe Announcement, type: :model do
       end
 
       describe 'WHEN the one announcement is active and today is before show_until' do
-        let!(:announcement) {
+        let!(:announcement) do
           FactoryGirl.create(:active_announcement, show_until: Date.today + 14.days)
-        }
+        end
 
         it 'returns that announcement' do
           expect(Announcement.active_and_current).to eql announcement
@@ -44,9 +44,9 @@ describe Announcement, type: :model do
       end
 
       describe 'WHEN the one announcement is active and today is after show_until' do
-        let!(:announcement) {
+        let!(:announcement) do
           FactoryGirl.create(:active_announcement, show_until: Date.today - 14.days)
-        }
+        end
 
         it 'returns no announcement' do
           expect(Announcement.active_and_current).to be_nil
@@ -54,9 +54,9 @@ describe Announcement, type: :model do
       end
 
       describe 'WHEN the one announcement is active and today equals show_until' do
-        let!(:announcement) {
+        let!(:announcement) do
           FactoryGirl.create(:active_announcement, show_until: Date.today)
-        }
+        end
         it 'returns that announcement' do
           expect(Announcement.active_and_current).to eql announcement
         end
@@ -72,25 +72,25 @@ describe Announcement, type: :model do
         end
 
         describe 'WHEN the announcement is active and today is before show_until' do
-          let(:announcement) {
+          let(:announcement) do
             FactoryGirl.build(:active_announcement, show_until: Date.today + 14.days)
-          }
+          end
 
           it { expect(announcement.active_and_current?).to be_truthy }
         end
 
         describe 'WHEN the announcement is active and today is after show_until' do
-          let!(:announcement) {
+          let!(:announcement) do
             FactoryGirl.create(:active_announcement, show_until: Date.today - 14.days)
-          }
+          end
 
           it { expect(announcement.active_and_current?).to be_falsey }
         end
 
         describe 'WHEN the announcement is active and today equals show_until' do
-          let!(:announcement) {
+          let!(:announcement) do
             FactoryGirl.build(:active_announcement, show_until: Date.today)
-          }
+          end
 
           it { expect(announcement.active_and_current?).to be_truthy }
         end

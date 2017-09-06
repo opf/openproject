@@ -38,7 +38,6 @@ describe ::API::V3::Users::UserRepresenter do
 
     it do is_expected.to include_json('User'.to_json).at_path('_type') end
 
-
     context 'as regular user' do
       it 'hides as much information as possible' do
         is_expected.to have_json_path('id')
@@ -73,11 +72,11 @@ describe ::API::V3::Users::UserRepresenter do
       let(:current_user) { FactoryGirl.build_stubbed(:admin) }
 
       it 'shows everything' do
-       is_expected.to have_json_path('id')
-       is_expected.to have_json_path('login')
-       is_expected.to have_json_path('firstName')
-       is_expected.to have_json_path('lastName')
-       is_expected.to have_json_path('name')
+        is_expected.to have_json_path('id')
+        is_expected.to have_json_path('login')
+        is_expected.to have_json_path('firstName')
+        is_expected.to have_json_path('lastName')
+        is_expected.to have_json_path('name')
       end
 
       it_behaves_like 'has UTC ISO 8601 date and time' do

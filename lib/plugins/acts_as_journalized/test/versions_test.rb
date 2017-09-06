@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 require File.join(File.dirname(__FILE__), 'test_helper')
 
 class VersionsTest < Test::Unit::TestCase
@@ -150,15 +151,15 @@ class VersionsTest < Test::Unit::TestCase
 
     should 'provide a journal number for any given numeric journal value' do
       @times.keys.each do |number|
-        assert_kind_of Fixnum, @user.journals.number_at(number)
-        assert_kind_of Fixnum, @user.journals.number_at(number + 0.5)
+        assert_kind_of Integer, @user.journals.number_at(number)
+        assert_kind_of Integer, @user.journals.number_at(number + 0.5)
         assert_equal @user.journals.number_at(number), @user.journals.number_at(number + 0.5)
       end
     end
 
     should 'provide a journal number for a valid tag' do
       @times.keys.map { |n| [n, n.to_s] }.each do |number, tag|
-        assert_kind_of Fixnum, @user.journals.number_at(tag)
+        assert_kind_of Integer, @user.journals.number_at(tag)
         assert_equal number, @user.journals.number_at(tag)
       end
     end
@@ -180,7 +181,7 @@ class VersionsTest < Test::Unit::TestCase
 
     should "provide a journal number for any time after the model's creation" do
       @times.each do |number, time|
-        assert_kind_of Fixnum, @user.journals.number_at(time + 30.minutes)
+        assert_kind_of Integer, @user.journals.number_at(time + 30.minutes)
         assert_equal number, @user.journals.number_at(time + 30.minutes)
       end
     end
@@ -194,7 +195,7 @@ class VersionsTest < Test::Unit::TestCase
       @times.keys.each do |number|
         journal = @user.journals.at(number)
         assert_kind_of VestalVersions::Version, journal
-        assert_kind_of Fixnum, @user.journals.number_at(journal)
+        assert_kind_of Integer, @user.journals.number_at(journal)
         assert_equal number, @user.journals.number_at(journal)
       end
     end

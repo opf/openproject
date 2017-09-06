@@ -135,9 +135,9 @@ describe Api::V2::ReportingsController, type: :controller do
         let(:project) { FactoryGirl.create(:project, identifier: 'test_project') }
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             get 'show', params: { project_id: project.id, id: '1337' }, format: 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
     end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -37,7 +38,7 @@ module API
         link :self do
           {
             href: api_v3_paths.category(represented.id),
-            title: "#{represented.name}"
+            title: represented.name.to_s
           }
         end
 
@@ -49,10 +50,12 @@ module API
         end
 
         link :defaultAssignee do
-          {
-            href: api_v3_paths.user(represented.assigned_to.id),
-            title: represented.assigned_to.name
-          } if represented.assigned_to
+          if represented.assigned_to
+            {
+              href: api_v3_paths.user(represented.assigned_to.id),
+              title: represented.assigned_to.name
+            }
+          end
         end
 
         property :id, render_nil: true

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -43,7 +44,7 @@ describe Redmine::WikiFormatting::Textile::Formatter do
     '-' => 'del',    # deleted
     '^' => 'sup',    # superscript
     '~' => 'sub'     # subscript
-  }
+  }.freeze
 
   it 'should modifiers' do
     assert_html_output(
@@ -80,20 +81,20 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should escaping' do
     assert_html_output(
-      'this is a <script>'      => 'this is a &lt;script&gt;'
+      'this is a <script>' => 'this is a &lt;script&gt;'
     )
   end
 
   it 'should use of backslashes followed by numbers in headers' do
     assert_html_output({
-                         'h1. 2009\02\09'      => '<h1>2009\02\09</h1>'
+                         'h1. 2009\02\09' => '<h1>2009\02\09</h1>'
                        }, false)
   end
 
   it 'should double dashes should not strikethrough' do
     assert_html_output(
-      'double -- dashes -- test'  => 'double -- dashes -- test',
-      'double -- *dashes* -- test'  => 'double -- <strong>dashes</strong> -- test'
+      'double -- dashes -- test' => 'double -- dashes -- test',
+      'double -- *dashes* -- test' => 'double -- <strong>dashes</strong> -- test'
     )
   end
 
@@ -107,112 +108,112 @@ describe Redmine::WikiFormatting::Textile::Formatter do
 
   it 'should inline auto link' do
     assert_html_output(
-      'Autolink to http://www.google.com' =>         'Autolink to <a class="external icon-context icon-copy" href="http://www.google.com">http://www.google.com</a>'
+      'Autolink to http://www.google.com' => 'Autolink to <a class="external icon-context icon-copy" href="http://www.google.com">http://www.google.com</a>'
     )
   end
 
   it 'should ignore links inside macros' do
     assert_html_output(
-      '{{embed_youtube(http://www.google.com)}}' =>         '{{embed_youtube(http://www.google.com)}}'
+      '{{embed_youtube(http://www.google.com)}}' => '{{embed_youtube(http://www.google.com)}}'
     )
   end
 
   it 'should blockquote' do
     # orig raw text
-    raw = <<-RAW
-John said:
-> Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
-> Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
-> * Donec odio lorem,
-> * sagittis ac,
-> * malesuada in,
-> * adipiscing eu, dolor.
->
-> >Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.
-> Proin a tellus. Nam vel neque.
+    raw = <<-RAW.strip_indent
+      John said:
+      > Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.
+      > Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+      > * Donec odio lorem,
+      > * sagittis ac,
+      > * malesuada in,
+      > * adipiscing eu, dolor.
+      >
+      > >Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.
+      > Proin a tellus. Nam vel neque.
 
-He's right.
+      He's right.
 RAW
 
     # expected html
-    expected = <<-EXPECTED
-<p>John said:</p>
-<blockquote class="icon icon-quote2">
-Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br />
-Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
-<ul>
-  <li>Donec odio lorem,</li>
-  <li>sagittis ac,</li>
-  <li>malesuada in,</li>
-  <li>adipiscing eu, dolor.</li>
-</ul>
-<blockquote class="icon icon-quote2">
-<p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
-</blockquote>
-<p>Proin a tellus. Nam vel neque.</p>
-</blockquote>
-<p>He's right.</p>
+    expected = <<-EXPECTED.strip_indent
+      <p>John said:</p>
+      <blockquote class="icon icon-quote2">
+      Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Maecenas sed libero.<br />
+      Nullam commodo metus accumsan nulla. Curabitur lobortis dui id dolor.
+      <ul>
+        <li>Donec odio lorem,</li>
+        <li>sagittis ac,</li>
+        <li>malesuada in,</li>
+        <li>adipiscing eu, dolor.</li>
+      </ul>
+      <blockquote class="icon icon-quote2">
+      <p>Nulla varius pulvinar diam. Proin id arcu id lorem scelerisque condimentum. Proin vehicula turpis vitae lacus.</p>
+      </blockquote>
+      <p>Proin a tellus. Nam vel neque.</p>
+      </blockquote>
+      <p>He's right.</p>
 EXPECTED
 
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
   it 'should table' do
-    raw = <<-RAW
-This is a table with empty cells:
+    raw = <<-RAW.strip_indent
+      This is a table with empty cells:
 
-|cell11|cell12||
-|cell21||cell23|
-|cell31|cell32|cell33|
+      |cell11|cell12||
+      |cell21||cell23|
+      |cell31|cell32|cell33|
 RAW
 
-    expected = <<-EXPECTED
-<p>This is a table with empty cells:</p>
+    expected = <<-EXPECTED.strip_indent
+      <p>This is a table with empty cells:</p>
 
-<table>
-  <tr><td>cell11</td><td>cell12</td><td></td></tr>
-  <tr><td>cell21</td><td></td><td>cell23</td></tr>
-  <tr><td>cell31</td><td>cell32</td><td>cell33</td></tr>
-</table>
+      <table>
+        <tr><td>cell11</td><td>cell12</td><td></td></tr>
+        <tr><td>cell21</td><td></td><td>cell23</td></tr>
+        <tr><td>cell31</td><td>cell32</td><td>cell33</td></tr>
+      </table>
 EXPECTED
 
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')
   end
 
   it 'should table with line breaks' do
-    raw = <<-RAW
-This is a table with line breaks:
+    raw = <<-RAW.strip_indent
+      This is a table with line breaks:
 
-|cell11
-continued|cell12||
-|-cell21-||cell23
-cell23 line2
-cell23 *line3*|
-|cell31|cell32
-cell32 line2|cell33|
+      |cell11
+      continued|cell12||
+      |-cell21-||cell23
+      cell23 line2
+      cell23 *line3*|
+      |cell31|cell32
+      cell32 line2|cell33|
 
 RAW
 
-    expected = <<-EXPECTED
-<p>This is a table with line breaks:</p>
+    expected = <<-EXPECTED.strip_indent
+      <p>This is a table with line breaks:</p>
 
-<table>
-  <tr>
-    <td>cell11<br />continued</td>
-    <td>cell12</td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><del>cell21</del></td>
-    <td></td>
-    <td>cell23<br/>cell23 line2<br/>cell23 <strong>line3</strong></td>
-  </tr>
-  <tr>
-    <td>cell31</td>
-    <td>cell32<br/>cell32 line2</td>
-    <td>cell33</td>
-  </tr>
-</table>
+      <table>
+        <tr>
+          <td>cell11<br />continued</td>
+          <td>cell12</td>
+          <td></td>
+        </tr>
+        <tr>
+          <td><del>cell21</del></td>
+          <td></td>
+          <td>cell23<br/>cell23 line2<br/>cell23 <strong>line3</strong></td>
+        </tr>
+        <tr>
+          <td>cell31</td>
+          <td>cell32<br/>cell32 line2</td>
+          <td>cell33</td>
+        </tr>
+      </table>
 EXPECTED
 
     assert_equal expected.gsub(%r{\s+}, ''), to_html(raw).gsub(%r{\s+}, '')

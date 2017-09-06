@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,10 +37,10 @@ class MenuItem < ActiveRecord::Base
   serialize :options, Hash
 
   validates_presence_of :title
-  validates_uniqueness_of :title, scope: [:navigatable_id, :type]
+  validates_uniqueness_of :title, scope: %i[navigatable_id type]
 
   validates_presence_of :name
-  validates_uniqueness_of :name, scope: [:navigatable_id, :parent_id]
+  validates_uniqueness_of :name, scope: %i[navigatable_id parent_id]
 
   def setting
     if new_record?

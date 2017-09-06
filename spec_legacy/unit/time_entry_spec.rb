@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -47,8 +48,7 @@ describe TimeEntry, type: :model do
                    '3 h 15m'  => 3.25,
                    '3 h 15 m' => 3.25,
                    '3 hours'  => 3.0,
-                   '12min'    => 0.2,
-                  }
+                   '12min'    => 0.2 }
 
     assertions.each do |k, v|
       t = TimeEntry.new(hours: k)
@@ -102,8 +102,8 @@ describe TimeEntry, type: :model do
       @public_project = FactoryGirl.create(:project, is_public: true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
       FactoryGirl.create(:time_entry, spent_on: '2010-01-01',
-                          work_package: @issue,
-                          project: @public_project)
+                                      work_package: @issue,
+                                      project: @public_project)
     end
 
     context 'without a project' do
@@ -113,7 +113,8 @@ describe TimeEntry, type: :model do
     end
 
     context 'with a project' do
-      it "should return the lowest spent_on value that is visible to the current user for that project and it's subprojects only" do
+      it "should return the lowest spent_on value that is visible to the
+          current user for that project and it's subprojects only" do
         assert_equal '2010-01-01', TimeEntry.earliest_date_for_project(@public_project).to_s
       end
     end
@@ -125,8 +126,8 @@ describe TimeEntry, type: :model do
       @public_project = FactoryGirl.create(:project, is_public: true)
       @issue = FactoryGirl.create(:work_package, project: @public_project)
       FactoryGirl.create(:time_entry, spent_on: '2010-01-01',
-                          work_package: @issue,
-                          project: @public_project)
+                                      work_package: @issue,
+                                      project: @public_project)
     end
 
     context 'without a project' do
@@ -136,7 +137,8 @@ describe TimeEntry, type: :model do
     end
 
     context 'with a project' do
-      it "should return the highest spent_on value that is visible to the current user for that project and it's subprojects only" do
+      it "should return the highest spent_on value that is visible to the
+          current user for that project and it's subprojects only" do
         project = Project.find(1)
         assert_equal '2007-04-22', TimeEntry.latest_date_for_project(project).to_s
       end

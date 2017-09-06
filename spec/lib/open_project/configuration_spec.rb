@@ -30,14 +30,14 @@ require 'spec_helper'
 
 describe OpenProject::Configuration do
   describe '.load_config_from_file' do
-    let(:file_contents) {
+    let(:file_contents) do
       <<-EOS
       default:
 
         test:
         somesetting: foo
       EOS
-    }
+    end
     before do
       allow(File).to receive(:read).and_call_original
       allow(File).to receive(:read).with('configfilename').and_return(file_contents)
@@ -55,12 +55,13 @@ describe OpenProject::Configuration do
 
   describe '.load_env_from_config' do
     describe 'with a default setting' do
-      let(:config) {
+      let(:config) do
         OpenProject::Configuration.send(:load_env_from_config, {
                                           'default' => { 'somesetting' => 'foo' },
                                           'test' => {},
                                           'someother' => { 'somesetting' => 'bar' }
-                                        }, 'test')}
+                                        }, 'test')
+      end
 
       it 'should load a default setting' do
         expect(config['somesetting']).to eq('foo')
@@ -68,11 +69,12 @@ describe OpenProject::Configuration do
     end
 
     describe 'with an environment-specific setting' do
-      let(:config) {
+      let(:config) do
         OpenProject::Configuration.send(:load_env_from_config, {
                                           'default' => {},
                                           'test' => { 'somesetting' => 'foo' }
-                                        }, 'test')}
+                                        }, 'test')
+      end
 
       it 'should load a setting' do
         expect(config['somesetting']).to eq('foo')
@@ -80,11 +82,12 @@ describe OpenProject::Configuration do
     end
 
     describe 'with a default and an overriding environment-specific setting' do
-      let(:config) {
+      let(:config) do
         OpenProject::Configuration.send(:load_env_from_config, {
                                           'default' => { 'somesetting' => 'foo' },
                                           'test' => { 'somesetting' => 'bar' }
-                                        }, 'test')}
+                                        }, 'test')
+      end
 
       it 'should load the overriding value' do
         expect(config['somesetting']).to eq('bar')
@@ -93,7 +96,7 @@ describe OpenProject::Configuration do
   end
 
   describe '.load_overrides_from_environment_variables' do
-    let(:config) {
+    let(:config) do
       {
         'someemptysetting' => nil,
         'nil' => 'foobar',
@@ -113,9 +116,9 @@ describe OpenProject::Configuration do
           }
         }
       }
-    }
+    end
 
-    let(:env_vars) {
+    let(:env_vars) do
       {
         'SOMEEMPTYSETTING' => '',
         'SOMESETTING' => 'bar',
@@ -127,7 +130,7 @@ describe OpenProject::Configuration do
         'OPTEST_NESTED_HASH' => '{ foo: bar, xyz: bla }',
         'OPTEST_FOO_BAR_HASH__WITH__SYMBOLS' => '{ foo: !ruby/symbol foobar }'
       }
-    }
+    end
 
     before do
       stub_const('OpenProject::Configuration::ENV_PREFIX', 'OPTEST')
@@ -193,7 +196,7 @@ describe OpenProject::Configuration do
   end
 
   describe '.convert_old_email_settings' do
-    let(:settings) {
+    let(:settings) do
       {
         'email_delivery' => {
           'delivery_method' => :smtp,
@@ -202,8 +205,10 @@ describe OpenProject::Configuration do
             'address' => 'smtp.example.net',
             'port' => 25,
             'domain' => 'example.net'
-          } } }
-    }
+          }
+        }
+      }
+    end
 
     context 'with delivery_method' do
       before do
@@ -324,11 +329,11 @@ describe OpenProject::Configuration do
 
   describe '.configure_legacy_action_mailer' do
     let(:action_mailer) { double('ActionMailer::Base') }
-    let(:config) {
+    let(:config) do
       { 'email_delivery_method' => 'smtp',
         'smtp_address' => 'smtp.example.net',
         'smtp_port' => '25' }
-    }
+    end
 
     before do
       stub_const('ActionMailer::Base', action_mailer)

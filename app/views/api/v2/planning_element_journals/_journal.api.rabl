@@ -28,31 +28,28 @@
 
 object @journal
 attributes :notes
-node :id do |journal|
-  journal.version
-end
+node :id, &:version
 
 node :user do |journal|
-  {id: journal.user.id, name: journal.user.name}
+  { id: journal.user.id, name: journal.user.name }
 end
 
 node :changes do |journal|
-    journal.details.map do |attribute, details|
-      user_friendly_attribute, old, new = user_friendly_change(journal, attribute)
-      {
-          technical: {
-              name: attribute.to_s,
-              old:  details.first,
-              new:  details.last
-          },
-          user_friendly: {
-              name: user_friendly_attribute,
-              old:  old,
-              new:  new
-          }
+  journal.details.map do |attribute, details|
+    user_friendly_attribute, old, new = user_friendly_change(journal, attribute)
+    {
+      technical: {
+        name: attribute.to_s,
+        old:  details.first,
+        new:  details.last
+      },
+      user_friendly: {
+        name: user_friendly_attribute,
+        old:  old,
+        new:  new
       }
-    end
-
+    }
+  end
 end
 
 node :created_on do |journal|

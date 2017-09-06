@@ -92,13 +92,13 @@ describe 'api/v2/planning_elements/index.api.rabl', type: :view do
   end
 
   describe 'with 1 custom field planning element' do
-    let (:custom_field) {
+    let (:custom_field) do
       FactoryGirl.create(:work_package_custom_field,
                          name: 'Database',
                          field_format: 'list',
                          possible_values: ['MySQL', 'PostgreSQL', 'Oracle'],
                          is_for_all: true)
-    }
+    end
 
     let(:project) do
       FactoryGirl.build(:project_with_types, name: 'Sample Project', identifier: 'sample_project')

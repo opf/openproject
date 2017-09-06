@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,19 +33,19 @@ module MyHelper
 
   def calendar_items(startdt, enddt)
     WorkPackage.visible
-      .where(project_id: User.current.projects.map(&:id))
-      .where("(#{WorkPackage.table_name}.start_date >= ? AND " \
+               .where(project_id: User.current.projects.map(&:id))
+               .where("(#{WorkPackage.table_name}.start_date >= ? AND " \
              "#{WorkPackage.table_name}.start_date <= ?)" \
              "OR (#{WorkPackage.table_name}.due_date >= ? AND  " \
              "#{WorkPackage.table_name}.due_date <= ? )", startdt, enddt, startdt, enddt)
-      .includes(:project, :type, :priority, :assigned_to)
-      .references(:work_packages)
+               .includes(:project, :type, :priority, :assigned_to)
+               .references(:work_packages)
   end
 
   def wps_assigned_to_me
     wps_assigned_to_me_scope.includes(:status, :project, :type, :priority)
-      .limit(10)
-      .order("#{IssuePriority.table_name}.position DESC, " \
+                            .limit(10)
+                            .order("#{IssuePriority.table_name}.position DESC, " \
                                    "#{WorkPackage.table_name}.updated_at DESC")
   end
 
@@ -67,7 +68,7 @@ module MyHelper
     assigned_to_ids = [User.current.id] + User.current.group_ids
 
     WorkPackage.visible
-      .open
-      .where(assigned_to_id: assigned_to_ids)
+               .open
+               .where(assigned_to_id: assigned_to_ids)
   end
 end

@@ -9,24 +9,24 @@ describe 'subject inplace editor', js: true, selenium: true do
   let(:subproject1) { FactoryGirl.create :project_with_types, name: 'Child', parent: project }
   let(:subproject2) { FactoryGirl.create :project_with_types, name: 'Aunt', parent: project }
 
-  let!(:version) {
+  let!(:version) do
     FactoryGirl.create(:version,
                        status: 'open',
                        sharing: 'tree',
                        project: project)
-  }
-  let!(:version2) {
+  end
+  let!(:version2) do
     FactoryGirl.create(:version,
                        status: 'open',
                        sharing: 'tree',
                        project: subproject1)
-  }
-  let!(:version3) {
+  end
+  let!(:version3) do
     FactoryGirl.create(:version,
                        status: 'open',
                        sharing: 'tree',
                        project: subproject2)
-  }
+  end
 
   let(:property_name) { :version }
   let(:work_package) { FactoryGirl.create :work_package, project: project }

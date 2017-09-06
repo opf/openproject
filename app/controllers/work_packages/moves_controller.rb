@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -45,7 +46,11 @@ class WorkPackages::MovesController < ApplicationController
     @work_packages.each do |work_package|
       work_package.reload
 
-      call_hook(:controller_work_packages_move_before_save,  params: params, work_package: work_package, target_project: @target_project, copy: !!@copy)
+      call_hook(:controller_work_packages_move_before_save,
+                params: params,
+                work_package: work_package,
+                target_project: @target_project,
+                copy: !!@copy)
 
       permitted_params = params.permit(:copy,
                                        :assigned_to_id,
@@ -83,7 +88,7 @@ class WorkPackages::MovesController < ApplicationController
 
   def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
     if unsaved_work_package_ids.empty? and not work_packages.empty?
-      flash[:notice] = (@copy) ? l(:notice_successful_create) : l(:notice_successful_update)
+      flash[:notice] = @copy ? l(:notice_successful_create) : l(:notice_successful_update)
     else
       flash[:error] = l(:notice_failed_to_save_work_packages,
                         count: unsaved_work_package_ids.size,
@@ -103,7 +108,7 @@ class WorkPackages::MovesController < ApplicationController
     unless @project
       # TODO: let users bulk move/copy work packages from different projects
       render_error I18n.t('work_packages.move.unsupported_for_multiple_projects')
-      return false
+      false
     end
   end
 

@@ -58,7 +58,7 @@ guard :rspec do # , :cli => "--drb" do
 
   # Turnip features and steps
   watch(%r{^spec/acceptance/(.+)\.feature$})
-  watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$})   { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/acceptance' }
+  watch(%r{^spec/acceptance/steps/(.+)_steps\.rb$}) { |m| Dir[File.join("**/#{m[1]}.feature")][0] || 'spec/acceptance' }
 end
 
 # guard :cucumber do # , :cli => "--drb" do
@@ -68,9 +68,9 @@ end
 # end
 
 guard :test, all_on_start: false, all_after_pass: false do # , :drb => true do
-  watch(%r{^lib/(.+)\.rb$})     { |m| "test/#{m[1]}_test.rb" }
+  watch(%r{^lib/(.+)\.rb$}) { |m| "test/#{m[1]}_test.rb" }
   watch(%r{^test/.+_test\.rb$})
-  watch('test/test_helper.rb')  { 'test' }
+  watch('test/test_helper.rb') { 'test' }
 
   # Rails example
   watch(%r{^app/models/(.+)\.rb$})                   { |m| "test/unit/#{m[1]}_test.rb" }

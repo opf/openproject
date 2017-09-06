@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -85,7 +86,7 @@ class CreateWorkPackages < ActiveRecord::Migration[4.2]
     add_index :work_packages, :planning_element_status_id
 
     # Nested Set
-    add_index :work_packages, [:root_id, :lft, :rgt]
+    add_index :work_packages, %i[root_id lft rgt]
 
     change_table(:projects) do |t|
       t.belongs_to :work_packages_responsible

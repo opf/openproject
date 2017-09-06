@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -50,7 +51,7 @@ module Redmine
         end
         unless diff_table.add_line line
           line.force_encoding(line_encoding) if line_encoding
-          self << diff_table if diff_table.length > 0
+          self << diff_table if !diff_table.empty?
           diff_table = DiffTable.new(diff_type)
         end
         lines += 1
@@ -82,15 +83,7 @@ module Redmine
     # Function for add a line of this Diff
     # Returns false when the diff ends
     def add_line(line)
-      unless @parsing
-        if line =~ /^(---|\+\+\+) (.*)$/
-          @file_name = $2
-        elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
-          @line_num_l = $2.to_i
-          @line_num_r = $5.to_i
-          @parsing = true
-        end
-      else
+      if @parsing
         if line =~ /^[^\+\-\s@\\]/
           @parsing = false
           return false
@@ -99,6 +92,14 @@ module Redmine
           @line_num_r = $5.to_i
         else
           parse_line(line, @type)
+        end
+      else
+        if line =~ /^(---|\+\+\+) (.*)$/
+          @file_name = $2
+        elsif line =~ /^@@ (\+|\-)(\d+)(,\d+)? (\+|\-)(\d+)(,\d+)? @@/
+          @line_num_l = $2.to_i
+          @line_num_r = $5.to_i
+          @parsing = true
         end
       end
       true
@@ -180,7 +181,7 @@ module Redmine
       if @added > 0 && @added == @removed
         @added.times do |i|
           line = self[-(1 + i)]
-          removed = (@type == 'sbs') ? line : self[-(1 + @added + i)]
+          removed = @type == 'sbs' ? line : self[-(1 + @added + i)]
           offsets = offsets(removed.line_left, line.line_right)
           removed.offsets = line.offsets = offsets
         end

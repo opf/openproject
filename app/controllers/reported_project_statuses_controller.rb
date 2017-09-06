@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -37,24 +38,24 @@ class ReportedProjectStatusesController < ApplicationController
   def index
     @reported_project_statuses = @base
     respond_to do |format|
-      format.html do render_404 end
+      format.html { render_404 }
     end
   end
 
   def show
     @reported_project_status = @base.find(params[:id])
     respond_to do |format|
-      format.html do render_404 end
+      format.html { render_404 }
     end
   end
 
   protected
 
   def determine_base
-    if params[:project_type_id]
-      @base = ProjectType.find(params[:project_type_id]).reported_project_statuses.active
-    else
-      @base = ReportedProjectStatus.active
-    end
+    @base = if params[:project_type_id]
+              ProjectType.find(params[:project_type_id]).reported_project_statuses.active
+            else
+              ReportedProjectStatus.active
+            end
   end
 end

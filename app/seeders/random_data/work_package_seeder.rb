@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -149,7 +150,7 @@ module RandomData
       project.work_package_custom_fields.each do |custom_field|
         work_package.type.custom_fields << custom_field if !work_package.type.custom_fields.include?(custom_field)
         work_package.custom_values << CustomValue.new(custom_field: custom_field,
-                                               value: Faker::Lorem.words(8).join(' '))
+                                                      value: Faker::Lorem.words(8).join(' '))
       end
 
       work_package.type.save!

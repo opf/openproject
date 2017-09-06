@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,7 +29,6 @@
 #++
 
 namespace :ldap do
-
   def parse_args
     # Rake croaks when using commas in default args without properly escaping
     args = {}
@@ -45,22 +45,16 @@ namespace :ldap do
   task sync: :environment do
     args = parse_args
     ldap = LdapAuthSource.find_by!(name: args.fetch(:name))
-
     # Only get the required args for syncing
     attributes = ['dn', ldap.attr_firstname, ldap.attr_lastname, ldap.attr_mail, ldap.attr_login]
-
     # Map user attributes to their ldap counterpart
-    ar_map = Hash[ %w(firstname lastname mail login).zip(attributes.drop(1)) ]
-
+    Hash[%w(firstname lastname mail login).zip(attributes.drop(1))]
     # Parse filter string if available
-    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter,  'objectClass = *')
-
+    filter = Net::LDAP::Filter.from_rfc2254 args.fetch(:filter, 'objectClass = *')
     # Open LDAP connection
     ldap_con = ldap.send(:initialize_ldap_con, ldap.account, ldap.account_password)
-
     User.transaction do
-      results = ldap_con.search(base: ldap.base_dn, filter: filter)  do |entry|
-
+      ldap_con.search(base: ldap.base_dn, filter: filter) do |entry|
         user = User.find_or_initialize_by(login: entry[ldap.attr_login])
         user.attributes = {
           firstname: entry[ldap.attr_firstname],
@@ -69,7 +63,6 @@ namespace :ldap do
           admin: entry[ldap.attr_admin],
           auth_source: ldap
         }
-
         if user.changed?
           Rails.logger.info "Updated user #{user.login} due to ldap synchronization"
           user.save
@@ -77,7 +70,6 @@ namespace :ldap do
       end
     end
   end
-
 
   desc 'Register a LDAP auth source for the given LDAP URL and attribute mapping: ' \
        'rake ldap:register["url=<URL> name=<Name> onthefly=<true,false>map_{login,firstname,lastname,mail,admin}=attribute"]'
@@ -88,7 +80,6 @@ namespace :ldap do
     unless %w(ldap ldaps).include?(url.scheme)
       raise "Expected #{args[:url]} to be a valid ldap(s) URI."
     end
-
 
     source = LdapAuthSource.find_or_initialize_by(name: args[:name])
 

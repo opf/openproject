@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -69,7 +70,7 @@ module OpenProject
       class Entry
         attr_accessor :name, :path, :kind, :size, :lastrev
         def initialize(attributes = {})
-          [:name, :path, :kind, :size].each do |attr|
+          %i[name path kind size].each do |attr|
             send("#{attr}=", attributes[attr])
           end
 
@@ -78,23 +79,23 @@ module OpenProject
         end
 
         def file?
-          'file' == kind
+          kind == 'file'
         end
 
         def dir?
-          'dir' == kind
+          kind == 'dir'
         end
       end
 
       class Revisions < Array
         def latest
-          sort { |x, y|
+          sort do |x, y|
             if x.time.nil? or y.time.nil?
               0
             else
               x.time <=> y.time
             end
-          }.last
+          end.last
         end
       end
 
@@ -103,7 +104,7 @@ module OpenProject
         attr_writer :identifier
 
         def initialize(attributes = {})
-          [:identifier, :scmid, :author, :time, :paths, :revision, :branch].each do |attr|
+          %i[identifier scmid author time paths revision branch].each do |attr|
             send("#{attr}=", attributes[attr])
           end
 

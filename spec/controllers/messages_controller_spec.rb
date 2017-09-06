@@ -32,16 +32,16 @@ describe MessagesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role) }
-  let!(:member) {
+  let!(:member) do
     FactoryGirl.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
-  }
-  let!(:board) {
+  end
+  let!(:board) do
     FactoryGirl.create(:board,
                        project: project)
-  }
+  end
 
   let(:filename) { 'testfile.txt' }
   let(:file) { File.open(Rails.root.join('spec/fixtures/files', filename)) }
@@ -49,7 +49,7 @@ describe MessagesController, type: :controller do
     fixture_file_upload "files/#{filename}", filename
   end
 
-  before do allow(User).to receive(:current).and_return user end
+  before { allow(User).to receive(:current).and_return user }
 
   describe '#create' do
     context 'attachments' do
@@ -98,11 +98,11 @@ describe MessagesController, type: :controller do
   describe '#attachment' do
     let!(:message) { FactoryGirl.create(:message) }
     let(:attachment_id) { "attachments_#{message.attachments.first.id}" }
-    let(:params) {
+    let(:params) do
       { id: message.id,
         attachments: { '1' => { 'file' => uploaded_file,
                                 'description' => '' } } }
-    }
+    end
 
     describe '#add' do
       before do
@@ -157,18 +157,18 @@ describe MessagesController, type: :controller do
     end
 
     describe '#remove' do
-      let!(:attachment) {
+      let!(:attachment) do
         FactoryGirl.create(:attachment,
                            container: message,
                            author: user,
                            filename: filename)
-      }
-      let!(:attachable_journal) {
+      end
+      let!(:attachable_journal) do
         FactoryGirl.create(:journal_attachable_journal,
                            journal: message.journals.last,
                            attachment: attachment,
                            filename: filename)
-      }
+      end
 
       before do
         message.reload

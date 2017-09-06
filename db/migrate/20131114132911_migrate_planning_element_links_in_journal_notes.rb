@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,8 +34,8 @@ class MigratePlanningElementLinksInJournalNotes < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
   COLUMNS_PER_TABLE = {
-    'journals' => { columns: ['notes'], update_journal: false },
-  }
+    'journals' => { columns: ['notes'], update_journal: false }
+  }.freeze
 
   def up
     COLUMNS_PER_TABLE.each_pair do |table, options|

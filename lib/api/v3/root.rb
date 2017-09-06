@@ -59,7 +59,7 @@ module API
       mount ::API::V3::WorkPackages::WorkPackagesAPI
 
       get '/' do
-        RootRepresenter.new({}, current_user: current_user)
+        RootRepresenter.new({}, { current_user: current_user })
       end
     end
   end

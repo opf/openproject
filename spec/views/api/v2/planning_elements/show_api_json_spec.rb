@@ -37,12 +37,12 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
   subject { rendered }
 
-  let(:project) {
+  let(:project) do
     FactoryGirl.create(:project, id: 4711,
                                  identifier: 'test_project',
                                  name: 'Test Project')
-  }
-  let(:planning_element) {
+  end
+  let(:planning_element) do
     FactoryGirl.build(:work_package,
                       id: 1,
                       project_id: project.id,
@@ -54,7 +54,7 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
                       created_at: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                       updated_at: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-  }
+  end
 
   describe 'with an assigned planning element' do
     let(:custom_field) do
@@ -68,7 +68,8 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     before do
       custom_value = CustomValue.new(
         custom_field: custom_field,
-        value: 'Wurst')
+        value: 'Wurst'
+      )
       planning_element.custom_values << custom_value
 
       assign(:planning_element, planning_element)
@@ -125,17 +126,17 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
   describe 'with a planning element having a parent' do
     let(:project) { FactoryGirl.create(:project) }
 
-    let(:parent_element)   {
+    let(:parent_element) do
       FactoryGirl.create(:work_package,
                          id:         1337,
                          subject:       'Parent Element',
                          project_id: project.id)
-    }
-    let(:planning_element) {
+    end
+    let(:planning_element) do
       FactoryGirl.build(:work_package,
                         parent_id:  parent_element.id,
                         project_id: project.id)
-    }
+    end
 
     before do
       assign(:planning_element, planning_element)
@@ -150,12 +151,12 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
   describe 'with a planning element having children' do
     let(:project) { FactoryGirl.create(:project) }
-    let(:planning_element) {
+    let(:planning_element) do
       FactoryGirl.create(:work_package,
                          subject: 'Parent Package',
                          id: 1338,
                          project: project)
-    }
+    end
 
     before do
       FactoryGirl.create(:work_package,
@@ -186,16 +187,16 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
   end
 
   describe 'with a planning element having a responsible' do
-    let(:responsible)      {
+    let(:responsible) do
       FactoryGirl.create(:user,
                          id: 1341,
                          firstname: 'Paul',
                          lastname: 'McCartney')
-    }
-    let(:planning_element) {
+    end
+    let(:planning_element) do
       FactoryGirl.build(:work_package,
                         responsible_id: responsible.id)
-    }
+    end
 
     before do
       assign(:planning_element, planning_element)
@@ -244,16 +245,16 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
     end
 
     let(:user) { FactoryGirl.create(:user) }
-    let(:journal_1) {
+    let(:journal_1) do
       FactoryGirl.build(:work_package_journal,
                         journable_id: planning_element.id,
                         user: user)
-    }
-    let(:journal_2) {
+    end
+    let(:journal_2) do
       FactoryGirl.build(:work_package_journal,
                         journable_id: planning_element.id,
                         user: user)
-    }
+    end
 
     before do
       # prevents problems related to the journal not having a user associated

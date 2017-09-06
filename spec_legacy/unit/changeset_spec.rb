@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -189,7 +190,8 @@ describe Changeset, type: :model do
       r = Repository::Subversion.create!(
         project: Project.find(3),
         scm_type: 'existing',
-        url:      'svn://localhost/test')
+        url:      'svn://localhost/test'
+      )
 
       c = Changeset.new(repository: r,
                         committed_on: Time.now,
@@ -208,7 +210,8 @@ describe Changeset, type: :model do
     it 'should text tag hash' do
       c = Changeset.new(
         scmid:    '7234cb2750b63f47bff735edc50a1c0a433c2518',
-        revision: '7234cb2750b63f47bff735edc50a1c0a433c2518')
+        revision: '7234cb2750b63f47bff735edc50a1c0a433c2518'
+      )
       assert_equal 'commit:7234cb2750b63f47bff735edc50a1c0a433c2518', c.text_tag
     end
 

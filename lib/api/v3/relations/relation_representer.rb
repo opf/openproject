@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -84,15 +85,15 @@ module API
         # run before saving any relation.
         property :delay,
                  render_nil: true,
-                 if: -> (*) {
+                 if: ->(*) {
                    # the relation type may be blank when parsing for an update
                    relation_type == "precedes" || relation_type.blank?
                  }
 
         property :description, render_nil: true
 
-        property :from, embedded: true, exec_context: :decorator, if: -> (*) { embed_links }
-        property :to, embedded: true, exec_context: :decorator, if: -> (*) { embed_links }
+        property :from, embedded: true, exec_context: :decorator, if: ->(*) { embed_links }
+        property :to, embedded: true, exec_context: :decorator, if: ->(*) { embed_links }
 
         ##
         # Used while parsing JSON to initialize `from` and `to` through the given links.

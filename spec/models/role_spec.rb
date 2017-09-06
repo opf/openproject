@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe Role, type: :model do
-  let(:permissions) { [:permission1, :permission2] }
+  let(:permissions) { %i[permission1 permission2] }
   let(:build_role) { FactoryGirl.build(:role, permissions: permissions) }
   let(:created_role) { FactoryGirl.create(:role, permissions: permissions) }
 

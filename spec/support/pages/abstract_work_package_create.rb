@@ -54,8 +54,6 @@ module Pages
       if element
         element.select(value)
         element
-      else
-        nil
       end
     end
 

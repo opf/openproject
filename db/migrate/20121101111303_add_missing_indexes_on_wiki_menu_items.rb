@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,12 +30,12 @@
 
 class AddMissingIndexesOnWikiMenuItems < ActiveRecord::Migration[4.2]
   def self.up
-    add_index :wiki_menu_items, [:wiki_id, :title]
+    add_index :wiki_menu_items, %i[wiki_id title]
     add_index :wiki_menu_items, :parent_id
   end
 
   def self.down
-    remove_index :wiki_menu_items, [:wiki_id, :title]
+    remove_index :wiki_menu_items, %i[wiki_id title]
     remove_index :wiki_menu_items, :parent_id
   end
 end

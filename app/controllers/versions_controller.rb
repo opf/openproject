@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,9 +31,9 @@
 class VersionsController < ApplicationController
   menu_item :roadmap
   model_object Version
-  before_action :find_model_object, except: [:index, :new, :create, :close_completed]
-  before_action :find_project_from_association, except: [:index, :new, :create, :close_completed]
-  before_action :find_project, only: [:index, :new, :create, :close_completed]
+  before_action :find_model_object, except: %i[index new create close_completed]
+  before_action :find_project_from_association, except: %i[index new create close_completed]
+  before_action :find_project, only: %i[index new create close_completed]
   before_action :authorize
 
   include VersionsHelper
@@ -52,8 +53,8 @@ class VersionsController < ApplicationController
     unless @selected_type_ids.empty?
       @versions.each do |version|
         issues = version.fixed_issues.visible.includes(:project, :status, :type, :priority)
-                 .where(type_id: @selected_type_ids, project_id: project_ids)
-                 .order("#{Project.table_name}.lft, #{::Type.table_name}.position, #{WorkPackage.table_name}.id")
+                        .where(type_id: @selected_type_ids, project_id: project_ids)
+                        .order("#{Project.table_name}.lft, #{::Type.table_name}.position, #{WorkPackage.table_name}.id")
         @issues_by_version[version] = issues
       end
     end
@@ -62,7 +63,7 @@ class VersionsController < ApplicationController
 
   def show
     @issues = @version.fixed_issues.visible.includes(:status, :type, :priority)
-              .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
+                      .order("#{::Type.table_name}.position, #{WorkPackage.table_name}.id")
   end
 
   def new
@@ -93,8 +94,7 @@ class VersionsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if request.patch? && permitted_params.version
@@ -133,8 +133,8 @@ class VersionsController < ApplicationController
 
   def status_by
     respond_to do |format|
-      format.html do render action: 'show' end
-      format.js do render_status_by @version, params[:status_by] end
+      format.html { render action: 'show' }
+      format.js { render_status_by @version, params[:status_by] }
     end
   end
 
@@ -148,7 +148,7 @@ class VersionsController < ApplicationController
 
   def retrieve_selected_type_ids(selectable_types, default_types = nil)
     if ids = params[:type_ids]
-      @selected_type_ids = (ids.is_a? Array) ? ids.map { |id| id.to_i.to_s } : ids.split('/').map { |id| id.to_i.to_s }
+      @selected_type_ids = ids.is_a? Array ? ids.map { |id| id.to_i.to_s } : ids.split('/').map { |id| id.to_i.to_s }
     else
       @selected_type_ids = (default_types || selectable_types).map { |t| t.id.to_s }
     end

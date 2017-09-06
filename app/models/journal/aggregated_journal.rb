@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -44,8 +45,8 @@ class Journal::AggregatedJournal
     # Returns the aggregated journal that contains the specified (vanilla/pure) journal.
     def for_journal(pure_journal)
       raw = Journal::AggregatedJournal.query_aggregated_journals(journable: pure_journal.journable)
-            .where("#{version_projection} >= ?", pure_journal.version)
-            .first
+                                      .where("#{version_projection} >= ?", pure_journal.version)
+                                      .first
 
       raw ? Journal::AggregatedJournal.new(raw) : nil
     end
@@ -76,11 +77,11 @@ class Journal::AggregatedJournal
         predecessors[journable_key] << journal
       end
 
-      aggregated_journals = raw_journals.map { |journal|
+      aggregated_journals = raw_journals.map do |journal|
         journable_key = [journal.journable_type, journal.journable_id]
 
         Journal::AggregatedJournal.new(journal, predecessor: predecessors[journable_key].shift)
-      }
+      end
 
       preload_associations(journable, aggregated_journals, includes)
 
@@ -101,14 +102,14 @@ class Journal::AggregatedJournal
       # (that means if we can find a valid predecessor), we drop our current row, because it will
       # already be present (in a merged form) in the row of our predecessor.
       Journal.from("(#{sql_rough_group(1, journable, until_version, journal_id)}) #{table_name}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(2, journable, until_version, journal_id)}) addition
+             .joins("LEFT OUTER JOIN (#{sql_rough_group(2, journable, until_version, journal_id)}) addition
                               ON #{sql_on_groups_belong_condition(table_name, 'addition')}")
-      .joins("LEFT OUTER JOIN (#{sql_rough_group(3, journable, until_version, journal_id)}) predecessor
+             .joins("LEFT OUTER JOIN (#{sql_rough_group(3, journable, until_version, journal_id)}) predecessor
                          ON #{sql_on_groups_belong_condition('predecessor', table_name)}")
-      .where('predecessor.id IS NULL')
-      .order("COALESCE(addition.created_at, #{table_name}.created_at) ASC")
-      .order("#{version_projection} ASC")
-      .select("#{table_name}.journable_id,
+             .where('predecessor.id IS NULL')
+             .order("COALESCE(addition.created_at, #{table_name}.created_at) ASC")
+             .order("#{version_projection} ASC")
+             .select("#{table_name}.journable_id,
                #{table_name}.journable_type,
                #{table_name}.user_id,
                #{table_name}.notes,
@@ -142,7 +143,8 @@ class Journal::AggregatedJournal
       !Journal::AggregatedJournal
         .query_aggregated_journals(
           journable: successor.journable,
-          until_version: successor.version - 1)
+          until_version: successor.version - 1
+        )
         .where("#{version_projection} = #{predecessor.version}")
         .exists?
     end
@@ -294,26 +296,26 @@ class Journal::AggregatedJournal
 
       customizable_journals = if includes.include?(:customizable_journals)
                                 Journal::CustomizableJournal
-                                .where(journal_id: journal_ids)
-                                .all
-                                .group_by(&:journal_id)
+                                  .where(journal_id: journal_ids)
+                                  .all
+                                  .group_by(&:journal_id)
                               end
 
       attachable_journals = if includes.include?(:customizable_journals)
                               Journal::AttachableJournal
-                              .where(journal_id: journal_ids)
-                              .all
-                              .group_by(&:journal_id)
+                                .where(journal_id: journal_ids)
+                                .all
+                                .group_by(&:journal_id)
                             end
 
       data = if includes.include?(:data)
                "Journal::#{journable.class}Journal".constantize
-               .where(journal_id: journal_ids)
-               .all
-               .group_by(&:journal_id)
+                                                   .where(journal_id: journal_ids)
+                                                   .all
+                                                   .group_by(&:journal_id)
              end
 
-      aggregated_journals.each { |journal|
+      aggregated_journals.each do |journal|
         if includes.include?(:customizable_journals)
           journal.set_preloaded_customizable_journals customizable_journals[journal.id]
         end
@@ -326,7 +328,7 @@ class Journal::AggregatedJournal
         if journable
           journal.set_preloaded_journable journable
         end
-      }
+      end
     end
   end
 
@@ -389,10 +391,10 @@ class Journal::AggregatedJournal
   def predecessor
     unless defined? @predecessor
       raw_journal = self.class.query_aggregated_journals(journable: journable)
-                    .where("#{self.class.version_projection} < ?", version)
-                    .except(:order)
-                    .order("#{self.class.version_projection} DESC")
-                    .first
+                        .where("#{self.class.version_projection} < ?", version)
+                        .except(:order)
+                        .order("#{self.class.version_projection} DESC")
+                        .first
 
       @predecessor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
     end
@@ -403,10 +405,10 @@ class Journal::AggregatedJournal
   def successor
     unless defined? @successor
       raw_journal = self.class.query_aggregated_journals(journable: journable)
-                      .where("#{self.class.version_projection} > ?", version)
-                      .except(:order)
-                      .order("#{self.class.version_projection} ASC")
-                      .first
+                        .where("#{self.class.version_projection} > ?", version)
+                        .except(:order)
+                        .order("#{self.class.version_projection} ASC")
+                        .first
 
       @successor = raw_journal ? Journal::AggregatedJournal.new(raw_journal) : nil
     end

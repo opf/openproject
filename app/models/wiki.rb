@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -71,7 +72,7 @@ class Wiki < ActiveRecord::Base
     title = start_page if title.blank?
 
     page = pages.where(slug: title.to_url).first
-    if !page && !(options[:with_redirect] == false)
+    if !page && options[:with_redirect] != false
       # search for a redirect
       redirect = matching_redirect(title)
       page = find_page(redirect.redirects_to, with_redirect: false) if redirect
@@ -100,9 +101,9 @@ class Wiki < ActiveRecord::Base
   end
 
   def create_menu_item_for_start_page
-    wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) { |item|
+    wiki_menu_item = wiki_menu_items.find_or_initialize_by(title: start_page) do |item|
       item.name = 'wiki'
-    }
+    end
     wiki_menu_item.new_wiki_page = true
     wiki_menu_item.index_page = true
 

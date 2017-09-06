@@ -35,20 +35,19 @@ attributes :id,
            :parent_id,
            :responsible_id
 
-
-node :type_ids, if: lambda{|project| project.types.present? } do |project|
+node :type_ids, if: lambda { |project| project.types.present? } do |project|
   project.types.map(&:id)
 end
 
-node :project_associations, if: lambda{|project| has_associations?(project)} do |project|
+node :project_associations, if: lambda { |project| has_associations?(project) } do |project|
   associations_for_project(project).map do |association|
     other_id = [association.project_a_id, association.project_b_id].find { |id| id != project.id }
 
-    {id: association.id,
-     to_project_id: other_id,
-     description: association.description}
+    { id: association.id,
+      to_project_id: other_id,
+      description: association.description }
   end
 end
 
-node :created_on, if: lambda{|project| project.created_on.present?} {|project| project.created_on.utc.iso8601}
-node :updated_on, if: lambda{|project| project.updated_on.present?} {|project| project.updated_on.utc.iso8601}
+node :created_on, if: lambda { |project| project.created_on.present? } { |project| project.created_on.utc.iso8601 }
+node :updated_on, if: lambda { |project| project.updated_on.present? } { |project| project.updated_on.utc.iso8601 }

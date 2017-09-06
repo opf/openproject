@@ -29,7 +29,6 @@
 require 'spec_helper'
 
 describe Wiki, type: :model do
-
   describe 'creation' do
     let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
     let(:start_page) { 'The wiki start page' }

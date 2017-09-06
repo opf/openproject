@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -50,7 +51,7 @@ module BasicData
     # @return [Array<Hash>] List of attributes for each type.
     def data
       colors = PlanningElementTypeColor.all
-      colors = colors.map { |c| { c.name =>  c.id } }.reduce({}, :merge)
+      colors = colors.map { |c| { c.name => c.id } }.reduce({}, :merge)
 
       type_table.map do |name, values|
         {
@@ -66,7 +67,7 @@ module BasicData
     end
 
     def type_names
-      [:task, :milestone, :phase, :feature, :epic, :user_story, :bug]
+      %i[task milestone phase feature epic user_story bug]
     end
 
     def type_table

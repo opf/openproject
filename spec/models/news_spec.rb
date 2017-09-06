@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,11 +35,11 @@ require 'support/shared/acts_as_watchable'
 describe News, type: :model do
   include BecomeMember
 
-  let(:project) {
+  let(:project) do
     project = FactoryGirl.create(:public_project)
     project.enabled_modules << EnabledModule.new(name: 'news')
     project.reload
-  }
+  end
 
   let!(:news) { FactoryGirl.create(:news, project: project) }
   let(:permissions) { [] }

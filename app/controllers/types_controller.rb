@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -120,11 +121,11 @@ class TypesController < ApplicationController
       @type.destroy
       flash[:notice] = l(:notice_successful_delete)
     else
-      if @type.is_standard?
-        flash[:error] = t(:error_can_not_delete_standard_type)
-      else
-        flash[:error] = t(:error_can_not_delete_type)
-      end
+      flash[:error] = if @type.is_standard?
+                        t(:error_can_not_delete_standard_type)
+                      else
+                        t(:error_can_not_delete_type)
+                      end
     end
     redirect_to action: 'index'
   end

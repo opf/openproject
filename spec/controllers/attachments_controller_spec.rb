@@ -31,26 +31,26 @@ require 'spec_helper'
 describe AttachmentsController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) {
+  let(:role) do
     FactoryGirl.create(:role,
-                       permissions: [:edit_work_packages,
-                                     :view_work_packages,
-                                     :delete_wiki_pages_attachments])
-  }
-  let!(:member) {
+                       permissions: %i[edit_work_packages
+                                       view_work_packages
+                                       delete_wiki_pages_attachments])
+  end
+  let!(:member) do
     FactoryGirl.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
-  }
+  end
 
-  before do allow(User).to receive(:current).and_return user end
+  before { allow(User).to receive(:current).and_return user }
 
   describe '#destroy' do
-    let(:attachment) {
+    let(:attachment) do
       FactoryGirl.create(:attachment,
                          container: container)
-    }
+    end
 
     shared_examples_for :deleted do
       subject { Attachment.find_by(id: attachment.id) }
@@ -67,11 +67,11 @@ describe AttachmentsController, type: :controller do
     end
 
     context 'work_package' do
-      let(:container) {
+      let(:container) do
         FactoryGirl.create(:work_package,
                            author: user,
                            project: project)
-      }
+      end
       let(:redirect_path) { work_package_path(container) }
 
       before do
@@ -84,10 +84,10 @@ describe AttachmentsController, type: :controller do
     end
 
     context 'wiki' do
-      let(:container) {
+      let(:container) do
         FactoryGirl.create(:wiki_page,
                            wiki: project.wiki)
-      }
+      end
       let(:redirect_path) { project_wiki_path(project, project.wiki) }
 
       before do
@@ -133,9 +133,9 @@ describe AttachmentsController, type: :controller do
       allow(Attachment).to receive(:find).with(attachment.id.to_s).and_return(attachment)
     end
 
-    subject {
+    subject do
       get :download, params: { id: attachment.id }
-    }
+    end
 
     context 'with a local file' do
       let(:uploader) { LocalFileUploader }

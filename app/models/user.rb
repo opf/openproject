@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,19 +32,19 @@ require 'digest/sha1'
 
 class User < Principal
   USER_FORMATS_STRUCTURE = {
-    firstname_lastname:       [:firstname, :lastname],
+    firstname_lastname:       %i[firstname lastname],
     firstname:                [:firstname],
-    lastname_firstname:       [:lastname, :firstname],
-    lastname_coma_firstname:  [:lastname, :firstname],
+    lastname_firstname:       %i[lastname firstname],
+    lastname_coma_firstname:  %i[lastname firstname],
     username:                 [:login]
-  }
+  }.freeze
 
-  USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all]
-  USER_MAIL_OPTION_SELECTED       = ['selected', :label_user_mail_option_selected]
-  USER_MAIL_OPTION_ONLY_MY_EVENTS = ['only_my_events', :label_user_mail_option_only_my_events]
-  USER_MAIL_OPTION_ONLY_ASSIGNED  = ['only_assigned', :label_user_mail_option_only_assigned]
-  USER_MAIL_OPTION_ONLY_OWNER     = ['only_owner', :label_user_mail_option_only_owner]
-  USER_MAIL_OPTION_NON            = ['none', :label_user_mail_option_none]
+  USER_MAIL_OPTION_ALL            = ['all', :label_user_mail_option_all].freeze
+  USER_MAIL_OPTION_SELECTED       = ['selected', :label_user_mail_option_selected].freeze
+  USER_MAIL_OPTION_ONLY_MY_EVENTS = ['only_my_events', :label_user_mail_option_only_my_events].freeze
+  USER_MAIL_OPTION_ONLY_ASSIGNED  = ['only_assigned', :label_user_mail_option_only_assigned].freeze
+  USER_MAIL_OPTION_ONLY_OWNER     = ['only_owner', :label_user_mail_option_only_owner].freeze
+  USER_MAIL_OPTION_NON            = ['none', :label_user_mail_option_none].freeze
 
   MAIL_NOTIFICATION_OPTIONS = [
     USER_MAIL_OPTION_ALL,
@@ -52,7 +53,7 @@ class User < Principal
     USER_MAIL_OPTION_ONLY_ASSIGNED,
     USER_MAIL_OPTION_ONLY_OWNER,
     USER_MAIL_OPTION_NON
-  ]
+  ].freeze
 
   has_and_belongs_to_many :groups,
                           join_table:   "#{table_name_prefix}group_users#{table_name_suffix}",
@@ -140,13 +141,17 @@ class User < Principal
   before_destroy :reassign_associated
   before_destroy :remove_from_filter
 
-  scope :in_group, -> (group) {
+  scope :in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    where(["#{User.table_name}.id IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
+    query = "#{User.table_name}.id IN (SELECT gu.user_id FROM
+      #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)"
+    where([query, group_id])
   }
-  scope :not_in_group, -> (group) {
+  scope :not_in_group, ->(group) {
     group_id = group.is_a?(Group) ? group.id : group.to_i
-    where(["#{User.table_name}.id NOT IN (SELECT gu.user_id FROM #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)", group_id])
+    query = "#{User.table_name}.id NOT IN (SELECT gu.user_id FROM
+      #{table_name_prefix}group_users#{table_name_suffix} gu WHERE gu.group_id = ?)"
+    where([query, group_id])
   }
   scope :admin, -> { where(admin: true) }
 
@@ -205,11 +210,11 @@ class User < Principal
     # Make sure no one can sign in with an empty password
     return nil if password.to_s.empty?
     user = find_by_login(login)
-    user = if user
-             try_authentication_for_existing_user(user, password, session)
-           else
-             try_authentication_and_create_user(login, password)
-    end
+    user =  if user
+              try_authentication_for_existing_user(user, password, session)
+            else
+              try_authentication_and_create_user(login, password)
+            end
     unless prevent_brute_force_attack(user, login).nil?
       user.log_successful_login if user && !user.new_record?
       return user
@@ -263,7 +268,9 @@ class User < Principal
       user.language = Setting.default_language
       if user.save
         user.reload
-        logger.info("User '#{user.login}' created from external auth source: #{user.auth_source.type} - #{user.auth_source.name}") if logger && user.auth_source
+        log = "User '#{user.login}' created from external auth source:
+          #{user.auth_source.type} - #{user.auth_source.name}"
+        logger.info(log) if logger && user.auth_source
       end
     end
     user
@@ -408,7 +415,7 @@ class User < Principal
   #
   def failed_too_many_recent_login_attempts?
     block_threshold = Setting.brute_force_block_after_failed_logins.to_i
-    return false if block_threshold == 0  # disabled
+    return false if block_threshold.zero? # disabled
     (last_failed_login_within_block_time? and
             failed_login_count >= block_threshold)
   end
@@ -467,9 +474,11 @@ class User < Principal
 
   def notified_project_ids=(ids)
     Member.where(['user_id = ?', id])
-      .update_all("mail_notification = #{self.class.connection.quoted_false}")
-    Member.where(['user_id = ? AND project_id IN (?)', id, ids])
-      .update_all("mail_notification = #{self.class.connection.quoted_true}") if ids && !ids.empty?
+          .update_all("mail_notification = #{self.class.connection.quoted_false}")
+    if ids && !ids.empty?
+      Member.where(['user_id = ? AND project_id IN (?)', id, ids])
+            .update_all("mail_notification = #{self.class.connection.quoted_true}")
+    end
     @notified_projects_ids = nil
     notified_projects_ids
   end
@@ -482,7 +491,7 @@ class User < Principal
   def self.valid_notification_options(user = nil)
     # Note that @user.membership.size would fail since AR ignores
     # :include association option when doing a count
-    if user.nil? || user.memberships.length < 1
+    if user.nil? || user.memberships.empty?
       MAIL_NOTIFICATION_OPTIONS.reject { |option| option.first == 'selected' }
     else
       MAIL_NOTIFICATION_OPTIONS
@@ -493,11 +502,11 @@ class User < Principal
   # version.  Exact matches will be given priority.
   def self.find_by_login(login)
     # force string comparison to be case sensitive on MySQL
-    type_cast = (OpenProject::Database.mysql?) ? 'BINARY' : ''
+    type_cast = OpenProject::Database.mysql? ? 'BINARY' : ''
     # First look for an exact match
     user = where(["#{type_cast} login = ?", login]).first
     # Fail over to case-insensitive if none was found
-    user ||= where(["#{type_cast} LOWER(login) = ?", login.to_s.downcase]).first
+    user || where(["#{type_cast} LOWER(login) = ?", login.to_s.downcase]).first
   end
 
   def self.find_by_rss_key(key)
@@ -712,18 +721,18 @@ class User < Principal
     # save. Otherwise, password is nil.
     unless password.nil? or anonymous?
       password_errors = OpenProject::Passwords::Evaluator.errors_for_password(password)
-      password_errors.each do |error| errors.add(:password, error) end
+      password_errors.each { |error| errors.add(:password, error) }
 
       if former_passwords_include?(password)
         errors.add(:password,
                    I18n.t(:reused,
                           count: Setting[:password_count_former_banned].to_i,
-                          scope: [:activerecord,
-                                  :errors,
-                                  :models,
-                                  :user,
-                                  :attributes,
-                                  :password]))
+                          scope: %i[activerecord
+                                    errors
+                                    models
+                                    user
+                                    attributes
+                                    password]))
       end
     end
   end
@@ -735,7 +744,7 @@ class User < Principal
   end
 
   def former_passwords_include?(password)
-    return false if Setting[:password_count_former_banned].to_i == 0
+    return false if Setting[:password_count_former_banned].to_i.zero?
     ban_count = Setting[:password_count_former_banned].to_i
     # make reducing the number of banned former passwords immediately effective
     # by only checking this number of former passwords
@@ -756,10 +765,10 @@ class User < Principal
 
     timelines.each do |timeline|
       timelines_filter.each do |field|
-        fieldOptions = timeline.options[field]
-        if fieldOptions && index = fieldOptions.index(id.to_s)
+        field_options = timeline.options[field]
+        if field_options && index = field_options.index(id.to_s)
           timeline.options_will_change!
-          fieldOptions[index] = substitute.id.to_s
+          field_options[index] = substitute.id.to_s
         end
       end
 

@@ -35,7 +35,7 @@ module OpenProject
       # Checks whether the given user is authorized to login by calling
       # all registered callbacks. If all callbacks approve the user is authorized and may log in.
       def self.authorized?(auth_hash)
-        rejection = callbacks.find_map { |callback|
+        rejection = callbacks.find_map do |callback|
           d = callback.authorize auth_hash
 
           if d.is_a? Decision
@@ -43,7 +43,7 @@ module OpenProject
           else
             fail ArgumentError, 'Expecting Callback#authorize to return a Decision.'
           end
-        }
+        end
 
         rejection || Approval.new
       end
@@ -105,7 +105,7 @@ module OpenProject
       # @yieldparam user [User] User who has been logged in.
       # @yieldparam auth_hash [AuthHash] auth_hash OmniAuth authentication information
       #                                  including user info and credentials.
-      # @yieldparam context The context from which the callback is called, e.g. a Controller.                    
+      # @yieldparam context The context from which the callback is called, e.g. a Controller.
       def self.after_login(&block)
         add_after_login_callback AfterLoginBlockCallback.new(&block)
       end
@@ -255,9 +255,9 @@ module OpenProject
         ##
         # Passes each element to the given block and returns the
         # result of the block as soon as it's truthy.
-        def find_map(&block)
+        def find_map
           each do |e|
-            result = block.call e
+            result = yield e
 
             return result if result
           end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,7 +33,7 @@ require_relative 'migration_utils/utils'
 class MigrateSettingsToWorkPackage < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
-  COLUMN = 'name'
+  COLUMN = 'name'.freeze
 
   SETTINGS = {
     'issue_list_summable_columns' => 'work_package_list_summable_columns',
@@ -42,7 +43,7 @@ class MigrateSettingsToWorkPackage < ActiveRecord::Migration[4.2]
     'cross_project_issue_relations' => 'cross_project_work_package_relations',
     'display_subprojects_issues' => 'display_subprojects_work_packages',
     'issue_startdate_is_adddate' => 'work_package_startdate_is_adddate'
-  }
+  }.freeze
 
   def up
     say_with_time_silently 'Update settings' do

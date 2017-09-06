@@ -29,11 +29,10 @@
 require 'spec_helper'
 
 describe Project::Storage, type: :model do
-
-  let(:project1) {
+  let(:project1) do
     FactoryGirl.create(:project)
-      .reload # Reload required for wiki association to be available
-  }
+               .reload # Reload required for wiki association to be available
+  end
   let(:project2) { FactoryGirl.create(:project) }
 
   before do
@@ -52,7 +51,6 @@ describe Project::Storage, type: :model do
 
   describe '#with_required_storage' do
     it 'counts projects correctly' do
-
       # TODO Using storage.find(project1.id) here causes work_package_required_space
       # to be nil or "2500" (Postgres only) occasionally with no definitive solution found.
       # The returned "2500" were pre-Rails4 behavior, thus this might be a Rails bug.

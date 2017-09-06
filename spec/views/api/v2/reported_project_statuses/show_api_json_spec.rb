@@ -34,13 +34,13 @@ describe 'api/v2/reported_project_statuses/show.api.rabl', type: :view do
   end
 
   describe 'with an assigned reported_project_status' do
-    let(:reported_project_status) {
+    let(:reported_project_status) do
       FactoryGirl.build(:reported_project_status,
                         id:         1,
                         name:       'Awesometastic reported_project_status',
                         is_default: true,
                         position:   10)
-    }
+    end
 
     before do
       assign(:reported_project_status, reported_project_status)

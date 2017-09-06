@@ -30,16 +30,16 @@ require 'spec_helper'
 
 describe WorkPackage, type: :model do
   describe ActionMailer::Base do
-    let(:user_1) {
+    let(:user_1) do
       FactoryGirl.build(:user,
                         mail: 'dlopper@somenet.foo',
                         member_in_project: project)
-    }
-    let(:user_2) {
+    end
+    let(:user_2) do
       FactoryGirl.build(:user,
                         mail: 'jsmith@somenet.foo',
                         member_in_project: project)
-    }
+    end
     let(:project) { FactoryGirl.create(:project) }
     let(:work_package) { FactoryGirl.build(:work_package, project: project) }
 
@@ -64,7 +64,11 @@ describe WorkPackage, type: :model do
         ActionMailer::Base.deliveries.clear
 
         work_package.subject = 'A different subject update'
-        work_package.save! rescue nil
+        begin
+          work_package.save!
+        rescue
+          nil
+        end
       end
 
       it { is_expected.to eq(0) }

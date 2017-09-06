@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -125,7 +126,7 @@ module ProjectsHelper
 
         classes = (ancestors.empty? ? 'root' : 'child')
         s << "<li class='#{classes}'><div class='#{classes}'>" +
-          link_to_project(project, {}, { class: 'project' }, true)
+             link_to_project(project, {}, { class: 'project' }, true)
 
         unless project.description.blank?
           formatted_text = format_text(project.short_description, project: project)

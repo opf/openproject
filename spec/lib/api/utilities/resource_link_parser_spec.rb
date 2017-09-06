@@ -142,46 +142,46 @@ describe ::API::Utilities::ResourceLinkParser do
     end
 
     it 'accepts on matching version' do
-      expect {
+      expect do
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_version: '3')
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'accepts on matching version as integer' do
-      expect {
+      expect do
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_version: 3)
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'accepts on matching namespace' do
-      expect {
+      expect do
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_namespace: 'statuses')
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'accepts on matching namespace as symbol' do
-      expect {
+      expect do
         subject.parse_id('/api/v3/statuses/14', property: 'foo', expected_namespace: :statuses)
-      }.not_to raise_error
+      end.not_to raise_error
     end
 
     it 'raises on version mismatch' do
-      expect {
+      expect do
         subject.parse_id('/api/v4/statuses/14', property: 'foo', expected_version: '3')
-      }.to raise_error(::API::Errors::InvalidResourceLink)
+      end.to raise_error(::API::Errors::InvalidResourceLink)
     end
 
     it 'raises on namespace mismatch' do
-      expect {
+      expect do
         subject.parse_id('/api/v3/types/14', property: 'foo', expected_namespace: 'statuses')
-      }.to raise_error(::API::Errors::InvalidResourceLink)
+      end.to raise_error(::API::Errors::InvalidResourceLink)
     end
 
     it 'contains the property name in exception messages' do
       property_name = 'My Property Name'
-      expect {
+      expect do
         subject.parse_id('/api/v4/statuses/14', property: property_name, expected_version: '3')
-      }.to raise_error(Regexp.compile(property_name))
+      end.to raise_error(Regexp.compile(property_name))
     end
   end
 end

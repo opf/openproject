@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -92,33 +93,40 @@ class WikiMenuItemsController < ApplicationController
 
   def select_main_menu_item
     @page = WikiPage.find params[:id]
-    @possible_wiki_pages = @project.wiki.pages.includes(:parent)
-                           .reject { |page|
-                             page != @page && page.menu_item.present? &&
-                             page.menu_item.is_main_item?
-                           }
+    @possible_wiki_pages = @project.wiki
+                                   .pages
+                                   .includes(:parent)
+                                   .reject do |page|
+      page != @page && page.menu_item.present? && page.menu_item.is_main_item?
+    end
   end
 
   def replace_main_menu_item
     current_page = WikiPage.find params[:id]
-
-    if (current_menu_item = current_page.menu_item) && (page = WikiPage.find_by(id: params[:wiki_page][:id])) && current_menu_item != page.menu_item
+    if (current_menu_item = current_page.menu_item) &&
+       (page = WikiPage.find_by(id: params[:wiki_page][:id])) &&
+       current_menu_item != page.menu_item
       create_main_menu_item_for_wiki_page(page, current_menu_item.options)
       current_menu_item.destroy
     end
-
     redirect_to action: :edit, id: current_page
   end
 
   private
 
   def wiki_menu_item_params
-    @wiki_menu_item_params ||= params.require(:menu_items_wiki_menu_item).permit(:name, :title, :navigatable_id, :parent_id, :setting, :new_wiki_page, :index_page)
+    @wiki_menu_item_params ||= params.require(:menu_items_wiki_menu_item)
+                                     .permit(:name,
+                                             :title,
+                                             :navigatable_id,
+                                             :parent_id,
+                                             :setting,
+                                             :new_wiki_page,
+                                             :index_page)
   end
 
   def get_data_from_params(params)
-    wiki = @project.wiki
-
+    wiki = @project.wii
     @page = wiki.find_page(params[:id])
     @page_title = @page.title
     @wiki_menu_item = MenuItems::WikiMenuItem.find_or_initialize_by(
@@ -134,7 +142,7 @@ class WikiMenuItemsController < ApplicationController
                                       @wiki_menu_item.parent.id
                                     else
                                       @page.nearest_parent_menu_item(is_main_item: true).try :id
-    end
+                                    end
   end
 
   def assign_wiki_menu_item_params(menu_item)
@@ -155,11 +163,10 @@ class WikiMenuItemsController < ApplicationController
     wiki = page.wiki
 
     menu_item = if item = page.menu_item
-                  item.tap { |item| item.parent_id = nil }
+                  item.tap { |item1| item1.parent_id = nil }
                 else
                   wiki.wiki_menu_items.build(name: page.slug, title: page.title)
-    end
-
+                end
     menu_item.options = options
     menu_item.save
   end

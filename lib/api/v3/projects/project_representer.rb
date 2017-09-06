@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -37,17 +38,21 @@ module API
         self_link
 
         link :createWorkPackage do
-          {
-            href: api_v3_paths.create_project_work_package_form(represented.id),
-            method: :post
-          } if current_user_allowed_to(:add_work_packages, context: represented)
+          if current_user_allowed_to(:add_work_packages, context: represented)
+            {
+              href: api_v3_paths.create_project_work_package_form(represented.id),
+              method: :post
+            }
+          end
         end
 
         link :createWorkPackageImmediate do
-          {
-            href: api_v3_paths.work_packages_by_project(represented.id),
-            method: :post
-          } if current_user_allowed_to(:add_work_packages, context: represented)
+          if current_user_allowed_to(:add_work_packages, context: represented)
+            {
+              href: api_v3_paths.work_packages_by_project(represented.id),
+              method: :post
+            }
+          end
         end
 
         link 'categories' do
@@ -67,13 +72,13 @@ module API
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
         property :updated_on,
                  as: 'updatedAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
 
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
+        property :type, getter: ->(*) { project_type.try(:name) }, render_nil: true
 
         def _type
           'Project'

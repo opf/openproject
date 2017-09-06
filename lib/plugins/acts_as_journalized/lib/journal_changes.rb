@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 module JournalChanges
   def get_changes
     return @changes if @changes
@@ -36,26 +37,26 @@ module JournalChanges
 
     if predecessor.nil?
       @changes = data.journaled_attributes
-                 .reject { |_, new_value| new_value.nil? }
-                 .inject({}) { |result, (attribute, new_value)|
-                   result[attribute] = [nil, new_value]
-                   result
-                 }
+                     .reject { |_, new_value| new_value.nil? }
+                     .inject({}) do |result, (attribute, new_value)|
+        result[attribute] = [nil, new_value]
+        result
+      end
     else
       normalized_new_data = JournalManager.normalize_newlines(data.journaled_attributes)
       normalized_old_data = JournalManager.normalize_newlines(predecessor.data.journaled_attributes)
 
-      normalized_new_data.select { |attribute, new_value|
+      normalized_new_data.select do |attribute, new_value|
         # we dont record changes for changes from nil to empty strings and vice versa
         old_value = normalized_old_data[attribute]
         new_value != old_value && (new_value.present? || old_value.present?)
-      }.each do |attribute, new_value|
+      end.each do |attribute, new_value|
         @changes[attribute] = [normalized_old_data[attribute], new_value]
       end
     end
 
-    @changes.merge!(get_association_changes predecessor, 'attachable', 'attachments', :attachment_id, :filename)
-    @changes.merge!(get_association_changes predecessor, 'customizable', 'custom_fields', :custom_field_id, :value)
+    @changes.merge!(get_association_changes(predecessor, 'attachable', 'attachments', :attachment_id, :filename))
+    @changes.merge!(get_association_changes(predecessor, 'customizable', 'custom_fields', :custom_field_id, :value))
   end
 
   def get_association_changes(predecessor, journal_association, association, key, value)
@@ -63,11 +64,11 @@ module JournalChanges
     journal_assoc_name = "#{journal_association}_journals"
 
     if predecessor.nil?
-      send(journal_assoc_name).each_with_object(changes) { |associated_journal, h|
+      send(journal_assoc_name).each_with_object(changes) do |associated_journal, h|
         changed_attribute = "#{association}_#{associated_journal.send(key)}"
         new_value = associated_journal.send(value)
         h[changed_attribute] = [nil, new_value]
-      }
+      end
     else
       new_journals = send(journal_assoc_name).map(&:attributes)
       old_journals = predecessor.send(journal_assoc_name).map(&:attributes)

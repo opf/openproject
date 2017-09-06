@@ -33,7 +33,7 @@ describe Api::V2::WorkflowsController, type: :controller do
     describe 'unauthorized access' do
       let(:project) { FactoryGirl.create(:project) }
 
-      before do get :index, params: { project_id: project.id }, format: :xml end
+      before { get :index, params: { project_id: project.id }, format: :xml }
 
       it { expect(response.status).to eq(401) }
     end
@@ -41,7 +41,7 @@ describe Api::V2::WorkflowsController, type: :controller do
     describe 'authorized access' do
       let(:current_user) { FactoryGirl.create(:user) }
 
-      before do allow(User).to receive(:current).and_return current_user end
+      before { allow(User).to receive(:current).and_return current_user }
 
       shared_examples_for 'valid workflow index request' do
         it { expect(assigns(:project)).to eq(project) }
@@ -50,7 +50,7 @@ describe Api::V2::WorkflowsController, type: :controller do
       end
 
       describe 'w/o project' do
-        before do get :index, format: :xml end
+        before { get :index, format: :xml }
 
         it { expect(response.status).to eq(404) }
       end
@@ -60,18 +60,18 @@ describe Api::V2::WorkflowsController, type: :controller do
         let(:role_1) { FactoryGirl.create(:role) }
         let(:type_0) { FactoryGirl.create(:type) }
         let(:type_1) { FactoryGirl.create(:type) }
-        let(:project) {
+        let(:project) do
           FactoryGirl.create(:project,
                              types: [type_0, type_1])
-        }
-        let!(:member) {
+        end
+        let!(:member) do
           FactoryGirl.create(:member,
                              user: current_user,
                              project: project,
                              roles: [role_0, role_1])
-        }
+        end
 
-        before do get :index, params: { project_id: project.id }, format: :xml end
+        before { get :index, params: { project_id: project.id }, format: :xml }
 
         it { expect(assigns(:workflows)).to be_empty }
 
@@ -84,67 +84,67 @@ describe Api::V2::WorkflowsController, type: :controller do
           let(:status_3) { FactoryGirl.create(:status) }
           let(:status_4a) { FactoryGirl.create(:status) }
           let(:status_4b) { FactoryGirl.create(:status) }
-          let!(:workflow_0a) {
+          let!(:workflow_0a) do
             FactoryGirl.create(:workflow,
                                old_status: status_0,
                                new_status: status_1,
                                type_id: type_0.id,
                                role: role_0)
-          }
-          let!(:workflow_0b) {
+          end
+          let!(:workflow_0b) do
             FactoryGirl.create(:workflow,
                                old_status: status_0,
                                new_status: status_1,
                                type_id: type_0.id,
                                role: role_1)
-          }
-          let!(:workflow_1a) {
+          end
+          let!(:workflow_1a) do
             FactoryGirl.create(:workflow,
                                old_status: status_1,
                                new_status: status_2,
                                type_id: type_0.id,
                                role: role_0)
-          }
-          let!(:workflow_1b) {
+          end
+          let!(:workflow_1b) do
             FactoryGirl.create(:workflow,
                                old_status: status_1,
                                new_status: status_3,
                                type_id: type_0.id,
                                role: role_0)
-          }
-          let!(:workflow_2) {
+          end
+          let!(:workflow_2) do
             FactoryGirl.create(:workflow,
                                old_status: status_2,
                                new_status: status_3,
                                type_id: type_1.id,
                                role: role_0)
-          }
-          let!(:workflow_3) {
+          end
+          let!(:workflow_3) do
             FactoryGirl.create(:workflow,
                                old_status: status_3,
                                new_status: status_4a,
                                type_id: type_1.id,
                                role: role_0,
                                author: true)
-          }
-          let!(:workflow_4a) {
+          end
+          let!(:workflow_4a) do
             FactoryGirl.create(:workflow,
                                old_status: status_3,
                                new_status: status_4b,
                                type_id: type_1.id,
                                role: role_0,
                                assignee: true)
-          }
-          let!(:workflow_4b) {
+          end
+          let!(:workflow_4b) do
             FactoryGirl.create(:workflow,
                                old_status: status_3,
                                new_status: status_4b,
                                type_id: type_1.id,
                                role: role_1,
                                assignee: false)
-          }
+          end
 
-          before do get :index, params: { project_id: project.id }, format: :xml end
+          before { get :index, params: { project_id: project.id }, format: :xml }
 
           it_behaves_like 'valid workflow index request'
 
@@ -183,11 +183,11 @@ describe Api::V2::WorkflowsController, type: :controller do
 
                 it { expect(workflow_type_1_roles.length).to eq(3) }
 
-                it { expect(workflow_type_1_roles.uniq).to match_array([:role, :author, :assignee]) }
+                it { expect(workflow_type_1_roles.uniq).to match_array(%i[role author assignee]) }
 
                 it { expect(workflow_type_1_status_3.transitions.length).to eq(2) }
 
-                it { expect(workflow_type_1_status_3.transitions.map(&:scope)).to match_array([:author, :assignee]) }
+                it { expect(workflow_type_1_status_3.transitions.map(&:scope)).to match_array(%i[author assignee]) }
               end
             end
           end

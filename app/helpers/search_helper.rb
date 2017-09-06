@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -74,12 +75,12 @@ module SearchHelper
   def notes_anchor(event)
     version = event.version.to_i
 
-    (version > 1) ? "note-#{version - 1}" : ''
+    version > 1 ? "note-#{version - 1}" : ''
   end
 
   def with_notes_anchor(event, tokens)
     if has_tokens? last_journal(event).try(:notes), tokens
-      event.event_url.merge anchor: notes_anchor(last_journal event)
+      event.event_url.merge anchor: notes_anchor(last_journal(event))
     else
       event.event_url
     end

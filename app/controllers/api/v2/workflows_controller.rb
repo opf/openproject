@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -46,8 +47,8 @@ module Api
       def index
         workflows = ::Workflow.where(type_id: @project.types.map(&:id),
                                      role_id: User.current.roles(@project).map(&:id))
-                    .select(workflow_select_statement)
-                    .group('type_id, old_status_id, new_status_id')
+                              .select(workflow_select_statement)
+                              .group('type_id, old_status_id, new_status_id')
 
         workflows_by_type_and_old_status = workflows.group_by(&:type_id).each_with_object({}) do |kv, h|
           h[kv[0]] = kv[1].group_by(&:old_status_id)
@@ -79,11 +80,11 @@ module Api
       def workflow_select_statement
         stmt = 'type_id, old_status_id, new_status_id, '
 
-        if ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
-          stmt += 'MAX(CAST(assignee AS INT)) AS assignee, MAX(CAST(author AS INT)) AS author'
-        else
-          stmt += 'MAX(assignee) AS assignee, MAX(author) AS author'
-        end
+        stmt += if ActiveRecord::Base.connection.instance_values['config'][:adapter] == 'postgresql'
+                  'MAX(CAST(assignee AS INT)) AS assignee, MAX(CAST(author AS INT)) AS author'
+                else
+                  'MAX(assignee) AS assignee, MAX(author) AS author'
+                end
 
         stmt
       end

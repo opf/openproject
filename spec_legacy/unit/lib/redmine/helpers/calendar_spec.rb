@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@ require 'legacy_spec_helper'
 
 describe Redmine::Helpers::Calendar, type: :model do
   it 'should monthly' do
-    Setting.available_languages = [:de, :en]
+    Setting.available_languages = %i[de en]
     c = Redmine::Helpers::Calendar.new(Date.today, :de, :month)
     assert_equal [1, 7], [c.startdt.cwday, c.enddt.cwday]
 
@@ -42,7 +43,7 @@ describe Redmine::Helpers::Calendar, type: :model do
   end
 
   it 'should weekly' do
-    Setting.available_languages = [:de, :en]
+    Setting.available_languages = %i[de en]
     c = Redmine::Helpers::Calendar.new(Date.today, :de, :week)
     assert_equal [1, 7], [c.startdt.cwday, c.enddt.cwday]
 

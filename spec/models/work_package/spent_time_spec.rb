@@ -69,7 +69,7 @@ describe WorkPackage::SpentTime, type: :model do
   end
   let(:role) do
     FactoryGirl.build(:role,
-                      permissions: [:view_time_entries, :view_work_packages])
+                      permissions: %i[view_time_entries view_work_packages])
   end
   let(:role_without_view_time_entries) do
     FactoryGirl.build(:role,
@@ -115,7 +115,7 @@ describe WorkPackage::SpentTime, type: :model do
 
     context 'permissions' do
       it 'counts the child if that child is in a project in which the user ' +
-        'has the necessary permissions' do
+         'has the necessary permissions' do
         FactoryGirl.create(:member,
                            user: user,
                            project: other_project,
@@ -128,7 +128,7 @@ describe WorkPackage::SpentTime, type: :model do
       end
 
       it 'does not count the child if that child is in a project in which the user ' +
-        'lacks the view_time_entries permission' do
+         'lacks the view_time_entries permission' do
         FactoryGirl.create(:member,
                            user: user,
                            project: other_project,
@@ -141,7 +141,7 @@ describe WorkPackage::SpentTime, type: :model do
       end
 
       it 'does not count the child if that child is in a project in which the user ' +
-        'lacks the view_work_packages permission' do
+         'lacks the view_work_packages permission' do
         FactoryGirl.create(:member,
                            user: user,
                            project: other_project,

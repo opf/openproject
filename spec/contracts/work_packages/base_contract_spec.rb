@@ -39,14 +39,14 @@ describe WorkPackages::BaseContract do
   let(:project) { FactoryGirl.create(:project) }
   let(:current_user) { member }
   let(:permissions) do
-    [
-      :view_work_packages,
-      :view_work_package_watchers,
-      :edit_work_packages,
-      :add_work_package_watchers,
-      :delete_work_package_watchers,
-      :manage_work_package_relations,
-      :add_work_package_notes
+    %i[
+      view_work_packages
+      view_work_package_watchers
+      edit_work_packages
+      add_work_package_watchers
+      delete_work_package_watchers
+      manage_work_package_relations
+      add_work_package_notes
     ]
   end
   let(:role) { FactoryGirl.create :role, permissions: permissions }

@@ -113,7 +113,7 @@ class MoveWorkPackageService
       # before setting the attributes, we need to remove the move-related fields
       work_package.attributes =
         attributes.except(:copy, :new_project_id, :new_type_id, :follow, :ids)
-          .reject { |_key, value| value.blank? }
+                  .reject { |_key, value| value.blank? }
     end # FIXME this eliminates the case, where values shall be bulk-assigned to null,
     # but this needs to work together with the permit
   end
@@ -145,8 +145,10 @@ class MoveWorkPackageService
     parent_in_project =
       work_package.parent.nil? || work_package.parent.project == work_package.project
 
-    work_package.parent_id =
-      nil unless Setting.cross_project_work_package_relations? || parent_in_project
+    unless Setting.cross_project_work_package_relations? || parent_in_project
+      work_package.parent_id =
+        nil
+    end
   end
 
   def create_and_save_journal_note(work_package, journal_note)

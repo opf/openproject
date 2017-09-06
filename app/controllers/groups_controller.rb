@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,9 +32,9 @@ class GroupsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_group, only: [:destroy, :autocomplete_for_user,
-                                    :show, :create_memberships, :destroy_membership,
-                                    :edit_membership]
+  before_action :find_group, only: %i[destroy autocomplete_for_user
+                                      show create_memberships destroy_membership
+                                      edit_membership]
 
   # GET /groups
   # GET /groups.xml
@@ -42,7 +43,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # index.html.erb
-      format.xml  do render xml: @groups end
+      format.xml  { render xml: @groups }
     end
   end
 
@@ -51,7 +52,7 @@ class GroupsController < ApplicationController
   def show
     respond_to do |format|
       format.html # show.html.erb
-      format.xml  do render xml: @group end
+      format.xml  { render xml: @group }
     end
   end
 
@@ -62,7 +63,7 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       format.html # new.html.erb
-      format.xml  do render xml: @group end
+      format.xml  { render xml: @group }
     end
   end
 
@@ -79,11 +80,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.save
         flash[:notice] = l(:notice_successful_create)
-        format.html do redirect_to(groups_path) end
-        format.xml  do render xml: @group, status: :created, location: @group end
+        format.html { redirect_to(groups_path) }
+        format.xml  { render xml: @group, status: :created, location: @group }
       else
-        format.html do render action: 'new' end
-        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
+        format.html { render action: 'new' }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -96,11 +97,11 @@ class GroupsController < ApplicationController
     respond_to do |format|
       if @group.update_attributes(permitted_params.group)
         flash[:notice] = l(:notice_successful_update)
-        format.html do redirect_to(groups_path) end
-        format.xml  do head :ok end
+        format.html { redirect_to(groups_path) }
+        format.xml  { head :ok }
       else
-        format.html do render action: 'edit' end
-        format.xml  do render xml: @group.errors, status: :unprocessable_entity end
+        format.html { render action: 'edit' }
+        format.xml  { render xml: @group.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -112,8 +113,8 @@ class GroupsController < ApplicationController
 
     respond_to do |format|
       flash[:notice] = l(:notice_successful_delete)
-      format.html do redirect_to(groups_url) end
-      format.xml  do head :ok end
+      format.html { redirect_to(groups_url) }
+      format.xml  { head :ok }
     end
   end
 
@@ -122,8 +123,8 @@ class GroupsController < ApplicationController
     @users = User.includes(:memberships).where(id: params[:user_ids])
     @group.users << @users
     respond_to do |format|
-      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' end
-      format.js   do render action: 'change_members' end
+      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' }
+      format.js   { render action: 'change_members' }
     end
   end
 
@@ -131,8 +132,8 @@ class GroupsController < ApplicationController
     @group = Group.includes(:users).find(params[:id])
     @group.users.delete(User.includes(:memberships).find(params[:user_id]))
     respond_to do |format|
-      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' end
-      format.js   do render action: 'change_members' end
+      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'users' }
+      format.js   { render action: 'change_members' }
     end
   end
 
@@ -150,8 +151,8 @@ class GroupsController < ApplicationController
     service.call(attributes: membership_params[:membership])
 
     respond_to do |format|
-      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' end
-      format.js   do render action: 'change_memberships' end
+      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' }
+      format.js   { render action: 'change_memberships' }
     end
   end
 
@@ -161,8 +162,8 @@ class GroupsController < ApplicationController
     membership_params = permitted_params.group_membership
     Member.find(membership_params[:membership_id]).destroy
     respond_to do |format|
-      format.html do redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' end
-      format.js   do render action: 'destroy_memberships' end
+      format.html { redirect_to controller: '/groups', action: 'edit', id: @group, tab: 'memberships' }
+      format.js   { render action: 'destroy_memberships' }
     end
   end
 

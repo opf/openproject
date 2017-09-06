@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -76,16 +77,16 @@ module Redmine
       # Return the first day of week
       # 1 = Monday ... 7 = Sunday
       def first_wday
-        case Setting.start_of_week.to_i
-        when 1
-          @first_dow ||= (1 - 1) % 7 + 1
-        when 6
-          @first_dow ||= (6 - 1) % 7 + 1
-        when 7
-          @first_dow ||= (7 - 1) % 7 + 1
-        else
-          @first_dow ||= (l(:general_first_day_of_week).to_i - 1) % 7 + 1
-        end
+        @first_dow ||= case Setting.start_of_week.to_i
+                       when 1
+                         (1 - 1) % 7 + 1
+                       when 6
+                         (6 - 1) % 7 + 1
+                       when 7
+                         (7 - 1) % 7 + 1
+                       else
+                         (l(:general_first_day_of_week).to_i - 1) % 7 + 1
+                       end
       end
 
       def last_wday

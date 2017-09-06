@@ -6,7 +6,7 @@ describe 'Project context switching spec', js: true do
   let(:project) { FactoryGirl.create(:project) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
 
-  let(:wp_table) { Pages::WorkPackagesTable.new  }
+  let(:wp_table) { Pages::WorkPackagesTable.new }
   let(:wp_page) { Pages::FullWorkPackage.new(work_package, project) }
 
   before do

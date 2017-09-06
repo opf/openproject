@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@
 require 'digest/md5'
 
 class Attachment < ActiveRecord::Base
-  ALLOWED_IMAGE_TYPES = %w[ image/gif image/jpeg image/png image/tiff image/bmp ]
+  ALLOWED_IMAGE_TYPES = %w[image/gif image/jpeg image/png image/tiff image/bmp].freeze
 
   belongs_to :container, polymorphic: true
   belongs_to :author, class_name: 'User', foreign_key: 'author_id'
@@ -129,7 +130,7 @@ class Attachment < ActiveRecord::Base
     if attachments
       attachments.each_value do |attachment|
         file = attachment['file']
-        next unless file && file.size > 0
+        next unless file && !file.empty?
         a = Attachment.create(container: obj,
                               file: file,
                               description: attachment['description'].to_s.strip,

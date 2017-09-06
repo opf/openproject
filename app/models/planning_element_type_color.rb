@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -65,7 +66,7 @@ class PlanningElementTypeColor < ActiveRecord::Base
         self.hexcode = '#' + hexcode
       end
 
-      if hexcode.size == 4  # =~ /#.../
+      if hexcode.size == 4 # =~ /#.../
         self.hexcode = hexcode.gsub(/([^#])/, '\1\1')
       end
     end

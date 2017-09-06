@@ -55,7 +55,7 @@ describe ::API::Decorators::Formattable do
     it 'passes that to format_text' do
       expect(subject)
         .to receive(:format_text).with(anything, format: 'textile', object: object)
-        .and_call_original
+                                 .and_call_original
 
       expect(subject.to_json)
         .to be_json_eql('<p>A <strong>raw</strong> string!</p>'.to_json).at_path('html')

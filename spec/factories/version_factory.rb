@@ -28,10 +28,10 @@
 
 FactoryGirl.define do
   factory :version do
-    sequence(:name) do |i| "Version #{i}" end
+    sequence(:name) { |i| "Version #{i}" }
     effective_date Date.today + 14.days
-    created_on do Time.now end
-    updated_on do Time.now end
+    created_on { Time.now }
+    updated_on { Time.now }
     project
   end
 end

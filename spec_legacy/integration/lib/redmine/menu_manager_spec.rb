@@ -39,42 +39,42 @@ describe 'MenuManager', with_settings: { login_required: 0 } do
   end
 
   it 'project menu with specific locale' do
-    Setting.available_languages = [:de, :en]
+    Setting.available_languages = %i[de en]
     get '/projects/ecookbook', params: {}, headers: { 'HTTP_ACCEPT_LANGUAGE' => 'de,de-de;q=0.8,en-us;q=0.5,en;q=0.3' }
 
     assert_select 'div', attributes: { id: 'main-menu' },
-                     descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_activity),
-                                                       attributes: { href: '/projects/ecookbook/activity',
-                                                                     class: 'icon2 icon-checkmark activity-menu-item ellipsis' } } }
+                         descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_activity),
+                                                           attributes: { href: '/projects/ecookbook/activity',
+                                                                         class: 'icon2 icon-checkmark activity-menu-item ellipsis' } } }
     assert_select 'div', attributes: { id: 'main-menu' },
-                     descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_overview),
-                                                       attributes: { href: '/projects/ecookbook',
-                                                                     class: 'icon2 icon-show-all-projects overview-menu-item ellipsis selected' } } }
+                         descendant: { tag: 'li', child: { tag: 'a', content: ll('de', :label_overview),
+                                                           attributes: { href: '/projects/ecookbook',
+                                                                         class: 'icon2 icon-show-all-projects overview-menu-item ellipsis selected' } } }
   end
 
   it 'project menu with additional menu items' do
     Setting.default_language = 'en'
     assert_no_difference 'Redmine::MenuManager.items(:project_menu).size' do
       Redmine::MenuManager.map :project_menu do |menu|
-        menu.push :foo, { controller: 'projects', action: 'show' }, caption: 'Foo'
-        menu.push :bar, { controller: 'projects', action: 'show' }, before: :activity
-        menu.push :hello, { controller: 'projects', action: 'show' }, caption: Proc.new { |p| p.name.upcase }, after: :bar
+        menu.push :foo, { controller: 'projects', action: 'show' }, { caption: 'Foo' }
+        menu.push :bar, { controller: 'projects', action: 'show' }, { before: :activity }
+        menu.push :hello, { controller: 'projects', action: 'show' }, { caption: Proc.new { |p| p.name.upcase }, after: :bar }
       end
 
       get '/projects/ecookbook'
       assert_select 'div', attributes: { id: 'main-menu' },
-                       descendant: { tag: 'li', child: { tag: 'a', content: 'Foo',
-                                                         attributes: { class: 'foo-menu-item ellipsis' } } }
+                           descendant: { tag: 'li', child: { tag: 'a', content: 'Foo',
+                                                             attributes: { class: 'foo-menu-item ellipsis' } } }
 
       assert_select 'div', attributes: { id: 'main-menu' },
-                       descendant: { tag: 'li', child: { tag: 'a', content: 'Bar',
-                                                         attributes: { class: 'bar-menu-item ellipsis' } },
-                                     before: { tag: 'li', child: { tag: 'a', content: 'ECOOKBOOK' } } }
+                           descendant: { tag: 'li', child: { tag: 'a', content: 'Bar',
+                                                             attributes: { class: 'bar-menu-item ellipsis' } },
+                                         before: { tag: 'li', child: { tag: 'a', content: 'ECOOKBOOK' } } }
 
       assert_select 'div', attributes: { id: 'main-menu' },
-                       descendant: { tag: 'li', child: { tag: 'a', content: 'ECOOKBOOK',
-                                                         attributes: { class: 'hello-menu-item ellipsis' } },
-                                     before: { tag: 'li', child: { tag: 'a', content: 'Activity' } } }
+                           descendant: { tag: 'li', child: { tag: 'a', content: 'ECOOKBOOK',
+                                                             attributes: { class: 'hello-menu-item ellipsis' } },
+                                         before: { tag: 'li', child: { tag: 'a', content: 'Activity' } } }
 
       # Remove the menu items
       Redmine::MenuManager.map :project_menu do |menu|
@@ -106,7 +106,7 @@ describe 'MenuManager', with_settings: { login_required: 0 } do
 
   it 'dynamic menu map deferred' do
     assert_no_difference 'Redmine::MenuManager.items(:some_menu).size' do
-      Redmine::MenuManager.map(:some_other_menu).push :baz, { controller: 'projects', action: 'show' }, caption: 'Baz'
+      Redmine::MenuManager.map(:some_other_menu).push :baz, { controller: 'projects', action: 'show' }, { caption: 'Baz' }
       Redmine::MenuManager.map(:some_other_menu).delete :baz
     end
   end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -119,20 +120,20 @@ module Migration
 
     def update_work_package_macros(text, id_map, regex, macro_regex, new_macro)
       unless text.nil?
-        text = parse_non_pre_blocks(text) { |block|
+        text = parse_non_pre_blocks(text) do |block|
           block.gsub!(regex) do |match|
-            if id_map.has_key? $~[:id].to_s
-              prefix = $~.names.include?('prefix') ? $~[:prefix] : ' '
-              postfix = $~.names.include?('postfix') ? $~[:postfix] : ' '
-              new_id = id_map[$~[:id].to_s][:new_id]
-              hash_macro = $~[:dots].gsub(macro_regex, new_macro)
+            if id_map.has_key? $LAST_MATCH_INFO[:id].to_s
+              prefix = $LAST_MATCH_INFO.names.include?('prefix') ? $LAST_MATCH_INFO[:prefix] : ' '
+              postfix = $LAST_MATCH_INFO.names.include?('postfix') ? $LAST_MATCH_INFO[:postfix] : ' '
+              new_id = id_map[$LAST_MATCH_INFO[:id].to_s][:new_id]
+              hash_macro = $LAST_MATCH_INFO[:dots].gsub(macro_regex, new_macro)
 
               "#{prefix}#{hash_macro}#{new_id}#{postfix}"
             else
               match
             end
           end
-        }
+        end
       end
 
       text
@@ -140,10 +141,10 @@ module Migration
 
     def update_issue_planning_element_links(text, id_map)
       unless text.nil?
-        text = parse_non_pre_blocks(text) { |block|
-          block.gsub!(work_package_link_regex) do |_| update_issue_planning_element_link_match $~, id_map end
-          block.gsub!(rel_work_package_link_regex) { |_| update_issue_planning_element_link_match $~, id_map }
-        }
+        text = parse_non_pre_blocks(text) do |block|
+          block.gsub!(work_package_link_regex) { |_| update_issue_planning_element_link_match $LAST_MATCH_INFO, id_map }
+          block.gsub!(rel_work_package_link_regex) { |_| update_issue_planning_element_link_match $LAST_MATCH_INFO, id_map }
+        end
       end
 
       text
@@ -159,10 +160,10 @@ module Migration
 
     def restore_issue_planning_element_links(text, id_map)
       unless text.nil?
-        text = parse_non_pre_blocks(text) { |_block|
-          text.gsub!(restore_work_package_link_regex) do |_| restore_issue_planning_element_link_match $~, id_map end
-          text.gsub!(restore_rel_work_package_link_regex) { |_| restore_issue_planning_element_link_match $~, id_map }
-        }
+        text = parse_non_pre_blocks(text) do |_block|
+          text.gsub!(restore_work_package_link_regex) { |_| restore_issue_planning_element_link_match $LAST_MATCH_INFO, id_map }
+          text.gsub!(restore_rel_work_package_link_regex) { |_| restore_issue_planning_element_link_match $LAST_MATCH_INFO, id_map }
+        end
       end
 
       text

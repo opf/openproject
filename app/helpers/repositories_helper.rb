@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -57,7 +58,7 @@ module RepositoriesHelper
   end
 
   def render_changeset_changes
-    changes = @changeset.file_changes.limit(1000).order('path').map { |change|
+    changes = @changeset.file_changes.limit(1000).order('path').map do |change|
       case change.action
       when 'A'
         # Detects moved/copied files
@@ -71,12 +72,12 @@ module RepositoriesHelper
       else
         change
       end
-    }.compact
+    end.compact
 
     tree = {}
     changes.each do |change|
       p = tree
-      dirs = change.path.to_s.split('/').select { |d| !d.blank? }
+      dirs = change.path.to_s.split('/').reject(&:blank?)
       path = ''
       dirs.each do |dir|
         path += with_leading_slash(dir)
@@ -200,7 +201,7 @@ module RepositoriesHelper
       str.force_encoding('UTF-8')
       if !str.valid_encoding?
         str = str.encode("US-ASCII", invalid: :replace,
-                         undef: :replace, replace: '?').encode("UTF-8")
+                                     undef: :replace, replace: '?').encode("UTF-8")
       end
     else
       # removes invalid UTF8 sequences
@@ -245,10 +246,9 @@ module RepositoriesHelper
                data: {
                  remote: true,
                  url: url_for(controller: '/repositories',
-                              action: 'edit', project_id: @project.id),
+                              action: 'edit', project_id: @project.id)
                },
-               disabled: (repository && !repository.new_record?)
-              )
+               disabled: (repository && !repository.new_record?))
   end
 
   def git_path_encoding_options(repository)
@@ -259,7 +259,7 @@ module RepositoriesHelper
   ##
   # Determines whether the repository settings save button should be shown.
   # By default, it is not shown when repository exists and is managed.
-  def show_settings_save_button?(repository)
+  def show_settings_save_button?(_repository)
     @repository.nil? ||
       @repository.new_record? ||
       !@repository.managed?

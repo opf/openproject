@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,11 +34,11 @@ describe OpenProject::FormTagHelper, type: :helper do
   let(:options) { {} }
 
   describe '#styled_form_tag' do
-    subject(:output) {
+    subject(:output) do
       helper.styled_form_tag('/feedback', options) do
         content_tag(:p, 'Form content')
       end
-    }
+    end
 
     it_behaves_like 'not wrapped in container', 'form-container'
 
@@ -51,9 +52,9 @@ describe OpenProject::FormTagHelper, type: :helper do
   end
 
   describe '#styled_select_tag' do
-    subject(:output) {
+    subject(:output) do
       helper.styled_select_tag('field', '<option value="33">FUN</option>'.html_safe, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'select-container'
 
@@ -68,9 +69,9 @@ describe OpenProject::FormTagHelper, type: :helper do
   describe '#styled_text_field_tag' do
     let(:value) { 'Something to be seen' }
 
-    subject(:output) {
+    subject(:output) do
       helper.styled_text_field_tag('field', value, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
@@ -84,11 +85,11 @@ describe OpenProject::FormTagHelper, type: :helper do
 
   describe '#styled_label_tag' do
     context 'with block' do
-      subject(:output) {
+      subject(:output) do
         helper.styled_label_tag('field', nil, options) do
           'Label content'
         end
-      }
+      end
 
       it_behaves_like 'not wrapped in container', 'label-container'
 
@@ -100,9 +101,9 @@ describe OpenProject::FormTagHelper, type: :helper do
     end
 
     context 'with content arg' do
-      subject(:output) {
+      subject(:output) do
         helper.styled_label_tag('field', 'Label content', options)
-      }
+      end
 
       it_behaves_like 'not wrapped in container', 'label-container'
 
@@ -129,9 +130,9 @@ describe OpenProject::FormTagHelper, type: :helper do
       end
 
       it 'should strip any given inline HTML from the title tag (with block)' do
-        label = helper.styled_label_tag('field') {
+        label = helper.styled_label_tag('field') do
           helper.content_tag :span, 'Sif'
-        }
+        end
         expect(label).to be_html_eql(%{
           <label for="field" class="form--label" title="Sif"><span>Sif</span></label>
         })
@@ -147,9 +148,9 @@ describe OpenProject::FormTagHelper, type: :helper do
   end
 
   describe '#styled_file_field_tag' do
-    subject(:output) {
+    subject(:output) do
       helper.styled_file_field_tag('file_field', options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'file-field-container'
 
@@ -162,9 +163,9 @@ describe OpenProject::FormTagHelper, type: :helper do
   end
 
   describe '#styled_password_field_tag' do
-    subject(:output) {
+    subject(:output) do
       helper.styled_password_field_tag('password', 'nopE3king!', options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
@@ -177,9 +178,9 @@ describe OpenProject::FormTagHelper, type: :helper do
   end
 
   describe '#styled_text_area_tag' do
-    subject(:output) {
+    subject(:output) do
       helper.styled_text_area_tag('field', 'Words are important', options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'text-area-container'
 
@@ -192,9 +193,9 @@ Words are important</textarea>
   end
 
   describe '#styled_check_box_tag' do
-    subject(:output) {
+    subject(:output) do
       helper.styled_check_box_tag('field', '1', false, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'check-box-container'
 
@@ -209,9 +210,9 @@ Words are important</textarea>
   describe '#styled_radio_button_tag' do
     let(:value) { 'good choice' }
 
-    subject(:output) {
+    subject(:output) do
       helper.styled_radio_button_tag('field', value, false, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'radio-button-container'
 
@@ -224,12 +225,12 @@ Words are important</textarea>
   end
 
   describe '#styled_submit_tag' do
-    subject(:output) {
+    subject(:output) do
       helper.styled_submit_tag('Save it!', options)
-    }
-    subject(:html) {
+    end
+    subject(:html) do
       Capybara::Node::Simple.new(output)
-    }
+    end
 
     it_behaves_like 'not wrapped in container', 'submit-container'
 
@@ -239,11 +240,11 @@ Words are important</textarea>
   end
 
   describe '#styled_button_tag' do
-    subject(:output) {
+    subject(:output) do
       helper.styled_button_tag(options) do
         "Don't save!"
       end
-    }
+    end
 
     it_behaves_like 'not wrapped in container', 'button-container'
 
@@ -255,11 +256,11 @@ Words are important</textarea>
   end
 
   describe '#styled_field_set_tag' do
-    subject(:output) {
+    subject(:output) do
       helper.styled_field_set_tag('Fieldset Legend', options) do
         content_tag(:p, 'Fieldset content')
       end
-    }
+    end
 
     it_behaves_like 'not wrapped in container', 'fieldset-container'
 
@@ -275,9 +276,9 @@ Words are important</textarea>
   describe '#styled_search_field_tag' do
     let(:value) { 'Find me' }
 
-    subject(:output) {
+    subject(:output) do
       helper.styled_search_field_tag('field', value, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'search-field-container'
 
@@ -292,9 +293,9 @@ Words are important</textarea>
   describe '#styled_telephone_field_tag' do
     let(:value) { '+49 555 111 999' }
 
-    subject(:output) {
+    subject(:output) do
       helper.styled_telephone_field_tag('field', value, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
@@ -309,9 +310,9 @@ Words are important</textarea>
   describe '#styled_url_field_tag' do
     let(:value) { 'https://blogger.org/' }
 
-    subject(:output) {
+    subject(:output) do
       helper.styled_url_field_tag('field', value, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
@@ -326,9 +327,9 @@ Words are important</textarea>
   describe '#styled_email_field_tag' do
     let(:value) { 'joe@blogger.com' }
 
-    subject(:output) {
+    subject(:output) do
       helper.styled_email_field_tag('field', value, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
@@ -343,9 +344,9 @@ Words are important</textarea>
   describe '#styled_number_field_tag' do
     let(:value) { 2 }
 
-    subject(:output) {
+    subject(:output) do
       helper.styled_number_field_tag('field', value, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'text-field-container'
 
@@ -359,9 +360,9 @@ Words are important</textarea>
   describe '#styled_range_field_tag' do
     let(:value) { 2 }
 
-    subject(:output) {
+    subject(:output) do
       helper.styled_range_field_tag('field', value, options)
-    }
+    end
 
     it_behaves_like 'wrapped in container', 'range-field-container'
 

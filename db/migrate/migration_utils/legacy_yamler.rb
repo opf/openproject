@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -83,7 +84,6 @@ module Migration
 
       ::Syck
     rescue LoadError => e
-
       ##
       # This code will currently never be reached, as our Gemfile installs syck by default
       # for the time being.
@@ -91,7 +91,7 @@ module Migration
       # quite young and many of our bundlers do not yet understand its syntax.
       # TODO: Make syck optional or get rid of it completely when feasible.
 
-      abort = -> (str) { abort("\e[31m#{str}\e[0m") }
+      abort = ->(str) { abort("\e[31m#{str}\e[0m") }
       abort.call <<-WARN
       It appears you have existing serialized YAML in your database.
       This YAML may have been serialized with Syck, which allowed to parse YAML

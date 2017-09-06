@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -75,18 +76,18 @@ class Activity::TimeEntryActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, _activity)
-    unless event['work_package_id'].blank?
-      url_helpers.work_package_time_entries_path(event['work_package_id'])
-    else
+    if event['work_package_id'].blank?
       url_helpers.project_time_entries_path(event['project_id'])
+    else
+      url_helpers.work_package_time_entries_path(event['work_package_id'])
     end
   end
 
   def event_url(event, _activity)
-    unless event['work_package_id'].blank?
-      url_helpers.work_package_time_entries_url(event['work_package_id'])
-    else
+    if event['work_package_id'].blank?
       url_helpers.project_time_entries_url(event['project_id'])
+    else
+      url_helpers.work_package_time_entries_url(event['work_package_id'])
     end
   end
 end

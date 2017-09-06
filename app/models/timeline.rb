@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -137,7 +138,6 @@ class Timeline < ActiveRecord::Base
           errors.add :options, l('timelines.filter.errors.' + field) + l('activerecord.errors.messages.not_a_number')
         end
       rescue ArgumentError
-
       end
     end
   end
@@ -288,7 +288,7 @@ class Timeline < ActiveRecord::Base
   end
 
   def get_custom_fields
-    project.all_work_package_custom_fields.sort_by{ |n| n[:name].downcase }
+    project.all_work_package_custom_fields.sort_by { |n| n[:name].downcase }
   end
 
   def selected_planning_element_assignee
@@ -391,20 +391,19 @@ class Timeline < ActiveRecord::Base
       if block_given?
         yield options[options_field]
       else
-        return options[options_field]
+        options[options_field]
       end
     else
       []
     end
   end
 
-  def resolve_with_none_element(options_field, &block)
+  def resolve_with_none_element(options_field)
     collection = []
     collection += [Empty.new] if (ary = array_of_comma_separated(options_field)).delete(-1)
     begin
-      collection += block.call(ary)
+      collection += yield(ary)
     rescue
-
     end
     collection
   end

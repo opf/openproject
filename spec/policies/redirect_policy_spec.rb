@@ -34,14 +34,14 @@ describe RedirectPolicy, type: :controller do
   let(:return_escaped) { true }
   let(:default) { 'http://test.foo/default' }
 
-  let(:policy) {
+  let(:policy) do
     described_class.new(
       back_url,
       default: default,
       hostname: host,
       return_escaped: return_escaped
     )
-  }
+  end
   let(:subject) { policy.redirect_url }
 
   shared_examples 'redirects to default' do |url|
@@ -102,7 +102,7 @@ describe RedirectPolicy, type: :controller do
     before do
       allow(OpenProject::Configuration)
         .to receive(:[]).with('rails_relative_url_root')
-        .and_return(relative_root)
+                        .and_return(relative_root)
     end
 
     it_behaves_like 'valid redirect URL', '/mysubdir/work_packages/1234'

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -70,7 +71,7 @@ class Message < ActiveRecord::Base
   after_update :update_ancestors
   after_destroy :reset_counters
 
-  scope :visible, -> (*args) {
+  scope :visible, ->(*args) {
     includes(board: :project)
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_messages))
@@ -90,11 +91,9 @@ class Message < ActiveRecord::Base
   end
 
   def set_sticked_on_date
-    if sticky?
-      self.sticked_on = sticked_on.nil? ? Time.now : sticked_on
-    else
-      self.sticked_on = nil
-    end
+    self.sticked_on = if sticky?
+                        sticked_on.nil? ? Time.now : sticked_on
+                      end
   end
 
   def update_last_reply_in_parent
@@ -107,7 +106,7 @@ class Message < ActiveRecord::Base
   def update_ancestors
     if board_id_changed?
       Message.where(['id = ? OR parent_id = ?', root.id, root.id])
-        .update_all("board_id = #{board_id}")
+             .update_all("board_id = #{board_id}")
       Board.reset_counters!(board_id_was)
       Board.reset_counters!(board_id)
     end

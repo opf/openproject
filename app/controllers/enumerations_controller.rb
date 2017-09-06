@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,7 +32,7 @@ class EnumerationsController < ApplicationController
   layout 'admin'
 
   before_action :require_admin
-  before_action :find_enumeration, only: [:edit, :update, :destroy]
+  before_action :find_enumeration, only: %i[edit update destroy]
 
   include CustomFieldsHelper
 

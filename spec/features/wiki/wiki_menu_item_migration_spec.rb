@@ -31,18 +31,18 @@ require Rails.root.join('db/migrate/20160803094931_wiki_menu_titles_to_slug.rb')
 
 describe 'Wiki menu_items migration', type: :feature do
   let(:project) { FactoryGirl.create :project }
-  let(:wiki_page) {
+  let(:wiki_page) do
     FactoryGirl.create :wiki_page_with_content,
                        wiki: project.wiki,
                        title: 'Base de donées'
-  }
-  let!(:menu_item) {
+  end
+  let!(:menu_item) do
     FactoryGirl.create(:wiki_menu_item,
                        :with_menu_item_options,
                        wiki: project.wiki,
                        name: 'My linked page',
                        title: wiki_page.title)
-  }
+  end
 
   before do
     project.wiki.pages << wiki_page
@@ -57,7 +57,6 @@ describe 'Wiki menu_items migration', type: :feature do
     expect(menu_item.name).to eq(wiki_page.slug)
     expect(menu_item.title).to eq('My linked page')
   end
-
 
   describe 'visiting the wiki' do
     let(:user) { FactoryGirl.create :admin }

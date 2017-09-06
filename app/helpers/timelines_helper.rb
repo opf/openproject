@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -41,10 +42,10 @@ module TimelinesHelper
     available_parents = planning_element.project.planning_elements.order('COALESCE(parent_id, id), parent_id')
     available_parents -= [planning_element]
 
-    available_options = available_parents.map { |pe|
+    available_options = available_parents.map do |pe|
       texts = (pe.ancestors.reverse << pe).map { |a| "*#{a.id} #{a.subject}" }
       [texts.join(right_pointing_arrow), pe.id]
-    }
+    end
 
     available_options.unshift(['', ''])
 
@@ -107,10 +108,10 @@ module TimelinesHelper
   def filter_select_i18n_array_with_index_and_none(array, i18n_prefix)
     result = none_option
     index = -1
-    result += array.map { |t|
+    result += array.map do |t|
       index += 1
       [l(i18n_prefix + t), index]
-    }
+    end
   end
 
   def filter_select_with_none(collection, text, value)
@@ -129,13 +130,13 @@ module TimelinesHelper
   end
 
   def list_to_select_object_with_none(collection)
-    collection = collection.map { |t|
+    collection = collection.map do |t|
       if t.is_a? CustomOption
         { name: t.value, id: t.id }
       else
         { name: t, id: t }
       end
-    }
+    end
     collection.unshift(
       name: t('timelines.filter.noneElement'),
       id: -1
@@ -183,10 +184,9 @@ module TimelinesHelper
   def new_timeline_link(project, &block)
     link_to({ controller: '/timelines', action: 'new', project_id: project },
             title: l('timelines.new_timeline'),
-            aria: {label: t('timelines.new_timeline')},
+            aria: { label: t('timelines.new_timeline') },
             class: 'button -alt-highlight',
-            &block
-           )
+            &block)
   end
 
   def edit_timeline_link(project, timeline, &block)
@@ -196,8 +196,7 @@ module TimelinesHelper
               id: timeline },
             class: 'button',
             accesskey: accesskey(:edit),
-            &block
-           )
+            &block)
   end
 
   def destroy_timeline_link(project, timeline, &block)
@@ -206,8 +205,7 @@ module TimelinesHelper
               project_id: project,
               id: timeline },
             class: 'button',
-            &block
-           )
+            &block)
   end
 
   def timeline_action_authorized?(action)

@@ -29,19 +29,19 @@
 require 'spec_helper'
 
 describe SysController, type: :controller do
-  let(:commit_role) {
-    FactoryGirl.create(:role, permissions: [:commit_access,
-                                            :browse_repository])
-  }
+  let(:commit_role) do
+    FactoryGirl.create(:role, permissions: %i[commit_access
+                                              browse_repository])
+  end
   let(:browse_role) { FactoryGirl.create(:role, permissions: [:browse_repository]) }
   let(:guest_role) { FactoryGirl.create(:role, permissions: []) }
   let(:valid_user_password) { 'Top Secret Password' }
-  let(:valid_user) {
+  let(:valid_user) do
     FactoryGirl.create(:user,
                        login: 'johndoe',
                        password: valid_user_password,
                        password_confirmation: valid_user_password)
-  }
+  end
 
   let(:api_key) { '12345678' }
 
@@ -499,10 +499,10 @@ describe SysController, type: :controller do
   end
 
   describe '#cached_user_login' do
-    let(:cache_key) {
+    let(:cache_key) do
       OpenProject::RepositoryAuthentication::CACHE_PREFIX +
         Digest::SHA1.hexdigest("#{valid_user.login}#{valid_user_password}")
-    }
+    end
     let(:cache_expiry) { OpenProject::RepositoryAuthentication::CACHE_EXPIRES_AFTER }
 
     it 'should call user_login only once when called twice' do
@@ -523,7 +523,7 @@ describe SysController, type: :controller do
     it 'should use cache' do
       allow(Rails.cache).to receive(:fetch).and_call_original
       expect(Rails.cache).to receive(:fetch).with(cache_key, expires_in: cache_expiry) \
-        .and_return(Marshal.dump(valid_user.id.to_s))
+                                            .and_return(Marshal.dump(valid_user.id.to_s))
       controller.send(:cached_user_login, valid_user.login, valid_user_password)
     end
 
@@ -580,9 +580,9 @@ describe SysController, type: :controller do
       context 'stubbed repository' do
         let(:project) { FactoryGirl.build_stubbed(:project) }
         let(:id) { project.id }
-        let(:repository) {
+        let(:repository) do
           FactoryGirl.build_stubbed(:repository_subversion, url: url, root_url: url)
-        }
+        end
 
         before do
           allow(Project).to receive(:find).and_return(project)
@@ -621,9 +621,9 @@ describe SysController, type: :controller do
 
           let(:project) { FactoryGirl.create(:project) }
           let(:id) { project.id }
-          let(:repository) {
+          let(:repository) do
             FactoryGirl.create(:repository_subversion, project: project, url: url, root_url: url)
-          }
+          end
 
           before do
             allow(Project).to receive(:find).and_return(project)

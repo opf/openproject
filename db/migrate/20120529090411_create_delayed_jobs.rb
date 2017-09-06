@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -37,11 +38,11 @@ class CreateDelayedJobs < ActiveRecord::Migration[4.2]
       table.datetime :run_at                       # When to run. Could be Time.zone.now for immediately, or sometime in the future.
       table.datetime :locked_at                    # Set when a client is working on this object
       table.datetime :failed_at                    # Set when all retries have failed (actually, by default, the record is deleted instead)
-      table.string :locked_by                    # Who is working on this object (if locked)
+      table.string :locked_by # Who is working on this object (if locked)
       table.timestamps
     end
 
-    add_index :delayed_jobs, [:priority, :run_at], name: 'delayed_jobs_priority'
+    add_index :delayed_jobs, %i[priority run_at], name: 'delayed_jobs_priority'
   end
 
   def self.down

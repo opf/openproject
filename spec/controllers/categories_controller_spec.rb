@@ -31,16 +31,16 @@ require 'spec_helper'
 describe CategoriesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
   let(:project) { FactoryGirl.create(:project) }
-  let(:role) {
+  let(:role) do
     FactoryGirl.create(:role,
                        permissions: [:manage_categories])
-  }
-  let(:member) {
+  end
+  let(:member) do
     FactoryGirl.create(:member,
                        project: project,
                        principal: user,
                        roles: [role])
-  }
+  end
 
   before do
     member
@@ -92,16 +92,15 @@ describe CategoriesController, type: :controller do
   end
 
   describe '#edit' do
-    let(:category) {
+    let(:category) do
       FactoryGirl.create(:category,
                          project: project)
-    }
+    end
 
     subject { response }
     before do
       get :edit, params: { id: category_id }
     end
-
 
     context 'valid category' do
       let(:category_id) { category.id }
@@ -119,10 +118,10 @@ describe CategoriesController, type: :controller do
     let(:name) { 'Testing' }
 
     context 'valid category' do
-      let(:category) {
+      let(:category) do
         FactoryGirl.create(:category,
                            project: project)
-      }
+      end
 
       before do
         post :update,
@@ -161,17 +160,17 @@ describe CategoriesController, type: :controller do
   end
 
   describe '#destroy' do
-    let(:category) {
+    let(:category) do
       FactoryGirl.create(:category,
                          project: project)
-    }
-    let(:work_package) {
+    end
+    let(:work_package) do
       FactoryGirl.create(:work_package,
                          project: project,
                          category: category)
-    }
+    end
 
-    before do category end
+    before { category }
 
     shared_examples_for :delete do
       subject { Category.find_by(id: category.id) }
@@ -210,10 +209,10 @@ describe CategoriesController, type: :controller do
     end
 
     describe '#reassign' do
-      let(:target) {
+      let(:target) do
         FactoryGirl.create(:category,
                            project: project)
-      }
+      end
       before do
         work_package
 

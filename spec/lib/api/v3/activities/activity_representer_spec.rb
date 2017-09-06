@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe ::API::V3::Activities::ActivityRepresenter do
-  let(:current_user) { FactoryGirl.create(:user,  member_in_project: project, member_through_role: role) }
+  let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:work_package) { FactoryGirl.build(:work_package) }
   let(:journal) { Journal::AggregatedJournal.aggregated_journals.first }
   let(:project) { work_package.project }
@@ -64,7 +64,7 @@ describe ::API::V3::Activities::ActivityRepresenter do
       it_behaves_like 'API V3 formattable', 'comment' do
         let(:format) { 'textile' }
         let(:raw) { journal.notes }
-        let(:html) { "#{journal.notes}" }
+        let(:html) { journal.notes.to_s }
       end
 
       describe 'details' do

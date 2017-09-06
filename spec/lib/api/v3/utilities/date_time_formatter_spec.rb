@@ -77,16 +77,16 @@ describe :DateTimeFormatter do
 
     it 'rejects parsing non ISO date formats' do
       bad_format = date.strftime('%d.%m.%Y')
-      expect {
+      expect do
         subject.parse_date(bad_format, 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it 'rejects parsing ISO 8601 date + time formats' do
       bad_format = datetime.iso8601
-      expect {
+      expect do
         subject.parse_date(bad_format, 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it_behaves_like 'can parse nil' do
@@ -147,21 +147,21 @@ describe :DateTimeFormatter do
     end
 
     it 'rejects parsing non sense' do
-      expect {
+      expect do
         subject.parse_duration_to_hours('foo', 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it 'rejects parsing pure number strings' do
-      expect {
+      expect do
         subject.parse_duration_to_hours('5', 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it 'rejects parsing pure numbers' do
-      expect {
+      expect do
         subject.parse_duration_to_hours(5, 'prop')
-      }.to raise_error(API::Errors::PropertyFormatError)
+      end.to raise_error(API::Errors::PropertyFormatError)
     end
 
     it_behaves_like 'can parse nil' do

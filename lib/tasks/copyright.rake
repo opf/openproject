@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -52,8 +53,8 @@ namespace :copyright do
   def copyright_file(options = {})
     path = 'doc/COPYRIGHT_short.rdoc'
     if options[:path]
-      path = File.join(options[:path], 'doc/COPYRIGHT_short.rdoc') if File.exists?(File.join(options[:path], 'doc/COPYRIGHT_short.rdoc'))
-      path = File.join(options[:path], 'doc/COPYRIGHT_short.md')   if File.exists?(File.join(options[:path], 'doc/COPYRIGHT_short.md'))
+      path = File.join(options[:path], 'doc/COPYRIGHT_short.rdoc') if File.exist?(File.join(options[:path], 'doc/COPYRIGHT_short.rdoc'))
+      path = File.join(options[:path], 'doc/COPYRIGHT_short.md')   if File.exist?(File.join(options[:path], 'doc/COPYRIGHT_short.md'))
     end
     path
   end
@@ -65,9 +66,9 @@ namespace :copyright do
   end
 
   def short_copyright_line(sign, options = {})
-    short_copyright = File.readlines(copyright_file(options)).collect { |line|
+    short_copyright = File.readlines(copyright_file(options)).collect do |line|
       "#{sign} #{line}".rstrip
-    }.join("\n")
+    end.join("\n")
 
     "#{sign}-- copyright\n#{short_copyright}\n#{sign}++"
   end
@@ -113,7 +114,7 @@ namespace :copyright do
     file_list = options[:file_list] || Dir[File.absolute_path(path) + "/**/*.#{ending}"]
     excluded = exluded_paths.concat(additional_excludes)
 
-    raise 'Path not found' unless Dir.exists?(path)
+    raise 'Path not found' unless Dir.exist?(path)
     file_list.each do |file_name|
       # Skip 3rd party code
       next if excluded.any? { |e| file_name.include?(e) }
@@ -134,9 +135,9 @@ namespace :copyright do
   desc 'Update special files, which do not have an ending'
   task :update_special_files, :arg1 do |_task, args|
     # ruby-like files
-    file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}.map { |f|
+    file_list = %w{Gemfile Rakefile config.ru .travis.yml .gitignore}.map do |f|
       File.absolute_path f
-    }
+    end
     rewrite_copyright('rb', [], :rb, args[:arg1], file_list: file_list)
   end
 
@@ -212,7 +213,6 @@ namespace :copyright do
     excluded = ['app/assets/javascripts/date-de-DE.js',
                 'app/assets/javascripts/date-en-US.js',
                 'app/assets/javascripts/jstoolbar/']
-
 
     rewrite_copyright('js', excluded, :js, args[:arg1])
   end

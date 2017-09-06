@@ -32,7 +32,7 @@ FactoryGirl.define do
       default_locales nil
     end
 
-    sequence(:name) do |n| "Custom Field Nr. #{n}" end
+    sequence(:name) { |n| "Custom Field Nr. #{n}" }
     regexp ''
     is_required false
     min_length false

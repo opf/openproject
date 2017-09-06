@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,13 +31,13 @@
 InstanceFinder.register(Version, Proc.new { |name| Version.find_by(name: name) })
 
 Given /^the [Pp]roject (.+) has 1 version with(?: the following)?:$/ do |project, table|
-  project.gsub!("\"", '')
+  project.delete!("\"")
   p = Project.find_by(name: project) || Project.find_by(identifier: project)
 
   as_admin do
-    v = FactoryGirl.build(:version) { |v|
+    v = FactoryGirl.build(:version) do |v|
       v.project = p
-    }
+    end
     send_table_to_object(v, table)
   end
 end

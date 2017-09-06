@@ -45,7 +45,7 @@ describe Version, type: :model do
     let(:other_project) { FactoryGirl.build(:project) }
 
     it 'returns only the version for the same project' do
-      expect(version.to_s_for_project(version.project)).to eq("#{version.name}")
+      expect(version.to_s_for_project(version.project)).to eq(version.name.to_s)
     end
 
     it 'returns the project name and the version name for a different project' do

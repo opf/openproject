@@ -98,7 +98,7 @@ describe UserMailer, type: :mailer do
       # link to an attachment
       assert_select 'a[href=?]',
                     "https://mydomain.foo/attachments/#{attachment.id}/#{attachment.filename}",
-                    text: "#{attachment.filename}"
+                    text: attachment.filename.to_s
     end
   end
 
@@ -140,7 +140,7 @@ describe UserMailer, type: :mailer do
       # link to an attachment
       assert_select 'a[href=?]',
                     "http://mydomain.foo/rdm/attachments/#{attachment.id}/#{attachment.filename}",
-                    text: "#{attachment.filename}"
+                    text: attachment.filename.to_s
     end
   end
 
@@ -185,7 +185,7 @@ describe UserMailer, type: :mailer do
         # link to an attachment
         assert_select 'a[href=?]',
                       "http://mydomain.foo/rdm/attachments/#{attachment.id}/#{attachment.filename}",
-                      text: "#{attachment.filename}"
+                      text: attachment.filename.to_s
       end
     ensure
       # restore it
@@ -205,7 +205,7 @@ describe UserMailer, type: :mailer do
 
   it 'sends plain text mail' do
     Setting.plain_text_mail = 1
-    user  = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -217,7 +217,7 @@ describe UserMailer, type: :mailer do
 
   it 'sends html mail' do
     Setting.plain_text_mail = 0
-    user  = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -229,7 +229,7 @@ describe UserMailer, type: :mailer do
 
   context 'with mail_from set', with_settings: { mail_from: 'Redmine app <redmine@example.net>' } do
     it 'should mail from with phrase' do
-      user  = FactoryGirl.create(:user)
+      user = FactoryGirl.create(:user)
       FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
       UserMailer.test_mail(user).deliver_now
       mail = ActionMailer::Base.deliveries.last
@@ -279,7 +279,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should message posted message id' do
-    user    = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     message = FactoryGirl.create(:message)
     UserMailer.message_posted(user, message, user).deliver_now
@@ -294,7 +294,7 @@ describe UserMailer, type: :mailer do
   end
 
   it 'should reply posted message id' do
-    user    = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     parent  = FactoryGirl.create(:message)
     message = FactoryGirl.create(:message, parent: parent)
@@ -441,7 +441,7 @@ describe UserMailer, type: :mailer do
 
   context 'layout',
           with_settings: {
-            available_languages: [:en, :de],
+            available_languages: %i[en de],
             localized_emails_header: 'deutscher header'
           } do
     it 'should include the emails_header depeding on the locale' do
@@ -472,21 +472,21 @@ describe UserMailer, type: :mailer do
                                        type: type,
                                        project: project)
 
-    issue   = FactoryGirl.create(:work_package,
-                                 subject: 'My awesome Ticket',
-                                 type: type,
-                                 project: project,
-                                 description: 'nothing here yet')
+    issue = FactoryGirl.create(:work_package,
+                               subject: 'My awesome Ticket',
+                               type: type,
+                               project: project,
+                               description: 'nothing here yet')
 
     # now change the issue, to get a nice journal
     issue.description = "This is related to issue ##{related_issue.id}\n"
 
     repository = FactoryGirl.create(:repository_subversion,
-                                     project: project)
+                                    project: project)
 
     changeset = FactoryGirl.create :changeset,
-                         repository: repository,
-                         comments: 'This commit fixes #1, #2 and references #1 and #3'
+                                   repository: repository,
+                                   comments: 'This commit fixes #1, #2 and references #1 and #3'
 
     issue.description += " A reference to a changeset r#{changeset.revision}\n" if changeset
 
@@ -506,7 +506,8 @@ describe UserMailer, type: :mailer do
   end
 
   def url_for(options)
-    options.merge!(host: Setting.host_name, protocol: Setting.protocol)
+    options[:host] = Setting.host_name
+    options[:protocol] = Setting.protocol
     Rails.application.routes.url_helpers.url_for options
   end
 end

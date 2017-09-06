@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,7 +37,7 @@ class AuthSourcesController < ApplicationController
 
   def index
     @auth_sources = AuthSource.page(params[:page])
-                    .per_page(per_page_param)
+                              .per_page(per_page_param)
 
     render 'auth_sources/index'
   end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -103,7 +104,7 @@ module Redmine
 
     class Mapper
       def permission(name, hash, options = {})
-        options.merge!(project_module: @project_module)
+        options[:project_module] = @project_module
         mapped_permissions << Permission.new(name, hash, options)
       end
 
@@ -136,11 +137,11 @@ module Redmine
         @require = options[:require]
         @project_module = options[:project_module]
         hash.each do |controller, actions|
-          if actions.is_a? Array
-            @actions << actions.map { |action| "#{controller}/#{action}" }
-          else
-            @actions << "#{controller}/#{actions}"
-          end
+          @actions << if actions.is_a? Array
+                        actions.map { |action| "#{controller}/#{action}" }
+                      else
+                        "#{controller}/#{actions}"
+                      end
         end
         @actions.flatten!
       end

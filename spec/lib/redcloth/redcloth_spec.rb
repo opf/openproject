@@ -51,7 +51,7 @@ describe RedCloth3 do
                  '<h2>2.1. Subtitle</h2>' +
                  '<h2>2.2. Subtitle</h2>'
 
-      expect(RedCloth3.new(@text).to_html.gsub("\n", '').gsub("\t", '')).to eq(expected)
+      expect(RedCloth3.new(@text).to_html.delete("\n").delete("\t")).to eq(expected)
     end
   end
 
@@ -94,7 +94,7 @@ describe RedCloth3 do
                  '<h2>Subtitle</h2>' +
                  '<h2>Subtitle</h2>'
 
-      expect(RedCloth3.new(@text).to_html.gsub("\n", '').gsub("\t", '')).to eq(expected)
+      expect(RedCloth3.new(@text).to_html.delete("\n").delete("\t")).to eq(expected)
     end
   end
 
@@ -137,7 +137,7 @@ describe RedCloth3 do
                  '<h2>1. Subtitle</h2>' +
                  '<h2>2. Subtitle</h2>'
 
-      expect(RedCloth3.new(@text).to_html.gsub("\n", '').gsub("\t", '')).to eq(expected)
+      expect(RedCloth3.new(@text).to_html.delete("\n").delete("\t")).to eq(expected)
     end
   end
 
@@ -180,7 +180,7 @@ describe RedCloth3 do
                  '<h2>1.1. Subtitle</h2>' +
                  '<h2>1.2. Subtitle</h2>'
 
-      expect(RedCloth3.new(@text).to_html.gsub("\n", '').gsub("\t", '')).to eq(expected)
+      expect(RedCloth3.new(@text).to_html.delete("\n").delete("\t")).to eq(expected)
     end
   end
 end

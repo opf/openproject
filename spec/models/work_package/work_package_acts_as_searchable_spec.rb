@@ -32,15 +32,15 @@ describe WorkPackage, 'acts_as_searchable', type: :model do
   include BecomeMember
 
   let(:wp_subject) { 'the quick brown fox jumps over the lazy dog' }
-  let(:project) {
+  let(:project) do
     FactoryGirl.create(:project,
                        is_public: false)
-  }
-  let(:work_package) {
+  end
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        subject: wp_subject,
                        project: project)
-  }
+  end
   let(:user) { FactoryGirl.create(:user) }
 
   describe '#search' do

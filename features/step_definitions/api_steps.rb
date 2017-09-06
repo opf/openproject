@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -61,7 +62,7 @@ And(/^the json\-response for work_package "(.*?)" should have the responsible "(
 end
 Then(/^the json\-response for work_package "(.*?)" should have the due_date "(.*?)"$/) do |work_package_name, due_date|
   work_package = lookup_work_package(work_package_name)
-  expect(work_package['due_date']).to eql due_date.gsub('/', '-') # normalize the date-format
+  expect(work_package['due_date']).to eql due_date.tr('/', '-') # normalize the date-format
 end
 
 And(/^the json\-response should say that "(.*?)" is parent of "(.*?)"$/) do |parent_name, child_name|
@@ -123,7 +124,7 @@ And(/^I call the work_package\-api on project "(.*?)" at time "(.*?)" and filter
                     filters: [:type_id],
                     operators:  { type_id: '=' },
                     values: { type_id: types.map(&:id) },
-                    at_time: DateTime.parse(at_time).to_i)  # the api accepts the time as unix-timestamps(epoch)
+                    at_time: DateTime.parse(at_time).to_i) # the api accepts the time as unix-timestamps(epoch)
 end
 
 And(/^there are (\d+) work packages of type "(.*?)" in project "(.*?)"$/) do |nr_of_wps, type_name, project_name|

@@ -100,7 +100,7 @@ describe Api::V2::UsersController, type: :controller do
     describe 'with 3 users' do
       let(:ids) { User.all.map(&:id).join(',') }
 
-      before do 3.times { FactoryGirl.create(:user) } end
+      before { 3.times { FactoryGirl.create(:user) } }
 
       context 'as an admin' do
         include_context 'As an admin'
@@ -131,7 +131,7 @@ describe Api::V2::UsersController, type: :controller do
       include_context 'As a normal user'
 
       let(:project) { FactoryGirl.create :project }
-      let!(:member)  { FactoryGirl.create :user, member_in_project: project }
+      let!(:member) { FactoryGirl.create :user, member_in_project: project }
 
       let!(:non_member) { FactoryGirl.create :user }
 

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -34,7 +35,7 @@ describe WorkPackages::UpdateContract do
   let(:work_package) { FactoryGirl.create(:work_package, project: project) }
   let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :edit_work_packages] }
+  let(:permissions) { %i[view_work_packages edit_work_packages] }
 
   subject(:contract) { described_class.new(work_package, user) }
 
@@ -132,7 +133,7 @@ describe WorkPackages::UpdateContract do
     end
 
     context 'if the user has edit and subtasks permissions' do
-      let(:permissions) { [:edit_work_packages, :view_work_packages, :manage_subtasks] }
+      let(:permissions) { %i[edit_work_packages view_work_packages manage_subtasks] }
 
       it('is valid') do
         expect(contract.errors).to be_empty
@@ -155,7 +156,7 @@ describe WorkPackages::UpdateContract do
     end
 
     context 'with manage_subtasks permission' do
-      let(:permissions) { [:view_work_packages, :manage_subtasks] }
+      let(:permissions) { %i[view_work_packages manage_subtasks] }
 
       it('is valid') do
         expect(contract.errors).to be_empty

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,7 +35,7 @@ module Queries::FilterSerializer
   def self.load(serialized_filter_hash)
     return [] if serialized_filter_hash.nil?
 
-    (YAML.load(serialized_filter_hash) || {}).each_with_object([]) do |(field, options), array|
+    (YAML.safe_load(serialized_filter_hash) || {}).each_with_object([]) do |(field, options), array|
       options = options.with_indifferent_access
       filter = filter_for(field, true)
       filter.operator = options['operator']

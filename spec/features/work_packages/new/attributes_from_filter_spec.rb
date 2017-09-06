@@ -38,7 +38,6 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   let!(:status) { FactoryGirl.create(:default_status) }
   let!(:priority) { FactoryGirl.create :priority, is_default: true }
 
-
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:split_view_create) { ::Pages::SplitWorkPackageCreate.new(project: project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
@@ -46,10 +45,10 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
   let(:role) { FactoryGirl.create :existing_role, permissions: [:view_work_packages] }
   let!(:assignee) do
     FactoryGirl.create(:user,
-                      firstname: 'An',
-                      lastname: 'assignee',
-                      member_in_project: project,
-                      member_through_role: role)
+                       firstname: 'An',
+                       lastname: 'assignee',
+                       member_in_project: project,
+                       member_through_role: role)
   end
 
   let!(:query) do
@@ -59,7 +58,6 @@ RSpec.feature 'Work package create uses attributes from filters', js: true, sele
       query.save!
     end
   end
-
 
   before do
     login_as(user)

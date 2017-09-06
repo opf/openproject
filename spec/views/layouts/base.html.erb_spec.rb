@@ -90,7 +90,7 @@ describe 'layouts/base', type: :view do
     end
 
     context 'with omni_auth_direct_login enabled',
-             with_config: { omniauth_direct_login_provider: 'some_provider' } do
+            with_config: { omniauth_direct_login_provider: 'some_provider' } do
 
       before do
         render

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -86,7 +87,7 @@ module Redmine
           imap.copy(message_id, imap_options[:move_on_success])
         end
 
-        imap.store(message_id, '+FLAGS', [:Seen, :Deleted])
+        imap.store(message_id, '+FLAGS', %i[Seen Deleted])
       end
 
       def message_error(message_id, imap, imap_options)

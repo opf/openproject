@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,7 +37,7 @@ module API
       class TypesAPI < ::API::OpenProjectAPI
         resources :types do
           before do
-            authorize_any([:view_work_packages, :manage_types], global: true)
+            authorize_any(%i[view_work_packages manage_types], global: true)
           end
 
           get do

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -61,6 +62,6 @@ module HomescreenHelper
   ##
   # Determine whether we should render the onboarding modal
   def show_onboarding_modal?
-    return OpenProject::Configuration.onboarding_enabled? && params[:first_time_user]
+    OpenProject::Configuration.onboarding_enabled? && params[:first_time_user]
   end
 end

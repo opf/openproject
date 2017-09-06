@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -44,7 +45,7 @@ module BreadcrumbHelper
     cutme_elements = []
     breadcrumb_elements = [content_tag(:li, elements.shift.to_s, class: 'first-breadcrumb-element', style: 'list-style-image:none;')]
 
-    breadcrumb_elements += elements.map { |element|
+    breadcrumb_elements += elements.map do |element|
       if element
         css_class = if element.try(:include?, 'breadcrumb-project-title')
                       'breadcrumb-project-element '
@@ -53,7 +54,7 @@ module BreadcrumbHelper
                     h(element.to_s),
                     class: "#{css_class} icon-context icon-small icon-arrow-right5")
       end
-    }
+    end
 
     content_tag(:ul, breadcrumb_elements.join.html_safe, class: 'breadcrumb')
   end
@@ -85,9 +86,9 @@ module BreadcrumbHelper
       ancestors << project
       ancestors.map do |p|
         if p == project
-          link_to_project(p, { only_path: false }, title: p, class: 'breadcrumb-project-title nocut').html_safe
+          link_to_project(p, { only_path: false }, { title: p, class: 'breadcrumb-project-title nocut' }).html_safe
         else
-          link_to_project(p, { jump: current_menu_item }, title: p, class: 'breadcrumb-project-title').html_safe
+          link_to_project(p, { jump: current_menu_item }, { title: p, class: 'breadcrumb-project-title' }).html_safe
         end
       end
     end

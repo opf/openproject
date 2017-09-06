@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,7 +37,7 @@ Given /^the [pP]roject "([^\"]*)" has the parent "([^\"]*)"$/ do |child_name, pa
 end
 
 Given /^there are the following colors:$/ do |table|
-  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.tr(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:color, type_attributes)
@@ -49,7 +50,7 @@ Given /^I am working in the [tT]imeline "([^"]*)" of the project called "([^"]*)
 end
 
 Given /^there are the following reported project statuses:$/ do |table|
-  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.tr(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:reported_project_status, type_attributes)
@@ -57,7 +58,7 @@ Given /^there are the following reported project statuses:$/ do |table|
 end
 
 Given /^there are the following project types:$/ do |table|
-  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.tr(' ', '_') }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:project_type, type_attributes)
@@ -73,8 +74,8 @@ end
 Given /^there are the following project associations:$/ do |table|
   table = table.map_headers { |h| h.delete(' ').underscore }
 
-  table.map_column!('project_a') do |name| Project.find_by!(name: name) end
-  table.map_column!('project_b') do |name| Project.find_by!(name: name) end
+  table.map_column!('project_a') { |name| Project.find_by!(name: name) }
+  table.map_column!('project_b') { |name| Project.find_by!(name: name) }
 
   table.hashes.each do |type_attributes|
     FactoryGirl.create(:project_association, type_attributes)
@@ -102,9 +103,9 @@ end
 Given /^the following types are enabled for projects of type "(.*?)"$/ do |project_type_name, type_name_table|
   project_type = ProjectType.find_by(name: project_type_name)
   projects = Project.where(project_type_id: project_type.id)
-  types = type_name_table.raw.flatten.map { |type_name|
+  types = type_name_table.raw.flatten.map do |type_name|
     ::Type.find_by(name: type_name) || FactoryGirl.create(:type, name: type_name)
-  }
+  end
 
   projects.each do |project|
     project.types = types
@@ -118,7 +119,7 @@ Given (/^there are the following work packages(?: in project "([^"]*)")?:$/) do 
 end
 
 def create_work_packages_from_table(table, project)
-  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.tr(' ', '_') }
 
   table.hashes.each do |type_attributes|
     [['author', User],
@@ -128,8 +129,7 @@ def create_work_packages_from_table(table, project)
      ['fixed_version', Version],
      ['priority', IssuePriority],
      ['status', Status],
-     ['parent', WorkPackage]
-    ].each do |key, const|
+     ['parent', WorkPackage]].each do |key, const|
       if type_attributes[key].present?
         type_attributes[key] = InstanceFinder.find(const, type_attributes[key])
       else

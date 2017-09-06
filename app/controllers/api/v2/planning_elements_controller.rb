@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -275,7 +276,7 @@ module Api
 
       def custom_values_for(model)
         model
-          .custom_values.select { |cv| cv.value != '' }
+          .custom_values.reject { |cv| cv.value == '' }
           .map { |custom_value| convert_custom_value_to_struct(custom_value) }
       end
 
@@ -331,7 +332,7 @@ module Api
         # .tap and the following block here were useless as the block's return value is ignored.
         # Keeping this code to show its original intention, but not fixing it to not
         # break things for clients that might not properly use the parameter.
-        params[:include]  # .tap { |i| i.present? && i.include?("journals") }
+        params[:include] # .tap { |i| i.present? && i.include?("journals") }
       end
 
       # Actual protected methods
@@ -342,8 +343,7 @@ module Api
                        when 'json'; { json: { 'errors' => errors } }
                        else
                          raise "Unknown format #{params[:format]} in #render_validation_errors"
-          end
-                      )
+          end)
         render options
       end
 
@@ -374,14 +374,18 @@ module Api
         # we explicitly need to re-construct the array of child-ids
         @planning_elements.each do |pe|
           pe.child_ids = @planning_elements.select { |child| child.parent_id == pe.id }
-            .map(&:id)
+                                           .map(&:id)
         end
       end
 
       private
 
       def parse_changed_since
-        @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400
+        @since = begin
+                   Time.at(Float(params[:changed_since] || 0).to_i)
+                 rescue
+                   render_400
+                 end
       end
 
       def parse_work_package_ids

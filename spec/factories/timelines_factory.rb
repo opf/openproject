@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory(:timelines, class: Timeline) do
-    sequence(:name) do |n| "Timeline No. #{n}" end
+    sequence(:name) { |n| "Timeline No. #{n}" }
     association :project
   end
 end

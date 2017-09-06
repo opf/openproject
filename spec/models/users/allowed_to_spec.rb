@@ -36,16 +36,16 @@ describe User, 'allowed_to?' do
   let(:role) { FactoryGirl.build(:role) }
   let(:role2) { FactoryGirl.build(:role) }
   let(:anonymous_role) { FactoryGirl.build(:anonymous_role) }
-  let(:member) {
+  let(:member) do
     FactoryGirl.build(:member, project: project,
                                roles: [role],
                                principal: user)
-  }
-  let(:member2) {
+  end
+  let(:member2) do
     FactoryGirl.build(:member, project: project2,
                                roles: [role2],
                                principal: user)
-  }
+  end
 
   before do
     anonymous_role.save!
@@ -584,9 +584,9 @@ describe User, 'allowed_to?' do
 
   context 'w/ preloaded permissions' do
     it_behaves_like 'w/ inquiring for project' do
-      let(:final_setup_step) {
+      let(:final_setup_step) do
         user.preload_projects_allowed_to(permission)
-      }
+      end
     end
   end
 end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@
 Given /^there is 1 group with the following:$/ do |table|
   group = FactoryGirl.build(:group)
 
-  send_table_to_object group, table,  name: Proc.new { |group, name| group.lastname = name }
+  send_table_to_object group, table, name: Proc.new { |group, name| group.lastname = name }
 end
 
 Given /^the group "(.+)" is a "(.+)" in the project "(.+)"$/ do |group_name, role_name, project_identifier|
@@ -48,7 +49,7 @@ Given /^the group "(.+?)" has the following members:$/ do |name, table|
 
   not_found = user_names - users.map(&:login)
 
-  raise "Could not find users with login: #{not_found}" if not_found.size > 0
+  raise "Could not find users with login: #{not_found}" if !not_found.empty?
 
   group.add_member!(users)
 end

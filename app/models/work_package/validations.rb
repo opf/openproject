@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -67,7 +68,7 @@ module WorkPackage::Validations
     validate :validate_estimated_hours
 
     scope :eager_load_for_validation, ->() {
-      includes({ project: [:enabled_modules, :work_package_custom_fields, :versions] },
+      includes({ project: %i[enabled_modules work_package_custom_fields versions] },
                { parent: :type },
                :custom_values,
                { type: :custom_fields },
@@ -123,7 +124,7 @@ module WorkPackage::Validations
   end
 
   def validate_milestone_constraint
-    if self.is_milestone? && due_date && start_date && start_date != due_date
+    if is_milestone? && due_date && start_date && start_date != due_date
       errors.add :due_date, :not_start_date
     end
   end
@@ -135,7 +136,7 @@ module WorkPackage::Validations
   end
 
   def validate_status_transition
-    if status_changed? && status_exists? && !(self.type_id_changed? || status_transition_exists?)
+    if status_changed? && status_exists? && !(type_id_changed? || status_transition_exists?)
       errors.add :status_id, :status_transition_invalid
     end
   end
@@ -177,7 +178,7 @@ module WorkPackage::Validations
   private
 
   def status_changed?
-    status_id_was != 0 && self.status_id_changed?
+    status_id_was != 0 && status_id_changed?
   end
 
   def status_exists?

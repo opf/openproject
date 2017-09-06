@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@
 class WatchersController < ApplicationController
   before_action :find_watched_by_object, except: [:destroy]
   before_action :find_project
-  before_action :require_login, :check_project_privacy, only: [:watch, :unwatch]
+  before_action :require_login, :check_project_privacy, only: %i[watch unwatch]
 
   def watch
     if @watched.respond_to?(:visible?) && !@watched.visible?(User.current)
@@ -66,17 +67,17 @@ class WatchersController < ApplicationController
     @watched.set_watcher(user, watching)
 
     respond_to do |format|
-      format.html do redirect_to :back end
+      format.html { redirect_to :back }
       format.js do
-        if params[:replace].present?
-          if params[:replace].is_a? Array
-            @replace_selectors = params[:replace]
-          else
-            @replace_selectors = params[:replace].split(',').map(&:strip)
-          end
-        else
-          @replace_selectors = ['#watcher']
-        end
+        @replace_selectors = if params[:replace].present?
+                               if params[:replace].is_a? Array
+                                 params[:replace]
+                               else
+                                 params[:replace].split(',').map(&:strip)
+                                                    end
+                             else
+                               ['#watcher']
+                             end
         @user = user
         render template: 'watchers/set_watcher'
       end

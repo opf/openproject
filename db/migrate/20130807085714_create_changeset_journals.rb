@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,9 +33,9 @@ class CreateChangesetJournals < ActiveRecord::Migration[4.2]
     create_table :changeset_journals do |t|
       t.integer :journal_id,    null: false
       t.integer :repository_id, null: false
-      t.string :revision,      null: false
+      t.string :revision, null: false
       t.string :committer
-      t.datetime :committed_on,  null: false
+      t.datetime :committed_on, null: false
       t.text :comments
       t.date :commit_date
       t.string :scmid

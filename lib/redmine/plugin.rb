@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -273,9 +274,9 @@ module Redmine #:nodoc:
     #
     # +hide_if+ parameter can be a lambda accepting a project, the item will only be hidden if
     #   the condition evaluates to true.
-    def hide_menu_item(menu_name, item, hide_if: -> (*) { true })
+    def hide_menu_item(menu_name, item, hide_if: ->(*) { true })
       Redmine::MenuManager.map(menu_name) do |menu|
-        menu.add_condition(item, -> (project) { !hide_if.call(project) })
+        menu.add_condition(item, ->(project) { !hide_if.call(project) })
       end
     end
 

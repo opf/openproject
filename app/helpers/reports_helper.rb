@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,13 +33,17 @@ module ReportsHelper
 
   def aggregate(data, criteria)
     a = 0
-    data.each { |row|
-      match = 1
-      criteria.each { |k, v|
-        match = 0 unless (row[k].to_s == v.to_s) || (k == 'closed' && row[k] == (v == 0 ? 'f' : 't'))
-      } unless criteria.nil?
-      a = a + row['total'].to_i if match == 1
-    } unless data.nil?
+    unless data.nil?
+      data.each do |row|
+        match = 1
+        unless criteria.nil?
+          criteria.each do |k, v|
+            match = 0 unless (row[k].to_s == v.to_s) || (k == 'closed' && row[k] == (v == 0 ? 'f' : 't'))
+          end
+        end
+        a = a + row['total'].to_i if match == 1
+      end
+    end
     a
   end
 

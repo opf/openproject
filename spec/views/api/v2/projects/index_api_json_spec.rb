@@ -45,13 +45,13 @@ describe '/api/v2/projects/index.api.rabl', type: :view do
   end
 
   describe 'with some projects available' do
-    let(:projects) {
+    let(:projects) do
       [
         FactoryGirl.build(:project, name: 'P1'),
         FactoryGirl.build(:project, name: 'P2'),
         FactoryGirl.build(:project, name: 'P3')
       ]
-    }
+    end
 
     before do
       # stub out helpers that are defined on the controller

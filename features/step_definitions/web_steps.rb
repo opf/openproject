@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -300,7 +301,7 @@ When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: t
         (function (){
           return !(window.jQuery && document.ajaxActive);
         }())
-      }.gsub("\n", ''))
+      }.delete("\n"))
     end
   end
 
@@ -403,12 +404,11 @@ def find_lowest_containing_element(text, selector)
 
   if selector
     search_string = Nokogiri::CSS.xpath_for(selector).first + "//*#{node_criteria}"
-    search_string += ' | ' + Nokogiri::CSS.xpath_for(selector).first + "#{node_criteria}"
+    search_string += ' | ' + Nokogiri::CSS.xpath_for(selector).first + node_criteria.to_s
   else
     search_string = "//*#{node_criteria}"
   end
   elements = all(:xpath, search_string)
-
 rescue Nokogiri::CSS::SyntaxError
   elements
 end
@@ -449,7 +449,11 @@ Then(/^I should see a confirm dialog$/) do
 end
 
 Then /^I confirm the JS confirm dialog$/ do
-  page.driver.browser.switch_to.alert.accept rescue Selenium::WebDriver::Error::NoAlertOpenError
+  begin
+    page.driver.browser.switch_to.alert.accept
+  rescue
+    Selenium::WebDriver::Error::NoAlertOpenError
+  end
 end
 
 Then /^I should see a JS confirm dialog$/ do

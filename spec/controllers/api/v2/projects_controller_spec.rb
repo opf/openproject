@@ -58,12 +58,12 @@ describe Api::V2::ProjectsController, type: :controller do
           @visible_projects = [
             FactoryGirl.create(:project, is_public: false),
             FactoryGirl.create(:project, is_public: false)
-          ].each { |project|
+          ].each do |project|
             FactoryGirl.create(:member,
                                project: project,
                                principal: current_user,
                                roles: [FactoryGirl.create(:role)])
-          }
+          end
           @visible_projects << FactoryGirl.create(:project, is_public: true)
 
           @invisible_projects = [
@@ -95,8 +95,8 @@ describe Api::V2::ProjectsController, type: :controller do
       end
 
       describe 'private project' do
-        before do $debug = true  end
-        after  do $debug = false end
+        before { $debug = true  }
+        after  { $debug = false }
 
         let(:project) { FactoryGirl.create(:project, is_public: false) }
         def fetch
@@ -107,9 +107,9 @@ describe Api::V2::ProjectsController, type: :controller do
 
       describe 'with unknown project' do
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             get 'show', params: { id: 'unknown_project' }, format: 'xml'
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 

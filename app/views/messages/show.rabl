@@ -44,10 +44,6 @@ node :last_reply, if: lambda { |m| m.last_reply } do |m|
   partial('messages/show', object: m.last_reply)
 end
 
-node :isSticky do |m|
-  m.sticky?
-end
+node :isSticky, &:sticky?
 
-node :isLocked do |m|
-  m.locked?
-end
+node :isLocked, &:locked?

@@ -36,8 +36,7 @@ namespace :sample_data do
                                identifier: "#{Faker::Code.isbn}-#{i}",
                                description: Faker::Lorem.paragraph(5),
                                types: Type.all,
-                               is_public: true
-                              )
+                               is_public: true)
 
       puts "created: #{project.name}"
     end

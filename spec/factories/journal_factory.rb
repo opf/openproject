@@ -30,7 +30,7 @@ FactoryGirl.define do
   factory :journal do
     user factory: :user
     created_at Time.now
-    sequence(:version) do |n| n + 1 end
+    sequence(:version) { |n| n + 1 }
 
     factory :work_package_journal, class: Journal do
       journable_type 'WorkPackage'

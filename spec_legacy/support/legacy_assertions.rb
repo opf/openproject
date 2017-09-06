@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -51,7 +52,7 @@ module LegacyAssertionsAndHelpers
                                       original_filename: a.attributes['filename']
         rescue # imaginary file: create it on-the-fly
           a.file = LegacyFileHelpers.mock_uploaded_file name: a.attributes['filename'],
-                                                  content_type: a.attributes['content_type']
+                                                        content_type: a.attributes['content_type']
         end
 
         a.save!
@@ -89,7 +90,7 @@ module LegacyAssertionsAndHelpers
     FileUtils.mkdir_p(Rails.root.join('tmp/pages'))
 
     page_path = Rails.root.join("tmp/pages/#{SecureRandom.hex(16)}.html").to_s
-    File.open(page_path, 'w') do |f| f.write(body) end
+    File.open(page_path, 'w') { |f| f.write(body) }
 
     Launchy.open(page_path)
 
@@ -111,7 +112,7 @@ module LegacyAssertionsAndHelpers
 
   def with_settings(options, &_block)
     saved_settings = options.keys.inject({}) { |h, k| h[k] = Setting[k].dup; h }
-    options.each do |k, v| Setting[k] = v end
+    options.each { |k, v| Setting[k] = v }
     yield
   ensure
     saved_settings.each { |k, v| Setting[k] = v }
@@ -388,11 +389,11 @@ module LegacyAssertionsAndHelpers
             @user = FactoryGirl.create(:user, admin: true)
             @token = FactoryGirl.create(:token, user: @user, action: 'api')
             # Simple url parse to add on ?key= or &key=
-            request_url = if url.match(/\?/)
+            request_url = if url =~ /\?/
                             url + "&key=#{@token.value}"
                           else
                             url + "?key=#{@token.value}"
-                          end
+            end
             send(http_method, request_url, params: parameters)
           end
           it { should respond_with success_code }
@@ -408,7 +409,7 @@ module LegacyAssertionsAndHelpers
             @user = FactoryGirl.create(:user)
             @token = FactoryGirl.create(:token, user: @user, action: 'feeds')
             # Simple url parse to add on ?key= or &key=
-            request_url = if url.match(/\?/)
+            request_url = if url =~ /\?/
                             url + "&key=#{@token.value}"
                           else
                             url + "?key=#{@token.value}"
@@ -446,10 +447,9 @@ module LegacyAssertionsAndHelpers
   #
   # @param [String] url Request
   def should_respond_with_content_type_based_on_url(url)
-    case
-    when url.match(/xml/i)
+    if url =~ /xml/i
       should_respond_with_content_type 'application/xml'
-    when url.match(/json/i)
+    elsif url =~ /json/i
       should_respond_with_content_type 'application/json'
     else
       raise "Unknown content type for should_respond_with_content_type_based_on_url: #{url}"
@@ -463,10 +463,9 @@ module LegacyAssertionsAndHelpers
   #
   # @param [String] url Request
   def should_be_a_valid_response_string_based_on_url(url)
-    case
-    when url.match(/xml/i)
+    if url =~ /xml/i
       should_be_a_valid_xml_string
-    when url.match(/json/i)
+    elsif url =~ /json/i
       should_be_a_valid_json_string
     else
       raise "Unknown content type for should_be_a_valid_response_based_on_url: #{url}"

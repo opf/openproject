@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -82,7 +83,7 @@ describe Users::UpdateUserService do
   end
 
   describe '#call' do
-    subject { instance.call() }
+    subject { instance.call }
     let(:validates) { true }
     let(:saves) { true }
 

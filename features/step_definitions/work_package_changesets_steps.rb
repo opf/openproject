@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,9 +33,9 @@ Given(/^the work package "(.*?)" has the following changesets:$/) do |subject, t
 
   repo = wp.project.repository
 
-  wp_changesets = table.hashes.map { |row|
+  wp_changesets = table.hashes.map do |row|
     FactoryGirl.build(:changeset, row.merge(repository: repo))
-  }
+  end
 
   wp.changesets = wp_changesets
 end

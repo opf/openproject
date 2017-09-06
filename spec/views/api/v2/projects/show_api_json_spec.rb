@@ -38,7 +38,7 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
 
   describe 'with an assigned project' do
     let(:sample_type) { FactoryGirl.build(:project_type, id: 1, name: 'SampleType') }
-    let(:sample_project) {
+    let(:sample_project) do
       FactoryGirl.build(:project, id: 1,
                                   project_type: sample_type,
                                   project_type_id: 1,
@@ -47,12 +47,12 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
                                   description: 'sample description',
                                   created_on: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                                   updated_on: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-    }
+    end
 
     before do
       allow(User).to receive(:current).and_return(admin)
 
-      assign(:project,  sample_project)
+      assign(:project, sample_project)
       render
     end
 
@@ -72,7 +72,8 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
                         permissions: {
                           edit_planning_elements: true,
                           delete_planning_elements: true,
-                          view_planning_elements: true },
+                          view_planning_elements: true
+                        },
                         custom_fields: [],
                         project_type: { name: 'SampleType' },
                         created_on: '2011-01-06T11:35:00Z',
@@ -120,18 +121,18 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
   end
 
   describe 'with a project having an invisible parent project and a visible grand-parent' do
-    let(:grand_parent_project) {
+    let(:grand_parent_project) do
       FactoryGirl.create(:public_project,
                          name: 'Grand-Parent',
                          identifier: 'granny')
-    }
-    let(:parent_project)       {
+    end
+    let(:parent_project) do
       FactoryGirl.create(:project,
                          name: 'Parent',
                          identifier: 'parent',
                          is_public: false).tap { |p| p.move_to_child_of(grand_parent_project.id) }
-    }
-    let(:project)              { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id) } }
+    end
+    let(:project) { FactoryGirl.create(:project).tap { |p| p.move_to_child_of(parent_project.id) } }
 
     before do
       allow(User).to receive(:current).and_return anonymous
@@ -149,16 +150,16 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
   end
 
   describe 'with a project having a responsible' do
-    let(:responsible) {
+    let(:responsible) do
       FactoryGirl.create(:user,
                          firstname: 'Project',
                          lastname: 'Manager')
-    }
+    end
 
-    let(:project) {
+    let(:project) do
       FactoryGirl.create(:project,
                          responsible_id: responsible.id)
-    }
+    end
 
     before do
       assign(:project, project)
@@ -269,7 +270,8 @@ describe 'api/v2/projects/show.api.rabl', type: :view do
     before do
       custom_value = CustomValue.new(
         custom_field: custom_field,
-        value: 'Wurst')
+        value: 'Wurst'
+      )
       project.custom_values << custom_value
 
       assign(:project, project)

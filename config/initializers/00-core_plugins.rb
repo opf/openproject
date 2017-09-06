@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,7 +33,7 @@ Dir.glob(File.join(Rails.root, 'lib/plugins/*')).sort.each do |directory|
   if File.directory?(directory)
     lib = File.join(directory, 'lib')
     if File.directory?(lib)
-      $:.unshift lib
+      $LOAD_PATH.unshift lib
       ActiveSupport::Dependencies.autoload_paths += [lib]
     end
     initializer = File.join(directory, 'init.rb')

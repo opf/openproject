@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,11 +36,11 @@ module TimelogHelper
   # is active.
   def activity_collection_for_select_options(time_entry = nil, project = nil)
     project ||= @project
-    if project.nil?
-      activities = TimeEntryActivity.shared.active
-    else
-      activities = project.activities
-    end
+    activities = if project.nil?
+                   TimeEntryActivity.shared.active
+                 else
+                   project.activities
+                 end
 
     collection = []
     if time_entry && time_entry.activity && !time_entry.activity.active?
@@ -47,7 +48,7 @@ module TimelogHelper
     else
       collection << ["--- #{l(:actionview_instancetag_blank_option)} ---", ''] unless activities.detect(&:is_default)
     end
-    activities.each do |a| collection << [a.name, a.id] end
+    activities.each { |a| collection << [a.name, a.id] }
     collection
   end
 
@@ -84,7 +85,7 @@ module TimelogHelper
   def entries_to_csv(entries)
     decimal_separator = l(:general_csv_decimal_separator)
     custom_fields = TimeEntryCustomField.all
-    export = CSV.generate(col_sep: l(:general_csv_separator)) { |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # csv header fields
       headers = [TimeEntry.human_attribute_name(:spent_on),
                  TimeEntry.human_attribute_name(:user),
@@ -94,8 +95,7 @@ module TimelogHelper
                  TimeEntry.human_attribute_name(:type),
                  TimeEntry.human_attribute_name(:subject),
                  TimeEntry.human_attribute_name(:hours),
-                 TimeEntry.human_attribute_name(:comments)
-                ]
+                 TimeEntry.human_attribute_name(:comments)]
       # Export custom fields
       headers += custom_fields.map(&:name)
 
@@ -110,13 +110,12 @@ module TimelogHelper
                   (entry.work_package ? entry.work_package.type : nil),
                   (entry.work_package ? entry.work_package.subject : nil),
                   entry.hours.to_s.gsub('.', decimal_separator),
-                  entry.comments
-                 ]
+                  entry.comments]
         fields += custom_fields.map { |f| show_value(entry.custom_value_for(f)) }
 
         csv << WorkPackage::Exporter::CSV.encode_csv_columns(fields)
       end
-    }
+    end
     export
   end
 
@@ -136,12 +135,12 @@ module TimelogHelper
   end
 
   def report_to_csv(criterias, periods, hours)
-    export = CSV.generate(col_sep: l(:general_csv_separator)) { |csv|
+    export = CSV.generate(col_sep: l(:general_csv_separator)) do |csv|
       # Column headers
-      headers = criterias.map { |criteria|
+      headers = criterias.map do |criteria|
         label = @available_criterias[criteria][:label]
         label.is_a?(Symbol) ? l(label) : label
-      }
+      end
       headers += periods
       headers << l(:label_total)
       csv << headers.map { |c| to_utf8_for_timelogs(c) }
@@ -157,7 +156,7 @@ module TimelogHelper
       end
       row << '%.2f' % total
       csv << row
-    }
+    end
     export
   end
 
@@ -184,14 +183,14 @@ module TimelogHelper
   end
 
   def to_utf8_for_timelogs(s)
-    s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s  end
+    s.to_s.encode(l(:general_csv_encoding), 'UTF-8'); rescue; s.to_s end
 
   def polymorphic_time_entries_path(object)
     polymorphic_path([object, :time_entries])
   end
 
   def polymorphic_new_time_entry_path(object)
-    polymorphic_path([:new, object, :time_entry,])
+    polymorphic_path([:new, object, :time_entry])
   end
 
   def polymorphic_time_entries_report_path(object)

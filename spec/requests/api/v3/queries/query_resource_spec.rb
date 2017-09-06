@@ -180,7 +180,7 @@ describe 'API v3 Query resource', type: :request do
 
   describe '#delete queries/:id' do
     let(:path) { api_v3_paths.query query.id }
-    let(:permissions) { [:view_work_packages, :manage_public_queries] }
+    let(:permissions) { %i[view_work_packages manage_public_queries] }
 
     before do
       delete path
@@ -256,7 +256,7 @@ describe 'API v3 Query resource', type: :request do
 
     describe 'public queries' do
       context 'user with permission to manage public queries' do
-        let(:permissions) { [:view_work_packages, :manage_public_queries] }
+        let(:permissions) { %i[view_work_packages manage_public_queries] }
 
         context 'when starring an unstarred query' do
           it 'should respond with 200' do
@@ -298,7 +298,7 @@ describe 'API v3 Query resource', type: :request do
     describe 'private queries' do
       context 'user with permission to save queries' do
         let(:query) { FactoryGirl.create(:private_query, project: project, user: current_user) }
-        let(:permissions) { [:view_work_packages, :save_queries] }
+        let(:permissions) { %i[view_work_packages save_queries] }
 
         context 'starring his own query' do
           it 'should respond with 200' do
@@ -334,7 +334,7 @@ describe 'API v3 Query resource', type: :request do
       let(:query) { FactoryGirl.create(:public_query, project: project) }
 
       context 'user with permission to manage public queries' do
-        let(:permissions) { [:view_work_packages, :manage_public_queries] }
+        let(:permissions) { %i[view_work_packages manage_public_queries] }
 
         context 'when unstarring a starred query' do
           before(:each) do
@@ -391,7 +391,7 @@ describe 'API v3 Query resource', type: :request do
     describe 'private queries' do
       context 'user with permission to save queries' do
         let(:query) { FactoryGirl.create(:private_query, project: project, user: current_user) }
-        let(:permissions) { [:view_work_packages, :save_queries] }
+        let(:permissions) { %i[view_work_packages save_queries] }
         before(:each) do
           patch unstar_path
         end

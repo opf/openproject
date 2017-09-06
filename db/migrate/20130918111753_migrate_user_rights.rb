@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,7 +35,7 @@ require_relative 'migration_utils/utils'
 class MigrateUserRights < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
-  COLUMN = 'permissions'
+  COLUMN = 'permissions'.freeze
 
   PERMISSIONS = {
     view_issues: :view_work_packages,
@@ -59,7 +60,7 @@ class MigrateUserRights < ActiveRecord::Migration[4.2]
 
     edit_own_issue_notes: :edit_own_work_package_notes,
     move_planning_elements_to_trash: nil
-  }
+  }.freeze
 
   def up
     say_with_time_silently 'Update role permissions' do
@@ -76,7 +77,7 @@ class MigrateUserRights < ActiveRecord::Migration[4.2]
     end
 
     ambiguous_permissions = PERMISSIONS.select { |_k, v| PERMISSIONS.values.count(v) > 1 }
-                            .keys
+                                       .keys
 
     say <<-WARNING
       This down migration can't restore the following permission: #{ambiguous_permissions.inspect}
@@ -92,9 +93,9 @@ class MigrateUserRights < ActiveRecord::Migration[4.2]
   def update_role_permissions(permissions)
     Proc.new do |row|
       unless row[COLUMN].nil?
-        role_permissions = YAML.load row[COLUMN]
+        role_permissions = YAML.safe_load row[COLUMN]
 
-        role_permissions.map! do |p| permissions.has_key?(p) ? permissions[p] : p end
+        role_permissions.map! { |p| permissions.has_key?(p) ? permissions[p] : p }
 
         row[COLUMN] = YAML.dump role_permissions.flatten
       end

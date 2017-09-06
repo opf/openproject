@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -119,9 +120,9 @@ describe RepositoriesController, 'Subversion', type: :controller do
       refute_nil assigns(:properties)
       assert_equal 'native', assigns(:properties)['svn:eol-style']
       assert_select 'ul',
-                 child: { tag: 'li',
-                          child: { tag: 'b', content: 'svn:eol-style' },
-                          child: { tag: 'span', content: 'native' } }
+                    child: { tag: 'li',
+                             child: { tag: 'b', content: 'svn:eol-style' },
+                             child: { tag: 'span', content: 'native' } }
     end
   end
 
@@ -166,7 +167,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_template 'entry'
     # this line was removed in r3 and file was moved in r6
     assert_select 'td', attributes: { class: /line-code/ },
-               content: /Here's the code/
+                        content: /Here's the code/
   end
 
   it 'should entry not found' do
@@ -174,7 +175,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     @repository.reload
     get :entry, params: { project_id: PRJ_ID, path: 'subversion_test/zzz.c' }
     assert_select 'div', attributes: { id: /errorExplanation/ },
-               content: /The entry or revision was not found in the repository/
+                         content: /The entry or revision was not found in the repository/
   end
 
   it 'should entry download' do
@@ -204,17 +205,14 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_response :success
     assert_template 'revision'
     assert_select 'ul',
-               child: { tag: 'li',
-                        # link to the entry at rev 2
-                        child: { tag: 'a',
-                                 attributes: { href: '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo' },
-                                 content: 'repo',
-                                 # link to partial diff
-                                 sibling:  { tag: 'a',
-                                             attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' }
-                                                     }
-                                      }
-                          }
+                  child: { tag: 'li',
+                           # link to the entry at rev 2
+                           child: { tag: 'a',
+                                    attributes: { href: '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo' },
+                                    content: 'repo',
+                                    # link to partial diff
+                                    sibling:  { tag: 'a',
+                                                attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' } } } }
   end
 
   it 'should invalid revision' do
@@ -251,17 +249,14 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_response :success
     assert_template 'revision'
     assert_select 'ul',
-               child: { tag: 'li',
-                        # link to the entry at rev 2
-                        child: { tag: 'a',
-                                 attributes: { href: '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo' },
-                                 content: 'repo',
-                                 # link to partial diff
-                                 sibling:  { tag: 'a',
-                                             attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' }
-                                                     }
-                                      }
-                          }
+                  child: { tag: 'li',
+                           # link to the entry at rev 2
+                           child: { tag: 'a',
+                                    attributes: { href: '/projects/ecookbook/repository/revisions/2/entry/test/some/path/in/the/repo' },
+                                    content: 'repo',
+                                    # link to partial diff
+                                    sibling:  { tag: 'a',
+                                                attributes: { href: '/projects/ecookbook/repository/revisions/2/diff/test/some/path/in/the/repo' } } } }
   end
 
   it 'should revision diff' do
@@ -304,7 +299,7 @@ describe RepositoriesController, 'Subversion', type: :controller do
     assert_response :success
     assert_template 'annotate'
     assert_select 'div',
-               attributes: { class: 'repository-breadcrumbs' },
-               content: /at 8/
+                  attributes: { class: 'repository-breadcrumbs' },
+                  content: /at 8/
   end
 end

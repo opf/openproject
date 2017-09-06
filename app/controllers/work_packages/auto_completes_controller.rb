@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,7 +37,7 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     @work_packages = work_package_with_id | work_packages_by_subject_or_id
 
     respond_to do |format|
-      format.html do render layout: false end
+      format.html { render layout: false }
       format.any(:xml, :json) { render request.format.to_sym => wp_hashes_with_string(@work_packages) }
     end
   end
@@ -67,14 +68,14 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
     scope = determine_scope
     query_term = params[:q].to_s
 
-    if query_term =~ /\A\d+\z/
-      sql_query = ["#{WorkPackage.table_name}.subject LIKE :q OR
-                   CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
+    sql_query = if query_term =~ /\A\d+\z/
+                  ["#{WorkPackage.table_name}.subject LIKE :q OR
+                               CAST(#{WorkPackage.table_name}.id AS CHAR(13)) LIKE :q",
                    { q: "%#{query_term}%" }]
-    else
-      sql_query = ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q",
+                else
+                  ["LOWER(#{WorkPackage.table_name}.subject) LIKE :q",
                    { q: "%#{query_term.downcase}%" }]
-    end
+                end
 
     # The filter on subject in combination with the ORDER BY on id
     # seems to trip MySql's usage of indexes on the order statement
@@ -98,7 +99,7 @@ class WorkPackages::AutoCompletesController < ::ApplicationController
   def wp_hashes_with_string(work_packages)
     work_packages.map do |work_package|
       wp_hash = Hash.new
-      work_package.attributes.each do |key, value| wp_hash[key] = Rack::Utils.escape_html(value) end
+      work_package.attributes.each { |key, value| wp_hash[key] = Rack::Utils.escape_html(value) }
       wp_hash['to_s'] = Rack::Utils.escape_html(work_package.to_s)
       wp_hash
     end

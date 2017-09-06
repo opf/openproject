@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -69,7 +70,7 @@ module HtmlSelectorsHelpers
 
     else
       raise "Can't find mapping from \"#{locator}\" to a selector.\n" +
-        "Now, go and add a mapping in #{__FILE__}"
+            "Now, go and add a mapping in #{__FILE__}"
     end
   end
 end

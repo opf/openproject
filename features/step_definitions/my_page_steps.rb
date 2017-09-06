@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -46,12 +47,12 @@ end
 Then /^"(.+)" should( not)? be disabled in the my page available widgets drop down$/ do |widget_name, neg|
   option_name = MyController.available_blocks.detect { |_k, v| I18n.t(v) == widget_name }.first.dasherize
 
-  unless neg
-    steps %{Then the "block-options" drop-down should have the following options disabled:
-              | #{option_name} |}
-  else
+  if neg
     steps %{Then the "block-options" drop-down should have the following options enabled:
             | #{option_name} |}
+  else
+    steps %{Then the "block-options" drop-down should have the following options disabled:
+              | #{option_name} |}
   end
 end
 

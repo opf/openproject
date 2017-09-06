@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -45,11 +46,11 @@ class WorkflowsController < ApplicationController
     if request.post?
       Workflow.where(role_id: @role.id, type_id: @type.id).delete_all
       (params[:status] || []).each do |status_id, transitions|
-        transitions.each { |new_status_id, options|
+        transitions.each do |new_status_id, options|
           author = options.is_a?(Array) && options.include?('author') && !options.include?('always')
           assignee = options.is_a?(Array) && options.include?('assignee') && !options.include?('always')
           @role.workflows.build(type_id: @type.id, old_status_id: status_id, new_status_id: new_status_id, author: author, assignee: assignee)
-        }
+        end
       end
       if @role.save
         flash[:notice] = l(:notice_successful_update)
@@ -74,16 +75,16 @@ class WorkflowsController < ApplicationController
   end
 
   def copy
-    if params[:source_type_id].blank? || params[:source_type_id] == 'any'
-      @source_type = nil
-    else
-      @source_type = ::Type.find_by(id: params[:source_type_id].to_i)
-    end
-    if params[:source_role_id].blank? || params[:source_role_id] == 'any'
-      @source_role = nil
-    else
-      @source_role = Role.find_by(id: params[:source_role_id].to_i)
-    end
+    @source_type = if params[:source_type_id].blank? || params[:source_type_id] == 'any'
+                     nil
+                   else
+                     ::Type.find_by(id: params[:source_type_id].to_i)
+                   end
+    @source_role = if params[:source_role_id].blank? || params[:source_role_id] == 'any'
+                     nil
+                   else
+                     Role.find_by(id: params[:source_role_id].to_i)
+                   end
 
     @target_types = params[:target_type_ids].blank? ? nil : ::Type.where(id: params[:target_type_ids])
     @target_roles = params[:target_role_ids].blank? ? nil : Role.where(id: params[:target_role_ids])

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,7 +32,6 @@ module GroupsHelper
   def group_settings_tabs
     [{ name: 'general', partial: 'groups/general', label: :label_general },
      { name: 'users', partial: 'groups/users', label: :label_user_plural },
-     { name: 'memberships', partial: 'groups/memberships', label: :label_project_plural }
-    ]
+     { name: 'memberships', partial: 'groups/memberships', label: :label_project_plural }]
   end
 end

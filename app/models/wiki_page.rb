@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -51,7 +52,7 @@ class WikiPage < ActiveRecord::Base
 
   acts_as_searchable columns: ["#{WikiPage.table_name}.title", "#{WikiContent.table_name}.text"],
                      include: [{ wiki: :project }, :content],
-                     references: [:wikis, :wiki_contents],
+                     references: %i[wikis wiki_contents],
                      project_key: "#{Wiki.table_name}.project_id"
 
   attr_accessor :redirect_existing_links
@@ -73,12 +74,12 @@ class WikiPage < ActiveRecord::Base
       .joins("LEFT JOIN #{WikiContent.table_name} ON #{WikiContent.table_name}.page_id = #{WikiPage.table_name}.id")
   }
 
-  scope :main_pages, -> (wiki_id) {
+  scope :main_pages, ->(wiki_id) {
     where(wiki_id: wiki_id, parent_id: nil)
   }
 
   # Wiki pages that are protected by default
-  DEFAULT_PROTECTED_PAGES = %w(sidebar)
+  DEFAULT_PROTECTED_PAGES = %w(sidebar).freeze
 
   after_destroy :delete_wiki_menu_item
 
@@ -141,14 +142,14 @@ class WikiPage < ActiveRecord::Base
   def content_for_version(version = nil)
     journal = content.versions.find_by(version: version.to_i) if version
 
-    unless journal.nil? || content.version == journal.version
+    if journal.nil? || content.version == journal.version
+      content
+    else
       content_version = WikiContent.new journal.data.attributes.except('id', 'journal_id')
       content_version.updated_on = journal.created_at
       content_version.journals = content.journals.select { |j| j.version <= version.to_i }
 
       content_version
-    else
-      content
     end
   end
 
@@ -160,7 +161,7 @@ class WikiPage < ActiveRecord::Base
     content_to = content.versions.find_by(version: version_to)
     content_from = content.versions.find_by(version: version_from)
 
-    (content_to && content_from) ? WikiDiff.new(content_to, content_from) : nil
+    content_to && content_from ? WikiDiff.new(content_to, content_from) : nil
   end
 
   def annotate(version = nil)
@@ -178,7 +179,11 @@ class WikiPage < ActiveRecord::Base
       if time = read_attribute(:updated_on)
         # content updated_on was eager loaded with the page
         unless time.is_a? Time
-          time = Time.zone.parse(time) rescue nil
+          time = begin
+                   Time.zone.parse(time)
+                 rescue
+                   nil
+                 end
         end
         @updated_on = time
       else
@@ -279,7 +284,7 @@ class WikiAnnotate
     current_lines = current.journable.text.split(/\r?\n/)
     @lines = current_lines.map { |t| [nil, nil, t] }
     positions = []
-    current_lines.size.times do |i| positions << i end
+    current_lines.size.times { |i| positions << i }
     while current.previous
       d = current.previous.journable.text.split(/\r?\n/).diff(current.journable.text.split(/\r?\n/)).diffs.flatten
       d.each_slice(3) do |s|

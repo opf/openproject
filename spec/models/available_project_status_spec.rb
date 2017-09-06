@@ -56,15 +56,15 @@ describe AvailableProjectStatus, type: :model do
   end
 
   describe '- Validations ' do
-    let(:attributes) {
+    let(:attributes) do
       { reported_project_status_id: 2,
         project_type_id: 1 }
-    }
+    end
 
-    before {
+    before do
       FactoryGirl.create(:project_type, id: 1)
       FactoryGirl.create(:reported_project_status, id: 2)
-    }
+    end
 
     it { expect(AvailableProjectStatus.new.tap { |ps| ps.send(:assign_attributes, attributes) }).to be_valid }
 

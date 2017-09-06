@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -40,7 +41,7 @@ module Query::Timelines
     def valid_timeline_labels
       return unless timeline_labels.present?
 
-      valid_keys = %w(farRight left right) == timeline_labels.keys.map(&:to_s).sort
+      valid_keys = timeline_labels.keys.map(&:to_s).sort == %w(farRight left right)
       errors.add :timeline_labels, :invalid unless valid_keys
     end
   end

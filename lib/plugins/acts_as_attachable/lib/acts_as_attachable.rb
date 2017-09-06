@@ -73,7 +73,7 @@ module Redmine
           if attachments && attachments.is_a?(Hash)
             attachments.each_value do |attachment|
               file = attachment['file']
-              next unless file && file.size > 0
+              next unless file && !file.empty?
               self.attachments.build(file: file,
                                      container: self,
                                      description: attachment['description'].to_s.strip,

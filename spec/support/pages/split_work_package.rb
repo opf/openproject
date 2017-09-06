@@ -72,7 +72,7 @@ module Pages
     end
 
     def create_page(args)
-      args.merge!(project: project || work_package.project)
+      args[:project] = project || work_package.project
       SplitWorkPackageCreate.new(args)
     end
   end

@@ -54,7 +54,8 @@ FactoryGirl.define do
         name:         name,
         content:      content,
         content_type: content_type,
-        binary:       binary)
+        binary:       binary
+      )
     end
 
     factory :uploaded_jpg do

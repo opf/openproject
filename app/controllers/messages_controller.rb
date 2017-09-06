@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,7 +34,7 @@ class MessagesController < ApplicationController
   default_search_scope :messages
   model_object Message, scope: Board
   before_action :find_object_and_scope, except: [:preview]
-  before_action :authorize, except: [:preview, :edit, :update, :destroy]
+  before_action :authorize, except: %i[preview edit update destroy]
 
   include AttachmentsHelper
   include PaginationHelper
@@ -52,9 +53,9 @@ class MessagesController < ApplicationController
     end
 
     @replies = @topic.children.includes(:author, :attachments, board: :project)
-               .order("#{Message.table_name}.created_on ASC")
-               .page(page)
-               .per_page(per_page_param)
+                     .order("#{Message.table_name}.created_on ASC")
+                     .page(page)
+                     .per_page(per_page_param)
 
     @reply = Message.new(subject: "RE: #{@message.subject}")
     render action: 'show', layout: !request.xhr?
@@ -80,7 +81,7 @@ class MessagesController < ApplicationController
     @message.attach_files(permitted_params.attachments.to_h)
 
     if @message.save
-      call_hook(:controller_messages_new_after_save,  params: params, message: @message)
+      call_hook(:controller_messages_new_after_save, params: params, message: @message)
 
       redirect_to topic_path(@message)
     else
@@ -99,7 +100,7 @@ class MessagesController < ApplicationController
 
     @topic.children << @reply
     if !@reply.new_record?
-      call_hook(:controller_messages_reply_after_save,  params: params, message: @reply)
+      call_hook(:controller_messages_reply_after_save, params: params, message: @reply)
       attachments = Attachment.attach_files(@reply, permitted_params.attachments)
       render_attachment_warning_if_needed(@reply)
     end

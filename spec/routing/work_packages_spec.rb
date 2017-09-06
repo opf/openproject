@@ -91,7 +91,6 @@ describe WorkPackagesController, type: :routing do
                                                 id: '1')
   end
 
-
   it 'should connect GET /work_packages/:work_package_id/moves/new to work_packages/moves#new' do
     expect(get('/work_packages/1/move/new')).to route_to(controller: 'work_packages/moves',
                                                          action: 'new',

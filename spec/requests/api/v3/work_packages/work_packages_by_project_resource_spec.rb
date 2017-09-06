@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -275,7 +276,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
   end
 
   describe '#post' do
-    let(:permissions) { [:add_work_packages, :view_project] }
+    let(:permissions) { %i[add_work_packages view_project] }
     let(:status) { FactoryGirl.build(:status, is_default: true) }
     let(:priority) { FactoryGirl.build(:priority, is_default: true) }
     let(:parameters) do
@@ -298,7 +299,7 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     end
 
     context 'notifications' do
-      let(:permissions) { [:add_work_packages, :view_project, :view_work_packages] }
+      let(:permissions) { %i[add_work_packages view_project view_work_packages] }
 
       it 'sends a mail by default' do
         expect(ActionMailer::Base.deliveries.count).to eq(1)

@@ -64,15 +64,15 @@ describe Reporting, type: :model do
   end
 
   describe '- Validations ' do
-    let(:attributes) {
+    let(:attributes) do
       { project_id: 1,
         reporting_to_project_id: 2 }
-    }
+    end
 
-    before {
+    before do
       FactoryGirl.create(:project, id: 1)
       FactoryGirl.create(:project, id: 2)
-    }
+    end
 
     it { expect(Reporting.new.tap { |r| r.send(:assign_attributes, attributes) }).to be_valid }
 

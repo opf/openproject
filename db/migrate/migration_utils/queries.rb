@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -44,7 +45,7 @@ module Migration
       'column_names' => { is_text_column: false },
       'sort_criteria' => { is_text_column: false },
       'group_by' => { is_text_column: true }
-    }
+    }.freeze
 
     def update_query_reference(keys, columns)
       Proc.new do |row|
@@ -65,7 +66,7 @@ module Migration
     def process_yaml_data(row, column, keys)
       return row[column] if row[column].blank?
 
-      value = YAML.load row[column]
+      value = YAML.safe_load row[column]
 
       if value.is_a? Array
         value.map! do |e|
@@ -77,7 +78,7 @@ module Migration
         end
       elsif value.is_a? Hash
         keys.select { |k| value[k.to_s] }
-          .each_pair { |k, v| value[v] = value.delete k }
+            .each_pair { |k, v| value[v] = value.delete k }
       end
 
       YAML.dump value

@@ -34,7 +34,7 @@ describe 'api/v2/statuses/show.api.rabl', type: :view do
   end
 
   describe 'with an assigned status' do
-    let(:status) {
+    let(:status) do
       FactoryGirl.build(:status,
                         id: 1,
                         name: 'Almost Done',
@@ -42,7 +42,7 @@ describe 'api/v2/statuses/show.api.rabl', type: :view do
                         default_done_ratio: 90,
                         is_closed: false,
                         is_default: true)
-    }
+    end
 
     before do
       assign(:status, status)

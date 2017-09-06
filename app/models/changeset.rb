@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -51,7 +52,7 @@ class Changeset < ActiveRecord::Base
   validates_uniqueness_of :revision, scope: :repository_id
   validates_uniqueness_of :scmid, scope: :repository_id, allow_nil: true
 
-  scope :visible, -> (*args) {
+  scope :visible, ->(*args) {
     includes(repository: :project)
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_changesets))
@@ -288,7 +289,7 @@ class Changeset < ActiveRecord::Base
     end
     normalized_encoding = encoding.blank? ? 'UTF-8' : encoding
     if str.respond_to?(:force_encoding)
-      if normalized_encoding.upcase != 'UTF-8'
+      if !normalized_encoding.casecmp('UTF-8').zero?
         str.force_encoding(normalized_encoding)
         str = str.encode('UTF-8', invalid: :replace,
                                   undef: :replace, replace: '?')
@@ -305,11 +306,11 @@ class Changeset < ActiveRecord::Base
       begin
         txtar += str.encode('UTF-8', normalized_encoding)
       rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError
-        txtar += $!.success
-        str = '?' + $!.failed[1, $!.failed.length]
+        txtar += $ERROR_INFO.success
+        str = '?' + $ERROR_INFO.failed[1, $ERROR_INFO.failed.length]
         retry
       rescue
-        txtar += $!.success
+        txtar += $ERROR_INFO.success
       end
       str = txtar
     end

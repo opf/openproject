@@ -31,10 +31,10 @@ require 'spec_helper'
 describe BoardsController, type: :controller do
   let(:user) { FactoryGirl.build(:user) }
   let(:project) { FactoryGirl.build(:project) }
-  let!(:board) {
+  let!(:board) do
     FactoryGirl.build(:board,
                       project: project)
-  }
+  end
 
   before do
     disable_flash_sweep
@@ -96,18 +96,18 @@ describe BoardsController, type: :controller do
 
   describe '#move' do
     let(:project) { FactoryGirl.create(:project) }
-    let!(:board_1) {
+    let!(:board_1) do
       FactoryGirl.create(:board,
                          project: project,
                          position: 1)
-    }
-    let!(:board_2) {
+    end
+    let!(:board_2) do
       FactoryGirl.create(:board,
                          project: project,
                          position: 2)
-    }
+    end
 
-    before do allow(@controller).to receive(:authorize).and_return(true) end
+    before { allow(@controller).to receive(:authorize).and_return(true) }
 
     describe '#higher' do
       let(:move_to) { 'higher' }
@@ -128,10 +128,10 @@ describe BoardsController, type: :controller do
   end
 
   describe '#update' do
-    let!(:board) {
+    let!(:board) do
       FactoryGirl.create(:board, name: 'Board name',
                                  description: 'Board description')
-    }
+    end
 
     before do
       expect(@controller).to receive(:authorize)
@@ -188,22 +188,22 @@ describe BoardsController, type: :controller do
   describe '#sticky' do
     let!(:message1) { FactoryGirl.create(:message, board: board) }
     let!(:message2) { FactoryGirl.create(:message, board: board) }
-    let!(:sticked_message1) {
+    let!(:sticked_message1) do
       FactoryGirl.create(:message, board_id: board.id,
                                    subject: 'How to',
                                    content: 'How to install this cool app',
                                    sticky: '1',
                                    sticked_on: Time.now - 2.minute)
-    }
+    end
 
-    let!(:sticked_message2) {
+    let!(:sticked_message2) do
       FactoryGirl.create(:message, board_id: board.id,
                                    subject: 'FAQ',
                                    content: 'Frequestly asked question',
                                    sticky: '1',
                                    sticked_on:
                                    Time.now - 1.minute)
-    }
+    end
 
     describe 'all sticky messages' do
       before do

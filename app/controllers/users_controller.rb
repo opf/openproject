@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,20 +32,18 @@ class UsersController < ApplicationController
   layout 'admin'
 
   before_action :disable_api
-  before_action :require_admin, except: [:show, :deletion_info, :destroy]
-  before_action :find_user, only: [:show,
-                                   :edit,
-                                   :update,
-                                   :change_status_info,
-                                   :change_status,
-                                   :destroy,
-                                   :deletion_info,
-                                   :resend_invitation]
-  # should also contain destroy but post data can not be redirected
+  before_action :require_admin, except: %i[show deletion_info destroy]
+  before_action :find_user, only: %i[show
+                                     edit
+                                     update
+                                     change_status
+                                     destroy
+                                     deletion_info
+                                     resend_invitation]
   before_action :require_login, only: [:deletion_info]
   before_action :authorize_for_user, only: [:destroy]
-  before_action :check_if_deletion_allowed, only: [:deletion_info,
-                                                   :destroy]
+  before_action :check_if_deletion_allowed, only: %i[deletion_info
+                                                     destroy]
 
   accept_key_auth :index, :show, :create, :update, :destroy
 
@@ -69,7 +68,8 @@ class UsersController < ApplicationController
     @memberships = @user.memberships
                         .visible(current_user)
 
-    events = Redmine::Activity::Fetcher.new(User.current, author: @user).events(nil, nil, limit: 10)
+    events = Redmine::Activity::Fetcher.new(User.current,
+                                            author: @user).events(nil, nil, limit: 10)
     @events_by_day = events.group_by { |e| e.event_datetime.to_date }
 
     unless User.current.admin?
@@ -82,7 +82,7 @@ class UsersController < ApplicationController
     end
 
     respond_to do |format|
-      format.html do render layout: 'base' end
+      format.html { render layout: 'base' }
     end
   end
 
@@ -111,7 +111,7 @@ class UsersController < ApplicationController
       @auth_sources = AuthSource.all
 
       respond_to do |format|
-        format.html do render action: 'new' end
+        format.html { render action: 'new' }
       end
     end
   end
@@ -281,10 +281,10 @@ class UsersController < ApplicationController
        !User.current.admin?
 
       respond_to do |format|
-        format.html do render_403 end
-        format.xml  do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
-        format.js   do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
-        format.json do head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' end
+        format.html { render_403 }
+        format.xml  { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.js   { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
+        format.json { head :unauthorized, 'WWW-Authenticate' => 'Basic realm="OpenProject API"' }
       end
 
       false

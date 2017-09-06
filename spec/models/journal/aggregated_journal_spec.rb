@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@
 require 'spec_helper'
 
 RSpec::Matchers.define :be_equivalent_to_journal do |expected|
-  ignored_attributes = [:notes_id, :notes_version]
+  ignored_attributes = %i[notes_id notes_version]
 
   match do |actual|
     expected_attributes = get_normalized_attributes expected
@@ -44,7 +45,7 @@ RSpec::Matchers.define :be_equivalent_to_journal do |expected|
     actual_attributes = actual.attributes.symbolize_keys
     ["expected attributes: #{display_sorted_hash(expected_attributes.except(*ignored_attributes))}",
      "actual attributes:   #{display_sorted_hash(actual_attributes.except(*ignored_attributes))}"]
-      .join($/)
+      .join($INPUT_RECORD_SEPARATOR)
   end
 
   def get_normalized_attributes(journal)
@@ -63,9 +64,9 @@ RSpec::Matchers.define :be_equivalent_to_journal do |expected|
 end
 
 describe Journal::AggregatedJournal, type: :model do
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.build(:work_package)
-  }
+  end
   let(:user1) { FactoryGirl.create(:user) }
   let(:user2) { FactoryGirl.create(:user) }
   let(:initial_author) { user1 }
@@ -127,10 +128,10 @@ describe Journal::AggregatedJournal, type: :model do
       end
 
       it 'returns the single journal for both original journals' do
-        expect(described_class.for_journal work_package.journals.first)
+        expect(described_class.for_journal(work_package.journals.first))
           .to be_equivalent_to_journal subject.first
 
-        expect(described_class.for_journal work_package.journals.second)
+        expect(described_class.for_journal(work_package.journals.second))
           .to be_equivalent_to_journal subject.first
       end
 
@@ -171,15 +172,15 @@ describe Journal::AggregatedJournal, type: :model do
           end
 
           it 'returns the same aggregated journal for the first two originals' do
-            expect(described_class.for_journal work_package.journals.first)
+            expect(described_class.for_journal(work_package.journals.first))
               .to be_equivalent_to_journal subject.first
 
-            expect(described_class.for_journal work_package.journals.second)
+            expect(described_class.for_journal(work_package.journals.second))
               .to be_equivalent_to_journal subject.first
           end
 
           it 'returns a different aggregated journal for the last original' do
-            expect(described_class.for_journal work_package.journals.last)
+            expect(described_class.for_journal(work_package.journals.last))
               .to be_equivalent_to_journal subject.second
           end
         end
@@ -313,9 +314,9 @@ describe Journal::AggregatedJournal, type: :model do
     end
 
     context 'specifying a maximum version' do
-      subject {
+      subject do
         described_class.aggregated_journals(journable: work_package, until_version: version)
-      }
+      end
 
       context 'equal to the latest version' do
         let(:version) { work_package.journals.last.version }

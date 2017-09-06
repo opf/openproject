@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -50,7 +51,7 @@ namespace :backup do
           pg_dump_call << "--port=#{config['port']}" if config['port']
           user = config.values_at('user', 'username').compact.first
           pg_dump_call << "--username=#{user}" if user
-          pg_dump_call << "#{config['database']}"
+          pg_dump_call << (config['database']).to_s
 
           if config['password']
             Kernel.system({ 'PGPASSFILE' => config_file }, *pg_dump_call)
@@ -66,7 +67,7 @@ namespace :backup do
                         '--add-drop-table',
                         '--add-locks',
                         "--result-file=#{args[:path_to_backup]}",
-                        "#{config['database']}"
+                        (config['database']).to_s
         end
       else
         raise "Database '#{config['adapter']}' not supported."
@@ -91,7 +92,7 @@ namespace :backup do
           pg_restore_call << "--port=#{config['port']}" if config['port']
           user = config.values_at('user', 'username').compact.first
           pg_restore_call << "--username=#{user}" if user
-          pg_restore_call << "#{args[:path_to_backup]}"
+          pg_restore_call << (args[:path_to_backup]).to_s
 
           if config['password']
             Kernel.system({ 'PGPASSFILE' => config_file }, *pg_restore_call)
@@ -144,12 +145,12 @@ namespace :backup do
 
     def default_db_filename
       filename = "openproject-#{Rails.env}-db-#{date_string}"
-      case database_configuration['adapter']
-      when /PostgreSQL/i
-        filename << '.backup'
-      else
-        filename << '.sql'
-      end
+      filename << case database_configuration['adapter']
+                  when /PostgreSQL/i
+                    '.backup'
+                  else
+                    '.sql'
+                  end
       Rails.root.join('backup', sanitize_filename(filename))
     end
 

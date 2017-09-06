@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,7 +30,7 @@
 
 class IndexOnUsers < ActiveRecord::Migration[4.2]
   def change
-    add_index :users, [:type, :login], length: { type: 255, login: 255 }
-    add_index :users, [:type, :status]
+    add_index :users, %i[type login], length: { type: 255, login: 255 }
+    add_index :users, %i[type status]
   end
 end

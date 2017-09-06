@@ -49,27 +49,27 @@ describe WorkPackagePolicy, type: :controller do
 
       it 'is true if the user has the edit_work_package permission in the project' do
         allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
+                                            .and_return true
         expect(subject).to be_truthy
       end
 
       it 'is true if the user has the add_work_package_notes permission in the project' do
         allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
-          .and_return true
+                                            .and_return true
         expect(subject).to be_truthy
       end
 
       it 'is false if the user has the edit_work_package permission in the project' do
         allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
+                                            .and_return true
         expect(subject).to be_truthy
       end
 
       it 'is false if the user has the permissions but the work package is unperisted' do
         allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
+                                            .and_return true
         allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
-          .and_return true
+                                            .and_return true
         allow(work_package).to receive(:persisted?).and_return false
 
         expect(subject).to be_falsey
@@ -79,7 +79,7 @@ describe WorkPackagePolicy, type: :controller do
     context 'for manage_subtasks' do
       it 'is true if the user has the manage_subtasks permission in the project' do
         allow(user).to receive(:allowed_to?).with(:manage_subtasks, project)
-          .and_return true
+                                            .and_return true
         expect(subject.allowed?(work_package, :manage_subtasks)).to be_truthy
       end
     end
@@ -93,14 +93,14 @@ describe WorkPackagePolicy, type: :controller do
 
       it 'is true if the user has the add_work_package_notes permission' do
         allow(user).to receive(:allowed_to?).with(:add_work_package_notes, project)
-          .and_return true
+                                            .and_return true
 
         expect(subject).to be_truthy
       end
 
       it 'is true if the user has the edit_work_package permission' do
         allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
+                                            .and_return true
 
         expect(subject).to be_truthy
       end
@@ -108,7 +108,7 @@ describe WorkPackagePolicy, type: :controller do
       it 'is false if the user has the edit_work_package permission
           but the work_package is unpersisted' do
         allow(user).to receive(:allowed_to?).with(:edit_work_packages, project)
-          .and_return true
+                                            .and_return true
         allow(work_package).to receive(:persisted?).and_return false
 
         expect(subject).to be_falsey

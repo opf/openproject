@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -68,11 +69,10 @@ class Scm::RemoteRepositoryJob < ApplicationJob
 
     unless response.is_a? ::Net::HTTPSuccess
       raise OpenProject::Scm::Exceptions::ScmError.new(
-              I18n.t('repositories.errors.remote_call_failed',
-                     code: response.code,
-                     message: info['message']
-              )
-            )
+        I18n.t('repositories.errors.remote_call_failed',
+               code: response.code,
+               message: info['message'])
+      )
     end
 
     info
@@ -82,8 +82,8 @@ class Scm::RemoteRepositoryJob < ApplicationJob
     JSON.parse(body)
   rescue JSON::JSONError => e
     raise OpenProject::Scm::Exceptions::ScmError.new(
-            I18n.t('repositories.errors.remote_invalid_response')
-          )
+      I18n.t('repositories.errors.remote_invalid_response')
+    )
   end
 
   def repository_request
@@ -97,7 +97,7 @@ class Scm::RemoteRepositoryJob < ApplicationJob
       project: {
         id: project.id,
         name: project.name,
-        identifier: project.identifier,
+        identifier: project.identifier
       }
     }
   end

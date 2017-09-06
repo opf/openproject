@@ -31,7 +31,7 @@ require 'digest'
 FactoryGirl.define do
   factory :role do
     permissions []
-    sequence(:name) do |n| "role_#{n}" end
+    sequence(:name) { |n| "role_#{n}" }
     assignable true
 
     factory :non_member do

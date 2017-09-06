@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -37,10 +38,10 @@ module OpenProject
     # This method returns a hash which maps the identifier of the supported
     # adapter to a regex matching the adapter_name.
     def self.supported_adapters
-      @adapters ||= ({
+      @adapters ||= {
         mysql: /mysql/i,
         postgresql: /postgres/i
-      })
+      }
     end
 
     # Get the raw name of the currently used database adapter.
@@ -52,9 +53,9 @@ module OpenProject
     # returns the identifier of the specified connection
     # (defaults to ActiveRecord::Base.connection)
     def self.name(connection = ActiveRecord::Base.connection)
-      supported_adapters.find(proc { [:unknown, //] }) { |_adapter, regex|
+      supported_adapters.find(proc { [:unknown, //] }) do |_adapter, regex|
         adapter_name(connection) =~ regex
-      }[0]
+      end[0]
     end
 
     # Provide helper methods to quickly check the database type

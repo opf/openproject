@@ -31,19 +31,19 @@ require 'spec_helper'
 describe 'Wiki unicode title spec', type: :feature, js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
-  let(:wiki_page_1) {
+  let(:wiki_page_1) do
     FactoryGirl.build :wiki_page_with_content, title: 'Test'
-  }
-  let(:work_package) {
+  end
+  let(:work_package) do
     FactoryGirl.create :work_package,
                        project: project,
                        start_date: Date.today,
                        due_date: Date.today + 1.days,
                        assigned_to: user
-  }
+  end
   let(:wp_id) { work_package.id }
 
-  let(:wiki_body) {
+  let(:wiki_body) do
     <<-EOS
 
     **1 quickinfo**
@@ -56,7 +56,7 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
     ####{wp_id}
 
     EOS
-  }
+  end
 
   before do
     login_as(user)
@@ -74,7 +74,6 @@ describe 'Wiki unicode title spec', type: :feature, js: true do
   end
 
   it 'renders correct links' do
-
     expect(page).to have_selector('a.issue', count: 3)
 
     links = page.all('a.issue')

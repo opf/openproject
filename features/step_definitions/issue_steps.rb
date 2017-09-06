@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,7 +34,7 @@ end
 
 Given /^the issue "(.*?)" is watched by:$/ do |issue_subject, watchers|
   issue = WorkPackage.where(subject: issue_subject).order(:created_at).last
-  watchers.raw.flatten.each do |w| issue.add_watcher User.find_by_login(w) end
+  watchers.raw.flatten.each { |w| issue.add_watcher User.find_by_login(w) }
   issue.save
 end
 
@@ -89,42 +90,42 @@ When(/^I click the first delete attachment link$/) do
 end
 
 Given (/^there are the following issues(?: in project "([^"]*)")?:$/) do |project_name, table|
-  table.hashes.map do |h| h['project'] = project_name end
+  table.hashes.map { |h| h['project'] = project_name }
   modified_table = Cucumber::Core::Ast::DataTable.new(table.hashes, table.location)
   argument_table = Cucumber::MultilineArgument::DataTable.new modified_table
   step %{there are the following issues with attributes:}, argument_table
 end
 
 Given (/^there are the following issues with attributes:$/) do |table|
-  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.tr(' ', '_') }
   table.hashes.each do |type_attributes|
-    project  = get_project(type_attributes.delete('project'))
+    project = get_project(type_attributes.delete('project'))
     attributes = type_attributes.merge(project_id: project.id) if project
 
     assignee = User.find_by_login(attributes.delete('assignee'))
-    attributes.merge! assigned_to_id: assignee.id if assignee
+    attributes[:assigned_to_id] = assignee.id if assignee
 
-    author   = User.find_by_login(attributes.delete('author'))
-    attributes.merge! author_id: author.id if author
+    author = User.find_by_login(attributes.delete('author'))
+    attributes[:author_id] = author.id if author
 
     responsible = User.find_by_login(attributes.delete('responsible'))
-    attributes.merge! responsible_id: responsible.id if responsible
+    attributes[:responsible_id] = responsible.id if responsible
 
     watchers = attributes.delete('watched_by')
 
     type = ::Type.find_by(name: attributes.delete('type'))
-    attributes.merge! type_id: type.id if type
+    attributes[:type_id] = type.id if type
 
     version = Version.find_by(name: attributes.delete('version'))
-    attributes.merge! fixed_version_id: version.id if version
+    attributes[:fixed_version_id] = version.id if version
 
     category = Category.find_by(name: attributes.delete('category'))
-    attributes.merge! category_id: category.id if category
+    attributes[:category_id] = category.id if category
 
     issue = FactoryGirl.create(:work_package, attributes)
 
     if watchers
-      watchers.split(',').each do |w| issue.add_watcher User.find_by_login(w) end
+      watchers.split(',').each { |w| issue.add_watcher User.find_by_login(w) }
       issue.save
     end
   end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -54,11 +55,11 @@ class Redmine::MenuManager::Mapper
 
     if options[:parent]
       subtree = find(options[:parent])
-      if subtree
-        target_root = subtree
-      else
-        target_root = @menu_items.root
-      end
+      target_root = if subtree
+                      subtree
+                    else
+                      @menu_items.root
+                    end
 
     else
       target_root = @menu_items.root
@@ -132,7 +133,7 @@ class Redmine::MenuManager::MapDeferrer
     @menu_builder_queue.push(menu_builder)
   end
 
-  [:push, :delete, :exists?, :find, :position_of].each do |method|
+  %i[push delete exists? find position_of].each do |method|
     define_method method do |*args|
       defer(method, *args)
     end

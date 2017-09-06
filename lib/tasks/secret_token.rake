@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,8 +34,8 @@ file 'config/secret_token.yml' do
   path = Rails.root.join('config/secret_token.yml').to_s
   secret = SecureRandom.hex(64)
   File.open(path, 'w') do |f|
-    f.write <<"EOF"
-secret_token: '#{secret}'
+    f.write <<"EOF".strip_indent
+      secret_token: '#{secret}'
 EOF
   end
 end

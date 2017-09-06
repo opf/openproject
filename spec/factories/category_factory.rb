@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory :category do
-    sequence(:name) do |n| "Issue category #{n}" end
+    sequence(:name) { |n| "Issue category #{n}" }
     project
 
     callback(:after_build) do |issue|

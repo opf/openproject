@@ -118,7 +118,7 @@ describe "POST /api/v3/queries", type: :request do
 
       expect(query.group_by_column.name).to eq :assigned_to
       expect(query.sort_criteria).to eq [["id", "desc"], ["assigned_to", "asc"]]
-      expect(query.columns.map(&:name)).to eq [:id, :subject, :status, :assigned_to]
+      expect(query.columns.map(&:name)).to eq %i[id subject status assigned_to]
       expect(query.user).to eq user
       expect(query.project).to eq project
 

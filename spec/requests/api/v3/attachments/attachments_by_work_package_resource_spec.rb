@@ -34,11 +34,11 @@ describe 'API v3 Attachments by work package resource', type: :request do
   include API::V3::Utilities::PathHelper
   include FileHelpers
 
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.create(:user,
                        member_in_project: project,
                        member_through_role: role)
-  }
+  end
   let(:project) { FactoryGirl.create(:project, is_public: false) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:view_work_packages] }
@@ -66,7 +66,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
   end
 
   describe '#post' do
-    let(:permissions) { [:view_work_packages, :edit_work_packages] }
+    let(:permissions) { %i[view_work_packages edit_work_packages] }
 
     let(:request_path) { api_v3_paths.attachments_by_work_package work_package.id }
     let(:request_parts) { { metadata: metadata, file: file } }
@@ -121,9 +121,9 @@ describe 'API v3 Attachments by work package resource', type: :request do
 
     context 'file is too large' do
       let(:file) { mock_uploaded_file(content: 'a' * 2.kilobytes) }
-      let(:expanded_localization) {
+      let(:expanded_localization) do
         I18n.t('activerecord.errors.messages.file_too_large', count: max_file_size.kilobytes)
-      }
+      end
 
       it_behaves_like 'constraint violation' do
         let(:message) { "File #{expanded_localization}" }
@@ -131,7 +131,7 @@ describe 'API v3 Attachments by work package resource', type: :request do
     end
 
     context 'only allowed to add work packages, but no edit permission' do
-      let(:permissions) { [:view_work_packages, :add_work_packages] }
+      let(:permissions) { %i[view_work_packages add_work_packages] }
 
       it 'should respond with HTTP Created' do
         expect(subject.status).to eq(201)

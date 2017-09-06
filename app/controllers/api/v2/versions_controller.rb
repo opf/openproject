@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -94,7 +95,7 @@ module Api
         if params[:project_id] && params[:ids]
           identifiers = params[:ids].split(/,/).map(&:strip).map(&:to_i)
           version_scope = ::Version.where(id: identifiers)
-                          .map(&:id)
+                                   .map(&:id)
         end
 
         if params[:project_id] !~ /,/

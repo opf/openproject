@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,9 +32,9 @@ require 'legacy_spec_helper'
 describe 'UserCustomField' do
   before do
     @project = FactoryGirl.create :valid_project
-    role   = FactoryGirl.create :role, permissions: [:view_work_packages, :edit_work_packages]
+    role   = FactoryGirl.create :role, permissions: %i[view_work_packages edit_work_packages]
     @users = FactoryGirl.create_list(:user, 5)
-    @users.each do |user| @project.add_member!(user, role) end
+    @users.each { |user| @project.add_member!(user, role) }
     @issue = FactoryGirl.create :work_package,
                                 project: @project,
                                 author: @users.first,
@@ -73,7 +74,7 @@ describe 'UserCustomField' do
   end
 
   it 'should cast_valid_value' do
-    user = @field.cast_value("#{@users.first.id}")
+    user = @field.cast_value(@users.first.id.to_s)
     assert_kind_of User, user
     assert_equal @users.first, user
   end

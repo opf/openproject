@@ -51,10 +51,10 @@ describe News::CommentsController, type: :controller do
     end
 
     it "doesn't create a comment when it is invalid" do
-      expect {
+      expect do
         post :create, params: { news_id: news.id, comment: { comments: '' } }
         expect(response).to redirect_to news_path(news)
-      }.not_to change { Comment.count }
+      end.not_to change { Comment.count }
     end
   end
 
@@ -62,9 +62,9 @@ describe News::CommentsController, type: :controller do
     it 'deletes the comment and redirects to the news page' do
       comment = FactoryGirl.create :comment, commented: news
 
-      expect {
+      expect do
         delete :destroy, params: { id: comment.id }
-      }.to change { Comment.count }.by -1
+      end.to change { Comment.count }.by -1
 
       expect(response).to redirect_to news_path(news)
       expect { comment.reload }.to raise_error ActiveRecord::RecordNotFound

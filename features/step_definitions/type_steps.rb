@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,9 +35,9 @@ InstanceFinder.register(::Type, Proc.new { |name| ::Type.find_by(name: name) })
 RouteMap.register(::Type, '/types')
 
 Given /^the following types are enabled for the project called "(.*?)":$/ do |project_name, type_name_table|
-  types = type_name_table.raw.flatten.map { |type_name|
+  types = type_name_table.raw.flatten.map do |type_name|
     ::Type.find_by(name: type_name) || FactoryGirl.create(:type, name: type_name)
-  }
+  end
 
   project = Project.find_by(identifier: project_name)
   project.types = types

@@ -333,7 +333,7 @@ describe WorkPackagesController, type: :controller do
       wp = work_package
 
       expect do
-        get :index, params: { format: 'csv', c: [:subject, :assignee, :updatedAt] }
+        get :index, params: { format: 'csv', c: %i[subject assignee updatedAt] }
       end.not_to raise_error
 
       data = CSV.parse(response.body)

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -51,7 +52,7 @@ Given /^a relation between "(.*?)" and "(.*?)"$/ do |work_package_from, work_pac
   FactoryGirl.create :relation, from: from, to: to
 end
 
-Given /^user is already watching "(.*?)"$/  do |work_package_subject|
+Given /^user is already watching "(.*?)"$/ do |work_package_subject|
   work_package = WorkPackage.find_by(subject: work_package_subject)
   user = User.find(page.get_rack_session['user_id'])
 
@@ -126,9 +127,9 @@ Then /^the work package "(.+?)" should be shown as the parent$/ do |wp_name|
 end
 
 Then /^the work package should be shown with the following values:$/ do |table|
-  table_attributes = table.raw.select { |k, _v|
-    !['Subject', 'Description'].include?(k)
-  }
+  table_attributes = table.raw.reject do |k, _v|
+    ['Subject', 'Description'].include?(k)
+  end
 
   table_attributes.each do |key, value|
     label = find('div.attributes-key-value--key', text: key)

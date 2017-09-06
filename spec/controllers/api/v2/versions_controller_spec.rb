@@ -34,7 +34,7 @@ describe Api::V2::VersionsController, type: :controller do
   let(:admin_user) { FactoryGirl.create(:admin) }
 
   shared_examples_for 'unauthorized access' do
-    before do get action, params: request_params end
+    before { get action, params: request_params }
 
     it { expect(response.status).to eq(401) }
   end
@@ -48,10 +48,10 @@ describe Api::V2::VersionsController, type: :controller do
     context 'with access' do
       let!(:version) { FactoryGirl.create(:version, project: project) }
 
-      before do allow(User).to receive(:current).and_return admin_user end
+      before { allow(User).to receive(:current).and_return admin_user }
 
       describe 'single project' do
-        before do get :index, params: { project_id: project.id, format: :xml } end
+        before { get :index, params: { project_id: project.id, format: :xml } }
 
         it { expect(assigns(:project)).to eq(project) }
 
@@ -97,7 +97,7 @@ describe Api::V2::VersionsController, type: :controller do
           context 'user has access only to one project' do
             let(:user) { FactoryGirl.create(:user, member_in_project: project) }
 
-            before do allow(User).to receive(:current).and_return user end
+            before { allow(User).to receive(:current).and_return user }
 
             it_behaves_like 'request with multiple projects' do
               let(:projects) { [project, project_2] }

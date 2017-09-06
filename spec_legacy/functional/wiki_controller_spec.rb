@@ -55,9 +55,9 @@ describe WikiController, type: :controller do
 
     # child_pages macro
     assert_select 'ul', attributes: { class: 'pages-hierarchy' },
-                    child: { tag: 'li',
-                             child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
-                                      content: 'Page with an inline image' } }
+                        child: { tag: 'li',
+                                 child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page_with_an_inline_image' },
+                                          content: 'Page with an inline image' } }
   end
 
   it 'should show page with name' do
@@ -68,7 +68,7 @@ describe WikiController, type: :controller do
     # Included page with an inline image
     assert_select 'p', content: /This is an inline image/
     assert_select 'img', attributes: { src: '/attachments/3/download',
-                                         alt: 'This is a logo' }
+                                       alt: 'This is a logo' }
   end
 
   it 'should show with sidebar' do
@@ -79,7 +79,7 @@ describe WikiController, type: :controller do
     get :show, params: { project_id: 1, id: 'Another page' }
     assert_response :success
     assert_select 'div', attributes: { id: 'sidebar' },
-               content: /Side bar content for test_show_with_sidebar/
+                         content: /Side bar content for test_show_with_sidebar/
   end
 
   it 'should show unexistent page without edit right' do
@@ -266,7 +266,7 @@ describe WikiController, type: :controller do
     assert_response :success
     assert_template 'diff'
     assert_select 'ins', attributes: { class: 'diffins' },
-               content: /updated/
+                         content: /updated/
   end
 
   it 'should annotate' do
@@ -279,17 +279,17 @@ describe WikiController, type: :controller do
                                     data: FactoryGirl.build(:journal_wiki_content_journal,
                                                             text: "h1. CookBook documentation\n\n\nSome [[documentation]] here...")
 
-    get :annotate, params: { project_id: 1, id:  'CookBook documentation', version: journal_to.version }
+    get :annotate, params: { project_id: 1, id: 'CookBook documentation', version: journal_to.version }
     assert_response :success
     assert_template 'annotate'
     # Line 1
     assert_select 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '1' },
-               child: { tag: 'td', attributes: { class: 'author' }, content: /John Smith/ },
-               child: { tag: 'td', content: /h1\. CookBook documentation/ }
+                        child: { tag: 'td', attributes: { class: 'author' }, content: /John Smith/ },
+                        child: { tag: 'td', content: /h1\. CookBook documentation/ }
     # Line 2
     assert_select 'tr', child: { tag: 'th', attributes: { class: 'line-num' }, content: '2' },
-               child: { tag: 'td', attributes: { class: 'author' }, content: /redMine Admin/ },
-               child: { tag: 'td', content: /Some updated \[\[documentation\]\] here/ }
+                        child: { tag: 'td', attributes: { class: 'author' }, content: /redMine Admin/ },
+                        child: { tag: 'td', content: /Some updated \[\[documentation\]\] here/ }
   end
 
   it 'should get rename' do
@@ -381,14 +381,14 @@ describe WikiController, type: :controller do
     assert_equal pages.first.content.updated_on, pages.first.updated_on
 
     assert_select 'ul', attributes: { class: 'pages-hierarchy' },
-                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },
-                                                 content: 'CookBook documentation' },
-                             child: { tag: 'ul',
-                                      child: { tag: 'li',
-                                               child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page%20with%20an%20inline%20image' },
-                                                        content: 'Page with an inline image' } } } },
-                    child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Another%20page' },
-                                                 content: 'Another page' } }
+                        child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/CookBook%20documentation' },
+                                                     content: 'CookBook documentation' },
+                                 child: { tag: 'ul',
+                                          child: { tag: 'li',
+                                                   child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Page%20with%20an%20inline%20image' },
+                                                            content: 'Page with an inline image' } } } },
+                        child: { tag: 'li', child: { tag: 'a', attributes: { href: '/projects/ecookbook/wiki/Another%20page' },
+                                                     content: 'Another page' } }
   end
 
   it 'should index should include atom link' do

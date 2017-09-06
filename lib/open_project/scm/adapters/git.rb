@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -260,8 +261,8 @@ module OpenProject
             Entry.new(
               name: scm_encode('UTF-8', @path_encoding, name),
               path: path,
-              kind: (type == 'tree') ? 'dir' : 'file',
-              size: (type == 'tree') ? nil : size,
+              kind: type == 'tree' ? 'dir' : 'file',
+              size: type == 'tree' ? nil : size,
               lastrev: @flag_report_last_commit ? lastrev(path, identifier) : Revision.new
             )
           end
@@ -389,10 +390,10 @@ module OpenProject
           args = %w|log --no-color --encoding=UTF-8 --raw --date=iso --pretty=fuller|
           args << '--reverse' if options[:reverse]
           args << '--all' if options[:all]
-          args << '-n' << "#{options[:limit].to_i}" if options[:limit]
+          args << '-n' << options[:limit].to_i.to_s if options[:limit]
           from_to = ''
           from_to << "#{identifier_from}.." if identifier_from
-          from_to << "#{identifier_to}" if identifier_to
+          from_to << identifier_to.to_s if identifier_to
           args << from_to if from_to.present?
           args << "--since=#{options[:since].strftime('%Y-%m-%d %H:%M:%S')}" if options[:since]
           args << '--' << scm_encode(@path_encoding, 'UTF-8', path) if path && !path.empty?
@@ -438,7 +439,9 @@ module OpenProject
                 $1,
                 Revision.new(
                   identifier: identifier,
-                  author: authors_by_commit[identifier]))
+                  author: authors_by_commit[identifier]
+                )
+              )
               identifier = ''
             end
           end
@@ -476,11 +479,11 @@ module OpenProject
         # Builds the full git arguments from the parameters
         # and calls the given block with in, out, err, thread
         # from +Open3#popen3+.
-        def popen3(args, opt = {}, &block)
+        def popen3(args, opt = {})
           opt = opt.merge(chdir: checkout_path) if checkout?
           cmd = build_git_cmd(args)
           super(cmd, opt) do |_stdin, stdout, stderr, wait_thr|
-            block.call(stdout)
+            yield(stdout)
 
             process = wait_thr.value
             if process.exitstatus != 0

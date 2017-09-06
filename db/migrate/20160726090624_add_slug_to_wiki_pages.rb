@@ -1,7 +1,7 @@
 class AddSlugToWikiPages < ActiveRecord::Migration[4.2]
   def up
     add_column :wiki_pages, :slug, :string
-    add_index :wiki_pages, [:wiki_id, :slug], name: 'wiki_pages_wiki_id_slug', unique: true
+    add_index :wiki_pages, %i[wiki_id slug], name: 'wiki_pages_wiki_id_slug', unique: true
 
     WikiPage.reset_column_information # make sure `slug` is visible
 
@@ -26,7 +26,7 @@ class AddSlugToWikiPages < ActiveRecord::Migration[4.2]
     ActiveRecord::Base.transaction do
       WikiPage.select(:id, :wiki_id, :title).find_each do |page|
         # Undo the spaced title
-        old_title = page.title.gsub(' ', '_')
+        old_title = page.title.tr(' ', '_')
 
         page.update_columns(title: old_title)
         WikiRedirect.where(wiki_id: page.wiki_id, title: old_title).delete_all
@@ -53,7 +53,7 @@ class AddSlugToWikiPages < ActiveRecord::Migration[4.2]
       WikiPage.select(:id, :wiki_id, :title, :parent_id).find_each do |page|
         # Restore the spaces in the old title (`pretty_title` in wiki.rb)
         old_title = page.title
-        pretty_title = page.title.gsub('_', ' ')
+        pretty_title = page.title.tr('_', ' ')
 
         # Save the title with spaces restored
         # And generate the url slug

@@ -29,7 +29,7 @@
 module PermissionSpecHelpers
   def spec_permissions(test_denied = true)
     describe 'w/ valid auth' do
-      before do allow(User).to receive(:current).and_return valid_user end
+      before { allow(User).to receive(:current).and_return valid_user }
 
       it 'grants access' do
         fetch
@@ -53,24 +53,26 @@ module PermissionSpecHelpers
       end
     end
 
-    describe 'w/o valid auth' do
-      before do allow(User).to receive(:current).and_return invalid_user end
+    if test_denied
+      describe 'w/o valid auth' do
+        before { allow(User).to receive(:current).and_return invalid_user }
 
-      it 'denies access' do
-        fetch
+        it 'denies access' do
+          fetch
 
-        if invalid_user.logged?
-          expect(response.response_code).to eq(403)
-        else
-          if controller.send(:api_request?)
-            expect(response.response_code).to eq(401)
+          if invalid_user.logged?
+            expect(response.response_code).to eq(403)
           else
-            expect(response).to be_redirect
-            expect(response.redirect_url).to match(%r'/login')
+            if controller.send(:api_request?)
+              expect(response.response_code).to eq(401)
+            else
+              expect(response).to be_redirect
+              expect(response.redirect_url).to match(%r'/login')
+            end
           end
         end
       end
-    end if test_denied
+    end
   end
 end
 

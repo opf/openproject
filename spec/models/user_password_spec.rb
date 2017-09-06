@@ -61,13 +61,13 @@ describe UserPassword, type: :model do
   end
 
   describe '#rehash_as_active' do
-    let(:password) {
+    let(:password) do
       pass = FactoryGirl.build(:legacy_sha1_password, user: user, plain_password: 'adminAdmin!')
       expect(pass).to receive(:salt_and_hash_password!).and_return nil
 
       pass.save!
       pass
-    }
+    end
 
     before do
       password
@@ -76,9 +76,9 @@ describe UserPassword, type: :model do
 
     it 'rehashed the password when correct' do
       expect(user.current_password).to be_a(UserPassword::SHA1)
-      expect {
+      expect do
         password.matches_plaintext?('adminAdmin!')
-      }.to_not change { user.passwords.count }
+      end.to_not change { user.passwords.count }
 
       expect(user.current_password).to be_a(UserPassword::Bcrypt)
       expect(user.current_password.hashed_password).to start_with '$2a$'

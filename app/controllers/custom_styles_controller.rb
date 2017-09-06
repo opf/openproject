@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -31,9 +32,9 @@ class CustomStylesController < ApplicationController
   layout 'admin'
   menu_item :custom_style
 
-  before_action :require_admin, except: [:logo_download, :favicon_download, :touch_icon_download]
-  before_action :require_ee_token, except: [:upsale, :logo_download, :favicon_download, :touch_icon_download]
-  skip_before_action :check_if_login_required, only: [:logo_download, :favicon_download, :touch_icon_download]
+  before_action :require_admin, except: %i[logo_download favicon_download touch_icon_download]
+  before_action :require_ee_token, except: %i[upsale logo_download favicon_download touch_icon_download]
+  skip_before_action :check_if_login_required, only: %i[logo_download favicon_download touch_icon_download]
 
   def show
     @custom_style = CustomStyle.current || CustomStyle.new

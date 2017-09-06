@@ -57,7 +57,7 @@ describe 'Projects', type: :feature do
     end
 
     context 'work_packages module disabled',
-            with_settings: { default_projects_modules: %q(wiki) } do
+            with_settings: { default_projects_modules: 'wiki' } do
       it 'creates a project and redirects to settings' do
         click_on 'New project'
 
@@ -92,8 +92,6 @@ describe 'Projects', type: :feature do
       expect(page).to have_content 'Identifier has already been taken'
       expect(current_path).to eq '/projects'
     end
-
-
   end
 
   describe 'project types' do

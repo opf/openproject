@@ -30,31 +30,31 @@ require 'spec_helper'
 
 describe WorkPackage, type: :model do
   describe '#relation' do
-    let(:closed_state) {
+    let(:closed_state) do
       FactoryGirl.create(:status,
                          is_closed: true)
-    }
+    end
 
     describe '#duplicate' do
       let(:original) { FactoryGirl.create(:work_package) }
-      let(:dup_1) {
+      let(:dup_1) do
         FactoryGirl.create(:work_package,
                            project: original.project,
                            type: original.type,
                            status: original.status)
-      }
-      let(:relation_org_dup_1) {
+      end
+      let(:relation_org_dup_1) do
         FactoryGirl.create(:relation,
                            from: dup_1,
                            to: original,
                            relation_type: Relation::TYPE_DUPLICATES)
-      }
-      let(:workflow) {
+      end
+      let(:workflow) do
         FactoryGirl.create(:workflow,
                            old_status: original.status,
                            new_status: closed_state,
                            type_id: original.type_id)
-      }
+      end
       let(:user) { FactoryGirl.create(:user) }
 
       before do
@@ -64,25 +64,25 @@ describe WorkPackage, type: :model do
       end
 
       context 'closes duplicates' do
-        let(:dup_2) {
+        let(:dup_2) do
           FactoryGirl.create(:work_package,
                              project: original.project,
                              type: original.type,
                              status: original.status)
-        }
-        let(:relation_dup_1_dup_2) {
+        end
+        let(:relation_dup_1_dup_2) do
           FactoryGirl.create(:relation,
                              from: dup_2,
                              to: dup_1,
                              relation_type: Relation::TYPE_DUPLICATES)
-        }
+        end
         # circular dependency
-        let(:relation_dup_2_org) {
+        let(:relation_dup_2_org) do
           FactoryGirl.create(:relation,
                              from: dup_2,
                              to: original,
                              relation_type: Relation::TYPE_DUPLICATES)
-        }
+        end
 
         before do
           relation_org_dup_1
@@ -122,30 +122,30 @@ describe WorkPackage, type: :model do
       let(:user) { FactoryGirl.create(:user) }
       let(:role) { FactoryGirl.create(:role) }
       let(:type) { FactoryGirl.create(:type) }
-      let(:project) {
+      let(:project) do
         FactoryGirl.create(:project,
                            types: [type])
-      }
+      end
       let(:status) { FactoryGirl.create(:status) }
-      let(:blocks) {
+      let(:blocks) do
         FactoryGirl.create(:work_package,
                            project: project,
                            status: status)
-      }
-      let(:blocked) {
+      end
+      let(:blocked) do
         FactoryGirl.create(:work_package,
                            project: project,
                            type: blocks.type,
                            status: status)
-      }
-      let(:relation_blocks) {
+      end
+      let(:relation_blocks) do
         FactoryGirl.create(:relation,
                            from: blocks,
                            to: blocked,
                            relation_type: Relation::TYPE_BLOCKS)
-      }
+      end
 
-      before do relation_blocks end
+      before { relation_blocks }
 
       describe '#blocked?' do
         context 'blocked work package' do
@@ -162,24 +162,24 @@ describe WorkPackage, type: :model do
       end
 
       describe 'closed state' do
-        let(:project_member) {
+        let(:project_member) do
           FactoryGirl.create(:member,
                              project: project,
                              principal: user,
                              roles: [role])
-        }
-        let(:workflow_1) {
+        end
+        let(:workflow_1) do
           FactoryGirl.create(:workflow,
                              role: role,
                              old_status: status,
                              new_status: status)
-        }
-        let(:workflow_2) {
+        end
+        let(:workflow_2) do
           FactoryGirl.create(:workflow,
                              role: role,
                              old_status: status,
                              new_status: closed_state)
-        }
+        end
 
         shared_examples_for 'work package with status transitions' do
           subject { work_package.new_statuses_allowed_to(user) }
@@ -227,23 +227,23 @@ describe WorkPackage, type: :model do
     describe '#precedes' do
       let(:start_date) { Date.today }
       let(:due_date) { Date.today + 2 }
-      let(:preceding) {
+      let(:preceding) do
         FactoryGirl.create(:work_package,
                            start_date: start_date,
                            due_date: due_date)
-      }
-      let(:following) {
+      end
+      let(:following) do
         FactoryGirl.create(:work_package,
                            project: preceding.project,
                            start_date: start_date,
                            due_date: due_date)
-      }
-      let(:relation_precedes) {
+      end
+      let(:relation_precedes) do
         FactoryGirl.create(:relation,
                            from: preceding,
                            to: following,
                            relation_type: Relation::TYPE_PRECEDES)
-      }
+      end
 
       shared_examples_for 'following start date' do
         subject { following.reload.start_date }
@@ -251,7 +251,7 @@ describe WorkPackage, type: :model do
         it { is_expected.to eq(preceding.due_date + 1) }
       end
 
-      before do relation_precedes end
+      before { relation_precedes }
 
       it_behaves_like 'following start date'
 
@@ -267,21 +267,21 @@ describe WorkPackage, type: :model do
 
     describe '#soonest_start' do
       let(:work_package_1) { FactoryGirl.create(:work_package) }
-      let(:work_package_2) {
+      let(:work_package_2) do
         FactoryGirl.create(:work_package,
                            project: work_package_1.project)
-      }
-      let!(:work_package_2_1) {
+      end
+      let!(:work_package_2_1) do
         FactoryGirl.create(:work_package,
                            parent: work_package_2,
                            project: work_package_1.project)
-      }
-      let!(:relation_1) {
+      end
+      let!(:relation_1) do
         FactoryGirl.create(:relation,
                            from: work_package_1,
                            to: work_package_2,
                            relation_type: Relation::TYPE_PRECEDES)
-      }
+      end
 
       context 'start date exists in related work packages' do
         before do
@@ -303,31 +303,31 @@ describe WorkPackage, type: :model do
 
     describe '#all_dependant_packages' do
       let(:work_package_1) { FactoryGirl.create(:work_package) }
-      let(:work_package_2) {
+      let(:work_package_2) do
         FactoryGirl.create(:work_package,
                            project: work_package_1.project)
-      }
-      let(:work_package_3) {
+      end
+      let(:work_package_3) do
         FactoryGirl.create(:work_package,
                            project: work_package_1.project)
-      }
-      let(:work_package_4) {
+      end
+      let(:work_package_4) do
         FactoryGirl.create(:work_package,
                            project: work_package_1.project)
-      }
+      end
 
-      let!(:relation_1) {
+      let!(:relation_1) do
         FactoryGirl.create(:relation,
                            from: work_package_1,
                            to: work_package_2,
                            relation_type: Relation::TYPE_PRECEDES)
-      }
-      let!(:relation_2) {
+      end
+      let!(:relation_2) do
         FactoryGirl.create(:relation,
                            from: work_package_2,
                            to: work_package_3,
                            relation_type: Relation::TYPE_PRECEDES)
-      }
+      end
 
       shared_examples_for 'all dependent work packages visible' do
         subject { work_package_1.all_dependent_packages.map(&:id) }
@@ -336,65 +336,65 @@ describe WorkPackage, type: :model do
       end
 
       context 'w/o circular dependency' do
-        let(:expected_ids) {
+        let(:expected_ids) do
           [work_package_2.id,
            work_package_3.id,
            work_package_4.id]
-        }
+        end
 
-        let!(:relation_3) {
+        let!(:relation_3) do
           FactoryGirl.create(:relation,
                              from: work_package_3,
                              to: work_package_4,
                              relation_type: Relation::TYPE_PRECEDES)
-        }
+        end
 
         it_behaves_like 'all dependent work packages visible'
       end
 
       context 'with circular dependency' do
-        let(:expected_ids) {
+        let(:expected_ids) do
           [work_package_2.id,
            work_package_3.id]
-        }
+        end
 
-        let(:relation_3) {
+        let(:relation_3) do
           FactoryGirl.build(:relation,
                             from: work_package_3,
                             to: work_package_1,
                             relation_type: Relation::TYPE_PRECEDES)
-        }
+        end
 
-        before do relation_3.save(validate: false) end
+        before { relation_3.save(validate: false) }
 
         it_behaves_like 'all dependent work packages visible'
       end
 
       context 'with multiple circular dependency' do
-        let(:expected_ids) {
+        let(:expected_ids) do
           [work_package_2.id,
            work_package_3.id,
            work_package_4.id]
-        }
+        end
 
-        let(:relation_3) {
+        let(:relation_3) do
           FactoryGirl.create(:relation,
                              from: work_package_3,
                              to: work_package_4,
                              relation_type: Relation::TYPE_PRECEDES)
-        }
-        let(:relation_4) {
+        end
+        let(:relation_4) do
           FactoryGirl.build(:relation,
                             from: work_package_3,
                             to: work_package_1,
                             relation_type: Relation::TYPE_PRECEDES)
-        }
-        let(:relation_5) {
+        end
+        let(:relation_5) do
           FactoryGirl.build(:relation,
                             from: work_package_4,
                             to: work_package_2,
                             relation_type: Relation::TYPE_PRECEDES)
-        }
+        end
 
         before do
           relation_3.save(validate: false)

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -168,7 +169,7 @@ describe TimelogController, type: :controller do
     refute_nil assigns(:total_hours)
     assert_equal '162.90', '%.2f' % assigns(:total_hours)
     assert_select 'form',
-               attributes: { action: '/time_entries', id: 'query_form' }
+                  attributes: { action: '/time_entries', id: 'query_form' }
   end
 
   it 'should index at project level' do
@@ -185,7 +186,7 @@ describe TimelogController, type: :controller do
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
     assert_select 'form',
-               attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
+                  attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
   it 'should index at project level with date range' do
@@ -199,7 +200,7 @@ describe TimelogController, type: :controller do
     assert_equal '2007-03-20'.to_date, assigns(:from)
     assert_equal '2007-04-30'.to_date, assigns(:to)
     assert_select 'form',
-               attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
+                  attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
   it 'should index at project level with period' do
@@ -211,7 +212,7 @@ describe TimelogController, type: :controller do
     assert_equal Date.today - 7, assigns(:from)
     assert_equal Date.today, assigns(:to)
     assert_select 'form',
-               attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
+                  attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
   it 'should index one day' do
@@ -221,7 +222,7 @@ describe TimelogController, type: :controller do
     refute_nil assigns(:total_hours)
     assert_equal '4.25', '%.2f' % assigns(:total_hours)
     assert_select 'form',
-               attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
+                  attributes: { action: '/projects/ecookbook/time_entries', id: 'query_form' }
   end
 
   it 'should index at issue level' do
@@ -236,7 +237,7 @@ describe TimelogController, type: :controller do
     assert_equal '2007-03-12'.to_date, assigns(:from)
     assert_equal '2007-04-22'.to_date, assigns(:to)
     assert_select 'form',
-               attributes: { action: work_package_time_entries_path(1), id: 'query_form' }
+                  attributes: { action: work_package_time_entries_path(1), id: 'query_form' }
   end
 
   it 'should index atom feed' do

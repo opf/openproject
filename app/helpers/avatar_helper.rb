@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,23 +39,23 @@ module AvatarHelper
   # Returns the avatar image tag for the given +user+ if avatars are enabled
   # +user+ can be a User or a string that will be scanned for an email address (eg. 'joe <joe@foo.bar>')
   def avatar(user, options = {})
-    avatar = with_default_avatar_options(user, options) { |email, opts|
+    avatar = with_default_avatar_options(user, options) do |email, opts|
       tag_options = merge_image_options(user, opts)
 
       gravatar_image_tag(email, tag_options)
-    }
+    end
   ensure # return is actually needed here
     return (avatar || ''.html_safe)
   end
 
   def avatar_url(user, options = {})
-    url = with_default_avatar_options(user, options) { |email, opts|
+    url = with_default_avatar_options(user, options) do |email, opts|
       # gravatar_image_url expects grvatar options as second arg
       if opts[:gravatar]
         opts.merge!(opts.delete(:gravatar))
       end
       gravatar_image_url(email, opts)
-    }
+    end
   ensure # return is actually needed here
     return (url || ''.html_safe)
   end
@@ -75,7 +76,7 @@ module AvatarHelper
     options.reverse_merge(default_options)
   end
 
-  def with_default_avatar_options(user, options, &block)
+  def with_default_avatar_options(user, options)
     if options.delete(:size)
       warn <<-DOC
 
@@ -86,8 +87,7 @@ module AvatarHelper
     end
 
     if Setting.gravatar_enabled? && (email = extract_email_address(user)).present?
-      block.call email.to_s.downcase,
-                 options.merge(gravatar: default_gravatar_options)
+      yield email.to_s.downcase, options.merge(gravatar: default_gravatar_options)
     end
   end
 

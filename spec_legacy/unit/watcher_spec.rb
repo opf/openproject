@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -56,7 +57,6 @@ describe Watcher do
     @issue.add_watcher(@user)
     expect(@issue.watcher_users).to all be_kind_of(User)
   end
-
 
   it 'should watcher_users_should_not_validate_user' do
     skip 'Is a known issue in 5.0.0 has_many: https://github.com/rails/rails/issues/25718'

@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 #
 #-- copyright
 # OpenProject is a project management system.
@@ -31,10 +32,10 @@
 namespace :timelines do
   namespace :clear do
     desc 'Delete all timelines-related models'
-    task all: [:environment,
-               :colors, :project_types, :planning_element_types,
-               :reported_project_status, :planning_element_status,
-               :available_project_status]
+    task all: %i[environment
+                 colors project_types planning_element_types
+                 reported_project_status planning_element_status
+                 available_project_status]
 
     task colors: :environment do
       Color.delete_all
@@ -63,10 +64,10 @@ namespace :timelines do
 
   namespace :load do
     desc 'Load some pre-defined test data'
-    task all: [:environment,
-               :colors, :project_types, :planning_element_types,
-               :reported_project_status, :planning_element_status,
-               :available_project_status]
+    task all: %i[environment
+                 colors project_types planning_element_types
+                 reported_project_status planning_element_status
+                 available_project_status]
 
     task colors: :environment do
       Color.colors.map(&:save!)
@@ -101,7 +102,7 @@ namespace :timelines do
           { name: 'Deployment ATU1',   color: 'pjPurple', is_milestone: true },
           { name: 'Deployment ATU2',   color: 'pjTeal', is_milestone: true },
           { name: 'Backup',            color: 'pjAqua' },
-          { name: 'Reporting',         color: 'pjSilver' },
+          { name: 'Reporting',         color: 'pjSilver' }
         ],
 
         'Anforderung' => [

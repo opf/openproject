@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -41,14 +42,14 @@ module API
 
         property :_type, exec_context: :decorator
         property :error_identifier, exec_context: :decorator, render_nil: true
-        property :message, getter: -> (*) { message }, render_nil: true
+        property :message, getter: ->(*) { message }, render_nil: true
         property :details, embedded: true
 
         collection :errors,
                    embedded: true,
                    class: ::API::Errors::ErrorBase,
                    decorator: ::API::V3::Errors::ErrorRepresenter,
-                   if: -> (*) { !Array(errors).empty? }
+                   if: ->(*) { !Array(errors).empty? }
 
         def _type
           'Error'

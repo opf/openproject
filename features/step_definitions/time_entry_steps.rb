@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -50,7 +51,11 @@ Then(/^I should see a time entry with (\d+) hours and comment "(.*)"$/) do |hour
 end
 
 Then(/^I should (not )?see a total spent time of (\d+) hours$/) do |negative, hours|
-  available = find('div.total-hours') rescue false
+  available = begin
+                find('div.total-hours')
+              rescue
+                false
+              end
 
   if available || !negative
     within('div.total-hours') do

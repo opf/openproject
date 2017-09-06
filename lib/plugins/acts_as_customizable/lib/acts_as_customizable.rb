@@ -66,13 +66,13 @@ module Redmine
         # Sets the values of the object's custom fields
         # values is an array like [{'id' => 1, 'value' => 'foo'}, {'id' => 2, 'value' => 'bar'}]
         def custom_fields=(values)
-          values_to_hash = values.inject({}) { |hash, v|
+          values_to_hash = values.inject({}) do |hash, v|
             v = v.stringify_keys
             if v['id'] && v.has_key?('value')
               hash[v['id']] = v['value']
             end
             hash
-          }
+          end
           self.custom_field_values = values_to_hash
         end
 
@@ -243,11 +243,13 @@ module Redmine
         def respond_to_missing?(method, include_private = false)
           super_value = super
 
-          for_custom_field_accessor(method) do |custom_field|
-            # pro-actively add the accessors, the method will probably be called next
-            add_custom_field_accessors(custom_field)
-            return true
-          end unless super_value
+          unless super_value
+            for_custom_field_accessor(method) do |custom_field|
+              # pro-actively add the accessors, the method will probably be called next
+              add_custom_field_accessors(custom_field)
+              return true
+            end
+          end
 
           super_value
         end

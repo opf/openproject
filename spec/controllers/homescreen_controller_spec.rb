@@ -38,9 +38,9 @@ describe HomescreenController, type: :controller do
     get :index
   end
 
-  let(:all_blocks) {
+  let(:all_blocks) do
     %w(administration community my_account projects users)
-  }
+  end
 
   let(:show_welcome) { false }
 
@@ -70,7 +70,7 @@ describe HomescreenController, type: :controller do
 
       it 'shows the news when available' do
         expect(News).to receive(:latest).with(any_args)
-          .and_return(FactoryGirl.build_stubbed_list(:news, 5, created_on: Time.now))
+                                        .and_return(FactoryGirl.build_stubbed_list(:news, 5, created_on: Time.now))
 
         get :index
         expect(response).to render_template(partial: 'homescreen/blocks/_news')

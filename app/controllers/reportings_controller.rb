@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,10 +35,10 @@ class ReportingsController < ApplicationController
   before_action :find_project_by_project_id
   before_action :authorize
 
-  before_action :find_reporting, only: [:show, :edit, :update, :confirm_destroy, :destroy]
+  before_action :find_reporting, only: %i[show edit update confirm_destroy destroy]
   before_action :build_reporting, only: :create
 
-  before_action :check_visibility, except: [:create, :index, :new, :available_projects]
+  before_action :check_visibility, except: %i[create index new available_projects]
 
   accept_key_auth :index, :show
 
@@ -46,7 +47,7 @@ class ReportingsController < ApplicationController
   def available_projects
     available_projects = @project.reporting_to_project_candidates
     respond_to do |format|
-      format.html do render_404 end
+      format.html { render_404 }
     end
   end
 
@@ -102,7 +103,7 @@ class ReportingsController < ApplicationController
       condition += ' AND ' unless condition.empty?
 
       project_parents = params[:project_parents].split(/,/).map(&:to_i)
-      nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each do |i| r << i end; r }
+      nested_set_selection = Project.find(project_parents).map { |p| p.lft..p.rgt }.inject([]) { |r, e| e.each { |i| r << i }; r }
 
       temp_condition += "#{Project.quoted_table_name}.lft IN (?)"
       condition_params << nested_set_selection
@@ -122,14 +123,14 @@ class ReportingsController < ApplicationController
     condition += temp_condition
     conditions = [condition] + condition_params unless condition.empty?
 
-    case params[:only]
-    when 'via_source'
-      @reportings = @project.reportings_via_source.includes(:project).where(conditions)
-    when 'via_target'
-      @reportings = @project.reportings_via_target.includes(:project).where(conditions)
-    else
-      @reportings = @project.reportings.all
-    end
+    @reportings = case params[:only]
+                  when 'via_source'
+                    @project.reportings_via_source.includes(:project).where(conditions)
+                  when 'via_target'
+                    @project.reportings_via_target.includes(:project).where(conditions)
+                  else
+                    @project.reportings.all
+                  end
 
     # get all reportings for which projects have ancestors.
     nested_sets_for_parents = (@reportings.inject([]) { |r, e| r << e.reporting_to_project; r << e.project }).uniq.map { |p| [p.lft, p.rgt] }
@@ -147,14 +148,14 @@ class ReportingsController < ApplicationController
 
     conditions = [condition] + condition_params unless condition.empty?
 
-    case params[:only]
-    when 'via_source'
-      @ancestor_reportings = @project.reportings_via_source.includes(:project).where(conditions)
-    when 'via_target'
-      @ancestor_reportings = @project.reportings_via_target.includes(:project).where(conditions)
-    else
-      @ancestor_reportings = @project.reportings
-    end
+    @ancestor_reportings = case params[:only]
+                           when 'via_source'
+                             @project.reportings_via_source.includes(:project).where(conditions)
+                           when 'via_target'
+                             @project.reportings_via_target.includes(:project).where(conditions)
+                           else
+                             @project.reportings
+                           end
 
     @reportings = (@reportings + @ancestor_reportings).uniq
 

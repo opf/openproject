@@ -47,7 +47,7 @@ describe Api::V2::TimelinesController, type: :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, permissions: [:view_timelines, :edit_timelines, :delete_timelines])
+      role   = FactoryGirl.create(:role, permissions: %i[view_timelines edit_timelines delete_timelines])
       member = FactoryGirl.build(:member, user: current_user, project: project)
       member.roles = [role]
       member.save!
@@ -164,9 +164,9 @@ describe Api::V2::TimelinesController, type: :controller do
           become_member_with_all_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect {
+            expect do
               fetch project_id: project.id, id: '1337'
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -185,12 +185,12 @@ describe Api::V2::TimelinesController, type: :controller do
       end
 
       describe 'w/ a different project' do
-        let(:other_project)  { FactoryGirl.create(:project, identifier: 'other') }
+        let(:other_project) { FactoryGirl.create(:project, identifier: 'other') }
 
         it 'raises ActiveRecord::RecordNotFound errors' do
-          expect {
+          expect do
             fetch project_id: other_project.identifier, id: timeline.id
-          }.to raise_error(ActiveRecord::RecordNotFound)
+          end.to raise_error(ActiveRecord::RecordNotFound)
         end
       end
 

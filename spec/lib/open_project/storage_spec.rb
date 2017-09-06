@@ -59,7 +59,7 @@ describe OpenProject::Storage do
       end
 
       it 'should contain one fs entry' do
-        expect(File.exists?(tmpdir)).to be true
+        expect(File.exist?(tmpdir)).to be true
         expect(subject.length).to be == 1
 
         entry = subject.values.first
@@ -73,11 +73,11 @@ describe OpenProject::Storage do
   context 'with SCM configuration' do
     include_context 'with tmpdir'
 
-    let(:config) {
+    let(:config) do
       {
         git: { manages: File.join(tmpdir, 'git') }
       }
-    }
+    end
     let(:enabled_scms) { %w[git] }
     let(:returned_fs_info) { [{ id: 1, free: 1234 }] }
 
@@ -118,8 +118,7 @@ describe OpenProject::Storage do
             .to eq(1 => { labels: [I18n.t(:label_managed_repositories_vendor, vendor: 'Git')],
                           data: returned_fs_info[0] },
                    2 => { labels: [I18n.t('attributes.attachments')],
-                          data: returned_fs_info[1] }
-                  )
+                          data: returned_fs_info[1] })
         end
       end
     end

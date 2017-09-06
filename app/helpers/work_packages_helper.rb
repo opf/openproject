@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -70,7 +71,7 @@ module WorkPackagesHelper
 
     # Prefix part
 
-    parts[:prefix] << "#{package.project}" if options[:project]
+    parts[:prefix] << package.project.to_s if options[:project]
 
     # Link part
 
@@ -80,7 +81,7 @@ module WorkPackagesHelper
 
     parts[:link] << "##{h(package.id)}" if options[:id]
 
-    parts[:link] << "#{h(package.status)}" if options[:id] && options[:status] && package.status
+    parts[:link] << h(package.status).to_s if options[:id] && options[:status] && package.status
 
     # Hidden link part
 
@@ -155,7 +156,7 @@ module WorkPackagesHelper
     changed_dates = {}
 
     journals = work_package.journals.where(['created_at >= ?', Date.today.to_time - 7.day])
-               .order('created_at desc')
+                           .order('created_at desc')
 
     journals.each do |journal|
       break if changed_dates['start_date'] && changed_dates['due_date']
@@ -237,13 +238,13 @@ module WorkPackagesHelper
 
     ret += content_tag(:p, l(:text_destroy_with_associated), class: 'bold')
 
-    ret += content_tag(:ul) {
+    ret += content_tag(:ul) do
       associated.inject(''.html_safe) do |list, associated_class|
         list += content_tag(:li, associated_class.model_name.human, class: 'decorated')
 
         list
       end
-    }
+    end
 
     ret
   end
@@ -271,12 +272,12 @@ module WorkPackagesHelper
   def info_user_attributes(work_package)
     responsible = if work_package.responsible_id.present?
                     "<span class='label'>#{WorkPackage.human_attribute_name(:responsible)}:</span> " +
-                    "#{h(work_package.responsible.name)}"
+                      h(work_package.responsible.name).to_s
                   end
 
     assignee = if work_package.assigned_to_id.present?
                  "<span class='label'>#{WorkPackage.human_attribute_name(:assigned_to)}:</span> " +
-                 "#{h(work_package.assigned_to.name)}"
+                   h(work_package.assigned_to.name).to_s
                end
 
     [responsible, assignee].compact.join('<br>').html_safe

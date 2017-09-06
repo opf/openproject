@@ -59,9 +59,9 @@ module CopyModel
       to_be_copied = self.class.reflect_on_all_associations.map(&:name)
       to_be_copied = Array(options[:only]) unless options[:only].nil?
 
-      to_be_copied = to_be_copied.map(&:to_s).sort { |a, b|
+      to_be_copied = to_be_copied.map(&:to_s).sort do |a, b|
         (copy_precedence.map(&:to_s).index(a) || -1) <=> (copy_precedence.map(&:to_s).index(b) || -1)
-      }.map(&:to_sym)
+      end.map(&:to_sym)
 
       with_model(from_model) do |model|
         self.class.transaction do
@@ -121,18 +121,18 @@ module CopyModel
     # Overwrite or set CLASS::NOT_TO_COPY to specify
     # which attributes are not safe to copy.
     def not_to_copy(should_not_be_copied = nil)
-      @not_to_copy ||= (should_not_be_copied || begin self::NOT_TO_COPY
+      @not_to_copy ||= beginshould_not_be_copied || begin self::NOT_TO_COPY
             rescue NameError
               []
-            end)
+            endend
       @not_to_copy
     end
 
     def copy_precedence(precedence = nil)
-      @copy_precedence ||= (precedence || begin self::COPY_PRECEDENCE
+      @copy_precedence ||= beginprecedence || begin self::COPY_PRECEDENCE
             rescue NameError
               []
-            end)
+            endend
       @copy_precedence
     end
 

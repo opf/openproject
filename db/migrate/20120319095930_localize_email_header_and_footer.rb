@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -57,7 +58,7 @@ class LocalizeEmailHeaderAndFooter < ActiveRecord::Migration[4.2]
     default_language = 'en' if default_language.blank?
 
     if emails_header
-      translations = YAML::load(emails_header.read_attribute(:value))
+      translations = YAML::safe_load(emails_header.read_attribute(:value))
       text = translations[default_language]
       text = translations.values.first if text.blank?
       # mimick Setting.value=
@@ -66,7 +67,7 @@ class LocalizeEmailHeaderAndFooter < ActiveRecord::Migration[4.2]
     end
 
     if emails_footer
-      translations = YAML::load(emails_footer.read_attribute(:value))
+      translations = YAML::safe_load(emails_footer.read_attribute(:value))
       text = translations[default_language]
       text = translations.values.first if text.blank?
       # mimick Setting.value=

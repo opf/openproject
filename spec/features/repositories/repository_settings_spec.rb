@@ -31,7 +31,7 @@ require 'features/repositories/repository_settings_page'
 require 'features/support/components/danger_zone'
 
 describe 'Repository Settings', type: :feature, js: true do
-  let(:current_user) { FactoryGirl.create (:admin) }
+  let(:current_user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
   let(:dangerzone) { DangerZone.new(page) }
@@ -97,12 +97,12 @@ describe 'Repository Settings', type: :feature, js: true do
     end
   end
 
-  shared_examples 'manages the repository with' do |name, type, repository_type, project_name|
-    let(:repository) {
+  shared_examples 'manages the repository with' do |name, type, _repository_type, _project_name|
+    let(:repository) do
       FactoryGirl.create("repository_#{name}".to_sym,
                          scm_type: type,
                          project: project)
-    }
+    end
     it_behaves_like 'manages the repository', type
   end
 
@@ -112,14 +112,14 @@ describe 'Repository Settings', type: :feature, js: true do
   context 'managed repositories' do
     context 'local' do
       include_context 'with tmpdir'
-      let(:config) {
+      let(:config) do
         {
           subversion: { manages: File.join(tmpdir, 'svn') },
           git: { manages: File.join(tmpdir, 'git') }
         }
-      }
+      end
 
-      let(:repository) {
+      let(:repository) do
         repo = Repository.build(
           project,
           managed_vendor,
@@ -130,7 +130,7 @@ describe 'Repository Settings', type: :feature, js: true do
 
         repo.save!
         repo
-      }
+      end
 
       context 'Subversion' do
         let(:managed_vendor) { :subversion }
@@ -145,13 +145,13 @@ describe 'Repository Settings', type: :feature, js: true do
 
     context 'remote', webmock: true do
       let(:url) { 'http://myreposerver.example.com/api/' }
-      let(:config) {
+      let(:config) do
         {
           git: { manages: url }
         }
-      }
+      end
       let(:managed_vendor) { :git }
-      let(:repository) {
+      let(:repository) do
         repo = Repository.build(
           project,
           managed_vendor,
@@ -166,17 +166,17 @@ describe 'Repository Settings', type: :feature, js: true do
 
         repo.save!
         repo
-      }
+      end
       it_behaves_like 'manages the repository', 'managed'
     end
   end
 
   describe 'update repositories' do
-    let(:repository) {
+    let(:repository) do
       FactoryGirl.create(:repository_subversion,
                          scm_type: :existing,
                          project: project)
-    }
+    end
 
     it 'can set login and password' do
       fill_in('repository[login]', with: 'foobar')

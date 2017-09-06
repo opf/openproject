@@ -39,7 +39,7 @@ FactoryGirl.define do
   end
 
   factory :activity, class: TimeEntryActivity do
-    sequence(:name) do |i| "Activity #{i}" end
+    sequence(:name) { |i| "Activity #{i}" }
     active true
     is_default false
 
@@ -52,7 +52,7 @@ FactoryGirl.define do
   end
 
   factory :priority, class: IssuePriority do
-    sequence(:name) do |i| "Priority #{i}" end
+    sequence(:name) { |i| "Priority #{i}" }
     active true
 
     factory :priority_low do
@@ -60,7 +60,7 @@ FactoryGirl.define do
 
       # reuse existing priority with the given name
       # this prevents a validation error (name has to be unique)
-      initialize_with do IssuePriority.find_or_create_by(name: name) end
+      initialize_with { IssuePriority.find_or_create_by(name: name) }
 
       factory :priority_normal do
         name 'Normal'

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,11 +33,11 @@ require_relative 'migration_utils/timelines'
 class MigrateTimelinesEndDatePropertyInOptions < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
-  COLUMN = 'options'
+  COLUMN = 'options'.freeze
 
   OPTIONS = {
     'end_date' => 'due_date'
-  }
+  }.freeze
 
   def up
     say_with_time_silently 'Update timelines options' do

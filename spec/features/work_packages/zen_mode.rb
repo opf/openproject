@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'Zen mode', js: true do
   let(:dev_role) do
     FactoryGirl.create :role,
-                       permissions: [:view_work_packages,
-                                     :edit_work_packages]
+                       permissions: %i[view_work_packages
+                                       edit_work_packages]
   end
   let(:dev) do
     FactoryGirl.create :user,

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -58,7 +59,7 @@ namespace :copyright do
 
       authors.each do |a|
         first, last = contributions.select { |c| c.author == a }
-                      .minmax { |a, b| a.date <=> b.date }
+                                   .minmax { |a, b| a.date <=> b.date }
         contribution_periods << CONTRIBUTION_PERIOD.new(a, first.date.year, last.date.year)
       end
 
@@ -67,7 +68,7 @@ namespace :copyright do
 
     def format_contribution_periods(contribution_periods)
       contribution_periods.each_with_object({}) do |c, h|
-        date = (c.begin == c.end) ? c.begin.to_s : "#{c.begin} - #{c.end}"
+        date = c.begin == c.end ? c.begin.to_s : "#{c.begin} - #{c.end}"
         h[date] = [] unless h.has_key? date
         h[date] << c.author
       end

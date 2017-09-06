@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,7 +34,7 @@
 end
 
 Given /^the following (user|issue|work package) custom fields are defined:$/ do |type, table|
-  type = (type.gsub(' ', '_') + '_custom_field').to_sym
+  type = (type.tr(' ', '_') + '_custom_field').to_sym
 
   as_admin do
     table.hashes.each_with_index do |r, _i|

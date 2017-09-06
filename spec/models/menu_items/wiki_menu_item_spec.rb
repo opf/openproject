@@ -68,7 +68,8 @@ describe MenuItems::WikiMenuItem, type: :model do
     wikipage = FactoryGirl.create(:wiki_page, title: 'Parent Page')
 
     parent = FactoryGirl.create(
-      :wiki_menu_item, navigatable_id: wikipage.wiki.id, title: 'Item 1', name: wikipage.slug)
+      :wiki_menu_item, navigatable_id: wikipage.wiki.id, title: 'Item 1', name: wikipage.slug
+    )
     child_1 = parent.children.create name: "child-1", title: "Child 1"
 
     child_2 = parent.children.build name: "child-1", title: "Child 2"

@@ -112,7 +112,7 @@ describe AdminController, type: :controller do
     Redmine::MenuManager.map :admin_menu do |menu|
       menu.push :test_admin_menu_plugin_extension,
                 { controller: 'projects', action: 'index' },
-                caption: 'Test'
+                { caption: 'Test' }
     end
 
     User.current = User.find(1)

@@ -28,10 +28,10 @@
 object @project_type
 attributes :id, :name, :allows_association, :position
 
-node :created_at, if: ->(project_type){project_type.created_at.present?} do |project_type|
+node :created_at, if: ->(project_type) { project_type.created_at.present? } do |project_type|
   project_type.created_at.utc
 end
 
-node :updated_at, if: ->(project_type){project_type.updated_at.present?} do |project_type|
+node :updated_at, if: ->(project_type) { project_type.updated_at.present? } do |project_type|
   project_type.created_at.utc
 end

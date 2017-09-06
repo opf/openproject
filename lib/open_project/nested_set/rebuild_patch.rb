@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -56,11 +57,11 @@ module OpenProject::NestedSet::RebuildPatch
       }
 
       scope :invalid_duplicates_in_columns, -> {
-        scope_string = Array(acts_as_nested_set_options[:scope]).map { |c|
+        scope_string = Array(acts_as_nested_set_options[:scope]).map do |c|
           "#{quoted_table_name}.#{connection.quote_column_name(c)} = duplicates.#{connection.quote_column_name(c)}"
-        }.join(' AND ')
+        end.join(' AND ')
 
-        scope_string = scope_string.size > 0 ? scope_string + ' AND ' : ''
+        scope_string = !scope_string.empty? ? scope_string + ' AND ' : ''
 
         joins("LEFT OUTER JOIN #{quoted_table_name} AS duplicates ON " +
           scope_string +
@@ -71,11 +72,11 @@ module OpenProject::NestedSet::RebuildPatch
       }
 
       scope :invalid_roots, -> {
-        scope_string = Array(acts_as_nested_set_options[:scope]).map { |c|
+        scope_string = Array(acts_as_nested_set_options[:scope]).map do |c|
           "#{quoted_table_name}.#{connection.quote_column_name(c)} = other.#{connection.quote_column_name(c)}"
-        }.join(' AND ')
+        end.join(' AND ')
 
-        scope_string = scope_string.size > 0 ? scope_string + ' AND ' : ''
+        scope_string = !scope_string.empty? ? scope_string + ' AND ' : ''
 
         joins("LEFT OUTER JOIN #{quoted_table_name} AS other ON " +
           "#{quoted_table_name}.#{primary_key} != other.#{primary_key} AND " +
@@ -98,7 +99,7 @@ module OpenProject::NestedSet::RebuildPatch
 
       invalid_roots, invalid_descendants = all_invalid.partition { |node| node.send(parent_column_name).nil? }
 
-      while invalid_descendants.size > 0
+      while !invalid_descendants.empty?
         invalid_descendants_parents = invalid_descendants.map { |node| find(node.send(parent_column_name)) }
 
         new_invalid_roots, invalid_descendants = invalid_descendants_parents.partition { |node| node.send(parent_column_name).nil? }
@@ -120,9 +121,9 @@ module OpenProject::NestedSet::RebuildPatch
       scope = lambda { |_node| }
       if acts_as_nested_set_options[:scope]
         scope = lambda { |node|
-          scope_column_names.inject('') {|str, column_name|
+          scope_column_names.inject('') do |str, column_name|
             str << "AND #{connection.quote_column_name(column_name)} = #{connection.quote(node.send(column_name.to_sym))} "
-          }
+          end
         }
       end
 
@@ -141,15 +142,15 @@ module OpenProject::NestedSet::RebuildPatch
                            quoted_right_column_name,
                            acts_as_nested_set_options[:order]].compact.join(', '))
 
-        children.each do |n| set_left_and_rights.call(n) end
+        children.each { |n| set_left_and_rights.call(n) }
 
         # set right
         node[right_column_name] = indices[scope.call(node)] += 1
 
-        changes = node.changes.inject({}) { |hash, (attribute, _values)|
+        changes = node.changes.inject({}) do |hash, (attribute, _values)|
           hash[attribute] = node.send(attribute.to_s)
           hash
-        }
+        end
 
         where(id: node.id).update_all(changes) unless changes.empty?
       }
@@ -162,9 +163,9 @@ module OpenProject::NestedSet::RebuildPatch
                      [roots]
                    else
                      where("#{quoted_parent_column_name} IS NULL")
-                     .order([quoted_left_column_name,
-                             quoted_right_column_name,
-                             acts_as_nested_set_options[:order]].compact.join(', '))
+                       .order([quoted_left_column_name,
+                               quoted_right_column_name,
+                               acts_as_nested_set_options[:order]].compact.join(', '))
                    end
 
       root_nodes.each do |root_node|

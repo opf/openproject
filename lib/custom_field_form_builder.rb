@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -115,14 +116,14 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
     classes = 'form--label'
     classes << ' error' unless custom_value.errors.empty?
-    classes << ' -required'if is_required
+    classes << ' -required' if is_required
 
     content_tag 'label',
                 for: custom_field_field_id,
                 class: classes,
                 title: custom_value.custom_field.name do
       content_tag('span', custom_value.custom_field.name) +
-        (content_tag('span', '*', class: 'form--label-required', :'aria-hidden' => true) if is_required)
+        (content_tag('span', '*', class: 'form--label-required', 'aria-hidden': true) if is_required)
     end
   end
 end

@@ -49,8 +49,7 @@ describe AccountController, type: :controller do
             info: { name: 'foo',
                     email: 'foo@bar.com',
                     first_name: 'foo',
-                    last_name: 'bar'
-            }
+                    last_name: 'bar' }
           )
         end
 
@@ -85,8 +84,7 @@ describe AccountController, type: :controller do
             uid: 'foo',
             info: { email: 'whattheheck@example.com',
                     first_name: 'what',
-                    last_name: 'theheck'
-            },
+                    last_name: 'theheck' },
             extra: { raw_info: {
               real_uid: 'bar@example.org',
               first_name: 'foo',
@@ -140,7 +138,7 @@ describe AccountController, type: :controller do
             provider: 'google',
             uid: '123545',
             info: { name: 'foo', email: 'foo@bar.com' }
-          # first_name and last_name not set
+            # first_name and last_name not set
           )
         end
 
@@ -160,7 +158,8 @@ describe AccountController, type: :controller do
 
           auth_source_registration = omniauth_hash.merge(
             omniauth: true,
-            timestamp: Time.new)
+            timestamp: Time.new
+          )
           session[:auth_source_registration] = auth_source_registration
           post :register,
                params: {
@@ -184,7 +183,8 @@ describe AccountController, type: :controller do
           before do
             session[:auth_source_registration] = omniauth_hash.merge(
               omniauth: true,
-              timestamp: Time.new - 42.days)
+              timestamp: Time.new - 42.days
+            )
           end
 
           it 'does not register the user when providing all the missing fields' do
@@ -227,8 +227,7 @@ describe AccountController, type: :controller do
             info: { name: 'foo',
                     email: 'foo@bar.com',
                     first_name: 'foo',
-                    last_name: 'bar'
-            }
+                    last_name: 'bar' }
           )
         end
 
@@ -258,8 +257,7 @@ describe AccountController, type: :controller do
           uid: '123545',
           info: { name: 'foo',
                   last_name: 'bar',
-                  email: 'foo@bar.com'
-          }
+                  email: 'foo@bar.com' }
         )
       end
 
@@ -461,8 +459,7 @@ describe AccountController, type: :controller do
           provider: 'google',
           # id is deliberately missing here to make the auth_hash invalid
           info: { name: 'foo',
-                  email: 'foo@bar.com'
-          }
+                  email: 'foo@bar.com' }
         )
       end
 

@@ -373,7 +373,7 @@ describe ::API::V3::WorkPackages::Schema::WorkPackageSchemaRepresenter do
         allow(current_user).to receive(:allowed_to?).and_return false
 
         allow(current_user).to receive(:allowed_to?).with(:view_time_entries, work_package.project)
-          .and_return true
+                                                    .and_return true
       end
 
       it_behaves_like 'has basic schema properties' do

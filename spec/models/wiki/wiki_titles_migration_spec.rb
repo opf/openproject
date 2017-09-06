@@ -32,28 +32,28 @@ require Rails.root.join('db/migrate/20160726090624_add_slug_to_wiki_pages.rb')
 describe Wiki, type: :model do
   describe 'Wiki titles migration' do
     let(:project) { FactoryGirl.create :project }
-    let(:wiki_page) {
+    let(:wiki_page) do
       FactoryGirl.create :wiki_page_with_content,
                          wiki: project.wiki,
                          title: 'CookBook documentation'
-    }
+    end
 
-    let(:old_page_1) {
+    let(:old_page_1) do
       FactoryGirl.create :wiki_page_with_content,
                          wiki: project.wiki,
                          title: 'CookBook_documentation'
-    }
-    let(:old_page_2) {
+    end
+    let(:old_page_2) do
       FactoryGirl.create :wiki_page_with_content,
                          wiki: project.wiki,
                          title: 'base_de_donées'
-    }
+    end
 
-    let(:old_page_3) {
+    let(:old_page_3) do
       FactoryGirl.create :wiki_page_with_content,
                          wiki: project.wiki,
                          title: 'asciionly'
-    }
+    end
 
     subject { project.wiki }
 

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,7 +29,7 @@
 #++
 
 class UserMailer < BaseMailer
-  helper :application,  # for format_text
+  helper :application, # for format_text
          :work_packages, # for css classes
          :custom_fields # for show_value
   helper IssuesHelper
@@ -319,7 +320,7 @@ class UserMailer < BaseMailer
   def self.generate_message_id(object, user)
     # id + timestamp should reduce the odds of a collision
     # as far as we don't send multiple emails for the same object
-    journable = (object.is_a? Journal) ? object.journable : object
+    journable = object.is_a? Journal ? object.journable : object
 
     timestamp = mail_timestamp(object)
     hash = 'openproject'\
@@ -362,11 +363,11 @@ class UserMailer < BaseMailer
   end
 
   def self.mail_timestamp(object)
-    if object.respond_to? :created_at
-      timestamp = object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
-    else
-      timestamp = object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
-    end
+    timestamp = if object.respond_to? :created_at
+                  object.send(object.respond_to?(:created_at) ? :created_at : :updated_at)
+                else
+                  object.send(object.respond_to?(:created_on) ? :created_on : :updated_on)
+                end
   end
 
   def self.host
@@ -454,7 +455,7 @@ class DueIssuesReminder
   def initialize(days = nil, project_id = nil, type_id = nil, user_ids = [])
     @days     = days ? days.to_i : 7
     @project  = Project.find_by(id: project_id)
-    @type  = ::Type.find_by(id: type_id)
+    @type = ::Type.find_by(id: type_id)
     @user_ids = user_ids
   end
 
@@ -467,9 +468,9 @@ class DueIssuesReminder
     s << "#{WorkPackage.table_name}.type_id = #{@type.id}" if @type
 
     issues_by_assignee = WorkPackage.includes(:status, :assigned_to, :project, :type)
-                         .where(s.conditions)
-                         .references(:projects)
-                         .group_by(&:assigned_to)
+                                    .where(s.conditions)
+                                    .references(:projects)
+                                    .group_by(&:assigned_to)
     issues_by_assignee.each do |assignee, issues|
       UserMailer.reminder_mail(assignee, issues, @days).deliver_now if assignee && assignee.active?
     end

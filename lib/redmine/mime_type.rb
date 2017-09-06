@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -78,13 +79,13 @@ module Redmine
       'video/x-ms-wmv' => 'wmv',
       'video/quicktime' => 'qt,mov',
       'video/vnd.vivo' => 'viv,vivo',
-      'video/x-msvideo' => 'avi',
+      'video/x-msvideo' => 'avi'
     }.freeze
 
-    EXTENSIONS = MIME_TYPES.inject({}) { |map, (type, exts)|
-      exts.split(',').each do |ext| map[ext.strip] = type end
+    EXTENSIONS = MIME_TYPES.inject({}) do |map, (type, exts)|
+      exts.split(',').each { |ext| map[ext.strip] = type }
       map
-    }
+    end
 
     # returns mime type for name or nil if unknown
     def self.of(name)
@@ -97,7 +98,7 @@ module Redmine
     # the mime type of name
     def self.css_class_of(name)
       mime = of(name)
-      mime && mime.gsub('/', '-')
+      mime && mime.tr('/', '-')
     end
 
     def self.main_mimetype_of(name)
@@ -113,7 +114,7 @@ module Redmine
     end
 
     def self.narrow_type(name, content_type)
-      (content_type.split('/').first == main_mimetype_of(name)) ? of(name) : content_type
+      content_type.split('/').first == main_mimetype_of(name) ? of(name) : content_type
     end
   end
 end

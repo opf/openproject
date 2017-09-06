@@ -53,7 +53,7 @@ describe 'messages', type: :feature do
     describe 'clicking on quote', js: true do
       it 'opens the filled-in reply form' do
         msg = find 'div.reply', text: /Go Ahead!/
-        within(msg) do click_on 'Quote' end
+        within(msg) { click_on 'Quote' }
 
         reply = find '#reply'
         expect(reply).to be_visible

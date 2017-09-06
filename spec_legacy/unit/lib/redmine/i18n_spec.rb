@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -54,13 +55,13 @@ describe Redmine::I18n do
     Setting.date_format = ''
     valid_languages.each do |lang|
       set_language_if_valid lang
-      expect {
+      expect do
         format_date(Date.today)
         format_time(Time.now)
         format_time(Time.now, false)
         refute_equal 'default', ::I18n.l(Date.today, format: :default), "date.formats.default missing in #{lang}"
         refute_equal 'time',    ::I18n.l(Time.now, format: :time),      "time.formats.time missing in #{lang}"
-      }.not_to raise_error
+      end.not_to raise_error
       assert l('date.day_names').is_a?(Array)
       assert_equal 7, l('date.day_names').size
 
@@ -116,9 +117,9 @@ describe Redmine::I18n do
   it 'should number to human size for each language' do
     valid_languages.each do |lang|
       set_language_if_valid lang
-      expect {
+      expect do
         number_to_human_size(1024 * 1024 * 4)
-      }.not_to raise_error
+      end.not_to raise_error
     end
   end
 

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -41,8 +42,7 @@ class AuthSource < ActiveRecord::Base
   end
   prepend ::Mixins::UniqueFinder
 
-  def authenticate(_login, _password)
-  end
+  def authenticate(_login, _password); end
 
   def find_user(_login)
     raise "subclass repsonsiblity"

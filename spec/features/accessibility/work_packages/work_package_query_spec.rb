@@ -63,7 +63,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
   end
 
   describe 'Sort link', js: true do
-    before do visit_index_page end
+    before { visit_index_page }
 
     def click_sort_ascending_link
       expect(page).to have_selector(sort_ascending_selector)
@@ -95,9 +95,8 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
       it_behaves_like 'sort column'
     end
 
-
     shared_examples_for 'sortable column' do
-      before do expect(page).to have_selector(column_header_selector) end
+      before { expect(page).to have_selector(column_header_selector) }
 
       describe 'Initial sort' do
         it_behaves_like 'unsorted column'
@@ -166,10 +165,10 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
   end
 
   describe 'hotkeys', js: true do
-    let!(:another_work_package) {
+    let!(:another_work_package) do
       FactoryGirl.create(:work_package,
                          project: project)
-    }
+    end
     before do
       visit_index_page
     end
@@ -234,14 +233,14 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.detailsViewMenuItem a' }
         let(:source_link) { '.work-package-table--container tr.issue td.id a' }
-        let(:keys) { [:shift, :alt, :f10] }
+        let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { true }
       end
 
       it_behaves_like 'context menu' do
         let(:target_link) { '#work-package-context-menu li.openFullScreenView a' }
         let(:source_link) { '.work-package-table--container tr.issue td.id a' }
-        let(:keys) { [:shift, :alt, :f10] }
+        let(:keys) { %i[shift alt f10] }
         let(:sets_focus) { false }
       end
     end
@@ -257,7 +256,7 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
   end
 
   describe 'settings button', js: true do
-    before do visit_index_page end
+    before { visit_index_page }
 
     shared_examples_for 'menu setting item' do
       context 'closable by ESC and remembers focus on gear button' do

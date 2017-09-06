@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -55,9 +56,9 @@ When /^I delete the (.+) localization of the "(.+)" attribute$/ do |language, at
   # when choosing the last available option of a select where all other
   # options are disabled. Check scenario 'Deleting a newly added localization'
   # when changing this.
-  span = spans.detect { |span|
+  span = spans.detect do |span|
     span.find(:css, '.locale_selector')['value'] == locale
-  }
+  end
 
   destroy = span.find(:css, 'a.destroy_locale')
 

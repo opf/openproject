@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@
 module VersionsHelper
   include WorkPackagesFilterHelper
 
-  STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to)
+  STATUS_BY_CRITERIAS = %w(category type status priority author assigned_to).freeze
 
   def render_status_by(version, criteria)
     criteria = 'category' unless STATUS_BY_CRITERIAS.include?(criteria)
@@ -39,18 +40,18 @@ module VersionsHelper
     begin
       # Total issue count
       WorkPackage.group(criteria)
-        .where(["#{WorkPackage.table_name}.fixed_version_id = ?", version.id])
-        .count.each do |c, s|
+                 .where(["#{WorkPackage.table_name}.fixed_version_id = ?", version.id])
+                 .count.each do |c, s|
         h[c][0] = s
       end
       # Open issues count
       WorkPackage.group(criteria)
-        .includes(:status)
-        .where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false])
-        .references(:statuses)
-        .count.each { |c, s|
+                 .includes(:status)
+                 .where(["#{WorkPackage.table_name}.fixed_version_id = ? AND #{Status.table_name}.is_closed = ?", version.id, false])
+                 .references(:statuses)
+                 .count.each do |c, s|
         h[c][1] = s
-      }
+      end
     rescue ActiveRecord::RecordNotFound
       # When grouping by an association, Rails throws this exception if there's no result (bug)
     end

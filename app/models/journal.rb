@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -39,7 +40,7 @@ class Journal < ActiveRecord::Base
   register_journal_formatter :custom_field, OpenProject::JournalFormatter::CustomField
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, scope: [:journable_id, :journable_type]
+  validates_uniqueness_of :version, scope: %i[journable_id journable_type]
 
   belongs_to :user
   belongs_to :journable, polymorphic: true
@@ -163,13 +164,13 @@ class Journal < ActiveRecord::Base
 
   def predecessor
     @predecessor ||= self.class
-                     .where(journable_type: journable_type, journable_id: journable_id)
-                     .where("#{self.class.table_name}.version < ?", version)
-                     .order("#{self.class.table_name}.version DESC")
-                     .first
+                         .where(journable_type: journable_type, journable_id: journable_id)
+                         .where("#{self.class.table_name}.version < ?", version)
+                         .order("#{self.class.table_name}.version DESC")
+                         .first
   end
 
   def journalized_object_type
-    "#{journaled_type.gsub('Journal', '')}".constantize
+    journaled_type.gsub('Journal', '').to_s.constantize
   end
 end

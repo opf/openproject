@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -41,7 +42,7 @@ class LegacyJournal < ActiveRecord::Base
   include FormatHooks
 
   # Make sure each journaled model instance only has unique version ids
-  validates_uniqueness_of :version, scope: [:journaled_id, :type]
+  validates_uniqueness_of :version, scope: %i[journaled_id type]
 
   # Define a default class_name to prevent `uninitialized constant Journal::Journaled`
   # subclasses will be given an actual class name when they are created by aaj

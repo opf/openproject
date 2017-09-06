@@ -160,14 +160,14 @@ describe Project::Copy, type: :model do
           wp = work_package
           wp2 = work_package2
           FactoryGirl.create(:relation, from: wp, to: wp2)
-          [wp, wp2].each do |wp| project.work_packages << wp end
+          [wp, wp2].each { |wp| project.work_packages << wp }
 
           copy.send :copy_work_packages, project
           copy.save
         end
 
         it do
-          copy.work_packages.each do |wp| expect(wp).to(be_valid) end
+          copy.work_packages.each { |wp| expect(wp).to(be_valid) }
           expect(copy.work_packages.count).to eq(project.work_packages.count)
         end
       end
@@ -179,7 +179,7 @@ describe Project::Copy, type: :model do
           wp.parent = wp2
           wp.save
 
-          [wp, wp2].each do |wp| project.work_packages << wp end
+          [wp, wp2].each { |wp| project.work_packages << wp }
 
           copy.send :copy_work_packages, project
           copy.save

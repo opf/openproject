@@ -515,19 +515,19 @@ describe WikiController, type: :controller do
 
       it_behaves_like 'valid preview' do
         let(:preview_texts) { [text] }
-        let(:preview_params) {
+        let(:preview_params) do
           { project_id: project.id,
             content: { text: text } }
-        }
+        end
       end
 
       it_behaves_like 'authorizes object access' do
         let(:wiki_page) { FactoryGirl.create(:wiki_page) }
-        let(:preview_params) {
+        let(:preview_params) do
           { project_id: wiki_page.wiki.project.id,
             id: wiki_page.id,
             content: {} }
-        }
+        end
       end
     end
   end

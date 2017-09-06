@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -130,7 +131,7 @@ module OpenProject
         end
 
         def target(path = '')
-          base = path.match(/\A\//) ? root_url : url
+          base = path =~ /\A\// ? root_url : url
           "#{base}/#{path}"
         end
 

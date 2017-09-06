@@ -118,8 +118,8 @@ module OpenProject
         strategies = Array(Manager.scope_config(scope).strategies)
 
         Manager.auth_schemes
-          .select { |_, info| scope.nil? or not (info.strategies & strategies).empty? }
-          .keys
+               .select { |_, info| scope.nil? or not (info.strategies & strategies).empty? }
+               .keys
       end
     end
 

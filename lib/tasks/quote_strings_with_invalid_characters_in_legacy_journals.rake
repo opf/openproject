@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -64,9 +65,9 @@ namespace :migrations do
         Proc.new do |row|
           changed_data = row['changed_data']
 
-          quoted_changed_data = changed_data.gsub(INVALID_STARTING_CHARACTER_REGEX) { |_m|
+          quoted_changed_data = changed_data.gsub(INVALID_STARTING_CHARACTER_REGEX) do |_m|
             "#{$1}\"#{$2}\"#{$3}"
-          }
+          end
 
           row['changed_data'] = quoted_changed_data
 

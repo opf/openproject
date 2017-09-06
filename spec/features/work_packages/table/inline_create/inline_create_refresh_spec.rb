@@ -21,7 +21,6 @@ describe 'Refreshing in inline-create row', js: true do
     wp_table.visit_query(query)
   end
 
-
   it 'correctly updates the set of active columns' do
     expect(page).to have_selector('.wp--row', count: 0)
 

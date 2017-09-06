@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -52,7 +53,7 @@ class News < ActiveRecord::Base
   after_create :add_author_as_watcher,
                :send_news_added_mail
 
-  scope :visible, -> (*args) {
+  scope :visible, ->(*args) {
     includes(:project)
       .references(:projects)
       .merge(Project.allowed_to(args.first || User.current, :view_news))

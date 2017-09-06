@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,7 +34,7 @@ module Redmine #:nodoc:
       # Custom string inflections
       module Inflections
         def with_leading_slash
-          starts_with?('/') ? self : "/#{ self }"
+          starts_with?('/') ? self : "/#{self}"
         end
       end
     end

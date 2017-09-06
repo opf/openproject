@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,14 +35,14 @@ module Redmine
         def wikitoolbar_for(field_id)
           heads_for_wiki_formatter
           url = url_for(controller: '/help', action: 'wiki_syntax')
-          open_help = "window.open(\"#{ url }\", \"\", \"resizable=yes, location=no, width=600, " +
+          open_help = "window.open(\"#{url}\", \"\", \"resizable=yes, location=no, width=600, " +
                       "height=640, menubar=no, status=no, scrollbars=yes\"); return false;"
           help_button = content_tag :button,
                                     '',
                                     type: 'button',
                                     class: 'jstb_help',
                                     onclick: open_help,
-                                    :'aria-label' => ::I18n.t('js.inplace.link_formatting_help'),
+                                    'aria-label': ::I18n.t('js.inplace.link_formatting_help'),
                                     title: ::I18n.t('js.inplace.link_formatting_help')
 
           javascript_tag(<<-EOF)
@@ -60,8 +61,7 @@ module Redmine
           "h1. #{@page.title}"
         end
 
-        def heads_for_wiki_formatter
-        end
+        def heads_for_wiki_formatter; end
       end
     end
   end

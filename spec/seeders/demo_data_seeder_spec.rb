@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,9 +39,9 @@ describe 'seeds' do
       # Avoid asynchronous DeliverWorkPackageCreatedJob
       Delayed::Worker.delay_jobs = false
 
-      expect{ BasicDataSeeder.new.seed! }.not_to raise_error
-      expect{ AdminUserSeeder.new.seed! }.not_to raise_error
-      expect{ DemoDataSeeder.new.seed! }.not_to raise_error
+      expect { BasicDataSeeder.new.seed! }.not_to raise_error
+      expect { AdminUserSeeder.new.seed! }.not_to raise_error
+      expect { DemoDataSeeder.new.seed! }.not_to raise_error
 
       expect(User.where(admin: true).count).to eq 1
       expect(Project.count).to eq 1

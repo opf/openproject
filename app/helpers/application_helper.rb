@@ -147,7 +147,7 @@ module ApplicationHelper
     return '' unless pages[node]
 
     content_tag :ul, class: 'pages-hierarchy' do
-      pages[node].map { |page|
+      pages[node].map do |page|
         content_tag :li do
           title = if options[:timestamp] && page.updated_on
                     l(:label_updated_time, distance_of_time_in_words(Time.now, page.updated_on))
@@ -156,7 +156,7 @@ module ApplicationHelper
                          title: title)
           concat render_page_hierarchy(pages, page.id, options) if pages[page.id]
         end
-      }.join.html_safe
+      end.join.html_safe
     end
   end
 
@@ -168,7 +168,7 @@ module ApplicationHelper
     unless error_messages.empty?
       render partial: 'common/validation_error',
              locals: { error_messages: error_messages,
-                       object_name: options[:object_name].to_s.gsub('_', '') }
+                       object_name: options[:object_name].to_s.delete('_') }
     end
   end
 
@@ -178,7 +178,7 @@ module ApplicationHelper
   def extract_objects_from_params(params)
     options = params.extract_options!.symbolize_keys
 
-    objects = Array.wrap(options.delete(:object) || params).map { |object|
+    objects = Array.wrap(options.delete(:object) || params).map do |object|
       object = instance_variable_get("@#{object}") unless object.respond_to?(:to_model)
       object = convert_to_model(object)
 
@@ -187,7 +187,7 @@ module ApplicationHelper
       end
 
       object
-    }
+    end
 
     [objects.compact, options]
   end
@@ -249,7 +249,7 @@ module ApplicationHelper
       identifier = element[:project].id
       tag_options = {
         value: h(identifier),
-        title: h(element[:project].name),
+        title: h(element[:project].name)
       }
 
       if !selected.nil? && selected.id == identifier
@@ -318,13 +318,13 @@ module ApplicationHelper
   end
 
   def labeled_check_box_tags(name, collection, options = {})
-    collection.sort.map { |object|
+    collection.sort.map do |object|
       id = name.gsub(/[\[\]]+/, '_') + object.id.to_s
 
-      object_options = options.inject({}) { |h, (k, v)|
+      object_options = options.inject({}) do |h, (k, v)|
         h[k] = v.is_a?(Symbol) ? send(v, object) : v
         h
-      }
+      end
 
       object_options[:class] = Array(object_options[:class]) + %w(form--label-with-check-box)
 
@@ -333,13 +333,13 @@ module ApplicationHelper
           styled_check_box_tag(name, object.id, false, id: id) + object
         end
       end
-    }.join.html_safe
+    end.join.html_safe
   end
 
   def html_hours(text)
     text.gsub(%r{(\d+)\.(\d+)},
               '<span class="hours hours-int">\1</span><span class="hours hours-dec">.\2</span>')
-      .html_safe
+        .html_safe
   end
 
   def authoring(created, author, options = {})
@@ -354,7 +354,7 @@ module ApplicationHelper
                       action: 'index',
                       project_id: @project,
                       from: time.to_date },
-              title: format_time(time))
+              { title: format_time(time) })
     else
       datetime = time.acts_like?(:time) ? time.xmlschema : time.iso8601
       content_tag(:time, text, datetime: datetime,
@@ -401,8 +401,7 @@ module ApplicationHelper
                         url.merge("#{name}[move_to]" => 'lowest'),
                         method: method,
                         title: l(:label_sort_lowest)),
-                class: 'reorder-icons'
-               )
+                class: 'reorder-icons')
   end
 
   def other_formats_links(&block)
@@ -426,7 +425,7 @@ module ApplicationHelper
       title += @html_title
     end
 
-    title.select { |t| !t.blank? }.join(' - ').html_safe
+    title.reject(&:blank?).join(' - ').html_safe
   end
 
   # Returns the theme, controller name, and action as css classes for the
@@ -455,10 +454,10 @@ module ApplicationHelper
   # Same as Rails' simple_format helper without using paragraphs
   def simple_format_without_paragraph(text)
     text.to_s
-      .gsub(/\r\n?/, "\n")                    # \r\n and \r -> \n
-      .gsub(/\n\n+/, '<br /><br />')          # 2+ newline  -> 2 br
-      .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />')  # 1 newline   -> br
-      .html_safe
+        .gsub(/\r\n?/, "\n")                    # \r\n and \r -> \n
+        .gsub(/\n\n+/, '<br /><br />')          # 2+ newline  -> 2 br
+        .gsub(/([^\n]\n)(?=[^\n])/, '\1<br />') # 1 newline   -> br
+        .html_safe
   end
 
   def lang_options_for_select(blank = true)
@@ -468,21 +467,21 @@ module ApplicationHelper
              []
            end
 
-    mapped_languages = valid_languages.map { |lang|
+    mapped_languages = valid_languages.map do |lang|
       [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    end
 
-    auto + mapped_languages.sort { |x, y| x.last <=> y.last }
+    auto + mapped_languages.sort_by(&:last)
   end
 
   def all_lang_options_for_select(blank = true)
     initial_lang_options = blank ? [['(auto)', '']] : []
 
-    mapped_languages = all_languages.map { |lang|
+    mapped_languages = all_languages.map do |lang|
       [ll(lang.to_s, :general_lang_name), lang.to_s]
-    }
+    end
 
-    initial_lang_options + mapped_languages.sort { |x, y| x.last <=> y.last }
+    initial_lang_options + mapped_languages.sort_by(&:last)
   end
 
   def labelled_tabular_form_for(record, options = {}, &block)

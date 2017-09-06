@@ -46,7 +46,7 @@ module Redmine
         return str
       end
       enc = encoding.blank? ? 'UTF-8' : encoding
-      if enc.upcase != 'UTF-8'
+      if !enc.casecmp('UTF-8').zero?
         str.force_encoding(enc)
         str = str.encode('UTF-8', invalid: :replace,
                                   undef: :replace, replace: '?')
@@ -87,12 +87,12 @@ module Redmine
     def self.from_utf8(str, encoding)
       str ||= ''
       str.force_encoding('UTF-8')
-      if encoding.upcase != 'UTF-8'
-        str = str.encode(encoding, invalid: :replace,
+      str = if !encoding.casecmp('UTF-8').zero?
+              str.encode(encoding, invalid: :replace,
                                    undef: :replace, replace: '?')
-      else
-        str = replace_invalid_utf8(str)
-      end
+            else
+              replace_invalid_utf8(str)
+            end
     end
   end
 end

@@ -76,10 +76,10 @@ describe ProjectType, type: :model do
   end
 
   describe '- Validations ' do
-    let(:attributes) {
+    let(:attributes) do
       { name:               'Project Type No. 1',
         allows_association: true }
-    }
+    end
 
     describe 'name' do
       it 'is invalid w/o a name' do

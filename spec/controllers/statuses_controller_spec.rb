@@ -32,7 +32,7 @@ describe StatusesController, type: :controller do
   let(:user) { FactoryGirl.create(:admin) }
   let(:status) { FactoryGirl.create(:status) }
 
-  before do allow(User).to receive(:current).and_return user end
+  before { allow(User).to receive(:current).and_return user }
 
   shared_examples_for :response do
     subject { response }
@@ -59,7 +59,7 @@ describe StatusesController, type: :controller do
   describe '#index' do
     let(:template) { 'index' }
 
-    before do get :index end
+    before { get :index }
 
     it_behaves_like :response
   end
@@ -67,7 +67,7 @@ describe StatusesController, type: :controller do
   describe '#new' do
     let(:template) { 'new' }
 
-    before do get :new end
+    before { get :new }
 
     it_behaves_like :response
   end
@@ -89,10 +89,10 @@ describe StatusesController, type: :controller do
     let(:template) { 'edit' }
 
     context 'default' do
-      let!(:status_default) {
+      let!(:status_default) do
         FactoryGirl.create(:status,
                            is_default: true)
-      }
+      end
 
       before do
         get :edit,
@@ -105,8 +105,8 @@ describe StatusesController, type: :controller do
         render_views
 
         it do
-        assert_select 'p',
-                        {content: Status.human_attribute_name(:is_default)}, false
+          assert_select 'p',
+                        { content: Status.human_attribute_name(:is_default) }, false
         end
       end
     end
@@ -124,8 +124,8 @@ describe StatusesController, type: :controller do
         render_views
 
         it do
-        assert_select 'div',
-                     content: Status.human_attribute_name(:is_default)
+          assert_select 'div',
+                        content: Status.human_attribute_name(:is_default)
         end
       end
     end
@@ -171,10 +171,10 @@ describe StatusesController, type: :controller do
     end
 
     context 'used' do
-      let(:work_package) {
+      let(:work_package) do
         FactoryGirl.create(:work_package,
                            status: status)
-      }
+      end
 
       before do
         work_package
@@ -188,10 +188,10 @@ describe StatusesController, type: :controller do
     end
 
     context 'default' do
-      let!(:status_default) {
+      let!(:status_default) do
         FactoryGirl.create(:status,
                            is_default: true)
-      }
+      end
 
       before do
         delete :destroy, params: { id: status_default.id }

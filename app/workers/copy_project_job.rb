@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -38,22 +39,22 @@ class CopyProjectJob < ApplicationJob
 
   def initialize(user_id:, source_project_id:, target_project_params:,
                  associations_to_copy:, send_mails: false)
-   @user_id               = user_id
-   @source_project_id     = source_project_id
-   @target_project_params = target_project_params
-   @associations_to_copy  = associations_to_copy
-   @send_mails            = send_mails
+    @user_id               = user_id
+    @source_project_id     = source_project_id
+    @target_project_params = target_project_params
+    @associations_to_copy  = associations_to_copy
+    @send_mails            = send_mails
   end
 
   def perform
     User.current = user
 
-    target_project, errors = with_locale_for(user) {
+    target_project, errors = with_locale_for(user) do
       create_project_copy(source_project,
                           target_project_params,
                           associations_to_copy,
                           send_mails)
-    }
+    end
 
     if target_project
       UserMailer.copy_project_succeeded(user, source_project, target_project, errors).deliver_now

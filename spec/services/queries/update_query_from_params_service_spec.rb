@@ -70,7 +70,7 @@ describe UpdateQueryFromParamsService,
 
           expect(query.group_by).to eql('status')
           expect(query.show_hierarchies).to eql(true)
-            expect(subject).not_to be_success
+          expect(subject).not_to be_success
         end
       end
     end

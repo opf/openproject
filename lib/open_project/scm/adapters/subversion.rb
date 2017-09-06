@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -138,7 +139,7 @@ module OpenProject
 
         def entries(path = nil, identifier = nil)
           path ||= ''
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
+          identifier = identifier and identifier.to_i > 0 ? identifier.to_i : 'HEAD'
           entries = Entries.new
           cmd = ['list', '--xml', "#{target(path)}@#{identifier}"]
           xml_capture(cmd, force_encoding: true) do |doc|
@@ -151,7 +152,7 @@ module OpenProject
           # proplist xml output supported in svn 1.5.0 and higher
           return nil unless client_version_above?([1, 5, 0])
 
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
+          identifier = identifier and identifier.to_i > 0 ? identifier.to_i : 'HEAD'
           cmd = ['proplist', '--verbose', '--xml', "#{target(path)}@#{identifier}"]
           properties = {}
           xml_capture(cmd, force_encoding: true) do |doc|
@@ -197,13 +198,13 @@ module OpenProject
         end
 
         def cat(path, identifier = nil)
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
+          identifier = identifier and identifier.to_i > 0 ? identifier.to_i : 'HEAD'
           cmd = ['cat', "#{target(path)}@#{identifier}"]
           capture_svn(cmd)
         end
 
         def annotate(path, identifier = nil)
-          identifier = (identifier and identifier.to_i > 0) ? identifier.to_i : 'HEAD'
+          identifier = identifier and identifier.to_i > 0 ? identifier.to_i : 'HEAD'
           cmd = ['blame', "#{target(path)}@#{identifier}"]
           blame = Annotate.new
           popen3(cmd) do |io, _|
@@ -326,10 +327,10 @@ module OpenProject
         # Builds the full git arguments from the parameters
         # and calls the given block with in, out, err, thread
         # from +Open3#popen3+.
-        def popen3(args, &block)
+        def popen3(args)
           cmd = build_svn_cmd(args)
           super(cmd) do |_stdin, stdout, stderr, wait_thr|
-            block.call(stdout, stderr)
+            yield(stdout, stderr)
 
             process = wait_thr.value
             return process.exitstatus == 0

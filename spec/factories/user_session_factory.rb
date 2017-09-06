@@ -28,7 +28,7 @@
 
 FactoryGirl.define do
   factory :user_session do
-    sequence(:session_id) do |n| "session_#{n}" end
+    sequence(:session_id) { |n| "session_#{n}" }
     association :user
 
     callback(:after_build) do |session|

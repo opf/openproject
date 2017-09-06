@@ -35,7 +35,7 @@ describe 'Work package calendar index', type: :feature do
     include_context 'Toggable fieldset examples'
 
     let(:project) { FactoryGirl.create(:project) }
-    let(:current_user) { FactoryGirl.create (:admin) }
+    let(:current_user) { FactoryGirl.create :admin }
     let(:work_packages_page) { WorkPackagesPage.new(project) }
 
     before do

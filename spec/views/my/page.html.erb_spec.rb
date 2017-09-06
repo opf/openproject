@@ -32,13 +32,13 @@ describe 'my/page', type: :view do
   let(:project)    { FactoryGirl.create :valid_project }
   let(:user)       { FactoryGirl.create :admin, member_in_project: project }
   let(:issue)      { FactoryGirl.create :work_package, project: project, author: user }
-  let(:time_entry) {
+  let(:time_entry) do
     FactoryGirl.create :time_entry,
                        project: project,
                        user: user,
                        work_package: issue,
                        hours: 1
-  }
+  end
 
   describe 'timelog block' do
     before do
@@ -48,7 +48,7 @@ describe 'my/page', type: :view do
     end
 
     it 'renders the timelog block' do
-      assign :blocks,  'top' => ['timelog'], 'left' => [], 'right' => []
+      assign :blocks, 'top' => ['timelog'], 'left' => [], 'right' => []
 
       render
 
@@ -70,7 +70,7 @@ describe 'my/page', type: :view do
                          member_in_project: project,
                          member_through_role: role,
                          firstname: 'Mahboobeh')
-        .tap do |user|
+                 .tap do |user|
         Watcher.create(watchable: open_wp, user: user)
         Watcher.create(watchable: closed_wp, user: user)
       end
@@ -79,7 +79,7 @@ describe 'my/page', type: :view do
     before do
       allow(User).to receive(:current).and_return(watching_user)
       assign(:user, watching_user)
-      assign :blocks,  'top' => [], 'left' => ['issueswatched'], 'right' => []
+      assign :blocks, 'top' => [], 'left' => ['issueswatched'], 'right' => []
 
       render
     end

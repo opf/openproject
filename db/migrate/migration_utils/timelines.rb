@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,9 +36,9 @@ module Migration
   module Utils
     TimelineWithHistoricalComparison = Struct.new(:id, :from_date, :to_date)
 
-    OPTIONS_COLUMN = 'options'
-    HISTORICAL_DATE_FROM = 'compare_to_historical_one'
-    HISTORICAL_DATE_TO = 'compare_to_historical_two'
+    OPTIONS_COLUMN = 'options'.freeze
+    HISTORICAL_DATE_FROM = 'compare_to_historical_one'.freeze
+    HISTORICAL_DATE_TO = 'compare_to_historical_two'.freeze
 
     def timelines_with_historical_comparisons
       timelines = select_all <<-SQL
@@ -47,7 +48,7 @@ module Migration
       SQL
 
       timelines.each_with_object([]) do |r, l|
-        options = YAML.load(r[OPTIONS_COLUMN])
+        options = YAML.safe_load(r[OPTIONS_COLUMN])
         from_date = options[HISTORICAL_DATE_FROM]
         to_date = options[HISTORICAL_DATE_TO]
 
@@ -57,7 +58,7 @@ module Migration
 
     def update_options(callback)
       Proc.new do |row|
-        timelines_opts = YAML.load(row[OPTIONS_COLUMN].to_s)
+        timelines_opts = YAML.safe_load(row[OPTIONS_COLUMN].to_s)
         if timelines_opts
           migrated_options = callback.call(timelines_opts.clone) unless callback.nil?
 

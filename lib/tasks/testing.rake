@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,14 +31,14 @@
 namespace :test do
   desc 'Run unit and functional scm tests'
   task :scm do
-    errors = %w(test:scm:units test:scm:functionals).collect { |task|
+    errors = %w(test:scm:units test:scm:functionals).collect do |task|
       begin
         Rake::Task[task].invoke
         nil
       rescue => e
         task
       end
-    }.compact
+    end.compact
     abort "Errors running #{errors.to_sentence(locale: :en)}!" if errors.any?
   end
 
@@ -48,7 +49,7 @@ namespace :test do
         FileUtils.mkdir_p Rails.root + '/tmp/test'
       end
 
-      supported_scms = [:subversion, :git]
+      supported_scms = %i[subversion git]
 
       desc 'Creates a test subversion repository'
       supported_scms.each do |scm|

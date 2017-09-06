@@ -39,7 +39,7 @@ describe 'Application', with_settings: { login_required?: false } do
   fixtures :all
 
   it 'set localization' do
-    allow(Setting).to receive(:available_languages).and_return [:de, :en]
+    allow(Setting).to receive(:available_languages).and_return %i[de en]
     allow(Setting).to receive(:default_language).and_return 'en'
 
     # a french user

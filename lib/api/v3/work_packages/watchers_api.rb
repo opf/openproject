@@ -89,8 +89,8 @@ module API
             user = User.find user_id
 
             Services::CreateWatcher.new(@work_package, user).run(
-              success: -> (result) { status(200) unless result[:created] },
-              failure: -> (watcher) {
+              success: ->(result) { status(200) unless result[:created] },
+              failure: ->(watcher) {
                 raise ::API::Errors::ErrorBase.create_and_merge_errors(watcher.errors)
               }
             )

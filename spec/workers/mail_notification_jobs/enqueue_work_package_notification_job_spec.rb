@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,16 +33,16 @@ require 'spec_helper'
 describe EnqueueWorkPackageNotificationJob, type: :model do
   let(:project) { FactoryGirl.create(:project) }
   let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  let(:recipient) {
+  let!(:recipient) do
     FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
-  }
+  end
   let(:author) { FactoryGirl.create(:user) }
-  let(:work_package) {
+  let!(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
                        author: author,
                        assigned_to: recipient)
-  }
+  end
   let(:journal) { work_package.journals.first }
   subject { described_class.new(journal.id, author.id) }
 
@@ -51,7 +52,7 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
   end
 
   it 'sends a mail' do
-    expect(Delayed::Job).to receive(:enqueue).with(an_instance_of DeliverWorkPackageNotificationJob)
+    expect(Delayed::Job).to receive(:enqueue).with(an_instance_of(DeliverWorkPackageNotificationJob))
     subject.perform
   end
 
@@ -72,9 +73,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
     end
 
     it 'sends a mail' do
-      expect(Delayed::Job)
-        .to receive(:enqueue)
-        .with(an_instance_of DeliverWorkPackageNotificationJob)
+      expect(Delayed::Job).to receive(:enqueue)
+        .with(an_instance_of(DeliverWorkPackageNotificationJob))
       subject.perform
     end
   end
@@ -135,8 +135,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       it 'Job 1 sends one mail for journal 1' do
         expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
-                                  .once
+          .with(an_instance_of(DeliverWorkPackageNotificationJob))
+          .once
         described_class.new(journal_1.id, author.id).perform
       end
 
@@ -147,8 +147,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       it 'Job 3 sends one mail for journal (2,3)' do
         expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
-                                  .once
+          .with(an_instance_of(DeliverWorkPackageNotificationJob))
+          .once
         described_class.new(journal_3.id, author.id).perform
       end
     end
@@ -179,8 +179,8 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       it 'Job 3 sends one mail for (2,3)' do
         expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
-                                  .once
+          .with(an_instance_of(DeliverWorkPackageNotificationJob))
+          .once
         described_class.new(journal_3.id, author.id).perform
       end
     end
@@ -202,15 +202,14 @@ describe EnqueueWorkPackageNotificationJob, type: :model do
 
       it 'Job 2 sends one mail for journal (1, 2)' do
         expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
-                                  .once
+          .with(an_instance_of(DeliverWorkPackageNotificationJob))
+          .once
         described_class.new(journal_2.id, author.id).perform
       end
 
       it 'Job 3 sends one mail for journal 3' do
         expect(Delayed::Job).to receive(:enqueue)
-                                  .with(an_instance_of DeliverWorkPackageNotificationJob)
-                                  .once
+          .with(an_instance_of(DeliverWorkPackageNotificationJob)).once
         described_class.new(journal_3.id, author.id).perform
       end
     end

@@ -34,21 +34,21 @@ describe 'api/v2/project_associations/available_projects.api.rabl', type: :view 
   end
 
   describe 'with an assigned project_association' do
-    let(:project_a) {
+    let(:project_a) do
       FactoryGirl.create(:project, id: 1234,
                                    identifier: 'test_project_a',
                                    name: 'Test Project A',
                                    created_on: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                                    updated_on: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-    }
+    end
 
-    let(:project_b) {
+    let(:project_b) do
       FactoryGirl.create(:project, id: 2345,
                                    identifier: 'test_project_b',
                                    name: 'Test Project B',
                                    created_on: Time.parse('Thu Jan 06 12:35:00 +0100 2011'),
                                    updated_on: Time.parse('Fri Jan 07 12:35:00 +0100 2011'))
-    }
+    end
 
     let(:available_projects) { [{ project: project_a, level: 1 }] }
     let(:disabled_projects)  { [{ project: project_b, level: 1 }] }
@@ -67,8 +67,7 @@ describe 'api/v2/project_associations/available_projects.api.rabl', type: :view 
                         level: 1,
                         disabled: false,
                         created_on: '2011-01-06T11:35:00Z',
-                        updated_on: '2011-01-07T11:35:00Z'
-                       }.to_json
+                        updated_on: '2011-01-07T11:35:00Z' }.to_json
       is_expected.to be_json_eql(expected_json).at_path('projects/0')
     end
   end

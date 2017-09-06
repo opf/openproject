@@ -87,10 +87,10 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
 
   def make_attributes
     attrs = [
-      [:status, :priority],
-      [:author, :category],
-      [:created_at, :assigned_to],
-      [:updated_at, :due_date]
+      %i[status priority],
+      %i[author category],
+      %i[created_at assigned_to],
+      %i[updated_at due_date]
     ]
 
     attrs.map do |first, second|
@@ -187,15 +187,15 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
   end
 
   def make_description_row(seg, first: false, last: false)
-    if first
-      label = make_description_label
-    else
-      label = make_empty_label
-    end
+    label = if first
+              make_description_label
+            else
+              make_empty_label
+            end
 
     if last
-      label.borders = [:left, :bottom]
-      seg.borders = [:bottom, :right]
+      label.borders = %i[left bottom]
+      seg.borders = %i[bottom right]
     end
 
     [label, seg]
@@ -257,8 +257,8 @@ class WorkPackage::PdfExport::WorkPackageToPdf < WorkPackage::Exporter::Base
       pdf.font style: :italic, size: 8
       for detail in journal.details
         text = journal
-          .render_detail(detail, no_html: true, only_path: false)
-          .gsub(/\((https?[^\)]+)\)$/, "(<link href='\\1'>\\1</link>)")
+               .render_detail(detail, no_html: true, only_path: false)
+               .gsub(/\((https?[^\)]+)\)$/, "(<link href='\\1'>\\1</link>)")
         pdf.text('- ' + text, inline_format: true)
         newline!
       end

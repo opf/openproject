@@ -21,11 +21,11 @@ module API
 
         property :estimated_time,
                  exec_context: :decorator,
-                 getter: -> (*) {
+                 getter: ->(*) {
                    datetime_formatter.format_duration_from_hours(represented.estimated_hours,
                                                                  allow_nil: true)
                  },
-                 if: -> (*) {
+                 if: ->(*) {
                    ::Setting.work_package_list_summable_columns.include?('estimated_hours')
                  }
       end

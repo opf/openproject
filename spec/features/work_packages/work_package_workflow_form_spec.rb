@@ -4,8 +4,8 @@ require 'features/page_objects/notification'
 describe 'Work package transitive status workflows', js: true do
   let(:dev_role) do
     FactoryGirl.create :role,
-                       permissions: [:view_work_packages,
-                                     :edit_work_packages]
+                       permissions: %i[view_work_packages
+                                       edit_work_packages]
   end
   let(:dev) do
     FactoryGirl.create :user,
@@ -18,7 +18,7 @@ describe 'Work package transitive status workflows', js: true do
   let(:type) { FactoryGirl.create :type }
   let(:project) { FactoryGirl.create(:project, types: [type]) }
 
-  let(:work_package) {
+  let(:work_package) do
     work_package = FactoryGirl.create :work_package,
                                       project: project,
                                       type: type,
@@ -28,14 +28,14 @@ describe 'Work package transitive status workflows', js: true do
     note_journal.update_attributes(created_at: 5.days.ago.to_date.to_s)
 
     work_package
-  }
+  end
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
 
   let(:status_from) { work_package.status }
   let(:status_intermediate) { FactoryGirl.create :status }
   let(:status_to) { FactoryGirl.create :status }
 
-  let(:workflows) {
+  let(:workflows) do
     FactoryGirl.create :workflow,
                        type_id: type.id,
                        old_status: status_from,
@@ -47,7 +47,7 @@ describe 'Work package transitive status workflows', js: true do
                        old_status: status_intermediate,
                        new_status: status_to,
                        role: dev_role
-  }
+  end
 
   before do
     login_as(dev)
@@ -76,6 +76,5 @@ describe 'Work package transitive status workflows', js: true do
 
     work_package.reload
     expect(work_package.status).to eq(status_to)
-
   end
 end

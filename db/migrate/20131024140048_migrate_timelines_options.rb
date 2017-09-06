@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -32,15 +33,15 @@ require_relative 'migration_utils/timelines'
 class MigrateTimelinesOptions < ActiveRecord::Migration[4.2]
   include Migration::Utils
 
-  COLUMN = 'options'
+  COLUMN = 'options'.freeze
 
   OPTIONS = {
     # already done in 20131015064141_migrate_timelines_end_date_property_in_options.rb
     # 'end_date' => 'due_date',
     'planning_element_types' => 'type',
     'project_type' => 'type',
-    'project_status' => 'status',
-  }
+    'project_status' => 'status'
+  }.freeze
 
   def up
     say_with_time_silently 'Check for historical comparisons' do
@@ -104,9 +105,9 @@ class MigrateTimelinesOptions < ActiveRecord::Migration[4.2]
 
   private
 
-  PE_TYPE_KEY = 'planning_element_types'
-  PE_TIME_TYPE_KEY = 'planning_element_time_types'
-  VERTICAL_PE_TYPES = 'vertical_planning_elements'
+  PE_TYPE_KEY = 'planning_element_types'.freeze
+  PE_TIME_TYPE_KEY = 'planning_element_time_types'.freeze
+  VERTICAL_PE_TYPES = 'vertical_planning_elements'.freeze
 
   def migrate_timelines_options(options, pe_id_map, pe_type_id_map)
     calling_class = self
@@ -124,7 +125,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration[4.2]
   def migrate_planning_element_types(timelines_opts, pe_type_id_map, calling_class)
     pe_types = []
 
-    pe_types =  timelines_opts[PE_TYPE_KEY].delete_if(&:nil?) if timelines_opts.has_key? PE_TYPE_KEY
+    pe_types = timelines_opts[PE_TYPE_KEY].delete_if(&:nil?) if timelines_opts.has_key? PE_TYPE_KEY
 
     calling_class.contains_none_element = calling_class.contains_none_element? || pe_types.empty?
 
@@ -140,7 +141,7 @@ class MigrateTimelinesOptions < ActiveRecord::Migration[4.2]
 
     pe_time_types = timelines_opts[PE_TIME_TYPE_KEY]
 
-    pe_time_types.map! do |p| pe_type_id_map[p.to_i].to_s end
+    pe_time_types.map! { |p| pe_type_id_map[p.to_i].to_s }
 
     timelines_opts[PE_TIME_TYPE_KEY] = pe_time_types
 
@@ -151,11 +152,11 @@ class MigrateTimelinesOptions < ActiveRecord::Migration[4.2]
     return timelines_opts unless timelines_opts.has_key? VERTICAL_PE_TYPES
 
     vertical_pes = timelines_opts[VERTICAL_PE_TYPES].split(',')
-                   .map(&:strip)
+                                                    .map(&:strip)
 
     unless vertical_pes.empty?
       mapped_pes = vertical_pes.map { |v| pe_id_map[v.to_i] }
-                   .compact
+                               .compact
 
       timelines_opts[VERTICAL_PE_TYPES] = mapped_pes.join(',')
     end

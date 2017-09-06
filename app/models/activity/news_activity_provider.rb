@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,8 +32,7 @@ class Activity::NewsActivityProvider < Activity::BaseActivityProvider
   acts_as_activity_provider type: 'news',
                             permission: :view_news
 
-  def extend_event_query(_query, _activity)
-  end
+  def extend_event_query(_query, _activity); end
 
   def event_query_projection(activity)
     [

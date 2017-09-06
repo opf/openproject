@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,10 +30,10 @@
 
 Given /^there is a project named "([^"]*)"(?: of type "([^"]*)")?$/ do |name, project_type_name|
   attributes = { name: name,
-                 identifier: name.downcase.gsub(' ', '_') }
+                 identifier: name.downcase.tr(' ', '_') }
 
   if project_type_name
-    attributes.merge!(project_type: ProjectType.find_by!(name: project_type_name))
+    attributes[:project_type] = ProjectType.find_by!(name: project_type_name)
   end
 
   FactoryGirl.create(:project, attributes)

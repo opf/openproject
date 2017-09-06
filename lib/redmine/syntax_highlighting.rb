@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -34,11 +35,11 @@ module Redmine
       delegate :highlight_by_filename, :highlight_by_language, to: :highlighter
 
       def highlighter=(name)
-        if name.is_a?(Module)
-          @highlighter = name
-        else
-          @highlighter = const_get(name)
-        end
+        @highlighter = if name.is_a?(Module)
+                         name
+                       else
+                         const_get(name)
+                       end
       end
     end
 

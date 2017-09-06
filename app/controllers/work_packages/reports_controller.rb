@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,7 +29,7 @@
 #++
 
 class WorkPackages::ReportsController < ApplicationController
-  menu_item :summary_field, only: [:report, :report_details]
+  menu_item :summary_field, only: %i[report report_details]
   before_action :find_project_by_project_id, :authorize
 
   def report
@@ -49,13 +50,13 @@ class WorkPackages::ReportsController < ApplicationController
 
   def report_details
     @report = Reports::ReportsService.new(@project)
-              .report_for(params[:detail])
+                                     .report_for(params[:detail])
 
     respond_to do |format|
       if @report
         format.html
       else
-        format.html do redirect_to report_project_work_packages_path(@project) end
+        format.html { redirect_to report_project_work_packages_path(@project) }
       end
     end
   end

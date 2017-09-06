@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,9 +37,9 @@ module Redmine
     def self.all_languages
       @@all_languages ||= begin
         Dir.glob(Rails.root.join('config/locales/*.yml'))
-          .map { |f| File.basename(f).split('.').first }
-          .reject! { |l| /\Ajs-/.match(l.to_s) }
-          .map(&:to_sym)
+           .map { |f| File.basename(f).split('.').first }
+           .reject! { |l| /\Ajs-/.match(l.to_s) }
+           .map(&:to_sym)
       end
     end
 
@@ -174,11 +175,12 @@ module Redmine
     # Collects all translations for ActiveRecord attributes
     def all_attribute_translations(locale = current_locale)
       @cached_attribute_translations ||= {}
-      @cached_attribute_translations[locale] ||= (
+      @cached_attribute_translations[locale] ||= begin
         general_attributes = ::I18n.t('attributes', locale: locale)
-        ::I18n.t('activerecord.attributes', locale: locale).inject(general_attributes) { |attr_t, model_t|
+        ::I18n.t('activerecord.attributes', locale: locale).inject(general_attributes) do |attr_t, model_t|
           attr_t.merge(model_t.last || {})
-        })
+        end
+      end
       @cached_attribute_translations[locale]
     end
   end

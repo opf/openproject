@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,17 +37,17 @@ module API
         property :id
         property :name
         property :color,
-                 getter: -> (*) { color.hexcode if color },
+                 getter: ->(*) { color.hexcode if color },
                  render_nil: true
         property :position
         property :is_default
         property :is_milestone
         property :created_at,
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_at) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_at) }
         property :updated_at,
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_at) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_at) }
 
         def _type
           'Type'

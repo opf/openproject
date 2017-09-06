@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -100,11 +101,11 @@ Then /^the project "([^"]*)" is( not)? public$/ do |project_name, negation|
 end
 
 Given /^the plugin (.+) is loaded$/ do |plugin_name|
-  plugin_name = plugin_name.gsub("\"", '')
+  plugin_name = plugin_name.delete("\"")
 
-  Redmine::Plugin.all.detect { |x|
+  Redmine::Plugin.all.detect do |x|
     x.id == plugin_name.to_sym
-  }.present? ? nil : pending("Plugin #{plugin_name} not loaded")
+  end.present? ? nil : pending("Plugin #{plugin_name} not loaded")
 end
 
 Given /^(?:the )?[pP]roject "([^\"]*)" uses the following [mM]odules:$/ do |project, table|
@@ -170,8 +171,7 @@ Given /^the [Pp]roject "([^\"]*)" has (\d+) [tT]ime(?: )?[eE]ntr(?:ies|y) with t
                            time = number.to_i.send(time_unit.to_sym).send(tempus.to_sym)
                            object.spent_on = time
                            object.save!
-                         end
-                        )
+                         end)
   end
 end
 
@@ -194,7 +194,7 @@ Given /^the [pP]roject "([^\"]*)" has 1 [sS]ubproject with the following:$/ do |
 end
 
 Given /^there are the following types:$/ do |table|
-  table = table.map_headers { |header| header.underscore.gsub(' ', '_') }
+  table = table.map_headers { |header| header.underscore.tr(' ', '_') }
   table.hashes.each_with_index do |t, i|
     type = ::Type.find_by(name: t['name'])
     type = ::Type.new name: t['name'] if type.nil?
@@ -298,14 +298,14 @@ Given /^I (?:stop|pause) (?:step )?execution$/ do
 end
 
 When /^(?:|I )login as (.+?)(?: with password (.+))?$/ do |username, password|
-  username = username.gsub("\"", '')
-  password = password.nil? ? 'adminADMIN!' : password.gsub("\"", '')
+  username = username.delete("\"")
+  password = password.nil? ? 'adminADMIN!' : password.delete("\"")
   login(username, password)
 end
 
 When /^(?:|I )login with autologin enabled as (.+?)(?: with password (.+))?$/ do |username, password|
-  username = username.gsub("\"", '')
-  password = password.nil? ? 'adminADMIN!' : password.gsub("\"", '')
+  username = username.delete("\"")
+  password = password.nil? ? 'adminADMIN!' : password.delete("\"")
   page.driver.post signin_path(username: username, password: password, autologin: 1)
 end
 
@@ -327,7 +327,7 @@ end
 
 When /^I satisfy the "(.+)" plugin to (.+)$/ do |plugin_name, action|
   if plugin_loaded?(plugin_name)
-    action_name = action.gsub("\"", '')
+    action_name = action.delete("\"")
 
     plugin_action(plugin_name, action_name)
   end
@@ -367,11 +367,11 @@ When(/^I wait for "(.*?)" minutes$/) do |number_of_minutes|
 end
 
 def get_project(project_name = nil)
-  if project_name.blank?
-    project = @project
-  else
-    project = Project.find_by(name: project_name)
-  end
+  project = if project_name.blank?
+              @project
+            else
+              Project.find_by(name: project_name)
+            end
   if project.nil?
     if project_name.blank?
       raise "Could not identify the current project. Make sure to use the 'I am working in project \"Project Name\" step beforehand."
@@ -403,8 +403,7 @@ def modify_user(u, table)
                              r.user_id    = user.id
                              r.project    = user.projects.last
                            end.save!
-                         end
-                        )
+                         end)
 
     u.save!
   end
@@ -429,7 +428,7 @@ def send_table_to_object(object, table, except = {}, rescue_block = nil)
   return unless table.raw.present?
   as_admin do
     table.rows_hash.each do |key, value|
-      _key = key.gsub(' ', '_').underscore.to_sym
+      _key = key.tr(' ', '_').underscore.to_sym
       if except[_key]
         except[_key].call(object, value)
       elsif except[key]

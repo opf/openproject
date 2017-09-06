@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,10 +34,10 @@ describe UserMailer, type: :mailer do
   let(:type_standard) { FactoryGirl.build_stubbed(:type_standard) }
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:journal) { FactoryGirl.build_stubbed(:work_package_journal) }
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.build_stubbed(:work_package,
                               type: type_standard)
-  }
+  end
 
   let(:recipient) { FactoryGirl.build_stubbed(:user) }
 
@@ -73,9 +74,9 @@ describe UserMailer, type: :mailer do
   end
 
   shared_examples_for 'does only send mails to author if permitted' do
-    let(:user_preference) {
+    let(:user_preference) do
       FactoryGirl.build(:user_preference, others: { no_self_notified: true })
-    }
+    end
     let(:user) { FactoryGirl.build_stubbed(:user, preference: user_preference) }
 
     context 'mail is for another user' do
@@ -422,10 +423,10 @@ describe UserMailer, type: :mailer do
       describe 'custom field' do
         let(:expected_text_1) { 'original, unchanged text' }
         let(:expected_text_2) { 'modified, new text' }
-        let(:custom_field) {
+        let(:custom_field) do
           FactoryGirl.create :work_package_custom_field,
                              field_format: 'text'
-        }
+        end
 
         before do
           allow(journal).to receive(:details).and_return("custom_fields_#{custom_field.id}" => [expected_text_1, expected_text_2])
@@ -482,11 +483,11 @@ describe UserMailer, type: :mailer do
     end
 
     describe 'html mail' do
-      let(:expected_translation) {
-        I18n.t(:done_ratio, scope: [:activerecord,
-                                    :attributes,
-                                    :work_package])
-      }
+      let(:expected_translation) do
+        I18n.t(:done_ratio, scope: %i[activerecord
+                                      attributes
+                                      work_package])
+      end
       let(:expected_prefix) { "<li><strong>#{expected_translation}</strong>" }
 
       before do

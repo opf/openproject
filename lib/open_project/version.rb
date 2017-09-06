@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -65,7 +66,7 @@ module OpenProject
     def self.product_version
       defined?(@product_version) || @product_version = begin
         path = Rails.root.join('config', 'PRODUCT_VERSION')
-        if File.exists? path
+        if File.exist? path
           File.read(path)
         end
       rescue => e
@@ -84,12 +85,14 @@ module OpenProject
       release_date_from_file || release_date_from_git
     end
 
-    REVISION = self.revision
+    REVISION = revision
     ARRAY = [MAJOR, MINOR, PATCH, REVISION].compact
     STRING = ARRAY.join('.')
 
     def self.to_a; ARRAY end
+
     def self.to_s; STRING end
+
     def self.to_semver
       [MAJOR, MINOR, PATCH].join('.') + special
     end
@@ -99,7 +102,7 @@ module OpenProject
     def self.release_date_from_file
       defined?(@file_date) || @file_date = begin
         path = Rails.root.join('config', 'RELEASE_DATE')
-        if File.exists? path
+        if File.exist? path
           s = File.read(path)
           Date.parse(s)
         end

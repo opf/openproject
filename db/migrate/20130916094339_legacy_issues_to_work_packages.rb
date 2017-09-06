@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -135,7 +136,7 @@ class LegacyIssuesToWorkPackages < ActiveRecord::Migration[4.2]
       FROM legacy_issues
     SQL
 
-    if existing_legacy_issues.size > 0
+    if !existing_legacy_issues.empty?
       raise ExistingLegacyIssuesError, <<-MESSAGE.split("\n").map(&:strip!).join(' ') + "\n"
         There are already entries in the legacy_issues table.
         This migration assumes that there are none.

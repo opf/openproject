@@ -36,7 +36,7 @@ describe 'Deletion', type: :feature do
   let(:delete_button) { 'div#tab-content-categories a.icon-delete' }
   let(:confirm_deletion_button) { 'input[type="submit"]' }
 
-  before do allow(User).to receive(:current).and_return current_user end
+  before { allow(User).to receive(:current).and_return current_user }
 
   shared_context 'delete category' do
     before do
@@ -61,11 +61,11 @@ describe 'Deletion', type: :feature do
   end
 
   describe 'with work package' do
-    let!(:work_package) {
+    let!(:work_package) do
       FactoryGirl.create :work_package,
                          project: category.project,
                          category: category
-    }
+    end
 
     include_context 'delete category'
 

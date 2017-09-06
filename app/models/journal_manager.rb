@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -60,7 +61,7 @@ class JournalManager
 
     # we generally ignore changes from blank to blank
     predecessor.map { |k, v| current[k.to_s] != v && (v.present? || current[k.to_s].present?) }
-      .any?
+               .any?
   end
 
   def self.association_changed?(journable, journal_association, association, id, key, value)
@@ -91,45 +92,45 @@ class JournalManager
   # This would lead to false change information, otherwise.
   # We need to be careful though, because we want to accept false (and false.blank? == true)
   def self.remove_empty_associations(associations, value)
-    associations.reject { |association|
+    associations.reject do |association|
       association.has_key?(value) &&
         association[value].blank? &&
         association[value] != false
-    }
+    end
   end
 
   def self.merge_reference_journals_by_id(new_journals, old_journals, id_key)
     all_associated_journal_ids = new_journals.map { |j| j[id_key] } |
                                  old_journals.map { |j| j[id_key] }
 
-    all_associated_journal_ids.each_with_object({}) { |id, result|
+    all_associated_journal_ids.each_with_object({}) do |id, result|
       result[id] = [old_journals.detect { |j| j[id_key] == id },
                     new_journals.detect { |j| j[id_key] == id }]
-    }
+    end
   end
 
   def self.added_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
+    merged_references.select do |_, (old_attributes, new_attributes)|
       old_attributes.nil? && !new_attributes.nil?
-    }.each_with_object({}) { |(id, (_, new_attributes)), result|
+    end.each_with_object({}) do |(id, (_, new_attributes)), result|
       result["#{key}_#{id}"] = [nil, new_attributes[value]]
-    }
+    end
   end
 
   def self.removed_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
+    merged_references.select do |_, (old_attributes, new_attributes)|
       !old_attributes.nil? && new_attributes.nil?
-    }.each_with_object({}) { |(id, (old_attributes, _)), result|
+    end.each_with_object({}) do |(id, (old_attributes, _)), result|
       result["#{key}_#{id}"] = [old_attributes[value], nil]
-    }
+    end
   end
 
   def self.changed_references(merged_references, key, value)
-    merged_references.select { |_, (old_attributes, new_attributes)|
+    merged_references.select do |_, (old_attributes, new_attributes)|
       !old_attributes.nil? && !new_attributes.nil? && old_attributes[value] != new_attributes[value]
-    }.each_with_object({}) { |(id, (old_attributes, new_attributes)), result|
+    end.each_with_object({}) do |(id, (old_attributes, new_attributes)), result|
       result["#{key}_#{id}"] = [old_attributes[value], new_attributes[value]]
-    }
+    end
   end
 
   def self.recreate_initial_journal(type, journal, changed_data)
@@ -171,12 +172,12 @@ class JournalManager
     end
   end
 
-  def self.create_journal(journable, journal_attributes, user = User.current,  notes = '')
+  def self.create_journal(journable, journal_attributes, user = User.current, notes = '')
     type = base_class(journable.class)
     extended_journal_attributes = journal_attributes.merge(journable_type: type.to_s)
-                                  .merge(notes: notes)
-                                  .except(:details)
-                                  .except(:id)
+                                                    .merge(notes: notes)
+                                                    .except(:details)
+                                                    .except(:id)
 
     unless extended_journal_attributes.has_key? :user_id
       extended_journal_attributes[:user_id] = user.id
@@ -204,7 +205,7 @@ class JournalManager
 
   def self.create_journal_data(_journal_id, type, changed_data)
     journal_class = journal_class type
-    new_data = Hash[changed_data.map { |k, v| [k, (v.is_a? Array) ? v.last : v] }]
+    new_data = Hash[changed_data.map { |k, v| [k, v.is_a? Array ? v.last : v] }]
 
     journal_class.new new_data
   end
@@ -243,9 +244,9 @@ class JournalManager
   end
 
   def self.normalize_newlines(data)
-    data.each_with_object({}) { |e, h|
+    data.each_with_object({}) do |e, h|
       h[e[0]] = (e[1].is_a?(String) ? e[1].gsub(/\r\n/, "\n") : e[1])
-    }
+    end
   end
 
   def self.with_send_notifications(send_notifications, &block)

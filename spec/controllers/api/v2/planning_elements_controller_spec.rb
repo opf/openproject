@@ -51,7 +51,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, permissions: [:view_work_packages])
+      role = FactoryGirl.create(:role, permissions: [:view_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
@@ -67,7 +67,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, permissions: [:edit_work_packages])
+      role = FactoryGirl.create(:role, permissions: [:edit_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
@@ -83,7 +83,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
-      role   = FactoryGirl.create(:role, permissions: [:delete_work_packages])
+      role = FactoryGirl.create(:role, permissions: [:delete_work_packages])
 
       projects = block ? instance_eval(&block) : [project]
 
@@ -184,10 +184,10 @@ describe Api::V2::PlanningElementsController, type: :controller do
           describe 'w/ 2 planning elements within a specific project and one PE requested' do
             context 'with rewire_parents=false' do
               let!(:wp_parent) { FactoryGirl.create(:work_package, project_id: project.id) }
-              let!(:wp_child)  {
+              let!(:wp_child)  do
                 FactoryGirl.create(:work_package, project_id: project.id,
                                                   parent_id: wp_parent.id)
-              }
+              end
 
               context 'with rewire_parents=false' do
                 before do
@@ -235,11 +235,11 @@ describe Api::V2::PlanningElementsController, type: :controller do
         before do
           @project_a_wps = [
             FactoryGirl.create(:work_package, project_id: project_a.id),
-            FactoryGirl.create(:work_package, project_id: project_a.id),
+            FactoryGirl.create(:work_package, project_id: project_a.id)
           ]
           @project_b_wps = [
             FactoryGirl.create(:work_package, project_id: project_b.id),
-            FactoryGirl.create(:work_package, project_id: project_b.id),
+            FactoryGirl.create(:work_package, project_id: project_b.id)
           ]
           @project_c_wps = [
             FactoryGirl.create(:work_package, project_id: project_c.id),
@@ -316,7 +316,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
         become_admin { [project1, project2] }
 
-        context 'without rewire_parents' do  # equivalent to rewire_parents=true
+        context 'without rewire_parents' do # equivalent to rewire_parents=true
           it 'rewires ancestors correctly' do
             get 'index',
                 params: { project_id: project1.id },
@@ -408,18 +408,18 @@ describe Api::V2::PlanningElementsController, type: :controller do
       let(:project_a) { FactoryGirl.create(:project) }
       let(:project_b) { FactoryGirl.create(:project) }
       let(:project_c) { FactoryGirl.create(:project) }
-      let!(:work_package_a) {
+      let!(:work_package_a) do
         FactoryGirl.create(:work_package,
                            project: project_a)
-      }
-      let!(:work_package_b) {
+      end
+      let!(:work_package_b) do
         FactoryGirl.create(:work_package,
                            project: project_b)
-      }
-      let!(:work_package_c) {
+      end
+      let!(:work_package_c) do
         FactoryGirl.create(:work_package,
                            project: project_c)
-      }
+      end
       let(:project_ids) { [project_a, project_b, project_c].map(&:id).join(',') }
       let(:wp_ids) { [work_package_a, work_package_b].map(&:id) }
 
@@ -648,7 +648,8 @@ describe Api::V2::PlanningElementsController, type: :controller do
           :work_package,
           author: author,
           type: type,
-          project: project)
+          project: project
+        )
       end
 
       it 'creates a new planning element with the given custom field value' do
@@ -691,7 +692,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
 
       describe 'w/ an unknown project' do
         it 'renders a 404 Not Found page' do
-          get 'show', params: {  project_id: '4711', id: '1337' }, format: 'xml'
+          get 'show', params: { project_id: '4711', id: '1337' }, format: 'xml'
 
           expect(response.response_code).to eq(404)
         end
@@ -714,9 +715,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect {
-              get 'show', params: {  project_id: project.id, id: '1337' }, format: 'xml'
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            expect do
+              get 'show', params: { project_id: project.id, id: '1337' }, format: 'xml'
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -751,12 +752,12 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_view_planning_element_permissions
 
           it 'assigns the planning_element' do
-            get 'show', params: {  project_id: project.id, id: planning_element.id }, format: 'xml'
+            get 'show', params: { project_id: project.id, id: planning_element.id }, format: 'xml'
             expect(assigns(:planning_element)).to eq(planning_element)
           end
 
           it 'renders the show builder template' do
-            get 'show', params: {  project_id: project.id, id: planning_element.id }, format: 'xml'
+            get 'show', params: { project_id: project.id, id: planning_element.id }, format: 'xml'
             expect(response).to render_template('planning_elements/show')
           end
         end
@@ -780,7 +781,8 @@ describe Api::V2::PlanningElementsController, type: :controller do
                            type: type,
                            project: project,
                            custom_values: [
-                             CustomValue.new(custom_field: custom_field, value: 'Mett')]
+                             CustomValue.new(custom_field: custom_field, value: 'Mett')
+                           ]
       end
 
       it 'should render the custom field values' do
@@ -802,10 +804,10 @@ describe Api::V2::PlanningElementsController, type: :controller do
     become_admin
 
     describe 'permissions' do
-      let(:planning_element) {
+      let(:planning_element) do
         FactoryGirl.create(:work_package,
                            project_id: project.id)
-      }
+      end
 
       def fetch
         post 'update',
@@ -877,7 +879,8 @@ describe Api::V2::PlanningElementsController, type: :controller do
                            type: type,
                            project: project,
                            custom_values: [
-                             CustomValue.new(custom_field: custom_field, value: 'Mett')]
+                             CustomValue.new(custom_field: custom_field, value: 'Mett')
+                           ]
       end
 
       it 'updates the custom field value' do
@@ -978,12 +981,12 @@ describe Api::V2::PlanningElementsController, type: :controller do
       end
 
       context 'valid workflow exists' do
-        let!(:workflow) {
+        let!(:workflow) do
           FactoryGirl.create(:workflow,
                              old_status: status_a,
                              new_status: status_b,
                              type_id: planning_element.type_id)
-        }
+        end
 
         before { planning_element.project.add_member!(current_user, workflow.role) }
 
@@ -1039,9 +1042,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
           become_member_with_delete_planning_element_permissions
 
           it 'raises ActiveRecord::RecordNotFound errors' do
-            expect {
-              get 'destroy', params: {  project_id: project.id, id: '1337' }, format: 'xml'
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            expect do
+              get 'destroy', params: { project_id: project.id, id: '1337' }, format: 'xml'
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end
@@ -1095,9 +1098,9 @@ describe Api::V2::PlanningElementsController, type: :controller do
             get 'destroy',
                 params: { project_id: project.id, id: planning_element.id },
                 format: :xml
-            expect {
+            expect do
               planning_element.reload
-            }.to raise_error(ActiveRecord::RecordNotFound)
+            end.to raise_error(ActiveRecord::RecordNotFound)
           end
         end
       end

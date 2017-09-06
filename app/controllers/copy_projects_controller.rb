@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -93,6 +94,6 @@ class CopyProjectsController < ApplicationController
     @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
     @types = ::Type.all
     @root_projects = Project.where("parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}")
-                     .order('name')
+                            .order('name')
   end
 end

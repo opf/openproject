@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -35,12 +36,12 @@ class ProjectsController < ApplicationController
   helper :timelines
 
   before_action :disable_api
-  before_action :find_project, except: [:index, :level_list, :new, :create]
-  before_action :authorize, only: [
-    :show, :settings, :edit, :update, :modules, :types, :custom_fields
+  before_action :find_project, except: %i[index level_list new create]
+  before_action :authorize, only: %i[
+    show settings edit update modules types custom_fields
   ]
-  before_action :authorize_global, only: [:new, :create]
-  before_action :require_admin, only: [:archive, :unarchive, :destroy, :destroy_info]
+  before_action :authorize_global, only: %i[new create]
+  before_action :require_admin, only: %i[archive unarchive destroy destroy_info]
   before_action :jump_to_project_menu_item, only: :show
   before_action :load_project_settings, only: :settings
   before_action :determine_base
@@ -103,7 +104,7 @@ class ProjectsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.html do render action: 'new' end
+        format.html { render action: 'new' }
       end
     end
   end
@@ -139,8 +140,7 @@ class ProjectsController < ApplicationController
     @altered_project ||= @project
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @altered_project = Project.find(@project.id)
@@ -187,7 +187,6 @@ class ProjectsController < ApplicationController
       end
     end
   end
-
 
   def types
     if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
@@ -301,11 +300,11 @@ class ProjectsController < ApplicationController
   protected
 
   def determine_base
-    if params[:project_type_id]
-      @base = ProjectType.find(params[:project_type_id]).projects
-    else
-      @base = Project
-    end
+    @base = if params[:project_type_id]
+              ProjectType.find(params[:project_type_id]).projects
+            else
+              Project
+            end
   end
 
   # Validates parent_id param according to user's permissions

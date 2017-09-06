@@ -37,12 +37,12 @@ describe Group, type: :model do
   let(:watcher) { FactoryGirl.create :user }
   let(:project) { FactoryGirl.create(:project_with_types) }
   let(:status) { FactoryGirl.create(:status) }
-  let(:package) {
+  let(:package) do
     FactoryGirl.build(:work_package, type: project.types.first,
                                      author: user,
                                      project: project,
                                      status: status)
-  }
+  end
 
   describe '#destroy' do
     describe 'work packages assigned to the group' do
@@ -97,7 +97,7 @@ describe Group, type: :model do
       it { expect(group.valid?).to be_falsey }
 
       describe 'error message' do
-        before do group.valid? end
+        before { group.valid? }
 
         it { expect(group.errors.full_messages[0]).to include I18n.t('attributes.groupname') }
       end

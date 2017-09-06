@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -78,11 +79,11 @@ module API
           errors.keys.each do |attribute|
             api_attribute_name = ::API::Utilities::PropertyNameConverter.from_ar_name(attribute)
             errors.symbols_and_messages_for(attribute).each do |symbol, full_message, _|
-              if symbol == :error_readonly
-                api_errors << ::API::Errors::UnwritableProperty.new(api_attribute_name)
-              else
-                api_errors << ::API::Errors::Validation.new(api_attribute_name, full_message)
-              end
+              api_errors << if symbol == :error_readonly
+                              ::API::Errors::UnwritableProperty.new(api_attribute_name)
+                            else
+                              ::API::Errors::Validation.new(api_attribute_name, full_message)
+                            end
             end
           end
 

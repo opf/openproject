@@ -27,6 +27,7 @@
 #++
 
 #-- encoding: UTF-8
+
 module RedmineDiff
   class Diff
     VERSION = 0.3
@@ -60,14 +61,14 @@ module RedmineDiff
         aelem = a[aindex]
         next unless bmatches.has_key? aelem
         k = nil
-        bmatches[aelem].reverse_each { |bindex|
+        bmatches[aelem].reverse_each do |bindex|
           if k && (thresh[k] > bindex) && (thresh[k - 1] < bindex)
             thresh[k] = bindex
           else
             k = thresh.replacenextlarger(bindex, k)
           end
-          links[k] = [(k == 0) ? nil : links[k - 1], aindex, bindex] if k
-        }
+          links[k] = [k == 0 ? nil : links[k - 1], aindex, bindex] if k
+        end
       end
 
       if !thresh.empty?
@@ -123,7 +124,7 @@ module RedmineDiff
           i += 1
           while df[i] && df[i][0] == whot && df[i][1] == last + 1
             s << df[i][2]
-            last  = df[i][1]
+            last = df[i][1]
             i += 1
           end
           curdiff.push [whot, p, s]
@@ -197,7 +198,7 @@ module Diffable
 
   def replacenextlarger(value, high = nil)
     high ||= length
-    if self.empty? || value > self[-1]
+    if empty? || value > self[-1]
       push value
       return high
     end
@@ -224,15 +225,15 @@ module Diffable
 
   def patch(diff)
     newary = nil
-    if diff.difftype == String
-      newary = diff.difftype.new('')
-    else
-      newary = diff.difftype.new
-    end
+    newary = if diff.difftype == String
+               diff.difftype.new('')
+             else
+               diff.difftype.new
+             end
     ai = 0
     bi = 0
     diff.diffs.each do |d|
-      d.each { |mod|
+      d.each do |mod|
         case mod[0]
         when '-'
           while ai < mod[1]
@@ -252,7 +253,7 @@ module Diffable
         else
           raise 'Unknown diff action'
         end
-      }
+      end
     end
     while ai < length
       newary << self[ai]

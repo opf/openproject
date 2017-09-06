@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -33,11 +34,11 @@ module OpenProject
   module Configuration
     extend Helpers
 
-    ENV_PREFIX = 'OPENPROJECT_'
+    ENV_PREFIX = 'OPENPROJECT_'.freeze
 
     # Configuration default values
     @defaults = {
-      'attachments_storage'     => 'file',
+      'attachments_storage' => 'file',
       'attachments_storage_path' => nil,
       'autologin_cookie_name'   => 'autologin',
       'autologin_cookie_path'   => '/',
@@ -74,12 +75,12 @@ module OpenProject
       'email_delivery_method' => nil,
       'smtp_address' => nil,
       'smtp_port' => nil,
-      'smtp_domain' => nil,  # HELO domain
+      'smtp_domain' => nil, # HELO domain
       'smtp_authentication' => nil,
       'smtp_user_name' => nil,
       'smtp_password' => nil,
       'smtp_enable_starttls_auto' => nil,
-      'smtp_openssl_verify_mode' => nil,  # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
+      'smtp_openssl_verify_mode' => nil, # 'none', 'peer', 'client_once' or 'fail_if_no_peer_cert'
       'sendmail_location' => '/usr/sbin/sendmail',
       'sendmail_arguments' => '-i',
 
@@ -110,7 +111,6 @@ module OpenProject
       'health_checks_jobs_queue_count_threshold' => 50,
       # Maximum number of minutes that jobs have not yet run after their designated 'run_at' time
       'health_checks_jobs_never_ran_minutes_ago' => 5,
-
       'after_login_default_redirect_url' => nil,
       'after_first_login_redirect_url' => nil
     }
@@ -143,8 +143,8 @@ module OpenProject
       # exists
       def override_config!(config, source = default_override_source)
         config.keys
-          .select { |key| source.include? key.upcase }
-          .each   do |key| config[key] = extract_value key, source[key.upcase] end
+              .select { |key| source.include? key.upcase }
+              .each   { |key| config[key] = extract_value key, source[key.upcase] }
 
         config.deep_merge! merge_config(config, source)
       end
@@ -233,7 +233,7 @@ module OpenProject
           cache_config = [cache_store]
         end
         parameters = cache_parameters(@config)
-        cache_config << parameters if parameters.size > 0
+        cache_config << parameters if !parameters.empty?
         application_config.cache_store = cache_config
       end
 
@@ -339,19 +339,18 @@ module OpenProject
       # @return A ruby object (e.g. Integer, Float, String, Hash, Boolean, etc.)
       # @raise [ArgumentError] If the string could not be parsed.
       def extract_value(key, value)
-
         # YAML parses '' as false, but empty ENV variables will be passed as that.
         # To specify specific values, one can use !!str (-> '') or !!null (-> nil)
         return value if value == ''
 
-        YAML.load(value)
+        YAML.safe_load(value)
       rescue => e
         raise ArgumentError, "Configuration value for '#{key}' is invalid: #{e.message}"
       end
 
       def load_config_from_file(filename, env, config)
         if File.file?(filename)
-          file_config = YAML::load(ERB.new(File.read(filename)).result)
+          file_config = YAML::safe_load(ERB.new(File.read(filename)).result)
           if file_config.is_a? Hash
             config.merge!(load_env_from_config(file_config, env))
           else
@@ -382,9 +381,9 @@ module OpenProject
         if config['email_delivery']
           unless options[:disable_deprecation_message]
             ActiveSupport::Deprecation.warn 'Deprecated mail delivery settings used. Please ' +
-              'update them in config/configuration.yml or use ' +
-              'environment variables. See doc/CONFIGURATION.md for ' +
-              'more information.'
+                                            'update them in config/configuration.yml or use ' +
+                                            'environment variables. See doc/CONFIGURATION.md for ' +
+                                            'more information.'
           end
 
           config['email_delivery_method'] = config['email_delivery']['delivery_method'] || :smtp
@@ -403,8 +402,8 @@ module OpenProject
 
       def cache_parameters(config)
         mapping = {
-          'cache_expires_in_seconds' => [:expires_in, :to_i],
-          'cache_namespace' => [:namespace, :to_s]
+          'cache_expires_in_seconds' => %i[expires_in to_i],
+          'cache_namespace' => %i[namespace to_s]
         }
         parameters = {}
         mapping.each_pair do |from, to|
@@ -429,15 +428,17 @@ module OpenProject
 
       def define_config_methods
         @config.keys.each do |setting|
-          (class << self; self; end).class_eval do
-            define_method setting do
-              self[setting]
-            end
+          unless respond_to? setting
+            (class << self; self; end).class_eval do
+              define_method setting do
+                self[setting]
+              end
 
-            define_method "#{setting}?" do
-              ['true', true, '1'].include? self[setting]
+              define_method "#{setting}?" do
+                ['true', true, '1'].include? self[setting]
+              end
             end
-          end unless respond_to? setting
+          end
         end
       end
     end

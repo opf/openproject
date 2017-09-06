@@ -49,17 +49,15 @@ class MyController < ApplicationController
                      'issueswatched'              => :label_watched_work_packages,
                      'news'                       => :label_news_latest,
                      'calendar'                   => :label_calendar,
-                     'timelog'                    => :label_spent_time
-           }.freeze
+                     'timelog'                    => :label_spent_time }.freeze
 
   DEFAULT_LAYOUT = {  'left' => ['issuesassignedtome'],
-                      'right' => ['issuesreportedbyme']
-                   }.freeze
+                      'right' => ['issuesreportedbyme'] }.freeze
 
-  DRAG_AND_DROP_CONTAINERS = ['top', 'left', 'right']
+  DRAG_AND_DROP_CONTAINERS = ['top', 'left', 'right'].freeze
 
   verify xhr: true,
-         only: [:add_block, :remove_block, :order_blocks]
+         only: %i[add_block remove_block order_blocks]
 
   def self.available_blocks
     @available_blocks ||= DEFAULT_BLOCKS.merge(Redmine::Views::MyPage::Block.additional_blocks)
@@ -88,7 +86,7 @@ class MyController < ApplicationController
 
   # Manage user's password
   def password
-    @user = User.current  # required by "my" layout
+    @user = User.current # required by "my" layout
     @username = @user.login
     redirect_if_password_change_not_allowed_for(@user)
   end
@@ -97,7 +95,7 @@ class MyController < ApplicationController
   def change_password
     return render_404 if OpenProject::Configuration.disable_password_login?
 
-    @user = User.current  # required by "my" layout
+    @user = User.current # required by "my" layout
     @username = @user.login
     return if redirect_if_password_change_not_allowed_for(@user)
     if @user.check_password?(params[:password], update_legacy: false)

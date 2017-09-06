@@ -29,17 +29,17 @@
 require 'spec_helper'
 
 describe ::API::V3::Users::UserCollectionRepresenter do
-  let(:users) {
+  let(:users) do
     FactoryGirl.build_stubbed_list(:user,
                                    3,
                                    created_on: Time.now,
                                    updated_on: Time.now)
-  }
-  let(:representer) {
+  end
+  let(:representer) do
     described_class.new(users,
                         '/api/v3/work_package/1/watchers',
                         current_user: users.first)
-  }
+  end
 
   context 'generation' do
     subject(:collection) { representer.to_json }

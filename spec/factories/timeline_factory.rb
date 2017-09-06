@@ -43,7 +43,7 @@ end
 
 FactoryGirl.define do
   factory(:timeline_with_history, parent: :timeline) do
-    sequence(:name) do |n| "Timeline No. #{n} with History" end
+    sequence(:name) { |n| "Timeline No. #{n} with History" }
 
     callback(:after_create) do |timeline|
       # remove rails' automagic:

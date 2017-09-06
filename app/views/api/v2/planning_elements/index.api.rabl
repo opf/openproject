@@ -44,11 +44,11 @@ attributes :id,
            :author_id,
            :assigned_to_id
 
-node :start_date, :if => lambda{|pe| pe.start_date.present?} { |pe| pe.start_date.to_formatted_s(:db) }
-node :due_date, :if => lambda{|pe| pe.due_date.present?} {|pe| pe.due_date.to_formatted_s(:db) }
+node :start_date, if: lambda { |pe| pe.start_date.present? } { |pe| pe.start_date.to_formatted_s(:db) }
+node :due_date, if: lambda { |pe| pe.due_date.present? } { |pe| pe.due_date.to_formatted_s(:db) }
 
-node :created_at, if: lambda{|pe| pe.created_at.present?} {|pe| pe.created_at.utc}
-node :updated_at, if: lambda{|pe| pe.updated_at.present?} {|pe| pe.updated_at.utc}
+node :created_at, if: lambda { |pe| pe.created_at.present? } { |pe| pe.created_at.utc }
+node :updated_at, if: lambda { |pe| pe.updated_at.present? } { |pe| pe.updated_at.utc }
 
 node do |element|
   Hash[element.custom_values.map { |cv| ["cf_#{cv.custom_field_id}", cv.value] }]

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -31,7 +32,7 @@ class BoardsController < ApplicationController
   default_search_scope :messages
   before_action :find_project_by_project_id,
                 :authorize
-  before_action :new_board, only: [:new, :create]
+  before_action :new_board, only: %i[new create]
   before_action :find_board_if_available, except: [:index]
   accept_key_auth :index, :show
 
@@ -81,8 +82,8 @@ class BoardsController < ApplicationController
       end
       format.atom do
         @messages = @board.messages.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-                    .includes(:author, :board)
-                    .limit(Setting.feeds_limit.to_i)
+                          .includes(:author, :board)
+                          .limit(Setting.feeds_limit.to_i)
 
         render_feed(@messages, title: "#{@project}: #{@board}")
       end
@@ -90,14 +91,13 @@ class BoardsController < ApplicationController
   end
 
   def set_topics
-    @topics =  @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
-               .includes(:author,  last_reply: :author)
-               .page(params[:page])
-               .per_page(per_page_param)
+    @topics = @board.topics.order(["#{Message.table_name}.sticked_on ASC", sort_clause].compact.join(', '))
+                    .includes(:author, last_reply: :author)
+                    .page(params[:page])
+                    .per_page(per_page_param)
   end
 
-  def new
-  end
+  def new; end
 
   def create
     if @board.save
@@ -108,8 +108,7 @@ class BoardsController < ApplicationController
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     if @board.update_attributes(permitted_params.board)
