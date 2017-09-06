@@ -49,11 +49,11 @@ class Activity::DocumentActivityProvider < Activity::BaseActivityProvider
   end
 
   def event_path(event, _activity)
-    url_helpers.project_documents_url(url_helper_parameter(event))
+    url_helpers.document_url(url_helper_parameter(event))
   end
 
   def event_url(event, _activity)
-    url_helpers.project_documents_url(url_helper_parameter(event))
+    url_helpers.document_url(url_helper_parameter(event))
   end
 
   private
