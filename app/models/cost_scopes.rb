@@ -3,17 +3,16 @@ module CostScopes
     base_module.class_eval do
       def self.extended(base_class)
         base_class.class_eval do
-          scope :visible, ->(*args) {
-            user = args.first || User.current
 
+          def self.visible(*args)
+            user = args.first || User.current
             with_visible_entries_on self, user: user, project: args[1]
-          }
+          end
 
-          scope :visible_costs, ->(*args) {
+          def self.visible_costs(*args)
             user = args.first || User.current
-
             with_visible_costs_on self, user: user, project: args[1]
-          }
+          end
         end
       end
     end
