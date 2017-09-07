@@ -86,11 +86,6 @@ class User < Principal
   }, dependent: :destroy, class_name: 'Token'
   belongs_to :auth_source
 
-  # Active non-anonymous users scope
-  scope :not_builtin, -> {
-    where("#{User.table_name}.status <> #{STATUSES[:builtin]}")
-  }
-
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }

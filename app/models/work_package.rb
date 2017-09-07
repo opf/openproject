@@ -88,12 +88,12 @@ class WorkPackage < ActiveRecord::Base
   }
 
   # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-  scope :open, ->() {
+  scope :with_status_open, ->() {
     includes(:status)
       .where(statuses: { is_closed: false })
   }
 
-  scope :closed, ->() {
+  scope :with_status_closed, ->() {
     includes(:status)
       .where(statuses: { is_closed: true })
   }

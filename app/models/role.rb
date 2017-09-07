@@ -34,10 +34,7 @@ class Role < ActiveRecord::Base
   BUILTIN_NON_MEMBER = 1
   BUILTIN_ANONYMOUS  = 2
 
-  scope :givable, -> {
-    where('builtin = 0')
-      .order('position')
-  }
+
   scope :builtin, -> (*args) {
     compare = 'not' if args.first == true
     where("#{compare} builtin = 0")
@@ -65,6 +62,10 @@ class Role < ActiveRecord::Base
   validates_presence_of :name
   validates_uniqueness_of :name
   validates_length_of :name, maximum: 30
+
+  def self.givable
+    where('builtin = 0').order('position')
+  end
 
   def permissions
     # prefer map over pluck as we will probably always load
