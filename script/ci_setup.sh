@@ -42,7 +42,8 @@ run() {
 }
 
 if [ $2 = "mysql" ]; then
-  run "mysql -e 'create database travis_ci_test;'"
+  run "mysql -u root -e \"CREATE DATABASE IF NOT EXISTS travis_ci_test DEFAULT CHARACTER SET = 'utf8' DEFAULT COLLATE 'utf8_general_ci';\""
+  run "mysql -u root -e \"GRANT ALL ON travis_ci_test.* TO 'travis'@'localhost';\""
   run "cp script/templates/database.travis.mysql.yml config/database.yml"
 
 elif [ $2 = "postgres" ]; then
