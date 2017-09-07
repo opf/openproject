@@ -32,7 +32,7 @@ module.exports = function($http, PathHelper) {
       at: at,
       startWithSpace: true,
       searchKey: 'id_principal',
-      displayTpl: '<li data-value="user#${id}">${firstName} ${lastName}</li>',
+      displayTpl: '<li data-value="user#${id}">${name}</li>',
       insertTpl: "user#${id}",
       limit: 10,
       highlightFirst: true,
@@ -45,7 +45,7 @@ module.exports = function($http, PathHelper) {
               // atjs needs the search key to be a string
               principals = data["_embedded"]["elements"]
               for (var i = principals.length - 1; i >= 0; i--) {
-                principals[i]['id_principal'] = principals[i]['id'].toString() + ' ' + principals[i]['firstName'] + ' ' + principals[i]['lastName'];
+                principals[i]['id_principal'] = principals[i]['id'].toString() + ' ' + principals[i]['name'];
               }
 
               if (angular.element(textarea).is(':visible')) {
