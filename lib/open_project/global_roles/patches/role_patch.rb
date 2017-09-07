@@ -24,10 +24,6 @@ module OpenProject::GlobalRoles::Patches
       base.send(:extend, ClassMethods)
 
       base.class_eval do
-        scope :givable, lambda {
-          where(builtin: 0, type: 'Role').order('position')
-        }
-
         class << self
           unless method_defined?(:find_all_givable_without_no_global_roles)
             alias_method :find_all_givable_without_no_global_roles, :find_all_givable
@@ -41,7 +37,7 @@ module OpenProject::GlobalRoles::Patches
 
     module ClassMethods
       def find_all_givable_with_no_global_roles
-        givable
+        where(builtin: 0, type: 'Role').order('position')
       end
     end
 
@@ -54,5 +50,3 @@ module OpenProject::GlobalRoles::Patches
     end
   end
 end
-
-Role.send(:include, OpenProject::GlobalRoles::Patches::RolePatch)
