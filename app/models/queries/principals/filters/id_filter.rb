@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,17 +28,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Principals
-  register = ::Queries::Register
-  filters = ::Queries::Principals::Filters
-  query = ::Queries::Principals::PrincipalQuery
-  orders = Queries::Principals::Orders
+class Queries::Principals::Filters::IdFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values
+    [["me", "me"]] # Not the whole truth but performes better than checking all IDs
+  end
 
-  register.filter query, filters::TypeFilter
-  register.filter query, filters::MemberFilter
-  register.filter query, filters::StatusFilter
-  register.filter query, filters::NameFilter
-  register.filter query, filters::IdFilter
+  def type
+    :list
+  end
 
-  register.order query, orders::NameOrder
+  def self.key
+    :id
+  end
+
+  def where
+    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
+  end
+
+  def values_replaced
+    vals = values.clone
+
+    if vals.delete('me')
+      if User.current.logged?
+        vals.push(User.current.id.to_s)
+      else
+        vals.push('0')
+      end
+    end
+
+    vals
+  end
 end
