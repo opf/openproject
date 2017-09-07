@@ -31,6 +31,15 @@
 module API
   module Utilities
     module ParamsHelper
+      def resolve_page_size(string)
+        resolved_value = to_i_or_nil(string)
+        # a page size of 0 is a magic number for the maximum page size value
+        if resolved_value == 0 || resolved_value.to_i > Setting.api_max_page_size.to_i
+          resolved_value = Setting.api_max_page_size.to_i
+        end
+        resolved_value
+      end
+
       def to_i_or_nil(string)
         string ? string.to_i : nil
       end
