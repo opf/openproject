@@ -314,7 +314,13 @@ class AccountController < ApplicationController
         register_and_login_via_authsource(@user, session, permitted_params)
       end
     else
-      @user.attributes = permitted_params.user.transform_values(&:strip)
+      @user.attributes = permitted_params.user.transform_values do |val|
+        if val.is_a? String
+          val.strip!
+        end
+
+        val
+      end
       @user.login = params[:user][:login].strip if params[:user][:login].present?
       @user.password = params[:user][:password]
       @user.password_confirmation = params[:user][:password_confirmation]
