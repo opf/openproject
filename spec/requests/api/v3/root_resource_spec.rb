@@ -72,6 +72,13 @@ describe 'API v3 Root resource' do
       it 'should respond with a root representer' do
         expect(subject).to have_json_path('instanceName')
       end
+
+      context 'without the X-requested-with header', skip_xhr_header: true do
+        it 'returns unauthorized regardless of the session validity' do
+          expect(response.status).to eq(401)
+          expect(response.body).to eq('unauthorized')
+        end
+      end
     end
   end
 end
