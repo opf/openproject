@@ -40,7 +40,7 @@ class Backlog
   def self.owner_backlogs(project, options = {})
     options.reverse_merge!(limit: nil)
 
-    backlogs = Sprint.apply_to(project).open.displayed_right(project).order_by_name
+    backlogs = Sprint.apply_to(project).with_status_open.displayed_right(project).order_by_name
 
     stories_by_sprints = Story.backlogs(project.id, backlogs.map(&:id))
 
@@ -48,7 +48,7 @@ class Backlog
   end
 
   def self.sprint_backlogs(project)
-    sprints = Sprint.apply_to(project).open.displayed_left(project).order_by_date
+    sprints = Sprint.apply_to(project).with_status_open.displayed_left(project).order_by_date
 
     stories_by_sprints = Story.backlogs(project.id, sprints.map(&:id))
 
