@@ -50,7 +50,7 @@ describe ::API::V3::Queries::Schemas::GroupFilterDependencyRepresenter, clear_ca
         let(:path) { 'values' }
         let(:type) { '[]User' }
         let(:href) do
-          "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}"
+          "#{api_v3_paths.principals}?filters=#{CGI.escape(JSON.dump(filter_query))}&pageSize=0"
         end
 
         context "for operator 'Queries::Operators::All'" do
