@@ -81,7 +81,7 @@ var loaders = [
         loader: 'ts-loader',
         options: {
           logLevel: 'info',
-          configFileName: path.resolve(__dirname, 'tsconfig.json')
+          configFile: path.resolve(__dirname, 'tsconfig.json')
         }
       }
     ]
@@ -89,8 +89,8 @@ var loaders = [
   {
     test: /\.css$/,
     use: ExtractTextPlugin.extract({
-      fallbackLoader: 'style-loader',
-      loader: [
+      fallback: 'style-loader',
+      use: [
         'css-loader',
         'postcss-loader'
       ],
