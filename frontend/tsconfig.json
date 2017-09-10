@@ -13,7 +13,11 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
     "strictNullChecks": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "baseUrl": ".",
+    "paths": {
+      "core-components/*": ["./app/components/*"]
+    }
   },
   "compileOnSave": false,
   "exclude": [

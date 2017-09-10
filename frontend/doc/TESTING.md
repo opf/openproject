@@ -10,8 +10,6 @@ All of these are currently run on TravisCI for each push and each Pull Request.
 
 ## Karma Unit tests
 
-__Note__: the default browser for testing is [PhantomJS](http://phantomjs.org). The configuration for all of this can be found at `/frontend/karma.conf.js`.
-
 All test files for `karma` live in `./frontend/tests/unit/tests`. There are some `factories` and `mocks` present, which at some point in time were usable via [`rosie.js`](https://github.com/bkeepers/rosie).
 
 Karma unit tests can be executed via
@@ -23,7 +21,7 @@ Karma unit tests can be executed via
 Optionally, if more than the default browser should be used, a `--browsers` flag can be passed:
 
 ```
-./frontend/node_modules/.bin/karma start --browsers PhantomJS,Firefox
+./frontend/node_modules/.bin/karma start --browsers Firefox
 ```
 
 By default, this command will wait and watch the test files and run the tests again if something changes. If only one run is required, use a `--single-run` flag.
@@ -31,7 +29,7 @@ By default, this command will wait and watch the test files and run the tests ag
 You may also want to use `npm` from the project root:
 
 ```bash
-# shorthand for ./frontend/node_modules/.bin/karma start --browsers PhantomJS,Firefox --single-run
+# shorthand for ./frontend/node_modules/.bin/karma start --browsers Firefox --single-run
 $ npm karma
 ```
 
