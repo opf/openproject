@@ -82,6 +82,7 @@
     "fork-ts-checker-webpack-plugin": "^0.2.8",
     "foundation-apps": "1.1.0",
     "glob": "^4.5.3",
+    "happypack": "^4.0.0",
     "html-loader": "^0.2.3",
     "jquery": "^3.1.1",
     "jquery-ui": "^1.12.1",
