@@ -151,7 +151,7 @@ module PaginationHelper
   class LinkRenderer < ::WillPaginate::ActionView::LinkRenderer
     def to_html
       pagination.inject('') { |html, item|
-        html + (item.is_a?(Fixnum) ? page_number(item) : send(item))
+        html + (item.is_a?(Integer) ? page_number(item) : send(item))
       }.html_safe
     end
 
