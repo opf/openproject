@@ -3,6 +3,7 @@ import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageRelationsHierarchyService} from '../wp-relations-hierarchy/wp-relations-hierarchy.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
+import {scopeDestroyed$, scopedObservable} from '../../../helpers/angular-rx-utils';
 
 class WpRelationsHierarchyRowDirectiveController {
   public workPackage:WorkPackageResourceInterface;
@@ -21,6 +22,11 @@ class WpRelationsHierarchyRowDirectiveController {
               protected I18n: op.I18n) {
 
     this.canModifyHierarchy = !!this.workPackage.changeParent;
+
+    if (this.relatedWorkPackage) {
+      scopedObservable($scope, this.wpCacheService.state(this.relatedWorkPackage.id).values$())
+        .subscribe((wp) => this.relatedWorkPackage = wp);
+    }
   };
 
   public text = {
