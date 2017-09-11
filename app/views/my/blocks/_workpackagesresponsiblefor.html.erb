@@ -27,14 +27,14 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% responsible = WorkPackage.visible.open
+<% responsible = WorkPackage.visible.with_status_open
                    .where(responsible_id: User.current.id)
                    .limit(10)
                    .includes(:status, :project, :type, :priority)
                    .order("#{IssuePriority.table_name}.position DESC, #{WorkPackage.table_name}.updated_at DESC")
 %>
 
-<% responsible_count = WorkPackage.visible.open.where(responsible_id: User.current.id).count %>
+<% responsible_count = WorkPackage.visible.with_status_open.where(responsible_id: User.current.id).count %>
 
 <% if defined? block_name %>
   <%= content_for "#{block_name}-remove-block" %>
