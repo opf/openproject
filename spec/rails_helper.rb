@@ -80,9 +80,6 @@ RSpec.configure do |config|
   # Add helpers to parse json-responses
   config.include JsonSpec::Helpers
 
-  # include spec/api for API request specs
-  config.include RSpec::Rails::RequestExampleGroup, type: :request
-
   # TODO test if we can remove this
   config.include ::Angular::DSL
   OpenProject::Configuration['attachments_storage_path'] = 'tmp/files'
