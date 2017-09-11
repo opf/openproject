@@ -25,10 +25,10 @@ See doc/COPYRIGHT.md for more details.
 
 <h3 class="widget-box--header">
   <%= op_icon('icon-context icon-assigned-to-me') %>
-  <span class="widget-box--header-title"><%=l(:label_work_packages_responsible_for)%> (<%= WorkPackage.visible.open.where(responsible_id: User.current.id, project_id: @project.id).count %>)</span>
+  <span class="widget-box--header-title"><%=l(:label_work_packages_responsible_for)%> (<%= WorkPackage.visible.with_status_open.where(responsible_id: User.current.id, project_id: @project.id).count %>)</span>
 </h3>
 
-<% responsible_work_packages = WorkPackage.visible.open
+<% responsible_work_packages = WorkPackage.visible.with_status_open
                                .where(responsible_id: User.current.id, project_id: @project.id)
                                .limit(10)
                                .includes([:status, :project, :type, :priority])
