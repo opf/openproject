@@ -30,7 +30,7 @@ module.exports = function($http, PathHelper) {
 
   var StatusService = {
     getStatuses: function() {
-      return StatusService.doQuery(PathHelper.apiStatusesPath());
+      return StatusService.doQuery(PathHelper.apiV3StatusesPath());
     },
 
     doQuery: function(url, params) {

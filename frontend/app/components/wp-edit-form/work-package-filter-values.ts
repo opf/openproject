@@ -43,7 +43,7 @@ export class WorkPackageFilterValues {
     });
   }
 
-  private setAllowedValueFor(form:FormResourceInterface, field:string, value:string | HalResource) {
+  private setAllowedValueFor(form:FormResourceInterface, field:string, value:string|HalResource) {
     return this.allowedValuesFor(form, field).then((allowedValues) => {
       let newValue;
 

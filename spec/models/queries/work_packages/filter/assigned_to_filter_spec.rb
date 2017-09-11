@@ -61,12 +61,20 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       before do
         allow(User)
           .to receive(:current)
-          .and_return(assignee)
+                .and_return(assignee)
       end
 
       it 'returns the work package' do
         is_expected
           .to match_array [work_package]
+      end
+
+      it 'returns the corrected value object' do
+        objects = instance.value_objects_hash
+
+        expect(objects.size).to eq(1)
+        expect(objects.first[:id]).to eq 'me'
+        expect(objects.first[:name]).to eq 'me'
       end
     end
 

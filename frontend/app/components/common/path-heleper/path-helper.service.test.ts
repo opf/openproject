@@ -26,11 +26,13 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {PathHelperService} from './path-helper.service';
+
 describe('PathHelper', function() {
-  var PathHelper;
+  var PathHelper:PathHelperService;
 
   beforeEach(angular.mock.module('openproject.helpers'));
-  beforeEach(inject(function(_PathHelper_) {
+  beforeEach(inject(function(_PathHelper_:PathHelperService) {
     PathHelper = _PathHelper_;
   }));
 

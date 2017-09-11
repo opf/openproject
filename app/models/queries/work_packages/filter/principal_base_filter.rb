@@ -34,14 +34,39 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     User.current.logged? || allowed_values.any?
   end
 
-  def value_objects
-    prepared_values = values.map { |value| value == 'me' ? User.current.id : value }
+  def value_objects_hash
+    objects = super
 
+    # Replace me value identifier
+    if has_me_value?
+      search = User.current.id
+      objects.map! do |value_object|
+        if value_object[:id] == search
+          value_object[:id] = 'me'
+          value_object[:name] = I18n.t(:label_me)
+          break
+        end
+      end
+    end
+
+    objects
+  end
+
+  def value_objects
+    prepared_values = values.map { |value| value == me_value ? User.current.id : value }
     Principal.where(id: prepared_values)
   end
 
   def ar_object_filter?
     true
+  end
+
+  def principal_resource?
+    true
+  end
+
+  def has_me_value?
+    values.include? me_value
   end
 
   def where
@@ -50,10 +75,16 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
 
   private
 
-  def me_value
+  def me_allowed_value
     values = []
-    values << [I18n.t(:label_me), 'me'] if User.current.logged?
+    if User.current.logged?
+      values << [I18n.t(:label_me), me_value]
+    end
     values
+  end
+
+  def me_value
+    'me'.freeze
   end
 
   def principal_loader
@@ -63,7 +94,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
   def values_replaced
     vals = values.clone
 
-    if vals.delete('me')
+    if vals.delete(me_value)
       if User.current.logged?
         vals.push(User.current.id.to_s)
       else

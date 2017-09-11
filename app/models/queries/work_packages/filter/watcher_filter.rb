@@ -38,7 +38,7 @@ class Queries::WorkPackages::Filter::WatcherFilter <
       # TODO: this could be differentiated
       # more, e.g. all users could watch issues in public projects,
       # but won't necessarily be shown here
-      values = me_value
+      values = me_allowed_value
       if User.current.allowed_to?(:view_work_package_watchers, project, global: project.nil?)
         values += principal_loader.user_values
       end

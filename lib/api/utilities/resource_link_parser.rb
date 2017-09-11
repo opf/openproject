@@ -29,7 +29,7 @@
 
 module API
   module Utilities
-    module ResourceLinkParser
+    class ResourceLinkParser
       # N.B. valid characters for URL path segments as of
       # http://tools.ietf.org/html/rfc3986#section-3.3
       SEGMENT_CHARACTER = '(\w|[-~!$&\'\(\)*+\.,:;=@]|%[0-9A-Fa-f]{2})'.freeze

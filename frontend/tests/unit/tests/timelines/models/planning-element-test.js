@@ -344,7 +344,7 @@ describe('Planning Element', function(){
 
   describe('url', function () {
     beforeEach(function() {
-      PathHelper.staticBase = '/vtu';
+      sinon.stub(PathHelper, 'staticBase', { get: function () { return '/vtu' }});
     });
 
     afterEach(function() {

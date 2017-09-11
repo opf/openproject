@@ -33,8 +33,8 @@ import {QueryOperatorResource} from './query-operator-resource.service';
 import {QueryFilterInstanceSchemaResource} from './query-filter-instance-schema-resource.service';
 
 interface QueryFilterInstanceResourceEmbedded {
-  filter: QueryFilterResource;
-  schema: QueryFilterInstanceSchemaResource;
+  filter:QueryFilterResource;
+  schema:QueryFilterInstanceSchemaResource;
 }
 
 interface QueryFilterInstanceResourceLinks extends QueryFilterInstanceResourceEmbedded {
@@ -42,14 +42,14 @@ interface QueryFilterInstanceResourceLinks extends QueryFilterInstanceResourceEm
 
 export class QueryFilterInstanceResource extends HalResource {
 
-  public $embedded: QueryFilterInstanceResourceEmbedded;
-  public $links: QueryFilterInstanceResourceLinks;
+  public $embedded:QueryFilterInstanceResourceEmbedded;
+  public $links:QueryFilterInstanceResourceLinks;
 
-  public filter: QueryFilterResource;
-  public operator: QueryOperatorResource;
-  public values: HalResource[]|string[];
-  public schema: QueryFilterInstanceSchemaResource;
-  private memoizedCurrentSchemas: {[key: string]: QueryFilterInstanceSchemaResource} = {};
+  public filter:QueryFilterResource;
+  public operator:QueryOperatorResource;
+  public values:HalResource[]|string[];
+  public schema:QueryFilterInstanceSchemaResource;
+  private memoizedCurrentSchemas:{ [key:string]:QueryFilterInstanceSchemaResource } = {};
 
   public get id():string {
     return this.filter.id;
@@ -80,13 +80,13 @@ export class QueryFilterInstanceResource extends HalResource {
     let operator = (schema.operator.allowedValues as HalResource[])[0];
     let filter = (schema.filter.allowedValues as HalResource[])[0];
     let source:any = {
-                        name: filter.name,
-                       _links: {
-                         filter: filter.$plain()._links.self,
-                         schema: schema.$plain()._links.self,
-                         operator: operator.$plain()._links.self
-                       }
-                     }
+      name: filter.name,
+      _links: {
+        filter: filter.$plain()._links.self,
+        schema: schema.$plain()._links.self,
+        operator: operator.$plain()._links.self
+      }
+    }
 
     if (this.definesAllowedValues(schema)) {
       source._links['values'] = [];
@@ -98,7 +98,6 @@ export class QueryFilterInstanceResource extends HalResource {
 
     newFilter.schema = schema;
 
-
     return newFilter;
   }
 
@@ -108,7 +107,7 @@ export class QueryFilterInstanceResource extends HalResource {
 
   private static definesAllowedValues(schema:QueryFilterInstanceSchemaResource) {
     return _.some(schema._dependencies[0].dependencies,
-                  (dependency:any) => dependency.values && dependency.values._links && dependency.values._links.allowedValues );
+      (dependency:any) => dependency.values && dependency.values._links && dependency.values._links.allowedValues);
   }
 }
 

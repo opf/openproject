@@ -61,6 +61,15 @@ describe User, type: :model do
     end
   end
 
+  describe 'a user with an invalid login' do
+    let(:login) { 'me' }
+
+    it 'is invalid' do
+      user.login = login
+      expect(user).not_to be_valid
+    end
+  end
+
   describe 'a user with and overly long login (> 256 chars)' do
     it 'is invalid' do
       user.login = 'a' * 257
