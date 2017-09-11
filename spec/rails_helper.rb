@@ -74,9 +74,6 @@ RSpec.configure do |config|
   # Filter lines from Rails gems in backtraces.
   config.filter_rails_from_backtrace!
 
-  # include spec/api for API request specs
-  config.include RSpec::Rails::RequestExampleGroup, type: :request
-
   # Add helpers to parse json-responses
   config.include JsonSpec::Helpers
 

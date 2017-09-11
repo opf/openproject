@@ -48,7 +48,7 @@ module ResetCurrentUserCallback
   end
 end
 
-describe ResetCurrentUser, type: :request do
+describe ResetCurrentUser, type: :rails_request do
   let!(:user) { FactoryGirl.create :user }
 
   before do

@@ -72,13 +72,12 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     before do
       expect(Relation.count).to eq 0
 
-      post "/api/v3/work_packages/#{from.id}/relations",
-           params: params.to_json,
-           headers: { "Content-Type": "application/json" }
+      header "Content-Type",  "application/json"
+      post "/api/v3/work_packages/#{from.id}/relations", params.to_json
     end
 
     it 'should return 201 (created)' do
-      expect(response.status).to eq(201)
+      expect(last_response.status).to eq(201)
     end
 
     it 'should have created a new relation' do
@@ -86,7 +85,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     it 'should have created the relation correctly' do
-      rel = described_class.new(Relation.new, current_user: user).from_json response.body
+      rel = described_class.new(Relation.new, current_user: user).from_json last_response.body
 
       expect(rel.from).to eq from
       expect(rel.to).to eq to
@@ -110,13 +109,12 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     before do
       relation
 
-      patch "/api/v3/relations/#{relation.id}",
-            params: update.to_json,
-            headers: { "Content-Type": "application/json" }
+      header "Content-Type",  "application/json"
+      patch "/api/v3/relations/#{relation.id}", update.to_json
     end
 
     it "should return 200 (ok)" do
-      expect(response.status).to eq 200
+      expect(last_response.status).to eq 200
     end
 
     it "updates the relation's description" do
@@ -128,7 +126,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     it "should return the updated relation" do
-      rel = described_class.new(Relation.new, current_user: user).from_json response.body
+      rel = described_class.new(Relation.new, current_user: user).from_json last_response.body
 
       expect(rel).to eq relation.reload
     end
@@ -141,11 +139,11 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       end
 
       it "should return 422" do
-        expect(response.status).to eq 422
+        expect(last_response.status).to eq 422
       end
 
       it "should indicate an error with the type attribute" do
-        attr = JSON.parse(response.body).dig "_embedded", "details", "attribute"
+        attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
         expect(attr).to eq "type"
       end
@@ -165,17 +163,17 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       end
 
       it "should return 422" do
-        expect(response.status).to eq 422
+        expect(last_response.status).to eq 422
       end
 
       it "should indicate an error with the `from` attribute" do
-        attr = JSON.parse(response.body).dig "_embedded", "details", "attribute"
+        attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
         expect(attr).to eq "from"
       end
 
       it "should let the user know the attribute is read-only" do
-        msg = JSON.parse(response.body)["message"]
+        msg = JSON.parse(last_response.body)["message"]
 
         expect(msg).to include 'read-only'
       end
@@ -199,14 +197,13 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     before do
       project.add_member! user, role
 
-      post "/api/v3/work_packages/#{from.id}/relations",
-           params: params.to_json,
-           headers: { "Content-Type": "application/json" }
+      header "Content-Type",  "application/json"
+      post "/api/v3/work_packages/#{from.id}/relations", params.to_json
     end
 
     context "with the required permissions" do
       it "works" do
-        expect(response.status).to eq 201
+        expect(last_response.status).to eq 201
       end
     end
 
@@ -214,7 +211,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       let(:permissions) { [:view_work_packages] }
 
       it "is forbidden" do
-        expect(response.status).to eq 403
+        expect(last_response.status).to eq 403
       end
     end
 
@@ -226,17 +223,17 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
       let!(:to) { FactoryGirl.create :work_package }
 
       it "should return 422" do
-        expect(response.status).to eq 422
+        expect(last_response.status).to eq 422
       end
 
       it "should indicate an error with the `to` attribute" do
-        attr = JSON.parse(response.body).dig "_embedded", "details", "attribute"
+        attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
         expect(attr).to eq "to"
       end
 
       it "should have a localized error message" do
-        message = JSON.parse(response.body)["message"]
+        message = JSON.parse(last_response.body)["message"]
 
         expect(message).not_to include "translation missing"
       end
@@ -251,7 +248,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     it "should return 204 and destroy the relation" do
-      expect(response.status).to eq 204
+      expect(last_response.status).to eq 204
       expect(Relation.exists?(relation.id)).to eq false
     end
   end
@@ -305,19 +302,19 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
     end
 
     it 'returns 200' do
-      expect(response.status).to eql 200
+      expect(last_response.status).to eql 200
     end
 
     it 'returns the visible relation (and only the visible one) satisfying the filter' do
-      expect(response.body)
+      expect(last_response.body)
         .to be_json_eql('1')
         .at_path('total')
 
-      expect(response.body)
+      expect(last_response.body)
         .to be_json_eql('1')
         .at_path('count')
 
-      expect(response.body)
+      expect(last_response.body)
         .to be_json_eql(relation.id.to_json)
         .at_path('_embedded/elements/0/id')
     end

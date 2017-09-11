@@ -55,13 +55,13 @@ describe 'API v2', type: :request do
       context 'invalid' do
         before { get "#{request_url}?key=invalid_key" }
 
-        it { expect(response.status).to eq(401) }
+        it { expect(last_response.status).to eq(401) }
       end
 
       context 'valid' do
         before { get "#{request_url}?key=#{api_key}" }
 
-        it { expect(response.status).to eq(200) }
+        it { expect(last_response.status).to eq(200) }
       end
     end
 
@@ -73,25 +73,26 @@ describe 'API v2', type: :request do
 
       before do
         allow(OpenProject::Configuration).to receive(:apiv2_enable_basic_auth?).and_return(enabled)
-        get request_url, headers: { 'Authorization' => credentials }
+        header 'Authorization', credentials
+        get request_url
       end
 
       context 'when enabled' do
         let(:enabled) { true }
 
         context 'valid' do
-          it { expect(response.status).to eq(200) }
+          it { expect(last_response.status).to eq(200) }
         end
 
         context 'invalid' do
           let(:used_password) { 'foobar' }
-          it { expect(response.status).to eq(401) }
+          it { expect(last_response.status).to eq(401) }
         end
       end
 
       context 'when disabled' do
         let(:enabled) { false }
-        it { expect(response.status).to eq(401) }
+        it { expect(last_response.status).to eq(401) }
       end
     end
 

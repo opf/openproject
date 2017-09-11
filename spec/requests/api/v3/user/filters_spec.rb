@@ -54,9 +54,9 @@ describe 'GET /api/v3/users', type: :request do
       filters: [filter].to_json
     }
 
-    get "/api/v3/users", params: params
+    get "/api/v3/users", params
 
-    json = JSON.parse response.body
+    json = JSON.parse last_response.body
 
     Array(Hash(json).dig("_embedded", "elements")).map { |e| e["login"] }
   end

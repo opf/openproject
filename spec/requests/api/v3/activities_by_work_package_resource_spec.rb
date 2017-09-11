@@ -52,14 +52,14 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
       end
 
       it 'succeeds' do
-        expect(response.status).to eql 200
+        expect(last_response.status).to eql 200
       end
 
       context 'not allowed to see work package' do
         let(:current_user) { FactoryGirl.create(:user) }
 
         it 'fails with HTTP Not Found' do
-          expect(response.status).to eql 404
+          expect(last_response.status).to eql 404
         end
       end
     end
@@ -69,9 +69,9 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
 
       shared_context 'create activity' do
         before do
+          header "Content-Type",  "application/json"
           post api_v3_paths.work_package_activities(work_package.id),
-               params: { comment: { raw: comment } }.to_json,
-               headers: { 'CONTENT_TYPE' => 'application/json' }
+               { comment: { raw: comment } }.to_json
         end
       end
 
@@ -96,11 +96,11 @@ describe API::V3::Activities::ActivitiesByWorkPackageAPI, type: :request do
         include_context 'create activity'
 
         it 'responds with error' do
-          expect(response.status).to eql 422
+          expect(last_response.status).to eql 422
         end
 
         it 'notes the error' do
-          expect(response.body)
+          expect(last_response.body)
             .to be_json_eql("Subject can't be blank.".to_json)
             .at_path('message')
         end

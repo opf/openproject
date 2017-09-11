@@ -29,9 +29,9 @@
 require 'spec_helper'
 
 shared_examples_for 'API V3 collection response' do |total, count, type|
-  subject { response.body }
+  subject { last_response.body }
 
-  it { expect(response.status).to eql(200) }
+  it { expect(last_response.status).to eql(200) }
 
   it { is_expected.to be_json_eql('Collection'.to_json).at_path('_type') }
 

@@ -91,9 +91,9 @@ describe 'API v3 Work package form resource', type: :request do
 
       context 'existing work package' do
         shared_examples_for 'valid payload' do
-          subject { response.body }
+          subject { last_response.body }
 
-          it { expect(response.status).to eq(200) }
+          it { expect(last_response.status).to eq(200) }
 
           it { is_expected.to have_json_path('_embedded/payload') }
 
@@ -207,7 +207,7 @@ describe 'API v3 Work package form resource', type: :request do
 
                 include_context 'post request'
 
-                it { expect(response.status).to eq(409) }
+                it { expect(last_response.status).to eq(409) }
 
                 it_behaves_like 'update conflict'
               end
