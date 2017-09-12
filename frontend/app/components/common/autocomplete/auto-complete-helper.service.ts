@@ -26,8 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper) {
-  var getAtWhoParametersMentionable = function(at, textarea, projectId) {
+import {PathHelperService} from '../path-helper/path-helper.service';
+
+export class AutoCompleteHelperService {
+  public constructor(public $http:ng.IHttpService, public PathHelper:PathHelperService){}
+
+  public getAtWhoParametersMentionable(at:string, textarea:HTMLElement, projectId:string) {
     return {
       at: at,
       startWithSpace: true,
@@ -39,12 +43,12 @@ module.exports = function($http, PathHelper) {
       suffix: '',
       textarea: textarea,
       callbacks: {
-        remoteFilter: function(query, callback) {
-          $http.get(PathHelper.apiv3MentionablePrincipalsPath(projectId, query)).
-            success(function(data) {
+        remoteFilter: (query:string, callback:Function) => {
+          this!.$http.get(this!.PathHelper.apiv3MentionablePrincipalsPath(projectId, query)).
+            success((data:any) => {
               // atjs needs the search key to be a string
-              principals = data["_embedded"]["elements"]
-              for (var i = principals.length - 1; i >= 0; i--) {
+              const principals = data["_embedded"]["elements"];
+              for (let i = principals.length - 1; i >= 0; i--) {
                 principals[i]['id_principal'] = principals[i]['id'].toString() + ' ' + principals[i]['name'];
               }
 
@@ -58,14 +62,14 @@ module.exports = function($http, PathHelper) {
               }
             });
         },
-        sorter: function(query, items, search_key) {
+        sorter: function(query:any, items:any, search_key:any) {
           return items; // we do not sort
         }
       }
     };
   };
 
-  var getAtWhoParametersWPID = function(textarea) {
+  public getAtWhoParametersWPID(textarea:HTMLElement) {
     var url = PathHelper.workPackageJsonAutoCompletePath();
     return {
       at: '#',
@@ -122,3 +126,7 @@ module.exports = function($http, PathHelper) {
     }
   };
 };
+
+angular
+  .module('openproject.helpers')
+  .service('AutoCompleteHelper', AutoCompleteHelperService);
