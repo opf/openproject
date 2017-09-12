@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {ApiV3FilterBuilder} from '../../api/api-v3/api-v3-filter-builder';
+
 export class PathHelperService {
   public readonly appBasePath:string;
 
@@ -187,12 +189,19 @@ export class PathHelperService {
   }
 
   public apiv3MentionablePrincipalsPath(projectId:string|number, term:string|null) {
-    var path = this.apiV3;
-    path = path + '/principals?filters=[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["' + projectId + '"]}},{"type":{"operator":"=","values":["User"]}}';
+    let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+    // Only real and activated users:
+    filters.add('status', '!', ['0', '3']);
+    // that are members of that project:
+    filters.add('member', '=', [projectId.toString()]);
+    // That are users:
+    filters.add('type',   '=', ['User']);
+
     if (term && term.length > 0) {
-      path = path + ',{"name":{"operator":"~","values":["' + term + '"]}}';
+      // Containing the that substring:
+      filters.add('name', '~', [term]);
     }
-    return path + ']&sortBy=[["name","asc"]]&offset=1&pageSize=10';
+    return this.apiV3 + '/principals' + '?' + filters.toParams() + '&sortBy=[["name","asc"]]&offset=1&pageSize=10';
   }
 
   public apiV3UserMePath() {
