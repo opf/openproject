@@ -28,15 +28,39 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Members
-  query = Queries::Members::MemberQuery
-  filter_ns = Queries::Members::Filters
+module Queries::Filters::Shared::AnyUserNameAttributeFilter
+  def self.included(base)
+    base.include(InstanceMethods)
+    base.extend(ClassMethods)
+  end
 
-  Queries::Register.filter query, filter_ns::NameFilter
-  Queries::Register.filter query, filter_ns::AnyNameAttributeFilter
-  Queries::Register.filter query, filter_ns::ProjectFilter
-  Queries::Register.filter query, filter_ns::StatusFilter
-  Queries::Register.filter query, filter_ns::BlockedFilter
-  Queries::Register.filter query, filter_ns::GroupFilter
-  Queries::Register.filter query, filter_ns::RoleFilter
+  module InstanceMethods
+    def key
+      :any_name_attribute
+    end
+
+    private
+
+    def sql_concat_name
+        <<-SQL
+    LOWER(
+      CONCAT(
+        users.firstname, ' ', users.lastname,
+        ' ',
+        users.lastname, ' ', users.firstname,
+        ' ',
+        users.login,
+        ' ',
+        users.mail
+      )
+    )
+        SQL
+    end
+  end
+
+  module ClassMethods
+    def key
+      :any_name_attribute
+    end
+  end
 end

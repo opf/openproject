@@ -46,6 +46,15 @@ module Pages
       click_on 'Add member'
     end
 
+    def open_filters!
+      find('#filter-member-button').click
+    end
+
+    def search_for_name(name)
+      fill_in 'name', with: name
+      find('.simple-filters--controls input[type=submit]').click
+    end
+
     ##
     # Adds the given user to this project.
     #
@@ -98,6 +107,10 @@ module Pages
 
     def find_user(name)
       find('tr', text: user_name_to_text(name))
+    end
+
+    def find_mail(mail)
+      find('td.email', text: mail)
     end
 
     def find_group(name)
