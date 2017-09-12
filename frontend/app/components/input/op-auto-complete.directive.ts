@@ -28,8 +28,9 @@
 
 import {openprojectModule} from "../../angular-modules";
 import {CurrentProjectService} from '../projects/current-project.service';
+import {AutoCompleteHelperService} from 'core-components/common/autocomplete/auto-complete-helper.service';
 
-function opAutoComplete(AutoCompleteHelper: AutoCompleteHelper, currentProject: CurrentProjectService) {
+function opAutoComplete(AutoCompleteHelper:AutoCompleteHelperService, currentProject: CurrentProjectService) {
   return {
     restrict: 'AC',
     scope: false,

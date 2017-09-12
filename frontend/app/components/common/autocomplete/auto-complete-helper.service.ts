@@ -29,7 +29,7 @@
 import {PathHelperService} from '../path-helper/path-helper.service';
 
 export class AutoCompleteHelperService {
-  public constructor(public $http:ng.IHttpService, public PathHelper:PathHelperService){}
+  public constructor(public $http:ng.IHttpService, public PathHelper:PathHelperService) {}
 
   public getAtWhoParametersMentionable(at:string, textarea:HTMLElement, projectId:string) {
     return {
@@ -44,21 +44,26 @@ export class AutoCompleteHelperService {
       textarea: textarea,
       callbacks: {
         remoteFilter: (query:string, callback:Function) => {
-          this!.$http.get(this!.PathHelper.apiv3MentionablePrincipalsPath(projectId, query)).
-            success((data:any) => {
-              // atjs needs the search key to be a string
-              const principals = data["_embedded"]["elements"];
-              for (let i = principals.length - 1; i >= 0; i--) {
-                principals[i]['id_principal'] = principals[i]['id'].toString() + ' ' + principals[i]['name'];
-              }
+          const url:string = this.PathHelper.apiv3MentionablePrincipalsPath(projectId, query);
+          this.$http.get(url)
+            .then((response:any) => {
+              if (response && response.data) {
+                const data = response.data;
 
-              if (angular.element(textarea).is(':visible')) {
-                callback(principals);
-              }
-              else {
-                // discard the results if the textarea is no longer visible,
-                // i.e. nobody cares for the results
-                callback([]);
+                // atjs needs the search key to be a string
+                const principals = data["_embedded"]["elements"];
+                for (let i = principals.length - 1; i >= 0; i--) {
+                  principals[i]['id_principal'] = principals[i]['id'].toString() + ' ' + principals[i]['name'];
+                }
+
+                if (angular.element(textarea).is(':visible')) {
+                  callback(principals);
+                }
+                else {
+                  // discard the results if the textarea is no longer visible,
+                  // i.e. nobody cares for the results
+                  callback([]);
+                }
               }
             });
         },
@@ -70,7 +75,7 @@ export class AutoCompleteHelperService {
   };
 
   public getAtWhoParametersWPID(textarea:HTMLElement) {
-    var url = PathHelper.workPackageJsonAutoCompletePath();
+    var url = this.PathHelper.workPackageJsonAutoCompletePath();
     return {
       at: '#',
       startWithSpace: true,
@@ -81,51 +86,52 @@ export class AutoCompleteHelperService {
       highlightFirst: true,
       textarea: textarea,
       callbacks: {
-        remoteFilter: function(query, callback) {
+        remoteFilter: (query:string, callback:Function) => {
           if (query.length > 0) {
-            $http.get(url, { params: { q: query, scope: 'all' } }).
-              success(function(data) {
-                // atjs needs the search key to be a string
-                for (var i = data.length - 1; i >= 0; i--) {
-                  data[i]['id_subject'] = data[i]['id'].toString() + ' ' + data[i]['subject'];
-                }
+            this.$http.get(url, { params: { q: query, scope: 'all' } })
+              .then(function(response:any) {
+                if (response && response.data) {
+                  const data = response.data;
+                  // atjs needs the search key to be a string
+                  for (var i = data.length - 1; i >= 0; i--) {
+                    data[i]['id_subject'] = data[i]['id'].toString() + ' ' + data[i]['subject'];
+                  }
 
-                if (angular.element(textarea).is(':visible')) {
-                  callback(data);
-                }
-                else {
-                  // discard the results if the textarea is no longer visible,
-                  // i.e. nobody cares for the results
-                  callback([]);
+                  if (angular.element(textarea).is(':visible')) {
+                    callback(data);
+                  }
+                  else {
+                    // discard the results if the textarea is no longer visible,
+                    // i.e. nobody cares for the results
+                    callback([]);
+                  }
                 }
               });
           }
         },
-        sorter: function(query, items, search_key) {
+        sorter: function(query:any, items:any, search_key:any) {
           return items; // we do not sort
         }
       }
     };
-  };
+  }
 
-  return {
-    enableTextareaAutoCompletion: function(textareas, projectId) {
-      angular.forEach(textareas, function(textarea) {
+  public enableTextareaAutoCompletion(textareas:ng.IAugmentedJQuery, projectId:string|null) {
+    angular.forEach(textareas, (textarea) => {
 
-        // only activate autocompleter for mentioniong users if the user is
-        // in the context of a project and work package.
-        if(angular.element('body.controller-work_packages').length > 0 &&
-           projectId &&
-           projectId.length > 0) {
-          angular.element(textarea).atwho(getAtWhoParametersMentionable('@', textarea, projectId));
-          angular.element(textarea).atwho(getAtWhoParametersMentionable('user#', textarea, projectId));
-        }
+      // only activate autocompleter for mentioniong users if the user is
+      // in the context of a project and work package.
+      if (angular.element('body.controller-work_packages').length > 0 &&
+         projectId &&
+         projectId.length > 0) {
+        angular.element(textarea).atwho(this.getAtWhoParametersMentionable('@', textarea, projectId));
+        angular.element(textarea).atwho(this.getAtWhoParametersMentionable('user#', textarea, projectId));
+      }
 
-        angular.element(textarea).atwho(getAtWhoParametersWPID(textarea));
-      });
-    }
-  };
-};
+      angular.element(textarea).atwho(this.getAtWhoParametersWPID(textarea));
+    });
+  }
+}
 
 angular
   .module('openproject.helpers')
