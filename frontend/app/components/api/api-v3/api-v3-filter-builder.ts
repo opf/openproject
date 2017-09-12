@@ -58,7 +58,7 @@ export class ApiV3FilterBuilder {
       return this.serializeFilter(filter);
     });
 
-    return encodeURI(`filters=[${transformedFilters.join(',')}]`);
+    return `filters=${encodeURI(`[${transformedFilters.join(',')}]`)}`;
   }
 
   private serializeFilter(filter:ApiV3Filter){

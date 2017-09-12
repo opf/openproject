@@ -201,7 +201,7 @@ export class PathHelperService {
       // Containing the that substring:
       filters.add('name', '~', [term]);
     }
-    return this.apiV3 + '/principals' + '?' + filters.toParams() + '&sortBy=[["name","asc"]]&offset=1&pageSize=10';
+    return this.apiV3 + '/principals' + '?' + filters.toParams() + encodeURI('&sortBy=[["name","asc"]]&offset=1&pageSize=10');
   }
 
   public apiV3UserMePath() {
