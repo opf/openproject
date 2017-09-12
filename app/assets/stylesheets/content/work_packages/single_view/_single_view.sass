@@ -26,10 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// Subject field
 @mixin details-pane--form-field
   @include grid-visible-overflow
   padding: 0
+
+// Subject field
+.wp-inline-edit--active-field.subject
+  .wp-inline-edit--field
+    height: 40px
+    font-size: 16px
+    line-height: 1
 
 .work-packages--info-row
   font-size: 0.8rem
