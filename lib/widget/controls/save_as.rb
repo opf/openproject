@@ -36,7 +36,7 @@ class Widget::Controls::SaveAs < Widget::Controls
 
   def render_popup_form
     name = content_tag :p,
-                       class: 'form--field' do
+                       class: 'form--field -wide-label' do
       label_tag(:query_name,
                 class: 'form--label -transparent -required') do
         (Query.human_attribute_name(:name) +
@@ -56,7 +56,7 @@ class Widget::Controls::SaveAs < Widget::Controls
       end
     end
     if @options[:can_save_as_public]
-      box = content_tag :p, class: 'form--field' do
+      box = content_tag :p, class: 'form--field -wide-label' do
         label_tag(:query_is_public,
                   Query.human_attribute_name(:is_public),
                   class: 'form--label -transparent') +
