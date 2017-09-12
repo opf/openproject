@@ -193,9 +193,11 @@ export class PathHelperService {
     // Only real and activated users:
     filters.add('status', '!', ['0', '3']);
     // that are members of that project:
-    filters.add('member', '=', [projectId.toString()]);
+    filters.add('member','=', [projectId.toString()]);
     // That are users:
-    filters.add('type',   '=', ['User']);
+    filters.add('type', '=', ['User']);
+    // That are not the current user:
+    filters.add('id', '!', ['me']);
 
     if (term && term.length > 0) {
       // Containing the that substring:

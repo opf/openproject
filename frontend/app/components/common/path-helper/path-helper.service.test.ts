@@ -55,7 +55,8 @@ describe('PathHelper', function() {
 
       expect(
         PathHelper.apiv3MentionablePrincipalsPath(projectId, term)
-      ).to.equal('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
+      ).to.equal('/api/v3/principals?filters=' +  encodeURI('[{"status":{"operator":"!","values":["0","3"]}},{"member":{"operator":"=","values":["1"]}},{"type":{"operator":"=","values":["User"]}},{"id":{"operator":"!","values":["me"]}},{"name":{"operator":"~","values":["Maria"]}}]&sortBy=[["name","asc"]]&offset=1&pageSize=10'));
     });
   });
-});
+);
+}
