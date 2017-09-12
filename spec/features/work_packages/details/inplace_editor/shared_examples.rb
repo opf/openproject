@@ -113,12 +113,23 @@ shared_examples 'a previewable field' do
   end
 end
 
-shared_examples 'an autocomplete field' do
+shared_examples 'a workpackage autocomplete field' do
   let!(:wp2) { FactoryGirl.create(:work_package, project: project, subject: 'AutoFoo') }
 
   it 'autocompletes the other work package' do
     field.activate!
-    field.input_element.send_keys("##{wp2.id}")
-    expect(page).to have_selector('.atwho-view-ul li', text: wp2.to_s.strip)
+    field.input_element.send_keys(" ##{wp2.id}")
+    expect(page).to have_selector('.atwho-view-ul li.cur', text: wp2.to_s.strip)
+  end
+end
+
+shared_examples 'a principal autocomplete field' do
+  let!(:user) { FactoryGirl.create :user, member_in_project: project, firstname: 'John' }
+  let!(:mentioned_user) { FactoryGirl.create :user, member_in_project: project, firstname: 'Laura' }
+
+  it 'autocompletes links to user profiles' do
+    field.activate!
+    field.input_element.send_keys(" @lau")
+    expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
   end
 end

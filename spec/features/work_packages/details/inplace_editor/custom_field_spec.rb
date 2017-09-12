@@ -59,7 +59,7 @@ describe 'custom field inplace editor', js: true do
     end
 
     it_behaves_like 'a previewable field'
-    it_behaves_like 'an autocomplete field'
+    it_behaves_like 'a workpackage autocomplete field'
   end
 
   describe 'custom field lists' do

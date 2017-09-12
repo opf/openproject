@@ -36,7 +36,7 @@ import {
 } from '../../api/api-v3/hal-resources/query-filter-instance-resource.service';
 import {RootDmService} from '../../api/api-v3/hal-resource-dms/root-dm.service';
 import {RootResource} from '../../api/api-v3/hal-resources/root-resource.service';
-import {PathHelperService} from '../../common/path-heleper/path-helper.service';
+import {PathHelperService} from '../../common/path-helper/path-helper.service';
 import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 
 export class ToggledMultiselectController {

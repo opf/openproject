@@ -28,21 +28,34 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module API
-  module Utilities
-    module ParamsHelper
-      def resolve_page_size(string)
-        resolved_value = to_i_or_nil(string)
-        # a page size of 0 is a magic number for the maximum page size value
-        if resolved_value == 0 || resolved_value.to_i > Setting.api_max_page_size.to_i
-          resolved_value = Setting.api_max_page_size.to_i
-        end
-        resolved_value
-      end
+class Queries::Principals::Filters::IdFilter < Queries::Principals::Filters::PrincipalFilter
+  def allowed_values
+    [["me", "me"]] # Not the whole truth but performes better than checking all IDs
+  end
 
-      def to_i_or_nil(string)
-        string ? string.to_i : nil
+  def type
+    :list
+  end
+
+  def self.key
+    :id
+  end
+
+  def where
+    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
+  end
+
+  def values_replaced
+    vals = values.clone
+
+    if vals.delete('me')
+      if User.current.logged?
+        vals.push(User.current.id.to_s)
+      else
+        vals.push('0')
       end
     end
+
+    vals
   end
 end

@@ -28,8 +28,8 @@
 
 import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
-import {PathHelperFunctions} from "../common/path-heleper/path-helper.functions";
 import {$injectFields} from '../angular/angular-injector-bridge.functions';
+import {PathHelperFunctions} from 'core-components/common/path-helper/path-helper.functions';
 
 var $state:ng.ui.IStateService;
 var $window:ng.IWindowService;

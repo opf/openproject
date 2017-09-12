@@ -81,7 +81,7 @@ module API
               PaginatedUserCollectionRepresenter.new(users,
                                                      api_v3_paths.users,
                                                      page: to_i_or_nil(params[:offset]),
-                                                     per_page: to_i_or_nil(params[:pageSize]),
+                                                     per_page: resolve_page_size(params[:pageSize]),
                                                      current_user: current_user)
             else
               raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)

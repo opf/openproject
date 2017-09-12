@@ -30,19 +30,27 @@ module API
   module V3
     module Principals
       class PrincipalsAPI < ::API::OpenProjectAPI
+        helpers ::API::Utilities::ParamsHelper
+
         resource :principals do
           get do
-            scope = Principal.in_visible_project(current_user)
-                             .or(Principal.me)
-                             .includes(:preference)
-                             .order_by_name
+            query = ::API::V3::ParamsToQueryService.new(Principal, current_user).call(params)
 
-            representer = Users::UserCollectionRepresenter
+            if query.valid?
+              users = query
+                      .results
+                      .where(id: Principal.in_visible_project(current_user)
+                                          .or(Principal.me))
+                      .includes(:preference)
 
-            ::API::V3::Utilities::ParamsToQuery.collection_response(scope,
-                                                                    current_user,
-                                                                    params,
-                                                                    representer: representer)
+              ::API::V3::Users::PaginatedUserCollectionRepresenter.new(users,
+                                                     api_v3_paths.users,
+                                                     page: to_i_or_nil(params[:offset]),
+                                                     per_page: resolve_page_size(params[:pageSize]),
+                                                     current_user: current_user)
+            else
+              raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+            end
           end
         end
       end

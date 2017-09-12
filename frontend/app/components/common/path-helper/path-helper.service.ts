@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {ApiV3FilterBuilder} from '../../api/api-v3/api-v3-filter-builder';
+
 export class PathHelperService {
   public readonly appBasePath:string;
 
@@ -151,7 +153,7 @@ export class PathHelperService {
     return this.workPackagesPath() + '/bulk';
   }
 
-  public workPackageJsonAutoCompletePath(projectId:string) {
+  public workPackageJsonAutoCompletePath(projectId?:string) {
     var path = this.workPackagesPath() + '/auto_complete.json';
     if (projectId) {
       path += '?project_id=' + projectId
@@ -186,6 +188,22 @@ export class PathHelperService {
     return this.apiV3 + '/users/' + userId;
   }
 
+  public apiv3MentionablePrincipalsPath(projectId:string|number, term:string|null) {
+    let filters:ApiV3FilterBuilder = new ApiV3FilterBuilder();
+    // Only real and activated users:
+    filters.add('status', '!', ['0', '3']);
+    // that are members of that project:
+    filters.add('member', '=', [projectId.toString()]);
+    // That are users:
+    filters.add('type',   '=', ['User']);
+
+    if (term && term.length > 0) {
+      // Containing the that substring:
+      filters.add('name', '~', [term]);
+    }
+    return this.apiV3 + '/principals' + '?' + filters.toParams() + encodeURI('&sortBy=[["name","asc"]]&offset=1&pageSize=10');
+  }
+
   public apiV3UserMePath() {
     return this.apiV3UserPath('me');
   }
@@ -198,4 +216,3 @@ export class PathHelperService {
 angular
   .module('openproject.helpers')
   .service('PathHelper', PathHelperService);
-
