@@ -90,6 +90,7 @@ describe 'Login', type: :feature do
     User.current = other_user
 
     # taking /api/v3 as it does not run any authorization
+    page.driver.header('X-Requested-With', 'XMLHttpRequest')
     visit '/api/v3'
     expect(User.current).to eql(user)
   end

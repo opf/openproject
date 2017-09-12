@@ -6,12 +6,6 @@ RSpec.configure do |c|
       header('X-Requested-With', 'XMLHttpRequest')
     end
   end
-
-  c.before(:each, type: :feature) do |ex|
-    unless ex.metadata[:skip_xhr_header] || ex.metadata[:js]
-      page.driver.header('X-Requested-With', 'XMLHttpRequest')
-    end
-  end
 end
 
 
