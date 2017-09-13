@@ -73,6 +73,10 @@ export class WorkPackageTableSelection {
     return this.selectionState.value as WPTableRowSelectionState;
   }
 
+  public get isEmpty() {
+    return this.selectionCount === 0;
+  }
+
   /**
    * Return the number of selected rows.
    */
