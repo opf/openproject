@@ -45,6 +45,9 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     const state = element.data('wpState');
     const workPackageId = element.data('workPackageId');
 
+    // Blur the target to avoid focus being kept there
+    target.closest('a').blur();
+
     // The current row is the last selected work package
     // not matter what other rows are (de-)selected below.
     // Thus save that row for the details view button.

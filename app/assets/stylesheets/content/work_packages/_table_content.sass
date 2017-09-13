@@ -75,16 +75,16 @@ html:not(.-browser-mobile)
     width: 60px
     // Override the default td line-height
     line-height: initial !important
-    @extend .hidden-for-sighted
 
-  .issue:hover .wp-table--context-menu-td,
-  .wp-table--context-menu-td:focus
-    // override the hidden-for-sighted definition
-    position: relative
-    left: 0
-    width: initial
-    height: initial
+  .wp-table-context-menu-icon
+    // Hide from viewers, but allow to be focused
+    opacity: 0
 
+  .issue:hover .wp-table-context-menu-icon,
+  .wp-table--context-menu-td:focus,
+  .wp-table-context-menu-icon:focus
+    // Hide by default
+    opacity: 100
 
 // Show context menu button when hovering
 .wp-table--context-menu-td a
