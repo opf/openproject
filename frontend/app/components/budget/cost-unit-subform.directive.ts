@@ -91,7 +91,7 @@ export class CostUnitSubformController {
   }
 }
 
-function costUnitSubform() {
+function costUnitSubform():any {
   return {
     restrict: 'E',
     scope: {

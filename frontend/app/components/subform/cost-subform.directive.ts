@@ -74,7 +74,7 @@ export class CostSubformController {
   }
 }
 
-function costsSubform() {
+function costsSubform():any {
   return {
     restrict: 'E',
     scope: { itemCount: '@' },

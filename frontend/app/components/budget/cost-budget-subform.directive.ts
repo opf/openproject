@@ -125,7 +125,7 @@ export class CostBudgetSubformController {
   }
 }
 
-function costsBudgetSubform() {
+function costsBudgetSubform():any {
   return {
     restrict: 'E',
     scope: {
