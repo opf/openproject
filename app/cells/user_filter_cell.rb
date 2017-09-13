@@ -31,7 +31,7 @@ class UserFilterCell < RailsCell
 
     def filter_name(query, name)
       if name.present?
-        query.where(:name, '~', name)
+        query.where(:any_name_attribute, '~', name)
       end
     end
 
