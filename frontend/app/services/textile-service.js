@@ -35,12 +35,12 @@ module.exports = function($http, PathHelper) {
     return render(workPackage.previewMarkup, text);
   }
 
-  function render(url, text) {
+  function render(link, text) {
     return $http({
-      url: url,
-      method: 'POST',
+      method: link.method,
+      url: link.href,
       data: text,
-      headers: { 'Content-Type': 'text/plain; charset=UTF-8' }
+      headers: {'Content-Type': 'text/plain; charset=UTF-8'}
     });
   }
 };
