@@ -117,7 +117,7 @@ export class OverviewTextileBlockController {
   }
 }
 
-function overviewTextileBlock() {
+function overviewTextileBlock():any {
   return {
     restrict: 'EA',
     scope: {

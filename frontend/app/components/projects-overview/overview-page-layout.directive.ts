@@ -178,7 +178,7 @@ export class ProjectsOverviewController {
   }
 }
 
-function overviewPageLayout() {
+function overviewPageLayout():any {
   return {
     restrict: 'E',
     scope: {},

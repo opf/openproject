@@ -47,7 +47,7 @@ export class OverviewBlockController {
 
 }
 
-function overviewBlock() {
+function overviewBlock():any {
   return {
     restrict: 'EA',
     scope: {},
