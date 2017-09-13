@@ -238,5 +238,14 @@ describe ::API::V3::ParseQueryParamsService,
         let(:expected) { { display_sums: false } }
       end
     end
+
+    context 'with timelineLabels' do
+      let(:input) { { left: 'a', right: 'b', farRight: 'c' } }
+
+      it_behaves_like 'transforms' do
+        let(:params) { { timelineLabels: input.to_json } }
+        let(:expected) { { timeline_labels: input.stringify_keys } }
+      end
+    end
   end
 end

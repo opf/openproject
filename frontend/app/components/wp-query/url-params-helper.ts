@@ -134,7 +134,7 @@ export class UrlParamsHelperService {
       queryData.timelineVisible = properties.tv;
     }
     if (!!properties.tll) {
-      queryData.timelineLabels = JSON.stringify(properties.tll);
+      queryData.timelineLabels = properties.tll;
     }
 
     if (properties.tzl) {
