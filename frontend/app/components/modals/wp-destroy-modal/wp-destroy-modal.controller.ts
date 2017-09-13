@@ -68,6 +68,10 @@ export class WorkPackageDestroyModalController {
     };
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   public close() {
     this.wpDestroyModal.deactivate();
   }

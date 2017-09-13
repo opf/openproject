@@ -1,22 +1,24 @@
 import * as moment from 'moment';
-import {$injectNow} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {calculatePositionValueForDayCountingPx, RenderInfo, timelineElementCssClass} from '../wp-timeline';
-import {LabelPosition, TimelineCellRenderer} from './timeline-cell-renderer';
 import {
-  classNameFarRightLabel, classNameHideOnHover, classNameHoverStyle,
-  classNameLeftLabel, classNameRightContainer, classNameRightHoverLabel, classNameRightLabel,
+  calculatePositionValueForDayCountingPx,
+  RenderInfo,
+  timelineElementCssClass
+} from '../wp-timeline';
+import {CellDateMovement, LabelPosition, TimelineCellRenderer} from './timeline-cell-renderer';
+import {
+  classNameFarRightLabel,
+  classNameHideOnHover,
+  classNameHoverStyle,
+  classNameLeftLabel,
+  classNameRightContainer,
+  classNameRightHoverLabel,
+  classNameRightLabel,
   classNameShowOnHover,
   WorkPackageCellLabels
 } from './wp-timeline-cell';
-import Moment = moment.Moment;
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
-import {TimelineLabels} from '../../../api/api-v3/hal-resources/query-resource.service';
-
-interface CellMilestoneMovement {
-  // Target value to move milestone to
-  date?:moment.Moment;
-}
+import Moment = moment.Moment;
 
 export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
   public get type():string {
@@ -61,7 +63,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
    */
   public assignDateValues(changeset:WorkPackageChangeset,
                           labels:WorkPackageCellLabels,
-                          dates:CellMilestoneMovement) {
+                          dates:any):void {
 
     this.assignDate(changeset, 'date', dates.date!);
     this.updateLabels(true, labels, changeset);
@@ -76,7 +78,7 @@ export class TimelineMilestoneCellRenderer extends TimelineCellRenderer {
                      direction:'left' | 'right' | 'both' | 'create' | 'dragright') {
 
     const initialDate = changeset.workPackage.date;
-    let dates:CellMilestoneMovement = {};
+    let dates:CellDateMovement = {};
 
     if (initialDate) {
       dates.date = moment(initialDate).add(delta, 'days');

@@ -165,7 +165,7 @@ export class WorkPackageTableSelection {
     this
       .states.table.rendered
       .values$()
-      .map(state => _.find(state, row => row.workPackageId))
+      .map(state => _.find(state, (row:any) => row.workPackageId))
       .filter(fullRow => !!fullRow && _.isEmpty(this.currentState.selected))
       .subscribe(fullRow => {
         this.states.focusedWorkPackage.putValue(fullRow!.workPackageId!);

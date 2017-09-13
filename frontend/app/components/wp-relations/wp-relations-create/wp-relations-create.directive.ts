@@ -118,7 +118,7 @@ export class WorkPackageRelationsCreateController {
   }
 }
 
-function wpRelationsCreate() {
+function wpRelationsCreate():any {
   return {
     restrict: 'E',
 

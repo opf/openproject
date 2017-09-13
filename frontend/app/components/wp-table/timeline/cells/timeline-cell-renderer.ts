@@ -1,5 +1,5 @@
 import * as moment from 'moment';
-import {$injectFields, $injectNow} from '../../../angular/angular-injector-bridge.functions';
+import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
 import {
   calculatePositionValueForDayCount,
@@ -9,27 +9,36 @@ import {
   timelineMarkerSelectionStartClass
 } from '../wp-timeline';
 import {
-  classNameFarRightLabel, classNameHideOnHover, classNameHoverStyle, classNameLeftHoverLabel,
+  classNameFarRightLabel,
+  classNameHideOnHover,
+  classNameHoverStyle,
+  classNameLeftHoverLabel,
   classNameLeftLabel,
-  classNameRightContainer, classNameRightHoverLabel,
+  classNameRightContainer,
+  classNameRightHoverLabel,
   classNameRightLabel,
   classNameShowOnHover,
   WorkPackageCellLabels
 } from './wp-timeline-cell';
-import {classNameBarLabel, classNameLeftHandle, classNameRightHandle} from './wp-timeline-cell-mouse-handler';
-import Moment = moment.Moment;
+import {
+  classNameBarLabel,
+  classNameLeftHandle,
+  classNameRightHandle
+} from './wp-timeline-cell-mouse-handler';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {hasChildrenInTable} from '../../../wp-fast-table/helpers/wp-table-hierarchy-helpers';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-table-timeline.service';
-import WorkPackagesHelper = op.WorkPackagesHelper;
 import {DisplayFieldRenderer} from '../../../wp-edit-form/display-field-renderer';
-import {TimelineLabels} from '../../../api/api-v3/hal-resources/query-resource.service';
+import Moment = moment.Moment;
+import WorkPackagesHelper = op.WorkPackagesHelper;
 
-interface CellDateMovement {
+export interface CellDateMovement {
   // Target values to move work package to
   startDate?:moment.Moment;
   dueDate?:moment.Moment;
+  // Target value to move milestone to
+  date?:moment.Moment;
 }
 
 export type LabelPosition = 'left' | 'right' | 'farRight';
@@ -90,7 +99,7 @@ export class TimelineCellRenderer {
    */
   public assignDateValues(changeset:WorkPackageChangeset,
                           labels:WorkPackageCellLabels,
-                          dates:CellDateMovement) {
+                          dates:any):void {
 
     this.assignDate(changeset, 'startDate', dates.startDate!);
     this.assignDate(changeset, 'dueDate', dates.dueDate!);

@@ -42,7 +42,7 @@ export class WorkPackageFieldControlsController {
   }
 }
 
-function wpEditFieldControls() {
+function wpEditFieldControls():any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-edit/field-controls/wp-edit-field-controls.directive.html',

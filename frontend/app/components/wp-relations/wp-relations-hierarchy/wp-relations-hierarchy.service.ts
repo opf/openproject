@@ -82,12 +82,12 @@ export class WorkPackageRelationsHierarchyService {
   }
 
   public addExistingChildWp(workPackage: WorkPackageResourceInterface, childWpId: string): ng.IPromise<WorkPackageResourceInterface> {
-    const deferred = this.$q.defer();
+    const deferred = this.$q.defer<WorkPackageResourceInterface>();
     const state = this.wpCacheService.loadWorkPackage(childWpId);
 
     state.valuesPromise().then((wpToBecomeChild: WorkPackageResourceInterface) => {
       this.wpTableRefresh.request(true, `Added new child to ${workPackage.id}`);
-      deferred.resolve(this.changeParent(wpToBecomeChild, workPackage.id));
+      this.changeParent(wpToBecomeChild, workPackage.id).then(wp => deferred.resolve(wp!));
     });
 
     return deferred.promise;

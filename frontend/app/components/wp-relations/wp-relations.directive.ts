@@ -140,7 +140,7 @@ export class WorkPackageRelationsController {
   }
 }
 
-function wpRelationsDirective() {
+function wpRelationsDirective():any {
   return {
     restrict: 'E',
     replace: true,

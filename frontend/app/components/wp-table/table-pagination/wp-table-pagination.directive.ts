@@ -56,7 +56,7 @@ export class WorkPackageTablePaginationController extends TablePaginationControl
   }
 }
 
-function wpTablePagination(wpTablePagination:WorkPackageTablePaginationService) {
+function wpTablePagination(wpTablePagination:WorkPackageTablePaginationService):any {
   return {
     restrict: 'EA',
     templateUrl: '/components/table-pagination/table-pagination.directive.html',

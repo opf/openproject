@@ -50,6 +50,10 @@ export class ShareModalController {
     this.isPublic = this.query.public;
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   public setValues(isStarred:boolean, isPublic:boolean) {
     this.isStarred = isStarred;
     this.isPublic = isPublic;

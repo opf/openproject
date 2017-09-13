@@ -117,8 +117,7 @@ export class QueryDmService {
     return this.extractPayload(query, form).then(payload => {
       let path = this.v3Path.queries();
 
-      return this.halRequest.post(path,
-                                  payload);
+      return this.halRequest.post(path, payload);
     });
   }
 
@@ -128,9 +127,9 @@ export class QueryDmService {
 
   public toggleStarred(query:QueryResource) {
     if (query.starred) {
-      return query.unstar() as ng.IPromise<QueryResource>;
+      return query.unstar();
     } else {
-      return query.star() as ng.IPromise<QueryResource>;
+      return query.star();
     }
   }
 

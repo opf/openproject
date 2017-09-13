@@ -102,7 +102,7 @@ export class WorkPackageResizerController {
   }
 }
 
-function wpResizer() {
+function wpResizer():any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-resizer/wp-resizer.directive.html',

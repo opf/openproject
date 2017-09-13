@@ -94,7 +94,7 @@ export class WorkPackageWatcherButtonController {
   }
 }
 
-function wpWatcherButton() {
+function wpWatcherButton():any {
   return {
     replace: true,
     templateUrl: '/components/work-packages/wp-watcher-button/wp-watcher-button.directive.html',

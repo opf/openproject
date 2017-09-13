@@ -103,7 +103,7 @@ export class ActivityPanelController {
 }
 
 
-function activityPanelDirective() {
+function activityPanelDirective():any {
   return {
     restrict: 'E',
     templateUrl: (element:ng.IAugmentedJQuery, attrs:ng.IAttributes) => {

@@ -49,7 +49,7 @@ angular
 function wpTable(keepTab:KeepTabService,
                  PathHelper:any,
                  columnsModal:any,
-                 contextMenu:ContextMenuService) {
+                 contextMenu:ContextMenuService):any {
   return {
     restrict: 'E',
     replace: true,

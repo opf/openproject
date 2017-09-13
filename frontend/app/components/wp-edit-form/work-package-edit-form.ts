@@ -184,7 +184,7 @@ export class WorkPackageEditForm {
       return this.$q.when(this.workPackage);
     }
 
-    const deferred = this.$q.defer();
+    const deferred = this.$q.defer<WorkPackageResourceInterface>();
     const isInitial = this.workPackage.isNew;
 
     // Reset old error notifcations

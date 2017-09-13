@@ -70,7 +70,7 @@ export class WorkPackageGroupHeaderController {
   }
 }
 
-function wpGroupHeader() {
+function wpGroupHeader():any {
   return {
     restrict: 'A',
     controller: WorkPackageGroupHeaderController,

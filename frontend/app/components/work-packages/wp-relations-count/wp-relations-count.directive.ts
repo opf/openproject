@@ -17,6 +17,10 @@ export class WorkPackageRelationsCount {
       this.wpRelations.state(this.wpId.toString()).values$())
       .subscribe((relations:RelationsStateValue) => this.count = _.size(relations));
   }
+
+  public $onInit() {
+    // Created for interface compliance
+  }
 }
 
 wpControllersModule.component('wpRelationsCount', {

@@ -256,7 +256,7 @@ export class WorkPackageSingleViewController {
 
 }
 
-function wpSingleViewDirective() {
+function wpSingleViewDirective():any {
 
   return {
     restrict: 'E',

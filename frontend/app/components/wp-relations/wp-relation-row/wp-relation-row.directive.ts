@@ -150,7 +150,7 @@ class WpRelationRowDirectiveController {
   }
 }
 
-function WpRelationRowDirective($timeout:ng.ITimeoutService) {
+function WpRelationRowDirective($timeout:ng.ITimeoutService):any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relation-row/wp-relation-row.template.html',

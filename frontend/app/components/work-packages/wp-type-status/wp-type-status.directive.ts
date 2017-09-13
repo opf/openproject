@@ -35,7 +35,7 @@ class WorkPackageTypeStatusController {
   public workPackage:WorkPackageResource;
 }
 
-function wpTypeStatusDirective() {
+function wpTypeStatusDirective():any {
   return {
     restrict: 'E',
     templateUrl: '/components/work-packages/wp-type-status/wp-type-status.directive.html',

@@ -47,7 +47,7 @@ export class CollapsibleSectionController {
   }
 }
 
-function CollapsibleSection() {
+function CollapsibleSection():any {
   return {
     restrict: 'E',
     replace: true,

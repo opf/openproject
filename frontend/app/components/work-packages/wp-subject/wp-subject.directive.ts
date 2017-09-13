@@ -49,7 +49,7 @@ export class WorkPackageSubjectController {
   }
 }
 
-function wpSubjectDirective() {
+function wpSubjectDirective():any {
   return {
     restrict: 'E',
     templateUrl: '/components/work-packages/wp-subject/wp-subject.directive.html',
