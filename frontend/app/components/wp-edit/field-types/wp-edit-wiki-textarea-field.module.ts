@@ -29,6 +29,7 @@
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
 import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {$injectFields, $injectNow} from '../../angular/angular-injector-bridge.functions';
+import {TextileService} from './../../common/textile/textile-service';
 
 export class WikiTextareaEditField extends EditField {
 
@@ -38,7 +39,7 @@ export class WikiTextareaEditField extends EditField {
   // Dependencies
   protected $sce:ng.ISCEService;
   protected $http:ng.IHttpService;
-  protected TextileService:ng.IServiceProvider;
+  protected textileService:TextileService;
   protected $timeout:ng.ITimeoutService;
   protected I18n:op.I18n;
 
@@ -49,7 +50,7 @@ export class WikiTextareaEditField extends EditField {
   public text:Object;
 
   protected initialize() {
-    $injectFields(this, '$sce', '$http', 'TextileService', '$timeout', 'I18n');
+    $injectFields(this, '$sce', '$http', 'textileService', '$timeout', 'I18n');
 
     this.text = {
       attachmentLabel: this.I18n.t('js.label_formattable_attachment_hint'),
@@ -95,13 +96,9 @@ export class WikiTextareaEditField extends EditField {
       this.isBusy = true;
       this.changeset.getForm().then((form:any) => {
         const link = form.previewMarkup.$link;
-        this.$http({
-          method: link.method,
-          url: link.href,
-          data: this.rawValue,
-          headers: {'Content-Type': 'text/plain; charset=UTF-8'}
-        })
-          .then(result => {
+
+        this.textileService.render(link, this.rawValue)
+          .then((result:any) => {
             this.previewHtml = this.$sce.trustAsHtml(result.data);
           })
           .finally(() => {

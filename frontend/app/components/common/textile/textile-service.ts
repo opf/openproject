@@ -26,21 +26,30 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($http, PathHelper) {
-  return {
-    renderWithWorkPackageContext: renderWithWorkPackageContext
-  };
+import {PathHelperService} from './../path-helper/path-helper.service';
+import {HalLink} from './../../api/api-v3/hal-link/hal-link.service';
+import {WorkPackageResourceInterface} from 'app/components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageNotificationService} from './../../wp-edit/wp-notification.service';
 
-  function renderWithWorkPackageContext(workPackage, text) {
-    return render(workPackage.previewMarkup, text);
+export class TextileService {
+  constructor(public $http:ng.IHttpService,
+              public wpNotificationsService:WorkPackageNotificationService,
+              public PathHelper:PathHelperService) {}
+
+  public renderWithWorkPackageContext(workPackage:WorkPackageResourceInterface, text:string) {
+    return this.render(workPackage.previewMarkup, text);
   }
 
-  function render(url, text) {
-    return $http({
-      url: url,
-      method: 'POST',
+  public render(link:HalLink, text:string) {
+    return this.$http({
+      url: link.href!,
+      method: link.method,
       data: text,
       headers: { 'Content-Type': 'text/plain; charset=UTF-8' }
-    });
+    })
+    .catch((error:any) => this.wpNotificationsService.handleRawError(error));
   }
-};
+}
+
+angular.module('openproject.services')
+  .service('textileService', TextileService);

@@ -64,13 +64,11 @@ export class CommentFieldDirectiveController {
       placeholder: I18n.t('js.label_add_comment_title')
     };
 
-    this.field = new WorkPackageCommentField(this.workPackage, I18n);
-
     this.canAddComment = !!this.workPackage.addComment;
     this.showAbove = ConfigurationService.commentsSortedInDescendingOrder();
 
     $scope.$on('workPackage.comment.quoteThis', (evt, quote) => {
-      this.field.initializeFieldValue(quote);
+      this.resetField(quote);
       this.editing = true;
       this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
     });
@@ -94,10 +92,15 @@ export class CommentFieldDirectiveController {
 
   public activate(withText?:string) {
     this._forceFocus = true;
-    this.field.initializeFieldValue(withText);
+    this.resetField(withText);
     this.editing = true;
-    
+
     this.$timeout(() => this.$element.find('.wp-inline-edit--field').focus());
+  }
+
+  public resetField(withText?:string) {
+    this.field = new WorkPackageCommentField(this.workPackage, I18n);
+    this.field.initializeFieldValue(withText);
   }
 
   public handleUserSubmit() {
