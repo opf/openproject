@@ -122,10 +122,6 @@ module API
         false
       end
 
-      def running_in_test_env?
-        Rails.env.test? && ENV['CAPYBARA_DISABLE_TEST_AUTH_PROTECTION'] != 'true'
-      end
-
       # checks whether the user has
       # any of the provided permission in any of the provided
       # projects

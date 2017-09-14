@@ -39,7 +39,10 @@ describe 'routes for old issue uris', type: :request do
       get('/issues')
     end
 
-    it { expect(response).to redirect_to('/work_packages') }
+    it do
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with '/work_packages'
+    end
   end
 
   describe 'with specific id' do
@@ -47,6 +50,9 @@ describe 'routes for old issue uris', type: :request do
       get('/issues/1234')
     end
 
-    it { expect(response).to redirect_to('/work_packages/1234') }
+    it do
+      expect(last_response).to be_redirect
+      expect(last_response.location).to end_with '/work_packages/1234'
+    end
   end
 end

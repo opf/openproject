@@ -57,6 +57,7 @@ describe 'Session TTL',
 
   describe 'outdated TTL on API request' do
     it 'expires on the next APIv3 request' do
+      page.driver.header('X-Requested-With', 'XMLHttpRequest')
       visit "/api/v3/work_packages/#{work_package.id}"
 
       body = JSON.parse(page.body)

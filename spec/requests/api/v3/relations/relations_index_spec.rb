@@ -69,9 +69,10 @@ describe 'GET /api/v3/relations', type: :request do
         filters: [filter].to_json
       }
 
-      get "/api/v3/relations", params: params
+      header "Content-Type", "application/json"
+      get "/api/v3/relations", params
 
-      json = JSON.parse response.body
+      json = JSON.parse last_response.body
 
       Array(Hash(json).dig("_embedded", "elements")).map { |e| e["id"] }
     end
