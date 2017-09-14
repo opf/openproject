@@ -28,6 +28,7 @@
 
 import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
+import {TextileService} from './../../common/textile/textile-service';
 
 angular
   .module('openproject.workPackages.activities')
@@ -43,7 +44,7 @@ function userActivity($uiViewScroll:any,
                       wpCacheService:WorkPackageCacheService,
                       ConfigurationService:any,
                       AutoCompleteHelper:any,
-                      TextileService:any) {
+                      textileService:TextileService) {
   return {
     restrict: 'E',
     replace: true,
@@ -141,12 +142,12 @@ function userActivity($uiViewScroll:any,
         scope.isPreview = !scope.isPreview;
         scope.previewHtml = '';
         if (scope.isPreview) {
-          TextileService.renderWithWorkPackageContext(
+          textileService.renderWithWorkPackageContext(
             scope.workPackage,
             scope.activity.editedComment
           ).then(function (r:any) {
             scope.previewHtml = $sce.trustAsHtml(r.data);
-          }, function () {
+          }).finally(() => {
             scope.isPreview = false;
           });
         }
