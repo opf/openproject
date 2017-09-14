@@ -53,14 +53,17 @@ export class WorkPackageResizerController {
     e.preventDefault();
     e.stopPropagation();
 
-    // Gettig starting position
-    this.oldPosition = e.clientX;
+    // Only on left mouse click the resizing is started
+    if(e.buttons === 1) {
+      // Gettig starting position
+      this.oldPosition = e.clientX;
 
-    // Necessary to encapsulate this to be able to remove the eventlistener later
-    this.mouseMoveHandler = this.resizeElement.bind(this, this.detailsSide);
+      // Necessary to encapsulate this to be able to remove the eventlistener later
+      this.mouseMoveHandler = this.resizeElement.bind(this, this.detailsSide);
 
-    // Enable mouse move
-    window.addEventListener('mousemove', this.mouseMoveHandler);
+      // Enable mouse move
+      window.addEventListener('mousemove', this.mouseMoveHandler);
+    }
   }
 
   private handleMouseUp(e:MouseEvent) {
