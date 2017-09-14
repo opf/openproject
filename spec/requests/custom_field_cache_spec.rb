@@ -59,6 +59,8 @@ describe 'Custom field filter and group by caching', type: :request do
   end
 
   def visit_cost_reports_index
+    header "Content-Type", "text/html"
+    header 'X-Requested-With', 'XMLHttpRequest'
     get "/projects/#{project.id}/cost_reports"
   end
 
