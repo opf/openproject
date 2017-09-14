@@ -179,6 +179,7 @@
 <li><span class="icon icon-remove"></span>remove</li>
 <li><span class="icon icon-rename"></span>rename</li>
 <li><span class="icon icon-reported-by-me"></span>reported-by-me</li>
+<li><span class="icon icon-resizer-vertical-lines"></span>resizer-vertical-lines</li>
 <li><span class="icon icon-roadmap"></span>roadmap</li>
 <li><span class="icon icon-rss"></span>rss</li>
 <li><span class="icon icon-rubber"></span>rubber</li>
