@@ -269,11 +269,12 @@ module SortHelper
   #     </th>
   #
   def sort_header_tag(column, options = {})
-    caption = options.delete(:caption) || column.to_s.humanize
+    caption = get_caption(column, options)
+
     default_order = options.delete(:default_order) || 'asc'
     lang = options.delete(:lang) || nil
 
-    options[:title] = sort_header_title(column, options)
+    options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
       sort_link(column, caption, default_order, lang: lang, title: options[:title])
@@ -308,14 +309,22 @@ module SortHelper
     end
   end
 
-  def sort_header_title(column, options)
-    caption = options.delete(:caption) || column.to_s.humanize
-
+  def sort_header_title(column, caption, options)
     if column.to_s == @sort_criteria.first_key
       order = @sort_criteria.first_asc? ? t(:label_ascending) : t(:label_descending)
       order + " #{t(:label_sorted_by, value: "\"#{caption}\"")}"
     else
       t(:label_sort_by, value: "\"#{caption}\"") unless options[:title]
     end
+  end
+
+  def get_caption(column, options)
+    caption = options.delete(:caption)
+
+    if caption.blank?
+      caption = defined?(model) ? model.human_attribute_name(column.to_s) : column.humanize
+    end
+
+    caption
   end
 end
