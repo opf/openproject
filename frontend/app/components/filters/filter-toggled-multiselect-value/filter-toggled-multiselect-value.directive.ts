@@ -148,8 +148,8 @@ export class ToggledMultiselectController {
   }
 }
 
-function toggledMultiselect() {
-  return {
+function toggledMultiselect():any {
+    return {
     restrict: 'EA',
     replace: true,
     scope: {

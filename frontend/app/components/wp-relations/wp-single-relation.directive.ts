@@ -47,7 +47,7 @@ export class WorkPackageSingleRelationController {
   }
 }
 
-function wpSingleRelationDirective() {
+function wpSingleRelationDirective():any {
   return {
     restrict: 'A',
     controller: WorkPackageSingleRelationController,

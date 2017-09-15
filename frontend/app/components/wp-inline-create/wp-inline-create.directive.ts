@@ -200,7 +200,7 @@ export class WorkPackageInlineCreateController {
   }
 }
 
-function wpInlineCreate() {
+function wpInlineCreate():any {
   return {
     restrict: 'AE',
     templateUrl: '/components/wp-inline-create/wp-inline-create.directive.html',

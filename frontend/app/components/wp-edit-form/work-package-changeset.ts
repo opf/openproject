@@ -129,7 +129,7 @@ export class WorkPackageChangeset {
 
 
     if (this.wpForm.hasValue()) {
-      return Promise.resolve(this.wpForm.value);
+      return Promise.resolve(this.wpForm.value!);
     } else {
       return new Promise((resolve, ) => this.wpForm.valuesPromise().then(resolve));
     }
@@ -141,7 +141,7 @@ export class WorkPackageChangeset {
    */
   public updateForm():ng.IPromise<FormResourceInterface> {
     let payload = this.buildPayloadFromChanges();
-    var deferred = this.$q.defer();
+    var deferred = this.$q.defer<FormResourceInterface>();
 
     this.workPackage.$links.update(payload)
       .then((form:FormResourceInterface) => {
@@ -161,7 +161,7 @@ export class WorkPackageChangeset {
 
 
   public save():ng.IPromise<WorkPackageResourceInterface> {
-    const deferred = this.$q.defer();
+    const deferred = this.$q.defer<WorkPackageResourceInterface>();
 
     this.inFlight = true;
     const wasNew = this.workPackage.isNew;

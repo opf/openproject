@@ -33,6 +33,8 @@ export class WorkPackageGroupSumsController {
       return o.value === $scope.currentGroup;
     });
   }
+
+  public $onInit() {}
 };
 
 angular
@@ -43,7 +45,7 @@ angular
   .module('openproject.workPackages.directives')
   .directive('wpGroupSums', wpGroupSums);
 
-function wpGroupSums() {
+function wpGroupSums():any {
   return {
     restrict: 'A',
     scope: true,

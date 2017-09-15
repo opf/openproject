@@ -101,6 +101,10 @@ export class WorkPackageCreateController {
       });
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   public switchToFullscreen() {
     this.$state.go('work-packages.new', this.$state.params);
   }

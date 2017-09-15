@@ -94,7 +94,7 @@ class WpRelationsHierarchyRowDirectiveController {
   }
 }
 
-function WpRelationsHierarchyRowDirective() {
+function WpRelationsHierarchyRowDirective():any {
   return {
     restrict:'E',
     templateUrl:'/components/wp-relations/wp-relations-hierarchy-row/wp-relations-hierarchy-row.template.html',

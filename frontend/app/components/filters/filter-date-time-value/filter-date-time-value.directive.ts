@@ -64,7 +64,7 @@ export class DateTimeValueController extends AbstractDateTimeValueController {
   }
 }
 
-function dateTimeValue() {
+function dateTimeValue():any {
   return {
     restrict: 'E',
     replace: true,

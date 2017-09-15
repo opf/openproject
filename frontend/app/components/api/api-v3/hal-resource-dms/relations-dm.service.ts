@@ -48,7 +48,7 @@ export class RelationsDmService {
         caching: {enabled: false}
       }).then((collection:CollectionResource) => {
         return collection.elements;
-    });
+    }) as ng.IPromise<RelationResource[]>;
   }
 
   public loadInvolved(workPackageIds:string[]):ng.IPromise<RelationResource[]> {
@@ -67,7 +67,7 @@ export class RelationsDmService {
         caching: {enabled: false}
       }).then((collection:CollectionResource) => {
       return collection.elements;
-    });
+    }) as ng.IPromise<RelationResource[]>;
   }
 }
 

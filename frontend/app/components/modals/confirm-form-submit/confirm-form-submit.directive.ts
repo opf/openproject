@@ -27,9 +27,7 @@
 // ++
 
 import IAugmentedJQuery = angular.IAugmentedJQuery;
-import { IDialogOpenResult, IDialogService } from 'ng-dialog';
-import { ConfirmDialogService } from './../confirm-dialog/confirm-dialog.service';
-import {IDialogScope} from 'ng-dialog';
+import {ConfirmDialogService} from './../confirm-dialog/confirm-dialog.service';
 
 export class ConfirmFormSubmitController {
 
@@ -71,7 +69,7 @@ export class ConfirmFormSubmitController {
   }
 }
 
-function confirmFormSubmit() {
+function confirmFormSubmit():any {
   return {
     restrict: 'AC',
     scope: {},

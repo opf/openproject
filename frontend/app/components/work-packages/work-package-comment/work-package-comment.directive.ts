@@ -140,7 +140,7 @@ export class CommentFieldDirectiveController {
   }
 }
 
-function workPackageComment() {
+function workPackageComment():any {
   return {
     restrict: 'E',
     replace: true,

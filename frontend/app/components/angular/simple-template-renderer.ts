@@ -56,7 +56,7 @@ export class SimpleTemplateRenderer {
                         scope:ng.IScope,
                         template:string,
                         scopeValues:Object):ng.IPromise<ng.IAugmentedJQuery> {
-    const deferred = this.$q.defer();
+    const deferred = this.$q.defer<ng.IAugmentedJQuery>();
     _.assign(scope, scopeValues);
 
     const templateEl = angular.element(this.$templateCache.get(template) as string);

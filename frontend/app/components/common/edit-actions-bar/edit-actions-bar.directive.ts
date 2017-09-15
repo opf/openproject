@@ -62,7 +62,7 @@ export class EditActionsBarController {
   }
 }
 
-function editActionsBar() {
+function editActionsBar():any {
   return {
     restrict: 'E',
     templateUrl: '/components/common/edit-actions-bar/edit-actions-bar.directive.html',

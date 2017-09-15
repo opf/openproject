@@ -90,7 +90,7 @@ export class ModalWrapperController {
   }
 }
 
-function modalWrapper() {
+function modalWrapper():any {
   return {
     restrict: 'E',
     scope: {

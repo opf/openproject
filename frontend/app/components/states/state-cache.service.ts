@@ -84,7 +84,7 @@ export abstract class StateCacheService<T> {
       return this.load(id);
     }
 
-    return Promise.resolve(state.value);
+    return Promise.resolve(state.value as T);
   }
 
   /**
@@ -104,7 +104,7 @@ export abstract class StateCacheService<T> {
     }
 
     if (idsToRequest.length === 0) {
-      return Promise.resolve();
+      return Promise.resolve(undefined);
     }
 
     return this.loadAll(idsToRequest);

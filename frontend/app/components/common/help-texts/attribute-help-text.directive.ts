@@ -84,9 +84,13 @@ export class AttributeHelpTextController {
     }
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   public handleClick() {
     this.load().then((resource) => {
-      this.renderModal(resource);
+      this.renderModal(resource!);
     });
   }
 

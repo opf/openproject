@@ -57,7 +57,7 @@ export class WorkPackageRelationsGroupController {
   }
 }
 
-function wpRelationsGroupDirective() {
+function wpRelationsGroupDirective():any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relations-group/wp-relations-group.template.html',

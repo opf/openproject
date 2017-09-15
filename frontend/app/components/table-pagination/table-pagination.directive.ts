@@ -33,7 +33,7 @@ opUiComponentsModule
   .directive('tablePagination', tablePagination);
 
 
-function tablePagination(PaginationService:any) {
+function tablePagination(PaginationService:any):any {
   return {
     restrict: 'EA',
     templateUrl: '/components/table-pagination/table-pagination.directive.html',

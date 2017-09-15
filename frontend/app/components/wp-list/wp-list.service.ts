@@ -215,7 +215,7 @@ export class WorkPackagesListService {
   public toggleStarred(query:QueryResource):ng.IPromise<any> {
     let promise = this.QueryDm.toggleStarred(query);
 
-    promise.then((query) => {
+    promise.then((query:QueryResource) => {
       this.states.query.resource.putValue(query);
 
       this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));

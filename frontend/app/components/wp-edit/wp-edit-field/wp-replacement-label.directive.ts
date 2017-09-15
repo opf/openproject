@@ -55,7 +55,7 @@ function wpReplacementLabelLink(scope:ng.IScope,
   controllers[1].wpEditFieldGroup = controllers[0];
 }
 
-function wpReplacementLabel() {
+function wpReplacementLabel():any {
   return {
     restrict: 'A',
     templateUrl: '/components/wp-edit/wp-edit-field/wp-replacement-label.directive.html',

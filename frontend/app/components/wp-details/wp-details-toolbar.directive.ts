@@ -32,7 +32,7 @@ import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-se
 function wpDetailsToolbar(
   I18n:op.I18n,
   wpEditing:WorkPackageEditingService,
-  wpMoreMenuService:WorkPackageMoreMenuService) {
+  wpMoreMenuService:WorkPackageMoreMenuService):any {
 
   return {
     restrict: 'E',

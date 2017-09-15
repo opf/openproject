@@ -34,7 +34,7 @@ import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 
 export class WorkPackageCopyController extends WorkPackageCreateController {
   protected newWorkPackageFromParams(stateParams:any) {
-    var deferred = this.$q.defer();
+    var deferred = this.$q.defer<any>();
 
     scopedObservable(
       this.$scope,

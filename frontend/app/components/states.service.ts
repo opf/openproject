@@ -180,6 +180,6 @@ export class UserUpdaterStates {
 
 
 const ctx = createNewContext();
-const states = ctx.create(States);
+const states = ctx.create(States as any);
 
 opServicesModule.value('states', states);

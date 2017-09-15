@@ -36,6 +36,10 @@ export class WpAttachmentsFormattableController {
     ($element as any).on('dragenter dragleave dragover', this.prevDefault);
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   public handleDrop = (evt:JQueryEventObject):void => {
     evt.preventDefault();
     evt.stopPropagation();
@@ -207,7 +211,7 @@ export class WpAttachmentsFormattableController {
   };
 }
 
-function wpAttachmentsFormattable() {
+function wpAttachmentsFormattable():any {
   return {
     bindToController: true,
     controller: WpAttachmentsFormattableController,

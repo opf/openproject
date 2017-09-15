@@ -5170,7 +5170,7 @@
       "integrity": "sha1-1jspVdLSBq+IXmk7rXyvhBwH3dA=",
       "requires": {
         "es6-shim": "0.35.1",
-        "rxjs": "5.0.3",
+        "rxjs": "5.4.3",
         "zone.js": "0.8.12"
       }
     },
@@ -5361,9 +5361,9 @@
       }
     },
     "rxjs": {
-      "version": "5.0.3",
-      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.0.3.tgz",
-      "integrity": "sha1-/IvfRk6/k4gSdI5BlniPOS/vl1Q=",
+      "version": "5.4.3",
+      "resolved": "https://registry.npmjs.org/rxjs/-/rxjs-5.4.3.tgz",
+      "integrity": "sha512-fSNi+y+P9ss+EZuV0GcIIqPUK07DEaMRUtLJvdcvMyFjc9dizuDjere+A4V7JrLGnm9iCc+nagV/4QdMTkqC4A==",
       "requires": {
         "symbol-observable": "1.0.4"
       }
@@ -6223,9 +6223,9 @@
       "dev": true
     },
     "typescript": {
-      "version": "2.3.4",
-      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.3.4.tgz",
-      "integrity": "sha1-PTgyGCgjHkNPKHUUlZw3qCtin0I="
+      "version": "2.5.2",
+      "resolved": "https://registry.npmjs.org/typescript/-/typescript-2.5.2.tgz",
+      "integrity": "sha1-A4qV99m7tCCxvzW6MdTFwd0//jQ="
     },
     "uglify-js": {
       "version": "2.8.29",

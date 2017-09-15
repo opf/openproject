@@ -79,7 +79,7 @@ export class WorkPackageRelationsHierarchyController {
   };
 }
 
-function wpRelationsDirective() {
+function wpRelationsDirective():any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.template.html',
@@ -96,8 +96,4 @@ function wpRelationsDirective() {
 }
 
 wpDirectivesModule
-  .directive(
-    'wpRelationsHierarchy'
-    ,
-    wpRelationsDirective
-  );
+  .directive('wpRelationsHierarchy', wpRelationsDirective);
