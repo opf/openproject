@@ -33,7 +33,7 @@ RSpec.configure do |c|
   c.include OpenIDConnectSpecHelpers
 end
 
-describe 'OpenID Connect' do
+describe 'OpenID Connect', type: :rails_request do
   let(:host) { OmniAuth::OpenIDConnect::Heroku.new('foo', {}).host }
   let(:user_info) do
     {
@@ -138,19 +138,6 @@ describe 'OpenID Connect' do
   end
 
   context 'provider configuration through the settings' do
-    it 'should make providers that are not configured unavailable' do
-      get '/login'
-      expect(response.body).not_to match /Google/i
-
-      routing_error = begin
-        click_on_signin('google')
-      rescue ActionController::RoutingError => e
-        e
-      end
-
-      expect(routing_error.present? || response.status == 404).to be (true)
-    end
-
     it 'should make providers that have been configured through settings available without requiring a restart' do
       allow(Setting).to receive(:plugin_openproject_openid_connect).and_return(
 
