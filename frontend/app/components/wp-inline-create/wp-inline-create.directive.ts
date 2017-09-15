@@ -90,15 +90,18 @@ export class WorkPackageInlineCreateController {
     // Remove temporary rows on creation of new work package
     scopedObservable(this.$scope, this.wpCreate.onNewWorkPackage())
       .subscribe((wp:WorkPackageResourceInterface) => {
-
-        if (this.currentWorkPackage === wp) {
-          // Remove this row and add another
-          this.table.editing.stopEditing('new');
+        if (this.currentWorkPackage && this.currentWorkPackage === wp) {
+          // Add next row
           this.removeWorkPackageRow();
           this.addWorkPackageRow();
 
           // Focus on the last inserted id
           this.states.focusedWorkPackage.putValue(wp.id, 'Added in inline create');
+        } else {
+          // Remove current row
+          this.table.editing.stopEditing('new');
+          this.removeWorkPackageRow();
+          this.showRow();
         }
       });
 

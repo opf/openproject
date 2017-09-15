@@ -78,7 +78,7 @@ class WorkPackageField
   end
 
   def expect_inactive!
-    expect(page).to have_no_selector("#{@selector} #{field_type}")
+    expect(field_container).to have_no_selector("#{field_type}")
   end
 
   def expect_invalid

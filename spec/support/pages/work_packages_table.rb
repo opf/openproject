@@ -96,6 +96,14 @@ module Pages
       expect(page).to have_selector('.wp-inline-create-row')
     end
 
+    def create_wp_split_screen(type)
+      find('.add-work-package:not([disabled])', text: 'Create').click
+
+      find('#types-context-menu .menu-item', text: type, wait: 10).click
+
+      SplitWorkPackageCreate.new(project: project)
+    end
+
     def open_split_view(work_package)
       split_page = SplitWorkPackage.new(work_package, project)
 
