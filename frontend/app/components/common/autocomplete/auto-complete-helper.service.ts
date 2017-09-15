@@ -67,12 +67,24 @@ export class AutoCompleteHelperService {
               }
             });
         },
-        sorter: function(query:any, items:any, search_key:any) {
-          return items; // we do not sort
-        }
+        matcher: function(flag:string, subtext:string, should_start_with_space:boolean) {
+          var match, regexp;
+          flag = flag.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, '\\$&');
+          if (should_start_with_space) {
+            flag = '(?:^|\\s)' + flag;
+          }
+
+          regexp = new RegExp(flag + '([A-Za-z0-9_\\s\+\-\]*)$|' + flag + '([^\\x00-\\xff]*)$', 'gi');
+          match = regexp.exec(subtext.replace(/\s/g, ' '));
+          if (match) {
+            return match[2] || match[1];
+          } else {
+            return null;
+          }
+      }
       }
     };
-  };
+  }
 
   public getAtWhoParametersWPID(textarea:HTMLElement) {
     var url = this.PathHelper.workPackageJsonAutoCompletePath();

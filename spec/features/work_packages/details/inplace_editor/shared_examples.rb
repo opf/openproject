@@ -125,11 +125,14 @@ end
 
 shared_examples 'a principal autocomplete field' do
   let!(:user) { FactoryGirl.create :user, member_in_project: project, firstname: 'John' }
-  let!(:mentioned_user) { FactoryGirl.create :user, member_in_project: project, firstname: 'Laura' }
+  let!(:mentioned_user) { FactoryGirl.create :user, member_in_project: project, firstname: 'Laura', lastname: 'Foobar' }
 
   it 'autocompletes links to user profiles' do
     field.activate!
     field.input_element.send_keys(" @lau")
+    expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+
+    field.input_element.send_keys(" @Laura Fo")
     expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
   end
 end
