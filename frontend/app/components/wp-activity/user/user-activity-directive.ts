@@ -110,6 +110,7 @@ function userActivity($uiViewScroll:any,
 
       scope.editComment = function () {
         scope.activity.editedComment = scope.activity.comment.raw;
+        scope.isPreview = false;
         scope.inEdit = true;
       };
 
@@ -147,7 +148,7 @@ function userActivity($uiViewScroll:any,
             scope.activity.editedComment
           ).then(function (r:any) {
             scope.previewHtml = $sce.trustAsHtml(r.data);
-          }).finally(() => {
+          }).catch(() => {
             scope.isPreview = false;
           });
         }
