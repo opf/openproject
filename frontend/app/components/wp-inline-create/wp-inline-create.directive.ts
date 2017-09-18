@@ -39,10 +39,10 @@ import {
   InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from "./inline-create-row-builder";
-import {scopeDestroyed$, scopedObservable} from "../../helpers/angular-rx-utils";
-import {States} from "../states.service";
-import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
-import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
+import {scopeDestroyed$, scopedObservable} from '../../helpers/angular-rx-utils';
+import {States} from '../states.service';
+import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
+import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
@@ -137,7 +137,7 @@ export class WorkPackageInlineCreateController {
   public addWorkPackageRow() {
     this.wpCreate.createNewWorkPackage(this.projectIdentifier).then((changeset:WorkPackageChangeset) => {
       if (!changeset) {
-        throw "No new work package was created";
+        throw 'No new work package was created';
       }
 
       const wp = this.currentWorkPackage = changeset.workPackage;
@@ -206,7 +206,7 @@ function wpInlineCreate():any {
     templateUrl: '/components/wp-inline-create/wp-inline-create.directive.html',
 
     scope: {
-      table: "=",
+      table: '=',
       projectIdentifier: '='
     },
 
