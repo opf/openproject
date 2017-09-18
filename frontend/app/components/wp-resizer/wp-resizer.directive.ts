@@ -64,7 +64,7 @@ export class WorkPackageResizerController {
       // Change cursor icon
       // This is handled via JS to ensure
       // that the cursor stays the same even when the mouse leaves the actual resizer.
-      document.getElementsByTagName("body")[0].style.cursor = 'col-resize';
+      document.getElementsByTagName("body")[0].style = 'cursor: col-resize !important';
 
       // Enable mouse move
       window.addEventListener('mousemove', this.mouseMoveHandler);
