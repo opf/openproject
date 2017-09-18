@@ -41,6 +41,7 @@ export class AutoCompleteHelperService {
       limit: 10,
       highlightFirst: true,
       suffix: '',
+      acceptSpaceBar: true,
       textarea: textarea,
       callbacks: {
         remoteFilter: (query:string, callback:Function) => {
