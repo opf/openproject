@@ -1,3 +1,4 @@
+import {wpCellTdClassName} from './../wp-fast-table/builders/cell-builder';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {injectorBridge} from '../angular/angular-injector-bridge.functions';
@@ -78,7 +79,7 @@ export class InlineCreateRowBuilder extends SingleRowBuilder {
 
   protected buildCancelButton() {
     const td = document.createElement('td');
-    td.classList.add('wp-table--cancel-create-td');
+    td.classList.add(wpCellTdClassName, 'wp-table--cancel-create-td');
 
    td.innerHTML = `
     <a
