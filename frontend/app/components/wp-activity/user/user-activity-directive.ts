@@ -29,6 +29,7 @@
 import {UserResource} from '../../api/api-v3/hal-resources/user-resource.service';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {TextileService} from './../../common/textile/textile-service';
+import {ActivityService} from './../activity-service';
 
 angular
   .module('openproject.workPackages.activities')
@@ -40,7 +41,7 @@ function userActivity($uiViewScroll:any,
                       $sce:ng.ISCEService,
                       I18n:op.I18n,
                       PathHelper:any,
-                      ActivityService:any,
+                      wpActivityService:ActivityService,
                       wpCacheService:WorkPackageCacheService,
                       ConfigurationService:any,
                       AutoCompleteHelper:any,
@@ -127,7 +128,7 @@ function userActivity($uiViewScroll:any,
       };
 
       scope.updateComment = function () {
-        ActivityService.updateComment(scope.activity, scope.activity.editedComment || '').then(function () {
+        wpActivityService.updateComment(scope.activity, scope.activity.editedComment || '').then(function () {
           scope.workPackage.updateActivities();
           scope.inEdit = false;
         });
@@ -137,7 +138,7 @@ function userActivity($uiViewScroll:any,
       scope.focusEditIcon = function () {
         // Find the according edit icon and focus it
         jQuery('.edit-activity--' + scope.activityNo + ' a').focus();
-      }
+      };
 
       scope.toggleCommentPreview = function () {
         scope.isPreview = !scope.isPreview;

@@ -49,7 +49,7 @@ export class CommentFieldDirectiveController {
               protected $timeout:ng.ITimeoutService,
               protected $q:ng.IQService,
               protected $element:ng.IAugmentedJQuery,
-              protected ActivityService:any,
+              protected wpActivityService:any,
               protected ConfigurationService:any,
               protected loadingIndicator:LoadingIndicatorService,
               protected wpCacheService:WorkPackageCacheService,
@@ -110,7 +110,7 @@ export class CommentFieldDirectiveController {
 
     this.field.isBusy = true;
     let indicator = this.loadingIndicator.wpDetails;
-    indicator.promise = this.ActivityService.createComment(this.workPackage, this.field.value)
+    indicator.promise = this.wpActivityService.createComment(this.workPackage, this.field.value)
       .then(() => {
         this.editing = false;
         this.NotificationsService.addSuccess(this.I18n.t('js.work_packages.comment_added'));

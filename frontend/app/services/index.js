@@ -27,12 +27,6 @@
 //++
 
 angular.module('openproject.services')
-  .service('ActivityService', [
-    '$http',
-    'I18n',
-    'NotificationsService',
-    require('./activity-service')
-  ])
   .service('HookService', require('./hook-service'))
   .service('KeyboardShortcutService', [
     '$window',
