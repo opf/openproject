@@ -40,7 +40,7 @@ export class ProgressDisplayField extends DisplayField {
 
   public render(element:HTMLElement, displayText:string): void {
     const progressInPercent = Math.round(Number(this.value)) || 0;
-    const label = this.I18n.t('js.label_total_progress', { percent: progressInPercent });
+    const label = progressInPercent + '%';
 
     element.setAttribute('title', displayText);
     element.innerHTML = `
