@@ -128,7 +128,7 @@ describe 'edit work package', js: true do
                               startDate: '03/04/2013',
                               dueDate: '03/20/2013',
                               estimatedTime: '5',
-                              percentageDone: '30% Total progress',
+                              percentageDone: '30%',
                               subject: 'a new subject',
                               description: 'a new description',
                               priority: priority2.name,
