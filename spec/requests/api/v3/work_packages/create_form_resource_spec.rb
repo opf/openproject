@@ -33,17 +33,14 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:path) { api_v3_paths.create_work_package_form }
-  let(:status) { FactoryGirl.create(:default_status) }
-  let(:priority) { FactoryGirl.create(:default_priority) }
-  let(:user) { FactoryGirl.build(:admin) }
-  let(:project) { FactoryGirl.create(:project_with_types) }
+  shared_let(:path) { api_v3_paths.create_work_package_form }
+  shared_let(:status) { FactoryGirl.create(:default_status) }
+  shared_let(:priority) { FactoryGirl.create(:default_priority) }
+  shared_let(:user) { FactoryGirl.build(:admin) }
+  shared_let(:project) { FactoryGirl.create(:project_with_types) }
   let(:parameters) { {} }
 
   before do
-    status
-    priority
-    project
     login_as(user)
     post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
   end
