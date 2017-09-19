@@ -38,10 +38,28 @@
       font-size: 16px
       line-height: 1
 
-.work-packages--info-row
-  font-size: 0.8rem
-  line-height: 1.1rem
-  padding: 5px 0
+.work-package--single-view
+  display: flex
+
+  #work-packages--status-selector
+    border: 1px solid #f9ab6b
+    border-radius: 2px
+    background-color: #fcd5b5
+    margin-right: 5px
+    padding: 0 0 0 5px
+    line-height: 26px
+
+    .wp-edit-field--container
+      display: inline-block
+      border-left: 1px solid #fac89e
+
+    .form--select
+      background-color: #fcd5b5
+
+  .work-packages--info-row
+    font-size: 0.8rem
+    line-height: 1.1rem
+    padding: 6px 0
 
 .work-packages--details--title
   @include grid-block
@@ -183,16 +201,6 @@ i
   padding: 10px 10px 0 10px
   margin: 10px 0 0 0
   border: 1px solid rgb(227, 245, 255)
-
-// Avoid top border and spacing for special projects/select attribute group
-.attributes-group.-special-fields
-  margin-top: 0.5em
-
-  .attributes-group--header,
-  .attributes-group--header-container
-    border: 0
-    padding: 0
-    margin: 0
 
 // Increase label width
 .action-show .attributes-group,
