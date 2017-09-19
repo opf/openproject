@@ -22,6 +22,7 @@ RUN echo "loglevel=info" >> /usr/local/etc/npmrc
 
 COPY Gemfile ./Gemfile
 COPY Gemfile.* ./
+COPY vendored-plugins ./vendored-plugins
 RUN chown -R app:app /usr/src/app
 
 USER app
