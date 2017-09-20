@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Invalid query spec', js: true do
+describe 'Invalid query spec', js: true, retry: 2 do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
 
@@ -55,7 +55,9 @@ describe 'Invalid query spec', js: true do
     work_package_assigned
   end
 
-  it 'should load a faulty query and also the drop down' do
+  it 'should handle invalid queries' do
+
+    # should load a faulty query and also the drop down
     wp_table.visit_query(invalid_query)
 
     filters.open
@@ -69,9 +71,11 @@ describe 'Invalid query spec', js: true do
     wp_table.expect_work_package_listed work_package_assigned
 
     wp_table.expect_query_in_select_dropdown(invalid_query.name)
-  end
 
-  it 'should not load with faulty parameters but can be fixed' do
+    Capybara.current_session.driver.execute_script('window.localStorage.clear()')
+
+    # should not load with faulty parameters but can be fixed
+
     filter_props = [{ 'n': 'assignee', 'o': '=', 'v': ['999999'] },
                     { 'n': 'status', 'o': '=', 'v': [status.id.to_s, status2.id.to_s] }]
     column_props = ['id', 'subject', 'customField0815']
@@ -82,15 +86,19 @@ describe 'Invalid query spec', js: true do
 
     wp_table.visit_with_params("query_id=#{valid_query.id}&query_props=#{invalid_props}")
 
-    filters.open
+    wp_table.expect_notification(type: :error,
+                                 message: I18n.t('js.work_packages.faulty_query.description'))
+    wp_table.dismiss_notification!
+    wp_table.expect_no_work_package_listed
     filters.expect_filter_count 2
+
+    # wait a bit for the filters to load
+    sleep 2
+
+    filters.open
     filters.expect_filter_by('Assignee', 'is', I18n.t('js.placeholders.selection'))
     filters.expect_filter_by('Status', 'is', [status.name, status2.name])
 
-    wp_table.expect_notification(type: :error,
-                                 message: I18n.t('js.work_packages.faulty_query.description'))
-
-    wp_table.expect_no_work_package_listed
 
     wp_table.group_by('Assignee')
     sleep(0.3)
