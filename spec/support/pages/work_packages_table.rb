@@ -54,11 +54,12 @@ module Pages
       end
     end
 
-    def expect_work_package_not_listed(*work_packages)
+    def expect_work_package_not_listed(*work_packages, wait: 3)
       within(table_container) do
         work_packages.each do |wp|
           expect(page).to have_no_selector(".wp-row-#{wp.id} td.subject",
-                                           text: wp.subject)
+                                           text: wp.subject,
+                                           wait: wait)
         end
       end
     end
