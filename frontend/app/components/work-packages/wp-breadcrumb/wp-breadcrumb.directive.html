@@ -1,6 +1,6 @@
-<div class="wp-breadcrumb -show">
-  <ul class="breadcrumb"
-      ng-if="workPackage.ancestors.length > 0">
+<div class="wp-breadcrumb -show"
+     ng-if="workPackage.ancestors.length > 0">
+  <ul class="breadcrumb">
     <li ng-repeat="ancestor in workPackage.ancestors" class="icon-context icon-small icon-arrow-right5">
       <a title="{{ancestor.name}}"
          class="breadcrumb-project-title nocut"
