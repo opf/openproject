@@ -92,14 +92,24 @@ ul.breadcrumb
     padding: 0
 
 .wp-breadcrumb
+  margin-top: 10px
+  margin-left: -10px
+  height: initial
   ul.breadcrumb
-    li:first-child
-      margin-left: 0
+    height: initial
+    li
+      line-height: 20px
+      &:first-child
+        &:before
+          display: none
+      &.icon-arrow-right5:before
+        padding-right: 5px
+
 
 // This is ugly. However, this way we do not need to touch complicated
 // toolbar-container positioning.
 body.action-show .wp-breadcrumb
-  margin-bottom: -19px
+  margin-bottom: -10px
 
 // Hide projects in normal mode
 body:not(.accessibility-mode) .breadcrumb .breadcrumb-project-element
