@@ -271,8 +271,10 @@ describe Project::Copy, type: :model do
     end
 
     describe '#copy_queries' do
+      let(:query) { FactoryGirl.create(:query, project: project) }
+
       before do
-        FactoryGirl.create(:query, project: project)
+        query
 
         copy.send(:copy_queries, project)
         copy.save
@@ -281,6 +283,43 @@ describe Project::Copy, type: :model do
       subject { copy.queries.count }
 
       it { is_expected.to eq(project.queries.count) }
+
+      context 'with a filter' do
+        let(:query) {
+          query = FactoryGirl.build(:query, project: project)
+          query.add_filter('subject', '~', ['bogus'])
+          query.save!
+        }
+
+        subject { copy.queries }
+
+        it 'produces a valid query in the new project' do
+          expect(subject.all?(&:valid?)).to eq(true)
+          expect(subject.count).to eq(1)
+        end
+      end
+
+      context 'with a query menu item' do
+        let(:query) {
+          query = FactoryGirl.build(:query, project: project)
+          query.add_filter('subject', '~', ['bogus'])
+          query.save!
+
+          MenuItems::QueryMenuItem.create(
+            navigatable_id: query.id,
+            name: 'some-uuid',
+            title: 'My query title'
+          )
+
+          query
+        }
+        subject { copy.queries.first}
+
+        it 'copies the menu item' do
+          expect(subject).to be_valid
+          expect(subject.query_menu_item.title).to eq('My query title')
+        end
+      end
     end
 
     describe '#copy_members' do
