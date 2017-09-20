@@ -248,14 +248,26 @@ module Project::Copy
 
     # Copies queries from +project+
     def copy_queries(project, selected_copies = [])
-      project.queries.each do |query|
+      project.queries.includes(:query_menu_item).each do |query|
         new_query = ::Query.new name: '_'
         new_query.attributes = query.attributes.dup.except('id', 'project_id', 'sort_criteria')
-        new_query.set_context
         new_query.sort_criteria = query.sort_criteria if query.sort_criteria
+        new_query.set_context
         new_query.project = self
         queries << new_query
+
+        # Copy menu item if any
+        if query.query_menu_item && new_query.persisted?
+          ::MenuItems::QueryMenuItem.create(
+            navigatable_id: new_query.id,
+            name: SecureRandom.uuid,
+            title: query.query_menu_item.title
+          )
+        end
       end
+
+      # Update the context in the new project, otherwise, the filters will be invalid
+      queries.map { |q| q.set_context }
     end
 
     # Copies boards from +project+
