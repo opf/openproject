@@ -28,7 +28,7 @@
 #++
 
 When(/^I follow the link to see the diff in the last journal$/) do
-  within('.work-packages--right-panel') do
+  within('.work-packages-full-view--split-right') do
     # I assume activity sorting oldest to newest; In that case the last journal is
     # the one where we need to click on the "Details" link
     all('.work-package-details-activities-activity-contents .description-details').last.click
