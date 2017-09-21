@@ -62,25 +62,27 @@ describe 'Filter by budget', js: true do
   end
 
   it 'allows filtering for budgets' do
-    filters.open
+    wp_table.expect_work_package_listed work_package_with_budget, work_package_without_budget
 
+    filters.expect_filter_count 1
+    filters.open
     filters.add_filter_by('Budget', 'is', budget.name, 'costObject')
 
-    expect(wp_table).to have_work_packages_listed [work_package_with_budget]
-    expect(wp_table).not_to have_work_packages_listed [work_package_without_budget]
+    wp_table.expect_work_package_listed work_package_with_budget
+    wp_table.expect_work_package_not_listed work_package_without_budget
 
     wp_table.save_as('Some query name')
 
     filters.remove_filter 'costObject'
 
-    expect(wp_table).to have_work_packages_listed [work_package_with_budget, work_package_without_budget]
+    wp_table.expect_work_package_listed work_package_with_budget, work_package_without_budget
 
     last_query = Query.last
 
     wp_table.visit_query(last_query)
 
-    expect(wp_table).to have_work_packages_listed [work_package_with_budget]
-    expect(wp_table).not_to have_work_packages_listed [work_package_without_budget]
+    wp_table.expect_work_package_listed work_package_with_budget
+    wp_table.expect_work_package_not_listed work_package_without_budget
 
     filters.open
 
