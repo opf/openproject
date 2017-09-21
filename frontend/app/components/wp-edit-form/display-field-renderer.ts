@@ -1,3 +1,4 @@
+import {ProgressTextDisplayField} from './../wp-display/field-types/wp-display-progress-text-field.module';
 import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageDisplayFieldService} from '../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
@@ -19,7 +20,7 @@ export class DisplayFieldRenderer {
   public wpDisplayField:WorkPackageDisplayFieldService;
   public I18n:op.I18n;
 
-  constructor(public context:'table' | 'single-view') {
+  constructor(public context:'table' | 'single-view' | 'timeline') {
     $injectFields(this, 'wpDisplayField', 'I18n');
   }
 
@@ -64,17 +65,26 @@ export class DisplayFieldRenderer {
                   fieldSchema:op.FieldSchema,
                   name:string,
                   changeset:WorkPackageChangeset|null):DisplayField {
-    // We handle multi value fields differently in the single view context
-    const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;
-    let field:DisplayField;
-    if (this.context === 'single-view' && isMultiLinesField) {
-      field = new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema) as DisplayField;
-    } else {
-      field = this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
-    }
+    const field = this.getFieldForCurrentContext(workPackage, fieldSchema, name);
     field.changeset = changeset;
 
     return field;
+  }
+
+  private getFieldForCurrentContext(workPackage:WorkPackageResourceInterface, fieldSchema:op.FieldSchema, name:string) {
+
+    // We handle multi value fields differently in the single view context
+    const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;
+    if (this.context === 'single-view' && isMultiLinesField) {
+      return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema) as DisplayField;
+    }
+
+    // We handle progress differently in the timeline
+    if (this.context === 'timeline' && name === 'percentageDone') {
+      return new ProgressTextDisplayField(workPackage, name, fieldSchema);
+    }
+
+    return this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;
   }
 
   private getText(field:DisplayField, placeholder:string):string {
