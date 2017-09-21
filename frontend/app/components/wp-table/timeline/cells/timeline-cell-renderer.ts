@@ -50,7 +50,7 @@ function calculateForegroundColor(backgroundColor:string):string {
 export class TimelineCellRenderer {
   public TimezoneService:any;
   public wpTableTimeline:WorkPackageTableTimelineService;
-  public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer('table');
+  public fieldRenderer:DisplayFieldRenderer = new DisplayFieldRenderer('timeline');
 
   protected dateDisplaysOnMouseMove:{ left?:HTMLElement; right?:HTMLElement } = {};
 
