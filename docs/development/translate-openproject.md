@@ -47,7 +47,7 @@ To provide a translation select a file from a version which has not been complet
 3. Once a file is selected, all the strings associated with the version are displayed on the left side. To display the untranslated strings first, select the filter icon next to the search bar and select “All, Untranslated First”.
 The red square next to an English string shows that a string has not been translated yet. To provide a translation, select a string on the left side, provide a translation in the target language in the text box in the right side (singular and plural) and press the save button.
 As soon as a translation has been provided by another user (green square next to string), you can also vote on a translation provided by another user. The translation with the most votes is used unless a different translation has been approved by a proof reader.
-![Translate strings via CrowdIn](http://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2015/07/CrowdIn3.png "Translate strings via CrowdIn")
+![Translate strings via CrowdIn](https://1t1rycb9er64f1pgy2iuseow-wpengine.netdna-ssl.com/wp-content/uploads/2015/07/CrowdIn3.png "Translate strings via CrowdIn")
 Once a translation has been provided, a proof reader can approve the translation and mark it for use in OpenProject.
 
 If you are interested in becoming a proof reader, please contact one of the project managers in the Openproject CrowdIn project or send us an email at support@openproject.org.
