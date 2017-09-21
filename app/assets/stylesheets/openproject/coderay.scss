@@ -29,11 +29,27 @@ See doc/COPYRIGHT.rdoc for more details.
 
 .CodeRay {
   background-color: hsl(0,0%,95%);
-  border: 1px solid silver;
+  // border: 1px solid silver;
   color: black;
 }
 .CodeRay pre {
   margin: 0px;
+}
+
+// Inline-block style for span.CodeRay
+code.CodeRay {
+  display: inline-block;
+}
+
+// Block style for code in pre
+pre code.CodeRay {
+  display: block;
+  // Pre has its own border, so hide coderay's here.
+  border: none;
+}
+
+.CodeRay span {
+  display: inline-block;
 }
 
 span.CodeRay { white-space: pre; border: 0px; padding: 2px; }
