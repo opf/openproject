@@ -9,6 +9,11 @@
   &:hover
     text-decoration: none
 
+  // On edge, pointer-events only work on
+  // block or inline-block elements
+  html.-browser-edge &
+    display: inline-block !important
+
 // Toggle the indicator accessibility texts
 // accordingly
 .wp-table--hierarchy-indicator-collapsed
