@@ -93,6 +93,34 @@ describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
       end
     end
 
+    context 'for me and user values' do
+      let(:user) { FactoryGirl.create :user }
+      let(:assignee2) { FactoryGirl.create :user }
+      let(:values) { [assignee.id , user.id, 'me', assignee2.id] }
+
+      before do
+        # Order is important here for ids,
+        # otherwise the value_objects will return <user> due to its id
+        assignee
+        assignee2
+        user
+        values
+
+        allow(User)
+          .to receive(:current)
+          .and_return(user)
+      end
+
+      it 'returns the mapped value' do
+        objects = instance.value_objects_hash
+
+        expect(objects.length).to eq(3)
+        expect(objects[0][:id]).to eq assignee.id
+        expect(objects[1][:id]).to eq assignee2.id
+        expect(objects[2][:id]).to eq 'me'
+      end
+    end
+
     context 'for a group value with the group being assignee' do
       let(:assignee) { group }
       let(:values) { [group.id.to_s] }
