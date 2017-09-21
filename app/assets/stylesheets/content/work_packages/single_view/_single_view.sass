@@ -197,18 +197,24 @@ i
 // Increase label width
 .action-show .attributes-group,
 .full-create .attributes-group
+  // We have to find a middle way between
+  // (a) avoiding label wrap and
+  // (b) ugly content wrap (e.g. in the label)
+  // These values are what matches best at the moment. So be careful when changing them.
   .attributes-key-value--key
-    @include grid-content(6)
+    flex: 0 0 45%
+    max-width: 45%
   .attributes-key-value--value-container
-    @include grid-content(6)
+    flex: 0 0 55%
+    max-width: 55%
 
 // Implement two column layout for WP full screen view
-@media screen and (min-width: 90rem)
+@media screen and (min-width: 92rem)
   .action-show .attributes-group,
   .full-create .attributes-group
     .-columns-2
       column-count: 2
-      column-gap: 4rem
+      column-gap: 3rem
 
       .attributes-key-value
         -webkit-column-break-inside: avoid
@@ -220,10 +226,10 @@ i
         .attributes-key-value.-span-all-columns
           column-span: all
           .attributes-key-value--key
-            flex-basis: calc(24.4% - (4rem / 6))
+            flex-basis: calc(22.5% - (4rem / 6))
           .attributes-key-value--value-container
-            flex-basis: calc(75.6% + (4rem / 6))
-            max-width: calc(75.6% + (4rem / 6))
+            flex-basis: calc(77.5% + (4rem / 6))
+            max-width: calc(77.5% + (4rem / 6))
 
   @supports (column-span: all)
     // Remove the outline on focus since that breaks the column in chrome
