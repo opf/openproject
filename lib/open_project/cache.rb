@@ -31,5 +31,9 @@ module OpenProject
     def self.fetch(*parts, &block)
       Rails.cache.fetch(CacheKey.key(parts), &block)
     end
+
+    def self.clear
+      Rails.cache.clear
+    end
   end
 end

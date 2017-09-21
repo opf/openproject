@@ -58,14 +58,14 @@ See doc/COPYRIGHT.rdoc for more details.
                locals: { name: "wiki", checked: true, label: l(:label_wiki_page_plural),
                             count: project.wiki.nil? ? 0 : project.wiki.pages.count } %>
     <%= render partial: "copy_projects/copy_settings/block_checkbox",
-               locals: { name: "wiki_page_attachametns", checked: false, label: l(:label_wiki_page_attachments),
+               locals: { name: "wiki_page_attachments", checked: false, label: l(:label_wiki_page_attachments),
                          count: project.wiki.pages.joins(:attachments).count('attachments.id') } %>
   <% end %>
   <%= render partial: "copy_projects/copy_settings/block_checkbox",
-             locals: { name: "work_packages", checked: false, label: l(:label_work_package_plural),
+             locals: { name: "work_packages", checked: true, label: l(:label_work_package_plural),
                           count: project.work_packages.count } %>
   <%= render partial: "copy_projects/copy_settings/block_checkbox",
-             locals: { name: "work_package_attachments", checked: false, label: l(:label_work_package_attachments),
+             locals: { name: "work_package_attachments", checked: true, label: l(:label_work_package_attachments),
                      count: project.work_packages.joins(:attachments).count('attachments.id') } %>
   <%= render partial: "copy_projects/copy_settings/block_checkbox",
              locals: { name: "categories", checked: true,

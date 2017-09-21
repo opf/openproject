@@ -65,6 +65,8 @@ describe 'API v3 time_entry resource', type: :request do
 
   before do
     login_as(current_user)
+
+    OpenProject::Cache.clear
   end
 
   describe 'GET api/v3/time_entries' do

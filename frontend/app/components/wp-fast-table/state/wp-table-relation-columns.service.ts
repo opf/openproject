@@ -117,9 +117,9 @@ export class WorkPackageTableRelationColumnsService extends WorkPackageTableBase
 
       return _.filter(relations, (relation:RelationResource) => {
         const denormalized = relation.denormalized(workPackage);
-        const target = this.states.workPackages.get(denormalized.targetId).value!;
+        const target = this.states.workPackages.get(denormalized.targetId).value;
 
-        return target.type.href === typeHref;
+        return _.get(target, 'type.href') === typeHref;
       });
     }
 

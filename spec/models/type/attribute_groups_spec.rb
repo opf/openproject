@@ -176,6 +176,9 @@ describe ::Type, type: :model do
     end
 
     it 'can be put into attribute groups' do
+      # Enforce fresh lookup of groups
+      OpenProject::Cache.clear
+
       # Is in inactive group
       form = type.form_configuration_groups
       expect(form[:inactives][0][:key]).to eq(cf_identifier.to_s)
