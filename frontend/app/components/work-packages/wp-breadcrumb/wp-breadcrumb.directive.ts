@@ -30,7 +30,7 @@ import {openprojectModule} from "../../../angular-modules";
 
 function wpBreadcrumb() {
   return {
-    restrict: 'EA',
+    restrict: 'E',
     scope: {workPackage: '=workPackage'},
     templateUrl: '/components/work-packages/wp-breadcrumb/wp-breadcrumb.directive.html'
   };
