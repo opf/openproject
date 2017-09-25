@@ -37,7 +37,8 @@ export class ActivityService {
     private $http:ng.IHttpService,
     private I18n:op.I18n,
     private wpNotificationsService:WorkPackageNotificationService,
-    private NotificationsService:any) {
+    private NotificationsService:any,
+    private $q:ng.IQService) {
     }
 
   public createComment(workPackage:WorkPackageResourceInterface, comment:string) {
@@ -45,7 +46,7 @@ export class ActivityService {
       { comment: comment},
       { 'Content-Type': 'application/json; charset=UTF-8' }
     )
-    .catch((error:any) => this.wpNotificationsService.handleErrorResponse(error, workPackage));
+    .catch((error:any) => this.errorAndReject(error, workPackage));
   }
 
   public updateComment(activity:HalResource, comment:string) {
@@ -66,7 +67,14 @@ export class ActivityService {
         );
 
         return activity;
-    }).catch((error:any) => this.wpNotificationsService.handleErrorResponse(error));
+    }).catch((error:any) => this.errorAndReject(error));
+  }
+
+  private errorAndReject(error:HalResource, workPackage?:WorkPackageResourceInterface) {
+    this.wpNotificationsService.handleErrorResponse(error, workPackage);
+
+    // returning a reject will enable to correctly work with subsequent then/catch handlers.
+    return this.$q.reject(error);
   }
 }
 
