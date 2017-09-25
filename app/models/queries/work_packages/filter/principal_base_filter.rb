@@ -40,7 +40,7 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     # Replace me value identifier
     if has_me_value?
       search = User.current.id
-      objects.map! do |value_object|
+      objects.each do |value_object|
         if value_object[:id] == search
           value_object[:id] = 'me'
           value_object[:name] = I18n.t(:label_me)
