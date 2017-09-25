@@ -1,5 +1,7 @@
-/***** Media print specific styles *****/
+// -------------------- Media print specific styles --------------------
 @media print
+  // -------------------- ALL pages --------------------
+  .hide-when-print,
   #top-menu,
   #header,
   #main-menu,
@@ -7,7 +9,8 @@
   #footer,
   #breadcrumb,
   .contextual,
-  .other-formats
+  .other-formats,
+  #wiki_add_attachment
     display: none
 
   .notification-box
@@ -24,15 +27,10 @@
     background: #fff
     overflow: visible !important
 
-    &.hidden-navigation
-      width: 99%
-      margin-left: 0
-
-  #wiki_add_attachment
-    display: none
-
-  .hide-when-print
-    display: none
+  #content-wrapper.hidden-navigation,
+  #content.hidden-navigation
+    width: 99% !important
+    margin-left: 0 !important
 
   .autoscroll
     overflow-x: visible
@@ -51,15 +49,11 @@
   h3
     font-size: 1.17em
 
-  //
-  // WORK PACKAGE table
-  //
+  // -------------------- Work Package views --------------------
   body
     &.controller-work_packages.action-index,
     &.controller-work_packages.action-show,
     &.controller-work_packages.full-create
-      .wp-timeline--slider-wrapper
-        display: none !important
       #wrapper
         overflow: visible !important
 
@@ -78,10 +72,6 @@
           overflow: visible !important
           position: relative
 
-          &.hidden-navigation
-            width: 99%
-            margin-left: 0
-
           .work-packages-list-view--container
             padding-left: 0
             .work-packages-split-view
@@ -89,7 +79,6 @@
 
               .work-packages-split-view--tabletimeline-side
                 .work-packages-split-view--tabletimeline-content
-
                   .wp-table--hierarchy-aditional-row,
                   tr.-checked,
                   .row-hovered
@@ -110,24 +99,15 @@
                   // Do not show table on timelines print outs.
                   display: none
 
-                .wp-table--context-menu-column
-                  display: none // remove column for info icon.
-
-                .wp-inline-create-button-row
-                  display: none // remove row with plus icon
-
               .work-packages-tabletimeline--timeline-side
                   contain: initial // For printing in Chrome
                   border-left: none
 
-      .work-packages--list-table-area
-        height: 100%
       .work-package-table--container,
       .generic-table--results-container
         overflow: hidden
-      .wp-timeline--scroll-wrapper
-        border-left-width: 3px
 
+  // -------------------- Sepcial Rules for FF --------------------
   html.-browser-firefox
     body
       &.controller-work_packages.action-index,
