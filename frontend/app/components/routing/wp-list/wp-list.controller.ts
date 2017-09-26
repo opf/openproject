@@ -135,7 +135,6 @@ function WorkPackagesListController($scope:any,
     setupChangeObserver(wpTableSortBy);
     setupChangeObserver(wpTableSum);
     setupChangeObserver(wpTableTimeline);
-    setupChangeObserver(wpTableTimeline);
     setupChangeObserver(wpTableHierarchies);
     setupChangeObserver(wpTableColumns);
   }
