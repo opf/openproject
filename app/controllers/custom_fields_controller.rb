@@ -63,13 +63,13 @@ class CustomFieldsController < ApplicationController
   def edit; end
 
   def update
-    last_option_update_before = @custom_field.custom_options.map(&:updated_at).max
+    last_update_before = @custom_field.custom_options.map(&:updated_at).max
     @custom_field.attributes = get_custom_field_params
 
     if @custom_field.save
-      last_option_update_after = @custom_field.custom_options.map(&:updated_at).max
+      last_update_after = @custom_field.custom_options.map(&:updated_at).max
 
-      if last_option_update_after > last_option_update_before
+      if last_update_after.try { |date| date > (last_update_before || date) }
         @custom_field.touch # touch to invalidate cache
       end
 
