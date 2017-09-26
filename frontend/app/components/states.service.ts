@@ -92,13 +92,13 @@ export class TableState extends StatesGroup {
   // Table row selection state
   selection = input<WPTableRowSelectionState>();
   // Current state of collapsed groups (if any)
-  collapsedGroups = input<{[identifier:string]: boolean}>();
+  collapsedGroups = input<{[identifier:string]:boolean}>();
   // Hierarchies of table
   hierarchies = input<WorkPackageTableHierarchies>();
   // State to be updated when the table is up to date
   rendered = input<RenderedRow[]>();
 
-  renderedWorkPackages: State<RenderedRow[]> = derive(this.rendered, $ => $
+  renderedWorkPackages:State<RenderedRow[]> = derive(this.rendered, $ => $
     .map(rows => rows.filter(row => !!row.workPackageId)));
 
   // State to determine timeline visibility
@@ -110,7 +110,7 @@ export class TableState extends StatesGroup {
   // Subject used to unregister all listeners of states above.
   stopAllSubscriptions = new Subject();
   // Fire when table refresh is required
-  refreshRequired = input<boolean>();
+  refreshRequired = input<boolean[]>();
 
   // Expanded relation columns
   relationColumns = input<WorkPackageTableRelationColumns>();

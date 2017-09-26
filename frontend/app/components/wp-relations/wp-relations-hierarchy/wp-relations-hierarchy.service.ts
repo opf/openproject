@@ -69,7 +69,7 @@ export class WorkPackageRelationsHierarchyService {
       .then((wp:WorkPackageResourceInterface) => {
         this.wpCacheService.updateWorkPackage(wp);
         this.wpNotificationsService.showSave(wp);
-        this.wpTableRefresh.request(true, `Changed parent of ${workPackage.id} to ${parentId}`);
+        this.wpTableRefresh.request(`Changed parent of ${workPackage.id} to ${parentId}`, true);
         return wp;
       })
       .catch((err) => {
@@ -86,7 +86,7 @@ export class WorkPackageRelationsHierarchyService {
     const state = this.wpCacheService.loadWorkPackage(childWpId);
 
     state.valuesPromise().then((wpToBecomeChild: WorkPackageResourceInterface) => {
-      this.wpTableRefresh.request(true, `Added new child to ${workPackage.id}`);
+      this.wpTableRefresh.request(`Added new child to ${workPackage.id}`, true);
       this.changeParent(wpToBecomeChild, workPackage.id).then(wp => deferred.resolve(wp!));
     });
 

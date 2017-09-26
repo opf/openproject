@@ -1,6 +1,6 @@
-import {InputState} from "reactivestates";
-import {States} from "../states.service";
-import {opServicesModule} from "../../angular-modules";
+import {InputState} from 'reactivestates';
+import {States} from '../states.service';
+import {opServicesModule} from '../../angular-modules';
 
 export class WorkPackageTableRefreshService {
   constructor(public states:States) {
@@ -11,18 +11,18 @@ export class WorkPackageTableRefreshService {
    * @param visible Whether a loading indicator should be shown while changing
    * @param reason a reason for logging purposes.
    */
-  public request(visible:boolean = false, reason:string) {
-    this.state.putValue(visible, reason);
+  public request(reason:string, visible:boolean = false, firstPage:boolean = false) {
+    this.state.putValue([visible, firstPage], reason);
   }
 
   /**
    * Undo any potential pending refresh request
    */
   public clear(reason:string) {
-    this.state.clear(reason)
+    this.state.clear(reason);
   }
 
-  public get state():InputState<boolean> {
+  public get state():InputState<boolean[]> {
     return this.states.table.refreshRequired;
   }
 }
