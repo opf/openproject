@@ -25,6 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
+$status-selector-color: #bc7100
 
 @mixin details-pane--form-field
   @include grid-visible-overflow
@@ -42,23 +43,33 @@
   display: flex
 
   #work-packages--status-selector
-    border: 1px solid #f9ab6b
-    border-radius: 2px
-    background-color: #fcd5b5
-    margin-right: 5px
-    padding: 0 0 0 5px
-    line-height: 26px
-
     .wp-edit-field--container
       display: inline-block
-      border-left: 1px solid #fac89e
+      border: 1px solid $status-selector-color
+      border-radius: 2px
+      margin-right: 5px
+      font-size: 16px
+      line-height: 34px
+      color: $status-selector-color
+
+      .wp-table--cell-span
+        &:hover
+          border-color: transparent
+        &:after
+          @include icon-font-common
+          @extend .icon-pulldown:before
+          @extend .icon-small:before
+          margin-left: 10px
+          vertical-align: middle
 
     .form--select
-      background-color: #fcd5b5
+      border: none
+      height: 34px
+      font-size: 16px
 
   .work-packages--info-row
     font-size: 0.8rem
-    line-height: 1.1rem
+    line-height: 1.5rem
     padding: 6px 0
 
 .work-packages--details--title

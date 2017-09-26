@@ -7,8 +7,6 @@
 
   <div id="work-packages--status-selector" ng-if="!$ctrl.workPackage.isNew">
     <div ng-repeat="descriptor in $ctrl.specialFields track by descriptor.name">
-        <span>{{ descriptor.label }}</span>
-        <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
         <wp-edit-field work-package-id="$ctrl.workPackage.id" field-name="descriptor.name"></wp-edit-field>
     </div>
   </div>
