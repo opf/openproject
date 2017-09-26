@@ -63,9 +63,16 @@ class CustomFieldsController < ApplicationController
   def edit; end
 
   def update
+    last_option_update_before = @custom_field.custom_options.map(&:updated_at).max
     @custom_field.attributes = get_custom_field_params
 
     if @custom_field.save
+      last_option_update_after = @custom_field.custom_options.map(&:updated_at).max
+
+      if last_option_update_after > last_option_update_before
+        @custom_field.touch # touch to invalidate cache
+      end
+
       flash[:notice] = t(:notice_successful_update)
       call_hook(:controller_custom_fields_edit_after_save, custom_field: @custom_field)
       redirect_back_or_default edit_custom_field_path(id: @custom_field.id)
