@@ -130,8 +130,11 @@ class CustomFieldsController < ApplicationController
 
   def prepare_custom_option_position
     return unless params[:custom_field][:custom_options_attributes]
-    params[:custom_field][:custom_options_attributes].each_with_index do |(_id, attributes), index|
-      attributes[:position] = index + 1
+
+    index = 0
+
+    params[:custom_field][:custom_options_attributes].each do |_id, attributes|
+      attributes[:position] = (index = index + 1)
     end
   end
 
