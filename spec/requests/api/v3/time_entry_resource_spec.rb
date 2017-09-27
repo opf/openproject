@@ -104,8 +104,8 @@ describe 'API v3 time_entry resource', type: :request do
       end
     end
 
-    context 'with pageSize and offset' do
-      let(:path) { api_v3_paths.time_entries + '?pageSize=1&offset=2' }
+    context 'with pageSize, offset and sortBy' do
+      let(:path) { "#{api_v3_paths.time_entries}?pageSize=1&offset=2&sortBy=#{[%i(id asc)].to_json}" }
 
       before do
         time_entry
