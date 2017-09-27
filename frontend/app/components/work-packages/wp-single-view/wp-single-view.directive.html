@@ -7,6 +7,7 @@
 
 
   <div class="work-packages--info-row" ng-if="!$ctrl.workPackage.isNew">
+    <span ng-bind="$ctrl.idLabel"/>:
     <span ng-bind="$ctrl.text.infoRow.createdBy"/>
     <user-link class="user-link" user="$ctrl.workPackage.author"></user-link>.
     <span ng-bind="$ctrl.text.infoRow.lastUpdatedOn"/>
