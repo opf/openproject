@@ -109,7 +109,7 @@ See doc/COPYRIGHT.rdoc for more details.
       </div>
       <div class="form--field -wide-label"><%= setting_check_box :session_ttl_enabled %></div>
       <div class="form--field -wide-label" id="settings_session_ttl_container" style="display:none;">
-        <%= setting_text_field :session_ttl, size: 6 %> min
+        <%= setting_text_field :session_ttl, unit: t(:label_minute_plural), container_class: '-xslim' %>
         <span class="form--field-instructions">
           <%= I18n.t('setting_session_ttl_hint') %>
         </span>
