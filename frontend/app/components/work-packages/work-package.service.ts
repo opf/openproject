@@ -27,6 +27,8 @@
 //++
 
 import {States} from "../states.service";
+import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+
 angular
     .module('openproject.services')
     .factory('WorkPackageService', WorkPackageService);
@@ -39,7 +41,8 @@ function WorkPackageService($http:ng.IHttpService,
                             I18n:op.I18n,
                             PathHelper:any,
                             UrlParamsHelper:any,
-                            NotificationsService:any) {
+                            NotificationsService:any,
+                            wpTableRefresh:WorkPackageTableRefreshService) {
 
   var workPackageCache = $cacheFactory('workPackageCache');
 
@@ -84,7 +87,7 @@ function WorkPackageService($http:ng.IHttpService,
               NotificationsService.addSuccess(
                   I18n.t('js.work_packages.message_successful_bulk_delete')
               );
-              states.table.refreshRequired.putValue(true);
+              wpTableRefresh.request('Bulk delete removed elements', true);
 
               if ($state.includes('**.list.details.**')
                   && ids.indexOf(+$state.params.workPackageId) > -1) {

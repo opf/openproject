@@ -9,17 +9,18 @@ class WpRelationsHierarchyRowDirectiveController {
   public workPackage:WorkPackageResourceInterface;
   public relatedWorkPackage:WorkPackageResourceInterface;
   public relationType:any;
-  public showEditForm: boolean = false;
+  public showEditForm:boolean = false;
   public workPackagePath = this.PathHelper.workPackagePath;
-  public canModifyHierarchy: boolean = false;
+  public canModifyHierarchy:boolean = false;
 
-  constructor(protected $scope: ng.IScope,
+  constructor(protected $scope:ng.IScope,
               protected $timeout:ng.ITimeoutService,
-              protected wpRelationsHierarchyService: WorkPackageRelationsHierarchyService,
-              protected wpCacheService: WorkPackageCacheService,
-              protected wpNotificationsService: WorkPackageNotificationService,
-              protected PathHelper: op.PathHelper,
-              protected I18n: op.I18n) {
+              protected wpRelationsHierarchyService:WorkPackageRelationsHierarchyService,
+              protected wpCacheService:WorkPackageCacheService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected PathHelper:op.PathHelper,
+              protected I18n:op.I18n,
+              protected $q:ng.IQService) {
 
     this.canModifyHierarchy = !!this.workPackage.changeParent;
 
@@ -27,7 +28,7 @@ class WpRelationsHierarchyRowDirectiveController {
       scopedObservable($scope, this.wpCacheService.state(this.relatedWorkPackage.id).values$())
         .subscribe((wp) => this.relatedWorkPackage = wp);
     }
-  };
+  }
 
   public text = {
     change_parent:this.I18n.t('js.relation_buttons.change_parent'),
@@ -76,8 +77,7 @@ class WpRelationsHierarchyRowDirectiveController {
         this.$timeout(() => {
           angular.element('#hierarchy--add-exisiting-child').focus();
         });
-      })
-      .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
+      });
   }
 
   protected removeParent() {
@@ -88,9 +88,7 @@ class WpRelationsHierarchyRowDirectiveController {
         this.$timeout(() => {
           angular.element('#hierarchy--add-parent').focus();
         });
-      })
-      .catch((err:any) => this.wpNotificationsService.handleErrorResponse(err, this.relatedWorkPackage));
-
+      });
   }
 }
 

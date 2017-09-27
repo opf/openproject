@@ -75,8 +75,10 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   public removeRelation(relation:RelationResourceInterface) {
     return relation.delete().then(() => {
       this.removeFromStates(relation);
-      this.wpTableRefresh.request(true,
-        `Removing relation (${relation.ids.from} to ${relation.ids.to})`);
+      this.wpTableRefresh.request(
+        `Removing relation (${relation.ids.from} to ${relation.ids.to})`,
+        true
+      );
     });
   }
 
@@ -87,8 +89,10 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResourceInterface) => {
         this.insertIntoStates(savedRelation);
-        this.wpTableRefresh.request(true,
-          `Updating relation (${relation.ids.from} to ${relation.ids.to})`);
+        this.wpTableRefresh.request(
+          `Updating relation (${relation.ids.from} to ${relation.ids.to})`,
+          true
+        );
         return savedRelation;
       });
   }
@@ -106,8 +110,10 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
 
     return workPackage.addRelation(params).then((relation:RelationResourceInterface) => {
       this.insertIntoStates(relation);
-      this.wpTableRefresh.request(true,
-        `Adding relation (${relation.ids.from} to ${relation.ids.to})`);
+      this.wpTableRefresh.request(
+        `Adding relation (${relation.ids.from} to ${relation.ids.to})`,
+        true
+      );
       return relation;
     });
   }

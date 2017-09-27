@@ -244,7 +244,7 @@ export function registerWorkPackageMouseHandler(this:void,
           queryDm.loadIdsUpdatedSince(ids, wp.updatedAt).then(workPackageCollection => {
           wpCacheService.updateWorkPackageList(workPackageCollection.elements);
 
-          wpTableRefresh.request(false, `Moved work package ${wp.id} through timeline`);
+          wpTableRefresh.request(`Moved work package ${wp.id} through timeline`);
         });
       })
       .catch((error) => {
