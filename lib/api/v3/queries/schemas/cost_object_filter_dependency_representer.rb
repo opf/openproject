@@ -28,6 +28,10 @@ module API
             api_v3_paths.budgets_by_project filter.project.id
           end
 
+          def json_cache_key
+            super + [filter.project.id]
+          end
+
           def type
             "[]Budget"
           end
