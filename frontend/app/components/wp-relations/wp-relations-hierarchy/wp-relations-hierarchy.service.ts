@@ -30,17 +30,17 @@ import {wpDirectivesModule} from '../../../angular-modules';
 import {WorkPackageCacheService} from '../../work-packages/work-package-cache.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
-import {States} from "../../states.service";
-import {WorkPackageTableRefreshService} from "../../wp-table/wp-table-refresh-request.service";
+import {States} from '../../states.service';
+import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 
 export class WorkPackageRelationsHierarchyService {
-  constructor(protected $state: ng.ui.IStateService,
-              protected $q: ng.IQService,
-              protected states: States,
-              protected wpTableRefresh: WorkPackageTableRefreshService,
-              protected $rootScope: ng.IRootScopeService,
-              protected wpNotificationsService: WorkPackageNotificationService,
-              protected wpCacheService: WorkPackageCacheService,
+  constructor(protected $state:ng.ui.IStateService,
+              protected $q:ng.IQService,
+              protected states:States,
+              protected wpTableRefresh:WorkPackageTableRefreshService,
+              protected $rootScope:ng.IRootScopeService,
+              protected wpNotificationsService:WorkPackageNotificationService,
+              protected wpCacheService:WorkPackageCacheService,
               protected v3Path:any) {
 
   }
@@ -72,20 +72,21 @@ export class WorkPackageRelationsHierarchyService {
         this.wpTableRefresh.request(`Changed parent of ${workPackage.id} to ${parentId}`, true);
         return wp;
       })
-      .catch((err) => {
-        this.wpNotificationsService.handleErrorResponse(err, workPackage);
+      .catch((error) => {
+        this.wpNotificationsService.handleErrorResponse(error, workPackage);
+        return this.$q.reject(error);
       });
   }
 
-  public removeParent(workPackage: WorkPackageResourceInterface) {
+  public removeParent(workPackage:WorkPackageResourceInterface) {
     return this.changeParent(workPackage, null);
   }
 
-  public addExistingChildWp(workPackage: WorkPackageResourceInterface, childWpId: string): ng.IPromise<WorkPackageResourceInterface> {
+  public addExistingChildWp(workPackage:WorkPackageResourceInterface, childWpId:string):ng.IPromise<WorkPackageResourceInterface> {
     const deferred = this.$q.defer<WorkPackageResourceInterface>();
     const state = this.wpCacheService.loadWorkPackage(childWpId);
 
-    state.valuesPromise().then((wpToBecomeChild: WorkPackageResourceInterface) => {
+    state.valuesPromise().then((wpToBecomeChild:WorkPackageResourceInterface) => {
       this.wpTableRefresh.request(`Added new child to ${workPackage.id}`, true);
       this.changeParent(wpToBecomeChild, workPackage.id).then(wp => deferred.resolve(wp!));
     });
@@ -93,7 +94,7 @@ export class WorkPackageRelationsHierarchyService {
     return deferred.promise;
   }
 
-  public addNewChildWp(workPackage: WorkPackageResourceInterface) {
+  public addNewChildWp(workPackage:WorkPackageResourceInterface) {
     workPackage.project.$load()
       .then(() => {
         const args = [
@@ -123,10 +124,13 @@ export class WorkPackageRelationsHierarchyService {
         lockVersion: childWorkPackage.lockVersion
       }).then(wp => {
         this.wpCacheService.updateWorkPackage(wp);
+      })
+      .catch((error) => {
+        this.wpNotificationsService.handleErrorResponse(error, childWorkPackage);
+        return this.$q.reject(error);
       });
     });
   }
-
 }
 
 wpDirectivesModule.service('wpRelationsHierarchyService', WorkPackageRelationsHierarchyService);
