@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,10 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-When(/^I follow the link to see the diff in the last journal$/) do
-  within('.work-packages-full-view--split-right') do
-    # I assume activity sorting oldest to newest; In that case the last journal is
-    # the one where we need to click on the "Details" link
-    all('.work-package-details-activities-activity-contents .description-details').last.click
+##
+# Using test-prof's before_all block to safely wrap shared data in a transaction,
+# shared_let acts similary to +let(:foo) { value }+ but initialized the value only once
+# Changes _within_ an example will be rolled back by database cleaner,
+# and the creation is rolled back in an after_all hook.
+#
+# Caveats: Set +reload: true+ if you plan to modify this value, otherwise Rails may still
+# have cached the local value. This will perform a database update, but is much faster
+# than creating new records (especially, work packages).
+def shared_let(key, reload: false, &block)
+  var = "@#{key}"
+
+  before_all do
+    # Use instance_eval so following blocks may reference earlier ones
+    result = instance_eval &block
+    instance_variable_set(var, result)
+  end
+
+  let(key) do
+    value = instance_variable_get(var)
+    value.reload if reload
+
+    value
   end
 end
+
