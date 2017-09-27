@@ -28,21 +28,30 @@
 import {openprojectModule} from '../../angular-modules';
 
 export class WorkPackageResizerController {
-  private detailsSide:HTMLElement;
+  private resizingElement:HTMLElement;
   private elementFlex:number;
   private oldPosition:number;
   private mouseMoveHandler:any;
+  public elementClass: string;
+  public localStorageKey: string;
 
   constructor(public $element:ng.IAugmentedJQuery) {
     // Get element
-    this.detailsSide = <HTMLElement>document.getElementsByClassName('work-packages-split-view--details-side')[0];
+    this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
 
     // Get inital width from local storage and apply
-    let localStorageValue = localStorage.getItem("detailsSideFlexBasis");
-    this.elementFlex = localStorageValue ? parseInt(localStorageValue, 10) : 582;
-    this.detailsSide.style.flexBasis = this.elementFlex + 'px';
+    let localStorageValue = localStorage.getItem(this.localStorageKey);
+    this.elementFlex = localStorageValue ? parseInt(localStorageValue, 10) : this.resizingElement.offsetWidth;
+
+    // This case only happens when the timeline is loaded but not displayed.
+    // Therefor the flexbasis will be set to 50%, just in px
+    if (this.elementFlex === 0 && this.resizingElement.parentElement ) {
+      this.elementFlex = this.resizingElement.parentElement.offsetWidth / 2;
+    }
+    this.resizingElement.style.flexBasis = this.elementFlex + 'px';
+
     // Apply two column layout
-    this.detailsSide.classList.toggle('-columns-2', this.elementFlex > 700);
+    this.resizingElement.classList.toggle('-columns-2', this.elementFlex > 700);
 
     // Add event listener
     this.$element[0].addEventListener('mousedown', this.handleMouseDown.bind(this));
@@ -54,12 +63,12 @@ export class WorkPackageResizerController {
     e.stopPropagation();
 
     // Only on left mouse click the resizing is started
-    if(e.buttons === 1) {
+    if(e.buttons === 1 || e.which === 1) {
       // Gettig starting position
       this.oldPosition = e.clientX;
 
       // Necessary to encapsulate this to be able to remove the eventlistener later
-      this.mouseMoveHandler = this.resizeElement.bind(this, this.detailsSide);
+      this.mouseMoveHandler = this.resizeElement.bind(this, this.resizingElement);
 
       // Change cursor icon
       // This is handled via JS to ensure
@@ -84,7 +93,7 @@ export class WorkPackageResizerController {
     // Take care at the end that the elemntFlex-Value is the same as the acutal value
     // When the mouseup is outside the container these values will differ
     // which will cause problems at the next movement start
-    let localStorageValue = localStorage.getItem("detailsSideFlexBasis");
+    let localStorageValue = localStorage.getItem(this.localStorageKey);
     if(localStorageValue) { this.elementFlex = parseInt(localStorageValue, 10) };
   }
 
@@ -97,13 +106,13 @@ export class WorkPackageResizerController {
     this.oldPosition = e.clientX;
 
     // Get new value depending on the delta
-    // The detailsSide is not allowed to be smaller than 480px and greater than 1300px
+    // The resizingElement is not allowed to be smaller than 480px and greater than 1300px
     this.elementFlex = this.elementFlex + delta;
     let newValue = this.elementFlex < 480 ? 480 : this.elementFlex;
     newValue = newValue > 1300 ? 1300 : newValue;
 
     // Store item in local storage
-    localStorage.setItem("detailsSideFlexBasis", String(newValue));
+    localStorage.setItem(this.localStorageKey, String(newValue));
 
     // Apply two column layout
     element.classList.toggle('-columns-2', newValue > 700);
@@ -117,7 +126,10 @@ function wpResizer():any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-resizer/wp-resizer.directive.html',
-    scope: {},
+    scope: {
+      elementClass: '=',
+      localStorageKey: '='
+    },
 
     bindToController: true,
     controllerAs: '$ctrl',
