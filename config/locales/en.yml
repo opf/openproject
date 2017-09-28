@@ -124,6 +124,7 @@ en:
   projects:
     index:
       no_results_title_text: There are currently no projects
+      no_results_content_text: Create a new project
     settings:
       activities:
         no_results_title_text: There are currently no activities available.

@@ -48,6 +48,7 @@ class ProjectsController < ApplicationController
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
   include SortHelper
+  include PaginationHelper
   include CustomFieldsHelper
   include QueriesHelper
   include RepositoriesHelper
@@ -55,17 +56,29 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
-    @projects = Project.visible
+    sort_clear
+    sort_init 'lft'
+    sort_update %w(lft name is_public created_on required_disk_space latest_activity_at)
+
+    @status = params[:status] ? params[:status].to_i : 1
+    c = ARCondition.new(@status == 0 ? 'status <> 0' : ['status = ?', @status])
+
+    unless params[:name].blank?
+      name = "%#{params[:name].strip.downcase}%"
+      c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
+    end
+
+    @projects = Project
+                .with_required_storage
+                .with_latest_activity
+                .order(sort_clause)
+                .where(c.conditions)
+                .page(page_param)
+                .per_page(per_page_param)
 
     respond_to do |format|
       format.html do
         @projects = @projects.order('lft')
-      end
-      format.atom do
-        projects = @projects
-                   .order('created_on DESC')
-                   .limit(Setting.feeds_limit.to_i)
-        render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
       end
     end
   end
