@@ -243,4 +243,43 @@ describe CustomField, type: :model do
       end
     end
   end
+
+  describe 'nested attributes for custom options' do
+    let(:option) { FactoryGirl.build(:custom_option) }
+    let(:options) { [option] }
+    let(:field) { FactoryGirl.build :custom_field, field_format: 'list', custom_options: options }
+
+    before do
+      field.save!
+    end
+
+    shared_examples_for 'saving updates field\'s updated_at' do
+      it 'updates updated_at' do
+        # mysql does not store milliseconds so we have to slow down the tests by orders of magnitude
+        timestamp_before = field.updated_at
+        sleep 1
+        field.save
+        expect(field.updated_at).not_to eql(timestamp_before)
+      end
+    end
+
+    context 'after adding a custom option' do
+      before do
+        field.attributes = { 'custom_options_attributes' => { '0' => option.attributes,
+                                                              '1' => { value: 'blubs' } } }
+      end
+
+      it_behaves_like 'saving updates field\'s updated_at'
+    end
+
+    context 'after changing a custom option' do
+      before do
+        attributes = option.attributes.merge(value: 'new_value')
+
+        field.attributes = { 'custom_options_attributes' => { '0' => attributes } }
+      end
+
+      it_behaves_like 'saving updates field\'s updated_at'
+    end
+  end
 end
