@@ -28,12 +28,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::TimeEntries
-  query = Queries::TimeEntries::TimeEntryQuery
+class Queries::TimeEntries::Orders::DefaultOrder < Queries::BaseOrder
+  self.model = TimeEntry
 
-  Queries::Register.filter query, Queries::TimeEntries::Filters::UserFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::WorkPackageFilter
-  Queries::Register.filter query, Queries::TimeEntries::Filters::ProjectFilter
-
-  Queries::Register.order query, Queries::TimeEntries::Orders::DefaultOrder
+  def self.key
+    /id|hours/
+  end
 end
