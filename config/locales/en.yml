@@ -34,9 +34,6 @@ en:
       no_results_title_text: There has not been any activity for the project.
 
   admin:
-    projects:
-      no_results_title_text: There are currently no projects.
-      no_results_content_text: Create a new project
     plugins:
       no_results_title_text: There are currently no plugins available.
     custom_styles:

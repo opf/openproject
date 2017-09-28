@@ -77,7 +77,7 @@ Redmine::MenuManager.map :account_menu do |menu|
             html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.logged? }
   menu.push :administration,
-            { controller: '/admin', action: 'projects' },
+            { controller: '/users', action: 'index' },
             html: { class: 'hidden-for-mobile' },
             if: Proc.new { User.current.admin? }
   menu.push :logout, :signout_path,
@@ -121,11 +121,6 @@ Redmine::MenuManager.map :my_menu do |menu|
 end
 
 Redmine::MenuManager.map :admin_menu do |menu|
-  menu.push :projects,
-            { controller: '/admin', action: 'projects' },
-            caption: :label_project_plural,
-            icon: 'icon2 icon-show-all-projects'
-
   menu.push :users,
             { controller: '/users' },
             caption: :label_user_plural,
