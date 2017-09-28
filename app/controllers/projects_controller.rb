@@ -60,21 +60,8 @@ class ProjectsController < ApplicationController
     sort_init 'lft'
     sort_update %w(lft name is_public created_on required_disk_space latest_activity_at)
 
-    @status = params[:status] ? params[:status].to_i : 1
-    c = ARCondition.new(@status == 0 ? 'status <> 0' : ['status = ?', @status])
-
-    unless params[:name].blank?
-      name = "%#{params[:name].strip.downcase}%"
-      c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
-    end
-
-    @projects = Project
-                .with_required_storage
-                .with_latest_activity
-                .order(sort_clause)
-                .where(c.conditions)
-                .page(page_param)
-                .per_page(per_page_param)
+    projects = get_all_projects_for_overview_page
+    @projects = filter_projects_by_permission projects
 
     respond_to do |format|
       format.html do
@@ -308,6 +295,36 @@ class ProjectsController < ApplicationController
         member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
       end
       project.members << m
+    end
+  end
+
+  def get_all_projects_for_overview_page
+    @status = params[:status] ? params[:status].to_i : 1
+    c = ARCondition.new(@status.zero? ? 'status <> 0' : ['status = ?', @status])
+
+    unless params[:name].blank?
+      name = "%#{params[:name].strip.downcase}%"
+      c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
+    end
+
+    projects = Project
+                .with_required_storage
+                .with_latest_activity
+                .order(sort_clause)
+                .where(c.conditions)
+                .page(page_param)
+                .per_page(per_page_param)
+  end
+
+  def filter_projects_by_permission projects
+    return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
+
+    if User.current.admin?
+      projects
+    elsif User.current.anonymous?
+      projects.active.public_projects
+    else
+      projects.visible
     end
   end
 

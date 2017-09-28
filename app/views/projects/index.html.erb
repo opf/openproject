@@ -72,19 +72,19 @@ See doc/COPYRIGHT.rdoc for more details.
         <colgroup>
           <col highlight-col>
           <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col highlight-col>
-          <col>
+          <% if User.current.admin? %><col highlight-col><% end %>
+          <% if User.current.admin? %><col highlight-col><% end %>
+          <% if User.current.admin? %><col highlight-col><% end %>
+          <% if User.current.admin? %><col><% end %>
         </colgroup>
         <thead>
           <tr>
             <%= sort_header_tag('name', caption: Project.model_name.human) %>
             <%= sort_header_tag('is_public', caption:Project.human_attribute_name(:is_public)) %>
-            <%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage)) %>
-            <%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on)) %>
-            <%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at)) %>
-            <th><div class="generic-table--empty-header"></div></th>
+            <% if User.current.admin? %><%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage)) %><% end %>
+            <% if User.current.admin? %><%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on)) %><% end %>
+            <% if User.current.admin? %><%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at)) %><% end %>
+            <% if User.current.admin? %><th><div class="generic-table--empty-header"></div></th><% end %>
           </tr>
         </thead>
         <tbody>
@@ -92,30 +92,32 @@ See doc/COPYRIGHT.rdoc for more details.
             <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
               <td class="name project--hierarchy"><span class="<%= level > 0 ? 'icon-context icon-arrow-right5 icon-small' : nil %>"><%= link_to project, settings_project_path(project), title: project.short_description %></span></td>
               <td><%= checked_image project.is_public? %></td>
-              <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
-              <td><%= format_date(project.created_on) %></td>
-              <td><%= format_date(project.latest_activity_at) %></td>
-              <td class="buttons">
-                <%= link_to('',
-                    archive_project_path(project, status: params[:status]),
-                    data: { confirm: t('project.archive.are_you_sure', name: project.name) },
-                    method: :put,
-                    title: l(:button_archive),
-                    class: 'icon icon-locked') if project.active? %>
-                <%= link_to('',
-                    unarchive_project_path(project, status: params[:status]),
-                    method: :put,
-                    title: l(:button_unarchive),
-                    class: 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
-                <%= link_to('',
-                    copy_from_project_path(project, :admin),
-                    title: l(:button_copy),
-                    class: 'icon icon-copy') %>
-                <%= link_to('',
-                    confirm_destroy_project_path(project),
-                    title: l(:button_delete),
-                    class: 'icon icon-delete') %>
-              </td>
+              <% if User.current.admin? %><td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td><% end %>
+              <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
+              <% if User.current.admin? %><td><%= format_date(project.latest_activity_at) %></td><% end %>
+              <% if User.current.admin? %>
+                <td class="buttons">
+                  <%= link_to('',
+                      archive_project_path(project, status: params[:status]),
+                      data: { confirm: t('project.archive.are_you_sure', name: project.name) },
+                      method: :put,
+                      title: l(:button_archive),
+                      class: 'icon icon-locked') if project.active? %>
+                  <%= link_to('',
+                      unarchive_project_path(project, status: params[:status]),
+                      method: :put,
+                      title: l(:button_unarchive),
+                      class: 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
+                  <%= link_to('',
+                      copy_from_project_path(project, :admin),
+                      title: l(:button_copy),
+                      class: 'icon icon-copy') %>
+                  <%= link_to('',
+                      confirm_destroy_project_path(project),
+                      title: l(:button_delete),
+                      class: 'icon icon-delete') %>
+                </td>
+              <% end %>
             </tr>
           <% end %>
         </tbody>
