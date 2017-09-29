@@ -88,7 +88,7 @@ jQuery(function ($) {
     });
   }
 
-  $('.legacy-actions-main, .legacy-actions-specific, .toolbar-items').each(function(idx, menu){
+  $('.project-actions, .legacy-actions-main, .legacy-actions-specific, .toolbar-items').each(function(idx, menu){
     install_menu_logic($(menu));
   });
 });

@@ -97,25 +97,23 @@ See doc/COPYRIGHT.rdoc for more details.
               <% if User.current.admin? %><td><%= format_date(project.latest_activity_at) %></td><% end %>
               <% if User.current.admin? %>
                 <td class="buttons">
-                  <%= link_to('',
-                      archive_project_path(project, status: params[:status]),
-                      data: { confirm: t('project.archive.are_you_sure', name: project.name) },
-                      method: :put,
-                      title: l(:button_archive),
-                      class: 'icon icon-locked') if project.active? %>
-                  <%= link_to('',
-                      unarchive_project_path(project, status: params[:status]),
-                      method: :put,
-                      title: l(:button_unarchive),
-                      class: 'icon icon-unlocked') if !project.active? && (project.parent.nil? || project.parent.active?) %>
-                  <%= link_to('',
-                      copy_from_project_path(project, :admin),
-                      title: l(:button_copy),
-                      class: 'icon icon-copy') %>
-                  <%= link_to('',
-                      confirm_destroy_project_path(project),
-                      title: l(:button_delete),
-                      class: 'icon icon-delete') %>
+                  <!-- toolbar and legacy-actions-more are only for styling purposes.
+                  Because of multiple diverging implementations of dropdowns the normal dropdown classes cannot be used any more without making special rules -->
+                  <ul class="toolbar project-actions">
+                    <li aria-haspopup="true" title="<%= t(:label_more) %>" class="drop-down">
+                      <a class="icon icon-show-more-horizontal" title="<%= t(:label_more) %>"></a>
+                      <ul style="display:none;" class="legacy-actions-more dropdown-menu">
+                        <%= li_unless_nil(link_to(l(:button_archive),
+                                                  archive_project_path(project, status: params[:status]),
+                                                  data: { confirm: t('project.archive.are_you_sure', name: project.name) },
+                                                  method: :put,
+                                                  class: 'icon-context icon-locked') ) if project.active? %>
+                        <%= li_unless_nil(link_to(l(:button_unarchive), unarchive_project_path(project, status: params[:status]), class: 'icon-context icon-unlocked') ) if !project.active? && (project.parent.nil? || project.parent.active?)%>
+                        <%= li_unless_nil(link_to(l(:button_copy), copy_from_project_path(project, :admin), class: 'icon-context icon-copy') ) %>
+                        <%= li_unless_nil(link_to(l(:button_delete), confirm_destroy_project_path(project), class: 'icon-context icon-delete') ) %>
+                      </ul>
+                    </li>
+                  </ul>
                 </td>
               <% end %>
             </tr>
