@@ -89,8 +89,8 @@ See doc/COPYRIGHT.rdoc for more details.
         </thead>
         <tbody>
           <% project_tree_when_sorted(@projects) do |project, level| %>
-            <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-              <td class="name project--hierarchy"><span class="<%= level > 0 ? 'icon-context icon-arrow-right5 icon-small' : nil %>"><%= link_to project, settings_project_path(project), title: project.short_description %></span></td>
+            <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= project.short_description.empty? ? '' : '-no-highlighting' %>">
+              <td class="name project--hierarchy"><span class="<%= level > 0 ? 'icon-context icon-arrow-right5 icon-small' : nil %>"><%= link_to_project(project, {}, {}, true) %></span></td>
               <td><%= checked_image project.is_public? %></td>
               <% if User.current.admin? %><td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td><% end %>
               <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
@@ -119,6 +119,13 @@ See doc/COPYRIGHT.rdoc for more details.
                 </td>
               <% end %>
             </tr>
+            <% unless project.short_description.empty? %>
+              <tr class="project-description <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+                <td colspan="<%= User.current.admin? ? 6 : 2 %>" class="project--hierarchy">
+                  <span class="wiki"><%= format_text(project.short_description, project: project) %></span>
+                </td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>

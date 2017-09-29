@@ -188,7 +188,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def types
     if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
       flash[:notice] = l('notice_successful_update')
@@ -307,16 +306,16 @@ class ProjectsController < ApplicationController
       c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
     end
 
-    projects = Project
-                .with_required_storage
-                .with_latest_activity
-                .order(sort_clause)
-                .where(c.conditions)
-                .page(page_param)
-                .per_page(per_page_param)
+    Project
+      .with_required_storage
+      .with_latest_activity
+      .order(sort_clause)
+      .where(c.conditions)
+      .page(page_param)
+      .per_page(per_page_param)
   end
 
-  def filter_projects_by_permission projects
+  def filter_projects_by_permission(projects)
     if User.current.admin?
       projects
     elsif User.current.anonymous?

@@ -26,59 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-ul.projects
-  margin: 0
-  padding-left: 1em
-
-  &.root
-    margin: 0
-    padding: 0
-
-  ul
-    border: none
-    &.projects
-      border-left: 3px solid #e0e0e0
-
-  li
-    &.root
-      list-style-type: none
-      margin-bottom: 1em
-    &.child
-      list-style-type: none
-      margin-top: 1em
-
-  a
-    font-weight: bold
-
-  .description
-    max-height: 100px
-    position: relative
-    overflow-y: hidden
-
-    &:after
-      position: absolute
-      bottom: 0
-      height: 100%
-      width: 100%
-      content: ""
-      background: linear-gradient(to top, rgba(255,255,255, 1) 10%, rgba(255,255,255, 0) 80%)
-      pointer-events: none
-
-  div.root
-    margin-bottom: 12px
-
-    a.project
-      font-weight: bold
-      margin: 0 0 10px 0
-      font-family: inherit
-
-  .nosidebar &
-    margin: 24px 0 0
-
-    ul
-      margin: 0
-
-    li
-      list-style: none outside none
-      background: none
-
+#project-table
+  .project-description
+    p
+      font-size: inherit
+      padding-left: 0
+    // Hide everything else than text for now to avoid a too large table
+    .flash, pre, div
+      display: none !important
