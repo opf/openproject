@@ -37,14 +37,21 @@ Feature: Projects index feed
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "CanViewProject" in the project "omicronpersei8"
-    And I am already logged in as "bob"
 
-   Scenario: Atom feed enabled
+   Scenario: Basic columns visible
+     Given I am already logged in as "bob"
      When I go to the projects page
-     Then I should see "Also available in" within ".other-formats"
-      And I should see "Atom" within ".other-formats span"
+     Then I should not see "Required disk storage" within "#project-table"
+      And I should not see "Created on" within "#project-table"
+      And I should not see "Latest activity at" within "#project-table"
+      And I should see "Public" within "#project-table"
+      And I should see "omicronpersei8" within "#project-table"
 
-   Scenario: Atom feed disabled
-    Given the "feeds_enabled" setting is set to false
+   Scenario: Admin columns visible
+     Given I am already admin
      When I go to the projects page
-     Then I should not see "Also available in"
+     Then I should see "Required disk storage" within "#project-table"
+      And I should see "Created on" within "#project-table"
+      And I should see "Latest activity at" within "#project-table"
+      And I should see "Public" within "#project-table"
+      And I should see "omicronpersei8" within "#project-tablee"

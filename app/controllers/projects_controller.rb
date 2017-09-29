@@ -317,8 +317,6 @@ class ProjectsController < ApplicationController
   end
 
   def filter_projects_by_permission projects
-    return '' if User.current.anonymous? and User.current.number_of_known_projects.zero?
-
     if User.current.admin?
       projects
     elsif User.current.anonymous?

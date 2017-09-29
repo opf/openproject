@@ -100,49 +100,6 @@ module ProjectsHelper
     tabs.select { |tab| User.current.allowed_to?(tab[:action], @project) }
   end
 
-  # Renders a tree of projects as a nested set of unordered lists
-  # The given collection may be a subset of the whole project tree
-  # (eg. some intermediate nodes are private and can not be seen)
-  def render_project_hierarchy(projects)
-    s = ''
-    if projects.any?
-      ancestors = []
-      original_project = @project
-      Project.project_tree(projects) do |project, _level|
-        # set the project environment to please macros.
-        @project = project
-
-        if ancestors.empty? || project.is_descendant_of?(ancestors.last)
-          s << "<ul class='projects #{ancestors.empty? ? 'root' : nil}'>\n"
-        else
-          ancestors.pop
-          s << '</li>'
-          while ancestors.any? && !project.is_descendant_of?(ancestors.last)
-            ancestors.pop
-            s << "</ul></li>\n"
-          end
-        end
-
-        classes = (ancestors.empty? ? 'root' : 'child')
-        s << "<li class='#{classes}'><div class='#{classes}'>" +
-          link_to_project(project, {}, { class: 'project' }, true)
-
-        unless project.description.blank?
-          formatted_text = format_text(project.short_description, project: project)
-          s << "<div class='wiki description'>#{formatted_text}</div>"
-        end
-
-        s << "</div>\n"
-        ancestors << project
-      end
-
-      s << ("</li></ul>\n" * ancestors.size)
-
-      @project = original_project
-    end
-    s.html_safe
-  end
-
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected = nil)
     grouped = Hash.new { |h, k| h[k] = [] }
