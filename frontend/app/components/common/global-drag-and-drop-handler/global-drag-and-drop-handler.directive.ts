@@ -40,7 +40,7 @@ export class GlobalDragAndDropHandlerLink {
   }
 }
 
-function GlobalDragAndDropHandler() {
+function GlobalDragAndDropHandler():any {
   return {
     restrict: 'A',
     link: GlobalDragAndDropHandlerLink

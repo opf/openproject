@@ -28,8 +28,6 @@
 #++
 
 class Principal < ActiveRecord::Base
-  extend Pagination::Model
-
   # Account statuses
   # Code accessing the keys assumes they are ordered, which they are since Ruby 1.9
   STATUSES = {
@@ -178,4 +176,7 @@ class Principal < ActiveRecord::Base
     self.mail ||= ''
     true
   end
+
+  extend Pagination::Model
+
 end

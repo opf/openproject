@@ -36,7 +36,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <div class="form--field -required">
         <%= styled_label_tag 'username-pulldown', User.human_attribute_name(:login) %>
         <div class="form--field-container">
-          <%= styled_text_field_tag 'username', nil, id: 'username-pulldown', tabindex: 1 %>
+          <%= styled_text_field_tag 'username', nil, id: 'username-pulldown', tabindex: 1, autocapitalize: 'none' %>
         </div>
         <div class="form--field-extra-actions">
           <% if Setting.autologin? %>

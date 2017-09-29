@@ -38,6 +38,7 @@ import {
   WorkPackageEditingService
 } from '../../wp-edit-form/work-package-editing-service';
 import {States} from '../../states.service';
+import {CurrentProjectService} from '../../projects/current-project.service';
 
 interface FieldDescriptor {
   name:string;
@@ -61,6 +62,11 @@ export class WorkPackageSingleViewController {
   public groupedFields:GroupDescriptor[] = [];
   // Special fields (project, type)
   public specialFields:FieldDescriptor[] = [];
+  public projectContext:{
+    matches:boolean,
+    href:string|null,
+    field?:FieldDescriptor[]
+  };
   public text:any;
   public scope:any;
 
@@ -70,6 +76,8 @@ export class WorkPackageSingleViewController {
               protected $rootScope:ng.IRootScopeService,
               protected $stateParams:ng.ui.IStateParamsService,
               protected I18n:op.I18n,
+              protected currentProject:CurrentProjectService,
+              protected PathHelper:any,
               protected states:States,
               protected wpEditing:WorkPackageEditingService,
               protected wpDisplayField:WorkPackageDisplayFieldService,
@@ -87,7 +95,27 @@ export class WorkPackageSingleViewController {
     scopedObservable(this.$scope, this.wpEditing.temporaryEditResource(this.workPackage.id).values$())
       .subscribe((resource:WorkPackageResourceInterface) => {
         // Prepare the fields that are required always
-        this.specialFields = this.getFields(resource, ['project', 'status']);
+        const isNew = this.workPackage.isNew;
+
+        // Status selector is separated in the create form
+        if (isNew) {
+          this.specialFields = [];
+        } else {
+          this.specialFields = this.getFields(resource, ['status']);
+        }
+
+        if (!resource.project) {
+          this.projectContext = { matches: false, href: null };
+        } else {
+          this.projectContext = {
+            href: this.PathHelper.projectWorkPackagePath(resource.project.idFromLink, this.workPackage.id),
+            matches: resource.project.href === this.currentProject.apiv3Path
+          };
+        }
+
+        if (isNew && !this.currentProject.inProjectContext) {
+          this.projectContext.field = this.getFields(resource, ['project']);
+        }
 
         // Get attribute groups if they are available (in project context)
         const attributeGroups = resource.schema._attributeGroups;
@@ -128,12 +156,23 @@ export class WorkPackageSingleViewController {
    * Returns the work package label
    */
   public get idLabel() {
-    const label = this.I18n.t('js.label_work_package');
-    return `${label} #${this.workPackage.id}`;
+    return `#${this.workPackage.id}`;
+  }
+
+  public get projectContextText():string {
+    let id = this.workPackage.project.idFromLink;
+    let projectPath = this.PathHelper.projectPath(id);
+    let project = `<a href="${projectPath}">${this.workPackage.project.name}<a>`;
+    return this.I18n.t('js.project.work_package_belongs_to', { projectname: project });
   }
 
   private setupI18nTexts() {
     this.text = {
+      project: {
+        required: this.I18n.t('js.project.required_outside_context'),
+        context: this.I18n.t('js.project.context'),
+        switchTo: this.I18n.t('js.project.click_to_switch_context'),
+      },
       dropFiles: this.I18n.t('js.label_drop_files'),
       dropFilesHint: this.I18n.t('js.label_drop_files_hint'),
       fields: {
@@ -217,7 +256,7 @@ export class WorkPackageSingleViewController {
 
 }
 
-function wpSingleViewDirective() {
+function wpSingleViewDirective():any {
 
   return {
     restrict: 'E',

@@ -97,5 +97,14 @@
         {{ queryCustomFields.name }}
       </a>
     </li>
+    <li>
+      <a class="menu-item"
+         href=""
+         ng-disabled="!timelinesVisible"
+         ng-click="showTimelinesModal($event)">
+        <op-icon icon-classes="icon-action-menu icon-view-timeline"></op-icon>
+        {{ I18n.t('js.timelines.gantt_chart') }} ...</a>
+      </a>
+    </li>
   </ul>
 </div>

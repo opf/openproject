@@ -257,9 +257,9 @@ class Query < ActiveRecord::Base
 
   def columns
     column_list = if has_default_columns?
-                    column_list = Setting.work_package_list_default_columns.dup
+                    column_list = Setting.work_package_list_default_columns.dup.map(&:to_sym)
                     # Adds the project column by default for cross-project lists
-                    column_list += [:project] if project.nil?
+                    column_list += [:project] if project.nil? && !column_list.include?(:project)
                     column_list
                   else
                     column_names

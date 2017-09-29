@@ -30,22 +30,26 @@ require 'spec_helper'
 
 describe OpenProject::Configuration do
   describe '.load_config_from_file' do
-    let(:config) { Hash.new }
-
-    before do
-      expect(File).to receive(:file?).with('file').and_return(true)
-      expect(File).to receive(:read).and_return("
-        default:
+    let(:file_contents) {
+      <<-EOS
+      default:
 
         test:
-          somesetting: foo
-      ")
+        somesetting: foo
+      EOS
+    }
+    before do
+      allow(File).to receive(:read).and_call_original
+      allow(File).to receive(:read).with('configfilename').and_return(file_contents)
+      allow(File).to receive(:file?).with('configfilename').and_return(true)
 
-      OpenProject::Configuration.send(:load_config_from_file, 'file', 'test', config)
+      OpenProject::Configuration.load(file: 'configfilename')
     end
 
     it 'should merge the config from the file into the given config hash' do
-      expect(config['somesetting']).to eq('foo')
+      expect(OpenProject::Configuration['somesetting']).to eq('foo')
+      expect(OpenProject::Configuration[:somesetting]).to eq('foo')
+      expect(OpenProject::Configuration.somesetting).to eq('foo')
     end
   end
 

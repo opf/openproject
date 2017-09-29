@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-function transformDateUtc(TimezoneService:any) {
+function transformDateUtc(TimezoneService:any):any {
   return {
     restrict: 'A',
     scope: {

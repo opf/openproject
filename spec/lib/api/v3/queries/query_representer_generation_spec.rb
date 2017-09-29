@@ -472,6 +472,10 @@ describe ::API::V3::Queries::QueryRepresenter do
         is_expected.to be_json_eql(query.timeline_zoom_level.to_json).at_path('timelineZoomLevel')
       end
 
+      it 'should show the default timelineLabels' do
+        is_expected.to be_json_eql(query.timeline_labels.to_json).at_path('timelineLabels')
+      end
+
       it 'should indicate whether the query is publicly visible' do
         is_expected.to be_json_eql(query.is_public.to_json).at_path('public')
       end
@@ -640,6 +644,21 @@ describe ::API::V3::Queries::QueryRepresenter do
         end
         it do
           is_expected.to be_json_eql('true').at_path('timelineVisible')
+        end
+      end
+
+      describe 'when labels are overridden' do
+        let(:query) do
+          FactoryGirl.build_stubbed(:query, project: project).tap do |query|
+            query.timeline_labels = expected
+          end
+        end
+        let(:expected) do
+          { 'left' => 'assignee', 'right' => 'status', 'farRight' => 'type' }
+        end
+
+        it do
+          is_expected.to be_json_eql(expected.to_json).at_path('timelineLabels')
         end
       end
 

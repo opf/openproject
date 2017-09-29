@@ -71,7 +71,7 @@ export class IntegerValueController {
   }
 }
 
-function integerValue() {
+function integerValue():any {
   return {
     restrict: 'E',
     replace: true,

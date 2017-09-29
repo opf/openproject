@@ -1,5 +1,4 @@
-import {multiInput, State, StatesGroup} from 'reactivestates';
-import {CollectionResource} from '../api/api-v3/hal-resources/collection-resource.service';
+import {multiInput, StatesGroup} from 'reactivestates';
 import {
   RelationResource,
   RelationResourceInterface
@@ -8,7 +7,6 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {RelationsDmService} from '../api/api-v3/hal-resource-dms/relations-dm.service';
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
 import {opServicesModule} from '../../angular-modules';
-import {Observable} from 'rxjs';
 import {StateCacheService} from '../states/state-cache.service';
 
 export type RelationsStateValue = { [relationId:number]:RelationResource };
@@ -45,13 +43,13 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
    * Load a set of work package ids into the states, regardless of them being loaded
    * @param workPackageIds
    */
-  protected load(id:string) {
+  protected load(id:string):Promise<RelationsStateValue> {
     return new Promise((resolve, reject) => {
       this.relationsDm
         .load(id)
         .then(elements => {
           this.updateRelationsStateTo(id, elements);
-          resolve();
+          resolve(this.state(id).value!);
         })
         .catch((error) => reject(error));
     });
@@ -77,8 +75,10 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   public removeRelation(relation:RelationResourceInterface) {
     return relation.delete().then(() => {
       this.removeFromStates(relation);
-      this.wpTableRefresh.request(true,
-        `Removing relation (${relation.ids.from} to ${relation.ids.to})`);
+      this.wpTableRefresh.request(
+        `Removing relation (${relation.ids.from} to ${relation.ids.to})`,
+        true
+      );
     });
   }
 
@@ -89,8 +89,10 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResourceInterface) => {
         this.insertIntoStates(savedRelation);
-        this.wpTableRefresh.request(true,
-          `Updating relation (${relation.ids.from} to ${relation.ids.to})`);
+        this.wpTableRefresh.request(
+          `Updating relation (${relation.ids.from} to ${relation.ids.to})`,
+          true
+        );
         return savedRelation;
       });
   }
@@ -108,8 +110,10 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
 
     return workPackage.addRelation(params).then((relation:RelationResourceInterface) => {
       this.insertIntoStates(relation);
-      this.wpTableRefresh.request(true,
-        `Adding relation (${relation.ids.from} to ${relation.ids.to})`);
+      this.wpTableRefresh.request(
+        `Adding relation (${relation.ids.from} to ${relation.ids.to})`,
+        true
+      );
       return relation;
     });
   }

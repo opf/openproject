@@ -68,6 +68,7 @@ export class WorkPackageEditForm {
   public editContext:WorkPackageEditContext;
 
   // Subscribe to changes to the temporary edit form
+  protected wpSubscription:Subscription;
   protected resourceSubscription:Subscription;
 
   public static createInContext(editContext:WorkPackageEditContext,
@@ -86,6 +87,12 @@ export class WorkPackageEditForm {
       'wpEditField', 'wpNotificationsService',
       'wpEditing', 'states', 'wpTableRefresh'
     );
+
+    this.wpSubscription = this.wpCacheService.state(workPackage.id)
+      .values$()
+      .subscribe((wp) => {
+        this.changeset.workPackage = wp;
+      });
 
     this.resourceSubscription = this.wpEditing.temporaryEditResource(workPackage.id)
       .values$()
@@ -177,7 +184,7 @@ export class WorkPackageEditForm {
       return this.$q.when(this.workPackage);
     }
 
-    const deferred = this.$q.defer();
+    const deferred = this.$q.defer<WorkPackageResourceInterface>();
     const isInitial = this.workPackage.isNew;
 
     // Reset old error notifcations
@@ -194,7 +201,8 @@ export class WorkPackageEditForm {
 
         this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
         this.editMode = false;
-        this.wpTableRefresh.request(false, `Saved work package ${savedWorkPackage.id}`);
+        this.editContext.onSaved(isInitial, savedWorkPackage);
+        this.wpTableRefresh.request(`Saved work package ${savedWorkPackage.id}`);
       })
       .catch((error:ErrorResource|Object) => {
         this.wpNotificationsService.handleErrorResponse(error, this.workPackage);
@@ -213,6 +221,7 @@ export class WorkPackageEditForm {
   public destroy() {
     // Unsubscribe changes
     this.resourceSubscription.unsubscribe();
+    this.wpSubscription.unsubscribe();
 
     // Kill all active fields
     // Without resetting the changeset, if, e.g., we're moving an active edit

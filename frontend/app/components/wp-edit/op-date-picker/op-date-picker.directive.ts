@@ -78,7 +78,7 @@ function opDatePickerLink(this:any, scope:OpDatePickerScope, element:ng.IAugment
   }
 }
 
-function opDatePicker(ConfigurationService:any, Datepicker:any) {
+function opDatePicker(ConfigurationService:any, Datepicker:any):any {
   var dependencies = {
     ConfigurationService: ConfigurationService,
     Datepicker: Datepicker

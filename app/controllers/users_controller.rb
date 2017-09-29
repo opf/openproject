@@ -35,6 +35,7 @@ class UsersController < ApplicationController
   before_action :find_user, only: [:show,
                                    :edit,
                                    :update,
+                                   :change_status_info,
                                    :change_status,
                                    :destroy,
                                    :deletion_info,
@@ -183,6 +184,12 @@ class UsersController < ApplicationController
     end
   rescue ::ActionController::RedirectBackError
     redirect_to controller: '/users', action: 'edit', id: @user
+  end
+
+  def change_status_info
+    @status_change = params[:change_action].to_sym
+
+    return render_400 unless %i(activate lock unlock).include? @status_change
   end
 
   def change_status

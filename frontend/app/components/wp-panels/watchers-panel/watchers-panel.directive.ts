@@ -31,7 +31,7 @@ angular
   .module('openproject.workPackages.controllers')
   .directive('watchersPanel', watchersPanel);
 
-function watchersPanel()  {
+function watchersPanel():any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-panels/watchers-panel/watchers-panel.directive.html',

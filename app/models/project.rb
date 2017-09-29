@@ -556,7 +556,7 @@ class Project < ActiveRecord::Base
   # reduce the number of db queries when performing operations including the
   # project's versions.
   def assignable_versions
-    @all_shared_versions ||= shared_versions.open.to_a
+    @all_shared_versions ||= shared_versions.with_status_open.to_a
   end
 
   # Returns a hash of project users grouped by role

@@ -60,7 +60,7 @@ export class BooleanValueController {
   }
 }
 
-function booleanValue() {
+function booleanValue():any {
   return {
     restrict: 'E',
     replace: true,

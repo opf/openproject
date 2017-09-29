@@ -25,6 +25,10 @@ export class QuerySharingForm {
     };
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   public get canStar() {
     return this.isSave ||
       this.AuthorisationService.can('query', 'star') ||

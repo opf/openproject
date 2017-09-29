@@ -31,6 +31,10 @@ class LocalFileUploader < CarrierWave::Uploader::Base
 
   storage :file
 
+  def copy_to(attachment)
+    attachment.file = local_file
+  end
+
   def store_dir
     dir = "#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
     OpenProject::Configuration.attachments_storage_path.join(dir)

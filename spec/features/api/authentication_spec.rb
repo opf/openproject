@@ -58,7 +58,6 @@ require 'spec_helper'
 describe 'Login', type: :feature do
   after do
     User.current = nil
-    enable_test_auth_protection
   end
 
   let(:user_password) { 'bob1!' * 4 }
@@ -90,20 +89,9 @@ describe 'Login', type: :feature do
     # which would cause User.current to be set
     User.current = other_user
 
-    # disable a hack in the API's authenticate method
-    # which would cause authentication to not work
-    disable_test_auth_protection
-
     # taking /api/v3 as it does not run any authorization
+    page.driver.header('X-Requested-With', 'XMLHttpRequest')
     visit '/api/v3'
     expect(User.current).to eql(user)
-  end
-
-  def disable_test_auth_protection
-    ENV['CAPYBARA_DISABLE_TEST_AUTH_PROTECTION'] = 'true'
-  end
-
-  def enable_test_auth_protection
-    ENV.delete 'CAPYBARA_DISABLE_TEST_AUTH_PROTECTION'
   end
 end

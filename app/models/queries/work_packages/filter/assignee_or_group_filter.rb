@@ -38,7 +38,7 @@ class Queries::WorkPackages::Filter::AssigneeOrGroupFilter <
         values += principal_loader.group_values
       end
 
-      me_value + values.sort
+      me_allowed_value + values.sort
     end
   end
 

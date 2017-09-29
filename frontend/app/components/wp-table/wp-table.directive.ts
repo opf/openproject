@@ -38,6 +38,7 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTableColumns} from '../wp-fast-table/wp-table-columns';
 import {KeepTabService} from '../wp-panels/keep-tab/keep-tab.service';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
+import {WorkPackageResizerService} from '../wp-resizer/wp-resizer.service';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
 
@@ -48,7 +49,7 @@ angular
 function wpTable(keepTab:KeepTabService,
                  PathHelper:any,
                  columnsModal:any,
-                 contextMenu:ContextMenuService) {
+                 contextMenu:ContextMenuService):any {
   return {
     restrict: 'E',
     replace: true,
@@ -91,9 +92,9 @@ export class WorkPackagesTableController {
 
   private readonly scrollSyncUpdate = createScrollSync(this.$element);
 
-  private table:HTMLElement;
+  public table:HTMLElement;
 
-  private timeline:HTMLElement;
+  public timeline:HTMLElement;
 
   constructor(private $scope:ng.IScope,
               public $element:ng.IAugmentedJQuery,
@@ -102,7 +103,8 @@ export class WorkPackagesTableController {
               I18n:op.I18n,
               wpTableGroupBy:WorkPackageTableGroupByService,
               wpTableTimeline:WorkPackageTableTimelineService,
-              wpTableColumns:WorkPackageTableColumnsService) {
+              wpTableColumns:WorkPackageTableColumnsService,
+              wpResizer:WorkPackageResizerService) {
     // Clear any old table subscribers
     states.table.stopAllSubscriptions.next();
 
@@ -161,7 +163,7 @@ export class WorkPackagesTableController {
     // Subscribe to column changes and calculate how to
     // partition the width between table and timeline
     wpTableColumns.observeOnScope($scope)
-      .subscribe(c => this.changeTimelineWidthOnColumnCountChange(c));
+      .subscribe(c => wpResizer.changeTimelineWidthOnColumnCountChange(c, this.table, this.timeline));
 
     // sync hover from table to timeline
     const wpTableHoverSync = new WpTableHoverSync(this.$element);
@@ -195,31 +197,4 @@ export class WorkPackagesTableController {
 
     return [$tableSide[0], $timelineSide[0]];
   }
-
-  private changeTimelineWidthOnColumnCountChange(columns:WorkPackageTableColumns) {
-    // const tableAndTimeline = this.getTableAndTimelineElement();
-    // if (tableAndTimeline === null) {
-    //   return;
-    // }
-    // const [table, timeline] = tableAndTimeline;
-    const colCount = columns.current.length;
-
-    if (colCount === 0) {
-      this.table.style.flex = `0 1 45px`;
-      this.timeline.style.flex = `1 1`;
-    } else if (colCount === 1) {
-      this.table.style.flex = `1 1`;
-      this.timeline.style.flex = `4 1`;
-    } else if (colCount === 2) {
-      this.table.style.flex = `1 1`;
-      this.timeline.style.flex = `3 1`;
-    } else if (colCount === 3) {
-      this.table.style.flex = `1 1`;
-      this.timeline.style.flex = `2 1`;
-    } else if (colCount === 4) {
-      this.table.style.flex = `2 1`;
-      this.timeline.style.flex = `3 1`;
-    }
-  }
-
 }

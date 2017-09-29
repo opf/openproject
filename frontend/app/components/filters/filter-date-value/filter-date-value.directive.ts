@@ -53,7 +53,7 @@ export class DateValueController {
   };
 }
 
-function dateValue() {
+function dateValue():any {
   return {
     restrict: 'E',
     replace: true,

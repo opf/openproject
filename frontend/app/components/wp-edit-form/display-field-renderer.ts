@@ -1,9 +1,10 @@
+import {ProgressTextDisplayField} from './../wp-display/field-types/wp-display-progress-text-field.module';
 import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {WorkPackageDisplayFieldService} from '../wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {DisplayField} from '../wp-display/wp-display-field/wp-display-field.module';
 import {MultipleLinesStringObjectsDisplayField} from '../wp-display/field-types/wp-display-multiple-lines-string-objects-field.module';
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageChangeset} from './work-package-changeset';
 
 export const editableClassName = '-editable';
 export const requiredClassName = '-required';
@@ -19,11 +20,29 @@ export class DisplayFieldRenderer {
   public wpDisplayField:WorkPackageDisplayFieldService;
   public I18n:op.I18n;
 
-  constructor(public context:'table' | 'single-view') {
+  constructor(public context:'table' | 'single-view' | 'timeline') {
     $injectFields(this, 'wpDisplayField', 'I18n');
   }
 
-  public render(workPackage:WorkPackageResourceInterface, name:string, placeholder = cellEmptyPlaceholder):HTMLSpanElement {
+  public render(workPackage:WorkPackageResourceInterface,
+                name:string,
+                changeset:WorkPackageChangeset|null,
+                placeholder = cellEmptyPlaceholder):HTMLSpanElement {
+    const [field, span] = this.renderFieldValue(workPackage, name, changeset, placeholder);
+
+    if (field === null) {
+      return span;
+    }
+
+    this.setSpanAttributes(span, field, name, workPackage);
+
+    return span;
+  }
+
+  public renderFieldValue(workPackage:WorkPackageResourceInterface,
+                          name:string,
+                          changeset:WorkPackageChangeset|null,
+                          placeholder = cellEmptyPlaceholder):[DisplayField|null, HTMLSpanElement] {
     const span = document.createElement('span');
     const schemaName = workPackage.getSchemaName(name);
     const fieldSchema = workPackage.schema[schemaName];
@@ -31,25 +50,38 @@ export class DisplayFieldRenderer {
     // If the work package does not have that field, return an empty
     // span (e.g., for the table).
     if (!fieldSchema) {
-      return span;
+      return [null, span];
     }
 
-    const field = this.getField(workPackage, fieldSchema, schemaName);
-
-    this.setSpanAttributes(span, field, name, workPackage);
-
+    const field = this.getField(workPackage, fieldSchema, schemaName, changeset);
     field.render(span, this.getText(field, placeholder));
     span.setAttribute('title', this.getLabel(field, workPackage));
     span.setAttribute('aria-label', this.getAriaLabel(field, workPackage));
 
-    return span;
+    return [field, span];
   }
 
-  public getField(workPackage:WorkPackageResourceInterface, fieldSchema:op.FieldSchema, name:string):DisplayField {
+  public getField(workPackage:WorkPackageResourceInterface,
+                  fieldSchema:op.FieldSchema,
+                  name:string,
+                  changeset:WorkPackageChangeset|null):DisplayField {
+    const field = this.getFieldForCurrentContext(workPackage, fieldSchema, name);
+    field.changeset = changeset;
+
+    return field;
+  }
+
+  private getFieldForCurrentContext(workPackage:WorkPackageResourceInterface, fieldSchema:op.FieldSchema, name:string) {
+
     // We handle multi value fields differently in the single view context
     const isMultiLinesField = ['[]CustomOption', '[]User'].indexOf(fieldSchema.type) >= 0;
     if (this.context === 'single-view' && isMultiLinesField) {
-      return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema);
+      return new MultipleLinesStringObjectsDisplayField(workPackage, name, fieldSchema) as DisplayField;
+    }
+
+    // We handle progress differently in the timeline
+    if (this.context === 'timeline' && name === 'percentageDone') {
+      return new ProgressTextDisplayField(workPackage, name, fieldSchema);
     }
 
     return this.wpDisplayField.getField(workPackage, name, fieldSchema) as DisplayField;

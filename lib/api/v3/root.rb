@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -50,6 +51,7 @@ module API
       mount ::API::V3::Roles::RolesAPI
       mount ::API::V3::Statuses::StatusesAPI
       mount ::API::V3::StringObjects::StringObjectsAPI
+      mount ::API::V3::TimeEntries::TimeEntriesAPI
       mount ::API::V3::Types::TypesAPI
       mount ::API::V3::Users::UsersAPI
       mount ::API::V3::UserPreferences::UserPreferencesAPI

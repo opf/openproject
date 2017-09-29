@@ -30,8 +30,12 @@
 .wp--row
   user-select: none
 
-.wp-table--row.-collapsed
-  display: none
+.wp-table--row
+  cursor: pointer
+
+  // Hide collapsed rows (hierarchies, relations)
+  &.-collapsed
+    display: none
 
 .work-package-table--container table.generic-table tbody td
   padding-left: 0
@@ -52,36 +56,50 @@
 .wp-table--faulty-query-icon
   color: $nm-color-error-icon
 
+// Remove padding from grouping rows (exceeds allowed width of 41px)
+.wp-table--group-header td
+  padding: 0 !important
 
 // Shrink column of details / inline-create icons
-.wp-table--details-column
-  // Set a minimum width for the cell to avoid movement
-  min-width: 40px
+.wp-table--context-menu-column
+  width: 60px
   // Center the th icon
   text-align: center !important
   // Take care that the header can overlap the icon
   z-index: 1
+  padding: 0 !important
 
-// Details link column width
-.work-package-table
-  col:last-of-type
-    width: 40px
+// Hide the context menu button outside mobile
+html:not(.-browser-mobile)
+  .wp-table--context-menu-td
+    width: 60px
+    // Override the default td line-height
+    line-height: initial !important
 
-// Show details view button when hovering
-.wp-table--details-link
-  .issue:hover &,
-  &:focus
-    // override the hidden-for-sighted definition
-    position: relative
-    left: 0
-    width: initial
-    height: initial
+  .wp-table-context-menu-icon
+    // Hide from viewers, but allow to be focused
+    opacity: 0
 
-    .icon:before
-      color: $body-font-color
-      padding: 0 0 0 0.25rem
+  .issue:hover .wp-table-context-menu-icon,
+  .wp-table--context-menu-td:focus,
+  .wp-table-context-menu-icon:focus
+    // Hide by default
+    opacity: 100
+
+// Show context menu button when hovering
+.wp-table--context-menu-td a
+  vertical-align: -3px
+  .icon:before
+    @include varprop(color, content-link-color)
+    padding: 0 0 0 0.25rem
   &:hover
     text-decoration: none
+
+.wp-table--details-link
+  padding-right: 5px
+
+.wp-table-context-menu-link
+  padding-left: 5px
 
 table.generic-table tbody tr.issue .checkbox
   overflow: visible
@@ -104,6 +122,12 @@ table.generic-table tbody tr.issue .checkbox
     display: initial
     pointer-events: all
 
+// On edge, pointer-events only work on
+// block or inline-block elements
+html.-browser-edge
+  .wp-table--cell-container .inplace-edit
+    display: inline-block !important
+
 .inplace-editing--container
   display: inline-block
   border: 1px solid transparent
@@ -116,4 +140,3 @@ table.generic-table tbody tr.issue .checkbox
 .wp-table--cell-td.startDate,
 .wp-table--cell-td.dueDate
   width: 160px
-

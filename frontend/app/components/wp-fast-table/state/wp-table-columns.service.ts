@@ -255,6 +255,12 @@ export class WorkPackageTableColumnsService extends WorkPackageTableBaseService 
     return this.availableState.getValueOr([]);
   }
 
+  public get allPropertyColumns():QueryColumn[] {
+    return this
+      .all
+      .filter((column:QueryColumn) => column._type === queryColumnTypes.PROPERTY);
+  }
+
   /**
    * Get columns not yet selected
    */

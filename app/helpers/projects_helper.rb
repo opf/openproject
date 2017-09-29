@@ -94,7 +94,7 @@ module ProjectsHelper
         name: 'types',
         action: :manage_types,
         partial: 'projects/settings/types',
-        label: :label_type_plural
+        label: :label_work_package_types
       }
     ]
     tabs.select { |tab| User.current.allowed_to?(tab[:action], @project) }

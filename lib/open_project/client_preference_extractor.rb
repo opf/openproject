@@ -46,6 +46,7 @@ module OpenProject
     def user_preferences(user = User.current)
       pref = user.pref.clone
 
+      pref[:comments_sorting] = user.pref.comments_sorting
       map_timezone_to_tz!(pref)
     end
 

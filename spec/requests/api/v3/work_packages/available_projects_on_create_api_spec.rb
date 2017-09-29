@@ -53,7 +53,7 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
     it_behaves_like 'API V3 collection response', 1, 1, 'Project'
 
     it 'has the project for which the add_work_packages permission exists' do
-      expect(response.body).to be_json_eql(project.id).at_path('_embedded/elements/0/id')
+      expect(last_response.body).to be_json_eql(project.id).at_path('_embedded/elements/0/id')
     end
   end
 
@@ -62,6 +62,6 @@ describe API::V3::WorkPackages::AvailableProjectsOnCreateAPI, type: :request do
       FactoryGirl.create(:role, permissions: [])
     end
 
-    it { expect(response.status).to eq(403) }
+    it { expect(last_response.status).to eq(403) }
   end
 end

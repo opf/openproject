@@ -11,6 +11,7 @@
          ng-keydown="vm.handleUserKeydown($event)"
          ng-required="vm.field.required"
          ng-disabled="vm.field.inFlight"
+         ng-attr-placeholder="{{ vm.field.placeholder }}"
          ng-attr-id="{{vm.htmlId}}" />
 
 </op-date-picker>

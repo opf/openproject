@@ -41,18 +41,19 @@ describe ::API::V3::Users::UsersAPI, type: :request do
   end
 
   def send_request
-    post path, params: parameters.to_json, headers: { 'Content-Type' => 'application/json' }
+    header "Content-Type", "application/json"
+    post path, parameters.to_json
   end
 
-  let(:errors) { parse_json(response.body)['_embedded']['errors'] }
+  let(:errors) { parse_json(last_response.body)['_embedded']['errors'] }
 
   shared_context 'represents the created user' do |expected_attributes|
     it 'returns the represented user' do
       send_request
 
-      expect(response.status).to eq(201)
-      expect(response.body).to have_json_type(Object).at_path('_links')
-      expect(response.body)
+      expect(last_response.status).to eq(201)
+      expect(last_response.body).to have_json_type(Object).at_path('_links')
+      expect(last_response.body)
         .to be_json_eql('User'.to_json)
         .at_path('_type')
 
@@ -69,13 +70,13 @@ describe ::API::V3::Users::UsersAPI, type: :request do
     it 'returns an erroneous response' do
       send_request
 
-      expect(response.status).to eq(422)
+      expect(last_response.status).to eq(422)
 
       expect(errors.count).to eq(5)
       expect(errors.collect { |el| el['_embedded']['details']['attribute'] })
         .to contain_exactly('password', 'login', 'firstname', 'lastname', 'email')
 
-      expect(response.body)
+      expect(last_response.body)
         .to be_json_eql('urn:openproject-org:api:v3:errors:MultipleErrors'.to_json)
         .at_path('errorIdentifier')
     end
@@ -150,9 +151,9 @@ describe ::API::V3::Users::UsersAPI, type: :request do
         it 'returns an error for the authSource attribute' do
           send_request
 
-          attr = JSON.parse(response.body).dig "_embedded", "details", "attribute"
+          attr = JSON.parse(last_response.body).dig "_embedded", "details", "attribute"
 
-          expect(response.status).to eq 422
+          expect(last_response.status).to eq 422
           expect(attr).to eq "authSource"
         end
       end
@@ -186,9 +187,9 @@ describe ::API::V3::Users::UsersAPI, type: :request do
       it 'returns the represented user' do
         send_request
 
-        expect(response.body).not_to have_json_path("_embedded/errors")
-        expect(response.body).to have_json_type(Object).at_path('_links')
-        expect(response.body)
+        expect(last_response.body).not_to have_json_path("_embedded/errors")
+        expect(last_response.body).to have_json_type(Object).at_path('_links')
+        expect(last_response.body)
           .to be_json_eql('User'.to_json)
           .at_path('_type')
       end
@@ -255,10 +256,10 @@ describe ::API::V3::Users::UsersAPI, type: :request do
       it 'marks the mail as missing' do
         send_request
 
-        expect(response.body)
+        expect(last_response.body)
           .to be_json_eql('urn:openproject-org:api:v3:errors:PropertyConstraintViolation'.to_json)
           .at_path('errorIdentifier')
-        expect(response.body)
+        expect(last_response.body)
           .to be_json_eql('email'.to_json)
           .at_path('_embedded/details/attribute')
       end
@@ -271,10 +272,10 @@ describe ::API::V3::Users::UsersAPI, type: :request do
     it 'returns an erroneous response' do
       send_request
 
-      expect(response.status).to eq(422)
+      expect(last_response.status).to eq(422)
 
       expect(errors).not_to be_empty
-      expect(response.body)
+      expect(last_response.body)
         .to be_json_eql('urn:openproject-org:api:v3:errors:MultipleErrors'.to_json)
         .at_path('errorIdentifier')
 
@@ -289,7 +290,7 @@ describe ::API::V3::Users::UsersAPI, type: :request do
 
     it 'returns an erroneous response' do
       send_request
-      expect(response.status).to eq(403)
+      expect(last_response.status).to eq(403)
     end
   end
 end

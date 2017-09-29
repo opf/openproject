@@ -71,6 +71,7 @@ $ng-modal-image-width:   $ng-modal-image-height
   max-height: 95%
   position: relative
   width: 95%
+  max-height: 75vh
   padding: $ng-modal-padding / 2
   margin-top: 5%
   overflow-y: auto
@@ -84,6 +85,8 @@ $ng-modal-image-width:   $ng-modal-image-height
   //+media($large-screen)
   width: 40%
 
+  .form
+    position: initial
   .modal-header
     padding: 0
     i
@@ -96,6 +99,13 @@ $ng-modal-image-width:   $ng-modal-image-height
   .select2-container
     margin: 0 0 10px 0
 
+  .modal-inner-scrolling-container
+    max-height: 40vh
+    overflow-y: auto
+
+
+  .form--space.-left-spacing
+    padding-left: 1rem
 
   #modal-sorting
     min-height: 120px
@@ -124,6 +134,9 @@ $ng-modal-image-width:   $ng-modal-image-height
     label
       display: inline
       padding-right: 30px
+  .ee-relation-columns-upsale
+    margin-top: -0.7rem
+    padding-bottom: 1rem
 
 ul.export-options
   margin: 0

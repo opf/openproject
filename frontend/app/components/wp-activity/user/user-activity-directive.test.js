@@ -47,7 +47,7 @@ describe('userActivity Directive', function() {
       });
     });
 
-    beforeEach(inject(function($rootScope, $compile, $q, $uiViewScroll, $timeout, $location, I18n, PathHelper, ActivityService) {
+    beforeEach(inject(function($rootScope, $compile, $q, $uiViewScroll, $timeout, $location, I18n, PathHelper, wpActivityService) {
       var html;
       html = '<user-activity work-package="workPackage" activity="activity" activity-no="activityNo" is-initial="isInitial" input-element-id="inputElementId"></user-activity>';
 

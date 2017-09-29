@@ -32,7 +32,15 @@ class CustomField < ActiveRecord::Base
   include CustomField::OrderStatements
 
   has_many :custom_values, dependent: :delete_all
-  has_many :custom_options, -> { order(position: :asc) }, dependent: :delete_all
+  # WARNING: the inverse_of option is also required in order
+  # for the 'touch: true' option on the custom_field association in CustomOption
+  # to work as desired.
+  # Without it, the after_commit callbacks of acts_as_list will prevent the touch to happen.
+  # https://github.com/rails/rails/issues/26726
+  has_many :custom_options,
+           -> { order(position: :asc) },
+           dependent: :delete_all,
+           inverse_of: 'custom_field'
   accepts_nested_attributes_for :custom_options
 
   acts_as_list scope: 'type = \'#{self.class}\''

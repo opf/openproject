@@ -38,6 +38,8 @@ module API
           parsed_params[:filters] = filters_from_params(params)
 
           parsed_params[:sort_by] = sort_by_from_params(params)
+
+          parsed_params[:timeline_labels] = timeline_labels_from_params(params)
         end
         return error_result if error_result
 
@@ -63,6 +65,12 @@ module API
         return unless params[:sortBy]
 
         parse_sorting_from_json(params[:sortBy])
+      end
+
+      def timeline_labels_from_params(params)
+        return unless params[:timelineLabels]
+
+        JSON.parse(params[:timelineLabels])
       end
 
       # Expected format looks like:

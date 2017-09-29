@@ -28,10 +28,11 @@
 
 import {QuerySortByResource} from "../api/api-v3/hal-resources/query-sort-by-resource.service";
 import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
+import {PathHelperService} from '../common/path-helper/path-helper.service';
 
 export class UrlParamsHelperService {
 
-  public constructor(public PaginationService:any) {
+  public constructor(public PaginationService:any, public PathHelper:PathHelperService) {
 
   }
 
@@ -68,6 +69,10 @@ export class UrlParamsHelperService {
 
     if (!!query.timelineVisible) {
       paramsData.tv = query.timelineVisible;
+    }
+
+    if (!_.isEmpty(query.timelineLabels)) {
+      paramsData.tll = JSON.stringify(query.timelineLabels);
     }
 
     paramsData.tzl = query.timelineZoomLevel;
@@ -127,6 +132,9 @@ export class UrlParamsHelperService {
     }
     if (!!properties.tv) {
       queryData.timelineVisible = properties.tv;
+    }
+    if (!!properties.tll) {
+      queryData.timelineLabels = properties.tll;
     }
 
     if (properties.tzl) {

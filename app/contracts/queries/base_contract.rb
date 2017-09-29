@@ -39,6 +39,7 @@ module Queries
     attribute :display_sums # => sums
     attribute :timeline_visible
     attribute :timeline_zoom_level
+    attribute :timeline_labels
     attribute :show_hierarchies
 
     attribute :column_names # => columns

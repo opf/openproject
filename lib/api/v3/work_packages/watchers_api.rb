@@ -32,11 +32,7 @@ module API
   module V3
     module WorkPackages
       class WatchersAPI < ::API::OpenProjectAPI
-        helpers do
-          def to_i_or_nil(string)
-            string ? string.to_i : nil
-          end
-        end
+        helpers ::API::Utilities::ParamsHelper
 
         get '/available_watchers' do
           authorize(:add_work_package_watchers, context: @work_package.project)
@@ -50,7 +46,7 @@ module API
               users,
               api_v3_paths.users,
               page: to_i_or_nil(params[:offset]),
-              per_page: to_i_or_nil(params[:pageSize]),
+              per_page: resolve_page_size(params[:pageSize]),
               current_user: current_user
             )
           else

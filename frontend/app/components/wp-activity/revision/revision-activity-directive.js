@@ -34,7 +34,7 @@ function revisionActivity($compile,
                           $sce,
                           I18n,
                           PathHelper,
-                          ActivityService) {
+                          wpActivityService) {
   return {
     restrict: 'E',
     replace: true,

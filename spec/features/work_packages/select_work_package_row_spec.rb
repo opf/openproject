@@ -215,7 +215,6 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
     it do
       find('#work-packages-details-view-button').click
-
       split_wp = Pages::SplitWorkPackage.new(work_package_2)
       split_wp.expect_attributes Subject: work_package_2.subject
 

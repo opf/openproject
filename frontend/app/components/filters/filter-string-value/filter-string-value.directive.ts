@@ -52,7 +52,7 @@ export class StringValueController {
   };
 }
 
-function stringValue() {
+function stringValue():any {
   return {
     restrict: 'E',
     replace: true,

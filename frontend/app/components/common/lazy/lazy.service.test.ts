@@ -88,15 +88,4 @@ describe('lazy service', () => {
     lazy(obj, 'prop', () => '');
     expect(obj).to.not.be.ok;
   });
-
-  it('should call the getter only once', () => {
-    let callback = sinon.spy();
-    let obj:any = {
-      prop: void 0
-    };
-    lazy(obj, 'prop', callback);
-    obj.prop;
-    obj.prop;
-    expect(callback.calledOnce).to.be.true;
-  });
 });

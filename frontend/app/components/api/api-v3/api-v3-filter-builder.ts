@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-export type FilterOperator = '=' | '!*';
+export type FilterOperator = '=' | '!*' | '!' | '~';
 
 export interface ApiV3Filter {
   [filter:string]:{ operator:FilterOperator, values:any };
@@ -50,9 +50,36 @@ export class ApiV3FilterBuilder {
   public toJson():string {
     return JSON.stringify(this.filters);
   }
+
+  public toParams():string {
+    let transformedFilters: string[] = [];
+
+    transformedFilters = this.filters.map((filter:ApiV3Filter) => {
+      return this.serializeFilter(filter);
+    });
+
+    return `filters=${encodeURI(`[${transformedFilters.join(',')}]`)}`;
+  }
+
+  private serializeFilter(filter:ApiV3Filter){
+    let transformedFilter: string;
+    let keys: Array<string>;
+
+    keys = Object.keys(filter);
+
+    let typeName = keys[0];
+    let operatorAndValues: any = filter[typeName];
+
+    transformedFilter = `{"${typeName}":{"operator":"${operatorAndValues['operator']}","values":[${operatorAndValues['values'].map(this.serializeFilterValue).join(',')}]}}`;
+
+    return transformedFilter;
+  }
+
+  private serializeFilterValue(filterValue: any){
+    return `"${filterValue}"`;
+  }
 }
 
 export function buildApiV3Filter(name:string, operator:FilterOperator, values:any) {
   return new ApiV3FilterBuilder().add(name, operator, values);
 }
-

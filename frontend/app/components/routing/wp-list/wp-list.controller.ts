@@ -104,7 +104,6 @@ function WorkPackagesListController($scope:any,
     // Update the title whenever the query changes
     states.query.resource.values$()
       .takeUntil(scopeDestroyed$($scope))
-      .distinctUntilChanged((query, formerQuery) => query.id === formerQuery.id)
       .subscribe((query) => {
         updateTitle(query);
       });
@@ -131,17 +130,16 @@ function WorkPackagesListController($scope:any,
         }
     });
 
-    setupChangeObserver(wpTableFilters);
+    setupChangeObserver(wpTableFilters, true);
     setupChangeObserver(wpTableGroupBy);
     setupChangeObserver(wpTableSortBy);
     setupChangeObserver(wpTableSum);
-    setupChangeObserver(wpTableTimeline);
     setupChangeObserver(wpTableTimeline);
     setupChangeObserver(wpTableHierarchies);
     setupChangeObserver(wpTableColumns);
   }
 
-  function setupChangeObserver(service:WorkPackageQueryStateService) {
+  function setupChangeObserver(service:WorkPackageQueryStateService, firstPage:boolean = false) {
     const queryState = states.query.resource;
 
     states.query.context.fireOnStateChange(service.state, 'Query loaded')
@@ -158,7 +156,7 @@ function WorkPackagesListController($scope:any,
 
         // Update the page, if the change requires it
         if (triggerUpdate) {
-          wpTableRefresh.request(true, 'Query updated by user');
+          wpTableRefresh.request('Query updated by user', true, firstPage);
         }
       });
   }
@@ -172,10 +170,10 @@ function WorkPackagesListController($scope:any,
       .values$('Refresh listener in wp-list.controller')
       .takeUntil(scopeDestroyed$($scope))
       .auditTime(20)
-      .subscribe((refreshVisibly:boolean) => {
+      .subscribe(([refreshVisibly, firstPage]) => {
         if (refreshVisibly) {
           debugLog('Refreshing work package results visibly.');
-          updateResultsVisibly();
+          updateResultsVisibly(true);
         } else {
           debugLog('Refreshing work package results in the background.');
           updateResults();

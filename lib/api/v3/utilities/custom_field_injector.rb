@@ -336,7 +336,7 @@ module API
 
             query = CGI.escape(::JSON.dump(params))
 
-            "#{api_v3_paths.principals}?filters=#{query}"
+            "#{api_v3_paths.principals}?filters=#{query}&pageSize=0"
           }
         end
 

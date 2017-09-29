@@ -37,9 +37,10 @@ import {scopeDestroyed$} from '../../../helpers/angular-rx-utils';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
+import {WorkPackageCreateService} from './../../wp-create/wp-create.service';
 
 export class WorkPackageEditFieldGroupController {
-  public workPackage:WorkPackageResourceInterface
+  public workPackage:WorkPackageResourceInterface;
   public successState?:string;
   public inEditMode:boolean;
   public form:WorkPackageEditForm;
@@ -50,6 +51,7 @@ export class WorkPackageEditFieldGroupController {
   constructor(protected $scope:ng.IScope,
               protected $state:ng.ui.IStateService,
               protected states:States,
+              protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableSelection:WorkPackageTableSelection,
@@ -76,7 +78,7 @@ export class WorkPackageEditFieldGroupController {
         this.stop();
       }
     });
-    
+
     $scope.$on('$destroy', () => {
       this.unregisterListener();
       this.form.destroy();
@@ -86,6 +88,16 @@ export class WorkPackageEditFieldGroupController {
   public $onInit() {
     const context = new SingleViewEditContext(this);
     this.form = WorkPackageEditForm.createInContext(context, this.workPackage, this.inEditMode);
+
+    // Stop editing whenever a work package was saved
+    if (this.inEditMode && this.workPackage.isNew) {
+      this.wpCreate.onNewWorkPackage()
+        .takeUntil(scopeDestroyed$(this.$scope))
+        .subscribe((wp:WorkPackageResourceInterface) => {
+          this.form.editMode = false;
+          this.stopEditingAndLeave(wp, true);
+      });
+    }
 
     this.states.workPackages.get(this.workPackage.id)
       .values$()
@@ -107,7 +119,7 @@ export class WorkPackageEditFieldGroupController {
     this.fields[field.fieldName] = field;
     this.registeredFields.putValue(_.keys(this.fields));
 
-    if (this.inEditMode) {
+    if (this.inEditMode && !this.skipField(field)) {
       field.activateOnForm(this.form, true);
     } else {
       this.states.workPackages
@@ -139,21 +151,43 @@ export class WorkPackageEditFieldGroupController {
     return this.form
       .submit()
       .then((savedWorkPackage) => {
-        this.wpEditing.stopEditing(this.workPackage.id);
-
-        if (this.successState) {
-          this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
-            .then(() => {
-              this.wpTableSelection.focusOn(savedWorkPackage.id);
-              this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
-            });
-        }
+        this.onSaved(isInitial, savedWorkPackage);
       });
+  }
+
+  /**
+   * Handle onSave from form and single view. Since we get a separate event
+   * for new work packages, ignore them and only stop editing on non-new WPs.
+   *
+   */
+  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface) {
+    if (!isInitial) {
+      this.stopEditingAndLeave(savedWorkPackage, false);
+    }
+  }
+
+  private stopEditingAndLeave(savedWorkPackage:WorkPackageResourceInterface, isInitial:boolean) {
+    this.wpEditing.stopEditing(this.workPackage.id);
+
+    if (this.successState) {
+      this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
+        .then(() => {
+          this.wpTableSelection.focusOn(savedWorkPackage.id);
+          this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
+        });
+    }
   }
 
   private updateDisplayField(field:WorkPackageEditFieldController, wp:WorkPackageResourceInterface) {
     field.workPackage = wp;
     field.render();
+  }
+
+  private skipField(field:WorkPackageEditFieldController) {
+    const fieldName = field.fieldName;
+
+    const isSkipField = fieldName === 'status' || fieldName === 'type';
+    return (isSkipField && this.workPackage[fieldName]);
   }
 
   private allowedStateChange(toState:any, toParams:any, fromState:any, fromParams:any) {

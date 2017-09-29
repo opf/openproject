@@ -38,7 +38,7 @@ In the following section we will go through the basic steps required to create a
 ### Generate a plugin
 
 First off you can use the [plugin generator](https://github.com/opf/openproject-plugins) to create a basic plugin to base yours on.
-How to do that is described [here]https://www.openproject.org/open-source/development-free-project-management-software/create-openproject-plugin/). In short it’s the following command:
+How to do that is described [here](https://www.openproject.org/development/create-openproject-plugin/). In short it’s the following command:
 
 ```bash
 # in OpenProject directory

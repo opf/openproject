@@ -27,12 +27,6 @@
 //++
 
 angular.module('openproject.services')
-  .service('ActivityService', [
-    '$http',
-    'I18n',
-    'NotificationsService',
-    require('./activity-service')
-  ])
   .service('HookService', require('./hook-service'))
   .service('KeyboardShortcutService', [
     '$window',
@@ -44,7 +38,6 @@ angular.module('openproject.services')
     './pagination-service')])
   .service('SortService', require('./sort-service'))
   .service('StatusService', ['$http', 'PathHelper', require('./status-service')])
-  .factory('TextileService', ['$http', 'PathHelper', require('./textile-service')])
   .service('TimezoneService', ['ConfigurationService', 'I18n', require(
     './timezone-service')])
   .service('ApiNotificationsService', [

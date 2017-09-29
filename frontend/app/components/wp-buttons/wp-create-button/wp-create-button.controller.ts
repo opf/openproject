@@ -45,6 +45,10 @@ export default class WorkPackageCreateButtonController {
     };
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   public createWorkPackage() {
     this.$state.go(this.stateName, {projectPath: this.projectIdentifier});
   }

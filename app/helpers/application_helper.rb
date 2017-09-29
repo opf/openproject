@@ -442,6 +442,9 @@ module ApplicationHelper
       css << 'controller-' + params[:controller]
       css << 'action-' + params[:action]
     end
+
+    css << "ee-banners-#{EnterpriseToken.show_banners? ? 'visible' : 'hidden'}"
+
     css.join(' ')
   end
 

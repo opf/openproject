@@ -35,6 +35,8 @@ var autoprefixer = require('autoprefixer');
 var dllManifest = require('./dist/vendors-dll-manifest.json')
 
 var TypeScriptDiscruptorPlugin = require('./webpack/typescript-disruptor.plugin.js');
+var ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+var HappyPack = require('happypack');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var CleanWebpackPlugin = require('clean-webpack-plugin');
 
@@ -78,19 +80,15 @@ var loaders = [
         loader: 'ng-annotate-loader'
       },
       {
-        loader: 'ts-loader',
-        options: {
-          logLevel: 'info',
-          configFileName: path.resolve(__dirname, 'tsconfig.json')
-        }
+        loader: 'happypack/loader?id=ts'
       }
     ]
   },
   {
     test: /\.css$/,
     use: ExtractTextPlugin.extract({
-      fallbackLoader: 'style-loader',
-      loader: [
+      fallback: 'style-loader',
+      use: [
         'css-loader',
         'postcss-loader'
       ],
@@ -226,6 +224,21 @@ function getWebpackMainConfig() {
         PRODUCTION: !!production
       }),
 
+      new HappyPack({
+        id: 'ts',
+        threads: 4,
+        loaders: [
+          {
+            path: 'ts-loader',
+            query: {
+              happyPackMode: true,
+              logLevel: 'info',
+              configFile: path.resolve(__dirname, 'tsconfig.json')
+            }
+          }
+        ]
+      }),
+
       // Clean the output directory
       new CleanWebpackPlugin(['bundles'], {
         root: output_root,
@@ -237,6 +250,13 @@ function getWebpackMainConfig() {
       new webpack.DllReferencePlugin({
           context: path.resolve(__dirname),
           manifest: dllManifest
+      }),
+
+      // Parallel type checking for typescript
+      new ForkTsCheckerWebpackPlugin({
+        tsconfig: path.resolve(__dirname, 'tsconfig.json'),
+        // In happyPackMode, ts-loader no longer reports syntactic errors
+        checkSyntacticErrors: true
       }),
 
       // Extract CSS into its own bundle

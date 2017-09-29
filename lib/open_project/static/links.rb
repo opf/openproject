@@ -66,6 +66,10 @@ module OpenProject
               href: 'https://www.openproject.org/enterprise-edition/',
               label: :label_professional_support
             },
+            newsletter: {
+              href: 'https://www.openproject.org/newsletter',
+              label: 'homescreen.links.newsletter'
+            },
             blog: {
               href: 'https://www.openproject.org/blog',
               label: 'homescreen.links.blog'

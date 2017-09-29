@@ -709,4 +709,6 @@ class ApplicationController < ActionController::Base
   # callbacks when the core application controller is fully loaded. Good explanation of load hooks:
   # http://simonecarletti.com/blog/2011/04/understanding-ruby-and-rails-lazy-load-hooks/
   ActiveSupport.run_load_hooks(:application_controller, self)
+
+  prepend Concerns::AuthSourceSSO
 end

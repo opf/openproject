@@ -86,11 +86,6 @@ class User < Principal
   }, dependent: :destroy, class_name: 'Token'
   belongs_to :auth_source
 
-  # Active non-anonymous users scope
-  scope :not_builtin, -> {
-    where("#{User.table_name}.status <> #{STATUSES[:builtin]}")
-  }
-
   # Users blocked via brute force prevention
   # use lambda here, so time is evaluated on each query
   scope :blocked, -> { create_blocked_scope(self, true) }
@@ -132,6 +127,7 @@ class User < Principal
   validates_confirmation_of :password, allow_nil: true
   validates_inclusion_of :mail_notification, in: MAIL_NOTIFICATION_OPTIONS.map(&:first), allow_blank: true
 
+  validate :login_is_not_special_value
   validate :password_meets_requirements
 
   after_save :update_password
@@ -704,6 +700,13 @@ class User < Principal
   end
 
   protected
+
+  # Login must not be special value 'me'
+  def login_is_not_special_value
+    if login.present? && login == 'me'
+      errors.add(:login, :invalid)
+    end
+  end
 
   # Password requirement validation based on settings
   def password_meets_requirements

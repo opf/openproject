@@ -28,7 +28,7 @@
 
 source 'https://rubygems.org'
 
-ruby '~> 2.4.1'
+ruby '~> 2.4.2'
 
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
@@ -150,7 +150,7 @@ gem 'cocaine', '~> 0.5.8'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.8.0'
+gem 'nokogiri', '~> 1.8.1'
 
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
 # fog dependency chain. We only need aws here, so we can avoid it
@@ -171,6 +171,10 @@ group :test do
   gem 'factory_girl', '~> 4.5'
   # require factory_girl_rails for convenience in core development
   gem 'factory_girl_rails', '~> 4.7', require: false
+
+  # Test prof provides factories from code
+  # and other niceties
+  gem 'test-prof'
 
   gem 'cucumber', '~> 2.4.0'
   gem 'cucumber-rails', '~> 1.4.4', require: false
@@ -231,6 +235,7 @@ group :development, :test do
   gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
   gem 'pry-doc', '~> 0.10'
+  gem 'bootsnap', '~> 1.1.2', require: false
 end
 
 # API gems
@@ -263,7 +268,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'stable/7'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'release/7.3'
 end
 
 # TODO: Make this group :optional when bundler v10.x

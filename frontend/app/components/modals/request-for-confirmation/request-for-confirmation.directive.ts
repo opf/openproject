@@ -61,6 +61,10 @@ export class RequestForConfirmationController {
     });
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   public openConfirmationDialog() {
     this.ngDialog.open({
       closeByEscape: false,

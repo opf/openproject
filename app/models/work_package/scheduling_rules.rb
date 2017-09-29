@@ -39,6 +39,9 @@ module WorkPackage::SchedulingRules
     return if delta.zero?
 
     if leaf?
+      # Avoid setting the dates if either is unset
+      return if (start_date.nil? || due_date.nil?)
+
       # HACK: On some more deeply nested settings (not sure what causes it)
       # the work package can already have been updated by one of the other after_save hooks.
       # To prevent a stale object error, we reload the lock preemptively.

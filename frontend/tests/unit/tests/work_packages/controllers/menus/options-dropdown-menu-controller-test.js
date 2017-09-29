@@ -113,6 +113,9 @@ describe('optionsDropdown Directive', function() {
 
       },
       table: {
+        timelineVisible: {
+          value: {}
+        },
         stopAllSubscriptions: [false]
       }
     };

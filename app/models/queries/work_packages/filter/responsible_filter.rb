@@ -32,7 +32,7 @@ class Queries::WorkPackages::Filter::ResponsibleFilter <
   def allowed_values
     @allowed_values ||= begin
       values = principal_loader.user_values
-      me_value + values
+      me_allowed_value + values
     end
   end
 

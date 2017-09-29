@@ -37,39 +37,13 @@ import {WorkPackageCreateService} from './wp-create.service';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
+import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 
 export class WorkPackageCreateController {
   public newWorkPackage:WorkPackageResourceInterface;
   public parentWorkPackage:WorkPackageResourceInterface;
   public changeset:WorkPackageChangeset;
-
-  public get header():string {
-    const type = this.changeset.value('type');
-
-    if (!type) {
-      return this.I18n.t('js.work_packages.create.header_no_type');
-    }
-
-    if (this.parentWorkPackage) {
-      return this.I18n.t(
-        'js.work_packages.create.header_with_parent',
-        {
-          type: type.name,
-          parent_type: this.parentWorkPackage.type.name,
-          id: this.parentWorkPackage.id
-        }
-      );
-    }
-
-    if (type) {
-      return this.I18n.t(
-        'js.work_packages.create.header',
-        {type: type.name}
-      );
-    }
-
-    return '';
-  }
 
   constructor(protected $state:ng.ui.IStateService,
               protected $scope:ng.IScope,
@@ -80,6 +54,7 @@ export class WorkPackageCreateController {
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,
+              protected wpTableFilters:WorkPackageTableFiltersService,
               protected wpCacheService:WorkPackageCacheService,
               protected v3Path:any,
               protected $location:ng.ILocationService,
@@ -89,6 +64,8 @@ export class WorkPackageCreateController {
       .then((changeset:WorkPackageChangeset) => {
         this.changeset = changeset;
         this.newWorkPackage = changeset.workPackage;
+
+
         this.wpEditing.updateValue('new', changeset);
         wpCacheService.updateWorkPackage(changeset.workPackage);
 
@@ -124,6 +101,10 @@ export class WorkPackageCreateController {
       });
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   public switchToFullscreen() {
     this.$state.go('work-packages.new', this.$state.params);
   }
@@ -145,7 +126,10 @@ export class WorkPackageCreateController {
       }
     }
 
-    return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type);
+    return this.wpCreate.createNewTypedWorkPackage(stateParams.projectPath, type).then(changeset => {
+      const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current, ['type']);
+      return filter.applyDefaultsFromFilters().then(() => changeset);
+    });
   }
 
   public cancelAndBackToList() {

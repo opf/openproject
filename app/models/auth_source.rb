@@ -44,6 +44,10 @@ class AuthSource < ActiveRecord::Base
   def authenticate(_login, _password)
   end
 
+  def find_user(_login)
+    raise "subclass repsonsiblity"
+  end
+
   # implemented by a subclass, should raise when no connection is possible and not raise on success
   def test_connection
     raise I18n.t('auth_source.using_abstract_auth_source')
@@ -80,6 +84,21 @@ class AuthSource < ActiveRecord::Base
         Rails.logger.error "Error during authentication: #{e.message}"
         attrs = nil
       end
+      return attrs if attrs
+    end
+    nil
+  end
+
+  def self.find_user(login)
+    AuthSource.where(['onthefly_register=?', true]).each do |source|
+      begin
+        Rails.logger.debug { "Looking up '#{login}' in '#{source.name}'" }
+        attrs = source.find_user login
+      rescue => e
+        Rails.logger.error "Error during authentication: #{e.message}"
+        attrs = nil
+      end
+
       return attrs if attrs
     end
     nil

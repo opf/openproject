@@ -28,21 +28,21 @@
 
 /*jshint expr: true*/
 
-describe('ActivityService', function() {
+describe('wpActivityService', function() {
 
   var $httpBackend,
       $q,
-      ActivityService,
+      wpActivityService,
       ConfigurationService,
       accessibilityModeEnabled;
 
   beforeEach(angular.mock.module('openproject.api', 'openproject.services', 'openproject.config',
     'openproject.models'));
 
-  beforeEach(inject(function(_$q_, _$httpBackend_, _ActivityService_,  _ConfigurationService_) {
+  beforeEach(inject(function(_$q_, _$httpBackend_, _wpActivityService_,  _ConfigurationService_) {
     $q = _$q_;
     $httpBackend   = _$httpBackend_;
-    ActivityService = _ActivityService_;
+    wpActivityService = _wpActivityService_;
     ConfigurationService = _ConfigurationService_;
 
     accessibilityModeEnabled = sinon.stub(ConfigurationService, 'accessibilityModeEnabled');
@@ -70,7 +70,7 @@ describe('ActivityService', function() {
           }
         });
 
-      apiFetchResource = ActivityService.createComment(
+      apiFetchResource = wpActivityService.createComment(
         workPackage,
         comment
       );

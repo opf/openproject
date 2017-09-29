@@ -65,4 +65,4 @@ Example:
 
 ## Example of bug reporting
 
-![Report a bug: Bug example](http://openproject.org/wp-content/uploads/2014/09/Forum-bug1.png "Report a bug: Bug example")
+![Report a bug: Bug example](https://openproject.org/wp-content/uploads/2014/09/Forum-bug1.png "Report a bug: Bug example")

@@ -26,10 +26,17 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// Subject field
 @mixin details-pane--form-field
   @include grid-visible-overflow
   padding: 0
+
+// Subject field
+.work-package--single-view
+  .wp-inline-edit--active-field.subject
+    .wp-inline-edit--field
+      height: 40px
+      font-size: 16px
+      line-height: 1
 
 .work-packages--info-row
   font-size: 0.8rem
@@ -169,6 +176,14 @@ i
   &:before
     @include varprop(color, $body-font-color)
 
+// Special styling for project context area
+.attributes-group.-project-context
+  background: rgba(227, 245, 255, 0.3)
+  border-radius: 5px
+  padding: 10px 10px 0 10px
+  margin: 10px 0 0 0
+  border: 1px solid rgb(227, 245, 255)
+
 // Avoid top border and spacing for special projects/select attribute group
 .attributes-group.-special-fields
   margin-top: 0.5em
@@ -179,13 +194,27 @@ i
     padding: 0
     margin: 0
 
+// Increase label width
+.action-show .attributes-group,
+.full-create .attributes-group
+  // We have to find a middle way between
+  // (a) avoiding label wrap and
+  // (b) ugly content wrap (e.g. in the label)
+  // These values are what matches best at the moment. So be careful when changing them.
+  .attributes-key-value--key
+    flex: 0 0 45%
+    max-width: 45%
+  .attributes-key-value--value-container
+    flex: 0 0 55%
+    max-width: 55%
+
 // Implement two column layout for WP full screen view
-@media screen and (min-width: 90rem)
+@media screen and (min-width: 92rem)
   .action-show .attributes-group,
   .full-create .attributes-group
     .-columns-2
       column-count: 2
-      column-gap: 4rem
+      column-gap: 3rem
 
       .attributes-key-value
         -webkit-column-break-inside: avoid
@@ -197,10 +226,10 @@ i
         .attributes-key-value.-span-all-columns
           column-span: all
           .attributes-key-value--key
-            flex-basis: calc(16.65% - (4rem / 6))
+            flex-basis: calc(22.5% - (4rem / 6))
           .attributes-key-value--value-container
-            flex-basis: calc(83.35% + (4rem / 6))
-            max-width: calc(83.35% + (4rem / 6))
+            flex-basis: calc(77.5% + (4rem / 6))
+            max-width: calc(77.5% + (4rem / 6))
 
   @supports (column-span: all)
     // Remove the outline on focus since that breaks the column in chrome

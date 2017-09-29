@@ -33,6 +33,8 @@ module API
   module V3
     module Users
       class UsersAPI < ::API::OpenProjectAPI
+        helpers ::API::Utilities::ParamsHelper
+
         helpers do
           def user_transition(allowed)
             if allowed
@@ -46,14 +48,18 @@ module API
             end
           end
 
-          def allow_only_admin
-            unless current_user.admin?
+          def current_user_if_logged
+            if User.current.logged?
+              User.current
+            else
               fail ::API::Errors::Unauthorized
             end
           end
 
-          def to_i_or_nil(string)
-            string ? string.to_i : nil
+          def allow_only_admin
+            unless current_user.admin?
+              fail ::API::Errors::Unauthorized
+            end
           end
         end
 
@@ -75,7 +81,7 @@ module API
               PaginatedUserCollectionRepresenter.new(users,
                                                      api_v3_paths.users,
                                                      page: to_i_or_nil(params[:offset]),
-                                                     per_page: to_i_or_nil(params[:pageSize]),
+                                                     per_page: resolve_page_size(params[:pageSize]),
                                                      current_user: current_user)
             else
               raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
@@ -89,7 +95,12 @@ module API
             helpers ::API::V3::Users::UpdateUser
 
             before do
-              @user = User.find_by_unique!(params[:id])
+              @user =
+                if params[:id] == 'me'
+                  current_user_if_logged
+                else
+                  User.find_by_unique!(params[:id])
+                end
             end
 
             get do

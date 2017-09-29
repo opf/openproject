@@ -59,7 +59,7 @@ describe('WP button directives', () => {
   var controller:GenericWpButtonController;
 
   before(() => {
-    angular.module('openproject.wpButtons').directive('genericWpButton', function () {
+    angular.module('openproject.wpButtons').directive('genericWpButton', function ():any {
       return {
         templateUrl: '/components/wp-buttons/wp-button.template.html',
 

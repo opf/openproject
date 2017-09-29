@@ -33,7 +33,7 @@ export class RelationsPanelController {
   public workPackage:WorkPackageResourceInterface;
 }
 
-function relationsPanelDirective() {
+function relationsPanelDirective():any {
   return {
     restrict: 'E',
     templateUrl: '/components/wp-panels/relations-panel/relations-panel.directive.html',

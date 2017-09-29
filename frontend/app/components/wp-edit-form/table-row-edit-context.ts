@@ -130,6 +130,10 @@ export class TableRowEditContext implements WorkPackageEditContext {
     return 'subject';
   }
 
+  public onSaved(isInitial:boolean, savedWorkPackage:WorkPackageResourceInterface) {
+    // Nothing to do here.
+  }
+
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
   private waitForContainer(fieldName:string):Promise<undefined> {

@@ -55,6 +55,8 @@ OpenProject::Application.routes.draw do
 
     match '/login', action: 'login',  as: 'signin', via: [:get, :post]
     get '/logout', action: 'logout', as: 'signout'
+
+    get '/sso', action: 'auth_source_sso_failed', as: 'sso_failure'
   end
 
   namespace :api do
@@ -479,6 +481,7 @@ OpenProject::Application.routes.draw do
 
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
+      match '/change_status/:change_action' => 'users#change_status_info', via: :get, as: 'change_status_info'
       post :change_status
       post :resend_invitation
       get :deletion_info

@@ -100,6 +100,10 @@ shared_examples_for 'has an empty link collection' do
   it { is_expected.to be_json_eql([].to_json).at_path("_links/#{link}") }
 end
 
+shared_examples_for 'has a link collection' do
+  it { is_expected.to be_json_eql(hrefs.to_json).at_path("_links/#{link}") }
+end
+
 shared_examples_for 'has no link' do
   it { is_expected.not_to have_json_path("_links/#{link}") }
 

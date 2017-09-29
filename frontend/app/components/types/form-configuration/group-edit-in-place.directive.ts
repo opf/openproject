@@ -46,7 +46,7 @@ interface GroupEditInPlaceScope {
   saveEdition:Function
 }
 
-function groupEditInPlace($timeout:any, $parse:any) {
+function groupEditInPlace($timeout:any, $parse:any):any {
   return {
     restrict: 'E',
     templateUrl: '/components/types/form-configuration/group-edit-in-place.directive.html',

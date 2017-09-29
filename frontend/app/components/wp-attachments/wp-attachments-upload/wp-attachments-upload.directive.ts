@@ -59,7 +59,7 @@ export class WorkPackageUploadDirectiveController {
   }
 }
 
-function wpUploadDirective(): IDirective {
+function wpUploadDirective():any {
   function wpUploadDirectiveLink(scope:ng.IScope, element:ng.IAugmentedJQuery) {
     element.click(() => element.children().first().click());
   }

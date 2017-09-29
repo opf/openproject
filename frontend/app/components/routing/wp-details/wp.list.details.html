@@ -42,9 +42,10 @@
       </ul>
     </div>
     <div class="work-packages--details-content">
-    <span class="hidden-for-sighted" tabindex="-1" focus="$ctrl.shouldFocus" ng-bind="$ctrl.focusAnchorLabel">
-    </span>
+      <span class="hidden-for-sighted" tabindex="-1" focus="$ctrl.shouldFocus" ng-bind="$ctrl.focusAnchorLabel">
+      </span>
 
+      <wp-breadcrumb work-package="$ctrl.workPackage"></wp-breadcrumb>
 
       <wp-edit-field-group work-package="$ctrl.workPackage">
         <wp-subject></wp-subject>
@@ -54,5 +55,9 @@
 
     <div class="work-packages--details-toolbar-container" ng-if="$ctrl.workPackage">
       <wp-details-toolbar work-package='$ctrl.workPackage'></wp-details-toolbar>
+    </div>
+
+    <div class="work-packages--details--resizer hidden-for-mobile">
+      <wp-resizer></wp-resizer>
     </div>
 </div

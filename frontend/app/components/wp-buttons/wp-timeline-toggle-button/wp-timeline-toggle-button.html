@@ -1,4 +1,36 @@
-<ul id="work-packages-timeline-mode-selection" class="toolbar-button-group">
+<ul id="work-packages-timeline-mode-selection"
+    class="toolbar-button-group">
+
+  <li ng-if="vm.isActive()">
+    <button id="work-packages-timeline-zoom-auto-button"
+            class="button timeline-toolbar--button toolbar-icon"
+            ng-class="vm.getAutoZoomToggleClass()"
+            title="{{ vm.text.zoomAuto }}"
+            ng-click="vm.toggleAutoZoom()">
+      <op-icon icon-classes="icon-zoom-auto button--icon"></op-icon>
+    </button>
+  </li>
+
+  <li ng-if="vm.isActive()">
+    <button id="work-packages-timeline-zoom-out-button"
+            class="button timeline-toolbar--button toolbar-icon"
+            title="{{ vm.text.zoomOut }}"
+            ng-disabled="vm.currentZoom == vm.maxZoomLevel"
+            ng-click="vm.updateZoomWithDelta(1)">
+      <op-icon icon-classes="icon-zoom-out button--icon"></op-icon>
+    </button>
+  </li>
+
+  <li ng-if="vm.isActive()">
+    <button id="work-packages-timeline-zoom-in-button"
+            class="button timeline-toolbar--button toolbar-icon"
+            title="{{ vm.text.zoomIn }}"
+            ng-disabled="vm.currentZoom == vm.minZoomLevel"
+            ng-click="vm.updateZoomWithDelta(-1)">
+      <op-icon icon-classes="icon-zoom-in button--icon"></op-icon>
+    </button>
+  </li>
+
   <li>
     <button id="{{ ::vm.buttonId }}"
             class="button timeline-toolbar--button toolbar-icon"
@@ -9,22 +41,5 @@
       <op-icon icon-classes="{{ ::vm.iconClass }} button--icon"></op-icon>
     </button>
   </li>
-  <li ng-if="vm.isActive()">
-    <button id="work-packages-timeline-zoom-out-button"
-            class="button timeline-toolbar--button toolbar-icon"
-            title="{{ vm.text.zoomOut }}"
-            ng-disabled="vm.currentZoom == vm.maxZoomLevel"
-            ng-click="vm.updateZoom(1)">
-      <op-icon icon-classes="icon-zoom-out button--icon"></op-icon>
-    </button>
-  </li>
-  <li ng-if="vm.isActive()">
-    <button id="work-packages-timeline-zoom-in-button"
-            class="button timeline-toolbar--button toolbar-icon"
-            title="{{ vm.text.zoomIn }}"
-            ng-disabled="vm.currentZoom == vm.minZoomLevel"
-            ng-click="vm.updateZoom(-1)">
-      <op-icon icon-classes="icon-zoom-in button--icon"></op-icon>
-    </button>
-  </li>
+
 </ul>

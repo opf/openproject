@@ -73,6 +73,10 @@ export class WorkPackageViewController {
     this.initializeTexts();
   }
 
+  public $onInit() {
+    // Created for interface compliance
+  }
+
   /**
    * Observe changes of work package and re-run initialization.
    * Needs to be run explicitly by descendants.

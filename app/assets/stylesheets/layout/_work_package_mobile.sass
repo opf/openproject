@@ -68,8 +68,6 @@
 
 
       .work-packages--show-view
-        padding: 0 0 0 5px
-
         &.edit-all-mode
           .work-packages-full-view--split-right
             display: none
@@ -82,10 +80,12 @@
         // Safari
         height: initial
         .work-packages-full-view--split-left
-          padding-left: 15px
           margin: 0
           width: initial
           border: none
+
+          .work-packages--panel-inner
+            padding: 5px 0 20px 0
 
         .work-packages-full-view--split-right
           width: initial
@@ -94,14 +94,13 @@
             margin: 0.75rem 0 2.5rem 0
 
           .work-packages--panel-inner
-            padding: 0 20px 0 15px
+            padding-left: 0
 
     // --------------- ALL WP VIEWS ---------------
     .work-packages-tabletimeline--table-side
       contain: none
 
     .toolbar-container
-      margin-bottom: 1em
       min-height: 36px
 
     .attributes-key-value--key,
@@ -158,3 +157,8 @@
           #main-menu
             height: initial
             min-height: calc(100vh - 55px - 5px)
+
+@include breakpoint(680px down)
+  body.controller-work_packages.action-show
+    .work-packages--show-view
+      padding: 0

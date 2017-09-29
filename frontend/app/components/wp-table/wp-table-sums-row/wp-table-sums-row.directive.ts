@@ -119,7 +119,7 @@ export class WorkPackageTableSumsRowController {
   }
 }
 
-openprojectModule.directive("wpTableSumsRow", function() {
+openprojectModule.directive("wpTableSumsRow", function():any {
   return {
     restrict: 'A',
     controller: WorkPackageTableSumsRowController,

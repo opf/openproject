@@ -29,7 +29,8 @@
 %breadcrumb--default-font
   @include default-font($breadcrumb-font-color, $breadcrumb-font-size, bold)
 
-#breadcrumb
+#breadcrumb,
+.wp-breadcrumb
   display: none
   @include default-transition
   height: $breadcrumb-height
@@ -71,20 +72,47 @@ ul.breadcrumb
   height: $breadcrumb-height
   line-height: $breadcrumb-height
 
-#breadcrumb ul.breadcrumb li.first-breadcrumb-element
-  margin-left: 0
-  height: $breadcrumb-height
-  line-height: $breadcrumb-height
-  a
-    text-decoration: none
-    display: block
-    width: 25px
-    font-size: 12px
+#breadcrumb,
+.wp-breadcrumb
+  ul.breadcrumb li.first-breadcrumb-element
+    margin-left: 0
+    height: $breadcrumb-height
+    line-height: $breadcrumb-height
+    a
+      text-decoration: none
+      display: block
+      width: 25px
+      font-size: 12px
 
-#breadcrumb ul.breadcrumb li
-  float: left
-  margin: 0 0 0 10px
-  padding: 0
+#breadcrumb,
+.wp-breadcrumb
+  ul.breadcrumb li
+    float: left
+    margin: 0 0 0 10px
+    padding: 0
+
+.wp-breadcrumb
+  margin-top: 10px
+  margin-left: -10px
+  height: initial
+  ul.breadcrumb
+    height: initial
+    li
+      line-height: 20px
+      max-width: 250px
+      overflow: hidden
+      text-overflow: ellipsis
+      &:first-child
+        &:before
+          display: none
+      &.icon-arrow-right5:before
+        padding-right: 5px
+
+
+// This is ugly. However, this way we do not need to touch complicated
+// toolbar-container positioning.
+body.action-show .wp-breadcrumb
+  margin-bottom: -10px
 
 // Hide projects in normal mode
 body:not(.accessibility-mode) .breadcrumb .breadcrumb-project-element

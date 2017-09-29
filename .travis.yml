@@ -29,10 +29,10 @@
 language: ruby
 
 rvm:
-  - 2.4.1
+  - 2.4.2
 
 sudo: false
-dist: precise
+dist: trusty
 
 cache:
   bundler: true

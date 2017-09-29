@@ -35,6 +35,10 @@ jQuery(function() {
     document.documentElement.classList.add('-browser-safari');
   }
 
+  if (bowser.msedge) {
+    document.documentElement.classList.add('-browser-edge');
+  }
+
   if (bowser.firefox) {
     document.documentElement.classList.add('-browser-firefox');
   }
@@ -45,5 +49,9 @@ jQuery(function() {
 
   if (bowser.ios) {
     document.documentElement.classList.add('-browser-ios');
+  }
+
+  if (bowser.mobile || bowser.ios || bowser.android) {
+    document.documentElement.classList.add('-browser-mobile');
   }
 });

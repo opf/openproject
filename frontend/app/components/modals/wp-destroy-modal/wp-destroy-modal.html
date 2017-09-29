@@ -1,0 +1,76 @@
+<div class="ng-modal-window" id="wp_destroy_modal">
+  <div class="ng-modal-inner">
+    <div class="modal-header">
+      <a>
+        <i class="icon-close"
+           ng-click="$ctrl.close()"
+           title="{{ ::$ctrl.text.close }}">
+        </i>
+      </a>
+    </div>
+
+    <form name="modalWpDestroyForm" class="form danger-zone">
+      <section class="form--section -inner-scrolling">
+        <h3 class="form--section-title" ng-bind="::$ctrl.text.title"></h3>
+
+        <div ng-if="$ctrl.workPackages.length === 1"
+             class="modal-inner-scrolling-container"
+             ng-init="workPackage = $ctrl.workPackages[0]; children = $ctrl.children(workPackage)">
+          <p>
+            <span ng-bind="$ctrl.text.text"></span>
+            <br/>
+            <strong>
+              {{ workPackage.type.name }}
+              #{{ workPackage.id }}
+              {{ workPackage.subject }}
+            </strong>
+          </p>
+          <div ng-if="children.length > 0">
+            <p class="danger-zone--warning">
+              <span class="icon icon-error"></span>
+              <strong ng-bind="$ctrl.text.warning"></strong>:
+              <span ng-bind="$ctrl.text.hasChildren(workPackage)"></span>
+            </p>
+            <ul>
+              <li ng-repeat="child in children track by $index">
+                #<span ng-bind="child.id"></span>
+                <span ng-bind="child.subject"></span>
+              </li>
+            </ul>
+            <p>
+              <span ng-bind="$ctrl.text.deletesChildren"></span>
+            </p>
+          </div>
+        </div>
+
+        <div class="modal-inner-scrolling-container" ng-if="$ctrl.workPackages.length > 1">
+          <p class="danger-zone--warning">
+            <span class="icon icon-error"></span>
+            <strong ng-bind="$ctrl.text.text"></strong>
+          </p>
+          <ul>
+            <li ng-repeat="wp in $ctrl.workPackages track by $index">
+              #<span ng-bind="wp.id"></span>
+              <span ng-bind="wp.subject"></span>
+              <strong ng-if="$ctrl.children(wp).length > 0">
+                (&plus; {{ $ctrl.text.childCount(wp) }})
+              </strong>
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <div class="form--space -left-spacing">
+        <button class="button -danger"
+                ng-bind="::$ctrl.text.confirm"
+                ng-click="$ctrl.confirmDeletion()">
+        </button>
+        <button class="button"
+                ng-bind="::$ctrl.text.cancel"
+                ng-click="$ctrl.close()">
+        </button>
+      </div>
+    </form>
+
+  </div>
+</div>

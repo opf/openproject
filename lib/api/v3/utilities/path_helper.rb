@@ -279,6 +279,18 @@ module API
             "#{root}/string_objects?value=#{val}"
           end
 
+          def self.time_entries
+            "#{root}/time_entries"
+          end
+
+          def self.time_entry(entry_id)
+            "#{root}/time_entries/#{entry_id}"
+          end
+
+          def self.time_entries_activity(activity_id)
+            "#{root}/time_entries/activities/#{activity_id}"
+          end
+
           def self.types
             "#{root}/types"
           end

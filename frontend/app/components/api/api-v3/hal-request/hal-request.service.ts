@@ -50,7 +50,7 @@ export class HalRequestService {
   /**
    * Perform a HTTP request and return a HalResource promise.
    */
-  public request(method:string, href:string, data?:any, headers:any = {}):IPromise<HalResource> {
+  public request<T extends HalResource>(method:string, href:string, data?:any, headers:any = {}):IPromise<T> {
     if (!href) {
       return this.$q.reject();
     }
@@ -83,7 +83,7 @@ export class HalRequestService {
 
     return this.$http(config)
       .then(createResource)
-      .catch(response => this.$q.reject(createResource(response)));
+      .catch(response => this.$q.reject(createResource(response) as T)) as ng.IPromise<T>;
   }
 
   /**
@@ -94,7 +94,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public get(href:string, params?:any, headers?:any):IPromise<HalResource> {
+  public get<T extends HalResource>(href:string, params?:any, headers?:any):IPromise<T> {
     return this.request('get', href, params, headers);
   }
 
@@ -143,7 +143,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public put(href:string, data?:any, headers?:any):IPromise<HalResource> {
+  public put<T extends HalResource>(href:string, data?:any, headers?:any):IPromise<T> {
     return this.request('put', href, data, headers);
   }
 
@@ -155,7 +155,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public post(href:string, data?:any, headers?:any):IPromise<HalResource> {
+  public post<T extends HalResource>(href:string, data?:any, headers?:any):IPromise<T> {
     return this.request('post', href, data, headers);
   }
 
@@ -167,7 +167,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public patch(href:string, data?:any, headers?:any):IPromise<HalResource> {
+  public patch<T extends HalResource>(href:string, data?:any, headers?:any):IPromise<T> {
     return this.request('patch', href, data, headers);
   }
 
@@ -179,7 +179,7 @@ export class HalRequestService {
    * @param headers
    * @returns {ng.IPromise<HalResource>}
    */
-  public delete(href:string, data?:any, headers?:any):IPromise<HalResource> {
+  public delete<T extends HalResource>(href:string, data?:any, headers?:any):IPromise<T> {
     return this.request('delete', href, data, headers);
   }
 }

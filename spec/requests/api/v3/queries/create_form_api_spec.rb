@@ -39,7 +39,7 @@ describe "POST /api/v3/queries/form", type: :request do
 
   let(:parameters) { {} }
   let(:override_params) { {} }
-  let(:form) { JSON.parse response.body }
+  let(:form) { JSON.parse last_response.body }
 
   let(:static_columns_json) do
     %w(id project assignee author
@@ -97,13 +97,13 @@ describe "POST /api/v3/queries/form", type: :request do
 
     additional_setup
 
+    header "Content-Type", "application/json"
     post path,
-         params: parameters.merge(override_params).to_json,
-         headers: { 'CONTENT_TYPE' => 'application/json' }
+         parameters.merge(override_params).to_json
   end
 
   it 'should return 200(OK)' do
-    expect(response.status).to eq(200)
+    expect(last_response.status).to eq(200)
   end
 
   it 'should be of type form' do

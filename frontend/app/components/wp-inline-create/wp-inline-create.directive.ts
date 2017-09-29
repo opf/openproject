@@ -39,14 +39,15 @@ import {
   InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from "./inline-create-row-builder";
-import {scopeDestroyed$, scopedObservable} from "../../helpers/angular-rx-utils";
-import {States} from "../states.service";
-import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
-import {WorkPackageTable} from "../wp-fast-table/wp-fast-table";
+import {scopeDestroyed$, scopedObservable} from '../../helpers/angular-rx-utils';
+import {States} from '../states.service';
+import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
+import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
+import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
 
 export class WorkPackageInlineCreateController {
 
@@ -89,14 +90,18 @@ export class WorkPackageInlineCreateController {
     // Remove temporary rows on creation of new work package
     scopedObservable(this.$scope, this.wpCreate.onNewWorkPackage())
       .subscribe((wp:WorkPackageResourceInterface) => {
-
-        if (this.currentWorkPackage === wp) {
-          // Remove this row and add another
+        if (this.currentWorkPackage && this.currentWorkPackage === wp) {
+          // Add next row
           this.removeWorkPackageRow();
           this.addWorkPackageRow();
 
           // Focus on the last inserted id
           this.states.focusedWorkPackage.putValue(wp.id, 'Added in inline create');
+        } else {
+          // Remove current row
+          this.table.editing.stopEditing('new');
+          this.removeWorkPackageRow();
+          this.showRow();
         }
       });
 
@@ -132,55 +137,32 @@ export class WorkPackageInlineCreateController {
   public addWorkPackageRow() {
     this.wpCreate.createNewWorkPackage(this.projectIdentifier).then((changeset:WorkPackageChangeset) => {
       if (!changeset) {
-        throw "No new work package was created";
+        throw 'No new work package was created';
       }
 
       const wp = this.currentWorkPackage = changeset.workPackage;
-      (this.currentWorkPackage as any).inlineCreated = true;
 
-      this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
+      // Apply filter values
+      const filter = new WorkPackageFilterValues(changeset, this.wpTableFilters.current);
+      filter.applyDefaultsFromFilters().then(() => {
+        this.wpEditing.updateValue('new', changeset);
+        this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
-      // Set editing context to table
-      const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
-      this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
-      this.workPackageEditForm.changeset.clear();
+        // Set editing context to table
+        const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
+        this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
+        this.workPackageEditForm.changeset.clear();
 
-      const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
-      this.$element.append(row);
+        const row = this.rowBuilder.buildNew(wp, this.workPackageEditForm);
+        this.$element.append(row);
 
-      this.$timeout(() => {
-        this.workPackageEditForm!.activateMissingFields();
-        this.hideRow();
-      });
+        this.$timeout(() => {
+          this.workPackageEditForm!.activateMissingFields();
+          this.hideRow();
+        });
+      })
     });
   }
-
-  /*  private applyDefaultsFromFilters(workPackage:WorkPackageResourceInterface) {
-      return this.$q.when();
-
-      let filters = this.wpTableFilters.current as QueryFilterInstanceResource[];
-
-      let promises:ng.IPromise<void>[] = [];
-
-      angular.forEach(filters, filter => {
-        // Ignore any filters except =
-        if (filter.operator.id !== '=') {
-          return;
-        }
-
-        // Select the first value
-        var value = filter.values[0];
-
-        // Avoid empty values
-        if (!value) {
-          return;
-        }
-
-        promises.push(workPackage.setAllowedValueFor(filter.id, value));
-      });
-
-      return this.$q.all(promises);
-    }*/
 
   /**
    * Reset the new work package row and refocus on the button
@@ -196,7 +178,7 @@ export class WorkPackageInlineCreateController {
 
   public removeWorkPackageRow() {
     this.currentWorkPackage = null;
-    this.wpEditing.stopEditing('new');
+    this.table.editing.stopEditing('new');
     this.states.workPackages.get('new').clear();
     this.$element.find('.wp-row-new').remove();
   }
@@ -218,13 +200,13 @@ export class WorkPackageInlineCreateController {
   }
 }
 
-function wpInlineCreate() {
+function wpInlineCreate():any {
   return {
     restrict: 'AE',
     templateUrl: '/components/wp-inline-create/wp-inline-create.directive.html',
 
     scope: {
-      table: "=",
+      table: '=',
       projectIdentifier: '='
     },
 

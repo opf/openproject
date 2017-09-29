@@ -35,7 +35,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <%= labelled_tabular_form_for @custom_field, as: :custom_field,
                                              url: custom_fields_path,
-                                             html: {id: 'custom_field_form'} do |f| %>
+                                             html: {id: 'custom_field_form', class: "-wide-labels"} do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= hidden_field_tag 'type', @custom_field.type %>
   <%= styled_button_tag l(:button_save), class: '-highlight -with-icon icon-checkmark' %>
