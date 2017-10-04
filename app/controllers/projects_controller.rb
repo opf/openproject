@@ -220,12 +220,12 @@ class ProjectsController < ApplicationController
 
   def archive
     flash[:error] = l(:error_can_not_archive_project) unless @project.archive
-    redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))
+    redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
   end
 
   def unarchive
     @project.unarchive if !@project.active?
-    redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))
+    redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
   end
 
   # Delete @project

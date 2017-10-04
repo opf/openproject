@@ -86,7 +86,7 @@ class CopyProjectsController < ApplicationController
   end
 
   def origin
-    params[:coming_from] == 'admin' ? projects_admin_index_path : settings_project_path(@project.id)
+    params[:coming_from] == 'admin' ? projects_path : settings_project_path(@project.id)
   end
 
   def prepare_for_copy_project

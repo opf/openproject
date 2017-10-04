@@ -54,4 +54,4 @@ Feature: Projects index feed
       And I should see "Created on" within "#project-table"
       And I should see "Latest activity at" within "#project-table"
       And I should see "Public" within "#project-table"
-      And I should see "omicronpersei8" within "#project-tablee"
+      And I should see "omicronpersei8" within "#project-table"
