@@ -26,6 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
+<% content_for :header_tags do %>
+  <%= javascript_include_tag "project/description_handling.js" %>
+<% end %>
 
 <% html_title(l(:label_project_plural)) -%>
 
@@ -69,14 +72,6 @@ See doc/COPYRIGHT.rdoc for more details.
   <div class="generic-table--container">
     <div class="generic-table--results-container">
       <table class="generic-table" id="project-table">
-        <colgroup>
-          <col highlight-col>
-          <col highlight-col>
-          <% if User.current.admin? %><col highlight-col><% end %>
-          <% if User.current.admin? %><col highlight-col><% end %>
-          <% if User.current.admin? %><col highlight-col><% end %>
-          <% if User.current.admin? %><col><% end %>
-        </colgroup>
         <thead>
           <tr>
             <%= sort_header_tag('name', caption: Project.model_name.human) %>
@@ -90,7 +85,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <tbody>
           <% project_tree_when_sorted(@projects) do |project, level| %>
             <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= project.short_description.empty? ? '' : '-no-highlighting' %>">
-              <td class="name project--hierarchy"><span class="<%= level > 0 ? 'icon-context icon-arrow-right5 icon-small' : nil %>"><%= link_to_project(project, {action: 'settings'}, {}, true) %></span></td>
+              <td class="name project--hierarchy"><span class="<%= level > 0 ? 'icon-context icon-arrow-right5 icon-small' : nil %>"><%= link_to_project(project, {}, {}, false) %></span></td>
               <td><%= checked_image project.is_public? %></td>
               <% if User.current.admin? %><td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td><% end %>
               <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
@@ -103,17 +98,22 @@ See doc/COPYRIGHT.rdoc for more details.
                     <li aria-haspopup="true" title="<%= t(:label_more) %>" class="drop-down">
                       <a class="icon icon-show-more-horizontal" title="<%= t(:label_more) %>" href></a>
                       <ul style="display:none;" class="legacy-actions-more dropdown-menu">
-                        <%= li_unless_nil(link_to(l(:button_archive),
+                        <%= li_unless_nil(link_to(t(:label_subproject_new),
+                                                  new_project_path(parent_id: project),
+                                                    { class: 'icon-context icon-add',
+                                                      title: t(:label_subproject_new)})) if User.current.allowed_to?(:add_subprojects, project) %>
+                        <%= li_unless_nil(link_to(t(:label_project_settings), {action: 'settings', id: project}, class: 'icon-context icon-settings') ) %>
+                        <%= li_unless_nil(link_to(t(:button_archive),
                                                   archive_project_path(project, status: params[:status]),
                                                   data: { confirm: t('project.archive.are_you_sure', name: project.name) },
                                                   method: :put,
                                                   class: 'icon-context icon-locked') ) if project.active? %>
-                        <%= li_unless_nil(link_to(l(:button_unarchive),
+                        <%= li_unless_nil(link_to(t(:button_unarchive),
                                                   unarchive_project_path(project, status: params[:status]),
                                                   method: :put,
                                                   class: 'icon-context icon-unlocked') ) if !project.active? && (project.parent.nil? || project.parent.active?)%>
-                        <%= li_unless_nil(link_to(l(:button_copy), copy_from_project_path(project, :admin), class: 'icon-context icon-copy') ) %>
-                        <%= li_unless_nil(link_to(l(:button_delete), confirm_destroy_project_path(project), class: 'icon-context icon-delete') ) %>
+                        <%= li_unless_nil(link_to(t(:button_copy), copy_from_project_path(project, :admin), class: 'icon-context icon-copy') ) %>
+                        <%= li_unless_nil(link_to(t(:button_delete), confirm_destroy_project_path(project), class: 'icon-context icon-delete') ) %>
                       </ul>
                     </li>
                   </ul>
@@ -123,7 +123,9 @@ See doc/COPYRIGHT.rdoc for more details.
             <% unless project.short_description.empty? %>
               <tr class="project-description <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
                 <td colspan="<%= User.current.admin? ? 6 : 2 %>" class="project--hierarchy">
-                  <span class="wiki"><%= format_text(project.short_description, project: project) %></span>
+                  <div class="description-container">
+                    <span class="wiki"><%= format_text(project.short_description, project: project) %></span>
+                  </div>
                 </td>
               </tr>
             <% end %>
