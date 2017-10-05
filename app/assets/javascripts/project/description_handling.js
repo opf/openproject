@@ -26,19 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-jQuery(document).ready(function($) {
-  $('#project-table .project-description').each(function(idx, description){
-    if(isOverflowing(description)) {
-      description.classList.add('expandable');
-      description.getElementsByClassName('description-container')[0].addEventListener('click', function(){
-        this.classList.toggle('-expanded');
-      })
-    }
-  });
+function toggleDescription(el) {
+  let clickedRow = jQuery(el.closest('.project'))[0];
+  let descriptionRow = clickedRow.nextElementSibling;
 
-  function isOverflowing(description) {
-    let containerHeight = description.getElementsByClassName('description-container')[0].offsetHeight;
-    let descriptionHeight = description.getElementsByClassName('wiki')[0].offsetHeight;
-    return containerHeight < descriptionHeight;
-  }
-});
+  clickedRow.classList.toggle('-no-highlighting');
+  descriptionRow.classList.toggle('-expanded');
+}

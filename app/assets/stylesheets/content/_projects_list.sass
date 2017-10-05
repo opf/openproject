@@ -31,50 +31,20 @@
     .dropdown-menu
       text-align: left
     .project-actions
+      display: inline-block
       margin: 0
 
   .project-description
-    .wiki
-      display: inline-block
-      margin-right: 10px
-      max-width: calc(100% - 30px)
+    display: none
     p
       font-size: inherit
       padding-left: 0
     // Hide everything else than text for now to avoid a too large table
+    .flash, pre
+      display: none !important
 
-    .description-container
-      max-height: 42px
-      position: relative
-      overflow: hidden
-      pointer-events: none
-
-  .project-description.expandable
-    .description-container:after
-      @include icon-common
-      @extend .icon-small
-      @extend .icon-arrow-down1:before
-      position: absolute
-      line-height: 25px
-      pointer-events: auto
-      cursor: pointer
-
-    .description-container:not(.-expanded)
-      &:after
-        @extend .icon-arrow-up1:before
-
-      .wiki:after
-        position: absolute
-        top: 10px
-        left: 0
-        height: 100%
-        width: 100%
-        content: ""
-        background: linear-gradient(to top, rgba(255,255,255, 1) 10%, rgba(255,255,255, 0) 80%)
-        pointer-events: none
-
-    .description-container.-expanded
-      max-height: initial
+  .project-description.-expanded
+    display: table-row
 
   // Avoid hover effect
   .generic-table--sort-header-outer:hover,
