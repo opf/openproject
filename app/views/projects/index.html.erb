@@ -92,8 +92,6 @@ See doc/COPYRIGHT.rdoc for more details.
               <% if User.current.admin? %><td><%= format_date(project.latest_activity_at) %></td><% end %>
               <% if User.current.admin? %>
                 <td class="buttons">
-                  <% unless project.short_description.empty? %>
-                  <% end %>
                   <!-- toolbar and legacy-actions-more are only for styling purposes.
                   Because of multiple diverging implementations of dropdowns the normal dropdown classes cannot be used any more without making special rules -->
                   <ul class="toolbar project-actions">
@@ -119,6 +117,9 @@ See doc/COPYRIGHT.rdoc for more details.
                       </ul>
                     </li>
                   </ul>
+                  <% unless project.short_description.empty? %>
+                    <a class="icon icon-arrow-down1" title="<%= t('attributes.description') %>" onclick="toggleDescription(this);"></a>
+                  <% end %>
                 </td>
               <% end %>
             </tr>
