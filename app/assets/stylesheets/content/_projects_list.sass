@@ -30,7 +30,6 @@
   .buttons
     .project-actions
       display: inline-block
-      visibility: hidden
       margin: 0
       .dropdown-menu
         text-align: left
@@ -70,3 +69,10 @@ body.controller-projects.action-index
     .generic-table--container
       min-height: 1
       overflow: visible
+
+// Hide the context menu button outside mobile
+html:not(.-browser-mobile)
+  #project-table
+    .buttons
+      .project-actions
+        visibility: hidden
