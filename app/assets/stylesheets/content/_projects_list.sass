@@ -28,11 +28,12 @@
 
 #project-table
   .buttons
-    .dropdown-menu
-      text-align: left
     .project-actions
       display: inline-block
+      visibility: hidden
       margin: 0
+      .dropdown-menu
+        text-align: left
 
   .project-description
     display: none
@@ -51,3 +52,17 @@
   .generic-table--header-outer:hover
     background: initial
 
+  tbody
+    tr:hover
+      .buttons .project-actions
+        visibility: visible
+
+// Ugly hack for now, so expanded more-menus do not get cut off. Actually that
+// should be handled from the drop down implementation with absolute positions
+// just as in the work package table.
+body.controller-projects.action-index
+  #content
+    overflow: visible
+    .generic-table--container
+      min-height: 1
+      overflow: visible

@@ -93,7 +93,6 @@ See doc/COPYRIGHT.rdoc for more details.
               <% if User.current.admin? %>
                 <td class="buttons">
                   <% unless project.short_description.empty? %>
-                    <a class="icon icon-info2" title="<%= t('attributes.description') %>" onclick="toggleDescription(this);"></a>
                   <% end %>
                   <!-- toolbar and legacy-actions-more are only for styling purposes.
                   Because of multiple diverging implementations of dropdowns the normal dropdown classes cannot be used any more without making special rules -->
