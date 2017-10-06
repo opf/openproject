@@ -37,12 +37,16 @@
 
   .project-description
     display: none
-    p
-      font-size: inherit
-      padding-left: 0
-    // Hide everything else than text for now to avoid a too large table
-    .flash, pre
-      display: none !important
+    td
+      padding-top: 0
+      padding-bottom: 1rem
+      p
+        font-size: inherit
+        padding-left: 0
+        max-width: 800px // improve readability
+      // Hide everything else than text for now to avoid a too large table
+      .flash, pre
+        display: none !important
 
   .project-description.-expanded
     display: table-row
