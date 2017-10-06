@@ -123,4 +123,12 @@ module ProjectsHelper
     sharing = 'none' unless Version::VERSION_SHARINGS.include?(sharing)
     l("label_version_sharing_#{sharing}")
   end
+
+  def filter_set?
+    if params[:status] || params[:name]
+      true
+    else
+      false
+    end
+  end
 end

@@ -28,6 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <% content_for :header_tags do %>
   <%= javascript_include_tag "project/description_handling.js" %>
+  <%= javascript_include_tag "project/filters.js" %>
 <% end %>
 
 <% html_title(l(:label_project_plural)) -%>
@@ -45,11 +46,17 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
   <li class="toolbar-item">
+    <button id="projects-filter-toggle-button" class="button toolbar-icon <%= filter_set? ? '-active' : '' %>">
+      <op-icon icon-classes="icon-filter button--icon"></op-icon>
+    </op-icon>
+    </button>
+  </li>
+  <li class="toolbar-item">
     <%= link_to l(:label_overall_activity), activities_path, class: 'button' %>
   </li>
 <% end %>
 
-<%= form_tag({}, method: :get) do %>
+<%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
   <fieldset class="simple-filters--container">
     <legend><%= l(:label_filter_plural) %></legend>
     <ul class="simple-filters--filters">
