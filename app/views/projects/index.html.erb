@@ -143,10 +143,11 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= no_results_box(action_url: new_project_path, display_action: true) %>
 <% end %>
 
-
-<p class="information-section">
-  <%= op_icon('icon-info1') %>
-  <%= l(:label_projects_storage_information,
-        count: Project.count,
-        storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
-</p>
+<% if User.current.admin? %>
+  <p class="information-section">
+    <%= op_icon('icon-info1') %>
+    <%= l(:label_projects_storage_information,
+          count: Project.count,
+          storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
+  </p>
+<% end %>
