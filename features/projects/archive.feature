@@ -41,6 +41,7 @@ Feature: Navigating to reports page
     When I go to the projects page
     Then I should be on the projects page
     And I should see "Projects"
+    And I hover over "tbody > tr:nth-of-type(1)"
     And I click on "More" within "tbody > tr:nth-of-type(1)"
     And I click on "Archive" within ".dropdown-menu"
     And I confirm popups
@@ -52,7 +53,9 @@ Feature: Navigating to reports page
     When I go to the page of the project called "SubProject"
     Then I should see "403"
     When I go to the projects page
+    And I click on "projects-filter-toggle-button"
     When I select "all" from "status"
+    And I hover over "tbody > tr:nth-of-type(1)"
     And I click on "More" within "tbody > tr:nth-of-type(1)"
     And I click on "Unarchive" within ".dropdown-menu"
     Then I should be on the projects page
