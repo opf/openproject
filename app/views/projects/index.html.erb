@@ -86,19 +86,29 @@ See doc/COPYRIGHT.rdoc for more details.
             <% if User.current.admin? %><%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage)) %><% end %>
             <% if User.current.admin? %><%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on)) %><% end %>
             <% if User.current.admin? %><%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at)) %><% end %>
-            <% if User.current.admin? %><th><div class="generic-table--empty-header"></div></th><% end %>
+            <th class="-right">
+              <div class="generic-table--header-outer">
+                <div class="generic-table--header">
+                  <% if params[:expand] == 'all' %>
+                    <%= link_to t(:button_collapse_all), {params: request.query_parameters.except(:expand)} %>
+                  <% else %>
+                    <%= link_to t(:button_expand_all), {params: request.query_parameters.merge(expand: 'all')} %>
+                  <% end %>
+                </div>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
           <% project_tree_when_sorted(@projects) do |project, level| %>
-            <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
+            <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-no-highlighting' : '' %>">
               <td class="name project--hierarchy"><%= link_to_project(project, {}, {}, false) %></td>
               <td><%= checked_image project.is_public? %></td>
               <% if User.current.admin? %><td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td><% end %>
               <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
               <% if User.current.admin? %><td><%= format_date(project.latest_activity_at) %></td><% end %>
-              <% if User.current.admin? %>
-                <td class="buttons">
+              <td class="buttons">
+                <% if User.current.admin? %>
                   <!-- toolbar and legacy-actions-more are only for styling purposes.
                   Because of multiple diverging implementations of dropdowns the normal dropdown classes cannot be used any more without making special rules -->
                   <ul class="toolbar project-actions">
@@ -124,15 +134,15 @@ See doc/COPYRIGHT.rdoc for more details.
                       </ul>
                     </li>
                   </ul>
-                  <% unless project.short_description.empty? %>
-                    <a class="icon icon-arrow-down1" title="<%= t('attributes.description') %>" onclick="toggleDescription(this);"></a>
-                  <% end %>
-                </td>
-              <% end %>
+                <% end %>
+                <% unless project.short_description.empty? %>
+                  <a class="icon icon-arrow-<%= params[:expand] == 'all' ? 'up' : 'down' %>1" title="<%= t('attributes.description') %>" onclick="toggleDescription(this);"></a>
+                <% end %>
+              </td>
             </tr>
             <% unless project.short_description.empty? %>
-              <tr class="project-description <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %>">
-                <td colspan="<%= User.current.admin? ? 6 : 2 %>" class="project--hierarchy">
+              <tr class="project-description <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-expanded' : '' %>">
+                <td colspan="<%= User.current.admin? ? 6 : 3 %>" class="project--hierarchy">
                   <div class="description-container">
                     <span class="wiki"><%= format_text(project.short_description, project: project) %></span>
                   </div>
