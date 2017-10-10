@@ -101,7 +101,7 @@ See doc/COPYRIGHT.rdoc for more details.
         </thead>
         <tbody>
           <% project_tree_when_sorted(@projects) do |project, level| %>
-            <tr class="<%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-no-highlighting' : '' %>">
+            <tr class="basics <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-no-highlighting -expanded' : '' %>">
               <td class="name project--hierarchy"><%= link_to_project(project, {}, {}, false) %></td>
               <td><%= checked_image project.is_public? %></td>
               <% if User.current.admin? %><td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td><% end %>
@@ -136,7 +136,8 @@ See doc/COPYRIGHT.rdoc for more details.
                   </ul>
                 <% end %>
                 <% unless project.short_description.empty? %>
-                  <a class="icon icon-arrow-<%= params[:expand] == 'all' ? 'up' : 'down' %>1" title="<%= t('attributes.description') %>" onclick="toggleDescription(this);"></a>
+                  <a class="icon collapse icon-arrow-up1" title="<%= t('label_project_hide_details') %>" onclick="toggleDescription(this);"></a>
+                  <a class="icon expand icon-arrow-down1" title="<%= t('label_project_show_details') %>" onclick="toggleDescription(this);"></a>
                 <% end %>
               </td>
             </tr>

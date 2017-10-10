@@ -31,12 +31,8 @@ function toggleDescription(el) {
   let clickedRow = jQuery(el.closest('.project'))[0];
   let descriptionRow = clickedRow.nextElementSibling;
 
-  if($el.hasClass("icon-arrow-down1")) {
-    $el.removeClass("icon-arrow-down1").addClass("icon-arrow-up1");
-  } else {
-    $el.removeClass("icon-arrow-up1").addClass("icon-arrow-down1");
-  }
 
   clickedRow.classList.toggle('-no-highlighting');
+  clickedRow.classList.toggle('-expanded');
   descriptionRow.classList.toggle('-expanded');
 }

@@ -32,12 +32,24 @@ form.project-filters
     display: block
 
 #project-table
-  .buttons
-    .project-actions
-      display: inline-block
-      margin: 0
-      .dropdown-menu
-        text-align: left
+  tr.basics
+    &.-expanded
+      .buttons
+        .collapse
+          display: inline
+        .expand
+          display: none
+    .buttons
+      .collapse
+        display: none
+      .expand
+        display: inline
+
+      .project-actions
+        display: inline-block
+        margin: 0
+        .dropdown-menu
+          text-align: left
 
   .project-description
     display: none

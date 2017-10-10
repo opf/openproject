@@ -1325,6 +1325,8 @@ en:
   label_project_settings: "Project settings"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
+  label_project_show_details: "Show project details"
+  label_project_hide_details: "Hide project details"
   label_public_projects: "Public projects"
   label_query_new: "New query"
   label_query_plural: "Custom queries"
