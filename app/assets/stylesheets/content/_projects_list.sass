@@ -26,59 +26,70 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-ul.projects
-  margin: 0
-  padding-left: 1em
+form.project-filters
+  display: none
+  &.-expanded
+    display: block
 
-  &.root
-    margin: 0
-    padding: 0
+#project-table
+  tr.basics
+    &.-expanded
+      .buttons
+        .collapse
+          display: inline
+        .expand
+          display: none
+    .buttons
+      .collapse
+        display: none
+      .expand
+        display: inline
 
-  ul
-    border: none
-    &.projects
-      border-left: 3px solid #e0e0e0
+      .project-actions
+        display: inline-block
+        margin: 0
+        .dropdown-menu
+          text-align: left
 
-  li
-    &.root
-      list-style-type: none
-      margin-bottom: 1em
-    &.child
-      list-style-type: none
-      margin-top: 1em
+  .project-description
+    display: none
+    td
+      padding-top: 0
+      padding-bottom: 1rem
+      p
+        font-size: inherit
+        padding-left: 0
+        max-width: 800px // improve readability
+      // Hide everything else than text for now to avoid a too large table
+      .flash, pre
+        display: none !important
 
-  a
-    font-weight: bold
+  .project-description.-expanded
+    display: table-row
 
-  .description
-    max-height: 100px
-    position: relative
-    overflow-y: hidden
+  // Avoid hover effect
+  .generic-table--sort-header-outer:hover,
+  .generic-table--header-outer:hover
+    background: initial
 
-    &:after
-      position: absolute
-      bottom: 0
-      height: 100%
-      width: 100%
-      content: ""
-      background: linear-gradient(to top, rgba(255,255,255, 1) 10%, rgba(255,255,255, 0) 80%)
-      pointer-events: none
+  tbody
+    tr:hover
+      .buttons .project-actions
+        visibility: visible
 
-  div.root
-    margin-bottom: 12px
+// Ugly hack for now, so expanded more-menus do not get cut off. Actually that
+// should be handled from the drop down implementation with absolute positions
+// just as in the work package table.
+body.controller-projects.action-index
+  #content
+    overflow: visible
+    .generic-table--container
+      min-height: 1
+      overflow: visible
 
-    a.project
-      font-weight: bold
-      margin: 0 0 10px 0
-      font-family: inherit
-
-  .nosidebar &
-    margin: 24px 0 0
-
-    ul
-      margin: 0
-
-    li
-      list-style: none outside none
-      background: none
-
+// Hide the context menu button outside mobile
+html:not(.-browser-mobile)
+  #project-table
+    .buttons
+      .project-actions
+        visibility: hidden

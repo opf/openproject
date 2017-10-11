@@ -40,7 +40,7 @@ describe 'Projects', type: :feature do
     let!(:project) { FactoryGirl.create(:project, name: 'Foo project', identifier: 'foo-project') }
 
     before do
-      visit admin_index_path
+      visit projects_path
     end
 
     it 'can create a project' do
@@ -74,6 +74,7 @@ describe 'Projects', type: :feature do
 
     it 'can create a subproject' do
       click_on 'Foo project'
+      click_on 'Project settings'
       click_on 'New subproject'
 
       fill_in 'project[name]', with: 'Foo child'
@@ -102,8 +103,9 @@ describe 'Projects', type: :feature do
     let!(:project) { FactoryGirl.create(:project, name: 'Foo project', types: [phase_type, milestone_type]) }
 
     it "have the correct types checked for the project's types" do
-      visit admin_index_path
+      visit projects_path
       click_on 'Foo project'
+      click_on 'Project settings'
       click_on 'Work package types'
 
       field_checked = find_field('Phase', visible: false)['checked']
@@ -146,8 +148,9 @@ describe 'Projects', type: :feature do
     let!(:project) { FactoryGirl.create(:project, identifier: 'foo') }
 
     it 'updates the project identifier' do
-      visit admin_index_path
+      visit projects_path
       click_on project.name
+      click_on 'Project settings'
       click_on 'Edit'
 
       expect(page).to have_content "CHANGE THE PROJECT'S IDENTIFIER"
