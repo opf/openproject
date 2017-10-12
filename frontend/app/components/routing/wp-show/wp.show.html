@@ -66,15 +66,13 @@
                 <a href="" ng-bind="::$ctrl.text.tabs.activity"/>
               </li>
               <li ui-sref="work-packages.show.relations({workPackageId: $ctrl.workPackage.id})"
-                  ui-sref-active="selected"
-                  class="hide-when-print">
+                  ui-sref-active="selected">
                 <a href="" ng-bind="::$ctrl.text.tabs.relations"/>
                 <wp-relations-count wp-id="::$ctrl.workPackage.id"></wp-relations-count>
               </li>
               <li ng-if="$ctrl.canViewWorkPackageWatchers()"
                   ui-sref="work-packages.show.watchers({workPackageId: $ctrl.workPackage.id})"
-                  ui-sref-active="selected"
-                  class="hide-when-print">
+                  ui-sref-active="selected">
                 <a href="" ng-bind="::$ctrl.text.tabs.watchers"/>
               </li>
             </ul>
