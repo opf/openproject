@@ -56,7 +56,11 @@ opApp
         // Disable debugInfo outside development mode
         $compileProvider.debugInfoEnabled(window.openProject.environment === 'development');
 
-        $locationProvider.html5Mode(true);
+        $locationProvider.html5Mode({
+          enabled: true,
+          requireBase: false
+        });
+
         $httpProvider.defaults.headers.common['X-CSRF-TOKEN'] = jQuery(
             'meta[name=csrf-token]').attr('content');
         $httpProvider.defaults.headers.common['X-Authentication-Scheme'] = 'Session';
