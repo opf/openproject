@@ -113,3 +113,10 @@
     .tabrow
       li:first-child
         text-align: left
+
+    // Overwrite "click to add description" placeholder with a simple dash.
+    .wp-edit-field.description.-placeholder
+      span
+        display: none
+      &:after
+        content: '-'
