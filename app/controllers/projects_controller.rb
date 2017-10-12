@@ -63,6 +63,8 @@ class ProjectsController < ApplicationController
     projects = get_all_projects_for_overview_page
     @projects = filter_projects_by_permission projects
 
+    @custom_fields = CustomField.all.where(type: 'ProjectCustomField')
+
     respond_to do |format|
       format.html do
         @projects = @projects.order('lft')
