@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,12 +28,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  query = ::Queries::Projects::ProjectQuery
+require 'spec_helper'
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::StatusFilter
+describe Queries::Projects::Filters::StatusFilter, type: :model do
+  include_context 'filter tests'
+  let(:values) { ['A name'] }
+  let(:model) { Project }
+
+  it_behaves_like 'list_optional query filter' do
+    let(:class_key) { :status }
+    let(:type) { :list_optional }
+    let(:model) { Project }
+    let(:attribute) { :status }
+    let(:valid_values) {[Project::STATUS_ACTIVE.to_s, Project::STATUS_ARCHIVED.to_s]}
+
+    describe '#allowed_values' do
+      it 'to be either active or archived' do
+        expect(instance.allowed_values).to eq valid_values
+      end
+    end
+  end
 end

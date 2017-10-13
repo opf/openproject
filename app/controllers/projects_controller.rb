@@ -300,19 +300,20 @@ class ProjectsController < ApplicationController
   end
 
   def get_all_projects_for_overview_page
-    @status = params[:status] ? params[:status].to_i : 1
-    c = ARCondition.new(@status.zero? ? 'status <> 0' : ['status = ?', @status])
+    query = Queries::Projects::ProjectQuery.new
 
-    unless params[:name].blank?
-      name = "%#{params[:name].strip.downcase}%"
-      c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
+    if params[:status].present?
+      query.where('status', '=', params[:status])
     end
 
-    Project
+    if params[:name].present?
+      query.where('name_and_identifier', '~', params[:name])
+    end
+
+    query.results
       .with_required_storage
       .with_latest_activity
       .order(sort_clause)
-      .where(c.conditions)
       .page(page_param)
       .per_page(per_page_param)
   end

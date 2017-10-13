@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,12 +28,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  query = ::Queries::Projects::ProjectQuery
+class Queries::Projects::Filters::StatusFilter < Queries::Projects::Filters::ProjectFilter
+  def type
+    :list_optional
+  end
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::StatusFilter
+  def self.key
+    :status
+  end
+
+  def allowed_values
+    [Project::STATUS_ACTIVE.to_s, Project::STATUS_ARCHIVED.to_s]
+  end
 end
