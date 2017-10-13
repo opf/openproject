@@ -10,7 +10,7 @@
       <wp-watcher watcher="watcher"
                   ng-repeat="watcher in vm.watching track by watcher.id"></wp-watcher>
     </div>
-    <div class="work-package--watchers-lookup" ng-show="vm.allowedToAdd">
+    <div class="work-package--watchers-lookup hide-when-print" ng-show="vm.allowedToAdd">
       <form name="watcherForm" novalidate>
         <input type="text"
                class="wp-watcher--autocomplete ui-autocomplete--input"

@@ -25,8 +25,7 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 //++
-
-@include breakpoint(1248px down)
+@media screen and (max-width: 1248px), print
   body.controller-work_packages
 
     // ------------- FULL SCREEN -------------------
@@ -96,6 +95,8 @@
           .work-packages--panel-inner
             padding-left: 0
 
+@include breakpoint(1248px down)
+  body.controller-work_packages
     // --------------- ALL WP VIEWS ---------------
     .work-packages-tabletimeline--table-side
       contain: none
