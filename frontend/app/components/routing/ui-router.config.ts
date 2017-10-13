@@ -78,9 +78,14 @@ openprojectModule
            $urlMatcherFactoryProvider:ng.ui.IUrlMatcherFactory) => {
     $urlMatcherFactoryProvider.strictMode(false);
 
+    // Prepend the baseurl to the route to avoid using a base tag
+    // For more information, see
+    // https://github.com/angular/angular.js/issues/5519
+    // https://github.com/opf/openproject/pull/5685
+    const baseUrl = (window as any).appBasePath;
     $stateProvider
       .state('work-packages', {
-        url: '/{projects}/{projectPath}/work_packages?query_id&query_props',
+        url: baseUrl + '/{projects}/{projectPath}/work_packages?query_id&query_props',
         abstract: true,
         params: {
           // value: null makes the parameter optional
