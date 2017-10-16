@@ -41,6 +41,45 @@ jQuery(function($) {
     }
   }
 
+  function sendForm() {
+    let $simpleFilters = $(".simple-filters--filter", $filterForm);
+    let filters = [];
+    $simpleFilters.each(function(_i, filter){
+      let $filter = $(filter);
+      let fieldName = $('label', $filter).attr('for');
+
+      if (fieldName == 'name') {
+        let value = $('input[name="name"]', $filter).val();
+        if (value && value.length > 0) {
+          filters.push({
+            'name_and_identifier':{
+              'operator': '~',
+              'values': [$('input[name="name"]', $filter).val()]
+            }
+          });
+        }
+      } else if (fieldName == 'status') {
+        let operator = '*';
+        let value = '';
+        if ($('select[name="status"]', $filter).val() != "all") {
+          operator = '=';
+          value = $('select[name="status"]', $filter).val();
+        }
+        filters.push({
+          'status':{
+            'operator': operator,
+            'values': [value]
+          }
+        });
+      }
+    })
+    let query = '?filters=' + JSON.stringify(filters);
+    window.location = window.location.pathname + query;
+    return false;
+  }
+
+  $filterForm.submit(sendForm)
   $button.click(toggleProjectFilterForm);
   $closeIcon.click(toggleProjectFilterForm);
+
 });

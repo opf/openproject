@@ -300,22 +300,19 @@ class ProjectsController < ApplicationController
   end
 
   def get_all_projects_for_overview_page
-    query = Queries::Projects::ProjectQuery.new
+    query = ::API::V3::ParamsToQueryService.new(Project, current_user).call(params)
 
-    if params[:status].present?
-      query.where('status', '=', params[:status])
+    if query.valid?
+      query
+        .results
+        .with_required_storage
+        .with_latest_activity
+        .order(sort_clause)
+        .page(page_param)
+        .per_page(per_page_param)
+    else
+      raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
     end
-
-    if params[:name].present?
-      query.where('name_and_identifier', '~', params[:name])
-    end
-
-    query.results
-      .with_required_storage
-      .with_latest_activity
-      .order(sort_clause)
-      .page(page_param)
-      .per_page(per_page_param)
   end
 
   def filter_projects_by_permission(projects)

@@ -125,7 +125,7 @@ module ProjectsHelper
   end
 
   def filter_set?
-    if params[:status] || params[:name]
+    if params[:filters].present?
       true
     else
       false

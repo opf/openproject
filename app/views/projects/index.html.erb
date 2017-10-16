@@ -52,25 +52,25 @@ See doc/COPYRIGHT.rdoc for more details.
     </button>
   </li>
   <li class="toolbar-item">
-    <%= link_to l(:label_overall_activity), activities_path, class: 'button' %>
+    <%= link_to t(:label_overall_activity), activities_path, class: 'button' %>
   </li>
 <% end %>
 
 <%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
   <fieldset class="simple-filters--container">
-    <legend><%= l(:label_filter_plural) %></legend>
     <a id="projects-filter-close-button" title="{{ ::I18n.t('js.close_form_title') }}" class="simple-filters--close icon-context icon-close"></a>
+    <legend><%= t(:label_filter_plural) %></legend>
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
-          <label class='simple-filters--filter-name' for='status'><%= Project.human_attribute_name(:status) %></label>
-          <%= select_tag 'status', project_status_options_for_select(@status), onchange: "this.form.submit(); return false;", class: 'simple-filters--filter-value'  %>
+        <label class='simple-filters--filter-name' for='status'><%= Project.human_attribute_name(:status) %></label>
+        <%= select_tag 'status', project_status_options_for_select(@status), class: 'simple-filters--filter-value'  %>
       </li>
       <li class="simple-filters--filter">
-          <label class='simple-filters--filter-name' for='name'><%= Project.model_name.human %></label>
-          <%= text_field_tag 'name', params[:name], class: 'simple-filters--filter-value' %>
+        <label class='simple-filters--filter-name' for='name'><%= Project.model_name.human %></label>
+        <%= text_field_tag 'name', params[:name], class: 'simple-filters--filter-value' %>
       </li>
       <li class="simple-filters--controls">
-        <%= submit_tag l(:button_apply), class: 'button -highlight', name: nil %>
+        <%= submit_tag t(:button_apply), class: 'button -highlight', name: nil %>
       </li>
     </ul>
   </fieldset>
