@@ -28,13 +28,6 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 <%= toolbar title: (@query.new_record? ? l(:label_calendar) : @query.name) %>
 
-<div class="notification-box -warning">
-  <a title="close" class="notification-box--close icon-context icon-close"></a>
-  <div class="notification-box--content">
-    <p><%= t('deprecations.calendar.removal')%></p>
-  </div>
-</div>
-
 <%= form_tag(work_packages_calendar_index_path, method: :get, id: 'query_form') do %>
   <%= hidden_field_tag('project_id', @project.to_param) if @project %>
   <%= hidden_field_tag('set_filter', 1) %>
