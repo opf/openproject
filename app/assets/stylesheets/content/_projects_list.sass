@@ -39,6 +39,13 @@ form.project-filters
           display: inline
         .expand
           display: none
+    &.child
+      td.name
+        &.archived,
+        a
+          &:before
+            content: '» '
+        a
     .buttons
       .collapse
         display: none
@@ -50,6 +57,10 @@ form.project-filters
         margin: 0
         .dropdown-menu
           text-align: left
+    .archived
+      color: $gray-dark
+      span.archived-label
+        text-transform: uppercase
 
   .project-description
     display: none

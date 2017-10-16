@@ -101,8 +101,13 @@ See doc/COPYRIGHT.rdoc for more details.
         </thead>
         <tbody>
           <% project_tree_when_sorted(@projects) do |project, level| %>
-            <tr class="basics <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-no-highlighting -expanded' : '' %>">
-              <td class="name project--hierarchy"><%= link_to_project(project, {}, {}, false) %></td>
+            <tr class="basics <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
+              <td class="name project--hierarchy <%= project.archived? ? 'archived' : '' %>">
+                <% if project.archived? %>
+                  <span class="archived-label"><%= t('project.archive.archived') %></span>
+                <% end %>
+                <%= link_to_project(project, {}, {}, false) %>
+              </td>
               <td><%= checked_image project.is_public? %></td>
               <% if User.current.admin? %><td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td><% end %>
               <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
