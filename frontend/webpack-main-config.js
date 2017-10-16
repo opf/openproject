@@ -218,6 +218,14 @@ function getWebpackMainConfig() {
       // It is ONLY executed when `ENV[CI]` is set or `--bail` is used.
       TypeScriptDiscruptorPlugin,
 
+      // required for Angular (2+) to avoid error message:
+      // > WARNING in ../node_modules/@angular/core/@angular/core.es5.js
+      // > 5659:15-36 Critical dependency: the request of a dependency is an expression
+      new webpack.ContextReplacementPlugin(
+        /angular([\\\/])core/,
+        path.resolve(__dirname, '../src')
+      ),
+
       // Define modes for debug output
       new webpack.DefinePlugin({
         DEBUG: !!debug_output,

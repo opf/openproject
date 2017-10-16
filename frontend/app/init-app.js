@@ -26,6 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+// Angular 4 deps. Must be loaded early!
+require('reflect-metadata');
+require('zone.js');
+
 // Globally exposed dependencies
 require('./vendors');
 
@@ -167,3 +171,8 @@ debugOutput.whenDebugging(function () {
   const reactivestates = require("reactivestates");
   reactivestates.enableReactiveStatesLogging();
 });
+
+
+// load Angular 4 modules and bootstrap
+require("./angular4-modules");
+
