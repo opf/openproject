@@ -27,6 +27,12 @@
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {
+    "@angular/common": "^4.4.4",
+    "@angular/compiler": "^4.4.4",
+    "@angular/core": "^4.4.4",
+    "@angular/platform-browser": "^4.4.4",
+    "@angular/platform-browser-dynamic": "^4.4.4",
+    "@angular/upgrade": "^4.4.4",
     "@types/angular": "^1.6.5",
     "@types/angular-mocks": "^1.5.9",
     "@types/angular-ui-router": "^1.1.36",
@@ -69,12 +75,14 @@
     "bundle-loader": "^0.5.4",
     "clean-webpack-plugin": "^0.1.15",
     "contra": "^1.9.4",
+    "core-js": "^2.5.1",
     "crossvent": "^1.5.4",
     "css-loader": "^0.9.0",
     "custom-event": "^1.0.0",
     "dom-autoscroller": "^2.2.8",
     "dragula": "^3.5.2",
     "es6-promise": "^4.1.0",
+    "es6-shim": "0.35.3",
     "exports-loader": "^0.6.2",
     "expose-loader": "^0.6.0",
     "extract-text-webpack-plugin": "3.0.0",
@@ -101,7 +109,9 @@
     "observable-array": "0.0.4",
     "phantomjs-polyfill": "0.0.2",
     "postcss-loader": "^1.2.2",
+    "raw-loader": "^0.5.1",
     "reactivestates": "^0.6.31",
+    "reflect-metadata": "^0.1.10",
     "rxjs": "^5.4.3",
     "screenfull": "^3.2.0",
     "shelljs": "^0.3.0",
@@ -111,7 +121,8 @@
     "typescript": "^2.5.2",
     "ui-select": "~0.19.6",
     "url-loader": "^0.5.7",
-    "webpack": "^3.5.6"
+    "webpack": "^3.5.6",
+    "zone.js": "^0.8.18"
   },
   "scripts": {
     "postinstall": "./node_modules/.bin/webpack --colors --progress  --debug --config webpack-vendors-config.js",
