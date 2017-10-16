@@ -29,8 +29,42 @@
 
 module OpenProject::TextFormatting::Formatters
   module Markdown
-    class Formatter
-      # TODO Used only for consistency with the formatters registry.
+    class Formatter < OpenProject::TextFormatting::Formatters::Base
+      attr_reader :context,
+                  :pipeline
+
+      def initialize(context)
+        @context = context
+        @pipeline = HTML::Pipeline.new(located_filters, context)
+      end
+
+      def to_html(text)
+        pipeline.to_html(text, context).html_safe
+      end
+
+      def to_document(text)
+        pipeline.to_document text, context
+      end
+
+      def filters
+        [
+          :markdown,
+          :sanitization,
+          :pattern_matcher
+        ]
+      end
+
+      protected
+
+      def located_filters
+        filters.map do |f|
+          if [Symbol, String].include? f.class
+            OpenProject::TextFormatting::Filters.const_get("#{f}_filter".classify)
+          else
+            f
+          end
+        end
+      end
     end
   end
 end

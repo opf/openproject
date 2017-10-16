@@ -50,6 +50,7 @@ See docs/COPYRIGHT.rdoc for more details.
     <%= csrf_meta_tags %>
     <%= render 'common/favicons' %>
     <%= stylesheet_link_tag 'openproject', media: "all" %>
+    <%= javascript_include_tag 'editor/openproject-ckeditor' %>
     <%= javascript_include_tag 'application' %>
     <%= javascript_include_tag "locales/#{I18n.locale}" %>
     <!-- project specific tags -->

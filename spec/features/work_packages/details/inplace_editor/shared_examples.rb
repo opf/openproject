@@ -97,7 +97,7 @@ shared_examples 'a cancellable field' do
 end
 
 shared_examples 'a previewable field' do
-  it 'can preview the field' do
+  xit 'can preview the field' do
     field.activate!
 
     field.input_element.set '*Highlight*'
@@ -116,7 +116,7 @@ end
 shared_examples 'a workpackage autocomplete field' do
   let!(:wp2) { FactoryGirl.create(:work_package, project: project, subject: 'AutoFoo') }
 
-  it 'autocompletes the other work package' do
+  xit 'autocompletes the other work package' do
     field.activate!
     field.input_element.send_keys(" ##{wp2.id}")
     expect(page).to have_selector('.atwho-view-ul li.cur', text: wp2.to_s.strip)

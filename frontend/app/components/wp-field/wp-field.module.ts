@@ -27,10 +27,13 @@
 // ++
 
 import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 
 export class Field {
   public static type:string;
   public static $injector:ng.auto.IInjectorService;
+
+  public $onInit(container:JQuery) {}
 
   public get displayName():string {
     return this.schema.name || this.name;

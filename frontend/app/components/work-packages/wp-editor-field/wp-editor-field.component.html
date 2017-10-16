@@ -1,0 +1,22 @@
+<div class="textarea-wrapper op-ckeditor-wrapper" ng-class="{'-preview': vm.field.isPreview}">
+  <div class="op-ckeditor-element" ng-class="{ '-active': $ctrl.isChanged }">
+  </div>
+  <div class="inplace-edit--dashboard">
+    <div class="inplace-edit--controls" ng-show="$ctrl.isChanged || $ctrl.inFlight">
+      <accessible-by-keyboard execute="$ctrl.submit()"
+                              link-title="{{ vm.saveTitle }}"
+                              is-disabled="$ctrl.inFlight"
+                              ng-disabled="$ctrl.inFlight"
+                              class="inplace-edit--control inplace-edit--control--save">
+        <op-icon icon-classes="icon-checkmark" icon-title="{{ ::vm.saveTitle }}"></op-icon>
+      </accessible-by-keyboard>
+      <accessible-by-keyboard execute="$ctrl.reset()"
+                              link-title="{{ vm.cancelTitle }}"
+                              ng-disabled="$ctrl.inFlight"
+                              is-disabled="$ctrl.inFlight"
+                              class="inplace-edit--control inplace-edit--control--cancel">
+        <op-icon icon-classes="icon-close" icon-title="{{ vm.cancelTitle }}"></op-icon>
+      </accessible-by-keyboard>
+  </div>
+  </div>
+</div>

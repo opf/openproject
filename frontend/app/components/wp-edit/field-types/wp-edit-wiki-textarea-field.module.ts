@@ -27,14 +27,14 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
-import {WorkPackageResource} from '../../api/api-v3/hal-resources/work-package-resource.service';
-import {$injectFields, $injectNow} from '../../angular/angular-injector-bridge.functions';
+import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {TextileService} from './../../common/textile/textile-service';
+import {WorkPackageEditFieldHandler} from 'core-components/wp-edit-form/work-package-edit-field-handler';
 
 export class WikiTextareaEditField extends EditField {
 
   // Template
-  public template:string = '/components/wp-edit/field-types/wp-edit-wiki-textarea-field.directive.html';
+  public template:string = '/components/wp-edit/field-types/wp-edit-markdown-field.directive.html';
 
   // Dependencies
   protected $sce:ng.ISCEService;
@@ -49,6 +49,9 @@ export class WikiTextareaEditField extends EditField {
   public previewHtml:string;
   public text:Object;
 
+  // CKEditor instance
+  public ckeditor:any;
+
   protected initialize() {
     $injectFields(this, '$sce', '$http', 'textileService', '$timeout', 'I18n');
 
@@ -59,9 +62,48 @@ export class WikiTextareaEditField extends EditField {
     };
   }
 
+  public onSubmit() {
+    if (this.ckeditor) {
+      this.rawValue = this.ckeditor.getData();
+    }
+  }
+
+  public get isInitialized() {
+    return !!this.ckeditor;
+  }
+
+  public $onInit(container:JQuery) {
+    const element = container.find('.op-ckeditor-element');
+    (window as any).BalloonEditor
+      .create(element[0])
+      .then((editor:any) => {
+        editor.config['openProject'] = {
+          context: this.resource,
+          element: element
+        };
+
+        this.ckeditor = editor;
+        if (this.rawValue) {
+          this.reset();
+        }
+
+        element.focus();
+      })
+      .catch((error:any) => {
+        console.error(error);
+      });
+  }
+
+  public reset() {
+    this.ckeditor.setData(this.rawValue);
+  }
+
   public get rawValue() {
-    const formatted = this.value;
-    return _.get(formatted, 'raw', '');
+    if (this.value && this.value.raw) {
+      return this.value.raw;
+    } else {
+      return '';
+    }
   }
 
   public set rawValue(val:string) {
@@ -73,7 +115,11 @@ export class WikiTextareaEditField extends EditField {
   }
 
   public isEmpty():boolean {
-    return !(this.value && this.value.raw);
+    if (this.isInitialized) {
+      return this.ckeditor.getData() === '';
+    } else {
+      return !(this.value && this.value.raw);
+    }
   }
 
   public submitUnlessInPreview(form:any) {

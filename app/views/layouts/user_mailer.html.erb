@@ -63,5 +63,11 @@ See docs/COPYRIGHT.rdoc for more details.
     </style>
   </head>
   <body>
+      <span class="header"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_header) %></span>
+      <%= call_hook(:view_layouts_mailer_html_before_content, self.assigns) %>
+      <%= yield %>
+      <%= call_hook(:view_layouts_mailer_html_after_content, self.assigns) %>
+      <hr />
+      <span class="footer"><%= OpenProject::TextFormatting::Renderer.format_text(Setting.localized_emails_footer) %></span>
   </body>
 </html>

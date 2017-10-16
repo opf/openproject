@@ -26,30 +26,31 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
 
-describe Redmine::WikiFormatting do
-  it 'should textile formatter' do
-    assert_equal Redmine::WikiFormatting::Textile::Formatter, Redmine::WikiFormatting.formatter_for('textile')
-    assert_equal Redmine::WikiFormatting::Textile::Helper, Redmine::WikiFormatting.helper_for('textile')
+require 'spec_helper'
+
+describe OpenProject::TextFormatting::Formatters::Plain::Formatter do
+  subject { described_class.new({}) }
+
+  it 'should plain text' do
+    assert_html_output('This is some input' => 'This is some input')
   end
 
-  it 'should null formatter' do
-    assert_equal Redmine::WikiFormatting::NullFormatter::Formatter, Redmine::WikiFormatting.formatter_for('')
-    assert_equal Redmine::WikiFormatting::NullFormatter::Helper, Redmine::WikiFormatting.helper_for('')
+  it 'should escaping' do
+    assert_html_output(
+      'this is a <script>'      => 'this is a &lt;script&gt;'
+    )
   end
 
-  it 'should link urls and email addresses' do
-    raw = <<-DIFF
-This is a sample *text* with a link: http://www.redmine.org
-and an email address foo@example.net
-DIFF
+  private
 
-    expected = <<-EXPECTED
-<p>This is a sample *text* with a link: <a href="http://www.redmine.org">http://www.redmine.org</a><br />
-and an email address <a href="mailto:foo@example.net">foo@example.net</a></p>
-EXPECTED
+  def assert_html_output(to_test, expect_paragraph = true)
+    to_test.each do |text, expected|
+      assert_equal((expect_paragraph ? "<p>#{expected}</p>" : expected), subject.to_html(text), "Formatting the following text failed:\n===\n#{text}\n===\n")
+    end
+  end
 
-    assert_equal expected.gsub(%r{[\r\n\t]}, ''), Redmine::WikiFormatting::NullFormatter::Formatter.new(raw).to_html.gsub(%r{[\r\n\t]}, '')
+  def to_html(text)
+    subject.to_html(text)
   end
 end

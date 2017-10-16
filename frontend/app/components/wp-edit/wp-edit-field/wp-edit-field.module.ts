@@ -42,6 +42,10 @@ export class EditField extends Field {
     this.initialize();
   }
 
+  public onSubmit() {
+
+  }
+
   public get inFlight() {
     return this.changeset.inFlight;
   }

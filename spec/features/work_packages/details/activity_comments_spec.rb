@@ -13,9 +13,9 @@ describe 'activity comments', js: true, selenium: true do
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
   let(:selector) { '.work-packages--activity--add-comment' }
   let(:comment_field) {
-    WorkPackageTextAreaField.new wp_page,
-                                 'comment',
-                                 selector: selector
+    WorkPackageEditorField.new wp_page,
+                               'comment',
+                               selector: selector
   }
   let(:initial_comment) { 'the first comment in this WP' }
 
@@ -167,7 +167,7 @@ describe 'activity comments', js: true, selenium: true do
 
           # Check the edit textarea
           activity.find('.icon-edit').click
-          edit = WorkPackageTextAreaField.new wp_page,
+          edit = WorkPackageEditorField.new wp_page,
                                               'comment',
                                               selector: '.user-comment--form'
 
@@ -184,7 +184,7 @@ describe 'activity comments', js: true, selenium: true do
 
           # Check the edit textarea
           activity.find('.icon-edit').click
-          edit = WorkPackageTextAreaField.new wp_page,
+          edit = WorkPackageEditorField.new wp_page,
                                               'comment',
                                               selector: '.user-comment--form'
 

@@ -154,12 +154,12 @@ module Pages
         cf = CustomField.find $1
 
         if cf.field_format == 'text'
-          WorkPackageTextAreaField.new page, key
+          WorkPackageEditorField.new page, key
         else
           WorkPackageField.new page, key
         end
       elsif key == :description
-        WorkPackageTextAreaField.new page, key
+        WorkPackageEditorField.new page, key
       elsif key == :status
         WorkPackageStatusField.new page
       else

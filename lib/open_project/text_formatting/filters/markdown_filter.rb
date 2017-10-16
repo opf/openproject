@@ -34,17 +34,13 @@ module OpenProject::TextFormatting
 
       # Convert Markdown to HTML using CommonMarker
       def call
-        $stderr.puts "MARKDOWN"
-        html = ''
-        $stderr.puts(Benchmark.measure do
-          options = [:GITHUB_PRE_LANG]
-          options << :HARDBREAKS if context[:gfm] != false
-          extensions = context.fetch :commonmarker_extensions,
-                                     %i[table strikethrough tagfilter autolink]
+        options = [:GITHUB_PRE_LANG]
+        options << :HARDBREAKS if context[:gfm] != false
+        extensions = context.fetch :commonmarker_extensions,
+                                    %i[table strikethrough tagfilter autolink]
 
-          html = CommonMarker.render_html(text, options, extensions)
-          html.rstrip!
-        end)
+        html = CommonMarker.render_html(text, options, extensions)
+        html.rstrip!
 
         html
       end

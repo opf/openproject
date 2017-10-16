@@ -69,7 +69,7 @@ export class CommentFieldDirectiveController {
 
     $scope.$on('workPackage.comment.quoteThis', (evt, quote) => {
       this.resetField(quote);
-      this.editing = true;
+      this.activate();
       this.$element.find('.work-packages--activity--add-comment')[0].scrollIntoView();
     });
   }
@@ -92,10 +92,15 @@ export class CommentFieldDirectiveController {
 
   public activate(withText?:string) {
     this._forceFocus = true;
-    this.resetField(withText);
     this.editing = true;
 
-    this.$timeout(() => this.$element.find('.wp-inline-edit--field').focus());
+    this.$timeout(() => {
+      if (!this.field) {
+        this.resetField(withText);
+      }
+
+      this.field.$onInit(this.$element);
+    });
   }
 
   public get project() {
@@ -108,6 +113,7 @@ export class CommentFieldDirectiveController {
   }
 
   public handleUserSubmit() {
+    this.field.onSubmit();
     if (this.field.isBusy || this.field.isEmpty()) {
       return;
     }

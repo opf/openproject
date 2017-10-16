@@ -17,7 +17,7 @@ describe 'description inplace editor', js: true, selenium: true do
     )
   }
   let(:user) { FactoryGirl.create :admin }
-  let(:field) { WorkPackageTextAreaField.new wp_page, 'description' }
+  let(:field) { WorkPackageEditorField.new wp_page, 'description' }
   let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
 
   before do

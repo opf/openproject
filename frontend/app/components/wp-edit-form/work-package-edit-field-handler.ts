@@ -40,6 +40,7 @@ export class WorkPackageEditFieldHandler {
   // Injections
   public FocusHelper:any;
   public ConfigurationService:any;
+  public $q:ng.IQService;
   public I18n:op.I18n;
 
   // Scope the field has been rendered in
@@ -58,7 +59,7 @@ export class WorkPackageEditFieldHandler {
               public field:EditField,
               public element:JQuery,
               public withErrors:string[]) {
-    $injectFields(this, 'I18n', 'ConfigurationService', 'FocusHelper');
+    $injectFields(this, 'I18n', '$q', 'ConfigurationService', 'FocusHelper');
 
     this.editContext = form.editContext;
     this.schemaName = field.name;
@@ -96,10 +97,13 @@ export class WorkPackageEditFieldHandler {
   /**
    * Handle a user submitting the field (e.g, ng-change)
    */
-  public handleUserSubmit() {
+  public handleUserSubmit():ng.IPromise<any> {
     if (!this.form.editMode) {
-      this.form.submit();
+      this.field.onSubmit();
+      return this.form.submit();
     }
+
+    return this.$q.resolve();
   }
 
   /**

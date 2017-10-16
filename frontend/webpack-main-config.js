@@ -187,7 +187,9 @@ function getWebpackMainConfig() {
     },
 
     resolve: {
-      modules: ['node_modules'],
+      modules: [
+        'node_modules',
+      ],
 
       extensions: ['.ts', '.tsx', '.js'],
 

@@ -39,14 +39,11 @@ module OpenProject::TextFormatting
       end
 
       def call
-        $stderr.puts "REGEX"
-        $stderr.puts(Benchmark.measure do
-          doc.search('.//text()').each do |node|
-            self.class.matchers.each do |matcher|
-              matcher.call(node, doc: doc, context: context)
-            end
+        doc.search('.//text()').each do |node|
+          self.class.matchers.each do |matcher|
+            matcher.call(node, doc: doc, context: context)
           end
-        end)
+        end
 
         doc
       end

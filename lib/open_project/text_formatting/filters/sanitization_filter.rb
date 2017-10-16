@@ -31,14 +31,6 @@
 module OpenProject::TextFormatting
   module Filters
     class SanitizationFilter < HTML::Pipeline::SanitizationFilter
-      def call
-        $stderr.puts "SANITIZE"
-        $stderr.puts(Benchmark.measure do
-          super
-        end)
-
-        doc
-      end
     end
   end
 end

@@ -43,7 +43,7 @@ describe 'custom field inplace editor', js: true do
       FactoryGirl.create(:text_issue_custom_field, name: 'LongText')
     }
     let(:initial_custom_values) { { custom_field.id => 'foo' } }
-    let(:field) { WorkPackageTextAreaField.new wp_page, :customField1 }
+    let(:field) { WorkPackageEditorField.new wp_page, :customField1 }
 
     it 'can cancel through the button only' do
       # Activate the field
