@@ -178,7 +178,7 @@ group :test do
   gem 'test-prof'
 
   gem 'cucumber', '~> 3.0.0'
-  gem 'cucumber-rails', '~> 1.4.4', require: false
+  gem 'cucumber-rails', '~> 1.5.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   # not possible to upgrade to 3.6+ until rails is 5.1+
