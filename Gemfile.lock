@@ -141,7 +141,7 @@ GEM
       i18n (~> 0.7)
       minitest (~> 5.1)
       tzinfo (~> 1.1)
-    acts_as_list (0.9.7)
+    acts_as_list (0.9.9)
       activerecord (>= 3.0)
     acts_as_tree (2.6.1)
       activerecord (>= 3.0.0)
@@ -620,7 +620,7 @@ DEPENDENCIES
   activerecord-jdbcmysql-adapter
   activerecord-jdbcpostgresql-adapter
   activerecord-session_store (~> 1.1.0)
-  acts_as_list (~> 0.9.7)
+  acts_as_list (~> 0.9.9)
   acts_as_tree (~> 2.6.1)
   airbrake (~> 5.1.0)
   autoprefixer-rails (~> 7.1.2.3)
@@ -691,7 +691,7 @@ DEPENDENCIES
   rack-protection (~> 2.0.0)
   rack-test (~> 0.6.3)
   rack_session_access
-  rails (~> 5.0.4)
+  rails (~> 5.0.6)
   rails-angular-xss!
   rails-controller-testing (~> 1.0.2)
   rails_12factor
