@@ -131,4 +131,25 @@ module ProjectsHelper
       false
     end
   end
+
+  def allowed_filters(query)
+    filters = query.available_filters.reject do |filter|
+      hidden_filters.include? filter.class
+    end
+
+    unless User.current.admin?
+      filters.reject! do |filter|
+        admin_only_filters.include? filter.class
+      end
+    end
+    filters
+  end
+
+  def hidden_filters
+    [Queries::Projects::Filters::AncestorFilter]
+  end
+
+  def admin_only_filters
+    []
+  end
 end

@@ -300,10 +300,13 @@ class ProjectsController < ApplicationController
   end
 
   def get_all_projects_for_overview_page
-    query = ::API::V3::ParamsToQueryService.new(Project, current_user).call(params)
+    # TODO: Do not call API V3, mixing up stuff.
+    @query = ::API::V3::ParamsToQueryService.new(Project, current_user).call(params)
 
-    if query.valid?
-      query
+    if @query.valid?
+      # TODO: remove order and user normal query orders. Look into pagination,
+      # too.
+      @query
         .results
         .with_required_storage
         .with_latest_activity
@@ -311,7 +314,8 @@ class ProjectsController < ApplicationController
         .page(page_param)
         .per_page(per_page_param)
     else
-      raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
+      # TODO: Do not call API V3, mixing up stuff.
+      raise ::API::Errors::InvalidQuery.new(@query.errors.full_messages)
     end
   end
 

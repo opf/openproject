@@ -33,6 +33,6 @@ module Queries::Projects
   query = ::Queries::Projects::ProjectQuery
 
   register.filter query, filters::AncestorFilter
-  register.filter query, filters::NameAndIdentifierFilter
   register.filter query, filters::StatusFilter
+  register.filter query, filters::NameAndIdentifierFilter
 end

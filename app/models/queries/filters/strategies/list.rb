@@ -35,6 +35,8 @@ module Queries::Filters::Strategies
 
     supported_operator_list ['=', '!']
 
+    default_operator '='
+
     def validate
       # TODO: the -1 is a special value that exists for historical reasons
       # so one can send the operator '=' and the values ['-1']

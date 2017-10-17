@@ -30,5 +30,6 @@
 module Queries::Filters::Strategies
   class String < BaseStrategy
     supported_operator_list ['=', '~', '!', '!~']
+    default_operator '~'
   end
 end

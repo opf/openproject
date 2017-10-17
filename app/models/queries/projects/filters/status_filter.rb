@@ -38,6 +38,9 @@ class Queries::Projects::Filters::StatusFilter < Queries::Projects::Filters::Pro
   end
 
   def allowed_values
-    [Project::STATUS_ACTIVE.to_s, Project::STATUS_ARCHIVED.to_s]
+    [
+      [I18n.t(:status_active), Project::STATUS_ACTIVE.to_s],
+      [I18n.t(:status_archived), Project::STATUS_ARCHIVED.to_s]
+    ]
   end
 end
