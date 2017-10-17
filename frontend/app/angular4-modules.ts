@@ -1,21 +1,38 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {UpgradeModule} from '@angular/upgrade/static';
-import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {UpgradeModule} from '@angular/upgrade/static';
+import {States} from 'core-components/states.service';
+import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {TimelineControllerHolder} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
+import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
+import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
+
+function upgradeService(ng1InjectorName:string, providedType:any) {
+  return {
+    provide: providedType,
+    useFactory: (i:any) => i.get(ng1InjectorName),
+    deps: ['$injector']
+  };
+}
 
 @NgModule({
   imports: [
     BrowserModule,
     UpgradeModule
   ],
-  providers: [TimelineControllerHolder],
+  providers: [
+    TimelineControllerHolder,
+    upgradeService('wpRelations', WorkPackageRelationsService),
+    upgradeService('states', States),
+  ],
   declarations: [
-    WorkPackageTimelineHeaderController
+    WorkPackageTimelineHeaderController,
+    WorkPackageTableTimelineRelations
   ],
   entryComponents: [
-    WorkPackageTimelineHeaderController
+    WorkPackageTimelineHeaderController,
+    WorkPackageTableTimelineRelations
   ]
 })
 export class OpenProjectModule {

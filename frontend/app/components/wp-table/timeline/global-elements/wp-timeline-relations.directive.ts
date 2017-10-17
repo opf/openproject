@@ -26,16 +26,18 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {State} from 'reactivestates';
 import {Observable} from 'rxjs/Observable';
 import {openprojectModule} from '../../../../angular-modules';
-import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
 import {States} from '../../../states.service';
 import {RelationsStateValue, WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
+import {TimelineControllerHolder} from '../container/wp-timeline-container.directive';
 import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
 import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
-import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 
 const DEBUG_DRAW_RELATION_LINES_WITH_COLOR = false;
 
@@ -72,25 +74,31 @@ function newSegment(vp:TimelineViewParameters,
   return segment;
 }
 
-export class WorkPackageTableTimelineRelations {
-
-  public wpTimeline:WorkPackageTimelineTableController;
+@Component({
+  template: '<div class="wp-table-timeline--relations"></div>',
+})
+export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
   private container:JQuery;
 
   private workPackagesWithRelations:{ [workPackageId:string]:State<RelationsStateValue> } = {};
 
-  constructor(public $element:ng.IAugmentedJQuery,
-              public $scope:ng.IScope,
+  constructor(public elementRef:ElementRef,
               public states:States,
+              public timelineControllerHolder:TimelineControllerHolder,
               public wpRelations:WorkPackageRelationsService) {
   }
 
-  $onInit() {
-    this.container = this.$element.find('.wp-table-timeline--relations');
-    this.wpTimeline.onRefreshRequested('relations', (vp:TimelineViewParameters) => this.refreshView());
+  ngOnInit() {
+    const $element = jQuery(this.elementRef.nativeElement);
+    this.container = $element.find('.wp-table-timeline--relations');
+    this.timelineControllerHolder.instance
+      .onRefreshRequested('relations', (vp:TimelineViewParameters) => this.refreshView());
 
     this.setupRelationSubscription();
+  }
+
+  ngOnDestroy() {
   }
 
   private refreshView() {
@@ -98,7 +106,7 @@ export class WorkPackageTableTimelineRelations {
   }
 
   private get workPackageIdOrder() {
-    return this.wpTimeline.workPackageIdOrder;
+    return this.timelineControllerHolder.instance.workPackageIdOrder;
   }
 
   /**
@@ -111,7 +119,7 @@ export class WorkPackageTableTimelineRelations {
       this.states.table.timelineVisible.values$()
     )
       .filter(([rendered, timeline]) => timeline.isVisible)
-      .takeUntil(scopeDestroyed$(this.$scope))
+      .takeUntil(componentDestroyed(this))
       .map(([rendered, _]) => rendered)
       .subscribe(list => {
         // ... make sure that the corresponding relations are loaded ...
@@ -133,7 +141,7 @@ export class WorkPackageTableTimelineRelations {
 
     // When a WorkPackage changes, redraw the corresponding relations
     this.states.workPackages.observeChange()
-      .takeUntil(scopeDestroyed$(this.$scope))
+      .takeUntil(componentDestroyed(this))
       .filter(() => this.states.table.timelineVisible.mapOr(v => v.visible, false))
       .subscribe(([workPackageId]) => {
         this.renderWorkPackagesRelations([workPackageId]);
@@ -159,7 +167,7 @@ export class WorkPackageTableTimelineRelations {
         }
 
         const elem = new TimelineRelationElement(relation.ids.from, relation);
-        this.renderElement(this.wpTimeline.viewParameters, elem);
+        this.renderElement(this.timelineControllerHolder.instance.viewParameters, elem);
       });
 
     });
@@ -195,8 +203,8 @@ export class WorkPackageTableTimelineRelations {
   private renderElement(vp:TimelineViewParameters, e:TimelineRelationElement) {
     const involved = e.relation.ids;
 
-    const startCells = this.wpTimeline.workPackageCells(involved.from);
-    const endCells = this.wpTimeline.workPackageCells(involved.to);
+    const startCells = this.timelineControllerHolder.instance.workPackageCells(involved.from);
+    const endCells = this.timelineControllerHolder.instance.workPackageCells(involved.to);
 
     // If either sources or targets are not rendered, ignore this relation
     if (startCells.length === 0 || endCells.length === 0) {
@@ -205,9 +213,9 @@ export class WorkPackageTableTimelineRelations {
 
     // Now, render all sources to all targets
     startCells.forEach((startCell) => {
-      const idxFrom = this.wpTimeline.workPackageIndex(startCell.classIdentifier);
+      const idxFrom = this.timelineControllerHolder.instance.workPackageIndex(startCell.classIdentifier);
       endCells.forEach((endCell) => {
-        const idxTo = this.wpTimeline.workPackageIndex(endCell.classIdentifier);
+        const idxTo = this.timelineControllerHolder.instance.workPackageIndex(endCell.classIdentifier);
         this.renderRelation(vp, e, idxFrom, idxTo, startCell, endCell);
       });
     });
@@ -293,10 +301,7 @@ export class WorkPackageTableTimelineRelations {
   }
 }
 
-openprojectModule.component('wpTimelineRelations', {
-  template: '<div class="wp-table-timeline--relations"></div>',
-  controller: WorkPackageTableTimelineRelations,
-  require: {
-    wpTimeline: '^wpTimelineContainer'
-  }
-});
+openprojectModule.directive(
+  'wpTimelineRelations',
+  downgradeComponent({component: WorkPackageTableTimelineRelations}));
+
