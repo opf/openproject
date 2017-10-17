@@ -33,7 +33,7 @@ ruby '~> 2.4.2'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.0.4'
+gem 'rails', '~> 5.0.6'
 gem 'responders', '~> 2.4'
 
 gem 'coderay', '~> 1.1.0'
