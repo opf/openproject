@@ -26,10 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-// Angular 4 deps. Must be loaded early!
-require('reflect-metadata');
-require('zone.js');
-
 // Globally exposed dependencies
 require('./vendors');
 
