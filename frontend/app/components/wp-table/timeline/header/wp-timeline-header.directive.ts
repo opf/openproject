@@ -38,8 +38,6 @@ import {TimelineControllerHolder} from 'core-components/wp-table/timeline/contai
 
 export const timelineHeaderCSSClass = 'wp-timeline--header-element';
 
-declare const require:any;
-
 @Component({
   template: require('!!raw-loader!./wp-timeline-header.html'),
 })
