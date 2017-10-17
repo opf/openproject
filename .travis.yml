@@ -81,6 +81,12 @@ before_install:
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
   - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
 
+  # Install geckodriver
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.0/geckodriver-v0.19.0-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v0.19.0-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
+
   # Install Node LTS Boron (6.9.1)
   - "nvm install 6.9.1"
 
@@ -107,7 +113,7 @@ notifications:
       - secure: "dkVCNYSedLfeuqTboRPx/iWmXldhoHZpSp83cpkG6ZL81Psut2ZEHg6aBiWgqQWdfNAca4a51hWXs6utRqdgnxo51YAB/pMy0/b+jEOjZvuShOVz6TVqn5W5JLTNZJeVZL+BgvwXZWbIujH/cSuUv+h7GTnS+8Y4b2ZrCYilP35sAck2bbbAsKzbuW2yZZqK7X0UnSjoxg+KeT9DuK1zjjJJ6CZig1/n5ZjciQIv7JD50hmqFxBgjyBi71Loh/iohUF89EoQRXm0KkSmEhCINld5s+7SP4jSmnqyrNamNNw2ZGCgg3OXhcvDqOHjPwpCNNhrtzTExt/Z2cTzHz4FnV9ncJj9i1pkbjveuudVUTeaSHHXjw/X496OKLP3LwEZYggUCyc3nu9qR2zSs6zdG4ijhclOVzNrXDDixjpYGmOg8mVunG2cwFUSjtmX8nyPNXQvRnvsfnVYalprqXJHGmQW07nFE/2lbjdmnQiCEExNsKXO5vqrqo6RYOtTfka9B5s3ZkTkXgZkTWuEgWbaMC/fZhi0NCu2Ow3XOzQrs8hVLF4w1zngjqOLjk+LftqWwT42D47RKW3SZfVEVm8Vw+JGfh/uJUNAsPsu+Mybw8k0aDmLjPTlRZD+dYvQ2EPizgc2+cf+0GVoaGzKZF+cJ8I0ut8kO13M9ZmjiHU0se4="
 
 addons:
-  firefox: "45.0esr"
+  firefox: "latest"
   postgresql: "9.3"
 
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests

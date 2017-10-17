@@ -42,9 +42,7 @@ Capybara.register_driver :selenium do |app|
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
                                               Selenium::WebDriver::Firefox::Binary.path
 
-  # need to disable marionette as noted
-  # https://github.com/teamcapybara/capybara#capybara
-  capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
+  capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true)
   capabilities["elementScrollBehavior"] = 1
 
   client = Selenium::WebDriver::Remote::Http::Default.new
