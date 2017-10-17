@@ -94,6 +94,21 @@ module API
         SetLocalizationService.new(User.current, env['HTTP_ACCEPT_LANGUAGE']).call
       end
 
+      def enforce_content_type
+        # Content-Type is not present in GET
+        return if request.get?
+
+        # Raise if missing header
+        content_type = request.content_type
+        error!('Missing content-type header', 406) unless content_type.present?
+
+        # Allow JSON and JSON+HAL
+        return if content_type.start_with?('application/json')
+        return if content_type.start_with?('application/hal+json')
+
+        error!('Unsupported content_type', 406)
+      end
+
       def logged_in?
         # An admin SystemUser is anonymous but still a valid user to be logged in.
         current_user && (current_user.admin? || !current_user.anonymous?)
@@ -197,6 +212,7 @@ module API
     before do
       authenticate
       set_localization
+      enforce_content_type
     end
 
     version 'v3', using: :path do
