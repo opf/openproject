@@ -125,7 +125,7 @@ gem 'prawn-table', '~> 0.2.2'
 gem 'cells-rails', '~> 0.0.6'
 gem 'cells-erb', '~> 0.0.8'
 
-gem 'meta-tags', '~> 2.4.1'
+gem 'meta-tags', '~> 2.6.0'
 
 group :production do
   # we use dalli as standard memcache client
