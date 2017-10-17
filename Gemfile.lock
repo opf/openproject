@@ -458,7 +458,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     rainbow (2.2.2)
       rake
-    raindrops (0.18.0)
+    raindrops (0.19.0)
     rake (12.1.0)
     rb-fsevent (0.10.2)
     rb-inotify (0.9.10)
@@ -582,7 +582,7 @@ GEM
       unf_ext
     unf_ext (0.0.7.4)
     unicode-display_width (1.2.1)
-    unicorn (5.3.0)
+    unicorn (5.3.1)
       kgio (~> 2.6)
       raindrops (~> 0.7)
     unicorn-worker-killer (0.4.4)
