@@ -3,13 +3,14 @@ import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import {TimelineControllerHolder} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 
 @NgModule({
   imports: [
     BrowserModule,
     UpgradeModule
   ],
-  providers: [],
+  providers: [TimelineControllerHolder],
   declarations: [
     WorkPackageTimelineHeaderController
   ],
