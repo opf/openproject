@@ -63,6 +63,14 @@ function getWebpackVendorsConfig() {
     },
 
     plugins: [
+      // required for Angular (2+) to avoid error message:
+      // > WARNING in ../node_modules/@angular/core/@angular/core.es5.js
+      // > 5659:15-36 Critical dependency: the request of a dependency is an expression
+      new webpack.ContextReplacementPlugin(
+        /angular([\\\/])core/,
+        path.resolve(__dirname, '../src')
+      ),
+
       new webpack.DllPlugin({
         path: path.join(__dirname, "dist", "[name]-dll-manifest.json"),
         name: "[name]",

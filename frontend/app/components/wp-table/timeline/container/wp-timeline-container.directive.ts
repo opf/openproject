@@ -55,6 +55,19 @@ import {
   zoomLevelOrder
 } from '../wp-timeline';
 import moment = require('moment');
+import {downgradeInjectable} from '@angular/upgrade/static';
+import {Injectable} from '@angular/core';
+
+
+/**
+ * TODO remove once the transition to Angular4 is completed
+ */
+@Injectable()
+export class TimelineControllerHolder {
+  instance:WorkPackageTimelineTableController;
+}
+
+openprojectModule.factory('timelineControllerHolder', downgradeInjectable(TimelineControllerHolder));
 
 
 export class WorkPackageTimelineTableController {
@@ -88,6 +101,7 @@ export class WorkPackageTimelineTableController {
   constructor(private $scope:angular.IScope,
               private $element:angular.IAugmentedJQuery,
               private states:States,
+              timelineControllerHolder:TimelineControllerHolder,
               private NotificationsService:any,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
@@ -95,6 +109,8 @@ export class WorkPackageTimelineTableController {
               private wpTableHierarchies:WorkPackageTableHierarchiesService,
               private I18n:op.I18n) {
     'ngInject';
+
+    timelineControllerHolder.instance = this;
   }
 
   $onInit() {

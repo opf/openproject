@@ -167,3 +167,8 @@ debugOutput.whenDebugging(function () {
   const reactivestates = require("reactivestates");
   reactivestates.enableReactiveStatesLogging();
 });
+
+
+// load Angular 4 modules and bootstrap
+require("./angular4-modules");
+
