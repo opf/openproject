@@ -559,7 +559,7 @@ GEM
     stringex (2.7.1)
     svg-graph (2.1.1)
     syck (1.3.0)
-    sys-filesystem (1.1.7)
+    sys-filesystem (1.1.8)
       ffi
     test-prof (0.1.0)
     thin (1.7.2)
