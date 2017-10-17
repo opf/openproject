@@ -369,7 +369,7 @@ GEM
     nio4r (2.1.0)
     nokogiri (1.8.1)
       mini_portile2 (~> 2.3.0)
-    oj (3.3.2)
+    oj (3.3.8)
     okcomputer (1.16.0)
     openproject-token (1.0.1)
       activemodel (~> 5.0)
