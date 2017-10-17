@@ -368,7 +368,7 @@ GEM
     mustermann (1.0.0)
     mustermann-grape (1.0.0)
       mustermann (~> 1.0.0)
-    mysql2 (0.4.8)
+    mysql2 (0.4.9)
     net-ldap (0.16.0)
     netrc (0.11.0)
     newrelic_rpm (4.5.0.337)
