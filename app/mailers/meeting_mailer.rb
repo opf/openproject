@@ -19,6 +19,7 @@
 #++
 
 require 'icalendar'
+require 'icalendar/tzinfo'
 
 class MeetingMailer < UserMailer
   def content_for_review(content, content_type, address)
@@ -31,24 +32,32 @@ class MeetingMailer < UserMailer
     subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
     mail to: address, subject: subject
   end
-  
+
   def icalendar_notification(content, content_type, address)
     @meeting = content.meeting
     @content_type = content_type
-    
+
     open_project_headers 'Project' => @meeting.project.identifier,
                          'Meeting-Id' => @meeting.id
     headers['Content-Type'] = 'text/calendar; charset=utf-8; method="PUBLISH"; name="meeting.ics"'
     headers['Content-Transfer-Encoding'] = '8bit'
-    subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{content_type}")}: #{@meeting.title}"
+
+    subject = "[#{@meeting.project.name}] #{I18n.t(:"label_#{@content_type}")}: #{@meeting.title}"
+
     author = Icalendar::Values::CalAddress.new("mailto:#{@meeting.author.mail}",
                                                cn: @meeting.author.name)
 
     # Create a calendar with an event (standard method)
     entry = ::Icalendar::Calendar.new
+
+    tzid = @meeting.start_time.zone
+    tz = TZInfo::Timezone.get tzid
+    timezone = tz.ical_timezone @meeting.start_time
+    entry.add_timezone timezone
+
     entry.event do |e|
-      e.dtstart     = @meeting.start_time
-      e.dtend       = @meeting.end_time
+      e.dtstart     = Icalendar::Values::DateTime.new @meeting.start_time, 'tzid' => tzid
+      e.dtend       = Icalendar::Values::DateTime.new @meeting.end_time, 'tzid' => tzid
       e.url         = meeting_url(@meeting)
       e.summary     = "[#{@meeting.project.name}] #{@meeting.title}"
       e.description = subject
