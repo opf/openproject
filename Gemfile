@@ -137,7 +137,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'autoprefixer-rails', '~> 7.1.2.3'
+gem 'autoprefixer-rails', '~> 7.1.5'
 gem 'bourbon', '~> 4.3.4'
 gem 'i18n-js', '~> 3.0.0'
 gem 'sass', '3.5.1'
