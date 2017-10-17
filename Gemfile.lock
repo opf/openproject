@@ -522,7 +522,7 @@ GEM
       activesupport (>= 3.0.0)
       i18n
       iso8601
-    ruby-progressbar (1.8.1)
+    ruby-progressbar (1.9.0)
     rubyzip (1.2.1)
     safe_yaml (1.0.4)
     sass (3.5.1)
