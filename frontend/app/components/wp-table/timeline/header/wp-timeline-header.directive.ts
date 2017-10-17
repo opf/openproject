@@ -47,7 +47,7 @@ export class WorkPackageTimelineHeaderController implements OnInit {
 
   private activeZoomLevel:TimelineZoomLevel;
 
-  private innerHeader:ng.IAugmentedJQuery;
+  private innerHeader:JQuery;
 
   constructor(elementRef:ElementRef, public timelineControllerHolder:TimelineControllerHolder) {
     this.$element = jQuery(elementRef.nativeElement);
