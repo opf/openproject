@@ -291,7 +291,7 @@ GEM
       fog-core
       nokogiri (~> 1.5, >= 1.5.11)
     formatador (0.2.5)
-    friendly_id (5.2.1)
+    friendly_id (5.2.3)
       activerecord (>= 4.0.0)
     fuubar (2.2.0)
       rspec-core (~> 3.0)
