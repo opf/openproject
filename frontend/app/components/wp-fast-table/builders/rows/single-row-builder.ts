@@ -84,6 +84,7 @@ export class SingleRowBuilder {
   public createEmptyRow(workPackage:WorkPackageResourceInterface) {
     const identifier = this.classIdentifier(workPackage);
     let tr = document.createElement('tr');
+    tr.setAttribute('tabindex', '0');
     tr.dataset['workPackageId'] = workPackage.id;
     tr.dataset['classIdentifier'] = identifier;
     tr.classList.add(

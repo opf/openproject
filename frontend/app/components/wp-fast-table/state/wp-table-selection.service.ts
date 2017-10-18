@@ -84,6 +84,20 @@ export class WorkPackageTableSelection {
     return _.size(this.currentState.selected);
   }
 
+  public get isSingleSelection():boolean {
+    return this.getSingleSelection !== null;
+  }
+
+  public get getSingleSelection():string|null {
+    const selected = _.pickBy(this.currentState.selected, (selected:boolean) => selected === true);
+    const selectedWps = _.keys(selected);
+    if (selectedWps.length === 1) {
+      return selectedWps[0];
+    }
+
+    return null;
+  }
+
   /**
    * Switch the current focused work package to the given id,
    * setting selection and focus on this WP.
