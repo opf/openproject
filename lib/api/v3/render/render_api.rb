@@ -39,6 +39,10 @@ module API
             SUPPORTED_CONTEXT_NAMESPACES = %w(work_packages projects).freeze
             SUPPORTED_MEDIA_TYPE = 'text/plain'
 
+            def allowed_content_types
+              [SUPPORTED_MEDIA_TYPE]
+            end
+
             def check_content_type
               actual = request.content_type
 

@@ -28,7 +28,7 @@
 
 require 'spec_helper'
 
-describe 'API v3 Relation resource', type: :request do
+describe  'API v3 Relation resource', type: :request, content_type: :json do
   include API::V3::Utilities::PathHelper
 
   let(:user) { FactoryGirl.create :admin }

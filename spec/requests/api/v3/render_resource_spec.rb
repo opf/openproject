@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Render resource' do
+describe 'API v3 Render resource', type: :request do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
