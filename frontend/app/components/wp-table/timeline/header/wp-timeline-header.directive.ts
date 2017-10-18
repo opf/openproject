@@ -49,7 +49,9 @@ export class WorkPackageTimelineHeaderController implements OnInit {
 
   private innerHeader:JQuery;
 
-  constructor(elementRef:ElementRef, public timelineControllerHolder:TimelineControllerHolder) {
+  constructor(elementRef:ElementRef,
+              public timelineControllerHolder:TimelineControllerHolder) {
+
     this.$element = jQuery(elementRef.nativeElement);
   }
 

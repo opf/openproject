@@ -25,35 +25,41 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
-import {TimelineViewParameters} from '../wp-timeline';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
-import * as moment from 'moment';
+import {Component, ElementRef, OnInit} from '@angular/core';
 import {openprojectModule} from '../../../../angular-modules';
 import {States} from '../../../states.service';
+import {TimelineControllerHolder} from '../container/wp-timeline-container.directive';
+import {TimelineViewParameters} from '../wp-timeline';
 import {TimelineStaticElement, timelineStaticElementCssClassname} from './timeline-static-element';
 import {TodayLineElement} from './wp-timeline.today-line';
-import Moment = moment.Moment;
+import {downgradeComponent} from '@angular/upgrade/static';
 
-export class WorkPackageTableTimelineStaticElements {
+@Component({
+  template: '<div class="wp-table-timeline--static-elements"></div>'
+})
+export class WorkPackageTableTimelineStaticElements implements OnInit {
 
-  public wpTimeline:WorkPackageTimelineTableController;
+  public $element:JQuery;
 
-  private container:ng.IAugmentedJQuery;
+  private container:JQuery;
 
   private elements:TimelineStaticElement[];
 
-  constructor(public $element:ng.IAugmentedJQuery,
-              public $scope:ng.IScope,
-              public states:States) {
+  constructor(elementRef:ElementRef,
+              public states:States,
+              public timelineControllerHolder:TimelineControllerHolder) {
+
+    this.$element = jQuery(elementRef.nativeElement);
 
     this.elements = [
       new TodayLineElement()
     ];
   }
 
-  $onInit() {
+  ngOnInit() {
     this.container = this.$element.find('.wp-table-timeline--static-elements');
-    this.wpTimeline.onRefreshRequested('static elements', (vp:TimelineViewParameters) => this.update(vp));
+    this.timelineControllerHolder.instance
+      .onRefreshRequested('static elements', (vp:TimelineViewParameters) => this.update(vp));
   }
 
   private update(vp:TimelineViewParameters) {
@@ -72,10 +78,7 @@ export class WorkPackageTableTimelineStaticElements {
   }
 }
 
-openprojectModule.component("wpTimelineStaticElements", {
-  template: '<div class="wp-table-timeline--static-elements"></div>',
-  controller: WorkPackageTableTimelineStaticElements,
-  require: {
-    wpTimeline: '^wpTimelineContainer'
-  }
-});
+
+openprojectModule.directive(
+  'wpTimelineStaticElements',
+  downgradeComponent({component: WorkPackageTableTimelineStaticElements}));
