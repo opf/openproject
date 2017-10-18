@@ -94,6 +94,12 @@ module API
         SetLocalizationService.new(User.current, env['HTTP_ACCEPT_LANGUAGE']).call
       end
 
+      # Global helper to set allowed content_types
+      # This may be overriden when multipart is allowed (file uploads)
+      def additional_allowed_content_types
+        []
+      end
+
       def enforce_content_type
         # Content-Type is not present in GET
         return if request.get?
@@ -102,9 +108,14 @@ module API
         content_type = request.content_type
         error!('Missing content-type header', 406) unless content_type.present?
 
-        # Allow JSON and JSON+HAL
-        return if content_type.start_with?('application/json')
-        return if content_type.start_with?('application/hal+json')
+        # Allow JSON and JSON+HAL per default
+        # and anything that each endpoint may optionally add to that
+        allowed_content_types = %w(application/json application/hal+json) + additional_allowed_content_types
+        allowed_content_types.each do |mime|
+          # Content-Type header looks like this (e.g.,)
+          # application/json;encoding=utf8
+          return if content_type.start_with?(mime)
+        end
 
         error!('Unsupported content_type', 406)
       end

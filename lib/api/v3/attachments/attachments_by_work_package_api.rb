@@ -34,6 +34,12 @@ module API
       class AttachmentsByWorkPackageAPI < ::API::OpenProjectAPI
         resources :attachments do
           helpers do
+            # Global helper to set allowed content_types
+            # This may be overriden when multipart is allowed (file uploads)
+            def additional_allowed_content_types
+              super + %w(multipart/form-data)
+            end
+
             def parse_metadata(json)
               return nil unless json
 
