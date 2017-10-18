@@ -27,12 +27,12 @@
     "webpack-dev-server": "^1.6.5"
   },
   "dependencies": {
-    "@angular/common": "^4.4.4",
-    "@angular/compiler": "^4.4.4",
-    "@angular/core": "^4.4.4",
-    "@angular/platform-browser": "^4.4.4",
-    "@angular/platform-browser-dynamic": "^4.4.4",
-    "@angular/upgrade": "^4.4.4",
+    "@angular/common": "^4.4.5",
+    "@angular/compiler": "^4.4.5",
+    "@angular/core": "^4.4.5",
+    "@angular/platform-browser": "^4.4.5",
+    "@angular/platform-browser-dynamic": "^4.4.5",
+    "@angular/upgrade": "^4.4.5",
     "@types/angular": "^1.6.5",
     "@types/angular-mocks": "^1.5.9",
     "@types/angular-ui-router": "^1.1.36",

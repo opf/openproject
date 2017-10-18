@@ -33,4 +33,3 @@ window.openProject = new OpenProject({
   loginUrl: '/fake-login'
 });
 
-window.$injector = angular.injector(['ng', 'ngMock', 'openproject.uiComponents', 'openproject.timelines.models', 'openproject.models', 'openproject.services']);
