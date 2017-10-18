@@ -268,35 +268,6 @@ en:
 
   actionview_instancetag_blank_option: "Please select"
 
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: "not found"
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: "work package in `to` position not found or not visible"
-              error_readonly: "an existing relation's `to` link is immutable"
-            from:
-              error_not_found: "work package in `from` position not found or not visible"
-              error_readonly: "an existing relation's `from` link is immutable"
-        user:
-          attributes:
-            status:
-              invalid_on_create: "is not a valid status for new users."
-            auth_source:
-              error_not_found: "not found"
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: "The operator is not supported."
-              invalid_values: "A value is invalid."
-              id_filter_required: "An 'id' filter is required."
   activerecord:
     attributes:
       announcements:
@@ -451,6 +422,7 @@ en:
         accepted: "must be accepted."
         blank: "can't be blank."
         cant_link_a_work_package_with_a_descendant: "A work package cannot be linked to one of its subtasks."
+        follows_descendant: "follows its descendant."
         circular_dependency: "This relation would create a circular dependency."
         confirmation: "doesn't match %{attribute}."
         does_not_exist: "does not exist."
@@ -489,6 +461,12 @@ en:
           at_least_one_custom_option: "At least one option needs to be available."
         enterprise_token:
           unreadable: "can't be read. Are you sure it is a support token?"
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: "The operator is not supported."
+              invalid_values: "A value is invalid."
+              id_filter_required: "An 'id' filter is required."
         project:
           attributes:
             types:
@@ -497,11 +475,24 @@ en:
           identical_projects: "Dependency cannot be created between one project and itself."
           project_association_not_allowed: "does not allow associations."
         query:
+          attributes:
+            project:
+              error_not_found: "not found"
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: "is mutually exclusive with group by '%{group_by}'. You cannot activate both."
           filters:
             custom_fields:
               inexistent: "There is no custom field for the filter."
               invalid: "The custom field is not valid in the given context."
+        relation:
+          attributes:
+            to:
+              error_not_found: "work package in `to` position not found or not visible"
+              error_readonly: "an existing relation's `to` link is immutable"
+            from:
+              error_not_found: "work package in `from` position not found or not visible"
+              error_readonly: "an existing relation's `from` link is immutable"
         repository:
           not_available: "SCM vendor is not available"
           not_whitelisted: "is not allowed by the configuration."
@@ -519,7 +510,6 @@ en:
               not_a_valid_parent: "is invalid."
             start_date:
               violates_relationships: "can only be set to %{soonest_start} or later so as not to violate the work package's relationships."
-              violates_parent_relationships: "can only be set to %{soonest_start} or later so as not to violate the relationships of the work_package's ancestors."
             status_id:
               status_transition_invalid: "is invalid because no valid transition exists from old to new status for the current user's roles."
             priority_id:
@@ -550,6 +540,10 @@ en:
               match:
                 confirm: "Confirm new password."
                 description: "'Password confirmation' should match the input in the 'New password' field."
+            status:
+              invalid_on_create: "is not a valid status for new users."
+            auth_source:
+              error_not_found: "not found"
         member:
           principal_blank: "Please choose at least one user or group."
           role_blank: "Please choose at least one role."

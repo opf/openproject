@@ -28,63 +28,68 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class SetAttributesWorkPackageService
-  include Concerns::Contracted
+class WorkPackages::CreateService
+  include ::WorkPackages::Shared::UpdateAncestors
+  include ::Shared::ServiceContext
 
   attr_accessor :user,
                 :work_package,
                 :contract
 
-  def initialize(user:, work_package:, contract:)
+  def initialize(user:, contract: WorkPackages::CreateContract)
     self.user = user
-    self.work_package = work_package
-
-    self.contract = contract.new(work_package, user)
+    self.contract = contract
   end
 
-  def call(attributes)
-    set_attributes(attributes)
-
-    validate_and_result
+  def call(attributes: {},
+           work_package: WorkPackage.new,
+           send_notifications: true)
+    in_context(send_notifications) do
+      create(attributes, work_package)
+    end
   end
 
-  private
+  protected
 
-  def validate_and_result
-    boolean, errors = validate(work_package)
+  def create(attributes, work_package)
+    result = set_attributes(attributes, work_package)
 
-    ServiceResult.new(success: boolean,
-                      errors: errors)
+    result.success &&= work_package.save
+
+    if result.success?
+      result.merge!(reschedule_related(work_package))
+
+      update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
+        result.merge!(ancestor_result)
+      end
+    else
+      result.success = false
+    end
+
+    result
   end
 
-  def set_attributes(attributes)
-    work_package.attributes = attributes
-
-    unify_dates if work_package_now_milestone?
-
-    # Take over any default custom values
-    # for new custom fields
-    work_package.set_default_values! if custom_field_context_changed?
-
-    reschedule(attributes)
+  def set_attributes(attributes, wp)
+    WorkPackages::SetAttributesService
+      .new(user: user,
+           work_package: wp,
+           contract: contract)
+      .call(attributes)
   end
 
-  def reschedule(attributes)
-    ScheduleWorkPackageService
-      .new(user: user, work_package: work_package)
-      .call(attributes: attributes)
-  end
+  def reschedule_related(work_package)
+    result = WorkPackages::SetScheduleService
+             .new(user: user,
+                  work_package: work_package)
+             .call
 
-  def unify_dates
-    unified_date = work_package.due_date || work_package.start_date
-    work_package.start_date = work_package.due_date = unified_date
-  end
+    result.self_and_dependent.each do |r|
+      if !r.result.save
+        result.success = false
+        r.errors = r.result.errors
+      end
+    end
 
-  def custom_field_context_changed?
-    work_package.type_id_changed? || work_package.project_id_changed?
-  end
-
-  def work_package_now_milestone?
-    work_package.type_id_changed? && work_package.milestone?
+    result
   end
 end

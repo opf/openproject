@@ -31,12 +31,16 @@
 module WorkPackage::Parent
   def self.prepended(base)
     base.after_save :update_parent_relation
+    base.define_attribute_method 'parent_id'
+    base.define_attribute_method 'parent'
   end
 
-  attr_accessor :parent_object
+  attr_accessor :parent_object,
+                :do_halt
 
   def parent=(work_package)
-    attribute_will_change!(:parent_id) if parent_id != (work_package && work_package.id)
+    parent_id_will_change! if parent_id != (work_package && work_package.id)
+    @parent_set = true
 
     if work_package
       @parent_id = work_package.id
@@ -48,37 +52,46 @@ module WorkPackage::Parent
   end
 
   def parent
-    if @parent_object
-      @parent_object
-    elsif parent_relation
-      parent_relation.from
-    elsif @parent_id
-      @parent_object ||= WorkPackage.find(@parent_id)
+    if @parent_set
+      @parent_object || parent_from_id
+    else
+      @parent_object || parent_from_relation || parent_from_id
     end
   end
 
   def reload(*args)
     @parent_object = nil
     @parent_id = nil
+    @parent_set = nil
+    @parent_id_previous_changes = nil
 
     super
+  end
+
+  def changes_applied
+    @parent_id_previous_changes = changes.slice(:parent_id)
+
+    super
+  end
+
+  def previous_changes
+    super.merge(@parent_id_previous_changes || {})
   end
 
   def parent_id=(id)
     id = id.to_i > 0 ? id.to_i : nil
 
-    attribute_will_change!(:parent_id) if parent_id != id
+    parent_id_will_change! if parent_id != id
+    @parent_set = true
 
     @parent_object = nil if @parent_object && @parent_object.id != id
     @parent_id = id
   end
 
   def parent_id
-    @parent_id || parent && parent.id
-  end
+    return @parent_id if @parent_set
 
-  def parent_id_changed?
-    !!changes[:parent_id]
+    @parent_id || parent && parent.id
   end
 
   private
@@ -94,6 +107,18 @@ module WorkPackage::Parent
       create_parent_relation from: parent_object
     elsif @parent_id
       create_parent_relation from_id: @parent_id
+    end
+  end
+
+  def parent_from_relation
+    if parent_relation && ((@parent_id && parent_relation.from.id == @parent_id) || !@parent_id)
+      parent_relation.from
+    end
+  end
+
+  def parent_from_id
+    if @parent_id
+      @parent_object = WorkPackage.find(@parent_id)
     end
   end
 end

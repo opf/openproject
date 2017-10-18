@@ -33,6 +33,10 @@ require 'queries/operators'
 class Queries::Filters::Base
   include ActiveModel::Validations
 
+  def self.i18n_scope
+    :activerecord
+  end
+
   class_attribute :model,
                   :filter_params
 

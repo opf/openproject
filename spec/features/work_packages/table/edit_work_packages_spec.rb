@@ -59,7 +59,7 @@ describe 'Inline editing work packages', js: true do
 
       subject_field.set_value('New subject!')
 
-      expect(UpdateWorkPackageService).to receive(:new).and_call_original
+      expect(WorkPackages::UpdateService).to receive(:new).and_call_original
       subject_field.save!
       subject_field.expect_text('New subject!')
 
@@ -110,7 +110,7 @@ describe 'Inline editing work packages', js: true do
       subject_field.set_value('')
       subject_field.expect_invalid
 
-      expect(UpdateWorkPackageService).not_to receive(:new)
+      expect(WorkPackages::UpdateService).not_to receive(:new)
       subject_field.save!
     end
   end

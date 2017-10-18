@@ -128,9 +128,7 @@ describe 'API v3 Work package form resource', type: :request do
           describe 'error body' do
             let(:error_id) { 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation' }
 
-            let(:error_body) {
-              parse_json(subject.body)['_embedded']['validationErrors'][property]
-            }
+            let(:error_body) { parse_json(subject.body)['_embedded']['validationErrors'][property] }
 
             it { expect(error_body['errorIdentifier']).to eq(error_id) }
           end

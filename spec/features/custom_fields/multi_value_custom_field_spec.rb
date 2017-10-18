@@ -28,7 +28,7 @@ describe "multi select custom values", js: true do
 
   context "with existing custom values" do
     let(:work_package) do
-      wp = FactoryGirl.create :work_package, project: project, type: type
+      wp = FactoryGirl.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => ["ham", "pineapple", "onions"].map { |s| custom_value_for(s) }
@@ -39,7 +39,7 @@ describe "multi select custom values", js: true do
     end
 
     let(:work_package2) do
-      wp = FactoryGirl.create :work_package, project: project, type: type
+      wp = FactoryGirl.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => ["ham"].map { |s| custom_value_for(s) }

@@ -166,7 +166,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
                 FactoryGirl.create(:work_package, project_id: project.id),
                 FactoryGirl.create(:work_package, project_id: project.id),
                 FactoryGirl.create(:work_package, project_id: project.id)
-              ]
+              ].each(&:reload)
               get 'index',
                   params: { ids: @created_planning_elements.map(&:id).join(',') },
                   format: 'xml'
@@ -511,7 +511,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
                 FactoryGirl.create(:work_package, project_id: project.id),
                 FactoryGirl.create(:work_package, project_id: project.id),
                 FactoryGirl.create(:work_package, project_id: project.id)
-              ]
+              ].each(&:reload)
               @created_planning_elements = work_packages_to_structs(created_planning_elements)
 
               get 'index', params: { project_id: project.id }, format: 'xml'
@@ -581,7 +581,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
                 FactoryGirl.create(:work_package, project_id: project_a.id),
                 FactoryGirl.create(:work_package, project_id: project_b.id),
                 FactoryGirl.create(:work_package, project_id: project_b.id)
-              ]
+              ].each(&:reload)
 
               @created_planning_elements = work_packages_to_structs(created_planning_elements)
 
@@ -627,7 +627,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
       def expect_redirect_to
         Regexp.new(api_v2_project_planning_elements_path(project))
       end
-      let(:permission) { :edit_work_packages }
+      let(:permission) { :add_work_packages }
 
       it_should_behave_like 'a controller action which needs project permissions'
     end
@@ -820,7 +820,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
       def expect_no_content
         true
       end
-      let(:permission) { :edit_work_packages }
+      let(:permission) { %i(edit_work_packages view_work_packages) }
       it_should_behave_like 'a controller action which needs project permissions'
     end
 

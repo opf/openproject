@@ -105,7 +105,7 @@ describe Journal::AggregatedJournal, type: :model do
 
       allow(User).to receive(:current).and_return(new_author)
 
-      UpdateWorkPackageService
+      WorkPackages::UpdateService
         .new(user: new_author, work_package: work_package)
         .call(attributes: changes)
     end
@@ -189,7 +189,7 @@ describe Journal::AggregatedJournal, type: :model do
             work_package.reload # need to update the lock_version, avoiding StaleObjectError
             changes = { subject: 'foo' }
 
-            UpdateWorkPackageService
+            WorkPackages::UpdateService
               .new(user: new_author, work_package: work_package)
               .call(attributes: changes)
           end
@@ -302,7 +302,7 @@ describe Journal::AggregatedJournal, type: :model do
 
       changes = { subject: 'a new subject!' }
 
-      UpdateWorkPackageService
+      WorkPackages::UpdateService
         .new(user: new_author, work_package: work_package)
         .call(attributes: changes)
     end

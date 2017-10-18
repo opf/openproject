@@ -157,20 +157,6 @@ describe Relation, type: :model do
     end
   end
 
-  describe 'without to and with delay set' do
-    let(:relation) do
-      FactoryGirl.build(:relation,
-                        from: from,
-                        relation_type: type,
-                        delay: 1)
-    end
-    let(:type) { Relation::TYPE_PRECEDES }
-
-    it 'should set dates of target without to' do
-      expect(relation.set_dates_of_target).to be_nil
-    end
-  end
-
   describe '.visible' do
     let(:user) { FactoryGirl.create(:user) }
     let(:role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }

@@ -30,6 +30,10 @@
 class Queries::BaseOrder
   include ActiveModel::Validations
 
+  def self.i18n_scope
+    :activerecord
+  end
+
   validates :direction, inclusion: { in: %i(asc desc) }
 
   class_attribute :model

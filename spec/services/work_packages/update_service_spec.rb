@@ -30,7 +30,7 @@
 
 require 'spec_helper'
 
-describe UpdateWorkPackageService, type: :model do
+describe WorkPackages::UpdateService, type: :model do
   let(:user) { FactoryGirl.build_stubbed(:user) }
   let(:project) do
     p = FactoryGirl.build_stubbed(:project)
@@ -46,21 +46,21 @@ describe UpdateWorkPackageService, type: :model do
     wp
   end
   let(:instance) do
-    UpdateWorkPackageService.new(user: user,
-                                 work_package: work_package)
+    described_class.new(user: user,
+                        work_package: work_package)
   end
 
   describe 'call' do
     let(:set_attributes_service) do
-      service = double("SetAttributesWorkPackageService",
+      service = double("WorkPackages::SetAttributesService",
                        new: set_attributes_service_instance)
 
-      stub_const('SetAttributesWorkPackageService', service)
+      stub_const('WorkPackages::SetAttributesService', service)
 
       service
     end
     let(:set_attributes_service_instance) do
-      instance = double("SetAttributesWorkPackageServiceInstance")
+      instance = double("WorkPackages::SetAttributesServiceInstance")
 
       allow(instance)
         .to receive(:call) do |attributes|
@@ -71,8 +71,8 @@ describe UpdateWorkPackageService, type: :model do
 
       instance
     end
-    let(:errors) { double('errors') }
-    let(:set_service_results) { double('result', success?: true, errors: errors) }
+    let(:errors) { [] }
+    let(:set_service_results) { ServiceResult.new success: true, result: work_package }
     let(:work_package_save_result) { true }
 
     before do
@@ -108,12 +108,12 @@ describe UpdateWorkPackageService, type: :model do
       end
 
       it 'has no errors' do
-        expect(subject.errors).to be_empty
+        expect(subject.errors.all?(&:empty?)).to be_truthy
       end
 
       context 'when setting the attributes is unsuccessful (invalid)' do
-        let(:errors) { double('errors') }
-        let(:set_service_results) { double('result', success?: false, errors: errors) }
+        let(:errors) { double('set errors', empty?: false) }
+        let(:set_service_results) { ServiceResult.new success: false, errors: errors, result: work_package }
 
         it 'is unsuccessful' do
           expect(subject.success?).to be_falsey
@@ -134,6 +134,13 @@ describe UpdateWorkPackageService, type: :model do
 
       context 'when the saving is unsuccessful' do
         let(:work_package_save_result) { false }
+        let(:saving_errors) { double('saving_errors', empty?: false) }
+
+        before do
+          allow(work_package)
+            .to receive(:errors)
+            .and_return(saving_errors)
+        end
 
         it 'is unsuccessful' do
           expect(subject.success?).to be_falsey
@@ -146,11 +153,6 @@ describe UpdateWorkPackageService, type: :model do
         end
 
         it "exposes the work_packages's errors" do
-          saving_errors = double('saving_errors')
-          allow(work_package)
-            .to receive(:errors)
-            .and_return(saving_errors)
-
           subject
 
           expect(subject.errors).to eql saving_errors
@@ -190,11 +192,13 @@ describe UpdateWorkPackageService, type: :model do
           allow(Setting)
             .to receive(:cross_project_work_package_relations?)
             .and_return false
-          expect(work_package)
-            .to receive_message_chain(:relations,
-                                      :non_hierarchy,
-                                      :direct,
-                                      :destroy_all)
+          relations = double('relations')
+          expect(Relation)
+            .to receive(:non_hierarchy_of_work_package)
+            .with([work_package])
+            .and_return(relations)
+          expect(relations)
+            .to receive(:destroy_all)
 
           instance.call(attributes: { project: target_project })
         end
@@ -214,68 +218,18 @@ describe UpdateWorkPackageService, type: :model do
 
       context 'time_entries' do
         it 'moves the time entries' do
-          expect(work_package)
-            .to receive(:move_time_entries)
-            .with(target_project)
+          scope = double('scope')
+
+          expect(TimeEntry)
+            .to receive(:on_work_packages)
+            .with([work_package])
+            .and_return(scope)
+
+          expect(scope)
+            .to receive(:update_all)
+            .with(project_id: target_project.id)
 
           instance.call(attributes: { project: target_project })
-        end
-      end
-
-      context 'when having children' do
-        let(:child_work_package) do
-          child_work_package = FactoryGirl.build_stubbed(:work_package,
-                                                         parent: work_package,
-                                                         project: project)
-
-          allow(work_package)
-            .to receive(:children)
-            .and_return [child_work_package]
-
-          child_work_package
-        end
-
-        let(:attributes) do
-          { attributes: { project: target_project } }
-        end
-
-        let(:child_service) do
-          double('UpdateChildWorkPackageChildService')
-        end
-
-        it 'calls the service again with the same attributes for each child' do
-          expect(UpdateChildWorkPackageService)
-            .to receive(:new)
-            .with(user: user,
-                  work_package: child_work_package)
-            .and_return child_service
-
-          expect(child_service)
-            .to receive(:call)
-            .with(attributes)
-            .and_return true
-
-          instance.call(attributes)
-        end
-
-        it 'returns errors of the child service calls and returns false' do
-          expect(UpdateChildWorkPackageService)
-            .to receive(:new)
-            .with(user: user,
-                  work_package: child_work_package)
-            .and_return child_service
-
-          errors = double('child service errors')
-
-          expect(child_service)
-            .to receive(:call)
-            .with(attributes)
-            .and_return [false, errors]
-
-          result = instance.call(attributes)
-
-          expect(result.success?).to be_falsey
-          expect(result.errors).to eql errors
         end
       end
     end

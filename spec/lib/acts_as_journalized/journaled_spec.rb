@@ -30,8 +30,8 @@ require 'spec_helper'
 
 describe 'Journalized Objects' do
   before(:each) do
-    @type ||= FactoryGirl.create(:type_feature)
     @project ||= FactoryGirl.create(:project_with_types)
+    @type ||= @project.types.first
     @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
     allow(User).to receive(:current).and_return(@current)
   end

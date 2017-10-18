@@ -149,47 +149,35 @@ module Project::Copy
                 .order_by_ancestors('asc')
 
       to_copy.each do |issue|
-        new_issue = WorkPackage.new
-        new_issue.copy_from(issue)
-        new_issue.project = self
-        # Reassign author to the current user
-        new_issue.author = User.current
-        # Reassign fixed_versions by name, since names are unique per
-        # project and the versions for self are not yet saved
-        if issue.fixed_version
-          new_version = versions.detect { |v| v.name == issue.fixed_version.name }
-          if new_version
-            new_issue.skip_fixed_version_validation = true
-            new_issue.fixed_version = new_version
-          end
-        end
-        # Reassign the category by name, since names are unique per
-        # project and the categories for self are not yet saved
-        if issue.category
-          new_issue.category = categories.detect { |c| c.name == issue.category.name }
-        end
-        # Parent issue
-        if issue.parent
-          if (copied_parent = work_packages_map[issue.parent.id]) && copied_parent.reload
-            new_issue.parent = copied_parent
-          end
-        end
-        work_packages << new_issue
+        parent_id = (work_packages_map[issue.parent_id] && work_packages_map[issue.parent_id].id) || issue.parent_id
 
-        if new_issue.new_record? && logger && logger.info
+        overrides = { project: self,
+                      parent_id: parent_id,
+                      fixed_version: issue.fixed_version && versions.detect { |v| v.name == issue.fixed_version.name } }
+
+        service_call = WorkPackages::CopyService
+                       .new(user: User.current,
+                            work_package: issue,
+                            contract: WorkPackages::CopyProjectContract)
+                       .call(attributes: overrides)
+
+        if service_call.success?
+          new_work_package = service_call.result
+
+          work_packages_map[issue.id] = new_work_package
+        elsif logger && logger.info
+          compiled_errors << service_call.errors
           logger.info <<-MSG
-            Project#copy_work_packages: work package ##{issue.id} could not be copied: #{new_issue.errors.full_messages}
+            Project#copy_work_packages: work package ##{issue.id} could not be copied: #{service_call.errors.full_messages}
           MSG
-        elsif new_issue.persisted?
-          work_packages_map[issue.id] = new_issue unless new_issue.new_record?
         end
       end
 
       # reload all work_packages in our map, they might be modified by movement in their tree
-      work_packages_map.each do |_, v| v.reload end
+      work_packages_map.each_value(&:reload)
 
       # Relations and attachments after in case issues related each other
-      project.work_packages.each do |issue|
+      to_copy.each do |issue|
         new_issue = work_packages_map[issue.id]
         unless new_issue
           # Issue was not copied

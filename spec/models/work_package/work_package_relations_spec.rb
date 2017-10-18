@@ -226,44 +226,6 @@ describe WorkPackage, type: :model do
       end
     end
 
-    describe '#precedes' do
-      let(:start_date) { Date.today }
-      let(:due_date) { Date.today + 2 }
-      let(:preceding) do
-        FactoryGirl.create(:work_package,
-                           start_date: start_date,
-                           due_date: due_date)
-      end
-      let(:following) do
-        FactoryGirl.create(:work_package,
-                           project: preceding.project,
-                           start_date: start_date,
-                           due_date: due_date)
-      end
-
-      shared_examples_for 'following start date' do
-        subject { following.reload.start_date }
-
-        it { is_expected.to eq(preceding.due_date + 1) }
-      end
-
-      before do
-        preceding.precedes << following
-      end
-
-      it_behaves_like 'following start date'
-
-      describe 'preceding end date change' do
-        before do
-          preceding.reload
-          preceding.due_date = Date.today + 5
-          preceding.save!
-        end
-
-        it_behaves_like 'following start date'
-      end
-    end
-
     describe '#soonest_start' do
       let(:work_package_1) { FactoryGirl.create(:work_package) }
       let(:work_package_2) do

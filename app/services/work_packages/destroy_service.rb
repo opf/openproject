@@ -28,36 +28,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateRelationService
-  include Concerns::Contracted
+class WorkPackages::DestroyService
+  include ::WorkPackages::Shared::UpdateAncestors
+  include ::Shared::ServiceContext
 
-  attr_accessor :user
+  attr_accessor :user, :work_package
 
-  self.contract = Relations::CreateContract
-
-  def initialize(user:)
-    @user = user
+  def initialize(user:, work_package:)
+    self.user = user
+    self.work_package = work_package
   end
 
-  def call(relation, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        create relation
-      end
+  def call
+    in_context(true) do
+      destroy
     end
   end
 
   private
 
-  def create(relation)
-    initialize_contract! relation
+  def destroy
+    result = ServiceResult.new success: true,
+                               result: work_package
 
-    result, errors = validate_and_save relation
+    descendants = work_package.descendants.to_a
 
-    ServiceResult.new success: result, errors: errors, result: relation
+    result.success = work_package.destroy
+
+    if result.success?
+      update_ancestors_all_attributes(result.all_results).each do |ancestor_result|
+        result.merge!(ancestor_result)
+      end
+
+      destroy_descendants(descendants, result)
+    end
+
+    result
   end
 
-  def initialize_contract!(relation)
-    self.contract = self.class.contract.new relation, user
+  def destroy_descendants(descendants, result)
+    descendants.each do |descendant|
+      result.add_dependent!(ServiceResult.new(success: descendant.destroy, result: descendant))
+    end
   end
 end

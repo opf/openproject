@@ -28,53 +28,58 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Currently this is only a stub.
-# The intend for this service is for it to include all the vast scheduling rules that make up the work package scheduling.
-
-class ScheduleWorkPackageService
+class Relations::BaseService
   include Concerns::Contracted
+  include Shared::ServiceContext
 
-  attr_accessor :user, :work_package
+  attr_accessor :user
 
-  self.contract = WorkPackages::UpdateContract
-
-  def initialize(user:, work_package:)
+  def initialize(user:)
     self.user = user
-    self.work_package = work_package
-
-    self.contract = self.class.contract.new(work_package, user)
-  end
-
-  def call(attributes: {})
-    update(attributes)
   end
 
   private
 
-  def update(attributes)
-    set_dates_on_parent_updates unless attributes[:start_date]
+  def update_relation(relation, attributes)
+    relation.attributes = relation.attributes.merge attributes
+
+    success, errors = validate_and_save relation
+
+    result = ServiceResult.new success: success, errors: errors, result: relation
+
+    if success && relation.follows?
+      reschedule_result = reschedule(relation)
+      result.merge!(reschedule_result)
+    end
+
+    result
   end
 
-  def set_dates_on_parent_updates
-    return unless date_before_newly_added_parents_soonest_start?
-
-    new_start_date = work_package.parent.soonest_start
-
-    current_duration = work_package.duration
-
-    work_package.start_date = new_start_date
-    work_package.due_date = new_start_date + current_duration
+  def set_defaults(relation)
+    if Relation::TYPE_FOLLOWS == relation.relation_type
+      relation.delay ||= 0
+    else
+      relation.delay = nil
+    end
   end
 
-  def date_before_newly_added_parents_soonest_start?
-    work_package.parent_id_changed? &&
-      work_package.parent &&
-      date_before_soonest_start?(work_package.parent)
+  def initialize_contract!(relation)
+    self.contract = self.class.contract.new relation, user
   end
 
-  def date_before_soonest_start?(other_work_package)
-    other_work_package.soonest_start &&
-      (!work_package.start_date ||
-      work_package.start_date < other_work_package.soonest_start)
+  def reschedule(relation)
+    schedule_result = WorkPackages::SetScheduleService
+                      .new(user: user, work_package: relation.to)
+                      .call
+
+    # The to-work_package will not be altered by the schedule service so
+    # we do not have to save the result of the service.
+    save_result = if schedule_result.success?
+                    schedule_result.dependent_results.all? { |dr| !dr.result.changed? || dr.result.save }
+                  end || false
+
+    schedule_result.success = save_result
+
+    schedule_result
   end
 end

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -80,8 +81,8 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   end
 
   describe 'with all minimum parameters' do
-    let(:type) { project.types.order(:position).first }
-    let(:parameters) {
+    let(:type) { project.types.default.first }
+    let(:parameters) do
       {
         _links: {
           project: {
@@ -90,13 +91,13 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
         },
         subject: 'lorem ipsum'
       }
-    }
+    end
 
     it 'has 0 validation errors' do
       expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')
     end
 
-    it 'has the first type active in the project set' do
+    it 'has the default type active in the project set' do
       type_link = {
         href: "/api/v3/types/#{type.id}",
         title: type.name

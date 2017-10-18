@@ -33,6 +33,10 @@ class ParseSchemaFilterParamsService
 
   attr_accessor :user
 
+  def self.i18n_scope
+    :activerecord
+  end
+
   def initialize(user:)
     self.user = user
   end

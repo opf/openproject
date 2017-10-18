@@ -61,7 +61,7 @@ module API
         def create_work_package_form(work_package, contract_class:, form_class:, action: :update)
           write_work_package_attributes(work_package, request_body, reset_lock_version: true)
 
-          result = SetAttributesWorkPackageService
+          result = ::WorkPackages::SetAttributesService
                    .new(user: current_user, work_package: work_package, contract: contract_class)
                    .call({})
 

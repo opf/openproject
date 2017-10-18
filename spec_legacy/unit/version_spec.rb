@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -264,11 +265,11 @@ describe Version, type: :model do
 
     # Project 1 now out of the shared scope
     project_1_issue.reload
-    assert_equal nil, project_1_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
+    assert_nil project_1_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
 
     # Project 5 now out of the shared scope
     project_5_issue.reload
-    assert_equal nil, project_5_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
+    assert_nil project_5_issue.fixed_version, "Fixed version is still set after changing the Version's sharing"
 
     # Project 2 issue remains
     project_2_issue.reload
@@ -278,18 +279,16 @@ describe Version, type: :model do
   private
 
   def add_work_package(version, attributes = {})
-    (v = WorkPackage.new.tap do |v|
-      v.attributes = { project: version.project,
-                             fixed_version: version,
-                             subject: 'Test',
-                             author: User.first,
-                             type: version.project.types.first }.merge(attributes)
-    end).save!
-
-    v
+    WorkPackage.create!({ project: version.project,
+                          priority_id: 5,
+                          status_id: 1,
+                          fixed_version: version,
+                          subject: 'Test',
+                          author: User.first,
+                          type: version.project.types.first }.merge(attributes))
   end
 
   def assert_progress_equal(expected_float, actual_float, _message = '')
-    assert_in_delta(expected_float, actual_float, 0.000001, message = '')
+    assert_in_delta(expected_float, actual_float, 0.000001, '')
   end
 end

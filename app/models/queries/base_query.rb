@@ -29,6 +29,10 @@
 class Queries::BaseQuery
   class << self
     attr_accessor :model
+
+    def i18n_scope
+      :activerecord
+    end
   end
 
   include Queries::AvailableFilters
