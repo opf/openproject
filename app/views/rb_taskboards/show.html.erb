@@ -85,6 +85,8 @@ See doc/COPYRIGHT.rdoc for more details.
 
     <table id="tasks" class="board" cellspacing="0">
       <% @sprint.stories(@project).each do |story| %>
+        <% tasks_by_status_id = story.tasks.group_by(&:status_id) %>
+
         <tr class="<%= story_html_id_or_empty(story) %>">
           <td>
             <div class="story <%= mark_if_closed(story) %>" id="<%= story_html_id_or_empty(story) %>">
@@ -119,7 +121,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% @statuses.each do |status| %>
             <td class="swimlane list <%= status.is_closed? ? 'closed' : '' %>" id="<%= story.id %>_<%= status.id %>">
               <%= render :partial => "rb_tasks/task",
-                         :collection => story.tasks.select { |task| task.status.id == status.id } %>
+                         :collection => tasks_by_status_id[status.id] %>
             </td>
           <% end %>
         </tr>

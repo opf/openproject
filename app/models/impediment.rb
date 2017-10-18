@@ -41,7 +41,8 @@ class Impediment < Task
   validate :validate_blocks_list
 
   def self.default_scope
-    where(parent_id: nil, type_id: type)
+    roots
+      .where(type_id: type)
   end
 
   def blocks_ids=(ids)
@@ -51,7 +52,7 @@ class Impediment < Task
   end
 
   def blocks_ids
-    @blocks_ids_list ||= relations_from.select { |rel| rel.relation_type == Relation::TYPE_BLOCKS }.map(&:to_id)
+    @blocks_ids_list ||= block_ids
   end
 
   def self.create_with_relationships(params, project_id)
@@ -66,23 +67,7 @@ class Impediment < Task
   private
 
   def update_blocks_list
-    relations_from = [] if relations_from.nil?
-    remove_from_blocks_list
-    add_to_blocks_list
-  end
-
-  def remove_from_blocks_list
-    relations_from.delete(relations_from.select { |rel| rel.relation_type == Relation::TYPE_BLOCKS && !blocks_ids.include?(rel.to_id) })
-  end
-
-  def add_to_blocks_list
-    currently_blocking = relations_from.select { |rel| rel.relation_type == Relation::TYPE_BLOCKS }.map(&:to_id)
-
-    (blocks_ids - currently_blocking).each{ |id|
-      rel = Relation.new(relation_type: Relation::TYPE_BLOCKS, from: self)
-      rel.to_id = id
-      relations_from << rel
-    }
+    self.block_ids = blocks_ids
   end
 
   def validate_blocks_list

@@ -37,16 +37,12 @@ require_dependency 'permitted_params'
 
 module OpenProject::Backlogs::Patches::PermittedParamsPatch
   def self.included(base)
-    base.send(:include, InstanceMethods)
-
-    base.class_eval do
-      alias_method_chain :update_work_package, :backlogs
-    end
+    base.prepend InstanceMethods
   end
 
   module InstanceMethods
-    def update_work_package_with_backlogs(args = {})
-      permitted_params = update_work_package_without_backlogs(args)
+    def update_work_package(args = {})
+      permitted_params = super(args)
 
       backlogs_params = params.require(:work_package).permit(:story_points, :remaining_hours)
       permitted_params.merge!(backlogs_params)

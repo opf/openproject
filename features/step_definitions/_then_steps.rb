@@ -111,11 +111,7 @@ Then /^(.+) should be the higher (story|item|task) of (.+)$/ do |higher_subject,
   lower = work_package_class.where(subject: lower_subject)
   lower.length.should == 1
 
-  if type == 'task'
-    lower.first.id.should == higher.first.right_sibling.id
-  else
-    lower.first.higher_item.id.should == higher.first.id
-  end
+  lower.first.higher_item.id.should == higher.first.id
 end
 
 Then /^the request should complete successfully$/ do
@@ -153,7 +149,8 @@ end
 
 Then /^the (\d+)(?:st|nd|rd|th) task for (.+) should be (.+)$/ do |position, story_subject, task_subject|
   story = Story.find_by(subject: story_subject)
-  story.children[position.to_i - 1].subject.should == task_subject
+  expect(story.children.order(position: :asc)[position.to_i - 1].subject)
+    .to eql(task_subject)
 end
 
 Then /^the server should return an update error$/ do
@@ -196,7 +193,9 @@ Then /^the story named (.+) should have 1 task named (.+)$/ do |story_subject, t
   stories = Story.where(subject: story_subject)
   stories.length.should == 1
 
-  tasks = Task.where(parent_id: stories.first.id, subject: task_subject)
+  tasks = Task
+          .children_of(stories.first)
+          .where(subject: task_subject)
   tasks.length.should == 1
 end
 

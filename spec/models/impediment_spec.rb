@@ -122,14 +122,14 @@ describe Impediment, type: :model do
 
       shared_examples_for 'impediment creation with 1 blocking relationship' do
         it_should_behave_like 'impediment creation'
-        it { expect(@impediment.relations_from.size).to eq(1) }
-        it { expect(@impediment.relations_from[0].to).to eql feature }
-        it { expect(@impediment.relations_from[0].relation_type).to eql Relation::TYPE_BLOCKS }
+        it { expect(@impediment.relations_to.direct.size).to eq(1) }
+        it { expect(@impediment.relations_to.direct[0].to).to eql feature }
+        it { expect(@impediment.relations_to.direct[0].relation_type).to eql Relation::TYPE_BLOCKS }
       end
 
       shared_examples_for 'impediment creation with no blocking relationship' do
         it_should_behave_like 'impediment creation'
-        it { expect(@impediment.relations_from.size).to eq(0) }
+        it { expect(@impediment.relations_to.direct.size).to eq(0) }
       end
 
       describe 'WITH a blocking relationship to a story' do
@@ -147,7 +147,7 @@ describe Impediment, type: :model do
 
           it_should_behave_like 'impediment creation with 1 blocking relationship'
           it { expect(@impediment).not_to be_new_record }
-          it { expect(@impediment.relations_from[0]).not_to be_new_record }
+          it { expect(@impediment.relations_to.direct[0]).not_to be_new_record }
         end
 
         describe 'WITH the story having another version' do
@@ -226,18 +226,18 @@ describe Impediment, type: :model do
 
       shared_examples_for 'impediment update with changed blocking relationship' do
         it_should_behave_like 'impediment update'
-        it { expect(@impediment.relations_from.size).to eq(1) }
-        it { expect(@impediment.relations_from[0]).not_to be_new_record }
-        it { expect(@impediment.relations_from[0].to).to eql @story }
-        it { expect(@impediment.relations_from[0].relation_type).to eql Relation::TYPE_BLOCKS }
+        it { expect(@impediment.relations_to.direct.size).to eq(1) }
+        it { expect(@impediment.relations_to.direct[0]).not_to be_new_record }
+        it { expect(@impediment.relations_to.direct[0].to).to eql @story }
+        it { expect(@impediment.relations_to.direct[0].relation_type).to eql Relation::TYPE_BLOCKS }
       end
 
       shared_examples_for 'impediment update with unchanged blocking relationship' do
         it_should_behave_like 'impediment update'
-        it { expect(@impediment.relations_from.size).to eq(1) }
-        it { expect(@impediment.relations_from[0]).not_to be_changed }
-        it { expect(@impediment.relations_from[0].to).to eql feature }
-        it { expect(@impediment.relations_from[0].relation_type).to eql Relation::TYPE_BLOCKS }
+        it { expect(@impediment.relations_to.direct.size).to eq(1) }
+        it { expect(@impediment.relations_to.direct[0]).not_to be_changed }
+        it { expect(@impediment.relations_to.direct[0].to).to eql feature }
+        it { expect(@impediment.relations_to.direct[0].relation_type).to eql Relation::TYPE_BLOCKS }
       end
 
       describe 'WHEN changing the blocking relationship to another story' do
@@ -344,9 +344,8 @@ describe Impediment, type: :model do
           task.fixed_version = version
           task.save
 
-          impediment.relations_from = [Relation.new(from: impediment, to: feature, relation_type: Relation::TYPE_BLOCKS),
-                                       Relation.new(from: impediment, to: task, relation_type: Relation::TYPE_BLOCKS)]
-          true
+          # Using the default association method block_ids (without s) here
+          impediment.block_ids = [feature.id, task.id]
         end
 
         it { expect(impediment.blocks_ids).to eql [feature.id, task.id] }

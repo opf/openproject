@@ -54,7 +54,7 @@ describe VersionsController, type: :controller do
   describe 'update' do
     it 'does not allow to update versions from different projects' do
       @params[:project_id] = @project.id
-      patch 'update', @params
+      patch 'update', params: @params
       @version.reload
 
       expect(response).to redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @project
@@ -63,7 +63,7 @@ describe VersionsController, type: :controller do
 
     it 'allows to update versions from the version project' do
       @params[:project_id] = @version.project.id
-      patch 'update', @params
+      patch 'update', params: @params
       @version.reload
 
       expect(response).to redirect_to controller: '/projects', action: 'settings', tab: 'versions', id: @version.project

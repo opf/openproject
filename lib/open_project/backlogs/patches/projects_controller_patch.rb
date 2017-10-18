@@ -38,15 +38,13 @@ require_dependency 'projects_controller'
 module OpenProject::Backlogs::Patches::ProjectsControllerPatch
   def self.included(base)
     base.class_eval do
-      include InstanceMethods
-
-      alias_method_chain :load_project_settings, :backlogs_settings
+      prepend InstanceMethods
     end
   end
 
   module InstanceMethods
-    def load_project_settings_with_backlogs_settings
-      load_project_settings_without_backlogs_settings
+    def load_project_settings
+      super
       @statuses = Status.all
     end
 

@@ -59,7 +59,7 @@ class Task < WorkPackage
   end
 
   def self.tasks_for(story_id)
-    Task.where(parent_id: story_id).order(:lft).each_with_index do |task, i|
+    Task.children_of(story_id).order(:position).each_with_index do |task, i|
       task.rank = i + 1
     end
   end
@@ -76,23 +76,8 @@ class Task < WorkPackage
     end
   end
 
-  # Assumes the task is already under the same story as 'prev_id'
-  def move_after(prev_id)
-    if prev_id.blank?
-      sib = siblings
-      move_to_left_of(sib[0].id) if sib.any?
-    else
-      move_to_right_of(prev_id)
-    end
-  end
-
   def rank=(r)
     @rank = r
-  end
-
-  def rank
-    @rank ||= WorkPackage.where(['type_id = ? and not parent_id is NULL and root_id = ? and lft <= ?', Task.type, story_id, lft]).count
-    @rank
   end
 
   def self.create_with_relationships_without_move(params, project_id)
@@ -118,4 +103,6 @@ class Task < WorkPackage
 
     save
   end
+
+  attr_reader :rank
 end

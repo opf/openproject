@@ -131,21 +131,36 @@ module OpenProject::Backlogs
     end
 
     def sql_for_task
-      "(#{db_table}.type_id = #{Task.type} AND NOT #{db_table}.parent_id IS NULL)"
+      <<-SQL
+      (#{db_table}.type_id = #{Task.type} AND
+       #{db_table}.id IN (#{is_child_sql}))
+      SQL
     end
 
     def sql_for_impediment
+      <<-SQL
+        (#{db_table}.type_id = #{Task.type} AND
+         #{db_table}.id IN (#{blocks_backlogs_type_sql})
+         AND #{db_table}.id NOT IN (#{is_child_sql}))
+      SQL
+    end
+
+    def is_child_sql
+      Relation
+        .hierarchy
+        .select(:to_id)
+        .to_sql
+    end
+
+    def blocks_backlogs_type_sql
       all_types = (Story.types + [Task.type]).map(&:to_s).join(',')
 
-      "(#{db_table}.id IN (
-          select from_id
-          FROM relations ir
-          JOIN work_packages blocked
-          ON
-            blocked.id = ir.to_id
-            AND blocked.type_id IN (#{all_types})
-          WHERE ir.relation_type = 'blocks'
-        ) AND #{db_table}.parent_id IS NULL)"
+      Relation
+        .blocks
+        .joins(:to)
+        .where(work_packages: { type_id: all_types } )
+        .select(:to_id)
+        .to_sql
     end
   end
 

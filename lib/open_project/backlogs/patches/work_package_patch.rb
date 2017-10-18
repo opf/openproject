@@ -38,15 +38,14 @@ require_dependency 'work_package'
 module OpenProject::Backlogs::Patches::WorkPackagePatch
   def self.included(base)
     base.class_eval do
-      include InstanceMethods
+      prepend InstanceMethods
       extend ClassMethods
 
-      alias_method_chain :recalculate_attributes_for, :remaining_hours
-      before_validation :backlogs_before_validation, if: lambda { |i| i.backlogs_enabled? }
+      before_validation :backlogs_before_validation, if: lambda { backlogs_enabled? }
 
-      before_save :inherit_version_from_closest_story_or_impediment, if: lambda { |i| i.is_task? }
-      after_save :inherit_version_to_descendants, if: lambda { |i| (i.fixed_version_id_changed? && i.backlogs_enabled? && i.closest_story_or_impediment == i) }
-      after_move :inherit_version_to_descendants, if: lambda { |i| i.is_task? }
+      before_save :inherit_version_from_closest_story_or_impediment, if: lambda { is_task? }
+      after_save :inherit_version_to_descendants, if: lambda { (fixed_version_id_changed? && backlogs_enabled? && closest_story_or_impediment == self) ||
+                                                               (parent_id_changed? && is_task?) }
 
       register_on_journal_formatter(:fraction, 'remaining_hours')
       register_on_journal_formatter(:decimal, 'story_points')
@@ -56,12 +55,12 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
                                                allow_nil:                true,
                                                greater_than_or_equal_to: 0,
                                                less_than:                10_000,
-                                               if: lambda { |i| i.backlogs_enabled? }
+                                               if: lambda { backlogs_enabled? }
 
       validates_numericality_of :remaining_hours, only_integer: false,
                                                   allow_nil: true,
                                                   greater_than_or_equal_to: 0,
-                                                  if: lambda { |i| i.project && i.project.module_enabled?('backlogs') }
+                                                  if: lambda { backlogs_enabled? }
 
       validate :validate_parent_work_package_relation
 
@@ -88,6 +87,17 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
     def place_child_update_semaphore
       @child_updates = false
+    end
+
+    def children_of(ids)
+      includes(:parent_relation)
+        .where(relations: { from_id: ids })
+    end
+
+    # Prevent problems with subclasses of WorkPackage
+    # not having a TypedDag configuration
+    def _dag_options
+      TypedDag::Configuration[WorkPackage]
     end
   end
 
@@ -142,32 +152,30 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     def blocks
       # return work_packages that I block that aren't closed
       return [] if closed?
-      relations_from.map { |ir| ir.relation_type == 'blocks' && !ir.to.closed? ? ir.to : nil }.compact
+      blocks_relations.includes(:to).merge(WorkPackage.with_status_open).map(&:to)
     end
 
     def blockers
       # return work_packages that block me
       return [] if closed?
-      relations_to.map { |ir| ir.relation_type == 'blocks' && !ir.from.closed? ? ir.from : nil }.compact
+      blocked_by_relations.includes(:from).merge(WorkPackage.with_status_open).map(&:from)
     end
 
-    def recalculate_attributes_for_with_remaining_hours(work_package_id)
-      if work_package_id.is_a? WorkPackage
-        p = work_package_id
-      else
-        p = WorkPackage.find_by(id: work_package_id)
+    def recalculate_attributes_for(work_package_id)
+      p = if work_package_id.is_a? WorkPackage
+            work_package_id
+          else
+            WorkPackage.find_by(id: work_package_id)
+          end
+
+      return unless p.present?
+
+      if backlogs_enabled?
+        p.remaining_hours = p.leaves.sum(:remaining_hours).to_f
+        p.remaining_hours = nil if p.remaining_hours == 0.0
       end
 
-      if p.present?
-        if backlogs_enabled? &&
-           p.left != (p.right + 1) # this node has children
-
-          p.remaining_hours = p.leaves.sum(:remaining_hours).to_f
-          p.remaining_hours = nil if p.remaining_hours == 0.0
-        end
-
-        recalculate_attributes_for_without_remaining_hours(p)
-      end
+      super(p)
     end
 
     def inherit_version_from(source)
@@ -194,7 +202,13 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
         real_parent = WorkPackage.find_by(id: parent_id)
 
         # Sort immediate ancestors first
-        ancestors = [real_parent] + real_parent.ancestors.includes(project: :enabled_modules).order(:rgt)
+        ancestors = real_parent
+                    .ancestors
+                    .includes(project: :enabled_modules)
+                    .order_by_ancestors('desc')
+                    .select('work_packages.*, COALESCE(max_depth.depth, 0)')
+
+        ancestors = [real_parent] + ancestors
       end
       ancestors
     end
@@ -229,20 +243,29 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
     end
 
     def inherit_version_to_descendants
-      if !WorkPackage.child_update_semaphore_taken?
-        begin
-          WorkPackage.take_child_update_semaphore
+      return if WorkPackage.child_update_semaphore_taken?
 
-          descendant_tasks, stop_descendants = descendants.includes(project: :enabled_modules).partition(&:is_task?)
-          descendant_tasks.reject! do |t| stop_descendants.any? { |s| s.left < t.left && s.right > t.right } end
+      begin
+        WorkPackage.take_child_update_semaphore
 
-          descendant_tasks.each do |task|
-            task.inherit_version_from(self)
-            task.save if task.changed?
+        all_descendants = descendants
+                            .includes(:parent_relation, project: :enabled_modules)
+                            .order('relations.hierarchy asc')
+                            .select('work_packages.*, relations.hierarchy')
+        stop_descendants_ids = []
+
+        descendant_tasks = all_descendants.reject do |t|
+          if stop_descendants_ids.include?(t.parent_relation.from_id) || !t.is_task?
+            stop_descendants_ids << t.id
           end
-        ensure
-          WorkPackage.place_child_update_semaphore
         end
+
+        descendant_tasks.each do |task|
+          task.inherit_version_from(self)
+          task.save if task.changed?
+        end
+      ensure
+        WorkPackage.place_child_update_semaphore
       end
     end
 
