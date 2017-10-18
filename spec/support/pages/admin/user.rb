@@ -63,7 +63,13 @@ module Pages
         find("#member-#{membership.id} .user-memberships--edit-button").click
 
         page.within("#member-#{membership.id}-roles-form") do
-          page.all('.form--check-box').each {|f| f.set false }
+          page.all('.form--check-box').each do |f|
+            begin
+              f.set false
+            rescue Selenium::WebDriver::Error::InvalidElementStateError => e
+              # Happens if an element is disabled
+            end
+          end
           Array(roles).each { |role| page.check role }
           page.find('.user-memberships--edit-submit-button').click
         end

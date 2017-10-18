@@ -55,8 +55,6 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell-td.id")
     loading_indicator_saveguard
     case mouse_button_behavior
-    when :double
-      element.double_click
     when :right
       element.right_click
     else
@@ -198,7 +196,7 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
 
   describe 'opening work package full screen view' do
     before do
-      select_work_package_row(1, :double)
+      wp_table.open_full_screen_by_doubleclick(work_package_1)
     end
 
     it do
