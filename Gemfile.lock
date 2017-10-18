@@ -318,7 +318,7 @@ GEM
       rack-accept
       virtus (>= 1.0.0)
     gravatar_image_tag (1.2.0)
-    hashdiff (0.3.4)
+    hashdiff (0.3.7)
     hashie (3.5.6)
     health_check (2.6.0)
       rails (>= 4.0)
@@ -603,7 +603,7 @@ GEM
       rack (>= 1.0)
     warden-basic_auth (0.2.1)
       warden (~> 1.2)
-    webmock (3.0.1)
+    webmock (3.1.0)
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
@@ -740,7 +740,7 @@ DEPENDENCIES
   unicorn-worker-killer
   warden (~> 1.2)
   warden-basic_auth (~> 0.2.1)
-  webmock (~> 3.0.0)
+  webmock (~> 3.1.0)
   will_paginate (~> 3.1.0)
 
 RUBY VERSION
