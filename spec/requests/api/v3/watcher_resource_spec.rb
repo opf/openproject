@@ -33,35 +33,36 @@ describe 'API v3 Watcher resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  shared_let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [] }
+  let(:project) { FactoryGirl.create(:project, identifier: 'test_project', is_public: false) }
   let(:current_user) {
     FactoryGirl.create :user, member_in_project: project, member_through_role: role
   }
-  shared_let(:view_work_packages_role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
-  shared_let(:work_package) { FactoryGirl.create(:work_package, project: @project) }
-  shared_let(:available_watcher) {
+  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
+  let(:permissions) { [] }
+  let(:view_work_packages_role) { FactoryGirl.create(:role, permissions: [:view_work_packages]) }
+  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:available_watcher) {
     FactoryGirl.create :user,
                        firstname: 'Something',
                        lastname: 'Strange',
-                       member_in_project: @project,
-                       member_through_role: @view_work_packages_role
+                       member_in_project: project,
+                       member_through_role: view_work_packages_role
   }
 
-  shared_let(:watching_user) {
+  let(:watching_user) {
     FactoryGirl.create :user,
-                       member_in_project: @project,
-                       member_through_role: @view_work_packages_role
+                       member_in_project: project,
+                       member_through_role: view_work_packages_role
   }
-  shared_let(:existing_watcher) {
-    FactoryGirl.create(:watcher, watchable: @work_package, user: @watching_user)
+  let(:existing_watcher) {
+    FactoryGirl.create(:watcher, watchable: work_package, user: watching_user)
   }
 
   subject(:response) { last_response }
 
   before do
     allow(User).to receive(:current).and_return current_user
+    existing_watcher
   end
 
   describe '#get' do

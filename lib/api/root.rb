@@ -96,8 +96,8 @@ module API
 
       # Global helper to set allowed content_types
       # This may be overriden when multipart is allowed (file uploads)
-      def additional_allowed_content_types
-        []
+      def allowed_content_types
+        %w(application/json application/hal+json)
       end
 
       def enforce_content_type
@@ -108,16 +108,24 @@ module API
         content_type = request.content_type
         error!('Missing content-type header', 406) unless content_type.present?
 
+
+
         # Allow JSON and JSON+HAL per default
         # and anything that each endpoint may optionally add to that
-        allowed_content_types = %w(application/json application/hal+json) + additional_allowed_content_types
-        allowed_content_types.each do |mime|
-          # Content-Type header looks like this (e.g.,)
-          # application/json;encoding=utf8
-          return if content_type.start_with?(mime)
+        if content_type.present?
+          allowed_content_types.each do |mime|
+            # Content-Type header looks like this (e.g.,)
+            # application/json;encoding=utf8
+            return if content_type.start_with?(mime)
+          end
         end
 
-        error!('Unsupported content_type', 406)
+        bad_type = content_type.presence || I18n.t('api_v3.errors.missing_content_type')
+        message = I18n.t('api_v3.errors.invalid_content_type',
+                         content_type: allowed_content_types.join(" "),
+                         actual: bad_type)
+
+        fail ::API::Errors::UnsupportedMediaType, message
       end
 
       def logged_in?

@@ -36,8 +36,8 @@ module API
           helpers do
             # Global helper to set allowed content_types
             # This may be overriden when multipart is allowed (file uploads)
-            def additional_allowed_content_types
-              super + %w(multipart/form-data)
+            def allowed_content_types
+              %w(multipart/form-data)
             end
 
             def parse_metadata(json)
