@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe 'Parallel work package creation spec', js: true do
-  let(:type) { FactoryGirl.create(:type) }
-  let(:types) { [type] }
+  let(:type) { project.types.first }
 
-  let(:permissions) { %i(view_work_packages add_work_packages)}
+  let(:permissions) { %i(view_work_packages add_work_packages) }
   let(:role) { FactoryGirl.create :role, permissions: permissions }
   let(:user) do
     FactoryGirl.create :user,
@@ -20,7 +19,7 @@ describe 'Parallel work package creation spec', js: true do
                        role: role
   end
 
-  let!(:project) { FactoryGirl.create(:project, is_public: true, types: types) }
+  let!(:project) { FactoryGirl.create(:project, is_public: true) }
   let!(:priority) { FactoryGirl.create :priority, is_default: true }
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
 

@@ -100,9 +100,11 @@ describe Timeline, 'filtering custom fields', type: :feature, js: true do
 
   shared_examples_for 'filtering by bool custom field' do
     it 'filters accordingly' do
+      wp1.reload
       wp1.custom_field_values = { cf.id => false }
       wp1.save!
 
+      wp2.reload
       wp2.custom_field_values = { cf.id => true }
       wp2.save!
       wp3

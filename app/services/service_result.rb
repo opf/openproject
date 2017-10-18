@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,15 +31,65 @@
 class ServiceResult
   attr_accessor :success,
                 :errors,
-                :result
+                :result,
+                :dependent_results
 
   def initialize(success: false,
-                 errors: ActiveModel::Errors.new(self),
+                 errors: nil,
                  result: nil)
     self.success = success
-    self.errors = errors
     self.result = result
+    self.errors = if errors
+                    errors
+                  elsif result.respond_to?(:errors)
+                    result.errors
+                  else
+                    ActiveModel::Errors.new(self)
+                  end
+
+    self.dependent_results = []
   end
 
   alias success? :success
+
+  def failure?
+    !success?
+  end
+
+  def merge!(other)
+    merge_success!(other)
+    merge_dependent!(other)
+  end
+
+  def all_results
+    [result] + dependent_results.map(&:result)
+  end
+
+  def all_errors
+    [errors] + dependent_results.map(&:errors)
+  end
+
+  def self_and_dependent
+    [self] + dependent_results
+  end
+
+  def add_dependent!(dependent)
+    merge_success!(dependent)
+
+    inner_results = dependent.dependent_results
+    dependent.dependent_results = []
+
+    dependent_results << dependent
+    self.dependent_results += inner_results
+  end
+
+  private
+
+  def merge_success!(other)
+    self.success &&= other.success
+  end
+
+  def merge_dependent!(other)
+    self.dependent_results += other.dependent_results
+  end
 end

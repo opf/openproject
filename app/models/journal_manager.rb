@@ -34,12 +34,12 @@ class JournalManager
 
   self.send_notification = true
 
-  def self.is_journalized?(obj)
+  def self.journalized?(obj)
     not obj.nil? and obj.respond_to? :journals
   end
 
   def self.changed?(journable)
-    if journable.journals.count > 0
+    if (journable.journals.loaded? ? journable.journals.size : journable.journals.count) > 0
       changed = attributes_changed? journable
       changed ||= association_changed? journable, 'attachable', :attachments, :id, :attachment_id, :filename
       changed ||= association_changed? journable, 'customizable', :custom_values, :custom_field_id, :custom_field_id, :value
@@ -59,7 +59,8 @@ class JournalManager
     predecessor = normalize_newlines(predecessor)
 
     # we generally ignore changes from blank to blank
-    predecessor.map { |k, v| current[k.to_s] != v && (v.present? || current[k.to_s].present?) }
+    predecessor
+      .map { |k, v| current[k.to_s] != v && (v.present? || current[k.to_s].present?) }
       .any?
   end
 
@@ -148,7 +149,7 @@ class JournalManager
   end
 
   def self.add_journal!(journable, user = User.current, notes = '')
-    if is_journalized? journable
+    if journalized? journable
       # Obtain a table lock to ensure consistent version numbers
       Journal.with_write_lock do
         # Maximum version might be nil, so use to_i here.

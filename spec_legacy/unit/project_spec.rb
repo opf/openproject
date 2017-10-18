@@ -757,12 +757,12 @@ describe Project, type: :model do
     end
 
     it 'should copy work units' do
-      work_package = FactoryGirl.create( :work_package,
-                                         status: Status.find_by_name('Closed'),
-                                         subject: 'copy issue status',
-                                         type_id: 1,
-                                         assigned_to_id: 2,
-                                         project_id: @source_project.id)
+      work_package = FactoryGirl.create(:work_package,
+                                        status: Status.find_by_name('Closed'),
+                                        subject: 'copy issue status',
+                                        type_id: 1,
+                                        assigned_to_id: 2,
+                                        project_id: @source_project.id)
 
       @source_project.work_packages << work_package
       assert @project.valid?

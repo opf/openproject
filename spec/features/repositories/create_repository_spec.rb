@@ -30,7 +30,7 @@ require 'spec_helper'
 require 'features/repositories/repository_settings_page'
 
 describe 'Create repository', type: :feature, js: true, selenium: true do
-  let(:current_user) { FactoryGirl.create (:admin) }
+  let(:current_user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project) }
   let(:settings_page) { RepositorySettingsPage.new(project) }
 
@@ -96,9 +96,9 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
 
         expect(scm_type.value).to eq(type)
 
-        content = find("#"+"#{vendor}-#{type}", visible: false)
+        content = find("##{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
-        scm_type.should be_checked
+        expect(scm_type).to be_checked
       end
     end
 
@@ -110,7 +110,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
         expect(selector[:selected]).to be_falsey
         expect(selector[:disabled]).to be_falsey
 
-        content = find("#"+"#{vendor}-#{type}", visible: false)
+        content = find("##{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
         expect(content[:style]).to match("display: none")
       end
@@ -125,7 +125,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
         content = find("#attributes-group--content-#{type}")
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
-        content = find("#"+"#{vendor}-#{type}", visible: false)
+        content = find("##{vendor}-#{type}", visible: false)
         expect(content).not_to be_nil
         expect(content[:style]).not_to match("display: none")
 
@@ -133,7 +133,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
         content = find('#attributes-group--content-managed')
         expect(content).not_to be_nil
         expect(content[:hidden]).to be_falsey
-        content = find("#"+"#{vendor}-managed", visible: false)
+        content = find("##{vendor}-managed", visible: false)
         expect(content).not_to be_nil
         expect(content[:style]).not_to match("display: none")
       end
@@ -172,9 +172,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
 
       context 'and managed repositories' do
         include_context 'with tmpdir'
-        let(:config) {
-          { subversion: { manages: tmpdir } }
-        }
+        let(:config) { { subversion: { manages: tmpdir } } }
         it_behaves_like 'has managed and other type', 'existing', 'subversion'
         it_behaves_like 'it can create the managed repository'
         it_behaves_like 'it can create the repository of type with url',
@@ -188,17 +186,13 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
 
       it_behaves_like 'has only the type which is selected', 'local', 'git'
       context 'and managed repositories, but not ours' do
-        let(:config) {
-          { subversion: { manages: '/tmp/whatever' } }
-        }
+        let(:config) { { subversion: { manages: '/tmp/whatever' } } }
         it_behaves_like 'has only the type which is selected', 'local', 'git'
       end
 
       context 'and managed repositories' do
         include_context 'with tmpdir'
-        let(:config) {
-          { git: { manages: tmpdir } }
-        }
+        let(:config) { { git: { manages: tmpdir } } }
 
         it_behaves_like 'has managed and other type', 'local', 'git'
         it_behaves_like 'it can create the managed repository'
@@ -211,11 +205,7 @@ describe 'Create repository', type: :feature, js: true, selenium: true do
     describe 'remote managed repositories', webmock: true do
       let(:vendor) { 'git' }
       let(:url) { 'http://myreposerver.example.com/api/' }
-      let(:config) {
-        {
-          git: { manages: url }
-        }
-      }
+      let(:config) { { git: { manages: url } } }
 
       before do
         stub_request(:post, url)

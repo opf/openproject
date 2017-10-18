@@ -98,9 +98,6 @@ class Relation < ActiveRecord::Base
   before_validation :reverse_if_needed
 
   before_save :set_type_column
-  before_save :update_schedule
-
-  attr_accessor :relation_type
 
   def self.relation_column(type)
     if TYPES.key?(type) && TYPES[type][:reverse]
@@ -119,6 +116,17 @@ class Relation < ActiveRecord::Base
   def self.from_work_package_or_ancestors(work_package)
     where(from_id: work_package.ancestors_relations.select(:from_id))
       .or(where(from_id: work_package.id))
+  end
+
+  def self.hierarchy_or_follows
+    with_type_colums_0(WorkPackage._dag_options.type_columns - %i(hierarchy follows))
+      .non_reflexive
+  end
+
+  def self.non_hierarchy_of_work_package(work_package)
+    of_work_package(work_package)
+      .non_hierarchy
+      .direct
   end
 
   def relation_type=(type)
@@ -174,29 +182,9 @@ class Relation < ActiveRecord::Base
     TYPES[relation_type] ? TYPES[relation_type][key] : :unknown
   end
 
-  def update_schedule
-    if TYPE_FOLLOWS == relation_type
-      self.delay ||= 0
-    else
-      self.delay = nil
-    end
-    set_dates_of_target
-  end
-
-  def move_target_dates_by(delta)
-    from.reschedule_by(delta) if relation_type == TYPE_FOLLOWS
-  end
-
-  def set_dates_of_target
-    soonest_start = successor_soonest_start
-    if soonest_start && from
-      from.reschedule_after(soonest_start)
-    end
-  end
-
   def successor_soonest_start
     if relation_type == TYPE_FOLLOWS && (to.start_date || to.due_date)
-      (to.due_date || to.start_date) + 1 + delay
+      (to.due_date || to.start_date) + 1 + (delay || 0)
     end
   end
 

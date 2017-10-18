@@ -46,7 +46,7 @@ describe "multi select custom values", js: true do
 
   context "with existing custom values" do
     let(:work_package) do
-      wp = FactoryGirl.create :work_package, project: project, type: type
+      wp = FactoryGirl.build :work_package, project: project, type: type
 
       wp.custom_field_values = {
         custom_field.id => [members[0].id.to_s, members[2].id.to_s]

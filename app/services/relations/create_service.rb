@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,34 +28,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class UpdateRelationService
-  include Concerns::Contracted
+class Relations::CreateService < Relations::BaseService
+  self.contract = Relations::CreateContract
 
-  attr_accessor :user, :relation
-
-  self.contract = Relations::UpdateContract
-
-  def initialize(user:, relation:)
-    self.user = user
-    self.relation = relation
-    self.contract = self.class.contract.new relation, user
+  def initialize(user:)
+    @user = user
   end
 
-  def call(attributes: {}, send_notifications: true)
-    User.execute_as user do
-      JournalManager.with_send_notifications send_notifications do
-        update attributes
-      end
+  def call(relation, send_notifications: true)
+    initialize_contract! relation
+
+    in_context(send_notifications) do
+      update_relation relation, {}
     end
-  end
-
-  private
-
-  def update(attributes)
-    relation.attributes = relation.attributes.merge attributes
-
-    save_result, save_errors = validate_and_save relation
-
-    ServiceResult.new success: save_result, errors: save_errors, result: relation
   end
 end

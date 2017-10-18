@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,7 +27,7 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
+require_relative '../legacy_spec_helper'
 
 describe Journal,
          type: :model,
@@ -48,34 +49,13 @@ describe Journal,
   it 'create should not send email notification if told not to' do
     issue = WorkPackage.first
     user = User.first
-    journal = issue.add_journal(user, 'A note')
+    issue.add_journal(user, 'A note')
     JournalManager.send_notification = false
 
     assert_difference('Journal.count') do
       assert issue.save
     end
     assert_equal 0, ActionMailer::Base.deliveries.size
-  end
-
-  specify 'creating the initial journal should track the changes from creation' do
-    Journal.delete_all
-    @project = FactoryGirl.create(:project)
-    issue = WorkPackage.new do |i|
-      i.project = @project
-      i.subject = 'Test initial journal'
-      i.type = @project.types.first
-      i.author = FactoryGirl.create(:user)
-      i.description = 'Some content'
-    end
-
-    assert_difference('Journal.count') do
-      assert issue.save
-    end
-
-    journal = issue.reload.journals.first
-    assert_equal [nil, 'Test initial journal'], journal.details[:subject]
-    assert_equal [nil, @project.id], journal.details[:project_id]
-    assert_equal [nil, 'Some content'], journal.details[:description]
   end
 
   specify 'creating a journal should update the updated_on value of the parent record (touch)' do

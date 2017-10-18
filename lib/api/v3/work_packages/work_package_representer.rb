@@ -525,10 +525,7 @@ module API
 
         def relations
           self_path = api_v3_paths.work_package_relations(represented.id)
-          relations = represented.relations
-          visible_relations = relations.select do |relation|
-            relation.other_work_package(represented).visible?
-          end
+          visible_relations = represented.relations.visible.non_hierarchy
 
           ::API::V3::Relations::RelationCollectionRepresenter.new(visible_relations,
                                                                   self_path,

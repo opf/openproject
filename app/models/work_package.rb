@@ -61,9 +61,7 @@ class WorkPackage < ActiveRecord::Base
   }
 
   scope :recently_updated, ->() {
-    # Specified as a String due to https://github.com/rails/rails/issues/15405
-    # TODO: change to Hash on upgrade to Rails 4.1.
-    order("#{WorkPackage.table_name}.updated_at DESC")
+    order(updated_at: :desc)
   }
 
   scope :visible, ->(*args) {
@@ -115,30 +113,18 @@ class WorkPackage < ActiveRecord::Base
     where(author_id: author.id)
   }
 
-  after_initialize :set_default_values
-
   acts_as_watchable
-
-  after_save :update_parent_attributes
-  after_destroy :update_parent_attributes
-
-  after_save :remove_invalid_relations, if: -> { parent_id_changed? }
-  after_save :recalculate_attributes_for_former_parent
-
-  before_destroy :fetch_children_to_destroy
-  after_destroy :destroy_children
 
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_status
-  before_destroy :remove_attachments
 
   acts_as_customizable
 
   acts_as_searchable columns: ['subject',
                                "#{table_name}.description",
                                "#{Journal.table_name}.notes"],
-                     include: [:project, :journals],
-                     references: [:projects, :journals],
+                     include: %i(project journals),
+                     references: %i(projects journals),
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
@@ -184,32 +170,6 @@ class WorkPackage < ActiveRecord::Base
     (usr || User.current).allowed_to?(:view_work_packages, project)
   end
 
-  def copy_from(arg, options = {})
-    merged_options = { exclude: ['id',
-                                 'type', # type_id is in options, type is for STI.
-                                 'created_at',
-                                 'updated_at'] + (options[:exclude] || []).map(&:to_s) }
-
-    work_package = arg.is_a?(WorkPackage) ? arg : WorkPackage.visible.find(arg)
-
-    # attributes don't come from form, so it's safe to force assign
-    self.attributes = work_package.attributes.dup.except(*merged_options[:exclude])
-    self.parent = work_package.parent if work_package.parent
-    self.custom_field_values = work_package
-                               .custom_values
-                               .map { |cv| [cv.custom_field_id, cv.value] }
-                               .to_h
-    self.status = work_package.status
-
-    work_package.watchers.each do |watcher|
-      # This might be a problem once this method is used on existing work packages
-      # then, the watchers are added, keeping preexisting watchers
-      add_watcher(watcher.user) if watcher.user.active?
-    end
-
-    self
-  end
-
   # ACTS AS JOURNALIZED
   def activity_type
     'work_packages'
@@ -241,10 +201,6 @@ class WorkPackage < ActiveRecord::Base
       work_package: self
     )
     time_entries.build(attributes)
-  end
-
-  def move_time_entries(project)
-    time_entries.update_all(project_id: project.id)
   end
 
   # Users/groups the work_package can be assigned to
@@ -381,7 +337,7 @@ class WorkPackage < ActiveRecord::Base
   # Is the amount of work done less than it should for the due date
   def behind_schedule?
     return false if start_date.nil? || due_date.nil?
-    done_date = start_date + ((due_date - start_date + 1) * done_ratio / 100).floor
+    done_date = start_date + (duration * done_ratio / 100).floor
     done_date <= Date.today
   end
 
@@ -389,9 +345,8 @@ class WorkPackage < ActiveRecord::Base
   # see Redmine::Acts::Journalized::Permissions#journal_editable_by
   def editable_by?(user)
     project = self.project
-    allowed = user.allowed_to? :edit_work_package_notes, project, global: project.present?
-    allowed = user.allowed_to? :edit_own_work_package_notes, project, global: project.present? unless allowed
-    allowed
+    user.allowed_to?(:edit_work_package_notes, project, global: project.present?) ||
+      user.allowed_to?(:edit_own_work_package_notes, project, global: project.present?)
   end
 
   # Adds the 'virtual' attribute 'hours' to the result set.  Using the
@@ -555,6 +510,7 @@ class WorkPackage < ActiveRecord::Base
 
     joins("LEFT OUTER JOIN (#{max_relation_depth.to_sql}) AS max_depth ON max_depth.to_id = work_packages.id")
       .reorder("COALESCE(max_depth.depth, 0) #{direction}")
+      .select("#{table_name}.*, COALESCE(max_depth.depth, 0)")
   end
 
   def self.self_and_descendants_of_condition(work_package)
@@ -565,132 +521,33 @@ class WorkPackage < ActiveRecord::Base
     "#{table_name}.id IN (#{relation_subquery.to_sql}) OR #{table_name}.id = #{work_package.id}"
   end
 
+  def self.hierarchy_tree_following(work_packages)
+    following = Relation
+                .where(to: work_packages)
+                .hierarchy_or_follows
+
+    following_from_hierarchy = Relation
+                               .hierarchy
+                               .where(from_id: following.select(:from_id))
+                               .select("to_id common_id")
+
+    following_from_self = following.select("from_id common_id")
+
+    # Using a union here for performance.
+    # Using or would yield the same results and be less complicated
+    # but it will require two orders of magnitude more time.
+    sub_query = [following_from_hierarchy, following_from_self].map(&:to_sql).join(" UNION ")
+
+    where("id IN (SELECT common_id FROM (#{sub_query}) following_relations)")
+  end
+
   protected
-
-  def recalculate_attributes_for(work_package_id)
-    p = if work_package_id.is_a? WorkPackage
-          work_package_id
-        else
-          WorkPackage.find_by(id: work_package_id)
-        end
-
-    return unless p
-
-    p.inherit_dates_from_children
-
-    p.inherit_done_ratio_from_leaves
-
-    p.inherit_estimated_hours_from_leaves
-
-    # ancestors will be recursively updated
-    if p.changed?
-      p.journal_notes =
-        I18n.t('work_package.updated_automatically_by_child_changes', child: "##{id}")
-
-      # Ancestors will be updated by parent's after_save hook.
-      p.save(validate: false)
-    end
-  end
-
-  def update_parent_attributes
-    recalculate_attributes_for(parent.id) if parent.present?
-  end
-
-  def inherit_dates_from_children
-    unless children.empty?
-      self.start_date = [children.minimum(:start_date), children.minimum(:due_date)].compact.min
-      self.due_date   = [children.maximum(:start_date), children.maximum(:due_date)].compact.max
-    end
-  end
-
-  def inherit_done_ratio_from_leaves
-    return if WorkPackage.done_ratio_disabled?
-
-    return if WorkPackage.use_status_for_done_ratio? && status && status.default_done_ratio
-
-    # done ratio = weighted average ratio of leaves
-    ratio = aggregate_done_ratio
-
-    if ratio
-      self.done_ratio = ratio.round
-    end
-  end
-
-  ##
-  # done ratio = weighted average ratio of leaves
-  def aggregate_done_ratio
-    leaves_count = leaves.count
-
-    if leaves_count > 0
-      average = leaf_average_estimated_hours
-      progress = leaf_done_ratio_sum(average) / (average * leaves_count)
-
-      progress.round(2)
-    end
-  end
-
-  def leaf_average_estimated_hours
-    # 0 and nil shall be considered the same for estimated hours
-    average = leaves.where('estimated_hours > 0').average(:estimated_hours).to_f
-
-    average.zero? ? 1 : average
-  end
-
-  def leaf_done_ratio_sum(average_estimated_hours)
-    # Do not take into account estimated_hours when it is either nil or set to 0.0
-    sum_sql = <<-SQL
-    COALESCE((CASE WHEN estimated_hours = 0.0 THEN NULL ELSE estimated_hours END), #{average_estimated_hours})
-    * (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)
-    SQL
-
-    # distinct(false) is needed to prevent having
-    # SUM(DISTINCT ...)
-    # in the SQL query which would remove summands that have already been included (nominally)
-    leaves.joins(:status).distinct(false).sum(sum_sql)
-  end
-
-  def inherit_estimated_hours_from_leaves
-    # estimate = sum of leaves estimates
-    self.estimated_hours = leaves.sum(:estimated_hours).to_f
-    self.estimated_hours = nil if estimated_hours == 0.0
-  end
-
-  def remove_invalid_relations
-    # delete invalid relations of all descendants
-    self_and_descendants.each do |issue|
-      issue.relations.direct.each do |relation|
-        relation.destroy unless relation.valid?
-      end
-    end
-  end
-
-  def recalculate_attributes_for_former_parent
-    if parent_id_changed? && changes[:parent_id].first
-      recalculate_attributes_for(changes[:parent_id].first)
-    end
-  end
-
-  def reload_lock_and_timestamps
-    reload(select: %i(lock_version created_at updated_at))
-  end
 
   def <=>(other)
     other.id <=> id
   end
 
   private
-
-  def set_default_values
-    if new_record? # set default values for new records only
-      self.status ||= Status.default
-      self.priority ||= IssuePriority.active.default
-      set_default_type if project
-    end
-  end
-
-  def set_default_type
-    self.type ||= project.types.order(:position).first
-  end
 
   def add_time_entry_for(user, attributes)
     return if time_entry_blank?(attributes)
@@ -725,14 +582,6 @@ class WorkPackage < ActiveRecord::Base
                  end
 
     default_id && attributes.except(key).values.all?(&:blank?)
-  end
-
-  # this removes all attachments separately before destroying the issue
-  # avoids getting a ActiveRecord::StaleObjectError when deleting an issue
-  def remove_attachments
-    # immediately saves to the db
-    attachments.clear
-    reload # important
   end
 
   def self.having_fixed_version_from_other_project
@@ -779,7 +628,7 @@ class WorkPackage < ActiveRecord::Base
       # Don't re-close it if it's already closed
       next if duplicate.closed?
       # Implicitly creates a new journal
-      duplicate.update_attribute :status, self.status
+      duplicate.update_attribute :status, status
 
       override_last_journal_notes_and_user_of!(duplicate)
     end
@@ -853,13 +702,5 @@ class WorkPackage < ActiveRecord::Base
     end
 
     related.select(&:present?)
-  end
-
-  def fetch_children_to_destroy
-    @children_to_destroy = children
-  end
-
-  def destroy_children
-    @children_to_destroy.each(&:destroy)
   end
 end

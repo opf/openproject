@@ -113,7 +113,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
 
   describe "updating a query" do
     before do
-      header "Content-Type",  "application/json"
+      header "Content-Type", "application/json"
       patch "/api/v3/queries/#{query.id}", params.to_json
     end
 
@@ -160,7 +160,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
 
   context "with invalid parameters" do
     def post!
-      header "Content-Type",  "application/json"
+      header "Content-Type", "application/json"
       patch "/api/v3/queries/#{query.id}", params.to_json
     end
 
@@ -179,7 +179,7 @@ describe "PATCH /api/v3/queries/:id", type: :request do
       post!
 
       expect(last_response.status).to eq 422
-      expect(json["message"]).to eq "Status Operator is not included in the list"
+      expect(json["message"]).to eq "Status Operator is not set to one of the allowed values."
     end
 
     it "yields a 422 error given an unknown filter" do

@@ -42,7 +42,12 @@ module WorkPackages
     attribute :type_id
     attribute :priority_id
     attribute :category_id
-    attribute :fixed_version_id
+    attribute :fixed_version_id do
+      validate_fixed_version_is_assignable
+    end
+
+    validate :validate_no_reopen_on_closed_version
+
     attribute :lock_version
     attribute :project_id
 
@@ -57,9 +62,7 @@ module WorkPackages
               }
 
     attribute :parent_id do
-      if model.changed.include? 'parent_id'
-        errors.add :base, :error_unauthorized unless @can.allowed?(model, :manage_subtasks)
-      end
+      validate_user_allowed_to_set_parent if model.changed.include?('parent_id')
     end
 
     attribute :assigned_to_id do
@@ -82,11 +85,11 @@ module WorkPackages
               writeable: ->(*) {
                 model.leaf?
               } do
-      if start_before_parents_soonest_start?
-        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_parent_relationships',
-                         soonest_start: Date.today + 4.days)
+      if start_before_soonest_start?
+        message = I18n.t('activerecord.errors.models.work_package.attributes.start_date.violates_relationships',
+                         soonest_start: model.soonest_start)
 
-        errors.add :start_date, message, error_symbol: :violates_parent_relationships
+        errors.add :start_date, message, error_symbol: :violates_relationships
       end
     end
 
@@ -94,6 +97,27 @@ module WorkPackages
               writeable: ->(*) {
                 model.leaf?
               }
+
+    validates :due_date,
+              date: { after_or_equal_to: :start_date,
+                      message: :greater_than_or_equal_to_start_date,
+                      allow_blank: true },
+              unless: Proc.new { |wp| wp.start_date.blank? }
+    validate :validate_enabled_type
+
+    validate :validate_milestone_constraint
+    validate :validate_parent_not_milestone
+
+    validate :validate_parent_exists
+    validate :validate_parent_in_same_project
+    validate :validate_parent_not_subtask
+
+    validate :validate_status_transition
+
+    validate :validate_active_priority
+
+    validate :validate_category
+    validate :validate_estimated_hours
 
     def initialize(work_package, user)
       super(work_package)
@@ -111,6 +135,94 @@ module WorkPackages
     attr_reader :user,
                 :can
 
+    def validate_estimated_hours
+      if !model.estimated_hours.nil? && model.estimated_hours < 0
+        errors.add :estimated_hours, :only_values_greater_or_equal_zeroes_allowed
+      end
+    end
+
+    def validate_enabled_type
+      # Checks that the issue can not be added/moved to a disabled type
+      if model.project && (model.type_id_changed? || model.project_id_changed?)
+        errors.add :type_id, :inclusion unless model.project.types.include?(model.type)
+      end
+    end
+
+    def validate_milestone_constraint
+      if model.is_milestone? && model.due_date && model.start_date && model.start_date != model.due_date
+        errors.add :due_date, :not_start_date
+      end
+    end
+
+    def validate_parent_not_milestone
+      if model.parent && model.parent.is_milestone?
+        errors.add :parent, :cannot_be_milestone
+      end
+    end
+
+    def validate_parent_exists
+      if model.parent &&
+         model.parent.is_a?(WorkPackage::InexistentWorkPackage)
+
+        errors.add :parent, :does_not_exist
+      end
+    end
+
+    def validate_parent_in_same_project
+      if parent_in_different_project?
+        errors.add :parent, :cannot_be_in_another_project
+      end
+    end
+
+    # have to validate ourself as the parent relation is created after saving
+    def validate_parent_not_subtask
+      return unless model.parent_id_changed? && model.parent
+
+      invalid_relations.each do |invalid_relation|
+        if invalid_relation.hierarchy?
+          errors.add :parent, :cant_link_a_work_package_with_a_descendant
+        else
+          errors.add :parent, :follows_descendant
+        end
+      end
+    end
+
+    def validate_status_transition
+      if status_changed? && status_exists? && !(model.type_id_changed? || status_transition_exists?)
+        errors.add :status_id, :status_transition_invalid
+      end
+    end
+
+    def validate_active_priority
+      if model.priority && !model.priority.active? && model.priority_id_changed?
+        errors.add :priority_id, :only_active_priorities_allowed
+      end
+    end
+
+    def validate_category
+      if inexistent_category?
+        errors.add :category, :does_not_exist
+      elsif category_not_of_project?
+        errors.add :category, :only_same_project_categories_allowed
+      end
+    end
+
+    def validate_fixed_version_is_assignable
+      if model.fixed_version_id && !model.assignable_versions.map(&:id).include?(model.fixed_version_id)
+        errors.add :fixed_version_id, :inclusion
+      end
+    end
+
+    def validate_user_allowed_to_set_parent
+      errors.add :base, :error_unauthorized unless @can.allowed?(model, :manage_subtasks)
+    end
+
+    def validate_no_reopen_on_closed_version
+      if model.fixed_version_id && model.reopened? && model.fixed_version.closed?
+        errors.add :base, I18n.t(:error_can_not_reopen_work_package_on_closed_version)
+      end
+    end
+
     def validate_people_visible(attribute, id_attribute, list)
       id = model[id_attribute]
 
@@ -127,11 +239,64 @@ module WorkPackages
       list.exists?(user_id: id)
     end
 
-    def start_before_parents_soonest_start?
+    def start_before_soonest_start?
       model.start_date &&
-        model.parent &&
-        model.parent.soonest_start &&
-        model.start_date < model.parent.soonest_start
+        model.soonest_start &&
+        model.start_date < model.soonest_start
+    end
+
+    def parent_in_different_project?
+      model.parent &&
+        model.parent.project != model.project &&
+        !Setting.cross_project_work_package_relations? &&
+        !model.parent.is_a?(WorkPackage::InexistentWorkPackage)
+    end
+
+    def inexistent_category?
+      model.category_id.present? && !model.category
+    end
+
+    def category_not_of_project?
+      model.category && !model.project.categories.include?(model.category)
+    end
+
+    def status_changed?
+      model.status_id_was != 0 && model.status_id_changed?
+    end
+
+    def status_exists?
+      model.status_id && model.status
+    end
+
+    def status_transition_exists?
+      model.type.valid_transition?(model.status_id_was,
+                                   model.status_id,
+                                   user.roles(model.project))
+    end
+
+    def invalid_relations
+      model_relations = relations_to_check_for(model).to_a
+
+      invalid_parent_relations(model_relations) + invalid_model_relations(model_relations)
+    end
+
+    def relations_to_check_for(wp)
+      wp.relations_to.hierarchy_or_follows
+    end
+
+    def invalid_parent_relations(model_relations)
+      parent_relations = relations_to_check_for(model.parent).to_a
+      model_relation_ids = model_relations.map(&:to_id)
+
+      parent_relations.select do |parent_rel|
+        model_relation_ids.include?(parent_rel.to_id) || parent_rel.to_id == model.id
+      end
+    end
+
+    def invalid_model_relations(model_relations)
+      model_relations.select do |model_rel|
+        model_rel.to_id == model.parent_id
+      end
     end
   end
 end

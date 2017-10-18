@@ -205,7 +205,7 @@ describe UserMailer, type: :mailer do
 
   it 'sends plain text mail' do
     Setting.plain_text_mail = 1
-    user  = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -217,7 +217,7 @@ describe UserMailer, type: :mailer do
 
   it 'sends html mail' do
     Setting.plain_text_mail = 0
-    user  = FactoryGirl.create(:user)
+    user = FactoryGirl.create(:user)
     FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
     issue = FactoryGirl.create(:work_package)
     UserMailer.work_package_added(user, issue.journals.first, user).deliver_now
@@ -229,7 +229,7 @@ describe UserMailer, type: :mailer do
 
   context 'with mail_from set', with_settings: { mail_from: 'Redmine app <redmine@example.net>' } do
     it 'should mail from with phrase' do
-      user  = FactoryGirl.create(:user)
+      user = FactoryGirl.create(:user)
       FactoryGirl.create(:user_preference, user: user, others: { no_self_notified: false })
       UserMailer.test_mail(user).deliver_now
       mail = ActionMailer::Base.deliveries.last
@@ -472,27 +472,28 @@ describe UserMailer, type: :mailer do
                                        type: type,
                                        project: project)
 
-    issue   = FactoryGirl.create(:work_package,
-                                 subject: 'My awesome Ticket',
-                                 type: type,
-                                 project: project,
-                                 description: 'nothing here yet')
+    issue = FactoryGirl.create(:work_package,
+                               subject: 'My awesome Ticket',
+                               type: type,
+                               project: project,
+                               description: 'nothing here yet')
 
     # now change the issue, to get a nice journal
     issue.description = "This is related to issue ##{related_issue.id}\n"
 
     repository = FactoryGirl.create(:repository_subversion,
-                                     project: project)
+                                    project: project)
 
     changeset = FactoryGirl.create :changeset,
-                         repository: repository,
-                         comments: 'This commit fixes #1, #2 and references #1 and #3'
+                                   repository: repository,
+                                   comments: 'This commit fixes #1, #2 and references #1 and #3'
 
     issue.description += " A reference to a changeset r#{changeset.revision}\n" if changeset
 
-    attachment = FactoryGirl.create(:attachment,
-                                    container: issue,
-                                    author: issue.author)
+    attachment = FactoryGirl.build(:attachment,
+                                   author: issue.author)
+
+    issue.attachments << attachment
 
     issue.description += " A reference to an attachment attachment:#{attachment.filename}"
 

@@ -55,4 +55,23 @@ FactoryGirl.define do
       end
     end
   end
+
+  factory :stubbed_work_package, class: WorkPackage do
+    transient do
+      custom_values nil
+    end
+
+    priority
+    project { FactoryGirl.build_stubbed(:project_with_types) }
+    status
+    sequence(:subject) { |n| "WorkPackage No. #{n}" }
+    description { |i| "Description for '#{i.subject}'" }
+    author factory: :user
+    created_at Time.now
+    updated_at Time.now
+
+    callback(:after_stub) do |wp|
+      wp.type = wp.project.types.first unless wp.type_id
+    end
+  end
 end

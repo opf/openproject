@@ -210,7 +210,7 @@ describe JournalNotificationMailer do
     let(:journal_3) { work_package.journals[3] }
 
     def update_by(author, attributes)
-      UpdateWorkPackageService
+      WorkPackages::UpdateService
         .new(user: author, work_package: work_package)
         .call(attributes: attributes)
     end

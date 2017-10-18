@@ -95,16 +95,5 @@ module WorkPackage::Journalized
                                   :author_id, :responsible_id
     register_on_journal_formatter :datetime, :start_date, :due_date
     register_on_journal_formatter :plaintext, :subject
-
-    # acts_as_journalized will create an initial journal on wp creation
-    # and touch the journaled object:
-    # journal.rb:47
-    #
-    # This will result in optimistic locking increasing the lock_version attribute to 1.
-    # In order to avoid stale object errors we reload the attributes in question
-    # after the wp is created.
-    # As after_create is run before after_save, and journal creation is triggered by an
-    # after_save hook, we rely on after_save and a specific version here.
-    after_save :reload_lock_and_timestamps, if: Proc.new { |wp| wp.lock_version.zero? }
   end
 end

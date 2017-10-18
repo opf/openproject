@@ -117,6 +117,12 @@ class ModelContract < Reform::Contract
   def self.model
     raise NotImplementedError
   end
+
+  # use activerecord as the base scope instead of 'activemodel' to be compatible
+  # to the messages we have already stored
+  def self.i18n_scope
+    :activerecord
+  end
   # end Methods required to get ActiveModel error messages working
 
   private

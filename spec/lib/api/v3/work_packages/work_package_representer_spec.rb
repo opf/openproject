@@ -933,51 +933,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'relations' do
-        let(:visible_work_package) do
-          wp = FactoryGirl.build_stubbed(:work_package)
-
-          allow(wp)
-            .to receive(:visible?)
-            .and_return true
-
-          wp
-        end
-        let(:visible_relation) do
-          relation = FactoryGirl.build_stubbed(:relation,
-                                               from: work_package)
-
-          allow(relation)
-            .to receive(:other_work_package)
-            .with(work_package)
-            .and_return(visible_work_package)
-
-          relation
-        end
-        let(:invisible_work_package) do
-          wp = FactoryGirl.build_stubbed(:work_package)
-
-          allow(wp)
-            .to receive(:visible?)
-            .and_return false
-
-          wp
-        end
-        let(:invisible_relation) do
-          relation = FactoryGirl.build_stubbed(:relation,
-                                               from: work_package)
-
-          allow(relation)
-            .to receive(:other_work_package)
-            .with(work_package)
-            .and_return(invisible_work_package)
-
-          relation
+        let(:relation) do
+          FactoryGirl.build_stubbed(:relation,
+                                    from: work_package)
         end
 
         before do
           allow(work_package)
-            .to receive(:relations)
-            .and_return([visible_relation, invisible_relation])
+            .to receive_message_chain(:relations, :visible, :non_hierarchy)
+            .and_return([relation])
         end
 
         it 'embeds a collection' do
@@ -992,13 +956,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             .at_path('_embedded/relations/_links/self/href')
         end
 
-        it 'embeds only the visible relations' do
+        it 'embeds the visible relations' do
           is_expected
             .to be_json_eql(1.to_json)
             .at_path('_embedded/relations/total')
 
           is_expected
-            .to be_json_eql(api_v3_paths.relation(visible_relation.id).to_json)
+            .to be_json_eql(api_v3_paths.relation(relation.id).to_json)
             .at_path('_embedded/relations/_embedded/elements/0/_links/self/href')
         end
       end

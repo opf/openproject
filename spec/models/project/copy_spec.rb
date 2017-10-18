@@ -127,6 +127,11 @@ describe Project::Copy, type: :model do
       let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
       let(:work_package3) { FactoryGirl.create(:work_package, project: project) }
       let(:version) { FactoryGirl.create(:version, project: project) }
+      let(:user) { FactoryGirl.create(:admin) }
+
+      before do
+        login_as(user)
+      end
 
       describe '#attachments' do
         let!(:attachment) { FactoryGirl.create(:attachment, container: work_package) }
@@ -158,17 +163,15 @@ describe Project::Copy, type: :model do
 
       describe '#relation' do
         before do
-          wp = work_package
-          wp2 = work_package2
-          FactoryGirl.create(:relation, from: wp, to: wp2)
-          [wp, wp2].each do |wp| project.work_packages << wp end
+          FactoryGirl.create(:relation, from: work_package, to: work_package2)
+          [work_package, work_package2].each { |wp| project.work_packages << wp }
 
           copy.send :copy_work_packages, project
           copy.save
         end
 
         it do
-          copy.work_packages.each do |wp| expect(wp).to(be_valid) end
+          copy.work_packages.each { |wp| expect(wp).to(be_valid) }
           expect(copy.work_packages.count).to eq(project.work_packages.count)
         end
       end
@@ -185,14 +188,18 @@ describe Project::Copy, type: :model do
         end
 
         it do
-          child_wp = copy
-                     .work_packages
-                     .order_by_ancestors('asc')
-                     .reverse
-                     .first
+          grandparent_wp_copy = copy.work_packages.find_by(subject: work_package3.subject)
+          parent_wp_copy = copy.work_packages.find_by(subject: work_package2.subject)
+          child_wp_copy = copy.work_packages.find_by(subject: work_package.subject)
 
-          expect(child_wp).not_to eq(nil)
-          expect(child_wp.parent.project).to eq(copy)
+          [grandparent_wp_copy,
+           parent_wp_copy,
+           child_wp_copy].each do |wp|
+            expect(wp).to be_present
+          end
+
+          expect(child_wp_copy.parent).to eq(parent_wp_copy)
+          expect(parent_wp_copy.parent).to eq(grandparent_wp_copy)
         end
       end
 

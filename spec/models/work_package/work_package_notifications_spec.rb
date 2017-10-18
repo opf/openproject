@@ -34,6 +34,7 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe 'email notifications' do
     let(:user) { FactoryGirl.create :admin }
+    let(:current_user) { FactoryGirl.create :admin }
     let(:project) { FactoryGirl.create :project }
     let!(:work_package) do
       FactoryGirl.create :work_package,
@@ -95,7 +96,10 @@ describe WorkPackage, type: :model do
       let(:link_regex) { /#{message} <a[^<]*href="[^"]*#{href}"[^<]*>#{label}<\/a>/ }
 
       before do
-        child.update_attributes done_ratio: 99
+        WorkPackages::UpdateService
+          .new(user: current_user,
+               work_package: child)
+          .call(attributes: { done_ratio: 99 })
       end
 
       it "sends out an email including a link to the subtask" do

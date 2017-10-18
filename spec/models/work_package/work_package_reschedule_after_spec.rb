@@ -29,6 +29,7 @@
 require 'spec_helper'
 
 describe WorkPackage, '#reschedule_after', type: :model do
+  let(:user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.build(:project_with_types) }
   let(:work_package) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
   let(:work_package2) { FactoryGirl.create(:work_package, project: project, type: project.types.first) }
@@ -44,6 +45,10 @@ describe WorkPackage, '#reschedule_after', type: :model do
     work_package3.parent = child
 
     work_package3
+  end
+
+  before do
+    login_as(user)
   end
 
   describe 'for a single node having start and due date' do

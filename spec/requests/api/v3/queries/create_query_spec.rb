@@ -155,7 +155,7 @@ describe "POST /api/v3/queries", type: :request do
       post!
 
       expect(last_response.status).to eq 422
-      expect(json["message"]).to eq "Status Operator is not included in the list"
+      expect(json["message"]).to eq "Status Operator is not set to one of the allowed values."
     end
 
     it "yields a 422 error given an unknown filter" do

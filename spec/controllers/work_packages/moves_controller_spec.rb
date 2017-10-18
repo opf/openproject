@@ -30,28 +30,32 @@ require 'spec_helper'
 
 describe WorkPackages::MovesController, type: :controller do
   let(:user) { FactoryGirl.create(:user) }
-  let(:role) {
+  let(:role) do
     FactoryGirl.create :role,
-                       permissions: [:move_work_packages]
-  }
+                       permissions: %i(move_work_packages
+                                       view_work_packages
+                                       add_work_packages
+                                       edit_work_packages
+                                       manage_subtasks)
+  end
   let(:type) { FactoryGirl.create :type }
   let(:type_2) { FactoryGirl.create :type }
   let(:status) { FactoryGirl.create :default_status }
   let(:target_status) { FactoryGirl.create :status }
   let(:priority) { FactoryGirl.create :priority }
   let(:target_priority) { FactoryGirl.create :priority }
-  let(:project) {
+  let(:project) do
     FactoryGirl.create(:project,
                        is_public: false,
                        types: [type, type_2])
-  }
-  let(:work_package) {
+  end
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project_id: project.id,
                        type: type,
                        author: user,
                        priority: priority)
-  }
+  end
 
   let(:current_user) { FactoryGirl.create(:user) }
 
@@ -112,9 +116,8 @@ describe WorkPackages::MovesController, type: :controller do
   end
 
   describe '#create' do
-    become_member_with_move_work_package_permissions
-
-    let!(:member) { FactoryGirl.create(:member, user: current_user, project: target_project, roles: [role]) }
+    let!(:source_member) { FactoryGirl.create(:member, user: current_user, project: project, roles: [role]) }
+    let!(:target_member) { FactoryGirl.create(:member, user: current_user, project: target_project, roles: [role]) }
     let(:target_project) { FactoryGirl.create(:project, is_public: false) }
     let(:work_package_2) {
       FactoryGirl.create(:work_package,
@@ -125,6 +128,10 @@ describe WorkPackages::MovesController, type: :controller do
 
     describe 'an issue to another project' do
       context 'w/o following' do
+        before do
+          status
+        end
+
         subject do
           post :create,
                params: {
@@ -321,7 +328,16 @@ describe WorkPackages::MovesController, type: :controller do
         context "with changing the work package's attribute" do
           let(:start_date) { Date.today }
           let(:due_date) { Date.today + 1 }
-          let(:target_user) { FactoryGirl.create :user }
+          let(:target_user) do
+            user = FactoryGirl.create :user
+
+            FactoryGirl.create(:member,
+                               user: user,
+                               project: target_project,
+                               roles: [role])
+
+            user
+          end
 
           before do
             post :create,
@@ -395,9 +411,9 @@ describe WorkPackages::MovesController, type: :controller do
 
           subject { WorkPackage.limit(1).order('id desc').last.journals }
 
-          it { expect(subject.count).to eq(2) }
+          it { expect(subject.count).to eq(1) }
 
-          it { expect(subject.sort_by(&:id).last.notes).to eq(note) }
+          it { expect(subject.last.notes).to eq(note) }
         end
 
         context 'child work package from one project to other' do
@@ -444,9 +460,13 @@ describe WorkPackages::MovesController, type: :controller do
               copy_child_work_package
             end
 
-            it_behaves_like 'successful move'
-
-            it { expect(to_project.work_packages.first.parent).to be_nil }
+            it 'is unsuccessful' do
+              expect(flash[:error])
+                .to eq(I18n.t(:notice_failed_to_save_work_packages,
+                              count: 1,
+                              total: 1,
+                              ids: "##{child_wp.id}"))
+            end
           end
 
           context 'when cross_project_work_package_relations is enabled' do

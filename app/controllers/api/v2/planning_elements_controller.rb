@@ -56,20 +56,13 @@ module Api
       end
 
       def create
-        @planning_element = @project.work_packages.build
-        attributes = permitted_params.planning_element(project: @project).except :note
+        call = issue_create_call
 
-        @planning_element.update_attributes(lookup_custom_options(attributes))
-        @planning_element.attach_files(params[:attachments])
-
-        # The planning_element inherits from workpackage, which requires an author.
-        # Using the current_user also satisfies this demand for API-calls
-        @planning_element.author ||= current_user
-        successfully_created = @planning_element.save
+        @planning_element = call.result
 
         respond_to do |format|
           format.api do
-            if successfully_created
+            if call.success?
               redirect_url = api_v2_project_planning_element_url(
                 @project, @planning_element,
                 # TODO this probably should be (params[:format] ||'xml'), however, client code currently anticipates xml responses.
@@ -94,16 +87,13 @@ module Api
       end
 
       def update
-        @planning_element = WorkPackage.find(params[:id])
-        attributes = permitted_params.planning_element(project: @project).except :note
-        @planning_element.attributes = lookup_custom_options attributes
-        @planning_element.add_journal(User.current, permitted_params.planning_element(project: @project)[:note])
+        call = issue_update_call
 
-        successfully_updated = @planning_element.save
+        @planning_element = call.result
 
         respond_to do |format|
           format.api do
-            if successfully_updated
+            if call.success?
               no_content
             else
               render_validation_errors(@planning_element)
@@ -114,7 +104,10 @@ module Api
 
       def destroy
         @planning_element = WorkPackage.find(params[:id])
-        @planning_element.destroy
+        WorkPackages::DestroyService
+          .new(user: current_user,
+               work_package: @planning_element)
+          .call
 
         respond_to do |format|
           format.api
@@ -122,6 +115,30 @@ module Api
       end
 
       protected
+
+      def issue_create_call
+        attributes = permitted_params.planning_element(project: @project).except :note
+
+        planning_element = @project.work_packages.build
+        planning_element.attach_files(params[:attachments])
+
+        WorkPackages::CreateService
+          .new(user: current_user)
+          .call(attributes: attributes,
+                work_package: @project.work_packages.build)
+      end
+
+      def issue_update_call
+        planning_element = WorkPackage.find(params[:id])
+
+        attributes = permitted_params.planning_element(project: @project).except :note
+        attributes = lookup_custom_options attributes
+        attributes[:journal_notes] = permitted_params.planning_element(project: @project)[:note]
+
+        WorkPackages::UpdateService
+          .new(user: current_user, work_package: planning_element)
+          .call(attributes: attributes)
+      end
 
       def lookup_custom_options(attributes)
         return attributes unless attributes.include?("custom_fields")

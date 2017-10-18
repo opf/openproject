@@ -72,7 +72,7 @@ class MailHandler < ActionMailer::Base
     sender_email = email.from.to_a.first.to_s.strip
     # Ignore emails received from the application emission address to avoid hell cycles
     if sender_email.downcase == Setting.mail_from.to_s.strip.downcase
-      logger.info "MailHandler: ignoring email from emission address [#{sender_email}]" if logger && logger.info
+      log "ignoring email from emission address [#{sender_email}]"
       return false
     end
     # Ignore auto generated emails
@@ -81,14 +81,14 @@ class MailHandler < ActionMailer::Base
       if value
         value = value.to_s.downcase
         if (ignored_value.is_a?(Regexp) && value.match(ignored_value)) || value == ignored_value
-          logger.info "MailHandler: ignoring email with #{key}:#{value} header" if logger && logger.info
+          log "ignoring email with #{key}:#{value} header"
           return false
         end
       end
     end
     @user = User.find_by_mail(sender_email) if sender_email.present?
     if @user && !@user.active?
-      logger.info "MailHandler: ignoring email from non-active user [#{@user.login}]" if logger && logger.info
+      log "ignoring email from non-active user [#{@user.login}]"
       return false
     end
     if @user.nil?
@@ -99,15 +99,15 @@ class MailHandler < ActionMailer::Base
       when 'create'
         @user = MailHandler.create_user_from_email(email)
         if @user
-          logger.info "MailHandler: [#{@user.login}] account created" if logger && logger.info
+          log "[#{@user.login}] account created"
           UserMailer.account_information(@user, @user.password).deliver_now
         else
-          logger.error "MailHandler: could not create account for [#{sender_email}]" if logger && logger.error
+          log "could not create account for [#{sender_email}]", :error
           return false
         end
       else
         # Default behaviour, emails from unknown users are ignored
-        logger.info "MailHandler: ignoring email from unknown user [#{sender_email}]" if logger && logger.info
+        log "ignoring email from unknown user [#{sender_email}]"
         return false
       end
     end
@@ -131,7 +131,7 @@ class MailHandler < ActionMailer::Base
         send method_name, object_id
       end
     elsif m = email.subject.match(ISSUE_REPLY_SUBJECT_RE)
-      receive_issue_reply(m[1].to_i)
+      receive_work_package_reply(m[1].to_i)
     elsif m = email.subject.match(MESSAGE_REPLY_SUBJECT_RE)
       receive_message_reply(m[1].to_i)
     else
@@ -141,72 +141,62 @@ class MailHandler < ActionMailer::Base
     # TODO: send a email to the user
     logger.error e.message if logger
     false
-  rescue MissingInformation => e
-    logger.error "MailHandler: missing information from #{user}: #{e.message}" if logger
+  rescue MissingInformation
+    log "missing information from #{user}: #{e.message}", :error
     false
-  rescue UnauthorizedAction => e
-    logger.error "MailHandler: unauthorized attempt from #{user}" if logger
+  rescue UnauthorizedAction
+    log "unauthorized attempt from #{user}", :error
     false
   end
 
-  # Dispatch the mail to the default method handler, receive_issue
+  # Dispatch the mail to the default method handler, receive_work_package
   #
   # This can be overridden or patched to support handling other incoming
   # email types
   def dispatch_to_default
-    receive_issue
+    receive_work_package
   end
 
-  # Creates a new issue
-  def receive_issue
+  # Creates a new work package
+  def receive_work_package
     project = target_project
-    # check permission
-    unless @@handler_options[:no_permission_check]
-      raise UnauthorizedAction unless user.allowed_to?(:add_work_packages, project)
-    end
 
-    issue = WorkPackage.new(author: user, project: project)
-    issue.attributes = issue_attributes_from_keywords(issue)
-    issue.attributes = { 'custom_field_values' => custom_field_values_from_keywords(issue) }
-    issue.subject = email.subject.to_s.chomp[0, 255]
-    if issue.subject.blank?
-      issue.subject = '(no subject)'
-    end
-    issue.description = cleaned_up_text_body
+    result = create_work_package(project)
 
-    # add To and Cc as watchers before saving so the watchers can reply to Redmine
-    add_watchers(issue)
-    issue.save!
-    add_attachments(issue)
-    logger.info "MailHandler: issue ##{issue.id} created by #{user}" if logger && logger.info
-    issue
+    if result.is_a?(WorkPackage)
+      log "work_package ##{result.id} created by #{user}"
+      result
+    else
+      log "work_package could not be created by #{user} due to ##{result.full_messages}", :error
+      false
+    end
   end
+  alias :receive_issue :receive_work_package
 
-  # Adds a note to an existing issue
-  def receive_issue_reply(issue_id)
-    issue = WorkPackage.find_by(id: issue_id)
-    return unless issue
-    # check permission
-    unless @@handler_options[:no_permission_check]
-      raise UnauthorizedAction unless user.allowed_to?(:add_work_package_notes, issue.project) || user.allowed_to?(:edit_work_packages, issue.project)
-    end
-    # ignore CLI-supplied defaults for new issues
+  # Adds a note to an existing work package
+  def receive_work_package_reply(work_package_id)
+    work_package = WorkPackage.find_by(id: work_package_id)
+    return unless work_package
+    # ignore CLI-supplied defaults for new work_packages
     @@handler_options[:issue].clear
 
-    issue.attributes = issue_attributes_from_keywords(issue)
-    issue.attributes = { 'custom_field_values' => custom_field_values_from_keywords(issue) }
-    issue.add_journal(user, cleaned_up_text_body)
-    add_attachments(issue)
-    issue.save!
-    logger.info "MailHandler: issue ##{issue.id} updated by #{user}" if logger && logger.info
-    issue.last_journal
+    result = update_work_package(work_package)
+
+    if result.is_a?(WorkPackage)
+      log "work_package ##{result.id} updated by #{user}"
+      result.last_journal
+    else
+      log "work_package could not be updated by #{user} due to ##{result.full_messages}", :error
+      false
+    end
   end
+  alias :receive_issue_reply :receive_work_package_reply
 
   # Reply will be added to the issue
   def receive_issue_journal_reply(journal_id)
     journal = Journal.find_by(id: journal_id)
     if journal and journal.journable.is_a? WorkPackage
-      receive_issue_reply(journal.journable_id)
+      receive_work_package_reply(journal.journable_id)
     end
   end
 
@@ -229,7 +219,7 @@ class MailHandler < ActionMailer::Base
         add_attachments(reply)
         reply
       else
-        logger.info "MailHandler: ignoring reply from [#{sender_email}] to a locked topic" if logger && logger.info
+        log "ignoring reply from [#{sender_email}] to a locked topic"
       end
     end
   end
@@ -333,9 +323,9 @@ class MailHandler < ActionMailer::Base
 
   # Returns a Hash of issue custom field values extracted from keywords in the email body
   def custom_field_values_from_keywords(customized)
-    customized.custom_field_values.inject({}) do |h, v|
-      if value = get_keyword(v.custom_field.name, override: true)
-        h[v.custom_field.id.to_s] = value
+    "#{customized.class.name}CustomField".constantize.all.inject({}) do |h, v|
+      if value = get_keyword(v.name, override: true)
+        h[v.id.to_s] = value
       end
       h
     end
@@ -402,11 +392,11 @@ class MailHandler < ActionMailer::Base
       if user.save
         user
       else
-        logger.error "MailHandler: failed to create User: #{user.errors.full_messages}" if logger
+        log "failed to create User: #{user.errors.full_messages}", :error
         nil
       end
     else
-      logger.error 'MailHandler: failed to create User: no FROM address found' if logger
+      log 'failed to create User: no FROM address found', :error
       nil
     end
   end
@@ -450,5 +440,89 @@ class MailHandler < ActionMailer::Base
     end
 
     assignee
+  end
+
+  def create_work_package(project)
+    work_package = WorkPackage.new(project: project)
+    attributes = collect_wp_attributes_from_email_on_create(work_package)
+
+    service_call = WorkPackages::CreateService
+                   .new(user: user,
+                        contract: work_package_create_contract_class)
+                   .call(attributes: attributes, work_package: work_package)
+
+    if service_call.success?
+      work_package = service_call.result
+
+      add_watchers(work_package)
+      add_attachments(work_package)
+      work_package
+    else
+      service_call.errors
+    end
+  end
+
+  def collect_wp_attributes_from_email_on_create(work_package)
+    attributes = issue_attributes_from_keywords(work_package)
+    attributes
+      .merge('custom_field_values' => custom_field_values_from_keywords(work_package),
+             'subject' => email.subject.to_s.chomp[0, 255] || '(no subject)',
+             'description' => cleaned_up_text_body)
+  end
+
+  def update_work_package(work_package)
+    attributes = collect_wp_attributes_from_email_on_update(work_package)
+
+    service_call = WorkPackages::UpdateService
+                   .new(user: user,
+                        work_package: work_package,
+                        contract: work_package_update_contract_class)
+                   .call(attributes: attributes)
+
+    if service_call.success?
+      work_package = service_call.result
+
+      add_attachments(work_package)
+      work_package
+    else
+      service_call.errors
+    end
+  end
+
+  def collect_wp_attributes_from_email_on_update(work_package)
+    attributes = issue_attributes_from_keywords(work_package)
+    attributes
+      .merge('custom_field_values' => custom_field_values_from_keywords(work_package),
+             'journal_notes' => cleaned_up_text_body)
+  end
+
+  def log(message, level = :info)
+    message = "MailHandler: #{message}"
+
+    logger.send(level, message) if logger && logger.send(level)
+  end
+
+  def work_package_create_contract_class
+    if @@handler_options[:no_permission_check]
+      CreateWorkPackageWithoutAuthorizationsContract
+    else
+      WorkPackages::CreateContract
+    end
+  end
+
+  def work_package_update_contract_class
+    if @@handler_options[:no_permission_check]
+      UpdateWorkPackageWithoutAuthorizationsContract
+    else
+      WorkPackages::UpdateContract
+    end
+  end
+
+  class UpdateWorkPackageWithoutAuthorizationsContract < WorkPackages::UpdateContract
+    include WorkPackages::SkipAuthorizationChecks
+  end
+
+  class CreateWorkPackageWithoutAuthorizationsContract < WorkPackages::CreateContract
+    include WorkPackages::SkipAuthorizationChecks
   end
 end

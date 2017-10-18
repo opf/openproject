@@ -107,7 +107,8 @@ Redmine::AccessControl.map do |map|
     wpt.permission :add_work_packages,
                    issues: [:new, :create],
                    :'issues/previews' => :create,
-                   work_packages: [:new, :new_type, :preview, :create]
+                   work_packages: [:new, :new_type, :preview, :create],
+                   planning_elements: [:create]
 
     wpt.permission :move_work_packages,
                    { :'work_packages/moves' => [:new, :create] },
@@ -119,7 +120,7 @@ Redmine::AccessControl.map do |map|
                      work_packages: [:edit, :update, :new_type,
                                      :preview, :quoted],
                      journals: :preview,
-                     planning_elements: [:new, :create, :edit, :update],
+                     planning_elements: [:edit, :update],
                      planning_element_journals: [:create] },
                    require: :member
 

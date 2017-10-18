@@ -32,7 +32,7 @@ module Api
     class UsersController < ::UsersController
       include ::Api::V2::ApiController
 
-      skip_filter :require_admin, only: :index
+      skip_before_action :require_admin, only: :index
 
       before_action :check_scope_supplied
 
@@ -47,8 +47,9 @@ module Api
       private
 
       def check_scope_supplied
-        render_400 if params.select { |k, _v| UserSearchService::SEARCH_SCOPES.include? k }
-                      .select { |_k, v| not v.blank? }
+        render_400 if params
+                      .select { |k, _v| UserSearchService::SEARCH_SCOPES.include? k }
+                      .reject { |_k, v| v.blank? }
                       .empty?
       end
     end
