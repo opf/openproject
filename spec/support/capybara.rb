@@ -50,20 +50,21 @@ Capybara.register_driver :selenium do |app|
 
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['intl.accept_languages'] = 'en'
-
   profile['browser.download.dir'] = DownloadedFile::PATH.to_s
   profile['browser.download.folderList'] = 2
-
   profile['browser.helperApps.neverAsk.saveToDisk'] = 'text/csv'
 
   # use native instead of synthetic events
   # https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
   profile.native_events = true
 
+  options = Selenium::WebDriver::Firefox::Options.new
+  options.profile = profile
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :firefox,
-    profile: profile,
+    options: options,
     http_client: client,
     desired_capabilities: capabilities
   )
