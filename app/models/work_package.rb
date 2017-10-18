@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,10 +28,6 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# While loading the Issue class below, we lazy load the Project class.
-# Which itself need WorkPackage.
-# So we create an 'empty' Issue class first, to make Project happy.
-
 class WorkPackage < ActiveRecord::Base
   include WorkPackage::Validations
   include WorkPackage::SchedulingRules
@@ -38,13 +35,14 @@ class WorkPackage < ActiveRecord::Base
   include WorkPackage::AskBeforeDestruction
   include WorkPackage::TimeEntries
   include WorkPackage::Ancestors
+  prepend WorkPackage::Parent
+  include WorkPackage::TypedDagDefaults
 
   include OpenProject::Journal::AttachmentHelper
 
   DONE_RATIO_OPTIONS = %w(field status disabled).freeze
   ATTRIBS_WITH_VALUES_FROM_CHILDREN =
     %w(start_date due_date estimated_hours done_ratio).freeze
-  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   belongs_to :project
   belongs_to :type
@@ -57,8 +55,7 @@ class WorkPackage < ActiveRecord::Base
   belongs_to :category, class_name: 'Category', foreign_key: 'category_id'
 
   has_many :time_entries, dependent: :delete_all
-  has_many :relations_from, class_name: 'Relation', foreign_key: 'from_id', dependent: :delete_all
-  has_many :relations_to, class_name: 'Relation', foreign_key: 'to_id', dependent: :delete_all
+
   has_and_belongs_to_many :changesets, -> {
     order("#{Changeset.table_name}.committed_on ASC, #{Changeset.table_name}.id ASC")
   }
@@ -87,7 +84,6 @@ class WorkPackage < ActiveRecord::Base
     end
   }
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   scope :with_status_open, ->() {
     includes(:status)
       .where(statuses: { is_closed: false })
@@ -119,29 +115,22 @@ class WorkPackage < ActiveRecord::Base
     where(author_id: author.id)
   }
 
-  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
   after_initialize :set_default_values
 
   acts_as_watchable
 
-  before_save :store_former_parent_id
-
-  include OpenProject::NestedSet::WithRootIdScope
-
-  after_save :reschedule_following_work_packages,
-             :update_parent_attributes
-
-  after_move :remove_invalid_relations,
-             :recalculate_attributes_for_former_parent
-
+  after_save :update_parent_attributes
   after_destroy :update_parent_attributes
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+  after_save :remove_invalid_relations, if: -> { parent_id_changed? }
+  after_save :recalculate_attributes_for_former_parent
+
+  before_destroy :fetch_children_to_destroy
+  after_destroy :destroy_children
+
   before_create :default_assign
   before_save :close_duplicates, :update_done_ratio_from_status
   before_destroy :remove_attachments
-  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   acts_as_customizable
 
@@ -176,83 +165,7 @@ class WorkPackage < ActiveRecord::Base
                                        },
                                        method(:cleanup_time_entries_before_destruction_of)
 
-  acts_as_journalized except: ['root_id']
-
-  # This one is here only to ease reading
-  module JournalizedProcs
-    def self.event_title
-      Proc.new do |o|
-        title = o.to_s
-        title << " (#{o.status.name})" if o.status.present?
-
-        title
-      end
-    end
-
-    def self.event_name
-      Proc.new do |o|
-        I18n.t(o.event_type.underscore, scope: 'events')
-      end
-    end
-
-    def self.event_type
-      Proc.new do |o|
-        journal = o.last_journal
-        t = 'work_package'
-
-        t << if journal && journal.details.empty? && !journal.initial?
-               '-note'
-             else
-               status = Status.find_by(id: o.status_id)
-
-               status.try(:is_closed?) ? '-closed' : '-edit'
-             end
-        t
-      end
-    end
-
-    def self.event_url
-      Proc.new do |o|
-        { controller: :work_packages, action: :show, id: o.id }
-      end
-    end
-  end
-
-  acts_as_event title: JournalizedProcs.event_title,
-                type: JournalizedProcs.event_type,
-                name: JournalizedProcs.event_name,
-                url: JournalizedProcs.event_url
-
-  register_on_journal_formatter(:id, 'parent_id')
-  register_on_journal_formatter(:fraction, 'estimated_hours')
-  register_on_journal_formatter(:decimal, 'done_ratio')
-  register_on_journal_formatter(:diff, 'description')
-  register_on_journal_formatter(:attachment, /attachments_?\d+/)
-  register_on_journal_formatter(:custom_field, /custom_fields_\d+/)
-
-  # Joined
-  register_on_journal_formatter :named_association, :parent_id, :project_id,
-                                :status_id, :type_id,
-                                :assigned_to_id, :priority_id,
-                                :category_id, :fixed_version_id,
-                                :planning_element_status_id,
-                                :author_id, :responsible_id
-  register_on_journal_formatter :datetime,          :start_date, :due_date
-
-  # By planning element
-  register_on_journal_formatter :plaintext,         :subject,
-                                :planning_element_status_comment
-
-  # acts_as_journalized will create an initial journal on wp creation
-  # and touch the journaled object:
-  # journal.rb:47
-  #
-  # This will result in optimistic locking increasing the lock_version attribute to 1.
-  # In order to avoid stale object errors we reload the attributes in question
-  # after the wp is created.
-  # As after_create is run before after_save, and journal creation is triggered by an
-  # after_save hook, we rely on after_save and a specific version here.
-  after_save :reload_lock_and_timestamps, if: Proc.new { |wp| wp.lock_version.zero? }
+  include WorkPackage::Journalized
 
   def self.done_ratio_disabled?
     Setting.work_package_done_ratio == 'disabled'
@@ -273,10 +186,6 @@ class WorkPackage < ActiveRecord::Base
 
   def copy_from(arg, options = {})
     merged_options = { exclude: ['id',
-                                 'root_id',
-                                 'parent_id',
-                                 'lft',
-                                 'rgt',
                                  'type', # type_id is in options, type is for STI.
                                  'created_at',
                                  'updated_at'] + (options[:exclude] || []).map(&:to_s) }
@@ -285,7 +194,7 @@ class WorkPackage < ActiveRecord::Base
 
     # attributes don't come from form, so it's safe to force assign
     self.attributes = work_package.attributes.dup.except(*merged_options[:exclude])
-    self.parent_id = work_package.parent_id if work_package.parent_id
+    self.parent = work_package.parent if work_package.parent
     self.custom_field_values = work_package
                                .custom_values
                                .map { |cv| [cv.custom_field_id, cv.value] }
@@ -309,7 +218,9 @@ class WorkPackage < ActiveRecord::Base
   # RELATIONS
   # Returns true if this work package is blocked by another work package that is still open
   def blocked?
-    !relations_to.detect { |ir| ir.relation_type == 'blocks' && !ir.from.closed? }.nil?
+    blocked_by
+      .with_status_open
+      .exists?
   end
 
   def relations
@@ -321,7 +232,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def new_relation
-    relations_from.build
+    relations_to.build
   end
 
   def add_time_entry(attributes = {})
@@ -334,36 +245,6 @@ class WorkPackage < ActiveRecord::Base
 
   def move_time_entries(project)
     time_entries.update_all(project_id: project.id)
-  end
-
-  def all_dependent_packages(except = [])
-    except << self
-    dependencies = []
-    relations.includes(:from, :to).each do |relation|
-      work_package = relation.canonical_to
-
-      if work_package && !except.include?(work_package)
-        dependencies << work_package
-        dependencies += work_package.all_dependent_packages(except)
-      end
-    end
-    dependencies
-  end
-
-  # Returns an array of issues that duplicate this one
-  def duplicates
-    relations_to.select { |r| r.relation_type == Relation::TYPE_DUPLICATES }.map(&:from)
-  end
-
-  def soonest_start
-    @soonest_start ||=
-      self_and_ancestors.includes(relations_to: :from)
-                        .where(relations: { relation_type: Relation::TYPE_PRECEDES })
-                        .map(&:relations_to)
-                        .flatten
-                        .map(&:successor_soonest_start)
-                        .compact
-                        .max
   end
 
   # Users/groups the work_package can be assigned to
@@ -385,12 +266,8 @@ class WorkPackage < ActiveRecord::Base
     end
   end
 
-  def kind
-    type
-  end
-
   def to_s
-    "#{kind.is_standard ? '' : kind.name} ##{id}: #{subject}"
+    "#{type.is_standard ? '' : type.name} ##{id}: #{subject}"
   end
 
   # Return true if the work_package is closed, otherwise false
@@ -408,15 +285,6 @@ class WorkPackage < ActiveRecord::Base
   end
   alias_method :is_milestone?, :milestone?
 
-  # Overwriting awesome nested set here as it considers unpersisted work
-  # packages to not be leaves.
-  # https://github.com/collectiveidea/awesome_nested_set/blob/master/lib/awesome_nested_set/model.rb#L135
-  # The OP workflow however requires to first create a WP before children can
-  # be assigned to it. Unpersisted WPs are hence always leaves.
-  def leaf?
-    new_record? || super
-  end
-
   # Returns an array of status that user is able to apply
   def new_statuses_allowed_to(user, include_default = false)
     return Status.where('1=0') if status.nil?
@@ -432,7 +300,6 @@ class WorkPackage < ActiveRecord::Base
     statuses.order_by_position
   end
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # Returns users that should be notified
   def recipients
     notified = project.notified_users + attribute_users.select { |u| u.notify_about?(self) }
@@ -470,7 +337,6 @@ class WorkPackage < ActiveRecord::Base
     write_attribute :estimated_hours, !!converted_hours ? converted_hours : h
   end
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # Overrides Redmine::Acts::Customizable::InstanceMethods#available_custom_fields
   def available_custom_fields
     project && type ? (project.all_work_package_custom_fields & type.custom_fields) : []
@@ -647,6 +513,58 @@ class WorkPackage < ActiveRecord::Base
     ).to_a
   end
 
+  def self.relateable_to(wp)
+    visible
+      .not_self(wp) # can't relate to itself
+      .not_having_relations_from(wp) # can't relate to wp that relate to us (direct or transitively)
+      .not_having_direct_relation_to(wp) # can't relate to wp we relate to directly
+      .not_being_descendant_of(wp) # can't relate to a descendant (see relations)
+      .satisfying_cross_project_setting(wp)
+  end
+
+  def self.satisfying_cross_project_setting(wp)
+    if Setting.cross_project_work_package_relations?
+      all
+    else
+      where(project_id: wp.project_id)
+    end
+  end
+
+  def self.not_self(wp)
+    where.not(id: wp.id)
+  end
+
+  def self.not_having_direct_relation_to(wp)
+    where.not(id: wp.relations_to.direct.select(:to_id))
+  end
+
+  def self.not_having_relations_from(wp)
+    where.not(id: wp.relations_from.select(:from_id))
+  end
+
+  def self.not_being_descendant_of(wp)
+    where.not(id: wp.descendants.select(:to_id))
+  end
+
+  def self.order_by_ancestors(direction)
+    max_relation_depth = Relation
+                         .hierarchy
+                         .group(:to_id)
+                         .select(:to_id,
+                                 "MAX(hierarchy) AS depth")
+
+    joins("LEFT OUTER JOIN (#{max_relation_depth.to_sql}) AS max_depth ON max_depth.to_id = work_packages.id")
+      .reorder("COALESCE(max_depth.depth, 0) #{direction}")
+  end
+
+  def self.self_and_descendants_of_condition(work_package)
+    relation_subquery = Relation
+                        .with_type_columns_not(hierarchy: 0)
+                        .select(:to_id)
+                        .where(from_id: work_package.id)
+    "#{table_name}.id IN (#{relation_subquery.to_sql}) OR #{table_name}.id = #{work_package.id}"
+  end
+
   protected
 
   def recalculate_attributes_for(work_package_id)
@@ -675,7 +593,7 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def update_parent_attributes
-    recalculate_attributes_for(parent_id) if parent_id.present?
+    recalculate_attributes_for(parent.id) if parent.present?
   end
 
   def inherit_dates_from_children
@@ -715,7 +633,7 @@ class WorkPackage < ActiveRecord::Base
     # 0 and nil shall be considered the same for estimated hours
     average = leaves.where('estimated_hours > 0').average(:estimated_hours).to_f
 
-    average == 0 ? 1 : average
+    average.zero? ? 1 : average
   end
 
   def leaf_done_ratio_sum(average_estimated_hours)
@@ -734,76 +652,28 @@ class WorkPackage < ActiveRecord::Base
     self.estimated_hours = nil if estimated_hours == 0.0
   end
 
-  def store_former_parent_id
-    @former_parent_id = parent_id_changed? ? parent_id_was : false
-    true # force callback to return true
-  end
-
   def remove_invalid_relations
     # delete invalid relations of all descendants
     self_and_descendants.each do |issue|
-      issue.relations.each do |relation|
+      issue.relations.direct.each do |relation|
         relation.destroy unless relation.valid?
       end
     end
   end
 
-  # Updates start/due dates of following work packages.
-  # If
-  #   * no start/due dates are set
-  #     => no scheduling will happen.
-  #   * a due date is set and the due date is moved backwards
-  #     => following work package is moved backwards as well
-  #   * a due date is set and the due date is moved forward
-  #     => following work package is moved forward to the point that
-  #        the work package is again scheduled to be after this work package.
-  #        If a delay is defined, that delay is adhered to.
-  #   * only a start date is set and the start date is moved backwards
-  #     => following work package is moved backwards as well
-  #   * only a start date is set and the start date is moved forward
-  #     => following work package is moved forward to the point that
-  #        the work package is again scheduled to be after this work package.
-  #        If a delay is defined, that delay is adhered to.
-  def reschedule_following_work_packages
-    delta = date_rescheduling_delta
-
-    if delta < 0
-      relations_from.each { |r| r.move_target_dates_by(delta) }
-    elsif start_date_changed? || due_date_changed?
-      relations_from.each(&:set_dates_of_target)
-    end
-  end
-
-  def date_rescheduling_delta
-    if due_date.present?
-      due_date - (due_date_was || 0)
-    elsif start_date.present?
-      start_date - (start_date_was || 0)
-    else
-      0
-    end
-  end
-
   def recalculate_attributes_for_former_parent
-    recalculate_attributes_for(@former_parent_id) if @former_parent_id
+    if parent_id_changed? && changes[:parent_id].first
+      recalculate_attributes_for(changes[:parent_id].first)
+    end
   end
 
   def reload_lock_and_timestamps
-    reload(select: [:lock_version, :created_at, :updated_at])
+    reload(select: %i(lock_version created_at updated_at))
   end
 
-  def <=>(issue)
-    if issue.nil?
-      -1
-    elsif root_id != issue.root_id
-      (root_id || 0) <=> (issue.root_id || 0)
-    else
-      (lft || 0) <=> (issue.lft || 0)
-    end
+  def <=>(other)
+    other.id <=> id
   end
-
-  # End ReportsController extraction
-  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 
   private
 
@@ -854,7 +724,6 @@ class WorkPackage < ActiveRecord::Base
     default_id && attributes.except(key).values.all?(&:blank?)
   end
 
-  # >>> issues.rb >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
   # this removes all attachments separately before destroying the issue
   # avoids getting a ActiveRecord::StaleObjectError when deleting an issue
   def remove_attachments
@@ -863,17 +732,21 @@ class WorkPackage < ActiveRecord::Base
     reload # important
   end
 
+  def self.having_fixed_version_from_other_project
+    where(
+      "#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
+      " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
+      " AND #{Version.table_name}.sharing <> 'system'"
+    )
+  end
+  private_class_method :having_fixed_version_from_other_project
+
   # Update issues so their versions are not pointing to a
   # fixed_version that is not shared with the issue's project
   def self.update_versions(conditions = nil)
     # Only need to update issues with a fixed_version from
     # a different project and that is not systemwide shared
-    WorkPackage
-      .where(
-        "#{WorkPackage.table_name}.fixed_version_id IS NOT NULL" +
-        " AND #{WorkPackage.table_name}.project_id <> #{Version.table_name}.project_id" +
-        " AND #{Version.table_name}.sharing <> 'system'"
-      )
+    having_fixed_version_from_other_project
       .where(conditions)
       .includes(:project, :fixed_version)
       .references(:versions).each do |issue|
@@ -895,19 +768,27 @@ class WorkPackage < ActiveRecord::Base
 
   # Closes duplicates if the issue is being closed
   def close_duplicates
-    if closing?
-      duplicates.each do |duplicate|
-        # Reload is needed in case the duplicate was updated by a previous duplicate
-        duplicate.reload
-        # Don't re-close it if it's already closed
-        next if duplicate.closed?
-        # Implicitly creates a new journal
-        duplicate.update_attribute :status, self.status
-        # Same user and notes
-        duplicate.journals.last.user = current_journal.user
-        duplicate.journals.last.notes = current_journal.notes
-      end
+    return unless closing?
+
+    duplicates.each do |duplicate|
+      # Reload is needed in case the duplicate was updated by a previous duplicate
+      duplicate.reload
+      # Don't re-close it if it's already closed
+      next if duplicate.closed?
+      # Implicitly creates a new journal
+      duplicate.update_attribute :status, self.status
+
+      override_last_journal_notes_and_user_of!(duplicate)
     end
+  end
+
+  def override_last_journal_notes_and_user_of!(other_work_package)
+    journal = other_work_package.journals.last
+    # Same user and notes
+    journal.user = current_journal.user
+    journal.notes = current_journal.notes
+
+    journal.save
   end
 
   # Query generator for selecting groups of issue counts for a project
@@ -942,8 +823,6 @@ class WorkPackage < ActiveRecord::Base
   end
   private_class_method :count_and_group_by
 
-  # <<< issues.rb <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
-
   def set_attachments_error_details
     if invalid_attachment = attachments.detect { |a| !a.valid? }
       errors.messages[:attachments].first << " - #{invalid_attachment.errors.full_messages.first}"
@@ -971,5 +850,13 @@ class WorkPackage < ActiveRecord::Base
     end
 
     related.select(&:present?)
+  end
+
+  def fetch_children_to_destroy
+    @children_to_destroy = children
+  end
+
+  def destroy_children
+    @children_to_destroy.each(&:destroy)
   end
 end

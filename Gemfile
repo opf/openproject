@@ -57,6 +57,7 @@ gem 'friendly_id', '~> 5.2.1'
 gem 'acts_as_list', '~> 0.9.7'
 gem 'acts_as_tree', '~> 2.6.1'
 gem 'awesome_nested_set', '~> 3.1.3'
+gem 'typed_dag', '~> 1.0.0'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'
 

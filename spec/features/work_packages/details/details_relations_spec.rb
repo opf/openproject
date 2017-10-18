@@ -92,13 +92,13 @@ describe 'Work package relations tab', js: true, selenium: true do
       FactoryGirl.create :relation,
                          from: work_package,
                          to: to_1,
-                         relation_type: :follows
+                         relation_type: Relation::TYPE_FOLLOWS
     end
     let!(:relation_2) do
       FactoryGirl.create :relation,
                          from: work_package,
                          to: to_2,
-                         relation_type: :relates
+                         relation_type: Relation::TYPE_RELATES
     end
 
     let(:toggle_btn_selector) { '#wp-relation-group-by-toggle' }
@@ -209,7 +209,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')
 
         work_package.reload
-        expect(work_package.relations).to be_empty
+        expect(work_package.relations.direct).to be_empty
       end
 
       it 'should allow to move between split and full view (Regression #24194)' do
@@ -264,7 +264,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         created_row.find('.wp-relation--description-read-value',
                          text: 'my description!').click
 
-        relation = work_package.relations.first
+        relation = work_package.relations.direct.first
         relation.reload
         expect(relation.description).to eq('my description!')
 

@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,51 +28,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+class WorkPackage::InexistentWorkPackage < WorkPackage
+  _validators.clear
 
-describe Queries::Relations::RelationQuery, type: :model do
-  let(:instance) { described_class.new }
-  let(:base_scope) { Relation.visible.direct }
-
-  context 'without a filter' do
-    describe '#results' do
-      it 'is the same as getting all the relations' do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
-      end
-    end
-
-    describe '#valid?' do
-      it 'is true' do
-        expect(instance).to be_valid
-      end
-    end
-  end
-
-  context 'with a type filter' do
-    before do
-      instance.where('type', '=', ['follows', 'blocks'])
-    end
-
-    describe '#results' do
-      it 'is the same as handwriting the query' do
-        expected = base_scope
-                   .merge(Relation
-                          .where("relations.follows IN ('1') OR relations.blocks IN ('1')"))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
-    end
-
-    describe '#valid?' do
-      it 'is true' do
-        expect(instance).to be_valid
-      end
-
-      it 'is invalid if the filter is invalid' do
-        instance.where('type', '=', [''])
-
-        expect(instance).to be_invalid
-      end
-    end
+  def does_not_exist
+    errors.add :base, :does_not_exist
   end
 end

@@ -40,7 +40,11 @@ module API
 
         resources :relations do
           get do
-            scope = Relation.includes(::API::V3::Relations::RelationRepresenter.to_eager_load)
+            scope = Relation
+                    .visible(current_user)
+                    .direct
+                    .non_hierarchy
+                    .includes(::API::V3::Relations::RelationRepresenter.to_eager_load)
 
             ::API::V3::Utilities::ParamsToQuery.collection_response(scope,
                                                                     current_user,
@@ -60,7 +64,7 @@ module API
             end
 
             patch do
-              rep = representer.new Relation.new, current_user: current_user
+              rep = parse_representer.new Relation.new, current_user: current_user
               relation = rep.from_json request.body.read
               attributes = filter_attributes relation
               service = ::UpdateRelationService.new relation: Relation.find_by_id!(params[:id]),

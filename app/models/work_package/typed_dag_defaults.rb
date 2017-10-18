@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,51 +28,38 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'spec_helper'
+# Provides aliases to hierarchy_*
+# methods to stay compatible with code written for awesome_nested_set
 
-describe Queries::Relations::RelationQuery, type: :model do
-  let(:instance) { described_class.new }
-  let(:base_scope) { Relation.visible.direct }
+module WorkPackage::TypedDagDefaults
+  extend ActiveSupport::Concern
 
-  context 'without a filter' do
-    describe '#results' do
-      it 'is the same as getting all the relations' do
-        expect(instance.results.to_sql).to eql base_scope.to_sql
-      end
+  included do
+    # Can't use .alias here
+    # as the dag methods are mixed in later
+
+    def leaves
+      hierarchy_leaves
     end
 
-    describe '#valid?' do
-      it 'is true' do
-        expect(instance).to be_valid
-      end
-    end
-  end
-
-  context 'with a type filter' do
-    before do
-      instance.where('type', '=', ['follows', 'blocks'])
+    def self.leaves
+      hierarchy_leaves
     end
 
-    describe '#results' do
-      it 'is the same as handwriting the query' do
-        expected = base_scope
-                   .merge(Relation
-                          .where("relations.follows IN ('1') OR relations.blocks IN ('1')"))
-
-        expect(instance.results.to_sql).to eql expected.to_sql
-      end
+    def leaf?
+      hierarchy_leaf?
     end
 
-    describe '#valid?' do
-      it 'is true' do
-        expect(instance).to be_valid
-      end
+    def root
+      hierarchy_roots.first
+    end
 
-      it 'is invalid if the filter is invalid' do
-        instance.where('type', '=', [''])
+    def self.roots
+      hierarchy_roots
+    end
 
-        expect(instance).to be_invalid
-      end
+    def root?
+      hierarchy_root?
     end
   end
 end

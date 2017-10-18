@@ -466,7 +466,40 @@ module API
                             v3_path: :work_package,
                             representer: ::API::V3::WorkPackages::WorkPackageRepresenter,
                             skip_render: ->(*) { represented.parent && !represented.parent.visible? },
-                            link_title_attribute: :subject
+                            link_title_attribute: :subject,
+                            link: ->(*) {
+                              next if represented.parent && !represented.parent.visible?
+
+                              if represented.parent
+                                {
+                                  href: api_v3_paths.work_package(represented.parent.id),
+                                  title: represented.parent.subject
+                                }
+                              else
+                                {
+                                  href: nil,
+                                  title: nil
+                                }
+                              end
+                            },
+                            setter: ->(fragment:, **) do
+                              next if fragment.empty?
+
+                              href = fragment['href']
+
+                              new_parent = if href
+                                             id = ::API::Utilities::ResourceLinkParser
+                                                  .parse_id href,
+                                                            property: 'parent',
+                                                            expected_version: '3',
+                                                            expected_namespace: 'work_packages'
+
+                                             WorkPackage.find_by(id: id) ||
+                                               ::WorkPackage::InexistentWorkPackage.new(id: id)
+                                           end
+
+                              represented.parent = new_parent
+                            end
 
         def _type
           'WorkPackage'

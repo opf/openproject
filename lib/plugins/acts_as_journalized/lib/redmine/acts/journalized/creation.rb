@@ -86,8 +86,19 @@ module Redmine::Acts::Journalized
       def prepare_journaled_options(options)
         result = super(options)
 
-        vestal_journals_options[:only] = Array(result.delete(:only)).map(&:to_s).uniq if result[:only]
-        vestal_journals_options[:except] = Array(result.delete(:except)).map(&:to_s).uniq if result[:except]
+        assign_vestal = lambda do |key, array|
+          return unless result[key]
+
+          vestal_journals_options[key] = if array
+                                           Array(result.delete(key)).map(&:to_s).uniq
+                                         else
+                                           result.delete(key)
+                                         end
+        end
+
+        assign_vestal.call(:only, true)
+        assign_vestal.call(:except, true)
+        assign_vestal.call(:calculate, false)
 
         result
       end

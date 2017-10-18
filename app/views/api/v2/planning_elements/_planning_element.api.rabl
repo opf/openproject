@@ -45,7 +45,7 @@ child :project do
   attributes :id, :identifier, :name
 end
 
-node :parent, if: lambda{|pe| pe.parent.present?} do |pe|
+node :parent, if: lambda { |pe| pe.parent.present? } do |pe|
   { id: pe.parent.id, subject: pe.parent.subject }
 end
 

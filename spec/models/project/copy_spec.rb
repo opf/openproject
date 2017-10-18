@@ -125,6 +125,7 @@ describe Project::Copy, type: :model do
     describe '#copy_work_packages' do
       let(:work_package) { FactoryGirl.create(:work_package, project: project) }
       let(:work_package2) { FactoryGirl.create(:work_package, project: project) }
+      let(:work_package3) { FactoryGirl.create(:work_package, project: project) }
       let(:version) { FactoryGirl.create(:version, project: project) }
 
       describe '#attachments' do
@@ -174,20 +175,24 @@ describe Project::Copy, type: :model do
 
       describe '#parent' do
         before do
-          wp = work_package
-          wp2 = work_package2
-          wp.parent = wp2
-          wp.save
-
-          [wp, wp2].each do |wp| project.work_packages << wp end
+          work_package.parent = work_package2
+          work_package.save!
+          work_package2.parent = work_package3
+          work_package2.save!
 
           copy.send :copy_work_packages, project
           copy.save
         end
 
         it do
-          expect(parent_wp = copy.work_packages.detect(&:parent)).not_to eq(nil)
-          expect(parent_wp.parent.project).to eq(copy)
+          child_wp = copy
+                     .work_packages
+                     .order_by_ancestors('asc')
+                     .reverse
+                     .first
+
+          expect(child_wp).not_to eq(nil)
+          expect(child_wp.parent.project).to eq(copy)
         end
       end
 

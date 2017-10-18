@@ -208,7 +208,8 @@ module Api
         if planning_comparison?
           @planning_elements = convert_to_struct(historical_work_packages(projects))
         else
-          @planning_elements = convert_to_struct(current_work_packages(projects))
+          orig_planning_elements = current_work_packages(projects)
+          struct_planning_elements = convert_to_struct(orig_planning_elements)
           # only for current work_packages, the array of child-ids must be reconstructed
           # for historical packages, the re-wiring is not needed
 
@@ -220,11 +221,17 @@ module Api
           # the parent_id would thus be nil.
           # Disabling rewiring allows fetching work packages with their parent_ids
           # even when the parents are not included in the list of requested work packages.
-          rewire_ancestors unless params[:rewire_parents] == 'false'
+          if params[:rewire_parents] == 'false'
+            set_ancestors(orig_planning_elements, struct_planning_elements)
+          else
+            rewire_ancestors(orig_planning_elements, struct_planning_elements)
+          end
+
+          @planning_elements = struct_planning_elements
         end
       end
 
-      Struct.new('WorkPackage', *[WorkPackage.column_names.map(&:to_sym), :custom_values, :child_ids].flatten)
+      Struct.new('WorkPackage', *[WorkPackage.column_names.map(&:to_sym), :parent_id, :custom_values, :child_ids].flatten)
       Struct.new('CustomValue', :typed_value, *CustomValue.column_names.map(&:to_sym))
 
       def convert_wp_to_struct(work_package)
@@ -305,7 +312,12 @@ module Api
         work_packages = WorkPackage
                         .for_projects(projects)
                         .changed_since(@since)
-                        .includes(:status, :project, :type, custom_values: :custom_field)
+                        .includes(:status,
+                                  :project,
+                                  :type,
+                                  :ancestors_relations,
+                                  :descendants_relations,
+                                  custom_values: :custom_field)
                         .references(:projects)
 
         wp_ids = parse_work_package_ids
@@ -358,27 +370,38 @@ module Api
       #
       # to see the respective cases that need to be handled properly by this rewiring,
       # @see features/planning_elements/filter.feature
-      def rewire_ancestors
-        filtered_ids = @planning_elements.map(&:id)
+      def rewire_ancestors(origs, structs)
+        filtered_ids = origs.map(&:id)
 
-        @planning_elements.each do |pe|
+        origs.each do |orig|
           # re-wire the parent of this pe to the first ancestor found in the filtered set
           # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
-          if pe.parent_id && !filtered_ids.include?(pe.parent_id)
-            ancestors = @planning_elements.select { |candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt && candidate.root_id == pe.root_id }
-            # the greatest lower boundary is the first ancestor not filtered
-            pe.parent_id = ancestors.empty? ? nil : ancestors.sort_by(&:lft).last.id
+          if !orig.ancestors_relations.empty?
+            struct = structs.detect { |s| s.id == orig.id }
+            ancestor_candidates = orig.ancestors_relations.sort_by(&:hierarchy).map(&:from_id)
+            struct.parent_id = (ancestor_candidates & filtered_ids).first
           end
         end
 
         # we explicitly need to re-construct the array of child-ids
-        @planning_elements.each do |pe|
-          pe.child_ids = @planning_elements.select { |child| child.parent_id == pe.id }
-            .map(&:id)
+        structs.each do |struct|
+          struct.child_ids = structs
+                             .select { |child| child.parent_id == struct.id }
+                             .map(&:id)
         end
       end
 
       private
+
+      def set_ancestors(origs, structs)
+        origs.each do |orig|
+          struct = structs.detect { |s| s.id == orig.id }
+
+          struct.parent_id = orig.ancestors_relations.sort_by(&:hierarchy).map(&:from_id).first
+
+          struct.child_ids = orig.descendants_relations.map(&:to_id)
+        end
+      end
 
       def parse_changed_since
         @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400

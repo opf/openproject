@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -54,7 +55,11 @@ module WorkPackage::Validations
     validate :validate_enabled_type
 
     validate :validate_milestone_constraint
-    validate :validate_parent_constraint
+    validate :validate_parent_not_milestone
+
+    validate :validate_parent_exists
+    validate :validate_parent_in_same_project
+    validate :validate_parent_not_descendant
 
     validate :validate_status_transition
 
@@ -67,7 +72,7 @@ module WorkPackage::Validations
     validate :validate_estimated_hours
 
     scope :eager_load_for_validation, ->() {
-      includes({ project: [:enabled_modules, :work_package_custom_fields, :versions] },
+      includes({ project: %i(enabled_modules work_package_custom_fields versions) },
                { parent: :type },
                :custom_values,
                { type: :custom_fields },
@@ -123,19 +128,43 @@ module WorkPackage::Validations
   end
 
   def validate_milestone_constraint
-    if self.is_milestone? && due_date && start_date && start_date != due_date
+    if is_milestone? && due_date && start_date && start_date != due_date
       errors.add :due_date, :not_start_date
     end
   end
 
-  def validate_parent_constraint
-    if parent
-      errors.add :parent_id, :cannot_be_milestone if parent.is_milestone?
+  def validate_parent_not_milestone
+    if parent && parent.is_milestone?
+      errors.add :parent, :cannot_be_milestone
+    end
+  end
+
+  def validate_parent_exists
+    if parent &&
+       parent.is_a?(WorkPackage::InexistentWorkPackage)
+
+      errors.add :parent, :does_not_exist
+    end
+  end
+
+  def validate_parent_in_same_project
+    if parent &&
+       parent.project != project &&
+       !Setting.cross_project_work_package_relations? &&
+       !parent.is_a?(WorkPackage::InexistentWorkPackage)
+
+      errors.add :parent, :cannot_be_in_another_project
+    end
+  end
+
+  def validate_parent_not_descendant
+    if parent && descendants.include?(parent)
+      errors.add :parent, :cant_link_a_work_package_with_a_descendant
     end
   end
 
   def validate_status_transition
-    if status_changed? && status_exists? && !(self.type_id_changed? || status_transition_exists?)
+    if status_changed? && status_exists? && !(type_id_changed? || status_transition_exists?)
       errors.add :status_id, :status_transition_invalid
     end
   end
@@ -161,8 +190,11 @@ module WorkPackage::Validations
     # db. We assign the already instantiated work package with all
     # it's changes as the parent object to the work package's direct
     # children. Other descendants should not have altered parents.
-    all_descendants.each do |wp|
-      wp.parent = self if wp.parent_id == id
+    #
+    # Using a method not requiring an extra db hit.
+    descendants_relations.select(&:direct?).each do |child_relation|
+      child = all_descendants.detect { |wp| wp.id == child_relation.to_id }
+      child.parent = self
     end
 
     copy_descendants_errors(all_descendants)
@@ -177,7 +209,7 @@ module WorkPackage::Validations
   private
 
   def status_changed?
-    status_id_was != 0 && self.status_id_changed?
+    status_id_was != 0 && status_id_changed?
   end
 
   def status_exists?
