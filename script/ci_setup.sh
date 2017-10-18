@@ -1,3 +1,4 @@
+#!/bin/bash
 #-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
@@ -28,7 +29,6 @@
 #++
 
 # script/ci_setup.sh
-#!/bin/sh
 
 # $1 = TEST_SUITE
 # $2 = DB
