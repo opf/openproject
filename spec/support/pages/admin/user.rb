@@ -66,7 +66,7 @@ module Pages
           page.all('.form--check-box').each do |f|
             begin
               f.set false
-            rescue Selenium::WebDriver::Error::InvalidElementStateError => e
+            rescue Selenium::WebDriver::Error::InvalidElementStateError
               # Happens if an element is disabled
             end
           end
