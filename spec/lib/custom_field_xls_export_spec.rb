@@ -47,6 +47,7 @@ describe "WorkPackageXlsExport Custom Fields" do
   let!(:query) do
     query              = FactoryGirl.build(:query, user: current_user, project: project)
     query.column_names = ['subject', "cf_#{custom_field.id}"]
+    query.sort_criteria = [%w[id asc]]
 
     query.save!
     query

@@ -46,7 +46,6 @@ describe "WorkPackageXlsExport" do
     query
   end
 
-
   let(:sheet) do
     login_as(current_user)
     work_packages
