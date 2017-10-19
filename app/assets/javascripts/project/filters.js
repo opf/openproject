@@ -44,6 +44,7 @@ jQuery(function($) {
   }
 
   function sendForm() {
+    $('#ajax-indicator').show();
     let $advancedFilters = $(".advanced-filters--filter", $filterForm);
     let filters = [];
     $advancedFilters.each(function(_i, filter){
@@ -73,8 +74,8 @@ jQuery(function($) {
     return false;
   }
 
+  // Register event listeners
   $filterForm.submit(sendForm)
   $button.click(toggleProjectFilterForm);
   $closeIcon.click(toggleProjectFilterForm);
-
 });

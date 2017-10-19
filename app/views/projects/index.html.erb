@@ -82,7 +82,7 @@ See doc/COPYRIGHT.rdoc for more details.
           </div>
           <div class="advanced-filters--filter-value">
             <% unless operators_without_values.include? selected_operator %>
-              <% if filter.type == :list_optional %>
+              <% if %i(list list_optional list_all ).include? filter.type %>
                 <div>
                   <span class="inline-label">
                     <%= select_tag :value,
@@ -90,7 +90,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                      filter.allowed_values,
                                      :second,
                                      :first,
-                                     @query.find_active_filter(name)
+                                     @query.find_active_filter(filter.name)
                                            .try(:values)
                                            .try(:first)),
                                    class: 'form--select -small' %>
