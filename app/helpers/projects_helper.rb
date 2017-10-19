@@ -133,20 +133,14 @@ module ProjectsHelper
   end
 
   def allowed_filters(query)
-    filters = query.available_filters.reject do |filter|
-      hidden_filters.include? filter.class
-    end
-
+    ordered_filters = %i(status name_and_identifier)
     unless User.current.admin?
-      filters.reject! do |filter|
-        admin_only_filters.include? filter.class
-      end
+      ordered_filters = ordered_filters - admin_only_filters
     end
-    filters
-  end
 
-  def hidden_filters
-    [Queries::Projects::Filters::AncestorFilter]
+    ordered_filters.map do |name|
+      query.find_available_filter(name)
+    end
   end
 
   def admin_only_filters

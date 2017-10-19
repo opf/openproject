@@ -29,7 +29,9 @@
 jQuery(function($) {
   let $filterForm = $('form.project-filters').first();
   let $button = $('#projects-filter-toggle-button');
-  let $closeIcon = $('#projects-filter-close-button');
+
+  let operatorsWithoutValues = ['*', '!*'];
+  let operatorsWithVaues = ['*', '!*'];
 
   function toggleProjectFilterForm() {
     if($button.hasClass('-active')) {
@@ -42,38 +44,31 @@ jQuery(function($) {
   }
 
   function sendForm() {
-    let $simpleFilters = $(".simple-filters--filter", $filterForm);
+    let $advancedFilters = $(".advanced-filters--filter", $filterForm);
     let filters = [];
-    $simpleFilters.each(function(_i, filter){
+    $advancedFilters.each(function(_i, filter){
       let $filter = $(filter);
-      let fieldName = $('label', $filter).attr('for');
-
-      if (fieldName == 'name') {
-        let value = $('input[name="name"]', $filter).val();
+      let filterName = $filter.attr('filter-name');
+      let operator = $('select[name="operator"]', $filter).val();
+      let value = $('select[name="value"],input[name="value"]', $filter).val();
+      let filterParam = {};
+      if (operatorsWithoutValues.includes(operator)) {
+        filterParam[filterName] = {
+          'operator': operator,
+          'values': []
+        }
+        filters.push(filterParam);
+      } else {
         if (value && value.length > 0) {
-          filters.push({
-            'name_and_identifier':{
-              'operator': '~',
-              'values': [$('input[name="name"]', $filter).val()]
-            }
-          });
-        }
-      } else if (fieldName == 'status') {
-        let operator = '*';
-        let value = '';
-        if ($('select[name="status"]', $filter).val() != "all") {
-          operator = '=';
-          value = $('select[name="status"]', $filter).val();
-        }
-        filters.push({
-          'status':{
+          filterParam[filterName] = {
             'operator': operator,
             'values': [value]
           }
-        });
+          filters.push(filterParam);
+        }
       }
     })
-    let query = '?filters=' + JSON.stringify(filters);
+    let query = '?filters=' + encodeURIComponent(JSON.stringify(filters));
     window.location = window.location.pathname + query;
     return false;
   }

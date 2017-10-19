@@ -303,6 +303,11 @@ class ProjectsController < ApplicationController
     # TODO: Do not call API V3, mixing up stuff.
     @query = ::API::V3::ParamsToQueryService.new(Project, current_user).call(params)
 
+    # Set default filter on status if none is present.
+    unless @query.find_active_filter(:status)
+      @query.where('status', '=', Project::STATUS_ACTIVE.to_s)
+    end
+
     if @query.valid?
       # TODO: remove order and user normal query orders. Look into pagination,
       # too.

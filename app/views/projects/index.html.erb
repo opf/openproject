@@ -57,42 +57,61 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
+  <% operators_without_values = ['*', '!*'] %>
   <fieldset class="advanced-filters--container">
     <a id="projects-filter-close-button" title="{{ ::I18n.t('js.close_form_title') }}" class="simple-filters--close icon-context icon-close"></a>
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="advanced-filters--filters">
       <% allowed_filters(@query).each do |filter| %>
-        <li class="advanced-filters--filter" project-filter="<%= filter.name %>">
+        <li class="advanced-filters--filter" filter-name="<%= filter.name %>">
           <label class='advanced-filters--filter-name' for="<%= filter.name %>">
             <%= filter.human_name %>
           </label>
           <div class="advanced-filters--filter-operator">
-            <%= select_tag :operators,
-                           options_from_collection_for_select(filter.available_operators, :symbol, :human_name, filter.default_operator.symbol),
-            class: 'advanced-filters--select'  %>
+            <% selected_operator = (@query
+                                      .find_active_filter(filter.name)
+                                      .try(:operator) ||
+                                    filter.default_operator.symbol) %>
+            <%= select_tag :operator,
+                           options_from_collection_for_select(
+                             filter.available_operators,
+                             :symbol,
+                             :human_name,
+                             selected_operator),
+                           class: 'advanced-filters--select'  %>
           </div>
-          <% if filter.type == :list_optional %>
-            <div>
-              <span class="inline-label">
-                <%= select_tag :value,
-                               options_from_collection_for_select(filter.allowed_values, :second, :first),
-                               class: 'advanced-filters--filter-value'  %>
-                <a href="" class="form-label no-decoration-on-hover -transparent" ng-click="toggleMultiselect()" tabindex="0">
-                  <span class="icon-context icon-button icon-add icon4" title="Enable multiselect" icon-name="add" icon-title="Enable multiselect" css-class="icon4">
-                    <span class="hidden-for-sighted ng-binding">Enable multiselect</span>
+          <div class="advanced-filters--filter-value">
+            <% unless operators_without_values.include? selected_operator %>
+              <% if filter.type == :list_optional %>
+                <div>
+                  <span class="inline-label">
+                    <%= select_tag :value,
+                                   options_from_collection_for_select(
+                                     filter.allowed_values,
+                                     :second,
+                                     :first,
+                                     @query.find_active_filter(name)
+                                           .try(:values)
+                                           .try(:first)),
+                                   class: 'form--select -small' %>
+                    <a href="" class="form-label no-decoration-on-hover -transparent" ng-click="toggleMultiselect()" tabindex="0">
+                      <span class="icon-context icon-button icon-add icon4" title="Enable multiselect" icon-name="add" icon-title="Enable multiselect" css-class="icon4">
+                        <span class="hidden-for-sighted ng-binding">Enable multiselect</span>
+                      </span>
+                    </a>
                   </span>
-                </a>
-              </span>
-            </div>
-          <% elsif filter.type == :string %>
-            <div>
-              <%= text_field_tag :value, params[:name], class: 'advanced-filters--text-field' %>
-            </div>
-          <% end %>
+                </div>
+              <% elsif filter.type == :string %>
+                <div>
+                  <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field' %>
+                </div>
+              <% end %>
+            <% end %>
+          </div>
         </li>
-
       <% end %>
-      <li class="simple-filters--controls">
+      <li class="advanced-filters--spacer"></li>
+      <li class="advanced-filters--controls">
         <%= submit_tag t(:button_apply), class: 'button -highlight', name: nil %>
       </li>
     </ul>
@@ -211,7 +230,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if User.current.admin? %>
   <p class="information-section">
     <%= op_icon('icon-info1') %>
-    <%= l(:label_projects_storage_information,
+    <%= t(:label_projects_storage_information,
           count: Project.count,
           storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
   </p>

@@ -30,7 +30,7 @@
 
 class Queries::Projects::Filters::StatusFilter < Queries::Projects::Filters::ProjectFilter
   def type
-    :list_optional
+    :list_all
   end
 
   def self.key
