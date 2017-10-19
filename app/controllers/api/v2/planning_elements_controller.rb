@@ -231,7 +231,7 @@ module Api
         end
       end
 
-      Struct.new('WorkPackage', *[WorkPackage.column_names.map(&:to_sym), :parent_id, :custom_values, :child_ids].flatten)
+      Struct.new('WorkPackage', *[WorkPackage.column_names.map(&:to_sym), :parent_id, :custom_values, :child_ids].flatten.uniq)
       Struct.new('CustomValue', :typed_value, *CustomValue.column_names.map(&:to_sym))
 
       def convert_wp_to_struct(work_package)
