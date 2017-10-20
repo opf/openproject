@@ -189,7 +189,7 @@ group :test do
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.0'
-  gem 'rspec-retry', '~> 0.5.2'
+  gem 'rspec-retry', '~> 0.5.5'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
