@@ -296,7 +296,7 @@ When /^I wait(?: (\d+) seconds)? for(?: the)? [Aa][Jj][Aa][Xx](?: requests?(?: t
   ajax_done = lambda do
     is_done = false
     while !is_done
-      is_done = page.execute_script(%{
+      is_done = page.evaluate_script(%{
         (function (){
           return !(window.jQuery && document.ajaxActive);
         }())
