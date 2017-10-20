@@ -60,6 +60,7 @@ Capybara.register_driver :selenium do |app|
 
   options = Selenium::WebDriver::Firefox::Options.new
   options.profile = profile
+  options.args << "--headless"
 
   # If you need to trace the webdriver commands, un-comment this line
   # Selenium::WebDriver.logger.level = :debug
