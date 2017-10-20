@@ -116,7 +116,7 @@ addons:
   # Setting latest here due to the switch from old selenium bindings
   # to Marionette. At the date of this writing, ESR is Firefox 52 and has
   # bad support for it.
-  firefox: "latest"
+  firefox: "latest-beta"
   postgresql: "9.3"
 
 # Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
