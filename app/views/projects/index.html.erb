@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="advanced-filters--filters">
       <% allowed_filters(@query).each do |filter| %>
-        <li class="advanced-filters--filter" filter-name="<%= filter.name %>">
+        <li class="advanced-filters--filter" filter-name="<%= filter.name %>" filter-type="<%= filter.type %>">
           <label class='advanced-filters--filter-name' for="<%= filter.name %>">
             <%= filter.human_name %>
           </label>
@@ -80,32 +80,54 @@ See doc/COPYRIGHT.rdoc for more details.
                              selected_operator),
                            class: 'advanced-filters--select'  %>
           </div>
-          <div class="advanced-filters--filter-value">
-            <% unless operators_without_values.include? selected_operator %>
-              <% if %i(list list_optional list_all ).include? filter.type %>
-                <div>
-                  <span class="inline-label">
-                    <%= select_tag :value,
-                                   options_from_collection_for_select(
-                                     filter.allowed_values,
-                                     :second,
-                                     :first,
-                                     @query.find_active_filter(filter.name)
-                                           .try(:values)
-                                           .try(:first)),
-                                   class: 'form--select -small' %>
-                    <a href="" class="form-label no-decoration-on-hover -transparent" ng-click="toggleMultiselect()" tabindex="0">
-                      <span class="icon-context icon-button icon-add icon4" title="Enable multiselect" icon-name="add" icon-title="Enable multiselect" css-class="icon4">
-                        <span class="hidden-for-sighted ng-binding">Enable multiselect</span>
-                      </span>
-                    </a>
+          <% is_multi_value = (@query.find_active_filter(filter.name)
+                                     .try(:values) &&
+                               @query.find_active_filter(filter.name)
+                                     .values.try(:size) > 1) %>
+          <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>
+          <div class="advanced-filters--filter-value <%= value_visibility %> <%= is_multi_value ? 'multi-value' : '' %>">
+            <% if %i(list list_optional list_all ).include? filter.type %>
+              <div class="single-select">
+                <span class="inline-label">
+                  <%= select_tag :value,
+                                 options_from_collection_for_select(
+                                   filter.allowed_values,
+                                   :second,
+                                   :first,
+                                   @query.find_active_filter(filter.name)
+                                         .try(:values)
+                                         .try(:first)),
+                                 class: 'form--select -small' %>
+                  <span href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
+                    <span class="icon-context icon-button icon-add icon4" title="<%= t(:label_enable_multi_select) %>" icon-name="add" icon-title="<%= t(:label_enable_multi_select) %>" css-class="icon4">
+                      <span class="hidden-for-sighted"><%= t(:label_enable_multi_select) %></span>
+                    </span>
                   </span>
-                </div>
-              <% elsif filter.type == :string %>
-                <div>
-                  <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field' %>
-                </div>
-              <% end %>
+                </span>
+              </div>
+              <div class="multi-select">
+                <span class="inline-label">
+                  <%= select_tag :value,
+                                 options_from_collection_for_select(
+                                   filter.allowed_values,
+                                   :second,
+                                   :first,
+                                   @query.find_active_filter(filter.name)
+                                         .try(:values)
+                                 ),
+                                 class: 'form--select -small',
+                                 multiple: true %>
+                  <span href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
+                    <span class="icon-context icon-button icon-minus2 icon4" title="<%= t(:label_enable_multi_select) %>" icon-name="minus2" icon-title="<%= t(:label_enable_multi_select) %>" css-class="icon4">
+                      <span class="hidden-for-sighted"><%= t(:label_enable_multi_select) %></span>
+                    </span>
+                  </span>
+                </span>
+              </div>
+            <% elsif filter.type == :string %>
+              <div>
+                <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field' %>
+              </div>
             <% end %>
           </div>
         </li>
