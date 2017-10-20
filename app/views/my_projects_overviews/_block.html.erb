@@ -24,7 +24,7 @@ See doc/COPYRIGHT.md for more details.
   <% content_for block_name_id do %>
     <div class="box-actions">
       <% if User.current.allowed_to?(:edit_project, project) %>
-      <a href="javascript:"
+      <a href="#"
          ng-click="$ctrl.remove()"
          ng-show="$ctrl.editing"
          class="icon icon-close remove-block"
