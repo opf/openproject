@@ -85,12 +85,13 @@ Capybara.register_driver :selenium do |app|
   profile['browser.startup.homepage_override.mstone'] = 'ignore'
   profile['startup.homepage_welcome_url.additional'] = 'about:blank'
 
-  # need to disable marionette as noted
-  # https://github.com/teamcapybara/capybara#capybara
+  options = Selenium::WebDriver::Firefox::Options.new
+  options.profile = profile
+
   Capybara::Selenium::Driver.new(app,
                                  browser: :firefox,
-                                 profile: profile,
-                                 desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false))
+                                 options: options,
+                                 desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true))
 end
 
 Capybara.javascript_driver = :selenium
