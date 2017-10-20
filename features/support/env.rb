@@ -84,9 +84,6 @@ Capybara.register_driver :selenium do |app|
   capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true)
   capabilities["elementScrollBehavior"] = 1
 
-  client = Selenium::WebDriver::Remote::Http::Default.new
-  client.timeout = 180
-
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['intl.accept_languages'] = 'en'
 
@@ -97,6 +94,10 @@ Capybara.register_driver :selenium do |app|
   options = Selenium::WebDriver::Firefox::Options.new
   options.profile = profile
 
+  unless ENV['OPENPROJECT_TESTING_NO_HEADLESS']
+    options.args << "--headless"
+  end
+
   # If you need to trace the webdriver commands, un-comment this line
   # Selenium::WebDriver.logger.level = :debug
 
@@ -104,7 +105,6 @@ Capybara.register_driver :selenium do |app|
     app,
     browser: :firefox,
     options: options,
-    http_client: client,
     desired_capabilities: capabilities
   )
 end

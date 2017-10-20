@@ -115,7 +115,7 @@ notifications:
 addons:
   # Setting latest here due to the switch from old selenium bindings
   # to Marionette. At the date of this writing, ESR is Firefox 52 and has
-  # bad support for it.
+  # bad support for it. Thus we use the almost-released FF 57
   firefox: "latest-beta"
   postgresql: "9.3"
 
