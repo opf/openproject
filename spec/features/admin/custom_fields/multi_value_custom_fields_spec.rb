@@ -92,12 +92,10 @@ describe 'Multi-value custom fields creation', type: :feature, js: true do
     # Drag and drop
 
     # We need to hack a target for where to drag the row to
-    page.evaluate_script <<-JS
+    page.execute_script <<-JS
       jQuery('#custom-field-dragula-container')
-        .append('<tr class="__drag_and_drop_end_of_list"><td colspan="4" style="height: 100px"></td></tr>')
+        .append('<tr class="__drag_and_drop_end_of_list"><td colspan="4" style="height: 100px"></td></tr>');
     JS
-
-    sleep 1
 
     rows = page.all('tr.custom-option-row')
     expect(rows.length).to eq(3)
@@ -105,7 +103,7 @@ describe 'Multi-value custom fields creation', type: :feature, js: true do
 
     sleep 1
 
-    page.evaluate_script <<-JS
+    page.execute_script <<-JS
       jQuery('.__drag_and_drop_end_of_list').remove()
     JS
 
