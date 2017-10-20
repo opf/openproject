@@ -29,7 +29,7 @@ RSpec.configure do |config|
   config.retry_callback = proc do |ex|
     # run some additional clean up task - can be filtered by example metadata
     if ex.metadata[:js]
-      $stderr.put "Resetting Capybara session between retry."
+      $stderr.puts "Resetting Capybara session between retry."
       Capybara.reset!
     end
   end
