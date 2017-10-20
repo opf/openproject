@@ -290,10 +290,12 @@ describe 'Switching types in work package table', js: true do
       type_field.activate!
       type_field.set_value type_with_cf.name
 
+      # Scroll to element so it is fully visible
+      scroll_to_element(cf_edit_field.field_container)
+
       cf_edit_field.field_container.find('.wp-inline-edit--toggle-multiselect').click
       sel = cf_edit_field.input_element
 
-      # Scroll to element so it is fully visible
       scroll_to_element(sel)
 
       sel.select "pineapple"

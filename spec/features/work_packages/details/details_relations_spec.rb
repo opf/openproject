@@ -225,7 +225,7 @@ describe 'Work package relations tab', js: true, selenium: true do
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
 
         # Back to split view
-        page.evaluate_script('window.history.back()')
+        page.execute_script('window.history.back()')
         work_packages_page.expect_subject
 
         expect(page).to have_no_selector('.relation-group--header', text: 'FOLLOWS')

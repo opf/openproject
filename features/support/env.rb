@@ -77,21 +77,36 @@ end
 
 Capybara.register_driver :selenium do |app|
   require 'selenium/webdriver'
+
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
-                                              Selenium::WebDriver::Firefox::Binary.path
+  Selenium::WebDriver::Firefox::Binary.path
+
+  capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true)
+  capabilities["elementScrollBehavior"] = 1
+
+  client = Selenium::WebDriver::Remote::Http::Default.new
+  client.timeout = 180
 
   profile = Selenium::WebDriver::Firefox::Profile.new
-  profile['intl.accept_languages'] = 'en,en-us'
-  profile['browser.startup.homepage_override.mstone'] = 'ignore'
-  profile['startup.homepage_welcome_url.additional'] = 'about:blank'
+  profile['intl.accept_languages'] = 'en'
+
+  # use native instead of synthetic events
+  # https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
+  profile.native_events = true
 
   options = Selenium::WebDriver::Firefox::Options.new
   options.profile = profile
 
-  Capybara::Selenium::Driver.new(app,
-                                 browser: :firefox,
-                                 options: options,
-                                 desired_capabilities: Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true))
+  # If you need to trace the webdriver commands, un-comment this line
+  # Selenium::WebDriver.logger.level = :debug
+
+  Capybara::Selenium::Driver.new(
+    app,
+    browser: :firefox,
+    options: options,
+    http_client: client,
+    desired_capabilities: capabilities
+  )
 end
 
 Capybara.javascript_driver = :selenium

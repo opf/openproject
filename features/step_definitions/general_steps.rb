@@ -35,10 +35,6 @@ Before do |scenario|
     FactoryGirl.create(:admin) unless User.find_by_login('admin')
     FactoryGirl.create(:anonymous) unless AnonymousUser.count > 0
     Setting.notified_events = [] # can not test mailer
-
-    if Capybara.current_driver.to_s.include?('selenium')
-      Capybara.current_session.driver.browser.manage.window.resize_to(3000, 3000)
-    end
   end
 end
 

@@ -125,7 +125,7 @@ Then(/^I should not see the project "(.*?)"$/) do |project_name|
 end
 
 Then(/^the first table column should not take more than 25% of the space$/) do
-  result = page.evaluate_script("jQuery('.tl-left-main th').width() < (jQuery('body').width() * 0.25 + 22)")
+  result = page.execute_script("jQuery('.tl-left-main th').width() < (jQuery('body').width() * 0.25 + 22)")
   result.should be_truthy
 end
 
