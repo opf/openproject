@@ -39,7 +39,14 @@ module Components
       end
 
       def hover!
-        @container.hover
+        # The timeline resizer overlays the timeline at the very right
+        # The hover implementation also seems to hover at the utmost right
+        # of an element.
+        # We therefore select an element in the row we assume to never be at the utmost right.
+        # TODO: As this is actually a usability issue, we should fix the
+        # timeline to always display as many days to the right as is needed to
+        # ensure that a timeline element is never blocked by the resizer bar.
+        @container.find('.rightHandle, .diamond').hover
       end
 
       def expect_hovered_labels(left:, right:)

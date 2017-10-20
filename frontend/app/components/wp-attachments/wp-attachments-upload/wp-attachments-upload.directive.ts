@@ -68,7 +68,7 @@ function wpUploadDirective():any {
     restrict: 'AE',
     template: `
       <div
-        class="wp-attachment-upload"
+        class="wp-attachment-upload hide-when-print"
         ng-if="$ctrl.workPackage.canAddAttachments"
         ngf-drop
         ngf-select

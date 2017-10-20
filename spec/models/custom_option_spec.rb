@@ -63,6 +63,13 @@ describe CustomOption, type: :model do
         expect(CustomOption.where(id: custom_option.id).count)
           .to eql 0
       end
+
+      it "updates the custom_field's timestamp" do
+        timestamp_before = custom_field.updated_at
+        sleep 1
+        custom_option.destroy
+        expect(custom_field.reload.updated_at).not_to eql(timestamp_before)
+      end
     end
 
     context 'with only one option for the cf' do

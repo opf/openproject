@@ -13,6 +13,7 @@
   </div>
 
   <div class="work-packages--info-row" ng-if="!$ctrl.workPackage.isNew">
+    <span ng-bind="$ctrl.idLabel"/>:
     <span ng-bind="$ctrl.text.infoRow.createdBy"/>
     <user-link class="user-link" user="$ctrl.workPackage.author"></user-link>.
     <span ng-bind="$ctrl.text.infoRow.lastUpdatedOn"/>
@@ -42,7 +43,7 @@
     </div>
   </div>
 
-  <div class="attributes-group -project-context" ng-if="!$ctrl.workPackage.isNew && !$ctrl.projectContext.matches">
+  <div class="attributes-group -project-context hide-when-print" ng-if="!$ctrl.workPackage.isNew && !$ctrl.projectContext.matches">
     <div>
       <p>
         <span ng-bind-html="$ctrl.projectContextText"></span>
@@ -153,7 +154,7 @@
     </div>
 
     <wp-attachment-list work-package="$ctrl.workPackage"></wp-attachment-list>
-    <wp-attachments-upload work-package="$ctrl.workPackage">
+    <wp-attachments-upload work-package="$ctrl.workPackage" class="hide-when-print">
       <div class="work-package--attachments--drop-box">
         <div class="work-package--attachments--label">
           <op-icon icon-classes="icon-attachment"></op-icon>

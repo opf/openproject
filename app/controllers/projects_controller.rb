@@ -48,6 +48,7 @@ class ProjectsController < ApplicationController
   accept_key_auth :index, :level_list, :show, :create, :update, :destroy
 
   include SortHelper
+  include PaginationHelper
   include CustomFieldsHelper
   include QueriesHelper
   include RepositoriesHelper
@@ -55,17 +56,16 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
-    @projects = Project.visible
+    sort_clear
+    sort_init 'lft'
+    sort_update %w(lft name is_public created_on required_disk_space latest_activity_at)
+
+    projects = get_all_projects_for_overview_page
+    @projects = filter_projects_by_permission projects
 
     respond_to do |format|
       format.html do
         @projects = @projects.order('lft')
-      end
-      format.atom do
-        projects = @projects
-                   .order('created_on DESC')
-                   .limit(Setting.feeds_limit.to_i)
-        render_feed(projects, title: "#{Setting.app_title}: #{l(:label_project_latest)}")
       end
     end
   end
@@ -188,7 +188,6 @@ class ProjectsController < ApplicationController
     end
   end
 
-
   def types
     if UpdateProjectsTypesService.new(@project).call(permitted_params.projects_type_ids)
       flash[:notice] = l('notice_successful_update')
@@ -221,12 +220,12 @@ class ProjectsController < ApplicationController
 
   def archive
     flash[:error] = l(:error_can_not_archive_project) unless @project.archive
-    redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))
+    redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
   end
 
   def unarchive
     @project.unarchive if !@project.active?
-    redirect_to(url_for(controller: '/admin', action: 'projects', status: params[:status]))
+    redirect_to(url_for(controller: '/projects', action: 'index', status: params[:status]))
   end
 
   # Delete @project
@@ -295,6 +294,34 @@ class ProjectsController < ApplicationController
         member.role_ids = [r].map(&:id) # member.roles = [r] fails, this works
       end
       project.members << m
+    end
+  end
+
+  def get_all_projects_for_overview_page
+    @status = params[:status] ? params[:status].to_i : 1
+    c = ARCondition.new(@status.zero? ? 'status <> 0' : ['status = ?', @status])
+
+    unless params[:name].blank?
+      name = "%#{params[:name].strip.downcase}%"
+      c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
+    end
+
+    Project
+      .with_required_storage
+      .with_latest_activity
+      .order(sort_clause)
+      .where(c.conditions)
+      .page(page_param)
+      .per_page(per_page_param)
+  end
+
+  def filter_projects_by_permission(projects)
+    if User.current.admin?
+      projects
+    elsif User.current.anonymous?
+      projects.active.public_projects
+    else
+      projects.visible
     end
   end
 

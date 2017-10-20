@@ -29,31 +29,31 @@
 require 'spec_helper'
 
 describe ::API::V3::Relations::RelationCollectionRepresenter do
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.build_stubbed(:work_package)
-  }
+  end
 
-  let(:relations) {
+  let(:relations) do
     (1..3).map do
       FactoryGirl.build_stubbed(:relation,
                                 from: work_package,
                                 to: FactoryGirl.build_stubbed(:work_package))
     end
-  }
+  end
 
-  let(:user) {
+  let(:user) do
     FactoryGirl.build_stubbed(:user)
-  }
+  end
 
   def self_link
     'a link that is provided'
   end
 
-  let(:representer) {
+  let(:representer) do
     described_class.new(relations,
                         self_link,
                         current_user: user)
-  }
+  end
 
   context 'generation' do
     subject(:collection) { representer.to_json }

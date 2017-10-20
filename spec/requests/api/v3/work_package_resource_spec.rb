@@ -29,7 +29,7 @@
 require 'spec_helper'
 require 'rack/test'
 
-describe 'API v3 Work package resource', type: :request do
+describe 'API v3 Work package resource', type: :request, content_type: :json do
   include Rack::Test::Methods
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
@@ -927,8 +927,8 @@ describe 'API v3 Work package resource', type: :request do
 
           before do
             [child_1, child_2].each do |c|
-              c.parent = work_package
-              c.save!(validate: false)
+              relation = Relation.new from: work_package, to: c, hierarchy: 1
+              relation.save!(validate: false)
             end
           end
 

@@ -1,12 +1,12 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2006-2017 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -24,33 +24,21 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
+jQuery(function($) {
+  let $filterForm = $('form.project-filters').first();
+  let $button = $('#projects-filter-toggle-button');
 
-import {opServicesModule} from '../../angular-modules';
-import {WorkPackageTableColumns} from '../wp-fast-table/wp-table-columns';
-
-export class WorkPackageResizerService {
-
-  public changeTimelineWidthOnColumnCountChange(columns:WorkPackageTableColumns, table:HTMLElement, timeline:HTMLElement) {
-    const colCount = columns.current.length;
-    if (colCount === 0) {
-      table.style.flex = `0 1 45px`;
-      timeline.style.flex = `1 1`;
-    } else if (colCount === 1) {
-      table.style.flex = `1 1`;
-      timeline.style.flex = `4 1`;
-    } else if (colCount === 2) {
-      table.style.flex = `1 1`;
-      timeline.style.flex = `3 1`;
-    } else if (colCount === 3) {
-      table.style.flex = `1 1`;
-      timeline.style.flex = `2 1`;
-    } else if (colCount === 4) {
-      table.style.flex = `2 1`;
-      timeline.style.flex = `3 1`;
+  function toggleProjectFilterForm() {
+    if($button.hasClass('-active')) {
+      $button.removeClass('-active');
+      $filterForm.removeClass('-expanded');
+    } else {
+      $button.addClass('-active');
+      $filterForm.addClass('-expanded');
     }
   }
-}
 
-opServicesModule.service('wpResizer', WorkPackageResizerService);
+  $button.click(toggleProjectFilterForm);
+});

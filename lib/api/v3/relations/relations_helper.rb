@@ -32,13 +32,18 @@ module API
       module RelationsHelper
         def filter_attributes(relation)
           relation
-            .attributes
+            .changes
+            .map { |k, v| [k, v.last] }
+            .to_h
             .with_indifferent_access
-            .reject { |_key, value| value.blank? }
         end
 
         def representer
           ::API::V3::Relations::RelationRepresenter
+        end
+
+        def parse_representer
+          ::API::V3::Relations::RelationPayloadRepresenter
         end
 
         def project_id_for_relation(id)

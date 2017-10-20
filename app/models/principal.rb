@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -36,14 +37,14 @@ class Principal < ActiveRecord::Base
     registered: 2,
     locked: 3,
     invited: 4
-  }
+  }.freeze
 
   self.table_name = "#{table_name_prefix}users#{table_name_suffix}"
 
   has_one :preference,
-    dependent: :destroy,
-    class_name: 'UserPreference',
-    foreign_key: 'user_id'
+          dependent: :destroy,
+          class_name: 'UserPreference',
+          foreign_key: 'user_id'
   has_many :members, foreign_key: 'user_id', dependent: :destroy
   has_many :memberships, -> {
     includes(:project, :roles)
@@ -82,7 +83,7 @@ class Principal < ActiveRecord::Base
     where("#{Principal.table_name}.status <> #{STATUSES[:builtin]}")
   }
 
-  scope :like, -> (q) {
+  scope :like, ->(q) {
     firstnamelastname = "((firstname || ' ') || lastname)"
     lastnamefirstname = "((lastname || ' ') || firstname)"
 

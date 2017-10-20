@@ -55,6 +55,10 @@ export class PathHelperService {
     return this.staticBase + '/help/keyboard_shortcuts';
   }
 
+  public messagePath(messageIdentifier:string) {
+    return this.staticBase + '/topics/' + messageIdentifier;
+  }
+
   public myPagePath() {
     return this.staticBase + '/my/page';
   }
@@ -156,7 +160,7 @@ export class PathHelperService {
   public workPackageJsonAutoCompletePath(projectId?:string) {
     var path = this.workPackagesPath() + '/auto_complete.json';
     if (projectId) {
-      path += '?project_id=' + projectId
+      path += '?project_id=' + projectId;
     }
 
     return path;
@@ -193,7 +197,7 @@ export class PathHelperService {
     // Only real and activated users:
     filters.add('status', '!', ['0', '3']);
     // that are members of that project:
-    filters.add('member','=', [projectId.toString()]);
+    filters.add('member', '=', [projectId.toString()]);
     // That are users:
     filters.add('type', '=', ['User']);
     // That are not the current user:

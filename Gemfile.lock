@@ -60,10 +60,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 2e234867e97f7c80cde908828d7240f1ad16fdb1
-  branch: dev
+  revision: 2e0808789d8d70d8107b355553db0bfd2491bb3e
+  branch: release/7.3
   specs:
-    openproject-translations (7.3.0)
+    openproject-translations (7.3.1)
       crowdin-api (~> 0.4.1)
       mixlib-shellout (~> 2.1.0)
       rails (~> 5.0.0)
@@ -350,7 +350,7 @@ GEM
       actionpack (>= 3.2.0, < 5.2)
     method_source (0.8.2)
     mime-types (2.99.3)
-    mini_portile2 (2.2.0)
+    mini_portile2 (2.3.0)
     minisyntax (0.2.5)
     minitest (5.10.2)
     mixlib-shellout (2.1.0)
@@ -365,8 +365,8 @@ GEM
     netrc (0.11.0)
     newrelic_rpm (4.2.0.334)
     nio4r (2.1.0)
-    nokogiri (1.8.0)
-      mini_portile2 (~> 2.2.0)
+    nokogiri (1.8.1)
+      mini_portile2 (~> 2.3.0)
     oj (3.3.2)
     okcomputer (1.16.0)
     openproject-token (1.0.1)
@@ -570,6 +570,8 @@ GEM
     tilt (2.0.7)
     timecop (0.9.1)
     ttfunk (1.5.0)
+    typed_dag (1.0.0)
+      rails (>= 5.0.4)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
     tzinfo-data (1.2017.2)
@@ -667,7 +669,7 @@ DEPENDENCIES
   mysql2 (~> 0.4.4)
   net-ldap (~> 0.16.0)
   newrelic_rpm
-  nokogiri (~> 1.8.0)
+  nokogiri (~> 1.8.1)
   oj (~> 3.3.2)
   okcomputer (~> 1.16.0)
   omniauth!
@@ -726,6 +728,7 @@ DEPENDENCIES
   thin (~> 1.7.2)
   timecop (~> 0.9.0)
   transactional_lock!
+  typed_dag (~> 1.0.0)
   tzinfo-data (~> 1.2017.2)
   unicorn
   unicorn-worker-killer

@@ -401,22 +401,22 @@ describe WorkPackages::MovesController, type: :controller do
         end
 
         context 'child work package from one project to other' do
-          let(:to_project) {
+          let(:to_project) do
             FactoryGirl.create(:project,
                                types: [type])
-          }
-          let!(:member) {
+          end
+          let!(:member) do
             FactoryGirl.create(:member,
                                user: current_user,
                                roles: [role],
                                project: to_project)
-          }
-          let(:child_wp) {
+          end
+          let!(:child_wp) do
             FactoryGirl.create(:work_package,
                                type: type,
                                project: project,
-                               parent_id: work_package.id)
-          }
+                               parent: work_package)
+          end
 
           shared_examples_for 'successful move' do
             it { expect(flash[:notice]).to eq(I18n.t(:notice_successful_create)) }
@@ -446,7 +446,7 @@ describe WorkPackages::MovesController, type: :controller do
 
             it_behaves_like 'successful move'
 
-            it { expect(to_project.work_packages.first.parent_id).to be_nil }
+            it { expect(to_project.work_packages.first.parent).to be_nil }
           end
 
           context 'when cross_project_work_package_relations is enabled' do
@@ -458,7 +458,7 @@ describe WorkPackages::MovesController, type: :controller do
 
             it_behaves_like 'successful move'
 
-            it { expect(to_project.work_packages.first.parent_id).to eq(child_wp.parent_id) }
+            it { expect(to_project.work_packages.first.parent).to eq(child_wp.parent) }
           end
         end
       end

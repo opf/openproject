@@ -457,19 +457,22 @@ describe MoveWorkPackageService, type: :model do
             mock_allowed_to_move_to_project(target_project)
 
             child.reload
+            child.children
 
             instance.call(target_project)
           end
-          let!(:child) {
+          let!(:child) do
             FactoryGirl.create(:work_package, parent: work_package, project: source_project)
-          }
-          let!(:grandchild) {
+          end
+          let!(:grandchild) do
             FactoryGirl.create(:work_package, parent: child, project: source_project)
-          }
+          end
 
           context 'cross project relations deactivated' do
             before do
-              allow(Setting).to receive(:cross_project_work_package_relations?).and_return(false)
+              allow(Setting)
+                .to receive(:cross_project_work_package_relations?)
+                .and_return(false)
             end
 
             it do

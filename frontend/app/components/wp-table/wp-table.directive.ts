@@ -38,7 +38,6 @@ import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {WorkPackageTableColumns} from '../wp-fast-table/wp-table-columns';
 import {KeepTabService} from '../wp-panels/keep-tab/keep-tab.service';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
-import {WorkPackageResizerService} from '../wp-resizer/wp-resizer.service';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
 
@@ -103,8 +102,7 @@ export class WorkPackagesTableController {
               I18n:op.I18n,
               wpTableGroupBy:WorkPackageTableGroupByService,
               wpTableTimeline:WorkPackageTableTimelineService,
-              wpTableColumns:WorkPackageTableColumnsService,
-              wpResizer:WorkPackageResizerService) {
+              wpTableColumns:WorkPackageTableColumnsService) {
     // Clear any old table subscribers
     states.table.stopAllSubscriptions.next();
 
@@ -159,11 +157,6 @@ export class WorkPackagesTableController {
     const tableAndTimeline = this.getTableAndTimelineElement();
     this.table = tableAndTimeline[0];
     this.timeline = tableAndTimeline[1];
-
-    // Subscribe to column changes and calculate how to
-    // partition the width between table and timeline
-    wpTableColumns.observeOnScope($scope)
-      .subscribe(c => wpResizer.changeTimelineWidthOnColumnCountChange(c, this.table, this.timeline));
 
     // sync hover from table to timeline
     const wpTableHoverSync = new WpTableHoverSync(this.$element);

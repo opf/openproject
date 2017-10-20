@@ -39,7 +39,8 @@ export class HalRequestService {
   public defaultHeaders = {
     caching: {
       enabled: true
-    }
+    },
+    'Content-Type': 'application/json'
   };
 
   constructor(protected $q:ng.IQService,
@@ -55,7 +56,7 @@ export class HalRequestService {
       return this.$q.reject();
     }
 
-    if (method === 'post') {
+    if (method.toUpperCase() !== 'GET') {
       data = data || {};
     }
 

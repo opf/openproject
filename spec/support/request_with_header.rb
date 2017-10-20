@@ -6,6 +6,10 @@ RSpec.configure do |c|
       header('X-Requested-With', 'XMLHttpRequest')
     end
   end
+
+  c.before(:each, type: :request, content_type: :json) do |ex|
+    header('Content-Type', 'application/json')
+  end
 end
 
 

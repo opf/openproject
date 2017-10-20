@@ -147,7 +147,7 @@ describe ::API::V3::Relations::RelationRepresenter, type: :request do
         end
 
         it 'does not contain the work packages with which a relationship already exists' do
-          expect(subjects).to match_array ["WP 1", "WP 1.2", "WP 1.2.1", "WP 2.1"]
+          expect(subjects).to match_array ["WP 1.2", "WP 1.2.1", "WP 2.1"]
         end
       end
     end

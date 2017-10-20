@@ -34,7 +34,7 @@ describe WorkPackage, type: :model do
 
   describe 'validations' do
     # validations
-    [:subject, :priority, :project, :type, :author, :status].each do |field|
+    %i(subject priority project type author status).each do |field|
       it { is_expected.to validate_presence_of field }
     end
 
@@ -85,9 +85,8 @@ describe WorkPackage, type: :model do
         expect(child_1).to be_valid # yes, child-start-date can moved before parent-start-date...
         child_1.save
 
-        expect {
-          parent.reload
-        }.to change { parent.start_date }
+        expect { parent.reload }
+          .to change { parent.start_date }
           .from(late_date)
           .to(early_date) # ... but this changes the parent's start_date to the child's start_date
       end
@@ -121,7 +120,7 @@ describe WorkPackage, type: :model do
     let(:wp) { FactoryGirl.build(:work_package) }
 
     it 'validate, that versions of the project can be assigned to workpackages' do
-      assignable_version   = FactoryGirl.create(:version, project: wp.project)
+      assignable_version = FactoryGirl.create(:version, project: wp.project)
 
       wp.fixed_version = assignable_version
       expect(wp).to be_valid
@@ -138,7 +137,7 @@ describe WorkPackage, type: :model do
     end
 
     it 'validate, that closed or locked versions cannot be assigned' do
-      non_assignable_version   = FactoryGirl.create(:version, project: wp.project)
+      non_assignable_version = FactoryGirl.create(:version, project: wp.project)
 
       %w{locked closed}.each do |status|
         non_assignable_version.update_attribute(:status, status)

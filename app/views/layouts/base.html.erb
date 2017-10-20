@@ -35,7 +35,6 @@ See doc/COPYRIGHT.rdoc for more details.
     <%= display_meta_tags site: Setting.app_title, title: html_title %>
 
     <meta name="app_base_path" content="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>" />
-    <base href="<%= OpenProject::Configuration['rails_relative_url_root'] || '' %>/" />
     <% if @project %>
     <meta name="current_project"
           data-project-name="<%= h @project.name %>"

@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,12 +28,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::NestedSet
-  module WithRootIdScope
-    def self.included(base)
-      base.class_eval do
-        include RootIdHandling
-        include RootIdRebuilding
+module API
+  module V3
+    module Relations
+      class RelationPayloadRepresenter < RelationRepresenter
+        include ::API::Utilities::PayloadRepresenter
       end
     end
   end

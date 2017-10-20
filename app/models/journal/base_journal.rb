@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -40,8 +39,6 @@ class Journal::BaseJournal < ActiveRecord::Base
     @journaled_attributes ||= column_names.map(&:to_sym) - excluded_attributes
   end
 
-  private
-
   def self.column_names
     db_columns(table_name).map(&:name)
   end
@@ -49,8 +46,10 @@ class Journal::BaseJournal < ActiveRecord::Base
   def self.excluded_attributes
     [primary_key.to_sym, inheritance_column.to_sym, :journal_id, :lock_version, :created_at, :root_id, :lft, :rgt]
   end
+  private_class_method :excluded_attributes
 
   def self.db_columns(table_name)
     ActiveRecord::Base.connection.columns table_name
   end
+  private_class_method :db_columns
 end

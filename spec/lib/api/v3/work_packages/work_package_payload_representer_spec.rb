@@ -373,21 +373,28 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       end
 
       describe 'parent' do
-        let(:parent) { FactoryGirl.build_stubbed(:work_package) }
+        context 'with a parent' do
+          let(:parent) { FactoryGirl.build_stubbed(:work_package) }
 
-        before do
-          work_package.parent = parent
-          allow(parent)
-            .to receive(:visible?)
-            .and_return(true)
+          before do
+            work_package.parent = parent
+            allow(parent)
+              .to receive(:visible?)
+              .and_return(true)
+          end
+
+          it_behaves_like 'linked property' do
+            let(:property) { 'parent' }
+            let(:link) { "/api/v3/work_packages/#{parent.id}" }
+          end
         end
 
-        it_behaves_like 'linked property' do
-          let(:property) { 'parent' }
-          let(:link) { "/api/v3/work_packages/#{parent.id}" }
+        context 'without a parent' do
+          it_behaves_like 'linked property' do
+            let(:property) { :parent }
+            let(:link) { nil }
+          end
         end
-
-        it_behaves_like 'linked property with 0 value', :parent
       end
     end
 
@@ -493,9 +500,7 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
       let(:association_name) { attribute_name + '_id' }
       let(:id) { work_package.send(association_name) + 1 }
       let(:links) do
-        Hash.new.tap do |h|
-          h[attribute_name] = href
-        end
+        { attribute_name => href }
       end
       let(:representer_attribute) { subject.send(association_name) }
 
@@ -588,13 +593,46 @@ describe ::API::V3::WorkPackages::WorkPackagePayloadRepresenter do
     end
 
     describe 'parent' do
-      before do
-        work_package.parent_id = 1
+      let(:parent) { FactoryGirl.build_stubbed :work_package }
+      let(:new_parent) do
+        wp = FactoryGirl.build_stubbed :work_package
+        allow(WorkPackage)
+          .to receive(:find_by)
+          .with(id: wp.id.to_s)
+          .and_return(wp)
+        wp
+      end
+      let(:path) { api_v3_paths.work_package(new_parent.id) }
+      let(:links) do
+        { parent: href }
       end
 
-      it_behaves_like 'linked resource' do
-        let(:path) { api_v3_paths.work_package(id) }
-        let(:attribute_name) { 'parent' }
+      before do
+        work_package.parent = parent
+      end
+
+      describe 'with a valid href' do
+        let(:href) { { href: path } }
+
+        it 'sets attribute to the specified id' do
+          expect(subject.parent).to eql(new_parent)
+        end
+      end
+
+      describe 'with a null href' do
+        let(:href) { { href: nil } }
+
+        it 'sets attribute to nil' do
+          expect(subject.parent).to eql(nil)
+        end
+      end
+
+      describe 'with an invalid link' do
+        let(:href) { {} }
+
+        it 'leaves attribute unchanged' do
+          expect(subject.parent).to eql(parent)
+        end
       end
     end
   end

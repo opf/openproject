@@ -46,7 +46,7 @@
         </div>
     </div>
 
-    <div ng-if="$ctrl.isParent() && !$ctrl.relatedWorkPackage || $ctrl.showEditForm">
+    <div ng-if="$ctrl.isParent() && !$ctrl.relatedWorkPackage || $ctrl.showEditForm" class="hide-when-print">
         <wp-relations-create template="empty-parents"
                              fixed-relation-type="parent"
                              ng-if="$ctrl.canModifyHierarchy"

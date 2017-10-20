@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::Relations::RelationQuery, type: :model do
   let(:instance) { described_class.new }
-  let(:base_scope) { Relation.visible }
+  let(:base_scope) { Relation.visible.direct }
 
   context 'without a filter' do
     describe '#results' do
@@ -48,14 +48,14 @@ describe Queries::Relations::RelationQuery, type: :model do
 
   context 'with a type filter' do
     before do
-      instance.where('type', '=', ['follows', 'precedes'])
+      instance.where('type', '=', ['follows', 'blocks'])
     end
 
     describe '#results' do
       it 'is the same as handwriting the query' do
         expected = base_scope
                    .merge(Relation
-          .where("relations.relation_type IN ('follows','precedes')"))
+                          .where("relations.follows IN ('1') OR relations.blocks IN ('1')"))
 
         expect(instance.results.to_sql).to eql expected.to_sql
       end

@@ -26,7 +26,7 @@ provide any official support for them.
 
 ### Dependencies
 
-* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version >= 2.4.1
+* __Runtime:__ [Ruby](https://www.ruby-lang.org/en/) Version = 2.4.2
 * __Webserver:__ [Apache](http://httpd.apache.org/)
   or [nginx](http://nginx.org/en/docs/)
 * __Application server:__ [Phusion Passenger](https://www.phusionpassenger.com/)
@@ -41,9 +41,9 @@ dependencies themselves.
 
 OpenProject supports the latest versions of the major browsers. In our
 strive to make OpenProject easy and fun to use we had to drop support
-for some older browsers.
+for some older browsers (e.g. IE 11).
 
-* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/) (Version >= 45 ESR)
+* [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/products/)
 * [Microsoft Edge](https://www.microsoft.com/de-de/windows/microsoft-edge)
 * [Google Chrome](https://www.google.com/chrome/browser/desktop/)
 

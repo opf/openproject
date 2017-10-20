@@ -34,4 +34,6 @@ module Queries::TimeEntries
   Queries::Register.filter query, Queries::TimeEntries::Filters::UserFilter
   Queries::Register.filter query, Queries::TimeEntries::Filters::WorkPackageFilter
   Queries::Register.filter query, Queries::TimeEntries::Filters::ProjectFilter
+
+  Queries::Register.order query, Queries::TimeEntries::Orders::DefaultOrder
 end

@@ -34,9 +34,6 @@ en:
       no_results_title_text: There has not been any activity for the project.
 
   admin:
-    projects:
-      no_results_title_text: There are currently no projects.
-      no_results_content_text: Create a new project
     plugins:
       no_results_title_text: There are currently no plugins available.
     custom_styles:
@@ -124,6 +121,7 @@ en:
   projects:
     index:
       no_results_title_text: There are currently no projects
+      no_results_content_text: Create a new project
     settings:
       activities:
         no_results_title_text: There are currently no activities available.
@@ -344,7 +342,7 @@ en:
         encoded_token: "Enterprise support token"
       relation:
         delay: "Delay"
-        from: "Work Package"
+        from: "Work package"
         to: "Related work package"
       status:
         is_closed: "Work package closed"
@@ -512,7 +510,7 @@ en:
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
-            parent_id:
+            parent:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_in_another_project: "cannot be in another project."
               not_a_valid_parent: "is invalid."
@@ -1327,6 +1325,8 @@ en:
   label_project_settings: "Project settings"
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: "View all projects"
+  label_project_show_details: "Show project details"
+  label_project_hide_details: "Hide project details"
   label_public_projects: "Public projects"
   label_query_new: "New query"
   label_query_plural: "Custom queries"
@@ -1755,6 +1755,7 @@ en:
       title: Change the project's identifier
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
+      archived: "Archived"
 
   project_module_activity: "Activity"
   project_module_boards: "Forums"

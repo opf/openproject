@@ -195,8 +195,8 @@ export class WorkPackageTableTimelineRelations {
   private renderElement(vp:TimelineViewParameters, e:TimelineRelationElement) {
     const involved = e.relation.ids;
 
-    const startCells = this.wpTimeline.workPackageCells(involved.from);
-    const endCells = this.wpTimeline.workPackageCells(involved.to);
+    const startCells = this.wpTimeline.workPackageCells(involved.to);
+    const endCells = this.wpTimeline.workPackageCells(involved.from);
 
     // If either sources or targets are not rendered, ignore this relation
     if (startCells.length === 0 || endCells.length === 0) {

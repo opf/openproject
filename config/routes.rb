@@ -361,7 +361,6 @@ OpenProject::Application.routes.draw do
 
   resources :admin, controller: :admin, only: :index do
     collection do
-      get :projects
       get :plugins
       get :info
       post :force_user_language

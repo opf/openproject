@@ -57,6 +57,7 @@ gem 'friendly_id', '~> 5.2.1'
 gem 'acts_as_list', '~> 0.9.7'
 gem 'acts_as_tree', '~> 2.6.1'
 gem 'awesome_nested_set', '~> 3.1.3'
+gem 'typed_dag', '~> 1.0.0'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'
 
@@ -150,7 +151,7 @@ gem 'cocaine', '~> 0.5.8'
 # also, better than thin since we can control worker concurrency.
 gem 'unicorn'
 
-gem 'nokogiri', '~> 1.8.0'
+gem 'nokogiri', '~> 1.8.1'
 
 # carrierwave 0.11.3 should allow to use fog-aws without the rest of the
 # fog dependency chain. We only need aws here, so we can avoid it
@@ -268,7 +269,7 @@ platforms :jruby do
 end
 
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'release/7.3'
 end
 
 # TODO: Make this group :optional when bundler v10.x
