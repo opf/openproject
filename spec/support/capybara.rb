@@ -3,9 +3,14 @@ require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
 require 'rack_session_access/capybara'
 
-RSpec.configure do
+RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :selenium
+
+
+  config.before(:each, js: true) do
+    Capybara.page.current_window.resize_to(1920, 1080)
+  end
 end
 
 ##
