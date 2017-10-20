@@ -190,7 +190,7 @@ module ApplicationHelper
     content_tag :div, html_options do
       if User.current.impaired?
         concat(content_tag('a', join_flash_messages(message),
-                           href: 'javascript:;',
+                           href: '#',
                            class: 'impaired--empty-link'))
         concat(content_tag(:i, '', class: 'icon-close close-handler',
                                    tabindex: '0',
