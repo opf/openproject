@@ -89,16 +89,23 @@ class AccountController < ApplicationController
       return
     else
       if request.post?
-        user = User.find_by_mail(params[:mail])
+        mail = params[:mail]
+        user = User.find_by_mail(mail)
+
+        # Ensure the same request is sent regardless of which email is entered
+        # to avoid detecability of mails
+        flash[:notice] = l(:notice_account_lost_email_sent)
 
         unless user
           # user not found in db
-          (flash.now[:error] = l(:notice_account_unknown_email); return)
+          Rails.logger.error "Lost password unknown email input: #{mail}"
+          return
         end
 
         unless user.change_password_allowed?
           # user uses an external authentification
-          (flash.now[:error] = l(:notice_can_t_change_password); return)
+          Rails.logger.error "Password cannot be changed for user: #{mail}"
+          return
         end
 
         # create a new token for password recovery
