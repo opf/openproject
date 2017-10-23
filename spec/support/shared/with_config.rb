@@ -43,13 +43,18 @@ RSpec.configure do |config|
   config.before(:each) do |example|
     config = example.metadata[:with_config]
     if config.present?
-      config = aggregate_mocked_configuration(example, config)
+      config = aggregate_mocked_configuration(example, config).with_indifferent_access
 
       allow(OpenProject::Configuration).to receive(:[]).and_call_original
       config.each do |k,v|
         allow(OpenProject::Configuration)
           .to receive(:[])
           .with(k.to_s)
+          .and_return(v)
+
+        allow(OpenProject::Configuration)
+          .to receive(:[])
+          .with(k.to_sym)
           .and_return(v)
       end
     end
