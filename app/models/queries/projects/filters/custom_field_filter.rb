@@ -39,8 +39,9 @@ class Queries::Projects::Filters::CustomFieldFilter <
     when 'bool'
       [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
        [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
-    when 'user', 'version', 'list'
-      custom_field.possible_values_options(project)
+    when 'user', 'version', 'list' # TODO: Why list?
+      # custom_field.possible_values_options(project)
+      custom_field.possible_values_options
     end
   end
 
@@ -50,6 +51,7 @@ class Queries::Projects::Filters::CustomFieldFilter <
     case custom_field.field_format
     when 'int', 'float'
       :integer
+      # :integer
     when 'text'
       :text
     when 'list', 'user', 'version'
@@ -197,9 +199,6 @@ class Queries::Projects::Filters::CustomFieldFilter <
   end
 
   def where_joins(db_table, project_db_table)
-    cf_types_db_table = 'custom_fields_types'
-    cf_projects_db_table = 'custom_fields_projects'
-
     joins = "LEFT OUTER JOIN #{db_table}
                ON #{db_table}.customized_type='Project'
                AND #{db_table}.customized_id=#{project_db_table}.id

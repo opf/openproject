@@ -189,9 +189,16 @@ See doc/COPYRIGHT.rdoc for more details.
               <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
               <% if User.current.admin? %><td><%= format_date(project.latest_activity_at) %></td><% end %>
               <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
+
                 <% @custom_fields.each do |custom_field| %>
                   <td>
-                    <%= project.custom_value_for(custom_field).value.to_s %>
+                    <% if custom_field.field_format == 'string' %>
+                      <%= project.custom_value_for(custom_field).value.to_s %>
+                    <% elsif custom_field.field_format == 'bool' %>
+                      <%= project.custom_value_for(custom_field).formatted_value %>
+                    <% elsif custom_field.field_format == 'list' %>
+                      <%= project.custom_value_for(custom_field).formatted_value %>
+                    <% end %>
                   </td>
                 <% end %>
               <% end %>
