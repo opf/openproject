@@ -26,24 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: User Authentication
-  @javascript
-  Scenario: A user gets a error message if the false credentials are filled in
-    Given I am logged in as "joe"
-    Then I should see "Invalid user or password"
+require 'spec_helper'
 
-  @javascript
-  Scenario: A user is able to login successfully with provided credentials
-    Given I am on the login page
-    And I am admin
-    Then I should see "Admin" as being logged in
+describe 'Lost password', type: :feature do
+  let!(:user) { FactoryGirl.create :user }
 
-  @javascript
-  Scenario: Lost password notification mail will not be sent in case incorrect mail is given
-    Given I am on the login page
-    And I open the "Openproject Admin" menu
-    And I follow "t:label_password_lost" within "#login-form" [i18n]
-    Then I should be on the lost password page
-    And I fill in "mail" with "bilbo@shire.com"
-    And I click on "Submit"
-    Then I should see "Unknown user"
+  it 'shows same flash for invalid and existing users' do
+    visit account_lost_password_path
+
+    fill_in 'mail', with: 'invalid mail'
+    click_on 'Submit'
+
+    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
+
+    expect(ActionMailer::Base.deliveries.size).to eql 0
+
+    fill_in 'mail', with: user.mail
+    click_on 'Submit'
+    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
+    expect(ActionMailer::Base.deliveries.size).to eql 1
+  end
+end
