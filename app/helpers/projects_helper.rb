@@ -133,7 +133,15 @@ module ProjectsHelper
   end
 
   def allowed_filters(query)
-    ordered_filters = %i(status name_and_identifier)
+    ordered_filters_static = %i(status name_and_identifier)
+    ordered_filters_dynamic = ProjectCustomField.order(:name)
+                                                .pluck(:id)
+                                                .map do |id|
+                                                  "cf_#{id}".to_sym
+                                                end
+
+    ordered_filters = ordered_filters_static + ordered_filters_dynamic
+
     unless User.current.admin?
       ordered_filters = ordered_filters - admin_only_filters
     end

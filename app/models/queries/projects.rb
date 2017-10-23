@@ -35,4 +35,5 @@ module Queries::Projects
   register.filter query, filters::AncestorFilter
   register.filter query, filters::StatusFilter
   register.filter query, filters::NameAndIdentifierFilter
+  register.filter query, filters::CustomFieldFilter
 end
