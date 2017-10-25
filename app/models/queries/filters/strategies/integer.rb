@@ -31,6 +31,8 @@ module Queries::Filters::Strategies
   class Integer < BaseStrategy
     supported_operator_list ['=', '!', '>=', '<=', '!*', '*']
 
+    default_operator '='
+
     def validate
       validate_values_all_integer
     end

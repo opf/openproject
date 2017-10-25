@@ -132,6 +132,10 @@ See doc/COPYRIGHT.rdoc for more details.
               <div>
                 <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -small' %>
               </div>
+            <% elsif filter.type == :integer %>
+              <div>
+                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -small', step: "any"  %>
+              </div>
             <% end %>
           </div>
         </li>
