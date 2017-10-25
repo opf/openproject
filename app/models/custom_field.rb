@@ -133,6 +133,12 @@ class CustomField < ActiveRecord::Base
         possible_values_options_in_project(obj)
       elsif obj.try(:project)
         possible_values_options_in_project(obj.project)
+      elsif obj == :of_all_projects
+        Principal.in_visible_project(User.current)
+                 .or(Principal.me)
+                 .map do |principal|
+                   [principal.name, principal.id.to_s]
+                 end
       else
         []
       end

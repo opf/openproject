@@ -27,17 +27,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    date: Queries::Filters::Strategies::Date,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    integer: Queries::Filters::Strategies::Integer,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent
-  }.freeze
+module Queries::Filters::Strategies
+  class Float < BaseStrategy
+    supported_operator_list ['=', '!', '>=', '<=', '!*', '*']
+
+    default_operator '='
+
+    def validate
+      validate_values_all_float
+    end
+
+    private
+
+    def validate_values_all_float
+      if operator && operator.requires_value? && values.any? { |value| !float?(value) }
+        errors.add(:values, I18n.t('activerecord.errors.messages.not_a_float'))
+      end
+    end
+
+    def float?(str)
+      true if Object.send('Float', str)
+    rescue ArgumentError
+      false
+    end
+  end
 end

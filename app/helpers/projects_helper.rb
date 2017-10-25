@@ -134,7 +134,8 @@ module ProjectsHelper
 
   def allowed_filters(query)
     ordered_filters_static = %i(status name_and_identifier)
-    ordered_filters_dynamic = ProjectCustomField.order(:name)
+    ordered_filters_dynamic = ProjectCustomField.where("field_format <> 'version'")
+                                                .order(:name)
                                                 .pluck(:id)
                                                 .map do |id|
                                                   "cf_#{id}".to_sym

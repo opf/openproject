@@ -27,17 +27,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Filters
-  STRATEGIES = {
-    list: Queries::Filters::Strategies::List,
-    list_all: Queries::Filters::Strategies::ListAll,
-    list_optional: Queries::Filters::Strategies::ListOptional,
-    date: Queries::Filters::Strategies::Date,
-    datetime_past: Queries::Filters::Strategies::DateTimePast,
-    string: Queries::Filters::Strategies::String,
-    text: Queries::Filters::Strategies::Text,
-    integer: Queries::Filters::Strategies::Integer,
-    float: Queries::Filters::Strategies::Float,
-    inexistent: Queries::Filters::Strategies::Inexistent
-  }.freeze
+module Queries::Filters::Strategies
+  class CfFloat < Float
+    private
+
+    def operator_map
+      super_value = super.dup
+      super_value['!*'] = Queries::Operators::NoneOrBlank
+      super_value['*'] = Queries::Operators::AllAndNonBlank
+      super_value['>='] = Queries::Operators::CastedGreaterOrEqual
+      super_value['<='] = Queries::Operators::CastedLessOrEqual
+
+      super_value
+    end
+  end
 end

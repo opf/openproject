@@ -136,6 +136,10 @@ See doc/COPYRIGHT.rdoc for more details.
               <div>
                 <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -small', step: "any"  %>
               </div>
+            <% elsif filter.type == :float %>
+              <div>
+                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -small', step: "any"%>
+              </div>
             <% end %>
           </div>
         </li>
@@ -200,12 +204,20 @@ See doc/COPYRIGHT.rdoc for more details.
 
                 <% @custom_fields.each do |custom_field| %>
                   <td>
-                    <% if custom_field.field_format == 'string' %>
-                      <%= project.custom_value_for(custom_field).value.to_s %>
-                    <% elsif custom_field.field_format == 'bool' %>
-                      <%= project.custom_value_for(custom_field).formatted_value %>
-                    <% elsif custom_field.field_format == 'list' %>
-                      <%= project.custom_value_for(custom_field).formatted_value %>
+                    <% if project.custom_value_for(custom_field).present? %>
+                      <% if custom_field.field_format == 'string' %>
+                        <%= project.custom_value_for(custom_field).value.to_s %>
+                      <% elsif custom_field.field_format == 'text' %>
+                        <%= project.custom_value_for(custom_field).value.gsub(/\A(.{20}[^\n\r]*).*\z/m, '\1...').strip %>
+                      <% elsif custom_field.field_format == 'bool' %>
+                        <%= project.custom_value_for(custom_field).formatted_value %>
+                      <% elsif custom_field.field_format == 'list' %>
+                        <%= project.custom_value_for(custom_field).formatted_value %>
+                      <% elsif custom_field.field_format == 'int' %>
+                        <%= project.custom_value_for(custom_field).value.to_s %>
+                      <% elsif custom_field.field_format == 'float' %>
+                        <%= project.custom_value_for(custom_field).value.to_s %>
+                      <% end %>
                     <% end %>
                   </td>
                 <% end %>

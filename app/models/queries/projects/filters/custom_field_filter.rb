@@ -39,9 +39,11 @@ class Queries::Projects::Filters::CustomFieldFilter <
     when 'bool'
       [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
        [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
-    when 'user', 'version', 'list' # TODO: Why list?
+    when 'version', 'list' # TODO: Why list?
       # custom_field.possible_values_options(project)
       custom_field.possible_values_options
+    when 'user'
+      custom_field.possible_values_options(:of_all_projects)
     end
   end
 
@@ -49,9 +51,10 @@ class Queries::Projects::Filters::CustomFieldFilter <
     return nil unless custom_field
 
     case custom_field.field_format
-    when 'int', 'float'
+    when 'int'
       :integer
-      # :integer
+    when 'float'
+      :float
     when 'text'
       :text
     when 'list', 'user', 'version'
@@ -192,6 +195,7 @@ class Queries::Projects::Filters::CustomFieldFilter <
     strategies = Queries::Filters::STRATEGIES.dup
     strategies[:list_optional] = Queries::Filters::Strategies::CfListOptional
     strategies[:integer] = Queries::Filters::Strategies::CfInteger
+    strategies[:float] = Queries::Filters::Strategies::CfFloat
     # knowing that only bool have list type
     strategies[:list] = Queries::Filters::Strategies::BooleanList
 
