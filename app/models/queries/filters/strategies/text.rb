@@ -30,5 +30,7 @@
 module Queries::Filters::Strategies
   class Text < BaseStrategy
     supported_operator_list ['~', '!~']
+
+    default_operator '~'
   end
 end
