@@ -31,9 +31,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= javascript_include_tag "project/filters.js" %>
 <% end %>
 
-<% html_title(l(:label_project_plural)) -%>
+<% html_title(t(:label_project_plural)) -%>
 
-<%= toolbar title: l(:label_project_plural) do %>
+<%= toolbar title: t(:label_project_plural) do %>
   <% if User.current.allowed_to?(:add_project, nil, global: true) %>
     <li class="toolbar-item">
       <%= link_to new_project_path,
@@ -134,7 +134,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <% end %>
       <li class="advanced-filters--spacer"></li>
       <li class="advanced-filters--controls">
-        <%= submit_tag t(:button_apply), class: 'button -highlight', name: nil %>
+        <%= submit_tag t('button_filter'), class: 'button -highlight', name: nil %>
       </li>
     </ul>
   </fieldset>

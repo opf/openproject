@@ -668,6 +668,7 @@ en:
   button_edit: "Edit"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "Expand all"
+  button_filter: "Filter"
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
