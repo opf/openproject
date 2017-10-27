@@ -55,6 +55,12 @@
 <input type="submit" class="button ***-alt-highlight***" value="Do not create" disabled />
 ```
 
+## Danger zone buttons
+
+```
+<button class="button ***-danger***"><i class="button--icon icon-delete"></i><span class="button--text">Delete</span></button>
+```
+
 
 ## Active (depressed) buttons
 
