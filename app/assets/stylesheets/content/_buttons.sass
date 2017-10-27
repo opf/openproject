@@ -135,3 +135,21 @@ html.-browser-windows.-browser-chrome
   .button[class*='icon-']
     &:before
       margin-right: $button--text-icon-spacing
+
+// Button class to use as a link-like submit button
+.button--link
+  background: none
+  border: none
+  padding: 0 1px
+  color: $content-link-color
+
+  &:visited, &:active
+    color: $content-link-color
+
+  &:hover
+    text-decoration: underline
+
+  &[disabled], &[disabled]:hover
+    cursor: not-allowed
+    background: none
+    color: $gray-dark

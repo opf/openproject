@@ -135,3 +135,10 @@
 <button class="button ***-round***">Rounded button</button>
 <a href="#" class="button ***-round***">Rounded button as link</a>
 ```
+
+## Link-like buttons
+
+```
+<button class="***button--link***">Link-like button</button>
+<button class="***button--link***" disabled>Disabled link-like button</button>
+```
