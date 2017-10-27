@@ -5,6 +5,12 @@
                    field-name="'subject'"></wp-edit-field>
   </div>
 
+  <div id="work-packages--status-selector" ng-if="!$ctrl.workPackage.isNew">
+    <div ng-repeat="descriptor in $ctrl.statusField track by descriptor.name">
+        <wp-edit-field work-package-id="$ctrl.workPackage.id" field-name="descriptor.name"></wp-edit-field>
+        <attribute-help-text title-text="descriptor.label" attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
+    </div>
+  </div>
 
   <div class="work-packages--info-row" ng-if="!$ctrl.workPackage.isNew">
     <span ng-bind="$ctrl.idLabel"/>:
@@ -34,29 +40,6 @@
         </div>
       </div>
     </div>
-    </div>
-  </div>
-
-
-  <div class="attributes-group -special-fields">
-    <div class="attributes-group--header">
-      <div class="attributes-group--header-container">
-      </div>
-    </div>
-    <div class="-columns-2">
-      <div class="attributes-key-value"
-           ng-class="{'-span-all-columns': descriptor.spanAll }"
-           ng-repeat="descriptor in $ctrl.specialFields track by descriptor.name">
-        <div class="attributes-key-value--key"
-             wp-replacement-label="descriptor.name">
-          {{ descriptor.label }}
-          <span class="required" ng-if="descriptor.field.required && descriptor.field.writable"> *</span>
-          <attribute-help-text title-text="descriptor.label" attribute="descriptor.name" attribute-scope="WorkPackage"></attribute-help-text>
-        </div>
-        <div class="attributes-key-value--value-container">
-          <wp-edit-field work-package-id="$ctrl.workPackage.id" field-name="descriptor.name"></wp-edit-field>
-        </div>
-      </div>
     </div>
   </div>
 

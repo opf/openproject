@@ -60,8 +60,8 @@ export class WorkPackageSingleViewController {
 
   // Grouped fields returned from API
   public groupedFields:GroupDescriptor[] = [];
-  // Special fields (project, type)
-  public specialFields:FieldDescriptor[] = [];
+  // Special handling for the status field
+  public statusField:FieldDescriptor[] = [];
   public projectContext:{
     matches:boolean,
     href:string|null,
@@ -98,10 +98,8 @@ export class WorkPackageSingleViewController {
         const isNew = this.workPackage.isNew;
 
         // Status selector is separated in the create form
-        if (isNew) {
-          this.specialFields = [];
-        } else {
-          this.specialFields = this.getFields(resource, ['status']);
+        if (!isNew) {
+          this.statusField = this.getFields(resource, ['status']);
         }
 
         if (!resource.project) {
