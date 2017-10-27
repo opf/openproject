@@ -32,6 +32,7 @@ class AccountController < ApplicationController
   include OmniauthHelper
   include Concerns::OmniauthLogin
   include Concerns::RedirectAfterLogin
+  include Concerns::AuthenticationStages
 
   # prevents login action to be filtered by check_if_login_required application scope filter
   skip_before_action :check_if_login_required
@@ -406,7 +407,25 @@ class AccountController < ApplicationController
     end
   end
 
-  def successful_authentication(user)
+  def successful_authentication(user, reset_stages: true)
+    if reset_stages
+      session.delete :authentication_stages
+    end
+
+    stages = authentication_stages
+
+    if stages.empty?
+      login_user! user
+    else
+      _, path, _ = stages.first
+
+      session[:authenticated_user_id] = user.id
+
+      redirect_to path
+    end
+  end
+
+  def login_user!(user)
     # Valid user
     self.logged_user = user
     # generate a key and set cookie if autologin

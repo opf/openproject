@@ -76,6 +76,68 @@ module OpenProject
       end
     end
 
+    module Stage
+      class << self
+        include OpenProject::StaticRouting::UrlHelpers
+
+        ##
+        # Registers a new authentication stage which will be triggered after the
+        # user has been authenticated through the core and before they are actually logged in.
+        #
+        # With a plugin registering an extra stage the login flow would look as follows:
+        #
+        #     :|--------------------|>-------------------|>----------------|:
+        #           Password Auth      Extra Stage (2FA)    Complete Login
+        #
+        #      {       core         }{     2FA plugin    }{      core      }
+        #
+        # Only in the final complete login stage will the user's session be reset and
+        # the current_user set to the successfully authenticated user. Until then the
+        # initially authenticated user will be stored in the intermediate session
+        # as `authenticated_user_id`.
+        #
+        # Any stage has to be completed by redirecting back to `Stage.complete_path`.
+        # If the stage fails it may handle displaying the failure itself. If not it can
+        # redirect to `Stage.failure_path` to show a generic failure page which will show
+        # any flash errors.
+        #
+        # Example call:
+        #
+        #     OpenProject::Authentication::Stage
+        #       .register :security_question, '/users/security_question'
+        #
+        # @param identifier [Symbol] Used to tell the stages apart.
+        # @param path [String] Path to redirect to for the stage to start.
+        # @param run_after_activation [Boolean] If true the stage will also be run just after
+        #                                       a user was registered and activated. This only
+        #                                       makes sense if the extra stage is possible at
+        #                                       that point yet.
+        #
+        # @yield [user] A block executed in the context of the OpenProject AccountController used
+        #               to pass control to the next authentication stage, usually through
+        #               a redirect.
+        # @yieldparam [User] User who is being authenticated.
+        def register(identifier, path, run_after_activation: false)
+          stages << [identifier, path, run_after_activation]
+        end
+
+        ##
+        # Contains 3-tuples of stage identifier, run-after-activation flag and
+        # the block to be executed to start the stage.
+        def stages
+          @stages ||= []
+        end
+
+        def complete_path(identifier)
+          stage_success_path stage: identifier
+        end
+
+        def failure_path(identifier)
+          stage_failure_path stage: identifier
+        end
+      end
+    end
+
     ##
     # Options used in the WWW-Authenticate header returned to the user
     # in case authentication failed (401).
