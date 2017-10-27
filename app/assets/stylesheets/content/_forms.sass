@@ -782,3 +782,11 @@ input[type=range]::-webkit-slider-thumb:hover
 
 input[type=range]::-ms-thumb:hover
   @include varprop(background, primary-color-dark)
+
+// Special handling for the permissions_form of Admin/Roles --> permission report
+// Since FF ESR is not able to handle the overflow of fieldsets correctly, a workaround is needed.
+@supports(-moz-appearance: none)
+  #permissions_form
+    display: inline-block
+    width: 100%
+    overflow: auto
