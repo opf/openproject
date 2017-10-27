@@ -1,0 +1,14 @@
+<div class="wp-status-button">
+  <button class="button"
+          has-dropdown-menu
+          target="WpStatusContextMenu"
+          ng-init="workPackage = $ctrl.workPackage; stateName = $ctrl.stateName"
+          locals="workPackage, stateName"
+          ng-disabled="$ctrl.isDisabled()"
+          aria-label="{{ ::$ctrl.text.explanation }}">
+
+    <span class="button--text"
+          aria-hidden="true">TestStatusText</span>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
+  </button>
+</div>

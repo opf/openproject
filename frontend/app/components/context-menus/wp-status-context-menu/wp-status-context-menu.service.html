@@ -1,0 +1,10 @@
+<div class="dropdown dropdown-relative dropdown-anchor-right dropdownToolbar -overflow-in-view"
+     id="wp-status-context-menu">
+  <ul class="dropdown-menu" ng-class="{'-empty': $ctrl.status.length === 0 }">
+    <li ng-repeat="status in $ctrl.status">
+      <a class="menu-item" ui-sref="{{$ctrl.stateName}}({status: status.id})">
+        {{ status.name }}
+      </a>
+    </li>
+  </ul>
+</div>

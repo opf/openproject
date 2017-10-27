@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$status-selector-color: #bc7100
+
 @mixin details-pane--form-field
   @include grid-visible-overflow
   padding: 0
@@ -238,3 +240,15 @@ i
       .attributes-key-value--value-container
         *:focus
           outline: 1px solid $gray
+
+.work-package--single-view
+  display: flex
+  padding-top: 2px
+  .wp-status-button .button
+    margin-bottom: 0
+    background: transparent
+    border: 1px solid $status-selector-color
+    color: $status-selector-color
+  .work-packages--info-row
+    line-height: 1.5rem
+

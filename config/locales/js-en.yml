@@ -132,6 +132,7 @@ en:
     label_contains: "contains"
     label_created_on: "created on"
     label_edit_comment: "Edit this comment"
+    label_edit_status: "Edit the status of the work package"
     label_equals: "is"
     label_expand: "Expand"
     label_expanded: "expanded"
