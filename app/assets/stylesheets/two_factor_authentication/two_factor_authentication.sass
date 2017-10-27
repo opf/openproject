@@ -1,0 +1,57 @@
+@import '_new_types'
+@import '_totp'
+
+#login-form input[type=radio]
+  float: left
+
+#login-form hr
+  margin-top: 30px
+  margin-bottom: 25px
+
+#resend_otp_container
+  margin-top: 30px
+
+
+#resend_otp_container input[type=radio]
+  margin-right: 8px
+
+#resend_otp_container label
+  margin-right: 10px
+
+#resend_otp_container .button.-highlight
+  margin-left: 15px
+
+#resend_otp_container .resend-header
+  font-size: 14px
+  font-weight: bold
+  margin-bottom: 10px
+
+#resend_otp_container .radios-wrapper
+  padding-top: 7px
+  float: left
+  border: none
+  overflow: hidden
+  clear: none
+
+
+#resend_otp_container .radios-wrapper label
+  float: left
+  clear: none
+  display: block
+  padding: 2px 1em 0 0
+
+
+#resend_otp_container .radios-wrapper input[type=radio]
+  float: left
+  clear: none
+  margin: 2px 0 0 2px
+
+// Add some paddings to actin links
+.mobile-otp--two-factor-device-row td.buttons
+  form + form:before
+    content: ","
+    padding-right: 2px
+
+.mobile-otp--two-factor-device-row.-default
+  .mobile-otp--device-text
+    font-weight: bold
