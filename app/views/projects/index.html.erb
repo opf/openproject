@@ -63,7 +63,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="advanced-filters--filters">
       <% allowed_filters(@query).each do |filter| %>
-        <li class="advanced-filters--filter" filter-name="<%= filter.name %>" filter-type="<%= filter.type %>">
+        <li class="advanced-filters--filter <%= @query.find_active_filter(filter.name) ? '' : 'hidden' %>" filter-name="<%= filter.name %>" filter-type="<%= filter.type %>">
           <label class='advanced-filters--filter-name' for="<%= filter.name %>">
             <%= filter.human_name %>
           </label>
@@ -142,9 +142,42 @@ See doc/COPYRIGHT.rdoc for more details.
               </div>
             <% end %>
           </div>
+          <div class="advanced-filters--remove-filter">
+            <a href="#" class="filter_rem">
+              <op-icon icon-classes="icon-close advanced-filters--remove-filter-icon" icon-title="{{I18n.t('js.button_delete')}}"></op-icon>
+            </a>
+          </div>
         </li>
       <% end %>
+
       <li class="advanced-filters--spacer"></li>
+
+      <li class="advanced-filters--add-filter">
+        <!-- Add filters -->
+        <label for="add_filter_select" aria-hidden="true" class="advanced-filters--add-filter-label ng-binding">
+          <op-icon icon-classes="icon-add icon4" class="op-icon--wrapper">
+            <i class="icon-add icon4" aria-hidden="true"></i>
+          </op-icon>
+          Add filter:
+        </label>
+        <label for="add_filter_select" class="hidden-for-sighted ng-binding">
+          Add filter
+          Open this filter with 'ALT' and arrow keys.
+          To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry.
+        </label>
+
+        <div class="advanced-filters--add-filter-value">
+          <%= select_tag "add_filter_select",
+                           options_from_collection_for_select(
+                             allowed_filters(@query),
+                             :name,
+                             :human_name
+                           ),
+                           class: 'advanced-filters--select',
+                           focus: "false",
+                           'aria-invalid': "false" %>
+        </div>
+      </li>
       <li class="advanced-filters--controls">
         <%= submit_tag t('button_filter'), class: 'button -highlight', name: nil %>
       </li>
