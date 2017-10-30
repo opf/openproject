@@ -28,13 +28,17 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Projects::Filters::StatusFilter < Queries::Projects::Filters::ProjectFilter
+class Queries::Projects::Filters::ActiveOrArchivedFilter < Queries::Projects::Filters::ProjectFilter
   def type
     :list_all
   end
 
   def self.key
     :status
+  end
+
+  def human_name
+    I18n.t('query_fields.active_or_archived')
   end
 
   def allowed_values

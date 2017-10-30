@@ -1769,6 +1769,7 @@ en:
   # possible query parameters (e.g. issue queries),
   # which are not attributes of an AR-Model.
   query_fields:
+    active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"

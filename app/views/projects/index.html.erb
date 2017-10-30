@@ -169,7 +169,7 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="advanced-filters--add-filter-value">
           <%= select_tag "add_filter_select",
                            options_from_collection_for_select(
-                             allowed_filters(@query),
+                             allowed_filters(@query) - @query.filters,
                              :name,
                              :human_name
                            ),
@@ -193,9 +193,6 @@ See doc/COPYRIGHT.rdoc for more details.
           <tr>
             <%= sort_header_tag('name', caption: Project.model_name.human) %>
             <%= sort_header_tag('is_public', caption:Project.human_attribute_name(:is_public)) %>
-            <% if User.current.admin? %><%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage)) %><% end %>
-            <% if User.current.admin? %><%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on)) %><% end %>
-            <% if User.current.admin? %><%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at)) %><% end %>
             <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
               <% @custom_fields.each do |custom_field| %>
                 <th>
@@ -207,6 +204,9 @@ See doc/COPYRIGHT.rdoc for more details.
                 </th>
               <% end %>
             <% end %>
+            <% if User.current.admin? %><%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage)) %><% end %>
+            <% if User.current.admin? %><%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on)) %><% end %>
+            <% if User.current.admin? %><%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at)) %><% end %>
             <th class="-right">
               <div class="generic-table--header-outer">
                 <div class="generic-table--header">
@@ -230,9 +230,6 @@ See doc/COPYRIGHT.rdoc for more details.
                 <%= link_to_project(project, {}, {}, false) %>
               </td>
               <td><%= checked_image project.is_public? %></td>
-              <% if User.current.admin? %><td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td><% end %>
-              <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
-              <% if User.current.admin? %><td><%= format_date(project.latest_activity_at) %></td><% end %>
               <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
 
                 <% @custom_fields.each do |custom_field| %>
@@ -246,6 +243,8 @@ See doc/COPYRIGHT.rdoc for more details.
                         <%= project.custom_value_for(custom_field).formatted_value %>
                       <% elsif custom_field.field_format == 'list' %>
                         <%= project.custom_value_for(custom_field).formatted_value %>
+                      <% elsif custom_field.field_format == 'user' %>
+                        <%= project.custom_value_for(custom_field).formatted_value %>
                       <% elsif custom_field.field_format == 'int' %>
                         <%= project.custom_value_for(custom_field).value.to_s %>
                       <% elsif custom_field.field_format == 'float' %>
@@ -255,6 +254,9 @@ See doc/COPYRIGHT.rdoc for more details.
                   </td>
                 <% end %>
               <% end %>
+              <% if User.current.admin? %><td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td><% end %>
+              <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
+              <% if User.current.admin? %><td><%= format_date(project.latest_activity_at) %></td><% end %>
               <td class="buttons">
                 <% if User.current.admin? %>
                   <!-- toolbar and legacy-actions-more are only for styling purposes.

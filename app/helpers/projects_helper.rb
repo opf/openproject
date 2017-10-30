@@ -133,23 +133,29 @@ module ProjectsHelper
   end
 
   def allowed_filters(query)
-    ordered_filters_static = %i(status name_and_identifier)
-    ordered_filters_dynamic = ProjectCustomField.where("field_format <> 'version'")
-                                                .order(:name)
-                                                .pluck(:id)
-                                                .map do |id|
-                                                  "cf_#{id}".to_sym
-                                                end
+    filters_static = %i(status name_and_identifier)
+    filters_dynamic = []
+    if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
+      filters_dynamic = ProjectCustomField
+                          .where("field_format <> 'version'")
+                          .order(:name)
+                          .pluck(:id)
+                          .map do |id|
+                            "cf_#{id}".to_sym
+                            end
+    end
 
-    ordered_filters = ordered_filters_static + ordered_filters_dynamic
+    filters = filters_static + filters_dynamic
 
     unless User.current.admin?
-      ordered_filters = ordered_filters - admin_only_filters
+      filters = filters - admin_only_filters
     end
 
-    ordered_filters.map do |name|
+    filter_instances = filters.map do |name|
       query.find_available_filter(name)
     end
+
+    filter_instances.sort_by { |filter| filter.human_name }
   end
 
   def admin_only_filters
