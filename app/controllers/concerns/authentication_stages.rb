@@ -23,7 +23,7 @@ module Concerns
     private
 
     def authentication_stages
-      if OpenProject::Authentication::Stage.stages.size > 0
+      if !OpenProject::Authentication::Stage.stages.empty?
         if session.include?(:authentication_stages)
           session[:authentication_stages]
         else

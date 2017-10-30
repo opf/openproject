@@ -55,7 +55,7 @@ describe 'Authentication Stages', type: :feature do
       firstname: 'Bo',
       lastname: 'B',
       password: user_password,
-      password_confirmation: user_password,
+      password_confirmation: user_password
     )
   end
 
@@ -69,13 +69,12 @@ describe 'Authentication Stages', type: :feature do
   end
 
   it 'redirects to registered authentication stage before actual login if succesful' do
-    expect {
-      login!
-    }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+    expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
 
     expect(current_path).to eql "/login/stage_test"
 
-    visit "/login/dummy_step/success" # after the stage is finished it must redirect to the complete endpoint
+    # after the stage is finished it must redirect to the complete endpoint
+    visit "/login/dummy_step/success"
 
     expect(current_path).to eql "/my/page" # after which the user will actually be logged in
 
@@ -85,13 +84,12 @@ describe 'Authentication Stages', type: :feature do
   end
 
   it 'redirects to the login page and shows an error on authentication stage failure' do
-    expect {
-      login!
-    }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+    expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
 
     expect(current_path).to eql "/login/stage_test"
 
-    visit "/login/dummy_step/failure" # after the stage is finished it can redirect to the failure endpoint if something went wrong
+    # after the stage is finished it can redirect to the failure endpoint if something went wrong
+    visit "/login/dummy_step/failure"
 
     expect(current_path).to eql "/login" # after which the user is shown a generic error message
     expect(page).to have_text "Authentication stage 'dummy_step' failed."
@@ -102,16 +100,15 @@ describe 'Authentication Stages', type: :feature do
   end
 
   it 'redirects to the login page and shows an error on returning to the wrong stage' do
-    expect {
-      login!
-    }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+    expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
 
     expect(current_path).to eql "/login/stage_test"
 
     visit "/login/foobar/success" # redirect to wrong stage endpoint
 
     expect(current_path).to eql "/login" # after which the user is shown an error message
-    expect(page).to have_text "Expected to finish authentication stage 'dummy_step', but 'foobar' returned."
+    expect(page)
+      .to have_text "Expected to finish authentication stage 'dummy_step', but 'foobar' returned."
 
     visit "/my/account"
 
@@ -128,17 +125,15 @@ describe 'Authentication Stages', type: :feature do
     end
 
     it 'redirects to both registered authentication stages before actual login if succesful' do
-      expect {
-        login!
-      }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+      expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
 
       expect(current_path).to eql "/login/stage_test"
 
-      expect {
-        visit "/login/dummy_step/success" # after the stage is finished it must redirect to the complete endpoint
-      }.to raise_error(ActionController::RoutingError, /\/login\/stage_test_2/)
+      expect { visit "/login/dummy_step/success" }
+        .to raise_error(ActionController::RoutingError, /\/login\/stage_test_2/)
 
-      visit "/login/two_step/success" # after the stage is finished it must redirect to the complete endpoint
+      # after the stage is finished it must redirect to the complete endpoint
+      visit "/login/two_step/success"
 
       expect(current_path).to eql "/my/page" # after which the user will actually be logged in
 
