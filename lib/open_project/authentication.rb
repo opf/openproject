@@ -121,6 +121,10 @@ module OpenProject
           stages << [identifier, path, run_after_activation]
         end
 
+        def deregister(identifier)
+          stages.reject! { |ident, _, _| ident == identifier }
+        end
+
         ##
         # Contains 3-tuples of stage identifier, run-after-activation flag and
         # the block to be executed to start the stage.
