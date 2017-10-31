@@ -30,21 +30,21 @@
 
 require 'spec_helper'
 
-describe Queries::Projects::Filters::StatusFilter, type: :model do
+describe Queries::Projects::Filters::ActiveOrArchivedFilter, type: :model do
   include_context 'filter tests'
   let(:values) { ['A name'] }
   let(:model) { Project }
 
-  it_behaves_like 'list_optional query filter' do
+  it_behaves_like 'list_all query filter' do
     let(:class_key) { :status }
-    let(:type) { :list_optional }
+    let(:type) { :list_all }
     let(:model) { Project }
     let(:attribute) { :status }
     let(:valid_values) {[Project::STATUS_ACTIVE.to_s, Project::STATUS_ARCHIVED.to_s]}
 
     describe '#allowed_values' do
       it 'to be either active or archived' do
-        expect(instance.allowed_values).to eq valid_values
+        expect(instance.allowed_values.map(&:second)).to eq valid_values
       end
     end
   end

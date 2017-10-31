@@ -54,7 +54,8 @@ Feature: Navigating to reports page
     Then I should see "403"
     When I go to the projects page
     And I click on "projects-filter-toggle-button"
-    When I select "all" from "status"
+    When I select "all" from "operator"
+    And I click on "Filter"
     And I hover over "tbody > tr:nth-of-type(1)"
     And I click on "More" within "tbody > tr:nth-of-type(1)"
     And I click on "Unarchive" within ".dropdown-menu"

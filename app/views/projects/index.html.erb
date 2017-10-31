@@ -267,7 +267,7 @@ See doc/COPYRIGHT.rdoc for more details.
                   Because of multiple diverging implementations of dropdowns the normal dropdown classes cannot be used any more without making special rules -->
                   <ul class="toolbar project-actions">
                     <li aria-haspopup="true" title="<%= t(:label_more) %>" class="drop-down">
-                      <a class="icon icon-show-more-horizontal" title="<%= t(:label_more) %>" href></a>
+                      <a class="icon icon-show-more-horizontal" title="<%= t(:label_more) %>" href="#"></a>
                       <ul style="display:none;" class="legacy-actions-more dropdown-menu">
                         <%= li_unless_nil(link_to(t(:label_subproject_new),
                                                   new_project_path(parent_id: project),
