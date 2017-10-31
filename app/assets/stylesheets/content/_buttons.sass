@@ -38,7 +38,8 @@ a.button
   transition-duration: 0.25s
   transition-timing-function: ease-out
 
-  &:disabled
+  &:disabled,
+  &.-disabled
     @include button-disabled
 
   &:hover
@@ -149,7 +150,7 @@ html.-browser-windows.-browser-chrome
   &:hover
     text-decoration: underline
 
-  &[disabled], &[disabled]:hover
+  &:disabled, &:disabled:hover
     cursor: not-allowed
     background: none
     color: $gray-dark
