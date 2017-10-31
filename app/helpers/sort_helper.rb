@@ -240,8 +240,8 @@ module SortHelper
 
     sort_options = { sort: @sort_criteria.add(column.to_s, order).to_param }
 
-    # relying on url_for to take the rest of the current params from the request
-    link_to_content_update(h(caption), sort_options, html_options)
+    # Don't lose other params.
+    link_to_content_update(h(caption), request.query_parameters.merge(sort_options), html_options)
   end
 
   # Returns a table header <th> tag with a sort link for the named column
