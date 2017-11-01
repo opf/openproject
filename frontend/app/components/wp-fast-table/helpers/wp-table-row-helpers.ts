@@ -3,14 +3,11 @@
  * Return the row html id attribute for the given work package ID.
  */
 export function rowId(workPackageId:string):string {
-  return `wp-table-row-${workPackageId}`;
+  return `wp-row-${workPackageId}-table`;
 }
 
-/**
- * Locate the row by its work package ID.
- */
-export function locateRow(id:string):HTMLElement|null {
-  return document.getElementById(rowId(id));
+export function locateTableRow(workPackageId:string):JQuery {
+  return jQuery('.' + rowId(workPackageId));
 }
 
 
