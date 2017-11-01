@@ -562,10 +562,12 @@ class AccountController < ApplicationController
   end
 
   def finish_registration!(user)
+    opts = Hash(session.delete(:finish_registration))
+
     self.logged_user = user
     user.update last_login_on: Time.now
 
-    if auth_hash = Hash(session[:finish_registration])[:omni_auth_hash]
+    if auth_hash = opts[:omni_auth_hash]
       OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
     end
 
