@@ -49,6 +49,7 @@ module Components
         retry_block do
           # Focus type edit to expose buttons
           span = page.find(".relation-row-#{relatable.id} .relation-row--type")
+          scroll_to_element(span)
           page.driver.browser.action.move_to(span.native).perform
 
           # Click the corresponding action button

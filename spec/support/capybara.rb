@@ -3,9 +3,14 @@ require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
 require 'rack_session_access/capybara'
 
-RSpec.configure do
+RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :selenium
+
+
+  config.before(:each, js: true) do
+    Capybara.page.current_window.resize_to(1920, 1080)
+  end
 end
 
 ##
@@ -42,9 +47,7 @@ Capybara.register_driver :selenium do |app|
   Selenium::WebDriver::Firefox::Binary.path = ENV['FIREFOX_BINARY_PATH'] ||
                                               Selenium::WebDriver::Firefox::Binary.path
 
-  # need to disable marionette as noted
-  # https://github.com/teamcapybara/capybara#capybara
-  capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: false)
+  capabilities = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true)
   capabilities["elementScrollBehavior"] = 1
 
   client = Selenium::WebDriver::Remote::Http::Default.new
@@ -52,20 +55,28 @@ Capybara.register_driver :selenium do |app|
 
   profile = Selenium::WebDriver::Firefox::Profile.new
   profile['intl.accept_languages'] = 'en'
-
   profile['browser.download.dir'] = DownloadedFile::PATH.to_s
   profile['browser.download.folderList'] = 2
-
   profile['browser.helperApps.neverAsk.saveToDisk'] = 'text/csv'
 
   # use native instead of synthetic events
   # https://github.com/SeleniumHQ/selenium/wiki/DesiredCapabilities
   profile.native_events = true
 
+  options = Selenium::WebDriver::Firefox::Options.new
+  options.profile = profile
+
+  unless ENV['OPENPROJECT_TESTING_NO_HEADLESS']
+    options.args << "--headless"
+  end
+
+  # If you need to trace the webdriver commands, un-comment this line
+  # Selenium::WebDriver.logger.level = :debug
+
   Capybara::Selenium::Driver.new(
     app,
     browser: :firefox,
-    profile: profile,
+    options: options,
     http_client: client,
     desired_capabilities: capabilities
   )

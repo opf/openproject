@@ -60,7 +60,7 @@ describe 'Parallel work package creation spec', js: true do
 
     # Since the WP was started inline, a new row is entered
     expect(page).to have_selector('.wp-inline-create-row')
-    page.find('.wp-table--cancel-create-link').click
+    scroll_to_and_click(page.find('.wp-table--cancel-create-link'))
     expect(page).to have_selector('.wp--row', count: 1)
 
     wp_table.expect_notification(

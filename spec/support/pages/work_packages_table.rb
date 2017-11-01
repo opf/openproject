@@ -111,7 +111,8 @@ module Pages
       # Hover row to show split screen button
       row_element = row(work_package)
       row_element.hover
-      row_element.find('.wp-table--details-link').click
+
+      scroll_to_and_click(row_element.find('.wp-table--details-link'))
 
       split_page
     end
