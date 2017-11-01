@@ -408,20 +408,20 @@ class AccountController < ApplicationController
   end
 
   def successful_authentication(user, reset_stages: true)
-    if reset_stages
-      session.delete :authentication_stages
-    end
-
-    stages = authentication_stages
+    stages = authentication_stages reset: reset_stages
 
     if stages.empty?
-      login_user! user
+      if session[:finish_registration]
+        finish_registration! user
+      else
+        login_user! user
+      end
     else
-      _, path, _ = stages.first
+      stage = stages.first
 
       session[:authenticated_user_id] = user.id
 
-      redirect_to path
+      redirect_to stage.path
     end
   end
 
@@ -542,18 +542,36 @@ class AccountController < ApplicationController
   def register_automatically(user, opts = {})
     # Automatic activation
     user.activate
-    user.last_login_on = Time.now
 
     if user.save
-      self.logged_user = user
-      opts[:after_login].call user if opts[:after_login]
+      stages = authentication_stages after_activation: true
 
-      flash[:notice] = with_accessibility_notice :notice_account_registered_and_logged_in,
-                                                 locale: user.language
-      redirect_after_login(user)
+      if stages.empty?
+        finish_registration! user
+      else
+        stage = stages.first
+
+        session[:authenticated_user_id] = user.id
+        session[:finish_registration] = opts
+
+        redirect_to stage.path
+      end
     else
       yield if block_given?
     end
+  end
+
+  def finish_registration!(user)
+    self.logged_user = user
+    user.update last_login_on: Time.now
+
+    if auth_hash = Hash(session[:finish_registration])[:omni_auth_hash]
+      OpenProject::OmniAuth::Authorization.after_login! user, auth_hash, self
+    end
+
+    flash[:notice] = with_accessibility_notice :notice_account_registered_and_logged_in,
+                                               locale: user.language
+    redirect_after_login user
   end
 
   # Manual activation by the administrator

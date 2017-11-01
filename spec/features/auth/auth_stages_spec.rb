@@ -68,6 +68,69 @@ describe 'Authentication Stages', type: :feature do
     end
   end
 
+  context 'with automatic registration', with_settings: { self_registration: "3" } do
+    before do
+      OpenProject::Authentication::Stage.register(
+        :activation_step, '/activation/stage_test', run_after_activation: true
+      )
+    end
+
+    after do
+      OpenProject::Authentication::Stage.deregister :activation_step
+    end
+
+    it 'redirects to authentication stage after automatic registration and before login' do
+      visit signin_path
+      click_on "Create a new account"
+
+      within("#new_user") do
+        fill_in "user_login", with: "h.wurst"
+        fill_in "user_firstname", with: "Hans"
+        fill_in "user_lastname", with: "Wurst"
+        fill_in "user_mail", with: "h.wurst@openproject.com"
+        fill_in "user_password", with: "hansihansi"
+        fill_in "user_password_confirmation", with: "hansihansi"
+      end
+
+      expect { click_on("Create") }.to raise_error(ActionController::RoutingError, /\/activation\/stage_test/)
+      expect(current_path).to eql "/activation/stage_test"
+
+      # after the stage is finished it must redirect to the complete endpoint
+      visit "/login/activation_step/success"
+
+      expect(page).to have_text("Welcome, your account has been activated. You are logged in now.")
+
+      visit "/my/account"
+
+      expect(page).to have_text "h.wurst" # just double checking we're really logged in
+    end
+
+    it 'redirects to authentication stage after registration via omniauth too' do
+      visit signin_path
+      click_on "Create a new account"
+
+      within("#new_user") do
+        click_on "Omniauth Developer"
+      end
+
+      fill_in "first_name", with: "Adam"
+      fill_in "last_name", with: "Apfel"
+      fill_in "email", with: "a.apfel@openproject.com"
+
+      expect { click_on("Sign In") }.to raise_error(ActionController::RoutingError, /\/activation\/stage_test/)
+      expect(current_path).to eql "/activation/stage_test"
+
+      # after the stage is finished it must redirect to the complete endpoint
+      visit "/login/activation_step/success"
+
+      expect(page).to have_text("Welcome, your account has been activated. You are logged in now.")
+
+      visit "/my/account"
+
+      expect(page).to have_text "a.apfel" # just double checking we're really logged in
+    end
+  end
+
   it 'redirects to registered authentication stage before actual login if succesful' do
     expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
 

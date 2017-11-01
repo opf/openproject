@@ -77,6 +77,20 @@ module OpenProject
     end
 
     module Stage
+      class Entry
+        attr_reader :identifier, :path
+
+        def initialize(identifier, path, run_after_activation)
+          @identifier = identifier
+          @path = path
+          @run_after_activation = run_after_activation
+        end
+
+        def run_after_activation?
+          @run_after_activation
+        end
+      end
+
       class << self
         include OpenProject::StaticRouting::UrlHelpers
 
@@ -112,17 +126,25 @@ module OpenProject
         #                                       a user was registered and activated. This only
         #                                       makes sense if the extra stage is possible at
         #                                       that point yet.
-        #
-        # @yield [user] A block executed in the context of the OpenProject AccountController used
-        #               to pass control to the next authentication stage, usually through
-        #               a redirect.
-        # @yieldparam [User] User who is being authenticated.
-        def register(identifier, path, run_after_activation: false)
-          stages << [identifier, path, run_after_activation]
+        # @param before [Symbol] Identifier before which to insert this stage. Stage will be
+        #                        appended to the end if no such identifier is registered.
+        #                        Cannot be used with `after`.
+        # @param after [Symbol] Identifier after which to insert this stage. The stage will be
+        #                       appended to the end if no such identifier is registered.
+        #                       Cannot be used with `before`.
+        def register(identifier, path, run_after_activation: false, before: nil, after: nil)
+          stage = Entry.new identifier, path, run_after_activation
+          i = stages.index { |s| s.identifier == (before || after) }
+
+          if i
+            stages.insert i + (after ? 1 : 0), stage
+          else
+            stages << stage
+          end
         end
 
         def deregister(identifier)
-          stages.reject! { |ident, _, _| ident == identifier }
+          stages.reject! { |s| s.identifier == identifier }
         end
 
         ##
