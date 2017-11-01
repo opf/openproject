@@ -70,7 +70,7 @@ We use Capybara for integration tests as rspec feature specs. They are automatic
 
 #### Selenium, Firefox, Geckodriver
 
-Capybara users Selenium to drive the browser and perform the actions we describe in each spec. Previously, we have used Firefox 45 ESR, that had a direct webdriver bridge to talk to Selenium.
+Capybara uses Selenium to drive the browser and perform the actions we describe in each spec. Previously, we have used Firefox 45 ESR, that had a direct webdriver bridge to talk to Selenium.
 
 With Firefox 48, this bridge has been removed and replaced with geckodriver, a separate executable to control the Firefox instance remotely. There are still bugs in the communication between Selenium and geckodriver (such as key sending, double clicking, etc.). Thus, you should make sure to use a recent Firefox. At the time of this writing, Firefox 57 is almost released as stable with lots of fixes for geckodriver and headless mode.
 
