@@ -70,9 +70,10 @@ describe 'Authentication Stages', type: :feature do
 
   context 'with automatic registration', with_settings: { self_registration: "3" } do
     before do
-      OpenProject::Authentication::Stage.register(
-        :activation_step, '/activation/stage_test', run_after_activation: true
-      )
+      OpenProject::Authentication::Stage.register(:activation_step, run_after_activation: true) do
+        # while we're at it let's confirm path helpers work here (/login)
+        signin_path.sub "login", "activation/stage_test"
+      end
     end
 
     after do

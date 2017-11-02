@@ -3,12 +3,12 @@ module Concerns
     def stage_success
       stage = session[:authentication_stages].first
 
-      if stage.identifier.to_s == params[:stage]
+      if stage.to_s == params[:stage]
         session[:authentication_stages] = session[:authentication_stages].drop(1)
 
         successful_authentication User.find(session[:authenticated_user_id]), reset_stages: false
       else
-        flash[:error] = "Expected to finish authentication stage '#{stage.identifier}', but '#{params[:stage]}' returned."
+        flash[:error] = "Expected to finish authentication stage '#{stage}', but '#{params[:stage]}' returned."
 
         redirect_to signin_path
       end
@@ -27,11 +27,15 @@ module Concerns
         session.delete :authentication_stages if reset
 
         if session.include?(:authentication_stages)
-          session[:authentication_stages]
+          OpenProject::Authentication::Stage.find_all session[:authentication_stages]
         else
-          session[:authentication_stages] = OpenProject::Authentication::Stage
-            .stages.select { |s| s.run_after_activation? || !after_activation }
-            .dup
+          stages = OpenProject::Authentication::Stage
+            .stages
+            .select { |s| s.run_after_activation? || !after_activation }
+
+          session[:authentication_stages] = stages.map(&:identifier)
+
+          stages
         end
       else
         []

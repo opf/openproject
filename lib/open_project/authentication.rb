@@ -115,10 +115,13 @@ module OpenProject
         # redirect to `Stage.failure_path` to show a generic failure page which will show
         # any flash errors.
         #
-        # Example call:
+        # Example calls:
         #
         #     OpenProject::Authentication::Stage
         #       .register :security_question, '/users/security_question'
+        #
+        #     OpenProject::Authentication::Stage
+        #       .register(:security_question) { security_question_path } # using url helper
         #
         # @param identifier [Symbol] Used to tell the stages apart.
         # @param path [String] Path to redirect to for the stage to start.
@@ -132,8 +135,18 @@ module OpenProject
         # @param after [Symbol] Identifier after which to insert this stage. The stage will be
         #                       appended to the end if no such identifier is registered.
         #                       Cannot be used with `before`.
-        def register(identifier, path, run_after_activation: false, before: nil, after: nil)
-          stage = Entry.new identifier, path, run_after_activation
+        #
+        # @yield [path_provider] A block returning a path to redirect to. Is evaluated in the
+        #                        context of a controller giving access to URL helpers.
+        def register(
+          identifier,
+          path = nil,
+          run_after_activation: false,
+          before: nil,
+          after: nil,
+          &block
+        )
+          stage = Entry.new identifier, path || block, run_after_activation
           i = stages.index { |s| s.identifier == (before || after) }
 
           if i
@@ -152,6 +165,12 @@ module OpenProject
         # the block to be executed to start the stage.
         def stages
           @stages ||= []
+        end
+
+        def find_all(identifiers)
+          identifiers
+            .map { |ident| self.stages.find { |st| st.identifier == ident } }
+            .compact
         end
 
         def complete_path(identifier)

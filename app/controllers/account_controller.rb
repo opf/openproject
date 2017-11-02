@@ -546,18 +546,26 @@ class AccountController < ApplicationController
     if user.save
       stages = authentication_stages after_activation: true
 
-      if stages.empty?
-        finish_registration! user
-      else
-        stage = stages.first
-
-        session[:authenticated_user_id] = user.id
-        session[:finish_registration] = opts
-
-        redirect_to stage.path
-      end
+      run_registration_stages stages, user, opts
     else
       yield if block_given?
+    end
+  end
+
+  def run_registration_stages(stages, user, opts)
+    if stages.empty?
+      finish_registration! user
+    else
+      stage = stages.first
+
+      session[:authenticated_user_id] = user.id
+      session[:finish_registration] = opts
+
+      if stage.path.respond_to?(:call)
+        redirect_to instance_exec(&stage.path)
+      else
+        redirect_to stage.path
+      end
     end
   end
 
