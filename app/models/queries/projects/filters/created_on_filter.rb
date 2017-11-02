@@ -27,14 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  query = ::Queries::Projects::ProjectQuery
+class Queries::Projects::Filters::CreatedOnFilter < Queries::Projects::Filters::ProjectFilter
+  def type
+    :datetime_past
+  end
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::ActiveOrArchivedFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedOnFilter
+  def order
+    9
+  end
 end

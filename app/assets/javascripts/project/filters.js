@@ -29,9 +29,7 @@
 jQuery(function($) {
   let $filterForm = $('form.project-filters').first();
   let $button = $('#projects-filter-toggle-button');
-
-  let operatorsWithoutValues = ['*', '!*'];
-  let operatorsWithVaues = ['*', '!*'];
+  let operatorsWithoutValues = ['*', '!*', 't', 'w'];
   let selectFilterTypes = ['list', 'list_all', 'list_optional'];
 
   function toggleProjectFilterForm() {
@@ -90,8 +88,43 @@ jQuery(function($) {
               filters.push(filterParam);
             }
           }
+        } else if (filterType == 'datetime_past') {
+          if ($valueBlock.hasClass('days-ago')) {
+            let value = $('.days-ago input[name="value"]', $valueBlock).val();
+            if (value.length > 0) {
+              filterParam[filterName] = {
+                'operator': operator,
+                'values': [value]
+              }
+              // only add filter if a value is present.
+              filters.push(filterParam);
+            }
+          } else if ($valueBlock.hasClass('on-date')) {
+            let value = $('.on-date input[name="value"]', $valueBlock).val();
+            if (value.length > 0) {
+              filterParam[filterName] = {
+                'operator': operator,
+                'values': [value]
+              }
+              // only add filter if a value is present.
+              filters.push(filterParam);
+            }
+          } else if ($valueBlock.hasClass('between-dates')) {
+            let fromValue = $('.between-dates #between-dates-from-value',
+                              $valueBlock).val();
+            let toValue =   $('.between-dates #between-dates-to-value',
+                              $valueBlock).val();
+            if (value.length > 0) {
+              filterParam[filterName] = {
+                'operator': operator,
+                'values': [fromValue, toValue]
+              }
+              // only add filter if a value is present.
+              filters.push(filterParam);
+            }
+          }
         } else {
-          // not a select box
+          // not a select box nor datetime_past
           let value = $('input[name="value"]', $valueBlock).val();
           if (value.length > 0) {
             filterParam[filterName] = {
@@ -146,16 +179,28 @@ jQuery(function($) {
   }
 
   function setValueVisibility() {
-    $selectedOperator = $(this).val();
+    selectedOperator = $(this).val();
     $filter = $(this).parents('.advanced-filters--filter')
     $filterValue = $('.advanced-filters--filter-value', $filter);
-    if (['*', '!*'].includes($selectedOperator)) {
+    if (['*', '!*', 't', 'w'].includes(selectedOperator)) {
       $filterValue.addClass('hidden');
     } else {
       $filterValue.removeClass('hidden');
     }
 
-
+    if (['>t-', '<t-', 't-'].includes(selectedOperator)) {
+      $filterValue.addClass('days-ago');
+      $filterValue.removeClass('on-date');
+      $filterValue.removeClass('between-dates');
+    } else if (selectedOperator == '=d') {
+      $filterValue.addClass('on-date');
+      $filterValue.removeClass('days-ago');
+      $filterValue.removeClass('between-dates');
+    } else if (selectedOperator == "<>d") {
+      $filterValue.addClass('between-dates');
+      $filterValue.removeClass('days-ago');
+      $filterValue.removeClass('on-date');
+    }
   }
 
   // Register event listeners

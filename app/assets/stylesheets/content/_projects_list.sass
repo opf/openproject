@@ -31,8 +31,11 @@ form.project-filters
   &.-expanded
     display: block
   .advanced-filters--filter-value
+    // visibility based on operator type
     &.hidden
       display: none
+
+    // visibility for list value selectors
     .multi-select
       display: none
     .single-select
@@ -42,6 +45,26 @@ form.project-filters
         display: block
       .single-select
         display: none
+
+    // visibility for datetime_past value selectors
+    &.between-dates
+      >.on-date,
+      >.days-ago
+        display: none  
+    &.on-date
+      >.between-dates,
+      >.days-ago
+        display: none
+    &.days-ago
+      >.on-date,
+      >.between-dates
+        display: none
+
+    // Special input field styles
+    &.between-dates
+      input[type="text"]
+        display: inline-block
+        max-width: 10rem
   .advanced-filters--filter
     &.hidden
       display: none

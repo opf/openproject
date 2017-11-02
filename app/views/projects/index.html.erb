@@ -80,13 +80,17 @@ See doc/COPYRIGHT.rdoc for more details.
                              selected_operator),
                            class: 'advanced-filters--select'  %>
           </div>
-          <% is_multi_value = (@query.find_active_filter(filter.name)
-                                     .try(:values) &&
-                               @query.find_active_filter(filter.name)
-                                     .values.try(:size) > 1) %>
+
           <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>
-          <div class="advanced-filters--filter-value <%= value_visibility %> <%= is_multi_value ? 'multi-value' : '' %>">
-            <% if %i(list list_optional list_all ).include? filter.type %>
+
+          <% if %i(list list_optional list_all ).include? filter.type %>
+
+            <% is_multi_value = (@query.find_active_filter(filter.name)
+            .try(:values) &&
+            @query.find_active_filter(filter.name)
+            .values.try(:size) > 1) %>
+
+            <div class="advanced-filters--filter-value <%= value_visibility %> <%= is_multi_value ? 'multi-value' : '' %>">
               <div class="single-select">
                 <span class="inline-label">
                   <%= select_tag :value,
@@ -97,7 +101,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                    @query.find_active_filter(filter.name)
                                          .try(:values)
                                          .try(:first)),
-                                 class: 'form--select -small' %>
+                                 class: 'form--select -slim' %>
                   <span href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
                     <span class="icon-context icon-button icon-add icon4" title="<%= t(:label_enable_multi_select) %>" icon-name="add" icon-title="<%= t(:label_enable_multi_select) %>" css-class="icon4">
                       <span class="hidden-for-sighted"><%= t(:label_enable_multi_select) %></span>
@@ -115,7 +119,7 @@ See doc/COPYRIGHT.rdoc for more details.
                                    @query.find_active_filter(filter.name)
                                          .try(:values)
                                  ),
-                                 class: 'form--select -small',
+                                 class: 'form--select -slim',
                                  multiple: true %>
                   <span href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
                     <span class="icon-context icon-button icon-minus2 icon4" title="<%= t(:label_enable_multi_select) %>" icon-name="minus2" icon-title="<%= t(:label_enable_multi_select) %>" css-class="icon4">
@@ -124,24 +128,68 @@ See doc/COPYRIGHT.rdoc for more details.
                   </span>
                 </span>
               </div>
-            <% elsif filter.type == :string %>
+            </div>
+          <% elsif filter.type == :datetime_past %>
+            <%
+              value_format = ''
+              if ['>t-', '<t-', 't-'].include? selected_operator
+                value_format = 'days-ago'
+              elsif selected_operator == '=d'
+                value_format = 'on-date'
+              elsif selected_operator == '<>d'
+                value_format = 'between-dates'
+              end
+            %>
+            <div class="advanced-filters--filter-value <%= value_visibility %> <%= value_format %>">
+              <div class="days-ago">
+                <div class="form--field-container">
+                  <div class="form--text-field-container -xslim">
+                    <span class="inline-label">
+                      <%= number_field_tag :value, value_format == 'days-ago' ? filter.values.first : '', class: 'advanced-filters--text-field -slim' %>
+                      <label for="value" class="form-label -transparent">days</label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="on-date">
+                <div class="form--field-container">
+                  <div class="form--text-field-container -slim">
+                    <%= text_field_tag :value, value_format == 'on-date' ? filter.values.first : '', id: "on-date-value", class: 'advanced-filters--text-field -slim', size: '10' %>
+                    <%= calendar_for('on-date-value') %>
+                  </div>
+                </div>
+              </div>
+              <div class="between-dates">
+                <span>From:</span>
+                <%= text_field_tag :value, value_format == 'between-dates' ? filter.values.first : '', id: "between-dates-from-value", class: 'advanced-filters--text-field -slim', size: '10' %>
+                <%= calendar_for('between-dates-from-value') %>
+                <span>To:</span>
+                <%= text_field_tag :value, value_format == 'between-dates' ? filter.values.second : '', id: "between-dates-to-value", class: 'advanced-filters--text-field -slim', size: '10' %>
+                <%= calendar_for('between-dates-to-value') %>
+              </div>
+            </div>
+          <% else %>
+            <%# All other simple types %>
+            <div class="advanced-filters--filter-value <%= value_visibility %>">
+            <% if filter.type == :string %>
               <div>
-                <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -small' %>
+                <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim' %>
               </div>
             <% elsif filter.type == :text %>
               <div>
-                <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -small' %>
+                <%= text_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim' %>
               </div>
             <% elsif filter.type == :integer %>
               <div>
-                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -small', step: "any"  %>
+                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim', step: "any"  %>
               </div>
             <% elsif filter.type == :float %>
               <div>
-                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -small', step: "any"%>
+                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim', step: "any"%>
               </div>
             <% end %>
-          </div>
+            </div>
+          <% end %>
 
           <% unless filter.name == :status %>
             <div class="advanced-filters--remove-filter">

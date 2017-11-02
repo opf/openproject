@@ -133,7 +133,7 @@ module ProjectsHelper
   end
 
   def allowed_filters(query)
-    filters_static = %i(status name_and_identifier)
+    filters_static = %i(status name_and_identifier created_on)
     filters_dynamic = []
     if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
       filters_dynamic = ProjectCustomField
@@ -159,6 +159,6 @@ module ProjectsHelper
   end
 
   def admin_only_filters
-    []
+    %i(created_on)
   end
 end

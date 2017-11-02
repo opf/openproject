@@ -28,8 +28,10 @@
 #++
 
 module Queries::Filters::Strategies
-  class DateTimePast < Queries::Filters::Strategies::Integer
+  class DateTimePast < BaseStrategy
     supported_operator_list ['>t-', '<t-', 't-', 't', 'w', '=d', '<>d']
+
+    default_operator '<t-'
 
     def validate
       if operator == Queries::Operators::OnDateTime ||
