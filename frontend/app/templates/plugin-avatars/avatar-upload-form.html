@@ -1,0 +1,44 @@
+<div class="form--field">
+    <label class="form--label"
+           ng-class="{ '-error':  $ctrl.isInvalid }"
+           ng-bind="$ctrl.text.label_choose_avatar"
+           for="avatar_file_input">
+    </label>
+    <div class="form--field-container">
+        <input type="file"
+               id="avatar_file_input"
+               name="avatar"
+               accept="image/*"
+               ngf-select
+               ngf-max-size="2MB"
+               ngf-keep="false"
+               ng-model="$ctrl.avatarFile"
+               ngf-resize="{width: 128, height: 128, quality: .8, type: 'image/jpeg', centerCrop: true, restoreExif: false}"
+               ngf-model-invalid="$ctrl.errorFile" />
+    </div>
+    <div class="form--field-instructions">
+        <span ng-bind="$ctrl.text.upload_instructions"></span>
+        <div class="avatars--error-pane">
+            <span ng-show="$ctrl.formFile.$error.maxSize">
+              {{ ::$ctrl.text.error_too_large }}
+              {{errorFile.size / 1000000|number:1}}MB: max 2MB
+            </span>
+            <br/>
+            <span ng-show="$ctrl.formFile.$error.resize">
+              {{ ::$ctrl.text.wrong_file_format }}
+            </span>
+            <br/>
+        </div>
+    </div>
+</div>
+<fieldset class="preview" ng-show="$ctrl.avatarFile">
+    <legend class="preview--legend" ng-bind="$ctrl.text.preview"></legend>
+    <img ngf-src="$ctrl.avatarFile" class="avatars--local-avatar-preview" />
+</fieldset>
+
+<button type="submit"
+        ng-click="$ctrl.uploadAvatar($event)"
+        ng-disabled="!$ctrl.avatarFile || $ctrl.busy"
+        ng-bind="$ctrl.text.button_update"
+        class="button -highlight -with-icon icon-checkmark">
+</button>

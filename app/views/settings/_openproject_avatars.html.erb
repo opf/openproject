@@ -1,0 +1,29 @@
+<% manager = ::OpenProject::Avatars::AvatarManager %>
+<% html_title l(:label_administration), l(:label_plugins), 'Openproject Avatars' %>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend" title="<%= t 'avatars.label_gravatar'  %>"><%= t 'avatars.label_gravatar'  %></legend>
+
+  <div class="form--field">
+    <%= styled_label_tag 'settings[enable_gravatars]', t('avatars.settings.enable_gravatars') %>
+    <%= hidden_field_tag  'settings[enable_gravatars]', 0 %>
+    <%= styled_check_box_tag 'settings[enable_gravatars]', 1, manager.gravatar_enabled?, container_class: '-xslim' %>
+  </div>
+
+  <div class="form--field">
+    <%= styled_label_tag 'settings[gravatar_default]', t('avatars.settings.gravatar_default') %>
+    <%= styled_select_tag 'settings[gravatar_default]',
+                          options_for_select(manager.default_gravatar_options, @settings['gravatar_default']),
+                          container_class: '-slim'
+    %>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend" title="<%= t 'avatars.label_local_avatar'  %>"><%= t 'avatars.label_local_avatar'  %></legend>
+  <div class="form--field">
+    <%= styled_label_tag :enable_local_avatars, t('avatars.settings.enable_local_avatars')  %>
+    <%= hidden_field_tag  'settings[enable_local_avatars]', 0 %>
+    <%= styled_check_box_tag 'settings[enable_local_avatars]', 1, manager.local_avatars_enabled?, container_class: '-xslim' %>
+  </div>
+</fieldset>

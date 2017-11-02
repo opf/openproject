@@ -1,0 +1,13 @@
+# German translation by cforce
+# https://bugs.launchpad.net/redmineAvatars/+bug/680548
+
+de:
+  label_avatar: "Avatar"
+  message_avatar_uploaded: "Avatar erfolgreich geändert."
+  error_image_upload: "Fehler beim Abspeichern des Bildes."
+  button_change_avatar: "Avatar ändern"
+  are_you_sure_delete_avatar: "Wollen Sie den Avatar wirklich löschen?"
+  avatar_deleted: "Avatar erfolgreich gelöscht."
+  unable_to_delete_avatar: "Avatar konnte nicht gelöscht werden."
+  wrong_file_format: "Zulässige Dateiformate sind jpg, png, gif"
+  empty_file_error: "Bitte wählen Sie ein Bild (jpg, png, gif) aus."

@@ -1,0 +1,16 @@
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend" title="<%= t 'avatars.label_gravatar'  %>"><%= t 'avatars.label_gravatar'  %></legend>
+  <p>
+    <%= t 'avatars.text_your_current_gravatar' %>
+  </p>
+  <div class="avatars--current-gravatar">
+    <%= build_gravatar_image_tag @user %>
+  </div>
+
+  <% if @user == current_user %>
+    <p>
+      <strong><%= t 'note' %></strong>:
+      <%= t('avatars.text_change_gravatar_html', gravatar_url: link_to('gravatar.com', 'https://www.gravatar.com')).html_safe %>
+    </p>
+  <% end %>
+</fieldset>
