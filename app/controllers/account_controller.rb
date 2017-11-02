@@ -561,11 +561,7 @@ class AccountController < ApplicationController
       session[:authenticated_user_id] = user.id
       session[:finish_registration] = opts
 
-      if stage.path.respond_to?(:call)
-        redirect_to instance_exec(&stage.path)
-      else
-        redirect_to stage.path
-      end
+      redirect_to stage.path
     end
   end
 

@@ -181,7 +181,10 @@ describe 'Authentication Stages', type: :feature do
 
   context "with two stages" do
     before do
-      OpenProject::Authentication::Stage.register :two_step, '/login/stage_test_2'
+      OpenProject::Authentication::Stage.register :two_step do
+        # while we're at it let's confirm path helpers work here (/login)
+        signin_path.sub "login", "login/stage_test_2"
+      end
     end
 
     after do

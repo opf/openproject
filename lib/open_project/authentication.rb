@@ -78,12 +78,22 @@ module OpenProject
 
     module Stage
       class Entry
-        attr_reader :identifier, :path
+        include OpenProject::StaticRouting::UrlHelpers
+
+        attr_reader :identifier
 
         def initialize(identifier, path, run_after_activation)
           @identifier = identifier
           @path = path
           @run_after_activation = run_after_activation
+        end
+
+        def path
+          if @path.respond_to?(:call)
+            instance_exec &@path
+          else
+            @path
+          end
         end
 
         def run_after_activation?
