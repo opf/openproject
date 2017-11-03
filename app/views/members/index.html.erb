@@ -31,13 +31,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <% any_members = @members.any? %>
 
 <%= toolbar title: t(:label_member_plural) do %>
-  <% if any_members %>
-    <li class="toolbar-item">
-      <button id="filter-member-button" focus title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
-        <%= op_icon('button--icon icon-filter') %>
-      </button>
-    </li>
-  <% end %>
   <% if authorize_for(:members, :new) %>
     <li class="toolbar-item">
       <button id="add-member-button"
@@ -48,6 +41,13 @@ See doc/COPYRIGHT.rdoc for more details.
               <%= params[:show_add_members] ? 'data-trigger-initially="true"' : '' %> >
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t('activerecord.models.member') %></span>
+      </button>
+    </li>
+  <% end %>
+  <% if any_members %>
+    <li class="toolbar-item">
+      <button id="filter-member-button" focus title="<%= I18n.t(:description_filter) %>" onClick="toggleMemberFilter()" class="button">
+        <%= op_icon('button--icon icon-filter') %>
       </button>
     </li>
   <% end %>
