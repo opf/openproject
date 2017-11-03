@@ -37,8 +37,10 @@ module Queries::Filters::Strategies
       if operator == Queries::Operators::OnDateTime ||
          operator == Queries::Operators::BetweenDateTime
         validate_values_all_datetime
-      else
-        super
+      elsif operator == Queries::Operators::Ago ||
+            operator == Queries::Operators::LessThanAgo ||
+            operator == Queries::Operators::MoreThanAgo
+        validate_values_all_integer
       end
     end
 
@@ -50,6 +52,18 @@ module Queries::Filters::Strategies
       super_value['<>d'] = Queries::Operators::BetweenDateTime
 
       super_value
+    end
+
+    def validate_values_all_integer
+      if operator && operator.requires_value? && values.any? { |value| !integer?(value) }
+        errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer'))
+      end
+    end
+
+    def integer?(str)
+      true if Object.send('Integer', str)
+    rescue ArgumentError
+      false
     end
 
     def validate_values_all_datetime
