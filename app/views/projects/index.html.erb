@@ -59,6 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
   <fieldset class="simple-filters--container">
     <legend><%= l(:label_filter_plural) %></legend>
+    <a id="projects-filter-close-button" title="{{ ::I18n.t('js.close_form_title') }}" class="simple-filters--close icon-context icon-close"></a>
     <ul class="simple-filters--filters">
       <li class="simple-filters--filter">
           <label class='simple-filters--filter-name' for='status'><%= Project.human_attribute_name(:status) %></label>

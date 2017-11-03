@@ -29,6 +29,7 @@
 jQuery(function($) {
   let $filterForm = $('form.project-filters').first();
   let $button = $('#projects-filter-toggle-button');
+  let $closeIcon = $('#projects-filter-close-button');
 
   function toggleProjectFilterForm() {
     if($button.hasClass('-active')) {
@@ -41,4 +42,5 @@ jQuery(function($) {
   }
 
   $button.click(toggleProjectFilterForm);
+  $closeIcon.click(toggleProjectFilterForm);
 });

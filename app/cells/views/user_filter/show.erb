@@ -39,6 +39,7 @@ See doc/COPYRIGHT.rdoc for more details.
         custom_class = '-columns-4'
       end
     %>
+    <% if has_close_icon? %><a title="{{ ::I18n.t('js.close_form_title') }}" class="simple-filters--close icon-context icon-close" onClick="toggleMemberFilter()"></a><% end %>
     <ul class="simple-filters--filters <%= custom_class %>">
       <li class="simple-filters--filter">
           <label class='simple-filters--filter-name' for='status'><%= User.human_attribute_name(:status) %>:</label>

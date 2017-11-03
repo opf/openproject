@@ -82,6 +82,10 @@ class UserFilterCell < RailsCell
     true
   end
 
+  def has_close_icon?
+    false
+  end
+
   def params
     model
   end
