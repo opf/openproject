@@ -26,7 +26,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
-<%= breadcrumb_toolbar link_to(l(:label_role_plural), roles_path), l(:label_permissions_report) %>
+<%= breadcrumb_toolbar l(:label_permissions_report) %>
+<% local_assigns[:additional_breadcrumb] = l(:label_permissions_report) %>
+<% html_title l(:label_administration), l(:label_permissions_report) %>
 <%= form_tag(roles_path, method: :put, id: 'permissions_form') do %>
   <%= hidden_field_tag 'permissions[0]', '', id: nil %>
 
