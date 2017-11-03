@@ -26,7 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$status-selector-color: #bc7100
+$status-selector-color: #f99400
+$status-selector-bg-color: #fef1e2
 
 @mixin details-pane--form-field
   @include grid-visible-overflow
@@ -245,10 +246,22 @@ i
   display: flex
   padding-top: 2px
   .wp-status-button .button
+    padding: 0
     margin-bottom: 0
-    background: transparent
+    background: $status-selector-bg-color
     border: 1px solid $status-selector-color
     color: $status-selector-color
+
+    .button--text
+      margin: 0 10px
+
+    .wp-status-button--icon-container
+      display: inline-block
+      width: 30px
+      background-color: $status-selector-color
+      color: white
+      line-height: 30px
+
   .work-packages--info-row
-    line-height: 1.5rem
+    line-height: 20px
 

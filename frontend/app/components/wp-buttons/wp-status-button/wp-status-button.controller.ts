@@ -27,6 +27,7 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
+import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export default class WorkPackageStatusButtonController {
   public workPackage:WorkPackageResourceInterface;
