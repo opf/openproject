@@ -554,7 +554,7 @@ class AccountController < ApplicationController
 
   def run_registration_stages(stages, user, opts)
     if stages.empty?
-      finish_registration! user
+      finish_registration! user, opts
     else
       stage = stages.first
 
@@ -565,9 +565,7 @@ class AccountController < ApplicationController
     end
   end
 
-  def finish_registration!(user)
-    opts = Hash(session.delete(:finish_registration))
-
+  def finish_registration!(user, opts = Hash(session.delete(:finish_registration)))
     self.logged_user = user
     user.update last_login_on: Time.now
 
