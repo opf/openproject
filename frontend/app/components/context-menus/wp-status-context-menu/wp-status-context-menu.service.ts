@@ -37,9 +37,10 @@ class WpStatusContextMenuController {
               protected $scope:ng.IScope,
               protected wpEditing:WorkPackageEditingService) {
     const wp = $scope.workPackage;
+    var changeset = wpEditing.changesetFor(wp);
     $scope.$ctrl = this;
 
-    wpEditing.changesetFor(wp).getForm().then((form:any) => {
+    changeset.getForm().then((form:any) => {
       this.status = form.schema.status.allowedValues;
 
       this.$timeout(() => {
@@ -47,6 +48,11 @@ class WpStatusContextMenuController {
         this.$scope.$root.$emit('repositionDropdown');
       })
     });
+
+    this.$scope.updateStatus = function (status:any) {
+      changeset.setValue('status', status);
+      changeset.save();
+    };
   }
 
   public get stateName() {
