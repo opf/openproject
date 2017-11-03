@@ -33,7 +33,10 @@
 language: ruby
 
 rvm:
-  - 2.4.1
+  - 2.4.2
+
+sudo: false
+dist: trusty
 
 sudo: false
 
@@ -55,7 +58,7 @@ env:
 
   matrix:
     - "TEST_SUITE=plugins:specs     DB=mysql    GROUP_SIZE=1 GROUP=1"
-    - "TEST_SUITE=plugins:cucumber  DB=mysql    GROUP_SIZE=1 GROUP=1"
+    - "TEST_SUITE=plugins:features  DB=mysql    GROUP_SIZE=1 GROUP=1"
 
     - "TEST_SUITE=npm"
 
@@ -90,6 +93,12 @@ before_install:
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
   - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
+
+  # Install geckodriver
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.0/geckodriver-v0.19.0-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v0.19.0-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
 
   # Install Node LTS Boron (6.9.1)
   - "nvm install 6.9.1"
