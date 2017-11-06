@@ -643,7 +643,10 @@ class WorkPackage < ActiveRecord::Base
     * (CASE WHEN is_closed = #{self.class.connection.quoted_true} THEN 100 ELSE COALESCE(done_ratio, 0) END)
     SQL
 
-    leaves.joins(:status).sum(sum_sql)
+    # distinct(false) is needed to prevent having
+    # SUM(DISTINCT ...)
+    # in the SQL query which would remove summands that have already been included (nominally)
+    leaves.joins(:status).distinct(false).sum(sum_sql)
   end
 
   def inherit_estimated_hours_from_leaves

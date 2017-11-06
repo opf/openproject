@@ -33,10 +33,10 @@ ruby '~> 2.4.2'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.0.4'
+gem 'rails', '~> 5.0.6'
 gem 'responders', '~> 2.4'
 
-gem 'coderay', '~> 1.1.0'
+gem 'coderay', '~> 1.1.2'
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
 
@@ -54,8 +54,8 @@ gem 'will_paginate', '~> 3.1.0'
 
 gem 'friendly_id', '~> 5.2.1'
 
-gem 'acts_as_list', '~> 0.9.7'
-gem 'acts_as_tree', '~> 2.6.1'
+gem 'acts_as_list', '~> 0.9.9'
+gem 'acts_as_tree', '~> 2.7.0'
 gem 'awesome_nested_set', '~> 3.1.3'
 gem 'typed_dag', '~> 1.0.0'
 
@@ -109,7 +109,7 @@ gem 'okcomputer', '~> 1.16.0'
 # Patch Rails HTML whitelisting for Angular curly braces
 gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: 'a45267d5'
 
-gem 'gon', '~> 6.1.0'
+gem 'gon', '~> 6.2.0'
 gem "syck", '~> 1.3.0', require: false
 
 # catch exceptions and send them to any airbrake compatible backend
@@ -125,7 +125,7 @@ gem 'prawn-table', '~> 0.2.2'
 gem 'cells-rails', '~> 0.0.6'
 gem 'cells-erb', '~> 0.0.8'
 
-gem 'meta-tags', '~> 2.4.1'
+gem 'meta-tags', '~> 2.6.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -137,7 +137,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'autoprefixer-rails', '~> 7.1.2.3'
+gem 'autoprefixer-rails', '~> 7.1.5'
 gem 'bourbon', '~> 4.3.4'
 gem 'i18n-js', '~> 3.0.0'
 gem 'sass', '3.5.1'
@@ -177,8 +177,8 @@ group :test do
   # and other niceties
   gem 'test-prof'
 
-  gem 'cucumber', '~> 2.4.0'
-  gem 'cucumber-rails', '~> 1.4.4', require: false
+  gem 'cucumber', '~> 3.0.0'
+  gem 'cucumber-rails', '~> 1.5.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   # not possible to upgrade to 3.6+ until rails is 5.1+
@@ -198,14 +198,14 @@ group :test do
   gem 'rails-controller-testing', '~> 1.0.2'
 
   gem 'aws-sdk', '~> 2.10.1'
-  gem 'capybara', '~> 2.14.0'
+  gem 'capybara', '~> 2.15.0'
   gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'capybara-ng', '~> 0.2.7'
   gem 'selenium-webdriver', '~> 3.6'
   gem 'timecop', '~> 0.9.0'
-  gem 'webmock', '~> 3.0.0', require: false
+  gem 'webmock', '~> 3.1.0', require: false
 
   gem 'simplecov', '~> 0.14.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
