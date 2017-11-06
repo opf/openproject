@@ -30,12 +30,11 @@ relation_001:
   id: 1
   from_id: 10
   to_id: 9
-  relation_type: blocks
+  blocks: 1
   delay:
 relation_002:
   id: 2
   from_id: 2
   to_id: 3
-  relation_type: relates
+  relates: 1
   delay:
-

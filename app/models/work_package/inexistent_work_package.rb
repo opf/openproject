@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,24 +28,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-Feature: User Authentication
-  @javascript
-  Scenario: A user gets a error message if the false credentials are filled in
-    Given I am logged in as "joe"
-    Then I should see "Invalid user or password"
+class WorkPackage::InexistentWorkPackage < WorkPackage
+  _validators.clear
 
-  @javascript
-  Scenario: A user is able to login successfully with provided credentials
-    Given I am on the login page
-    And I am admin
-    Then I should see "Admin" as being logged in
-
-  @javascript
-  Scenario: Lost password notification mail will not be sent in case incorrect mail is given
-    Given I am on the login page
-    And I open the "Openproject Admin" menu
-    And I follow "t:label_password_lost" within "#login-form" [i18n]
-    Then I should be on the lost password page
-    And I fill in "mail" with "bilbo@shire.com"
-    And I click on "Submit"
-    Then I should see "Unknown user"
+  def does_not_exist
+    errors.add :base, :does_not_exist
+  end
+end

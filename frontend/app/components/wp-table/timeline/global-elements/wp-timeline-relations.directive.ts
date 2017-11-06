@@ -203,8 +203,8 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
   private renderElement(vp:TimelineViewParameters, e:TimelineRelationElement) {
     const involved = e.relation.ids;
 
-    const startCells = this.timelineControllerHolder.instance.workPackageCells(involved.from);
-    const endCells = this.timelineControllerHolder.instance.workPackageCells(involved.to);
+    const startCells = this.timelineControllerHolder.instance.workPackageCells(involved.to);
+    const endCells = this.timelineControllerHolder.instance.workPackageCells(involved.from);
 
     // If either sources or targets are not rendered, ignore this relation
     if (startCells.length === 0 || endCells.length === 0) {

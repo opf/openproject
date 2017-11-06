@@ -196,8 +196,8 @@ describe WorkPackage, type: :model do
 
         expect(planning_element).not_to be_valid
 
-        expect(planning_element.errors[:parent_id]).to be_present
-        expect(planning_element.errors[:parent_id]).to eq([message])
+        expect(planning_element.errors[:parent]).to be_present
+        expect(planning_element.errors[:parent]).to eq([message])
       end
     end
   end
@@ -355,6 +355,8 @@ describe WorkPackage, type: :model do
       [pe1, pe11, pe12, pe121].each do |pe|
         expect(WorkPackage.find_by(id: pe.id)).to be_nil
       end
+
+      expect(WorkPackage.find_by(id: pe2.id)).not_to be_nil
     end
   end
 end

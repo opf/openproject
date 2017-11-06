@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,13 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::NestedSet
-  module WithRootIdScope
-    def self.included(base)
-      base.class_eval do
-        include RootIdHandling
-        include RootIdRebuilding
-      end
-    end
+require 'spec_helper'
+
+describe 'Lost password', type: :feature do
+  let!(:user) { FactoryGirl.create :user }
+
+  it 'shows same flash for invalid and existing users' do
+    visit account_lost_password_path
+
+    fill_in 'mail', with: 'invalid mail'
+    click_on 'Submit'
+
+    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
+
+    expect(ActionMailer::Base.deliveries.size).to eql 0
+
+    fill_in 'mail', with: user.mail
+    click_on 'Submit'
+    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_lost_email_sent))
+    expect(ActionMailer::Base.deliveries.size).to eql 1
   end
 end

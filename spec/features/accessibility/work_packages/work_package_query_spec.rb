@@ -268,7 +268,10 @@ describe 'Work package index accessibility', type: :feature, selenium: true do
         it do
           # expect the modal to be shown
           expect(page).to have_selector('.ng-modal-window')
-          find('body').native.send_keys(:escape)
+
+          modal = page.find('.ng-modal-inner')
+          modal.click
+          modal.native.send_keys(:escape)
           # expect it to disappear
           expect(page).not_to have_selector('.ng-modal-window')
           # expect the gear to be focused

@@ -186,7 +186,7 @@ describe Api::V2::PlanningElementsController, type: :controller do
               let!(:wp_parent) { FactoryGirl.create(:work_package, project_id: project.id) }
               let!(:wp_child)  {
                 FactoryGirl.create(:work_package, project_id: project.id,
-                                                  parent_id: wp_parent.id)
+                                                  parent: wp_parent)
               }
 
               context 'with rewire_parents=false' do
@@ -308,11 +308,11 @@ describe Api::V2::PlanningElementsController, type: :controller do
         let!(:project1) { FactoryGirl.create(:project, identifier: 'project-1') }
         let!(:project2) { FactoryGirl.create(:project, identifier: 'project-2') }
         let!(:ticket_a) { FactoryGirl.create(:work_package, project_id: project1.id) }
-        let!(:ticket_b) { FactoryGirl.create(:work_package, project_id: project1.id, parent_id: ticket_a.id) }
-        let!(:ticket_c) { FactoryGirl.create(:work_package, project_id: project1.id, parent_id: ticket_b.id) }
+        let!(:ticket_b) { FactoryGirl.create(:work_package, project_id: project1.id, parent: ticket_a) }
+        let!(:ticket_c) { FactoryGirl.create(:work_package, project_id: project1.id, parent: ticket_b) }
         let!(:ticket_d) { FactoryGirl.create(:work_package, project_id: project1.id) }
-        let!(:ticket_e) { FactoryGirl.create(:work_package, project_id: project2.id, parent_id: ticket_d.id) }
-        let!(:ticket_f) { FactoryGirl.create(:work_package, project_id: project1.id, parent_id: ticket_e.id) }
+        let!(:ticket_e) { FactoryGirl.create(:work_package, project_id: project2.id, parent: ticket_d) }
+        let!(:ticket_f) { FactoryGirl.create(:work_package, project_id: project1.id, parent: ticket_e) }
 
         become_admin { [project1, project2] }
 

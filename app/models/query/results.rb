@@ -205,11 +205,13 @@ class ::Query::Results
   # * sorting
   # * grouping
   def include_columns
-    columns = query.sort_criteria.map { |x| x.first.to_sym }
+    columns = query.sort_criteria_columns.map { |column, _direction| column.association }
 
-    columns << query.group_by.to_sym if query.group_by
+    if query.group_by_column
+      columns << query.group_by_column.association
+    end
 
-    columns.uniq
+    columns.compact.uniq.map(&:to_sym)
   end
 
   def sort_criteria_sql

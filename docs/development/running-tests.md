@@ -64,6 +64,24 @@ You can run the specs with the following commands:
 * `bundle exec rake spec:all` Run core and plugin specs with a random seed
 * `SPEC_OPTS="--seed 12935" bundle exec rake spec` Run the core specs with the seed 12935
 
+### Integration tests with Capybara
+
+We use Capybara for integration tests as rspec feature specs. They are automatically executed with Capybara when `js: true` is set.
+
+#### Selenium, Firefox, Geckodriver
+
+Capybara uses Selenium to drive the browser and perform the actions we describe in each spec. Previously, we have used Firefox 45 ESR, that had a direct webdriver bridge to talk to Selenium.
+
+With Firefox 48, this bridge has been removed and replaced with geckodriver, a separate executable to control the Firefox instance remotely. There are still bugs in the communication between Selenium and geckodriver (such as key sending, double clicking, etc.). Thus, you should make sure to use a recent Firefox. At the time of this writing, Firefox 57 is almost released as stable with lots of fixes for geckodriver and headless mode.
+
+While we want to support the latest ESR (and also test with that version), this is impossible since ESR 52 still has lots of bugs regarding chromedriver compatiblity that breaks our tests. The travis configuration thus also specifies the latest stable version. As soon as possible, revert the configuration to latest-esr again.
+
+To run the tests locally, you have to install the latest geckodriver and Firefox.
+
+**Headless mode**
+
+Firefox tests through Selenium are run with Firefox as `--headless` by default. To override this and watch the Firefox instance. set the ENV variable `OPENPROJECT_TESTING_NO_HEADLESS=1`.
+
 ### Cucumber
 
 **Note:** *We do not write new cucumber features. The current plan is to move away from

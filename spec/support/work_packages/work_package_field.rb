@@ -48,7 +48,7 @@ class WorkPackageField
   def activate!
     retry_block do
       unless active?
-        display_element.click
+        scroll_to_and_click(display_element)
       end
 
       unless active?

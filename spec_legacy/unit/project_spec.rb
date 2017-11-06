@@ -325,8 +325,8 @@ describe Project, type: :model do
     issue_with_hierarchy_fixed_version.reload
 
     assert_equal 4, issue_with_local_fixed_version.fixed_version_id, 'Fixed version was not keep on an issue local to the moved project'
-    assert_equal nil, issue_with_hierarchy_fixed_version.fixed_version_id, 'Fixed version is still set after moving the Project out of the hierarchy where the version is defined in'
-    assert_equal nil, parent_issue.fixed_version_id, 'Fixed version is still set after moving the Version out of the hierarchy for the issue.'
+    assert_nil issue_with_hierarchy_fixed_version.fixed_version_id, 'Fixed version is still set after moving the Project out of the hierarchy where the version is defined in'
+    assert_nil parent_issue.fixed_version_id, 'Fixed version is still set after moving the Version out of the hierarchy for the issue.'
   end
 
   it 'should parent' do
@@ -829,10 +829,10 @@ describe Project, type: :model do
       Setting.cross_project_work_package_relations = '1'
 
       second_issue = FactoryGirl.create(:work_package, status_id: 5,
-                                           subject: 'copy issue relation',
-                                           type_id: 1,
-                                           assigned_to_id: 2,
-                                           project_id: @source_project.id)
+                                        subject: 'copy issue relation',
+                                        type_id: 1,
+                                        assigned_to_id: 2,
+                                        project_id: @source_project.id)
       source_relation = FactoryGirl.create(:relation, from: WorkPackage.find(4),
                                            to: second_issue,
                                            relation_type: 'relates')
@@ -846,15 +846,17 @@ describe Project, type: :model do
       copied_second_issue = @project.work_packages.find_by(subject: 'copy issue relation')
 
       # First issue with a relation on project
-      assert_equal 1, copied_issue.relations.size, 'Relation not copied'
-      copied_relation = copied_issue.relations.first
+      # copied relation + reflexive relation
+      assert_equal 2, copied_issue.relations.size, 'Relation not copied'
+      copied_relation = copied_issue.relations.direct.first
       assert_equal 'relates', copied_relation.relation_type
       assert_equal copied_second_issue.id, copied_relation.to_id
       refute_equal source_relation.id, copied_relation.id
 
       # Second issue with a cross project relation
-      assert_equal 2, copied_second_issue.relations.size, 'Relation not copied'
-      copied_relation = copied_second_issue.relations.find { |r| r.relation_type == 'duplicates' }
+      # copied relation + reflexive relation
+      assert_equal 3, copied_second_issue.relations.size, 'Relation not copied'
+      copied_relation = copied_second_issue.relations.direct.find { |r| r.relation_type == 'duplicates' }
       assert_equal 'duplicates', copied_relation.relation_type
       assert_equal 1, copied_relation.from_id, 'Cross project relation not kept'
       refute_equal source_relation_cross_project.id, copied_relation.id

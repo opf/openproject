@@ -60,10 +60,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 2e0808789d8d70d8107b355553db0bfd2491bb3e
+  revision: 9bc4001e5a0aedacaa13b39079ad5a741e9dbd56
   branch: release/7.3
   specs:
-    openproject-translations (7.3.1)
+    openproject-translations (7.3.2)
       crowdin-api (~> 0.4.1)
       mixlib-shellout (~> 2.1.0)
       rails (~> 5.0.0)
@@ -198,7 +198,7 @@ GEM
     cells-rails (0.0.6)
       actionpack (>= 3.0)
       cells (>= 4.1)
-    childprocess (0.7.1)
+    childprocess (0.8.0)
       ffi (~> 1.0, >= 1.0.11)
     climate_control (0.0.3)
       activesupport (>= 3.0)
@@ -506,7 +506,7 @@ GEM
       rspec-expectations (~> 3.5.0)
       rspec-mocks (~> 3.5.0)
       rspec-support (~> 3.5.0)
-    rspec-retry (0.5.4)
+    rspec-retry (0.5.5)
       rspec-core (> 3.3, < 3.7)
     rspec-support (3.5.0)
     rubocop (0.49.1)
@@ -534,10 +534,9 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
-    selenium-webdriver (3.4.0)
+    selenium-webdriver (3.6.0)
       childprocess (~> 0.5)
       rubyzip (~> 1.0)
-      websocket (~> 1.0)
     shoulda-context (1.2.2)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
@@ -570,6 +569,8 @@ GEM
     tilt (2.0.7)
     timecop (0.9.1)
     ttfunk (1.5.0)
+    typed_dag (1.0.0)
+      rails (>= 5.0.4)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
     tzinfo-data (1.2017.2)
@@ -598,7 +599,6 @@ GEM
       addressable (>= 2.3.6)
       crack (>= 0.3.2)
       hashdiff
-    websocket (1.2.4)
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
@@ -705,14 +705,14 @@ DEPENDENCIES
   rspec-example_disabler!
   rspec-legacy_formatters (~> 1.0.1)
   rspec-rails (~> 3.5.2)
-  rspec-retry (~> 0.5.2)
+  rspec-retry (~> 0.5.5)
   rubocop
   ruby-duration (~> 3.2.0)
   ruby-progressbar
   rubytree!
   sass (= 3.5.1)
   sass-rails (~> 5.0.6)
-  selenium-webdriver (~> 3.4)
+  selenium-webdriver (~> 3.6)
   shoulda-context (~> 1.2)
   shoulda-matchers (~> 3.1)
   simplecov (~> 0.14.0)
@@ -726,6 +726,7 @@ DEPENDENCIES
   thin (~> 1.7.2)
   timecop (~> 0.9.0)
   transactional_lock!
+  typed_dag (~> 1.0.0)
   tzinfo-data (~> 1.2017.2)
   unicorn
   unicorn-worker-killer

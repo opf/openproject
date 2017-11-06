@@ -173,10 +173,18 @@ describe 'form configuration', type: :feature, js: true do
         dialog.cancel
         expect(page).to have_selector(group_selector('Whatever'))
 
+        # Click the dialog again after some time
+        # Otherwise this may cause issues due to the animation,
+        # which is why sleep is okay.
+        sleep 1
+
         # Reset and confirm
         reset_button.click
         dialog.expect_open
         dialog.confirm
+
+        # Wait for page reload
+        sleep 1
 
         expect(page).to have_no_selector(group_selector('Whatever'))
         expect_group('details', 'Details')

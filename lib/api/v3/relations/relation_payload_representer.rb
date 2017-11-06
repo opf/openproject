@@ -1,3 +1,5 @@
+#-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,18 +28,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-# Method to manually wait for an asynchronous request (through jQuery) to complete.
-# This applies to all requests through resources as well.
-#
-# Note: Use this only if there are no other means of detecting the sucessful
-# completion of said request.
-#
-
-def wait_until_requests_completed!
-  Timeout.timeout(Capybara.default_max_wait_time) do
-    loop do
-      active = page.evaluate_script('jQuery.active')
-      break if active == 0
+module API
+  module V3
+    module Relations
+      class RelationPayloadRepresenter < RelationRepresenter
+        include ::API::Utilities::PayloadRepresenter
+      end
     end
   end
 end

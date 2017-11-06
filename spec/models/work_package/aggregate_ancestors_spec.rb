@@ -87,7 +87,7 @@ describe WorkPackage::Ancestors, type: :model do
                          roles: [view_role]
     end
 
-    describe 'using_awesome_nested_set#ancestors' do
+    describe 'fetching from db' do
       it 'returns the same results' do
         expect(leaf.visible_ancestors(user)).to eq([root_work_package, intermediate])
       end

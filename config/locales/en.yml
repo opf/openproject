@@ -342,7 +342,7 @@ en:
         encoded_token: "Enterprise support token"
       relation:
         delay: "Delay"
-        from: "Work Package"
+        from: "Work package"
         to: "Related work package"
       status:
         is_closed: "Work package closed"
@@ -510,7 +510,7 @@ en:
           attributes:
             due_date:
               not_start_date: "is not on start date, although this is required for milestones."
-            parent_id:
+            parent:
               cannot_be_milestone: "cannot be a milestone."
               cannot_be_in_another_project: "cannot be in another project."
               not_a_valid_parent: "is invalid."

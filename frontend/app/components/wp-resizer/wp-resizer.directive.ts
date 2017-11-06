@@ -106,10 +106,9 @@ export class WorkPackageResizerController {
     this.oldPosition = e.clientX;
 
     // Get new value depending on the delta
-    // The resizingElement is not allowed to be smaller than 480px and greater than 1300px
+    // The resizingElement is not allowed to be smaller than 480px
     this.elementFlex = this.elementFlex + delta;
     let newValue = this.elementFlex < 480 ? 480 : this.elementFlex;
-    newValue = newValue > 1300 ? 1300 : newValue;
 
     // Store item in local storage
     localStorage.setItem(this.localStorageKey, String(newValue));

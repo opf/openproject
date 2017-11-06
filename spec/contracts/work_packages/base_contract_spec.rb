@@ -104,7 +104,7 @@ describe WorkPackages::BaseContract do
         contract.validate
       end
       let(:child) do
-        FactoryGirl.create(:work_package, parent_id: work_package.id, project: project)
+        FactoryGirl.create(:work_package, parent: work_package, project: project)
       end
 
       context 'has not changed' do
