@@ -57,6 +57,9 @@ OpenProject::Application.routes.draw do
     get '/logout', action: 'logout', as: 'signout'
 
     get '/sso', action: 'auth_source_sso_failed', as: 'sso_failure'
+
+    get '/login/:stage/success', action: 'stage_success', as: 'stage_success'
+    get '/login/:stage/failure', action: 'stage_failure', as: 'stage_failure'
   end
 
   namespace :api do
