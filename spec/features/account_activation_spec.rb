@@ -11,7 +11,7 @@ describe 'activating an invited account',
 
     user
   }
-  let(:token) {Token.find_by(user_id: user.id)}
+  let(:token) {Token::Invitation.find_by(user_id: user.id)}
 
   def activate!
     visit url_for(controller: :account,

@@ -94,9 +94,9 @@ describe 'My Account 2FA configuration', type: :feature,
 
     expect(page).to have_selector('.mobile-otp--two-factor-device-row', count: 2)
     rows = page.all('.mobile-otp--two-factor-device-row')
-    expect(rows[1]).to have_selector('.mobile-otp--two-factor-device-row td .icon-yes', count: 2)
-    expect(rows[0]).to have_selector('.mobile-otp--two-factor-device-row td', text: 'custom identifier')
-    expect(rows[0]).to have_selector('.mobile-otp--two-factor-device-row td .icon-yes', count: 1)
+    expect(rows[0]).to have_selector('.mobile-otp--two-factor-device-row td .icon-yes', count: 2)
+    expect(rows[1]).to have_selector('.mobile-otp--two-factor-device-row td', text: 'custom identifier')
+    expect(rows[1]).to have_selector('.mobile-otp--two-factor-device-row td .icon-yes', count: 1)
 
     device.reload
     expect(device.active).to be_truthy
@@ -113,14 +113,14 @@ describe 'My Account 2FA configuration', type: :feature,
 
     expect(page).to have_selector('.mobile-otp--two-factor-device-row', count: 2)
     rows = page.all('.mobile-otp--two-factor-device-row')
-    expect(rows[0]).to have_selector('.mobile-otp--two-factor-device-row td .icon-yes', count: 2)
-    expect(rows[1]).to have_selector('.mobile-otp--two-factor-device-row td .icon-yes', count: 1)
+    expect(rows[0]).to have_selector('.mobile-otp--two-factor-device-row td .icon-yes', count: 1)
+    expect(rows[1]).to have_selector('.mobile-otp--two-factor-device-row td .icon-yes', count: 2)
 
     device.reload
     expect(device.default).to be_truthy
 
     # Delete the sms device
-    rows[1].find('.two-factor--delete-button').click
+    rows[0].find('.two-factor--delete-button').click
     dialog.confirm_flow_with user_password, should_fail: false
 
     expect(page).to have_selector('.mobile-otp--two-factor-device-row', count: 1)

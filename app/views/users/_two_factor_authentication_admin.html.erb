@@ -1,4 +1,4 @@
-<% devices = @user.otp_devices %>
+<% devices = @user.otp_devices.reload %>
 <% default_device = @user.otp_devices.get_default %>
 
 <section class="admin--edit-section">

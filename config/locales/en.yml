@@ -93,7 +93,7 @@ en:
           Register your mobile phone number for delivery of OpenProject one-time passwords.
     sns:
       delivery_failed: 'SNS delivery failed:'
-    rest_dt:
+    restdt:
       delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
 
     mobile_transmit_notification: "A one-time password has been sent to your cell phone."

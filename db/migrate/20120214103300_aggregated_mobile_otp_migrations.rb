@@ -16,13 +16,6 @@ class AggregatedMobileOtpMigrations < ActiveRecord::Migration
   def up
     migration_names = OpenProject::Plugins::MigrationMapping.migration_files_to_migration_names(MIGRATION_FILES, OLD_PLUGIN_NAME)
     Migration::MigrationSquasher.squash(migration_names) do
-      create_table "extended_tokens" do |t|
-        t.integer "user_id", default: 0, null: false
-        t.string "value", limit: 40, default: "", null: false
-        t.datetime "created_on", null: false
-        t.datetime "expires_on", null: false
-        t.string "type"
-      end
       add_column :users, :verified_phone, :string
       add_column :users, :unverified_phone, :string
       User.reset_column_information
@@ -31,7 +24,6 @@ class AggregatedMobileOtpMigrations < ActiveRecord::Migration
   end
 
   def down
-    drop_table :extended_tokens
     remove_column :users, :verified_phone
     remove_column :users, :unverified_phone
     User.reset_column_information

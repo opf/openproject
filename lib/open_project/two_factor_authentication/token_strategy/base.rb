@@ -79,7 +79,7 @@ module OpenProject::TwoFactorAuthentication
       protected
 
       def create_mobile_otp
-        value = user.otp_tokens.create_and_return_value
+        value = user.otp_tokens.create_and_return_value(user)
         user.otp_tokens.reload
         value
       end

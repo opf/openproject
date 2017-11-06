@@ -1,5 +1,7 @@
 module TwoFactorAuthentication
   class Device < ActiveRecord::Base
+    default_scope { order('id ASC') }
+
     belongs_to :user
     validates_presence_of :user_id
     validates_presence_of :identifier
