@@ -146,9 +146,7 @@ module UserInvitation
       user.invite
 
       if user.valid?
-        token = invitation_token user
-        token.save!
-
+        token = Token::Invitation.create! user: user
         user.save!
 
         return [user, token]
@@ -163,6 +161,6 @@ module UserInvitation
   end
 
   def invitation_token(user)
-    Token.find_or_initialize_by user: user, action: token_action
+    Token::Invitation.new user: user
   end
 end

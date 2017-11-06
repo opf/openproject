@@ -280,27 +280,6 @@ describe User, type: :model do
 
   it { is_expected.to have_one :api_token }
 
-  context 'User#api_key' do
-    it "should generate a new one if the user doesn't have one" do
-      user = FactoryGirl.create(:user, api_token: nil)
-      assert_nil user.api_token
-
-      key = user.api_key
-      assert_equal 40, key.length
-      user.reload
-      assert_equal key, user.api_key
-    end
-
-    it 'should return the existing api token value' do
-      user = FactoryGirl.create(:user)
-      token = FactoryGirl.create(:token, action: 'api')
-      user.api_token = token
-      assert user.save
-
-      assert_equal token.value, user.api_key
-    end
-  end
-
   context 'User#find_by_api_key' do
     it 'should return nil if no matching key is found' do
       assert_nil User.find_by_api_key('zzzzzzzzz')

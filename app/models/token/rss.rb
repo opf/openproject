@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,22 +28,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverInvitationJob < ApplicationJob
-  attr_reader :token_id
+require_dependency 'token/base'
 
-  def initialize(token_id)
-    @token_id = token_id
-  end
-
-  def perform
-    if token
-      UserMailer.user_signed_up(token).deliver_now
-    else
-      Rails.logger.warn "Can't deliver invitation. The token is missing: #{token_id}"
+module Token
+  class Rss < Base
+    after_initialize do
+      unless value.present?
+        self.value = self.class.generate_token_value
+      end
     end
-  end
 
-  def token
-    @token ||= Token::Invitation.find_by(id: @token_id)
+    def plain_value
+      value
+    end
   end
 end

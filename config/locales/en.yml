@@ -150,6 +150,9 @@ en:
 
   my:
     access_token:
+      failed_to_reset_token: "Failed to reset access token: %{error}"
+      notice_reset_token: "A new %{type} token has been generated. Your access token is:"
+      token_value_warning: "Note: This is the only time you will see this token, make sure to copy it now."
       no_results_title_text: There are currently no access tokens available.
 
   news:
@@ -1596,16 +1599,12 @@ en:
   notice_account_wrong_password: "Wrong password"
   notice_account_registered_and_logged_in: "Welcome, your account has been activated. You are logged in now."
   notice_activation_failed: The account could not be activated.
-  notice_api_access_key_reseted: "Your API access key was reset."
-  notice_api_access_key_generated: "Your API access key was generated."
   notice_can_t_change_password: "This account uses an external authentication source. Impossible to change the password."
   notice_custom_options_deleted: "Option '%{option_value}' and its %{num_deleted} occurrences were deleted."
   notice_email_error: "An error occurred while sending mail (%{value})"
   notice_email_sent: "An email was sent to %{value}"
   notice_failed_to_save_work_packages: "Failed to save %{count} work package(s) on %{total} selected: %{ids}."
   notice_failed_to_save_members: "Failed to save member(s): %{errors}."
-  notice_feeds_access_key_reseted: "Your RSS access key was reset."
-  notice_feeds_access_key_generated: "Your RSS access key was generated."
 
   notice_file_not_found: "The page you were trying to access doesn't exist or has been removed."
   notice_forced_logout: "You have been automatically logged out after %{ttl_time} minutes of inactivity."

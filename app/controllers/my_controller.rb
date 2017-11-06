@@ -128,44 +128,36 @@ class MyController < ApplicationController
   end
 
   # Create a new feeds key
-  def reset_rss_key
-    if request.post?
-      if User.current.rss_token
-        User.current.rss_token.destroy
-        User.current.reload
-      end
-      User.current.rss_key
-      flash[:notice] = l(:notice_feeds_access_key_reseted)
-    end
-    redirect_to action: 'access_token'
-  end
-
   def generate_rss_key
     if request.post?
-      User.current.rss_key
-      flash[:notice] = l(:notice_feeds_access_key_generated)
+      token = Token::Rss.create!(user: current_user)
+      flash[:notice] = [
+        t('my.access_token.notice_reset_token', type: 'RSS'),
+        "<strong>#{token.plain_value}</strong>".html_safe,
+        t('my.access_token.token_value_warning')
+      ]
     end
+  rescue StandardError => e
+    Rails.logger.error "Failed to reset user ##{current_user.id} RSS key: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
     redirect_to action: 'access_token'
   end
 
   # Create a new API key
-  def reset_api_key
-    if request.post?
-      if User.current.api_token
-        User.current.api_token.destroy
-        User.current.reload
-      end
-      User.current.api_key
-      flash[:notice] = l(:notice_api_access_key_reseted)
-    end
-    redirect_to action: 'access_token'
-  end
-
   def generate_api_key
     if request.post?
-      User.current.api_key
-      flash[:notice] = l(:notice_api_access_key_generated)
+      token = Token::Api.create!(user: current_user)
+      flash[:notice] = [
+        t('my.access_token.notice_reset_token', type: 'API'),
+        "<strong>#{token.plain_value}</strong>".html_safe,
+        t('my.access_token.token_value_warning')
+      ]
     end
+  rescue StandardError => e
+    Rails.logger.error "Failed to reset user ##{current_user.id} API key: #{e}"
+    flash[:error] = t('my.access_token.failed_to_reset_token', error: e.message)
+  ensure
     redirect_to action: 'access_token'
   end
 

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,22 +26,42 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverInvitationJob < ApplicationJob
-  attr_reader :token_id
+require 'spec_helper'
 
-  def initialize(token_id)
-    @token_id = token_id
-  end
+describe ::Token::HashedToken, type: :model do
+  let(:user) { FactoryGirl.build(:user) }
 
-  def perform
-    if token
-      UserMailer.user_signed_up(token).deliver_now
-    else
-      Rails.logger.warn "Can't deliver invitation. The token is missing: #{token_id}"
+  subject { described_class.new user: user }
+
+  describe 'token value' do
+    it 'is generated on a new instance' do
+      expect(subject.value).to be_present
+    end
+
+    it 'provides the generated plain value on a new instance' do
+      expect(subject.valid_plaintext?(subject.plain_value)).to eq true
+    end
+
+    it 'hashes the plain value to value' do
+      expect(subject.value).not_to eq(subject.plain_value)
+    end
+
+    it 'does not keep the value when finding it' do
+      subject.save!
+
+      instance = described_class.where(user: user).last
+      expect(instance.plain_value).to eq nil
     end
   end
 
-  def token
-    @token ||= Token::Invitation.find_by(id: @token_id)
+  describe '#find_by_plaintext_value' do
+    before do
+      subject.save!
+    end
+
+    it 'finds using the plaintext value' do
+      expect(described_class.find_by_plaintext_value(subject.plain_value)).to eq subject
+      expect(described_class.find_by_plaintext_value('foobar')).to eq nil
+    end
   end
 end

@@ -361,9 +361,7 @@ describe User, 'deletion', type: :model do
 
   describe 'WHEN the user has a token created' do
     let(:token) {
-      Token.new(user: user,
-                action: 'feeds',
-                value: 'loremipsum')
+      Token::Rss.new(user: user, value: 'loremipsum')
     }
 
     before do
@@ -372,7 +370,7 @@ describe User, 'deletion', type: :model do
       user.destroy
     end
 
-    it { expect(Token.find_by(id: token.id)).to be_nil }
+    it { expect(Token::Rss.find_by(id: token.id)).to be_nil }
   end
 
   describe 'WHEN the user has created a private query' do

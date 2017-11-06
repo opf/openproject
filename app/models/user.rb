@@ -78,12 +78,8 @@ class User < Principal
   }, class_name: 'UserPassword',
      dependent: :destroy,
      inverse_of: :user
-  has_one :rss_token, -> {
-    where("action='feeds'")
-  }, dependent: :destroy, class_name: 'Token'
-  has_one :api_token, -> {
-    where("action='api'")
-  }, dependent: :destroy, class_name: 'Token'
+  has_one :rss_token, class_name: '::Token::Rss', dependent: :destroy
+  has_one :api_token, class_name: '::Token::Api', dependent: :destroy
   belongs_to :auth_source
 
   # Users blocked via brute force prevention
@@ -234,12 +230,12 @@ class User < Principal
 
   def self.activate_user!(user, session)
     if session[:invitation_token]
-      token = Token.find_by_value session[:invitation_token]
+      token = Token::Invitation.find_active_uuid session[:invitation_token]
       invited_id = token && token.user.id
 
       if user.id == invited_id
         user.activate!
-        token.destroy!
+        token.destroy
         session.delete :invitation_token
       end
     end
@@ -267,10 +263,9 @@ class User < Principal
 
   # Returns the user who matches the given autologin +key+ or nil
   def self.try_to_autologin(key)
-    tokens = Token.where(action: 'autologin', value: key)
+    token = Token::AutoLogin.find_by_plaintext_value(key)
     # Make sure there's only 1 token that matches the key
-    if tokens.size == 1
-      token = tokens.first
+    if token
       if (token.created_on > Setting.autologin.to_i.day.ago) && token.user && token.user.active?
         token.user.log_successful_login
         token.user
@@ -444,18 +439,6 @@ class User < Principal
     pref.comments_in_reverse_order?
   end
 
-  # Return user's RSS key (a 40 chars long string), used to access feeds
-  def rss_key
-    token = rss_token || Token.create(user: self, action: 'feeds')
-    token.value
-  end
-
-  # Return user's API key (a 40 chars long string), used to access the API
-  def api_key
-    token = api_token || create_api_token(action: 'api')
-    token.value
-  end
-
   # Return an array of project ids for which the user has explicitly turned mail notifications on
   def notified_projects_ids
     @notified_projects_ids ||= memberships.select(&:mail_notification?).map(&:project_id)
@@ -497,18 +480,31 @@ class User < Principal
   end
 
   def self.find_by_rss_key(key)
-    token = Token.find_by(value: key)
-    token && token.user.active? && Setting.feeds_enabled? ? token.user : nil
+    return nil unless Setting.feeds_enabled?
+    token = Token::Rss.find_by(value: key)
+
+    if token && token.user.active?
+      token.user
+    end
   end
 
   def self.find_by_api_key(key)
-    token = Token.find_by(action: 'api', value: key)
-    token && token.user.active? ? token.user : nil
+    return nil unless Setting.rest_api_enabled?
+    token = Token::Api.find_by(value: key)
+
+    if token && token.user.active?
+      token.user
+    end
   end
 
   # Makes find_by_mail case-insensitive
   def self.find_by_mail(mail)
     where(['LOWER(mail) = ?', mail.to_s.downcase]).first
+  end
+
+  def rss_key
+    token = rss_token || ::Token::Rss.create(user: self)
+    token.value
   end
 
   def to_s

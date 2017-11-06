@@ -159,7 +159,7 @@ describe UsersController, type: :controller do
 
       it 'sends another activation email' do
         mail = ActionMailer::Base.deliveries.first.body.parts.first.body.to_s
-        token = Token.find_by user_id: invited_user.id, action: UserInvitation.token_action
+        token = Token::Invitation.find_by user_id: invited_user.id
 
         expect(mail).to include 'activate your account'
         expect(mail).to include token.value

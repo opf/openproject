@@ -147,6 +147,6 @@ Given /^the user "(.+)" is(not |) forced to change his password$/ do |login, dis
 end
 
 Given /^I use the first existing token to request a password reset$/ do
-  token = Token.first
+  token = Token::Recovery.first
   visit account_lost_password_path(token: token.value)
 end
