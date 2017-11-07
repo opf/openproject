@@ -33,16 +33,6 @@ module Token
       def find_by_plaintext_value(input)
         find_by(value: hash_function(input))
       end
-
-      private
-
-      ##
-      # Use a fixed salt for hashing token values.
-      # We still want to be able to index the hash value for fast lookups,
-      # so we need to determine the hash without knowing the associated user (and thus its salt) first.
-      def token_salt
-        '28f939460f6f852268a534f449928af54026af6c16aebf04f5975307b9d72de389f0'.freeze
-      end
     end
 
     ##
@@ -55,7 +45,10 @@ module Token
     end
 
     def self.hash_function(input)
-      Digest::SHA256.hexdigest(input + token_salt)
+      # Use a fixed salt for hashing token values.
+      # We still want to be able to index the hash value for fast lookups,
+      # so we need to determine the hash without knowing the associated user (and thus its salt) first.
+      Digest::SHA256.hexdigest(input + Rails.application.secrets.fetch(:secret_key_base))
     end
     delegate :hash_function, to: :class
 

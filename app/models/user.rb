@@ -230,7 +230,7 @@ class User < Principal
 
   def self.activate_user!(user, session)
     if session[:invitation_token]
-      token = Token::Invitation.find_active_uuid session[:invitation_token]
+      token = Token::Invitation.find_by_plaintext_value session[:invitation_token]
       invited_id = token && token.user.id
 
       if user.id == invited_id
@@ -490,7 +490,7 @@ class User < Principal
 
   def self.find_by_api_key(key)
     return nil unless Setting.rest_api_enabled?
-    token = Token::Api.find_by(value: key)
+    token = Token::Api.find_by_plaintext_value(key)
 
     if token && token.user.active?
       token.user

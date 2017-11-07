@@ -154,12 +154,21 @@ class AccountController < ApplicationController
 
   # Token based account activation
   def activate
-    token = :Token::Invitation.find_by(value: params[:token])
+    token = ::Token::Invitation.find_by_plaintext_value(params[:token])
 
-    if token && Setting.self_registration?
+    if token.nil? || token.expired?
+      flash[:error] = I18n.t(:notice_account_invalid_token)
+      redirect_to home_url
+      return
+    end
+
+    if token.user.invited?
+      activate_by_invite_token token
+    elsif Setting.self_registration?
       activate_self_registered token
     else
-      activate_by_invite_token token
+      flash[:error] = I18n.t(:notice_account_invalid_token)
+      redirect_to home_url
     end
   end
 
@@ -441,7 +450,7 @@ class AccountController < ApplicationController
   def set_autologin_cookie(user)
     token = Token::AutoLogin.create(user: user)
     cookie_options = {
-      value: token.value,
+      value: token.plain_value,
       expires: 1.year.from_now,
       path: OpenProject::Configuration['autologin_cookie_path'],
       secure: OpenProject::Configuration['autologin_cookie_secure'],
@@ -654,7 +663,7 @@ class AccountController < ApplicationController
 
   def invited_user
     if session.include? :invitation_token
-      token = Token::Invitation.find_by value: session[:invitation_token]
+      token = Token::Invitation.find_by_plaintext_value session[:invitation_token]
 
       token.user
     end

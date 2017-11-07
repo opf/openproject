@@ -272,7 +272,7 @@ describe User, type: :model do
   it 'should rss key' do
     assert_nil @jsmith.rss_token
     key = @jsmith.rss_key
-    assert_equal 40, key.length
+    assert_equal 64, key.length
 
     @jsmith.reload
     assert_equal key, @jsmith.rss_key
@@ -287,7 +287,7 @@ describe User, type: :model do
 
     it 'should return nil if the key is found for an inactive user' do
       user = FactoryGirl.create(:user, status: User::STATUSES[:locked])
-      token = FactoryGirl.create(:token, action: 'api')
+      token = FactoryGirl.build(:api_token, user: user)
       user.api_token = token
       user.save
 
@@ -296,11 +296,11 @@ describe User, type: :model do
 
     it 'should return the user if the key is found for an active user' do
       user = FactoryGirl.create(:user, status: User::STATUSES[:active])
-      token = FactoryGirl.create(:token, action: 'api')
+      token = FactoryGirl.build(:api_token, user: user)
       user.api_token = token
       user.save
 
-      assert_equal user, User.find_by_api_key(token.value)
+      assert_equal user, User.find_by_api_key(token.plain_value)
     end
   end
 

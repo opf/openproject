@@ -49,7 +49,7 @@ describe 'API v2', type: :request do
   end
 
   describe 'API authentication' do
-    let(:api_key) { admin.api_key }
+    let(:api_key) { ::Token::Api.create(user: admin).plain_value }
 
     shared_examples_for 'API key access' do
       context 'invalid' do

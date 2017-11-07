@@ -166,10 +166,10 @@ describe API::V3, type: :request do
         it_behaves_like 'it is basic auth protected'
 
         describe 'user basic auth' do
-          let(:api_key) { FactoryGirl.create :api_key }
+          let(:api_key) { FactoryGirl.create :api_token }
 
           let(:username) { 'apikey' }
-          let(:password) { api_key.value }
+          let(:password) { api_key.plain_value }
 
           # check that user basic auth is tried when global basic auth fails
           it_behaves_like 'it is basic auth protected'
@@ -177,10 +177,10 @@ describe API::V3, type: :request do
       end
 
       describe 'user basic auth' do
-        let(:api_key) { FactoryGirl.create :api_key }
+        let(:api_key) { FactoryGirl.create :api_token }
 
         let(:username) { 'apikey' }
-        let(:password) { api_key.value }
+        let(:password) { api_key.plain_value }
 
         # check that user basic auth works on its own too
         it_behaves_like 'it is basic auth protected'
@@ -199,7 +199,7 @@ describe API::V3, type: :request do
           let(:password) { 'olooleol' }
 
           let(:api_user) { FactoryGirl.create :user, login: 'user_account' }
-          let(:api_key)  { FactoryGirl.create :api_key, user: api_user }
+          let(:api_key)  { FactoryGirl.create :api_token, user: api_user }
 
           before do
             config = { user: 'global_account', password: 'global_password' }
@@ -249,7 +249,7 @@ describe API::V3, type: :request do
 
           context 'with valid user credentials' do
             before do
-              set_basic_auth_header('apikey', api_key.value)
+              set_basic_auth_header('apikey', api_key.plain_value)
               get resource
             end
 

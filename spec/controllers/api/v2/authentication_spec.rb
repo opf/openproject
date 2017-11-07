@@ -78,7 +78,7 @@ describe Api::V2::AuthenticationController, type: :controller do
   end
 
   describe 'session' do
-    let(:api_key) { user.api_key }
+    let(:api_key) { ::Token::Api.create!(user: user).plain_value }
     let(:user) { FactoryGirl.create(:admin) }
     let(:ttl) { 42 }
 
@@ -111,7 +111,7 @@ describe Api::V2::AuthenticationController, type: :controller do
   end
 
   describe 'WWW-Authenticate response header upon failure' do
-    let(:api_key) { user.api_key }
+    let(:api_key) { ::Token::Api.create(user: user).plain_value }
     let(:user) { FactoryGirl.create(:admin) }
     let(:ttl) { 42 }
 

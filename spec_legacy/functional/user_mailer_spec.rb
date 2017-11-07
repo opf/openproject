@@ -371,13 +371,13 @@ describe UserMailer, type: :mailer do
 
   it 'should lost password' do
     user  = FactoryGirl.create(:user)
-    token = FactoryGirl.create(:token, user: user)
+    token = FactoryGirl.create(:recovery_token, user: user)
     assert UserMailer.password_lost(token).deliver_now
   end
 
   it 'should register' do
     user  = FactoryGirl.create(:user)
-    token = FactoryGirl.create(:token, user: user)
+    token = FactoryGirl.create(:invitation_token, user: user)
     Setting.host_name = 'redmine.foo'
     Setting.protocol = 'https'
 
