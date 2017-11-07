@@ -63,10 +63,6 @@
       font-size: 30px
 
 
-@head
-  <base href="/assets/styleguide.html"/>
-
-
 @header
   <header class="livingstyleguide--header">
     <div class="styleguide-banner">
