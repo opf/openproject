@@ -129,7 +129,7 @@ var loaders = [
 for (var k in pathConfig.pluginNamesPaths) {
   if (pathConfig.pluginNamesPaths.hasOwnProperty(k)) {
     loaders.push({
-      test: new RegExp('templates/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
+      test: new RegExp('templates\/plugin-' + k.replace(/^openproject\-/, '') + '/.*\.html$'),
       use: [
         {
           loader: 'ngtemplate-loader',

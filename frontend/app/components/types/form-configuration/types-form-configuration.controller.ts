@@ -197,3 +197,4 @@ function typesFormConfigurationCtrl(
 };
 
 openprojectModule.controller('TypesFormConfigurationCtrl', typesFormConfigurationCtrl);
+
