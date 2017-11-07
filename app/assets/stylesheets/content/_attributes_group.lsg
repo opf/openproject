@@ -53,7 +53,7 @@
     <div class="attributes-key-value--value-container">
       <div class="attributes-key-value--value -user">
         <span class="user-avatar--container">
-          <img class="user-avatar--avatar" alt="Avatar" title="testing.long.emails@openproject.org" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
+          <img class="user-avatar--avatar" alt="Avatar" title="testing.long.emails@openproject.org" src="http://example.com/users/1/avatar">
           <span class="user-avatar--user-with-role">
             <span class="user-avatar--user">
               <a class="user-avatar--user-link" href="#">testing.long.emails@openproject.org</a>

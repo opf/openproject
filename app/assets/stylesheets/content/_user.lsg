@@ -21,7 +21,7 @@ Gravatar Mini:<br />
 
 ```
 <div class="user-avatar--container">
-  <img class="user-avatar--avatar" alt="Avatar" title="Max Mustermann" src="http://gravatar.com/avatar/ae4878114ca94594589106efaad8890e?default=wavatar&amp;secure=false">
+  <img class="user-avatar--avatar" alt="Avatar" title="Max Mustermann" src="https://example.org/users/4/avatar">
   <span class="user-avatar--user-with-role">
     <span class="user-avatar--user">
       <a class="user-avatar--user-link" href="#">Max Mustermann</a>

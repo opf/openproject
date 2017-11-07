@@ -1928,8 +1928,6 @@ en:
   setting_feeds_enabled: "Enable Feeds"
   setting_feeds_limit: "Feed content limit"
   setting_file_max_size_displayed: "Max size of text files displayed inline"
-  setting_gravatar_default: "Default Gravatar image"
-  setting_gravatar_enabled: "Use Gravatar user icons"
   setting_host_name: "Host name"
   setting_work_package_done_ratio: "Calculate the work package done ratio with"
   setting_work_package_done_ratio_field: "Use the work package field"
