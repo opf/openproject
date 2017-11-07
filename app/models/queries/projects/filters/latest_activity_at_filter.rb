@@ -27,15 +27,31 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  query = ::Queries::Projects::ProjectQuery
+class Queries::Projects::Filters::LatestActivityAtFilter < Queries::Projects::Filters::ProjectFilter
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::ActiveOrArchivedFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedOnFilter
-  register.filter query, filters::LatestActivityAtFilter
+  self.model = Project.with_latest_activity
+
+  def type
+    :datetime_past
+  end
+
+  def self.key
+    :latest_activity_at
+  end
+
+  def name
+    :latest_activity_at
+  end
+
+  def human_name
+    I18n.t('activerecord.attributes.project.latest_activity_at')
+  end
+
+  def where
+    operator_strategy.sql_for_field(values, "activity", self.class.key)
+  end
+
+  def order
+    9
+  end
 end

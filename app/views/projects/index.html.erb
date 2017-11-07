@@ -56,7 +56,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% end %>
 
 <%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
-  <% operators_without_values = ['*', '!*'] %>
+  <% operators_without_values = ['*', '!*', 't', 'w'] %>
   <fieldset class="advanced-filters--container">
     <a id="projects-filter-close-button" title="{{ ::I18n.t('js.close_form_title') }}" class="simple-filters--close icon-context icon-close"></a>
     <legend><%= t(:label_filter_plural) %></legend>
@@ -153,18 +153,18 @@ See doc/COPYRIGHT.rdoc for more details.
               <div class="on-date">
                 <div class="form--field-container">
                   <div class="form--text-field-container -slim">
-                    <%= text_field_tag :value, value_format == 'on-date' ? filter.values.first : '', id: "on-date-value", class: 'advanced-filters--text-field -slim', size: '10' %>
-                    <%= calendar_for('on-date-value') %>
+                    <%= text_field_tag :value, value_format == 'on-date' ? filter.values.first : '', id: "on-date-value-#{filter.name}", class: 'advanced-filters--text-field -slim', size: '10' %>
+                    <%= calendar_for("on-date-value-#{filter.name}") %>
                   </div>
                 </div>
               </div>
               <div class="between-dates">
                 <span>From:</span>
-                <%= text_field_tag :value, value_format == 'between-dates' ? filter.values.first : '', id: "between-dates-from-value", class: 'advanced-filters--text-field -slim', size: '10' %>
-                <%= calendar_for('between-dates-from-value') %>
+                <%= text_field_tag :from_value, value_format == 'between-dates' ? filter.values.first : '', id: "between-dates-from-value-#{filter.name}", class: 'advanced-filters--text-field -slim', size: '10' %>
+                <%= calendar_for("between-dates-from-value-#{filter.name}") %>
                 <span>To:</span>
-                <%= text_field_tag :value, value_format == 'between-dates' ? filter.values.second : '', id: "between-dates-to-value", class: 'advanced-filters--text-field -slim', size: '10' %>
-                <%= calendar_for('between-dates-to-value') %>
+                <%= text_field_tag :to_value, value_format == 'between-dates' ? filter.values.second : '', id: "between-dates-to-value-#{filter.name}", class: 'advanced-filters--text-field -slim', size: '10' %>
+                <%= calendar_for("between-dates-to-value-#{filter.name}") %>
               </div>
             </div>
           <% else %>

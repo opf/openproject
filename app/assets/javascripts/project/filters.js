@@ -110,9 +110,9 @@ jQuery(function($) {
               filters.push(filterParam);
             }
           } else if ($valueBlock.hasClass('between-dates')) {
-            let fromValue = $('.between-dates #between-dates-from-value',
+            let fromValue = $('.between-dates input[name="from_value"]',
                               $valueBlock).val();
-            let toValue =   $('.between-dates #between-dates-to-value',
+            let toValue =   $('.between-dates input[name="to_value"]',
                               $valueBlock).val();
             if (value.length > 0) {
               filterParam[filterName] = {
