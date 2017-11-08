@@ -159,10 +159,10 @@ See doc/COPYRIGHT.rdoc for more details.
                 </div>
               </div>
               <div class="between-dates">
-                <span>From:</span>
+                <span><%= t(:label_date_from) %>:</span>
                 <%= text_field_tag :from_value, value_format == 'between-dates' ? filter.values.first : '', id: "between-dates-from-value-#{filter.name}", class: 'advanced-filters--text-field -slim', size: '10' %>
                 <%= calendar_for("between-dates-from-value-#{filter.name}") %>
-                <span>To:</span>
+                <span><%= t(:label_date_to) %>:</span>
                 <%= text_field_tag :to_value, value_format == 'between-dates' ? filter.values.second : '', id: "between-dates-to-value-#{filter.name}", class: 'advanced-filters--text-field -slim', size: '10' %>
                 <%= calendar_for("between-dates-to-value-#{filter.name}") %>
               </div>
