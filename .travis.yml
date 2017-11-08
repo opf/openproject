@@ -81,7 +81,6 @@ before_install:
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
   - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
-
   # Install geckodriver
   - echo "Installing geckodriver ${GECKODRIVER_VERSION}"
   - wget https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
@@ -89,7 +88,6 @@ before_install:
   - tar -xzf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
   - echo `geckodriver --version`
-
   # Install Node LTS Boron (6.9.1)
   - "nvm install 6.9.1"
 
