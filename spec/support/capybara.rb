@@ -7,9 +7,20 @@ RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :selenium
 
-
   config.before(:each, js: true) do
-    Capybara.page.current_window.resize_to(1920, 1080)
+    begin
+      window = Capybara.current_session.current_window
+      unless window.size == [1920, 1080]
+        warn "Resizing Capybara current window to 1920x1080 (Size was #{window.size.inspect})"
+        window.resize_to(1920, 1080)
+      end
+    rescue => e
+      warn "Failed to update page width: #{e}"
+      warn e.backtrace
+
+      Capybara.reset_sessions!
+      Capybara.use_default_driver
+    end
   end
 end
 
