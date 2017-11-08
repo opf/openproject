@@ -49,6 +49,7 @@ env:
   global:
     - CI=true
     - RAILS_ENV=test
+    - GECKODRIVER_VERSION="0.19.1"
 
   matrix:
     - "TEST_SUITE=npm"
@@ -82,10 +83,12 @@ before_install:
   - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
 
   # Install geckodriver
-  - wget https://github.com/mozilla/geckodriver/releases/download/v0.19.0/geckodriver-v0.19.0-linux64.tar.gz
+  - echo "Installing geckodriver ${GECKODRIVER_VERSION}"
+  - wget https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
   - mkdir geckodriver
-  - tar -xzf geckodriver-v0.19.0-linux64.tar.gz -C geckodriver
+  - tar -xzf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
+  - echo `geckodriver --version`
 
   # Install Node LTS Boron (6.9.1)
   - "nvm install 6.9.1"
