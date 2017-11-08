@@ -39,11 +39,12 @@ export class MultiSelectEditField extends EditField {
 
   // Dependencies
   public I18n:op.I18n;
+  public $timeout:ng.ITimeoutService;
 
   public currentValueInvalid:boolean = false;
 
   protected initialize() {
-    $injectFields(this, 'I18n');
+    $injectFields(this, 'I18n', '$timeout');
     this.isMultiselect = this.isValueMulti();
 
     this.text = {
@@ -98,7 +99,14 @@ export class MultiSelectEditField extends EditField {
 
   public toggleMultiselect() {
     this.isMultiselect = !this.isMultiselect;
-  };
+  }
+
+  // HACK: Manually trigger the change event.
+  // This is necessary because of some unkown interaction between the field and having the wp split view open when in chrome.
+  // https://community.openproject.com/projects/openproject/work_packages/26611
+  public triggerChangeEvent(event:MouseEvent) {
+    this.$timeout(() => angular.element(event.target).trigger('change'));
+  }
 
   private setValues(availableValues:any[], sortValuesByName:boolean = false) {
     if (sortValuesByName) {

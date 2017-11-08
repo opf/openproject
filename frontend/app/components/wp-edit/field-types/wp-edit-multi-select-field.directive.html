@@ -34,6 +34,7 @@
     ng-focus="vm.handleUserFocus()"
     ng-disabled="vm.field.inFlight"
     ng-attr-id="{{vm.htmlId}}"
+    ng-click="vm.field.triggerChangeEvent($event)"
     multiple=""
     size=5
   >
