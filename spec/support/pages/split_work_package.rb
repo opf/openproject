@@ -55,11 +55,11 @@ module Pages
       expect(page).not_to have_selector(@selector)
     end
 
-    private
-
     def container
       find(@selector)
     end
+
+    private
 
     def path(tab = 'overview')
       state = "#{work_package.id}/#{tab}"

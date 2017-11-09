@@ -81,9 +81,6 @@ export class WorkPackageResizerController {
   }
 
   private handleMouseUp(e:MouseEvent) {
-    e.preventDefault();
-    e.stopPropagation();
-
     // Disable mouse move
     window.removeEventListener('mousemove', this.mouseMoveHandler);
 
