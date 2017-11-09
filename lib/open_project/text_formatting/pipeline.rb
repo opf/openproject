@@ -1,7 +1,8 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2018 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
@@ -24,26 +25,48 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #
-# See docs/COPYRIGHT.rdoc for more details.
+# See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
-  module WikiFormatting
-    module NullFormatter
-      class Formatter
-        include ERB::Util
-        include ActionView::Helpers::TagHelper
-        include ActionView::Helpers::TextHelper
-        include ActionView::Helpers::UrlHelper
+module OpenProject::TextFormatting
+  class Pipeline
+    attr_reader :formatter,
+                :context,
+                :pipeline
 
-        def initialize(text)
-          @text = text
-        end
+    def initialize(formatter, context:)
+      @formatter = formatter
+      @context = context
 
-        def to_html(*_args)
-          simple_format(auto_link(CGI::escapeHTML(@text)))
+      @pipeline = HTML::Pipeline.new(located_filters, context)
+    end
+
+    def to_html(text, call_context = {})
+      pipeline.to_html text, call_context
+    end
+
+    def to_document(text, call_context = {})
+      pipeline.to_document text, call_context
+    end
+
+    def filters
+      [
+        formatter,
+        :sanitization
+      ]
+    end
+
+    protected
+
+    def located_filters
+      filters.map do |f|
+        if [Symbol, String].include? f.class
+          OpenProject::TextFormatting::Filters.const_get("#{f}_filter".classify)
+        else
+          f
         end
       end
     end
   end
 end
+

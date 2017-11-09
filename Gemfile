@@ -71,6 +71,14 @@ gem 'htmldiff'
 # Generate url slugs with #to_url and other string niceties
 gem 'stringex', '~> 2.7.1'
 
+# CommonMark markdown parser with GFM extension
+gem 'commonmarker', '~> 0.17.5'
+# HTML pipeline for transformations on text formatter output
+# such as sanitization or additional features
+gem 'html-pipeline', '~> 2.7.1'
+# HTML sanitization used for html-pipeline
+gem 'sanitize', '~> 4.5.0'
+
 # generates SVG Graphs
 # used for statistics on svn repositories
 gem 'svg-graph', '~> 2.1.0'

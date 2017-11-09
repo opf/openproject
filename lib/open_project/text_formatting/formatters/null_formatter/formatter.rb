@@ -27,19 +27,20 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-module Redmine
-  module WikiFormatting
-    module NullFormatter
-      module Helper
-        def wikitoolbar_for(_field_id)
-        end
+module OpenProject::TextFormatting::Formatters
+  module NullFormatter
+    class Formatter
+      include ERB::Util
+      include ActionView::Helpers::TagHelper
+      include ActionView::Helpers::TextHelper
+      include ActionView::Helpers::UrlHelper
 
-        def heads_for_wiki_formatter
-        end
+      def initialize(text)
+        @text = text
+      end
 
-        def initial_page_content(page)
-          page.title.to_s
-        end
+      def to_html(*_args)
+        simple_format(auto_link(CGI::escapeHTML(@text)))
       end
     end
   end
