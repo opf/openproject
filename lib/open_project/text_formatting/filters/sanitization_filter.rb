@@ -31,10 +31,6 @@
 module OpenProject::TextFormatting
   module Filters
     class SanitizationFilter < HTML::Pipeline::SanitizationFilter
-      def call
-        binding.pry
-        super
-      end
     end
   end
 end

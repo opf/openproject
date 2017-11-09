@@ -62,12 +62,12 @@ module OpenProject::TextFormatting
       end
 
       def formatter_for(name)
-        entry = registered.fetch(name.to_sym) { registered[:null_formatter] }
+        entry = registered.fetch(name.to_sym) { registered[:plain] }
         entry[:formatter]
       end
 
       def helper_for(name)
-        entry = registered.fetch(name.to_sym) { registered[:null_formatter] }
+        entry = registered.fetch(name.to_sym) { registered[:plain] }
         entry[:helper]
       end
 
@@ -79,7 +79,8 @@ module OpenProject::TextFormatting
 
       def register_default!
         @formatters = {}
-        register namespace: :null_formatter
+        register namespace: :plain
+        register namespace: :markdown
         register namespace: :textile
       end
     end

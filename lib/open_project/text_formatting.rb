@@ -72,7 +72,7 @@ module OpenProject
       end
       return '' if text.blank?
 
-      project = options.fetch(:project) { @project || obj.try(:project) }
+      project = options.fetch(:project) { @project || object.try(:project) }
       only_path = options.delete(:only_path) != false
 
       # offer 'plain' as readable version for 'no formatting' to callers

@@ -28,19 +28,16 @@
 #++
 
 module OpenProject::TextFormatting::Formatters
-  module NullFormatter
-    class Formatter
-      include ERB::Util
-      include ActionView::Helpers::TagHelper
-      include ActionView::Helpers::TextHelper
-      include ActionView::Helpers::UrlHelper
-
-      def initialize(text)
-        @text = text
+  module Plain
+    module Helper
+      def wikitoolbar_for(_field_id)
       end
 
-      def to_html(*_args)
-        simple_format(auto_link(CGI::escapeHTML(@text)))
+      def heads_for_wiki_formatter
+      end
+
+      def initial_page_content(page)
+        page.title.to_s
       end
     end
   end

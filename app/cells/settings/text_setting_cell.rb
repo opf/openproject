@@ -5,7 +5,6 @@ module Settings
     include ActionView::Helpers::JavaScriptHelper
     include ActionView::Helpers::FormOptionsHelper
     include OpenProject::FormTagHelper
-    include Redmine::WikiFormatting::Textile::Helper
 
     options :name # name of setting and tag to differentiate between different language selects
 
