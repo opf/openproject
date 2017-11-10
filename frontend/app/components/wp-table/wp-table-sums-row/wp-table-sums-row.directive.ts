@@ -26,28 +26,32 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {openprojectModule} from "../../../angular-modules";
-import {States} from "../../states.service";
-import {Observable} from "rxjs";
-import {combine} from "reactivestates";
-import {
-  WorkPackageCollectionResource,
-  WorkPackageCollectionResourceInterface
-} from "../../api/api-v3/hal-resources/wp-collection-resource.service";
-import {SchemaResource} from "../../api/api-v3/hal-resources/schema-resource.service";
-import {WorkPackageTableColumns} from "../../wp-fast-table/wp-table-columns";
-import {QueryColumn} from "../../wp-query/query-column";
-import {WorkPackageDisplayFieldService} from "../../wp-display/wp-display-field/wp-display-field.service";
-import {DisplayField} from "../../wp-display/wp-display-field/wp-display-field.module";
+import {Component, Directive, ElementRef, Inject, OnInit} from '@angular/core';
+import {downgradeComponent} from '@angular/upgrade/static';
+import {combine} from 'reactivestates';
+import {openprojectModule} from '../../../angular-modules';
+import {I18nToken} from '../../../angular4-transition-utils';
+import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
+import {WorkPackageCollectionResourceInterface} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
+import {States} from '../../states.service';
+import {DisplayField} from '../../wp-display/wp-display-field/wp-display-field.module';
+import {WorkPackageDisplayFieldService} from '../../wp-display/wp-display-field/wp-display-field.service';
+import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
 
-export class WorkPackageTableSumsRowController {
+@Directive({
+  selector: '[wpTableSumsRow]'
+})
+export class WorkPackageTableSumsRowController implements OnInit {
 
   private text:{ sumFor:string, allWorkPackages:string };
+  private nativeElement:any;
 
-  constructor(private $element:angular.IAugmentedJQuery,
+  constructor(public elementRef:ElementRef,
               private states:States,
               private wpDisplayField:WorkPackageDisplayFieldService,
-              private I18n:op.I18n) {
+              @Inject(I18nToken) private I18n:op.I18n) {
+
+    this.nativeElement = this.elementRef.nativeElement;
 
     this.text = {
       sumFor: I18n.t('js.label_sum_for'),
@@ -55,7 +59,7 @@ export class WorkPackageTableSumsRowController {
     };
   }
 
-  $onInit() {
+  ngOnInit() {
     combine(
       this.states.table.columns,
       this.states.table.results,
@@ -65,7 +69,9 @@ export class WorkPackageTableSumsRowController {
       .takeUntil(this.states.table.stopAllSubscriptions)
       .subscribe(([columns, resource, sum]) => {
         if (sum.isEnabled && resource.sumsSchema) {
-          resource.sumsSchema.$load().then((schema:SchemaResource) => this.refresh(columns, resource, schema));
+          resource.sumsSchema.$load().then((schema:SchemaResource) => {
+            this.refresh(columns, resource, schema);
+          });
         } else {
           this.clear();
         }
@@ -73,7 +79,8 @@ export class WorkPackageTableSumsRowController {
   }
 
   private clear() {
-    this.$element.empty();
+    const $element = jQuery(this.nativeElement).find('tr');
+    $element.empty();
   }
 
   private refresh(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResourceInterface, schema:SchemaResource) {
@@ -82,7 +89,10 @@ export class WorkPackageTableSumsRowController {
   }
 
   private render(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResourceInterface, schema:SchemaResource) {
-    this.$element[0].classList.add('sum', 'group', 'all', 'issue', 'work_package');
+
+    const $element = jQuery(this.nativeElement).find('tr');
+
+    $element[0].classList.add('sum', 'group', 'all', 'issue', 'work_package');
 
     // build
     columns.getColumns().forEach((column, i:number) => {
@@ -94,11 +104,11 @@ export class WorkPackageTableSumsRowController {
       }
 
       td.appendChild(div);
-      this.$element.append(td);
+      $element.append(td);
     });
 
     // Append last empty td
-    this.$element.append(`<td><div class="generic-table--footer-outer"></div></td>`);
+    $element.append(`<td><div class="generic-table--footer-outer"></div></td>`);
   }
 
   private renderContent(sums:any, name:string, fieldSchema:op.FieldSchema) {
@@ -119,9 +129,13 @@ export class WorkPackageTableSumsRowController {
   }
 }
 
-openprojectModule.directive("wpTableSumsRow", function():any {
-  return {
-    restrict: 'A',
-    controller: WorkPackageTableSumsRowController,
-  };
-});
+// openprojectModule.directive("wpTableSumsRow", function():any {
+//   return {
+//     restrict: 'A',
+//     controller: WorkPackageTableSumsRowController,
+//   };
+// });
+
+openprojectModule.directive(
+  'wpTableSumsRow',
+  downgradeComponent({component: WorkPackageTableSumsRowController}));

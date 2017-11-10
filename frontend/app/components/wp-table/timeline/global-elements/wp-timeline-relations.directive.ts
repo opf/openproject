@@ -75,7 +75,7 @@ function newSegment(vp:TimelineViewParameters,
 }
 
 @Component({
-  template: '<div class="wp-table-timeline--relations"></div>',
+  template: '<div class="wp-table-timeline--relations"></div>'
 })
 export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
