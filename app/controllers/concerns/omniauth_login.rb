@@ -56,7 +56,7 @@ module Concerns::OmniauthLogin
 
     user =
       if session.include? :invitation_token
-        tok = Token.find_by value: session[:invitation_token]
+        tok = Token::Invitation.find_by value: session[:invitation_token]
         u = tok.user
         u.identity_url = identity_url_from_omniauth(auth_hash)
         tok.destroy

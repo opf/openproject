@@ -342,9 +342,9 @@ module LegacyAssertionsAndHelpers
         context 'with a valid HTTP authentication using the API token' do
           before do
             @user = FactoryGirl.create(:user, admin: true)
-            @token = FactoryGirl.create(:token, user: @user, action: 'api')
+            @token = FactoryGirl.create(:api_token, user: @user)
 
-            send(http_method, url, params: parameters, headers: credentials(@token.value, 'X'))
+            send(http_method, url, params: parameters, headers: credentials(@token.plain_value, 'X'))
           end
           it { should respond_with success_code }
           it { should_respond_with_content_type_based_on_url(url) }
@@ -357,7 +357,7 @@ module LegacyAssertionsAndHelpers
         context 'with an invalid HTTP authentication' do
           before do
             @user = FactoryGirl.create(:user)
-            @token = FactoryGirl.create(:token, user: @user, action: 'feeds')
+            @token = FactoryGirl.create(:rss_token, user: @user)
 
             send(http_method, url, params: parameters, headers: credentials(@token.value, 'X'))
           end
@@ -386,12 +386,12 @@ module LegacyAssertionsAndHelpers
         context 'with a valid api token' do
           before do
             @user = FactoryGirl.create(:user, admin: true)
-            @token = FactoryGirl.create(:token, user: @user, action: 'api')
+            @token = FactoryGirl.create(:api_token, user: @user)
             # Simple url parse to add on ?key= or &key=
             request_url = if url.match(/\?/)
-                            url + "&key=#{@token.value}"
+                            url + "&key=#{@token.plain_value}"
                           else
-                            url + "?key=#{@token.value}"
+                            url + "?key=#{@token.plain_value}"
                           end
             send(http_method, request_url, params: parameters)
           end
@@ -406,7 +406,7 @@ module LegacyAssertionsAndHelpers
         context 'with an invalid api token' do
           before do
             @user = FactoryGirl.create(:user)
-            @token = FactoryGirl.create(:token, user: @user, action: 'feeds')
+            @token = FactoryGirl.create(:rss_token, user: @user)
             # Simple url parse to add on ?key= or &key=
             request_url = if url.match(/\?/)
                             url + "&key=#{@token.value}"
@@ -426,8 +426,8 @@ module LegacyAssertionsAndHelpers
       context "should allow key based auth using X-OpenProject-API-Key header for #{http_method} #{url}" do
         before do
           @user = FactoryGirl.create(:user, admin: true)
-          @token = FactoryGirl.create(:token, user: @user, action: 'api')
-          send(http_method, url, params: {}, headers: { 'X-OpenProject-API-Key' => @token.value.to_s })
+          @token = FactoryGirl.create(:api_token, user: @user)
+          send(http_method, url, params: {}, headers: { 'X-OpenProject-API-Key' => @token.plain_value.to_s })
         end
         it { should respond_with success_code }
         it { should_respond_with_content_type_based_on_url(url) }

@@ -72,7 +72,7 @@ class AccountController < ApplicationController
     return redirect_to(home_url) unless allow_lost_password_recovery?
 
     if params[:token]
-      @token = Token.find_by(action: 'recovery', value: params[:token].to_s)
+      @token = ::Token::Recovery.find_by_plaintext_value(params[:token])
       redirect_to(home_url) && return unless @token and !@token.expired?
       @user = @token.user
       if request.post?
@@ -110,7 +110,7 @@ class AccountController < ApplicationController
         end
 
         # create a new token for password recovery
-        token = Token.new(user_id: user.id, action: 'recovery')
+        token = Token::Recovery.new(user_id: user.id)
         if token.save
           UserMailer.password_lost(token).deliver_now
           flash[:notice] = l(:notice_account_lost_email_sent)
@@ -154,12 +154,21 @@ class AccountController < ApplicationController
 
   # Token based account activation
   def activate
-    token = Token.find_by value: params[:token].to_s
+    token = ::Token::Invitation.find_by_plaintext_value(params[:token])
 
-    if token && token.action == 'register' && Setting.self_registration?
+    if token.nil? || token.expired?
+      flash[:error] = I18n.t(:notice_account_invalid_token)
+      redirect_to home_url
+      return
+    end
+
+    if token.user.invited?
+      activate_by_invite_token token
+    elsif Setting.self_registration?
       activate_self_registered token
     else
-      activate_by_invite_token token
+      flash[:error] = I18n.t(:notice_account_invalid_token)
+      redirect_to home_url
     end
   end
 
@@ -361,7 +370,7 @@ class AccountController < ApplicationController
   def logout_user
     if User.current.logged?
       cookies.delete OpenProject::Configuration['autologin_cookie_name']
-      Token.where(user_id: User.current.id, action: 'autologin').delete_all
+      Token::AutoLogin.where(user_id: current_user.id).delete_all
       self.logged_user = nil
     end
   end
@@ -439,9 +448,9 @@ class AccountController < ApplicationController
   end
 
   def set_autologin_cookie(user)
-    token = Token.create(user: user, action: 'autologin')
+    token = Token::AutoLogin.create(user: user)
     cookie_options = {
-      value: token.value,
+      value: token.plain_value,
       expires: 1.year.from_now,
       path: OpenProject::Configuration['autologin_cookie_path'],
       secure: OpenProject::Configuration['autologin_cookie_secure'],
@@ -526,7 +535,7 @@ class AccountController < ApplicationController
   #
   # Pass a block for behavior when a user fails to save
   def register_by_email_activation(user, _opts = {})
-    token = Token.new(user: user, action: 'register')
+    token = Token::Invitation.new(user: user)
     if user.save and token.save
       UserMailer.user_signed_up(token).deliver_now
       flash[:notice] = l(:notice_account_register_done)
@@ -654,7 +663,7 @@ class AccountController < ApplicationController
 
   def invited_user
     if session.include? :invitation_token
-      token = Token.find_by(value: session[:invitation_token])
+      token = Token::Invitation.find_by_plaintext_value session[:invitation_token]
 
       token.user
     end

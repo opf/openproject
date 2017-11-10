@@ -28,42 +28,40 @@
 
 require 'spec_helper'
 
-describe UserInvitation do
-  describe '.placeholder_name' do
-    it 'given an email it uses the local part as first and the domain as the last name' do
-      email = 'xxxhunterxxx@openproject.com'
-      first, last = UserInvitation.placeholder_name email
+describe ::Token::HashedToken, type: :model do
+  let(:user) { FactoryGirl.build(:user) }
 
-      expect(first).to eq 'xxxhunterxxx'
-      expect(last).to eq '@openproject.com'
+  subject { described_class.new user: user }
+
+  describe 'token value' do
+    it 'is generated on a new instance' do
+      expect(subject.value).to be_present
     end
 
-    it 'trims names if they are too long (> 30 characters)' do
-      email = 'hallowurstsalatgetraenkebuechse@veryopensuchproject.openproject.com'
-      first, last = UserInvitation.placeholder_name email
+    it 'provides the generated plain value on a new instance' do
+      expect(subject.valid_plaintext?(subject.plain_value)).to eq true
+    end
 
-      expect(first).to eq 'hallowurstsalatgetraenkebue...'
-      expect(last).to eq '@veryopensuchproject.openpro...'
+    it 'hashes the plain value to value' do
+      expect(subject.value).not_to eq(subject.plain_value)
+    end
+
+    it 'does not keep the value when finding it' do
+      subject.save!
+
+      instance = described_class.where(user: user).last
+      expect(instance.plain_value).to eq nil
     end
   end
 
-  describe '.reinvite_user' do
-    let(:user) { FactoryGirl.create :invited_user }
-    let!(:token) { FactoryGirl.create :invitation_token, user: user }
-
-    it 'notifies listeners of the re-invite' do
-      expect(OpenProject::Notifications).to receive(:send) do |event, new_token|
-        expect(event).to eq 'user_reinvited'
-      end
-
-      UserInvitation.reinvite_user user.id
+  describe '#find_by_plaintext_value' do
+    before do
+      subject.save!
     end
 
-    it 'creates a new token' do
-      new_token = UserInvitation.reinvite_user user.id
-
-      expect(new_token.value).not_to eq token.value
-      expect(Token::Invitation.exists?(token.id)).to eq false
+    it 'finds using the plaintext value' do
+      expect(described_class.find_by_plaintext_value(subject.plain_value)).to eq subject
+      expect(described_class.find_by_plaintext_value('foobar')).to eq nil
     end
   end
 end

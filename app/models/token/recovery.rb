@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,24 +27,15 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
-require 'legacy_spec_helper'
 
-describe Token do
-  fixtures :all
+require_dependency 'token/base'
 
-  it 'should create' do
-    token = Token.new user: User.find(1), action: 'foobar'
-    token.save
-    assert_equal 40, token.value.length
-    assert !token.expired?
-  end
+module Token
+  class Recovery < Base
+    include ExpirableToken
 
-  it 'should create_should_remove_existing_tokens' do
-    user = User.find(1)
-    t1 = Token.create(user: user, action: 'autologin')
-    t2 = Token.create(user: user, action: 'autologin')
-    refute_equal t1.value, t2.value
-    assert !Token.exists?(t1.id)
-    assert Token.exists?(t2.id)
+    def self.validity_time
+      1.day
+    end
   end
 end

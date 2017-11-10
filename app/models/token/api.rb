@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,42 +28,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Token < ActiveRecord::Base
-  belongs_to :user
+require_dependency 'token/hashed_token'
 
-  validates :user, presence: true
-  validates :action, presence: true
-  validates_uniqueness_of :value
-
-  before_create :delete_previous_tokens
-  before_create :assign_generated_token
-
-  @@validity_time = 1.day
-
-  # Return true if token has expired
-  def expired?
-    Time.now > created_on + @@validity_time
-  end
-
-  # Delete all expired tokens
-  def self.destroy_expired
-    Token.where(["action <> 'feeds' AND created_on < ?", Time.now - @@validity_time]).delete_all
-  end
-
-  def self.generate_token_value
-    SecureRandom.hex(20)
-  end
-
-  private
-
-  # Removes obsolete tokens (same user and action)
-  def delete_previous_tokens
-    if user
-      Token.where(user_id: user.id, action: action).delete_all
-    end
-  end
-
-  def assign_generated_token
-    self.value = self.class.generate_token_value
+module Token
+  class Api < HashedToken
   end
 end

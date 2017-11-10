@@ -29,17 +29,19 @@
 require 'securerandom'
 
 FactoryGirl.define do
-  factory :token do
+  factory :invitation_token, class: ::Token::Invitation do
     user
-    action 'invite'
-    value do SecureRandom.hex(16) end
+  end
 
-    factory :api_key do
-      action 'api'
-    end
+  factory :api_token, class: ::Token::Api do
+    user
+  end
 
-    factory :rss_key do
-      action 'rss'
-    end
+  factory :rss_token, class: ::Token::Rss do
+    user
+  end
+
+  factory :recovery_token, class: ::Token::Recovery do
+    user
   end
 end

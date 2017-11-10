@@ -325,7 +325,7 @@ describe AccountController, type: :controller do
     end
 
     context 'with self registration off but an ongoing invitation activation' do
-      let(:token) { FactoryGirl.create :token }
+      let(:token) { FactoryGirl.create :invitation_token }
 
       before do
         allow(Setting).to receive(:self_registration).and_return('0')
@@ -401,7 +401,7 @@ describe AccountController, type: :controller do
 
       context 'with password login enabled' do
         before do
-          Token.delete_all
+          Token::Invitation.delete_all
           post :register,
                params: {
                  user: {
@@ -421,8 +421,7 @@ describe AccountController, type: :controller do
 
         it "doesn't activate the user but sends out a token instead" do
           expect(User.find_by_login('register')).not_to be_active
-          token = Token.first
-          expect(token.action).to eq('register')
+          token = Token::Invitation.last
           expect(token.user.mail).to eq('register@example.com')
           expect(token).not_to be_expired
         end

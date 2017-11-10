@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,22 +26,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class DeliverInvitationJob < ApplicationJob
-  attr_reader :token_id
+require 'spec_helper'
 
-  def initialize(token_id)
-    @token_id = token_id
+describe ::Token::Base, type: :model do
+  let(:user) { FactoryGirl.build(:user) }
+
+  subject { described_class.new user: user }
+
+  it 'should create' do
+    subject.save!
+    assert_equal 64, subject.value.length
   end
 
-  def perform
-    if token
-      UserMailer.user_signed_up(token).deliver_now
-    else
-      Rails.logger.warn "Can't deliver invitation. The token is missing: #{token_id}"
-    end
-  end
-
-  def token
-    @token ||= Token::Invitation.find_by(id: @token_id)
+  it 'should create_should_remove_existing_tokens' do
+    subject.save!
+    t2 = Token::AutoLogin.create user: user
+    expect(subject.value).not_to eq(t2.value)
+    expect(Token::AutoLogin.exists?(subject.id)).to eq false
+    expect(Token::AutoLogin.exists?(t2.id)).to eq true
   end
 end
