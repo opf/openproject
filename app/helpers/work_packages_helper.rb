@@ -264,7 +264,10 @@ module WorkPackagesHelper
     if work_package.description.blank?
       empty_element_tag
     else
-      format_text(description_lines.join(''))
+      ::OpenProject::TextFormatting::Renderer.format_text(
+        description_lines.join(''),
+        object: work_package
+      )
     end
   end
 

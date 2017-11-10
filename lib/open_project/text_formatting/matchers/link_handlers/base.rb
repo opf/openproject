@@ -28,26 +28,56 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::TextFormatting
-  module Filters
-    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
+module OpenProject::TextFormatting::Matchers
+  module LinkHandlers
+    class Base
+      include ::OpenProject::TextFormatting::Truncation
+      # used for the work package quick links
+      include WorkPackagesHelper
+      # Used for escaping helper 'h()'
+      include ERB::Util
+      # Rails helper
+      include ActionView::Helpers::TagHelper
+      include ActionView::Helpers::UrlHelper
+      include ActionView::Helpers::TextHelper
+      # For route path helpers
+      include OpenProject::ObjectLinking
+      include OpenProject::StaticRouting::UrlHelpers
 
-      # Convert Markdown to HTML using CommonMarker
-      def call
-        $stderr.puts "MARKDOWN"
-        html = ''
-        $stderr.puts(Benchmark.measure do
-          options = [:GITHUB_PRE_LANG]
-          options << :HARDBREAKS if context[:gfm] != false
-          extensions = context.fetch :commonmarker_extensions,
-                                     %i[table strikethrough tagfilter autolink]
+      attr_reader :matcher, :context
 
-          html = CommonMarker.render_html(text, options, extensions)
-          html.rstrip!
-        end)
-
-        html
+      def initialize(matcher, context:)
+        @matcher = matcher
+        @context = context
       end
+
+      ##
+      # Test whether we should try to resolve the given link
+      def applicable?
+        raise NotImplementedError
+      end
+
+      ##
+      # Replace the given link with the resource link, depending on the context
+      # and matchers.
+      # If nil is returned, the link remains as-is.
+      def call
+        raise NotImplementedError
+      end
+
+      def oid
+        id = matcher.identifier
+
+        unless id.nil?
+          id.to_i
+        end
+      end
+
+      def project
+        matcher.project
+      end
+
+      def controller; end
     end
   end
 end

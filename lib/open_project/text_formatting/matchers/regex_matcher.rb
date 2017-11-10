@@ -29,24 +29,45 @@
 #++
 
 module OpenProject::TextFormatting
-  module Filters
-    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
+  module Matchers
+    class RegexMatcher
+      def self.call(node, doc:, context:)
+        content = node.to_html
+        return unless applicable?(content)
 
-      # Convert Markdown to HTML using CommonMarker
-      def call
-        $stderr.puts "MARKDOWN"
-        html = ''
-        $stderr.puts(Benchmark.measure do
-          options = [:GITHUB_PRE_LANG]
-          options << :HARDBREAKS if context[:gfm] != false
-          extensions = context.fetch :commonmarker_extensions,
-                                     %i[table strikethrough tagfilter autolink]
+        # Replace the content
+        if process_node!(content, context)
+          node.replace(content)
+        end
+      end
 
-          html = CommonMarker.render_html(text, options, extensions)
-          html.rstrip!
-        end)
+      ##
+      # Quick bypass method if the content is not applicable for this matcher
+      def self.applicable?(_content)
+        true
+      end
 
-        html
+      ##
+      # Process the node's html and possibly, replace it
+      def self.process_node!(content, context)
+        return nil unless content.present?
+
+        content.gsub!(regexp) do |matched_string|
+          matchdata = Regexp.last_match
+          process_match matchdata, matched_string, context
+        end
+      end
+
+      ##
+      # Get the regexp that matches the content
+      def self.regexp
+        raise NotImplementedError
+      end
+
+      ##
+      # Called with a match from the regexp on the node's content
+      def self.process_match(matchdata, matched_string, context)
+        raise NotImplementedError
       end
     end
   end

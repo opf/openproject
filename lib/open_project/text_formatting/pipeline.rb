@@ -42,7 +42,7 @@ module OpenProject::TextFormatting
     end
 
     def to_html(text, call_context = {})
-      pipeline.to_html text, call_context
+      pipeline.to_html(text, call_context).html_safe
     end
 
     def to_document(text, call_context = {})
@@ -52,7 +52,8 @@ module OpenProject::TextFormatting
     def filters
       [
         formatter,
-        :sanitization
+        :sanitization,
+        :pattern_matcher
       ]
     end
 

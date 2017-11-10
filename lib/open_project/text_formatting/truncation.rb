@@ -1,5 +1,4 @@
 #-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,25 +27,25 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::TextFormatting
-  module Filters
-    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
+module OpenProject
+  module TextFormatting
+    module Truncation
+      # Used for truncation
+      include ActionView::Helpers::TextHelper
 
-      # Convert Markdown to HTML using CommonMarker
-      def call
-        $stderr.puts "MARKDOWN"
-        html = ''
-        $stderr.puts(Benchmark.measure do
-          options = [:GITHUB_PRE_LANG]
-          options << :HARDBREAKS if context[:gfm] != false
-          extensions = context.fetch :commonmarker_extensions,
-                                     %i[table strikethrough tagfilter autolink]
+      # Truncates and returns the string as a single line
+      def truncate_single_line(string, *args)
+        truncate(string.to_s, *args).gsub(%r{[\r\n]+}m, ' ').html_safe
+      end
 
-          html = CommonMarker.render_html(text, options, extensions)
-          html.rstrip!
-        end)
-
-        html
+      # Truncates at line break after 250 characters or options[:length]
+      def truncate_lines(string, options = {})
+        length = options[:length] || 250
+        if string.to_s =~ /\A(.{#{length}}.*?)$/m
+          "#{$1}..."
+        else
+          string
+        end
       end
     end
   end

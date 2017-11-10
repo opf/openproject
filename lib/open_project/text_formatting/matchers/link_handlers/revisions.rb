@@ -28,25 +28,35 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module OpenProject::TextFormatting
-  module Filters
-    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
+module OpenProject::TextFormatting::Matchers
+  module LinkHandlers
+    class Revisions < Base
 
-      # Convert Markdown to HTML using CommonMarker
+      ##
+      # Match work package links.
+      # Condition: Separator is #|##|###
+      # Condition: Prefix is nil
+      def applicable?
+        matcher.prefix.nil? && matcher.sep == 'r'
+      end
+
+      #
+      # Examples:
+      #
+      # #1234, ##1234, ###1234
       def call
-        $stderr.puts "MARKDOWN"
-        html = ''
-        $stderr.puts(Benchmark.measure do
-          options = [:GITHUB_PRE_LANG]
-          options << :HARDBREAKS if context[:gfm] != false
-          extensions = context.fetch :commonmarker_extensions,
-                                     %i[table strikethrough tagfilter autolink]
 
-          html = CommonMarker.render_html(text, options, extensions)
-          html.rstrip!
-        end)
+        # don't handle link unless repository exists
+        return nil unless project && project.repository
+        changeset = changeset.visible.find_by(repository_id: project.repository.id, revision: identifier)
 
-        html
+        # don't handle link unless changeset can be seen
+        if changeset
+          link_to(h("#{project_prefix}r#{identifier}"),
+                  { only_path: context[:only_path], controller: '/repositories', action: 'revision', project_id: project, rev: changeset.revision },
+                  class: 'changeset',
+                  title: truncate_single_line(changeset.comments, length: 100))
+        end
       end
     end
   end

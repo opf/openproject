@@ -30,23 +30,14 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
+      def anchor_icon
+        %Q(<span aria-hidden="true" class="wiki-anchor"></span>)
+      end
 
-      # Convert Markdown to HTML using CommonMarker
       def call
-        $stderr.puts "MARKDOWN"
-        html = ''
-        $stderr.puts(Benchmark.measure do
-          options = [:GITHUB_PRE_LANG]
-          options << :HARDBREAKS if context[:gfm] != false
-          extensions = context.fetch :commonmarker_extensions,
-                                     %i[table strikethrough tagfilter autolink]
+        return doc if context[:headings] == false
 
-          html = CommonMarker.render_html(text, options, extensions)
-          html.rstrip!
-        end)
-
-        html
+        super
       end
     end
   end

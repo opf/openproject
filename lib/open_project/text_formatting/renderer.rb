@@ -29,25 +29,23 @@
 #++
 
 module OpenProject::TextFormatting
-  module Filters
-    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
+  class Renderer
+    class << self
+      def format_text(text, options = {})
+        return '' if text.blank?
 
-      # Convert Markdown to HTML using CommonMarker
-      def call
-        $stderr.puts "MARKDOWN"
-        html = ''
-        $stderr.puts(Benchmark.measure do
-          options = [:GITHUB_PRE_LANG]
-          options << :HARDBREAKS if context[:gfm] != false
-          extensions = context.fetch :commonmarker_extensions,
-                                     %i[table strikethrough tagfilter autolink]
+        # offer 'plain' as readable version for 'no formatting' to callers
+        format = options.delete(:format) { Setting.text_formatting }
 
-          html = CommonMarker.render_html(text, options, extensions)
-          html.rstrip!
-        end)
+        # Get the associated formatter
+        pipeline = OpenProject::TextFormatting::Pipeline.new(
+          format,
+          context: options
+        )
 
-        html
+        pipeline.to_html(text)
       end
     end
   end
 end
+

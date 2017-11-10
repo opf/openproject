@@ -30,23 +30,25 @@
 
 module OpenProject::TextFormatting
   module Filters
-    class MarkdownFilter < HTML::Pipeline::MarkdownFilter
+    class PatternMatcherFilter < HTML::Pipeline::Filter
 
-      # Convert Markdown to HTML using CommonMarker
+      def self.matchers
+        [
+          OpenProject::TextFormatting::Matchers::ResourceLinksMatcher
+        ]
+      end
+
       def call
-        $stderr.puts "MARKDOWN"
-        html = ''
+        $stderr.puts "REGEX"
         $stderr.puts(Benchmark.measure do
-          options = [:GITHUB_PRE_LANG]
-          options << :HARDBREAKS if context[:gfm] != false
-          extensions = context.fetch :commonmarker_extensions,
-                                     %i[table strikethrough tagfilter autolink]
-
-          html = CommonMarker.render_html(text, options, extensions)
-          html.rstrip!
+          doc.search('.//text()').each do |node|
+            self.class.matchers.each do |matcher|
+              matcher.call(node, doc: doc, context: context)
+            end
+          end
         end)
 
-        html
+        doc
       end
     end
   end
