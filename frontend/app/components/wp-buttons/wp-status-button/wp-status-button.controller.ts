@@ -27,6 +27,7 @@
 // ++
 
 import {wpButtonsModule} from '../../../angular-modules';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 
 export default class WorkPackageStatusButtonController {
@@ -34,7 +35,8 @@ export default class WorkPackageStatusButtonController {
   public text:any;
   public allowed:boolean;
 
-  constructor(protected I18n:op.I18n) {
+  constructor(protected I18n:op.I18n,
+              protected wpEditing:WorkPackageEditingService) {
     this.text = {
       explanation: I18n.t('js.label_edit_status')
     };
@@ -45,7 +47,13 @@ export default class WorkPackageStatusButtonController {
   }
 
   public isDisabled() {
-    return !this.allowed;
+    let changeset = this.wpEditing.changesetFor(this.workPackage);
+    return !this.allowed || changeset.inFlight;
+  }
+
+  public get getStatus() {
+    let changeset = this.wpEditing.changesetFor(this.workPackage);
+    return changeset.value('status');
   }
 }
 

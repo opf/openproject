@@ -26,8 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$status-selector-color: #f99400
-$status-selector-bg-color: #fef1e2
+$status-selector-bg-color: #f99601
+$status-selector-bg-hover-color: #e08600
 
 @mixin details-pane--form-field
   @include grid-visible-overflow
@@ -247,13 +247,13 @@ i
   .wp-status-button .button
     padding: 5px
     margin-bottom: 0
-    background-color: #f99601
+    background-color: $status-selector-bg-color
     border: none
     color: white
     white-space: nowrap
 
     &:hover
-      background-color: #e08600
+      background-color: $status-selector-bg-hover-color
 
     .button--text
       margin: 0 5px
