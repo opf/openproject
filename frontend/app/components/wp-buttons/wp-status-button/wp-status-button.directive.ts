@@ -35,8 +35,7 @@ function wpCreateButton() {
 
     scope: {
       allowed: '=',
-      workPackage: '=',
-      stateName: '@'
+      workPackage: '='
     },
 
     bindToController: true,

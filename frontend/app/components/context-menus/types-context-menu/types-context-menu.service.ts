@@ -43,7 +43,6 @@ class TypesContextMenuController {
     wpCreate.getEmptyForm(project).then((form:any) => {
       this.types = form.schema.type.allowedValues;
 
-
       this.$timeout(() => {
         // Reposition again now that types are loaded
         this.$scope.$root.$emit('repositionDropdown');

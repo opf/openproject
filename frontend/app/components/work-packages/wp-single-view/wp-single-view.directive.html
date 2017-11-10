@@ -5,8 +5,7 @@
                    field-name="'subject'"></wp-edit-field>
   </div>
 
-  <wp-status-button state-name="work-packages.show"
-                    work-package="$ctrl.workPackage"
+  <wp-status-button work-package="$ctrl.workPackage"
                     allowed="$ctrl.workPackage.isEditable"></wp-status-button>
 
   <div class="work-packages--info-row" ng-if="!$ctrl.workPackage.isNew">

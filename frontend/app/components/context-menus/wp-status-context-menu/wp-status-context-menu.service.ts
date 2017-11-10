@@ -51,12 +51,10 @@ class WpStatusContextMenuController {
 
     this.$scope.updateStatus = function (status:any) {
       changeset.setValue('status', status);
-      changeset.save();
+      if(!wp.isNew) {
+        changeset.save();
+      }
     };
-  }
-
-  public get stateName() {
-    return this.$scope.stateName;
   }
 }
 

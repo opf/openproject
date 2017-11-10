@@ -33,7 +33,6 @@ export default class WorkPackageStatusButtonController {
   public workPackage:WorkPackageResourceInterface;
   public text:any;
   public allowed:boolean;
-  public stateName:string;
 
   constructor(protected I18n:op.I18n) {
     this.text = {

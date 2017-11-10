@@ -2,15 +2,13 @@
   <button class="button"
           has-dropdown-menu
           target="WpStatusContextMenu"
-          ng-init="workPackage = $ctrl.workPackage; stateName = $ctrl.stateName"
-          locals="workPackage, stateName"
+          ng-init="workPackage = $ctrl.workPackage"
+          locals="workPackage"
           ng-disabled="$ctrl.isDisabled()"
           aria-label="{{ ::$ctrl.text.explanation }}">
 
     <span class="button--text"
           aria-hidden="true">{{$ctrl.workPackage.status.name}}</span>
-    <div class="wp-status-button--icon-container">
-      <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
-    </div>
+    <op-icon icon-classes="button--icon icon-small icon-pulldown"></op-icon>
   </button>
 </div>
