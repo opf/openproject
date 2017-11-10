@@ -35,7 +35,14 @@ module OpenProject::TextFormatting
         return '' if text.blank?
 
         # offer 'plain' as readable version for 'no formatting' to callers
-        format = options.delete(:format) { Setting.text_formatting }
+        format = options.fetch(:format, Setting.text_formatting)
+
+        # Forward to the legacy text formatting for textile syntax
+        if format == 'textile'
+          return OpenProject::TextFormatting::Formatters::Textile::LegacyTextFormatting
+            .new(options[:project])
+            .format_text(text, options)
+        end
 
         # Get the associated formatter
         pipeline = OpenProject::TextFormatting::Pipeline.new(

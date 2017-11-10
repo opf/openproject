@@ -60,7 +60,6 @@ module OpenProject::TextFormatting::Matchers
       end
 
       def render_version
-        binding.pry
         version = Version.visible.find_by(id: oid)
         if version
           link_to h(version.name),

@@ -37,20 +37,16 @@ module OpenProject
     # * with an object and one of its attribute: format_text(issue, :description, options)
     def format_text(*args)
 
-      # Forward to the legacy text formatting for textile syntax
-      if Setting.text_formatting == 'textile'
-        return Formatters::Textile::LegacyTextFormatting.format_text(*args)
-      end
-
       options = args.last.is_a?(Hash) ? args.pop : {}
       case args.size
       when 1
+        attribute = nil
         object = options[:object]
         text = args.shift
       when 2
         object = args.shift
-        attr = args.shift
-        text = object.send(attr).to_s
+        attribute = args.shift
+        text = object.send(attribute).to_s
       else
         raise ArgumentError, 'invalid arguments to format_text'
       end
@@ -60,6 +56,8 @@ module OpenProject
       Renderer.format_text text,
                            options.merge(
                              object: object,
+                             request: try(:request),
+                             attribute: attribute,
                              project: project
                            )
     end

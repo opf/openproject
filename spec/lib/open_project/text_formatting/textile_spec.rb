@@ -30,6 +30,7 @@ require 'spec_helper'
 
 describe OpenProject::TextFormatting do
   include OpenProject::TextFormatting
+  include ERB::Util
   include WorkPackagesHelper # soft-dependency
   include ActionView::Helpers::UrlHelper # soft-dependency
   include ActionView::Context
@@ -42,12 +43,16 @@ describe OpenProject::TextFormatting do
   describe '.format_text' do
     let(:project) { FactoryGirl.create :valid_project }
     let(:identifier) { project.identifier }
+    let(:role) do
+      FactoryGirl.create :role,
+                         permissions: %i(view_work_packages edit_work_packages
+                                         browse_repository view_changesets view_wiki_pages)
+    end
+
     let(:project_member) do
       FactoryGirl.create :user,
                          member_in_project: project,
-                         member_through_role: FactoryGirl.create(:role,
-                                                                 permissions: [:view_work_packages, :edit_work_packages,
-                                                                               :browse_repository, :view_changesets, :view_wiki_pages])
+                         member_through_role: role
     end
     let(:issue) do
       FactoryGirl.create :work_package,
@@ -56,11 +61,13 @@ describe OpenProject::TextFormatting do
                          type: project.types.first
     end
 
+    let!(:non_member) do
+      FactoryGirl.create(:non_member)
+    end
+
     before do
       @project = project
-
       allow(User).to receive(:current).and_return(project_member)
-      FactoryGirl.create(:non_member)
       allow(Setting).to receive(:text_formatting).and_return('textile')
     end
 
@@ -100,8 +107,8 @@ describe OpenProject::TextFormatting do
         changesets.each do |changeset|
           allow(changesets)
             .to receive(:find_by)
-            .with(repository_id: project.repository.id, revision: changeset.revision)
-            .and_return(changeset)
+                  .with(repository_id: project.repository.id, revision: changeset.revision)
+                  .and_return(changeset)
         end
       end
 
@@ -532,27 +539,27 @@ describe OpenProject::TextFormatting do
         allow(User).to receive(:current).and_return(project_member)
         allow(project_member)
           .to receive(:allowed_to?)
-          .with(:browse_repository, project)
-          .and_return(true)
+                .with(:browse_repository, project)
+                .and_return(true)
 
         @to_test = {
           # source
-          'source:/some/file'           => link_to('source:/some/file', source_url, class: 'source'),
-          'source:/some/file.'          => link_to('source:/some/file', source_url, class: 'source') + '.',
-          'source:/some/file.ext.'      => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
-          'source:/some/file. '         => link_to('source:/some/file', source_url, class: 'source') + '.',
-          'source:/some/file.ext. '     => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
-          'source:/some/file, '         => link_to('source:/some/file', source_url, class: 'source') + ',',
-          'source:/some/file@52'        => link_to('source:/some/file@52', source_url.merge(rev: 52), class: 'source'),
-          'source:/some/file.ext@52'    => link_to('source:/some/file.ext@52', source_url_with_ext.merge(rev: 52), class: 'source'),
-          'source:/some/file#L110'      => link_to('source:/some/file#L110', source_url.merge(anchor: 'L110'), class: 'source'),
-          'source:/some/file.ext#L110'  => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(anchor: 'L110'), class: 'source'),
-          'source:/some/file@52#L110'   => link_to('source:/some/file@52#L110', source_url.merge(rev: 52, anchor: 'L110'), class: 'source'),
-          'export:/some/file'           => link_to('export:/some/file', source_url.merge(format: 'raw'), class: 'source download'),
+          'source:/some/file' => link_to('source:/some/file', source_url, class: 'source'),
+          'source:/some/file.' => link_to('source:/some/file', source_url, class: 'source') + '.',
+          'source:/some/file.ext.' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
+          'source:/some/file. ' => link_to('source:/some/file', source_url, class: 'source') + '.',
+          'source:/some/file.ext. ' => link_to('source:/some/file.ext', source_url_with_ext, class: 'source') + '.',
+          'source:/some/file, ' => link_to('source:/some/file', source_url, class: 'source') + ',',
+          'source:/some/file@52' => link_to('source:/some/file@52', source_url.merge(rev: 52), class: 'source'),
+          'source:/some/file.ext@52' => link_to('source:/some/file.ext@52', source_url_with_ext.merge(rev: 52), class: 'source'),
+          'source:/some/file#L110' => link_to('source:/some/file#L110', source_url.merge(anchor: 'L110'), class: 'source'),
+          'source:/some/file.ext#L110' => link_to('source:/some/file.ext#L110', source_url_with_ext.merge(anchor: 'L110'), class: 'source'),
+          'source:/some/file@52#L110' => link_to('source:/some/file@52#L110', source_url.merge(rev: 52, anchor: 'L110'), class: 'source'),
+          'export:/some/file' => link_to('export:/some/file', source_url.merge(format: 'raw'), class: 'source download'),
           # escaping
-          '!source:/some/file'          => 'source:/some/file',
+          '!source:/some/file' => 'source:/some/file',
           # invalid expressions
-          'source:'                     => 'source:'
+          'source:' => 'source:'
         }
       end
 
@@ -585,7 +592,7 @@ describe OpenProject::TextFormatting do
 
 ##{issue.id}
 </pre>
-RAW
+        RAW
       }
 
       let(:expected) {
@@ -597,7 +604,7 @@ RAW
 
 ##{issue.id}
 </pre>
-EXPECTED
+        EXPECTED
       }
 
       before do
@@ -634,7 +641,7 @@ EXPECTED
 
     subject(:html) { format_text(wiki_text) }
 
-    it 'does not expand the macro within <pre>'  do
+    it 'does not expand the macro within <pre>' do
       expect(html).to be_html_eql(%[
         <pre>{{ $root.DOUBLE_LEFT_CURLY_BRACE }}include(wiki)}}</pre>
         <p>
@@ -670,7 +677,7 @@ h3. Acidless Oranges
 
 h2. Attributes
 
-WIKI_TEXT
+      WIKI_TEXT
     }
 
     subject(:html) { format_text(wiki_text) }
@@ -713,12 +720,5 @@ WIKI_TEXT
         }).at_path('fieldset')
       end
     end
-  end
-
-  context 'deprecated methods' do
-    subject { self }
-
-    it { is_expected.to respond_to :textilizable }
-    it { is_expected.to respond_to :textilize    }
   end
 end
