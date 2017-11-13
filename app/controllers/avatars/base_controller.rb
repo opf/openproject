@@ -3,8 +3,6 @@ module ::Avatars
     helper :avatar
     before_action :ensure_enabled
 
-    include AttachmentsHelper
-
     def update
       if request.put?
         result = service_request(type: :update)
