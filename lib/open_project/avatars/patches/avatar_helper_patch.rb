@@ -138,3 +138,5 @@ module OpenProject::Avatars
     end
   end
 end
+
+::AvatarHelper.send :include, OpenProject::Avatars::Patches::AvatarHelperPatch
