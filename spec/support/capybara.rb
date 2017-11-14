@@ -7,9 +7,20 @@ RSpec.configure do |config|
   Capybara.default_max_wait_time = 4
   Capybara.javascript_driver = :selenium
 
-
+  @resized = false
   config.before(:each, js: true) do
-    Capybara.page.current_window.resize_to(1920, 1080)
+    begin
+      window = Capybara.current_session.current_window
+      unless window.size == [1920, 1080]
+        warn "Resizing Capybara current window to 1920x1080 (Size was #{window.size.inspect})"
+        window.resize_to(1920, 1080)
+      end
+
+      @resized = true
+    rescue => e
+      warn "Failed to update page width: #{e}"
+      warn e.backtrace
+    end
   end
 end
 
@@ -71,7 +82,7 @@ Capybara.register_driver :selenium do |app|
   end
 
   # If you need to trace the webdriver commands, un-comment this line
-  # Selenium::WebDriver.logger.level = :debug
+  # Selenium::WebDriver.logger.level = :info
 
   Capybara::Selenium::Driver.new(
     app,
