@@ -37,12 +37,10 @@ module TwoFactorAuthentication
     ##
     #
     def account_name
-      title = Setting.app_title.presence || 'OpenProject'
-
       if user.present?
-        "#{title} - #{user.login}"
+        user.login
       else
-        title
+        model_name.human
       end
     end
 
@@ -58,7 +56,7 @@ module TwoFactorAuthentication
     end
 
     def totp
-      @totp ||= ::ROTP::TOTP.new otp_secret
+      @totp ||= ::ROTP::TOTP.new otp_secret, issuer: (Setting.app_title.presence || 'OpenProject')
     end
   end
 end
