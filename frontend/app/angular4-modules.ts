@@ -11,6 +11,7 @@ import {WorkPackageTableTimelineStaticElements} from 'core-components/wp-table/t
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import {I18nToken, upgradeService, upgradeServiceWithToken} from './angular4-transition-utils';
+import {WorkPackageTableTimelineGrid} from 'core-components/wp-table/timeline/grid/wp-timeline-grid.directive';
 
 
 @NgModule({
@@ -29,12 +30,14 @@ import {I18nToken, upgradeService, upgradeServiceWithToken} from './angular4-tra
     WorkPackageTimelineHeaderController,
     WorkPackageTableTimelineRelations,
     WorkPackageTableTimelineStaticElements,
-    WorkPackageTableSumsRowController
+    WorkPackageTableSumsRowController,
+    WorkPackageTableTimelineGrid
   ],
   entryComponents: [
     WorkPackageTimelineHeaderController,
     WorkPackageTableTimelineRelations,
     WorkPackageTableTimelineStaticElements,
+    WorkPackageTableTimelineGrid
   ]
 })
 export class OpenProjectModule {

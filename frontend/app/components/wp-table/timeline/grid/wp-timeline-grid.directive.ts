@@ -1,3 +1,5 @@
+import {AfterViewInit, Component, ElementRef} from '@angular/core';
+import {downgradeComponent} from '@angular/upgrade/static';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -28,7 +30,10 @@
 import * as moment from 'moment';
 import {openprojectModule} from '../../../../angular-modules';
 import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
+import {
+  TimelineControllerHolder,
+  WorkPackageTimelineTableController
+} from '../container/wp-timeline-container.directive';
 import {
   calculatePositionValueForDayCount,
   getTimeSlicesForHeader,
@@ -48,7 +53,10 @@ function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
   }
 }
 
-export class WorkPackageTableTimelineGrid {
+@Component({
+  template: '<div class="wp-table-timeline--grid"></div>'
+})
+export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
   public wpTimeline:WorkPackageTimelineTableController;
 
@@ -56,11 +64,15 @@ export class WorkPackageTableTimelineGrid {
 
   private gridContainer:ng.IAugmentedJQuery;
 
-  constructor(public $element:ng.IAugmentedJQuery) {
+  constructor(private elementRef:ElementRef,
+              timelineControllerHolder:TimelineControllerHolder) {
+
+    this.wpTimeline = timelineControllerHolder.instance;
   }
 
-  $onInit() {
-    this.gridContainer = this.$element.find('.wp-table-timeline--grid');
+  ngAfterViewInit() {
+    const $element = jQuery(this.elementRef.nativeElement);
+    this.gridContainer = $element.find('.wp-table-timeline--grid');
     this.wpTimeline.onRefreshRequested('grid', (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 
@@ -184,10 +196,6 @@ export class WorkPackageTableTimelineGrid {
   }
 }
 
-openprojectModule.component('wpTimelineGrid', {
-  template: '<div class="wp-table-timeline--grid"></div>',
-  controller: WorkPackageTableTimelineGrid,
-  require: {
-    wpTimeline: '^wpTimelineContainer'
-  }
-});
+openprojectModule.directive(
+  'wpTimelineGrid',
+  downgradeComponent({component: WorkPackageTableTimelineGrid}));
