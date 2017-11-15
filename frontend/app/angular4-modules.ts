@@ -50,6 +50,7 @@ import {
 } from './angular4-transition-utils';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
+import { WorkPackageTablePaginationComponent } from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 
 
 @NgModule({
@@ -71,6 +72,7 @@ import {TablePaginationComponent} from 'core-app/components/table-pagination/tab
   ],
   declarations: [
     TablePaginationComponent,
+    WorkPackageTablePaginationComponent,
     WorkPackageTimelineHeaderController,
     WorkPackageTableTimelineRelations,
     WorkPackageTableTimelineStaticElements,
@@ -80,6 +82,7 @@ import {TablePaginationComponent} from 'core-app/components/table-pagination/tab
   ],
   entryComponents: [
     WorkPackageTimelineTableController,
+    WorkPackageTablePaginationComponent,
     TablePaginationComponent
   ]
 })

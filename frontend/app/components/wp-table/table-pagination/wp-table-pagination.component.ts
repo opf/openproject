@@ -33,14 +33,16 @@ import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-paginatio
 import {wpDirectivesModule} from '../../../angular-modules';
 import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {Inject, OnDestroy} from '@angular/core';
+import {Inject, OnDestroy, Component} from '@angular/core';
 import {I18nToken} from 'core-app/angular4-transition-utils';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
+import {downgradeComponent} from '@angular/upgrade/static';
 
-wpDirectivesModule
-  .directive('wpTablePagination', wpTablePagination);
-
-export class WorkPackageTablePaginationController extends TablePaginationComponent  implements OnDestroy {
+@Component({
+  selector: '[wpTablePagination]',
+  template: require('!!raw-loader!core-components/table-pagination/table-pagination.component.html')
+})
+export class WorkPackageTablePaginationComponent extends TablePaginationComponent  implements OnDestroy {
   constructor(protected paginationService:PaginationService,
               protected wpTablePagination:WorkPackageTablePaginationService,
               @Inject(I18nToken) protected I18n:op.I18n) {
@@ -61,26 +63,16 @@ export class WorkPackageTablePaginationController extends TablePaginationCompone
   ngOnDestroy():void {
     // Empty
   }
+
+  public selectPerPage(perPage:number) {
+    this.wpTablePagination.updateFromObject({page: 1, perPage: perPage});
+ }
+
+  public showPage(pageNumber:number) {
+    this.wpTablePagination.updateFromObject({page: pageNumber});
+  }
 }
 
-function wpTablePagination(wpTablePagination:WorkPackageTablePaginationService):any {
-  return {
-    restrict: 'E',
-    templateUrl: '/components/table-pagination/table-pagination.directive.html',
-
-    scope: {},
-
-    controller: WorkPackageTablePaginationController,
-
-    link: function(scope:any) {
-
-      scope.selectPerPage = function(perPage:number){
-        wpTablePagination.updateFromObject({page: 1, perPage: perPage});
-     };
-
-      scope.showPage = function(pageNumber:number){
-        wpTablePagination.updateFromObject({page: pageNumber});
-      };
-    }
-  };
-}
+wpDirectivesModule
+  .directive('wpTablePagination',
+             downgradeComponent({component: WorkPackageTablePaginationComponent}));
