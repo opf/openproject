@@ -26,33 +26,40 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TablePaginationController} from '../../table-pagination/table-pagination.controller';
 import {ConfigurationResource} from '../../api/api-v3/hal-resources/configuration-resource.service';
 import {ConfigurationDmService} from '../../api/api-v3/hal-resource-dms/configuration-dm.service';
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {wpDirectivesModule} from '../../../angular-modules';
+import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {Inject, OnDestroy} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {PaginationService} from 'core-components/table-pagination/pagination-service';
 
 wpDirectivesModule
   .directive('wpTablePagination', wpTablePagination);
 
-export class WorkPackageTablePaginationController extends TablePaginationController {
-  constructor(protected $scope:ng.IScope,
-              protected PaginationService:any,
-              protected I18n:op.I18n,
-              protected wpTablePagination:WorkPackageTablePaginationService) {
+export class WorkPackageTablePaginationController extends TablePaginationComponent  implements OnDestroy {
+  constructor(protected paginationService:PaginationService,
+              protected wpTablePagination:WorkPackageTablePaginationService,
+              @Inject(I18nToken) protected I18n:op.I18n) {
+    super(paginationService, I18n);
 
-    super($scope, PaginationService, I18n);
+  }
 
-    this.wpTablePagination.observeOnScope($scope).subscribe((wpPagination:WorkPackageTablePagination) => {
-      this.$scope.totalEntries = wpPagination.total;
-
-      this.PaginationService.setPerPage(wpPagination.current.perPage);
-      this.PaginationService.setPage(wpPagination.current.page);
-
-      this.updateCurrentRangeLabel();
-      this.updatePageNumbers();
+  ngOnInit():void {
+    this.wpTablePagination
+      .observeUntil(componentDestroyed(this))
+      .subscribe((wpPagination:WorkPackageTablePagination) => {
+        this.pagination = wpPagination.current;
+        this.updateCurrentRangeLabel();
+        this.updatePageNumbers();
     });
+  }
+
+  ngOnDestroy():void {
+    // Empty
   }
 }
 

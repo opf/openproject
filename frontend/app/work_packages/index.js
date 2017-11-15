@@ -26,7 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-require('./config');
 require('./controllers');
 require('./directives');
 require('./helpers');

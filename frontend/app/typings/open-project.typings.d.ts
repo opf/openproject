@@ -74,6 +74,11 @@ interface Function {
   _type:string;
 }
 
+interface JQuery {
+  topShelf: any;
+  atwho: any;
+}
+
 declare var Factory:any;
 
 declare namespace op {

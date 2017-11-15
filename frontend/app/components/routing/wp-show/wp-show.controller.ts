@@ -50,7 +50,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
 
   private wpMoreMenu:WorkPackageMoreMenuService;
 
-  constructor(public $scope:ng.IScope,
+  constructor(public $scope:any,
               public $state:ng.ui.IStateService,
               protected wpMoreMenuService:WorkPackageMoreMenuService) {
     super($scope, $state.params['workPackageId']);

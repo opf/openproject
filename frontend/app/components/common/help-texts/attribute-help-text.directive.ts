@@ -48,7 +48,7 @@ export class AttributeHelpTextController {
   public text:any;
 
   constructor(protected $element:IAugmentedJQuery,
-              protected $scope:angular.IScope,
+              protected $scope:any,
               protected helpTextDm:HelpTextDmService,
               protected attributeHelpTexts:AttributeHelpTextsService,
               protected $q:angular.IQService,

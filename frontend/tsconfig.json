@@ -18,6 +18,7 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "core-app/*": ["./app/*"],
       "core-components/*": ["./app/components/*"]
     }
   },

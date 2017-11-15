@@ -38,16 +38,21 @@ import {States} from '../../states.service';
 import {WorkPackageTableTimelineService} from '../../wp-fast-table/state/wp-table-timeline.service';
 
 interface IMyScope extends ng.IScope {
+  text:any;
   displaySumsLabel:string;
   displayHierarchies:boolean;
   displaySums:boolean;
   loading:boolean;
+  timelinesVisible:boolean;
+  isGrouped:boolean;
   saveQuery:Function;
   deleteQuery:Function;
 
+  queryCustomFields:any;
   showSaveAsModal:Function;
   showShareModal:Function;
   showSettingsModal:Function;
+  showTimelinesModal:Function;
   showExportModal:Function;
   showColumnsModal:Function;
   showGroupingModal:Function;

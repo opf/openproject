@@ -68,7 +68,7 @@ function editActionsBar():any {
     restrict: 'E',
     templateUrl: '/components/common/edit-actions-bar/edit-actions-bar.directive.html',
     require: '^wpEditFieldGroup',
-    link: function (scope:ng.IScope,
+    link: function (scope:any,
                     element:ng.IAugmentedJQuery,
                     attrs:ng.IAttributes,
                     controller:WorkPackageEditFieldGroupController) {

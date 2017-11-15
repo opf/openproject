@@ -36,7 +36,7 @@ export class RequestForConfirmationController {
   private passwordConfirmed = false;
 
   constructor(protected $element:IAugmentedJQuery,
-              protected $scope:angular.IScope,
+              protected $scope:any,
               protected $http:angular.IHttpService,
               protected $q:angular.IQService,
               protected ngDialog:IDialogService,

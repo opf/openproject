@@ -196,6 +196,7 @@ function getWebpackMainConfig() {
 
       alias: _.merge({
         'locales': './../../config/locales',
+        'core-app': path.resolve(__dirname, 'app'),
         'core-components': path.resolve(__dirname, 'app', 'components'),
 
         'at.js': path.resolve(__dirname, 'vendor', 'at.js'),

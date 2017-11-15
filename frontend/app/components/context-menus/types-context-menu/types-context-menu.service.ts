@@ -35,7 +35,7 @@ class TypesContextMenuController {
 
   constructor(protected $state:ng.ui.IStateService,
               protected $timeout:ng.ITimeoutService,
-              protected $scope:ng.IScope,
+              protected $scope:any,
               protected wpCreate:WorkPackageCreateService) {
     const project = $scope.projectIdentifier;
     $scope.$ctrl = this;

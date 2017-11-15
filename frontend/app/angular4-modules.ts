@@ -48,6 +48,8 @@ import {
   upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
+import {PaginationService} from 'core-components/table-pagination/pagination-service';
+import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 
 
 @NgModule({
@@ -59,6 +61,7 @@ import {
     WorkPackagesTableControllerHolder,
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('states', States),
+    upgradeService('paginationService', PaginationService),
     upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
     upgradeService('wpTableTimeline', WorkPackageTableTimelineService),
     upgradeService('wpNotificationsService', WorkPackageNotificationService),
@@ -67,6 +70,7 @@ import {
     upgradeServiceWithToken('I18n', I18nToken)
   ],
   declarations: [
+    TablePaginationComponent,
     WorkPackageTimelineHeaderController,
     WorkPackageTableTimelineRelations,
     WorkPackageTableTimelineStaticElements,
@@ -75,7 +79,8 @@ import {
     // WorkPackageTableSumsRowController
   ],
   entryComponents: [
-    WorkPackageTimelineTableController
+    WorkPackageTimelineTableController,
+    TablePaginationComponent
   ]
 })
 export class OpenProjectModule {

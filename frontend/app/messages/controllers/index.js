@@ -28,6 +28,6 @@
 
 angular.module('openproject.messages.controllers')
   .controller('MessagesController', ['$scope', '$http', 'PathHelper',
-    'SortService', 'PaginationService',
+    'SortService', 'paginationService',
     require('./messages-controller')
   ]);

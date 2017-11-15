@@ -73,9 +73,6 @@ export class WorkPackageTablePaginationService extends WorkPackageTableBaseServi
     if (object.total) {
       currentState.total = object.total;
     }
-    if (object.count) {
-      currentState.count = object.count;
-    }
 
     this.state.putValue(currentState);
   }

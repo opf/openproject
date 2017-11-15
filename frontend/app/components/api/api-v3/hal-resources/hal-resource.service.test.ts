@@ -361,8 +361,8 @@ describe('HalResource service', () => {
     });
 
     it('should have a $links property with the keys of its source _links', () => {
-      const transformedLinks = Object.keys(resource.$links);
-      const plainLinks = Object.keys(source._links);
+      const transformedLinks = Object.keys(resource!.$links);
+      const plainLinks = Object.keys(source!._links);
 
       expect(transformedLinks).to.have.members(plainLinks);
     });
@@ -705,11 +705,11 @@ describe('HalResource service', () => {
           });
 
           it('should have properties that have a getter', () => {
-            expect(Object.getOwnPropertyDescriptor(resource, 'foo').get).to.exist;
+            expect((Object as any).getOwnPropertyDescriptor(resource, 'foo').get).to.exist;
           });
 
           it('should have properties that have a setter', () => {
-            expect(Object.getOwnPropertyDescriptor(resource, 'foo').set).to.exist;
+            expect((Object as any).getOwnPropertyDescriptor(resource, 'foo').set).to.exist;
           });
 
           it('should return itself in a promise if already loaded', () => {

@@ -26,7 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-module.exports = function($scope, $http, PathHelper, SortService, PaginationService) {
+module.exports = function() {
+
+}
+
+module.exports = function($scope, $http, PathHelper, SortService, paginationService) {
   $scope.PathHelper = PathHelper;
   $scope.messages = gon.messages;
   $scope.totalMessageCount = gon.total_count;
@@ -34,19 +38,19 @@ module.exports = function($scope, $http, PathHelper, SortService, PaginationServ
   $scope.projectId = gon.project_id;
   $scope.activityModuleEnabled = gon.activity_modul_enabled;
 
-  PaginationService.setPerPageOptions(gon.settings.pagination.per_page_options);
+  paginationService.setPerPageOptions(gon.settings.pagination.per_page_options);
   SortService.setColumn(gon.sort_column);
   SortService.setDirection(gon.sort_direction);
 
-  $scope.loadMessages = function() {
+  $scope.loadMessages = function(pagination) {
     $scope.isLoading = true;
 
     $http.get(PathHelper.boardPath(gon.project_id, gon.board_id),
               {
                 params: {
                           sort: SortService.getSortParam(),
-                          page: PaginationService.getPage(),
-                          per_page: PaginationService.getPerPage()
+                          page: pagination.page,
+                          per_page: pagination.perPage
                         }
               })
          .success(function(data, status, headers, config) {

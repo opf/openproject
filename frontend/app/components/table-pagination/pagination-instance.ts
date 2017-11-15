@@ -26,14 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/* jshint camelcase: false */
 
-// shared operator defs
+import {IPaginationOptions} from 'core-components/table-pagination/pagination-service';
+export class PaginationInstance {
 
-angular.module('openproject.workPackages.config')
+  constructor(public page:number,
+              public total:number,
+              public perPage:number) {
+  }
 
-.constant('DEFAULT_PAGINATION_OPTIONS', {
-  page: 1,
-  maxVisiblePageOptions: 6,
-  optionsTruncationSize: 1
-});
+  public getLowerPageBound() {
+    return this.perPage * (this.page - 1) + 1;
+  }
+
+  public getUpperPageBound(limit:number) {
+    return Math.min(this.perPage * this.page, limit);
+  }
+
+  public nextPage() {
+    this.page += 1;
+  }
+
+  public previousPage() {
+    this.page -= 1;
+  }
+}
+

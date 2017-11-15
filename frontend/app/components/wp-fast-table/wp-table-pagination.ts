@@ -27,26 +27,15 @@
 // ++
 
 import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-collection-resource.service'
-import {WorkPackageTableBaseState} from "./wp-table-base";
-import {QueryResource} from "../api/api-v3/hal-resources/query-resource.service";
+import {WorkPackageTableBaseState} from './wp-table-base';
+import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
 
-export class WorkPackageTablePaginationObject extends WorkPackageTableBaseState<WorkPackageTablePagination> {
-  constructor(public page:number,
-              public perPage:number,
-              public total:number,
-              public count:number) {
-    super();
-  }
-}
-
-export class WorkPackageTablePagination {
-  public current:WorkPackageTablePaginationObject;
+export class WorkPackageTablePagination extends WorkPackageTableBaseState<PaginationInstance> {
+  public current:PaginationInstance;
 
   constructor(results:WorkPackageCollectionResource) {
-    this.current = new WorkPackageTablePaginationObject(results.offset,
-                                                        results.pageSize,
-                                                        results.total,
-                                                        results.count)
+    super();
+    this.current = new PaginationInstance(results.offset, results.total, results.pageSize);
   }
 
   public get page() {
@@ -71,13 +60,5 @@ export class WorkPackageTablePagination {
 
   public set total(val) {
     this.current.total = val;
-  }
-
-  public get count() {
-    return this.current.count;
-  }
-
-  public set count(val) {
-    this.current.count = val;
   }
 }

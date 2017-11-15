@@ -31,7 +31,7 @@ import {ContextMenuService} from '../context-menu.service';
 function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper:any) {
   return {
     restrict: 'A',
-    link: function (scope:ng.IScope, element:ng.IAugmentedJQuery, attrs:ng.IAttributes) {
+    link: function (scope:any, element:ng.IAugmentedJQuery, attrs:ng.IAttributes) {
       let menuName = attrs['target'];
       let locals:{[key:string]: any} = {};
       let afterFocusOn = attrs['afterFocusOn'];

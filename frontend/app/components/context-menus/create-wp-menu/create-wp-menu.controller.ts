@@ -30,7 +30,7 @@ import {opWorkPackagesModule} from '../../../angular-modules';
 import {States} from '../../states.service';
 import {WorkPackageEditingService} from './../../wp-edit-form/work-package-editing-service';
 
-function CreateWpDropdownMenuController($scope:ng.IScope, states:States, wpEditing:WorkPackageEditingService) {
+function CreateWpDropdownMenuController($scope:any, states:States, wpEditing:WorkPackageEditingService) {
   const wp = states.workPackages.get('new').value;
 
   if (wp) {
