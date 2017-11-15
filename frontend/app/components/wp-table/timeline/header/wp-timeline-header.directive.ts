@@ -27,18 +27,17 @@
 // ++
 
 import {Component, ElementRef, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
+import {TimelineControllerHolder} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import * as moment from 'moment';
-import {openprojectModule} from '../../../../angular-modules';
 import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {calculatePositionValueForDayCount, getTimeSlicesForHeader, TimelineViewParameters} from '../wp-timeline';
 import Moment = moment.Moment;
-import {TimelineControllerHolder} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 
 
 export const timelineHeaderCSSClass = 'wp-timeline--header-element';
 
 @Component({
+  selector: 'wp-timeline-header',
   template: require('!!raw-loader!./wp-timeline-header.html'),
 })
 export class WorkPackageTimelineHeaderController implements OnInit {
@@ -221,7 +220,3 @@ export class WorkPackageTimelineHeaderController implements OnInit {
     return label;
   }
 }
-
-openprojectModule.directive(
-  'wpTimelineHeader',
-  downgradeComponent({component: WorkPackageTimelineHeaderController}));

@@ -27,11 +27,9 @@
 // ++
 
 import {Component, ElementRef, OnDestroy, OnInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {State} from 'reactivestates';
 import {Observable} from 'rxjs/Observable';
-import {openprojectModule} from '../../../../angular-modules';
 import {States} from '../../../states.service';
 import {RelationsStateValue, WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
@@ -75,6 +73,7 @@ function newSegment(vp:TimelineViewParameters,
 }
 
 @Component({
+  selector: 'wp-timeline-relations',
   template: '<div class="wp-table-timeline--relations"></div>'
 })
 export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
@@ -300,8 +299,4 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
   }
 }
-
-openprojectModule.directive(
-  'wpTimelineRelations',
-  downgradeComponent({component: WorkPackageTableTimelineRelations}));
 

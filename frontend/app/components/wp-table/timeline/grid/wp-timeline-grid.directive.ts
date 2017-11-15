@@ -1,5 +1,3 @@
-import {AfterViewInit, Component, ElementRef} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -27,8 +25,8 @@ import {downgradeComponent} from '@angular/upgrade/static';
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+import {AfterViewInit, Component, ElementRef} from '@angular/core';
 import * as moment from 'moment';
-import {openprojectModule} from '../../../../angular-modules';
 import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {
   TimelineControllerHolder,
@@ -54,6 +52,7 @@ function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
 }
 
 @Component({
+  selector: 'wp-timeline-grid',
   template: '<div class="wp-table-timeline--grid"></div>'
 })
 export class WorkPackageTableTimelineGrid implements AfterViewInit {
@@ -195,7 +194,3 @@ export class WorkPackageTableTimelineGrid implements AfterViewInit {
     }, 0);
   }
 }
-
-openprojectModule.directive(
-  'wpTimelineGrid',
-  downgradeComponent({component: WorkPackageTableTimelineGrid}));

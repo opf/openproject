@@ -26,15 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 import {Component, ElementRef, OnInit} from '@angular/core';
-import {openprojectModule} from '../../../../angular-modules';
 import {States} from '../../../states.service';
 import {TimelineControllerHolder} from '../container/wp-timeline-container.directive';
 import {TimelineViewParameters} from '../wp-timeline';
 import {TimelineStaticElement, timelineStaticElementCssClassname} from './timeline-static-element';
 import {TodayLineElement} from './wp-timeline.today-line';
-import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
+  selector: 'wp-timeline-static-elements',
   template: '<div class="wp-table-timeline--static-elements"></div>'
 })
 export class WorkPackageTableTimelineStaticElements implements OnInit {
@@ -77,8 +76,3 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
     }
   }
 }
-
-
-openprojectModule.directive(
-  'wpTimelineStaticElements',
-  downgradeComponent({component: WorkPackageTableTimelineStaticElements}));
