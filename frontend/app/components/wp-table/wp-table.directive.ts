@@ -26,7 +26,10 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Injectable} from '@angular/core';
+import {downgradeInjectable} from '@angular/upgrade/static';
 import {Observable} from 'rxjs/Observable';
+import openprojectModule from '../../angular-modules';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {debugLog} from '../../helpers/debug_output';
 import {ContextMenuService} from '../context-menus/context-menu.service';
@@ -35,11 +38,23 @@ import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-co
 import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTableTimelineService} from '../wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
-import {WorkPackageTableColumns} from '../wp-fast-table/wp-table-columns';
 import {KeepTabService} from '../wp-panels/keep-tab/keep-tab.service';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
+
+
+/**
+ * TODO remove once the transition to Angular4 is completed
+ */
+@Injectable()
+export class WorkPackagesTableControllerHolder {
+  instance:WorkPackagesTableController;
+}
+
+openprojectModule.factory(
+  'workPackagesTableControllerHolder',
+  downgradeInjectable(WorkPackagesTableControllerHolder));
 
 angular
   .module('openproject.workPackages.directives')
@@ -97,12 +112,16 @@ export class WorkPackagesTableController {
 
   constructor(private $scope:ng.IScope,
               public $element:ng.IAugmentedJQuery,
+              workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
               $rootScope:ng.IRootScopeService,
               states:States,
               I18n:op.I18n,
               wpTableGroupBy:WorkPackageTableGroupByService,
               wpTableTimeline:WorkPackageTableTimelineService,
               wpTableColumns:WorkPackageTableColumnsService) {
+
+    workPackagesTableControllerHolder.instance = this;
+
     // Clear any old table subscribers
     states.table.stopAllSubscriptions.next();
 

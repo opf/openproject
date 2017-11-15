@@ -33,7 +33,7 @@ import {Observable} from 'rxjs/Observable';
 import {States} from '../../../states.service';
 import {RelationsStateValue, WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
-import {TimelineControllerHolder} from '../container/wp-timeline-container.directive';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {timelineElementCssClass, TimelineViewParameters} from '../wp-timeline';
 import {TimelineRelationElement, workPackagePrefix} from './timeline-relation-element';
 
@@ -84,20 +84,21 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
   constructor(public elementRef:ElementRef,
               public states:States,
-              public timelineControllerHolder:TimelineControllerHolder,
+              public workPackageTimelineTableController:WorkPackageTimelineTableController,
               public wpRelations:WorkPackageRelationsService) {
   }
 
   ngOnInit() {
     const $element = jQuery(this.elementRef.nativeElement);
     this.container = $element.find('.wp-table-timeline--relations');
-    this.timelineControllerHolder.instance
+    this.workPackageTimelineTableController
       .onRefreshRequested('relations', (vp:TimelineViewParameters) => this.refreshView());
 
     this.setupRelationSubscription();
   }
 
   ngOnDestroy() {
+    // empty
   }
 
   private refreshView() {
@@ -105,7 +106,7 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
   }
 
   private get workPackageIdOrder() {
-    return this.timelineControllerHolder.instance.workPackageIdOrder;
+    return this.workPackageTimelineTableController.workPackageIdOrder;
   }
 
   /**
@@ -161,12 +162,12 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
       relationsList.forEach(relation => {
 
         if (!(relation.type === 'precedes'
-          || relation.type === 'follows')) {
+            || relation.type === 'follows')) {
           return;
         }
 
         const elem = new TimelineRelationElement(relation.ids.from, relation);
-        this.renderElement(this.timelineControllerHolder.instance.viewParameters, elem);
+        this.renderElement(this.workPackageTimelineTableController.viewParameters, elem);
       });
 
     });
@@ -202,8 +203,8 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
   private renderElement(vp:TimelineViewParameters, e:TimelineRelationElement) {
     const involved = e.relation.ids;
 
-    const startCells = this.timelineControllerHolder.instance.workPackageCells(involved.to);
-    const endCells = this.timelineControllerHolder.instance.workPackageCells(involved.from);
+    const startCells = this.workPackageTimelineTableController.workPackageCells(involved.to);
+    const endCells = this.workPackageTimelineTableController.workPackageCells(involved.from);
 
     // If either sources or targets are not rendered, ignore this relation
     if (startCells.length === 0 || endCells.length === 0) {
@@ -212,21 +213,20 @@ export class WorkPackageTableTimelineRelations implements OnInit, OnDestroy {
 
     // Now, render all sources to all targets
     startCells.forEach((startCell) => {
-      const idxFrom = this.timelineControllerHolder.instance.workPackageIndex(startCell.classIdentifier);
+      const idxFrom = this.workPackageTimelineTableController.workPackageIndex(startCell.classIdentifier);
       endCells.forEach((endCell) => {
-        const idxTo = this.timelineControllerHolder.instance.workPackageIndex(endCell.classIdentifier);
+        const idxTo = this.workPackageTimelineTableController.workPackageIndex(endCell.classIdentifier);
         this.renderRelation(vp, e, idxFrom, idxTo, startCell, endCell);
       });
     });
   }
 
-  private renderRelation(
-    vp:TimelineViewParameters,
-    e:TimelineRelationElement,
-    idxFrom:number,
-    idxTo:number,
-    startCell:WorkPackageTimelineCell,
-    endCell:WorkPackageTimelineCell) {
+  private renderRelation(vp:TimelineViewParameters,
+                         e:TimelineRelationElement,
+                         idxFrom:number,
+                         idxTo:number,
+                         startCell:WorkPackageTimelineCell,
+                         endCell:WorkPackageTimelineCell) {
 
     const rowFrom = this.workPackageIdOrder[idxFrom];
     const rowTo = this.workPackageIdOrder[idxTo];

@@ -36,14 +36,12 @@ import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notific
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
-import {
-  TimelineControllerHolder,
-  WorkPackageTimelineTableController
-} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
+import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
 import {WorkPackageTableTimelineStaticElements} from 'core-components/wp-table/timeline/global-elements/wp-timeline-static-elements.directive';
 import {WorkPackageTableTimelineGrid} from 'core-components/wp-table/timeline/grid/wp-timeline-grid.directive';
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
+import {WorkPackagesTableControllerHolder} from 'core-components/wp-table/wp-table.directive';
 import {
   I18nToken,
   NotificationsServiceToken,
@@ -58,7 +56,7 @@ import {
     UpgradeModule
   ],
   providers: [
-    TimelineControllerHolder,
+    WorkPackagesTableControllerHolder,
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('states', States),
     upgradeService('wpDisplayField', WorkPackageDisplayFieldService),

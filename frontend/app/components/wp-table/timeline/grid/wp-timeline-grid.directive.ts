@@ -28,10 +28,7 @@
 import {AfterViewInit, Component, ElementRef} from '@angular/core';
 import * as moment from 'moment';
 import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
-import {
-  TimelineControllerHolder,
-  WorkPackageTimelineTableController
-} from '../container/wp-timeline-container.directive';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {
   calculatePositionValueForDayCount,
   getTimeSlicesForHeader,
@@ -57,16 +54,12 @@ function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
 })
 export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
-  public wpTimeline:WorkPackageTimelineTableController;
-
   private activeZoomLevel:TimelineZoomLevel;
 
   private gridContainer:ng.IAugmentedJQuery;
 
   constructor(private elementRef:ElementRef,
-              timelineControllerHolder:TimelineControllerHolder) {
-
-    this.wpTimeline = timelineControllerHolder.instance;
+              public wpTimeline:WorkPackageTimelineTableController) {
   }
 
   ngAfterViewInit() {

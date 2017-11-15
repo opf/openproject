@@ -27,7 +27,7 @@
 // ++
 import {Component, ElementRef, OnInit} from '@angular/core';
 import {States} from '../../../states.service';
-import {TimelineControllerHolder} from '../container/wp-timeline-container.directive';
+import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {TimelineViewParameters} from '../wp-timeline';
 import {TimelineStaticElement, timelineStaticElementCssClassname} from './timeline-static-element';
 import {TodayLineElement} from './wp-timeline.today-line';
@@ -46,7 +46,7 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
 
   constructor(elementRef:ElementRef,
               public states:States,
-              public timelineControllerHolder:TimelineControllerHolder) {
+              public workPackageTimelineTableController:WorkPackageTimelineTableController) {
 
     this.$element = jQuery(elementRef.nativeElement);
 
@@ -57,7 +57,7 @@ export class WorkPackageTableTimelineStaticElements implements OnInit {
 
   ngOnInit() {
     this.container = this.$element.find('.wp-table-timeline--static-elements');
-    this.timelineControllerHolder.instance
+    this.workPackageTimelineTableController
       .onRefreshRequested('static elements', (vp:TimelineViewParameters) => this.update(vp));
   }
 

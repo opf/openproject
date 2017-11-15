@@ -45,7 +45,7 @@ import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-tim
 import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 
 import {selectorTimelineSide} from '../../wp-table-scroll-sync';
-import {WorkPackagesTableController} from '../../wp-table.directive';
+import {WorkPackagesTableController, WorkPackagesTableControllerHolder} from '../../wp-table.directive';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {
@@ -58,18 +58,6 @@ import {
   zoomLevelOrder
 } from '../wp-timeline';
 import moment = require('moment');
-
-
-/**
- * TODO remove once the transition to Angular4 is completed
- */
-@Injectable()
-export class TimelineControllerHolder {
-  instance:WorkPackageTimelineTableController;
-}
-
-openprojectModule.factory('timelineControllerHolder', downgradeInjectable(TimelineControllerHolder));
-
 
 @Component({
   template: require('!!raw-loader!./wp-timeline-container.html')
@@ -106,7 +94,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   constructor(private elementRef:ElementRef,
               private states:States,
-              timelineControllerHolder:TimelineControllerHolder,
+              workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
               @Inject(NotificationsServiceToken) private NotificationsService:any,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
@@ -115,7 +103,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               @Inject(I18nToken) private I18n:op.I18n) {
     'ngInject';
 
-    timelineControllerHolder.instance = this;
+    this.wpTableDirective = workPackagesTableControllerHolder.instance;
   }
 
   ngAfterViewInit() {
@@ -447,16 +435,5 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
 }
 
-// openprojectModule.component('wpTimelineContainer', {
-//   controller: WorkPackageTimelineTableController,
-//   templateUrl: '/components/wp-table/timeline/container/wp-timeline-container.html',
-//   require: {
-//     wpTableDirective: '^wpTable'
-//   }
-// });
-
 openprojectModule.directive('wpTimelineContainer',
   downgradeComponent({component: WorkPackageTimelineTableController}));
-
-
-

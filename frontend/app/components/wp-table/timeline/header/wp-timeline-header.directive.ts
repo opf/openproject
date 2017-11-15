@@ -27,7 +27,7 @@
 // ++
 
 import {Component, ElementRef, OnInit} from '@angular/core';
-import {TimelineControllerHolder} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
+import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import * as moment from 'moment';
 import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {calculatePositionValueForDayCount, getTimeSlicesForHeader, TimelineViewParameters} from '../wp-timeline';
@@ -49,13 +49,14 @@ export class WorkPackageTimelineHeaderController implements OnInit {
   private innerHeader:JQuery;
 
   constructor(elementRef:ElementRef,
-              public timelineControllerHolder:TimelineControllerHolder) {
+              public workPackageTimelineTableController:WorkPackageTimelineTableController) {
 
     this.$element = jQuery(elementRef.nativeElement);
   }
 
   ngOnInit() {
-    this.timelineControllerHolder.instance.onRefreshRequested('header', (vp:TimelineViewParameters) => this.refreshView(vp));
+    this.workPackageTimelineTableController
+      .onRefreshRequested('header', (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 
   refreshView(vp:TimelineViewParameters) {
