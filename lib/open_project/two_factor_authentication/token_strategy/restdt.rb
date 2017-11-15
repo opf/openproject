@@ -7,7 +7,7 @@ module OpenProject::TwoFactorAuthentication
         if configuration_params.nil?
           raise ArgumentError, 'Missing configuration hash'
         end
-        validate_params
+        validate_params configuration_params
       end
 
       def self.identifier
