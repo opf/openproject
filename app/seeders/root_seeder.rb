@@ -29,7 +29,6 @@
 
 # Seeds the minimum data required to run OpenProject (BasicDataSeeder, AdminUserSeeder)
 # as well as optional demo data (DemoDataSeeder) to give a user some orientation.
-require 'factory_girl'
 
 class RootSeeder < Seeder
   include Redmine::I18n
@@ -64,6 +63,10 @@ class RootSeeder < Seeder
 
       if Rails.env.development?
         puts '*** Seeding development data'
+        require 'factory_girl'
+        # Load FactoryGirl factories
+        ::FactoryGirl.find_definitions
+
         DevelopmentDataSeeder.new.seed!
       end
 
@@ -113,8 +116,5 @@ class RootSeeder < Seeder
 
     # Avoid asynchronous DeliverWorkPackageCreatedJob
     Delayed::Worker.delay_jobs = false
-
-    # Load FactoryGirl factories
-    ::FactoryGirl.find_definitions
   end
 end
