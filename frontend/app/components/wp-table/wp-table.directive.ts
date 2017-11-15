@@ -74,7 +74,7 @@ function wpTable(keepTab:KeepTabService,
 
     controller: WorkPackagesTableController,
 
-    link: function(scope:ng.IScope,
+    link: function(scope:any,
                    element:ng.IAugmentedJQuery,
                    attributes:ng.IAttributes) {
 
@@ -110,7 +110,7 @@ export class WorkPackagesTableController {
 
   public timeline:HTMLElement;
 
-  constructor(private $scope:ng.IScope,
+  constructor(private $scope:any,
               public $element:ng.IAugmentedJQuery,
               workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
               $rootScope:ng.IRootScopeService,
