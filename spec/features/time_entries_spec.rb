@@ -19,7 +19,7 @@
 
 require File.expand_path(File.dirname(__FILE__) + '/../spec_helper.rb')
 
-describe 'Work Package table cost sums', type: :feature, js: true do
+describe 'Work Package table cost entries', type: :feature, js: true do
   let(:project) { FactoryGirl.create :project }
   let(:user) { FactoryGirl.create :admin }
 
@@ -66,5 +66,17 @@ describe 'Work Package table cost sums', type: :feature, js: true do
 
     expect(parent_row).to have_selector('.wp-edit-field.spentTime', text: '12.5 hours')
     expect(wp_row).to have_selector('.wp-edit-field.spentTime', text: '2.5 hours')
+  end
+
+  it 'creates an activity' do
+    visit project_activities_path project
+
+    # Activate budget filter
+    find('#show_time_entries').set true
+    find('#show_cost_objects').set true
+    click_on 'Apply'
+
+    expect(page).to have_selector('.time-entry a', text: '10.00 hours')
+    expect(page).to have_selector('.time-entry a', text: '2.50 hours')
   end
 end
