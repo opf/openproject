@@ -170,12 +170,16 @@ jQuery(function($) {
   function addFilter(e) {
     e.preventDefault();
     $('[filter-name="' + $(this).val() + '"]').removeClass('hidden');
-    $('#add_filter_select option:selected', $filterForm).remove();
+    $('#add_filter_select option:selected', $filterForm).attr('disabled','disabled');
     return false;
   }
 
   function removeFilter(e) {
-    $(this).parents('.advanced-filters--filter').addClass('hidden');
+    let $filter = $(this).parents('.advanced-filters--filter');
+    let filterName = $filter.attr('filter-name');
+
+    $filter.addClass('hidden');
+    $('#add_filter_select option[value="' + filterName + '"]', $filterForm).removeAttr('disabled');
   }
 
   function setValueVisibility() {

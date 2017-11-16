@@ -219,9 +219,10 @@ See doc/COPYRIGHT.rdoc for more details.
         <div class="advanced-filters--add-filter-value">
           <%= select_tag "add_filter_select",
                            options_from_collection_for_select(
-                             allowed_filters(@query) - @query.filters,
+                             allowed_filters(@query),
                              :name,
-                             :human_name
+                             :human_name,
+                             disabled: @query.filters.map(&:name)
                            ),
                            prompt: t(:actionview_instancetag_blank_option),
                            class: 'advanced-filters--select',
