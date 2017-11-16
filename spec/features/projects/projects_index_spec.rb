@@ -213,45 +213,62 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
   end
 
   feature 'when filter of type' do
-    feature 'Name and identifier' do
-      scenario 'gives results in both, name and identifier' do
-        visit_list_and_open_filter_form_as admin
 
-        # Filter on model attribute 'name'
-        set_filter('name_and_identifier',
-                   'Name or identifier',
-                   'doesn\'t contain',
-                   ['Plain'])
+    scenario 'Name and identifier gives results in both, name and identifier' do
+      visit_list_and_open_filter_form_as admin
 
-        click_on 'Filter'
+      # Filter on model attribute 'name'
+      set_filter('name_and_identifier',
+                 'Name or identifier',
+                 'doesn\'t contain',
+                 ['Plain'])
 
-        expect(page).to have_text(development_project.name)
-        expect(page).to have_text(public_project.name)
-        expect(page).to_not have_text(project.name)
+      click_on 'Filter'
 
-        # Filter on model attribute 'identifier'
-        page.find('li[filter-name="name_and_identifier"] .filter_rem').click
+      expect(page).to have_text(development_project.name)
+      expect(page).to have_text(public_project.name)
+      expect(page).to_not have_text(project.name)
 
-        set_filter('name_and_identifier',
-                   'Name or identifier',
-                   'is',
-                   ['plain-project'])
+      # Filter on model attribute 'identifier'
+      page.find('li[filter-name="name_and_identifier"] .filter_rem').click
 
-        click_on 'Filter'
+      set_filter('name_and_identifier',
+                 'Name or identifier',
+                 'is',
+                 ['plain-project'])
 
-        expect(page).to have_text(project.name)
-        expect(page).to_not have_text(development_project.name)
-        expect(page).to_not have_text(public_project.name)
-      end
+      click_on 'Filter'
+
+      expect(page).to have_text(project.name)
+      expect(page).to_not have_text(development_project.name)
+      expect(page).to_not have_text(public_project.name)
     end
 
-    # scenario 'Active or archived' do
-    #   visit_list_and_open_filter_form_as admin
-    #
-    #   # value selection defaults to "active"'
-    #
-    #   # Filter has three operators 'all', 'active' and 'archived'
-    # end
+    feature 'Active or archived' do
+      let!(:archived_project) do
+        FactoryGirl.create(:project,
+                           name: 'Archived project',
+                           identifier: 'archived-project',
+                           status: Project::STATUS_ARCHIVED)
+      end
+
+      scenario 'filter on "status"' do
+        visit_list_and_open_filter_form_as admin
+
+        # value selection defaults to "active"'
+        expect(page).to have_css('li[filter-name="status"]')
+
+        # Filter has three operators 'all', 'active' and 'archived'
+        expect(page.find('li[filter-name="status"] select[name="operator"] option[value="*"]')).to have_text('all')
+        expect(page.find('li[filter-name="status"] select[name="operator"] option[value="="]')).to have_text('is')
+        expect(page.find('li[filter-name="status"] select[name="operator"] option[value="!"]')).to have_text('is not')
+
+        expect(page).to_not have_text('Archived project')
+        expect(page).to have_text('Plain project')
+        expect(page).to have_text('Development project')
+        expect(page).to have_text('Public project')
+      end
+    end
 
     feature "Created on" do
       feature "selecting operator" do
