@@ -1165,6 +1165,7 @@ en:
   label_file_plural: "Files"
   label_filter_add: "Add filter"
   label_filter_plural: "Filters"
+  label_filters_toggle: "Show/hide filters"
   label_float: "Float"
   label_folder: "Folder"
   label_follows: "follows"

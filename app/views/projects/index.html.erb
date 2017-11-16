@@ -46,7 +46,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </li>
   <% end %>
   <li class="toolbar-item">
-    <button id="projects-filter-toggle-button" class="button toolbar-icon <%= filter_set? ? '-active' : '' %>">
+    <button id="projects-filter-toggle-button" title="<%= t(:label_filters_toggle) %>" class="button toolbar-icon <%= filter_set? ? '-active' : '' %>">
       <op-icon icon-classes="icon-filter button--icon"></op-icon>
     </button>
   </li>
