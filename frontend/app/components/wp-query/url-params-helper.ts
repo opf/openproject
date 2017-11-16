@@ -32,7 +32,7 @@ import {PathHelperService} from '../common/path-helper/path-helper.service';
 
 export class UrlParamsHelperService {
 
-  public constructor(public PaginationService:any, public PathHelper:PathHelperService) {
+  public constructor(public paginationService:any, public PathHelper:PathHelperService) {
 
   }
 
@@ -115,7 +115,7 @@ export class UrlParamsHelperService {
 
   public buildV3GetQueryFromJsonParams(updateJson:any) {
     var queryData:any = {
-      pageSize: this.PaginationService.getPerPage()
+      pageSize: this.paginationService.getPerPage()
     }
 
     if (!updateJson) {

@@ -51,6 +51,7 @@ import {
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import { WorkPackageTablePaginationComponent } from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
+import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 
 
 @NgModule({
@@ -63,6 +64,7 @@ import { WorkPackageTablePaginationComponent } from 'core-components/wp-table/ta
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('states', States),
     upgradeService('paginationService', PaginationService),
+    upgradeService('wpTablePagination', WorkPackageTablePaginationService),
     upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
     upgradeService('wpTableTimeline', WorkPackageTableTimelineService),
     upgradeService('wpNotificationsService', WorkPackageNotificationService),
