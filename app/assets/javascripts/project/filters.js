@@ -46,6 +46,8 @@ jQuery(function($) {
     $('#ajax-indicator').show();
     let $advancedFilters = $(".advanced-filters--filter:not(.hidden)", $filterForm);
     let filters = [];
+    let orderParam = getUrlParameter('sort');
+
     $advancedFilters.each(function(_i, filter){
       let $filter = $(filter);
       let filterName = $filter.attr('filter-name');
@@ -130,14 +132,19 @@ jQuery(function($) {
             filterParam[filterName] = {
               'operator': operator,
               'values': [value]
-            }
+            };
             // only add filter if a value is present.
             filters.push(filterParam);
           }
         }
       }
-    })
+    });
+
     let query = '?filters=' + encodeURIComponent(JSON.stringify(filters));
+    if (orderParam && orderParam.length > 0) {
+      query = query + '&sort=' + encodeURIComponent(orderParam);
+    }
+
     window.location = window.location.pathname + query;
     return false;
   }
@@ -215,4 +222,21 @@ jQuery(function($) {
   $('select[name="operator"]', $filterForm).on('change', setValueVisibility)
   $('#add_filter_select', $filterForm).on('change', addFilter);
   $('.filter_rem', $filterForm).on('click', removeFilter);
+
+
+  // Helpers
+  function getUrlParameter(sParam) {
+    var sPageURL = decodeURIComponent(window.location.search.substring(1)),
+      sURLVariables = sPageURL.split('&'),
+      sParameterName,
+      i;
+
+    for (i = 0; i < sURLVariables.length; i++) {
+      sParameterName = sURLVariables[i].split('=');
+
+      if (sParameterName[0] === sParam) {
+        return sParameterName[1] === undefined ? true : sParameterName[1];
+      }
+    }
+  };
 });
