@@ -14,13 +14,19 @@ de:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "kann nur die IDs von Arbeitspaketen des aktuellen Sprints enthalten."
               must_block_at_least_one_work_package: "muss die ID von mindestens einem Arbeitspaket enthalten."
+            parent_id:
+              type_must_be_one_of_the_following: 'muss einer der folgenden Typen sein: %{type_names}.'
+        sprint:
+          cannot_end_before_it_starts: "Sprint kann nicht enden, bevor er begonnen hat."
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "muss der Version der Story entsprechen."
             parent_id:
               parent_child_relationship_across_projects: "ist ungültig da '%{work_package_name}' ein backlog Task ist und daher kein Eltern-Arbeitspaket außerhalb  des jetzigen Projekts haben kann."
-              type_must_be_one_of_the_following: 'muss einer der folgenden Typen sein: %{type_names}.'
-        sprint:
-          cannot_end_before_it_starts: "Sprint kann nicht enden, bevor er begonnen hat."
   backlogs:
     add_new_story: "Neue Story"
     any: "beliebig"

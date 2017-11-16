@@ -14,13 +14,20 @@ ko:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "은(는) 현재 스프린트에서 작업 패키지의 ID만 포함할 수 있습니다."
               must_block_at_least_one_work_package: "은(는) 티켓 하나 이상의 ID를 포함해야 합니다."
+            parent_id:
+              type_must_be_one_of_the_following: 유형은 다음 중 하나여야 합니다. %{type_names}.
+        sprint:
+          cannot_end_before_it_starts: "스프린트는 시작되기 전에 끝날 수 없습니다."
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "은(는) 스토리의 버전과 동일해야 합니다."
             parent_id:
               parent_child_relationship_across_projects: "은(는) 유효하지 않습니다. 작업 패키지 '%{work_package_name}'이(가) 백로그 작업이기 때문입니다. 따라서 현재 프로젝트 외부에 부모가 있을 수 없습니다."
-              type_must_be_one_of_the_following: 유형은 다음 중 하나여야 합니다. %{type_names}.
-        sprint:
-          cannot_end_before_it_starts: "스프린트는 시작되기 전에 끝날 수 없습니다."
+
   backlogs:
     add_new_story: "새로운 스토리"
     any: "모두"

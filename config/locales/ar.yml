@@ -14,13 +14,19 @@ ar:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "يمكن أن تحتوي فقط على الهويات المعرّفة لمجموعات العمل في السباق الحالي."
               must_block_at_least_one_work_package: "يجب أن يحتوي على الأقل على الهوية المعرّفة لبطاقة واحدة."
+            parent_id:
+              type_must_be_one_of_the_following: 'النوع يجب أن يكون أحد الأنواع التالية: %{type_names}.'
+        sprint:
+          cannot_end_before_it_starts: "لا يمكن أن ينتهي السباق قبل أن يبدأ."
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "يجب أن يكون مطابقًا لنسخة القصة."
             parent_id:
               parent_child_relationship_across_projects: "هو غير صالح لأن مجموعة العمل '%{work_package_name}' هي مهمة عمل متراكم غير منجز ولذلك لا يمكن أن يكون أحد الأصول خارج المشروع الحالي."
-              type_must_be_one_of_the_following: 'النوع يجب أن يكون أحد الأنواع التالية: %{type_names}.'
-        sprint:
-          cannot_end_before_it_starts: "لا يمكن أن ينتهي السباق قبل أن يبدأ."
   backlogs:
     add_new_story: "قصة جديدة"
     any: "أي"

@@ -66,6 +66,7 @@ Feature: Team Member
         | view_work_packages  |
         | edit_work_packages  |
         | manage_subtasks     |
+        | add_work_packages   |
     And the user "paul" is a "team member"
     And the project has the following sprints:
         | name       | start_date | effective_date |

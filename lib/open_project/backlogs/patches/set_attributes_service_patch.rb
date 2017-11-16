@@ -33,46 +33,59 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RbTasksController < RbApplicationController
-
-  # This is a constant here because we will recruit it elsewhere to whitelist
-  # attributes. This is necessary for now as we still directly use `attributes=`
-  # in non-controller code.
-  PERMITTED_PARAMS = ["id", "subject", "assigned_to_id", "remaining_hours", "parent_id",
-                      "estimated_hours", "status_id", "sprint_id"]
-
-  def create
-    call = Tasks::CreateService
-           .new(user: current_user)
-           .call(attributes: task_params.merge(project: @project), prev: params[:prev])
-
-    respond_with_task call
+module OpenProject::Backlogs::Patches::SetAttributesServicePatch
+  def self.included(base)
+    base.prepend InstanceMethods
   end
 
-  def update
-    task = Task.find(task_params[:id])
+  module InstanceMethods
+    def set_attributes(attributes)
+      super
 
-    call = Tasks::UpdateService
-           .new(user: current_user, task: task)
-           .call(attributes: task_params, prev: params[:prev])
+      if work_package.parent_id_changed? &&
+         work_package.parent_id &&
+         !work_package.fixed_version_id_changed? &&
+         work_package.in_backlogs_type?
 
-    respond_with_task call
-  end
+        closest = closest_story_or_impediment(work_package.parent_id)
+        work_package.fixed_version_id = closest.fixed_version_id if closest
+      end
+    end
 
-  private
+    def closest_story_or_impediment(parent_id)
+      return work_package if work_package.is_story? || work_package.is_impediment?
+      closest = nil
+      ancestor_chain(parent_id).each do |i|
+        # break if we found an element in our chain that is not relevant in backlogs
+        break unless i.in_backlogs_type?
+        if i.is_story? || i.is_impediment?
+          closest = i
+          break
+        end
+      end
+      closest
+    end
 
-  def respond_with_task(call)
-    status = call.success? ? 200 : 400
-    @task = call.result
+    # ancestors array similar to Module#ancestors
+    # i.e. returns immediate ancestors first
+    def ancestor_chain(parent_id)
+      ancestors = []
+      unless parent_id.nil?
+        real_parent = WorkPackage.find_by(id: parent_id)
 
-    @include_meta = true
+        # Sort immediate ancestors first
+        ancestors = real_parent
+                    .ancestors
+                    .includes(project: :enabled_modules)
+                    .order_by_ancestors('desc')
+                    .select('work_packages.*, COALESCE(max_depth.depth, 0)')
 
-    respond_to do |format|
-      format.html { render partial: 'task', object: @task, status: status }
+        ancestors = [real_parent] + ancestors
+      end
+      ancestors
     end
   end
-
-  def task_params
-    params.permit(PERMITTED_PARAMS)
-  end
 end
+
+
+

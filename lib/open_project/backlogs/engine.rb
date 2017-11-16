@@ -135,6 +135,10 @@ module OpenProject::Backlogs
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :DemoData, :ProjectSeeder
+    patch_with_namespace :WorkPackages, :UpdateAncestorsService
+    patch_with_namespace :WorkPackages, :UpdateService
+    patch_with_namespace :WorkPackages, :SetAttributesService
+    patch_with_namespace :WorkPackages, :BaseContract
 
     extend_api_response(:v3, :work_packages, :work_package) do
       property :position,

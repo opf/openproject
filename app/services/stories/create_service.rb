@@ -33,46 +33,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RbTasksController < RbApplicationController
+class Stories::CreateService
+  attr_accessor :user
 
-  # This is a constant here because we will recruit it elsewhere to whitelist
-  # attributes. This is necessary for now as we still directly use `attributes=`
-  # in non-controller code.
-  PERMITTED_PARAMS = ["id", "subject", "assigned_to_id", "remaining_hours", "parent_id",
-                      "estimated_hours", "status_id", "sprint_id"]
-
-  def create
-    call = Tasks::CreateService
-           .new(user: current_user)
-           .call(attributes: task_params.merge(project: @project), prev: params[:prev])
-
-    respond_with_task call
+  def initialize(user:)
+    self.user = user
   end
 
-  def update
-    task = Task.find(task_params[:id])
+  def call(attributes: {}, prev: nil)
+    create_call = WorkPackages::CreateService
+                  .new(user: user)
+                  .call(attributes: attributes)
 
-    call = Tasks::UpdateService
-           .new(user: current_user, task: task)
-           .call(attributes: task_params, prev: params[:prev])
-
-    respond_with_task call
-  end
-
-  private
-
-  def respond_with_task(call)
-    status = call.success? ? 200 : 400
-    @task = call.result
-
-    @include_meta = true
-
-    respond_to do |format|
-      format.html { render partial: 'task', object: @task, status: status }
+    if create_call.success?
+      create_call.result.move_after prev
     end
-  end
 
-  def task_params
-    params.permit(PERMITTED_PARAMS)
+    create_call
   end
 end

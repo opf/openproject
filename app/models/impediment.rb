@@ -1,6 +1,7 @@
 #-- copyright
 # OpenProject Backlogs Plugin
 #
+#
 # Copyright (C)2013-2014 the OpenProject Foundation (OPF)
 # Copyright (C)2011 Stephan Eckardt, Tim Felgentreff, Marnen Laibow-Koser, Sandro Munda
 # Copyright (C)2010-2011 friflaj
@@ -55,15 +56,6 @@ class Impediment < Task
     @blocks_ids_list ||= block_ids
   end
 
-  def self.create_with_relationships(params, project_id)
-    create_with_relationships_without_move(params, project_id)
-  end
-
-
-  def update_with_relationships(params, _is_impediment = false)
-    update_with_relationships_without_move(params)
-  end
-
   private
 
   def update_blocks_list
@@ -74,8 +66,8 @@ class Impediment < Task
     if blocks_ids.size == 0
       errors.add :blocks_ids, :must_block_at_least_one_work_package
     else
-      work_packages = WorkPackage.where(id: blocks_ids)
-      errors.add :blocks_ids, :can_only_contain_work_packages_of_current_sprint if work_packages.size == 0 || work_packages.any? { |i| i.fixed_version != fixed_version }
+      other_version_ids = WorkPackage.where(id: blocks_ids).pluck(:fixed_version_id).uniq
+      errors.add :blocks_ids, :can_only_contain_work_packages_of_current_sprint if other_version_ids.size != 1 || other_version_ids[0] != fixed_version_id
     end
   end
 end

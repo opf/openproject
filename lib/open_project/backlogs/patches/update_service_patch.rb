@@ -33,46 +33,44 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RbTasksController < RbApplicationController
-
-  # This is a constant here because we will recruit it elsewhere to whitelist
-  # attributes. This is necessary for now as we still directly use `attributes=`
-  # in non-controller code.
-  PERMITTED_PARAMS = ["id", "subject", "assigned_to_id", "remaining_hours", "parent_id",
-                      "estimated_hours", "status_id", "sprint_id"]
-
-  def create
-    call = Tasks::CreateService
-           .new(user: current_user)
-           .call(attributes: task_params.merge(project: @project), prev: params[:prev])
-
-    respond_with_task call
+module OpenProject::Backlogs::Patches::UpdateServicePatch
+  def self.included(base)
+    base.prepend InstanceMethods
   end
 
-  def update
-    task = Task.find(task_params[:id])
+  module InstanceMethods
+    def update_descendants
+      super_result = super
 
-    call = Tasks::UpdateService
-           .new(user: current_user, task: task)
-           .call(attributes: task_params, prev: params[:prev])
+      if work_package.in_backlogs_type? && work_package.fixed_version_id_changed?
+        inherit_version_to_descendants(super_result)
+      end
 
-    respond_with_task call
-  end
+      super_result
+    end
 
-  private
+    def inherit_version_to_descendants(result)
+      all_descendants = work_package
+                          .descendants
+                          .includes(:parent_relation, project: :enabled_modules)
+                          .order('relations.hierarchy asc')
+                          .select('work_packages.*, relations.hierarchy')
+      stop_descendants_ids = []
 
-  def respond_with_task(call)
-    status = call.success? ? 200 : 400
-    @task = call.result
+      descendant_tasks = all_descendants.reject do |t|
+        if stop_descendants_ids.include?(t.parent_relation.from_id) || !t.is_task?
+          stop_descendants_ids << t.id
+        end
+      end
 
-    @include_meta = true
+      attributes = { fixed_version_id: work_package.fixed_version_id }
 
-    respond_to do |format|
-      format.html { render partial: 'task', object: @task, status: status }
+      descendant_tasks.each do |task|
+        result.add_dependent!(set_attributes(attributes, task))
+      end
     end
   end
-
-  def task_params
-    params.permit(PERMITTED_PARAMS)
-  end
 end
+
+
+

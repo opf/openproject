@@ -14,13 +14,19 @@ ca:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "només pot contenir els IDs dels paquets de treball de l'esprint actual."
               must_block_at_least_one_work_package: "ha de contenir l'ID d'almenys un tiquet."
+            parent_id:
+              type_must_be_one_of_the_following: 'Tipus ha de ser un dels següents: %{type_names}.'
+        sprint:
+          cannot_end_before_it_starts: "L'sprint no pot acabar abans de que comenci."
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "ha de ser el mateix que la versió de la història."
             parent_id:
               parent_child_relationship_across_projects: "no és vàlid perquè el paquet de treball '%{work_package_name}' és una tasca de la llista de pendents i per tant no pot tenir un pare fora el projecte actual."
-              type_must_be_one_of_the_following: 'Tipus ha de ser un dels següents: %{type_names}.'
-        sprint:
-          cannot_end_before_it_starts: "L'sprint no pot acabar abans de que comenci."
   backlogs:
     add_new_story: "Nova història"
     any: "qualsevol"

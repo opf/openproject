@@ -33,46 +33,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class RbTasksController < RbApplicationController
+module OpenProject::Backlogs::Patches::BaseContractPatch
+  def self.included(base)
+    base.class_eval do
+      validate :validate_has_parents_fixed_version
+      validate :validate_parent_work_package_relation
 
-  # This is a constant here because we will recruit it elsewhere to whitelist
-  # attributes. This is necessary for now as we still directly use `attributes=`
-  # in non-controller code.
-  PERMITTED_PARAMS = ["id", "subject", "assigned_to_id", "remaining_hours", "parent_id",
-                      "estimated_hours", "status_id", "sprint_id"]
+      private
 
-  def create
-    call = Tasks::CreateService
-           .new(user: current_user)
-           .call(attributes: task_params.merge(project: @project), prev: params[:prev])
+      def validate_has_parents_fixed_version
+        if model.is_task? &&
+           model.parent && model.parent.in_backlogs_type? &&
+           model.fixed_version_id != model.parent.fixed_version_id
+          errors.add :fixed_version_id, :task_version_must_be_the_same_as_story_version
+        end
+      end
 
-    respond_with_task call
-  end
+      def validate_parent_work_package_relation
+        if model.parent && parent_work_package_relationship_spanning_projects?
+          errors.add(:parent_id,
+                     :parent_child_relationship_across_projects,
+                     work_package_name: model.subject,
+                     parent_name: model.parent.subject)
+        end
+      end
 
-  def update
-    task = Task.find(task_params[:id])
-
-    call = Tasks::UpdateService
-           .new(user: current_user, task: task)
-           .call(attributes: task_params, prev: params[:prev])
-
-    respond_with_task call
-  end
-
-  private
-
-  def respond_with_task(call)
-    status = call.success? ? 200 : 400
-    @task = call.result
-
-    @include_meta = true
-
-    respond_to do |format|
-      format.html { render partial: 'task', object: @task, status: status }
+      def parent_work_package_relationship_spanning_projects?
+        model.is_task? &&
+          model.parent.in_backlogs_type? &&
+          model.parent.project_id != model.project_id
+      end
     end
-  end
-
-  def task_params
-    params.permit(PERMITTED_PARAMS)
   end
 end

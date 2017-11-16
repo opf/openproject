@@ -49,15 +49,6 @@ class Task < WorkPackage
     [type]
   end
 
-  def self.create_with_relationships(params, project_id)
-    prev = params.delete(:prev)
-    if task = create_with_relationships_without_move(params, project_id)
-      task.move_after prev
-    end
-
-    task
-  end
-
   def self.tasks_for(story_id)
     Task.children_of(story_id).order(:position).each_with_index do |task, i|
       task.rank = i + 1
@@ -69,39 +60,8 @@ class Task < WorkPackage
     self.remaining_hours = 0 if Status.find(id).is_closed?
   end
 
-  def update_with_relationships(params, _is_impediment = false)
-    prev = params.delete(:prev)
-    update_with_relationships_without_move(params).tap do |result|
-      move_after(prev) if result
-    end
-  end
-
   def rank=(r)
     @rank = r
-  end
-
-  def self.create_with_relationships_without_move(params, project_id)
-    # Important, otherwise attributes= fails with unknown attribute error.
-    _prev = params.delete(:prev)
-
-    task = new
-
-    task.author = User.current
-    task.project_id = project_id
-    task.type_id = Task.type
-
-    task.attributes = params
-
-    task.save
-
-    task
-  end
-
-  def update_with_relationships_without_move(params)
-    prev = params.delete(:prev)
-    self.attributes = params
-
-    save
   end
 
   attr_reader :rank

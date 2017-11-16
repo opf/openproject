@@ -52,6 +52,7 @@ Feature: Scrum Master
         | update_stories          |
         | create_impediments      |
         | update_impediments      |
+        | add_work_packages       |
         | update_tasks            |
         | view_wiki_pages         |
         | edit_wiki_pages         |
