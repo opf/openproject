@@ -174,5 +174,11 @@ FactoryGirl.define do
       field_format 'text'
       sequence(:name) { |n| "TimeEntryCustomField #{n}" }
     end
+
+    factory :project_custom_field, class: ProjectCustomField do
+      field_format 'text'
+      type 'ProjectCustomField'
+      sequence(:name) { |n| "ProjectCustomField #{n}" }
+    end
   end
 end

@@ -180,11 +180,11 @@ See doc/COPYRIGHT.rdoc for more details.
               </div>
             <% elsif filter.type == :integer %>
               <div>
-                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim', step: "any"  %>
+                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim', step: 'any'  %>
               </div>
             <% elsif filter.type == :float %>
               <div>
-                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim', step: "any"%>
+                <%= number_field_tag :value, filter.values.first, class: 'advanced-filters--text-field -slim', step: 'any' %>
               </div>
             <% end %>
             </div>
@@ -290,7 +290,7 @@ See doc/COPYRIGHT.rdoc for more details.
                       <% if custom_field.field_format == 'string' %>
                         <%= project.custom_value_for(custom_field).value.to_s %>
                       <% elsif custom_field.field_format == 'text' %>
-                        <%= project.custom_value_for(custom_field).value.gsub(/\A(.{20}[^\n\r]*).*\z/m, '\1...').strip %>
+                        <%= project.custom_value_for(custom_field).try(:value).try(:gsub, /\A(.{20}[^\n\r]*).*\z/m, '\1...').try(:strip) %>
                       <% elsif custom_field.field_format == 'bool' %>
                         <%= project.custom_value_for(custom_field).formatted_value %>
                       <% elsif custom_field.field_format == 'list' %>
