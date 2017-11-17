@@ -31,9 +31,17 @@
   padding: rem-calc(10px)
   max-height: 50vh
   overflow-y: auto
+  position: relative
 
   &.collapsed
     display: none
+
+  .advanced-filters--close
+    position: absolute
+    top: 0.75rem
+    right: 0.75rem
+    width: 1rem
+    z-index: 2
 
 @mixin advanced-filters--sizing()
   @include grid-block()

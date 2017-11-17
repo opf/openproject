@@ -1,6 +1,7 @@
 <fieldset id="filters" class="advanced-filters--container">
   <legend ng-bind="I18n.t('js.label_selected_filter_list')"></legend>
 
+  <a title="{{ ::I18n.t('js.close_form_title') }}" class="advanced-filters--close icon-context icon-close" ng-click="closeFilter()"></a>
   <ul class="advanced-filters--filters">
     <li query-filter
         ng-repeat="filter in filters.current"

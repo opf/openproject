@@ -4,6 +4,10 @@ module Members
       false
     end
 
+    def has_close_icon?
+      true
+    end
+
     ##
     # Adapts the user filter counts to count members as opposed to users.
     def extra_user_status_options
