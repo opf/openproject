@@ -31,7 +31,7 @@ require 'features/projects/projects_page'
 
 describe 'user deletion: ', type: :feature, js: true do
   before do
-    page.set_rack_session(user_id: current_user.id)
+    page.set_rack_session(user_id: current_user.id, updated_at: Time.now)
   end
 
   context 'regular user' do

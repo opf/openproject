@@ -51,26 +51,6 @@ describe AccountController, type: :controller do
     assert_template 'login'
   end
 
-  it 'should login should reset session' do
-    expect(@controller).to receive(:reset_session).once
-
-    post :login, params: { username: 'jsmith', password: 'jsmith' }
-    assert_response 302
-  end
-
-  it 'should login with logged account' do
-    session[:user_id] = 2
-    get :login
-    assert_redirected_to home_url
-  end
-
-  it 'should logout' do
-    session[:user_id] = 2
-    get :logout
-    assert_redirected_to '/'
-    assert_nil session[:user_id]
-  end
-
   it 'should logout should reset session' do
     expect(@controller).to receive(:reset_session).once
 

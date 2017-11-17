@@ -40,7 +40,7 @@ end
 
 Given /^I am logged in$/ do
   @user = FactoryGirl.create :user
-  page.set_rack_session(user_id: @user.id)
+  page.set_rack_session(user_id: @user.id, updated_at: Time.now)
 end
 
 When(/^I log out in the background$/) do
@@ -66,13 +66,13 @@ end
 Given /^(?:|I )am already [aA]dmin$/ do
   admin = User.find_by(admin: true)
   # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(user_id: admin.id)
+  page.set_rack_session(user_id: admin.id, updated_at: Time.now)
 end
 
 Given /^I am already logged in as "(.+?)"$/ do |login|
   user = User.find_by_login(login)
   # see https://github.com/railsware/rack_session_access
-  page.set_rack_session(user_id: user.id)
+  page.set_rack_session(user_id: user.id, updated_at: Time.now)
 end
 
 Given /^(?:|I )am logged in as "([^\"]*)"$/ do |username|

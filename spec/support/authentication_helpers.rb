@@ -35,7 +35,7 @@ module AuthenticationHelpers
       # we must set the user_id in rack.session accordingly
       # Otherwise e.g. calls to Warden will behave unexpectantly
       # as they will login AnonymousUser
-      page.set_rack_session(user_id: user.id)
+      page.set_rack_session(user_id: user.id, updated_at: Time.now)
     end
 
     allow(User).to receive(:current).and_return(user)
