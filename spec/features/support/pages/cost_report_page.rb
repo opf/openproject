@@ -10,6 +10,19 @@ module Pages
       click_on 'Clear'
     end
 
+    def save(as:, public: false)
+      click_on 'Save'
+      fill_in 'query_name', with: as
+
+      if public
+        check 'Public'
+      end
+
+      page.within('#save_as_form') do
+        click_on 'Save'
+      end
+    end
+
     def switch_to_type(label)
       choose label
       apply
