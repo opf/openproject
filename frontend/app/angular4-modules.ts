@@ -30,12 +30,16 @@ import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {UpgradeModule} from '@angular/upgrade/static';
+import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {States} from 'core-components/states.service';
+import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageDisplayFieldService} from 'core-components/wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
+import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
+import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
 import {WorkPackageTableTimelineStaticElements} from 'core-components/wp-table/timeline/global-elements/wp-timeline-static-elements.directive';
@@ -52,10 +56,6 @@ import {
   upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
-import {PaginationService} from 'core-components/table-pagination/pagination-service';
-import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
-import { WorkPackageTablePaginationComponent } from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
-import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 
 
 @NgModule({
