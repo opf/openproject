@@ -298,4 +298,15 @@ describe Project, type: :model do
       expect(project.allowed_parent?(other_project)).to be_falsey
     end
   end
+
+  describe '#visible' do
+    let!(:public_project) {
+      FactoryGirl.create(:project, is_public: true)
+    }
+    it 'shows public projects' do
+      public_project
+      allow(User).to receive(:current).and_return(user)
+      expect(Project.all.visible).to include(public_project)
+    end
+  end
 end
