@@ -147,7 +147,6 @@ class WorkPackageField
            'responsible',
            'priority',
            'project',
-           'status',
            'type',
            'version',
            'category'

@@ -29,13 +29,15 @@
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
 class WpStatusContextMenuController {
   public status:CollectionResource[] = [];
 
   constructor(protected $timeout:ng.ITimeoutService,
               protected $scope:ng.IScope,
-              protected wpEditing:WorkPackageEditingService) {
+              protected wpEditing:WorkPackageEditingService,
+              protected wpNotificationsService:WorkPackageNotificationService) {
     const wp = $scope.workPackage;
     var changeset = wpEditing.changesetFor(wp);
     $scope.$ctrl = this;
@@ -52,7 +54,9 @@ class WpStatusContextMenuController {
     this.$scope.updateStatus = function (status:any) {
       changeset.setValue('status', status);
       if(!wp.isNew) {
-        changeset.save();
+        changeset.save().then(() => {
+          wpNotificationsService.showSave(wp);
+        });
       }
     };
   }

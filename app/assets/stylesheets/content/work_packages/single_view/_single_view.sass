@@ -26,9 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$status-selector-bg-color: #f99601
-$status-selector-bg-hover-color: #e08600
-
 @mixin details-pane--form-field
   @include grid-visible-overflow
   padding: 0
@@ -187,7 +184,7 @@ i
   font-size: 0.9rem
 
   &:before
-    @include varprop(color, $body-font-color)
+    @include varprop(color, body-font-color)
 
 // Special styling for project context area
 .attributes-group.-project-context
@@ -257,16 +254,22 @@ i
   .wp-status-button .button
     padding: 5px
     margin-bottom: 0
-    background-color: $status-selector-bg-color
+    @include varprop(background-color, status-selector-bg-color)
     border: none
     color: white
     white-space: nowrap
 
     &:hover
-      background-color: $status-selector-bg-hover-color
+      @include varprop(background-color, status-selector-bg-hover-color)
 
     .button--text
       margin: 0 5px
+
+  attribute-help-text .help-text--entry
+    line-height: 25px
+    margin: 0 10px 0 -10px
+    .icon:before
+      padding: 0
 
 .work-packages--new .wp-status-button
   padding: 3px

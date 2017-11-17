@@ -216,7 +216,9 @@ module OpenProject
       'timeline--header-border-color'                        => '#aaaaaa',
       'timeline--grid-color'                                 => '#dddddd',
       'timeline--separator'                                  => '3px solid #E7E7E7',
-      'table-timeline--row-height'                           => '41px'
+      'table-timeline--row-height'                           => '41px',
+      'status-selector-bg-color'                             => '#F99601',
+      'status-selector-bg-hover-color'                       => '#E08600'
     }.freeze
 
     # Regular expression for references of other variables.

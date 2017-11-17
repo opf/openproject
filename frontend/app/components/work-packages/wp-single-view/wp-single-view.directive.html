@@ -8,6 +8,7 @@
   <wp-status-button ng-if="!$ctrl.workPackage.isNew"
                     work-package="$ctrl.workPackage"
                     allowed="$ctrl.workPackage.isEditable"></wp-status-button>
+  <attribute-help-text attribute="'status'" attribute-scope="WorkPackage"></attribute-help-text>
 
   <div class="work-packages--info-row" ng-if="!$ctrl.workPackage.isNew">
     <span ng-bind="$ctrl.idLabel"/>:
