@@ -315,5 +315,15 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       pending "shows correct results"
     end
   end
+
+  feature 'Non-admins with role with permission' do
+    scenario 'to copy project can copy that project' do
+      # TODO
+    end
+    scenario 'to create sub-projects can create sub-projects' do
+      # TODO
+    end
+  end
+
   # TODO: Rewrite old Cucumber test for archiving to RSpec.
 end
