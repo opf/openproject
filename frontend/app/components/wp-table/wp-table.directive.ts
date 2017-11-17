@@ -26,8 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Injectable} from '@angular/core';
-import {downgradeInjectable} from '@angular/upgrade/static';
+import {AfterViewInit, Component, ElementRef, Inject, Injectable} from '@angular/core';
+import {downgradeComponent, downgradeInjectable} from '@angular/upgrade/static';
+import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {Observable} from 'rxjs/Observable';
 import openprojectModule from '../../angular-modules';
 import {scopedObservable} from '../../helpers/angular-rx-utils';
@@ -38,7 +39,6 @@ import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-co
 import {WorkPackageTableGroupByService} from '../wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTableTimelineService} from '../wp-fast-table/state/wp-table-timeline.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
-import {KeepTabService} from '../wp-panels/keep-tab/keep-tab.service';
 import {WorkPackageTimelineTableController} from './timeline/container/wp-timeline-container.directive';
 import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
@@ -56,74 +56,39 @@ openprojectModule.factory(
   'workPackagesTableControllerHolder',
   downgradeInjectable(WorkPackagesTableControllerHolder));
 
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpTable', wpTable);
 
-function wpTable(keepTab:KeepTabService,
-                 PathHelper:any,
-                 columnsModal:any,
-                 contextMenu:ContextMenuService):any {
-  return {
-    restrict: 'E',
-    replace: true,
-    templateUrl: '/components/wp-table/wp-table.directive.html',
-    scope: {
-      projectIdentifier: '='
-    },
+@Component({
+  template: require('!!raw-loader!./wp-table.directive.html')
+})
+export class WorkPackagesTableController implements AfterViewInit {
 
-    controller: WorkPackagesTableController,
+  private $element:JQuery;
 
-    link: function(scope:any,
-                   element:ng.IAugmentedJQuery,
-                   attributes:ng.IAttributes) {
-
-      scope.workPackagePath = PathHelper.workPackagePath;
-
-      var topMenuHeight = angular.element('#top-menu').prop('offsetHeight') || 0;
-      scope.adaptVerticalPosition = function(event:JQueryEventObject) {
-        event.pageY -= topMenuHeight;
-      };
-
-      // Set and keep the current details tab state remembered
-      // for the open-in-details button in each WP row.
-      scope.desiredSplitViewState = keepTab.currentDetailsState;
-      scopedObservable(scope, keepTab.observable).subscribe((tabs:any) => {
-        scope.desiredSplitViewState = tabs.details;
-      });
-
-
-      /** Open the settings modal */
-      scope.openColumnsModal = function() {
-        contextMenu.close();
-        columnsModal.activate();
-      };
-    }
-  };
-}
-
-export class WorkPackagesTableController {
-
-  private readonly scrollSyncUpdate = createScrollSync(this.$element);
+  private scrollSyncUpdate:(timelineVisible:boolean) => any;
 
   public table:HTMLElement;
 
   public timeline:HTMLElement;
 
-  constructor(private $scope:any,
-              public $element:ng.IAugmentedJQuery,
-              workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
-              $rootScope:ng.IRootScopeService,
-              states:States,
-              I18n:op.I18n,
-              wpTableGroupBy:WorkPackageTableGroupByService,
-              wpTableTimeline:WorkPackageTableTimelineService,
-              wpTableColumns:WorkPackageTableColumnsService) {
+  constructor(private elementRef:ElementRef,
+              @Inject(columnsModalToken) private columnsModal:any,
+              private contextMenu:ContextMenuService,
+              private workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
+              private states:States,
+              @Inject(I18nToken) private I18n:op.I18n,
+              private wpTableGroupBy:WorkPackageTableGroupByService,
+              private wpTableTimeline:WorkPackageTableTimelineService,
+              private wpTableColumns:WorkPackageTableColumnsService) {
 
     workPackagesTableControllerHolder.instance = this;
+  }
+
+  ngAfterViewInit():void {
+    this.$element = jQuery(this.elementRef.nativeElement);
+    this.scrollSyncUpdate = createScrollSync(this.$element);
 
     // Clear any old table subscribers
-    states.table.stopAllSubscriptions.next();
+    this.states.table.stopAllSubscriptions.next();
 
     $scope.locale = I18n.locale;
 
@@ -185,7 +150,6 @@ export class WorkPackagesTableController {
     });
   }
 
-
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
     var t0 = performance.now();
 
@@ -199,6 +163,11 @@ export class WorkPackagesTableController {
     debugLog('Render took ' + (t1 - t0) + ' milliseconds.');
   }
 
+  public openColumnsModal() {
+    this.contextMenu.close();
+    this.columnsModal.activate();
+  }
+
   private getTableAndTimelineElement():[HTMLElement, HTMLElement] {
     const $tableSide = this.$element.find('.work-packages-tabletimeline--table-side');
     const $timelineSide = this.$element.find('.work-packages-tabletimeline--timeline-side');
@@ -210,3 +179,20 @@ export class WorkPackagesTableController {
     return [$tableSide[0], $timelineSide[0]];
   }
 }
+
+// angular
+//   .module('openproject.workPackages.directives')
+//   .directive('wpTable', wpTable);
+
+// function wpTable():any {
+//   return {
+//     scope: {
+//       projectIdentifier: '='
+//     },
+//   };
+// }
+
+angular
+  .module('openproject.workPackages.directives')
+  .directive('wpTable',
+    downgradeComponent({component: WorkPackagesTableController}));

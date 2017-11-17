@@ -41,8 +41,12 @@ import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeli
 import {WorkPackageTableTimelineStaticElements} from 'core-components/wp-table/timeline/global-elements/wp-timeline-static-elements.directive';
 import {WorkPackageTableTimelineGrid} from 'core-components/wp-table/timeline/grid/wp-timeline-grid.directive';
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
-import {WorkPackagesTableControllerHolder} from 'core-components/wp-table/wp-table.directive';
 import {
+  WorkPackagesTableController,
+  WorkPackagesTableControllerHolder
+} from 'core-components/wp-table/wp-table.directive';
+import {
+  columnsModalToken,
   I18nToken,
   NotificationsServiceToken,
   upgradeService,
@@ -70,7 +74,8 @@ import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/s
     upgradeService('wpNotificationsService', WorkPackageNotificationService),
     upgradeService('wpTableHierarchies', WorkPackageTableHierarchiesService),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
-    upgradeServiceWithToken('I18n', I18nToken)
+    upgradeServiceWithToken('I18n', I18nToken),
+    upgradeServiceWithToken('columnsModal', columnsModalToken)
   ],
   declarations: [
     TablePaginationComponent,
@@ -80,11 +85,13 @@ import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/s
     WorkPackageTableTimelineStaticElements,
     WorkPackageTableTimelineGrid,
     WorkPackageTimelineTableController,
+    WorkPackagesTableController,
     // WorkPackageTableSumsRowController
   ],
   entryComponents: [
     WorkPackageTimelineTableController,
     WorkPackageTablePaginationComponent,
+    WorkPackagesTableController,
     TablePaginationComponent
   ]
 })
