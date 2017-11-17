@@ -255,18 +255,6 @@ platforms :mri, :mingw, :x64_mingw do
   end
 end
 
-platforms :jruby do
-  gem 'jruby-openssl'
-
-  group :mysql do
-    gem 'activerecord-jdbcmysql-adapter'
-  end
-
-  group :postgres do
-    gem 'activerecord-jdbcpostgresql-adapter'
-  end
-end
-
 group :opf_plugins do
   gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'dev'
 end

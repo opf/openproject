@@ -622,8 +622,6 @@ DEPENDENCIES
   actionpack-xml_parser (~> 2.0.0)
   active_record_query_trace
   activemodel-serializers-xml (~> 1.0.1)
-  activerecord-jdbcmysql-adapter
-  activerecord-jdbcpostgresql-adapter
   activerecord-session_store (~> 1.1.0)
   acts_as_list (~> 0.9.9)
   acts_as_tree (~> 2.7.0)
@@ -664,7 +662,6 @@ DEPENDENCIES
   health_check
   htmldiff
   i18n-js (~> 3.0.0)
-  jruby-openssl
   json_spec (~> 1.1.4)
   launchy (~> 2.4.3)
   letter_opener
