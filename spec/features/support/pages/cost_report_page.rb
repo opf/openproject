@@ -10,6 +10,11 @@ module Pages
       click_on 'Clear'
     end
 
+    def switch_to_type(label)
+      choose label
+      apply
+    end
+
     def remove_row_element(text)
       element_name = find("#group-by--rows label", text: text)[:for]
       find("##{element_name}_remove").click

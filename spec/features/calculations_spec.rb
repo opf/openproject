@@ -36,9 +36,6 @@ describe 'Cost report calculations', type: :feature, js: true do
 
   before do
     login_as(user)
-
-
-    login_as(user)
     visit '/cost_reports?set_filter=1'
   end
 
