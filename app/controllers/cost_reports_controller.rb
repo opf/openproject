@@ -29,12 +29,12 @@ class CostReportsController < ApplicationController
 
   Widget::Base.dont_cache!
 
-  before_filter :check_cache
-  before_filter :load_all
-  before_filter :find_optional_project
-  before_filter :find_optional_user
+  before_action :check_cache
+  before_action :load_all
+  before_action :find_optional_project
+  before_action :find_optional_user
   include Report::Controller
-  before_filter :set_cost_types # has to be set AFTER the Report::Controller filters run
+  before_action :set_cost_types # has to be set AFTER the Report::Controller filters run
 
   verify method: :delete, only: %w[destroy]
   verify method: :post, only: %w[create, update, rename]
