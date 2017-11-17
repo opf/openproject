@@ -2,7 +2,7 @@
      id="types-context-menu">
   <ul class="dropdown-menu" ng-class="{'-empty': $ctrl.types.length === 0 }">
     <li ng-repeat="type in $ctrl.types">
-      <a class="menu-item" ui-sref="{{$ctrl.stateName}}({type: type.id})">
+      <a class="menu-item" ui-sref="{{$ctrl.stateName}}({type: type.id})" href>
         {{ type.name }}
       </a>
     </li>

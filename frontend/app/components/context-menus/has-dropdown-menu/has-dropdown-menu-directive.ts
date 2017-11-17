@@ -50,8 +50,8 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper:any) {
         });
 
         return contextMenu.activate(menuName, event, locals, {
-          my: 'right top',
-          at: 'right bottom',
+          my: 'left top',
+          at: 'left bottom',
           of: positionRelativeTo ? element.find(positionRelativeTo) : element,
           within: collisionContainer ? angular.element(collisionContainer) : window
         });

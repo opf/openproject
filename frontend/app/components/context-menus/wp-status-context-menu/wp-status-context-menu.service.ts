@@ -27,39 +27,46 @@
 //++
 
 import {opWorkPackagesModule} from '../../../angular-modules';
-import {WorkPackageCreateService} from '../../wp-create/wp-create.service';
+import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
 
-class TypesContextMenuController {
-  public types:CollectionResource[] = [];
+class WpStatusContextMenuController {
+  public status:CollectionResource[] = [];
 
-  constructor(protected $state:ng.ui.IStateService,
-              protected $timeout:ng.ITimeoutService,
+  constructor(protected $timeout:ng.ITimeoutService,
               protected $scope:ng.IScope,
-              protected wpCreate:WorkPackageCreateService) {
-    const project = $scope.projectIdentifier;
+              protected wpEditing:WorkPackageEditingService,
+              protected wpNotificationsService:WorkPackageNotificationService) {
+    const wp = $scope.workPackage;
+    var changeset = wpEditing.changesetFor(wp);
     $scope.$ctrl = this;
 
-    wpCreate.getEmptyForm(project).then((form:any) => {
-      this.types = form.schema.type.allowedValues;
+    changeset.getForm().then((form:any) => {
+      this.status = form.schema.status.allowedValues;
 
       this.$timeout(() => {
-        // Reposition again now that types are loaded
+        // Reposition again now that status are loaded
         this.$scope.$root.$emit('repositionDropdown');
       })
     });
-  }
 
-  public get stateName() {
-    return this.$scope.stateName;
+    this.$scope.updateStatus = function (status:any) {
+      changeset.setValue('status', status);
+      if(!wp.isNew) {
+        changeset.save().then(() => {
+          wpNotificationsService.showSave(wp);
+        });
+      }
+    };
   }
 }
 
-function typesContextMenuService(ngContextMenu:any) {
+function wpStatusContextMenuService(ngContextMenu:any) {
   return ngContextMenu({
-    templateUrl: '/components/context-menus/types-context-menu/types-context-menu.service.html',
-    controller: TypesContextMenuController
+    templateUrl: '/components/context-menus/wp-status-context-menu/wp-status-context-menu.service.html',
+    controller: WpStatusContextMenuController
   });
 }
 
-opWorkPackagesModule.factory('TypesContextMenu', typesContextMenuService);
+opWorkPackagesModule.factory('WpStatusContextMenu', wpStatusContextMenuService);
