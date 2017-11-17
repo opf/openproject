@@ -301,6 +301,7 @@ describe Project, type: :model do
 
   describe '#visible' do
     let!(:public_project) {
+      Role.non_member
       FactoryGirl.create(:project, is_public: true)
     }
     it 'shows public projects' do
