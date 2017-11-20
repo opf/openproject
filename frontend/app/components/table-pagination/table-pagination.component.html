@@ -1,4 +1,4 @@
-<div class="pagination" *ngIf="pagination && totalEntries">
+<div class="pagination" *ngIf="pagination && pagination.total">
   <nav class="pagination--pages">
     <ul class="pagination--items">
 
@@ -71,22 +71,22 @@
     </ul>
   </nav>
 
-  <div class="pagination--options" *ngIf="perPageOptions && pagination.total > perPageOptions[0]">
+  <div class="pagination--options" *ngIf="perPageOptions.length > 0 && pagination.total > perPageOptions[0]">
     <ul class="pagination--items">
       <li class="pagination--label" [textContent]="text.per_page" title="{{ text.per_page }}"></li>
 
       <li *ngFor="let perPageOption of perPageOptions"
-          [ngClass]="{ '-current': perPageOption == paginationOptions.perPage }"
+          [ngClass]="{ '-current': perPageOption == pagination.perPage }"
           class="pagination--item">
 
-       <span *ngIf="perPageOption != paginationOptions.perPage">
+       <span *ngIf="perPageOption != pagination.perPage">
          <a (click)="selectPerPage(perPageOption)"
             data-click-on-keypress="[13, 32]"
             role="link"
             [textContent]="perPageOption"></a>
        </span>
 
-       <span *ngIf="perPageOption == paginationOptions.perPage">{{ perPageOption }}</span>
+       <span *ngIf="perPageOption == pagination.perPage">{{ perPageOption }}</span>
       </li>
     </ul>
   </div>

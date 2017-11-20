@@ -39,7 +39,6 @@ import {PaginationService} from 'core-components/table-pagination/pagination-ser
 import {downgradeComponent} from '@angular/upgrade/static';
 
 @Component({
-  selector: '[wpTablePagination]',
   template: require('!!raw-loader!core-components/table-pagination/table-pagination.component.html')
 })
 export class WorkPackageTablePaginationComponent extends TablePaginationComponent  implements OnDestroy {
@@ -50,13 +49,12 @@ export class WorkPackageTablePaginationComponent extends TablePaginationComponen
 
   }
 
-  ngOnInit():void {
+  public newPagination() {
     this.wpTablePagination
       .observeUntil(componentDestroyed(this))
       .subscribe((wpPagination:WorkPackageTablePagination) => {
         this.pagination = wpPagination.current;
-        this.updateCurrentRangeLabel();
-        this.updatePageNumbers();
+        this.update();
     });
   }
 

@@ -40,8 +40,8 @@ import {downgradeComponent} from '@angular/upgrade/static';
   template: require('!!raw-loader!./table-pagination.component.html')
 })
 export class TablePaginationComponent implements OnInit {
-  @Input('total_entries') totalEntriesInput:string;
-  @Output('update_results') updateResults = new EventEmitter<PaginationInstance>();
+  @Input() totalEntries:string;
+  @Output() updateResults = new EventEmitter<PaginationInstance>();
 
   public pagination:PaginationInstance;
   public text:{[key:string]:string};
@@ -50,6 +50,7 @@ export class TablePaginationComponent implements OnInit {
   public pageNumbers:number[] = [];
   public postPageNumbers:number[] = [];
   public prePageNumbers:number[] = [];
+  public perPageOptions:number[] = [];
 
   constructor(protected paginationService:PaginationService,
               @Inject(I18nToken) protected I18n:op.I18n) {
@@ -66,11 +67,18 @@ export class TablePaginationComponent implements OnInit {
     this.paginationService
       .loadPaginationOptions()
       .then((paginationOptions:IPaginationOptions) => {
-        this.pagination = new PaginationInstance(1, parseInt(this.totalEntriesInput), paginationOptions.perPage);
-
-        this.updateCurrentRangeLabel();
-        this.updatePageNumbers();
+        this.perPageOptions = paginationOptions.perPageOptions;
+        this.newPagination(paginationOptions);
       });
+  }
+
+  public newPagination(paginationOptions:IPaginationOptions) {
+    this.pagination = new PaginationInstance(1, parseInt(this.totalEntries), paginationOptions.perPage);
+  }
+
+  public update() {
+    this.updateCurrentRangeLabel();
+    this.updatePageNumbers();
   }
 
   public selectPerPage(perPage:number) {
