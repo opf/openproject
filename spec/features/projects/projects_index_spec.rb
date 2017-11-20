@@ -82,25 +82,26 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
 
     # TODO: Fix permission check so that this feature spec passes.
     #
-    # feature 'for project members' do
-    #   let!(:user) do
-    #     FactoryGirl.create(:user,
-    #                        member_in_project: development_project,
-    #                        member_through_role: developer,
-    #                        login: 'nerd',
-    #                        firstname: 'Alan',
-    #                        lastname: 'Turing')
-    #   end
-    #
-    #   scenario 'only public project or those the user is member of shall be visible' do
-    #     login_as(user)
-    #     visit projects_path
-    #     expect(page).to have_text(development_project.name)
-    #     expect(page).to have_text(public_project.name)
-    #     expect(page).to_not have_text(project.name)
-    #   end
-    #   pending "Not 'visible' CFs shall only be visible for admins"
-    # end
+    feature 'for project members' do
+      let!(:user) do
+        FactoryGirl.create(:user,
+                           member_in_project: development_project,
+                           member_through_role: developer,
+                           login: 'nerd',
+                           firstname: 'Alan',
+                           lastname: 'Turing')
+      end
+
+      scenario 'only public project or those the user is member of shall be visible' do
+        Role.non_member
+        login_as(user)
+        visit projects_path
+        expect(page).to have_text(development_project.name)
+        expect(page).to have_text(public_project.name)
+        expect(page).to_not have_text(project.name)
+      end
+      pending "Not 'visible' CFs shall only be visible for admins"
+    end
 
     feature 'for admins' do
       scenario 'test that all projects are visible' do
