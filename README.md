@@ -2,14 +2,25 @@
 
 Provides two-factor authentication.
 
-This plugin does *not yet* work with Omniauth authentication.
-
 ## Features
 
 * Let users configure their 2FA devices (SMS to mobile phone, TOTP app-based authenticator) through their My Account
 * Force users to have 2FA present on their accounts during login
 
-## Setup
+
+## Requirements
+The OpenProject 2FA plugin requires the [OpenProject Core](https://github.com/opf/openproject/) to be in the same version as the plugin.
+
+# Installation
+To install the OpenProject 2FA plugin you need to add the following line to the `Gemfile.plugins` in your OpenProject folder (if you use a different OpenProject version than OpenProject 7, adapt `:branch => "stable/7"` to your OpenProject version):
+
+`gem "openproject-two_factor_authentication", git: "https://github.com/opf/openproject-two_factor_authentication", :branch => "stable/7"`
+
+Afterwards, run:
+
+`bundle install`
+
+### Setup
 
 Enable the strategy of your choice through the configuration
 
@@ -47,6 +58,28 @@ OPENPROJECT_2FA_SNS_REGION="eu-west-1"
 OPENPROJECT_2FA_SNS_ACCESS__KEY__ID="keyid"
 OPENPROJECT_2FA_SNS_SECRET__ACCESS__KEY='secret'
 ```
+
+## Deinstallation
+
+Remove the line
+
+`gem "openproject-two_factor_authentication", git: "https://github.com/opf/openproject-two_factor_authentication", :branch => "stable/7"`
+
+from the file `Gemfile.plugins` and run:
+
+`bundle install`
+
+Bug Reporting
+-------------
+
+If you find any bugs, you can create a bug ticket at
+https://openproject.org/projects/two-factor-authentication
+
+Development
+-----------
+
+To contribute, you can create pull request on the official repository at
+`https://github.com/opf/openproject-two_factor_authentication`
 
 ## Development
 
