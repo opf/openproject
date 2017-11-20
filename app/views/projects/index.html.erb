@@ -321,29 +321,38 @@ See doc/COPYRIGHT.rdoc for more details.
                           <% if User.current.allowed_to? :add_subprojects, project %>
                             <%= li_unless_nil(link_to(t(:label_subproject_new),
                                                       new_project_path(parent_id: project),
-                                                        { class: 'icon-context icon-add',
-                                                          title: t(:label_subproject_new)})) if User.current.allowed_to?(:add_subprojects, project) %>
+                                                      class: 'icon-context icon-add',
+                                                      title: t(:label_subproject_new))) %>
                           <% end %>
                           <% if User.current.allowed_to?({action: :settings}, project) %>
-                            <%= li_unless_nil(link_to(t(:label_project_settings), {action: 'settings', id: project}, class: 'icon-context icon-settings') ) %>
+                            <%= li_unless_nil(link_to(t(:label_project_settings),
+                                                      {action: 'settings', id: project},
+                                                      class: 'icon-context icon-settings') ) %>
                           <% end %>
                         <% end %>
                         <% if User.current.admin? %>
-                          <%= li_unless_nil(link_to(t(:button_archive),
-                                                    archive_project_path(project, status: params[:status]),
-                                                    data: { confirm: t('project.archive.are_you_sure', name: project.name) },
-                                                    method: :put,
-                                                    class: 'icon-context icon-locked') ) if project.active? %>
-                          <%= li_unless_nil(link_to(t(:button_unarchive),
-                                                    unarchive_project_path(project, status: params[:status]),
-                                                    method: :put,
-                                                    class: 'icon-context icon-unlocked') ) if !project.active? && (project.parent.nil? || project.parent.active?) %>
+                          <% if project.active? %>
+                            <%= li_unless_nil(link_to(t(:button_archive),
+                                                      archive_project_path(project, status: params[:status]),
+                                                      data: { confirm: t('project.archive.are_you_sure', name: project.name) },
+                                                      method: :put,
+                                                      class: 'icon-context icon-locked') ) %>
+                          <% elsif project.parent.nil? || project.parent.active? %>
+                            <%= li_unless_nil(link_to(t(:button_unarchive),
+                                                      unarchive_project_path(project, status: params[:status]),
+                                                      method: :put,
+                                                      class: 'icon-context icon-unlocked') ) %>
+                          <% end %>
                         <% end %>
-                        <% unless project.archived? %>
-                          <%= li_unless_nil(link_to(t(:button_copy), copy_from_project_path(project, :admin), class: 'icon-context icon-copy') ) %>
+                        <% if !project.archived? && User.current.allowed_to?(:copy_projects, project) %>
+                          <%= li_unless_nil(link_to(t(:button_copy),
+                                                    copy_from_project_path(project, :admin),
+                                                    class: 'icon-context icon-copy') ) %>
                         <% end %>
                         <% if User.current.admin? %>
-                          <%= li_unless_nil(link_to(t(:button_delete), confirm_destroy_project_path(project), class: 'icon-context icon-delete') ) %>
+                          <%= li_unless_nil(link_to(t(:button_delete),
+                                                    confirm_destroy_project_path(project),
+                                                    class: 'icon-context icon-delete') ) %>
                         <% end %>
                       </ul>
                     </li>

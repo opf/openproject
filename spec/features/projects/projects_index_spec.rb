@@ -65,6 +65,10 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         case name
         when 'name_and_identifier'
           fill_in 'value', with: values.first
+        when 'status'
+          if values.size == 1
+            select values.first, from: 'value'
+          end
         end
       end
     end
@@ -77,6 +81,10 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
 
         expect(page).to_not have_text(project.name)
         expect(page).to have_text(public_project.name)
+
+        # Test that the 'More' menu stays invisible on hover
+        page.find('tbody tr').hover
+        expect(page).to_not have_css('.icon-show-more-horizontal')
       end
     end
 
@@ -108,6 +116,18 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
 
         expect(page).to have_text(public_project.name)
         expect(page).to have_text(project.name)
+
+        # Test that the 'More' menu becomes visible on hover
+        page.first('tbody tr').hover
+        expect(page).to_not have_css('.icon-show-more-horizontal')
+
+        # Test visiblity of 'more' menu list items
+        page.first('tbody tr .icon-show-more-horizontal').click
+        menu = page.find_first('tbody tr .project-actions')
+        expect(menu).to have_text('Copy')
+        expect(menu).to have_text('New subproject')
+        expect(menu).to have_text('Delete')
+        expect(menu).to have_text('Archive')
       end
       pending "test that not 'visible' CFs are visible"
     end
@@ -266,6 +286,25 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to have_text('Plain project')
         expect(page).to have_text('Development project')
         expect(page).to have_text('Public project')
+
+        # Filter on model attribute 'status'
+        set_filter('status',
+                   'Active or archived',
+                   'is',
+                   ['archived'])
+
+        click_on 'Filter'
+
+        # Test visiblity of 'more' menu list items
+        page.find('tbody tr').hover
+        page.find('tbody tr .icon-show-more-horizontal').click
+        menu = page.find('tbody tr .project-actions')
+        expect(menu).to have_text('Unarchive')
+        expect(menu).to have_text('Delete')
+        expect(menu).to_not have_text('Archive')
+        expect(menu).to_not have_text('Copy')
+        expect(menu).to_not have_text('Settings')
+        expect(menu).to_not have_text('New subproject')
       end
     end
 
@@ -316,7 +355,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
   end
 
   feature 'Non-admins with role with permission' do
-    let!(:can_copy_projects_role)   do
+    let!(:can_copy_projects_role) do
       FactoryGirl.create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
     end
     let!(:can_add_subprojects_role) do
@@ -349,8 +388,8 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       # We are not admin so we need to force the built-in roles to have them.
       Role.non_member
 
-      # Remove public projects from this list for these scenarios.
-      public_project.update_attribute :is_public, false
+      # Remove public projects from the default list for these scenarios.
+      public_project.update_attribute :status, Project::STATUS_ARCHIVED
     end
 
     scenario 'can see the "More" menu' do
@@ -377,10 +416,18 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       # 'More' menu should be invisible by default
       expect(page).not_to have_css('.icon-show-more-horizontal')
 
-
       # 'More' becomes visible on hover
       page.find('tbody tr').hover
       expect(page).to have_css('.icon-show-more-horizontal')
+
+      # Test visiblity of 'more' menu list items
+      page.find('tbody tr .icon-show-more-horizontal').click
+      menu = page.find('tbody tr .project-actions')
+      expect(menu).to have_text('Copy')
+      expect(menu).to_not have_text('New subproject')
+      expect(menu).to_not have_text('Delete')
+      expect(menu).to_not have_text('Archive')
+      expect(menu).to_not have_text('Unarchive')
 
 
       # For a project member with :add_subprojects privilege the 'More' menu is visible.
@@ -393,6 +440,16 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       # 'More' becomes visible on hover
       page.find('tbody tr').hover
       expect(page).to have_css('.icon-show-more-horizontal')
+
+
+      # Test visiblity of 'more' menu list items
+      page.find('tbody tr .icon-show-more-horizontal').click
+      menu = page.find('tbody tr .project-actions')
+      expect(menu).to have_text('New subproject')
+      expect(menu).to_not have_text('Copy')
+      expect(menu).to_not have_text('Delete')
+      expect(menu).to_not have_text('Archive')
+      expect(menu).to_not have_text('Unrchive')
     end
   end
 
