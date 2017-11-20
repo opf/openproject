@@ -27,9 +27,10 @@
 // ++
 
 import {BehaviorSubject} from 'rxjs';
+import {PaginationService} from 'core-components/table-pagination/pagination-service';
 
 describe('wpTablePagination Directive', function () {
-  var compile:any, element:any, rootScope:any, scope:any, PaginationService:any, paginationOptions:any;
+  var compile:any, element:any, rootScope:any, scope:any, paginationService:PaginationService, paginationOptions:any;
   let state:any;
   let subject:any;
   var wpTablePagination:any;
@@ -47,8 +48,8 @@ describe('wpTablePagination Directive', function () {
     $provide.constant('wpTablePagination', wpTablePagination);
   }));
 
-  beforeEach(angular.mock.inject(function (_PaginationService_:any, _I18n_:op.I18n) {
-    PaginationService = _PaginationService_;
+  beforeEach(angular.mock.inject(function (_paginationService_:PaginationService, _I18n_:op.I18n) {
+    paginationService = _paginationService_;
     I18n = _I18n_;
   }));
 
@@ -89,8 +90,8 @@ describe('wpTablePagination Directive', function () {
     };
     subject = new BehaviorSubject(state);
 
-    sinon.stub(PaginationService, 'loadPerPageOptions');
-    sinon.stub(PaginationService, 'getPerPageOptions', () => [10, 100, 500, 1000]);
+    sinon.stub(paginationService, 'loadPaginationOptions');
+    sinon.stub(paginationService, 'getPerPageOptions', () => [10, 100, 500, 1000]);
 
     compile = function () {
       subject = new BehaviorSubject(state);
