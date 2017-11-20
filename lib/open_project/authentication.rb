@@ -82,10 +82,11 @@ module OpenProject
 
         attr_reader :identifier
 
-        def initialize(identifier, path, run_after_activation)
+        def initialize(identifier, path, run_after_activation, active)
           @identifier = identifier
           @path = path
           @run_after_activation = run_after_activation
+          @active = active
         end
 
         def path
@@ -98,6 +99,10 @@ module OpenProject
 
         def run_after_activation?
           @run_after_activation
+        end
+
+        def active?
+          @active.call
         end
       end
 
@@ -139,6 +144,7 @@ module OpenProject
         #                                       a user was registered and activated. This only
         #                                       makes sense if the extra stage is possible at
         #                                       that point yet.
+        # @param active [Block] A block returning true (default) if this stage is active.
         # @param before [Symbol] Identifier before which to insert this stage. Stage will be
         #                        appended to the end if no such identifier is registered.
         #                        Cannot be used with `after`.
@@ -152,11 +158,12 @@ module OpenProject
           identifier,
           path = nil,
           run_after_activation: false,
+          active: ->() { true },
           before: nil,
           after: nil,
           &block
         )
-          stage = Entry.new identifier, path || block, run_after_activation
+          stage = Entry.new identifier, path || block, run_after_activation, active
           i = stages.index { |s| s.identifier == (before || after) }
 
           if i
@@ -183,8 +190,8 @@ module OpenProject
             .compact
         end
 
-        def complete_path(identifier)
-          stage_success_path stage: identifier
+        def complete_path(identifier, session:)
+          stage_success_path stage: identifier, secret: Hash(session[:stage_secrets])[identifier]
         end
 
         def failure_path(identifier)
