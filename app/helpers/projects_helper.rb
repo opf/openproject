@@ -163,6 +163,9 @@ module ProjectsHelper
   end
 
   def more_menu_allowed?(project)
-    User.current.admin? || project.copy_allowed? || User.current.allowed_to?(:add_subprojects, project)
+    (User.current.admin? || \
+     project.copy_allowed? || \
+     User.current.allowed_to?(:add_subprojects, project) || \
+     User.current.allowed_to?({controller: :projects, action: :settings}, project))
   end
 end
