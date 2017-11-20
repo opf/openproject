@@ -46,11 +46,11 @@
   clear: none
   margin: 2px 0 0 2px
 
-// Add some paddings to actin links
+// Add some paddings to action links
 .mobile-otp--two-factor-device-row td.buttons
-  form + form:before
+  form:not(:last-child):after
     content: ","
-    padding-right: 2px
+    padding: 0 1px
 
 .mobile-otp--two-factor-device-row.-default
   .mobile-otp--device-text
