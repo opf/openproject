@@ -9,6 +9,7 @@ describe ::TwoFactorAuthentication::AuthenticationController, with_settings: { l
 
   before do
     # Assume the user has any memberships
+    session[:stage_secrets] = { two_factor_authentication: 'asdf' }
     allow_any_instance_of(User).to receive(:any_active_memberships?).and_return(true)
   end
 

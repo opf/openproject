@@ -50,11 +50,11 @@ module ::TwoFactorAuthentication
       end
 
       def registration_success_path
-        OpenProject::Authentication::Stage.complete_path :two_factor_authentication
+        authentication_stage_complete_path :two_factor_authentication
       end
 
       def registration_failure_path
-        OpenProject::Authentication::Stage.failure_path :two_factor_authentication
+        authentication_stage_failure_path :two_factor_authentication
       end
 
       ##

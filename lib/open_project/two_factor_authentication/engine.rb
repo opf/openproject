@@ -40,7 +40,10 @@ module OpenProject::TwoFactorAuthentication
     end
 
     config.after_initialize do
-      OpenProject::Authentication::Stage.register(:two_factor_authentication, nil, run_after_activation: true) do
+      OpenProject::Authentication::Stage.register(:two_factor_authentication,
+                                                  nil,
+                                                  run_after_activation: true,
+                                                  active: -> { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.enabled? }) do
         two_factor_authentication_request_path
       end
     end

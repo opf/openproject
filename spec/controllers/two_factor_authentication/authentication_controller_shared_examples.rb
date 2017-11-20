@@ -11,7 +11,7 @@ shared_examples 'immediate success login' do
     end
 
     it "should render redirect" do
-      expect(response).to redirect_to stage_success_path(stage: :two_factor_authentication)
+      expect(response).to redirect_to stage_success_path(stage: :two_factor_authentication, secret: 'asdf')
     end
   end
 end

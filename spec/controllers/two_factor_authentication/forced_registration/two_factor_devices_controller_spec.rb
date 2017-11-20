@@ -14,6 +14,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
     allow(User).to receive(:current).and_return(User.anonymous)
     session[:authenticated_user_id] = authenticated_user_id
     session[:authenticated_user_force_2fa] = user_force_2fa
+    session[:stage_secrets] = { two_factor_authentication: 'asdf' }
 
     allow(OpenProject::Configuration).to receive(:[]).and_call_original
     allow(OpenProject::Configuration)
@@ -194,7 +195,7 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
               .and_return(ServiceResult.new(success: true))
 
             post :confirm, params: { device_id: device.id, otp: '1234' }
-            expect(response).to redirect_to stage_success_path(stage: :two_factor_authentication)
+            expect(response).to redirect_to stage_success_path(stage: :two_factor_authentication, secret: 'asdf')
             expect(flash[:notice]).to include I18n.t('two_factor_authentication.devices.registration_complete')
             device.reload
             expect(device.active).to eq true

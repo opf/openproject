@@ -170,11 +170,11 @@ module ::TwoFactorAuthentication
     # Complete this authentication step and return to core
     # logging in the user
     def complete_stage_redirect
-      redirect_to OpenProject::Authentication::Stage.complete_path :two_factor_authentication
+      redirect_to authentication_stage_complete_path :two_factor_authentication
     end
 
     def failure_stage_redirect
-      redirect_to OpenProject::Authentication::Stage.failure_path :two_factor_authentication
+      redirect_to authentication_stage_failure_path :two_factor_authentication
     end
   end
 end
