@@ -34,6 +34,10 @@ describe 'Authentication Stages', type: :feature do
     Capybara.ignore_hidden_elements = true
 
     OpenProject::Authentication::Stage.register :dummy_step, '/login/stage_test'
+
+    allow_any_instance_of(AccountController)
+      .to receive(:stage_secret)
+      .and_return('success') # usually 'success' would be a random hex string
   end
 
   after do
@@ -74,10 +78,14 @@ describe 'Authentication Stages', type: :feature do
         # while we're at it let's confirm path helpers work here (/login)
         signin_path.sub "login", "activation/stage_test"
       end
+
+      # this shouldn't influence the specs as it is active
+      OpenProject::Authentication::Stage.register :inactive, '/foo/bar', active: ->() { false }
     end
 
     after do
       OpenProject::Authentication::Stage.deregister :activation_step
+      OpenProject::Authentication::Stage.deregister :inactive
     end
 
     it 'redirects to authentication stage after automatic registration and before login' do
@@ -147,6 +155,22 @@ describe 'Authentication Stages', type: :feature do
     expect(page).to have_text user.login # just checking we're really logged in
   end
 
+  it 'redirects to the login page and shows an error on verification failure' do
+    expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+
+    expect(current_path).to eql "/login/stage_test"
+
+    # after the stage is finished it can redirect to the failure endpoint if something went wrong
+    visit "/login/dummy_step/sucesz"
+
+    expect(current_path).to eql "/login" # after which the user is shown a generic error message
+    expect(page).to have_text "Could not verify stage 'dummy_step'"
+
+    visit "/my/account"
+
+    expect(page).not_to have_text user.login # just checking we're really not logged in
+  end
+
   it 'redirects to the login page and shows an error on authentication stage failure' do
     expect { login! }.to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
 
@@ -160,7 +184,7 @@ describe 'Authentication Stages', type: :feature do
 
     visit "/my/account"
 
-    expect(page).not_to have_text user.login # just checking we're really logged in
+    expect(page).not_to have_text user.login # just checking we're really not logged in
   end
 
   it 'redirects to the login page and shows an error on returning to the wrong stage' do
@@ -176,7 +200,7 @@ describe 'Authentication Stages', type: :feature do
 
     visit "/my/account"
 
-    expect(page).not_to have_text user.login # just checking we're really logged in
+    expect(page).not_to have_text user.login # just checking we're really not logged in
   end
 
   context "with two stages" do
