@@ -310,7 +310,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
               <% if User.current.admin? %><td><%= format_date(project.latest_activity_at) %></td><% end %>
               <td class="buttons">
-                <% if User.current.admin? %>
+                <% if more_menu_allowed?(project) %>
                   <!-- toolbar and legacy-actions-more are only for styling purposes.
                   Because of multiple diverging implementations of dropdowns the normal dropdown classes cannot be used any more without making special rules -->
                   <ul class="toolbar project-actions">

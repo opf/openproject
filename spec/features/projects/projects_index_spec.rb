@@ -80,8 +80,6 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       end
     end
 
-    # TODO: Fix permission check so that this feature spec passes.
-    #
     feature 'for project members' do
       let!(:user) do
         FactoryGirl.create(:user,
@@ -318,11 +316,83 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
   end
 
   feature 'Non-admins with role with permission' do
-    scenario 'to copy project can copy that project' do
-      # TODO
+    let!(:can_copy_projects_role)   do
+      FactoryGirl.create :role, name: 'Can Copy Projects Role', permissions: [:copy_projects]
     end
-    scenario 'to create sub-projects can create sub-projects' do
-      # TODO
+    let!(:can_add_subprojects_role) do
+      FactoryGirl.create :role, name: 'Can Add Subprojects Role', permissions: [:add_subprojects]
+    end
+
+    let!(:parent_project) do
+      FactoryGirl.create(:project,
+                         name: 'Parent project',
+                         identifier: 'parent-project' )
+    end
+
+    let!(:can_copy_projects_manager) do
+      FactoryGirl.create(:user,
+                         member_in_project: parent_project,
+                         member_through_role: can_copy_projects_role)
+    end
+    let!(:can_add_subprojects_manager) do
+      FactoryGirl.create(:user,
+                         member_in_project: parent_project,
+                         member_through_role: can_add_subprojects_role)
+    end
+    let!(:simple_member) do
+      FactoryGirl.create(:user,
+                         member_in_project: parent_project,
+                         member_through_role: developer)
+    end
+
+    before do
+      # We are not admin so we need to force the built-in roles to have them.
+      Role.non_member
+
+      # Remove public projects from this list for these scenarios.
+      public_project.update_attribute :is_public, false
+    end
+
+    scenario 'can see the "More" menu' do
+      # For a simple project member the 'More' menu is not visible.
+      login_as(simple_member)
+      visit projects_path
+
+      expect(page).to have_text('Parent project')
+
+      # 'More' menu should be invisible by default
+      expect(page).not_to have_css('.icon-show-more-horizontal')
+
+      # 'More' does not become visible on hover
+      page.find('tbody tr').hover
+      expect(page).to_not have_css('.icon-show-more-horizontal')
+
+
+      # For a project member with :copy_projects privilege the 'More' menu is visible.
+      login_as(can_copy_projects_manager)
+      visit projects_path
+
+      expect(page).to have_text('Parent project')
+
+      # 'More' menu should be invisible by default
+      expect(page).not_to have_css('.icon-show-more-horizontal')
+
+
+      # 'More' becomes visible on hover
+      page.find('tbody tr').hover
+      expect(page).to have_css('.icon-show-more-horizontal')
+
+
+      # For a project member with :add_subprojects privilege the 'More' menu is visible.
+      login_as(can_add_subprojects_manager)
+      visit projects_path
+
+      # 'More' menu should be invisible by default
+      expect(page).not_to have_css('.icon-show-more-horizontal')
+
+      # 'More' becomes visible on hover
+      page.find('tbody tr').hover
+      expect(page).to have_css('.icon-show-more-horizontal')
     end
   end
 

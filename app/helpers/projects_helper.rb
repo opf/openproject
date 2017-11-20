@@ -161,4 +161,8 @@ module ProjectsHelper
   def admin_only_filters
     %i(created_on latest_activity_at)
   end
+
+  def more_menu_allowed?(project)
+    User.current.admin? || project.copy_allowed? || User.current.allowed_to?(:add_subprojects, project)
+  end
 end
