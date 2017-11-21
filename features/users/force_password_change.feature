@@ -38,7 +38,7 @@ Feature: Forced Password Change
     # Explicitly check for generic message, a "wrong password" message might
     # reveal whether the user exists
     And I should see "Invalid user or password"
-    And there should be a "New password" field
+    And there should be a "new_password" field
     And I should not see "Bob Bobbit"
     # password change form should show login
     And I should see "bob"
@@ -58,7 +58,7 @@ Feature: Forced Password Change
     And I press "Save"
     And I try to log in with user "bob"
     Then there should be a flash error message
-    And there should be a "New password" field
+    And there should be a "new_password" field
     And I should not see "Bob Bobbit"
     # password change form should show login
     And I should see "bob"
