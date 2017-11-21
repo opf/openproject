@@ -60,9 +60,8 @@ Feature: Edit story type and status
     And the user "romano" is a "manager"
     And the role "manager" may have the following rights:
         | view_master_backlog   |
-        | create_stories        |
-        | update_stories        |
         | view_work_packages    |
+        | add_work_packages     |
         | edit_work_packages    |
         | manage_subtasks       |
     And the project has the following sprints:

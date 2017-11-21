@@ -61,8 +61,6 @@ Feature: Team Member
     And the role "team member" may have the following rights:
         | view_master_backlog |
         | view_taskboards     |
-        | create_tasks        |
-        | update_tasks        |
         | view_work_packages  |
         | edit_work_packages  |
         | manage_subtasks     |

@@ -69,7 +69,7 @@ See doc/COPYRIGHT.rdoc for more details.
     <table id="impediments" class="board" cellspacing="0">
       <tr>
         <td><div class="label_sprint_impediments"><%= l(:label_sprint_impediments) %></div></td>
-        <% if User.current.allowed_to?(:create_impediments, @project) %>
+        <% if User.current.allowed_to?(:add_work_packages, @project) %>
           <td class ="add_new clickable">+</td>
         <% else %>
           <td class ="add_new"></td>
@@ -113,7 +113,7 @@ See doc/COPYRIGHT.rdoc for more details.
               </div>
             </div>
           </td>
-          <% if User.current.allowed_to?(:create_tasks, @project) %>
+          <% if User.current.allowed_to?(:add_work_packages, @project) %>
             <td class ="add_new clickable">+</td>
           <% else %>
             <td class ="add_new"></td>

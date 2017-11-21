@@ -46,7 +46,6 @@ Feature: Foldable versions in master backlog
         | view_master_backlog     |
         | view_taskboards         |
         | update_sprints          |
-        | update_stories          |
         | view_wiki_pages         |
         | edit_wiki_pages         |
         | view_work_packages      |

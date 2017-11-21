@@ -50,16 +50,11 @@ Feature: The work_package hierarchy defines the allowed versions for each work_p
         | view_master_backlog     |
         | view_taskboards         |
         | update_sprints          |
-        | update_stories          |
-        | create_impediments      |
-        | update_impediments      |
-        | update_tasks            |
         | view_wiki_pages         |
         | edit_wiki_pages         |
         | view_work_packages      |
         | edit_work_packages      |
         | manage_subtasks         |
-        | create_tasks            |
         | add_work_packages       |
     And there are the following issue status:
         | name        | is_closed  | is_default  |

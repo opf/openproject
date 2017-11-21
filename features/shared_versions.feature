@@ -70,8 +70,7 @@ Feature: Shared Versions
         | manage_versions     |
         | view_work_packages  |
         | view_master_backlog |
-        | create_stories      |
-        | update_stories      |
+        | add_work_packages   |
         | edit_work_packages  |
         | manage_subtasks     |
     And the user "padme" is a "project admin"

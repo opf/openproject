@@ -59,6 +59,19 @@ module OpenProject::Backlogs
       Redmine::AccessControl.permission(:edit_project).actions << 'projects/project_done_statuses'
       Redmine::AccessControl.permission(:edit_project).actions << 'projects/rebuild_positions'
 
+      Redmine::AccessControl.permission(:add_work_packages).tap do |add|
+        add.actions << 'rb_stories/create'
+        add.actions << 'rb_tasks/create'
+        add.actions << 'rb_impediments/create'
+      end
+
+      Redmine::AccessControl.permission(:edit_work_packages).tap do |edit|
+        edit.actions << 'rb_stories/update'
+        edit.actions << 'rb_tasks/update'
+        edit.actions << 'rb_impediments/update'
+      end
+
+
       project_module :backlogs do
         # SYNTAX: permission :name_of_permission, { :controller_name => [:action1, :action2] }
 
@@ -84,21 +97,6 @@ module OpenProject::Backlogs
         # :show_sprints and :list_sprints are implicit in :view_master_backlog permission
         permission :update_sprints,                rb_sprints: [:edit, :update],
                                                    rb_wikis:   [:edit, :update]
-
-        # Story permissions
-        # :show_stories and :list_stories are implicit in :view_master_backlog permission
-        permission :create_stories,         rb_stories: :create
-        permission :update_stories,         rb_stories: :update
-
-        # Task permissions
-        # :show_tasks and :list_tasks are implicit in :view_sprints
-        permission :create_tasks,           rb_tasks: [:new, :create]
-        permission :update_tasks,           rb_tasks: [:edit, :update]
-
-        # Impediment permissions
-        # :show_impediments and :list_impediments are implicit in :view_sprints
-        permission :create_impediments,     rb_impediments: [:new, :create]
-        permission :update_impediments,     rb_impediments: [:edit, :update]
       end
 
       menu :project_menu,

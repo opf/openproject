@@ -58,8 +58,6 @@ Feature: Edit story on backlogs view
     And there is a role "team member"
     And the role "team member" may have the following rights:
         | view_master_backlog   |
-        | create_stories        |
-        | update_stories        |
         | view_work_packages    |
         | edit_work_packages    |
         | add_work_packages     |

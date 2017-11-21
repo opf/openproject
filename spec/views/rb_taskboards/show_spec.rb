@@ -40,7 +40,7 @@ describe 'rb_taskboards/show', type: :view do
   let(:user2) { FactoryGirl.create(:user) }
   let(:role_allowed) {
     FactoryGirl.create(:role,
-                       permissions: [:create_impediments, :create_tasks, :update_impediments, :update_tasks])
+                       permissions: [:add_work_packages, :edit_work_packages, :manage_subtasks])
   }
   let(:role_forbidden) { FactoryGirl.create(:role) }
   # We need to create these as some view helpers access the database

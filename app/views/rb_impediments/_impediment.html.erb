@@ -34,7 +34,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<% prevent_edit = User.current.allowed_to?(:update_impediments, defined?(project) ? project : impediment.project) ? '' : 'prevent_edit'%>
+<% prevent_edit = User.current.allowed_to?(:edit_work_packages, defined?(project) ? project : impediment.project) ? '' : 'prevent_edit'%>
 <div class="model work_package impediment <%= color_contrast_class(impediment) %> <%= prevent_edit %> <%= mark_if_closed(impediment) %><%= color_contrast_class(impediment) %>" id="work_package_<%= impediment.id %>" <%= build_inline_style(impediment) %>>
   <div class="id">
     <div class="t"><%= work_package_link_or_empty(impediment) %></div>

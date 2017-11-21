@@ -51,12 +51,10 @@ Feature: Product Owner
       And there is a role "product owner"
       And the role "product owner" may have the following rights:
           | view_master_backlog   |
-          | create_stories        |
-          | update_stories        |
           | view_work_packages    |
+          | add_work_packages     |
           | edit_work_packages    |
           | manage_subtasks       |
-          | add_work_packages     |
 
       And the type "Story" has the default workflow for the role "product owner"
       And the type "Epic" has the default workflow for the role "product owner"

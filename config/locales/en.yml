@@ -169,12 +169,6 @@ en:
   permission_view_master_backlog: "View master backlog"
   permission_view_taskboards: "View taskboards"
   permission_update_sprints: "Update sprints"
-  permission_create_stories: "Create stories"
-  permission_update_stories: "Update stories"
-  permission_create_tasks: "Create tasks"
-  permission_update_tasks: "Update tasks"
-  permission_create_impediments: "Create impediments"
-  permission_update_impediments: "Update impediments"
 
   points_accepted: "points accepted"
   points_committed: "points committed"

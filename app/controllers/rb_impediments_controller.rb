@@ -75,7 +75,7 @@ class RbImpedimentsController < RbApplicationController
 
     # We block block_ids only when user is not allowed to create or update the
     # instance passed.
-    unless instance && ((instance.new_record? && User.current.allowed_to?(:create_impediments, @project)) || User.current.allowed_to?(:update_impediments, @project))
+    unless instance && ((instance.new_record? && User.current.allowed_to?(:add_work_packages, @project)) || User.current.allowed_to?(:edit_work_packages, @project))
       hash.delete(:block_ids)
     end
 
