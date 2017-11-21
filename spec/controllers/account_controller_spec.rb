@@ -36,8 +36,25 @@ describe AccountController, type: :controller do
     User.current = nil
   end
 
+  context 'GET #login' do
+    it 'renders the view' do
+      get :login
+      expect(response).to render_template 'login'
+      expect(response).to be_success
+    end
+  end
+
   context 'POST #login' do
     let(:admin) { FactoryGirl.create(:admin) }
+
+    describe 'wrong password' do
+      it 'redirects back to login' do
+        post :login, params: { username: 'admin', password: 'bad' }
+        expect(response).to be_success
+        expect(response).to render_template 'login'
+        expect(flash[:error]).to include 'Invalid user or password'
+      end
+    end
 
     describe 'User logging in with back_url' do
       it 'should redirect to a relative path' do
@@ -173,6 +190,18 @@ describe AccountController, type: :controller do
                }
           expect(response).to redirect_to my_page_path
         end
+      end
+    end
+
+    context 'GET #logout' do
+      let(:admin) { FactoryGirl.create(:admin) }
+
+      it 'calls reset_session' do
+        expect(@controller).to receive(:reset_session).once
+
+        login_as admin
+        get :logout
+        expect(response).to be_redirect
       end
     end
 
