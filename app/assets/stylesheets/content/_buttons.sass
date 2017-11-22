@@ -145,7 +145,7 @@ html.-browser-windows.-browser-chrome
   padding: 0 1px
 
   &:visited, &:active
-    color: $content-link-color
+    @include varprop(color, content-link-color)
 
   &:hover
     text-decoration: underline
