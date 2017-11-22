@@ -31,7 +31,9 @@ require 'spec_helper'
 describe 'random password generation', type: :feature, js: true do
   let(:admin) { FactoryGirl.create :admin }
   let(:auth_source) { FactoryGirl.build :dummy_auth_source }
-  let(:user) { FactoryGirl.create :user }
+  let(:old_password) { 'old_Password!123' }
+  let(:new_password) { 'new_Password!123' }
+  let(:user) { FactoryGirl.create :user, password: old_password, password_confirmation: old_password }
   let(:user_page) { ::Pages::Admin::User.new(user.id) }
 
   before do
@@ -62,11 +64,37 @@ describe 'random password generation', type: :feature, js: true do
 
     # Logout
     visit signout_path
-
-    # Login using the new password
     login_with user.login, password
 
     # Expect password change
     expect(page).to have_selector('#new_password')
+
+    # Give wrong password
+    fill_in 'password', with: old_password
+    fill_in 'new_password', with: new_password
+    fill_in 'new_password_confirmation', with: new_password
+    click_on 'Save'
+
+    expect(page).to have_content 'Invalid user or password'
+
+    # Give correct password
+    fill_in 'password', with: password
+    fill_in 'new_password', with: new_password
+    fill_in 'new_password_confirmation', with: new_password
+    click_on 'Save'
+
+    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_account_password_updated))
+
+    # Logout and sign in with outdated password
+    visit signout_path
+    login_with user.login, password
+    expect(page).to have_content 'Invalid user or password'
+
+    # Logout and sign in with new_passworwd
+    visit signout_path
+    login_with user.login, new_password
+
+    visit my_account_path
+    expect(page).to have_selector('.account-menu-item.selected')
   end
 end
