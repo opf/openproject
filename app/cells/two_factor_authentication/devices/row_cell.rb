@@ -31,7 +31,7 @@ module ::TwoFactorAuthentication
           op_icon 'icon-yes'
         elsif table.self_table?
           link_to t('two_factor_authentication.devices.confirm_now'),
-                  { controller: table.target_controller, action: :confirm }
+                  { controller: table.target_controller, action: :confirm, device_id: device.id }
 
         else
           op_icon 'icon-no'

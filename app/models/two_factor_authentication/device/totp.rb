@@ -45,6 +45,12 @@ module TwoFactorAuthentication
     end
 
     ##
+    #
+    def request_2fa_identifier(_channel)
+      identifier
+    end
+
+    ##
     # Output the provisioning URL for the user
     # can be generated into a QR for mobile apps.
     def provisioning_url

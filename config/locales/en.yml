@@ -71,6 +71,7 @@ en:
       failed_to_delete: 'Failed to delete 2FA device.'
       is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
       not_existing: 'No 2FA device has been registered for your account.'
+      request_2fa: Please enter the code from your %{device_name} to verify your identity.
       totp:
         title: 'Use your app-based authenticator'
         provisioning_uri: 'Provisioning URI'
@@ -89,6 +90,8 @@ en:
           Common examples are Google Authenticator or Authy.
       sms:
         title: 'Use your mobile phone'
+        redacted_identifier: 'Mobile device (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}'
         description: |
           Register your mobile phone number for delivery of OpenProject one-time passwords.
     sns:
@@ -98,7 +101,6 @@ en:
 
     mobile_transmit_notification: "A one-time password has been sent to your cell phone."
     label_two_factor_authentication: 'Two-factor authentication'
-    heading_user_settings_otp: "Two factor authentication"
 
     forced_registration:
       required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'

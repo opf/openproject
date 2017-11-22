@@ -12,7 +12,7 @@ module OpenProject::TwoFactorAuthentication
                menu :my_menu,
                     :two_factor_authentication,
                     { controller: 'two_factor_authentication/my/two_factor_devices', action: :index },
-                    caption: ->(*) { I18n.t('two_factor_authentication.heading_user_settings_otp') },
+                    caption: ->(*) { I18n.t('two_factor_authentication.label_two_factor_authentication') },
                     after: :password,
                     if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.enabled? },
                     icon: 'icon2 icon-types'

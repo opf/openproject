@@ -14,8 +14,9 @@ end %>
 <% breadcrumb_paths(l(:field_otp)) %>
 <div id="login-form" class="form -bordered">
   <%= styled_form_tag({ action: :confirm_otp }, { :autocomplete => "off", :id => 'submit_otp' }) do %>
-    <h2><%= t 'two_factor_authentication.label_one_time_password' %></h2>
-      <p><%= t 'two_factor_authentication.text_enter_2fa' %></p>
+    <h2><%= t 'two_factor_authentication.label_two_factor_authentication' %></h2>
+      <% identifier = @used_device.request_2fa_identifier(@strategy.channel) %>
+      <p><%= raw I18n.t('two_factor_authentication.devices.request_2fa', device_name: identifier) %></p>
       <hr class="form--separator">
     <%= back_url_hidden_field_tag %>
     <div class="form--field -wide-label">
@@ -59,7 +60,7 @@ end %>
               <li>
                 <%= form_tag({ action: :retry }, method: :post) do %>
                   <%= hidden_field_tag 'use_device', device.id %>
-                  <%= submit_tag device.identifier, class: 'button--link' %>
+                  <%= submit_tag device.redacted_identifier, class: 'button--link' %>
                 <% end %>
               </li>
             <% end %>

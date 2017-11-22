@@ -44,6 +44,10 @@ module TwoFactorAuthentication
       end
     end
 
+    def redacted_identifier
+      identifier
+    end
+
     def default_identifier
       if user.present?
         "#{name} (#{user.login})"
