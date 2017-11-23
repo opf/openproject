@@ -53,7 +53,7 @@ module OpenProject::Plugins
         end
 
         initializer "#{engine_name}.i18n_load_paths" do |app|
-          app.config.i18n.load_path << config.root.join('config', 'locales' , 'crowdin')
+          app.config.i18n.load_path += Dir[config.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
         end
 
         initializer "#{engine_name}.register_cell_view_paths" do |_app|
