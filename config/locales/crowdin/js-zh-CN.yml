@@ -1,0 +1,6 @@
+zh-CN:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "故事点"
+        remainingTime: "剩余小时数"

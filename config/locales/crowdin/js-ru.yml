@@ -1,0 +1,6 @@
+ru:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "Баллы описаний"
+        remainingTime: "Оставшиеся часы"

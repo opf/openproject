@@ -1,0 +1,6 @@
+it:
+  js:
+    work_packages:
+      properties:
+        storyPoints: "Punti della storia"
+        remainingTime: "Ore rimanenti"
