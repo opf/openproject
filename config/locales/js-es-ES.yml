@@ -1,5 +1,0 @@
-es:
-  js:
-    reporting_engine:
-      label_remove: "Eliminar"
-      label_response_error: "Se produjo un error procesando la consulta."

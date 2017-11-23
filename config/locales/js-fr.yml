@@ -1,5 +1,0 @@
-fr:
-  js:
-    reporting_engine:
-      label_remove: "Supprimer"
-      label_response_error: "Une erreur s'est produite lors du traitement de la requête."

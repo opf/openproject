@@ -1,5 +1,0 @@
-de:
-  js:
-    reporting_engine:
-      label_remove: "Löschen"
-      label_response_error: "Bei der Bearbeitung der Anfrage ist ein Fehler aufgetreten."
