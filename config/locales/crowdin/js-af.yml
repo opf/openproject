@@ -1,0 +1,625 @@
+---
+af:
+  js:
+    ajax:
+      hide: Versteek
+      loading: Loading ...
+    close_popup_title: Close popup
+    close_filter_title: Close filter
+    close_form_title: Close form
+    clipboard:
+      browser_error: Your browser doesn't support copying to clipboard. Please copy
+        the selected text manually.
+      copied_successful: Sucessfully copied to clipboard!
+    button_add_watcher: Voeg kyker by
+    button_back_to_list_view: Back to list view
+    button_cancel: Kanselleer
+    button_close: Close
+    button_check_all: Kontroleer almal
+    button_configure-form: Configure form
+    button_confirm: Confirm
+    button_continue: Continue
+    button_copy: Kopieer
+    button_custom-fields: Pasgemaakte velde
+    button_delete: Skrap
+    button_delete_watcher: Delete watcher
+    button_details_view: Details view
+    button_duplicate: Dupliseer
+    button_edit: Redigeer
+    button_filter: Filtreer
+    button_list_view: List view
+    button_show_view: Fullscreen view
+    button_log_time: Log tyd
+    button_more: Meer
+    button_move: Skuif
+    button_open_details: Open details view
+    button_close_details: Close details view
+    button_open_fullscreen: Maak volkermmodus oop
+    button_quote: Haal aan
+    button_save: Stoor
+    button_settings: Settings
+    button_uncheck_all: Ontmerk almal
+    button_update: Opdateer
+    button_export-pdf: Download PDF
+    button_export-atom: Download Atom
+    description_available_columns: Kolomme beskikbaar
+    description_current_position: 'Jy is hier:'
+    description_select_work_package: 'Kies werkspakket #%{id}'
+    description_selected_columns: Geselekteerde kolomme
+    description_subwork_package: 'Kind van werkspakket #%{id}'
+    error:
+      internal: An internal error has occurred.
+    filter:
+      description:
+        text_open_filter: Open this filter with 'ALT' and arrow keys.
+        text_close_filter: To select an entry leave the focus for example by pressing
+          enter. To leave without filter select the first (empty) entry.
+      noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: First sorting criteria
+          two: Second sorting criteria
+          three: Third sorting criteria
+    general_text_no: nee
+    general_text_yes: ja
+    general_text_No: Nee
+    general_text_Yes: Ja
+    label_activate: Activate
+    label_activity_no: Activity entry number %{activityNo}
+    label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
+      comment.
+    label_add_columns: Add columns
+    label_add_comment: Add comment
+    label_add_comment_title: Click to add a comment
+    label_add_selected_columns: Voeg geselekteerde kolomme by
+    label_added_by: added by
+    label_added_time_by: Added by %{author} %{age}
+    label_ago: dae gelede
+    label_all: alle
+    label_all_work_packages: all work packages
+    label_and: and
+    label_ascending: Stygende
+    label_author: 'Author: %{user}'
+    label_between: between
+    label_board_locked: Gesluit
+    label_board_sticky: Klewerig
+    label_create_work_package: Create new work package
+    label_created_by: Created by
+    label_date: Datum
+    label_date_with_format: 'Tik die %{date_attribute} in die volgende formaat: %{format}'
+    label_deactivate: Deactivate
+    label_descending: Dalende
+    label_description: Beskrywing
+    label_cancel_comment: Kanselleer aanmerking
+    label_closed_work_packages: gesluit
+    label_collapse: Vou in
+    label_collapsed: collapsed
+    label_collapse_all: Vou almal op
+    label_comment: Opmerking
+    label_committed_at: "%{committed_revision_link} at %{date}"
+    label_committed_link: committed revision %{revision_identifier}
+    label_contains: bevat
+    label_created_on: created on
+    label_edit_comment: Edit this comment
+    label_edit_status: Edit the status of the work package
+    label_equals: is
+    label_expand: Expand
+    label_expanded: expanded
+    label_expand_all: Vou almal uit
+    label_export: Export
+    label_filename: Lêer
+    label_filesize: Grootte
+    label_greater_or_equal: ">="
+    label_group_by: Groepeer volgens
+    label_hide_attributes: Wys minder
+    label_hide_column: Hide column
+    label_in: in
+    label_in_less_than: in minder as
+    label_in_more_than: in meer as
+    label_latest_activity: Latest Activity
+    label_last_updated_on: Last updated on
+    label_less_or_equal: "<="
+    label_less_than_ago: minder as dae gelede
+    label_loading: Laai tans...
+    label_me: ek
+    label_menu_collapse: collapse
+    label_menu_expand: expand
+    label_more_than_ago: meer as dae gelede
+    label_next: Next
+    label_no_data: Geen data om te wys
+    label_no_due_date: no end date
+    label_no_start_date: no start date
+    label_none: geen
+    label_not_contains: bevat nie
+    label_not_equals: is nie
+    label_on: 'on'
+    label_open_menu: Maak kieslys oop
+    label_open_work_packages: maak oop
+    label_password: Wagwoord
+    label_previous: Vorige
+    label_per_page: 'Per page:'
+    label_please_wait: Please wait
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Quote this comment
+    label_reset: Herstel
+    label_remove_columns: Remove selected columns
+    label_save_as: Save as
+    label_select_watcher: Select a watcher...
+    label_selected_filter_list: Selected filters
+    label_show_attributes: Show all attributes
+    label_show_in_menu: Show page in menu
+    label_sort_by: Sort by
+    label_sorted_by: sorted by
+    label_sort_higher: Move up
+    label_sort_lower: Move down
+    label_sorting: Sorting
+    label_sum_for: Sum for
+    label_subject: Onderwerp
+    label_this_week: this week
+    label_today: today
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent}% Total progress"
+    label_visible_for_others: Page visible for others
+    label_updated_on: updated on
+    label_warning: Warning
+    label_work_package: Werkspakket
+    label_work_package_plural: Werkspakkete
+    label_watch: Hou dop
+    label_watch_work_package: Watch work package
+    label_watcher_added_successfully: Watcher successfully added!
+    label_watcher_deleted_successfully: Watcher successfully deleted!
+    label_work_package_details_you_are_here: You're on the %{tab} tab for %{type}
+      %{subject}.
+    label_unwatch: Hou op dophou
+    label_unwatch_work_package: Unwatch work package
+    label_uploaded_by: Uploaded by
+    label_global_queries: Shared queries
+    label_custom_queries: Private queries
+    label_columns: Kolomme
+    label_attachments: Lêers
+    label_drop_files: Drop files here
+    label_drop_files_hint: or click to add files
+    label_add_attachments: Add attachments
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Delete %{fileName}
+    label_remove_watcher: Remove watcher %{name}
+    label_remove_all_files: Delete all files
+    label_add_description: Add a description for %{file}
+    label_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
+    label_files_to_upload: 'These files will be uploaded:'
+    label_rejected_files: 'These files cannot be uploaded:'
+    label_rejected_files_reason: These files cannot be uploaded as their size is greater
+      than %{maximumFilesize}
+    label_wait: Please wait for configuration...
+    label_upload_counter: "%{done} of %{count} files finished"
+    label_validation_error: 'The work package could not be saved due to the following
+      errors:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: You need to enter your account password to confirm this change.
+      title: Confirm your password to continue
+    pagination:
+      no_other_page: You are on the only page.
+      pages:
+        next: Forward to the next page
+        previous: Back to the previous page
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: Kies asseblief
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: Are you sure?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: loading watchers...
+      label_error_loading: An error occurred while loading the watchers
+      label_search_watchers: Search watchers
+      label_add: Voeg dophouers by
+      label_discard: Discard selection
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: Ouer
+      children: Children
+      relates: Related To
+      duplicates: Duplicates
+      duplicated: Duplicated by
+      blocks: Blocks
+      blocked: Blocked by
+      precedes: Precedes
+      follows: Follows
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      hierarchy_headline: hierarchy
+    relation_buttons:
+      change_parent: Change parent
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Klik om die verhoudingtipe te verander
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Remove relation
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+    repositories:
+      select_tag: Select tag
+      select_branch: Select branch
+    field_value_enter_prompt: Enter a value for '%{field}'
+    select2:
+      input_too_short:
+        one: Please enter one more character
+        other: Please enter {{count}} more characters
+        zero: Please enter more characters
+      load_more: Loading more results ...
+      no_matches: No matches found
+      searching: Searching ...
+      selection_too_big:
+        one: You can only select one item
+        other: You can only select {{limit}} items
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
+      work package(s)?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      query?
+    text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: Kanselleer
+      change: Change in planning
+      due_date: Sperdatum
+      empty: "(empty)"
+      error: An error has occurred.
+      errors:
+        not_implemented: The timeline could not be rendered because it uses a feature
+          that is not yet implemented.
+        report_comparison: The timeline could not render the configured comparisons.
+          Please check the appropriate section in the configuration, resetting it
+          can help solve this problem.
+        report_epicfail: The timeline could not be loaded due to an unexpected error.
+        report_timeout: The timeline could not be loaded in a reasonable amount of
+          time.
+      filter:
+        column:
+          assigned_to: Gedelegeerde
+          type: Soort
+          due_date: End date
+          name: Naam
+          status: Status
+          responsible: Verantwoordelik
+          start_date: Begindatum
+        grouping_other: Ander
+        noneSelection: "(none)"
+      name: Naam
+      new_work_package: Nuwe werkspakket
+      outline: Reset Outline
+      outlines:
+        aggregation: Show aggregations only
+        level1: Expand level 1
+        level2: Expand level 2
+        level3: Expand level 3
+        level4: Expand level 4
+        level5: Expand level 5
+        all: Show all
+      project_status: Projek status
+      project_type: Projek soort
+      really_close_dialog: Do you really want to close the dialog and lose the entered
+        data?
+      responsible: Verantwoordelik
+      save: Stoor
+      start_date: Begindatum
+      tooManyProjects: More than %{count} Projects. Please use a better filter!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Zoom in
+        out: Zoom out
+        auto: Auto zoom
+        days: Days
+        weeks: Weeks
+        months: Months
+        quarters: Quarters
+        years: Years
+        slider: Zoom slider
+    tl_toolbar:
+      zooms: Zoom level
+      outlines: Hierarchy level
+    unsupported_browser:
+      title: Your browser version is not supported
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ignore this warning.
+    wiki_formatting:
+      strong: Strong
+      italic: Italic
+      underline: Underline
+      deleted: Deleted
+      code: Inline Code
+      heading1: Heading 1
+      heading2: Heading 2
+      heading3: Heading 3
+      unordered_list: Unordered List
+      ordered_list: Ordered List
+      quote: Haal aan
+      unquote: Unquote
+      preformatted_text: Preformatted Text
+      wiki_link: Link to a Wiki page
+      image: Image
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Verwyder
+      comment_added: The comment was successfully added.
+      comment_send_failed: An error has occurred. Could not submit the comment.
+      comment_updated: The comment was successfully updated.
+      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      description_filter: Filtreer
+      description_enter_text: Tik teks
+      description_options_hide: Hide options
+      description_options_show: Show options
+      error:
+        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
+          this attribute is derived from relations (e.g, children) or otherwise not
+          configurable.
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: An error has occurred.
+      edit_attribute: "%{attribute} - Edit"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Enable multiselect
+      label_disable_multi_select: Disable multiselect
+      label_filter_add: Voeg filter by
+      label_options: Opsies
+      label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
+        confirm selection with enter, delete with backspace'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: An error occurred while trying to delete work
+        packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
+      message_successful_show_in_fullscreen: Klik hier om hierdie werkspakket in volskermmodus
+        oop te maak.
+      message_view_spent_time: Show spent time for this work package
+      no_value: No value
+      inline_create:
+        title: Klik hier om 'n nuwe werkspakket by hierdie lys te voeg
+      create:
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: Skep
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your query is erroneous and could not be processed.
+      no_results:
+        title: Geen werkspakkette om te wys.
+        description: Geen geskep óf alle werkspakkette is uitgefiltreer.
+      property_groups:
+        details: Besonderhede
+        people: People
+        estimatesAndTime: Estimates & Time
+        other: Ander
+      properties:
+        assignee: Gedelegeerde
+        author: Outeur
+        createdAt: Geskep op
+        description: Beskrywing
+        date: Datum
+        dueDate: Sperdatum
+        estimatedTime: Geraamde tyd
+        spentTime: Tyd gespandeer
+        category: Kategorie
+        percentageDone: Percentage done
+        priority: Prioriteit
+        projectName: Projek
+        responsible: Verantwoordelik
+        startDate: Begindatum
+        status: Status
+        subject: Onderwerp
+        title: Titel
+        type: Soort
+        updatedAt: Opgedateer op
+        versionName: Weergawe
+        version: Weergawe
+      jump_marks:
+        pagination: Jump to table pagination
+        label_pagination: Click here to skip over the work packages table and go to
+          pagination
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: Click to enter description...
+      query:
+        column_names: Kolomme
+        group_by: Groepeer resultate by
+        group: Groepeer volgens
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Sort ascending
+        sort_descending: Sort descending
+        move_column_left: Move column left
+        move_column_right: Move column right
+        hide_column: Hide column
+        insert_columns: Insert columns ...
+        filters: Filtreerders
+        display_sums: Vertoon totale
+        errors:
+          unretrievable_query: Unable to retrieve query from URL
+          not_found: There is no such query
+        text_no_results: No matching queries were found.
+      table:
+        summary: Table with rows of work package and columns of work package attributes.
+        text_inline_edit: Most cells of this table are buttons that activate inline-editing
+          functionality of that attribute.
+        text_sort_hint: With the links in the table headers you can sort, group, reorder,
+          remove and add table columns.
+        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      tabs:
+        overview: Oorsig
+        activity: Aktiwiteit
+        relations: Relations
+        watchers: Dophouers
+        attachments: Aanhegsels
+      time_relative:
+        days: dae
+        weeks: weeks
+        months: months
+    toolbar:
+      settings:
+        columns: Columns ...
+        sort_by: Sort by ...
+        group_by: Group by ...
+        display_sums: Display sums
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Hide sums
+        save: Stoor
+        save_as: Save as ...
+        export: Export ...
+        publish: Publish ...
+        page_settings: Rename query ...
+        delete: Skrap
+      filter: Filtreer
+      unselected_title: Werkspakket
+      search_query_label: Search saved filter queries
+      search_query_title: Click to search saved filter queries
+    modals:
+      label_settings: Rename query
+      label_name: Naam
+      label_delete_page: Delete current page
+      button_apply: Pas toe
+      button_save: Stoor
+      button_submit: Dien in
+      button_cancel: Kanselleer
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Successful creation.
+    notice_successful_delete: Successful deletion.
+    notice_successful_update: Successful update.
+    notice_bad_request: Bad Request.
+    relations:
+      empty: No relation exists
+      remove: Remove relation
+    inplace:
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Save"
+      button_cancel: "%{attribute}: Cancel"
+      button_save_all: Stoor
+      button_cancel_all: Kanselleer
+      link_formatting_help: Text formatting help
+      btn_preview_enable: Voorskou
+      btn_preview_disable: Disable preview
+      null_value_label: No value
+      clear_value_label: "-"
+      errors:
+        required: "%{field} cannot be empty"
+        number: "%{field} is not a valid number"
+        maxlength: "%{field} kan nie meer as %{maxLength} syfer(s) bevat nie"
+        minlength: "%{field} kan nie minder as %{minLength} syfer(s) bevat nie"
+        messages_on_field: 'This field is invalid: %{messages}'
+    error_could_not_resolve_version_name: Couldn't resolve version name
+    error_could_not_resolve_user_name: Couldn't resolve user name
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

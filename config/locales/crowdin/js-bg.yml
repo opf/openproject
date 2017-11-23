@@ -1,0 +1,628 @@
+---
+bg:
+  js:
+    ajax:
+      hide: Скрий
+      loading: Зареждане ...
+    close_popup_title: Затвори изкачащият прозорец
+    close_filter_title: Close filter
+    close_form_title: Close form
+    clipboard:
+      browser_error: Вашият браузър не поддържа копиране в клипборд. Моля копирайте
+        избрания текст ръчно.
+      copied_successful: Копирането в клипборд е успешно!
+    button_add_watcher: Добавяне на наблюдател
+    button_back_to_list_view: Back to list view
+    button_cancel: Отказ
+    button_close: Close
+    button_check_all: Избери всички
+    button_configure-form: Configure form
+    button_confirm: Confirm
+    button_continue: Continue
+    button_copy: Копиране
+    button_custom-fields: допълнителни полета
+    button_delete: Изтрий
+    button_delete_watcher: Премахни наблюдаващ
+    button_details_view: Детайлен изглед
+    button_duplicate: Дублиране
+    button_edit: Редактиране
+    button_filter: Филтър
+    button_list_view: Изглед списък
+    button_show_view: Изглед на цял екран
+    button_log_time: Отчетено време
+    button_more: Повече
+    button_move: Премести
+    button_open_details: Отвори детайлен изглед
+    button_close_details: Close details view
+    button_open_fullscreen: Отвори на цял екран
+    button_quote: Цитат
+    button_save: Запази
+    button_settings: Настройки
+    button_uncheck_all: Размаркирай всички
+    button_update: Обнови
+    button_export-pdf: Свали PDF
+    button_export-atom: Свали Atom
+    description_available_columns: Достъпни колони
+    description_current_position: 'Вие сте тук:'
+    description_select_work_package: 'Избери работен пакет #%{id}'
+    description_selected_columns: Избрани колони
+    description_subwork_package: 'Подработен пакет #%{id}'
+    error:
+      internal: Възникна вътрешна грешка.
+    filter:
+      description:
+        text_open_filter: Отворете този филтър с клавишите "ALT" и клавишите за стрелки.
+        text_close_filter: За да изберете запис махнете фокуса например чрез натискане
+          на Enter. За да оставите без филтър изберете първия (празен) запис.
+      noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: Първи критерий за подреждане
+          two: Втори критерий за подреждане
+          three: Трети критерий за подреждане
+    general_text_no: Не
+    general_text_yes: Да
+    general_text_No: Не
+    general_text_Yes: Да
+    label_activate: Activate
+    label_activity_no: Дейност запис номер %{activityNo}
+    label_activity_with_comment_no: Дейност запис номер %{activityNo}. Има коментар
+      от потребител.
+    label_add_columns: Add columns
+    label_add_comment: Добави коментар
+    label_add_comment_title: Щракнете, за да добавите коментар
+    label_add_selected_columns: Добавяне на избраните колони
+    label_added_by: добавен от
+    label_added_time_by: Добавено от %{author} %{age}
+    label_ago: преди
+    label_all: всички
+    label_all_work_packages: всички работни пакети
+    label_and: и
+    label_ascending: Възходящо
+    label_author: 'Автор: %{user}'
+    label_between: between
+    label_board_locked: Заключен
+    label_board_sticky: Лепкава
+    label_create_work_package: Създаване на нов работен пакет
+    label_created_by: Created by
+    label_date: Дата
+    label_date_with_format: 'Въведете %{date_attribute}, като използвате следния формат:
+      %{format}'
+    label_deactivate: Деактивирай
+    label_descending: Низходящо
+    label_description: Описание
+    label_cancel_comment: Отказване от коментар
+    label_closed_work_packages: затворен
+    label_collapse: Свий
+    label_collapsed: свита
+    label_collapse_all: Свиване на всички
+    label_comment: Коментар
+    label_committed_at: "%{committed_revision_link} в %{date}"
+    label_committed_link: направена ревизия %{revision_identifier}
+    label_contains: съдържа
+    label_created_on: създадена на
+    label_edit_comment: Редактиране на този коментар
+    label_edit_status: Edit the status of the work package
+    label_equals: е
+    label_expand: Разтвори
+    label_expanded: разширена
+    label_expand_all: Разгъване на всички
+    label_export: Експортиране
+    label_filename: Файл
+    label_filesize: Размер
+    label_greater_or_equal: ">="
+    label_group_by: Групиране по
+    label_hide_attributes: Скрии детайли
+    label_hide_column: Скрий колоната
+    label_in: в
+    label_in_less_than: в по-малко от
+    label_in_more_than: в повече от
+    label_latest_activity: Последна активност
+    label_last_updated_on: Последно актуализиран на
+    label_less_or_equal: "<="
+    label_less_than_ago: по-скоро от няколко дни
+    label_loading: Зареждане...
+    label_me: мен
+    label_menu_collapse: събери
+    label_menu_expand: разтвори
+    label_more_than_ago: повече от преди дни
+    label_next: Следващо
+    label_no_data: Няма данни за показване
+    label_no_due_date: Няма крайна дата
+    label_no_start_date: няма начална дата
+    label_none: none
+    label_not_contains: doesn't contain
+    label_not_equals: is not
+    label_on: на
+    label_open_menu: Open menu
+    label_open_work_packages: open
+    label_password: Парола
+    label_previous: Предишен
+    label_per_page: 'За страница:'
+    label_please_wait: Моля изчакайте
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Цитиране на този коментар
+    label_reset: Нулиране
+    label_remove_columns: Премахване на избраните колони
+    label_save_as: Запиши като
+    label_select_watcher: Изберете наблюдаващ...
+    label_selected_filter_list: Избрани филтри
+    label_show_attributes: Показване на всички атрибути
+    label_show_in_menu: Покажи страница в меню
+    label_sort_by: Подреждане по
+    label_sorted_by: сортирано по
+    label_sort_higher: Премести нагоре
+    label_sort_lower: Премести надолу
+    label_sorting: Сортиране
+    label_sum_for: Сума за
+    label_subject: Заглавие
+    label_this_week: тази седмица
+    label_today: днес
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent} % Общ напредък"
+    label_visible_for_others: Страницата е видима за други
+    label_updated_on: актуализиран на
+    label_warning: Предупреждение
+    label_work_package: Работен пакет
+    label_work_package_plural: Работни пакети
+    label_watch: Наблюдавай
+    label_watch_work_package: Наблюдавай работния пакет
+    label_watcher_added_successfully: Наблюдаващият е успешно добавен!
+    label_watcher_deleted_successfully: Наблюдателят успешно е премахнат!
+    label_work_package_details_you_are_here: Вие сте на раздел %{tab} за %{type} %{subject}.
+    label_unwatch: Спри наблюдение
+    label_unwatch_work_package: Ненаблюдаван работен пакет
+    label_uploaded_by: Качено от
+    label_global_queries: Споделени търсения
+    label_custom_queries: Персонални търсения
+    label_columns: Колони
+    label_attachments: Файлове
+    label_drop_files: Пуснете файлове тук
+    label_drop_files_hint: или щракнете, за да добавите файлове
+    label_add_attachments: Add attachments
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Изтриване на %{fileName}
+    label_remove_watcher: Премахване на наблюдателя %{name}
+    label_remove_all_files: Изтриване на всички файлове
+    label_add_description: Добавете на описание за %{file}
+    label_upload_notification: 'Качване на файлове за работа пакет #%{id}: %{subject}'
+    label_files_to_upload: 'Тези файлове ще бъдат качени:'
+    label_rejected_files: 'Тези файлове не могат да бъдат качени:'
+    label_rejected_files_reason: Тези файлове не могат да бъдат качени, тъй като техният
+      размер е по-голяма от %{maximumFilesize}
+    label_wait: Моля, изчакайте за конфигурация...
+    label_upload_counter: "%{done} от %{count} файлове са завършени"
+    label_validation_error: 'Работния пакет не може да бъде съхранен поради следните
+      грешки:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: You need to enter your account password to confirm this change.
+      title: Confirm your password to continue
+    pagination:
+      no_other_page: You are on the only page.
+      pages:
+        next: Forward to the next page
+        previous: Back to the previous page
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: Моля изберете
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: Сигурни ли сте?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: Зареждане на наблюдаващи...
+      label_error_loading: Възникна грешка при зареждане на наблюдатели
+      label_search_watchers: Търсене на наблюдатели
+      label_add: Добавяне на наблюдатели
+      label_discard: Отхвърляне на избора
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: Горна категория
+      children: Деца
+      relates: Свързано с
+      duplicates: Дубликати
+      duplicated: Дублирано от
+      blocks: Блокирания
+      blocked: Блокирано от
+      precedes: Предшестващи
+      follows: Следва
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      hierarchy_headline: hierarchy
+    relation_buttons:
+      change_parent: Смяна на главният работен пакет
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Премахване на връзка
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+    repositories:
+      select_tag: Изберете етикет
+      select_branch: Изберете клон
+    field_value_enter_prompt: Въведете стойност за '%{field}'
+    select2:
+      input_too_short:
+        one: Моля, въведете още един знак
+        other: Моля, въведете още {{count}} знаци
+        zero: Please enter more characters
+      load_more: Зареждане на още резултати...
+      no_matches: Не са намерени съвпадения
+      searching: Търсене...
+      selection_too_big:
+        one: Можете да изберете само един елемент
+        other: Можете да изберете само {{limit}} елемента
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
+      work package(s)?
+    text_query_destroy_confirmation: Сигурни ли сте, че искате да изтриете избраното
+      търсене?
+    text_attachment_destroy_confirmation: Наистина ли искате да изтриете прикачения
+      файл?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: Отказ
+      change: Change in planning
+      due_date: Дата на падеж
+      empty: "(empty)"
+      error: Възникна грешка.
+      errors:
+        not_implemented: The timeline could not be rendered because it uses a feature
+          that is not yet implemented.
+        report_comparison: The timeline could not render the configured comparisons.
+          Please check the appropriate section in the configuration, resetting it
+          can help solve this problem.
+        report_epicfail: The timeline could not be loaded due to an unexpected error.
+        report_timeout: The timeline could not be loaded in a reasonable amount of
+          time.
+      filter:
+        column:
+          assigned_to: Изпълнител
+          type: Тип
+          due_date: Крайна дата
+          name: Име
+          status: Състояние
+          responsible: Отговорен
+          start_date: Начална дата
+        grouping_other: Други
+        noneSelection: "(none)"
+      name: Име
+      new_work_package: Нов работен пакет
+      outline: Reset Outline
+      outlines:
+        aggregation: Show aggregations only
+        level1: Expand level 1
+        level2: Expand level 2
+        level3: Expand level 3
+        level4: Expand level 4
+        level5: Expand level 5
+        all: Show all
+      project_status: Статус на проекта
+      project_type: Тип проект
+      really_close_dialog: Наистина ли искате да затворите диалоговия прозорец и да
+        загубите въведените данни?
+      responsible: Отговорен
+      save: Запази
+      start_date: Начална дата
+      tooManyProjects: Намерени са повече от %{count} проекта. Моля, използвайте по-точен
+        филтър!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Приближаване
+        out: Отдалечаване
+        auto: Auto zoom
+        days: Дни
+        weeks: Седмици
+        months: Месеци
+        quarters: Tримесечие
+        years: Години
+        slider: Плъзгач за мащабиране
+    tl_toolbar:
+      zooms: Ниво на мащабиране
+      outlines: Йерархично ниво
+    unsupported_browser:
+      title: Версията на вашият браузър не се поддържа
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Научете повече
+      close_warning: Ignore this warning.
+    wiki_formatting:
+      strong: Главни букви
+      italic: Наклонени букви
+      underline: Подчертаване
+      deleted: Изтрито
+      code: Вложен код
+      heading1: Заглавие 1
+      heading2: Заглавие 2
+      heading3: Заглавие 3
+      unordered_list: Неподреден списък
+      ordered_list: Подреден списък
+      quote: Цитат
+      unquote: Махни кавичките
+      preformatted_text: Предварително форматиран текст
+      wiki_link: Линк към уики страница
+      image: Изображение
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Изчистване
+      comment_added: Коментарът е добавен успешно.
+      comment_send_failed: Възникна грешка. Коментарът не може да бъде добавен.
+      comment_updated: Коментарът е актуализиран успешно.
+      confirm_edit_cancel: Сигурни ли сте, че искате да откажете промените на работният
+        пакет?
+      description_filter: Филтър
+      description_enter_text: Въведи текст
+      description_options_hide: Скрий опциите
+      description_options_show: Покажи опциите
+      error:
+        edit_prohibited: Редактирането на %{attribute} е блокиран за този работен
+          пакет. Или този атрибут е получен от свързани пакети (например, подпакети),
+          или не са кофигурируеми по друга причина.
+        format:
+          date: "%{attribute} не е валидна дата - очаква се ГГГГ-ММ-ДД."
+        general: Възникна грешка.
+      edit_attribute: "%{attribute} - Редактиране"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Разреши множествено избиране
+      label_disable_multi_select: Спиране на множествено избиране
+      label_filter_add: Добавяне на филтър
+      label_options: Опции
+      label_column_multiselect: 'Комбинирани падащо меню: изберете с клавишите със
+        стрелки, потвърдете избора с enter, изтриване с backspace'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: Възникна грешка при опит за изтриване на работни
+        пакети.
+      message_successful_bulk_delete: Успешно изтрити работни пакети.
+      message_successful_show_in_fullscreen: Щракнете тук, за да отворите този работен
+        пакет в изглед на цял екран.
+      message_view_spent_time: Show spent time for this work package
+      no_value: Няма стойност
+      inline_create:
+        title: Щракнете тук, за да добавите нов работен пакет към този списък
+      create:
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: Създаване
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your query is erroneous and could not be processed.
+      no_results:
+        title: Няма работни пакети за показване.
+        description: Или никакви работни пакети не са създадени, или всички са филтрирани.
+      property_groups:
+        details: Подробности
+        people: Участници
+        estimatesAndTime: Разчетите и време
+        other: Други
+      properties:
+        assignee: Изпълнител
+        author: Автор
+        createdAt: Създаден на
+        description: Описание
+        date: Дата
+        dueDate: Дата на падеж
+        estimatedTime: Очаквано време
+        spentTime: Отработено време
+        category: Категория
+        percentageDone: Процент завършена задача
+        priority: Приоритет
+        projectName: Проект
+        responsible: Отговорен
+        startDate: Начална дата
+        status: Състояние
+        subject: Заглавие
+        title: Заглавие
+        type: Тип
+        updatedAt: Актуализиран на
+        versionName: Версия
+        version: Версия
+      jump_marks:
+        pagination: Jump to table pagination
+        label_pagination: Click here to skip over the work packages table and go to
+          pagination
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: Щракнете, за да въведете описание...
+      query:
+        column_names: Колони
+        group_by: Групай резултатите по
+        group: Групиране по
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Cортирай възходящо
+        sort_descending: Сортирай низходящо
+        move_column_left: Преместване на колона наляво
+        move_column_right: Преместете колона надясно
+        hide_column: Скрий колоната
+        insert_columns: Вмъкване на колони...
+        filters: Филтри
+        display_sums: Показване на суми
+        errors:
+          unretrievable_query: Не може да извлече заявката от URL
+          not_found: There is no such query
+        text_no_results: No matching queries were found.
+      table:
+        summary: Таблица с атрибути от редове и колони на работен пакет.
+        text_inline_edit: Повечето клетки на тази таблица са бутони, които активират
+          инлайн редактиране функционалност на този атрибут.
+        text_sort_hint: С линковете в заглавията на колоните в таблицата можете да
+          сортирате, преподреждате, премахвате и добавяте колони.
+        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      tabs:
+        overview: Общ преглед
+        activity: Активност
+        relations: Връзки с
+        watchers: Наблюдатели
+        attachments: Прикачени файлове
+      time_relative:
+        days: дни
+        weeks: седмици
+        months: месеци
+    toolbar:
+      settings:
+        columns: Колони...
+        sort_by: Сортирай по...
+        group_by: Групиране по...
+        display_sums: Показване на суми
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Скрий суми
+        save: Запази
+        save_as: Запиши като ...
+        export: Експортиране ...
+        publish: Publish ...
+        page_settings: Преименуване на търсене...
+        delete: Изтрий
+      filter: Филтър
+      unselected_title: Работен пакет
+      search_query_label: Търсене на запазени заявки за филтриране
+      search_query_title: Щракнете, за търсене на запазени заявки за филтриране
+    modals:
+      label_settings: Преименуване на търсене
+      label_name: Име
+      label_delete_page: Изтриване на текущата страница
+      button_apply: Приложи
+      button_save: Запази
+      button_submit: Изпрати
+      button_cancel: Отказ
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Успешно създаване.
+    notice_successful_delete: Успешно изтриване.
+    notice_successful_update: Успешно обновяване.
+    notice_bad_request: Грешна заявка.
+    relations:
+      empty: Не съществува връзка
+      remove: Премахване на връзка
+    inplace:
+      button_edit: "%{attribute}: Редактиране"
+      button_save: "%{attribute}: Запиши"
+      button_cancel: "%{attribute}: отказ"
+      button_save_all: Запази
+      button_cancel_all: Отказ
+      link_formatting_help: Помощ за форматиране на текст
+      btn_preview_enable: Предварителен преглед
+      btn_preview_disable: Забраняване на преглед
+      null_value_label: Няма стойност
+      clear_value_label: "-"
+      errors:
+        required: "%{field} не може да бъде празно"
+        number: "%{field} не е валидно число"
+        maxlength: "%{field} не може да съдържа повече от %{maxLength} цифри(а)"
+        minlength: "%{field} не може да съдържа по-малко от %{minLength} цифри(а)"
+        messages_on_field: 'Това поле е невалидно: %{messages}'
+    error_could_not_resolve_version_name: Не можа да открие версия с име
+    error_could_not_resolve_user_name: Не може да открие потребителско име
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 час
+        other: "%{count} часа"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

@@ -1,0 +1,638 @@
+---
+ro:
+  js:
+    ajax:
+      hide: Ascundere
+      loading: Se încarcă...
+    close_popup_title: Închidere pop-up
+    close_filter_title: Închide filtrul
+    close_form_title: Închide formularul
+    clipboard:
+      browser_error: Browser-ul nu acceptă copierea în ecranul tampon. Vă rugăm să
+        copiaţi textul selectat manual.
+      copied_successful: Copiere în ecranul tampon reușită!
+    button_add_watcher: Adăugare observator
+    button_back_to_list_view: Back to list view
+    button_cancel: Anulare
+    button_close: Close
+    button_check_all: Selectează tot
+    button_configure-form: Configure form
+    button_confirm: Confirmă
+    button_continue: Continue
+    button_copy: Copiere
+    button_custom-fields: Câmpuri personalizate
+    button_delete: Ștergere
+    button_delete_watcher: Ştergere observator
+    button_details_view: Vizualizare detaliată
+    button_duplicate: Duplicare
+    button_edit: Editare
+    button_filter: Filtrare
+    button_list_view: Vizualizare listă
+    button_show_view: Vizualizare pe tot ecranul
+    button_log_time: Consum timp
+    button_more: Mai mult
+    button_move: Mutare
+    button_open_details: Deschidere vizualizare detaliată
+    button_close_details: Close details view
+    button_open_fullscreen: Afișare pe tot ecranul
+    button_quote: Citare
+    button_save: Salvare
+    button_settings: Setări
+    button_uncheck_all: Deselecteaza tot
+    button_update: Actualizare
+    button_export-pdf: Descărcare PDF
+    button_export-atom: Descărcare Atom
+    description_available_columns: Coloane disponibile
+    description_current_position: 'Sunteți aici:'
+    description_select_work_package: 'Selectaţi pachetul de lucru #%{id}'
+    description_selected_columns: Coloane selectate
+    description_subwork_package: 'Fiu al pachetului de lucru #%{id}'
+    error:
+      internal: A apărut o eroare internă.
+    filter:
+      description:
+        text_open_filter: Deschideți acest filtru cu 'ALT' și tastele săgeată.
+        text_close_filter: Pentru a selecta o poziție schimbați prim-planul (de exemplu
+          apasand Enter). Pentru a ieși fără filtrare selectați prima poziție (goală).
+      noneElement: "(nimic)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: Primul criteriu de sortare
+          two: Al doilea criteriu de sortare
+          three: Al treilea criteriu de sortare
+    general_text_no: nu
+    general_text_yes: da
+    general_text_No: Nu
+    general_text_Yes: Da
+    label_activate: Activare
+    label_activity_no: Acțiunea cu numărul %{activityNo}
+    label_activity_with_comment_no: Acțiunea cu numărul %{activityNo}. Are un comentariu
+      de utilizator.
+    label_add_columns: Add columns
+    label_add_comment: Adăugare comentariu
+    label_add_comment_title: Click pentru a adăuga un comentariu
+    label_add_selected_columns: Adăugați coloanele selectate
+    label_added_by: adăugat de
+    label_added_time_by: Adăugat de %{author} %{age}
+    label_ago: zile în urmă
+    label_all: toate
+    label_all_work_packages: toate pachetele de lucru
+    label_and: și
+    label_ascending: Crescător
+    label_author: 'Autor: %{user}'
+    label_between: between
+    label_board_locked: Închis
+    label_board_sticky: Lipicios
+    label_create_work_package: Creare pachet de lucru nou
+    label_created_by: Creat de
+    label_date: Dată
+    label_date_with_format: 'Introduceţi %{date_attribute} folosind următorul format:
+      %{format}'
+    label_deactivate: Dezactivare
+    label_descending: Descrescător
+    label_description: Descriere
+    label_cancel_comment: Anulează comentariu
+    label_closed_work_packages: închis
+    label_collapse: Restrângere
+    label_collapsed: restrâns
+    label_collapse_all: Restrângere totală
+    label_comment: Comentariu
+    label_committed_at: "%{committed_revision_link} la data de %{date}"
+    label_committed_link: revizia încărcată %{revision_identifier}
+    label_contains: conţine
+    label_created_on: creat la data de
+    label_edit_comment: Editare comentariu
+    label_edit_status: Edit the status of the work package
+    label_equals: este
+    label_expand: Extindere
+    label_expanded: extins
+    label_expand_all: Extindere totală
+    label_export: Exportare
+    label_filename: Fișier
+    label_filesize: Dimensiune
+    label_greater_or_equal: ">="
+    label_group_by: Grupare după
+    label_hide_attributes: Arată mai puţin
+    label_hide_column: Ascundere coloana
+    label_in: în
+    label_in_less_than: în mai puțin de
+    label_in_more_than: în mai mult de
+    label_latest_activity: Ultima acțiune
+    label_last_updated_on: Ultima actualizare la data de
+    label_less_or_equal: "<="
+    label_less_than_ago: acum mai puțin de zile
+    label_loading: Se încarcă...
+    label_me: eu
+    label_menu_collapse: restrângere
+    label_menu_expand: extindere
+    label_more_than_ago: acum mai mult de zile
+    label_next: Înainte
+    label_no_data: Nu există date de afișat
+    label_no_due_date: fără dată sfârșit
+    label_no_start_date: fără dată început
+    label_none: niciunul
+    label_not_contains: nu conține
+    label_not_equals: nu este
+    label_on: pe
+    label_open_menu: Deschidere meniu
+    label_open_work_packages: deschise
+    label_password: Parolă
+    label_previous: Înapoi
+    label_per_page: 'Pe pagină:'
+    label_please_wait: Așteptați
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Citare comentariu
+    label_reset: Resetare
+    label_remove_columns: Eliminare coloane selectate
+    label_save_as: Salvare ca
+    label_select_watcher: Selectaţi un observator...
+    label_selected_filter_list: Filtre selectate
+    label_show_attributes: Afișați toate câmpurile
+    label_show_in_menu: Afișați pagina în meniu
+    label_sort_by: Sortare după
+    label_sorted_by: sortare după
+    label_sort_higher: Mută în sus
+    label_sort_lower: Mută în jos
+    label_sorting: Sortare
+    label_sum_for: Suma pentru
+    label_subject: Subiect
+    label_this_week: săptămâna curentă
+    label_today: astăzi
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent} % Progres total"
+    label_visible_for_others: Pagină vizibilă pentru altii
+    label_updated_on: actualizat la data de
+    label_warning: Avertizare
+    label_work_package: Pachet de lucru
+    label_work_package_plural: Pachete de lucru
+    label_watch: Monitorizare
+    label_watch_work_package: Urmăriți pachetul de lucru
+    label_watcher_added_successfully: Observator adăugat cu succes!
+    label_watcher_deleted_successfully: Observator eliminat cu succes!
+    label_work_package_details_you_are_here: Esti în secțiunea %{tab} din %{type}
+      %{subject}.
+    label_unwatch: Stop monitorizare
+    label_unwatch_work_package: Opriți urmărirea pachetului de lucru
+    label_uploaded_by: Încărcat de
+    label_global_queries: Interogări publice
+    label_custom_queries: Interogări private
+    label_columns: Coloane
+    label_attachments: Fişiere
+    label_drop_files: Trageți fișierele aici
+    label_drop_files_hint: sau dați click pentru a adăuga fişiere
+    label_add_attachments: Adaugă atașamente
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Ştergere %{fileName}
+    label_remove_watcher: Eliminare observator %{name}
+    label_remove_all_files: Ştergeţi toate fişierele
+    label_add_description: Adăugați o descriere pentru %{file}
+    label_upload_notification: 'Fişierele pentru pachetul de lucru #%{id}: %{subject}
+      sunt în curs de încărcare'
+    label_files_to_upload: 'Următoarele fişiere vor fi încărcate:'
+    label_rejected_files: 'Următoarele fişiere nu pot fi încărcate:'
+    label_rejected_files_reason: Aceste fişiere nu pot fi încărcate deoarece mărimea
+      lor este mai mare decât %{maximumFilesize}
+    label_wait: Vă rugăm să aşteptaţi pentru configurare...
+    label_upload_counter: "%{done} din %{count} de fişiere terminate"
+    label_validation_error: 'Pachetul de lucru nu a putut fi salvat din cauza următoarelor
+      erori:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: Trebuie să introduceţi parola contului dumneavoastră pentru
+        a confirma această schimbare.
+      title: Reintroduceţi parola pentru a continua
+    pagination:
+      no_other_page: Sunteți pe pagina unică.
+      pages:
+        next: Avansare la pagina următoare
+        previous: Înapoi la pagina precedentă
+    placeholders:
+      default: "-"
+      subject: Introduceţi subiectul aici
+      selection: Vă rugăm să selectaţi
+      relation_description: Click pentru a adauga o descriere pentru această relaţie
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: Sunteți sigur?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: se încarcă observatorii...
+      label_error_loading: A apărut o eroare în timpul încărcării observatorilor
+      label_search_watchers: Caută observator
+      label_add: Adăugare observatori
+      label_discard: Renunțare la selecţie
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: Părinte
+      children: Fii
+      relates: În relație cu
+      duplicates: Dublează
+      duplicated: Dublate de
+      blocks: Blochează
+      blocked: Blocat de
+      precedes: Precede
+      follows: Urmează după
+      includes: Include
+      partof: Parte din
+      requires: Necesită
+      required: Cerut de
+      relation_type: tipul de relaţie
+    relations_hierarchy:
+      hierarchy_headline: ierarhie
+    relation_buttons:
+      change_parent: Modificare părinte
+      remove_parent: Elimina părinte
+      group_by_wp_type: Grupează după tipul packetului de lucru
+      group_by_relation_type: Grupează dupa tipul legăturii
+      add_parent: Adaugă părinte existent
+      add_new_child: Crează un nou copil
+      add_existing_child: Adaugă un copil existent
+      remove_child: Elimină copil
+      add_new_relation: Crează o nouă relație
+      update_description: Setează sau actualizează descrierea acestei relații
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Eliminare relaţie
+      save: Salvează relația
+      abort: Anulează
+    relations_autocomplete:
+      placeholder: Introduceţi ID-ul packetului de lucru
+    repositories:
+      select_tag: Selectare etichetă
+      select_branch: Selectare ramură
+    field_value_enter_prompt: Introduceţi o valoare pentru '%{field}'
+    select2:
+      input_too_short:
+        one: Introduceți încă un caracter
+        other: Introduceţi încă {{count}} caractere
+        zero: Please enter more characters
+        few: Introduceţi încă {{count}} caractere
+      load_more: Se încarcă mai multe rezultate...
+      no_matches: Nu a fost găsit niciun articol
+      searching: Căutare în curs...
+      selection_too_big:
+        one: Puteți selecta un singur element
+        other: Puteți selecta doar {{limit}} elemente
+        zero: You cannot select any items
+        few: Puteți selecta doar {{limit}} elemente
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Sunteți sigur că doriți ștergerea pachetelor
+      de lucru selectate?
+    text_query_destroy_confirmation: Sunteți sigur că doriți să ștergeți interogarea
+      selectată?
+    text_attachment_destroy_confirmation: Sunteţi sigur că doriţi să ştergeţi atașamentul?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: Anulare
+      change: Schimbare în planificare
+      due_date: Dată scadentă
+      empty: "(gol)"
+      error: A apărut o eroare.
+      errors:
+        not_implemented: Planificările nu pot fi afișate deoarece utilizează o funcționalitate
+          care nu este încă implementată.
+        report_comparison: Planificările nu au putut afișa comparațiile configurate.
+          Verificați secțiunea corespunzătoare din configurare, resetarea acesteia
+          poate ajuta la rezolvarea problemei.
+        report_epicfail: Planificările nu au putut fi încărcate din cauza unei erori
+          neașteptate.
+        report_timeout: Planificările nu au putut fi încărcate într-un interval de
+          timp rezonabil.
+      filter:
+        column:
+          assigned_to: Executant
+          type: Tip
+          due_date: Dată de sfârşit
+          name: Nume
+          status: Stare
+          responsible: Responsabil
+          start_date: Data de început
+        grouping_other: Altele
+        noneSelection: "(nimic)"
+      name: Nume
+      new_work_package: Pachet de lucru nou
+      outline: Resetare contur
+      outlines:
+        aggregation: Afișare doar a agregărilor
+        level1: Afișare level 1
+        level2: Afișare level 2
+        level3: Afișare level 3
+        level4: Afișare level 4
+        level5: Afișare level 5
+        all: Afișare completă
+      project_status: Stare proiect
+      project_type: Tip proiect
+      really_close_dialog: Sunteți sigur că doriți să închideți formularul și să pierdeți
+        datele introduse?
+      responsible: Responsabil
+      save: Salvare
+      start_date: Data de început
+      tooManyProjects: Mai mult de %{count} proiecte. Vă rugăm să folosiţi un filtru
+        potrivit!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Mărire
+        out: Micșorare
+        auto: Auto zoom
+        days: Zile
+        weeks: Săptămâni
+        months: Luni
+        quarters: Trimestre
+        years: Ani
+        slider: Selector de orizont de timp
+    tl_toolbar:
+      zooms: Orizont de timp
+      outlines: Nivel ierarhic
+    unsupported_browser:
+      title: Versiunea dumneavoastră de browser nu este suportată
+      message: Versiunea de browser utilizată nu mai este suportată de OpenProject.
+      update_message: Vă rugăm să actualizaţi browser-ul.
+      update_ie_user: Vă rugăm să folosiți Mozilla Firefox sau Google Chrome, sau
+        faceți un upgrade către Microsoft Edge.
+      learn_more: Aflați mai multe
+      close_warning: Ignoră acest avertisment.
+    wiki_formatting:
+      strong: Aldin
+      italic: Italic
+      underline: Subliniat
+      deleted: Taiat
+      code: Limbaj de programare
+      heading1: Titlu 1
+      heading2: Titlu 2
+      heading3: Titlu 3
+      unordered_list: Listă neordonată
+      ordered_list: Listă ordonată
+      quote: Citare
+      unquote: Elimină formatare citat
+      preformatted_text: Text preformatat
+      wiki_link: Link la o pagină Wiki
+      image: Imagine
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Inițializare
+      comment_added: Comentariul a fost adăugat cu succes.
+      comment_send_failed: A apărut o eroare. Comentariul nu a putut fi salvat.
+      comment_updated: Comentariul a fost actualizat cu succes.
+      confirm_edit_cancel: Sunteți sigur că doriți să renunțați la editarea pachetului
+        de lucru?
+      description_filter: Filtrare
+      description_enter_text: Introduceţi textul
+      description_options_hide: Ascundere opțiuni
+      description_options_show: Afișare opțiuni
+      error:
+        edit_prohibited: Editarea câmpului %{attribute} este blocată pentru acest
+          pachet de lucru. Fie acest câmp este calculat indirect (de exemplu pe baza
+          fiilor) sau nu este modificabil.
+        format:
+          date: "%{attribute} nu este o dată validă - Este necesar formatul AAAA-LL-ZZ."
+        general: A apărut o eroare.
+      edit_attribute: "%{attribute} - Editare"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Activare selecție multiplă
+      label_disable_multi_select: Dezactivare selecție multiplă
+      label_filter_add: Adăugare filtru
+      label_options: Opțiuni
+      label_column_multiselect: 'Câmp desfășurat combinat: selectaţi cu săgețile,
+        confirmați alegerea cu enter, ştergeţi cu backspace'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: A apărut o eroare la ștergerea pachetelor
+        de lucru.
+      message_successful_bulk_delete: Pachetele de lucru au fost șterse cu succes.
+      message_successful_show_in_fullscreen: Click aici pentru a afișa acest pachet
+        de lucru pe tot ecranul.
+      message_view_spent_time: Arată timpul petrecut pentru acest pachet de lucru
+      no_value: Nici o valoare
+      inline_create:
+        title: Click aici pentru a adăuga un nou pachet de lucru în listă
+      create:
+        header: Nou %{type}
+        header_no_type: Nou pachet de lucru (Tipul incă nu a fost stabilit)
+        header_with_parent: 'Nou %{type} (copilul %{parent_type} #%{id})'
+        button: Creare
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your query is erroneous and could not be processed.
+      no_results:
+        title: Nu sunt pachete de lucru de afișat.
+        description: Nu a fost creat niciun pachet de lucru, sau toate sunt eliminate
+          prin filtru.
+      property_groups:
+        details: Detalii
+        people: Persoane
+        estimatesAndTime: Estimări și Durate
+        other: Altele
+      properties:
+        assignee: Executant
+        author: Autor
+        createdAt: Creat pe
+        description: Descriere
+        date: Dată
+        dueDate: Dată scadentă
+        estimatedTime: Durata estimată
+        spentTime: Timp consumat
+        category: Categorie
+        percentageDone: Procent realizat
+        priority: Prioritate
+        projectName: Proiect
+        responsible: Responsabil
+        startDate: Data de început
+        status: Stare
+        subject: Subiect
+        title: Titlu
+        type: Tip
+        updatedAt: Actualizat pe
+        versionName: Versiune
+        version: Versiune
+      jump_marks:
+        pagination: Salt la paginarea tabelului
+        label_pagination: Click aici pentru a sări peste tabelul cu pachete de lucru
+          și a ajunge la paginare
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: Click pentru a introduce descrierea...
+      query:
+        column_names: Coloane
+        group_by: Grupare rezultate
+        group: Grupare după
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Ordonare ascendentă
+        sort_descending: Ordonare descendentă
+        move_column_left: Mutați coloana la stânga
+        move_column_right: Mutați coloana la dreapta
+        hide_column: Ascundere coloana
+        insert_columns: Inserare coloane...
+        filters: Filtre
+        display_sums: Afişare totaluri
+        errors:
+          unretrievable_query: Interogarea nu a putut fi extrasă din URL
+          not_found: Nu există această interogare
+        text_no_results: No matching queries were found.
+      table:
+        summary: Tabel cu pachete de lucru pe rânduri şi câmpurile pachetelor pe coloane.
+        text_inline_edit: Majoritatea celulelor din acest tabel sunt butoane care
+          activează editarea "inline" a câmpului respectiv.
+        text_sort_hint: Cu link-urile din capul de tabel puteți sorta, grupa, reordona,
+          elimina și adăuga coloane la tabel.
+        text_select_hint: Casetele de selectare ar trebui să fie deschise cu 'ALT'
+          si tastele săgeată.
+      tabs:
+        overview: Vedere de ansamblu
+        activity: Activitate
+        relations: Relații
+        watchers: Observatori
+        attachments: Atașamente
+      time_relative:
+        days: zile
+        weeks: săptămâni
+        months: luni
+    toolbar:
+      settings:
+        columns: Coloane...
+        sort_by: Sortare după...
+        group_by: Grupare după...
+        display_sums: Afişare totaluri
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Ascundere totaluri
+        save: Salvare
+        save_as: Salvare ca ...
+        export: Exportare ...
+        publish: Publish ...
+        page_settings: Redenumire interogare ...
+        delete: Ștergere
+      filter: Filtrare
+      unselected_title: Pachet de lucru
+      search_query_label: Căutare interogare de filtrare salvată
+      search_query_title: Click pentru a căuta o interogare de filtrare salvată
+    modals:
+      label_settings: Redenumire interogare
+      label_name: Nume
+      label_delete_page: Ştergeți pagina curentă
+      button_apply: Salvare
+      button_save: Salvare
+      button_submit: Trimitere
+      button_cancel: Anulare
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Creare reuşită.
+    notice_successful_delete: Ştergere reuşită.
+    notice_successful_update: Actualizare reușită.
+    notice_bad_request: Cerere invalidă.
+    relations:
+      empty: Nu există relații
+      remove: Eliminare relaţie
+    inplace:
+      button_edit: "%{attribute}: Editare"
+      button_save: "%{attribute}: Salvare"
+      button_cancel: "%{attribute}: Anulare"
+      button_save_all: Salvare
+      button_cancel_all: Anulare
+      link_formatting_help: Ajutor pentru formatarea textului
+      btn_preview_enable: Previzualizare
+      btn_preview_disable: Dezactivare previzualizare
+      null_value_label: Nici o valoare
+      clear_value_label: "-"
+      errors:
+        required: "%{field} nu poate fi gol"
+        number: "%{field} nu este un număr valid"
+        maxlength: "%{field} nu poate conține mai mult de %{maxLength} cifre"
+        minlength: "%{field} nu poate conține mai puțin de %{minLength} cifre"
+        messages_on_field: 'Acest câmp este invalid: %{messages}'
+    error_could_not_resolve_version_name: Nu a putut fi detectat numele versiunii
+    error_could_not_resolve_user_name: Nu a putut fi detectat numele utilizatorului
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+        few: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+        few: "%{count} work package children"
+      hour:
+        one: 1 oră
+        other: "%{count} ore"
+        zero: 0 hours
+        few: "%{count} ore"
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

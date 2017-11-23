@@ -1,0 +1,624 @@
+---
+id:
+  js:
+    ajax:
+      hide: Sembunyikan
+      loading: Loading ...
+    close_popup_title: Tutup
+    close_filter_title: Tutup Penyaring
+    close_form_title: Tutup formulir
+    clipboard:
+      browser_error: Browser Anda tidak mendukung menyalin ke clipboard. Harap menyalin
+        teks yang dipilih secara manual.
+      copied_successful: Berhasil disalin ke clipboard!
+    button_add_watcher: Tambah pemantau
+    button_back_to_list_view: Back to list view
+    button_cancel: Batal
+    button_close: Close
+    button_check_all: Cek semua
+    button_configure-form: Configure form
+    button_confirm: Konfirmasi
+    button_continue: Lanjut
+    button_copy: Salin
+    button_custom-fields: Isian kustom
+    button_delete: Hapus
+    button_delete_watcher: Hapus pemantau
+    button_details_view: Tampilan detail
+    button_duplicate: Duplikasi
+    button_edit: Edit
+    button_filter: Filter
+    button_list_view: Tampilan tabel
+    button_show_view: Tampilan layar penuh
+    button_log_time: Catatan waktu
+    button_more: Lanjut
+    button_move: Pindahkan
+    button_open_details: Lihat tampilan detail
+    button_close_details: Close details view
+    button_open_fullscreen: Open fullscreen view
+    button_quote: Kutipan
+    button_save: Simpan
+    button_settings: Pengaturan
+    button_uncheck_all: Uncek semua
+    button_update: Update
+    button_export-pdf: Download PDF
+    button_export-atom: Download Atom
+    description_available_columns: Kolom tersedia
+    description_current_position: 'Anda di sini:'
+    description_select_work_package: 'Select work package #%{id}'
+    description_selected_columns: Kolom dipilih
+    description_subwork_package: 'Child of work package #%{id}'
+    error:
+      internal: An internal error has occurred.
+    filter:
+      description:
+        text_open_filter: Buka filter ini dengan 'ALT' dan tombol panah.
+        text_close_filter: To select an entry leave the focus for example by pressing
+          enter. To leave without filter select the first (empty) entry.
+      noneElement: "(kosong)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: Hapus nilai
+      sorting:
+        criteria:
+          one: Kriteria penyortiran pertama
+          two: Kriteria penyortiran kedua
+          three: Kriteria penyortiran ketiga
+    general_text_no: 'no'
+    general_text_yes: 'yes'
+    general_text_No: 'No'
+    general_text_Yes: 'Yes'
+    label_activate: Aktifkan
+    label_activity_no: Activity entry number %{activityNo}
+    label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
+      comment.
+    label_add_columns: Add columns
+    label_add_comment: Tambah komentar
+    label_add_comment_title: Click to add a comment
+    label_add_selected_columns: Tambahkan kolom terpilih
+    label_added_by: ditambahkan oleh
+    label_added_time_by: Ditambahkan oleh %{author} %{age}
+    label_ago: hari yang lalu
+    label_all: semua
+    label_all_work_packages: Semua paket kerja
+    label_and: dan
+    label_ascending: Askending
+    label_author: 'Author: %{user}'
+    label_between: between
+    label_board_locked: Locked
+    label_board_sticky: Sticky
+    label_create_work_package: Buat Paket-Penugasan baru
+    label_created_by: Created by
+    label_date: Tanggal
+    label_date_with_format: 'Enter the %{date_attribute} using the following format:
+      %{format}'
+    label_deactivate: Nonaktifkan
+    label_descending: Deskending
+    label_description: Deskripsi
+    label_cancel_comment: Cancel comment
+    label_closed_work_packages: berakhir
+    label_collapse: Tampilkan
+    label_collapsed: runtuh
+    label_collapse_all: Tutup semua
+    label_comment: Komentar
+    label_committed_at: "%{committed_revision_link} pada %{date}"
+    label_committed_link: disimpan pada revisi %{revision_identifier}
+    label_contains: berisi
+    label_created_on: dibuat pada
+    label_edit_comment: Edit this comment
+    label_edit_status: Edit the status of the work package
+    label_equals: adalah
+    label_expand: Expand
+    label_expanded: diperluas
+    label_expand_all: Buka semua
+    label_export: Ekspor
+    label_filename: File
+    label_filesize: Size
+    label_greater_or_equal: ">="
+    label_group_by: Grup oleh
+    label_hide_attributes: Show less
+    label_hide_column: Sembunyikan kolom
+    label_in: dalam
+    label_in_less_than: kurang dari
+    label_in_more_than: lebih dari
+    label_latest_activity: Aktifitas terbaru
+    label_last_updated_on: Terakhir diupdate pada
+    label_less_or_equal: "<="
+    label_less_than_ago: kemarin lusa
+    label_loading: Loading...
+    label_me: saya
+    label_menu_collapse: runtuh
+    label_menu_expand: expand
+    label_more_than_ago: lusa yang lalu
+    label_next: Lanjut
+    label_no_data: Tidak ada data untuk ditampilkan
+    label_no_due_date: tidak ada tanggal berakhir
+    label_no_start_date: tidak ada tanggal mulai
+    label_none: kosong
+    label_not_contains: tidak berisi
+    label_not_equals: tidak
+    label_on: pada
+    label_open_menu: Buka menu
+    label_open_work_packages: buka
+    label_password: Password
+    label_previous: Sebelumnya
+    label_per_page: 'Per halaman:'
+    label_please_wait: Please wait
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Quote this comment
+    label_reset: Reset
+    label_remove_columns: Hapus kolom terpilih
+    label_save_as: Simpan sebagai
+    label_select_watcher: Pilih pemantau...
+    label_selected_filter_list: Filter terpilih
+    label_show_attributes: Show all attributes
+    label_show_in_menu: Tampilkan halaman di menu
+    label_sort_by: Sort by
+    label_sorted_by: urut berdasarkan
+    label_sort_higher: Naikkan
+    label_sort_lower: Pindahkan ke bawah
+    label_sorting: Mengurutkan
+    label_sum_for: Jumlah
+    label_subject: Perihal
+    label_this_week: minggu ini
+    label_today: hari ini
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent}% total progres"
+    label_visible_for_others: Halaman dapat diakses oleh member lain
+    label_updated_on: diupdate pada
+    label_warning: Warning
+    label_work_package: Paket-Penugasan
+    label_work_package_plural: Paket-Penugasan
+    label_watch: Pantau
+    label_watch_work_package: Pantau Paket-Penugasan
+    label_watcher_added_successfully: Pemantau telah ditambahkan!
+    label_watcher_deleted_successfully: Pemantau telah dihapus!
+    label_work_package_details_you_are_here: Anda di tab %{tab} untuk %{type} %{subject}.
+    label_unwatch: Unwatch
+    label_unwatch_work_package: Tidak pantau Paket-Penugasan
+    label_uploaded_by: Diupload oleh
+    label_global_queries: Query bersama
+    label_custom_queries: Query pribadi
+    label_columns: Kolom
+    label_attachments: File
+    label_drop_files: Drop file di sini
+    label_drop_files_hint: atau klik untuk menambahkan
+    label_add_attachments: Tambahkan lampiran
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Hapus %{fileName}
+    label_remove_watcher: Remove watcher %{name}
+    label_remove_all_files: Hapus semua file
+    label_add_description: Tambahkan deskripsi untuk %{file}
+    label_upload_notification: 'Upload file untuk Work package #%{id}: %{subject}'
+    label_files_to_upload: 'Upload file berikut:'
+    label_rejected_files: 'File ini tidak bisa di-upload:'
+    label_rejected_files_reason: File berikut melebihi ketentuan ukuran yang diperbolehkan
+      yaitu < %{maximumFilesize}
+    label_wait: Mohon menunggu...
+    label_upload_counter: "%{done} dari %{count} file selesai"
+    label_validation_error: 'Proses penyimpanan work package gagal. Kesalahan yang
+      terjadi:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: Anda harus mengisi kata sandi akun untuk mengkonfirmasi perubahan.
+      title: Konfirmasi kata sandi anda untuk melanjutkan
+    pagination:
+      no_other_page: You are on the only page.
+      pages:
+        next: Forward to the next page
+        previous: Back to the previous page
+    placeholders:
+      default: Hapus nilai
+      subject: Enter subject here
+      selection: Silakan pilih
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: Anda yakin?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: memuat pengamat...
+      label_error_loading: An error occurred while loading the watchers
+      label_search_watchers: Cari pengamat
+      label_add: Tambah pemantau
+      label_discard: Hapus pilihan
+      typeahead_placeholder: Mencari pengawas yang memungkinkan
+    relation_labels:
+      parent: Induk
+      children: Sub
+      relates: Berkaitan dengan
+      duplicates: Duplikat
+      duplicated: Diduplikat oleh
+      blocks: Blok
+      blocked: Diblokir oleh
+      precedes: Mendahului
+      follows: Berikut
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      hierarchy_headline: hierarchy
+    relation_buttons:
+      change_parent: Perubahan induk
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Tambah pengikut
+      add_predecessor: Add predecessor
+      remove: Remove relation
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+    repositories:
+      select_tag: Pilih tag
+      select_branch: Pilih cabang
+    field_value_enter_prompt: Masukkan nilai untuk '%{field}'
+    select2:
+      input_too_short:
+        one: Please enter one more character
+        other: Please enter {{count}} more characters
+        zero: Please enter more characters
+      load_more: Memuat hasil lebih banyak...
+      no_matches: Tak ditemukan yang cocok
+      searching: Mencari ...
+      selection_too_big:
+        one: You can only select one item
+        other: Anda hanya dapat memilih {{limit}} item
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Yakin akan menghapus?
+    text_query_destroy_confirmation: Apakah Anda yakin Anda ingin menghapus query
+      yang dipilih?
+    text_attachment_destroy_confirmation: Apakah Anda yakin ingin menghapus lampiran?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: Batal
+      change: Perubahan dalam perencanaan
+      due_date: Tenggat waktu
+      empty: "(kosong)"
+      error: An error has occurred.
+      errors:
+        not_implemented: Timeline tidak bisa dirender karena syarat fitur yang digunakan
+          belum diimplementasikan.
+        report_comparison: Timeline tidak bisa merender komparasi yang dikonfigurasikan.
+          Periksa di bagian konfigurasi, cara resetting mungkin bisa memecahkan masalah
+          ini.
+        report_epicfail: 'Error : Timeline tidak dapat dibuka karena ada kesalahan.'
+        report_timeout: Timeline tidak dapat dibuka untuk sementara waktu.
+      filter:
+        column:
+          assigned_to: Pelimpahan
+          type: Tipe
+          due_date: Tanggal finish
+          name: Nama
+          status: Status
+          responsible: Penanggung jawab
+          start_date: Tanggal start
+        grouping_other: Lainnya
+        noneSelection: "(kosong)"
+      name: Nama
+      new_work_package: Paket-Penugasan baru
+      outline: Reset Outline
+      outlines:
+        aggregation: Hanya tampilkan agregasi
+        level1: Buka level 1
+        level2: Buka level 2
+        level3: Buka level 3
+        level4: Buka level 4
+        level5: Buka level 5
+        all: Tampilkan semua
+      project_status: Project status
+      project_type: Tipe Project
+      really_close_dialog: Apakah Anda benar-benar ingin menutup dialog dan kehilangan
+        data yang dimasukkan?
+      responsible: Penanggung jawab
+      save: Simpan
+      start_date: Tanggal start
+      tooManyProjects: Lebih dari %{count} proyek. Silakan gunakan filter lebih baik!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Zoom in
+        out: Zoom out
+        auto: Auto zoom
+        days: Hari
+        weeks: Minggu
+        months: Bulan
+        quarters: Kuartal
+        years: Tahun
+        slider: Zoom slider
+    tl_toolbar:
+      zooms: Zoom level
+      outlines: Hierarchy level
+    unsupported_browser:
+      title: Versi peramban Anda tidak didukung
+      message: Versi browser yang anda gunakan terlalu usang untuk OpenProject.
+      update_message: Mohon tingkatkan browsermu.
+      update_ie_user: Mohon ubah ke Mozzila atau Google Chrome, atau tingkatkan Microsoft
+        Edge.
+      learn_more: Pelajari lebih lanjut
+      close_warning: Abaikan peringatan ini.
+    wiki_formatting:
+      strong: Tebal
+      italic: Miring
+      underline: Garis Bawah
+      deleted: Terhapus
+      code: Kode inline
+      heading1: Heading 1
+      heading2: Heading 2
+      heading3: Heading 3
+      unordered_list: Unordered List
+      ordered_list: Ordered List
+      quote: Kutipan
+      unquote: Unquote
+      preformatted_text: Preformatted Text
+      wiki_link: Link ke halaman Wiki
+      image: Gambar
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Clear
+      comment_added: The comment was successfully added.
+      comment_send_failed: An error has occurred. Could not submit the comment.
+      comment_updated: The comment was successfully updated.
+      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      description_filter: Filter
+      description_enter_text: Masukkan teks
+      description_options_hide: Sembunyikan opsi
+      description_options_show: Tampilkan opsi
+      error:
+        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
+          this attribute is derived from relations (e.g, children) or otherwise not
+          configurable.
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: An error has occurred.
+      edit_attribute: "%{attribute} - Edit"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Enable multiselect
+      label_disable_multi_select: Disable multiselect
+      label_filter_add: Tambah Filter
+      label_options: Opsi
+      label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
+        confirm selection with enter, delete with backspace'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: 'Error: Menghapus Paket-Penugasan.'
+      message_successful_bulk_delete: Paket-Penugasan telah dihapus.
+      message_successful_show_in_fullscreen: Click here to open this work package
+        in fullscreen view.
+      message_view_spent_time: Show spent time for this work package
+      no_value: Kosongkan
+      inline_create:
+        title: Click here to add a new work package to this list
+      create:
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: Buat baru
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Klik untuk beralih ke mode hirarki.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hirarki tingkat %{level}, telah diperluas. Klik untuk menjabarkan
+          anak anak yang telah disaring
+      faulty_query:
+        title: Paket kerja tidak dapat dimuat.
+        description: Kueri salah dan tidak dapat diproses.
+      no_results:
+        title: No work packages to display.
+        description: Either none have been created or all work packages are filtered
+          out.
+      property_groups:
+        details: Detil
+        people: Orang
+        estimatesAndTime: Perkiraan & waktu
+        other: Lainnya
+      properties:
+        assignee: Pelimpahan
+        author: Penulis
+        createdAt: Dibuat
+        description: Deskripsi
+        date: Tanggal
+        dueDate: Tenggat waktu
+        estimatedTime: Estimasi Waktu
+        spentTime: Durasi
+        category: Kategori
+        percentageDone: Persentase selesai
+        priority: Prioritas
+        projectName: Project
+        responsible: Penanggung jawab
+        startDate: Tanggal start
+        status: Status
+        subject: Perihal
+        title: Judul
+        type: Tipe
+        updatedAt: Diperbarui
+        versionName: Versi
+        version: Versi
+      jump_marks:
+        pagination: Jump to table pagination
+        label_pagination: Click here to skip over the work packages table and go to
+          pagination
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: Hapus nilai
+        description: Klik untuk masukkan keterangan...
+      query:
+        column_names: Kolom
+        group_by: Group
+        group: Grup oleh
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Urutkan askending
+        sort_descending: Urutkan deskending
+        move_column_left: Pindahkan kolom ke kiri
+        move_column_right: Pindahkan kolom ke kanan
+        hide_column: Sembunyikan kolom
+        insert_columns: Sisipkan kolom...
+        filters: Filter
+        display_sums: Tampilkan jumlah
+        errors:
+          unretrievable_query: Tidak dapat mengambil queri URL
+          not_found: Tidak ada pertanyaan lagi
+        text_no_results: No matching queries were found.
+      table:
+        summary: Table with rows of work package and columns of work package attributes.
+        text_inline_edit: Most cells of this table are buttons that activate inline-editing
+          functionality of that attribute.
+        text_sort_hint: With the links in the table headers you can sort, group, reorder,
+          remove and add table columns.
+        text_select_hint: Pilih kotak yang seharusnya terbuka dengan 'ALT' dan tanda
+          kursor.
+      tabs:
+        overview: Tinjauan
+        activity: Activity
+        relations: Relasi
+        watchers: Pemantau
+        attachments: Lampiran
+      time_relative:
+        days: hari
+        weeks: minggu
+        months: bulan
+    toolbar:
+      settings:
+        columns: Kolom...
+        sort_by: Urut berdasarkan...
+        group_by: Grup oleh...
+        display_sums: Tampilkan jumlah
+        display_hierarchy: Tampilkan hirarki
+        hide_hierarchy: Sembunyikan hirarki
+        hide_sums: Sembunyikan jumlah
+        save: Simpan
+        save_as: Simpan sebagai...
+        export: Ekspor...
+        publish: Publish ...
+        page_settings: Ubah nama query ...
+        delete: Hapus
+      filter: Filter
+      unselected_title: Paket-Penugasan
+      search_query_label: Search saved filter queries
+      search_query_title: Click to search saved filter queries
+    modals:
+      label_settings: Ubah nama
+      label_name: Nama
+      label_delete_page: Hapus halaman ini
+      button_apply: Apply
+      button_save: Simpan
+      button_submit: Kirim
+      button_cancel: Batal
+      form_submit:
+        title: Konfirmasi untuk melanjutkan
+        text: Apakah Anda yakin untuk melakukan tindakan ini?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Berhasil dibuat.
+    notice_successful_delete: Berhasil dihapus.
+    notice_successful_update: Berhasil diperbarui.
+    notice_bad_request: Bad Request.
+    relations:
+      empty: Tidak ada yang berkaitan
+      remove: Remove relation
+    inplace:
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Simpan"
+      button_cancel: "%{attribute}: Cancel"
+      button_save_all: Simpan
+      button_cancel_all: Batal
+      link_formatting_help: Text formatting help
+      btn_preview_enable: Preview
+      btn_preview_disable: Menonaktifkan Tinjauan
+      null_value_label: Kosongkan
+      clear_value_label: Hapus nilai
+      errors:
+        required: "%{field} tidak boleh kosong"
+        number: "%{field} harus berupa angka"
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        messages_on_field: 'This field is invalid: %{messages}'
+    error_could_not_resolve_version_name: Tidak bisa menyelesaikan versi nama
+    error_could_not_resolve_user_name: User name tidak ditemukan
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 hour
+        other: "%{count} jam"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

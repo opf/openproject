@@ -1,0 +1,631 @@
+---
+ru:
+  js:
+    ajax:
+      hide: Скрыть
+      loading: Загрузка ...
+    close_popup_title: Закрыть всплывающее
+    close_filter_title: Закрыть фильтр
+    close_form_title: Закрыть форму
+    clipboard:
+      browser_error: Ваш браузер не поддерживает копирование в буфер обмена. Пожалуйста,
+        скопируйте выделенный текст вручную.
+      copied_successful: Успешно скопировано в буфер обмена!
+    button_add_watcher: Добавить наблюдателя
+    button_back_to_list_view: Вернуться к просмотру списка
+    button_cancel: Отмена
+    button_close: Закрыть
+    button_check_all: Выделить все
+    button_configure-form: Настроить форму
+    button_confirm: Подтверждение
+    button_continue: Далее
+    button_copy: Копировать
+    button_custom-fields: Настраиваемые поля
+    button_delete: Удалить
+    button_delete_watcher: Удалить наблюдателей
+    button_details_view: Просмотр подробностей
+    button_duplicate: Дублировать
+    button_edit: Правка
+    button_filter: Фильтр
+    button_list_view: Представление списком
+    button_show_view: Полноэкранный просмотр
+    button_log_time: Учет времени
+    button_more: Более
+    button_move: Переместить
+    button_open_details: Открыть детальный просмотр
+    button_close_details: Закрыть детальный просмотр
+    button_open_fullscreen: Полноэкранный просмотр
+    button_quote: Цитата
+    button_save: Сохранить
+    button_settings: Параметры
+    button_uncheck_all: Снять все отметки
+    button_update: Обновление
+    button_export-pdf: Скачать PDF
+    button_export-atom: Скачать Atom
+    description_available_columns: Доступные столбцы
+    description_current_position: 'Вы находитесь здесь:'
+    description_select_work_package: 'Выберите пакет работ #%{id}'
+    description_selected_columns: Выбранные столбцы
+    description_subwork_package: 'Потомок пакета работ #%{id}'
+    error:
+      internal: Произошла внутренняя ошибка.
+    filter:
+      description:
+        text_open_filter: Откройте этот фильтр с «ALT» и клавишей со стрелкой.
+        text_close_filter: Для выбора элемента установите на нем фокус и нажмите Enter.
+          Выбор первого (пустого) элемента оставит вас без фильтра.
+      noneElement: "(нет)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} по вашему местному времени."
+        only_start: С %{from} по вашему местному времени.
+        only_end: До %{to} по вашему местному времени.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: Первый критерий сортировки
+          two: Второй критерий сортировки
+          three: Третий критерий сортировки
+    general_text_no: нет
+    general_text_yes: да
+    general_text_No: Нет
+    general_text_Yes: Да
+    label_activate: Активировать
+    label_activity_no: Деятельность номер %{activityNo}
+    label_activity_with_comment_no: Деятельность номер %{activityNo}. Есть комментарий
+      пользователя.
+    label_add_columns: Добавить столбец
+    label_add_comment: Добавить комментарий
+    label_add_comment_title: Кликните, чтобы добавить комментарий
+    label_add_selected_columns: Добавить выбранные столбцы
+    label_added_by: Добавил(-а)
+    label_added_time_by: Добавил(-а) %{author} %{age}
+    label_ago: дней назад
+    label_all: все
+    label_all_work_packages: Все пакеты работ
+    label_and: и
+    label_ascending: По возрастанию
+    label_author: 'Автор: %{user}'
+    label_between: между
+    label_board_locked: Заперто
+    label_board_sticky: Стикер
+    label_create_work_package: Создать новый пакет работ
+    label_created_by: Автор
+    label_date: Дата
+    label_date_with_format: 'Введите %{date_attribute}, используя следующий формат:
+      %{format}'
+    label_deactivate: Деактивировать
+    label_descending: По убыванию
+    label_description: Описание
+    label_cancel_comment: Отменить комментарий
+    label_closed_work_packages: закрыто
+    label_collapse: Свернуть
+    label_collapsed: обрушилась
+    label_collapse_all: Свернуть все
+    label_comment: Комментарий
+    label_committed_at: "%{committed_revision_link} на %{date}"
+    label_committed_link: зафиксированная редакция %{revision_identifier}
+    label_contains: содержит
+    label_created_on: Создано
+    label_edit_comment: Редактировать этот комментарий
+    label_edit_status: Изменить статус пакета работ
+    label_equals: "—"
+    label_expand: Развернуть
+    label_expanded: развернуто
+    label_expand_all: Развернуть все
+    label_export: Экспорт
+    label_filename: Файл
+    label_filesize: Размер
+    label_greater_or_equal: ">="
+    label_group_by: Группировать по
+    label_hide_attributes: Показывать меньше
+    label_hide_column: Скрыть столбец
+    label_in: в
+    label_in_less_than: менее чем
+    label_in_more_than: более чем
+    label_latest_activity: Последняя активность
+    label_last_updated_on: Последний раз обновлено
+    label_less_or_equal: "<="
+    label_less_than_ago: меньше чем день назад
+    label_loading: Загрузка...
+    label_me: мне
+    label_menu_collapse: свернуть
+    label_menu_expand: развернуть
+    label_more_than_ago: больше, чем дней назад
+    label_next: Следующие
+    label_no_data: Нет данных для отображения
+    label_no_due_date: без даты окончания
+    label_no_start_date: без даты начала
+    label_none: нет
+    label_not_contains: не содержит
+    label_not_equals: не
+    label_on: на
+    label_open_menu: Открыть меню
+    label_open_work_packages: открыто
+    label_password: Пароль
+    label_previous: Предыдущие
+    label_per_page: 'На странице:'
+    label_please_wait: Пожалуйста, подождите
+    label_visibility_settings: Параметры видимости
+    label_quote_comment: Цитировать этот комментарий
+    label_reset: Сброс
+    label_remove_columns: Удалить выбранные столбцы
+    label_save_as: Сохранить как
+    label_select_watcher: Выберите наблюдателя...
+    label_selected_filter_list: Выбранные фильтры
+    label_show_attributes: Показать все атрибуты
+    label_show_in_menu: Показать страницу в меню
+    label_sort_by: Сортировать по
+    label_sorted_by: отсортировано по
+    label_sort_higher: Переместить вверх
+    label_sort_lower: Переместить вниз
+    label_sorting: Сортировка
+    label_sum_for: Сумма для
+    label_subject: Тема
+    label_this_week: на этой неделе
+    label_today: Сегодня
+    label_activity_show_only_comments: Показать только деятельности с комментариями
+    label_activity_show_all: Показать все активности
+    label_total_progress: "%{percent}% общего прогресса"
+    label_visible_for_others: Страница видна для других
+    label_updated_on: Обновлено
+    label_warning: Предупреждение
+    label_work_package: Пакет работ
+    label_work_package_plural: Пакеты работ
+    label_watch: Просмотреть
+    label_watch_work_package: Наблюдать за пакетом работ
+    label_watcher_added_successfully: Наблюдатель успешно добавлен!
+    label_watcher_deleted_successfully: Наблюдатель успешно удален!
+    label_work_package_details_you_are_here: Вы находитесь на вкладке %{tab}  %{type}  %{subject}.
+    label_unwatch: Прекратить наблюдение
+    label_unwatch_work_package: Прекратить наблюдение за пакетом работ
+    label_uploaded_by: Загружено
+    label_global_queries: Общие запросы
+    label_custom_queries: Частные запросы
+    label_columns: Столбцы
+    label_attachments: Файлы
+    label_drop_files: Перетащите файлы сюда
+    label_drop_files_hint: или кликните для добавления файлов
+    label_add_attachments: Добавить вложения
+    label_formattable_attachment_hint: Прикрепите и связать файлы, перетащив их на
+      это поле, или вставив из буфера обмена.
+    label_remove_file: Удаление %{fileName}
+    label_remove_watcher: Удалить наблюдателя %{name}
+    label_remove_all_files: Удалить все файлы
+    label_add_description: Добавить описание для %{file}
+    label_upload_notification: 'Загрузка файлов для пакета работ #%{id}: %{subject}'
+    label_files_to_upload: 'Эти файлы будут загружены:'
+    label_rejected_files: 'Эти файлы не могут быть загружены:'
+    label_rejected_files_reason: Эти файлы не могут быть загружены, как их размер
+      больше, чем %{maximumFilesize}
+    label_wait: Пожалуйста, подождите конфигурирование...
+    label_upload_counter: "%{done} %{count} файлов, готовы"
+    label_validation_error: 'Пакет работ не удалось сохранить из-за следующих ошибок:'
+    help_texts:
+      show_modal: Показать содержимое атрибута текста справки
+    password_confirmation:
+      field_description: Необходимо ввести свой пароль для подтверждения изменений.
+      title: Для продолжения введите свой пароль
+    pagination:
+      no_other_page: Вы на единственной странице.
+      pages:
+        next: Вперед к следующей странице
+        previous: Назад к предыдущей странице
+    placeholders:
+      default: "-"
+      subject: Введите субъект здесь
+      selection: Пожалуйста, выберите
+      relation_description: Нажмите, чтобы добавить описание для этой связи
+    project:
+      required_outside_context: Вы находитесь вне контекста проекта. Пожалуйста, выберите
+        вначале контекст проекта для того, чтобы выбрать тип и состояние
+      context: Контекст проекта
+      work_package_belongs_to: Этот пакет работ относится к проекту %{projectname}.
+      click_to_switch_context: Открыть пакет работ в этом проекте.
+    text_are_you_sure: Вы уверены?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: Имя %{group} используется более одного раза. Имена
+          групп должны быть уникальными.
+        reset_title: Сбросить настройки формы
+        confirm_reset: 'Предупреждение: вы действительно хотите сбросить настройки
+          формы? При этом атрибуты получат значения из группы по умолчанию, флажки
+          видимости будут сброшены, а все настраиваемые поля – отключены.
+
+'
+        upgrade_to_ee: Обновите до корпоративной версии
+        upgrade_to_ee_text: Ух ты! Если вам нужна эта функция, вы – супер профессионал!
+          Не хотите поддержать OpenSource разработчиков, став клиентом корпоративной
+          версии?
+        more_information: Больше информации
+        nevermind: Неважно
+    watchers:
+      label_loading: Загрузка наблюдателей...
+      label_error_loading: При загрузке наблюдателей произошла ошибка
+      label_search_watchers: Поиск наблюдателей
+      label_add: Добавить наблюдателей
+      label_discard: Отменить выбор
+      typeahead_placeholder: Поиск возможных наблюдателей
+    relation_labels:
+      parent: Родитель
+      children: Дочерние элементы
+      relates: Связанно с
+      duplicates: Дубликаты
+      duplicated: Дублируется
+      blocks: Блоки
+      blocked: Заблокировано
+      precedes: Предшествует
+      follows: Следует
+      includes: Включает
+      partof: Часть
+      requires: Требуется
+      required: Требуется
+      relation_type: тип отношения
+    relations_hierarchy:
+      hierarchy_headline: иерархия
+    relation_buttons:
+      change_parent: Сменить родителя
+      remove_parent: Удалить родителя
+      group_by_wp_type: Группировать по типу комплекса работ
+      group_by_relation_type: Группировать по типу связи
+      add_parent: Добавить существующего родителя
+      add_new_child: Создать новый дочерний элемент
+      add_existing_child: Добавить существующий дочерний элемент
+      remove_child: Удалить дочерний элемент
+      add_new_relation: Создать новое отношение
+      update_description: Определить или обновить описание этой связи
+      toggle_description: Переключить описание связи
+      update_relation: Кликните, чтобы изменить тип связи
+      add_follower: Добавить последователя
+      add_predecessor: Добавить предшественника
+      remove: Удалить связь
+      save: Сохранить отношение
+      abort: Прервать
+    relations_autocomplete:
+      placeholder: Внести Id cвязанного пакета работ
+    repositories:
+      select_tag: Выберите тег
+      select_branch: Выберите ветвь
+    field_value_enter_prompt: Введите значение для «%{field}»
+    select2:
+      input_too_short:
+        one: Пожалуйста, введите еще один символ
+        other: Пожалуйста, введите более {{count}} символов
+        zero: Please enter more characters
+        few: Пожалуйста, введите более {{count}} символов
+      load_more: Загрузка дополнительных результатов ...
+      no_matches: Совпадения не найдены
+      searching: Поиск ...
+      selection_too_big:
+        one: Вы можете выбрать только один элемент
+        other: Вы можете выбрать только {{limit}} элементов
+        zero: You cannot select any items
+        few: Вы можете выбрать только {{limit}} элемента
+    sort:
+      sorted_asc: 'Применяется сортировка по возрастанию, '
+      sorted_dsc: 'Применяется сортировка по убыванию, '
+      sorted_no: 'Сортировка не применяется, '
+      sorting_disabled: сортировка отключена
+      activate_asc: активировать исполнение сортировки по возрастанию
+      activate_dsc: активировать исполнение сортировки по убыванию
+      activate_no: активировать для удаления сортировки
+    text_work_packages_destroy_confirmation: Вы уверены, что хотите удалить выбранные
+      пакет(-ы) работ?
+    text_query_destroy_confirmation: Вы уверены, что хотите удалить выбранный запрос?
+    text_attachment_destroy_confirmation: Вы уверены, что вы хотите удалить вложение?
+    timelines:
+      gantt_chart: Диаграмма Гантта
+      labels:
+        bar: Полоса меток
+        left: Влево
+        right: Вправо
+        farRight: Крайний справа
+        showNone: "-- Не метка --"
+        description: 'Укажите атрибуты, которые вы бы хотели видеть в диаграмме Гантта
+          всегда. Заметьте, что при наведении указателя мыши на элемент, вместо этих
+          атрибутов будет показана их даты.
+
+'
+      button_activate: Активировать режим временной шкалы
+      button_deactivate: Отключить режим временной шкалы
+      cancel: Отмена
+      change: Изменения в планировании
+      due_date: Дата завершения
+      empty: "(пусто)"
+      error: Произошла ошибка.
+      errors:
+        not_implemented: График не может быть отображен, так как использует ещё не
+          реализованную функцию.
+        report_comparison: Невозможно отобразить заданные сравнения в графике. Пожалуйста,
+          проверьте соответствующий раздел в конфигурации, сброс может помочь в решении
+          проблемы.
+        report_epicfail: График не может быть загружен из-за неожиданной ошибки.
+        report_timeout: График не может быть загружен в разумный период времени.
+      filter:
+        column:
+          assigned_to: Назначенный
+          type: Тип
+          due_date: Дате окончания
+          name: Имя
+          status: Состояние
+          responsible: Ответственный
+          start_date: Дата начала
+        grouping_other: Другие
+        noneSelection: "(нет)"
+      name: Имя
+      new_work_package: Новый пакет работ
+      outline: Сбросить схему
+      outlines:
+        aggregation: Показать только агрегации
+        level1: Развернуть уровень 1
+        level2: Развернуть уровень 2
+        level3: Развернуть уровень 3
+        level4: Развернуть уровень 4
+        level5: Развернуть уровень 5
+        all: Показывать всё
+      project_status: Состояние проекта
+      project_type: Тип проекта
+      really_close_dialog: Вы действительно хотите закрыть диалоговое окно и потерять
+        введенные данные?
+      responsible: Ответственный
+      save: Сохранить
+      start_date: Дата начала
+      tooManyProjects: Больше чем %{count} проектов. Пожалуйста, используйте более
+        точный фильтр!
+      selection_mode:
+        notification: Чтобы создать связь, щелкните любой подсвеченный комплекс работ.
+          Для отмены нажмите Esc.
+      zoom:
+        in: Увеличить
+        out: Уменьшить
+        auto: Автоувеличение
+        days: Дни
+        weeks: Недели
+        months: Месяцы
+        quarters: Кварталы
+        years: Годы
+        slider: Ползунок масштаба
+    tl_toolbar:
+      zooms: Степень масштабирования
+      outlines: Уровень иерархии
+    unsupported_browser:
+      title: Ваша версия браузера не поддерживается
+      message: Версия вашего браузера больше не поддерживается OpenProject.
+      update_message: Пожалуйста, обновите свой браузер.
+      update_ie_user: Пожалуйста перейдите на Mozilla Firefox или Google Chrome, или
+        обновитесь до Microsoft Edge.
+      learn_more: Узнать больше
+      close_warning: Игнорировать это предупреждение.
+    wiki_formatting:
+      strong: Выделение жирным
+      italic: Курсив
+      underline: Подчеркивание
+      deleted: "\uFEFFУдалено"
+      code: Встроенный код
+      heading1: Заголовок 1
+      heading2: Заголовок 2
+      heading3: Заголовок 3
+      unordered_list: Неупорядоченный список
+      ordered_list: Упорядоченный список
+      quote: Цитата
+      unquote: Убрать цитирование
+      preformatted_text: Предварительно отформатированный текст
+      wiki_link: Ссылка на Wiki-страницу
+      image: Изображение
+    work_packages:
+      bulk_actions:
+        move: Массовое перемещение
+        edit: Массовое изменение
+        copy: Массовое копирование
+        delete: Массовое удаление
+      button_clear: Очистить
+      comment_added: Комментарий добавлен.
+      comment_send_failed: Произошла ошибка. Не удалось отправить комментарий.
+      comment_updated: Комментарий обновлен.
+      confirm_edit_cancel: Вы уверены, что хотите отменить редактирование рабочего
+        пакета?
+      description_filter: Фильтр
+      description_enter_text: Введите текст
+      description_options_hide: Скрыть параметры
+      description_options_show: Показать параметры
+      error:
+        edit_prohibited: Редактирование %{attribute} этого пакета работ заблокировано.
+          Либо этот атрибут является производным от отношений (например, потомков)
+          или же не конфигурируется.
+        format:
+          date: "%{attribute} не соответствует дате - ожидается гггг-мм-дд."
+        general: Произошла ошибка.
+      edit_attribute: "%{attribute} - изменить"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Разрешить множественный выбор
+      label_disable_multi_select: Отключить множественный выбор
+      label_filter_add: Добавить фильтр
+      label_options: Опции
+      label_column_multiselect: 'Комбинированные ниспадающие поле: выбор  клавишами
+        со стрелками, подтвержднение выбора нажатием клавиши enter, удаление  клавишей
+        backspace'
+      label_switch_to_single_select: Переключиться на одиночный выбор
+      label_switch_to_multi_select: Переключиться на множественный выбор
+      message_error_during_bulk_delete: Произошла ошибка при попытке удаления пакетов
+        работ.
+      message_successful_bulk_delete: Пакет работ успешно удален.
+      message_successful_show_in_fullscreen: Кликните здесь, чтобы открыть этот пакет
+        работ в полноэкранном режиме.
+      message_view_spent_time: Показать время, затраченное на этот комплекс работ
+      no_value: Значение отсутствует
+      inline_create:
+        title: Кликните здесь, чтобы добавить новый пакет работ в этот список
+      create:
+        header: Новый %{type}
+        header_no_type: Новый пакет работ (Тип не установлен)
+        header_with_parent: Новый %{type} (дочерний элемент %{parent_type} № %{id})
+        button: Создать
+      hierarchy:
+        show: Скрыть режим иерархии
+        hide: Скрыть режим иерархии
+        toggle_button: Кликните для перехода в иерархический режим.
+        leaf: Лист пакета работ уровня %{level}.
+        children_collapsed: Уровень иерархии %{level}, свернут. Кликните, чтобы показать
+          отфильтрованные дочерние элементы
+        children_expanded: Уровень иерархии %{level}, развернут. Кликните, чтобы свернуть
+          отфильтрованные дочерние элементы
+      faulty_query:
+        title: Не удалось загрузить рабочие пакеты.
+        description: Ваш запрос ошибочен и не может быть обработан.
+      no_results:
+        title: Нет пакетов работ для показа.
+        description: Ничего не найдено.
+      property_groups:
+        details: Детали
+        people: Люди
+        estimatesAndTime: Смета & время
+        other: Другие
+      properties:
+        assignee: Назначенный
+        author: Автор
+        createdAt: Создано
+        description: Описание
+        date: Дата
+        dueDate: Дата завершения
+        estimatedTime: Предполагаемое время
+        spentTime: Затраченное время
+        category: Категория
+        percentageDone: Сделано в процентах
+        priority: Приоритет
+        projectName: Проект
+        responsible: Ответственный
+        startDate: Дата начала
+        status: Состояние
+        subject: Тема
+        title: Заголовок
+        type: Тип
+        updatedAt: Обновлено
+        versionName: Этап
+        version: Этап
+      jump_marks:
+        pagination: Перейти вёрстке таблицы
+        label_pagination: Кликните здесь чтобы пропустить таблицу рабочих пакетов
+          и перейти к вёрстке
+        content: Перейти к содержанию
+        label_content: Кликните здесь, чтобы пропустить меню и перейти к содержанию
+      placeholders:
+        default: "-"
+        description: Нажмите, чтобы ввести описание...
+      query:
+        column_names: Столбцы
+        group_by: Результаты группы по
+        group: Группировать по
+        group_by_disabled_by_hierarchy: В режиме иерархии группировка отключена.
+        hierarchy_disabled_by_group_by: Режим иерархии отключен из-за группировки
+          результатов по %{column}.
+        hierarchy_mode: Режим иерархии
+        sort_ascending: Сортировка по возрастанию
+        sort_descending: Сортировка по убыванию
+        move_column_left: Переместить столбец влево
+        move_column_right: Переместить столбец вправо
+        hide_column: Скрыть столбец
+        insert_columns: Вставьте столбцы...
+        filters: Фильтры
+        display_sums: Отображение суммы
+        errors:
+          unretrievable_query: Не удается получить запрос из URL-адреса
+          not_found: Нет такого запроса
+        text_no_results: Подходящие запросы не найдены.
+      table:
+        summary: Таблица с названиями пакетов работ в строках и атрибутами пакетов
+          работ в столбцах.
+        text_inline_edit: Большинство клеток этой таблицы – кнопки для активирования
+          встроенного редактора данного атрибута.
+        text_sort_hint: Ссылки в заголовках таблиц позволяют сортировать, группировать,
+          реорганизовывать, удалять и добавлять столбцы.
+        text_select_hint: Чек-боксы могут быть открыты с использованием «ALT» и клавиш
+          со стрелками.
+      tabs:
+        overview: Обзор
+        activity: Деятельность
+        relations: Связи
+        watchers: Наблюдатель
+        attachments: Вложения
+      time_relative:
+        days: дней
+        weeks: недели
+        months: месяцев
+    toolbar:
+      settings:
+        columns: Столбцы...
+        sort_by: Сортировать по ...
+        group_by: Группировать по...
+        display_sums: Отображать суммы
+        display_hierarchy: Показать иерархию
+        hide_hierarchy: Скрыть иерархию
+        hide_sums: Скрыть суммы
+        save: Сохранить
+        save_as: Сохранить как ...
+        export: Экспортировать ...
+        publish: Опубликовать...
+        page_settings: Переименовать запрос...
+        delete: Удалить
+      filter: Фильтр
+      unselected_title: Пакет работ
+      search_query_label: Поиск сохраненого фильтра запросов
+      search_query_title: Кликните для поиска сохраненного фильтра запросов
+    modals:
+      label_settings: Переименовать запрос
+      label_name: Имя
+      label_delete_page: Удалить текущую страницу
+      button_apply: Применить
+      button_save: Сохранить
+      button_submit: Отправить
+      button_cancel: Отмена
+      form_submit:
+        title: Подтвердите продолжение
+        text: Вы действительно хотите выполнить это действие?
+      upsale_relation_columns: Нужно видеть отношения в списке пакетов работ?
+      upsale_relation_columns_link: Проверьте корпоративную версию.
+      destroy_work_package:
+        title: Подтвердите удаление %{label}
+        text: Вы уверены, что хотите удалить следующую %{label} ?
+        has_children: 'Пакет работ имеет %{childUnits}:'
+        deletes_children: Также будут удалены все дочерние пакеты работ.
+    notice_successful_create: Создание выполнено.
+    notice_successful_delete: Удаление выполнено.
+    notice_successful_update: Обновление выполнено.
+    notice_bad_request: Неправильный запрос.
+    relations:
+      empty: Не существует отношения
+      remove: Удалить связь
+    inplace:
+      button_edit: "%{attribute}: Редактирование"
+      button_save: "%{attribute}: сохранить"
+      button_cancel: "%{attribute}: отменить"
+      button_save_all: Сохранить
+      button_cancel_all: Отмена
+      link_formatting_help: Справка по форматированию текста
+      btn_preview_enable: Предварительный просмотр
+      btn_preview_disable: Заблокировать предпросмотр
+      null_value_label: Значение отсутствует
+      clear_value_label: "-"
+      errors:
+        required: "%{field} не может быть пустым"
+        number: "%{field} не является допустимым числом"
+        maxlength: "%{field} не может содержать более %{maxLength} цифр"
+        minlength: "%{field} не может содержать менее %{minLength} цифр"
+        messages_on_field: 'Это поле является недопустимым: %{messages}'
+    error_could_not_resolve_version_name: Не удалось определить название этапа
+    error_could_not_resolve_user_name: Не удалось найти такое имя пользователя
+    units:
+      workPackage:
+        one: пакет работ
+        other: пакеты работ
+        few: пакеты работ
+      child_work_packages:
+        one: пакет работ с одним дочерним
+        other: пакет работ с %{count} дочерними
+        few: пакет работ с %{count} дочерними
+      hour:
+        one: 1 час
+        other: "%{count} часов"
+        zero: 0 hours
+        few: "%{count} часа"
+    zen_mode:
+      button_activate: Включить дзен-режим
+      button_deactivate: Отключить дзен-режим

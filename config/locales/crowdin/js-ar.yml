@@ -1,0 +1,634 @@
+---
+ar:
+  js:
+    ajax:
+      hide: إخفاء
+      loading: جاري التحميل ...
+    close_popup_title: إغلاق النافذة المنبثقة
+    close_filter_title: إغلاق عامل التصفية
+    close_form_title: إغلاق النموذج
+    clipboard:
+      browser_error: لا يدعم المتصفح الخاص بك النسخ إلى الحافظة, من فضلك انسخ النص
+        المختار يدوياً.
+      copied_successful: تم النسخ بنجاح إلى الحافظة!
+    button_add_watcher: إضافة مراقب
+    button_back_to_list_view: Back to list view
+    button_cancel: إلغاء
+    button_close: Close
+    button_check_all: اختر الكل
+    button_configure-form: Configure form
+    button_confirm: تأكيد
+    button_continue: Continue
+    button_copy: انسخ
+    button_custom-fields: الحقول المخصصة
+    button_delete: احذف
+    button_delete_watcher: احذف المراقب
+    button_details_view: عرض التفاصيل
+    button_duplicate: كرِّر
+    button_edit: تعديل
+    button_filter: فلترة
+    button_list_view: عرض القائمة
+    button_show_view: عرض ملء الشاشة
+    button_log_time: وقت السجل
+    button_more: المزيد
+    button_move: نقل
+    button_open_details: عرض التفاصيل المفتوحة
+    button_close_details: Close details view
+    button_open_fullscreen: فتح عرض كامل الشاشة
+    button_quote: اقتباس
+    button_save: حفظ
+    button_settings: إعدادات
+    button_uncheck_all: إلغاء اختيار الكل
+    button_update: التحديث
+    button_export-pdf: تنزيل PDF
+    button_export-atom: تحميل Atom
+    description_available_columns: الأعمدة المتوفرة
+    description_current_position: 'أنت هنا:'
+    description_select_work_package: 'اختر مجموعة العمل #%{id}'
+    description_selected_columns: الاعمدة المحددة
+    description_subwork_package: 'إنتاج مجموعة العمل #%{id}'
+    error:
+      internal: حدث خطأ داخلي.
+    filter:
+      description:
+        text_open_filter: فتح هذا المرشح باستخدام 'ALT' و مفاتيح الأسهم.
+        text_close_filter: لتحديد قيد مغادرة التركيز على سبيل المثال عن طريق الضغط
+          على زر الدخول. للمغادرة بدون عامل التصفية حدد القيد الأول (فارغ).
+      noneElement: "(بلا)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: أولاً يتم فرز المعايير
+          two: ثانياً يتم فرز المعايير
+          three: ثالثاً يتم فرز المعايير
+    general_text_no: لا
+    general_text_yes: نعم
+    general_text_No: لا
+    general_text_Yes: نعم
+    label_activate: تفعيل
+    label_activity_no: رقم إدخال النشاط%{activityNo}
+    label_activity_with_comment_no: رقم إدخال النشاط %{activityNo}. يمتلك تعليق مستخدم.
+    label_add_columns: Add columns
+    label_add_comment: أضِف تعليقًا
+    label_add_comment_title: اضغط لإضافة تعليق
+    label_add_selected_columns: اضف الأعمدة المحددة
+    label_added_by: أضيف بواسطة
+    label_added_time_by: أضيف بواسطة %{author} %{age}
+    label_ago: أيام مضت
+    label_all: الكل
+    label_all_work_packages: جميع مجموعات العمل
+    label_and: و
+    label_ascending: ترتيب تصاعدي
+    label_author: الكاتب%{user}
+    label_between: between
+    label_board_locked: مقفل
+    label_board_sticky: مثبت
+    label_create_work_package: إنشاء حزمة جديدة
+    label_created_by: Created by
+    label_date: التاريخ
+    label_date_with_format: 'أدخل %{date_attribute} باستخدام التنسيق التالي: %{format}'
+    label_deactivate: تعطيل
+    label_descending: ترتيب تنازلي
+    label_description: الوصف
+    label_cancel_comment: ألغي التعليق
+    label_closed_work_packages: مغلق
+    label_collapse: مطوي
+    label_collapsed: مطوي
+    label_collapse_all: طَيْ الجميع
+    label_comment: تعليق
+    label_committed_at: "%{committed_revision_link} في %{date}"
+    label_committed_link: مراجعة ملزمة ل%{revision_identifier}
+    label_contains: يحتوي على
+    label_created_on: تم إنشاؤها على
+    label_edit_comment: تعديل هذا التعليق
+    label_edit_status: Edit the status of the work package
+    label_equals: يكون
+    label_expand: وسّع
+    label_expanded: تم التوسع
+    label_expand_all: توسيع الجميع
+    label_export: تصدير
+    label_filename: ملف
+    label_filesize: حجم
+    label_greater_or_equal: "=<"
+    label_group_by: تصنيف حسب
+    label_hide_attributes: أظهِر أقل
+    label_hide_column: إخفاء العمود
+    label_in: في
+    label_in_less_than: في أقل من
+    label_in_more_than: في أكثر من
+    label_latest_activity: آخر نشاط
+    label_last_updated_on: تاريخ آخر تحديث
+    label_less_or_equal: "=>"
+    label_less_than_ago: أقل من أيام
+    label_loading: جاري التحميل...
+    label_me: لي
+    label_menu_collapse: طي
+    label_menu_expand: وسّع
+    label_more_than_ago: منذ أكثر من أيام
+    label_next: التالي
+    label_no_data: لا يوجد بيانات لعرضها
+    label_no_due_date: لا يوجد تاريخ انتهاء
+    label_no_start_date: لا يوجد تاريخ بدء
+    label_none: لا شيء
+    label_not_contains: لا يحتوي على
+    label_not_equals: ليس
+    label_on: في
+    label_open_menu: فتح القائمة
+    label_open_work_packages: فتح
+    label_password: كلمة المرور
+    label_previous: السابق
+    label_per_page: 'لكل صفحة:'
+    label_please_wait: الرجاء الانتظار
+    label_visibility_settings: Visibility settings
+    label_quote_comment: أقتبس هذا التعليق
+    label_reset: إعادة تعيين
+    label_remove_columns: إزالة الأعمدة المحددة
+    label_save_as: احفظ بشكل
+    label_select_watcher: اختر مراقبًا...
+    label_selected_filter_list: عوامل التصفية المٌختارة
+    label_show_attributes: عرض كل السمات
+    label_show_in_menu: عرض الصفحة في القائمة
+    label_sort_by: فرز حسب
+    label_sorted_by: مرتبة حسب
+    label_sort_higher: تحريك لأعلى
+    label_sort_lower: تحريك لأسفل
+    label_sorting: جاري الترتيب
+    label_sum_for: مجموع ال
+    label_subject: الموضوع
+    label_this_week: هذا الأسبوع
+    label_today: اليوم
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent} من التقدم الكلي"
+    label_visible_for_others: الصفحة مرئية للآخرين
+    label_updated_on: تم التحديث بتاريخ
+    label_warning: تحذير
+    label_work_package: مجموعة العمل
+    label_work_package_plural: مجموعات العمل
+    label_watch: مشاهدة
+    label_watch_work_package: مراقبة مجموعة العمل
+    label_watcher_added_successfully: تم إضافة المراقب بنجاح!
+    label_watcher_deleted_successfully: تم حذف المراقب بنجاح!
+    label_work_package_details_you_are_here: أنت على%{tab} علامة تبويب ل %{type}%{subject}.
+    label_unwatch: وقْف المشاهدة
+    label_unwatch_work_package: لا تراقب مجموعة العمل
+    label_uploaded_by: تم التحميل بواسطة
+    label_global_queries: الاستفسارات المشتركة
+    label_custom_queries: الاستفسارات الخاصة
+    label_columns: الأعمدة
+    label_attachments: الملفّات
+    label_drop_files: إسقاط الملفات هنا
+    label_drop_files_hint: أو اضغط لإضافة ملفات
+    label_add_attachments: إضافة مرفقات
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: حذف%{fileName}
+    label_remove_watcher: حذف المراقب %{name}
+    label_remove_all_files: حذف كل الملفات
+    label_add_description: إضافة توصيفات إلى%{file}
+    label_upload_notification: تحميل ملفات إلى حزمة العمل%{id}:%{subject}
+    label_files_to_upload: 'هذه الملفات ستحمل:'
+    label_rejected_files: 'هذه الملفات لا يمكن أن تحمل:'
+    label_rejected_files_reason: هذه الملفات لا يمكن تحميلها بينما حجمها أكبر من%{maximumFilesize}
+    label_wait: الرجاء الانتظار للتكوين...
+    label_upload_counter: "%{done} من%{count} ملف انهيت"
+    label_validation_error: 'تعذر حفظ حزمة العمل نتيجة للأخطاء التالية:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: تحتاج إلى إدخال كلمة مرور حسابك لتأكيد هذا التغيير.
+      title: أكِّد كلمة مرورك للمواصلة
+    pagination:
+      no_other_page: أنت في الصفحة فقط.
+      pages:
+        next: إعادة التوجية إلى الصفحة التالية
+        previous: العودة للصفحة السابقة.
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: من فضلك اختر
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: هل أنت متأكد؟
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: تحميل مشاهدين...
+      label_error_loading: حدث خطأ خلال تحميل المشاهدين
+      label_search_watchers: البحث عن مشاهدين
+      label_add: إضافة مراقب
+      label_discard: تجاهل التحديد
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: الجذر
+      children: الأطفال
+      relates: متعلق ب
+      duplicates: التكرارات
+      duplicated: مكرر بواسطة
+      blocks: المحظورون
+      blocked: محظور من قِبَل
+      precedes: يسبق
+      follows: يتبع
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      hierarchy_headline: hierarchy
+    relation_buttons:
+      change_parent: تغيير الوالد
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: حذف علاقة
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+    repositories:
+      select_tag: حدد العلامة
+      select_branch: اختر فرع
+    field_value_enter_prompt: أدخِل قيمة ل '%{field}'
+    select2:
+      input_too_short:
+        one: من فضلك أدخِل حرفًا واحدًا آخر
+        other: من فضلك أدخِل {{count}} حروفًا أكثر
+        zero: من فضلك أدخِل {{count}} حروفًا أكثر
+        two: من فضلك أدخِل {{count}} حروفًا أكثر
+        few: من فضلك أدخِل {{count}} حروفًا أكثر
+        many: من فضلك أدخِل {{count}} حروفًا أكثر
+      load_more: تحميل المزيد من النتائج ...
+      no_matches: لم يتم العثور على تطابقات
+      searching: جاري البحث ...
+      selection_too_big:
+        one: تستطيع فقط اختيار عنصر واحد
+        other: تستطيع فقط اختيار {{limit}} عناصر
+        zero: تستطيع فقط اختيار {{limit}} عناصر
+        two: تستطيع فقط اختيار {{limit}} عناصر
+        few: تستطيع فقط اختيار {{limit}} عناصر
+        many: تستطيع فقط اختيار {{limit}} عناصر
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: هل أنت متأكد من أنك تريد حذف العناصر
+      المحددة؟
+    text_query_destroy_confirmation: هل أنت متأكد من أنك تريد حذف القائمة المُختارة؟
+    text_attachment_destroy_confirmation: هل أنت متأكد أنك تريد حذف المرفق؟
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: إلغاء
+      change: تغيير في تخطيط
+      due_date: تاريخ الاستحقاق
+      empty: "(فارغ)"
+      error: لقد حدث خطأ ما.
+      errors:
+        not_implemented: لا يمكن أن يقدم الخط الزمني لأنه يستخدم ميزة التي لم تنفذ
+          بعد.
+        report_comparison: يمكن تقديم جدول زمني لا مقارنات تم تكوينه. الرجاء التحقق
+          من المقطع المناسب في التكوين، إعادة تعيينه فإنه يمكن أن يساعد في حل هذه
+          المشكلة.
+        report_epicfail: لا يمكن تحميل المخطط الزمني بسبب خطأ غير متوقع.
+        report_timeout: لا يمكن تحميل المخطط الزمني في كمية معقولة من الزمن.
+      filter:
+        column:
+          assigned_to: المُسند إليه
+          type: النّوع
+          due_date: تاريخ الانتهاء
+          name: الاسم
+          status: الحالة
+          responsible: مسؤول
+          start_date: تاريخ البدء
+        grouping_other: اخرى
+        noneSelection: "(بلا)"
+      name: الاسم
+      new_work_package: مجموعة عمل جديدة
+      outline: إعادة تعيين المخطط التفصيلي
+      outlines:
+        aggregation: إظهار المجموعات فقط
+        level1: توسيع مستوى 1
+        level2: توسيع مستوى 2
+        level3: توسيع مستوى 3
+        level4: توسيع مستوى 4
+        level5: توسيع مستوى 5
+        all: إظهار الكل
+      project_status: حالة المشروع
+      project_type: نوع المشروع
+      really_close_dialog: هل تريد حقًا إغلاق الحوار وفقدان البيانات المدخلة؟
+      responsible: مسؤول
+      save: حفظ
+      start_date: تاريخ البدء
+      tooManyProjects: أكثر من %{count} مشاريع. من فضلك استخدم عامل تصفية أفضل!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: تكبير
+        out: تصغير
+        auto: Auto zoom
+        days: أيام
+        weeks: أسابيع
+        months: أشهر
+        quarters: أرباع
+        years: السنوات
+        slider: تكبير شريط التمرير
+    tl_toolbar:
+      zooms: تكبير المستوى
+      outlines: مستوى التسلسل الهرمي
+    unsupported_browser:
+      title: إصدار متصفحك غير مدعوم
+      message: إصدار المتصفِّح الذي تستخدمة لم يعُد مدعومًا من قِبل أوبِن بروجِكت.
+      update_message: من فضلك قم بتحديث متصفِّحك.
+      update_ie_user: من فضلك حوّل إلى موزيلّا فايرفوكس أو جوجل كروم، أو قم بالتحديث
+        إلى مايكروسوفت إدج.
+      learn_more: التعرف على المزيد
+      close_warning: تجاهل هذا التحذير.
+    wiki_formatting:
+      strong: قوي
+      italic: مائل
+      underline: تسطير
+      deleted: محذوف
+      code: الرمز المُتّضَمَّن
+      heading1: العنوان 1
+      heading2: العنوان 2
+      heading3: العنوان 3
+      unordered_list: قائمة غير مرتبة
+      ordered_list: قائمة مرتبة
+      quote: اقتباس
+      unquote: انتهى الاقتباس
+      preformatted_text: نص مُنسّقٌ مسبقًا
+      wiki_link: قُم بوصله إلى صفحة Wiki
+      image: صورة
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: إزالة
+      comment_added: التعليق أضيف بنجاح.
+      comment_send_failed: حدث خطأ ما. لاتستطيع تأكيد التعليق.
+      comment_updated: التعليق عدل بنجاح.
+      confirm_edit_cancel: هل أنت متأكد من الغاء تعديل هذه الحزمة؟
+      description_filter: فلترة
+      description_enter_text: ادخل نصا
+      description_options_hide: إخفاء الخيارات
+      description_options_show: إظهار الخيارات
+      error:
+        edit_prohibited: 'تعديل %{attribute} محظور لمجموعة العمل هذه. إما أن تكون
+          هذه الميزة مستمدة من علاقات (مثل: الأبناء) أو ما عدا ذلك فإنها غير قابلة
+          للتشكيل.'
+        format:
+          date: "%{attribute} لا تاريخ صحيح--يتوقع YYYY-MM-DD."
+        general: لقد حدث خطأ ما.
+      edit_attribute: "%{attribute}_ عدل"
+      key_value: "%{key}:%{value}"
+      label_enable_multi_select: السماح بالاختيار المتعدد
+      label_disable_multi_select: تعطيل الاختيار المتعدد
+      label_filter_add: إضافة عامل تصفية
+      label_options: خيارات
+      label_column_multiselect: 'نطاق قائمة منسدلة مشتركة: اختر بمفاتيح الأسهم، وأكّد
+        الاختيار بالضغط على مفتاح الإدخال، واحذف بمفتاح التحرك للخلف'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: حدث خطأ ما أثناء محاولة حذف مجموعات العمل.
+      message_successful_bulk_delete: تم حذف مجموعات العمل بنجاح.
+      message_successful_show_in_fullscreen: اضغط هنا لفتح مجموعة العمل هذه بعرض كامل
+        الشاشة.
+      message_view_spent_time: Show spent time for this work package
+      no_value: لا توجد قيمة
+      inline_create:
+        title: اضغط هنا لإضافة مجموعة عمل جديدة للقائمة
+      create:
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: إنشاء
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your query is erroneous and could not be processed.
+      no_results:
+        title: لا يوجد مجموعات عمل لعرضها.
+        description: إما أنه لا يوجد ما تم إنشاؤه أو أن جميع مجموعات العمل قد تمت
+          فلترتها.
+      property_groups:
+        details: تفاصيل
+        people: الناس
+        estimatesAndTime: التقديرات والوقت
+        other: اخرى
+      properties:
+        assignee: المُسند إليه
+        author: المؤلف
+        createdAt: تم الإنشاء في
+        description: الوصف
+        date: التاريخ
+        dueDate: تاريخ الاستحقاق
+        estimatedTime: الوقت المُقّدَّر
+        spentTime: الوقت المستهلك
+        category: فئة
+        percentageDone: النسبة المئوية المُنجزة
+        priority: الأولوية
+        projectName: مشروع
+        responsible: مسؤول
+        startDate: تاريخ البدء
+        status: الحالة
+        subject: الموضوع
+        title: العنوان
+        type: النّوع
+        updatedAt: تم التحديث بتاريخ
+        versionName: الإصدار
+        version: الإصدار
+      jump_marks:
+        pagination: الانتقال السريع إلى تقسيم الجدول
+        label_pagination: اضغط هنا لتخطي جدول كتب العمل والانتقال للحدود الفاصلة
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: اضغط لِتُدْخِل الوصف...
+      query:
+        column_names: الأعمدة
+        group_by: نتائج المجموعة حسب
+        group: تصنيف حسب
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: ترتيب تصاعدي
+        sort_descending: ترتيب تنازلي
+        move_column_left: انقل العمود لليسار
+        move_column_right: انقل العمود لليمين
+        hide_column: إخفاء العمود
+        insert_columns: أدخِل أعمدة ...
+        filters: عوامل التصفية
+        display_sums: عرض المبالغ
+        errors:
+          unretrievable_query: غير قادر على استرداد الاستعلام من URL
+          not_found: There is no such query
+        text_no_results: No matching queries were found.
+      table:
+        summary: أسطر الجدول كتب عمل والاعمدة واصفات لكتب العمل.
+        text_inline_edit: معظم خلايا الجدول هي أزرار لتنشيط وظائف التحرير المضمنة
+          لتلك الواصفة.
+        text_sort_hint: مع الارتباطات الموجودة في رؤوس الجدول يمكنك فرز، والمجموعة،
+          وإعادة ترتيب، وإزالة وإضافة أعمدة الجدول.
+        text_select_hint: يجب فتح الخانات المختارة بمفتاح "ألت" ومفاتيح الأسهم.
+      tabs:
+        overview: نظرة عامة
+        activity: النشاط
+        relations: صِلات
+        watchers: المشاهدون
+        attachments: المرفقات
+      time_relative:
+        days: أيام
+        weeks: أسابيع
+        months: أشهر
+    toolbar:
+      settings:
+        columns: أعمدة...
+        sort_by: تم تصنيفه حسب...
+        group_by: تم تجميعه حسب...
+        display_sums: عرض المجاميع
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: إخفاء المجاميع
+        save: حفظ
+        save_as: حفظ بشكل ...
+        export: تصدير ...
+        publish: Publish ...
+        page_settings: قم بإعادة تسمية الاستعلام ...
+        delete: احذف
+      filter: فلترة
+      unselected_title: مجموعة العمل
+      search_query_label: استعلامات البحث حفظ عامل التصفية
+      search_query_title: انقر فوق لتصفية حفظ استعلامات البحث
+    modals:
+      label_settings: قم بإعادة تسمية الاستعلام
+      label_name: الاسم
+      label_delete_page: احذف الصفحة الحالية
+      button_apply: تطبيق
+      button_save: حفظ
+      button_submit: إرسال
+      button_cancel: إلغاء
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: إنشاء ناجح.
+    notice_successful_delete: حذف ناجح.
+    notice_successful_update: تحديث ناجح.
+    notice_bad_request: طلب غير صحيح.
+    relations:
+      empty: لا يوجد علاقات
+      remove: حذف علاقة
+    inplace:
+      button_edit: "%{attribute}: تعديل"
+      button_save: "%{attribute}: حفظ"
+      button_cancel: "%{attribute}: إلغاء"
+      button_save_all: حفظ
+      button_cancel_all: إلغاء
+      link_formatting_help: المساعدة في تنسيق النص
+      btn_preview_enable: معاينة
+      btn_preview_disable: تعطيل المعاينة
+      null_value_label: لا توجد قيمة
+      clear_value_label: "-"
+      errors:
+        required: "%{field} لا يمكن أن يكون فارغًا"
+        number: "%{field} ليس عددا صحيحًا"
+        maxlength: "%{field} لا يمكن أن تحتوي على أكثر من %{maxLength} رقم(أرقام)"
+        minlength: "%{field} لا يمكن أن تحتوي على أقل من %{minLength} رقم(أرقام)"
+        messages_on_field: 'هذا الحقل غير صالح: %{messages}'
+    error_could_not_resolve_version_name: تعثّر حل اسم الإصدار
+    error_could_not_resolve_user_name: تعذر حل اسم المستخدم
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+        zero: work packages
+        two: work packages
+        few: work packages
+        many: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+        zero: "%{count} work package children"
+        two: "%{count} work package children"
+        few: "%{count} work package children"
+        many: "%{count} work package children"
+      hour:
+        one: ساعة واحدة
+        other: "%{count} ساعات"
+        zero: "%{count} ساعات"
+        two: "%{count} ساعات"
+        few: "%{count} ساعات"
+        many: "%{count} ساعات"
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

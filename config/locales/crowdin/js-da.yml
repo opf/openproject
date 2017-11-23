@@ -1,0 +1,622 @@
+---
+da:
+  js:
+    ajax:
+      hide: Gem
+      loading: Henter...
+    close_popup_title: Luk popup
+    close_filter_title: Luk filter
+    close_form_title: Luk formular
+    clipboard:
+      browser_error: Din browser understøtter ikke kopiering til Udklipsholder. Kopiér
+        venligst den markerede tekst manuelt.
+      copied_successful: Kopieret til Udklipsholder!
+    button_add_watcher: Tilføj tilsynsførende
+    button_back_to_list_view: Tilbage til listevisning
+    button_cancel: Annuller
+    button_close: Close
+    button_check_all: Vælg alt
+    button_configure-form: Konfigurer formularen
+    button_confirm: Bekræft
+    button_continue: Fortsæt
+    button_copy: Kopier
+    button_custom-fields: Selvvalgte felter
+    button_delete: Slet
+    button_delete_watcher: Slet tilsynsførende
+    button_details_view: Detaljevisning
+    button_duplicate: Lav dublet
+    button_edit: Rediger
+    button_filter: Filter
+    button_list_view: Listevisning
+    button_show_view: Fuldskærmsvisning
+    button_log_time: Tidsregistrering
+    button_more: mere
+    button_move: Flyt
+    button_open_details: Åbn detaljevisning
+    button_close_details: Close details view
+    button_open_fullscreen: Open fullscreen view
+    button_quote: Citer
+    button_save: Gem
+    button_settings: Indstillinger
+    button_uncheck_all: Fjern alle markeringer
+    button_update: Opdater
+    button_export-pdf: Download PDF
+    button_export-atom: Download Atom
+    description_available_columns: Tilgængelige kolonner
+    description_current_position: 'Du er her:'
+    description_select_work_package: 'Select work package #%{id}'
+    description_selected_columns: Valgte kolonner
+    description_subwork_package: 'Child of work package #%{id}'
+    error:
+      internal: An internal error has occurred.
+    filter:
+      description:
+        text_open_filter: Åbn dette filter med 'ALT' og pile tasterne.
+        text_close_filter: To select an entry leave the focus for example by pressing
+          enter. To leave without filter select the first (empty) entry.
+      noneElement: "(ingen)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: First sorting criteria
+          two: Second sorting criteria
+          three: Third sorting criteria
+    general_text_no: nej
+    general_text_yes: ja
+    general_text_No: Nej
+    general_text_Yes: Ja
+    label_activate: Aktiver
+    label_activity_no: Activity entry number %{activityNo}
+    label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
+      comment.
+    label_add_columns: Add columns
+    label_add_comment: Tilføj kommentar
+    label_add_comment_title: Klik for at tilføje en kommentar
+    label_add_selected_columns: Tilføj valgte kolonner
+    label_added_by: tilføjet af
+    label_added_time_by: Tilføjet af %{author} %{age}
+    label_ago: dage siden
+    label_all: alle
+    label_all_work_packages: alle arbejdspakker
+    label_and: og
+    label_ascending: Stigende
+    label_author: 'Author: %{user}'
+    label_between: between
+    label_board_locked: Låst
+    label_board_sticky: Fremhævet
+    label_create_work_package: Opret ny arbejdspakke
+    label_created_by: Created by
+    label_date: Dato
+    label_date_with_format: 'Enter the %{date_attribute} using the following format:
+      %{format}'
+    label_deactivate: Deaktivér
+    label_descending: Faldende
+    label_description: Beskrivelse
+    label_cancel_comment: Cancel comment
+    label_closed_work_packages: lukket
+    label_collapse: Fold sammen
+    label_collapsed: sammenfoldet
+    label_collapse_all: Fold alle sammen
+    label_comment: Kommentar
+    label_committed_at: "%{committed_revision_link} d. %{date}"
+    label_committed_link: tilknyttet revision %{revision_identifier}
+    label_contains: indeholder
+    label_created_on: oprettet d.
+    label_edit_comment: Edit this comment
+    label_edit_status: Edit the status of the work package
+    label_equals: er
+    label_expand: Udvid
+    label_expanded: udfoldet
+    label_expand_all: Fold alle ud
+    label_export: Eksportér
+    label_filename: Fil
+    label_filesize: Størrelse
+    label_greater_or_equal: ">="
+    label_group_by: Gruppér efter
+    label_hide_attributes: Show less
+    label_hide_column: Gem kolonne
+    label_in: i
+    label_in_less_than: på mindre end
+    label_in_more_than: på mere end
+    label_latest_activity: Seneste aktivitet
+    label_last_updated_on: Senest opdateret den
+    label_less_or_equal: "<="
+    label_less_than_ago: mindre end dage siden
+    label_loading: Henter...
+    label_me: mig
+    label_menu_collapse: Fold menu sammen
+    label_menu_expand: Fold menu ud
+    label_more_than_ago: mere end dage siden
+    label_next: Næste
+    label_no_data: Ingen data at vise
+    label_no_due_date: ingen slutdato
+    label_no_start_date: ingen startdato
+    label_none: ingen
+    label_not_contains: indeholder ikke
+    label_not_equals: er ikke
+    label_on: på
+    label_open_menu: Åbn menuen
+    label_open_work_packages: åbn
+    label_password: Adgangskode
+    label_previous: Foregående
+    label_per_page: 'Per side:'
+    label_please_wait: Please wait
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Quote this comment
+    label_reset: Nulstil
+    label_remove_columns: Fjern valgte kolonner
+    label_save_as: Gem som
+    label_select_watcher: Vælg en tilsynsførende...
+    label_selected_filter_list: Valgte filtre
+    label_show_attributes: Show all attributes
+    label_show_in_menu: Vis siden i menu
+    label_sort_by: Sortér efter
+    label_sorted_by: sorteret efter
+    label_sort_higher: Flyt op
+    label_sort_lower: Flyt ned
+    label_sorting: Sorterer
+    label_sum_for: Sum for
+    label_subject: Emne
+    label_this_week: denne uge
+    label_today: i dag
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: 'Samlet fremskridt: %{percent}%'
+    label_visible_for_others: Siden er synlig for andre
+    label_updated_on: opdateret d.
+    label_warning: Advarsel
+    label_work_package: Arbejdspakke
+    label_work_package_plural: Arbejdspakker
+    label_watch: Før tilsyn
+    label_watch_work_package: Før tilsyn med arbejdspakke
+    label_watcher_added_successfully: Tilsynsførende er nu tilføjet!
+    label_watcher_deleted_successfully: Tilsynsførende er nu slettet!
+    label_work_package_details_you_are_here: Du er på fanen %{tab} for %{type} %{subject}.
+    label_unwatch: Stands tilsyn
+    label_unwatch_work_package: Stands tilsyn med arbejdspakke
+    label_uploaded_by: Lagt op af
+    label_global_queries: Delte forespørgsler
+    label_custom_queries: Private forespørgsler
+    label_columns: Kolonner
+    label_attachments: Filer
+    label_drop_files: Slip filer hér
+    label_drop_files_hint: eller klik for at tilføje filer
+    label_add_attachments: Add attachments
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Slet %{fileName}
+    label_remove_watcher: Fjern iagttager %{name}
+    label_remove_all_files: Slet alle filer
+    label_add_description: Tilføj en beskrivelse af %{file}
+    label_upload_notification: 'Upload af filer til arbejdspakke #%{id}: %{subject}'
+    label_files_to_upload: 'Disse filer vil blive uploadet:'
+    label_rejected_files: 'Disse filer kan ikke uploades:'
+    label_rejected_files_reason: Disse filer kan ikke uploades, da deres størrelse
+      overstiger %{maximumFilesize}
+    label_wait: Vent venligst på opsætning...
+    label_upload_counter: "%{done} af %{count} filer færdige"
+    label_validation_error: 'Arbejdspakken kunne ikke gemmes grundet følgende fejl:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: You need to enter your account password to confirm this change.
+      title: Confirm your password to continue
+    pagination:
+      no_other_page: You are on the only page.
+      pages:
+        next: Forward to the next page
+        previous: Back to the previous page
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: Vælg venligst
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: Er du sikker?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Opgradér til Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: indlæser iagttagere...
+      label_error_loading: An error occurred while loading the watchers
+      label_search_watchers: Søg iagttagere
+      label_add: Tilføj tilsynsførende
+      label_discard: Kassér valg
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: Overordnet
+      children: Underordnede
+      relates: Knyttet til
+      duplicates: Dubletter
+      duplicated: Dublet oprettet af
+      blocks: Blokke
+      blocked: Blokeret af
+      precedes: Efterfølges af
+      follows: Efterfølger
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      hierarchy_headline: hierarchy
+    relation_buttons:
+      change_parent: Ændr overordnede
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Klik for at ændre den relationstypen
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Fjern relation
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+    repositories:
+      select_tag: Vælg etiket
+      select_branch: Vælg gren
+    field_value_enter_prompt: Indtast en værdi for '%{field}'
+    select2:
+      input_too_short:
+        one: Angiv venligst ét tegn yderligere
+        other: Angiv venligst {{count}} tegn yderligere
+        zero: Please enter more characters
+      load_more: Henter flere resultater...
+      no_matches: Ingen passende resultater fundet
+      searching: Søger...
+      selection_too_big:
+        one: Du kan kun vælge ét emne
+        other: Du kan kun vælge {{limit}} emner
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Er du sikker på, du vil slette de/den
+      valgte arbejdspakke(r)?
+    text_query_destroy_confirmation: Er du sikker på du vil slette de valgte forespørgsler?
+    text_attachment_destroy_confirmation: Sikker på, at du vil slette vedhæftningen?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: Annuller
+      change: Ændring i planlægning
+      due_date: Forfaldsdato
+      empty: "(tom)"
+      error: An error has occurred.
+      errors:
+        not_implemented: Tidslinjen kan ikke gengives, fordi den bruger en funktion,
+          der endnu ikke er implementeret.
+        report_comparison: Tidslinien kunne ikke gengive de opsatte sammenligninger.
+          Tjek venligst den relevante del i opsætningen. En nulstilling kan formodentlig
+          løse problemet.
+        report_epicfail: Tidslinjen kunne ikke indlæses på grund af en uventet fejl.
+        report_timeout: Tidslinjen kunne ikke indlæses indenfor en remelig tid.
+      filter:
+        column:
+          assigned_to: Tildelt
+          type: Type
+          due_date: Slutdato
+          name: Navn
+          status: Status
+          responsible: Ansvarlig
+          start_date: Start dato
+        grouping_other: Andet
+        noneSelection: "(ingen)"
+      name: Navn
+      new_work_package: Ny arbejdspakke
+      outline: Nulstil dispostionen
+      outlines:
+        aggregation: Vis kun sammensætninger
+        level1: Udvidelsesniveau 1
+        level2: Udvidelsesniveau 2
+        level3: Udvidelsesniveau 3
+        level4: Udvidelsesniveau 4
+        level5: Udvidelsesniveau 5
+        all: Vis alle
+      project_status: Projektstatus
+      project_type: Projekttype
+      really_close_dialog: Vil du virkelig lukke dialogboksen og miste ugemte data?
+      responsible: Ansvarlig
+      save: Gem
+      start_date: Start dato
+      tooManyProjects: Mere end %{count} projekter. Vær venligt at bruge et bedre
+        filter!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Zoom ind
+        out: Zoom ud
+        auto: Auto zoom
+        days: Dage
+        weeks: Uger
+        months: Måneder
+        quarters: Kvartaler
+        years: År
+        slider: Zoom-skydeknap
+    tl_toolbar:
+      zooms: Zoomniveau
+      outlines: Niveau i hieraki
+    unsupported_browser:
+      title: Din version af browseren understøttes ikke
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Få mere at vide
+      close_warning: Ignore this warning.
+    wiki_formatting:
+      strong: Fed
+      italic: Kursiv
+      underline: Understreget
+      deleted: Slettet
+      code: Kildekode
+      heading1: Overskrift 1
+      heading2: Overskrift 2
+      heading3: Overskrift 3
+      unordered_list: Usorteret liste
+      ordered_list: Sorteret liste
+      quote: Citer
+      unquote: Afslut citat
+      preformatted_text: Forudformatteret tekst
+      wiki_link: Link til wiki-side
+      image: Billede
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Ryd
+      comment_added: Kommentaren blev tilføjet.
+      comment_send_failed: An error has occurred. Could not submit the comment.
+      comment_updated: Kommentaren blev opdateret.
+      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      description_filter: Filter
+      description_enter_text: Indtast tekst
+      description_options_hide: Gem muligheder
+      description_options_show: Vis muligheder
+      error:
+        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
+          this attribute is derived from relations (e.g, children) or otherwise not
+          configurable.
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: An error has occurred.
+      edit_attribute: "%{attribute} - Edit"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Tillad multimarkeringer
+      label_disable_multi_select: Slå multimarkeringer fra
+      label_filter_add: Tilføj filter
+      label_options: Muligheder
+      label_column_multiselect: 'Kombineret rullegardinfelt: Vælg med piletaster,
+        bekræft valg med ''Enter'' slet med ''Backspace'''
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: En fejl opstod under forsøg på at slette arbejdspakker.
+      message_successful_bulk_delete: Slettet arbejdspakker med succes.
+      message_successful_show_in_fullscreen: Click here to open this work package
+        in fullscreen view.
+      message_view_spent_time: Show spent time for this work package
+      no_value: Ingen værdi tildelt
+      inline_create:
+        title: Click here to add a new work package to this list
+      create:
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: Opret
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your query is erroneous and could not be processed.
+      no_results:
+        title: No work packages to display.
+        description: Either none have been created or all work packages are filtered
+          out.
+      property_groups:
+        details: Detaljer
+        people: Personer
+        estimatesAndTime: Skøn & tid
+        other: Andet
+      properties:
+        assignee: Tildelt
+        author: Forfatter
+        createdAt: Oprettet den
+        description: Beskrivelse
+        date: Dato
+        dueDate: Forfaldsdato
+        estimatedTime: Anslået tid
+        spentTime: Anvendt tid
+        category: Kategori
+        percentageDone: Procentdel udført
+        priority: Prioritet
+        projectName: Projekt
+        responsible: Ansvarlig
+        startDate: Start dato
+        status: Status
+        subject: Emne
+        title: Titel
+        type: Type
+        updatedAt: Opdateret den
+        versionName: Version
+        version: Version
+      jump_marks:
+        pagination: Jump to table pagination
+        label_pagination: Click here to skip over the work packages table and go to
+          pagination
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: Klik for at indtaste beskrivelse...
+      query:
+        column_names: Kolonner
+        group_by: Grupper resultater efter
+        group: Gruppér efter
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Sorter stigende
+        sort_descending: Sorter faldende
+        move_column_left: Flyt kolonne til venstre
+        move_column_right: Flyt kolonne til højre
+        hide_column: Gem kolonne
+        insert_columns: Indsæt kolonner...
+        filters: Filtre
+        display_sums: Vis totaler
+        errors:
+          unretrievable_query: Kan ikke hente forespørgsel fra URL
+          not_found: There is no such query
+        text_no_results: No matching queries were found.
+      table:
+        summary: Table with rows of work package and columns of work package attributes.
+        text_inline_edit: Most cells of this table are buttons that activate inline-editing
+          functionality of that attribute.
+        text_sort_hint: With the links in the table headers you can sort, group, reorder,
+          remove and add table columns.
+        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      tabs:
+        overview: Overblik
+        activity: Aktivitet
+        relations: Tilknytninger
+        watchers: Tilsynsførende
+        attachments: Vedhæftninger
+      time_relative:
+        days: dage
+        weeks: uger
+        months: måneder
+    toolbar:
+      settings:
+        columns: Kolonner...
+        sort_by: Sorter efter...
+        group_by: Gruppér efter...
+        display_sums: Vis sammentællinger
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Skjul sammentællinger
+        save: Gem
+        save_as: Gem som...
+        export: Eksporter...
+        publish: Publish ...
+        page_settings: Omdøb forespørgsel...
+        delete: Slet
+      filter: Filter
+      unselected_title: Arbejdspakke
+      search_query_label: Search saved filter queries
+      search_query_title: Click to search saved filter queries
+    modals:
+      label_settings: Omdøb forespørgsel
+      label_name: Navn
+      label_delete_page: Slet denne side
+      button_apply: Benyt
+      button_save: Gem
+      button_submit: Indsend
+      button_cancel: Annuller
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Oprettelse gennemført.
+    notice_successful_delete: Sletning gennemført.
+    notice_successful_update: Opdatering gennemført.
+    notice_bad_request: Uanvendelig anmodning.
+    relations:
+      empty: Ingen relationer findes
+      remove: Fjern relation
+    inplace:
+      button_edit: "%{attribute}: Rediger"
+      button_save: "%{attribute}: Gem"
+      button_cancel: "%{attribute}: Annullér"
+      button_save_all: Gem
+      button_cancel_all: Annuller
+      link_formatting_help: Text formatting help
+      btn_preview_enable: Forhåndsvisning
+      btn_preview_disable: Deaktivér forhåndsvisning
+      null_value_label: Ingen værdi tildelt
+      clear_value_label: "-"
+      errors:
+        required: "%{field} må ikke være tomt"
+        number: "%{field} er ikke et gyldigt tal"
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        messages_on_field: 'This field is invalid: %{messages}'
+    error_could_not_resolve_version_name: Kunne ikke fastslå versionsnavn
+    error_could_not_resolve_user_name: Kunne ikke finde brugernavnet
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 time
+        other: "%{count} timer"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode
