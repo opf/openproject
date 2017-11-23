@@ -1,0 +1,12 @@
+zh-CN:
+  js:
+    work_packages:
+      property_groups:
+        costs: "成本"
+      properties:
+        costObject: "预算"
+        overallCosts: "总成本"
+        spentUnits: "已支出单位成本"
+    button_log_costs: "记录单位成本"
+    label_hour: "小时"
+    label_hours: "小时"

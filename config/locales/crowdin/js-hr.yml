@@ -1,0 +1,12 @@
+hr:
+  js:
+    work_packages:
+      property_groups:
+        costs: "Troškovi"
+      properties:
+        costObject: "Budžet"
+        overallCosts: "Ukupni troškovi"
+        spentUnits: "Potrošene jedinice"
+    button_log_costs: "Evidentiraj jedinice troškova"
+    label_hour: "sat"
+    label_hours: "sati"

@@ -1,0 +1,12 @@
+hu:
+  js:
+    work_packages:
+      property_groups:
+        costs: "Költségek"
+      properties:
+        costObject: "Költségvetés"
+        overallCosts: "Összes költség"
+        spentUnits: "Elköltött egység"
+    button_log_costs: "Költségek naplózása"
+    label_hour: "óra"
+    label_hours: "óra"
