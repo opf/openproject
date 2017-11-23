@@ -35,7 +35,7 @@ module Redmine
 
     def self.all_languages
       @@all_languages ||= begin
-        Dir.glob(Rails.root.join('config/locales/*.yml'))
+        Dir.glob(Rails.root.join('config/locales/**/*.yml'))
           .map { |f| File.basename(f).split('.').first }
           .reject! { |l| /\Ajs-/.match(l.to_s) }
           .map(&:to_sym)

@@ -46,6 +46,7 @@ var debug_output = (!production || !!process.env['OP_FRONTEND_DEBUG_OUTPUT']);
 
 var node_root = path.resolve(__dirname, 'node_modules');
 var output_root = path.resolve(__dirname, '..', 'app', 'assets', 'javascripts');
+var translations_root = path.resolve(__dirname, '..', 'config', 'locales', 'crowdin');
 var bundle_output = path.resolve(output_root, 'bundles');
 
 var pluginEntries = _.reduce(pathConfig.pluginNamesPaths, function (entries, pluginPath, name) {
@@ -59,9 +60,8 @@ var pluginAliases = _.reduce(pathConfig.pluginNamesPaths, function (entries, plu
 }, {});
 
 /** Extract available locales from openproject-translations plugin */
-var translations = path.resolve(pathConfig.allPluginNamesPaths['openproject-translations'], 'config', 'locales');
 var localeIds = ['en'];
-fs.readdirSync(translations).forEach(function (file) {
+fs.readdirSync(translations_root).forEach(function (file) {
   var matches = file.match( /^js-(.+)\.yml$/);
   if (matches && matches.length > 1) {
     localeIds.push(matches[1]);
