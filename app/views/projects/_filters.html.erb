@@ -16,29 +16,26 @@
                 filter.default_operator.symbol) %>
             <%= select_tag :operator,
                            options_from_collection_for_select(
-                               filter.available_operators,
-                               :symbol,
-                               :human_name,
-                               selected_operator),
-                           class: 'advanced-filters--select'  %>
+                             filter.available_operators,
+                             :symbol,
+                             :human_name,
+                             selected_operator),
+                           class: 'advanced-filters--select' %>
           </div>
-
           <% value_visibility = operators_without_values.include?(selected_operator) ? 'hidden' : '' %>
-
-          <% if %i(list list_optional list_all ).include? filter.type %>
+          <% if %i(list list_optional list_all).include? filter.type %>
             <% is_multi_value = (query.find_active_filter(filter.name).try(:values).try(:size).to_i > 1 ) %>
-
             <div class="advanced-filters--filter-value <%= value_visibility %> <%= is_multi_value ? 'multi-value' : '' %>">
               <div class="single-select">
                 <span class="inline-label">
                   <%= select_tag :value,
                                  options_from_collection_for_select(
-                                     filter.allowed_values,
-                                     :second,
-                                     :first,
-                                     query.find_active_filter(filter.name)
-                                         .try(:values)
-                                         .try(:first)),
+                                   filter.allowed_values,
+                                   :second,
+                                   :first,
+                                   query.find_active_filter(filter.name)
+                                     .try(:values)
+                                     .try(:first)),
                                  class: 'form--select -slim' %>
                   <a href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
                     <span class="icon-context icon-button icon-add icon4" title="<%= t(:label_enable_multi_select) %>">
@@ -51,11 +48,11 @@
                 <span class="inline-label">
                   <%= select_tag :value,
                                  options_from_collection_for_select(
-                                     filter.allowed_values,
-                                     :second,
-                                     :first,
-                                     query.find_active_filter(filter.name)
-                                         .try(:values)
+                                   filter.allowed_values,
+                                   :second,
+                                   :first,
+                                   query.find_active_filter(filter.name)
+                                     .try(:values)
                                  ),
                                  class: 'form--select -slim',
                                  multiple: true %>
