@@ -60,10 +60,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 8c9c191835583ddf0ebb365a8a6cfd6bb55e9451
-  branch: stable/7
+  revision: 175b5aef8eb275157e2a42ccf64f373a149b1a75
+  branch: release/7.3
   specs:
-    openproject-translations (7.3.1)
+    openproject-translations (7.3.2)
       crowdin-api (~> 0.4.1)
       mixlib-shellout (~> 2.1.0)
       rails (~> 5.0.0)
@@ -738,4 +738,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.15.4
+   1.16.0
