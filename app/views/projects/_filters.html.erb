@@ -68,7 +68,7 @@
             <%
               value_format = ''
               if ['>t-', '<t-', 't-', '<t+', '>t+', 't+'].include? selected_operator
-                value_format = 'days-ago'
+                value_format = 'days'
               elsif selected_operator == '=d'
                 value_format = 'on-date'
               elsif selected_operator == '<>d'
@@ -76,11 +76,11 @@
               end
             %>
             <div class="advanced-filters--filter-value <%= value_visibility %> <%= value_format %>">
-              <div class="days-ago">
+              <div class="days">
                 <div class="form--field-container">
                   <div class="form--text-field-container -xslim">
                     <span class="inline-label">
-                      <%= number_field_tag :value, value_format == 'days-ago' ? filter.values.first : '', class: 'advanced-filters--text-field -slim' %>
+                      <%= number_field_tag :value, value_format == 'days' ? filter.values.first : '', class: 'advanced-filters--text-field -slim' %>
                       <label for="value" class="form-label -transparent">days</label>
                     </span>
                   </div>

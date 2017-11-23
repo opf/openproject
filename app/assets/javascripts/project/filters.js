@@ -92,8 +92,8 @@ jQuery(function($) {
             }
           }
         } else if (['datetime_past', 'date'].includes(filterType)) {
-          if ($valueBlock.hasClass('days-ago')) {
-            let value = $('.days-ago input[name="value"]', $valueBlock).val();
+          if ($valueBlock.hasClass('days')) {
+            let value = $('.days input[name="value"]', $valueBlock).val();
             if (value.length > 0) {
               filterParam[filterName] = {
                 'operator': operator,
@@ -203,16 +203,16 @@ jQuery(function($) {
     }
 
     if (['>t-', '<t-', 't-', '<t+', '>t+', 't+'].includes(selectedOperator)) {
-      $filterValue.addClass('days-ago');
+      $filterValue.addClass('days');
       $filterValue.removeClass('on-date');
       $filterValue.removeClass('between-dates');
     } else if (selectedOperator == '=d') {
       $filterValue.addClass('on-date');
-      $filterValue.removeClass('days-ago');
+      $filterValue.removeClass('days');
       $filterValue.removeClass('between-dates');
     } else if (selectedOperator == "<>d") {
       $filterValue.addClass('between-dates');
-      $filterValue.removeClass('days-ago');
+      $filterValue.removeClass('days');
       $filterValue.removeClass('on-date');
     }
   }
