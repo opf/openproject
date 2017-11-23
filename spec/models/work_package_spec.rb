@@ -38,7 +38,7 @@ describe WorkPackage, type: :model do
   let!(:cost_object) { FactoryGirl.create(:cost_object, project: project) }
 
   def move_to_project(work_package, project)
-    service = MoveWorkPackageService.new(work_package, user)
+    service = WorkPackages::MoveService.new(work_package, user)
 
     service.call(project)
   end
