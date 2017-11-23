@@ -96,9 +96,9 @@ See doc/COPYRIGHT.rdoc for more details.
         </thead>
         <tbody>
           <% project_tree_when_sorted(@projects) do |project, level| %>
-            <% show_hierarchy = sort_clause =~ /^lft /
+            <% show_hierarchy = sort_clause =~ /^lft/ ? true : false
                efective_level =  show_hierarchy ? level : 0 %>
-            <tr class="basics <%= show_hierarchy ? project.css_classes : project.css_classes.gsub('parent', '').gsub('child', '') + ' root leaf' %> <%= efective_level > 0 ? "idnt idnt-#{efective_level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
+            <tr class="basics <%= project.css_classes(ignore_hierarchy: !show_hierarchy) %> <%= efective_level > 0 ? "idnt idnt-#{efective_level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
               <td class="name project--hierarchy <%= project.archived? ? 'archived' : '' %>">
                 <% if project.archived? %>
                   <span class="archived-label"><%= t('project.archive.archived') %></span>

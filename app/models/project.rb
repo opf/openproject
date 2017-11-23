@@ -644,11 +644,15 @@ class Project < ActiveRecord::Base
     description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
   end
 
-  def css_classes
+  def css_classes(options = {})
     s = 'project'
-    s << ' root' if root?
-    s << ' child' if child?
-    s << (leaf? ? ' leaf' : ' parent')
+    if options[:ignore_hierarchy]
+      s << ' root leaf'
+    else
+      s << ' root' if root?
+      s << ' child' if child?
+      s << (leaf? ? ' leaf' : ' parent')
+    end
     s
   end
 
