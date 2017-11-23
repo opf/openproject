@@ -1,0 +1,639 @@
+---
+fr:
+  js:
+    ajax:
+      hide: Masquer
+      loading: Chargement…
+    close_popup_title: Fermer popup
+    close_filter_title: Fermer le filtre
+    close_form_title: Fermer le formulaire
+    clipboard:
+      browser_error: Votre navigateur ne prend pas en charge la copie dans le presse-papier.
+        Veuillez copier manuellement le texte sélectionné.
+      copied_successful: Copié avec succès vers le presse-papier !
+    button_add_watcher: Ajouter observateur
+    button_back_to_list_view: Retour à la liste
+    button_cancel: Annuler
+    button_close: Fermer
+    button_check_all: Tout cocher
+    button_configure-form: Configurer le formulaire
+    button_confirm: Confirmer
+    button_continue: Continuer
+    button_copy: Copier
+    button_custom-fields: Champs personnalisés
+    button_delete: Supprimer
+    button_delete_watcher: Supprimer observateur
+    button_details_view: Vue détaillée
+    button_duplicate: Dupliquer
+    button_edit: Éditer
+    button_filter: Filtre
+    button_list_view: Vue en liste
+    button_show_view: Affichage plein écran
+    button_log_time: Consigner temps
+    button_more: Plus
+    button_move: Déplacer
+    button_open_details: Ouvrir la vue détaillée
+    button_close_details: Fermer la vue détaillée
+    button_open_fullscreen: Ouvrir l'affichage plein écran
+    button_quote: Citation
+    button_save: Enregistrer
+    button_settings: Paramètres
+    button_uncheck_all: Tout désélectionner
+    button_update: Mettre à jour
+    button_export-pdf: Télécharger le PDF
+    button_export-atom: Télécharger Atom
+    description_available_columns: Colonnes disponibles
+    description_current_position: 'Vous êtes ici :'
+    description_select_work_package: 'Sélectionner le lot de travaux #%{id}'
+    description_selected_columns: Colonnes Sélectionnées
+    description_subwork_package: 'Enfant du lot de travaux #%{id}'
+    error:
+      internal: Une erreur interne s'est produite.
+    filter:
+      description:
+        text_open_filter: Ouvrir ce filtre avec les touches « ALT » et fléchées.
+        text_close_filter: Pour sélectionner une entrée, laissez le focus par exemple
+          en appuyant sur enter. Pour quitter sans filtre, sélectionnez la première
+          entrée (vide).
+      noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} dans votre heure locale."
+        only_start: À partir de %{from} dans votre heure locale.
+        only_end: Jusqu'à %{to} dans votre heure locale.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: Premier critère de tri
+          two: Second critère de tri
+          three: Troisième critère de tri
+    general_text_no: non
+    general_text_yes: oui
+    general_text_No: Non
+    general_text_Yes: Oui
+    label_activate: Activer
+    label_activity_no: Entrée d'activité numéro %{activityNo}
+    label_activity_with_comment_no: Entrée d'activité numéro %{activityNo}. A un commentaire
+      utilisateur.
+    label_add_columns: Ajouter des colonnes
+    label_add_comment: Ajouter un commentaire
+    label_add_comment_title: Cliquez ici pour ajouter un commentaire
+    label_add_selected_columns: Ajouter les colonnes sélectionnées
+    label_added_by: Ajouté par
+    label_added_time_by: Ajouté par %{author} %{age}
+    label_ago: il y a quelques jours
+    label_all: tous
+    label_all_work_packages: tous les lots de travaux
+    label_and: et
+    label_ascending: Croissant
+    label_author: 'Auteur : %{user}'
+    label_between: entre
+    label_board_locked: Verrouillé
+    label_board_sticky: Epinglé
+    label_create_work_package: Créer un nouveau Lot de Travaux
+    label_created_by: Créé par
+    label_date: Date
+    label_date_with_format: 'Saisissez l''attribut %{date_attribute} en utilisant
+      le format suivant : %{format}'
+    label_deactivate: Désactiver
+    label_descending: Décroissant
+    label_description: Description
+    label_cancel_comment: Annuler le commentaire
+    label_closed_work_packages: clôturé
+    label_collapse: Regrouper
+    label_collapsed: regroupé
+    label_collapse_all: Tout replier
+    label_comment: Commentaire
+    label_committed_at: "%{committed_revision_link} le %{date}"
+    label_committed_link: révision %{revision_identifier} soumise
+    label_contains: contenus
+    label_created_on: créé le
+    label_edit_comment: Éditer ce commentaire
+    label_edit_status: Edit the status of the work package
+    label_equals: est
+    label_expand: Étendre
+    label_expanded: étendu
+    label_expand_all: Tout déplier
+    label_export: Exporter
+    label_filename: Fichier
+    label_filesize: Taille
+    label_greater_or_equal: ">="
+    label_group_by: Grouper par
+    label_hide_attributes: Afficher moins
+    label_hide_column: Masquer la colonne
+    label_in: dans
+    label_in_less_than: en moins de
+    label_in_more_than: en plus de
+    label_latest_activity: Dernière activité
+    label_last_updated_on: Dernière modification le
+    label_less_or_equal: "<="
+    label_less_than_ago: il y a moins de quelques jours
+    label_loading: Chargement…
+    label_me: moi
+    label_menu_collapse: réduire
+    label_menu_expand: développer
+    label_more_than_ago: il y a plus de quelques jours
+    label_next: Suivante
+    label_no_data: Aucune donnée à afficher
+    label_no_due_date: pas d'échéance
+    label_no_start_date: pas de date de début
+    label_none: aucun(e)
+    label_not_contains: ne contient pas
+    label_not_equals: n'est pas
+    label_on: le
+    label_open_menu: Ouvrir le menu
+    label_open_work_packages: ouvert
+    label_password: Mot de passe
+    label_previous: Précédent
+    label_per_page: 'Par page:'
+    label_please_wait: Veuillez patienter
+    label_visibility_settings: Paramètres de visibilité
+    label_quote_comment: Citer ce commentaire
+    label_reset: Réinitialiser
+    label_remove_columns: Enlever les colonnes sélectionnées
+    label_save_as: Enregistrer sous
+    label_select_watcher: Sélectionner un observateur…
+    label_selected_filter_list: Filtres sélectionnés
+    label_show_attributes: Afficher tous les attributs
+    label_show_in_menu: Afficher la page dans le menu
+    label_sort_by: Trier par
+    label_sorted_by: trié par
+    label_sort_higher: Déplacer vers le haut
+    label_sort_lower: Déplacer vers le bas
+    label_sorting: Tri
+    label_sum_for: somme pour
+    label_subject: Objet
+    label_this_week: cette semaine
+    label_today: aujourd'hui
+    label_activity_show_only_comments: Afficher les activités avec les commentaires
+      seulement
+    label_activity_show_all: Afficher toutes les activités
+    label_total_progress: "%{percent}% de progression totale"
+    label_visible_for_others: Page visible pour les autres
+    label_updated_on: mis à jour le
+    label_warning: Attention
+    label_work_package: Lot de travaux
+    label_work_package_plural: Lots de Travaux
+    label_watch: Suivre
+    label_watch_work_package: Suivre le lot de travaux
+    label_watcher_added_successfully: Observateur ajouté avec succès !
+    label_watcher_deleted_successfully: Observateur supprimé avec succès !
+    label_work_package_details_you_are_here: Vous êtes sur l'onglet %{tab} de %{type}
+      %{subject}.
+    label_unwatch: Ne plus suivre
+    label_unwatch_work_package: Ne plus suivre le lot de travaux
+    label_uploaded_by: Téléversé par
+    label_global_queries: Requêtes partagées
+    label_custom_queries: Requêtes privées
+    label_columns: Colonnes
+    label_attachments: Fichiers
+    label_drop_files: Déposez des fichiers ici
+    label_drop_files_hint: ou cliquez pour ajouter des fichiers
+    label_add_attachments: Ajouter pièces jointes
+    label_formattable_attachment_hint: Insérer des fichiers en les glissant sur ce
+      champ, ou en les collant depuis le presse-papiers.
+    label_remove_file: Supprimer %{fileName}
+    label_remove_watcher: Retirer l'observateur %{name}
+    label_remove_all_files: Supprimer tous les fichiers
+    label_add_description: Ajouter une description pour %{file}
+    label_upload_notification: 'Transfert en cours des fichiers pour le lot de travaux
+      #%{id}: %{subject}'
+    label_files_to_upload: 'Ces fichiers vont être transférés:'
+    label_rejected_files: 'Ces fichiers ne peuvent pas être transférés:'
+    label_rejected_files_reason: Ces fichiers ne peuvent pas être transférés car leur
+      taille est supérieure à %{maximumFilesize}
+    label_wait: Veuillez patienter pendant la configuration…
+    label_upload_counter: "%{done} fichiers sur %{count} finis"
+    label_validation_error: 'Le lot de travaux n''a pas pu être enregistré en raison
+      des erreurs suivantes :'
+    help_texts:
+      show_modal: Afficher l’aide de l’attribut de saisie de texte
+    password_confirmation:
+      field_description: Vous devez saisir le mot de passe de votre compte pour confirmer
+        ce changement.
+      title: Confirmez votre mot de passe pour continuer
+    pagination:
+      no_other_page: Vous êtes sur la seule page.
+      pages:
+        next: Avancer à la page suivante
+        previous: Revenir à la page précédente
+    placeholders:
+      default: "-"
+      subject: Saisir le sujet ici
+      selection: Veuillez sélectionner
+      relation_description: Cliquez pour ajouter la description pour cette relation
+    project:
+      required_outside_context: Vous n’êtes pas dans un contexte de projet. Veuillez
+        d’abord choisir le contexte du projet afin de sélectionner le type et le statut.
+      context: Contexte du projet
+      work_package_belongs_to: Ce lot de travaux appartient au projet %{projectname}.
+      click_to_switch_context: Ouvrir ce lot de travaux dans ce projet.
+    text_are_you_sure: Êtes-vous sûr ?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: Le nom %{group} est utilisé plus d’une fois. Les
+          noms de groupe doivent être uniques.
+        reset_title: Réinitialiser la configuration du formulaire
+        confirm_reset: 'Avertissement : êtes-vous sûr de vouloir réinitialiser la
+          configuration du formulaire ? Ceci va réinitialiser les attributs à leur
+          groupe par défaut, effacer les paramètres de visibilité et désactiver TOUS
+          les champs personnalisés.
+
+'
+        upgrade_to_ee: Passer à la version Entreprise
+        upgrade_to_ee_text: Waouh ! Si vous avez besoin de cette fonctionnalité, vous
+          êtes un véritable pro ! Cela vous dérangerait-il de soutenir les développeurs
+          Open Source en devenant un client de la Version Enterprise ?
+        more_information: Plus d'informations
+        nevermind: Peu importe
+    watchers:
+      label_loading: observateurs en cours de chargement…
+      label_error_loading: Une erreur s'est produite lors du chargement des observateurs
+      label_search_watchers: Rechercher des observateurs
+      label_add: Ajouter des observateurs
+      label_discard: Supprimer la sélection
+      typeahead_placeholder: Rechercher les observateurs potentiels
+    relation_labels:
+      parent: Parent
+      children: Enfants
+      relates: En relation avec
+      duplicates: Duplique
+      duplicated: Dupliqué par
+      blocks: Bloque
+      blocked: Bloqué par
+      precedes: Précède
+      follows: Suit
+      includes: Comporte
+      partof: Partie de
+      requires: Requiert
+      required: Requis par
+      relation_type: type de relation
+    relations_hierarchy:
+      hierarchy_headline: hiérarchie
+    relation_buttons:
+      change_parent: Changer le parent
+      remove_parent: Supprimer le parent
+      group_by_wp_type: Grouper par type de lot de travaux
+      group_by_relation_type: Grouper par type de relation
+      add_parent: Ajouter un parent existant
+      add_new_child: Créer un nouvel enfant
+      add_existing_child: Ajouter un enfant existant
+      remove_child: Supprimer enfant
+      add_new_relation: Créer une nouvelle relation
+      update_description: Définir ou mettre à jour la description de cette relation
+      toggle_description: Alterner la description de relation
+      update_relation: Cliquez pour modifier le type de relation
+      add_follower: Ajouter un successeur
+      add_predecessor: Ajouter un prédécesseur
+      remove: Supprimer la relation
+      save: Enregistrer la relation
+      abort: Interrompre
+    relations_autocomplete:
+      placeholder: Saisir l'ID du lot de travaux associé
+    repositories:
+      select_tag: Sélectionner une étiquette
+      select_branch: Sélectionner une branche
+    field_value_enter_prompt: Saisissez une valeur pour « %{field} »
+    select2:
+      input_too_short:
+        one: Veuillez saisir un caractère supplémentaire
+        other: Veuillez saisir {{count}} caractères supplémentaires
+        zero: Please enter more characters
+      load_more: Chargement de plus de résultats...
+      no_matches: Pas de correspondances trouvées
+      searching: Recherche…
+      selection_too_big:
+        one: Vous ne pouvez sélectionner qu'un seul élément
+        other: Vous ne pouvez sélectionner que {{limit}} éléments
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Tri par ordre croissant appliqué, '
+      sorted_dsc: 'Tri par ordre décroissant appliqué, '
+      sorted_no: 'Aucun tri appliqué, '
+      sorting_disabled: le tri est désactivé
+      activate_asc: activer pour appliquer un tri par ordre croissant
+      activate_dsc: activer pour appliquer un tri par ordre décroissant
+      activate_no: activer pour supprimer le tri
+    text_work_packages_destroy_confirmation: Voulez-vous vraiment supprimer le(s)
+      Lot(s) de Travaux sélectionnés?
+    text_query_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la requête
+      sélectionnée ?
+    text_attachment_destroy_confirmation: Êtes-vous sûr de vouloir supprimer la pièce
+      jointe ?
+    timelines:
+      gantt_chart: Diagramme de Gantt
+      labels:
+        bar: Bar labels
+        left: Gauche
+        right: Droite
+        farRight: Far right
+        showNone: "--Aucune étiquette--"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activer le mode ligne du temps
+      button_deactivate: Désactiver le mode ligne du temps
+      cancel: Annuler
+      change: Changement dans la planification
+      due_date: Échéance
+      empty: "(vide)"
+      error: Une erreur s'est produite.
+      errors:
+        not_implemented: La Chronologie ne peut être affiché parce qu’il utilise une
+          fonctionnalité qui n'est pas encore implémentée.
+        report_comparison: La vue Chronologique ne peut afficher les comparaisons
+          configurées. Veuillez consulter la section appropriée dans la configuration,
+          réinitialiser peut aider à résoudre ce problème.
+        report_epicfail: La vue Chronologique ne peut pas être chargé à cause d'une
+          erreur inattendue.
+        report_timeout: La vue Chronologique ne peut être chargé dans un laps de temps
+          raisonnable.
+      filter:
+        column:
+          assigned_to: Assigné à
+          type: Type
+          due_date: Échéance
+          name: Nom
+          status: Statut
+          responsible: Responsable
+          start_date: Date de début
+        grouping_other: Autre
+        noneSelection: "(none)"
+      name: Nom
+      new_work_package: Nouveau Lot de Travaux
+      outline: Réinitialiser le contour
+      outlines:
+        aggregation: Ne montrer que les agrégations
+        level1: Etendre niveau 1
+        level2: Etendre niveau 2
+        level3: Déplier 3 niveaux
+        level4: Déplier 4 niveaux
+        level5: Déplier 5 niveaux
+        all: Tout montrer
+      project_status: État du projet
+      project_type: Type de projet
+      really_close_dialog: Voulez-vous vraiment fermer la boîte de dialogue et perdre
+        les données saisies ?
+      responsible: Responsable
+      save: Enregistrer
+      start_date: Date de début
+      tooManyProjects: Plus de %{count} projets. Veuillez essayez un meilleur filtre
+        !
+      selection_mode:
+        notification: Cliquez sur n’importe quel lot de travaux mis en évidence afin
+          de créer la relation. Appuyez sur Échap pour annuler.
+      zoom:
+        in: Zoomer
+        out: Dézoomer
+        auto: Zoom automatique
+        days: Jours
+        weeks: Semaines
+        months: Mois
+        quarters: Trimestres
+        years: Années
+        slider: Curseur de zoom
+    tl_toolbar:
+      zooms: Niveau de zoom
+      outlines: Niveau de hiérarchie
+    unsupported_browser:
+      title: La version de votre navigateur n'est pas prise en charge
+      message: La version du navigateur que vous utilisez n'est plus supportée par
+        OpenProject.
+      update_message: Veuillez mettre à jour votre navigateur.
+      update_ie_user: Veuillez passer à Mozilla Firefox ou Google Chrome, ou mettre
+        à niveau vers Microsoft Edge.
+      learn_more: En savoir plus
+      close_warning: Ignorer cet avertissement.
+    wiki_formatting:
+      strong: Gras
+      italic: Italique
+      underline: Souligné
+      deleted: Supprimé
+      code: Code Inline
+      heading1: Titre 1
+      heading2: Titre 2
+      heading3: Titre 3
+      unordered_list: Liste non ordonnée
+      ordered_list: Liste ordonnée
+      quote: Citation
+      unquote: Annuler la citation
+      preformatted_text: Texte préformaté
+      wiki_link: Lien vers une page wiki
+      image: Image
+    work_packages:
+      bulk_actions:
+        move: Déplacement en bloc
+        edit: Édition en bloc
+        copy: Copier en bloc
+        delete: Supprimer en bloc
+      button_clear: Effacer
+      comment_added: Le commentaire a été ajouté avec succès.
+      comment_send_failed: Une erreur s'est produite. Impossible de soumettre le commentaire.
+      comment_updated: Le commentaire a été mis à jour avec succès.
+      confirm_edit_cancel: Êtes-vous sûr de vouloir annuler l'édition du lot de travaux
+        ?
+      description_filter: Filtre
+      description_enter_text: Saisir texte
+      description_options_hide: Masquer les options
+      description_options_show: Afficher les options
+      error:
+        edit_prohibited: L'édition de %{attribute} est bloquée pour ce lot de travaux.
+          Soit cet attribut découle d'une relation (par ex. enfants), soit il n'est
+          pas configurable.
+        format:
+          date: "%{attribute} n’est pas une date valide. Format attendu : AAAA-MM-JJ."
+        general: Une erreur s'est produite.
+      edit_attribute: "%{attribute} - Éditer"
+      key_value: "%{key} : %{value}"
+      label_enable_multi_select: Activer la sélection multiple
+      label_disable_multi_select: Désactiver la sélection multiple
+      label_filter_add: Ajouter le filtre
+      label_options: Options
+      label_column_multiselect: 'Champ liste déroulante combinée : sélectionner avec
+        les touches fléchées, confirmer la sélection avec la touche enter, supprimer
+        avec retour arrière'
+      label_switch_to_single_select: Commuter en sélection unique
+      label_switch_to_multi_select: Commuter en sélection multiple
+      message_error_during_bulk_delete: Une erreur s'est produite lors de la tentative
+        de suppression des lots de travaux.
+      message_successful_bulk_delete: Les lots de travaux ont été correctement supprimés.
+      message_successful_show_in_fullscreen: Cliquez ici pour ouvrir ce lot de travaux
+        en affichage plein écran.
+      message_view_spent_time: Afficher le temps passé pour ce lot de travaux
+      no_value: Aucune valeur
+      inline_create:
+        title: Cliquez ici pour ajouter un nouveau lot de travaux à cette liste
+      create:
+        header: Nouveau lot (%{type})
+        header_no_type: Nouveau lot de travaux (type non encore spécifié)
+        header_with_parent: 'Nouveau %{type} (enfant de %{parent_type} #%{id})'
+        button: Créer
+      hierarchy:
+        show: Afficher le mode hiérarchie
+        hide: Masquer le mode hiérarchie
+        toggle_button: Cliquez pour changer de mode hiérarchique.
+        leaf: Dépendance du lot de travaux au niveau %{level}.
+        children_collapsed: Niveau de hiérarchie %{level}, replié. Cliquez pour afficher
+          les enfants filtrés
+        children_expanded: Niveau de hiérarchie %{level}, déplié. Cliquez pour replier
+          les enfants filtrés
+      faulty_query:
+        title: Les lots de travaux n'ont pas pu être chargés.
+        description: Votre requête est erronée et n'a pas pu être traitée.
+      no_results:
+        title: Aucun lot de travaux à afficher.
+        description: Soit aucun n'a été créé, soit tous les lots de travaux sont filtrés.
+      property_groups:
+        details: Détails
+        people: Participants
+        estimatesAndTime: Estimations et temps
+        other: Autre
+      properties:
+        assignee: Assigné à
+        author: Auteur
+        createdAt: Créé le
+        description: Description
+        date: Date
+        dueDate: Échéance
+        estimatedTime: Durée estimée
+        spentTime: Temps passé
+        category: Catégorie
+        percentageDone: Pourcentage effectué
+        priority: Priorité
+        projectName: Projet
+        responsible: Responsable
+        startDate: Date de début
+        status: Statut
+        subject: Objet
+        title: Titre
+        type: Type
+        updatedAt: Mis à jour le
+        versionName: Version
+        version: Version
+      jump_marks:
+        pagination: Passer à la pagination du tableau
+        label_pagination: Cliquez ici pour sauter le tableau des lots de travaux et
+          accéder à la pagination
+        content: Aller au contenu
+        label_content: Cliquez ici pour passer le menu et aller au contenu
+      placeholders:
+        default: "-"
+        description: Cliquer pour entrer la description…
+      query:
+        column_names: Colonnes
+        group_by: Grouper les résultats par
+        group: Grouper par
+        group_by_disabled_by_hierarchy: Grouper par est désactivé, car le mode hiérarchie
+          est activé.
+        hierarchy_disabled_by_group_by: Le mode hiérarchie est désactivé, car les
+          résultats sont groupés par %{column}.
+        hierarchy_mode: Mode hiérarchie
+        sort_ascending: Trier par ordre croissant
+        sort_descending: Trier par ordre décroissant
+        move_column_left: Déplacer la colonne de gauche
+        move_column_right: Déplacer le colonne de droite
+        hide_column: Masquer la colonne
+        insert_columns: Insérer des colonnes…
+        filters: Filtres
+        display_sums: Afficher les sommes
+        errors:
+          unretrievable_query: Impossible de récupérer la requête par l'URL
+          not_found: Il y a aucune requête de ce type
+        text_no_results: Aucune requête correspondante n'a été trouvée.
+      table:
+        summary: Tableau avec lignes de lots de travaux et colonnes d’attributs de
+          lots de travaux.
+        text_inline_edit: La plupart des cellules de ce tableau sont des boutons qui
+          activent la fonctionnalité d'édition en ligne de l’attribut.
+        text_sort_hint: Avec les liens dans les en-têtes de tableau vous pouvez trier,
+          regrouper, réorganiser, supprimer et ajouter des colonnes.
+        text_select_hint: Les boîtes de sélection doivent être ouvertes avec la touche
+          « ALT » et les flèches directionelles.
+      tabs:
+        overview: Vue globale
+        activity: Activité
+        relations: Relations
+        watchers: Observateurs
+        attachments: Fichiers
+      time_relative:
+        days: jours
+        weeks: semaines
+        months: mois
+    toolbar:
+      settings:
+        columns: Colonnes…
+        sort_by: Trier par…
+        group_by: Grouper par…
+        display_sums: Afficher les sommes
+        display_hierarchy: Afficher la hiérarchie
+        hide_hierarchy: Masquer la hiérarchie
+        hide_sums: Masquer les sommes
+        save: Enregistrer
+        save_as: Enregistrer sous…
+        export: Exporter…
+        publish: Publier...
+        page_settings: Renommer la requête…
+        delete: Supprimer
+      filter: Filtre
+      unselected_title: Lot de travaux
+      search_query_label: Rechercher filtre de recherches enregistrées
+      search_query_title: Cliquer pour rechercher des filtres de requêtes enregistrées
+    modals:
+      label_settings: Renommez la requête
+      label_name: Nom
+      label_delete_page: Effacer la page en cours
+      button_apply: Appliquer
+      button_save: Enregistrer
+      button_submit: Envoyer
+      button_cancel: Annuler
+      form_submit:
+        title: Confirmez pour continuer
+        text: Êtes-vous sûr de vouloir effectuer cette action ?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Découvrez l’édition entreprise.
+      destroy_work_package:
+        title: Confirmer la suppression de %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'Le lot de travaux a %{childUnits} :'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Création réussie.
+    notice_successful_delete: Suppression réussie.
+    notice_successful_update: Mise à jour réussie.
+    notice_bad_request: Mauvaise requête.
+    relations:
+      empty: Aucune relation n'existe
+      remove: Supprimer la relation
+    inplace:
+      button_edit: "%{attribute} : Modifier"
+      button_save: "%{attribute} : Enregistrer"
+      button_cancel: "%{attribute} : Annuler"
+      button_save_all: Enregistrer
+      button_cancel_all: Annuler
+      link_formatting_help: Aide pour le formatage du texte
+      btn_preview_enable: Aperçu
+      btn_preview_disable: Désactiver l'aperçu
+      null_value_label: Aucune valeur
+      clear_value_label: "-"
+      errors:
+        required: "%{field} ne peut pas être vide"
+        number: "%{field} n'est pas un nombre valide"
+        maxlength: "%{field} ne peut pas contenir plus de %{maxLength} chiffre(s)"
+        minlength: "%{field} ne peut pas contenir moins de %{minLength} chiffre(s)"
+        messages_on_field: 'Ce champ n’est pas valide : %{messages}'
+    error_could_not_resolve_version_name: Ne peut résoudre le nom de version
+    error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 heure
+        other: "%{count} heures"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activer le mode zen
+      button_deactivate: Désactiver le mode zen

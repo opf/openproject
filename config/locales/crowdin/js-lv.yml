@@ -1,0 +1,627 @@
+---
+lv:
+  js:
+    ajax:
+      hide: Hide
+      loading: Notiek ielāde...
+    close_popup_title: Aizvērt logu
+    close_filter_title: Close filter
+    close_form_title: Close form
+    clipboard:
+      browser_error: Jūsu pārlūkprogramma neatbalsta kopēšanu starpliktuvē. Lūdzu,
+        kopējiet atlasīto tekstu izmantojot ctrl+c un ctrl+v
+      copied_successful: Sekmīgi nokopēts starpliktuvē!
+    button_add_watcher: Add watcher
+    button_back_to_list_view: Back to list view
+    button_cancel: Atcelt
+    button_close: Close
+    button_check_all: Check all
+    button_configure-form: Configure form
+    button_confirm: Confirm
+    button_continue: Continue
+    button_copy: Copy
+    button_custom-fields: Custom fields
+    button_delete: Dzēst
+    button_delete_watcher: Dzēst vērotāju
+    button_details_view: Skatīt detalizētāk
+    button_duplicate: Duplicate
+    button_edit: Labot
+    button_filter: Filtrēt
+    button_list_view: Saraksta skats
+    button_show_view: Pilnekrāna skats
+    button_log_time: Log time
+    button_more: More
+    button_move: Move
+    button_open_details: Atvērt detalizēto skatu
+    button_close_details: Close details view
+    button_open_fullscreen: Atvērt pilnekrāna skatā
+    button_quote: Citēt
+    button_save: Saglabāt
+    button_settings: Iestatījumi
+    button_uncheck_all: Uncheck all
+    button_update: Update
+    button_export-pdf: Lejupielādēt PDF
+    button_export-atom: Download Atom
+    description_available_columns: Available Columns
+    description_current_position: 'Jūs esat šeit:'
+    description_select_work_package: 'Select work package #%{id}'
+    description_selected_columns: Selected Columns
+    description_subwork_package: 'Child of work package #%{id}'
+    error:
+      internal: Radusies iekšēja kļūda.
+    filter:
+      description:
+        text_open_filter: Atver šo filtru ar 'ALT' un bultiņu taustiņiem.
+        text_close_filter: Lai atlasītu ierakstu atstājiet atzīmi, piemēram, nospiežot
+          ievadīt. Lai neizmantotu filtru atlasiet pirmo (tukšo) ieraksts.
+      noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: Pirmais kārtošanas kritērijs
+          two: Otrs kārtošanas kritērijs
+          three: Trešais kārtošanas kritērijs
+    general_text_no: 'no'
+    general_text_yes: 'yes'
+    general_text_No: 'No'
+    general_text_Yes: 'Yes'
+    label_activate: Activate
+    label_activity_no: Aktivitātes ieraksta numurs %{activityNo}
+    label_activity_with_comment_no: Aktivitātes ieraksta numurs %{activityNo}. Ir
+      lietotāja komentārs.
+    label_add_columns: Add columns
+    label_add_comment: Pievienot komentāru
+    label_add_comment_title: Noklikšķiniet, lai pievienotu komentāru
+    label_add_selected_columns: Add selected columns
+    label_added_by: Pievienoja
+    label_added_time_by: Pievienoja %{author} %{age}
+    label_ago: days ago
+    label_all: all
+    label_all_work_packages: visu darbu pakotnes
+    label_and: and
+    label_ascending: Ascending
+    label_author: 'Autors: %{user}'
+    label_between: between
+    label_board_locked: Slēgts
+    label_board_sticky: Svarīgi
+    label_create_work_package: Create new work package
+    label_created_by: Created by
+    label_date: Datums
+    label_date_with_format: 'Enter the %{date_attribute} using the following format:
+      %{format}'
+    label_deactivate: Deaktivizēt
+    label_descending: Descending
+    label_description: Description
+    label_cancel_comment: Atcelt komentāru
+    label_closed_work_packages: slēgti
+    label_collapse: Collapse
+    label_collapsed: sakļauts
+    label_collapse_all: Collapse all
+    label_comment: Comment
+    label_committed_at: "%{committed_revision_link}, %{date}"
+    label_committed_link: ievietotā revīzija %{revision_identifier}
+    label_contains: contains
+    label_created_on: izveidots
+    label_edit_comment: Rediģēt šo komentāru
+    label_edit_status: Edit the status of the work package
+    label_equals: is
+    label_expand: Izvērst
+    label_expanded: izvērsts
+    label_expand_all: Expand all
+    label_export: Eksportēt
+    label_filename: Fails
+    label_filesize: Izmērs
+    label_greater_or_equal: ">="
+    label_group_by: Group by
+    label_hide_attributes: Rādīt mazāk
+    label_hide_column: Paslēpt kolonu
+    label_in: in
+    label_in_less_than: in less than
+    label_in_more_than: in more than
+    label_latest_activity: Jaunākās aktivitātes
+    label_last_updated_on: Pēdējās izmaiņas veiktas
+    label_less_or_equal: "<="
+    label_less_than_ago: less than days ago
+    label_loading: Notiek ielāde...
+    label_me: me
+    label_menu_collapse: sakļaut
+    label_menu_expand: izvērst
+    label_more_than_ago: more than days ago
+    label_next: Nākošā
+    label_no_data: Nav dati
+    label_no_due_date: bez beigu datuma
+    label_no_start_date: bez sākuma datuma
+    label_none: none
+    label_not_contains: doesn't contain
+    label_not_equals: is not
+    label_on: " "
+    label_open_menu: Open menu
+    label_open_work_packages: aktīvi
+    label_password: Parole
+    label_previous: Iepriekšējā
+    label_per_page: 'Katrā lappusē:'
+    label_please_wait: Lūdzu, uzgaidiet
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Citēt šo komentāru
+    label_reset: Atjaunot
+    label_remove_columns: Remove selected columns
+    label_save_as: Saglabāt kā
+    label_select_watcher: Select a watcher...
+    label_selected_filter_list: Atlasītajiem filtriem
+    label_show_attributes: Parādīt visus atribūtus
+    label_show_in_menu: Show page in menu
+    label_sort_by: Sort by
+    label_sorted_by: sorted by
+    label_sort_higher: Move up
+    label_sort_lower: Move down
+    label_sorting: Sorting
+    label_sum_for: Sum for
+    label_subject: Nosaukums
+    label_this_week: this week
+    label_today: šodien
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent}% Total progress"
+    label_visible_for_others: Page visible for others
+    label_updated_on: labots
+    label_warning: Warning
+    label_work_package: Work package
+    label_work_package_plural: Pieteikumi
+    label_watch: Sekot
+    label_watch_work_package: Sekot pieteikumam
+    label_watcher_added_successfully: Watcher successfully added!
+    label_watcher_deleted_successfully: Watcher successfully deleted!
+    label_work_package_details_you_are_here: Tu esi %{type} %{subject} %{tab} cilnē.
+    label_unwatch: Unwatch
+    label_unwatch_work_package: Unwatch work package
+    label_uploaded_by: Uploaded by
+    label_global_queries: Koplietotie skati
+    label_custom_queries: Privātie skati
+    label_columns: Kolonnas
+    label_attachments: Faili
+    label_drop_files: Nomest failus šeit
+    label_drop_files_hint: vai klikšķiniet šeit, lai pievienotu failus
+    label_add_attachments: Add attachments
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Dzēst %{fileName}
+    label_remove_watcher: Noņemt vērotāju %{name}
+    label_remove_all_files: Dzēst visus failus
+    label_add_description: Pievienot aprakstu priekš %{file}
+    label_upload_notification: 'Augšupielādēt failus Darba pakai #%{id}: %{subject}'
+    label_files_to_upload: 'Šie faili tiks augšupielādēti:'
+    label_rejected_files: 'Nevar augšupielādēt šos failus:'
+    label_rejected_files_reason: Šos failus nevar augšupielādēt, jo to izmērs ir lielāks
+      par %{maximumFilesize}
+    label_wait: Lūdzu, uzgaidiet, konfigurācija...
+    label_upload_counter: "%{done} no %{count} faili pabeigti"
+    label_validation_error: 'Darba paku nevarēja saglabāt saistībā ar šādām kļūdām:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: You need to enter your account password to confirm this change.
+      title: Confirm your password to continue
+    pagination:
+      no_other_page: Jūs esat vienīgajā lapā.
+      pages:
+        next: Uz priekšu uz nākamo lapu
+        previous: Atpakaļ uz iepriekšējo lapu
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: Lūdzu, atlasiet
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: Are you sure?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: ielādē vērotājus...
+      label_error_loading: Radās kļūda, ielādējot vērotājus
+      label_search_watchers: Meklēt vērotājus
+      label_add: Add watchers
+      label_discard: Atmest atlasi
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: Parent
+      children: Bērni
+      relates: Saistīts ar
+      duplicates: Dublikāti
+      duplicated: Dublēts ar
+      blocks: Blocks
+      blocked: Blocked by
+      precedes: Precedes
+      follows: Follows
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      hierarchy_headline: hierarchy
+    relation_buttons:
+      change_parent: Mainīt vecāku
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Noņemt saistību
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+    repositories:
+      select_tag: Izvēlieties atzīmi
+      select_branch: Izvēlieties zaru
+    field_value_enter_prompt: Enter a value for '%{field}'
+    select2:
+      input_too_short:
+        one: Lūdzu, ievadiet vēl {{count}} simbolu
+        other: Lūdzu, ievadiet vēl {{count}} simbolus
+        zero: Lūdzu, ievadiet vēl {{count}} simbolus
+      load_more: Loading more results ...
+      no_matches: No matches found
+      searching: Notiek meklēšana...
+      selection_too_big:
+        one: Var atlasīt {{limit}} vienumu
+        other: Var atlasīt {{limit}} vienumus
+        zero: Var atlasīt {{limit}} vienumus
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
+      work package(s)?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      query?
+    text_attachment_destroy_confirmation: Vai tiešām vēlaties izdzēst pielikumu?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: Atcelt
+      change: Change in planning
+      due_date: Izpildes datums
+      empty: "(empty)"
+      error: Radusies kļūda.
+      errors:
+        not_implemented: The timeline could not be rendered because it uses a feature
+          that is not yet implemented.
+        report_comparison: The timeline could not render the configured comparisons.
+          Please check the appropriate section in the configuration, resetting it
+          can help solve this problem.
+        report_epicfail: The timeline could not be loaded due to an unexpected error.
+        report_timeout: The timeline could not be loaded in a reasonable amount of
+          time.
+      filter:
+        column:
+          assigned_to: Pašreizējais atbildīgais
+          type: Veids
+          due_date: End date
+          name: Name
+          status: Statuss
+          responsible: Atbildīgais
+          start_date: Sākuma datums
+        grouping_other: Other
+        noneSelection: "(none)"
+      name: Name
+      new_work_package: New work package
+      outline: Reset Outline
+      outlines:
+        aggregation: Show aggregations only
+        level1: Expand level 1
+        level2: Expand level 2
+        level3: Expand level 3
+        level4: Expand level 4
+        level5: Expand level 5
+        all: Show all
+      project_status: Projekta statuss
+      project_type: Projekta tips
+      really_close_dialog: Do you really want to close the dialog and lose the entered
+        data?
+      responsible: Atbildīgais
+      save: Saglabāt
+      start_date: Sākuma datums
+      tooManyProjects: More than %{count} Projects. Please use a better filter!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Zoom in
+        out: Zoom out
+        auto: Auto zoom
+        days: Days
+        weeks: Weeks
+        months: Months
+        quarters: Quarters
+        years: Years
+        slider: Tālummaiņas slīdnis
+    tl_toolbar:
+      zooms: Tālummaiņas līmenis
+      outlines: Hierarhijas līmenis
+    unsupported_browser:
+      title: Your browser version is not supported
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Uzzināt vairāk
+      close_warning: Ignore this warning.
+    wiki_formatting:
+      strong: Trekns
+      italic: Slīps
+      underline: Pasvītrots
+      deleted: Nosvītrots
+      code: Inline kods
+      heading1: Virsraksts 1
+      heading2: Virsraksts 2
+      heading3: Virsraksts 3
+      unordered_list: Nenumurēts saraksts
+      ordered_list: Numurēts saraksts
+      quote: Citēt
+      unquote: Samazināt atkāpi
+      preformatted_text: Pre
+      wiki_link: Saite uz Wiki lapu
+      image: Attēls
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Clear
+      comment_added: Komentārs veiksmīgi pievienots.
+      comment_send_failed: Radusies kļūda. Nevar iesniegt komentāru.
+      comment_updated: Komentārs tika veiksmīgi atjaunināts.
+      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      description_filter: Filtrēt
+      description_enter_text: Enter text
+      description_options_hide: Hide options
+      description_options_show: Show options
+      error:
+        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
+          this attribute is derived from relations (e.g, children) or otherwise not
+          configurable.
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: Radusies kļūda.
+      edit_attribute: "%{attribute} - Rediģēt"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Aktivizēt vairākas izvēlnes
+      label_disable_multi_select: Disable multiselect
+      label_filter_add: Add filter
+      label_options: Options
+      label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
+        confirm selection with enter, delete with backspace'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: An error occurred while trying to delete work
+        packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
+      message_successful_show_in_fullscreen: Click here to open this work package
+        in fullscreen view.
+      message_view_spent_time: Show spent time for this work package
+      no_value: Nav vērtības
+      inline_create:
+        title: Click here to add a new work package to this list
+      create:
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: Izveidot
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your query is erroneous and could not be processed.
+      no_results:
+        title: No work packages to display.
+        description: Either none have been created or all work packages are filtered
+          out.
+      property_groups:
+        details: Details
+        people: Iesaistītie
+        estimatesAndTime: Estimates & Time
+        other: Other
+      properties:
+        assignee: Pašreizējais atbildīgais
+        author: Autors
+        createdAt: Created on
+        description: Description
+        date: Datums
+        dueDate: Izpildes datums
+        estimatedTime: Estimated time
+        spentTime: Spent time
+        category: Category
+        percentageDone: Percentage done
+        priority: Prioritāte
+        projectName: Project
+        responsible: Atbildīgais
+        startDate: Sākuma datums
+        status: Statuss
+        subject: Nosaukums
+        title: Title
+        type: Veids
+        updatedAt: Updated on
+        versionName: Versija
+        version: Versija
+      jump_marks:
+        pagination: Jump to table pagination
+        label_pagination: Click here to skip over the work packages table and go to
+          pagination
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: Click to enter description...
+      query:
+        column_names: Kolonnas
+        group_by: Grupēt rezultātus pēc
+        group: Group by
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Kārtot augošā secībā
+        sort_descending: Kārtot dilstošā secībā
+        move_column_left: Pārvietot kolonnu pa kreisi
+        move_column_right: Pārvietot kolonnu pa labi
+        hide_column: Paslēpt kolonu
+        insert_columns: Ievietot kolonnas...
+        filters: Filtri
+        display_sums: Display Sums
+        errors:
+          unretrievable_query: Unable to retrieve query from URL
+          not_found: There is no such query
+        text_no_results: No matching queries were found.
+      table:
+        summary: Table with rows of work package and columns of work package attributes.
+        text_inline_edit: Most cells of this table are buttons that activate inline-editing
+          functionality of that attribute.
+        text_sort_hint: Ar galvenes saitēm var kārtot, grupēt, pārkārtot, noņemt un
+          pievienot tabulas kolonnas.
+        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      tabs:
+        overview: Pārskats
+        activity: Activity
+        relations: Saistītie
+        watchers: Watchers
+        attachments: Attachments
+      time_relative:
+        days: days
+        weeks: weeks
+        months: months
+    toolbar:
+      settings:
+        columns: Kolonnas...
+        sort_by: Kārtot pēc...
+        group_by: Grupēt pēc...
+        display_sums: Parādīt summas
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Hide sums
+        save: Saglabāt
+        save_as: Saglabāt kā ...
+        export: Eksportēt...
+        publish: Publish ...
+        page_settings: Pārsaukt skatu...
+        delete: Dzēst
+      filter: Filtrēt
+      unselected_title: Work package
+      search_query_label: Meklēt saglabātos filtru vaicājumus
+      search_query_title: Noklikšķiniet, lai meklētu saglabātos filtru vaicājumus
+    modals:
+      label_settings: Rename query
+      label_name: Name
+      label_delete_page: Delete current page
+      button_apply: Apstiprināt
+      button_save: Saglabāt
+      button_submit: Publicēt
+      button_cancel: Atcelt
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Successful creation.
+    notice_successful_delete: Successful deletion.
+    notice_successful_update: Successful update.
+    notice_bad_request: Bad Request.
+    relations:
+      empty: Nepastāv saistības
+      remove: Noņemt saistību
+    inplace:
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Save"
+      button_cancel: "%{attribute}: Cancel"
+      button_save_all: Saglabāt
+      button_cancel_all: Atcelt
+      link_formatting_help: Teksta formatēšanas palīdzība
+      btn_preview_enable: Priekšskatīt
+      btn_preview_disable: Atslēgt priekšskatījumu
+      null_value_label: Nav vērtības
+      clear_value_label: "-"
+      errors:
+        required: "%{field} cannot be empty"
+        number: "%{field} is not a valid number"
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        messages_on_field: 'This field is invalid: %{messages}'
+    error_could_not_resolve_version_name: Couldn't resolve version name
+    error_could_not_resolve_user_name: Couldn't resolve user name
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+        zero: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+        zero: "%{count} work package children"
+      hour:
+        one: "%{count} stunda"
+        other: "%{count} stundas"
+        zero: "%{count} stundas"
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

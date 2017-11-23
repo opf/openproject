@@ -1,0 +1,630 @@
+---
+sk:
+  js:
+    ajax:
+      hide: Skryť
+      loading: Načítava sa ...
+    close_popup_title: Zavrieť okno
+    close_filter_title: Close filter
+    close_form_title: Close form
+    clipboard:
+      browser_error: Váš prehliadač nepodporuje kopírovanie do schránky. Manuálne
+        skopírujte vybratý text.
+      copied_successful: Úspešne skopírované do schránky!
+    button_add_watcher: Pridať pozorovateľa
+    button_back_to_list_view: Back to list view
+    button_cancel: Zrušíť
+    button_close: Zatvoriť
+    button_check_all: Označiť všetko
+    button_configure-form: Configure form
+    button_confirm: Confirm
+    button_continue: Continue
+    button_copy: Kopírovať
+    button_custom-fields: Vlastné polia
+    button_delete: Odstrániť
+    button_delete_watcher: Odstrániť pozorovateľa
+    button_details_view: Zobraziť podrobnosti
+    button_duplicate: Duplikovať
+    button_edit: Upraviť
+    button_filter: Filtrovať
+    button_list_view: Zobraziť ako zoznam
+    button_show_view: Zobrazenie na celú obrazovku
+    button_log_time: Zaprotokoluj čas
+    button_more: Viac
+    button_move: Presunúť
+    button_open_details: Zobraziť podrobnosti
+    button_close_details: Close details view
+    button_open_fullscreen: Otvorené zobrazenie na celú obrazovku
+    button_quote: Citovať
+    button_save: Uložiť
+    button_settings: Nastavenia
+    button_uncheck_all: Odznačiť všetky
+    button_update: Aktualizovať
+    button_export-pdf: Stiahnuť PDF
+    button_export-atom: Stiahnuť Atom
+    description_available_columns: Dostupné stĺpce
+    description_current_position: 'Nachádzate sa tu:'
+    description_select_work_package: 'Vyberte pracovný balík #%{id}'
+    description_selected_columns: Vybraté stĺpce
+    description_subwork_package: 'Podradený pracovný balík #%{id}'
+    error:
+      internal: Vyskytla sa vnútorná chyba.
+    filter:
+      description:
+        text_open_filter: Otvorte tento filter pomocou „Alt“ a šípok.
+        text_close_filter: Na výber záznamu opustite režim zamerania napríklad stlačením
+          Enter. Na opustenie bez filtra vyberte prvý (prázdny) záznam.
+      noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: Prvé kritérium zoradenia
+          two: Druhé kritérium zoradenia
+          three: Tretie kritérium zoradenia
+    general_text_no: nie
+    general_text_yes: áno
+    general_text_No: Nie
+    general_text_Yes: Áno
+    label_activate: Aktivovať
+    label_activity_no: Záznam aktivity číslo %{activityNo}
+    label_activity_with_comment_no: Záznam aktivity číslo %{activityNo} (obsahuje
+      komentár)
+    label_add_columns: Add columns
+    label_add_comment: Pridať komentár
+    label_add_comment_title: Kliknite pre pridanie komentára
+    label_add_selected_columns: Pridať vybraté stĺpce
+    label_added_by: Pridal
+    label_added_time_by: Pridal %{author} %{age}
+    label_ago: dní späť
+    label_all: Všetky
+    label_all_work_packages: všetky pracovné balíčky
+    label_and: and
+    label_ascending: Vzostupne
+    label_author: 'Autor: %{user}'
+    label_between: between
+    label_board_locked: Uzamknuté
+    label_board_sticky: Sticky
+    label_create_work_package: Vytvoriť nový pracovný balíček
+    label_created_by: Created by
+    label_date: Dátum
+    label_date_with_format: 'Zadajte %{date_attribute} v tomto formáte: %{format}'
+    label_deactivate: Deaktivovať
+    label_descending: Zostupne
+    label_description: Popis
+    label_cancel_comment: Zrušiť komentár
+    label_closed_work_packages: uzatvorené
+    label_collapse: Zbaliť
+    label_collapsed: zbalené
+    label_collapse_all: Zbaliť všetko
+    label_comment: Komentár
+    label_committed_at: "%{committed_revision_link} v %{date}"
+    label_committed_link: odoslané revízie %{revision_identifier}
+    label_contains: obsahuje
+    label_created_on: vytvorené
+    label_edit_comment: Upraviť tento komentár
+    label_edit_status: Edit the status of the work package
+    label_equals: je
+    label_expand: Rozbaliť
+    label_expanded: rozbalené
+    label_expand_all: Rozbaliť všetko
+    label_export: Exportovať
+    label_filename: Súbor
+    label_filesize: Veľkosť
+    label_greater_or_equal: ">="
+    label_group_by: Zoskupiť podľa
+    label_hide_attributes: Zobraziť menej
+    label_hide_column: Skryť stĺpec
+    label_in: v
+    label_in_less_than: v menej ako
+    label_in_more_than: vo viac ako
+    label_latest_activity: Posledná aktivita
+    label_last_updated_on: Naposledy aktualizované
+    label_less_or_equal: "<="
+    label_less_than_ago: pred necelým dňom
+    label_loading: Načítava sa...
+    label_me: mňa
+    label_menu_collapse: zbaliť
+    label_menu_expand: rozbaliť
+    label_more_than_ago: pred viac než dňom
+    label_next: Ďalšie
+    label_no_data: Žiadne dáta na zobrazenie
+    label_no_due_date: bez dátumu ukončenia
+    label_no_start_date: žiadny dátum začatia
+    label_none: žiadne
+    label_not_contains: neobsahuje
+    label_not_equals: nie je
+    label_on: dňa
+    label_open_menu: Otvorte menu
+    label_open_work_packages: otvorené
+    label_password: Heslo
+    label_previous: Predošlý
+    label_per_page: 'Na stranu:'
+    label_please_wait: Prosím, čakajte
+    label_visibility_settings: Nastavenia viditeľnosti
+    label_quote_comment: Citovať tento komentár
+    label_reset: Vynulovať
+    label_remove_columns: Odstrániť vybraté stĺpce
+    label_save_as: Uložiť ako
+    label_select_watcher: Vybrať pozorovateľa ...
+    label_selected_filter_list: Vybrané filtre
+    label_show_attributes: Zobraziť všetky atribúty
+    label_show_in_menu: Zobraziť stránku v menu
+    label_sort_by: Zoradiť podľa
+    label_sorted_by: zoradené podľa
+    label_sort_higher: Presunúť vyššie
+    label_sort_lower: Presunúť nižšie
+    label_sorting: Zoradenie
+    label_sum_for: Súčet pre
+    label_subject: Predmet
+    label_this_week: tento týždeň
+    label_today: dnes
+    label_activity_show_only_comments: Zobraziť len aktivity s komentármi
+    label_activity_show_all: Zobraziť všetky aktivity
+    label_total_progress: "%{percent}% celkový priebeh"
+    label_visible_for_others: Stránka viditeľná pre ostatných
+    label_updated_on: aktualizované
+    label_warning: Upozornenie
+    label_work_package: Pracovný balíček
+    label_work_package_plural: Pracovné balíčky
+    label_watch: Začať pozorovať
+    label_watch_work_package: Sleduj pracovný balíček
+    label_watcher_added_successfully: Pozorovateľ úspešne pridaný!
+    label_watcher_deleted_successfully: Pozorovateľ úspešne odstránený!
+    label_work_package_details_you_are_here: Nachádzate sa na záložke %{tab} pracovného
+      balíčka %{subject} typu %{type}.
+    label_unwatch: Prestať pozorovať
+    label_unwatch_work_package: Prestaň sledovať pracovný balíček
+    label_uploaded_by: Nahral
+    label_global_queries: Zdieľané dopyty
+    label_custom_queries: Súkromné dopyty
+    label_columns: Stĺpce
+    label_attachments: Súbory
+    label_drop_files: Presuňte súbory sem
+    label_drop_files_hint: alebo kliknite na tlačidlo Pridať súbory
+    label_add_attachments: Add attachments
+    label_formattable_attachment_hint: Na priloženie súboru ho potiahnite a pustite
+      na toto pole alebo ho vložte zo schránky.
+    label_remove_file: Odstrániť %{fileName}
+    label_remove_watcher: Odstrániť pozorovateľa %{name}
+    label_remove_all_files: Odstrániť všetky súbory
+    label_add_description: Pridať popis %{file}
+    label_upload_notification: 'Nahrávanie súborov pre Pracovný balík #%{id}: %{subject}'
+    label_files_to_upload: 'Tieto súbory budú odovzdané:'
+    label_rejected_files: 'Tieto súbory nie je možné odovzdať:'
+    label_rejected_files_reason: Tieto súbory nie je možné odovzdať, pretože ich veľkosť
+      je väčšia ako %{maximumFilesize}
+    label_wait: Počkajte, prosím, pre konfiguráciu...
+    label_upload_counter: "%{done} z %{count} súborov hotové"
+    label_validation_error: 'Pracovný balík sa nepodarilo uložiť z nasledujúcich chýb:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: You need to enter your account password to confirm this change.
+      title: Confirm your password to continue
+    pagination:
+      no_other_page: Ste na jedinej stránke.
+      pages:
+        next: Vpred na nasledujúcu stranu
+        previous: Späť na predchádzajúcu stranu
+    placeholders:
+      default: "-"
+      subject: Sem zadajte predmet
+      selection: Prosím, vyberte
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: Nie ste v kontexte projektu. Prosím vyberte najskôr
+        kontext projektu aby ste mohli vybrať typ a stav
+      context: Kontext projektu
+      work_package_belongs_to: Tento pracovný balíček patrí k projektu %{projectname}.
+      click_to_switch_context: Otvoriť tento pracovný balík v danom projekte.
+    text_are_you_sure: Are you sure?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: načítanie pozorovateľov...
+      label_error_loading: Vyskytla sa chyba pri načítavaní pozorovateľov
+      label_search_watchers: Hľadať pozorovateľov
+      label_add: Pridať pozorovateľov
+      label_discard: Zrušiť výber
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: Nadradený balíček
+      children: Potomkovia
+      relates: Previazaný na
+      duplicates: Kópie
+      duplicated: Zduplikoval
+      blocks: Bloky
+      blocked: Zablokoval
+      precedes: Predchodcovia
+      follows: Nasledovníci
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      hierarchy_headline: hierarchy
+    relation_buttons:
+      change_parent: Zmeniť nadradený objekt
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Odstrániť vzťah
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+    repositories:
+      select_tag: Vybrať značku
+      select_branch: Vyberte odbor
+    field_value_enter_prompt: Zadajte hodnotu pre "%{field}"
+    select2:
+      input_too_short:
+        one: Zadajte ešte minimálne jeden znak
+        other: Zadajte ešte minimálne {{count}} znakov
+        zero: Please enter more characters
+        few: Zadajte ešte minimálne {{count}} znaky
+      load_more: Načítanie ďalších záznamov ...
+      no_matches: Nenašli sa žiadne záznamy
+      searching: Vyhľadávanie ...
+      selection_too_big:
+        one: Môžete vybrať maximálne 1 položku
+        other: Môžete vybrať maximálne {{limit}} položiek
+        zero: You cannot select any items
+        few: Môžete vybrať maximálne {{limit}} položky
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
+      work package(s)?
+    text_query_destroy_confirmation: Naozaj chcete odstrániť vybratý dopyt?
+    text_attachment_destroy_confirmation: Naozaj chcete odstrániť prílohu?
+    timelines:
+      gantt_chart: Ganttov diagram
+      labels:
+        bar: Menovky pásov
+        left: Vľavo
+        right: Vpravo
+        farRight: Vzdialene vpravo
+        showNone: "-- Žiadna menovka --"
+        description: 'Vyberte atribúty, ktoré chcete vždy zobraziť v príslušnej pozície
+          Ganttovho diagramu. Myslite na to, že pri vznášajúcom sa prvku bude namiesto
+          tohto atribútu zobrazená menovka s dátumom.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: Zrušíť
+      change: Change in planning
+      due_date: Do dátumu
+      empty: "(empty)"
+      error: Vyskytla sa chyba.
+      errors:
+        not_implemented: The timeline could not be rendered because it uses a feature
+          that is not yet implemented.
+        report_comparison: The timeline could not render the configured comparisons.
+          Please check the appropriate section in the configuration, resetting it
+          can help solve this problem.
+        report_epicfail: The timeline could not be loaded due to an unexpected error.
+        report_timeout: The timeline could not be loaded in a reasonable amount of
+          time.
+      filter:
+        column:
+          assigned_to: Priradené
+          type: Typ
+          due_date: Dátum ukončenia
+          name: Názov
+          status: Stav
+          responsible: Zodpovedný
+          start_date: Dátum začiatku
+        grouping_other: Ostatné
+        noneSelection: "(none)"
+      name: Názov
+      new_work_package: Nový pracovný balíček
+      outline: Reset Outline
+      outlines:
+        aggregation: Show aggregations only
+        level1: Expand level 1
+        level2: Expand level 2
+        level3: Expand level 3
+        level4: Expand level 4
+        level5: Expand level 5
+        all: Show all
+      project_status: Stav projektu
+      project_type: Typ projektu
+      really_close_dialog: Naozaj chcete zatvoriť dialógové okno a prísť o zadané
+        údaje?
+      responsible: Zodpovedný
+      save: Uložiť
+      start_date: Dátum začiatku
+      tooManyProjects: Nájdených viac ako %{count} projektov. Prosím, použite presnejšiu
+        podmienku pre filter!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Priblížiť
+        out: Vzdialiť
+        auto: Automatické zväčšenie
+        days: Dni
+        weeks: Týždne
+        months: Mesiace
+        quarters: Kvartály
+        years: Roky
+        slider: Posuvný ovládač priblíženia / oddialenia
+    tl_toolbar:
+      zooms: Úroveň priblíženia
+      outlines: Úroveň vnorenia
+    unsupported_browser:
+      title: Prehliadač, ktorý aktuálne používate nie je podporovaný projektom OpenProject
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ignore this warning.
+    wiki_formatting:
+      strong: Tučné
+      italic: Kurzíva
+      underline: Podčiarknuté
+      deleted: Odstránené
+      code: Zdrojový kód
+      heading1: Nadpis 1
+      heading2: Nadpis 2
+      heading3: Nadpis 3
+      unordered_list: Nečíslovaný zoznam
+      ordered_list: Číslovaný zoznam
+      quote: Citovať
+      unquote: Koniec citátu
+      preformatted_text: Predformátovaný Text
+      wiki_link: Odkaz na Wiki stránku
+      image: Obrázok
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Vyčistiť
+      comment_added: Komentár bol úspešne pridaný.
+      comment_send_failed: Vyskytla sa chyba. Nebolo možné pridať komentár.
+      comment_updated: Komentár bol úspešne aktualizovaný.
+      confirm_edit_cancel: Naozaj chcete zrušiť upravovanie pracovného balíka?
+      description_filter: Filtrovať
+      description_enter_text: Zadajte text
+      description_options_hide: Skryť možnosti
+      description_options_show: Zobraziť možnosti
+      error:
+        edit_prohibited: Úprava %{attribute} je blokovaná pre tento pracovný balík.
+          Buď je tento atribút odvodený zo vzťahov (napr. z podriadených), alebo nie
+          je konfigurovateľný.
+        format:
+          date: "%{attribute} nie je platný dátum - očakávaný formát je RRRR-MM-DD."
+        general: Vyskytla sa chyba.
+      edit_attribute: "%{attribute} - Upraviť"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Povoliť hromadný výber
+      label_disable_multi_select: Zakázať hromadný výber
+      label_filter_add: Pridať filter
+      label_options: Voľby
+      label_column_multiselect: 'Kombinované rozbaľovacie pole: vyberte pomocou klávesov
+        so šípkami, potvrďte stlačením ENTER, odstraňujte stlačením BACKSPACE'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: Chyba pri pokuse o odstránenie pracovných
+        balíčkov.
+      message_successful_bulk_delete: Pracovné balíčky boli úspešne odstránené.
+      message_successful_show_in_fullscreen: Kliknutím sem otvoríte tento pracovný
+        balík v zobrazení na celú obrazovku.
+      message_view_spent_time: Show spent time for this work package
+      no_value: Žiadna hodnota
+      inline_create:
+        title: Kliknutím sem pridajte nový pracovný balík do tohto zoznamu
+      create:
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: Vytvoriť
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your query is erroneous and could not be processed.
+      no_results:
+        title: Žiadne pracovné balíčky na zobrazenie.
+        description: Nevytvorili sa žiadne alebo všetky pracovné balíky sú odfiltrované.
+      property_groups:
+        details: Podrobnosti
+        people: Ľudia
+        estimatesAndTime: Odhady a čas
+        other: Ostatné
+      properties:
+        assignee: Priradené
+        author: Autor
+        createdAt: Vytvorené
+        description: Popis
+        date: Dátum
+        dueDate: Do dátumu
+        estimatedTime: Predpokladaný čas
+        spentTime: Strávený čas
+        category: Kategória
+        percentageDone: hotovo na (%)
+        priority: Priorita
+        projectName: Projekt
+        responsible: Zodpovedný
+        startDate: Dátum začiatku
+        status: Stav
+        subject: Predmet
+        title: Nadpis
+        type: Typ
+        updatedAt: Aktualizované
+        versionName: Verzia
+        version: Verzia
+      jump_marks:
+        pagination: Prejsť na stránkovanie tabuľky
+        label_pagination: Kliknite sem pre preskočenie tabuľky pracovných balíčkov
+          a zobrazenie stránkovania
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: Kliknutím zadajte popis...
+      query:
+        column_names: Stĺpce
+        group_by: zoskupiť výsledky podľa
+        group: Zoskupiť podľa
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Zoradiť vzostupne
+        sort_descending: Zoradiť zostupne
+        move_column_left: Presunúť stĺpec vľavo
+        move_column_right: Premiestniť stĺpec vpravo
+        hide_column: Skryť stĺpec
+        insert_columns: Vložiť stĺpce ...
+        filters: Filtre
+        display_sums: Zobraziť súčty
+        errors:
+          unretrievable_query: Nepodarilo sa načítať dopyt z adresy URL
+          not_found: There is no such query
+        text_no_results: No matching queries were found.
+      table:
+        summary: Tabuľka s riadkami pracovného balíka a so stĺpcami pracovného balíka
+          atribútov.
+        text_inline_edit: Väčšina buniek tabuľky sú tlačidlá, ktoré aktivujú funkcionalitu
+          inline editácie tohto atribútu.
+        text_sort_hint: Pomocou odkazov v záhlaví tabuľky môžete zoradiť, zoskupiť,
+          rozmiestniť, odstrániť alebo pridať stĺpce.
+        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      tabs:
+        overview: Prehľad
+        activity: Činnosť
+        relations: Väzby
+        watchers: Pozorovatelia
+        attachments: Prílohy
+      time_relative:
+        days: dní
+        weeks: týždne
+        months: mesiace
+    toolbar:
+      settings:
+        columns: Stĺpce ...
+        sort_by: Zoradiť podľa ...
+        group_by: Zoskupiť podľa ...
+        display_sums: Zobraziť súčty
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Skryť súčty
+        save: Uložiť
+        save_as: Uložiť ako ...
+        export: Exportovať ...
+        publish: Publikovať...
+        page_settings: Premenovať dopyt ...
+        delete: Odstrániť
+      filter: Filtrovať
+      unselected_title: Pracovný balíček
+      search_query_label: Prehľadávať uložené filtrovacie požiadavky
+      search_query_title: Kliknite pre prehľadávanie uložených filtrovacích požiadaviek
+    modals:
+      label_settings: Premenovať dopyt
+      label_name: Názov
+      label_delete_page: Odstrániť aktuálnu stránku
+      button_apply: Použiť
+      button_save: Uložiť
+      button_submit: Odoslať
+      button_cancel: Zrušíť
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      upsale_relation_columns: Potrebujete vidieť vzťahy v zozname pracovných balíčkov?
+      upsale_relation_columns_link: Pozrite si verziu Enterprise.
+      destroy_work_package:
+        title: Potvrďte zmazanie %{label}
+        text: Ste si istí, že chcete zmazať %{label}?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Successful creation.
+    notice_successful_delete: Successful deletion.
+    notice_successful_update: Successful update.
+    notice_bad_request: Bad Request.
+    relations:
+      empty: Neexistuje žiadna väzba
+      remove: Odstrániť vzťah
+    inplace:
+      button_edit: "%{attribute}: Upraviť"
+      button_save: "%{attribute}: Uložiť"
+      button_cancel: "%{attribute}: Zrušiť"
+      button_save_all: Uložiť
+      button_cancel_all: Zrušíť
+      link_formatting_help: Pomoc s formátovaním textu
+      btn_preview_enable: Náhľad
+      btn_preview_disable: Vypnutie náhľadu
+      null_value_label: Žiadna hodnota
+      clear_value_label: "-"
+      errors:
+        required: "%{field} nemôže byť prázdne"
+        number: "%{field} nie je platné číslo"
+        maxlength: "%{field} nemôže obsahovať viac číslic ako %{maxLength}"
+        minlength: "%{field} nemôže obsahovať menej číslic ako %{minLength}"
+        messages_on_field: 'Nasledujúce pole je nesprávne: %{messages}'
+    error_could_not_resolve_version_name: Nebolo možné zistiť názov verzie
+    error_could_not_resolve_user_name: Nebolo možné zistiť užívateľské meno
+    units:
+      workPackage:
+        one: pracovný balíček
+        other: pracovný balíček
+        few: pracovné balíčky
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+        few: "%{count} work package children"
+      hour:
+        one: 1 hodina
+        other: "%{count} hodín"
+        zero: 0 hours
+        few: "%{count} hodiny"
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

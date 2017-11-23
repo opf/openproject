@@ -1,0 +1,623 @@
+---
+th:
+  js:
+    ajax:
+      hide: ซ่อน
+      loading: กำลังโหลด...
+    close_popup_title: ปิดป๊อปอัพ
+    close_filter_title: ปิดตัวกรอง
+    close_form_title: ปิดแบบฟอร์ม
+    clipboard:
+      browser_error: เบราเซอร์ของคุณไม่รองรับการคัดลอกไปยังคลิปบอร์ด กรุณาคัดลอกข้อความที่เลือกด้วยตนเอง
+      copied_successful: Sucessfully copied to clipboard!
+    button_add_watcher: เพิ่มผู้ดูข้อมูล
+    button_back_to_list_view: Back to list view
+    button_cancel: ยกเลิก
+    button_close: Close
+    button_check_all: ตรวจสอบทั้งหมด
+    button_configure-form: Configure form
+    button_confirm: ยืนยัน
+    button_continue: Continue
+    button_copy: คัดลอก
+    button_custom-fields: ฟิลด์ที่กำหนดเอง
+    button_delete: ลบ
+    button_delete_watcher: ลบผู้ดูข้อมูล
+    button_details_view: ดูรายละเอียด
+    button_duplicate: ทำซ้ำ
+    button_edit: แก้ไข
+    button_filter: ตัวกรอง
+    button_list_view: List view
+    button_show_view: มุมมองแบบเต็มหน้าจอ
+    button_log_time: เวลาที่ถูกบันทึก
+    button_more: เพิ่มเติม
+    button_move: ย้าย
+    button_open_details: Open details view
+    button_close_details: Close details view
+    button_open_fullscreen: เปิดมุมมองเต็มหน้าจอ
+    button_quote: อ้างถึง
+    button_save: บันทึก
+    button_settings: การตั้งค่า
+    button_uncheck_all: ไม่เลือกเลย
+    button_update: ปรับปรุง
+    button_export-pdf: ดาวน์โหลดไฟล์ PDF
+    button_export-atom: ดาวน์โหลดไฟล์ Atom
+    description_available_columns: คอลัมน์ที่มีอยู่
+    description_current_position: 'คุณอยู่ที่นี่:'
+    description_select_work_package: 'Select work package #%{id}'
+    description_selected_columns: คอลัมน์ที่เลือก
+    description_subwork_package: 'Child of work package #%{id}'
+    error:
+      internal: An internal error has occurred.
+    filter:
+      description:
+        text_open_filter: Open this filter with 'ALT' and arrow keys.
+        text_close_filter: To select an entry leave the focus for example by pressing
+          enter. To leave without filter select the first (empty) entry.
+      noneElement: "(ไม่มี)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: First sorting criteria
+          two: Second sorting criteria
+          three: Third sorting criteria
+    general_text_no: ไม่ใช่
+    general_text_yes: ใช่
+    general_text_No: ไม่ใช่
+    general_text_Yes: ใช่
+    label_activate: เปิดใช้งาน
+    label_activity_no: Activity entry number %{activityNo}
+    label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
+      comment.
+    label_add_columns: Add columns
+    label_add_comment: เพิ่มความคิดเห็น
+    label_add_comment_title: คลิกเพื่อเพิ่มความเห็น
+    label_add_selected_columns: เพิ่มคอลัมน์ที่เลือก
+    label_added_by: เพิ่มโดย
+    label_added_time_by: เพิ่มโดย %{author} %{age}
+    label_ago: วันที่ผ่านมา
+    label_all: ทั้งหมด
+    label_all_work_packages: all work packages
+    label_and: และ
+    label_ascending: จากน้อยไปมาก
+    label_author: 'Author: %{user}'
+    label_between: between
+    label_board_locked: ล็อค
+    label_board_sticky: ปักหมุด
+    label_create_work_package: สร้างชุดภารกิจใหม่
+    label_created_by: Created by
+    label_date: วันที่
+    label_date_with_format: 'Enter the %{date_attribute} using the following format:
+      %{format}'
+    label_deactivate: Deactivate
+    label_descending: มากไปน้อย
+    label_description: คำอธิบาย
+    label_cancel_comment: Cancel comment
+    label_closed_work_packages: ปิด
+    label_collapse: ยุบ
+    label_collapsed: collapsed
+    label_collapse_all: ยุบทั้งหมด
+    label_comment: ความคิดเห็น
+    label_committed_at: "%{committed_revision_link} at %{date}"
+    label_committed_link: committed revision %{revision_identifier}
+    label_contains: ประกอบด้วย
+    label_created_on: created on
+    label_edit_comment: แก้ไขความคิดเห็นนี้
+    label_edit_status: Edit the status of the work package
+    label_equals: เป็น
+    label_expand: ขยาย
+    label_expanded: expanded
+    label_expand_all: ขยายทั้งหมด
+    label_export: Export
+    label_filename: ไฟล์
+    label_filesize: ขนาด
+    label_greater_or_equal: ">="
+    label_group_by: Group by
+    label_hide_attributes: Show less
+    label_hide_column: ซ่อนคอลัมน์
+    label_in: ใน
+    label_in_less_than: ในไม่เกิน
+    label_in_more_than: ในมากกว่า
+    label_latest_activity: Latest Activity
+    label_last_updated_on: แก้ไขล่าสุดเมื่อ
+    label_less_or_equal: "<="
+    label_less_than_ago: น้อยกว่าสามวันที่ผ่านมา
+    label_loading: กำลังโหลด...
+    label_me: ฉัน
+    label_menu_collapse: ยุบ
+    label_menu_expand: expand
+    label_more_than_ago: มากกว่าวันที่ผ่านมา
+    label_next: ถัดไป
+    label_no_data: ไม่มีข้อมูลให้แสดง
+    label_no_due_date: no end date
+    label_no_start_date: no start date
+    label_none: ไม่มี
+    label_not_contains: ไม่ประกอบด้วยการ
+    label_not_equals: ไม่
+    label_on: 'on'
+    label_open_menu: เปิดเมนู
+    label_open_work_packages: เปิด
+    label_password: รหัสผ่าน
+    label_previous: ก่อนหน้านี้
+    label_per_page: 'Per page:'
+    label_please_wait: กรุณารอสักครู่
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Quote this comment
+    label_reset: ตั้งค่าใหม่
+    label_remove_columns: ลบคอลัมน์ที่เลือก
+    label_save_as: บันทึกเป็น
+    label_select_watcher: เลือกผู้ดูข้อมูล...
+    label_selected_filter_list: ตัวกรองที่เลือก
+    label_show_attributes: Show all attributes
+    label_show_in_menu: Show page in menu
+    label_sort_by: เรียงลำดับโดย
+    label_sorted_by: sorted by
+    label_sort_higher: เลื่อนขึ้น
+    label_sort_lower: เลื่อนลง
+    label_sorting: Sorting
+    label_sum_for: Sum for
+    label_subject: หัวข้อ
+    label_this_week: สัปดาห์นี้
+    label_today: วันนี้
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent}% Total progress"
+    label_visible_for_others: Page visible for others
+    label_updated_on: แก้ไขเมื่อ
+    label_warning: Warning
+    label_work_package: ชุดภารกิจ
+    label_work_package_plural: ชุดภารกิจ
+    label_watch: ดู
+    label_watch_work_package: Watch work package
+    label_watcher_added_successfully: เพิ่มผู้ดูข้อมูลเรียบร้อยแล้ว
+    label_watcher_deleted_successfully: ลบผู้ดูข้อมูลเรียบร้อยแล้ว
+    label_work_package_details_you_are_here: You're on the %{tab} tab for %{type}
+      %{subject}.
+    label_unwatch: ไม่เข้าชม
+    label_unwatch_work_package: Unwatch work package
+    label_uploaded_by: Uploaded by
+    label_global_queries: Shared queries
+    label_custom_queries: Private queries
+    label_columns: คอลัมน์
+    label_attachments: ไฟล์
+    label_drop_files: วางไฟล์ที่นี่
+    label_drop_files_hint: หรือคลิกเพื่อเพิ่มไฟล์
+    label_add_attachments: เพิ่มไฟล์แนบ
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: ลบ %{fileName}
+    label_remove_watcher: Remove watcher %{name}
+    label_remove_all_files: ลบไฟล์ทั้งหมด
+    label_add_description: เพิ่มคำอธิบายสำหรับ %{file}
+    label_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
+    label_files_to_upload: 'These files will be uploaded:'
+    label_rejected_files: 'These files cannot be uploaded:'
+    label_rejected_files_reason: These files cannot be uploaded as their size is greater
+      than %{maximumFilesize}
+    label_wait: Please wait for configuration...
+    label_upload_counter: "%{done} of %{count} files finished"
+    label_validation_error: 'The work package could not be saved due to the following
+      errors:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: You need to enter your account password to confirm this change.
+      title: Confirm your password to continue
+    pagination:
+      no_other_page: You are on the only page.
+      pages:
+        next: Forward to the next page
+        previous: Back to the previous page
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: โปรดเลือก
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: คุณแน่ใจหรือไม่ ?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: loading watchers...
+      label_error_loading: An error occurred while loading the watchers
+      label_search_watchers: Search watchers
+      label_add: เพิ่มผู้เฝ้าดู
+      label_discard: Discard selection
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: ค่าหลัก
+      children: Children
+      relates: Related To
+      duplicates: Duplicates
+      duplicated: Duplicated by
+      blocks: บล็อก
+      blocked: Blocked by
+      precedes: Precedes
+      follows: Follows
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      hierarchy_headline: hierarchy
+    relation_buttons:
+      change_parent: Change parent
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Remove relation
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+    repositories:
+      select_tag: Select tag
+      select_branch: Select branch
+    field_value_enter_prompt: Enter a value for '%{field}'
+    select2:
+      input_too_short:
+        one: Please enter one more character
+        other: Please enter {{count}} more characters
+        zero: Please enter more characters
+      load_more: Loading more results ...
+      no_matches: No matches found
+      searching: กำลังค้นหา...
+      selection_too_big:
+        one: You can only select one item
+        other: You can only select {{limit}} items
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก
+      ?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      query?
+    text_attachment_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะไฟล์แนบ?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: ยกเลิก
+      change: การเปลี่ยนแปลงในการวางแผน
+      due_date: วันครบกำหนด
+      empty: "(ว่าง)"
+      error: An error has occurred.
+      errors:
+        not_implemented: ไม่สามารถร่างแผนภูมิเวลา (timeline) ได้เนื่องจากใช้คุณลักษณะที่ยังไม่ได้มีการนำมาใช้ในระบบ
+        report_comparison: แผนภูมิเวลาไม่สามารถร่างการเปรียบเทียบที่กำหนดไว้ กรุณาตรวจสอบส่วนต่างๆ
+          ในการตั้งค่าให้เหมาะสม หรือลองรีเซตค่าใหม่เพื่อแก้ไขปัญหา
+        report_epicfail: พบข้อผิดพลาด ไม่สามารถโหลดแผนภูมิเวลา ได้
+        report_timeout: ไม่สามารถโหลดแผนภูมิเวลาในระยะเวลาที่เหมาะสมได้
+      filter:
+        column:
+          assigned_to: ผู้ได้รับมอบหมาย
+          type: ประเภท
+          due_date: วันสิ้นสุด
+          name: ชื่อ
+          status: สถานะ
+          responsible: รับผิดชอบ
+          start_date: วันเริ่มต้น
+        grouping_other: อื่น ๆ
+        noneSelection: "(ไม่มี)"
+      name: ชื่อ
+      new_work_package: ชุดภารกิจใหม่
+      outline: ตั้งค่าโครงร่างใหม่
+      outlines:
+        aggregation: แสดงรวมเท่านั้น
+        level1: ขยายระดับ 1
+        level2: ขยายระดับ 2
+        level3: ขยายระดับ 3
+        level4: ขยายระดับ 4
+        level5: ขยายระดับ 5
+        all: แสดงทั้งหมด
+      project_status: สถานะของโครงการ
+      project_type: ประเภทของโครงการ
+      really_close_dialog: Do you really want to close the dialog and lose the entered
+        data?
+      responsible: รับผิดชอบ
+      save: บันทึก
+      start_date: วันเริ่มต้น
+      tooManyProjects: More than %{count} Projects. Please use a better filter!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: ขยาย
+        out: ซูมออก
+        auto: Auto zoom
+        days: วัน
+        weeks: สัปดาห์
+        months: เดือน
+        quarters: ไตรมาส
+        years: ปี
+        slider: Zoom slider
+    tl_toolbar:
+      zooms: Zoom level
+      outlines: Hierarchy level
+    unsupported_browser:
+      title: ไม่รองรับเบราว์เซอร์รุ่นที่คุณใช้
+      message: เบราว์เซอร์รุ่นที่คุณใช้ไม่ได้รับการรองรับโดย OpenProject
+      update_message: กรุณาปรับรุ่นเบราว์เซอร์ของคุณ
+      update_ie_user: กรุณาเปลี่ยนไปใช้ Mozilla Firefox หรือ Google Chrome หรือปรับรุ่นเป็น
+        Microsoft Edge
+      learn_more: เรียนรู้เพิ่มเติม
+      close_warning: ไม่สนใจคำเตือนนี้
+    wiki_formatting:
+      strong: Strong
+      italic: ตัวเอียง
+      underline: ขีดเส้นใต้
+      deleted: Deleted
+      code: Inline Code
+      heading1: Heading 1
+      heading2: Heading 2
+      heading3: Heading 3
+      unordered_list: Unordered List
+      ordered_list: Ordered List
+      quote: อ้างถึง
+      unquote: Unquote
+      preformatted_text: Preformatted Text
+      wiki_link: Link to a Wiki page
+      image: รูปภาพ
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: ล้างข้อมูล
+      comment_added: เพิ่มความคิดเห็นเรียบร้อยแล้ว
+      comment_send_failed: An error has occurred. Could not submit the comment.
+      comment_updated: The comment was successfully updated.
+      confirm_edit_cancel: คุณแน่ใจหรือไม่ว่าจะยกเลิกการแก้ไขชุดภารกิจ
+      description_filter: ตัวกรอง
+      description_enter_text: ป้อนข้อความ
+      description_options_hide: ซ่อนตัวเลือก
+      description_options_show: แสดงตัวเลือก
+      error:
+        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
+          this attribute is derived from relations (e.g, children) or otherwise not
+          configurable.
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: An error has occurred.
+      edit_attribute: "%{attribute} - Edit"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Enable multiselect
+      label_disable_multi_select: Disable multiselect
+      label_filter_add: เพิ่มตัวกรอง
+      label_options: ตัวเลือก
+      label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
+        confirm selection with enter, delete with backspace'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: An error occurred while trying to delete work
+        packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
+      message_successful_show_in_fullscreen: Click here to open this work package
+        in fullscreen view.
+      message_view_spent_time: Show spent time for this work package
+      no_value: No value
+      inline_create:
+        title: Click here to add a new work package to this list
+      create:
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: สร้าง
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: ไม่สามารถโหลดชุดภารกิจได้
+        description: Your query is erroneous and could not be processed.
+      no_results:
+        title: No work packages to display.
+        description: Either none have been created or all work packages are filtered
+          out.
+      property_groups:
+        details: รายละเอียด
+        people: People
+        estimatesAndTime: Estimates & Time
+        other: อื่น ๆ
+      properties:
+        assignee: ผู้ได้รับมอบหมาย
+        author: ผู้เขียน
+        createdAt: สร้างเมื่อ
+        description: คำอธิบาย
+        date: วันที่
+        dueDate: วันครบกำหนด
+        estimatedTime: ระยะเวลาโดยประมาณ
+        spentTime: เวลาที่ใช้
+        category: ประเภท
+        percentageDone: Percentage done
+        priority: ระดับความสำคัญ
+        projectName: โครงการ
+        responsible: รับผิดชอบ
+        startDate: วันเริ่มต้น
+        status: สถานะ
+        subject: หัวข้อ
+        title: ชื่อเรื่อง
+        type: ประเภท
+        updatedAt: แก้ไขเมื่อ
+        versionName: เวอร์ชัน
+        version: เวอร์ชัน
+      jump_marks:
+        pagination: Jump to table pagination
+        label_pagination: Click here to skip over the work packages table and go to
+          pagination
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: Click to enter description...
+      query:
+        column_names: คอลัมน์
+        group_by: จัดกลุ่มผลลัพธ์โดย
+        group: Group by
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Sort ascending
+        sort_descending: Sort descending
+        move_column_left: ย้ายคอลัมน์ไปทางซ้าย
+        move_column_right: ย้ายคอลัมน์ไปทางขวา
+        hide_column: ซ่อนคอลัมน์
+        insert_columns: แทรกคอลัมน์...
+        filters: ตัวกรอง
+        display_sums: แสดงยอดรวม
+        errors:
+          unretrievable_query: Unable to retrieve query from URL
+          not_found: There is no such query
+        text_no_results: No matching queries were found.
+      table:
+        summary: Table with rows of work package and columns of work package attributes.
+        text_inline_edit: Most cells of this table are buttons that activate inline-editing
+          functionality of that attribute.
+        text_sort_hint: With the links in the table headers you can sort, group, reorder,
+          remove and add table columns.
+        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      tabs:
+        overview: ภาพรวม
+        activity: กิจกรรม
+        relations: Relations
+        watchers: ผู้เฝ้าดู
+        attachments: ไฟล์แนบ
+      time_relative:
+        days: วัน
+        weeks: สัปดาห์
+        months: เดือน
+    toolbar:
+      settings:
+        columns: คอลัมน์...
+        sort_by: Sort by ...
+        group_by: Group by ...
+        display_sums: Display sums
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Hide sums
+        save: บันทึก
+        save_as: บันทึกเป็น...
+        export: Export ...
+        publish: Publish ...
+        page_settings: Rename query ...
+        delete: ลบ
+      filter: ตัวกรอง
+      unselected_title: ชุดภารกิจ
+      search_query_label: Search saved filter queries
+      search_query_title: Click to search saved filter queries
+    modals:
+      label_settings: Rename query
+      label_name: ชื่อ
+      label_delete_page: ลบหน้าปัจจุบัน
+      button_apply: นำไปใช้
+      button_save: บันทึก
+      button_submit: ส่งข้อมูล
+      button_cancel: ยกเลิก
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: สร้างเรียบร้อยแล้ว
+    notice_successful_delete: ลบเรียบร้อยแล้ว
+    notice_successful_update: ปรับปรุงข้อมูลเรียบร้อยแล้ว
+    notice_bad_request: คำขอไม่ถูกต้อง
+    relations:
+      empty: No relation exists
+      remove: Remove relation
+    inplace:
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Save"
+      button_cancel: "%{attribute}: Cancel"
+      button_save_all: บันทึก
+      button_cancel_all: ยกเลิก
+      link_formatting_help: Text formatting help
+      btn_preview_enable: แสดงตัวอย่าง
+      btn_preview_disable: Disable preview
+      null_value_label: No value
+      clear_value_label: "-"
+      errors:
+        required: "%{field} cannot be empty"
+        number: "%{field} is not a valid number"
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        messages_on_field: 'This field is invalid: %{messages}'
+    error_could_not_resolve_version_name: Couldn't resolve version name
+    error_could_not_resolve_user_name: Couldn't resolve user name
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

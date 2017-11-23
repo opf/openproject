@@ -1,0 +1,2602 @@
+---
+hu:
+  no_results_title_text: Nincs megjeleníthető adat.
+  activities:
+    index:
+      no_results_title_text: A projektben még nem történt semmi.
+  admin:
+    plugins:
+      no_results_title_text: There are currently no plugins available.
+    custom_styles:
+      custom_colors: Custom colors
+      customize: 'Adjon meg saját logót az installált OpenProjecthez. Megjegyzés:
+        Ez a logó nyilvánosan elérhető lesz.'
+      enterprise_notice: As a special 'Thank you!' for their financial contribution
+        to develop OpenProject, this tiny feature is only available for Enterprise
+        Edition support subscribers.
+      manage_colors: Edit color select options
+      instructions:
+        alternative_color: Strong accent color, typically used for most the important
+          button on a screen.
+        content_link_color: A legtöbb hivatkozás színe.
+        primary_color: Main color.
+        primary_color_dark: Typically a darker version of the main color used for
+          hover effects.
+        header_bg_color: A fejléc háttérszíne.
+        header_item_bg_hover_color: Kattintható fejléc háttérszíne egér hatására.
+        header_item_font_color: Kattintható fejléc betűszíne.
+        header_item_font_hover_color: Kattintható fejléc betűszíne egér hatására.
+        header_border_bottom_color: Vékony vonal a fejléc alatt. Hagyja üresen, ha
+          semmilyen vonalat nem szeretne.
+        main_menu_bg_color: Baloldali menü háttérszíne.
+    enterprise:
+      upgrade_to_ee: Upgrade to Enterprise Edition
+      add_token: Upload an Enterprise Edition support token
+      replace_token: Replace your current support token
+      order: Order Enterprise Edition
+      paste: Paste your Enterprise Edition support token
+      required_for_feature: This feature is only available with an active Enterprise
+        Edition support token.
+      enterprise_link: For more information, click here.
+  announcements:
+    show_until: Show until
+    is_active: jelenleg látható
+    is_inactive: jelenleg nem látható
+  attribute_help_texts:
+    text_overview: Ebben a nézetben egyedi súgószövegeket hozhat létre az attribútumokhoz.
+      Definiálást követően ezek a szövegek jelennek meg az attribútum Súgó ikonjára
+      kattintást követően.
+    label_plural: Attribútum-súgószöveg
+    show_preview: Előnézet mutatása
+    add_new: Súgószöveg hozzáadása
+    edit: Súgószöveg "%{attribute_caption}" szerkesztése
+  auth_sources:
+    index:
+      no_results_content_title: There are currently no authentication modes.
+      no_results_content_text: Create a new authentication mode
+  boards:
+    show:
+      no_results_title_text: There are currently no posts for the board.
+  custom_fields:
+    text_add_new_custom_field: 'Új egyéni mezők hozzáadásához először létre kell hozni
+      őket, még mielőtt felvenné azokat a projekthez.
+
+'
+    is_enabled_globally: Is enabled globally
+    enabled_in_project: Enabled in project
+    contained_in_type: Contained in type
+    confirm_destroy_option: Egy opció törlése az összes eddigi használatánál (úgy,
+      mint munkacsomagok) is törlődnek. Biztosan törölni szeretné?
+    tab:
+      no_results_title_text: There are currently no custom fields.
+      no_results_content_text: Create a new custom field
+  deprecations:
+    old_timeline:
+      replacement: Ezt az idővonalak modult egy munkacsomagok modulba ágyazott interaktív
+        idővonal váltja ki.
+      removal: Ez a modul az OpenProject 8.0-tól megszűnik. A konfiguráció NEM kerül
+        migrálásra a munkacsomag nézetbe.
+      further_information_before: Kérjük, nézze meg a
+      link_name: hogyan térjünk át az új idővonalakba.
+      further_information_after: ''
+    calendar:
+      removal: 'Kérjük, vegye figyelembe: Ez a modul az OpenProject 8.0-tól megszűnik.'
+  groups:
+    index:
+      no_results_title_text: There are currently no groups.
+      no_results_content_text: Create a new group
+    users:
+      no_results_title_text: There are currently no users part of this group.
+    memberships:
+      no_results_title_text: There are currently no projects part of this group.
+  planning_element_type_colors:
+    index:
+      no_results_title_text: There are currently no colors.
+      no_results_content_text: Create a new color
+  projects:
+    index:
+      no_results_title_text: There are currently no projects
+      no_results_content_text: Create a new project
+    settings:
+      activities:
+        no_results_title_text: There are currently no activities available.
+      boards:
+        no_results_title_text: There are currently no boards for the project.
+        no_results_content_text: Create a new board
+      categories:
+        no_results_title_text: There are currently no work package categories.
+        no_results_content_text: Create a new work package category
+      custom_fields:
+        no_results_title_text: There are currently no custom fields available.
+      types:
+        no_results_title_text: There are currently no types available.
+      versions:
+        no_results_title_text: There are currently no versions for the project.
+        no_results_content_text: Create a new version
+  project_types:
+    index:
+      no_results_title_text: There are currently no project types.
+      no_results_content_text: Create a new project type
+  members:
+    index:
+      no_results_title_text: There are currently no members part of this project.
+      no_results_content_text: Add a member to the project
+  my:
+    access_token:
+      failed_to_reset_token: Nem sikerült a hozzáférési tokent ( %{error} ) visszaállítani
+      notice_reset_token: 'Egy új %{type} token létrehozva. A hozzáférési token:'
+      token_value_warning: 'Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent
+        láthatja, győződjön meg arról, hogy most átmásolta.'
+      no_results_title_text: There are currently no access tokens available.
+  news:
+    index:
+      no_results_title_text: There is currently no news to report.
+      no_results_content_text: Add a news item
+    my_page:
+      no_results_title_text: Nothing new to report.
+  users:
+    memberships:
+      no_results_title_text: This user is currently not a member of a project.
+  reportings:
+    index:
+      no_results_title_text: There are currently no status reportings.
+      no_results_content_text: Add a status reporting
+  statuses:
+    index:
+      no_results_title_text: There are currently no work package statuses.
+      no_results_content_text: Add a new status
+  types:
+    index:
+      no_results_title_text: There are currently no types.
+      no_results_content_text: Create a new type
+    edit:
+      settings: Beállítások
+      form_configuration: Form configuration
+      projects: Projektek
+      enabled_projects: Enabled projects
+      add_group: Csoport hozzáadása
+      reset: Alapbeállítások visszaállítása
+  versions:
+    overview:
+      no_results_title_text: There are currently no work packages assigned to this
+        version.
+  wiki:
+    no_results_title_text: There are currently no wiki pages.
+    index:
+      no_results_content_text: Add a new wiki page
+  work_flows:
+    index:
+      no_results_title_text: There are currently no workflows.
+  work_packages:
+    move:
+      unsupported_for_multiple_projects: Bulk move/copy is not supported for work
+        packages from multiple projects
+    list_simple:
+      assigned:
+        no_results_title_text: There are currently no work packages assigned to me.
+      reported:
+        no_results_title_text: There are currently no work packages that I have reported.
+      responsible:
+        no_results_title_text: There are currently no work packages that I am responsible
+          for.
+      watched:
+        no_results_title_text: There are currently no work packages that I am watching.
+    summary:
+      reports:
+        category:
+          no_results_title_text: There are currently no categories available.
+        assigned_to:
+          no_results_title_text: There are currently no members part of this project.
+        responsible:
+          no_results_title_text: There are currently no members part of this project.
+        author:
+          no_results_title_text: There are currently no members part of this project.
+        priority:
+          no_results_title_text: There are currently no priorities available.
+        type:
+          no_results_title_text: There are currently no types available.
+        version:
+          no_results_title_text: There are currently no versions available.
+  label_invitation: Invitation
+  account:
+    delete: Felhasználói hozzáférés törölése
+    delete_confirmation: Biztosan törölni akarja ezt a felhasználói hozzáférést?
+    deleted: A felhasználóiiók sikeresen törölve
+    deletion_info:
+      data_consequences:
+        other: Of the data the user created (e.g. email, preferences, work packages,
+          wiki entries) as much as possible will be deleted. Note however, that data
+          like work packages and wiki entries can not be deleted without impeding
+          the work of the other users. Such data is hence reassigned to an account
+          called "Deleted user". As the data of every deleted account is reassigned
+          to this account it will not be possible to distinguish the data the user
+          created from the data of another deleted account.
+        self: Of the data you created (e.g. email, preferences, work packages, wiki
+          entries) as much as possible will be deleted. Note however, that data like
+          work packages and wiki entries can not be deleted without impeding the work
+          of the other users. Such data is hence reassigned to an account called "Deleted
+          user". As the data of every deleted account is reassigned to this account
+          it will not be possible to distinguish the data you created from the data
+          of another deleted account.
+      heading: Felhasználói hozzáférés törlése %{name}
+      info:
+        other: A felhasználói hozzáférés törlése visszafordíthatatlan művelet.
+        self: A felhasználói hozzáférésed törlése visszafordíthatatlan művelet.
+      login_consequences:
+        other: A felhasználói hozzáférés törlődni fog a rendszerből. Ezért, a felhasználó
+          nem tud bejelentkezni a jelenlegi hozzáférésével. Ő dönt, hogy a felhasználó
+          az alkalmazást ismét hasznáhassa.
+        self: A felhasználói hozzáférésed törlésre kerül a rendszerből. Ezért,  már
+          nem tud bejelentkezni a jelenlegi hozzáférésével. Ha úgy dönt, hogy a felhasználó
+          az alkalmazást újra hasznáhatja, akkor azt újra megteheti.
+      login_verification:
+        other: Enter the login %{name} to verify the deletion.
+        self: Enter your login %{name} to verify the deletion.
+    error_inactive_activation_by_mail: 'A felhasználói hozzáférésed még nem aktív.
+      Felhasználói fiókjának aktiválásához kattintson az e-mailben kapott linkre.
+
+'
+    error_inactive_manual_activation: 'A felhasználói hozzáférésed még nem aktív.
+      Várja meg, hogy a rendszergazda aktiválja a fiókot.
+
+'
+    error_self_registration_disabled: 'A felhasználói regisztráció le van tiltva a
+      rendszerben. Kérje meg a rendszergazdát, hogy hozzon létre egy felhasználói
+      hozzáférést.
+
+'
+    login_with_auth_provider: vagy jelentkezzen be a meglévő hozzáférésével.
+    signup_with_auth_provider: or sign up using
+    auth_source_login: Please login as <em>%{login}</em> to activate your account.
+    omniauth_login: Please login to activate your account.
+  actionview_instancetag_blank_option: Kérem válasszon
+  activemodel:
+    errors:
+      models:
+        query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- A felhasználó nem jogosult nyilvános lekérdezéseket
+                létrehozni."
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
+        user:
+          attributes:
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: not found
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: Egy érték érvénytelen.
+              id_filter_required: Egy "id" szűrő szükséges.
+  activerecord:
+    attributes:
+      announcements:
+        show_until: Display until
+      attachment:
+        downloads: Letöltés
+        file: File
+        filename: File
+        filesize: Méret
+      attribute_help_text:
+        attribute_name: Attribútum
+        help_text: Súgószöveg
+      auth_source:
+        account: Felhasználói fiók
+        attr_firstname: Keresztnév attribútum
+        attr_lastname: Vezetéknév attribútum
+        attr_login: Bejelentkezési attribútum
+        attr_mail: Email attribútum
+        base_dn: Base DN
+        host: Host
+        onthefly: A felhasználó azonnali létrehozása
+        port: Port szám
+      changeset:
+        repository: Csomagtároló
+      comment:
+        commented: Hozzászólás
+      custom_field:
+        default_value: Alap érték
+        editable: Szerkeszthető
+        field_format: Formátum
+        is_filter: Szűrőként használható
+        is_required: Kötelező
+        max_length: Maximum hosszúság
+        min_length: Minimum hosszúság
+        multi_value: Többszörös kijelölés engedélyezése
+        possible_values: Lehetséges értékek
+        regexp: Hagyományos kifejezések
+        searchable: Kereshető
+        visible: Látható
+      custom_value:
+        value: Érték
+      enterprise_token:
+        starts_at: Valid since
+        expires_at: Expires at
+        subscriber: Subscriber
+        encoded_token: Enterprise support token
+      relation:
+        delay: Késés
+        from: Munkacsomag
+        to: Kapcsolódó munkacsomag
+      status:
+        is_closed: Lezárt munkacsomag
+      journal:
+        notes: Jegyzet
+      member:
+        roles: Szerepkörök
+      project:
+        identifier: Azonosító
+        latest_activity_at: Latest activity at
+        parent: Alprojekt
+        project_type: Projekt típus
+        queries: Lekérdezések
+        responsible: Felelős
+        types: Típus
+        versions: Verzió
+        work_packages: Munka csomagok
+      query:
+        column_names: Oszlopok
+        relations_to_type_column: Kapcsolatok %{type}-hoz
+        relations_of_type_column: "%{type} kapcsolatok"
+        group_by: Csoport szintű eredmények
+        filters: Szürő
+        timeline_labels: Idővonal címkék
+      repository:
+        url: URL
+      role:
+        assignable: Work packages can be assigned to users and groups in possession
+          of this role in the respective project
+      time_entry:
+        activity: Tevékenység
+        hours: Óra
+        spent_on: Dátum
+        type: Típus
+      type:
+        is_in_roadmap: In roadmap
+        in_aggregation: In aggregation
+        is_milestone: Is milestone
+        color: Szín
+      user:
+        admin: Alkalmazásgazda
+        auth_source: Hitelesítési mód
+        current_password: Current password
+        force_password_change: Kötelező jelszóváltás a következő bejelentkezéskor
+        language: Nyelv
+        last_login_on: Utolsó bejelentkezés
+        mail_notification: Email értesítés
+        new_password: Új jelszó
+        password_confirmation: Megerősítés
+      user_preference:
+        comments_sorting: Megjelenő  megjegyzések
+        hide_mail: Rejtsd el az email címem
+        impaired: Kisegítő mód
+        time_zone: Idő zóna
+        auto_hide_popups: Auto-hide success notifications
+        warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
+          changes
+      version:
+        effective_date: Lejárati időpont
+        sharing: Megosztás
+      wiki:
+        start_page: Kezdő oldal
+      wiki_content:
+        text: Szöveg
+      wiki_page:
+        parent_title: Szülő oldal
+        redirect_existing_links: A létező link átirányítása
+      planning_element_type_color:
+        hexcode: Hexa kód
+      project_association:
+        description: Rendben
+        project_b: Függő projekt
+      project_type:
+        allows_association: Elfogadja a hozzárendelést
+        reported_project_statuses: Projekt állapot jelentések
+        position: Pozició
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: Állapot megjegyzés
+        reporting_to_project: Projekt jelentések
+        reported_project_status: Projekt állapot
+        created_at: Létrehoz
+      work_package:
+        begin_insertion: Begin of the insertion
+        begin_deletion: Begin of the deletion
+        done_ratio: Progress (%)
+        end_insertion: End of the insertion
+        end_deletion: End of the deletion
+        fixed_version: Verzió
+        parent: Szülő
+        parent_issue: Szülő
+        parent_work_package: Szülő
+        priority: Fontosság
+        progress: Progress (%)
+        responsible: Felelős
+        spent_hours: Eltöltött idő
+        spent_time: Eltöltött idő
+        subproject: Alprojekt
+        time_entries: Eltöltött idő rögzítése
+        type: Típus
+        watcher: Megfigyelő
+    errors:
+      messages:
+        accepted: must be accepted.
+        blank: can't be blank.
+        cant_link_a_work_package_with_a_descendant: A work package cannot be linked
+          to one of its subtasks.
+        circular_dependency: This relation would create a circular dependency.
+        confirmation: doesn't match %{attribute}.
+        does_not_exist: does not exist.
+        empty: can't be empty.
+        even: must be even.
+        exclusion: is reserved.
+        file_too_large: is too large (maximum size is %{count} Bytes).
+        greater_than: must be greater than %{count}.
+        greater_than_or_equal_to: must be greater than or equal to %{count}.
+        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
+          length.
+        greater_than_start_date: must be greater than the start date.
+        greater_than_or_equal_to_start_date: must be greater than or equal to the
+          start date.
+        inclusion: is not set to one of the allowed values.
+        invalid: is invalid.
+        less_than_or_equal_to: must be less than or equal to %{count}.
+        not_a_date: nem érvényes dátum.
+        not_a_datetime: is not a valid date time.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
+        not_a_number: is not a number.
+        not_an_integer: is not an integer.
+        not_same_project: doesn't belong to the same project.
+        odd: must be odd.
+        taken: has already been taken.
+        too_long: is too long (maximum is %{count} characters).
+        too_short: is too short (minimum is %{count} characters).
+        wrong_length: is the wrong length (should be %{count} characters).
+        after: must be after %{date}.
+        after_or_equal_to: must be after or equal to %{date}.
+        before: must be before %{date}.
+        before_or_equal_to: must be before or equal to %{date}.
+        could_not_be_copied: could not be (fully) copied.
+        regex_invalid: nem lehet a hozzárendelt reguláris kifejezéssel ellenőrizni.
+      models:
+        custom_field:
+          at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.
+        enterprise_token:
+          unreadable: can't be read. Are you sure it is a support token?
+        project:
+          attributes:
+            types:
+              in_use_by_work_packages: 'still in use by work packages: %{types}'
+        project_association:
+          identical_projects: Egy projekt, és saját maga között nem hozható létre
+            függőség.
+          project_association_not_allowed: does not allow associations.
+        query:
+          group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
+            You cannot activate both.
+          filters:
+            custom_fields:
+              inexistent: There is no custom field for the filter.
+              invalid: The custom field is not valid in the given context.
+        repository:
+          not_available: SCM vendor is not available
+          not_whitelisted: is not allowed by the configuration.
+          invalid_url: nem érvényes tároló URL vagy útvonal.
+          must_not_be_ssh: nem lehet SSH url.
+          no_directory: is not a directory.
+        work_package:
+          is_not_a_valid_target_for_time_entries: 'A  #%{id} munkacsomag nem érvényes
+            cél az idő bejegyzések ismételt hozzárendeléséhez.'
+          attributes:
+            due_date:
+              not_start_date: is not on start date, although this is required for
+                milestones.
+            parent:
+              cannot_be_milestone: cannot be a milestone.
+              cannot_be_in_another_project: cannot be in another project.
+              not_a_valid_parent: is invalid.
+            start_date:
+              violates_relationships: can only be set to %{soonest_start} or later
+                so as not to violate the work package's relationships.
+              violates_parent_relationships: csak a %{soonest_start}-i időpont vagy
+                későbbi állítható be, hogy ne sértse a szülő munkacsomag beállításait.
+            status_id:
+              status_transition_invalid: is invalid because no valid transition exists
+                from old to new status for the current user's roles.
+            priority_id:
+              only_active_priorities_allowed: needs to be active.
+            category:
+              only_same_project_categories_allowed: A munkacsomag kategóriájának azonos
+                projektben kell lennie a munkacsomaggal.
+              does_not_exist: A megadott kategória nem létezik.
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: must be >= 0.
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: Névtelen csoport nem engedélyezett.
+              duplicate_group: A %{group} név már használatban van. A csoport névnek
+                egyedinek kell lennie.
+              attribute_unknown: Érvénytelen munkacsomag attribútumot használt.
+        user:
+          attributes:
+            password:
+              weak: 'Must contain characters of the following classes (at least %{min_count}
+                of %{all_count}): %{rules}.'
+              lowercase: Kisbetű (pl. 'a')
+              uppercase: Nagybetű (pl. 'A')
+              numeric: Szám (pl. '1')
+              special: Különleges karakter (pl. '%')
+              reused:
+                one: has been used before. Please choose one that is different from
+                  your last one.
+                other: korábban már használta. Kérjük, válasszon egyet, amely eltér
+                  a(z) %{count} utolsótól.
+              match:
+                confirm: Új jelszó megerősítése.
+                description: A "'Jelszó megerősítés"-nek meg kell egyeznie az "Új
+                  jelszó" mezővel.
+        member:
+          principal_blank: Kérem, válasszon legalább egy felhasználót vagy csoportot.
+          role_blank: kérem, válasszon legalább egy szerepkört.
+      template:
+        body: 'Kérjük, ellenőrizze az alábbi mezőket:'
+        header:
+          one: 1 error prohibited this %{model} from being saved
+          other: "%{count} hiba miatt nem menthető a következő: %{model}"
+    models:
+      attachment: File
+      attribute_help_text: Attribútum-súgószöveg
+      board: Fórum
+      comment: Vélemény
+      custom_field: Választható mező
+      group: Csoport
+      category: Kategória
+      status: Munkacsomag állapot
+      member: Tag
+      news: Hírek
+      project: Projekt
+      query: Egyéni lekérdezés
+      role:
+        one: Role
+        other: Szerepkörök
+      type: Típus
+      project_type: Projekt típus
+      user: Felhasználó
+      version: Verzió
+      wiki: Wiki
+      wiki_page: Wiki oldal
+      workflow: Munkafolyamat
+      work_package: Munkacsomag
+  errors:
+    header_invalid_fields: 'Problémák merültek fel az alábbi mezőkkel:'
+    field_erroneous_label: |-
+      This field is invalid: %{full_errors}
+      Please enter a valid value.
+  activity:
+    created: 'Létrehozva: %{title}'
+    updated: 'Frissítve: %{title}'
+  attributes:
+    active: Aktív
+    assigned_to: Megbízott
+    assignee: Megbízott
+    attachments: Csatolmány
+    author: Szerző
+    base: 'Általános hiba:'
+    blocks_ids: Lezárt munkacsomagok azonosítója
+    category: Kategória
+    comment: Vélemény
+    comments: Vélemény
+    content: Tartalom
+    created_at: Létrehozva
+    created_on: Létrehozva
+    custom_options: Lehetséges értékek
+    custom_values: Választható mezők
+    date: Dátum
+    default_columns: Alapértelmezett oszlopok
+    description: Leírás
+    display_sums: Megjelenitendő összegek
+    due_date: Lejárati időpont
+    estimated_hours: Tervezett időpont
+    estimated_time: Tervezett időpont
+    firstname: Keresztnév
+    group: Csoport
+    groups: Csoportok
+    groupname: Csoport neve
+    id: ID
+    is_default: Alap érték
+    is_for_all: Minden projekthez
+    is_public: Nyilvános
+    issue: Munkacsomag
+    lastname: Vezetéknév
+    login: Bejelentkezés
+    mail: Email
+    name: Név
+    password: Jelszó
+    priority: Fontosság
+    project: Projekt
+    responsible: Felelős
+    role: Szerepkör
+    roles: Szerepkörök
+    start_date: Indulási dátum
+    status: Állapot
+    subject: Tárgy
+    summary: Összegzés
+    title: Cím
+    type: Típus
+    updated_at: Frissítve
+    updated_on: Frissítve
+    user: Felhasználó
+    version: Verzió
+    work_package: Munkacsomag
+  button_add: Hozzáadás
+  button_add_member: Add member
+  button_add_watcher: Megfigyelő hozzáadása
+  button_annotate: Jegyzetekkel ellát
+  button_apply: Alkalmaz
+  button_archive: Eltárolt
+  button_back: Vissza
+  button_cancel: Mégsem
+  button_change: Változtat
+  button_change_parent_page: Szülő oldal megváltoztatása
+  button_change_password: Jelszó változtatás
+  button_check_all: Az összes kijelölése
+  button_clear: Törlés
+  button_collapse_all: Az összes bezárása
+  button_configure: Beállít
+  button_copy: Másol
+  button_copy_and_follow: Másol és folytat
+  button_create: Létrehoz
+  button_create_and_continue: Létrehoz és folytat
+  button_delete: Töröl
+  button_delete_watcher: Megfigyelő törlése %{name}
+  button_download: Letöltés
+  button_duplicate: Másolás ide
+  button_edit: Szerkesztés
+  button_edit_associated_wikipage: 'A hozzárendelt Wiki oldal: %{page_title} szerkesztése'
+  button_expand_all: Az összes kibontása
+  button_generate: Generate
+  button_list: Lista
+  button_lock: Tilt
+  button_log_time: Eltöltött idő rögzítése
+  button_login: Bejelentkezés
+  button_move: Mozgatás
+  button_move_and_follow: Mozgatés és a következő
+  button_quote: Idéz
+  button_remove: Remove
+  button_remove_widget: Widget eltávolítása
+  button_rename: Átnevezés
+  button_replace: Csere
+  button_reply: Válasz
+  button_reset: Visszaállít, reset
+  button_rollback: Visszaállitás erre a verzióra
+  button_save: Mentés
+  button_save_back: Save and back
+  button_show: Mutat
+  button_sort: Rendez
+  button_submit: Küldés
+  button_test: Teszt
+  button_unarchive: Nem archívált
+  button_uncheck_all: Az összes kijelölés megszüntetése
+  button_unlock: A zárolás feloldása
+  button_unwatch: Megfigyelés leállítása
+  button_update: Frissítés
+  button_upload: Feltöltés
+  button_view: Nézet
+  button_watch: Megfigyelés
+  button_manage_menu_entry: Menüpont beállitása
+  button_add_menu_entry: Menüpont hozzáadása
+  button_configure_menu_entry: Menüpont beállitása
+  button_delete_menu_entry: Menüpont törlése
+  copy_project:
+    started: Projekt másolása elindult a "%{source_project_name}" nevű projektből
+      a "%{target_project_name}" projektbe. E-mailben értesítjük, amint "%{target_project_name}"
+      elérhető.
+    failed: 'Nem lehet másolni a %{source_project_name} projektet '
+    succeeded: 'A %{target_project_name} projekt létrehozva '
+    errors: Hiba
+    text:
+      failed: Nem lehet másolni a  "%{source_project_name}" projektet a "%{target_project_name}"
+        projektbe.
+      succeeded: A "%{source_project_name}" projekt átmásolva a "%{target_project_name}"
+        projektbe.
+  create_new_page: Wiki oldal
+  date:
+    abbr_day_names:
+    - Vasárnap
+    - Hétfő
+    - Kedd
+    - Szerda
+    - Csütörtök
+    - Péntek
+    - Szombat
+    abbr_month_names:
+    - 
+    - Január
+    - Február
+    - Március
+    - Április
+    - Május
+    - Június
+    - Július
+    - Augusztus
+    - Szeptember
+    - Október
+    - November
+    - December
+    day_names:
+    - Vasárnap
+    - Hétfő
+    - Kedd
+    - Szerda
+    - Csütörtök
+    - Péntek
+    - Szombat
+    formats:
+      default: "%m/%d/%Y"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    - 
+    - Január
+    - Február
+    - Március
+    - Április
+    - Május
+    - Június
+    - Július
+    - Augusztus
+    - Szeptember
+    - Október
+    - November
+    - December
+    order:
+    - ":év"
+    - ":hónap"
+    - :nap
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: körülbelül %{count} óra
+        other: körülbelül %{count} óra
+      about_x_months:
+        one: körülbelül %{count} hónap
+        other: körülbelül %{count} hónap
+      about_x_years:
+        one: körülbelül 1 év
+        other: körülbelül %{count} év
+      almost_x_years:
+        one: almost 1 year
+        other: majdnem %{count} év
+      half_a_minute: Fél perc
+      less_than_x_minutes:
+        one: kevesebb, mint %{count} perc
+        other: less than %{count} minutes
+      less_than_x_seconds:
+        one: kevesebb, mint 1 másodperc
+        other: kevesebb, mint %{count} másodperc
+      over_x_years:
+        one: több mint %{count} év
+        other: over %{count} years
+      x_days:
+        one: "%{count} nap"
+        other: "%{count} days"
+      x_minutes:
+        one: "%{count} perc"
+        other: "%{count} minutes"
+      x_months:
+        one: "%{count} hónap"
+        other: "%{count} months"
+      x_seconds:
+        one: "%{count} másodperc"
+        other: "%{count} seconds"
+    units:
+      hour:
+        one: óra
+        other: hours
+  default_activity_development: Fejlesztés
+  default_activity_management: Menedzsment
+  default_activity_other: Egyéb
+  default_activity_specification: Specifikáció
+  default_activity_support: Támogatás
+  default_activity_testing: Tesztelés
+  default_color_black: Fekete
+  default_color_blue: Kék
+  default_color_blue_dark: Kék (sötét)
+  default_color_blue_light: Kék (világos)
+  default_color_green_dark: Zöld (sötét)
+  default_color_green_light: Zöld (világos)
+  default_color_grey_dark: Szürke (sötét)
+  default_color_grey_light: Szürke (világos)
+  default_color_grey: Szürke
+  default_color_magenta: Magenta
+  default_color_orange: Narancssárga
+  default_color_red: Piros
+  default_color_white: Fehér
+  default_color_yellow: Sárga
+  default_status_closed: Lezárva
+  default_status_confirmed: Megerősítve
+  default_status_developed: Lefejlesztve
+  default_status_in_development: Fejlesztés alatt
+  default_status_in_progress: Folyamatban
+  default_status_in_specification: In specification
+  default_status_in_testing: Tesztelés alatt
+  default_status_new: Új
+  default_status_on_hold: Visszatartva
+  default_status_rejected: Elutasítva
+  default_status_scheduled: Beütemezve
+  default_status_specified: Specified
+  default_status_tested: Tesztelve
+  default_status_test_failed: Teszt meghiúsult
+  default_status_to_be_scheduled: Ütemezendő
+  default_priority_low: Alacsony
+  default_priority_normal: Átlagos
+  default_priority_high: Magas
+  default_priority_immediate: Azonnali
+  default_project_type_scrum: Scrum csapat
+  default_project_type_standard: Standard project
+  default_reported_project_status_green: Zöld
+  default_reported_project_status_amber: Borostyán
+  default_reported_project_status_red: Piros
+  default_role_anonymous: Anonymous
+  default_role_developer: Fejlesztő
+  default_role_project_admin: Projekt admin
+  default_role_non_member: Nem tag
+  default_role_reader: Olvasó
+  default_role_member: Tag
+  default_type: Munkacsomag
+  default_type_bug: Hiba
+  default_type_deliverable: Szállítható
+  default_type_epic: Epic
+  default_type_feature: Szolgáltatás
+  default_type_milestone: Fordulópont
+  default_type_phase: Fázis
+  default_type_task: Feladat
+  default_type_user_story: User story
+  description_active: Aktív?
+  description_attachment_toggle: Csatolmányt mutat/elrejt
+  description_autocomplete: 'Ez a mező automatikus kiegészítést használ. gépelés közben
+    a munkacsomag címnek kap egy listát a választhatóak közül. Válasszon egyet a felfelé
+    vagy a lefelé mutató billentyű segítségével, és válasszuk ki a tab, vagy vagy
+    az enter billentyűvel. alternatívaként megadhatja a munkacsomag számát közvetlenül.
+
+'
+  description_available_columns: Elérhető oszlopok
+  description_choose_project: Projektek
+  description_compare_from: Compare from
+  description_compare_to: Compare to
+  description_current_position: 'Itt vagy:'
+  description_date_from: Adja meg a kezdő dátumot
+  description_date_range_interval: 'Válasszon időszakot a kezdő és befejező időpont
+    kiválasztásával '
+  description_date_range_list: Válasszon időszakot a listából
+  description_date_to: Írjon befejező dátumot
+  description_enter_number: Írjon számot
+  description_enter_text: Írjon szöveget
+  description_filter: Szűrő
+  description_filter_toggle: Szűrő mutatása/elrejtése
+  description_category_reassign: Válasszon kategóriát
+  description_message_content: Az üzenet tartalma
+  description_my_project: Tag vagy
+  description_notes: Jegyzet
+  description_parent_work_package: A szülő munkacsomag aktuális
+  description_project_scope: Keresési terjedelem
+  description_query_sort_criteria_attribute: Rendezési attribútum
+  description_query_sort_criteria_direction: Rendezési irány
+  description_search: kereső mező
+  description_select_work_package: Munkacsomag kiválasztása
+  description_selected_columns: Oszlopok kiválasztása
+  description_sub_work_package: Az al munkacsomag aktuális
+  description_toc_toggle: " A tartalomjegyzék mutatása/elrejtése"
+  description_wiki_subpages_reassign: Válassz új szülő oldalt
+  direction: ltr
+  ee:
+    upsale:
+      form_configuration:
+        description: 'Customize the form configuration with these additional features:'
+        add_groups: Add new attribute groups
+        rename_groups: Rename attributes groups
+  enumeration_activities: Tevékenységek (időkövetés)
+  enumeration_work_package_priorities: Munkacsomag fontosság
+  enumeration_system_activity: Rendszer tevékenység
+  enumeration_reported_project_statuses: Projekt állapot beszámoló
+  error_auth_source_sso_failed: Single Sign-On (SSO) a '%{value}' felhasználóval sikertelen
+  error_can_not_archive_project: Ezt a projektet nem lehet archiválni
+  error_can_not_delete_entry: Bejegyzését nem lehet törölni
+  error_can_not_delete_custom_field: Nem törölhető az egyéni mező
+  error_can_not_delete_type: Ez a típus munkcsomagot  tartalmaz, és nem lehet törölni.
+  error_can_not_delete_standard_type: Alap típusokat nem lehet törölni.
+  error_can_not_invite_user: Failed to send invitation to user.
+  error_can_not_remove_role: Ez a szerepkör használatban van, nem lehet törölni
+  error_can_not_reopen_work_package_on_closed_version: A munkacsomag lezárt verzió,
+    nem lehet újra nyitni
+  error_check_user_and_role: Légy szíves válassz felhasználót és szerepkört
+  error_cookie_missing: Hiányzó OpenProject cookie. Ellenőrizze, hogy böngészőjében
+    a cookie-k használata engedélyezve van, mert anélkül ez az alkalmazás nem tud
+    megfelelően működni.
+  error_custom_option_not_found: A beállítás nem létezik.
+  error_failed_to_delete_entry: Nem sikerült törölni ezt a bejegyzést.
+  error_invalid_group_by: 'Nem csoportosítható e szerint: %{value}'
+  error_invalid_query_column: 'Érvénytelen lekérdezési oszlop: %{value}'
+  error_invalid_sort_criterion: 'Nem lehet rendezni ezen oszlop szerint: %{value}'
+  error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
+    Please reduce the number of columns.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_work_package_done_ratios_not_updated: A munkacsomag a megtett arányokat nem
+    frissítette.
+  error_work_package_not_found_in_project: A munkacsomag nem található, vagy nem tartozik
+    ehhez a projekthez
+  error_must_be_project_member: projekt tagnak kell lennie
+  error_no_default_work_package_status: Nincs alapértelmezett munkacsomag állapot
+    meghatározva. Kérjük, ellenőrizze a konfigurációt ("Adminisztráció - munkacsomag
+    állapotok").
+  error_no_type_in_project: Nincs típus hozzárendelve ehhez a projekthez. Kérjük,
+    ellenőrizze a projekt beállításait.
+  error_omniauth_registration_timed_out: A regisztráció egy külső hitelesítés-szolgáltatón
+    keresztül túllépte az időkorlátot. Kérjük, próbálja meg újra.
+  error_scm_command_failed: 'Hiba mikor kipróbáláshoz el akarja érni a repository:
+    %{value}'
+  error_scm_not_found: A bejegyzés vagy a revízió  a csomagtárolóban  nem található.
+  error_unable_delete_status: A munka csomag állapot nem törölhető, mivel legalább
+    egy munka csomag használja.
+  error_unable_delete_default_status: Nem tudom törtölni az alapértelmezett munkacsomag
+    állapotát. Kérjük, válasszon egy másik alapértelmezett munka csomag állapotot,
+    mielött ezt törli.
+  error_unable_to_connect: Nem tud kapcsolódni (%{value} )
+  error_unable_delete_wiki: Unable to delete the wiki page.
+  error_unable_update_wiki: Unable to update the wiki page.
+  error_workflow_copy_source: Kérjük, válassza ki a forrás típusát vagy a szerepkört
+  error_workflow_copy_target: Válassza ki a cél típusokat, és szerepköröket
+  error_menu_item_not_created: Nem adható hozzá menüpont
+  error_menu_item_not_saved: Menüelem nem menthető
+  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}"
+    due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}"
+    (%{existing_identifier}).
+
+'
+  error_external_authentication_failed: Hiba történt a külső hitelesítés során. Kérjük,
+    próbálja meg újra.
+  events:
+    project: Projekt szerkesztve
+    changeset: A változások szerkesztve
+    message: Üzenet szerkesztve
+    news: Hírek
+    reply: Válaszolt
+    time_entry: Az időnapló szerkesztve
+    wiki_page: A Wiki oldal szerkesztve
+    work_package_closed: A munkacsomag lezárva
+    work_package_edit: A munkacsomag szerkesztve
+    work_package_note: A munkacsomag jegyzet hozzáadva
+  export:
+    format:
+      atom: Atom
+      csv: CSV
+      pdf: PDF
+      pdf_with_descriptions: PDF leírásokkal
+  general_csv_decimal_separator: "."
+  general_csv_encoding: UTF-8
+  general_csv_separator: ","
+  general_first_day_of_week: '7'
+  general_lang_name: Magyar
+  general_pdf_encoding: ISO-8859-1
+  general_text_no: nem
+  general_text_yes: igen
+  general_text_No: Nem
+  general_text_Yes: Igen
+  gui_validation_error: 1 hiba
+  gui_validation_error_plural: "%{count} hiba"
+  homescreen:
+    additional:
+      projects: Newest visible projects in this instance.
+      users: Newest registered users in this instance.
+    blocks:
+      community: OpenProject community
+      upsale:
+        become_hero: Become a hero!
+        title: Upgrade to Enterprise Edition
+        description: Boost your productivity with the Enterprise Edition
+        more_info: További információ
+        additional_features: Additional powerful premium features
+        professional_support: Professional support from the OpenProject experts
+        you_contribute: Developers need to pay their bills, too. With Enterprise Edition
+          you substantially contribute to this Open-Source community effort.
+    links:
+      upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      user_guides: User guides
+      faq: FAQ
+      glossary: Glossary
+      shortcuts: Shortcuts
+      forums: fórumok
+      blog: OpenProject blog
+      boards: Community forum
+      newsletter: Biztonsági figyelmeztetések / hírlevél
+  instructions_after_registration: Be tud jelentkezni, amint fiókját aktiválta ide
+    %{signin} kattintva.
+  instructions_after_logout: Újra be tud jelentkezni ide  %{signin} kattintva.
+  instructions_after_error: Próbáljon meg újból bejelentkezni ide  %{signin} kattintva.
+    Ha a hiba továbbra is fennáll, kérje a rendszergazda segítséget.
+  my_account:
+    access_tokens:
+      no_results:
+        title: No access tokens to display
+        description: All of them have been disabled. They can be re-enabled in the
+          administration menu.
+      access_token: Access token
+      headers:
+        action: Action
+        expiration: Expires
+      indefinite_expiration: Never
+  label_accessibility: Kisegítő lehetőségek
+  label_account: Felhasználói fiók
+  label_active: Aktív
+  label_activate_user: Felhasználó aktiválása
+  label_active_in_new_projects: Új projektekben aktív
+  label_activity: Tevékenység
+  label_add_edit_translations: Add and edit translations
+  label_add_another_file: Másik file hozzáadása
+  label_add_columns: A kiválasztott oszlopok hozzáadása
+  label_add_note: Jegyzet hozzáadása
+  label_add_related_work_packages: Kapcsolódó munkacsomag hozzáadása
+  label_add_subtask: Alfeladat hozzáadása
+  label_added: Hozzáadva
+  label_added_time_by: Hozzáadva  %{author} %{age} ezelőtt.
+  label_additional_workflow_transitions_for_assignee: További átmenetek megengedettek,
+    ha a felhasználó jogosult rá.
+  label_additional_workflow_transitions_for_author: A további áttűnések engedélyezett,
+    ha a felhasználó a szerző
+  label_administration: Adminisztráció
+  label_advanced_settings: Advanced settings
+  label_age: Életkor
+  label_ago: nappal ezelőtt
+  label_all: mind
+  label_all_time: minden alkalommal
+  label_all_words: Minden szó
+  label_always_visible: Always displayed
+  label_announcement: Announcement
+  label_and_its_subprojects: "%{value} és az alprojektjei"
+  label_api_access_key: API-hozzáférés kulcs
+  label_api_access_key_created_on: 'APIhozzáférési kulcs készítette: %{value} ezelőtt'
+  label_api_access_key_type: API
+  label_applied_status: Alkalmazott státusz
+  label_archive_project: Projekt archiválása
+  label_ascending: Növekvő
+  label_assigned_to_me_work_packages: Hozzámrendelt munkacsomagok
+  label_associated_revisions: Kapcsolódó módosítások
+  label_attachment_delete: Fájl törlése
+  label_attachment_new: Új fájl
+  label_attachment_plural: Fájlok
+  label_attribute: Attribútum
+  label_attribute_plural: Attribútumok
+  label_auth_source: Hitelesítési mód
+  label_auth_source_new: Új hitelesítési mód
+  label_auth_source_plural: Hitelesítési mód
+  label_authentication: Hitelesítés
+  label_available_project_work_package_categories: Available work package categories
+  label_available_project_boards: Available boards
+  label_available_project_versions: Available versions
+  label_available_project_repositories: Available repositories
+  label_api_documentation: API documentation
+  label_between: between
+  label_blocked_by: blokkolta
+  label_blocks: blokkol
+  label_blog: Blog
+  label_board_locked: Zárolva
+  label_board_new: Új fórum
+  label_board_plural: fórumok
+  label_board_sticky: Kiemelt
+  label_boolean: Logikai
+  label_branch: Branch
+  label_browse: böngész
+  label_bulk_edit_selected_work_packages: A kiválasztott munkacsomagok tömeges szerkesztése
+  label_calendar: Naptár
+  label_calendar_show: Kalendárium mutatása
+  label_category: Kategória
+  label_wiki_menu_item: Wiki menüpont
+  label_select_main_menu_item: Válasszon ki új fő menüpontot
+  label_select_project: Válasszon projektet
+  label_required_disk_storage: Required disk storage
+  label_resend_invitation: Resend invitation
+  label_change_plural: Változtat
+  label_change_properties: A tulajdonságok megváltoztatása
+  label_change_status: Az állapot megváltoztatása
+  label_change_status_of_user: "#{username} állapotának módosítása"
+  label_change_view_all: Az összes változtatás megtekintése
+  label_changes_details: Minden változás adatai
+  label_changeset: Changeset
+  label_changeset_id: Changeset ID
+  label_changeset_plural: Változáskészlet
+  label_checked: Ellenőrzött
+  label_check_uncheck_all_in_column: Check/Uncheck all in column
+  label_check_uncheck_all_in_row: Check/Uncheck all in row
+  label_child_element: Child element
+  label_chronological_order: Időrendben
+  label_close_versions: Lezárja a befejezett változatokat
+  label_closed_work_packages: Lezárva
+  label_collapse: Collapse
+  label_configuration: Konfiguráció
+  label_comment_add: Vélemény hozzáadása
+  label_comment_added: Vélemény hozzáadása
+  label_comment_delete: Vélemény törlése
+  label_comment_plural: Vélemény
+  label_commits_per_author: Szerzönként vállalja
+  label_commits_per_month: Havonként vállalja
+  label_confirmation: Megerősítés
+  label_contains: tartalmaznak
+  label_content: Tartalom
+  label_copied: másolva
+  label_copy_to_clipboard: Copy to clipboard
+  label_copy_same_as_target: Ugyanaz, mint a cél
+  label_copy_source: Forrás
+  label_copy_target: Cél
+  label_copy_workflow_from: Munkafolyamat másolása  -ból
+  label_copy_project: Projekt másolása
+  label_core_version: Core verzió
+  label_current_status: Jelenlegi állapot
+  label_current_version: Jelenlegi verzió
+  label_custom_field_add_no_type: Mező hozzáadása egy munkacsomag típushoz
+  label_custom_field_new: Új választható mező
+  label_custom_field_plural: Választható mezők
+  label_custom_field_default_type: Üres típus
+  label_custom_style: Design
+  label_date: Dátum
+  label_date_and_time: Dátum és idő
+  label_date_from: "-ból, -ből"
+  label_date_from_to: "%{start}-tól %{end}-ig"
+  label_date_range: Dátum intervallum
+  label_date_to: Címzettek
+  label_day_plural: napok
+  label_default: Alapértelmezett
+  label_delete_user: Felhasználó törlése
+  label_delete_project: Projekt törlése
+  label_deleted: törölve
+  label_deleted_custom_field: "(egyéni mező törölve)"
+  label_descending: Csökkenő
+  label_details: Részletek
+  label_development_roadmap: Development roadmap
+  label_diff: különbség
+  label_diff_inline: beágyazott
+  label_diff_side_by_side: egymás mellett
+  label_disabled: letiltva
+  label_display: Megjelenít
+  label_display_per_page: 'Oldalanként: %{value}'
+  label_display_used_statuses_only: Csak azok a megjelenítési állapotok, melyeket
+    ez a típusú használt
+  label_download: "%{count} Letöltés"
+  label_download_plural: "%{count} Letöltés"
+  label_downloads_abbr: D/L
+  label_duplicated_by: duplázott
+  label_duplicate: duplicate
+  label_duplicates: Ismétlődések
+  label_edit: Szerkesztés
+  label_enable_multi_select: Multiselect ki-/ bekapcsolása
+  label_enabled_project_custom_fields: Enabled custom fields
+  label_enabled_project_types: Enabled types
+  label_enabled_project_modules: Enabled modules
+  label_enabled_project_activities: Enabled time tracking activities
+  label_end_to_end: végétől a végéig
+  label_end_to_start: végétől az elejéig
+  label_enumeration_new: Új felsorolási érték
+  label_enumeration_value: Enumeration value
+  label_enumerations: Elnevezések
+  label_enterprise: Vállalati
+  label_enterprise_edition: Enterprise Edition
+  label_environment: Környezet
+  label_estimates_and_time: Becslések & időpontok
+  label_equals: van
+  label_example: Példa
+  label_export_to: 'Is elérhető:'
+  label_f_hour: "%{value} óra"
+  label_f_hour_plural: "%{value} óra"
+  label_feed_plural: Hírek
+  label_feeds_access_key: RSS hozzáférési kulcs
+  label_feeds_access_key_created_on: 'RSS-hozzáférési kulcs készítette: %{value} ezelőtt '
+  label_feeds_access_key_type: RSS
+  label_file_added: Fájl hozzáadva
+  label_file_plural: Fájlok
+  label_filter_add: Szűrő hozzáadása
+  label_filter_plural: Szürő
+  label_float: Mozgó
+  label_folder: Folder
+  label_follows: következik
+  label_force_user_language_to_default: Nyelv beállitása a felhasználóknak, amelyeknél
+    nem az alapértelmezett nyelv az elfogadott
+  label_form_configuration: Form configuration
+  label_general: Általános
+  label_generate_key: Létrehoz egy kulcsot
+  label_git_path: ".Git könyvtár elérési útja"
+  label_greater_or_equal: ">="
+  label_group_by: Csoportosítás a következők szerint
+  label_group_new: Új csoport
+  label_group_plural: Csoportok
+  label_help: Segítség
+  label_here: itt
+  label_hide: Elrejt
+  label_history: Előzmény
+  label_home: Home
+  label_in: in
+  label_in_less_than: kevesebb, mint
+  label_in_more_than: több mint
+  label_inactive: Inaktív
+  label_incoming_emails: Bejövő e-mailek
+  label_includes: includes
+  label_index_by_date: Index dátum szerint
+  label_index_by_title: Index cím szerint
+  label_information: Információk
+  label_information_plural: Információk
+  label_integer: Egész szám
+  label_internal: Belső
+  label_invite_user: Invite user
+  label_show_hide: Show/hide
+  label_show_all_registered_users: Minden regisztrált felhasználó megjelenítése
+  label_journal: Journal
+  label_journal_diff: Leírás összehasonlítás
+  label_language: Nyelv
+  label_jump_to_a_project: Ugrás a projekthez
+  label_language_based: A felhasználói nyelv alapján
+  label_last_activity: Last activity
+  label_last_change_on: Last change on
+  label_last_changes: utolsó %{count} változások
+  label_last_login: Utolsó bejelentkezés
+  label_last_month: A múlt hónap
+  label_last_n_days: az utolsó %{count} napokban
+  label_last_week: múlt héten
+  label_latest_revision: Legutolsó változat
+  label_latest_revision_plural: Legutolsó változatok
+  label_ldap_authentication: LDAP-hitelesítés
+  label_less_or_equal: "<="
+  label_less_than_ago: kevesebb, nappal ezelött
+  label_list: Lista
+  label_loading: Betöltés...
+  label_lock_user: Felhasználó zárolása
+  label_logged_as: Bejelentkezve mint
+  label_login: Bejelentkezés
+  label_custom_logo: Custom logo
+  label_custom_favicon: Egyedi favicon
+  label_custom_touch_icon: Egyedi "touch-icon"
+  label_logout: Kijelentkezés
+  label_main_menu: Oldalsó menü
+  label_manage_groups: Manage groups
+  label_managed_repositories_vendor: Managed %{vendor} repositories
+  label_max_size: Maximális mérete
+  label_me: Nekem
+  label_member_new: Új tag
+  label_member_plural: Tagok
+  label_view_all_members: View all members
+  label_menu_item_name: A menüpont neve
+  label_message: Message
+  label_message_last: Utolsó üzenet
+  label_message_new: Új üzenet
+  label_message_plural: Üzenetek
+  label_message_posted: Üzenet hozzáadva
+  label_min_max_length: Min - Max hossza
+  label_minute_plural: minutes
+  label_missing_api_access_key: Missing API access key
+  label_missing_feeds_access_key: Missing RSS access key
+  label_modification: "%{count} változás"
+  label_modified: módosított
+  label_module_plural: Modulok
+  label_modules: Modulok
+  label_month: Havi
+  label_months_from: hónaptól
+  label_more: További
+  label_more_than_ago: több, nappal ezelőtt
+  label_move_work_package: A munkacsomag mozgatása
+  label_my_account: Saját fiókom
+  label_my_account_data: Az én fiók adataim
+  label_my_page: Az én oldalam
+  label_my_page_block: Az én oldalam blokkolva
+  label_my_projects: Az én projektjeim
+  label_my_queries: Az én egyéni lekérdezéseim
+  label_new: Új
+  label_new_statuses_allowed: Új státuszok engedélyezve
+  label_news_added: Hírek hozzáadva
+  label_news_comment_added: Megjegyzés hozzáadása a hírekhet
+  label_news_latest: Legfrissebb hírek
+  label_news_new: Hír hozzáadása
+  label_news_edit: Hírek szerkesztése
+  label_news_plural: Hírek
+  label_news_view_all: Az összes hir megtekintése
+  label_next: " Következő"
+  label_next_week: A jövő héten
+  label_no_change_option: "(Nincs változás)"
+  label_no_data: Nincs megjelenítendő adat
+  label_nothing_display: Nothing to display
+  label_nobody: senki sem
+  label_none: Nincs
+  label_none_parentheses: "(nincs)"
+  label_not_contains: nem tartalmaz
+  label_not_equals: nem
+  label_notify_member_plural: E-mail frissítések
+  label_on: be
+  label_open_menu: Menü megnyitása
+  label_open_work_packages: kinyit
+  label_open_work_packages_plural: kinyit
+  label_optional_description: Leírás
+  label_options: Beállítások
+  label_other: Egyéb
+  label_overall_activity: Általános tevékenység
+  label_overall_spent_time: Teljes eltöltött idő
+  label_overview: Áttekintő
+  label_part_of: part of
+  label_password_lost: Elfelejtetted a jelszavad?
+  label_password_rule_lowercase: Kisbetűk
+  label_password_rule_numeric: Numerikus karakterek
+  label_password_rule_special: Különleges karakterek
+  label_password_rule_uppercase: Nagybetű
+  label_path_encoding: Elérési út kódolás
+  label_pdf_with_descriptions: PDF-leírások
+  label_per_page: Oldalanként
+  label_people: Személyek
+  label_permissions: Jogosultságok
+  label_permissions_report: Jogosultságok riportálása
+  label_personalize_page: A lap testreszabása
+  label_planning: Tervezés
+  label_please_login: Kérjük, jelentkezzen be
+  label_plugins: Modulok
+  label_precedes: megelőzi
+  label_preferences: Tulajdonságok
+  label_preview: Előnézet
+  label_previous: Korábbi
+  label_previous_week: Előző héten
+  label_principal_invite_via_email: " or invite new users via email"
+  label_principal_search: Add existing users or groups
+  label_product_version: Product version
+  label_professional_support: Professional support
+  label_profile: Profil
+  label_project_all: Minden projekt
+  label_project_count: Total number of projects
+  label_project_copy_notifications: E-mail értesítéseket küld a projekt másolás során
+  label_project_latest: Legújabb projektek
+  label_project_default_type: Engedélyezi az üres típust
+  label_project_hierarchy: Project hierarchy
+  label_project_new: Új projekt
+  label_project_plural: Projektek
+  label_project_settings: Projekt beállítások
+  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_project_view_all: Minden projekt megtekintése
+  label_project_show_details: Projekt részleteinek megjelenítése
+  label_project_hide_details: Projekt részleteinek elrejtése
+  label_public_projects: Nyilvános projektek
+  label_query_new: Új lekérdezés
+  label_query_plural: Egyéni lekérdezések
+  label_query_menu_item: Lekérdezések menüpont
+  label_read: Olvassa el...
+  label_register: Új fiók létrehozása
+  label_register_with_developer: Regisztráljon mint fejlesztő
+  label_registered_on: Regisztrált
+  label_registration_activation_by_email: fiók aktiválása e-mailen keresztül
+  label_registration_automatic_activation: automatikus fiók aktiválás
+  label_registration_manual_activation: fiók kézi aktiválása
+  label_related_work_packages: Kapcsolódó munkacsomagok
+  label_relates: kapcsolódó
+  label_relates_to: kapcsolódó
+  label_relation_delete: Kapcsolat törlése
+  label_relation_new: Új kapcsolat
+  label_release_notes: Release notes
+  label_remove_columns: Eltávolítja a kijelölt oszlopokat
+  label_renamed: átnevez
+  label_reply_plural: Válaszok
+  label_report: Jelentés
+  label_report_bug: Report a bug
+  label_report_plural: Jelentések
+  label_reported_work_packages: Ezekkről a munkacsomagokról készült jelentés
+  label_reporting: Jelentés
+  label_reporting_plural: Jelentések
+  label_repository: Csomagtároló
+  label_repository_root: Repository root
+  label_repository_plural: Csomagtárolók
+  label_required: required
+  label_requires: requires
+  label_responsible_for_work_packages: Én vagyok felelős ezekért a munkacsomagokért
+  label_result_plural: Eredmények
+  label_reverse_chronological_order: Fordított időrendi sorrendben
+  label_revision: Felülvizsgálat
+  label_revision_id: Felülvizsgálat %{value}
+  label_revision_plural: Felülvizsgálatok
+  label_roadmap: Ütemterv
+  label_roadmap_edit: Ütemterv %{name} szerkesztése
+  label_roadmap_due_in: Lejáróban %{value}
+  label_roadmap_no_work_packages: Ezen verzióhoz nincsenek munkacsomagok
+  label_roadmap_overdue: "%{value} késésben"
+  label_role_and_permissions: Szerepkörök és engedélyek
+  label_role_new: Új szerepkör
+  label_role_plural: Szerepkörök
+  label_role_search: Assign role to new members
+  label_scm: SCM
+  label_search: Keresés
+  label_search_titles_only: Keresés csak a címekben
+  label_send_information: Fiókinformációkat küldése a felhasználónak
+  label_send_test_email: Teszt levél küldése
+  label_settings: Beállítások
+  label_system_settings: System settings
+  label_show_completed_versions: Befejezett verziók megjelenítése
+  label_sort: Rendez
+  label_sort_by: Rendezés %{value} szerint
+  label_sorted_by: rendezve %{value} szerint
+  label_sort_higher: Mozgatás felfelé
+  label_sort_highest: Mozgatás felfelé
+  label_sort_lower: Mozgás lefelé
+  label_sort_lowest: Mozgatás az aljára
+  label_spent_time: Eltöltött idő
+  label_start_to_end: elejétől a végéig
+  label_start_to_start: elejétől az elejéig
+  label_statistics: Statisztika
+  label_status: Állapot
+  label_status_updated: Munkacsomag állapotának frissítése
+  label_stay_logged_in: Bejelentkezve maradok
+  label_storage_free_space: Remaining disk space
+  label_storage_used_space: Used disk space
+  label_storage_group: Storage filesystem %{identifier}
+  label_storage_for: Encompasses storage for
+  label_string: Szöveg
+  label_subproject: Alprojekt
+  label_subproject_new: Új alprojekt
+  label_subproject_plural: Alprojektek
+  label_subtask_plural: Altevékenységek
+  label_summary: Összegzés
+  label_system: Rendszer
+  label_system_storage: Storage information
+  label_table_of_contents: Tartalomjegyzék
+  label_tag: Cimke
+  label_text: Hosszú szöveg
+  label_this_month: Ebben a hónapban
+  label_this_week: ezen a héten
+  label_this_year: Ebben az évben
+  label_time_entry_plural: Eltöltött idő
+  label_time_sheet_menu: Time sheet
+  label_time_tracking: Követési idő
+  label_today: Ma
+  label_top_menu: Felső menü
+  label_topic_plural: Témakörök
+  label_total: Össszesen
+  label_type_new: Új típus
+  label_type_plural: Típus
+  label_type_default_new_projects: Type activated for new projects by default
+  label_ui: Felhasználói felület
+  label_update_work_package_done_ratios: Frissítse a munkacsomag  elvégzett arányokat
+  label_updated_time: Ezelőtt frissített %{value}
+  label_updated_time_at: "%{author} %{age}"
+  label_updated_time_by: Frissítve %{author} %{age} ezelőtt
+  label_used_by: Által használt
+  label_used_by_types: Használt típusok szerint
+  label_used_in_projects: Használt projektek szerint
+  label_user: Felhasználó
+  label_user_activity: "%{value} tevékenység"
+  label_user_anonymous: Anonymous
+  label_user_mail_option_all: Minden saját projektet érintő esetben
+  label_user_mail_option_none: Nincs esemény
+  label_user_mail_option_only_assigned: Csak a hozzám rendelt feladatokról
+  label_user_mail_option_only_my_events: Csak a megfigyelt feladatok vagy amelyben
+    részt veszek
+  label_user_mail_option_only_owner: Csak azok a feladatok, amelyeknek én vagyok a
+    tulajdonosa
+  label_user_mail_option_selected: For any event on the selected projects only
+  label_user_new: Új felhasználó
+  label_user_plural: Felhasználók
+  label_user_search: Felhasználó keresése
+  label_version_new: Új verzió
+  label_version_plural: Verzió
+  label_version_sharing_descendants: Az alprojektekkel rendelkező
+  label_version_sharing_hierarchy: A projekt hierarchiában
+  label_version_sharing_none: Nem megosztott
+  label_version_sharing_system: Az összes projekt
+  label_version_sharing_tree: A projekt fában
+  label_video: Video
+  label_view_all_revisions: Az összes módosítás megtekintése
+  label_view_diff: A különbségek megtekintése
+  label_view_revisions: A változtatások megtekintése
+  label_watched_work_packages: Megfigyelt munkacsomagok
+  label_week: Hét
+  label_wiki_content_added: Wiki oldal hozzáadva
+  label_wiki_content_updated: Wiki oldal frissítve
+  label_wiki_toc: Tartalomjegyzék
+  label_wiki_dont_show_menu_item: Nem mutasd meg ezt a wikioldalt a projekt navigáció
+    közben
+  label_wiki_edit: Wiki szerkesztés
+  label_wiki_edit_plural: Wiki szerkesztések
+  label_wiki_page_attachments: Wiki oldal mellékletek
+  label_wiki_page_id: Wiki page ID
+  label_wiki_navigation: Wiki navigáció
+  label_wiki_page: Wiki oldal
+  label_wiki_page_plural: Wiki oldalak
+  label_wiki_show_index_page_link: Megjeleníti az almenüpont feladatainak "Tartalomjegyzékét"
+  label_wiki_show_menu_item: Megjeleníti mint menüpont a projekt navigációban
+  label_wiki_show_new_page_link: Almenüpont megjelenítése " új gyermekoldal létrehozása"
+  label_wiki_show_submenu_item: 'Megjelenítés mint: almenüpont '
+  label_work_package: Munkacsomag
+  label_work_package_added: Munka-csomag hozzáadva
+  label_work_package_attachments: Munkacsomag mellékletek
+  label_work_package_category_new: Új kategória
+  label_work_package_category_plural: Munkacsomag kategóriák
+  label_work_package_hierarchy: Work package hierarchy
+  label_work_package_new: Új munkacsomag
+  label_work_package_note_added: Munkacsomag megjegyzés hozzáadva
+  label_work_package_edit: Munkacsomag %{name} szerkesztése
+  label_work_package_plural: Munkacsomagok
+  label_work_package_priority_updated: A munkacsomag fontossága frissítve
+  label_work_package_status: Munkacsomag állapot
+  label_work_package_status_new: Új állapot
+  label_work_package_status_plural: A munkacsomag állapotai
+  label_work_package_types: Work package types
+  label_work_package_updated: Frissült a munkacsomag
+  label_work_package_tracking: A munkacsomag nyomon követése
+  label_work_package_view_all: Minden munkacsomag megtekintése
+  label_work_package_view_all_assigned_to_me: A hozzám rendelt valamennyi munkacsomag
+    megtekintése
+  label_work_package_view_all_reported_by_me: Az összes munkacsomag megtekintése az
+    általam készített jelentés szerint
+  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+    for
+  label_work_package_view_all_watched: Az összes megfigyelt munkacsomag megtekintése
+  label_work_package_watchers: Megfigyelők
+  label_workflow: Munkafolyamat
+  label_workflow_plural: A munkafolyamatok
+  label_workflow_summary: Összegzés
+  label_x_closed_work_packages_abbr:
+    one: 1 zárva
+    other: "%{count} zárva"
+    zero: 0 closed
+  label_x_comments:
+    one: 1 komment
+    other: "%{count} komment"
+    zero: no comments
+  label_x_open_work_packages_abbr:
+    one: 1 open
+    other: "%{count} nyitott"
+    zero: 0 open
+  label_x_open_work_packages_abbr_on_total:
+    one: 1 open / %{total}
+    other: "%{count} nyitott / %{total}"
+    zero: 0 open / %{total}
+  label_x_projects:
+    one: 1 projekt
+    other: "%{count} projekt"
+    zero: no projects
+  label_year: Év
+  label_yesterday: tegnap
+  label_keyboard_function: Funkció
+  label_keyboard_shortcut: Parancsikon
+  label_keyboard_accesskey: AccessKey
+  label_keyboard_shortcut_help_heading: Rendelkezésre álló billentyűparancsok
+  label_keyboard_shortcut_within_project: 'Projekthez kapcsolódó hivatkozások:'
+  label_keyboard_shortcut_global_shortcuts: 'Globális gyorsbillentyűk:'
+  label_keyboard_shortcut_some_pages_only: 'Különleges gyorsbillentyűk:'
+  label_keyboard_shortcut_search_global: Mindenben keres
+  label_keyboard_shortcut_search_project: Pprojekt keresése
+  label_keyboard_shortcut_go_my_page: Go to my page
+  label_keyboard_shortcut_show_help: Megjeleníti ezt a súgóüzenetet
+  label_keyboard_shortcut_go_overview: Tovább a projekt áttekintéséhez
+  label_keyboard_shortcut_go_work_package: Tovább a projekt munkacsomagokhoz
+  label_keyboard_shortcut_go_wiki: Tovább a projekt wikire
+  label_keyboard_shortcut_go_activity: Tovább a projekt tevékenységekre
+  label_keyboard_shortcut_go_calendar: Tovább a projekt naptárhoz
+  label_keyboard_shortcut_go_news: Tovább a projekt híreihez
+  label_keyboard_shortcut_go_timelines: Ugrás az idővonalakhoz
+  label_keyboard_shortcut_new_work_package: Új munkacsomag létrehozása
+  label_keyboard_shortcut_details_package: Munka csomag részletek ablaktábla megjelenítése
+  label_keyboard_shortcut_go_edit: Tovább a "jelenlegi tétel szerkesztésére" (csak
+    a részletes oldalak)
+  label_keyboard_shortcut_open_more_menu: Több menü megnyitása (csak a részletes lapok)
+  label_keyboard_shortcut_go_preview: Tovább a jelenlegi szerkesztés előnézetére (csak
+    a szerkesztet oldalt)
+  label_keyboard_shortcut_focus_previous_item: Középpontban az előző lista elemei
+    (csak néhány lista)
+  label_keyboard_shortcut_focus_next_item: Középpontban a következő lista elemei (csak
+    néhány lista)
+  label_visible_elements: Látható elemek
+  auth_source:
+    using_abstract_auth_source: Can't use an abstract authentication source.
+    ldap_error: 'LDAP-hiba: %{error_message}'
+    ldap_auth_failed: A hitelesítés meghiúsult az LDAP-kiszolgálón.
+  macro_execution_error: Hiba a makro %{macro_name} végrehajtásában
+  macro_unavailable: A %{macro_name} makró nem jeleníthető meg.
+  mail:
+    actions: Műveletek
+  mail_body_account_activation_request: 'Új felhasználó (%{value}) regisztrálva van.
+    A hozzáférés az Ön jóváhagyására vár:'
+  mail_body_account_information: A fiókod adatai
+  mail_body_account_information_external: A %{value} fiók használatával jelentkezzen
+    be.
+  mail_body_lost_password: 'A jelszó módosításához kattintson az alábbi linkre:'
+  mail_body_register: 'A fiók aktiválásához kattintson az alábbi linkre:'
+  mail_body_reminder: 'Ön rendelt  %{count} munkacsomag(ok) a következő  %{days}  napokon
+    esedékesek:'
+  mail_body_wiki_content_added: A '%{id}' wiki oldal hozzáadva %{author} által.
+  mail_body_wiki_content_updated: A '%{id}' wiki oldal frissítve %{author} által.
+  mail_subject_account_activation_request: "%{value} fiók aktiválásának kérése"
+  mail_subject_lost_password: A jelszavad %{value}
+  mail_subject_register: A %{value} fiókód aktiválása
+  mail_subject_reminder: "%{count} munkacsomag(ok) miatt a következő %{days} nap"
+  mail_subject_wiki_content_added: "'%{id}' wiki oldal hozzáadva"
+  mail_subject_wiki_content_updated: "'%{id}' wiki oldal frissítve"
+  more_actions: További funkciók
+  noscript_description: Engedélyezze a JavaScriptet, hogy használni tudja az OpenProjectet
+    !
+  noscript_heading: JavaScript le van tiltva
+  noscript_learn_more: További információ
+  notice_accessibility_mode: The accessibility mode can be enabled in your [account
+    settings](url).
+  notice_account_activated: A fiók aktiválva van. Most már bejelentkezhet.
+  notice_account_already_activated: The account has already been activated.
+  notice_account_invalid_token: Invalid activation token
+  notice_account_invalid_credentials: Érvénytelen felhasználónév vagy jelszó
+  notice_account_invalid_credentials_or_blocked: Érvénytelen felhasználó vagy jelszó
+    vagy a fiók le van tiltva, több sikertelen bejelentkezési kísérlet miatt. Rövid
+    időn belül újra próbálkozhatsz a belépéssel.
+  notice_account_lost_email_sent: Egy e-mailt küldtek Önnek, hogy válasszon egy új
+    jelszót .
+  notice_account_new_password_forced: Új jelszóra van szükség.
+  notice_account_password_expired: Jelszava lejár %{days} nap után . Kérjük, állítson
+    be egy újat.
+  notice_account_password_updated: Jelszó sikeresen frissült.
+  notice_account_pending: A hozzáférése létre jött, és most rendszergazdai jóváhagyásra
+    vár.
+  notice_account_register_done: Fiók létrehozása sikeresen megtörtént. A fiók aktiválásához
+    kattintson az emilben kapott linkre.
+  notice_account_unknown_email: Ismeretlen felhasználó.
+  notice_account_update_failed: Account setting could not be saved. Please have a
+    look at your account page.
+  notice_account_updated: A hozzáférése volt sikeresen frissítve.
+  notice_account_wrong_password: Hibás jelszó
+  notice_account_registered_and_logged_in: Üdvözöljük a fiókja aktiválva van. Most
+    bejelentkezhet.
+  notice_activation_failed: The account could not be activated.
+  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
+  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
+    but '%{actual}' returned.
+  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_can_t_change_password: Ez a fiók egy külső hitelesítési forrást használ.
+    Lehetetlen a jelszó csere.
+  notice_custom_options_deleted: A '%{option_value}' beállítás és annak %{num_deleted}
+    előfordulása törlésre került.
+  notice_email_error: Egy hiba az email küldése közben (%{value})
+  notice_email_sent: Egy email elküldve %{value}
+  notice_failed_to_save_work_packages: 'Nem sikerült menteni a %{count} munkacsomag(ok)a
+    %{total} kiválasztott: %{ids}.'
+  notice_failed_to_save_members: 'Nem sikerült menteni a tag(ok)at: %{errors}.'
+  notice_file_not_found: Az elérni kivánt oldal nem létezik, vagy már eltávolították.
+  notice_forced_logout: Automatikusan kijelentkezett %{ttl_time} perc inaktivitás
+    után.
+  notice_internal_server_error: Az elérni kivánt oldalon hiba történt. Ha továbbra
+    is problémákat tapasztal, kérem forduljon a %{app_title} rendszergazdához segítségért.
+  notice_work_package_done_ratios_updated: A munkacsomag elkészült arányainak frissítése
+    kész.
+  notice_locking_conflict: Az adatokat frissítette egy másik felhasználó időközben.
+  notice_locking_conflict_additional_information: A frissítést %{users} végezte el.
+  notice_locking_conflict_reload_page: Töltse újra az oldalt, tekintse át a módosításokat,
+    és a frissítse újra.
+  notice_member_added: Added %{name} to the project.
+  notice_members_added: Added %{number} users to the project.
+  notice_member_removed: Removed %{user} from project.
+  notice_member_deleted: "%{user} has been removed from the project and deleted."
+  notice_no_principals_found: Nincs találat.
+  notice_bad_request: Rossz kérés.
+  notice_not_authorized: Ön nem jogosult a lap eléréséhez.
+  notice_not_authorized_archived_project: Az elérni kivánt projekt archiválva.
+  notice_password_confirmation_failed: Your password is not correct. The changes were
+    not saved.
+  notice_principals_found_multiple: "There are %{number} results found. \n Tab to
+    focus the first result."
+  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_project_not_deleted: A projekt nem lett törölve.
+  notice_successful_connection: Sikeresen létrejött a kapcsolat.
+  notice_successful_create: Sikeres létrehozás.
+  notice_successful_delete: Sikeres törlés.
+  notice_successful_update: Sikeres frissítés.
+  notice_to_many_principals_to_display: Túl sok a találat. Szűkítse le a keresést  az
+    új tagok (vagy csoport) nevének beírásával.
+  notice_unable_delete_time_entry: Nem tudom törtölni az idő naplóbejegyzést.
+  notice_unable_delete_version: Nem lehet törölni a verziót.
+  notice_user_missing_authentication_method: User has yet to choose a password or
+    another way to sign in.
+  notice_user_invitation_resent: Another invitation has been sent to %{email}.
+  present_access_key_value: 'Your %{key_name} is: %{value}'
+  notice_automatic_set_of_standard_type: Automatikusan beállítja alap típust .
+  notice_logged_out: Kijelentkeztél.
+  notice_wont_delete_auth_source: Az autentikációs mód nem törölhető, amíg valamelyik
+    felhasználó azt használja.
+  notice_project_cannot_update_custom_fields: 'You cannot update the project''s available
+    custom fields. The project is invalid: %{errors}'
+  notice_attachment_migration_wiki_page: 'Ez az oldal automatikusan jött létre az
+    OpenProject frissítésekor. Tartalmazza az összes mellékletet az alábbiakhoz: %{container_type}
+    %{container_name}.
+
+'
+  number:
+    format:
+      delimiter: ''
+      precision: 3
+      separator: "."
+    human:
+      format:
+        delimiter: ''
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: kB
+          mb: MB
+          tb: TB
+  onboarding:
+    heading_getting_started: Áttekintés
+    text_getting_started_description: Gyors áttekintés a projekt menedzsmentről és
+      csapatmunkáról az OpenProjecttel.
+    text_show_again: You can restart this video from the help menu
+    welcome: Welcome to OpenProject
+  permission_add_work_package_notes: Megjegyzések hozzáadása
+  permission_add_work_packages: Add work packages (also allows to add attachments
+    to all work packages)
+  permission_add_messages: Elküldött üzenetek
+  permission_add_project: Projekt létrehozása
+  permission_add_subprojects: Alprojektek létrehozása
+  permission_add_work_package_watchers: Megfigyelő hozzáadása
+  permission_browse_repository: Read-only access to repository (browse and checkout)
+  permission_change_wiki_parent_page: A szülő wiki oldal megváltoztatása
+  permission_comment_news: Megjegyzések írása a hírekehez
+  permission_commit_access: Read/write access to repository (commit)
+  permission_copy_projects: Projekt másolása
+  permission_delete_work_package_watchers: Megfigyelők törlése
+  permission_delete_work_packages: Törölje a munkacsomagokat
+  permission_delete_messages: Üzenetek törlése
+  permission_delete_own_messages: Saját üzenetek törlése
+  permission_delete_project_associations: Projekt függöségek törlése
+  permission_delete_reportings: Jelentések törlése
+  permission_delete_timelines: Idővonalak törlése
+  permission_delete_wiki_pages: Wiki oldalak törlése
+  permission_delete_wiki_pages_attachments: Mellékletek törlése
+  permission_edit_work_package_notes: Megjegyzések szerkesztése
+  permission_edit_work_packages: Munkacsomagok szerkesztése
+  permission_edit_messages: Üzenetek szerkesztése
+  permission_edit_own_work_package_notes: Saját megjegyzések szerkesztése
+  permission_edit_own_messages: Saját üzenetek szerkesztése
+  permission_edit_own_time_entries: Rögzített eltöltött időim szerkesztése
+  permission_edit_project: Projekt szerkesztése
+  permission_edit_project_associations: Projekt függöségek szerkesztése
+  permission_edit_reportings: Jelentések szerkesztése
+  permission_edit_time_entries: Eltöltött idők szerkesztése
+  permission_edit_timelines: Idővonalak szerkesztése
+  permission_edit_wiki_pages: Wiki lapok szerkesztése
+  permission_export_work_packages: Munkacsomagok exportálása
+  permission_export_wiki_pages: Wiki oldalak exportálása
+  permission_list_attachments: Mellékletek listája
+  permission_log_time: Eltöltött idő rögzítése
+  permission_manage_boards: Fórum kezelése
+  permission_manage_categories: Munkacsomag kategóriák kezelése
+  permission_manage_work_package_relations: Munkacsomag kapcsolatok kezelése
+  permission_manage_members: Tagok kezelése
+  permission_manage_news: Hírek kezelése
+  permission_manage_project_activities: Projekt tevékenységek kezelése
+  permission_manage_public_queries: Nyilvános lekérdezések kezelése
+  permission_manage_repository: Csomagtároló kezelése
+  permission_manage_subtasks: Altevékenységek kezelése
+  permission_manage_versions: Verziók kezelése
+  permission_manage_wiki: Wiki kezelése
+  permission_manage_wiki_menu: Wiki menü kezelése
+  permission_move_work_packages: Munkacsomagok áthelyezése
+  permission_protect_wiki_pages: Védett wiki oldalak
+  permission_rename_wiki_pages: Wiki oldalak átnevezése
+  permission_save_queries: Lekérdezések mentése
+  permission_select_project_modules: Projekt modulok kiválasztása
+  permission_manage_types: Jelölje ki a típust
+  permission_view_calendar: A naptár megtekintése
+  permission_view_changesets: View repository revisions in OpenProject
+  permission_view_commit_author_statistics: Szerző,statisztika megtekintése
+  permission_view_work_package_watchers: A megfigyelők listájának megtekintése
+  permission_view_work_packages: View work packages
+  permission_view_messages: Üzenetek megtekintése
+  permission_view_members: View members
+  permission_view_project_associations: Projekt függőségeinek megtekintése
+  permission_view_reportings: Jelentések megtekintése
+  permission_view_time_entries: Az eltöltött idő megtekintése
+  permission_view_timelines: Az idővonalak megtekintése
+  permission_view_wiki_edits: Wiki-előzmények megtekintése
+  permission_view_wiki_pages: Wiki megtekintése
+  placeholders:
+    default: "-"
+  project:
+    destroy:
+      confirmation: If you continue, the project %{identifier} and all related data
+        will be permanently destroyed.
+      info: Deleting the project is an irreversible action.
+      project_verification: Enter the project's name %{name} to verify the deletion.
+      subprojects_confirmation: 'Its subproject(s): %{value} will also be deleted.'
+      title: Delete the project %{name}
+    identifier:
+      warning_one: Members of the project will have to relocate the project's repositories.
+      warning_two: Existing links to the project will no longer work.
+      title: Change the project's identifier
+    archive:
+      are_you_sure: Are you sure you want to archive the project '%{name}'?
+      archived: Archivált
+  project_module_activity: Tevékenység
+  project_module_boards: fórumok
+  project_module_calendar: Naptár
+  project_module_work_package_tracking: A munkacsomag nyomon követése
+  project_module_news: Hírek
+  project_module_repository: Csomagtároló
+  project_module_time_tracking: Követési idő
+  project_module_timelines: Idővonalak
+  project_module_wiki: Wiki
+  query:
+    attribute_and_direction: "%{attribute} (%{direction})"
+  query_fields:
+    assigned_to_role: Hozzárendelt szerepkör
+    member_of_group: Hozzárendelt csoport
+    assignee_or_group: Megbízott, vagy a hozzá tartozó csoport
+    subproject_id: Alprojekt
+  repositories:
+    at_identifier: at %{identifier}
+    atom_revision_feed: Atom revision feed
+    autofetch_information: |-
+      Check this if you want repositories to be updated automatically when accessing the repository module page.
+      This encompasses the retrieval of commits from the repository and refreshing the required disk storage.
+    checkout:
+      access:
+        readwrite: Read + Write
+        read: Read-only
+        none: No checkout access, you may only view the repository through this application.
+      access_permission: Your permissions on this repository
+      url: Checkout URL
+      base_url_text: |-
+        The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).
+        Note: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered.
+      default_instructions:
+        git: |-
+          The data contained in this repository can be downloaded to your computer with Git.
+          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+        subversion: |-
+          The data contained in this repository can be downloaded to your computer with Subversion.
+          Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
+      enable_instructions_text: Displays checkout instructions defined below on all
+        repository-related pages.
+      instructions: Checkout instructions
+      show_instructions: Display checkout instructions
+      text_instructions: This text is displayed alongside the checkout URL for guidance
+        on how to check out the repository.
+      not_available: Checkout instructions are not defined for this repository. Ask
+        your administrator to enable them for this repository in the system settings.
+    create_managed_delay: 'Please note: The repository is managed, it is created asynchronously
+      on the disk and will be available shortly.'
+    create_successful: The repository has been registered.
+    delete_sucessful: The repository has been deleted.
+    destroy:
+      confirmation: If you continue, this will permanently delete the managed repository.
+      info: Deleting the repository is an irreversible action.
+      info_not_managed: 'Note: This will NOT delete the contents of this repository,
+        as it is not managed by OpenProject.'
+      managed_path_note: 'The following directory will be erased: %{path}'
+      repository_verification: Enter the project's identifier %{identifier} to verify
+        the deletion of its repository.
+      subtitle: Do you really want to delete the %{repository_type} of the project
+        %{project_name}?
+      subtitle_not_managed: Do you really want to remove the linked %{repository_type}
+        %{url} from the project %{project_name}?
+      title: Delete the %{repository_type}
+      title_not_managed: Remove the linked %{repository_type}?
+    errors:
+      build_failed: Unable to create the repository with the selected configuration.
+        %{reason}
+      managed_delete: Unable to delete the managed repository.
+      managed_delete_local: 'Unable to delete the local repository on filesystem at
+        ''%{path}'': %{error_message}'
+      empty_repository: The repository exists, but is empty. It does not contain any
+        revisions yet.
+      exists_on_filesystem: The repository directory already exists in the filesystem.
+      filesystem_access_failed: 'An error occurred while accessing the repository
+        in the filesystem: %{message}'
+      not_manageable: This repository vendor cannot be managed by OpenProject.
+      path_permission_failed: 'An error occurred trying to create the following path:
+        %{path}. Please ensure that OpenProject may write to that folder.'
+      unauthorized: You're not authorized to access the repository or the credentials
+        are invalid.
+      unavailable: The repository is unavailable.
+      exception_title: 'Cannot access the repository: %{message}'
+      disabled_or_unknown_type: The selected type %{type} is disabled or no longer
+        available for the SCM vendor %{vendor}.
+      disabled_or_unknown_vendor: The SCM vendor %{vendor} is disabled or no longer
+        available.
+      remote_call_failed: 'Calling the managed remote failed with message ''%{message}''
+        (Code: %{code})'
+      remote_invalid_response: Received an invalid response from the managed remote.
+      remote_save_failed: Could not save the repository with the parameters retrieved
+        from the remote.
+    git:
+      instructions:
+        managed_url: This is the URL of the managed (local) Git repository.
+        path: Adja meg a helyi Git tároló elérési útját (pl. %{example_path} ). Távoli
+          tárolót is használhat http(s):// vagy file:// kezdettel, ami aztán helyben
+          klónozásra kerül.
+        path_encoding: 'Override Git path encoding (Default: UTF-8)'
+      local_title: Link existing local Git repository
+      local_url: Local URL
+      local_introduction: If you have an existing local Git repository, you can link
+        it with OpenProject to access it from within the application.
+      managed_introduction: Let OpenProject create and integrate a local Git repository
+        automatically.
+      managed_title: Git repository integrated into OpenProject
+      managed_url: Managed URL
+      path: Path to Git repository
+      path_encoding: Elérési út kódolás
+    go_to_revision: Go to revision
+    managed_remote: Managed repositories for this vendor are handled remotely.
+    managed_remote_note: Information on the URL and path of this repository is not
+      available prior to its creation.
+    managed_url: Managed URL
+    settings:
+      automatic_managed_repos_disabled: Disable automatic creation
+      automatic_managed_repos: Automatic creation of managed repositories
+      automatic_managed_repos_text: By setting a vendor here, newly created projects
+        will automatically receive a managed repository of this vendor.
+    scm_vendor: Source control management system
+    scm_type: Repository type
+    scm_types:
+      local: Link existing local repository
+      existing: Link existing repository
+      managed: Create new repository in OpenProject
+    storage:
+      not_available: Disk storage consumption is not available for this repository.
+      update_timeout: |-
+        Keep the last required disk space information for a repository for N minutes.
+        As counting the required disk space of a repository may be costly, increase this value to reduce performance impact.
+    subversion:
+      existing_title: Existing Subversion repository
+      existing_introduction: If you have an existing Subversion repository, you can
+        link it with OpenProject to access it from within the application.
+      existing_url: Existing URL
+      instructions:
+        managed_url: This is the URL of the managed (local) Subversion repository.
+        url: |-
+          Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.
+          The following URL schemes are supported:
+      managed_title: Subversion repository integrated into OpenProject
+      managed_introduction: Let OpenProject create and integrate a local Subversion
+        repository automatically.
+      managed_url: Managed URL
+      password: Repository Password
+      username: Repository username
+    truncated: Elnézést, le kellett szűkítenünk ezt a könyvtárat %{limit} fájlra.
+      %{truncated} bejegyzés került kihagyásra.
+    named_repository: "%{vendor_name} repository"
+    update_settings_successful: The settings have been sucessfully saved.
+    url: URL to repository
+    warnings:
+      cannot_annotate: This file cannot be annotated.
+  search_input_placeholder: Search ...
+  setting_email_delivery_method: Email delivery method
+  setting_sendmail_location: Location of the sendmail executable
+  setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_smtp_address: SMTP server
+  setting_smtp_port: SMTP port
+  setting_smtp_authentication: SMTP authentication
+  setting_smtp_domain: SMTP HELLO domain
+  setting_smtp_user_name: SMTP username
+  setting_smtp_password: SMTP password
+  setting_activity_days_default: A napok megjelenitése a projekttevékenységben
+  setting_app_subtitle: Alkalmazás felirat
+  setting_app_title: Alkalmazás címe
+  setting_attachment_max_size: Melléklet max. méret
+  setting_autofetch_changesets: Autofetch repository changes
+  setting_autologin: Automatikus bejelentkezés
+  setting_available_languages: A rendelkezésre álló nyelvek
+  setting_bcc_recipients: Titkos másolat címzettjei (bcc)
+  setting_brute_force_block_after_failed_logins: Block user after this number of failed
+    login attempts
+  setting_brute_force_block_minutes: Time the user is blocked for
+  setting_cache_formatted_text: Gyorsítótárazott formázott szöveg
+  setting_column_options: A munkacsomag listák megjelenésének testreszabása
+  setting_commit_fix_keywords: Kulcsszavak rögzítése
+  setting_commit_logs_encoding: Üzenetek kódolása
+  setting_commit_logtime_activity_id: Tevékenységek a naplózott időben
+  setting_commit_logtime_enabled: Bejelentkezési idő naplózásának engedélyezése
+  setting_commit_ref_keywords: Viszonyítási kulcsszavak
+  setting_cross_project_work_package_relations: Projektek közötti munkacsomagok kapcsolatainak
+    engedélyezése
+  setting_date_format: Dátum formátum
+  setting_default_language: Alapértelmezett nyelv
+  setting_default_notification_option: Alapértelmezett értesítési beállítás
+  setting_default_projects_modules: Az új projektekben alapértelmezetten engedélyezett
+    modulok
+  setting_default_projects_public: Új projektek nyilvánosak alapértelmezetten
+  setting_diff_max_lines_displayed: A különböző sorok megjelenítésének maximális száma
+  setting_display_subprojects_work_packages: Megjelenitendő alprojektek, munkacsomagok
+    a fő projekt alapértelmezett beállitása szerint
+  setting_emails_footer: E-mailek lábléce
+  setting_emails_header: E-mailek fejléce
+  setting_email_login: E-mail cím használata felhasználónévként
+  setting_enabled_scm: SCM engedélyezve
+  setting_feeds_enabled: Hírcsatornák engedélyezése
+  setting_feeds_limit: Tartalom szintjének a korlátja
+  setting_file_max_size_displayed: A szöveg fájl sorainak maximum mérete megjelenítéskor
+  setting_host_name: Gazdagép neve
+  setting_work_package_done_ratio: A munkacsomag elkészült arányainak kiszámítása
+  setting_work_package_done_ratio_field: A munkacsomag mező használata
+  setting_work_package_done_ratio_status: Használja a munkacsomag állapotát
+  setting_work_package_done_ratio_disabled: Letiltja (elrejti a haladást)
+  setting_work_package_list_default_columns: Alapértelmezés megjelenítése
+  setting_work_package_list_summable_columns: Összegzés
+  setting_work_package_properties: Munkacsomag tulajdonságok
+  setting_work_package_startdate_is_adddate: Az aktuális dátum használata, mint kezdő
+    dátuma az új munkacsomagoknak
+  setting_work_packages_export_limit: A munkacsomagok exportjának a korlátozása
+  setting_journal_aggregation_time_minutes: Display journals as aggregated within
+  setting_log_requesting_user: Jelentkezzen be a felhasználóként, név és e-mail cím
+    minden lekéréshez
+  setting_login_required: Hitelesítés szükséges
+  setting_mail_from: Kibocsátási e-mail cím
+  setting_mail_handler_api_enabled: Bejövő e-mail szolgáltatás engedélyezése
+  setting_mail_handler_api_description: Az e-mail web kezelő lehetővé teszi, hogy
+    az OpenProject különböző utasításokat tartalmazó e-maileket fogadjon és végrehajtson
+    (úgy mint munkacsomag készítés, frissítés).
+  setting_mail_handler_api_key: API-kulcs
+  setting_mail_handler_body_delimiters: E-mailek csonkolása e sorok után
+  setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_new_project_user_role_id: Szerepkör a  nem admin felhasználónak, aki létrehoz
+    egy projektet,
+  setting_password_active_rules: Választható karakter típusok
+  setting_password_count_former_banned: A legutóbb használt  jelszavak száma, ezeket
+    tilos újra felhasználni
+  setting_password_days_valid: Number of days, after which to enforce a password change
+  setting_password_min_length: Minimum hosszúság
+  setting_password_min_adhered_rules: Minimális számú szükséges ezekhez az osztályokhoz
+  setting_per_page_options: Objektum per oldal opció
+  setting_plain_text_mail: Egyszerű szöveges e-mail (nem HTML)
+  setting_protocol: Protokol
+  setting_registration_footer: Regisztráció lábléc
+  setting_repositories_automatic_managed_vendor: Automatic repository vendor type
+  setting_repositories_encodings: Tárolók kódolásai
+  setting_repository_authentication_caching_enabled: A hitelesítési kérelem gyorsítótárazásának
+    engedélyezése a vezérlő szoftver verzióban
+  setting_repository_storage_cache_minutes: Repository disk size cache
+  setting_repository_checkout_display: Show checkout instructions
+  setting_repository_checkout_base_url: Checkout base URL
+  setting_repository_checkout_text: Checkout instruction text
+  setting_repository_log_display_limit: A felülvizsgálatok maximális száma  megjelenitve
+    a naplófájlban
+  setting_repository_truncate_at: Megjelenített fájlok maximális száma a tároló böngészőben
+  setting_rest_api_enabled: Engedélyezi a REST-alapú webszolgáltatást
+  setting_self_registration: Önregisztráció
+  setting_sequential_project_identifiers: Szekvenciális projekt azonosítók létrehozása
+  setting_session_ttl: Munkamenet lejárata ennyi tétlenség ideje után
+  setting_session_ttl_hint: Érték alatt 5 működik, mint a letiltott
+  setting_session_ttl_enabled: A munkamenet lejárt
+  setting_start_of_week: Hét kezdőnapja
+  setting_sys_api_enabled: Enable repository management web service
+  setting_sys_api_description: The repository management web service provides integration
+    and user authorization for accessing repositories.
+  setting_text_formatting: Szövegformázás
+  setting_time_format: Időformátum
+  setting_accessibility_mode_for_anonymous: Engedélyezi a kisegítő módot a névtelen
+    felhasználók számára
+  setting_user_format: A felhasználók a megjelenítési formátuma
+  setting_users_deletable_by_admins: A felhasználói fiókok az adminok által törölhetőek
+  setting_users_deletable_by_self: Engedélyezi, hogy a felhasználók törölhessék a
+    saját fiókjukat
+  setting_welcome_text: Welcome block text
+  setting_welcome_title: Welcome block title
+  setting_welcome_on_homescreen: Display welcome block on homescreen
+  setting_welcome_on_projects_page: Display welcome block on project overview
+  setting_wiki_compression: Wiki előzmények tömörítése
+  setting_work_package_group_assignment: Hozzárendelés engedélyezése csoportokhoz
+  settings:
+    general: Általános
+    other: Egyéb
+    passwords: Jelszavak
+    session: Munkamenet
+    brute_force_prevention: Felhasználó automatikus blokkolása
+  show_hide_project_menu: Expand/Collapse project menu
+  status_active: aktív
+  status_invited: invited
+  status_locked: Zárolt
+  status_registered: regisztrált
+  support:
+    array:
+      sentence_connector: és
+      skip_last_comma: hamis
+  text_accessibility_hint: A kisegítő lehetőségek mód vakok és gyengén látók illetve
+    mozgásukban korlátozottak számára lett tervezve. Gyengék látók számára a fókuszált
+    elemek kivételes kiemeléssel jelennek meg. Vegye figyelembe, hogy a "Backlogs"
+    modul nem érhető el ebben a módban.
+  text_access_token_hint: Access tokens allow you to grant external applications access
+    to resources in OpenProject.
+  text_analyze: 'További elemzése: %{subject}'
+  text_are_you_sure: Biztos vagy benne?
+  text_are_you_sure_with_children: Törli a munkacsomagot és minden hozzá tartozó gyermek
+    munkacsomagot?
+  text_assign_to_project: Hozzárendelés projekthez
+  text_form_configuration: 'Testreszabhatja, hogy mely mezők jelenjenek meg a munkacsomag
+    űrlapjánál. A mezőket szabadon csoportosíthatja, hogy kellően tükrözze a problémakör
+    igényeit.
+
+'
+  text_form_configuration_drag_to_activate: Innen húzza a mezőket, hogy aktiválja
+  text_form_configuration_required_attribute: Attribútum megjelölve, így mindig látszik
+  text_caracters_maximum: legfeljebb %{count} hosszúságú karakter lehet.
+  text_caracters_minimum: Legalább %{count} karakter hosszúnak kell lennie.
+  text_comma_separated: Többszörös érték megengedett (vesszővel elválasztva).
+  text_comment_wiki_page: 'Comment to wiki page: %{page}'
+  text_custom_field_possible_values_info: Az egyes értékek külön sorban
+  text_custom_field_hint_activate_per_project: 'Egyéni mezők használatakor: tartsa
+    szem előtt, hogy az egyéni mezőket minden projektben külön aktiválni kell.
+
+'
+  text_custom_field_hint_activate_per_project_and_type: 'Az egyéni mezőket munkacsomag
+    típusonként és projektenként egyenként aktiválni kell.
+
+'
+  text_custom_logo_instructions: 'Egy fehér logo átlátszó háttérrel ajánlott. A legjobb
+    eredmény érdekében mint átlagos és retina kijelzőkön is biztosítsa, hogy a kép
+    mérete 460px x 60px-es legyen.
+
+'
+  text_custom_favicon_instructions: 'Ez a kicsi ikon jelenik meg a böngésző ablakában/fülében
+    az oldal címe mellett. 32x32px méretű PNG fájlnak kell lennie, átlátszó háttérrel.
+
+'
+  text_custom_touch_icon_instructions: 'Ez az ikon a mobil vagy táblagépen jelenik
+    meg, ha egy könyvjelzőt a kezdőképernyőre helyez. 180x180px méretű PNG fájlnak
+    kell lennie. Kérem, bizonyosodjon meg arról, hogy a háttere nem átlátszó, különben
+    iOS-en hibásan jelenhet meg.
+
+'
+  text_default_administrator_account_changed: Az alapértelmezett rendszergazdai fiók
+    megváltozott
+  text_default_encoding: 'Alapértelmezett érték: UTF-8'
+  text_destroy: Töröl
+  text_destroy_with_associated: 'További objektumok vannak hozzárendelve, a munkacsomag(ok)hoz,
+    amelyeket törölni kell. Ezek az objektumok a következők:'
+  text_destroy_what_to_do: Mit szeretne tenni?
+  text_diff_truncated: "... Ez a különbség csonkolva lett, mert meghaladja a maximálisan
+    megjeleníthető méretet."
+  text_email_delivery_not_configured: A beérkező email beállitások hiányoznak, az
+    értesítések le vannak tiltva. Az SMTP-kiszolgáló konfigurálása a config/configuration.yml,
+    és indítsa újra az alkalmazást, hogy érvényesítse az új  beállitásokat.
+  text_enumeration_category_reassign_to: 'Újra hozzárendelve ehhez az értékhez:'
+  text_enumeration_destroy_question: "%{count} objektum ehhez az értékhez van újra
+    hozzárendelve."
+  text_file_repository_writable: A mellékletek könyvtára írható
+  text_git_repo_example: a rövid és a helyi csomag tároló (pl. /gitrepo, c:\gitrepo)
+  text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
+    be changed to an unwanted date.
+  text_hint_disable_with_0: 'Note: Disable with 0'
+  text_hours_between: Between %{min} and %{max} hours.
+  text_work_package_added: Munkacsomag %{id} jelentés %{author} által készitve.
+  text_work_package_category_destroy_assignments: Távolítsa el kategória hozzárendeléseket
+  text_work_package_category_destroy_question: Egyes munkacsomagok (%{count}) ehhez
+    a kategóriához vannak társítva. Mit akarsz csinálni?
+  text_work_package_category_reassign_to: A munkacsomag ismételt hozzárendelése ehhez
+    a kategóriához
+  text_work_package_updated: Munkacsomag %{id} jelentés %{author} által készitve.
+  text_work_package_watcher_added: You have been added as a watcher to Work package
+    %{id} by %{watcher_setter}.
+  text_work_packages_destroy_confirmation: Biztosan törli a kijelölt munkacsomagot?
+  text_work_packages_ref_in_commit_messages: Viszonyítandó és elintézendő munkacsomagok
+    a véglegesítési üzenetekben
+  text_journal_added: "%{label} %{value} hozzáadva"
+  text_journal_aggregation_time_explanation: Combine journals for display if their
+    age difference is less than the specified timespan. This will also delay mail
+    notifications by the same amount of time.
+  text_journal_changed: "%{label} megváltozott %{old} -tól %{new} -ig"
+  text_journal_changed_no_detail: "%{label} frissítve"
+  text_journal_changed_with_diff: "%{label} megváltozott (%{link})"
+  text_journal_deleted: "%{label} törölve (%{old})"
+  text_journal_deleted_with_diff: "%{label} törölt (%{link})"
+  text_journal_set_to: "%{label} beállított %{value}"
+  text_journal_set_with_diff: "%{label} beállított (%{link})"
+  text_latest_note: 'The latest comment is: %{note}'
+  text_length_between: "%{min} és %{max} karakter közötti hosszúságú."
+  text_line_separated: A többszörös érték adás megengedett (minden érték külön sorban).
+  text_load_default_configuration: Az alapértelmezett konfiguráció betöltése
+  text_min_max_length_info: 0 azt jelenti, hogy nincs korlátozás
+  text_no_roles_defined: There are no roles defined.
+  text_no_access_tokens_configurable: There are no access tokens which can be configured.
+  text_no_configuration_data: Szerepkörök, típusok, a munkacsomag állapotok és a munkafolyamatok
+    nincsenek beállítva. Erősen ajánlott, az alapértelmezett konfiguráció betöltése.
+    Akkor képes lesz arra, hogy módosítsa.
+  text_no_notes: There are no comments available for this work package.
+  text_notice_too_many_values_are_inperformant: 'Megjegyzés: Az oldalanként több mint
+    100 elem megjelenítésekor az oldal betöltési ideje  növekedhet.'
+  text_own_membership_delete_confirmation: Értesítem arról, hogy eltávolít néhány
+    vagy az összes jogosultságot, és ezt követően már nem lehet szerkeszteni ezt a
+    projektet. Biztosan folytatni kívánja?
+  text_plugin_assets_writable: Plugin eszközök könyvtára írható
+  text_powered_by: Készítette %{link}
+  text_project_identifier_info: Csak kisbetű (a-z), számok, kötőjelek és aláhúzásjelek
+    van engedélyezve, és kisbetűvel kell kezdődnie.
+  text_reassign: 'Reassign to work package:'
+  text_regexp_info: pl. ^[A-Z0-9]+$
+  text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
+  text_repository_usernames_mapping: Jelölje be, vagy frissítse az alkalmazás felhasználóit,
+    minden felhasználónév eltárolva, megtalálhatóak a csomagtároló naplóban. A felhasználók
+    ugyanazzal az alkalmazási és csomagtárolói felhasználó névvel vagy email címmel
+    automatikusan tárolódnak.
+  text_select_mail_notifications: Válassza ki a tevékenységeket, amelyekről e-mail
+    értesítést kell küldeni.
+  text_status_changed_by_changeset: "%{value} változások alkalmazása."
+  text_table_difference_description: In this table the single %{entries} are shown.
+    You can view the difference between any two entries by first selecting the according
+    checkboxes in the table. When clicking on the button below the table the differences
+    are shown.
+  text_time_logged_by_changeset: "%{value} változások alkalmazása."
+  text_tip_work_package_begin_day: ezen a napon kezdődik a munkacsomag
+  text_tip_work_package_begin_end_day: Ezen a napon kezdődik és zárodik a munkacsomag
+  text_tip_work_package_end_day: ezen a napon zárul a munkacsomag
+  text_type_no_workflow: Nincs munkafolyamat meghatározva ehhez a típushoz
+  text_unallowed_characters: Nem engedélyezett karakterek
+  text_user_invited: The user has been invited and is pending registration.
+  text_user_wrote: "%{value} írta:"
+  text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
+    lost if you leave this page.
+  text_wiki_destroy_confirmation: Biztosan törli ezt a wikit és annak tartalmát?
+  text_wiki_page_destroy_children: A gyermek oldalak és azok aloldalainak törlése
+  text_wiki_page_destroy_question: Ez az oldal  %{descendants} gyermek oldalakkal
+    és aloldalakkal rendelkezik. Mit akarsz csinálni?
+  text_wiki_page_nullify_children: Megtartani a gyermek oldalakat mint fő oldalakat
+  text_wiki_page_reassign_children: Gyermekoldalak ismételt hozzárendelése ehhez a
+    szülő oldalhoz
+  text_workflow_edit: Válassza ki a szerepkört, és a típust a munkafolyamat szerkesztéséhez
+  text_zoom_in: Nagyítás
+  text_zoom_out: Kicsinyítés
+  text_setup_mail_configuration: Configure your email provider
+  time:
+    am: Délelött
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+      time: "%I:%M %p"
+    pm: Délután
+  timeframe:
+    show: Mutasd az időkeretet
+    end: címzett
+    start: tól
+  timelines:
+    admin_menu:
+      color: Szín
+      colors: Színek
+      project_type: Projekt típus
+      project_types: Projekt típusok
+    project_menu:
+      project_associations: Szükséges összetevők
+      reportings: Állapot jelentés
+      reports: Jelentések az idővonalakról
+      timelines: Idővonalak
+    add_project_association: A függőség hozzáadása
+    associations: Szükséges összetevők
+    board_could_not_be_saved: A tábla nem menthető
+    button_delete_all: Összes törlése
+    change: A tervezés módosítása
+    children: Gyermek elemek
+    color_could_not_be_saved: A szín nem menthető
+    current_planning: Jelenlegi tervezés
+    dates: Dátumok
+    dates_are_calculated_based_on_sub_elements: A dátumok az al elemek alapján számítódnak
+      ki.
+    delete_all: Összes törlése
+    delete_thing: Töröl
+    duration: Időtartam
+    duration_days:
+      one: "%{count} nap"
+      other: "%{count} days"
+    edit_color: Színek szerkesztése
+    edit_project_type: Projekt típus módosítása
+    edit_thing: Szerkesztés
+    edit_timeline: A %{timeline} ütemterv jelentés szerkesztése
+    delete_timeline: A %{timeline} ütemterv jelentés törlése
+    empty: "(üres)"
+    enable_type_in_project: Engedélyezett típus  "%{type}"
+    end: Befejezés
+    errors:
+      not_implemented: Az ütemterv nem jeleníthető meg, mert egy olyan tulajdonságot
+        használ, amely még nincs beépítve.
+      report_comparison: Az ütemterv nem nyújthatja a beállított összehasonlításokat.
+        Kérjük, ellenőrizze a megfelelő részben a konfigurációt, az alaphelyzetbe
+        állitása segíthet megoldani ezt a problémát.
+      report_epicfail: Váratlan hiba miatt nem lehet betölteni az ütemtervet.
+      report_timeout: Az ütemtervet nem lehetett betölteni az ésszerű idő alatt.
+    filter:
+      errors:
+        timeframe_start: Az időkeret indítás
+        timeframe_end: Az időkeret vége
+        compare_to_relative: A relatív összehasonlítás értéke
+        compare_to_absolute: Az abszolút értékben történő összehasonlítás értéke
+        planning_element_time_relative_one: A munkacsomagok kezdése egy bizonyos időn
+          belül
+        planning_element_time_relative_two: A munkacsomagok elvégzése egy bizonyos
+          időn belül
+        planning_element_time_absolute_one: A munkacsomagok kezdése egy bizonyos időn
+          belül
+        planning_element_time_absolute_two: A munkacsomagok elvégzése egy bizonyos
+          időn belül
+      sort:
+        sortation: Rendezés a következő szerint
+        alphabet: ábécé
+        explicit_order: Megbizás kifejezése
+        project_sortation: Projektek rendezése
+        date: dátum
+        default: alapértelmezett
+      column:
+        assigned_to: Megbízott
+        type: Típus
+        due_date: Záró dátuma
+        name: Név
+        status: Állapot
+        responsible: Felelős
+        start_date: Indulási dátum
+      columns: Oszlopok
+      comparisons: Összehasonlítások
+      comparison:
+        absolute: Abszolút
+        none: Egyik sem
+        relative: Relatív
+        compare_relative_prefix: Compare current planning to
+        compare_relative_suffix: óta
+        compare_absolute: Hasonlítsa össze a jelenlegi tervezési  %{date} időpont
+      time_relative:
+        days: napok
+        weeks: hetek
+        months: hónapok
+      exclude_own_work_packages: Ettől a projekttől a munkacsomagok elrejtése
+      exclude_reporters: Más projektek elrejtése
+      exclude_empty: Üres projektek elrejtése
+      grouping: Csoportosítás
+      grouping_hide_group: Csoport "%{group}" elrejtése
+      grouping_one: Első csoportosítási feltétel
+      grouping_one_phrase: Az alprojektek a
+      grouping_other: Egyéb
+      hide_chart: A diagram elrejtése
+      noneElement: "(nincs)"
+      noneSelection: "(nincs)"
+      outline: Első vázlat bővítése
+      parent: Az alprojektek megjelenítése
+      work_package_filters: A munkacsomagok szűrése
+      work_package_responsible: A munkacsomagok megjelenítése a felelősökkel
+      work_package_assignee: A munkacsomagok megjelenítése a hozzárendelésekkel
+      types: Típusok megjelenítése
+      status: Állapot megjelenítése
+      project_time_filter: Egy bizonyos típusú egy bizonyos időn belüli  projektek
+        a munka csomagokkal
+      project_time_filter_timeframe: Időkeret
+      project_time_filter_historical_from: tól
+      project_time_filter_historical_to: címzett
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
+        %{end_label} %{endspan}%{endspanunit} ból most"
+      project_filters: Projekt szűrés
+      project_responsible: A projektek megjelenítése a felelősökkel
+      project_status: Projekt állapotának megjelenítése
+      project_types: Mutasd a  projekt típust
+      timeframe: Mutasd az időkeretet
+      timeframe_end: címzett
+      timeframe_start: tól
+      timeline: Általános beállítások
+      zoom: Zoom tényező
+    history: Előzmény
+    new_color: Új szín
+    new_association: Új függőség
+    new_work_package: Új munkacsomag
+    new_project_type: Új projekt típus
+    new_reporting: Új jelentés
+    new_timeline: Új idővonal-jelentés
+    no_projects_for_reporting_available: Nincsenek projektek, amelyekre a jelentés
+      létre hozható.
+    no_right_to_view_timeline: Nincs meg a szükséges engedélye a csatolt idővonal
+      megtekintéséhez.
+    no_timeline_for_id: Nincs ilyen ütemterv azonosító %{id}.
+    notice_successful_deleted_all_elements: Minden elem törlése sikerült
+    outline: A vázlat alaphelyzetbe állitása
+    outlines:
+      aggregation: Csak az összesítések megjelenítése
+      level1: Az 1-es szint kibontása
+      level2: A 2-es szint kibontása
+      level3: A 3-as szint kibontása
+      level4: A 4-es szint kibontása
+      level5: Az 5-ös szint kibontása
+      all: Minden megjelenítése
+    reporting_for_project:
+      show: 'Állapot jelentés ehhez a projekthez: %{title}'
+      edit_delete: 'állapot jelentés erről a projektről: %{title}'
+      history: 'Előzmények a projekt állapotairól: %{title}'
+    reporting:
+      delete: 'Az állapot törlése: %{comment}'
+      edit: 'Az állapot szerkesztése: %{comment}'
+      show: 'Állapot: %{comment}'
+    planning_element_update: 'Frissítve: %{title}'
+    work_packages_are_displayed_in_aggregations: Munkacsomagok megjelenítése csoportokban
+    project_association_new: Projekt függőségek hozzáadása
+    project_association_new_for_with: '"%{project_a}" függőségeinek a beállítása'
+    project_association_with_other: Projekt függősége "%{project_a}" és "%{project_b}"
+      között
+    project_association_of_type: Projekt típus "%{type}" függőségei
+    project_type_could_not_be_saved: Projekt típusát nem lehet menteni
+    type_could_not_be_saved: A típust nem lehet menteni
+    reporting_could_not_be_saved: A jelentés mentése nem sikerült
+    properties: Tulajdonságok
+    really_delete_color: 'Biztos, hogy törli a következő színt? Ezt a színt használja
+      egy típus, igy nem törlhető.
+
+'
+    really_delete_project_association_between_project_a_and_project_b: 'Biztos, hogy
+      törli a függőséget "%{project_a}" és "%{project_b}" között?
+
+'
+    really_delete_project_type: 'Biztos, hogy törli a következő projekt-típust?Egy
+      projekt használja ezt a típust igy nem törölhető.
+
+'
+    really_delete_timeline: 'Biztos, hogy törölni akarja az alábbi ütemterv jelentést?
+      Az ütemterv jelentésben szereplő munkacsomagok, igy nem törölhető.
+
+'
+    really_delete_reporting: 'Biztosan, törli a következő jelentést? Az előző jelentés
+      állapotát is törli.
+
+'
+    start: Kezdő időpont
+    timeline: Ütemterv jelentés
+    timelines: Jelentések az idővonalakról
+    settings: Idővonalak
+    vertical_work_package: Függőleges munkacsomagok
+    without_project_type: Projekt típus nélkül
+    you_are_viewing_the_selected_timeline: A kijelölt ütemtervből készült jelentés
+      megtekintése
+    zoom:
+      in: Nagyítás
+      out: Kicsinyítés
+      days: Napok
+      weeks: Hetek
+      months: Hónapok
+      quarters: Negyedek
+      years: Évek
+  title_remove_and_delete_user: Remove the invited user from the project and delete
+    him/her.
+  tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
+    case the old one expired or the user did not get the original email. Can also
+    be used for active users to choose a new authentication method. When used with
+    active users their status will be changed to ''invited''.
+
+'
+  tooltip:
+    setting_email_login: 'If enabled a user will be unable to chose a login during
+      registration. Instead their given e-mail address will serve as the login. An
+      administrator may still change the login separately.
+
+'
+  queries:
+    apply_filter: Előre beállított szűrő alkalmazása
+  top_menu:
+    additional_resources: Additional resources
+    getting_started: Getting started
+    help_and_support: Help and support
+  total_progress: Teljes folyamat
+  user:
+    all: mind
+    active: aktív
+    activate: Aktivál
+    activate_and_reset_failed_logins: Aktiválja és alaphelyzetbe állitja a sikertelen
+      bejelentkezéseket
+    authentication_provider: Hitelesítés-ellenőrző
+    authentication_settings_disabled_due_to_external_authentication: 'Ez a felhasználó
+      egy külső hitelesítés szolgáltató keresztül hitelesít, így nincs megváltoztatható
+      jelszó az alkalmazásban.
+
+'
+    authorization_rejected: Nem megengedett bejelentkezés.
+    assign_random_password: Assign random password (sent to user via email)
+    blocked: ideiglenesen zárolva
+    blocked_num_failed_logins:
+      one: locked temporarily (one failed login attempt)
+      other: ideiglenesen zárolva (%{count} sikertelen bejelentkezési kísérlet)
+    confirm_status_change: "'%{name}' állapotát készül megváltoztatni. Biztosan folytatja?"
+    deleted: Törölt felhasználó
+    error_status_change_failed: 'A felhasználó állapotának a módosítása nem sikerült
+      a következő hiba miatt: %{errors}'
+    invite: Invite user via email
+    invited: invited
+    lock: Zárolva
+    locked: zárolva
+    no_login: Ez a felhasználó a bejelentkezési jelszóval  hitelesít magát. Mivel
+      le van tiltva,  nem tud bejelentkezni.
+    password_change_unsupported: A jelszó módosítása nem támogatott.
+    registered: regisztrált
+    reset_failed_logins: A sikertelen bejelentkezés alaphelyzetbe állitása
+    settings:
+      mail_notifications: Send email notifications
+      mail_project_explanaition: For unselected projects, you will only receive notifications
+        about things you watch or you're involved in (e.g. work packages you're the
+        author or assignee of).
+      mail_self_notified: I want to be notified of changes that I make myself
+    status_user_and_brute_force: "%{user} és %{brute_force}"
+    status_change: Állapot változás
+    unlock: A zárolás feloldása
+    unlock_and_reset_failed_logins: Zárolás felodása és alaphelyzetbe állitása sikertelen
+      bejelentkezéskor
+  version_status_closed: Lezárva
+  version_status_locked: Zárolt
+  version_status_open: kinyit
+  note: Szöveg
+  note_password_login_disabled: Bejelentkezési jelszót a %{configuration} letiltotta.
+  warning: Figyelem
+  warning_attachments_not_saved: "%{count} fájl nem menthető."
+  menu_item: Menüpont
+  menu_item_setting: Látható
+  wiki_menu_item_for: Wikipage "%{title}" menüeleme
+  wiki_menu_item_setting: Látható
+  wiki_menu_item_new_main_item_explanation: 'Csak a fő wiki menüelemet törölted. Most
+    ki kell választani egy wiki oldalt, amelyre egy új fő menüelem jön létre. Ha törli
+    a wiki oldalakat a projekt adminisztrátor tudja letiltani a wiki modult.
+
+'
+  wiki_menu_item_delete_not_permitted: A wiki menüpontjában egyetlen wiki oldalt nem
+    lehet törölni.
+  query_menu_item_for: Menüpont lekérdezés "%{title}"
+  work_package:
+    updated_automatically_by_child_changes: 'Automatikusan frissíti a változó értékeken
+      belöl a gyermek munkacsomag %{child} alapján
+
+'
+    destroy:
+      info: Deleting the work package is an irreversible action.
+      title: Delete the work package
+  nothing_to_preview: Nincs előnézet
+  api_v3:
+    attributes:
+      lock_version: Lock Version
+    errors:
+      code_401: Az erőforrás eléréséhez azonosítás szükséges.
+      code_401_wrong_credentials: Nem megfelelő hitelesítési adatok kerültek megadásra.
+      code_403: Ön nem jogosult az erőforrás eléréséhez.
+      code_404: A kért erőforrás nem található.
+      code_409: Couldn't update the resource because of conflicting modifications.
+      code_500: An internal error has occured.
+      expected:
+        date: YYYY-MM-DD (ISO 8601 date only)
+        duration: ISO 8601 duration
+      invalid_content_type: Expected CONTENT-TYPE to be '%{content_type}' but got
+        '%{actual}'.
+      invalid_format: 'Invalid format for property ''%{property}'': Expected format
+        like ''%{expected_format}'', but got ''%{actual}''.'
+      invalid_json: The request could not be parsed as JSON.
+      invalid_relation: The relation is invalid.
+      invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
+        but got '%{actual}'.
+      invalid_user_status_transition: The current user account status does not allow
+        this operation.
+      missing_content_type: not specified
+      missing_request_body: There was no request body.
+      missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
+        or malformed.
+      multipart_body_error: The request body did not contain the expected multipart
+        parts.
+      multiple_errors: Multiple field constraints have been violated.
+      render:
+        context_not_parsable: The context provided is not a link to a resource.
+        unsupported_context: The resource given is not supported as context.
+        context_object_not_found: Cannot find the resource given as the context.
+      validation:
+        done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
+          by status or when it is disabled.
+        due_date: Due date cannot be set on parent work packages.
+        estimated_hours: Estimated hours cannot be set on parent work packages.
+        invalid_user_assigned_to_work_package: The chosen user is not allowed to be
+          '%{property}' for this work package.
+        start_date: Start date cannot be set on parent work packages.
+      writing_read_only_attributes: You must not write a read-only attribute.
+    resources:
+      schema: Séma

@@ -1,0 +1,635 @@
+---
+es:
+  js:
+    ajax:
+      hide: Ocultar
+      loading: Cargando ...
+    close_popup_title: Cerrar ventana emergente
+    close_filter_title: Cerrar filtro
+    close_form_title: Cerrar formulario
+    clipboard:
+      browser_error: Su navegador no soporta copiar al portapapeles. Por favor, copie
+        el texto seleccionado manualmente.
+      copied_successful: "¡Copiado correctamente en el portapapeles!"
+    button_add_watcher: Añadir observador
+    button_back_to_list_view: Volver a la lista
+    button_cancel: Cancelar
+    button_close: Close
+    button_check_all: Marcar todo
+    button_configure-form: Configurar formulario
+    button_confirm: Confirmar
+    button_continue: Continuar
+    button_copy: Copiar
+    button_custom-fields: Campos Personalizados
+    button_delete: Borrar
+    button_delete_watcher: Eliminar los observadores
+    button_details_view: Vista detallada
+    button_duplicate: Duplicar
+    button_edit: Editar
+    button_filter: Filtro
+    button_list_view: Vista de lista
+    button_show_view: Vista de pantalla completa
+    button_log_time: Tiempo de registro
+    button_more: Más
+    button_move: Mover
+    button_open_details: Vista de detalles abiertos
+    button_close_details: Cerrar vista detallada
+    button_open_fullscreen: Ver pantalla completa
+    button_quote: Comentario
+    button_save: Guardar
+    button_settings: Configuración
+    button_uncheck_all: De-seleccionar todos
+    button_update: Actualizar
+    button_export-pdf: Descargar PDF
+    button_export-atom: Descargar Atom
+    description_available_columns: Columnas disponibles
+    description_current_position: 'Usted está aquí:'
+    description_select_work_package: 'Seleccione el paquete de trabajo #%{id}'
+    description_selected_columns: Columnas seleccionadas
+    description_subwork_package: 'Hijo del paquete de trabajo #%{id}'
+    error:
+      internal: Ha ocurrido un error interno.
+    filter:
+      description:
+        text_open_filter: Abrir este filtro con 'ALT' y las flechas de dirección.
+        text_close_filter: Para seleccionar una entrada, deje el foco por ejemplo
+          pulsando Intro. Para abandonar sin filtro, seleccione la primera entrada
+          (vacía).
+      noneElement: "(ninguno)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} de su hora local."
+        only_start: Desde las %{from} de su hora local.
+        only_end: Hasta las %{to} de su hora local.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: Primer criterio de ordenación
+          two: Segundo criterio de ordenación
+          three: Tercer criterio de ordenación
+    general_text_no: 'no'
+    general_text_yes: sí
+    general_text_No: 'No'
+    general_text_Yes: Sí
+    label_activate: Activar
+    label_activity_no: Entrada de actividad número %{activityNo}
+    label_activity_with_comment_no: Entrada de actividad número %{activityNo} tiene
+      un comentario.
+    label_add_columns: Añadir columnas
+    label_add_comment: Agregar comentario
+    label_add_comment_title: Haga clic para agregar un comentario
+    label_add_selected_columns: Agregar columnas seleccionadas
+    label_added_by: agregado por
+    label_added_time_by: Agregado por %{author} %{age}
+    label_ago: días antes
+    label_all: todos
+    label_all_work_packages: todos los paquetes de trabajo
+    label_and: y
+    label_ascending: Ascendente
+    label_author: 'Autor: %{user}'
+    label_between: entre
+    label_board_locked: Bloqueado
+    label_board_sticky: Adhesivo
+    label_create_work_package: Crear un nuevo paquete de trabajo
+    label_created_by: Creado por
+    label_date: Fecha
+    label_date_with_format: 'Introduzca el %{date_attribute} usando el siguiente formato:
+      %{format}'
+    label_deactivate: Desactivar
+    label_descending: Descendente
+    label_description: Descripción
+    label_cancel_comment: Cancelar comentario
+    label_closed_work_packages: cerrado
+    label_collapse: Colapsar
+    label_collapsed: colapsado
+    label_collapse_all: Colapsar todo
+    label_comment: Comentario
+    label_committed_at: "%{committed_revision_link} en %{date}"
+    label_committed_link: revisión confirmada %{revision_identifier}
+    label_contains: contiene
+    label_created_on: creado en
+    label_edit_comment: Editar este comentario
+    label_edit_status: Edit the status of the work package
+    label_equals: es
+    label_expand: Expandir
+    label_expanded: expandido
+    label_expand_all: Expandir todos
+    label_export: Exportar
+    label_filename: Archivo
+    label_filesize: Tamaño
+    label_greater_or_equal: ">="
+    label_group_by: Agrupar por
+    label_hide_attributes: Mostrar menos
+    label_hide_column: Esconder Columna
+    label_in: en
+    label_in_less_than: en menos de
+    label_in_more_than: en más de
+    label_latest_activity: Actividad Reciente
+    label_last_updated_on: Ultima actualizacion realizada el
+    label_less_or_equal: "<="
+    label_less_than_ago: menos que hace días
+    label_loading: Cargando...
+    label_me: mi
+    label_menu_collapse: colapsar
+    label_menu_expand: expandir
+    label_more_than_ago: más días atrás
+    label_next: Siguiente
+    label_no_data: No hay datos disponibles
+    label_no_due_date: sin fecha de finalizacion
+    label_no_start_date: sin fecha de inicio
+    label_none: ninguno
+    label_not_contains: no contiene
+    label_not_equals: no es
+    label_on: en
+    label_open_menu: Abrir menú
+    label_open_work_packages: abrir
+    label_password: Contraseña
+    label_previous: Anterior
+    label_per_page: 'Por pagina:'
+    label_please_wait: Por favor, espere
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Citar este comentario
+    label_reset: Reiniciar
+    label_remove_columns: Eliminar columnas seleccionadas
+    label_save_as: Guardad como
+    label_select_watcher: Selecciona un observador...
+    label_selected_filter_list: Filtros seleccionados
+    label_show_attributes: Mostrar todos los atributos
+    label_show_in_menu: Mostrar página en el menú
+    label_sort_by: Ordenar por
+    label_sorted_by: ordenados por
+    label_sort_higher: Mueva hacia arriba
+    label_sort_lower: Mover hacia abajo
+    label_sorting: Ordenando
+    label_sum_for: Suma para
+    label_subject: Asunto
+    label_this_week: esta semana
+    label_today: hoy
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: 'Progreso total: %{percent}%'
+    label_visible_for_others: Página visible para los demás
+    label_updated_on: actualizado el
+    label_warning: Alerta
+    label_work_package: Paquete de trabajo
+    label_work_package_plural: Paquetes de trabajo
+    label_watch: Controlar
+    label_watch_work_package: Ver paquetes de trabajo
+    label_watcher_added_successfully: Observador agregado existosamente!
+    label_watcher_deleted_successfully: Observador borrado con exito!
+    label_work_package_details_you_are_here: Te encuentras en la pestaña %{tab} para
+      %{type}%{subject}.
+    label_unwatch: No controlar más
+    label_unwatch_work_package: Ocultar paquetes de trabajo
+    label_uploaded_by: Subido por
+    label_global_queries: Consultas compartidas
+    label_custom_queries: Consultas privadas
+    label_columns: Columnas
+    label_attachments: Archivos
+    label_drop_files: Suelta los archivos aquí
+    label_drop_files_hint: o haga clic en Agregar archivos
+    label_add_attachments: Añadir adjuntos
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Eliminar %{fileName}
+    label_remove_watcher: Eliminar observador %{name}
+    label_remove_all_files: Borrar todos los archivos
+    label_add_description: Añadir una descripción para %{file}
+    label_upload_notification: 'Subiendo archivos para el paquete de trabajo #%{id}:
+      %{subject}'
+    label_files_to_upload: 'Estos archivos se cargarán:'
+    label_rejected_files: 'Estos archivos no pueden ser cargados:'
+    label_rejected_files_reason: Estos archivos no pueden cargarse debido a que su
+      tamaño es mayor a %{maximumFilesize}
+    label_wait: Por favor espere para la configuración...
+    label_upload_counter: "%{done} de %{count} archivos terminados"
+    label_validation_error: 'El paquete de trabajo no puede ser guardado debido a
+      los errores siguientes:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: Necesitas introducir la contraseña de tu cuenta para confirmar
+        este cambio.
+      title: Confirma tu contraseña para continuar
+    pagination:
+      no_other_page: Usted está en la única página.
+      pages:
+        next: Avanzar a la siguiente página
+        previous: Volver a la página anterior
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: Por favor, elija
+      relation_description: Haga clic para añadir la descripción a esta relación
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: "¿Estás seguro?"
+    types:
+      attribute_groups:
+        error_duplicate_group_name: El nombre %{group} se ha usado más de una vez.
+          Los nombres de grupos deben ser únicos.
+        reset_title: Restablecer la configuración del formulario
+        confirm_reset: 'Advertencia: ¿Está seguro/a de que desea restablecer la configuración
+          del formulario? Con ello se restablecerán los atributos a su grupo predeterminado,
+          se eliminarán los ajustes de visibilidad y se deshabilitarán TODOS los campos
+          personalizados.
+
+'
+        upgrade_to_ee: Actualizar hasta versión corporativa
+        upgrade_to_ee_text: "¡Vaya! Si necesita está opción, entonces ¡es un usuario
+          experto! ¿Le importaría apoyar a los desarrolladores de OpenSource convirtiéndose
+          en un cliente de la versión corporativa?"
+        more_information: Más información
+        nevermind: No importa
+    watchers:
+      label_loading: cargando observadores...
+      label_error_loading: Se ha producido un error al cargar los observadores
+      label_search_watchers: Buscar observadores
+      label_add: Agregar observadores
+      label_discard: Descartar selección
+      typeahead_placeholder: Buscar posibles observadores
+    relation_labels:
+      parent: Padre
+      children: Subordinado
+      relates: Relacionado a
+      duplicates: Duplicados
+      duplicated: Duplicado por
+      blocks: Bloques
+      blocked: Bloqueado por
+      precedes: Precede
+      follows: Sigue
+      includes: Incluye
+      partof: Parte de
+      requires: Requiere
+      required: Requerido por
+      relation_type: tipo de relación
+    relations_hierarchy:
+      hierarchy_headline: jerarquía
+    relation_buttons:
+      change_parent: Cambiar padre
+      remove_parent: Eliminar padre
+      group_by_wp_type: Agrupar por tipo de paquete de trabajo
+      group_by_relation_type: Grupo por tipo de relación
+      add_parent: Añadir padre existente
+      add_new_child: Crear nuevo hijo
+      add_existing_child: Añadir hijo existente
+      remove_child: Eliminar hijo
+      add_new_relation: Crear nueva relación
+      update_description: Establecer o actualizar la descripción de esta relación
+      toggle_description: Activar descripción de la relación
+      update_relation: Haga clic para cambiar el tipo de relación
+      add_follower: Añadir seguidor
+      add_predecessor: Añadir predecesor
+      remove: Eliminar la relación
+      save: Guardar relación
+      abort: Abandonar
+    relations_autocomplete:
+      placeholder: Indique el ID del paquete de trabajo relacionado
+    repositories:
+      select_tag: Seleccionar etiqueta
+      select_branch: Seleccione Sucursal
+    field_value_enter_prompt: Introduzca un valor para '%{field}'
+    select2:
+      input_too_short:
+        one: Por favor introduzca un carácter más
+        other: Por favor, introduzca {{count}} caracteres más
+        zero: Please enter more characters
+      load_more: Cargando mas resultados ...
+      no_matches: No se encontraron coincidencias
+      searching: Buscando ...
+      selection_too_big:
+        one: Solo puede seleccionar un objeto
+        other: Solo puede seleccionar {{limit}} objetos
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Orden ascendiente aplicado '
+      sorted_dsc: 'Orden descendiente aplicado '
+      sorted_no: 'Ningún tipo de orden aplicado '
+      sorting_disabled: ordenación deshabilitada
+      activate_asc: activar para aplicar orden ascendiente
+      activate_dsc: activar para aplicar orden descendiente
+      activate_no: activar para deshabilitar ordenación
+    text_work_packages_destroy_confirmation: "¿Esta usted seguro que desea eliminar
+      paquete(s) de trabajo seleccionado(s)?"
+    text_query_destroy_confirmation: "¿Esta seguro que deseas eliminar la sentencia
+      seleccionada?"
+    text_attachment_destroy_confirmation: "¿Está seguro que desea eliminar el archivo
+      adjunto?"
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activar modo de línea de tiempo
+      button_deactivate: Desactivar modo de línea de tiempo
+      cancel: Cancelar
+      change: Cambio en la planificación
+      due_date: Fecha de vencimiento
+      empty: "(vacío)"
+      error: Ha ocurrido un error.
+      errors:
+        not_implemented: La línea de tiempo no puede procesarse porque utiliza una
+          característica que no se ha implementado todavía.
+        report_comparison: La línea de tiempo no puede hacer las comparaciones configuradas.
+          Consulte la sección pertinente en la configuración, re-iniciarla puede ayudar
+          a resolver este problema.
+        report_epicfail: No se pudo cargar la línea de tiempo debido a un error inesperado.
+        report_timeout: No se pudo cargar la línea de tiempo en una cantidad razonable
+          de tiempo.
+      filter:
+        column:
+          assigned_to: Asignado a
+          type: Tipo
+          due_date: Fecha de finalización
+          name: Nombre
+          status: Estado
+          responsible: Responsable
+          start_date: Fecha de inicio
+        grouping_other: Otros
+        noneSelection: "(ninguno)"
+      name: Nombre
+      new_work_package: Nuevo paquete de trabajo
+      outline: Restablecer marco
+      outlines:
+        aggregation: Mostrar sólo las agregaciones
+        level1: Ampliar nivel 1
+        level2: Ampliar nivel 2
+        level3: Ampliar nivel 3
+        level4: Ampliar nivel 4
+        level5: Ampliar el nivel 5
+        all: Mostrar todo
+      project_status: Estado del proyecto
+      project_type: Tipo de proyecto
+      really_close_dialog: "¿Quieres realmente cerrar el cuadro de diálogo y perder
+        los datos introducidos?"
+      responsible: Responsable
+      save: Guardar
+      start_date: Fecha de inicio
+      tooManyProjects: Mas de  %{count} proyectos. Por favor, use un mejor filtro!
+      selection_mode:
+        notification: Haga clic en cualquier paquete de trabajo destacado para crear
+          la relación. Pulse Esc para cancelar.
+      zoom:
+        in: Acercar
+        out: Alejar
+        auto: Auto zoom
+        days: Días
+        weeks: Semanas
+        months: Meses
+        quarters: Cuatrimestres
+        years: Años
+        slider: Deslizador del Zoom
+    tl_toolbar:
+      zooms: nivel de Zoom
+      outlines: Nivel de jerarquía
+    unsupported_browser:
+      title: La versión de su navegador no está soportada
+      message: La versión del navegador que estás utilizando ya no está soportada
+        por OpenProject.
+      update_message: Por favor, actualiza tu navegador.
+      update_ie_user: Por favor, cambia a Mozilla Firefox o Google Chrome, o actualiza
+        a Microsoft Edge.
+      learn_more: Saber más
+      close_warning: Ignore esta advertencia.
+    wiki_formatting:
+      strong: Negrita
+      italic: Cursiva
+      underline: Subrayado
+      deleted: Borrado
+      code: Codigo en línea
+      heading1: Cabecera 1
+      heading2: Cabecera 2
+      heading3: Cabecera 3
+      unordered_list: Lista Desordenada
+      ordered_list: Lista Ordenada
+      quote: Comentario
+      unquote: Quitar la Cita
+      preformatted_text: Texto Preformateado
+      wiki_link: Vincular a una página Wiki
+      image: Imagen
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Eliminar
+      comment_added: El comentario fue agregado con éxito.
+      comment_send_failed: Ha ocurrido un error. No se pudo enviar el comentario.
+      comment_updated: El comentario se actualizó correctamente.
+      confirm_edit_cancel: "¿Está seguro que desea cancelar la edición del paquete
+        de trabajo?"
+      description_filter: Filtro
+      description_enter_text: Ingrese texto
+      description_options_hide: Ocultar opciones
+      description_options_show: Mostrar opciones
+      error:
+        edit_prohibited: La edición de %{attribute} está bloqueada para este paquete
+          de trabajo. Ya sea que este atributo se derive de las relaciones (por ejemplo,
+          niños) o de lo contrario que no sea configurable.
+        format:
+          date: "%{attribute} no es una fecha válida -se espera YYYY-MM-DD."
+        general: Ha ocurrido un error.
+      edit_attribute: "%{attribute} - Editar"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Habilitar selección múltiple
+      label_disable_multi_select: Deshabilitar selección múltiple
+      label_filter_add: Añadir filtro
+      label_options: Opciones
+      label_column_multiselect: 'Campo de lista desplegable combinada: seleccione
+        con las teclas de flecha, confirme la selección con enter, elimine con retroceso'
+      label_switch_to_single_select: Cambiar a selección única
+      label_switch_to_multi_select: Cambiar a multiselección
+      message_error_during_bulk_delete: Ha ocurrido un error intentado eliminar los
+        paquetes de trabajo.
+      message_successful_bulk_delete: Paquetes de trabajo eliminados exitosamente.
+      message_successful_show_in_fullscreen: Haga clic aquí para abrir este paquete
+        de trabajo en la vista de pantalla completa.
+      message_view_spent_time: Mostrar el tiempo invertido en este paquete de trabajo
+      no_value: Sin valor
+      inline_create:
+        title: Haga clic aquí para agregar un nuevo paquete de trabajo a esta lista
+      create:
+        header: Nuevo %{type}
+        header_no_type: Nuevo paquete de trabajo (tipo aún no establecido)
+        header_with_parent: 'Nuevo %{type} (Hijo de %{parent_type} #%{id})'
+        button: Crear
+      hierarchy:
+        show: Mostrar modo de jerarquía
+        hide: Ocultar modo de jerarquía
+        toggle_button: Haga clic para activar el modo de jerarquía.
+        leaf: Hoja de paquete de trabajo de nivel %{level}.
+        children_collapsed: El nivel de jerarquía %{level} está minimizado. Haga clic
+          para ver los elementos secundarios filtrados
+        children_expanded: El nivel de jerarquía %{level} está ampliado. Haga clic
+          para minimizar los elementos secundarios filtrados
+      faulty_query:
+        title: No se han podido cargar paquetes de trabajo.
+        description: Su consulta es errónea y podría no ser procesada.
+      no_results:
+        title: No hay paquetes de trabajo para mostrar.
+        description: O bien no se han creado o se filtran todos los paquetes de trabajo.
+      property_groups:
+        details: Detalles
+        people: Participantes
+        estimatesAndTime: Estimados y tiempos
+        other: Otros
+      properties:
+        assignee: Asignado a
+        author: Autor
+        createdAt: Creado en
+        description: Descripción
+        date: Fecha
+        dueDate: Fecha de vencimiento
+        estimatedTime: Tiempo estimado
+        spentTime: Tiempo empleado
+        category: Categoría
+        percentageDone: Porcentaje realizado
+        priority: Prioridad
+        projectName: Proyecto
+        responsible: Responsable
+        startDate: Fecha de inicio
+        status: Estado
+        subject: Asunto
+        title: Título
+        type: Tipo
+        updatedAt: Actualizada el
+        versionName: Versión
+        version: Versión
+      jump_marks:
+        pagination: Saltar a la paginación de la tabla
+        label_pagination: Haga clic aquí para omitir la tabla de paquetes de trabajo
+          e ir a la paginación
+        content: Ir al contenido
+        label_content: Haga clic aquí para saltar el menú e ir al contenido
+      placeholders:
+        default: "-"
+        description: Pulse para introducir una descripción...
+      query:
+        column_names: Columnas
+        group_by: Resultados de grupo por
+        group: Agrupar por
+        group_by_disabled_by_hierarchy: La agrupación está deshabilitada, puesto que
+          está activo el modo de jerarquía.
+        hierarchy_disabled_by_group_by: El modo de jerarquía está deshabilitado, puesto
+          que los resultados se agrupan por %{column}.
+        hierarchy_mode: Modo de jerarquía
+        sort_ascending: Ordenar ascendente
+        sort_descending: Ordenar descendente
+        move_column_left: Mover columna a la izquierda
+        move_column_right: Mover columna a la derecha
+        hide_column: Esconder Columna
+        insert_columns: Insertar columnas...
+        filters: Filtros
+        display_sums: Mostrar sumas
+        errors:
+          unretrievable_query: Imposible recuperar la sentencia desde la direccion
+            URL
+          not_found: La consulta no existe
+        text_no_results: No se encontraron coincidencias.
+      table:
+        summary: Tabla con filas de paquetes de trabajo y columnas con sus atributos.
+        text_inline_edit: Mayoría de las celdas de esta tabla son botones que activan
+          la funcionalidad de edición de dicho atributo.
+        text_sort_hint: Con los enlaces en los encabezamientos de las tablas puede
+          ordenar, agrupar, reordenar, quitar y añadir columnas de las tablas.
+        text_select_hint: Los cuadros de selección deben ser abiertos con 'ALT' y
+          las teclas de cursor.
+      tabs:
+        overview: Resumen
+        activity: Actividad
+        relations: Relaciones
+        watchers: Controladores
+        attachments: Archivos adjuntos
+      time_relative:
+        days: días
+        weeks: semanas
+        months: meses
+    toolbar:
+      settings:
+        columns: Columnas ...
+        sort_by: Ordenado por ...
+        group_by: Agrupar por ...
+        display_sums: Mostrar sumas
+        display_hierarchy: Mostrar jerarquía
+        hide_hierarchy: Ocultar jerarquía
+        hide_sums: Ocultar las sumas
+        save: Guardar
+        save_as: Guardar como ...
+        export: Exportar ...
+        publish: Publish ...
+        page_settings: Renombrar consulta...
+        delete: Borrar
+      filter: Filtro
+      unselected_title: Paquete de trabajo
+      search_query_label: Buscar sentencias de búsquedas de filtrado guardadas
+      search_query_title: Haga clic para buscar filtros guardados
+    modals:
+      label_settings: Renombrar consulta
+      label_name: Nombre
+      label_delete_page: Borrar página actual
+      button_apply: Aplicar
+      button_save: Guardar
+      button_submit: Enviar
+      button_cancel: Cancelar
+      form_submit:
+        title: Confirme para continuar
+        text: "¿Estás seguro/a de que desea realizar esta acción?"
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Creación exitosa.
+    notice_successful_delete: Eliminado con éxito.
+    notice_successful_update: Actualización correcta.
+    notice_bad_request: Petición incorrecta.
+    relations:
+      empty: No existen relaciones
+      remove: Eliminar la relación
+    inplace:
+      button_edit: "%{attribute}: editar"
+      button_save: "%{attribute}: guardar"
+      button_cancel: "%{attribute}: cancelar"
+      button_save_all: Guardar
+      button_cancel_all: Cancelar
+      link_formatting_help: Ayuda para el formato del texto
+      btn_preview_enable: Vista preliminar
+      btn_preview_disable: Desactivar la vista previa
+      null_value_label: Sin valor
+      clear_value_label: "-"
+      errors:
+        required: "%{field} no puede estar vacío"
+        number: "%{field} no es un número válido"
+        maxlength: "%{field} no puede contener más de %{maxLength} dígito(s)"
+        minlength: "%{field} no puede contener menos de %{minLength} dígito(s)"
+        messages_on_field: 'Este campo no es válido: %{messages}'
+    error_could_not_resolve_version_name: No se puede resolver el nombre de la versión
+    error_could_not_resolve_user_name: No se pudo identificar el nombre de usuario
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 hora
+        other: "%{count} horas"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activar modo «zen»
+      button_deactivate: Desactivar modo «zen»

@@ -1,0 +1,621 @@
+---
+fi:
+  js:
+    ajax:
+      hide: Piilota
+      loading: Ladataan...
+    close_popup_title: Sulje ponnahdus-ikkuna
+    close_filter_title: Sulje suodatin
+    close_form_title: Sulje lomake
+    clipboard:
+      browser_error: Selaimesi ei tue kopiointia leikepöydälle. Kopioi valittu teksti
+        manuaalisesti.
+      copied_successful: Onnistuneesti kopioitu leikepöydälle!
+    button_add_watcher: Lisää seuraaja
+    button_back_to_list_view: Back to list view
+    button_cancel: Peruuta
+    button_close: Close
+    button_check_all: Valitse kaikki
+    button_configure-form: Configure form
+    button_confirm: Vahvista
+    button_continue: Jatka
+    button_copy: Kopioi
+    button_custom-fields: Mukautetut kentät
+    button_delete: Poista
+    button_delete_watcher: Poista seuraaja
+    button_details_view: Tiedot-näkymä
+    button_duplicate: Kahdenna
+    button_edit: Muokkaa
+    button_filter: Suodata
+    button_list_view: Luettelonäkymä
+    button_show_view: Koko näytön tila
+    button_log_time: Kirjaa lokiin aika
+    button_more: Lisää
+    button_move: Siirrä
+    button_open_details: Avaa tiedot
+    button_close_details: Sulje tarkemmat tiedot
+    button_open_fullscreen: Avaa kokonäyttötila
+    button_quote: Siteeraa
+    button_save: Tallenna
+    button_settings: Asetukset
+    button_uncheck_all: Poista valinnat
+    button_update: Päivitä
+    button_export-pdf: Lataa PDF
+    button_export-atom: Lataa Atom
+    description_available_columns: Käytettävissä olevat sarakkeet
+    description_current_position: 'You are here:'
+    description_select_work_package: 'Valitse työpaketti #%{id}'
+    description_selected_columns: Valitut sarakkeet
+    description_subwork_package: 'Alipaketti työpaketille #%{id}'
+    error:
+      internal: Tapahtui sisäinen virhe.
+    filter:
+      description:
+        text_open_filter: Avaa suodatin "Alt"-näppäintä ja nuolinäppäimiä käyttämällä.
+        text_close_filter: To select an entry leave the focus for example by pressing
+          enter. To leave without filter select the first (empty) entry.
+      noneElement: "(none)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: Ensimmäinen lajitteluperuste
+          two: Toinen lajitteluperuste
+          three: Kolmas lajitteluperuste
+    general_text_no: ei
+    general_text_yes: kyllä
+    general_text_No: Ei
+    general_text_Yes: Kyllä
+    label_activate: Aktivoi
+    label_activity_no: Aktiviteettimerkinnän numero %{activityNo}
+    label_activity_with_comment_no: Aktiviteettimerkinnän numero %{activityNo}. Sisältää
+      käyttäjän kommentin.
+    label_add_columns: Lisää sarakkeita
+    label_add_comment: Lisää kommentti
+    label_add_comment_title: Lisää kommentti napsauttamalla
+    label_add_selected_columns: Lisää valitut sarakkeet
+    label_added_by: lisännyt
+    label_added_time_by: Lisännyt %{author} %{age}
+    label_ago: päiviä sitten
+    label_all: kaikki
+    label_all_work_packages: kaikki työpaketit
+    label_and: and
+    label_ascending: Nouseva
+    label_author: 'Tekijä: %{user}'
+    label_between: between
+    label_board_locked: Lukittu
+    label_board_sticky: Pysyvä
+    label_create_work_package: Create new work package
+    label_created_by: Luonut
+    label_date: Päivä
+    label_date_with_format: 'Kirjoita %{date_attribute} seuraavassa muodossa: %{format}'
+    label_deactivate: Poistaa käytöstä
+    label_descending: Laskeva
+    label_description: Kuvaus
+    label_cancel_comment: Peruuta kommentti
+    label_closed_work_packages: suljettu
+    label_collapse: Pienennä
+    label_collapsed: pienennetty
+    label_collapse_all: Tiivistä kaikki
+    label_comment: Kommentti
+    label_committed_at: "%{committed_revision_link} %{date}"
+    label_committed_link: committed revision %{revision_identifier}
+    label_contains: sisältää
+    label_created_on: luontipäivä
+    label_edit_comment: Muokkaa tätä kommenttia
+    label_edit_status: Edit the status of the work package
+    label_equals: sama kuin
+    label_expand: Laajenna
+    label_expanded: laajennettu
+    label_expand_all: Laajenna kaikki
+    label_export: Vie
+    label_filename: Tiedosto
+    label_filesize: Koko
+    label_greater_or_equal: ">="
+    label_group_by: Ryhmittely
+    label_hide_attributes: Näytä vähemmän
+    label_hide_column: Piilota sarake
+    label_in: tässä
+    label_in_less_than: pienempi kuin
+    label_in_more_than: suurempi kuin
+    label_latest_activity: Viimeisimmät tapahtumat
+    label_last_updated_on: Viimeisin päivitys
+    label_less_or_equal: "<="
+    label_less_than_ago: vähemmän kuin päivää sitten
+    label_loading: Lataa...
+    label_me: minä
+    label_menu_collapse: pienennä
+    label_menu_expand: laajenna
+    label_more_than_ago: enemän kuin päivää sitten
+    label_next: Seuraava
+    label_no_data: Ei tietoa näytettäväksi
+    label_no_due_date: ei päättymispäivää
+    label_no_start_date: ei aloituspäivää
+    label_none: ei mitään
+    label_not_contains: ei sisällä
+    label_not_equals: eri kuin
+    label_on: päälle
+    label_open_menu: Avaa valikko
+    label_open_work_packages: avoinna
+    label_password: Salasana
+    label_previous: Edellinen
+    label_per_page: 'Sivulla:'
+    label_please_wait: Odota hetki
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Lainaa tämä kommentti
+    label_reset: Nollaus
+    label_remove_columns: Poista valitut sarakkeet
+    label_save_as: Tallenna nimellä
+    label_select_watcher: Valitse seuraaja...
+    label_selected_filter_list: Valitut suodattimet
+    label_show_attributes: Näytä kaikki määritteet
+    label_show_in_menu: Näytä sivu valikossa
+    label_sort_by: Sort by
+    label_sorted_by: lajiteltu
+    label_sort_higher: Siirrä ylös
+    label_sort_lower: Siirrä alas
+    label_sorting: Lajittelu
+    label_sum_for: Summa
+    label_subject: Aihe
+    label_this_week: tällä viikolla
+    label_today: tänään
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent} % eteneminen"
+    label_visible_for_others: Sivu on nähtävissä muille
+    label_updated_on: päivitetty vimeksi
+    label_warning: Warning
+    label_work_package: Työpaketti
+    label_work_package_plural: Työpaketit
+    label_watch: Seuraa
+    label_watch_work_package: Seuraa työpakettia
+    label_watcher_added_successfully: Seuraaja lisätty!
+    label_watcher_deleted_successfully: Seuraaja poistettu!
+    label_work_package_details_you_are_here: Olet %{type} %{subject} %{tab}-välilehdessä.
+    label_unwatch: Älä seuraa
+    label_unwatch_work_package: Lopeta työpaketin seuraaminen
+    label_uploaded_by: Lataaja
+    label_global_queries: Jaetut kyselyt
+    label_custom_queries: Oma kyselyt
+    label_columns: Sarakkeet
+    label_attachments: Tiedostot
+    label_drop_files: Pudota tiedostoja tähän
+    label_drop_files_hint: tai valitse lisätäksesi tiedostoja
+    label_add_attachments: Lisää liitteitä
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Poista %{fileName}
+    label_remove_watcher: Poista seuraaja %{name}
+    label_remove_all_files: Poista kaikki tiedostot
+    label_add_description: Lisää kuvaus tiedostolle %{file}
+    label_upload_notification: 'Lisää tiedostoja työpaketille #%{id}: %{subject}'
+    label_files_to_upload: 'Nämä tiedostot lähetetään:'
+    label_rejected_files: 'Näitä tiedostoja ei voida lähettää:'
+    label_rejected_files_reason: Näitä tiedostoja ei voi lähettää, koska niiden koko
+      on suurempi kuin %{maximumFilesize}
+    label_wait: Odota kokoonpanoa...
+    label_upload_counter: "%{done} tiedostoa %{count} tiedostosta valmiina"
+    label_validation_error: 'Työpakettia ei voitu tallentaa seuraavien virheiden vuoksi:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: Sinun täytyy syöttää tilisi salasana vahvistaaksesi tämän
+        muutoksen.
+      title: Vahvista salasanasi jatkaaksesi
+    pagination:
+      no_other_page: Olet jo ainoalla sivulla.
+      pages:
+        next: Eteenpäin seuraavalle sivulle
+        previous: Palaa edelliselle sivulle
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: Valitse
+      relation_description: Painamalla tästä voit lisätä kuvauksen tälle suhteelle
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: Oletko varma?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Päivitä yritysversioon
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: Lisätietoja
+        nevermind: Nevermind
+    watchers:
+      label_loading: ladataan seuraajia...
+      label_error_loading: Virhe ladattaessa seuraajia
+      label_search_watchers: Etsi seuraajia
+      label_add: Lisää seuraajia
+      label_discard: Poista valinta
+      typeahead_placeholder: Etsi mahdollisia seuraajia
+    relation_labels:
+      parent: Ylätaso
+      children: Lapset
+      relates: Liittyy
+      duplicates: Kaksoiskappaleet
+      duplicated: Päällekkäistä
+      blocks: Estää
+      blocked: Estetty
+      precedes: Edeltää
+      follows: Seuraa
+      includes: Sisältää
+      partof: Osa
+      requires: Edellyttää
+      required: Edellyttämä
+      relation_type: suhdetyyppi
+    relations_hierarchy:
+      hierarchy_headline: hierarkia
+    relation_buttons:
+      change_parent: Vaihda pääkohdetta
+      remove_parent: Poista ylätaso
+      group_by_wp_type: Ryhmittele työpaketin tyypin mukaan
+      group_by_relation_type: Ryhmittele suhteen tyypin mukaan
+      add_parent: Lisää olemassaoleva ylätaso
+      add_new_child: Luo uusi alataso
+      add_existing_child: Lisää olemassaoleva alataso
+      remove_child: Poista alataso
+      add_new_relation: Luo uusi suhde
+      update_description: Määritä tai päivitä tämän suhteen kuvaus
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Remove relation
+      save: Tallenna suhde
+      abort: Keskeytä
+    relations_autocomplete:
+      placeholder: Kirjoita liittyvä työpaketin tunnus
+    repositories:
+      select_tag: Valitse tunniste
+      select_branch: Valitse haara
+    field_value_enter_prompt: Syötä arvo kenttään "%{field}"
+    select2:
+      input_too_short:
+        one: Kirjoita vielä yksi merkki
+        other: Kirjoita {{count}} lisää merkkiä
+        zero: Please enter more characters
+      load_more: Ladataan lisää tuloksia...
+      no_matches: Vastaavuuksia ei löydy
+      searching: Etsitään...
+      selection_too_big:
+        one: Voit valita vain yhden kohteen
+        other: Voit valita vain {{limit}} kohdetta
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: lajittelu on poistettu käytöstä
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
+      work package(s)?
+    text_query_destroy_confirmation: Oletko varma, että haluat poistaa valitun kyselyn?
+    text_attachment_destroy_confirmation: Oletko varma, että haluat poistaa liitteen?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Ota aikajana tila käyttöön
+      button_deactivate: Poista aikajana tila käytöstä
+      cancel: Peruuta
+      change: Muuta suunnittelussa
+      due_date: Määräpäivä
+      empty: "(tyhjä)"
+      error: On tapahtunut virhe.
+      errors:
+        not_implemented: Aikajanaa ei voitu muodostaa koska se käyttää toimintoa jota
+          ei ole vielä otettu käyttöön.
+        report_comparison: The timeline could not render the configured comparisons.
+          Please check the appropriate section in the configuration, resetting it
+          can help solve this problem.
+        report_epicfail: The timeline could not be loaded due to an unexpected error.
+        report_timeout: The timeline could not be loaded in a reasonable amount of
+          time.
+      filter:
+        column:
+          assigned_to: Vastuuhenkilö
+          type: Tyyppi
+          due_date: End date
+          name: Nimi
+          status: Tila
+          responsible: Vastuullinen
+          start_date: Aloituspäivä
+        grouping_other: Muut
+        noneSelection: "(none)"
+      name: Nimi
+      new_work_package: Uusi työpaketti
+      outline: Reset Outline
+      outlines:
+        aggregation: Show aggregations only
+        level1: Laajenna taso 1
+        level2: Laajenna taso 2
+        level3: Laajenna taso 3
+        level4: Laajenna taso 4
+        level5: Laajenna taso 5
+        all: Näytä kaikki
+      project_status: Projektin tila
+      project_type: Projektityyppi
+      really_close_dialog: Haluatko varmasti sulkea ikkunan ja menettää syötetyt tiedot?
+      responsible: Vastuullinen
+      save: Tallenna
+      start_date: Aloituspäivä
+      tooManyProjects: Projekteja löytyi useampia kuin %{count}. Käytäthän parempaa
+        suodatinta rajaukseen!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Lähennä
+        out: Loitonna
+        auto: Auto zoom
+        days: Days
+        weeks: Weeks
+        months: Months
+        quarters: Quarters
+        years: Years
+        slider: Lähennyksen säätö
+    tl_toolbar:
+      zooms: Lähennyksen taso
+      outlines: Hierarkian taso
+    unsupported_browser:
+      title: Selaimesi versiota ei tueta
+      message: Selaimesi versiota ei enää tueta.
+      update_message: Päivitäthän selaimesi.
+      update_ie_user: Siirry selaimeen Mozilla Firefox tai Google Chrome, tai päivitä
+        Microsoft Edge.
+      learn_more: Learn more
+      close_warning: Ohita tämä varoitus.
+    wiki_formatting:
+      strong: Lihavoitu
+      italic: Kursivoitu
+      underline: Alleviivattu
+      deleted: Poistettu
+      code: Koodi
+      heading1: Otsikko 1
+      heading2: Otsikko 2
+      heading3: Otsikko 3
+      unordered_list: Luettelomerkit
+      ordered_list: Numerointi
+      quote: Siteeraa
+      unquote: Poista lainaus
+      preformatted_text: Muotoiltu teksti
+      wiki_link: Linkitys Wiki-sivulle
+      image: Kuva
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Tyhjää
+      comment_added: Kommentin lisääminen onnistui.
+      comment_send_failed: On tapahtunut virhe. Kommenttia ei voitu lähettää.
+      comment_updated: Kommentti päivitettiin onnistuneesti.
+      confirm_edit_cancel: Oletko varma, että haluat peruuttaa työpaketin muokkaamisen?
+      description_filter: Suodata
+      description_enter_text: Enter text
+      description_options_hide: Piilota valinnat
+      description_options_show: Näytä asetukset
+      error:
+        edit_prohibited: "%{attribute} muokkaaminen on estetty tällä työpaketilla.
+          Joko tämä arvo on peräisin suhteet (esim, alipaketti) tai se ei ole muuten
+          muokattavissa."
+        format:
+          date: "%{attribute} ei ole kelvollinen päivämäärä - käytä muotoa VVVV-KK-PP."
+        general: On tapahtunut virhe.
+      edit_attribute: "%{attribute} - Muokkaa"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Ota monivalinta käyttöön
+      label_disable_multi_select: Poista monivalinta käytöstä
+      label_filter_add: Lisää suodatin
+      label_options: Valinnat
+      label_column_multiselect: 'Yhdistetty avattava kenttä: Valitse nuolinäppäimillä,
+        vahvista Enter, backspace poistaa'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: Työpaketin poistossa tapahtui virhe.
+      message_successful_bulk_delete: Poistetut työpaketit.
+      message_successful_show_in_fullscreen: Klikkaa tästä avataksesi työpaketin kokonäyttötilaan.
+      message_view_spent_time: Näytä tähän työpakettiin käytetty aika
+      no_value: Ei arvoa
+      inline_create:
+        title: Napsauttamalla tätä voit lisätä luetteloon uuden työpaketin
+      create:
+        header: Uusi %{type}
+        header_no_type: Uusi työpaketti (tarkempi tyyppi määrittämättä)
+        header_with_parent: 'Uusi %{type} (Ylätaso %{parent_type} #%{id})'
+        button: Luo
+      hierarchy:
+        show: Näytä hierarkia tila
+        hide: Piilota hierarkia tila
+        toggle_button: Paina vaihtaaksesi hierarkia tilaan.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Työpakettia ei voitu ladata.
+        description: Kysely on virheellinen, joten sitä ei voida käsitellä.
+      no_results:
+        title: Ei työpaketteja näytettäväksi.
+        description: Yhtään ei ole luotu tai sitten kaikki on suodatettu pois.
+      property_groups:
+        details: Yksityiskohdat
+        people: Henkilöt
+        estimatesAndTime: Arviot & Aika
+        other: Muut
+      properties:
+        assignee: Vastuuhenkilö
+        author: Tekijä
+        createdAt: Luontipäivä
+        description: Kuvaus
+        date: Päivä
+        dueDate: Määräpäivä
+        estimatedTime: Arvioitu aika
+        spentTime: Käytetty aika
+        category: Kategoria
+        percentageDone: Osuus tehnyt
+        priority: Tärkeys
+        projectName: Projekti
+        responsible: Vastuullinen
+        startDate: Aloituspäivä
+        status: Tila
+        subject: Aihe
+        title: Otsikko
+        type: Tyyppi
+        updatedAt: Päivitetty vimeksi
+        versionName: Versio
+        version: Versio
+      jump_marks:
+        pagination: Jump to table pagination
+        label_pagination: Click here to skip over the work packages table and go to
+          pagination
+        content: Siirry sisältöön
+        label_content: Paina tästä siirtyäksesi suoraan sisältöön
+      placeholders:
+        default: "-"
+        description: Paina kirjoittaaksesi kuvauksen...
+      query:
+        column_names: Sarakkeet
+        group_by: Ryhmittele tulokset
+        group: Ryhmittely
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Lajittele nousevasti
+        sort_descending: Lajittele laskevasti
+        move_column_left: Siirrä saraketta vasemmalle
+        move_column_right: Siirrä saraketta oikealle
+        hide_column: Piilota sarake
+        insert_columns: Lisää sarakkeita...
+        filters: Suodattimet
+        display_sums: Näytä summat
+        errors:
+          unretrievable_query: Ei voi noutaa kyselyn URL-osoitetta
+          not_found: Kyselyä ei ole olemassa
+        text_no_results: No matching queries were found.
+      table:
+        summary: Taulukko, jossa työpaketit ovat riveinä ja niiden ominaisuudet sarakkeina.
+        text_inline_edit: Useimmat tämän taulukon soluista ovat nappeja jotka aktivoivat
+          suoran syöttömahdollisuuden kentän arvoon.
+        text_sort_hint: Taulukon otsikon linkkien avulla voit lajitella, ryhmitellä,
+          järjestellä, poistaa ja lisätä taulukon sarakkeita.
+        text_select_hint: Valintalaatikot tulisi avata "Alt" tai nuolinäppäimillä.
+      tabs:
+        overview: Yleiskatsaus
+        activity: Aktiviteetti
+        relations: Suhteet
+        watchers: Seuraajat
+        attachments: Liitteet
+      time_relative:
+        days: päivää
+        weeks: weeks
+        months: months
+    toolbar:
+      settings:
+        columns: Sarakkeet...
+        sort_by: Järjestä...
+        group_by: Ryhmittele...
+        display_sums: Näytä summat
+        display_hierarchy: Näytä hierarkia
+        hide_hierarchy: Piilota hierarkia
+        hide_sums: Piilottaa summat
+        save: Tallenna
+        save_as: Tallenna nimellä...
+        export: Vie...
+        publish: Publish ...
+        page_settings: Nimeä kysely uudelleen...
+        delete: Poista
+      filter: Suodata
+      unselected_title: Työpaketti
+      search_query_label: Search saved filter queries
+      search_query_title: Click to search saved filter queries
+    modals:
+      label_settings: Nimeä kysely uudelleen
+      label_name: Nimi
+      label_delete_page: Poista nykyinen sivu
+      button_apply: Ota käyttöön
+      button_save: Tallenna
+      button_submit: Lähetä
+      button_cancel: Peruuta
+      form_submit:
+        title: Vahvista jatkaaksesi
+        text: Oletko varma, että haluat suorittaa tämän toiminnon?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Luonti onnistui.
+    notice_successful_delete: Poisto onnistui.
+    notice_successful_update: Päivitys onnistui.
+    notice_bad_request: Bad Request.
+    relations:
+      empty: Ei suhteita muihin
+      remove: Remove relation
+    inplace:
+      button_edit: "%{attribute}: Muokkaa"
+      button_save: "%{attribute}: Tallenna"
+      button_cancel: "%{attribute}: Tallenna"
+      button_save_all: Tallenna
+      button_cancel_all: Peruuta
+      link_formatting_help: Text formatting help
+      btn_preview_enable: Esikatselu
+      btn_preview_disable: Esikatselu pois päältä
+      null_value_label: Ei arvoa
+      clear_value_label: "-"
+      errors:
+        required: "%{field} ei voi olla tyhjä"
+        number: "%{field} ei ole kelvollinen luku"
+        maxlength: "%{field} saa sisältää enintään %{maxLength} merkkiä"
+        minlength: "%{field} täytyy koostua vähintään %{minLength} merkistä"
+        messages_on_field: 'Tämä kenttä on virheellinen: %{messages}'
+    error_could_not_resolve_version_name: Version nimeä ei voitu ratkaista
+    error_could_not_resolve_user_name: Käyttäjän nimeä ei voitu ratkaista
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 tunti
+        other: "%{count} tuntia"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

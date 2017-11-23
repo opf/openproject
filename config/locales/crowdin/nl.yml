@@ -1,0 +1,2640 @@
+---
+nl:
+  no_results_title_text: Er is op dit moment niets om weer te geven.
+  activities:
+    index:
+      no_results_title_text: Er heeft nog geen activiteit plaatsgevonden voor het
+        project.
+  admin:
+    plugins:
+      no_results_title_text: Er zijn momenteel geen plugins beschikbaar.
+    custom_styles:
+      custom_colors: Aangepaste kleuren
+      customize: 'Aanpassen van uw OpenProject installatie met uw eigen logo. Opmerking:
+        Dit logo zal toegankelijk worden voor het publiek.'
+      enterprise_notice: Als een speciale 'Bedankt!' voor hun financiële bijdrage
+        aan het ontwikkelen van OpenProject, is deze kleine functie alleen beschikbaar
+        voor Enterprise Edition ondersteuning abonnees.
+      manage_colors: Bewerk de kleur selectie opties
+      instructions:
+        alternative_color: Sterk accentkleur, meestal gebruikt voor de meeste de belangrijke
+          knop op een scherm.
+        content_link_color: De kleur van het lettertype van de meeste van de links.
+        primary_color: Hoofdkleur.
+        primary_color_dark: Meestal een donkere versie van de belangrijkste kleur
+          die gebruikt wordt voor hover-effecten.
+        header_bg_color: De achtergrondkleur van de koptekst.
+        header_item_bg_hover_color: De achtergrondkleur van klikbare header items
+          wanneer deze aangewezen door de muis.
+        header_item_font_color: De lettertypekleur van klikbare header items.
+        header_item_font_hover_color: De achtergrondkleur van klikbare header items
+          wanneer deze aangewezen worden door de muis.
+        header_border_bottom_color: Dunne lijn onder de kop. Laat dit veld leeg als
+          u geen lijn wilt.
+        main_menu_bg_color: De kleur van de achtergrond van de linkerzijde menu's.
+    enterprise:
+      upgrade_to_ee: Upgrade naar Enterprise Edition
+      add_token: Uploadeneen Enterprise Edition ondersteuningstoken
+      replace_token: Uw huidige ondersteuningstoken vervangen
+      order: Bestel de Enterprise Edition
+      paste: Plak uw Enterprise Edition ondersteuningstoken
+      required_for_feature: Deze functie is alleen beschikbaar met een actieve Enterprise
+        Edition ondersteuningstoken.
+      enterprise_link: Klik hier voor meer informatie.
+  announcements:
+    show_until: Toon tot
+    is_active: momenteel getoond
+    is_inactive: momenteel niet getoond
+  attribute_help_texts:
+    text_overview: In deze weergave kunt u aangepaste helpteksten voor kenmerken weergave.
+      Wanneer gedefinieerd, worden deze teksten door te klikken op het help-pictogram
+      naast het behoren kenmerk weergegeven.
+    label_plural: Kenmerk help-teksten
+    show_preview: Voorbeeld Tekst
+    add_new: Alt-tekst invullen
+    edit: Bewerken van help-tekst voor %{attribute_caption}
+  auth_sources:
+    index:
+      no_results_content_title: Er zijn momenteel geen verificatie methodes.
+      no_results_content_text: Maak een nieuwe authenticatie methode
+  boards:
+    show:
+      no_results_title_text: Er zijn momenteel geen berichten voor het bord.
+  custom_fields:
+    text_add_new_custom_field: 'Om de nieuwe aangepaste velden toevoegen aan een project
+      moet u deze eerst maken voordat u ze aan dit project toevoegen kunt.
+
+'
+    is_enabled_globally: Is ingeschakeld Op het hoofdniveau
+    enabled_in_project: Ingeschakeld in project
+    contained_in_type: Opgenomen in type
+    confirm_destroy_option: Het verwijderen van een optie zal alle voorkomingen verwijderen.
+      Weet u zeker dat u deze optie wilt verwijderen?
+    tab:
+      no_results_title_text: Momenteel zijn er geen aangepaste velden.
+      no_results_content_text: Maak een nieuw aangepast veld
+  deprecations:
+    old_timeline:
+      replacement: Deze tijdlijn module is vervangen door de interactieve tijdlijn
+        die verwerkt zit in de werk pakket module.
+      removal: Deze module wordt verwijderd in OpenProject 8.0. De configuratie zal
+        niet worden gemigreerd naar de werk pakketten.
+      further_information_before: Kijkt u alstublieft naar
+      link_name: hoe te migreren naar de nieuwe tijdlijn.
+      further_information_after: ''
+    calendar:
+      removal: 'Let op: deze module is wordt verwijderd in OpenProject 8.0.'
+  groups:
+    index:
+      no_results_title_text: Er zijn momenteel geen groepen.
+      no_results_content_text: Maak een nieuwe groep
+    users:
+      no_results_title_text: Er zijn momenteel geen gebruikers deel van deze groep.
+    memberships:
+      no_results_title_text: Er zijn momenteel projecten deel van deze groep.
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Er zijn momenteel geen kleuren.
+      no_results_content_text: Maak een nieuwe kleur
+  projects:
+    index:
+      no_results_title_text: Er zijn momenteel geen projecten
+      no_results_content_text: Maak een nieuw project
+    settings:
+      activities:
+        no_results_title_text: Er zijn momenteel geen activiteiten beschikbaar.
+      boards:
+        no_results_title_text: Er zijn momenteel geen borden voor het project.
+        no_results_content_text: Maak een nieuw bord
+      categories:
+        no_results_title_text: Er zijn momenteel geen werkpakket rubrieken.
+        no_results_content_text: Maak een nieuwe werkpakket categorie
+      custom_fields:
+        no_results_title_text: Momenteel zijn er geen aangepaste velden beschikbaar.
+      types:
+        no_results_title_text: Er zijn momenteel geen types beschikbaar.
+      versions:
+        no_results_title_text: Momenteel zijn er geen versies voor het project.
+        no_results_content_text: Maak een nieuwe versie
+  project_types:
+    index:
+      no_results_title_text: Er zijn momenteel geen projecttypes.
+      no_results_content_text: Maak een nieuw projecttype
+  members:
+    index:
+      no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
+      no_results_content_text: Een lid toevoegen aan het project
+  my:
+    access_token:
+      failed_to_reset_token: 'Failed to reset access token: %{error}'
+      notice_reset_token: 'A new %{type} token has been generated. Your access token
+        is:'
+      token_value_warning: 'Note: This is the only time you will see this token, make
+        sure to copy it now.'
+      no_results_title_text: Er zijn momenteel geen toegangstokens beschikbaar.
+  news:
+    index:
+      no_results_title_text: Er is momenteel geen nieuws om te rapporteren.
+      no_results_content_text: Voeg een nieuwsitem toe
+    my_page:
+      no_results_title_text: Niets nieuws om te rapporteren.
+  users:
+    memberships:
+      no_results_title_text: Deze gebruiker is momenteel geen lid van een project.
+  reportings:
+    index:
+      no_results_title_text: Er zijn momenteel geen status rapporten.
+      no_results_content_text: Voeg een statusrapport toe
+  statuses:
+    index:
+      no_results_title_text: Er zijn momenteel geen werkpakket statussen.
+      no_results_content_text: Voeg een nieuwe status toe
+  types:
+    index:
+      no_results_title_text: Er zijn momenteel geen types.
+      no_results_content_text: Maak een nieuw type
+    edit:
+      settings: Instellingen
+      form_configuration: Formulierconfiguratie
+      projects: Projecten
+      enabled_projects: Ingeschakelde projecten
+      add_group: Groep toevoegen
+      reset: Standaardinstellingen herstellen
+  versions:
+    overview:
+      no_results_title_text: Er zijn momenteel geen werkpakketten toegewezen aan deze
+        versie.
+  wiki:
+    no_results_title_text: Er zijn momenteel geen wiki-pagina's.
+    index:
+      no_results_content_text: Voeg een nieuwe wiki-pagina toe
+  work_flows:
+    index:
+      no_results_title_text: Er zijn momenteel geen workflows.
+  work_packages:
+    move:
+      unsupported_for_multiple_projects: Bulk verplaatsen/kopiëren wordt niet ondersteund
+        voor werkpakketten uit meerdere projecten
+    list_simple:
+      assigned:
+        no_results_title_text: Er zijn momenteel geen werkpakketten toegewezen aan
+          mij.
+      reported:
+        no_results_title_text: Er zijn momenteel geen werkpakketten die ik heb gerapporteerd.
+      responsible:
+        no_results_title_text: Er zijn momenteel geen werkpakketten waar ik verantwoordelijk
+          voor ben.
+      watched:
+        no_results_title_text: Er zijn momenteel geen werkpakketten die ik volg.
+    summary:
+      reports:
+        category:
+          no_results_title_text: Er zijn momenteel geen categorieën beschikbaar.
+        assigned_to:
+          no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
+        responsible:
+          no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
+        author:
+          no_results_title_text: Er zijn momenteel geen leden onderdeel van dit project.
+        priority:
+          no_results_title_text: Er zijn momenteel geen prioriteiten beschikbaar.
+        type:
+          no_results_title_text: Er zijn momenteel geen types beschikbaar.
+        version:
+          no_results_title_text: Er zijn momenteel geen versies beschikbaar.
+  label_invitation: Uitnodiging
+  account:
+    delete: Account Verwijderen
+    delete_confirmation: Weet je zeker dat je dit account wilt verwijderen?
+    deleted: Account met succes verwijderd
+    deletion_info:
+      data_consequences:
+        other: Van de gegevens die de gebruiker heeft gemaakt (bijvoorbeeld e-mail,
+          voorkeuren, werkpakketten, wiki-inzendingen) zal zoveel mogelijk worden
+          verwijderd. Let echter op dat gegevens zoals werkpakketten en wiki-items
+          niet kunnen worden verwijderd zonder het belemmeren van het werk van de
+          andere gebruikers. Dergelijke gegevens worden dus opnieuw toegewezen aan
+          een account genaamd "Verwijderde gebruiker". Zodra de gegevens van elk verwijderd
+          account zijn toegewezen aan dit account, zal het niet mogelijk zijn om gegevens
+          die de gebruiker heeft gemaakt te onderscheiden van de gegevens van een
+          ander verwijderd account.
+        self: Van de gegevens die de gebruiker heeft gemaakt (bijvoorbeeld e-mail,
+          voorkeuren, werkpakketten, wiki-inzendingen) zal zoveel mogelijk worden
+          verwijderd. Let echter op dat gegevens zoals werkpakketten en wiki-items
+          niet kunnen worden verwijderd zonder het belemmeren van het werk van de
+          andere gebruikers. Dergelijke gegevens worden dus opnieuw toegewezen aan
+          een account genaamd "Verwijderde gebruiker". Zodra de gegevens van elk verwijderd
+          account zijn toegewezen aan dit account, zal het niet mogelijk zijn om gegevens
+          die de gebruiker heeft gemaakt te onderscheiden van de gegevens van een
+          ander verwijderd account.
+      heading: Verwijder account %{name}
+      info:
+        other: Het verwijderen van de gebruikersaccount is een onomkeerbare actie.
+        self: Het verwijderen van de gebruikersaccount is een onomkeerbare actie.
+      login_consequences:
+        other: De account zal worden verwijderd uit het systeem. De gebruiker zal
+          niet langer kunnen inloggen met zijn huidige inloggegevens. Hij/zij kan
+          opnieuw een account aanvragen.
+        self: Uw account zal worden verwijderd uit het systeem. Daarom, u zal niet
+          langer zitten kundig Meld u aan met uw huidige referenties. Als u ervoor
+          kiest om een gebruiker van deze toepassing opnieuw te worden, kan je dus
+          met behulp van de middelen deze toepassing verleent.
+      login_verification:
+        other: Voer de login-%{name} in om de verwijdering te controleren.
+        self: Voer uw login-%{name} in om de verwijdering te controleren.
+    error_inactive_activation_by_mail: 'Uw account is nog niet geactiveerd. Klik op
+      de link in de u toegestuurde mail om uw account te activeren.
+
+'
+    error_inactive_manual_activation: 'Uw account is nog niet geactiveerd. Wacht totdat
+      een beheerder uw account activeert.
+
+'
+    error_self_registration_disabled: 'Gebruikersregistratie is uitgeschakeld op dit
+      systeem. Vraag een beheerder om een account voor u aan te maken.
+
+'
+    login_with_auth_provider: of log in met een bestaand account
+    signup_with_auth_provider: of meld je aan via
+    auth_source_login: Gelieve in te loggen als <em>%{login}</em> om uw account te
+      activeren.
+    omniauth_login: Gelieve in te loggen om uw account te activeren.
+  actionview_instancetag_blank_option: Gelieve te selecteren
+  activemodel:
+    errors:
+      models:
+        query:
+          attributes:
+            project:
+              error_not_found: niet gevonden
+            public:
+              error_unauthorized: "-De gebruiker heeft geen toestemming om openbare
+                query's maken."
+        relation:
+          attributes:
+            to:
+              error_not_found: werkpakket in positie `naar` niet gevonden of niet
+                zichtbaar
+              error_readonly: een bestaande `te`-relatie is onveranderlijk
+            from:
+              error_not_found: werkpakket in `van`-positie niet gevonden of niet zichtbaar
+              error_readonly: een bestaande `van`-relatielink is onveranderlijk
+        user:
+          attributes:
+            status:
+              invalid_on_create: is niet een geldige status voor nieuwe gebruikers.
+            auth_source:
+              error_not_found: niet gevonden
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: De operator wordt niet ondersteund.
+              invalid_values: Een waarde is ongeldig.
+              id_filter_required: Een ' id' filter is vereist.
+  activerecord:
+    attributes:
+      announcements:
+        show_until: Toon tot
+      attachment:
+        downloads: Downloads
+        file: Bestand
+        filename: Bestand
+        filesize: Grootte
+      attribute_help_text:
+        attribute_name: Kenmerk
+        help_text: Helptekst
+      auth_source:
+        account: Account
+        attr_firstname: Voornaam
+        attr_lastname: Achternaam
+        attr_login: Loginnaam
+        attr_mail: Emailadres
+        base_dn: Base DN
+        host: Host
+        onthefly: On-the-fly gebruiker creëren
+        port: Poort
+      changeset:
+        repository: Repository
+      comment:
+        commented: Becommentarieerd
+      custom_field:
+        default_value: Standaardwaarde
+        editable: Bewerkbaar
+        field_format: Formaat
+        is_filter: Als een filter gebruikt
+        is_required: Vereist
+        max_length: Maximale lengte
+        min_length: Minimale lengte
+        multi_value: Meerdere selecties toegestaan
+        possible_values: Mogelijke waarden
+        regexp: Regular expression
+        searchable: Zoekbaar
+        visible: zichtbaar
+      custom_value:
+        value: Waarde
+      enterprise_token:
+        starts_at: Geldig sinds
+        expires_at: Verloopt op
+        subscriber: Abonnee
+        encoded_token: Enterprise ondersteuningstoken
+      relation:
+        delay: Vertraging
+        from: Werkpakket
+        to: Verwante werkpakket
+      status:
+        is_closed: Werkpakket gesloten
+      journal:
+        notes: Notities
+      member:
+        roles: Rollen
+      project:
+        identifier: Identifier
+        latest_activity_at: Laatste activiteit om
+        parent: Subproject van
+        project_type: Projecttype
+        queries: Query 's
+        responsible: Verantwoordelijk
+        types: Typen
+        versions: Versies
+        work_packages: Werkpakketten
+      query:
+        column_names: Kolommen
+        relations_to_type_column: Betrekkingen %{type}
+        relations_of_type_column: "%{type} betrekkingen"
+        group_by: Groepeer resultaten op
+        filters: Filters
+        timeline_labels: Timeline labels
+      repository:
+        url: URL
+      role:
+        assignable: Werkpakketten kunnen worden toegewezen aan gebruikers en groepen
+          met deze rol in het respectieve project
+      time_entry:
+        activity: Activiteit
+        hours: Uren
+        spent_on: Datum
+        type: Type
+      type:
+        is_in_roadmap: In de roadmap
+        in_aggregation: In aggregatie
+        is_milestone: Is mijlpaal
+        color: Kleur
+      user:
+        admin: Beheerder
+        auth_source: Verificatiemodus
+        current_password: Huidig wachtwoord
+        force_password_change: Afdwingen van wachtwoordwijziging bij volgende login
+        language: Taal
+        last_login_on: Laatste log-in
+        mail_notification: E-mailnotificaties
+        new_password: Nieuw wachtwoord
+        password_confirmation: Bevestiging
+      user_preference:
+        comments_sorting: Toon reacties
+        hide_mail: Verberg mijn e-mailadres
+        impaired: Toegankelijkheidsmodus
+        time_zone: Tijdzone
+        auto_hide_popups: Automatisch verbergen geslaagd-meldingen
+        warn_on_leaving_unsaved: Mij waarschuwen bij het verlaten van een werkpakket
+          met niet-opgeslagen wijzigingen
+      version:
+        effective_date: Vervaldatum
+        sharing: Delen
+      wiki:
+        start_page: Startpagina
+      wiki_content:
+        text: Tekst
+      wiki_page:
+        parent_title: Bovenliggende pagina
+        redirect_existing_links: Bestaande koppelingen omleiden
+      planning_element_type_color:
+        hexcode: Hexadecimale code
+      project_association:
+        description: Oorzaak
+        project_b: Afhankelijk project
+      project_type:
+        allows_association: Sta associatie toe
+        reported_project_statuses: Gerapporteerde projectstatussen
+        position: Positie
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: Status reactie
+        reporting_to_project: Project verslagen
+        reported_project_status: Projectstatus
+        created_at: Gemaakt
+      work_package:
+        begin_insertion: Begin van het invoegen
+        begin_deletion: Begin van de verwijdering
+        done_ratio: Voortgang (%)
+        end_insertion: Einde van het invoegen
+        end_deletion: Einde van de verwijdering
+        fixed_version: Versie
+        parent: Bovenliggende
+        parent_issue: Bovenliggende
+        parent_work_package: Bovenliggende
+        priority: Prioriteit
+        progress: Voortgang (%)
+        responsible: Verantwoordelijk
+        spent_hours: Bestede tijd
+        spent_time: Bestede tijd
+        subproject: Subproject
+        time_entries: Gelogde tijd
+        type: Type
+        watcher: Kijker
+    errors:
+      messages:
+        accepted: moet geaccepteerd worden.
+        blank: mag niet leeg zijn.
+        cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden
+          gekoppeld aan een van de bijbehorende subtaken.
+        circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
+        confirmation: komt niet overeen met %{attribute}.
+        does_not_exist: bestaat niet.
+        empty: mag niet leeg zijn.
+        even: moet gelijk zijn.
+        exclusion: is gereserveerd.
+        file_too_large: is te groot (maximum grootte is %{count} Bytes).
+        greater_than: moet groter zijn dan %{count}.
+        greater_than_or_equal_to: moet groter dan of gelijk zijn aan %{count}.
+        smaller_than_or_equal_to_max_length: moet kleiner zijn dan of even groot zijn
+          als de maximale lengte.
+        greater_than_start_date: moet groter zijn dan startdatum.
+        greater_than_or_equal_to_start_date: moet groter of gelijk zijn aan startdatum.
+        inclusion: is niet ingesteld op één van de toegestane waarden.
+        invalid: is ongeldig.
+        less_than_or_equal_to: moet kleiner zijn dan of gelijk aan %{count}.
+        not_a_date: is geen geldige datum.
+        not_a_datetime: is geen geldige datum tijd.
+        not_an_iso_date: 'is geen geldige datum. Vereist formaat: JJJJ-MM-DD.'
+        not_a_number: is geen getal.
+        not_an_integer: is niet een geheel getal.
+        not_same_project: hoort niet bij hetzelfde project.
+        odd: moet oneven zijn.
+        taken: is al in gebruik.
+        too_long: is te lang (maximaal %{count} karakters).
+        too_short: is te kort (minimum is %{count} karakters).
+        wrong_length: is de verkeerde lengte (dient %{count} karakters te zijn).
+        after: moet na %{date} zijn.
+        after_or_equal_to: moet gelijk aan of na %{date} zijn.
+        before: moet voor %{date} zijn.
+        before_or_equal_to: moet voor of gelijk zijn aan %{date}.
+        could_not_be_copied: kon niet (volledig) worden gekopieerd.
+        regex_invalid: kon niet worden gevalideerd met de bijbehorende reguliere expressie.
+      models:
+        custom_field:
+          at_least_one_custom_option: Ten minste één optie moet beschikbaar zijn.
+        enterprise_token:
+          unreadable: kan niet worden gelezen. Weet u zeer dat het een support token
+            is?
+        project:
+          attributes:
+            types:
+              in_use_by_work_packages: 'nog steeds in gebruik door werkpakketten:
+                %{types}'
+        project_association:
+          identical_projects: Afhankelijkheid kan niet worden gecreëerd tussen een
+            project en hetzelf.
+          project_association_not_allowed: staat geen associaties toe.
+        query:
+          group_by_hierarchies_exclusive: is uitsluiten door samenvoeging, '%{group_by}'.
+            U kunt beide niet activeren.
+          filters:
+            custom_fields:
+              inexistent: Er is geen aangepast veld voor dit filter.
+              invalid: Het aangepaste veld is niet geldig in deze context.
+        repository:
+          not_available: SCM-leverancier is niet beschikbaar
+          not_whitelisted: is niet toegestaan door de configuratie.
+          invalid_url: dit is geen geldige url of pad.
+          must_not_be_ssh: mag geen ssh url zijn.
+          no_directory: is geen map.
+        work_package:
+          is_not_a_valid_target_for_time_entries: 'Werkpakket #%{id} is niet een geldig
+            doel voor het opnieuw toewijzen van de tijden.'
+          attributes:
+            due_date:
+              not_start_date: is niet op begindatum, hoewel dit voor mijlpalen vereist
+                is.
+            parent:
+              cannot_be_milestone: kan geen mijlpaal zijn.
+              cannot_be_in_another_project: kan niet in een ander project zijn.
+              not_a_valid_parent: is ongeldig.
+            start_date:
+              violates_relationships: kan enkel naar %{soonest_start} worden gezet
+                of later met de bedoeling de relaties van het werkpakket niet te schenden.
+              violates_parent_relationships: kan enkel naar %{soonest_start} worden
+                gezet of later met de bedoeling de relaties van het werkpakket niet
+                te schenden.
+            status_id:
+              status_transition_invalid: is ongeldig omdat geen geldige overgang van
+                de oude naar de nieuwe status voor de huidige gebruikersrollen bestaat.
+            priority_id:
+              only_active_priorities_allowed: moet actief zijn.
+            category:
+              only_same_project_categories_allowed: De categorie van het werkpakket  moet
+                binnen hetzelfde project bestaan als het werkpakket.
+              does_not_exist: De gekozen categorie bestaat niet.
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: moet > = 0 zijn.
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: Groepen zonder namen zijn niet toegestaan.
+              duplicate_group: De groep naam %{group} word meer dan één keer gebruikt.
+                Groep namen moeten uniek zijn.
+              attribute_unknown: Ongeldig werk pakket attribuut wordt gebruikt.
+        user:
+          attributes:
+            password:
+              weak: Moet karakters bevatten van de volgende klassen (ten minste %{min_count}
+                van %{all_count}):%{rules}.
+              lowercase: kleine letters (bijvoorbeeld 'a')
+              uppercase: hoofdletters (bijvoorbeeld ' A')
+              numeric: numerieke (bijvoorbeeld ' 1')
+              special: speciale (bijvoorbeeld ' %')
+              reused:
+                one: is reeds eerder gebruikt. Kies er één die verschilt van uw laatste
+                  %{count}.
+                other: is reeds eerder gebruikt. Kies er één die verschilt van uw
+                  laatste %{count}.
+              match:
+                confirm: Bevestig nieuw wachtwoord.
+                description: "'Wachtwoordbevestiging' moet hetzelfde zijn als de invoer
+                  bij het 'Nieuw wachtwoord'-veld."
+        member:
+          principal_blank: Kies ten minste één gebruiker of groep.
+          role_blank: Kies ten minste één rol.
+      template:
+        body: 'Controleer de volgende velden:'
+        header:
+          one: 1 fout voorkomt dat dit %{model} wordt opgeslagen
+          other: "%{count} fouten voorkomen dat dit %{model} wordt opgeslagen"
+    models:
+      attachment: Bestand
+      attribute_help_text: Kenmerk help-teksten
+      board: Forum
+      comment: Commentaar
+      custom_field: Aangepast veld
+      group: Groep
+      category: Categorie
+      status: Status werkpakket
+      member: Deelnemer
+      news: Nieuws
+      project: Project
+      query: Aangepaste query
+      role:
+        one: Rol
+        other: Rol
+      type: Type
+      project_type: Projecttype
+      user: Gebruiker
+      version: Versie
+      wiki: Wiki
+      wiki_page: Wikipagina
+      workflow: Werkstroom
+      work_package: Werkpakket
+  errors:
+    header_invalid_fields: 'Er waren problemen met de volgende velden:'
+    field_erroneous_label: "Dit veld is ongeldig: %{full_errors} \nVoer alstublieft
+      een geldige waarde in."
+  activity:
+    created: 'Gemaakt: %{title}'
+    updated: 'Bijgewerkt: %{title}'
+  attributes:
+    active: Actief
+    assigned_to: Toegewezene
+    assignee: Toegewezene
+    attachments: Bijlagen
+    author: Auteur
+    base: 'Algemene fout:'
+    blocks_ids: It's van geblokkeerde werkpakketten
+    category: Categorie
+    comment: Commentaar
+    comments: Commentaar
+    content: Inhoud
+    created_at: Gemaakt op
+    created_on: Gemaakt op
+    custom_options: Mogelijke waarden
+    custom_values: Aangepaste velden
+    date: Datum
+    default_columns: Standaardkolommen
+    description: Omschrijving
+    display_sums: Bedragen weergeven
+    due_date: Vervaldatum
+    estimated_hours: Geschatte tijd
+    estimated_time: Geschatte tijd
+    firstname: Voornaam
+    group: Groep
+    groups: Groepen
+    groupname: Groepsnaam
+    id: ID
+    is_default: Standaardwaarde
+    is_for_all: Voor alle projecten
+    is_public: Publiek
+    issue: Werkpakket
+    lastname: Achternaam
+    login: Login
+    mail: E-mail
+    name: Naam
+    password: Wachtwoord
+    priority: Prioriteit
+    project: Project
+    responsible: Verantwoordelijk
+    role: Rol
+    roles: Rollen
+    start_date: Startdatum
+    status: Status
+    subject: Onderwerp
+    summary: Overzicht
+    title: Titel
+    type: Type
+    updated_at: Bijgewerkt op
+    updated_on: Bijgewerkt op
+    user: Gebruiker
+    version: Versie
+    work_package: Werkpakket
+  button_add: Toevoegen
+  button_add_member: Lid toevoegen
+  button_add_watcher: Watcher toevoegen
+  button_annotate: Aantekeningen
+  button_apply: Toepassen
+  button_archive: Archief
+  button_back: Terug
+  button_cancel: Annuleren
+  button_change: Wijzigen
+  button_change_parent_page: Bovenliggende pagina wijzigen
+  button_change_password: Wijzig wachtwoord
+  button_check_all: Selecteer alles
+  button_clear: Wissen
+  button_collapse_all: Alles inklappen
+  button_configure: Configureer
+  button_copy: Kopieer
+  button_copy_and_follow: Kopiëren en volg
+  button_create: Maken
+  button_create_and_continue: Aanmaken en doorgaan
+  button_delete: Verwijderen
+  button_delete_watcher: Verwijderen van watcher %{name}
+  button_download: Downloaden
+  button_duplicate: Dupliceren
+  button_edit: Wijzig
+  button_edit_associated_wikipage: 'Bewerk gekoppelde wikipagina: %{page_title}'
+  button_expand_all: Alles uitklappen
+  button_generate: Genereer
+  button_list: Lijst
+  button_lock: Vergrendelen
+  button_log_time: Gelogde tijd
+  button_login: Inloggen
+  button_move: Verplaatsen
+  button_move_and_follow: Verplaatsen en volgen
+  button_quote: Citeer
+  button_remove: Verwijder
+  button_remove_widget: Widget verwijderen
+  button_rename: Naam wijzigen
+  button_replace: Vervang
+  button_reply: Beantwoorden
+  button_reset: Herstel
+  button_rollback: Terugdraaien naar deze versie
+  button_save: Opslaan
+  button_save_back: Opslaan en terug
+  button_show: Toon
+  button_sort: Sorteren
+  button_submit: Verzenden
+  button_test: Test
+  button_unarchive: Uit archief halen
+  button_uncheck_all: Deselecteer alles
+  button_unlock: Ontgrendelen
+  button_unwatch: Niet meer volgen
+  button_update: Bijwerken
+  button_upload: Upload
+  button_view: Toon
+  button_watch: Volgen
+  button_manage_menu_entry: Menu-item configureren
+  button_add_menu_entry: Menu-item toevoegen
+  button_configure_menu_entry: Menu-item configureren
+  button_delete_menu_entry: Menu-item verwijderen
+  copy_project:
+    started: Begonnen met project "%{source_project_name}" te kopiëren naar "%{target_project_name}".
+      U wordt zo spoedig mogelijk per email op de hoogte gesteld wanneer "%{target_project_name}"
+      beschikbaar is.
+    failed: Kan project niet kopiëren %{source_project_name}
+    succeeded: Gemaakte project %{target_project_name}
+    errors: Fout
+    text:
+      failed: Kan project "%{target_project_name}" project "%{source_project_name}"
+        niet kopiëren.
+      succeeded: Gekopieerde project "%{source_project_name}" naar "%{target_project_name}".
+  create_new_page: Wikipagina
+  date:
+    abbr_day_names:
+    - Zo
+    - Ma
+    - Di
+    - Wo
+    - Do
+    - Vr
+    - Za
+    abbr_month_names:
+    - 
+    - Jan
+    - Feb
+    - Mar
+    - Apr
+    - Mei
+    - Jun
+    - Jul
+    - Aug
+    - Sep
+    - Okt
+    - Nov
+    - Dec
+    day_names:
+    - Zondag
+    - Maandag
+    - Dinsdag
+    - Woensdag
+    - Donderdag
+    - Vrijdag
+    - Zaterdag
+    formats:
+      default: "%d-%m-%Y"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    - 
+    - Januari
+    - Februari
+    - Maart
+    - April
+    - Mei
+    - Juni
+    - Juli
+    - Augustus
+    - September
+    - Oktober
+    - November
+    - December
+    order:
+    - :jaar
+    - :maand
+    - :dag
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: ongeveer %{count} uur
+        other: ongeveer %{count} uren
+      about_x_months:
+        one: ongeveer %{count} maand
+        other: ongeveer %{count} maanden
+      about_x_years:
+        one: ongeveer %{count} jaar
+        other: ongeveer %{count} jaren
+      almost_x_years:
+        one: bijna %{count} jaar
+        other: bijna %{count} jaren
+      half_a_minute: een halve minuut
+      less_than_x_minutes:
+        one: minder dan %{count} minuut
+        other: minder dan %{count} minuten
+      less_than_x_seconds:
+        one: minder dan %{count} seconde
+        other: minder dan %{count} seconden
+      over_x_years:
+        one: meer dan %{count} jaar
+        other: meer dan %{count} jaren
+      x_days:
+        one: "%{count} dag"
+        other: "%{count} dagen"
+      x_minutes:
+        one: 1 minuut
+        other: "%{count} minuten"
+      x_months:
+        one: "%{count} maand"
+        other: "%{count} maanden"
+      x_seconds:
+        one: 1 seconde
+        other: "%{count} seconden"
+    units:
+      hour:
+        one: uur
+        other: uren
+  default_activity_development: Ontwikkeling
+  default_activity_management: Beheer
+  default_activity_other: Overig
+  default_activity_specification: Specificatie
+  default_activity_support: Ondersteuning
+  default_activity_testing: Testen
+  default_color_black: Zwart
+  default_color_blue: Blauw
+  default_color_blue_dark: Blauw (donker)
+  default_color_blue_light: Blauw (licht)
+  default_color_green_dark: Groen (donker)
+  default_color_green_light: Groen (licht)
+  default_color_grey_dark: Grijs (donker)
+  default_color_grey_light: Grijs (licht)
+  default_color_grey: Grijs
+  default_color_magenta: Magenta
+  default_color_orange: Oranje
+  default_color_red: Rood
+  default_color_white: Wit
+  default_color_yellow: Geel
+  default_status_closed: Gesloten
+  default_status_confirmed: Bevestigd
+  default_status_developed: Ontwikkel
+  default_status_in_development: In ontwikkeling
+  default_status_in_progress: In behandeling
+  default_status_in_specification: In specificatie
+  default_status_in_testing: In test
+  default_status_new: Nieuw
+  default_status_on_hold: In de wacht
+  default_status_rejected: Afgewezen
+  default_status_scheduled: Gepland
+  default_status_specified: Gespecificeerd
+  default_status_tested: Getest
+  default_status_test_failed: Test is mislukt
+  default_status_to_be_scheduled: Om ingepland te worden
+  default_priority_low: Laag
+  default_priority_normal: Normaal
+  default_priority_high: Hoog
+  default_priority_immediate: Onmiddellijk
+  default_project_type_scrum: Scrum team
+  default_project_type_standard: Standaard project
+  default_reported_project_status_green: Groen
+  default_reported_project_status_amber: Amber
+  default_reported_project_status_red: Rood
+  default_role_anonymous: Anoniem
+  default_role_developer: Ontwikkelaar
+  default_role_project_admin: Project admin
+  default_role_non_member: Derde
+  default_role_reader: Lezer
+  default_role_member: Deelnemer
+  default_type: Werkpakket
+  default_type_bug: Fout
+  default_type_deliverable: Leverbaar
+  default_type_epic: Episch
+  default_type_feature: Functie
+  default_type_milestone: Mijlpaal
+  default_type_phase: Fase
+  default_type_task: Taak
+  default_type_user_story: Gebruikersverhaal
+  description_active: Actief?
+  description_attachment_toggle: Bijlagen weergeven/verbergen
+  description_autocomplete: 'Dit veld wordt automatisch aangevuld. Tijdens het typen
+    van de titel van een werkpakket ontvangt u een lijst van mogelijkheden. Kies één
+    door gebruik te maken van de pijlomhoog- en pijlomlaagtoets en selecteer het met
+    tab of enter. Als alternatief kunt u het nummer van het werkpakket rechtstreeks
+    invoeren.
+
+'
+  description_available_columns: Beschikbare kolommen
+  description_choose_project: Projecten
+  description_compare_from: Vergelijk van
+  description_compare_to: Vergelijk met
+  description_current_position: 'U bent hier:'
+  description_date_from: Begindatum opgeven
+  description_date_range_interval: Kies bereik door begin- en einddatum te selecteren
+  description_date_range_list: Bereik kiezen uit lijst
+  description_date_to: Voer de einddatum in
+  description_enter_number: Voer een nummer in
+  description_enter_text: Tekst invoeren
+  description_filter: Filter
+  description_filter_toggle: Filter tonen/verbergen
+  description_category_reassign: Kies categorie
+  description_message_content: Bericht inhoud
+  description_my_project: U bent lid
+  description_notes: Notities
+  description_parent_work_package: Bovenliggende werkpakket van huidige
+  description_project_scope: Zoekbereik
+  description_query_sort_criteria_attribute: Sorteren op kenmerk
+  description_query_sort_criteria_direction: Sorteerrichting
+  description_search: Zoekveld
+  description_select_work_package: Selecteer werkpakket
+  description_selected_columns: Geselecteerde kolommen
+  description_sub_work_package: Sub werkpakket van huidige
+  description_toc_toggle: De inhoudsopgave weergeven/verbergen
+  description_wiki_subpages_reassign: Kies nieuwe bovenliggende pagina
+  direction: LTR
+  ee:
+    upsale:
+      form_configuration:
+        description: 'Pas de formulier configuratie aan met de additionele funcities:'
+        add_groups: Toevoegen van nieuwe attribuutgroepen
+        rename_groups: Attribuutgroepen hernoemen
+  enumeration_activities: Activiteiten (tijdregistratie)
+  enumeration_work_package_priorities: Werkpakket prioriteiten
+  enumeration_system_activity: Systeemactiviteit
+  enumeration_reported_project_statuses: Gerapporteerde projectstatus
+  error_auth_source_sso_failed: Single Sign-On (SSO) voor gebruiker '%{value}' is
+    mislukt
+  error_can_not_archive_project: Dit project kan niet worden gearchiveerd
+  error_can_not_delete_entry: Niet in staat om ingave te verwijderen
+  error_can_not_delete_custom_field: Aangepast veld kan niet verwijderd worden
+  error_can_not_delete_type: Dit type bevat werkpakketten en kan niet worden verwijderd.
+  error_can_not_delete_standard_type: Standaard types kunnen niet worden verwijderd.
+  error_can_not_invite_user: Het versturen van de uitnodiging naar de gebruiker is
+    mislukt.
+  error_can_not_remove_role: Deze rol is in gebruik en kan niet worden verwijderd.
+  error_can_not_reopen_work_package_on_closed_version: Een werkpakket toegewezen aan
+    een gesloten versie kan niet worden heropend
+  error_check_user_and_role: Kies een gebruiker en een rol.
+  error_cookie_missing: De cookie voor OpenProject ontbreekt. Zorg ervoor dat cookies
+    zijn ingeschakeld aangezien deze toepassing anders niet goed zal functioneren.
+  error_custom_option_not_found: Optie bestaat niet.
+  error_failed_to_delete_entry: Fout bij het verwijderen van deze ingave.
+  error_invalid_group_by: 'Kan niet groeperen op: %{value}'
+  error_invalid_query_column: 'Ongeldige zoekopdracht kolom: %{value}'
+  error_invalid_sort_criterion: 'Kan niet sorteren op kolom: %{value}'
+  error_pdf_export_too_many_columns: Te veel kolommen geselecteerd voor het exporteren
+    naar PDF. Beperk het aantal kolommen.
+  error_token_authenticity: Niet mogelijk om Cross-Site Request Forgery-token te verifiëren.
+  error_work_package_done_ratios_not_updated: Werkpakket gedaan ratio's niet bijgewerkt.
+  error_work_package_not_found_in_project: Het werkpakket werd niet gevonden of maakt
+    geen deel uit van dit project
+  error_must_be_project_member: moet een project lid zijn
+  error_no_default_work_package_status: Geen standaard werkpakket status is gedefinieerd.
+    Controleer uw configuratie (Ga naar 'Administratie-> werkpakket statussen').
+  error_no_type_in_project: Er is geen type gekoppeld aan dit project. Controleer
+    de projectinstellingen.
+  error_omniauth_registration_timed_out: De registratie via een externe authenticatie-provider
+    is verlopen. Probeer het opnieuw.
+  error_scm_command_failed: 'Er is een fout opgetreden tijdens het proberen om toegang
+    te krijgen tot de repository: %{value}'
+  error_scm_not_found: De vermelding of de herziening werd niet gevonden in de repository.
+  error_unable_delete_status: De status van het werkpakket kan niet worden verwijderd
+    omdat het door minstens één werkpakket wordt gebruikt.
+  error_unable_delete_default_status: Niet in staat de status van het standaard werkpakket
+    te verwijderen. Gelieve een andere status van het standaard werkpakket te selecteren
+    alvorens de huidige te verwijderen.
+  error_unable_to_connect: Kan geen verbinding maken (%{value})
+  error_unable_delete_wiki: Niet in staat om de wiki-pagina te verwijderen.
+  error_unable_update_wiki: Kan de wiki-pagina niet bijwerken.
+  error_workflow_copy_source: Selecteer een type rijbron of rol
+  error_workflow_copy_target: Selecteer (de) type(n) en rol(len)
+  error_menu_item_not_created: Menu-item kan niet worden toegevoegd
+  error_menu_item_not_saved: Menu-item kan niet worden opgeslagen
+  error_wiki_root_menu_item_conflict: 'Kan "%{old_name}" niet naar "%{new_name}" hernoemen
+    vanwege een conflict in het resulterende menu-item met het bestaande menu-item.
+    "%{existing_caption}" (%{existing_identifier}).
+
+'
+  error_external_authentication_failed: Er heeft zich een fout voorgedaan bij de externe
+    authenticatie. Probeer het opnieuw.
+  events:
+    project: Project bewerkt
+    changeset: Wijzigingsset bewerkt
+    message: Bericht bewerkt
+    news: Nieuws
+    reply: Beantwoord
+    time_entry: Tijdlog bewerkt
+    wiki_page: Wiki-pagina bewerkt
+    work_package_closed: Werkpakket gesloten
+    work_package_edit: Werkpakket bewerkt
+    work_package_note: Werkpakket notitie toegevoegd
+  export:
+    format:
+      atom: Atom
+      csv: CSV
+      pdf: PDF
+      pdf_with_descriptions: PDF met beschrijvingen
+  general_csv_decimal_separator: "."
+  general_csv_encoding: UTF-8
+  general_csv_separator: ","
+  general_first_day_of_week: '7'
+  general_lang_name: Nederlands
+  general_pdf_encoding: ISO-8859-1
+  general_text_no: Nee
+  general_text_yes: Ja
+  general_text_No: Nee
+  general_text_Yes: Ja
+  gui_validation_error: 1 fout
+  gui_validation_error_plural: "%{count} fouten"
+  homescreen:
+    additional:
+      projects: Nieuwste zichtbare projecten in deze instantie.
+      users: Nieuwste geregistreerde gebruikers in deze instantie.
+    blocks:
+      community: OpenProject gemeenschap
+      upsale:
+        become_hero: Word een held!
+        title: Upgrade naar Enterprise Edition
+        description: Uw productiviteit met de Enterprise Edition verbeteren
+        more_info: Meer informatie
+        additional_features: Extra krachtige premium functies
+        professional_support: Professionele ondersteuning van de OpenProject experts
+        you_contribute: Ontwikkelaars moeten hun rekeningen ook betalen. Met Enterprise
+          Edition bedraagt je aanzijnlijk bij aan deze Open-Source gemeenschaps inspanning.
+    links:
+      upgrade_enterprise_edition: Upgrade naar Enterprise Edition
+      user_guides: Gebruikershandleidingen
+      faq: Veelgestelde vragen (FAQ)
+      glossary: Woordenlijst
+      shortcuts: Snelkoppelingen
+      forums: Fora
+      blog: OpenProject blog
+      boards: Gemeenschapsforum
+      newsletter: Beveiligingswaarschuwingen / nieuwsbrief
+  instructions_after_registration: U kan inloggen zodra uw account geactiveerd is
+    door te klikken op %{signin}.
+  instructions_after_logout: U kan terug inloggen door op %{signin} te klikken.
+  instructions_after_error: U kan opnieuw proberen inloggen door op %{signin} te klikken.
+    Als de fout aanhoudt, vraag dan uw admin om hulp.
+  my_account:
+    access_tokens:
+      no_results:
+        title: Geen toegangstokens weer te geven
+        description: Alle van hen zijn uitgeschakeld. Zij kunnen opnieuw worden ingeschakeld
+          in het administratie menu.
+      access_token: Toegangstoken
+      headers:
+        action: Actie
+        expiration: Verloopt
+      indefinite_expiration: Nooit
+  label_accessibility: Toegankelijkheid
+  label_account: Account
+  label_active: Actief
+  label_activate_user: Gebruiker activeren
+  label_active_in_new_projects: Actief in nieuwe projecten
+  label_activity: Activiteit
+  label_add_edit_translations: Toevoegen en bewerken van de vertalingen
+  label_add_another_file: Toevoegen van een ander bestand
+  label_add_columns: Geselecteerde kolommen toevoegen
+  label_add_note: Een notitie toevoegen
+  label_add_related_work_packages: Toevoegen van verwante werkpakketten
+  label_add_subtask: Subtaak toevoegen
+  label_added: toegevoegd
+  label_added_time_by: Toegevoegd door %{author} %{age} geleden
+  label_additional_workflow_transitions_for_assignee: Extra overgangen zijn toegestaan
+    als de gebruiker de eigenaar is
+  label_additional_workflow_transitions_for_author: Extra overgangen zijn toegestaan
+    als de gebruiker de auteur is
+  label_administration: Administratie
+  label_advanced_settings: Geavanceerde instellingen
+  label_age: Leeftijd
+  label_ago: dagen geleden
+  label_all: alle
+  label_all_time: aller tijden
+  label_all_words: Alle woorden
+  label_always_visible: Altijd weergegeven
+  label_announcement: Mededeling
+  label_and_its_subprojects: "%{value} en zijn subprojecten"
+  label_api_access_key: API sleutel
+  label_api_access_key_created_on: API sleutel %{value} geleden gemaakt
+  label_api_access_key_type: API
+  label_applied_status: Toegepaste status
+  label_archive_project: Project archiveren
+  label_ascending: Oplopend
+  label_assigned_to_me_work_packages: Werkpakketten toegewezen aan mij
+  label_associated_revisions: Bijbehorende revisies
+  label_attachment_delete: Bestand verwijderen
+  label_attachment_new: Nieuw bestand
+  label_attachment_plural: Bestanden
+  label_attribute: Kenmerk
+  label_attribute_plural: Kenmerken
+  label_auth_source: Verificatiemodus
+  label_auth_source_new: Nieuwe authenticatie modus
+  label_auth_source_plural: Verificatiemodi
+  label_authentication: Verificatie
+  label_available_project_work_package_categories: Beschikbare werkpakket categorieën
+  label_available_project_boards: Beschikbare borden
+  label_available_project_versions: Beschikbare versies
+  label_available_project_repositories: Beschikbare opslagplaatsen
+  label_api_documentation: API documentatie
+  label_between: tussen
+  label_blocked_by: vergrendeld door
+  label_blocks: vergrendelingen
+  label_blog: Blog
+  label_board_locked: Vergrendeld
+  label_board_new: Nieuw forum
+  label_board_plural: Fora
+  label_board_sticky: Sticky
+  label_boolean: Boolean
+  label_branch: Branch
+  label_browse: Bladeren
+  label_bulk_edit_selected_work_packages: Bulk bewerken van geselecteerd werkpakketten
+  label_calendar: Agenda
+  label_calendar_show: Agenda weergeven
+  label_category: Categorie
+  label_wiki_menu_item: Wiki menu-item
+  label_select_main_menu_item: Selecteer nieuwe hoofdmenu-item
+  label_select_project: Selecteer een project
+  label_required_disk_storage: Vereiste schijfruimte
+  label_resend_invitation: Uitnodiging opnieuw verzenden
+  label_change_plural: Wijzigingen
+  label_change_properties: Eigenschappen wijzigen
+  label_change_status: Status wijzigen
+  label_change_status_of_user: 'Status van #{username} wijzigen'
+  label_change_view_all: Alle wijzigingen weergeven
+  label_changes_details: Details van alle wijzigingen
+  label_changeset: Wijzigingenset
+  label_changeset_id: Wijzigingenset ID
+  label_changeset_plural: Wijzigingensets
+  label_checked: gecontroleerd
+  label_check_uncheck_all_in_column: Selecteer/Deselecteer alles in kolom
+  label_check_uncheck_all_in_row: Selecteer/Deselecteer alles in rij
+  label_child_element: Onderliggend element
+  label_chronological_order: In chronologische volgorde
+  label_close_versions: Voltooide versies sluiten
+  label_closed_work_packages: gesloten
+  label_collapse: Samenvouwen
+  label_configuration: configuratie
+  label_comment_add: Een opmerking toevoegen
+  label_comment_added: Opmerking toegevoegd
+  label_comment_delete: Opmerkingen verwijderen
+  label_comment_plural: Opmerkingen
+  label_commits_per_author: Bijdragen per auteur
+  label_commits_per_month: Bijdragen per maand
+  label_confirmation: Bevestiging
+  label_contains: bevat
+  label_content: Inhoud
+  label_copied: gekopieerd
+  label_copy_to_clipboard: Kopiëren naar het klembord
+  label_copy_same_as_target: Zelfde als doel
+  label_copy_source: Bron
+  label_copy_target: Doel
+  label_copy_workflow_from: Kopieer workflow van
+  label_copy_project: Project kopiëren
+  label_core_version: Core-versie
+  label_current_status: Huidige status
+  label_current_version: Huidige versie
+  label_custom_field_add_no_type: Voegt dit veld toe aan een werkpakket type
+  label_custom_field_new: Nieuw aangepast veld
+  label_custom_field_plural: Aangepaste velden
+  label_custom_field_default_type: Leeg type
+  label_custom_style: Ontwerp
+  label_date: Datum
+  label_date_and_time: Datum en tijd
+  label_date_from: Van
+  label_date_from_to: Van %{start} tot %{end}
+  label_date_range: Datumbereik
+  label_date_to: Aan
+  label_day_plural: dagen
+  label_default: Standaard
+  label_delete_user: Gebruiker verwijderen
+  label_delete_project: Verwijder project
+  label_deleted: verwijderd
+  label_deleted_custom_field: "(verwijderde aangepast veld)"
+  label_descending: Aflopend
+  label_details: Details
+  label_development_roadmap: Ontwikkeling roadmap
+  label_diff: diff
+  label_diff_inline: inline
+  label_diff_side_by_side: Naast elkaar
+  label_disabled: uitgeschakeld
+  label_display: Weergave
+  label_display_per_page: 'Per pagina: %{value}'
+  label_display_used_statuses_only: Enkel statussen die worden gebruikt door dit type
+    weergeven
+  label_download: "%{count} downloaden"
+  label_download_plural: "%{count} Downloads"
+  label_downloads_abbr: D/L
+  label_duplicated_by: gedupliceerd door
+  label_duplicate: dupliceren
+  label_duplicates: duplicaten
+  label_edit: Wijzig
+  label_enable_multi_select: Omschakelen multiselect
+  label_enabled_project_custom_fields: Ingeschakelde aangepaste velden
+  label_enabled_project_types: Ingeschakelde typen
+  label_enabled_project_modules: Ingeschakelde modules
+  label_enabled_project_activities: Ingeschakelde activiteiten voor tijdregistratie
+  label_end_to_end: einde tot einde
+  label_end_to_start: einde tot start
+  label_enumeration_new: Nieuwe opsommingswaarde
+  label_enumeration_value: Opsommingswaarde
+  label_enumerations: Opsommingen
+  label_enterprise: Enterprise
+  label_enterprise_edition: Enterprise Edition
+  label_environment: Omgeving
+  label_estimates_and_time: Schattingen en tijden
+  label_equals: is
+  label_example: Voorbeeld
+  label_export_to: 'Ook verkrijgbaar in:'
+  label_f_hour: "%{value} uur"
+  label_f_hour_plural: "%{value} uren"
+  label_feed_plural: Feeds
+  label_feeds_access_key: RSS toegangssleutel
+  label_feeds_access_key_created_on: RSS toegangssleutel %{value} geleden gemaakt
+  label_feeds_access_key_type: RSS
+  label_file_added: Bestand toegevoegd
+  label_file_plural: Bestanden
+  label_filter_add: Filter toevoegen
+  label_filter_plural: Filters
+  label_float: Zwevend
+  label_folder: Map
+  label_follows: volgt
+  label_force_user_language_to_default: Taal van gebruikers met een niet toegestane
+    taal op standaard instellen
+  label_form_configuration: Formulierconfiguratie
+  label_general: Algemeen
+  label_generate_key: Genereren van een sleutel
+  label_git_path: Pad naar .git map
+  label_greater_or_equal: ">="
+  label_group_by: Groeperen op
+  label_group_new: Nieuwe groep
+  label_group_plural: Groepen
+  label_help: Help
+  label_here: hier
+  label_hide: Verbergen
+  label_history: Geschiedenis
+  label_home: Home
+  label_in: in
+  label_in_less_than: in minder dan
+  label_in_more_than: in meer dan
+  label_inactive: Inactief
+  label_incoming_emails: Inkomende e-mails
+  label_includes: bevat
+  label_index_by_date: indexeren op datum
+  label_index_by_title: indexeren op titel
+  label_information: Informatie
+  label_information_plural: Informatie
+  label_integer: Integer
+  label_internal: Intern
+  label_invite_user: Gebruiker uitnodigen
+  label_show_hide: Weergeven/verbergen
+  label_show_all_registered_users: Toon alle geregistreerde gebruikers
+  label_journal: Logboek
+  label_journal_diff: Beschrijving vergelijking
+  label_language: Taal
+  label_jump_to_a_project: Ga naar een project...
+  label_language_based: Op basis van de taal van gebruiker
+  label_last_activity: Laatste activiteit
+  label_last_change_on: Laatste wijziging op
+  label_last_changes: laatste %{count} veranderingen
+  label_last_login: Laatste log-in
+  label_last_month: vorige maand
+  label_last_n_days: laatste %{count} dagen
+  label_last_week: Vorige week
+  label_latest_revision: Meest recente revisie
+  label_latest_revision_plural: Meest recente revisies
+  label_ldap_authentication: LDAP-verificatie
+  label_less_or_equal: "<="
+  label_less_than_ago: minder dan dagen geleden
+  label_list: Lijst
+  label_loading: Laden...
+  label_lock_user: Lock user
+  label_logged_as: Ingelogd als
+  label_login: Inloggen
+  label_custom_logo: Eigen logo
+  label_custom_favicon: Aangepaste favicon
+  label_custom_touch_icon: Aangepaste touch-pictogram
+  label_logout: Afmelden
+  label_main_menu: Submenu
+  label_manage_groups: Groepen beheren
+  label_managed_repositories_vendor: Beheerde %{vendor} opslagplaatsen
+  label_max_size: Maximale Grootte
+  label_me: ik
+  label_member_new: Nieuw lid
+  label_member_plural: Leden
+  label_view_all_members: Alle leden bekijken
+  label_menu_item_name: Naam van het menu-item
+  label_message: Bericht
+  label_message_last: Laatste bericht
+  label_message_new: Nieuw bericht
+  label_message_plural: Berichten
+  label_message_posted: Bericht toegevoegd
+  label_min_max_length: Min - maximumlengte
+  label_minute_plural: minuten
+  label_missing_api_access_key: Ontbrekende API toegangssleutel
+  label_missing_feeds_access_key: Ontbrekende RSS toegangssleutel
+  label_modification: "%{count} wijziging"
+  label_modified: gewijzigd
+  label_module_plural: Modules
+  label_modules: Modules
+  label_month: Maand
+  label_months_from: maanden vanaf
+  label_more: Meer
+  label_more_than_ago: meer dan dagen geleden
+  label_move_work_package: Verplaatsen werkpakket
+  label_my_account: Mijn gegevens
+  label_my_account_data: Mijn accountgegevens
+  label_my_page: Mijn pagina
+  label_my_page_block: Mijn pagina blok
+  label_my_projects: Mijn projecten
+  label_my_queries: Mijn aangepaste query 's
+  label_new: Nieuw
+  label_new_statuses_allowed: Nieuwe statussen toegestaan
+  label_news_added: Nieuws toegevoegd
+  label_news_comment_added: Commentaar toegevoegd aan nieuws
+  label_news_latest: Laatste nieuws
+  label_news_new: Voeg nieuws toe
+  label_news_edit: Bewerken van nieuws
+  label_news_plural: Nieuws
+  label_news_view_all: Bekijk al het nieuws
+  label_next: Volgende
+  label_next_week: Volgende week
+  label_no_change_option: "(Niet wijzigen)"
+  label_no_data: Geen gegevens om weer te geven
+  label_nothing_display: Niets om weer te geven
+  label_nobody: niemand
+  label_none: geen
+  label_none_parentheses: "(geen)"
+  label_not_contains: bevat geen
+  label_not_equals: is niet
+  label_notify_member_plural: E-mail updates
+  label_on: op
+  label_open_menu: Menu openen
+  label_open_work_packages: Open
+  label_open_work_packages_plural: Open
+  label_optional_description: Omschrijving
+  label_options: Opties
+  label_other: Overig
+  label_overall_activity: Totale activiteit
+  label_overall_spent_time: Totale verbruikte tijd
+  label_overview: Overzicht
+  label_part_of: onderdeel van
+  label_password_lost: Wachtwoord vergeten
+  label_password_rule_lowercase: Kleine letters
+  label_password_rule_numeric: Numerieke tekens
+  label_password_rule_special: Speciale tekens
+  label_password_rule_uppercase: Hoofdletters
+  label_path_encoding: Pad codering
+  label_pdf_with_descriptions: PDF met beschrijvingen
+  label_per_page: Per pagina
+  label_people: Mensen
+  label_permissions: Machtigingen
+  label_permissions_report: Machtigingen verslag
+  label_personalize_page: Personaliseer deze pagina
+  label_planning: Planning
+  label_please_login: Log in a.u.b.
+  label_plugins: Plug-ins
+  label_precedes: voorafgaand aan
+  label_preferences: Voorkeuren
+  label_preview: Voorbeeld
+  label_previous: Vorige
+  label_previous_week: Vorige week
+  label_principal_invite_via_email: " of nieuwe gebruikers uitnodigen via e-mail"
+  label_principal_search: Bestaande gebruikers of groepen toevoegen
+  label_product_version: Versie van het product
+  label_professional_support: Professionele ondersteuning
+  label_profile: Profiel
+  label_project_all: Alle projecten
+  label_project_count: Totale aantal projecten
+  label_project_copy_notifications: Verzenden van e-mailmeldingen tijdens het project
+    kopiëren
+  label_project_latest: Meest recente projecten
+  label_project_default_type: Lege type toestaan
+  label_project_hierarchy: Projecthiërarchie
+  label_project_new: Nieuw project
+  label_project_plural: Projecten
+  label_project_settings: Project Instellingen
+  label_projects_storage_information: "%{count} projecten die %{storage}-schijfopslag
+    gebruiken"
+  label_project_view_all: Bekijk alle projecten
+  label_project_show_details: Show project details
+  label_project_hide_details: Hide project details
+  label_public_projects: Publieke projecten
+  label_query_new: Nieuwe query
+  label_query_plural: Aangepaste query 's
+  label_query_menu_item: Query menu-item
+  label_read: Lees...
+  label_register: Registeren
+  label_register_with_developer: Registreer als ontwikkelaar
+  label_registered_on: Geregistreerd op
+  label_registration_activation_by_email: account activeren via e-mail
+  label_registration_automatic_activation: automatische account activatie
+  label_registration_manual_activation: handmatige account activatie
+  label_related_work_packages: Verwante werkpakketten
+  label_relates: Gerelateerd aan
+  label_relates_to: Gerelateerd aan
+  label_relation_delete: Relatie verwijderen
+  label_relation_new: Nieuwe relatie
+  label_release_notes: Release notes
+  label_remove_columns: Verwijder geselecteerde kolommen
+  label_renamed: hernoemd
+  label_reply_plural: Reacties
+  label_report: Rapport
+  label_report_bug: Meld een bug
+  label_report_plural: Rapportages
+  label_reported_work_packages: Gerapporteerde werkpakketten
+  label_reporting: Rapporteren
+  label_reporting_plural: Rapporteringen
+  label_repository: Repository
+  label_repository_root: Opslagplaats root
+  label_repository_plural: Repositories
+  label_required: vereist
+  label_requires: vereist
+  label_responsible_for_work_packages: Werkpakketten waar ik verantwoordelijk voor
+    ben
+  label_result_plural: Resultaten
+  label_reverse_chronological_order: In omgekeerde chronologische volgorde
+  label_revision: Revisie
+  label_revision_id: Revisie %{value}
+  label_revision_plural: Revisies
+  label_roadmap: Routekaart
+  label_roadmap_edit: Bewerken routekaart %{name}
+  label_roadmap_due_in: Vervallen over %{value}
+  label_roadmap_no_work_packages: Geen werkpakketten voor deze versie
+  label_roadmap_overdue: "%{value} laat"
+  label_role_and_permissions: Rollen en machtigingen
+  label_role_new: Nieuwe rol
+  label_role_plural: Rollen
+  label_role_search: Rol toewijzen aan nieuwe leden
+  label_scm: SCM
+  label_search: Zoeken
+  label_search_titles_only: Alleen zoeken in titels
+  label_send_information: Accountgegevens naar de gebruiker verzenden
+  label_send_test_email: Stuur een test e-mail
+  label_settings: Instellingen
+  label_system_settings: Systeeminstellingen
+  label_show_completed_versions: Toon voltooide versies
+  label_sort: Sorteren
+  label_sort_by: Sorteren op %{value}
+  label_sorted_by: gesorteerd op %{value}
+  label_sort_higher: Omhoog
+  label_sort_highest: Verplaats naar boven
+  label_sort_lower: Omlaag
+  label_sort_lowest: Verplaats naar beneden
+  label_spent_time: Bestede tijd
+  label_start_to_end: begin tot eind
+  label_start_to_start: begin tot begin
+  label_statistics: Statistieken
+  label_status: Status
+  label_status_updated: Werkpakket status bijgewerkt
+  label_stay_logged_in: Blijf ingelogd
+  label_storage_free_space: Resterende schijfruimte
+  label_storage_used_space: Gebruikte schijfruimte
+  label_storage_group: Opslag filesystem %{identifier}
+  label_storage_for: Omvat opslag voor
+  label_string: Tekst
+  label_subproject: Subproject
+  label_subproject_new: Nieuwe subproject
+  label_subproject_plural: Subprojecten
+  label_subtask_plural: Subtaken
+  label_summary: Overzicht
+  label_system: Systeem
+  label_system_storage: Opslaginformatie
+  label_table_of_contents: Inhoudsopgave
+  label_tag: Label
+  label_text: Lange tekst
+  label_this_month: Deze maand
+  label_this_week: deze week
+  label_this_year: Dit jaar
+  label_time_entry_plural: Bestede tijd
+  label_time_sheet_menu: Tijdkaart
+  label_time_tracking: Tijdregistratie
+  label_today: vandaag
+  label_top_menu: Hoofdmenu
+  label_topic_plural: Onderwerpen
+  label_total: Totaal
+  label_type_new: Nieuw type
+  label_type_plural: Typen
+  label_type_default_new_projects: Type standaard ingeschakeld voor nieuwe projecten
+  label_ui: Gebruiksinterface
+  label_update_work_package_done_ratios: Werk pakket gedaan ratio's bijwerken
+  label_updated_time: Bijgewerkt %{value} geleden
+  label_updated_time_at: "%%{author} %{age}"
+  label_updated_time_by: Bijgewerkt door %{author} %{age} geleden
+  label_used_by: Gebruikt door
+  label_used_by_types: Wordt gebruikt door types
+  label_used_in_projects: Wordt gebruikt in projecten
+  label_user: Gebruiker
+  label_user_activity: "%{value} activiteit"
+  label_user_anonymous: Anoniem
+  label_user_mail_option_all: Voor een evenement op al mijn projecten
+  label_user_mail_option_none: Geen evenementen
+  label_user_mail_option_only_assigned: Alleen voor dingen die aan mij toegewezen
+    zijn
+  label_user_mail_option_only_my_events: Alleen voor dingen die ik kijk of waar ik
+    bij betrokken ben
+  label_user_mail_option_only_owner: Alleen voor dingen waar ik de eigenaar van ben
+  label_user_mail_option_selected: Voor een gebeurtenis op de geselecteerde projecten
+    alleen
+  label_user_new: Nieuwe gebruiker
+  label_user_plural: Gebruikers
+  label_user_search: Zoeken naar gebruiker
+  label_version_new: Nieuwe versie
+  label_version_plural: Versies
+  label_version_sharing_descendants: Met subprojecten
+  label_version_sharing_hierarchy: Met projecthiërarchie
+  label_version_sharing_none: Niet gedeeld
+  label_version_sharing_system: Met alle projecten
+  label_version_sharing_tree: Met projectstructuur
+  label_video: Video
+  label_view_all_revisions: Alle herzieningen bekijken
+  label_view_diff: Bekijk verschillen
+  label_view_revisions: Bekijk revisies
+  label_watched_work_packages: Gevolgde werkpakketten
+  label_week: Week
+  label_wiki_content_added: Wiki-pagina toegevoegd
+  label_wiki_content_updated: Wiki-pagina bijgewerkt
+  label_wiki_toc: Inhoudsopgave
+  label_wiki_dont_show_menu_item: Deze wiki pagina niet weergeven in projectnavigatie
+  label_wiki_edit: Wiki bewerken
+  label_wiki_edit_plural: Wiki bewerkingen
+  label_wiki_page_attachments: Wiki page attachments
+  label_wiki_page_id: Wikipagina ID
+  label_wiki_navigation: Wiki navigatie
+  label_wiki_page: Wikipagina
+  label_wiki_page_plural: Wikipagina
+  label_wiki_show_index_page_link: Toon submenu item 'Inhoudsopgave'
+  label_wiki_show_menu_item: Weergeven als menu-item in project navigatie
+  label_wiki_show_new_page_link: Vervolgmenu-item 'Maken nieuwe onderliggende pagina'
+    weergeven
+  label_wiki_show_submenu_item: 'Toon als submenu-item van '
+  label_work_package: Werkpakket
+  label_work_package_added: Werkpakket toegevoegd
+  label_work_package_attachments: Werkpakket bijlagen
+  label_work_package_category_new: Nieuwe categorie
+  label_work_package_category_plural: Werkpakket categorieën
+  label_work_package_hierarchy: Werkpakket hiërarchie
+  label_work_package_new: Nieuw werkpakket
+  label_work_package_note_added: Werkpakket notitie toegevoegd
+  label_work_package_edit: Bewerk werkpakket %{name}
+  label_work_package_plural: Werkpakketten
+  label_work_package_priority_updated: Werkpakket prioriteit bijgewerkt
+  label_work_package_status: Status werkpakket
+  label_work_package_status_new: Nieuwe status
+  label_work_package_status_plural: Werkpakket statussen
+  label_work_package_types: Werkpakket types
+  label_work_package_updated: Werkpakket bijgewerkt
+  label_work_package_tracking: Werkpakket bijhouden
+  label_work_package_view_all: Bekijk alle werkpakketten
+  label_work_package_view_all_assigned_to_me: Bekijk alle werkpakketten die zijn toegewezen
+    aan mij
+  label_work_package_view_all_reported_by_me: Bekijk alle werkpakketten gemeld door
+    mij
+  label_work_package_view_all_responsible_for: Bekijk alle werkpakketten waar ik verantwoordelijk
+    voor ben
+  label_work_package_view_all_watched: Bekijk alle gevolgde werkpakketten
+  label_work_package_watchers: Volgers
+  label_workflow: Werkstroom
+  label_workflow_plural: Workflows
+  label_workflow_summary: Overzicht
+  label_x_closed_work_packages_abbr:
+    one: 1 gesloten
+    other: "%{count} gesloten"
+    zero: 0 closed
+  label_x_comments:
+    one: "%{count} reactie"
+    other: "%{count} reacties"
+    zero: no comments
+  label_x_open_work_packages_abbr:
+    one: 1 open
+    other: "%{count} open"
+    zero: 0 open
+  label_x_open_work_packages_abbr_on_total:
+    one: 1 open / %{total}
+    other: "%{count} open / %{total}"
+    zero: 0 open / %{total}
+  label_x_projects:
+    one: 1 project
+    other: "%{count} projecten"
+    zero: no projects
+  label_year: Jaar
+  label_yesterday: gisteren
+  label_keyboard_function: Functie
+  label_keyboard_shortcut: Snelkoppeling
+  label_keyboard_accesskey: toegangssleutel
+  label_keyboard_shortcut_help_heading: Beschikbare sneltoetsen
+  label_keyboard_shortcut_within_project: 'Project gerelateerde snelkoppelingen:'
+  label_keyboard_shortcut_global_shortcuts: 'Algemene snelkoppelingen:'
+  label_keyboard_shortcut_some_pages_only: 'Speciale snelkoppelingen:'
+  label_keyboard_shortcut_search_global: Globaal zoeken
+  label_keyboard_shortcut_search_project: Zoeken naar een project
+  label_keyboard_shortcut_go_my_page: Ga naar mijn pagina
+  label_keyboard_shortcut_show_help: Toon dit helpbericht
+  label_keyboard_shortcut_go_overview: Ga naar overzicht van project
+  label_keyboard_shortcut_go_work_package: Ga naar project werkpakketten
+  label_keyboard_shortcut_go_wiki: Ga naar project wiki
+  label_keyboard_shortcut_go_activity: Ga naar projectactiviteiten
+  label_keyboard_shortcut_go_calendar: Ga naar de projectagenda
+  label_keyboard_shortcut_go_news: Ga naar Projectnieuws
+  label_keyboard_shortcut_go_timelines: Ga naar tijdlijnen
+  label_keyboard_shortcut_new_work_package: Nieuw werkpakket maken
+  label_keyboard_shortcut_details_package: Toon detailvlak van het werkpakket
+  label_keyboard_shortcut_go_edit: Ga naar het bewerken van het huidige item (enkel
+    op de detailpagina's)
+  label_keyboard_shortcut_open_more_menu: Meer-menu openen (enkel op de detailpagina's)
+  label_keyboard_shortcut_go_preview: Naar het voorbeeld van de huidige bewerking
+    (enkel op bewerken pagina's)
+  label_keyboard_shortcut_focus_previous_item: Focus vorige lijstelement (enkel op
+    sommige lijsten)
+  label_keyboard_shortcut_focus_next_item: Focus volgende lijstelement (enkel op sommige
+    lijsten)
+  label_visible_elements: Zichtbare elementen
+  auth_source:
+    using_abstract_auth_source: Kan geen abstracte authenticatiebron gebruiken.
+    ldap_error: 'LDAP-fout: %{error_message}'
+    ldap_auth_failed: Kon niet authenticeren met LDAP-server.
+  macro_execution_error: Fout bij het uitvoeren van de macro %{macro_name}
+  macro_unavailable: Macro %{macro_name} kan niet worden weergegeven.
+  mail:
+    actions: Acties
+  mail_body_account_activation_request: 'Een nieuwe gebruiker (%{value}) heeft zich
+    geregistreerd. Het account wacht op uw goedkeuring:'
+  mail_body_account_information: Uw accountinformatie
+  mail_body_account_information_external: U kunt uw account %{value} gebruiken om
+    in te loggen.
+  mail_body_lost_password: 'Om uw wachtwoord te wijzigen, klikt u op op de volgende
+    link:'
+  mail_body_register: 'Om uw account te activeren, klikt u op op de volgende link:'
+  mail_body_reminder: "%{count} werkpakket(ten) die aan u zijn toegewezen bereiken
+    in de volgende %{days} dagen hun uiterste datum:"
+  mail_body_wiki_content_added: De '%{id}' wikipagina is toegevoegd door %{author}.
+  mail_body_wiki_content_updated: De '%{id}' wikipagina is bijgewerkt door %{author}.
+  mail_subject_account_activation_request: "%{value} account aanvraag dient geactiveerd
+    te worden"
+  mail_subject_lost_password: Uw wachtwoord %{value}
+  mail_subject_register: Uw %{value} account activatie
+  mail_subject_reminder: "%{count} werkpakket(ten) vervallen in de volgende %{days}
+    dagen"
+  mail_subject_wiki_content_added: "'%{id}' wikipagina is toegevoegd"
+  mail_subject_wiki_content_updated: "'%{id}' wikipagina is bijgewerkt"
+  more_actions: Meer functies
+  noscript_description: U moet JavaScript activeren om OpenProject te kunnen gebruiken!
+  noscript_heading: JavaScript uitgeschakeld
+  noscript_learn_more: Leer meer
+  notice_accessibility_mode: De toegankelijkheidsmodus kan worden ingeschakeld in
+    de [settings](url) van uw account.
+  notice_account_activated: Uw account is geactiveerd. U kunt nu inloggen.
+  notice_account_already_activated: Het account is al geactiveerd.
+  notice_account_invalid_token: Ongeldig activatie token
+  notice_account_invalid_credentials: Ongeldige gebruikersnaam of wachtwoord
+  notice_account_invalid_credentials_or_blocked: Ongeldige gebruiker of wachtwoord
+    of de account is geblokkeerd vanwege meerdere mislukte inlogpogingen. Als dat
+    zo is, zal het automatisch worden gedeblokkeerd.
+  notice_account_lost_email_sent: Een e-mail met instructies voor het aanmaken van
+    een nieuw wachtwoord wordt u toegestuurd.
+  notice_account_new_password_forced: Een nieuw wachtwoord is vereist.
+  notice_account_password_expired: Uw wachtwoord verloopt na %{days} dagen. Stel een
+    nieuwe wachtwoord in.
+  notice_account_password_updated: Het wachtwoord is succesvol bijgewerkt.
+  notice_account_pending: Uw account is gemaakt en is nu in afwachting van goedkeuring
+    door de beheerder.
+  notice_account_register_done: Account is met succes aangemaakt. Voor het activeren
+    van uw account, klikt u op de link die u is toe gemaild.
+  notice_account_unknown_email: Onbekende gebruiker.
+  notice_account_update_failed: Account instelling kan niet worden opgeslagen. Kijk
+    op uw accountpagina.
+  notice_account_updated: Account is bijgewerkt.
+  notice_account_wrong_password: Verkeerde wachtwoord
+  notice_account_registered_and_logged_in: Welkom, uw acount is geactiveerd. U bent
+    nu ingelogd.
+  notice_activation_failed: Het account kon niet worden geactiveerd.
+  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
+  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
+    but '%{actual}' returned.
+  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_can_t_change_password: Dit account gebruikt een externe verificatie bron.
+    Het is onmogelijk om het wachtwoord te wijzigen.
+  notice_custom_options_deleted: Optie '%{option_value}' en zijn %{num_deleted} exemplaren
+    werden verwijderd.
+  notice_email_error: Er is een fout opgetreden bij het verzenden van mail (%{value})
+  notice_email_sent: Een e-mail werd verzonden naar %{value}
+  notice_failed_to_save_work_packages: "%{count} werkpakket(ten) op %{total} geselecteerd
+    opslaan mislukt: %{ids}."
+  notice_failed_to_save_members: 'Lid/leden opslaan mislukt: %{errors}.'
+  notice_file_not_found: De pagina die u probeerde te benaderen bestaat niet of is
+    verwijderd.
+  notice_forced_logout: U bent automatisch uitgelogd na %{ttl_time} minuten van inactiviteit.
+  notice_internal_server_error: Er is een fout opgetreden op de pagina die u probeerde
+    te openen. Als u nog steeds problemen ervaart neem dan contact op met de beheerder.
+  notice_work_package_done_ratios_updated: Werkpakket ratio's bijgewerkt.
+  notice_locking_conflict: Informatie is in de tussentijd door ten minste één andere
+    gebruiker bijgewerkt.
+  notice_locking_conflict_additional_information: De update kwam van %{users}.
+  notice_locking_conflict_reload_page: Pagina opnieuw laden, bekijk de wijzigingen
+    en uw wijzigingen opnieuw toepassen.
+  notice_member_added: "%{name} is toegevoegd aan het project."
+  notice_members_added: "%{number} gebruikers zijn toegevoegd aan het project."
+  notice_member_removed: "%{user} verwijderd uit het project."
+  notice_member_deleted: "%{user} is verwijderd uit het project en de gebruiker bestaat
+    niet meer."
+  notice_no_principals_found: Geen resultaten gevonden.
+  notice_bad_request: Foute ingave.
+  notice_not_authorized: U bent niet gemachtigd om deze pagina te openen.
+  notice_not_authorized_archived_project: Het project dat u probeert te bezoeken is
+    gearchiveerd.
+  notice_password_confirmation_failed: Uw wachtwoord is niet correct. De wijzigingen
+    zijn niet opgeslagen.
+  notice_principals_found_multiple: Er zijn %{number} resultaten gevonden.   Tab om
+    het eerste resultaat te tonen.
+  notice_principals_found_single: Er is één resultaat. Tab om te tonen.
+  notice_project_not_deleted: Het project is niet verwijderd.
+  notice_successful_connection: Geslaagde verbinding.
+  notice_successful_create: Aanmaak geslaagd.
+  notice_successful_delete: Verwijdering geslaagd.
+  notice_successful_update: Succesvolle wijziging.
+  notice_to_many_principals_to_display: Er zijn te veel resultaten. Verklein de mogelijkheden
+    door een naam in te geven van een nieuw lid of groep.
+  notice_unable_delete_time_entry: Niet in staat om tijdlog te verwijderen.
+  notice_unable_delete_version: Niet in staat om versie te verwijderen.
+  notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te
+    kiezen of een andere manier om in te loggen te bepalen.
+  notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
+  present_access_key_value: 'Uw %{key_name} is: %{value}'
+  notice_automatic_set_of_standard_type: Standaardtype automatisch ingesteld.
+  notice_logged_out: U bent uitgelogd.
+  notice_wont_delete_auth_source: De verificatiemodus kan niet worden verwijderd,
+    zolang gebruikers het nog steeds gebruiken.
+  notice_project_cannot_update_custom_fields: 'U kunt de beschikbare aangepaste projectvelden
+    niet bijwerken. Het project is ongeldig: %{errors}'
+  notice_attachment_migration_wiki_page: 'Deze pagina is automatisch gegenereerd tijdens
+    het bijwerken van OpenProject. Het bevat alle bijlagen die eerder gekoppeld waren
+    aan de %{container_type} "%{container_name}".
+
+'
+  number:
+    format:
+      delimiter: ''
+      precision: 3
+      separator: "."
+    human:
+      format:
+        delimiter: ''
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: kB
+          mb: MB
+          tb: TB
+  onboarding:
+    heading_getting_started: Krijg een overzicht
+    text_getting_started_description: Krijg een overzicht van project management en
+      team samenwerking met OpenProject.
+    text_show_again: U kunt deze video van het helpmenu opnieuw starten
+    welcome: Welkom bij OpenProject
+  permission_add_work_package_notes: Notities toevoegen
+  permission_add_work_packages: Werkpakketten toevoegen (staat ook toe bijlagen aan
+    alle werkpakketten toe te voegen)
+  permission_add_messages: Berichten posten
+  permission_add_project: Project Aanmaken
+  permission_add_subprojects: Subprojecten maken
+  permission_add_work_package_watchers: Kijkers toevoegen
+  permission_browse_repository: Alleen-lezen toegang tot opslagplaats (bladeren en
+    uitchecken)
+  permission_change_wiki_parent_page: Bovenliggende wiki-pagina wijzigen
+  permission_comment_news: Opmerking nieuws
+  permission_commit_access: Lees/schrijf toegang tot opslagplaats (bevestig)
+  permission_copy_projects: Kopiëren van projecten
+  permission_delete_work_package_watchers: Kijkers verwijderen
+  permission_delete_work_packages: Werkpakketten verwijderen
+  permission_delete_messages: Berichten verwijderen
+  permission_delete_own_messages: Eigen berichten verwijderen
+  permission_delete_project_associations: Project afhankelijkheden verwijderen
+  permission_delete_reportings: Rapporteringen verwijderen
+  permission_delete_timelines: Tijdlijnen verwijderen
+  permission_delete_wiki_pages: Wiki pagina's verwijderen
+  permission_delete_wiki_pages_attachments: Bijlagen verwijderen
+  permission_edit_work_package_notes: Notities bewerken
+  permission_edit_work_packages: Werkpakketten bewerken
+  permission_edit_messages: Berichten bewerken
+  permission_edit_own_work_package_notes: Eigen notities bewerken
+  permission_edit_own_messages: Eigen berichten bewerken
+  permission_edit_own_time_entries: Bewerk de logboeken van de eigen tijd
+  permission_edit_project: Project bewerken
+  permission_edit_project_associations: Afhankelijkheden tussen projecten bewerken
+  permission_edit_reportings: Rapporteringen bewerken
+  permission_edit_time_entries: Bewerk de logboeken van de tijd
+  permission_edit_timelines: Bewerken van tijdlijnen
+  permission_edit_wiki_pages: Wiki pagina's bewerken
+  permission_export_work_packages: Werkpakketten exporteren
+  permission_export_wiki_pages: Wiki pagina's exporteren
+  permission_list_attachments: Bijlagen weergeven
+  permission_log_time: Meld uw bestede tijd
+  permission_manage_boards: Forum beheren
+  permission_manage_categories: Werkpakket Categorieën beheren
+  permission_manage_work_package_relations: Werkpakket relaties beheren
+  permission_manage_members: Beheer gebruikers
+  permission_manage_news: Beheren van nieuws
+  permission_manage_project_activities: Projectactiviteiten beheren
+  permission_manage_public_queries: Openbare query's beheren
+  permission_manage_repository: Repository beheren
+  permission_manage_subtasks: Beheren van subtaken
+  permission_manage_versions: Versies beheren
+  permission_manage_wiki: Wiki beheren
+  permission_manage_wiki_menu: Wiki menu beheren
+  permission_move_work_packages: Werkpakketten verplaatsen
+  permission_protect_wiki_pages: Wiki-pagina's beveiligen
+  permission_rename_wiki_pages: Wiki-pagina's wijzigen
+  permission_save_queries: Query's opslaan
+  permission_select_project_modules: Selecteer project modules
+  permission_manage_types: Selecteer typen
+  permission_view_calendar: Weergave agenda
+  permission_view_changesets: Bekijk opslagplaats wijzigingen in OpenProject
+  permission_view_commit_author_statistics: Bekijk de commit auteur statistieken
+  permission_view_work_package_watchers: Lijst van de watchers weergave
+  permission_view_work_packages: Bekijk werkpakketten
+  permission_view_messages: Berichten weergeven
+  permission_view_members: Bekijk leden
+  permission_view_project_associations: Weergave project afhankelijkheden
+  permission_view_reportings: Weergave rapporteringen
+  permission_view_time_entries: Verbruikte tijd weergeven
+  permission_view_timelines: Weergave tijdlijnen
+  permission_view_wiki_edits: Wiki weergavegeschiedenis
+  permission_view_wiki_pages: Weergave wiki
+  placeholders:
+    default: "-"
+  project:
+    destroy:
+      confirmation: Als u doorgaat, worden de project %{identifier} en alle gerelateerde
+        gegevens permanent vernietigd.
+      info: Het verwijderen van het project is een onomkeerbare actie.
+      project_verification: Voer de projectnaam %{name} in om de verwijdering te verifiëren.
+      subprojects_confirmation: 'De subproject(en): %{value} worden ook verwijderd.'
+      title: Verwijder het project %{name}
+    identifier:
+      warning_one: Leden van het project zullen de opslagplaatsen van het project
+        moeten verplaatsen.
+      warning_two: Bestaande koppelingen naar het project zullen niet langer werken.
+      title: Wijzig het identificatienummer van het project
+    archive:
+      are_you_sure: Weet u zeker dat u dit project '%{name}' wilt archiveren?
+      archived: Archived
+  project_module_activity: Activiteit
+  project_module_boards: Fora
+  project_module_calendar: Agenda
+  project_module_work_package_tracking: Werkpakket bijhouden
+  project_module_news: Nieuws
+  project_module_repository: Repository
+  project_module_time_tracking: Tijdregistratie
+  project_module_timelines: Tijdlijnen
+  project_module_wiki: Wiki
+  query:
+    attribute_and_direction: "%{attribute} (%{direction})"
+  query_fields:
+    assigned_to_role: Werknemer's rol
+    member_of_group: Werknemer's groep
+    assignee_or_group: Toegekend aan of hoort bij groep
+    subproject_id: Subproject
+  repositories:
+    at_identifier: op %{identifier}
+    atom_revision_feed: Atom wijzigingsfeed
+    autofetch_information: Schakel dit selectievakje in als u wilt dat opslagplaatsen
+      automatisch worden bijgewerkt wanneer de opslagplaats module pagina wordt geopend.
+      Dit omvat het ophalen van commits van de opslagplaats en het vernieuwen van
+      de vereiste schijfopslag.
+    checkout:
+      access:
+        readwrite: Lezen + Schrijven
+        read: Alleen-lezen
+        none: Geen kassa-toegang, u mag alleen de opslagplaats via deze applicatie
+          weergeven.
+      access_permission: Uw machtigingen voor deze opslagplaats
+      url: Checkout URL
+      base_url_text: "De basis-URL om te gebruiken voor het genereren van checkout
+        URLs (bijvoorbeeld https://myserver.example.org/repos/). \nOpmerking: De basis-URL
+        wordt alleen gebruikt voor het herschrijven van checkout URLs in beheerde
+        opslagplaatsen. Andere opslagplaatsen worden niet gewijzigd."
+      default_instructions:
+        git: "De gegevens in deze opslagplaats kunnen worden gedownload naar uw computer
+          met Git. \nRaadpleeg de documentatie van Git als u meer informatie over
+          de checkout procedure en beschikbare clients wenst."
+        subversion: "De gegevens in deze opslagplaats kunnen worden gedownload naar
+          uw computer met Subversion. \nRaadpleeg de documentatie van Subversion als
+          u meer informatie over de checkout procedure en beschikbare clients wenst."
+      enable_instructions_text: Geeft checkout instructies weer die onderaan alle
+        opslagplaats-gerelateerde pagina's zijn gedefinieerd.
+      instructions: Checkout instructies
+      show_instructions: Geef checkout instructies weer
+      text_instructions: Deze tekst wordt weergegeven naast de checkout URL voor aanwijzingen
+        over hoe uit de opslagplaats uit te checken.
+      not_available: Checkout-instructies zijn niet gedefinieerd voor deze opslagplaats.
+        Vraag uw beheerder om deze instructies voor deze opslagplaats in de systeeminstellingen
+        in te schakelen.
+    create_managed_delay: 'Let op: de opslagplaats wordt beheerd, het wordt asynchroon
+      op de schijf gecreëerd en zal binnenkort beschikbaar zijn.'
+    create_successful: De opslagplaats is geregistreerd.
+    delete_sucessful: De opslagplaats is verwijderd.
+    destroy:
+      confirmation: Als u doorgaat, wordt de beheerde opslagplaats permanent verwijderd.
+      info: Het verwijderen van de opslagplaats is een onomkeerbare actie.
+      info_not_managed: 'Opmerking: Dit zal niet de inhoud verwijderen van deze opslagplaats,
+        aangezien het niet wordt beheerd door OpenProject.'
+      managed_path_note: 'De volgende doelmap wordt gewist: %{path}'
+      repository_verification: Voer het project identificatienummer %{identifier}
+        in om de verwijdering van de opslagplaats te verifiëren.
+      subtitle: Wil je echt de %{repository_type} van het project %{project_name}
+        verwijderen?
+      subtitle_not_managed: Wilt u echt de gekoppelde %{repository_type} %{url} van
+        het project %{project_name} verwijderen?
+      title: Verwijder de %{repository_type}
+      title_not_managed: De gekoppelde %{repository_type} verwijderen?
+    errors:
+      build_failed: Niet mogelijk om de opslagplaats met de geselecteerde configuratie
+        te creëren. %{reason}
+      managed_delete: Niet mogelijk om de beheerde opslagplaats te verwijderen.
+      managed_delete_local: 'Niet mogelijk om de lokale opslagplaats te verwijderen
+        op het bestandssysteem ''%{path}'': %{error_message}'
+      empty_repository: De opslagplaats bestaat, maar is leeg. Het bevat nog niet
+        alle revisies.
+      exists_on_filesystem: De opslagplaats doelmap bestaat al in het bestandssysteem.
+      filesystem_access_failed: 'Er is een fout opgetreden tijdens het toegang verkrijgen
+        tot de opslagplaats in het bestandssysteem: %{message}'
+      not_manageable: Deze opslagplaats leverancier kan niet worden beheerd door OpenProject.
+      path_permission_failed: 'Er is een fout opgetreden tijdens het maken van het
+        volgende pad: %{path}. Zorg ervoor dat OpenProject naar die map kan schrijven.'
+      unauthorized: U bent niet gemachtigd voor toegang tot de opslagplaats of de
+        gebruikersnaam en wachtwoordcombinatie is ongeldig.
+      unavailable: De opslagplaats is niet beschikbaar.
+      exception_title: 'Geen toegang tot de opslagplaats: %{message}'
+      disabled_or_unknown_type: Het geselecteerde type %{type} is uitgeschakeld of
+        niet langer beschikbaar voor de SCM leverancier %{vendor}.
+      disabled_or_unknown_vendor: De SCM leverancier %{vendor} is uitgeschakeld of
+        niet meer beschikbaar.
+      remote_call_failed: 'Aanroepen van de beheerde afstandsbediening is mislukt
+        door ''%{message}'' (Code: %{code})'
+      remote_invalid_response: Een ongeldig antwoord ontvangen in de beheerde afstandsbediening.
+      remote_save_failed: Kan het archief niet opslaan met de parameters die zijn
+        ontvangen van de afstandsbediening.
+    git:
+      instructions:
+        managed_url: Dit is de URL van de beheerde (lokale) Git repository.
+        path: Specificeer het pad naar je lokale Git repository (bijvoorbeeld %{example_path}).
+          Ook kunt u remote repositories die naar een lokale kopie worden gekloond
+          met behulp van een waarde beginnen met http (s) :// of file://.
+        path_encoding: 'Overschrijven Git pad codering (standaard: UTF-8)'
+      local_title: Koppeling van de bestaande lokale Git repository
+      local_url: Lokale URL
+      local_introduction: Als u een bestaande lokale Git repository hebt, kunt u deze
+        koppelen met OpenProject om deze te openen van binnen de toepassing.
+      managed_introduction: Laat OpenProject een lokaal Git repository automatisch
+        aanmaken en integreren.
+      managed_title: Git repository geïntegreerd in OpenProject
+      managed_url: Beheerde URL
+      path: Pad naar Git repository
+      path_encoding: Pad codering
+    go_to_revision: Ga naar revisie
+    managed_remote: Beheerde repositories voor deze leverancier worden op afstand
+      behandeld.
+    managed_remote_note: Informatie over de URL en het pad van deze repository is
+      niet beschikbaar voorafgaand aan haar oprichting.
+    managed_url: Beheerde URL
+    settings:
+      automatic_managed_repos_disabled: Uitschakelen van automatisch aanmaken
+      automatic_managed_repos: Automatische aanmaken van beheerde repositories
+      automatic_managed_repos_text: Door het instellen van een leverancier hier, zullen
+        nieuwe projecten automatisch een beheerde opslagplaats van deze leverancier
+        ontvangen.
+    scm_vendor: Broncontrole managementsysteem
+    scm_type: Repository type
+    scm_types:
+      local: Koppel een bestaand lokaal repository
+      existing: Koppel een bestaand repository
+      managed: Maak nieuwe repository aan in OpenProject
+    storage:
+      not_available: Schijf opslag consumptie is niet beschikbaar voor deze repository.
+      update_timeout: Houd de laatste vereiste vrije schijfruimte voor een repository
+        voor N minuten. Als het tellen van de vereiste schijfruimte van een repository
+        kostbaar is, verhoog dit getal om invloed op de prestaties verminderen.
+    subversion:
+      existing_title: Bestaande Subversion-repository
+      existing_introduction: Als u een bestaand Subversion repository hebt, kunt u
+        deze koppelen met OpenProject om deze te openen van binnen de toepassing.
+      existing_url: Bestaande URL
+      instructions:
+        managed_url: Dit is de URL van de beheerde (lokale) Subversion-repository.
+        url: 'Voer de URL in van de repository. Dit kan ook gericht zijn op een lokaal
+          repository (beginnend met %{local_proto}), of een remote repository. De
+          volgende URL-schema''s worden ondersteund:'
+      managed_title: Geïntegreerd Subversion-repository in OpenProject
+      managed_introduction: Laat OpenProject een lokale Subversion repository automatisch
+        aanmaken en integreren.
+      managed_url: Beheerde URL
+      password: Repository wachtwoord
+      username: Repository-gebruikersnaam
+    truncated: Onze excuses, we hebben de map beperkt tot %{limit} bestanden. De %{truncated}
+      bestanden zijn verwijderd uit de lijst.
+    named_repository: "%{vendor_name} repository"
+    update_settings_successful: De instellingen zijn opgeslagen.
+    url: URL van de repository
+    warnings:
+      cannot_annotate: Dit bestand kan niet geannoteerd worden.
+  search_input_placeholder: Zoeken ...
+  setting_email_delivery_method: Kies verzendmethode
+  setting_sendmail_location: Locatie van het uitvoerbare sendmail
+  setting_smtp_enable_starttls_auto: Gebruik STARTTLS automatisch wanneer deze beschikbaar
+    is
+  setting_smtp_address: SMTP server
+  setting_smtp_port: SMTP-port
+  setting_smtp_authentication: SMTP-authenticatie
+  setting_smtp_domain: SMTP-Hallo afzender domein
+  setting_smtp_user_name: SMTP gebruikersnaam
+  setting_smtp_password: SMTP wachtwoord
+  setting_activity_days_default: Dagen weergegeven op projectactiviteit
+  setting_app_subtitle: Applicatie ondertitel
+  setting_app_title: Toepassingsnaam
+  setting_attachment_max_size: Bijlage max. grootte
+  setting_autofetch_changesets: Haal automatisch repository wijzigingen op
+  setting_autologin: AutoLogin
+  setting_available_languages: Beschikbare talen
+  setting_bcc_recipients: Geadresseerden voor blind carbon copy (bcc)
+  setting_brute_force_block_after_failed_logins: Gebruiker blokkeren na dit aantal
+    mislukte inlogpogingen
+  setting_brute_force_block_minutes: De gebruiker is geblokkeerd voor tijd
+  setting_cache_formatted_text: Cache opgemaakte tekst
+  setting_column_options: Het uiterlijk van de werkpakketten lijsten aanpassen
+  setting_commit_fix_keywords: Vaststelling van trefwoorden
+  setting_commit_logs_encoding: Commit berichten coderen
+  setting_commit_logtime_activity_id: Activiteit voor geregistreerde tijd
+  setting_commit_logtime_enabled: Tijd-logboekregistratie inschakelen
+  setting_commit_ref_keywords: Refererende trefwoorden
+  setting_cross_project_work_package_relations: Sta werkpakketten over meerdere projecten
+    toe
+  setting_date_format: Datumnotatie
+  setting_default_language: Standaard taal
+  setting_default_notification_option: Standaard meldingsoptie
+  setting_default_projects_modules: Standaard actieve modules voor nieuwe projecten
+  setting_default_projects_public: Nieuwe projecten zijn standaard publiek
+  setting_diff_max_lines_displayed: Maximaal aantal afwijkende regels getoond
+  setting_display_subprojects_work_packages: Toon standaard de werkpakketten van onderliggende
+    projecten bij hoofdprojecten
+  setting_emails_footer: Voettekst e-mails
+  setting_emails_header: Koptekst e-mails
+  setting_email_login: Gebruik e-mail als login
+  setting_enabled_scm: SCM Ingeschakeld
+  setting_feeds_enabled: Feeds inschakelen
+  setting_feeds_limit: Feed inhoud limiet
+  setting_file_max_size_displayed: Maximale grootte van tekstbestanden inline weergegeven
+  setting_host_name: Hostnaam
+  setting_work_package_done_ratio: Berekenen van de verhouding-gedaan van het werkpakket
+  setting_work_package_done_ratio_field: Gebruik het veld werkpakket
+  setting_work_package_done_ratio_status: Gebruik de werkpakket status
+  setting_work_package_done_ratio_disabled: Uitschakelen (verbergen de vooruitgang)
+  setting_work_package_list_default_columns: Standaard worden weergegeven
+  setting_work_package_list_summable_columns: Optelbaar
+  setting_work_package_properties: Werkpakketeigenschappen
+  setting_work_package_startdate_is_adddate: Huidige datum als begindatum voor nieuwe
+    werkpakketten gebruiken
+  setting_work_packages_export_limit: Werkpakketten export limiet
+  setting_journal_aggregation_time_minutes: Dagboeken als geaggregeerde weergeven
+    binnen
+  setting_log_requesting_user: Gebruikerslogin, naam en e-mailadres voor alle aanvragen
+    vastleggen
+  setting_login_required: Verificatie vereist
+  setting_mail_from: Emissie e-mailadres
+  setting_mail_handler_api_enabled: Binnenkomende e-mail web-service inschakelen
+  setting_mail_handler_api_description: De e-mail web handler activeerd OpenProject
+    voor het ontvangen van e-mails met specifieke opdrachten als een mechanisme instrumentatie
+    (bijvoorbeeld maken en bijwerken van de werkpakketten).
+  setting_mail_handler_api_key: API-sleutel
+  setting_mail_handler_body_delimiters: Afkappen e-mails na een van deze lijnen
+  setting_mail_handler_body_delimiter_regex: E-mails die overeenkomen met deze regex
+    afkappen
+  setting_new_project_user_role_id: Rol gegeven aan een niet-admin-gebruiker die een
+    project maakt
+  setting_password_active_rules: Actieve tekenklassen
+  setting_password_count_former_banned: Nummer van meest recent gebruikte wachtwoorden
+    verboden voor hergebruik
+  setting_password_days_valid: Aantal dagen waarna een wachtwoordwijziging afdwingen
+  setting_password_min_length: Minimale lengte
+  setting_password_min_adhered_rules: Minimum aantal vereiste klassen
+  setting_per_page_options: Objecten per Pagina-opties
+  setting_plain_text_mail: Tekst zonder opmaak (geen HTML)
+  setting_protocol: Protocol
+  setting_registration_footer: Registratie voettekst
+  setting_repositories_automatic_managed_vendor: Automatisch repostiroy leveranciers
+    type
+  setting_repositories_encodings: Repositories coderingen
+  setting_repository_authentication_caching_enabled: Voor de verificatieaanvraag van
+    versiebeheersoftware caching inschakelen
+  setting_repository_storage_cache_minutes: De schijfcache grootte van de repository
+  setting_repository_checkout_display: Geef checkout instructies weer
+  setting_repository_checkout_base_url: Checkout URL
+  setting_repository_checkout_text: Checkout instructies
+  setting_repository_log_display_limit: Maximum aantal revisies weergegeven op logbestand
+  setting_repository_truncate_at: Het maximaal aantal bestanden dat wordt weer gegeven
+    in de reposity browser
+  setting_rest_api_enabled: REST webservice inschakelen
+  setting_self_registration: Zelfregistratie
+  setting_sequential_project_identifiers: Sequentiële project-id's genereren
+  setting_session_ttl: Tijd verstrijken sessie na inactiviteit
+  setting_session_ttl_hint: Value below 5 works like disabled
+  setting_session_ttl_enabled: Sessie verloopt
+  setting_start_of_week: Week begint op
+  setting_sys_api_enabled: Repository beheer web-service inschakelen
+  setting_sys_api_description: De repository beheer web-service biedt integratie en
+    autorisatie van gebruikers voor toegang tot de archieven.
+  setting_text_formatting: Opmaak van tekst
+  setting_time_format: Tijdnotatie
+  setting_accessibility_mode_for_anonymous: Toegankelijkheid modus voor anonieme gebruikers
+    inschakelen
+  setting_user_format: Notatie voor weergave van gebruikers
+  setting_users_deletable_by_admins: Gebruikersaccounts verwijderbaar door beheerder
+  setting_users_deletable_by_self: Gebruikers kunnen hun accounts verwijderen
+  setting_welcome_text: Welkom blok tekst
+  setting_welcome_title: Welkom blok titel
+  setting_welcome_on_homescreen: Toon het Welkom blok op thuisscherm
+  setting_welcome_on_projects_page: Welkom blok op projectoverzicht weergeven
+  setting_wiki_compression: Compressie van wiki geschiedenis
+  setting_work_package_group_assignment: Sta toewijzingen een groepen toe
+  settings:
+    general: Algemeen
+    other: Overig
+    passwords: Wachtwoorden
+    session: Sessie
+    brute_force_prevention: Automatische gebruiker blokkering
+  show_hide_project_menu: Project menu uitvouwen/samenvouwen
+  status_active: actief
+  status_invited: uitgenodigd
+  status_locked: geblokkeerd
+  status_registered: geregistreerd
+  support:
+    array:
+      sentence_connector: en
+      skip_last_comma: onwaar
+  text_accessibility_hint: De toegankelijkheid-modus is ontworpen voor gebruikers
+    die blind, motorisch gehandicapte of een slecht gezichtsvermogen hebben. Voor
+    de laatste gericht zijn elementen speciaal gemarkeerd. Let op, dat de backlog-module
+    is niet beschikbaar in deze modus.
+  text_access_token_hint: Toegangstokens kunnen u externe toepassingen toegang verlenen
+    tot bronnen in OpenProject.
+  text_analyze: 'Verdere analyse: %{subject}'
+  text_are_you_sure: Weet u het zeker?
+  text_are_you_sure_with_children: Verwijder werk pakket en alle kinderen daarvan?
+  text_assign_to_project: Wijs aan project toe
+  text_form_configuration: 'U kunt aanpassen welke velden worden weergegeven in pakket
+    werkformulieren. U kunt deze velden vrij groeperen om de weergave aan uw eigen
+    behoeften aan te passen.
+
+'
+  text_form_configuration_drag_to_activate: Sleep velden uit hier om ze te activeren
+  text_form_configuration_required_attribute: Kenmerk is gemarkeerd als vereist en
+    wordt dus altijd getoond
+  text_caracters_maximum: maximaal %{count} tekens.
+  text_caracters_minimum: Moet ten minste %{count} tekens lang zijn.
+  text_comma_separated: Meerdere waarden toegestaan (door komma's gescheiden).
+  text_comment_wiki_page: 'Reactie op de wiki-pagina: %{page}'
+  text_custom_field_possible_values_info: Één regel voor elke waarde
+  text_custom_field_hint_activate_per_project: 'Bij het gebruik van aangepaste velden:
+    Houd er rekening mee dat aangepaste velden moeten worden geactiveerd per project.
+
+'
+  text_custom_field_hint_activate_per_project_and_type: 'Aangepaste velden moeten
+    worden geactiveerd per werkpakket type en per project.
+
+'
+  text_custom_logo_instructions: 'Een wit logo op transparante achtergrond wordt aanbevolen.
+    Voor de beste resultaten op zowel conventionele en retina displays, doet u door
+    ervoor te zorgen dat uw afbeelding afmetingen zijn 460px bij 60px.
+
+'
+  text_custom_favicon_instructions: 'Dit is het kleine pictogram dat wordt weergegeven
+    in uw browser venster/een lusje naast de titel van de pagina. Het moet een kwadraat
+    32 door 32 pixels formaat PNG spiegelbeeld vijl met een transparante achtergrond.
+
+'
+  text_custom_touch_icon_instructions: 'Dit is het icoontje wat verschijnt op je mobiel
+    apparaat wanneer je een bladwijzer op je scherm plaatst. Het icoontje moet 180
+    bij 180 pixels zijn in png formaat. Zorg ervoor de de achtergrond niet transparant
+    is want dit kan er niet mooi uit zien op iOS.
+
+'
+  text_default_administrator_account_changed: Standaard beheerdersaccount gewijzigd
+  text_default_encoding: 'Standaardinstelling: UTF-8'
+  text_destroy: Verwijderen
+  text_destroy_with_associated: 'Er zijn extra objecten gerelateerd aan het/de te
+    verwijderen werkpakket(ten). Deze objecten zijn van de soorten:'
+  text_destroy_what_to_do: Wat wilt u doen?
+  text_diff_truncated: "... deze diff is truncated vanwege dat de maximale grote is
+    overschreden om te tonen."
+  text_email_delivery_not_configured: E-maillevering niet is geconfigureerd, en meldingen
+    zijn uitgeschakeld. Configureer ww SMTP-server in config/configuration.yml en
+    start de applicatie opnieuw om de instellingen te activeren.
+  text_enumeration_category_reassign_to: 'Wijzig alle naar de deze waarde:'
+  text_enumeration_destroy_question: "%{count} objecten zijn toegewezen aan deze waarde."
+  text_file_repository_writable: Bijlagen directory schrijfbaar
+  text_git_repo_example: een lege en lokale repository (e.d. /gitripo, c:\gitrepo)
+  text_hint_date_format: Voer een datum in de vorm van JJJJ-MM-DD. Andere formaten
+    kunnen worden gewijzigd in een ongewenste datum.
+  text_hint_disable_with_0: 'Opmerking: Uitschakelen met 0'
+  text_hours_between: Tussen %{min} en %{max} uur.
+  text_work_package_added: Werk pakket %{id} is gerapporteerd door %{author}.
+  text_work_package_category_destroy_assignments: Verwijder categorie toewijzingen
+  text_work_package_category_destroy_question: Sommige werkpakketten (%{count}) worden
+    toegewezen aan deze categorie. Wat wilt u doen?
+  text_work_package_category_reassign_to: Werkpakketten toewijzen aan deze categorie
+  text_work_package_updated: Werkpakket %{id} is bijgewerkt door %{author}.
+  text_work_package_watcher_added: Je bent toegevoegd als een watcher werkpakket %{id}
+    door %{watcher_setter}.
+  text_work_packages_destroy_confirmation: Weet u zeker dat u geselecteerd(e) werkpakket(ten)
+    wilt verwijderen?
+  text_work_packages_ref_in_commit_messages: Verwijzen naar en herstellen van de werkpakketten
+    in commit berichten
+  text_journal_added: "%{label} %{value} toegevoegd"
+  text_journal_aggregation_time_explanation: Tijdschriften voor weergave combineren
+    als leeftijdsverschil kleiner dan de opgegeven timespan is. Dit zal ook e-mail
+    kennisgevingen door de dezelfde hoeveelheid tijd vertragen.
+  text_journal_changed: "%{label} gewijzigd van %{old} naar %{new}"
+  text_journal_changed_no_detail: "%{label} bijgewerkt"
+  text_journal_changed_with_diff: "%{label} gewijzigd (%{link})"
+  text_journal_deleted: "%{label} verwijderd (%{old})"
+  text_journal_deleted_with_diff: "%{label} verwijderd (%{link})"
+  text_journal_set_to: "%{label} ingesteld op %{value}"
+  text_journal_set_with_diff: "%{label} ingesteld (%{link})"
+  text_latest_note: 'De laatste opmerking is: %{note}'
+  text_length_between: Lengte tussen %{min} en %{max} karakters.
+  text_line_separated: Meerdere waarden toegestaan (één regel voor elke waarde).
+  text_load_default_configuration: De standaardconfiguratie laden
+  text_min_max_length_info: 0 betekent geen beperking
+  text_no_roles_defined: Er zijn geen rollen gedefinieerd.
+  text_no_access_tokens_configurable: Er zijn geen toegangstokens die kunnen worden
+    geconfigureerd.
+  text_no_configuration_data: Rollen, typen, werk pakket statussen en workflow zijn
+    niet geconfigureerd nog. \ndit is sterk aanbevolen voor het laden van de standaardconfiguratie.
+    U kunt deze wijzigen als het eenmaal geladen is.
+  text_no_notes: Er is geen commentaar beschikbaar voor dit werkpakket.
+  text_notice_too_many_values_are_inperformant: 'Opmerking: Meer dan 100 items per
+    pagina weergeven kan de laadtijd van de pagina verhogen.'
+  text_own_membership_delete_confirmation: U bent bezig met het verwijderen van sommige
+    of alle van uw machtigingen en kan het project hierna misschien niet meer bewerken.
+    \nWilt doorgaan?
+  text_plugin_assets_writable: Plugin directory schrijfbaar
+  text_powered_by: Powered by %{link}
+  text_project_identifier_info: Alleen kleine letters (a-z), cijfers, streepjes en
+    underscores (_) zijn toegestaan, moet beginnen met een kleine letter.
+  text_reassign: 'Opnieuw toewijzen aan werkpakket:'
+  text_regexp_info: bijv. ^[A-Z0-9]+$
+  text_regexp_multiline: De regex wordt toegepast in een modus met meerdere regels.
+    bijvoorbeeld, ^---\s+
+  text_repository_usernames_mapping: Selecteer of update de gebruiker van de OpenProject
+    gelinkt aan elke gebruikersnaam gevonden in het repository log. Gebruikers met
+    de zelfde OpenProject en repository gebruikersnaam of e-mail worden automatisch
+    gelinkt.
+  text_select_mail_notifications: Selecteer acties waarvoor mededelingen via e-mail
+    moeten worden verstuurd.
+  text_status_changed_by_changeset: Toegepast in changeset %{value}.
+  text_table_difference_description: In deze tabel worden de enkele %{entries} weergegeven.
+    U kunt het verschil tussen twee vermeldingen bekijken door eerst de bijhorende
+    selectievakjes te selecteren in de tabel. Bij het klikken op de knop onder de
+    tabel worden de verschillen weergegeven.
+  text_time_logged_by_changeset: Toegepast in changeset %{value}.
+  text_tip_work_package_begin_day: werkpakket om deze dag te beginnen
+  text_tip_work_package_begin_end_day: werkpakket om deze dag te beginnen en te eindigen
+  text_tip_work_package_end_day: werkpakket om deze dag te eindigen
+  text_type_no_workflow: Geen workflow gedefinieerd voor dit type
+  text_unallowed_characters: Ongeldige tekens
+  text_user_invited: De gebruiker is uitgenodigd en is in afwachting van de registratie.
+  text_user_wrote: "%{value} schreef:"
+  text_warn_on_leaving_unsaved: Het werkpakket bevat niet-opgeslagen tekst die verloren
+    gaat als u deze pagina verlaat.
+  text_wiki_destroy_confirmation: Weet u zeker dat u deze wiki en alle inhoud wilt
+    verwijderen?
+  text_wiki_page_destroy_children: Verwijder alle subpagina's en onderliggende pagina's
+  text_wiki_page_destroy_question: Deze pagina heeft %{descendants} subpagina's en
+    onderliggende pagina's?. Wat wilt u doen?
+  text_wiki_page_nullify_children: Behoud subpagina's als hoofdpagina's
+  text_wiki_page_reassign_children: Alle subpagina's toewijzen aan deze hoofdpagina
+  text_workflow_edit: Selecteer een rol en een type om de workflow te wijzigen
+  text_zoom_in: Inzoomen
+  text_zoom_out: Uitzoomen
+  text_setup_mail_configuration: Configureren van uw e-mailprovider
+  time:
+    am: am
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+      time: "%I:%M %p"
+    pm: PM
+  timeframe:
+    show: Toon tijdschema
+    end: naar
+    start: van
+  timelines:
+    admin_menu:
+      color: Kleur
+      colors: Kleuren
+      project_type: Projecttype
+      project_types: Projecttypes
+    project_menu:
+      project_associations: Afhankelijkheden
+      reportings: Status rapporteringen
+      reports: Tijdlijn rapporten
+      timelines: Tijdlijnen
+    add_project_association: Afhankelijkheid toevoegen
+    associations: Afhankelijkheden
+    board_could_not_be_saved: Bord kon niet opgeslagen worden
+    button_delete_all: Alles verwijderen
+    change: In de planning wijzigen
+    children: Onderliggend element
+    color_could_not_be_saved: Kleur kon niet opgeslagen worden
+    current_planning: Huidige planning
+    dates: Datums
+    dates_are_calculated_based_on_sub_elements: Datums worden berekend op basis van
+      sub-elementen.
+    delete_all: Alles verwijderen
+    delete_thing: Verwijderen
+    duration: Duur
+    duration_days:
+      one: "%{count} dag"
+      other: "%{count} dagen"
+    edit_color: Bewerk kleur
+    edit_project_type: Projecttype bewerken
+    edit_thing: Wijzig
+    edit_timeline: Bewerk tijdlijn verslag %{timeline}
+    delete_timeline: Verwijder tijdlijn verslag %{timeline}
+    empty: "(leeg)"
+    enable_type_in_project: Activeer type "%{type}"
+    end: Einde
+    errors:
+      not_implemented: De tijdlijn kan niet worden weergegeven omdat het gebruik maakt
+        van een functie die is nog niet geïmplementeerd.
+      report_comparison: De tijdlijn kan de geconfigureerde vergelijkingen tonen.
+        Controleer de bijbehorende sectie in de configuratie, het resetten kan helpen
+        bij het oplossen van dit probleem.
+      report_epicfail: De tijdlijn kan niet worden geladen vanwege een onverwachte
+        fout.
+      report_timeout: De tijdlijn kan niet worden geladen in een redelijke hoeveelheid
+        tijd.
+    filter:
+      errors:
+        timeframe_start: 'Het begin van de termijn '
+        timeframe_end: 'Het einde van de termijn '
+        compare_to_relative: 'De waarde van de relatieve vergelijking '
+        compare_to_absolute: 'De waarde van de absolute vergelijking '
+        planning_element_time_relative_one: 'De start voor werkpakketten in een bepaalde
+          periode '
+        planning_element_time_relative_two: 'Het einde voor werkpakketten in een bepaalde
+          periode '
+        planning_element_time_absolute_one: 'De start voor werkpakketten in een bepaalde
+          periode  '
+        planning_element_time_absolute_two: 'Het einde voor werkpakketten in een bepaalde
+          periode  '
+      sort:
+        sortation: Sorteer op
+        alphabet: alfabetisch
+        explicit_order: expliciete volgorde
+        project_sortation: Sorteer projecten op
+        date: datum
+        default: standaard
+      column:
+        assigned_to: Toegewezene
+        type: Type
+        due_date: Einddatum
+        name: Naam
+        status: Status
+        responsible: Verantwoordelijk
+        start_date: Startdatum
+      columns: Kolommen
+      comparisons: Vergelijkingen
+      comparison:
+        absolute: Absoluut
+        none: Geen
+        relative: Relatief
+        compare_relative_prefix: Vergelijk de huidige planning met
+        compare_relative_suffix: geleden
+        compare_absolute: Vergelijk de huidige planning met %{date}
+      time_relative:
+        days: dagen
+        weeks: weken
+        months: maanden
+      exclude_own_work_packages: Werkpakketten van dit project verbergen
+      exclude_reporters: Verberg andere projecten
+      exclude_empty: Lege projecten verbergen
+      grouping: Groeperen
+      grouping_hide_group: Verbergen van de groep "%{group}"
+      grouping_one: Eerste criterium van de groepering
+      grouping_one_phrase: Is een subproject van
+      grouping_other: Overig
+      hide_chart: Grafiek verbergen
+      noneElement: "(geen)"
+      noneSelection: "(geen)"
+      outline: Uitbreiding van de eerste schets
+      parent: Toon subprojecten van
+      work_package_filters: Filter werkpakketten
+      work_package_responsible: Toon werkpakketten met verantwoordelijk
+      work_package_assignee: Toon werkpakketten met uitvoerder
+      types: Typen weergeven
+      status: Toon status
+      project_time_filter: Projecten met een werkpakket van een bepaald type in een
+        bepaalde periode
+      project_time_filter_timeframe: Periode
+      project_time_filter_historical_from: van
+      project_time_filter_historical_to: naar
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} geleden,
+        %{end_label} %{endspan}%{endspanunit} vanaf nu"
+      project_filters: Filter projecten
+      project_responsible: Toon projecten met verantwoordelijk
+      project_status: Toon project status
+      project_types: Toon projecttypes
+      timeframe: Toon tijdschema
+      timeframe_end: naar
+      timeframe_start: van
+      timeline: Algemene instellingen
+      zoom: Zoomfactor
+    history: Geschiedenis
+    new_color: Nieuwe kleur
+    new_association: Nieuwe afhankelijkheid
+    new_work_package: Nieuw werkpakket
+    new_project_type: Nieuw projecttype
+    new_reporting: Nieuwe rapportage
+    new_timeline: Nieuw rapport van de tijdlijn
+    no_projects_for_reporting_available: Er zijn geen projecten waarnaar een rapportage
+      associatie kan worden gemaakt.
+    no_right_to_view_timeline: U heeft niet de benodigde machtiging om de gekoppelde
+      tijdlijn te bekijken.
+    no_timeline_for_id: Er is geen tijdlijn met ID %{id}.
+    notice_successful_deleted_all_elements: Succesvol alle elementen verwijderd
+    outline: Reset omlijning
+    outlines:
+      aggregation: Toon alleen aggregaties
+      level1: Uitbreiden van niveau 1
+      level2: Uitbreiden van niveau 2
+      level3: Uitbreiden van niveau 3
+      level4: Uitbreiden van niveau 4
+      level5: Uitbreiden van niveau 5
+      all: Toon alle
+    reporting_for_project:
+      show: 'Status gemeld aan het project: %{title}'
+      edit_delete: 'statusrapport voor project: %{title}'
+      history: 'Geschiedenis van wijzigingen voor status voor project: %{title}'
+    reporting:
+      delete: 'Verwijder status: %{comment}'
+      edit: 'Bewerk status: %{comment}'
+      show: 'Status: %{comment}'
+    planning_element_update: 'Bijgewerkt: %{title}'
+    work_packages_are_displayed_in_aggregations: Werkpakketten worden weergegeven
+      in samenvoegingen
+    project_association_new: Voeg project afhankelijkheid toe
+    project_association_new_for_with: Afhankelijkheid voor "%{project_a}" instellen
+      met
+    project_association_with_other: Project afhankelijkheid tussen "%{project_a}"
+      en "%{project_b}"
+    project_association_of_type: Afhankelijkheid van project van het type "%{type}"
+    project_type_could_not_be_saved: Projecttype kan niet worden opgeslagen
+    type_could_not_be_saved: Type kan niet worden opgeslagen
+    reporting_could_not_be_saved: Rapportage kan niet worden opgeslagen
+    properties: Eigenschappen
+    really_delete_color: 'Weet u zeker, dat u wilt de volgende kleur verwijderen?
+      Typen van deze kleur zullen niet worden verwijderd.
+
+'
+    really_delete_project_association_between_project_a_and_project_b: 'Weet u zeker,
+      dat u van de afhankelijkheid tussen "%{project_a}" en "%{project_b}"wilt verwijderen?
+
+'
+    really_delete_project_type: 'Weet u zeker, dat u de volgende projecttype wilt
+      verwijderen? Projecten van dit type zullen niet worden verwijderd.
+
+'
+    really_delete_timeline: 'Weet u zeker, dat u het volgende rapport van de tijdlijn
+      wilt verwijderen? Werkpakketten die in dit rapport van deze tijdlijn weergegeven
+      worden, worden niet verwijderd.
+
+'
+    really_delete_reporting: 'Weet u zeker, dat u de volgende rapportage wilt verwijderen?
+      Vorige rapportage statussen worden ook verwijderd.
+
+'
+    start: Start
+    timeline: Rapport van de tijdlijn
+    timelines: Tijdlijn rapporten
+    settings: Tijdlijnen
+    vertical_work_package: Verticale werkpakketten
+    without_project_type: Zonder projecttype
+    you_are_viewing_the_selected_timeline: U bekijkt het geselecteerde tijdlijn Rapport
+    zoom:
+      in: Inzoomen
+      out: Uitzoomen
+      days: Dagen
+      weeks: Weken
+      months: Maanden
+      quarters: Kwartalen
+      years: Jaren
+  title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
+    en verwijder hem/haar.
+  tooltip_resend_invitation: 'Verzendt een andere uitnodiging e-mail met een nieuw
+    token in geval het oude verlopen is of de gebruiker het oorspronkelijke e-mailbericht
+    niet ontvangen heeft. Kan ook worden gebruikt voor actieve gebruikers om een nieuwe
+    verificatiemethode te kizen. Wanneer gebruikt in combinatie met actieve gebruikers
+    zal hun status worden gewijzigd tot ''uitgenodigd''.
+
+'
+  tooltip:
+    setting_email_login: 'Wanneer ingeschakeld kan een gebruiker geen login kiezen
+      tijdens de registratie. In plaats daarvan zal hun opgegeven e-mailadres dienen
+      als de login. Een beheerder kan de login nog steeds afzonderlijk wijzigen.
+
+'
+  queries:
+    apply_filter: Vooraf geconfigureerde filter toepassen
+  top_menu:
+    additional_resources: Extra middelen
+    getting_started: Aan de slag
+    help_and_support: Hulp en ondersteuning
+  total_progress: Totaal vorderingen
+  user:
+    all: alle
+    active: actief
+    activate: Activeren
+    activate_and_reset_failed_logins: Activeren en opnieuw instellen van mislukte
+      aanmeldingen
+    authentication_provider: Verificatieprovider
+    authentication_settings_disabled_due_to_external_authentication: 'Deze gebruiker
+      wordt geverifieerd via een externe-verificatieprovider, dus er is geen wachtwoord
+      in OpenProject wat moet worden veranderd.
+
+'
+    authorization_rejected: U bent niet toegestaan aan te melden.
+    assign_random_password: Toewijzen van willekeurig wachtwoord (verzonden naar de
+      gebruiker via e-mail)
+    blocked: tijdelijk geblokkeerd
+    blocked_num_failed_logins:
+      one: tijdelijk geblokkeerd (een mislukte login poging)
+      other: tijdelijk geblokkeerd (%{count} mislukte login pogingen)
+    confirm_status_change: U bent bezig met het wijzigen van de status van '%{name}'.
+      Weet u zeker dat u wilt doorgaan?
+    deleted: Gebruiker verwijderen
+    error_status_change_failed: 'Veranderen van de gebruikersstatus is mislukt vanwege
+      de volgende fouten: %{errors}'
+    invite: Uitnodigen via e-mail
+    invited: uitgenodigd
+    lock: Permanent blokeren
+    locked: permanent geblokkeerd
+    no_login: Deze gebruiker wordt geverifieerd via login met wachtwoord. Omdat deze
+      is uitgeschakeld, kunnen niet zij inloggen.
+    password_change_unsupported: Wijziging van het wachtwoord wordt niet ondersteund.
+    registered: geregistreerd
+    reset_failed_logins: Reset mislukte aanmeldingen
+    settings:
+      mail_notifications: Stuur e-mail notificaties
+      mail_project_explanaition: Bij niet-geselecteerde projecten zal u enkel mededelingen
+        ontvangen voor issues die u volgt of waar u bij betrokken bent (als auteur
+        of toegewezen persoon).
+      mail_self_notified: Ik wil op de hoogte worden gesteld van wijzigingen die ik
+        zelf maak
+    status_user_and_brute_force: "%{user} en %{brute_force}"
+    status_change: Statuswijziging
+    unlock: Ontgrendelen
+    unlock_and_reset_failed_logins: Openen en herstellen mislukte aanmeldingen
+  version_status_closed: gesloten
+  version_status_locked: geblokkeerd
+  version_status_open: Open
+  note: Opmerking
+  note_password_login_disabled: Wachtwoord is uitgeschakeld door %{configuration}.
+  warning: Waarschuwing
+  warning_attachments_not_saved: "%{count} bestanden kunnen niet worden opgeslagen."
+  menu_item: Menu-item
+  menu_item_setting: Zichtbaarheid
+  wiki_menu_item_for: Menu-item voor wiki pagina "%{title}"
+  wiki_menu_item_setting: Zichtbaarheid
+  wiki_menu_item_new_main_item_explanation: 'U verwijdert het alleen het hoofd wiki
+    menu-item. Je moet nu kiezen van een wiki-pagina waarvoor een nieuw belangrijkste
+    item zal worden gegenereerd. Als u de wiki wilt verwijderen, kan de wiki module
+    worden gedeactiveerd door project beheerders.
+
+'
+  wiki_menu_item_delete_not_permitted: De wiki menu-item van de enige wikipagina kan
+    niet worden verwijderd.
+  query_menu_item_for: Menu-item voor query "%{title}"
+  work_package:
+    updated_automatically_by_child_changes: '_Automatisch geüpdatet door het veranderen
+      van waarden binnen onderliggend werk pakket %{child}_
+
+'
+    destroy:
+      info: Het verwijderen van het werkpakket is een onomkeerbare actie.
+      title: Werkpakket verwijderen
+  nothing_to_preview: Niets om te bekijken
+  api_v3:
+    attributes:
+      lock_version: Vergrendel versie
+    errors:
+      code_401: U moet geauthenticeerd zijn om toegang te hebben tot deze resource.
+      code_401_wrong_credentials: U heeft niet de juiste referenties opgeven.
+      code_403: U bent niet gemachtigd om toegang te hebben tot deze resource.
+      code_404: De gevraagde resource kan niet worden gevonden.
+      code_409: Door conflicterende wijzigingen kan deze resource niet worden bijgewerkt.
+      code_500: Een interne fout is opgetreden.
+      expected:
+        date: JJJJ-MM-DD (alleen ISO 8601 datum)
+        duration: Standaard ISO 8601 duur
+      invalid_content_type: CONTENT-TYPE  '%{content_type}' werd verwacht, maar '%{actual}'
+        werd ingegeven.
+      invalid_format: 'Ongeldig formaat voor eigenschap ''%{property}'': een formaat
+        zoals ''%{expected_format}'' wordt verwacht, maar ''%{actual}'' werd ingegeven.'
+      invalid_json: Het verzoek kon niet worden verwerkt als JSON.
+      invalid_relation: De relatie is ongeldig.
+      invalid_resource: Eigenschap '%{property}' verwacht een link zoals '%{expected}',
+        maar kreeg '%{actual}'.
+      invalid_user_status_transition: De accountstatus van de huidige gebruiker laat
+        deze actie niet toe.
+      missing_content_type: niet bepaald
+      missing_request_body: Er was geen hoofdgedeelte van de aanvraag.
+      missing_or_malformed_parameter: De queryparameter '%{parameter}' is ongeldig
+        of ontbreekt.
+      multipart_body_error: Het hoofdgedeelte van de aanvraag bevatte niet de verwachte
+        meerdere delen.
+      multiple_errors: Meerdere veldbeperkingen werden overtreden.
+      render:
+        context_not_parsable: De geboden context is niet een link naar een bron.
+        unsupported_context: De gegeven bron wordt niet ondersteund als context.
+        context_object_not_found: Kan de bron niet vind als gegeven context.
+      validation:
+        done_ratio: De vooruitgangsratio kan niet op een ouderwerkpakket worden gezet
+          wanneer die uit de status wordt afgeleid of is uitgeschakeld.
+        due_date: De vervaldatum kan niet worden ingesteld op bovenliggende werkpakketten.
+        estimated_hours: Geschatte uren uren kunnen niet op ouderwerkpaketten worden
+          gezet.
+        invalid_user_assigned_to_work_package: De gekozen gebruiker kan geen '%{property}'
+          zijn voor dit werkpakket.
+        start_date: De startdatum kan niet worden ingesteld op bovenliggende werkpakketten.
+      writing_read_only_attributes: U mag geen read-only attribuut schrijven.
+    resources:
+      schema: Schema

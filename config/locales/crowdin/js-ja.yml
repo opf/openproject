@@ -1,0 +1,592 @@
+---
+ja:
+  js:
+    ajax:
+      hide: 非表示
+      loading: ロード中...
+    close_popup_title: ポップアップを閉じる
+    close_filter_title: フィルタを閉じる
+    close_form_title: フォームを閉じる
+    clipboard:
+      browser_error: お使いのブラウザーでは、クリップボードへのコピーをサポートしていません。手動で選択したテキストをコピーしてください。
+      copied_successful: 正常にクリップボードにコピーしました!
+    button_add_watcher: ウォッチャーを追加
+    button_back_to_list_view: リスト表示に戻る
+    button_cancel: キャンセル
+    button_close: 閉じる
+    button_check_all: 全てを選択
+    button_configure-form: フォームを設定
+    button_confirm: 確認
+    button_continue: 続行
+    button_copy: コピー
+    button_custom-fields: カスタムフィールド
+    button_delete: 削除
+    button_delete_watcher: ウォッチャーを削除
+    button_details_view: 詳細表示
+    button_duplicate: 複製
+    button_edit: 編集
+    button_filter: フィルタ
+    button_list_view: 一覧表示
+    button_show_view: 全画面表示
+    button_log_time: 時間を記録
+    button_more: 続き
+    button_move: 移動
+    button_open_details: 詳細表示を開く
+    button_close_details: 詳細表示を閉じる
+    button_open_fullscreen: 全画面表示を開く
+    button_quote: 引用
+    button_save: 保存
+    button_settings: 設定
+    button_uncheck_all: 全てを選択解除
+    button_update: 更新
+    button_export-pdf: PDFファイルをダウンロード
+    button_export-atom: Atomをダウンロード
+    description_available_columns: 利用できる項目
+    description_current_position: ここにいます：
+    description_select_work_package: '作業項目を選択 #%{id}'
+    description_selected_columns: 選択された項目
+    description_subwork_package: '作業項目の子 #%{id}'
+    error:
+      internal: 内部エラーが発生しました。
+    filter:
+      description:
+        text_open_filter: "'ALT' と矢印キーでこのフィルタを開きます。"
+        text_close_filter: エントリを選択するには、例えばエンターキーを押して、フォーカスを外します。フィルターを選択しないで離れるには、最初の
+          (空の) のエントリを選択します。
+      noneElement: "(なし)"
+      time_zone_converted:
+        two_values: 現地時間で %{from} - %{to}。
+        only_start: 現地時間で %{from} から。
+        only_end: 現地時間で %{to} まで。
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: 最初の並べ替え条件
+          two: 2 番目の並べ替え基準
+          three: 3 番目の並べ替え条件
+    general_text_no: いいえ
+    general_text_yes: はい
+    general_text_No: いいえ
+    general_text_Yes: はい
+    label_activate: 有効にする
+    label_activity_no: アクティビティのエントリ番号 %{activityNo}
+    label_activity_with_comment_no: アクティビティのエントリ番号 %{activityNo}。ユーザー コメントがあります。
+    label_add_columns: 列を追加
+    label_add_comment: コメントを追加
+    label_add_comment_title: クリックしてコメントを追加
+    label_add_selected_columns: 選択した列を追加
+    label_added_by: 追加した人
+    label_added_time_by: "%{author} %{age}によって追加されました。"
+    label_ago: "○日前"
+    label_all: 全て
+    label_all_work_packages: 全ての作業項目
+    label_and: 及び
+    label_ascending: 昇順
+    label_author: '作者: %{user}'
+    label_between: 次の範囲内
+    label_board_locked: ロックされている
+    label_board_sticky: 固定する
+    label_create_work_package: 新しい作業項目を作成
+    label_created_by: 作成者：
+    label_date: 日付
+    label_date_with_format: '次の形式を使用して %{date_attribute} を入力してください: %{format}'
+    label_deactivate: 無効
+    label_descending: 降順
+    label_description: 説明
+    label_cancel_comment: コメントをキャンセル
+    label_closed_work_packages: 完了
+    label_collapse: 折りたたむ
+    label_collapsed: 折りたたまれている。
+    label_collapse_all: 全てを折りたたむ
+    label_comment: コメント
+    label_committed_at: "%{date}で%{committed_revision_link}"
+    label_committed_link: コミットされたバージョン%{revision_identifier}
+    label_contains: 含む
+    label_created_on: 作成日時
+    label_edit_comment: このコメントを編集
+    label_edit_status: ワークパッケージのステータスを編集
+    label_equals: 等しい
+    label_expand: 展開
+    label_expanded: 展開
+    label_expand_all: 全てを展開
+    label_export: 外部出力
+    label_filename: ファイル
+    label_filesize: サイズ
+    label_greater_or_equal: ">="
+    label_group_by: グループ化
+    label_hide_attributes: 非表示にする
+    label_hide_column: 列を非表示
+    label_in: 今日から○日後
+    label_in_less_than: 今日から○日後以前
+    label_in_more_than: 今日から○日後以降
+    label_latest_activity: 最新の活動
+    label_last_updated_on: 最終更新日：
+    label_less_or_equal: 以下
+    label_less_than_ago: 今日より○日前以降
+    label_loading: 読み込み中...
+    label_me: 自分
+    label_menu_collapse: 以下を非表示
+    label_menu_expand: 展開
+    label_more_than_ago: 今日より○日前以前
+    label_next: 次へ
+    label_no_data: 表示できるデータがありません。
+    label_no_due_date: 完了日なし
+    label_no_start_date: 開始日なし
+    label_none: なし
+    label_not_contains: 含まない
+    label_not_equals: 等しくない
+    label_on: オン
+    label_open_menu: メニューを開く
+    label_open_work_packages: 未完了
+    label_password: パスワード
+    label_previous: 前へ
+    label_per_page: 1 ページあたり
+    label_please_wait: しばらくお待ちください
+    label_visibility_settings: 表示の設定
+    label_quote_comment: このコメントを引用
+    label_reset: リセット
+    label_remove_columns: 選択した列を削除
+    label_save_as: 名前をつけて保存
+    label_select_watcher: ウォッチャーを選択...
+    label_selected_filter_list: 選択されたフィルタ
+    label_show_attributes: すべての属性を表示
+    label_show_in_menu: ページをメニューに表示
+    label_sort_by: 並べ替え
+    label_sorted_by: 並べ替えされた
+    label_sort_higher: 上へ
+    label_sort_lower: 下へ移動
+    label_sorting: ソート中
+    label_sum_for: 合計
+    label_subject: 題名
+    label_this_week: 今週
+    label_today: 今日
+    label_activity_show_only_comments: コメントのみのアクティビティを表示
+    label_activity_show_all: すべてのアクティビティを表示
+    label_total_progress: "%{percent}% 進行状況"
+    label_visible_for_others: 他人に見られるページ
+    label_updated_on: 更新日時
+    label_warning: 注意
+    label_work_package: 作業項目
+    label_work_package_plural: 作業項目
+    label_watch: ウォッチする
+    label_watch_work_package: 作業項目をウォッチ
+    label_watcher_added_successfully: ウォッチャーが正常に追加されました ！
+    label_watcher_deleted_successfully: ウォッチャーが正常に削除されました ！
+    label_work_package_details_you_are_here: あなたは %{type} %{subject}で %{tab} タブにいます。
+    label_unwatch: ウォッチしない
+    label_unwatch_work_package: 作業項目のウォッチを削除
+    label_uploaded_by: アップロードした人
+    label_global_queries: 共有された問い合わせ
+    label_custom_queries: 個人用のクエリ
+    label_columns: 列
+    label_attachments: ファイルを添付する
+    label_drop_files: ここにファイルをドロップ
+    label_drop_files_hint: またはクリックしてファイルを追加する
+    label_add_attachments: 添付ファイルを追加する
+    label_formattable_attachment_hint: このフィールドにドロップ、またはクリップボードから貼り付けて、ファイルを添付およびリンクします。
+    label_remove_file: "%{fileName}を削除"
+    label_remove_watcher: ウォッチャー%{name}を削除
+    label_remove_all_files: 全てのファイルを削除
+    label_add_description: "%{file}の説明を追加"
+    label_upload_notification: '作業項目#%{id}: %{subject}用ファイルをアップロード中'
+    label_files_to_upload: 'これらのファイルをアップロードします:'
+    label_rejected_files: これらのファイルをアップロードできません：
+    label_rejected_files_reason: ファイルサイズが%{maximumFilesize}を越えたために、これらのファイルをアップロードできません
+    label_wait: 構成をお待ちください...
+    label_upload_counter: "%{count}ファイルの中に%{done}が完了"
+    label_validation_error: '次のエラーのために作業項目を保存できませんでした:'
+    help_texts:
+      show_modal: テキスト入力属性のヘルプを表示
+    password_confirmation:
+      field_description: この変更を確認するには、アカウントのパスワードを入力する必要があります。
+      title: 続行するにはパスワードを確認してください
+    pagination:
+      no_other_page: このページだけです。
+      pages:
+        next: 次のページに進む
+        previous: 前のページに戻る
+    placeholders:
+      default: "-"
+      subject: ここに件名を入力します
+      selection: 選択してください
+      relation_description: クリックしてこの関係に説明を追加
+    project:
+      required_outside_context: プロジェクトのコンテキストではありません。種類とステータスを選択するために、まずプロジェクトのコンテキストを選択してください。
+      context: プロジェクトのコンテキスト
+      work_package_belongs_to: このワークパッケージは、プロジェクト %{projectname} に属しています。
+      click_to_switch_context: このワークパッケージをそのプロジェクトで開きます。
+    text_are_you_sure: よろしいですか？
+    types:
+      attribute_groups:
+        error_duplicate_group_name: 名前 %{group} が複数回使用されています。グループ名は一意にする必要があります。
+        reset_title: フォーム設定をリセット
+        confirm_reset: '警告: フォームの設定をリセットしてもよろしいですか? これにより、デフォルトのグループに属性をリセットし、表示チェックボックスの設定を解除し、すべてのカスタムフィールドを無効にします。
+
+'
+        upgrade_to_ee: エンタープライズ版にアップグレード
+        upgrade_to_ee_text: この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン
+          ソース開発者を支援していただけませんか?
+        more_information: 詳細情報
+        nevermind: 心配しないで
+    watchers:
+      label_loading: ウォッチャーを読み込み中...
+      label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。
+      label_search_watchers: ウォッチャーを検索
+      label_add: ウォッチャーの追加
+      label_discard: 選択範囲を破棄する
+      typeahead_placeholder: ウォッチャーの選択肢を検索
+    relation_labels:
+      parent: 親項目
+      children: 子
+      relates: 関連先
+      duplicates: 重複
+      duplicated: 重複された
+      blocks: ブロック
+      blocked: ブロックされた
+      precedes: 先立つ
+      follows: 跡継
+      includes: インクルード
+      partof: 以下の一部：
+      requires: 必要
+      required: 以下が必要：
+      relation_type: 関係タイプ
+    relations_hierarchy:
+      hierarchy_headline: 階層
+    relation_buttons:
+      change_parent: 親タスクの変更
+      remove_parent: 親関係を削除
+      group_by_wp_type: ワークパッケージタイプのグループ
+      group_by_relation_type: 関係タイプのグループ
+      add_parent: 既存の親関係を追加する
+      add_new_child: 子関係を作成
+      add_existing_child: 既存の子関係を追加
+      remove_child: 子関係を削除
+      add_new_relation: 新しい関係を作成
+      update_description: この関係の説明を設定または更新する
+      toggle_description: 関係の説明を切り替え
+      update_relation: クリックして関係のタイプを変更
+      add_follower: 後続を追加
+      add_predecessor: 先行を追加
+      remove: 関係を削除
+      save: 関係を保存
+      abort: 中止
+    relations_autocomplete:
+      placeholder: 関係しているワークパッケージ ID を入力してください
+    repositories:
+      select_tag: タグを選択する
+      select_branch: 分岐を選択する
+    field_value_enter_prompt: "'%{field}'の値を入力"
+    select2:
+      input_too_short:
+        one: Please enter one more character
+        other: 後{{count}}以上の文字を入力してください。
+        zero: Please enter more characters
+      load_more: より多くの結果を読み込み中…
+      no_matches: 一致するものが見つかりません。
+      searching: 検索中...
+      selection_too_big:
+        one: You can only select one item
+        other: "{{limit}}つ項目のみを選択できます。"
+        zero: You cannot select any items
+    sort:
+      sorted_asc: '昇順の並べ替えを適用しました。 '
+      sorted_dsc: '降順の並べ替えを適用しました。 '
+      sorted_no: '並べ替えは適用されていません。 '
+      sorting_disabled: 並べ替えは無効です
+      activate_asc: 昇順の並べ替えを適用
+      activate_dsc: 降順の並べ替えを適用
+      activate_no: 並べ替えを削除
+    text_work_packages_destroy_confirmation: 選択した作業項目を削除してもよろしいですか？
+    text_query_destroy_confirmation: 選択したクエリを削除してもよろしいですか？
+    text_attachment_destroy_confirmation: この添付ファイルを削除してよろしいですか。
+    timelines:
+      gantt_chart: ガントチャート
+      labels:
+        bar: バーのラベル
+        left: 左
+        right: 右
+        farRight: 右端
+        showNone: "-- ラベルなし --"
+        description: '毎回、ガントチャートのそれぞれの位置に表示する属性を選択します。要素にカーソルを合わせたときに、その属性の代わりに、日付ラベルが表示されることに注意してください。
+
+'
+      button_activate: タイムライン モードをアクティブにする
+      button_deactivate: タイムライン モードを非アクティブにする
+      cancel: キャンセル
+      change: 計画の変更する
+      due_date: 期限
+      empty: "（空）"
+      error: エラーが発生しました。
+      errors:
+        not_implemented: まだ実装されていない機能を使用するため、タイムラインが表示できません。
+        report_comparison: 設定された比較表はタイムラインで表示できません。該当する設定部分をご確認ください。設定をリセットすることにより、この問題を解決するに役立つことがあります。
+        report_epicfail: タイムラインは予期しないエラーのため読み込めませんでした。
+        report_timeout: タイムラインは適切な時間内に読み込めませんでした。
+      filter:
+        column:
+          assigned_to: 担当者
+          type: 種別
+          due_date: 完了日
+          name: 名称
+          status: ステータス
+          responsible: 責任者
+          start_date: 開始日
+        grouping_other: その他
+        noneSelection: "(なし)"
+      name: 名称
+      new_work_package: 新しい作業項目
+      outline: 概要をリセットする
+      outlines:
+        aggregation: 集計のみを表示
+        level1: レベル１を展開
+        level2: レベル２を展開
+        level3: レベル３を展開
+        level4: レベル４を展開
+        level5: レベル５を展開
+        all: 全てを表示
+      project_status: プロジェクトの進捗状況
+      project_type: プロジェクトの種類
+      really_close_dialog: ダイアログボックスを閉じて入力したデータを破棄してもよろしいですか？
+      responsible: 責任者
+      save: 保存
+      start_date: 開始日
+      tooManyProjects: プロジェクト数が%{count} 件を超えました。フィルタを変えてください ！
+      selection_mode:
+        notification: 関係を作成するには、強調表示されたワークパッケージをクリックします。キャンセルするにはエスケープキーを押してください。
+      zoom:
+        in: 拡大
+        out: 拡大
+        auto: 自動ズーム
+        days: 日
+        weeks: 週
+        months: 月
+        quarters: 四半期ごと
+        years: " 年"
+        slider: ズームスライダー
+    tl_toolbar:
+      zooms: ズームレベル
+      outlines: 階層レベル
+    unsupported_browser:
+      title: このブラウザーのバージョンはサポートされていません。
+      message: 使用しているブラウザのバージョンは、OpenProjectではサポートされなくなりました。
+      update_message: ブラウザを更新してください。
+      update_ie_user: Mozilla FirefoxまたはGoogle Chromeに切り替えるか、Microsoft Edgeにアップグレードしてください。
+      learn_more: もっと詳しく
+      close_warning: この警告を無視する。
+    wiki_formatting:
+      strong: 強調
+      italic: 斜体字
+      underline: 下線
+      deleted: 削除済み
+      code: インライン コード
+      heading1: 見出し 1
+      heading2: 見出し 2
+      heading3: 見出し 3
+      unordered_list: 順不同リスト
+      ordered_list: 順序付きリスト
+      quote: 引用
+      unquote: 引用終了
+      preformatted_text: 整形済みテキスト
+      wiki_link: Wikiページにリンクする
+      image: 画像
+    work_packages:
+      bulk_actions:
+        move: 一括移動
+        edit: 一括編集
+        copy: 一括コピー
+        delete: 一括削除
+      button_clear: クリア
+      comment_added: 正常にコメントを追加しました。
+      comment_send_failed: エラーが発生しました。コメントを投稿できませんでした。
+      comment_updated: 正常にコメントを更新しました。
+      confirm_edit_cancel: 作業項目の編集をキャンセルしてもよろしいですか？
+      description_filter: フィルタ
+      description_enter_text: テキスト
+      description_options_hide: オプションを非表示
+      description_options_show: オプションを表示
+      error:
+        edit_prohibited: この作業項目の %{attribute} の編集はブロックされます。この属性が関係から派生している (例えば、子供)
+          か、あるいは構成できないため。
+        format:
+          date: "%{attribute} は有効な日付ではありません - YYYY-MM-DDの形式で入力してください。"
+        general: エラーが発生しました。
+      edit_attribute: "%{attribute} - 編集"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: 複数の選択を許可
+      label_disable_multi_select: 複数の選択を禁止
+      label_filter_add: フィルタを追加
+      label_options: オプション
+      label_column_multiselect: '結合されたドロップダウンフィールド: 矢印キーで選択する、エンターキーで選択を確認する、バックスペースキーで削除する'
+      label_switch_to_single_select: 単一選択に切り替え
+      label_switch_to_multi_select: 複数選択に切り替え
+      message_error_during_bulk_delete: 作業項目を削除する際にエラーが発生しました。
+      message_successful_bulk_delete: 作業項目が正常に削除されました。
+      message_successful_show_in_fullscreen: クリックすると全画面表示でこの作業項目を開きます。
+      message_view_spent_time: このワークパッケージに費やした時間を表示する
+      no_value: 値なし
+      inline_create:
+        title: クリックしてこのリストに新しい作業項目を追加します
+      create:
+        header: 新しい %{type}
+        header_no_type: 新しいワークパッケージ（タイプ未設定）
+        header_with_parent: '新しい %{type}（%{parent_type} #%{id} の子要素）'
+        button: 作成
+      hierarchy:
+        show: 階層モードを表示
+        hide: 階層モードを非表示
+        toggle_button: クリックして階層モードを切り替えます。
+        leaf: ワークパッケージリーフ、レベル %{level}。
+        children_collapsed: 階層レベル %{level} を折りたたみました。クリックすると、フィルターされた子を表示します
+        children_expanded: 階層レベル %{level} を展開しました。クリックすると、フィルターされた子を折りたたみます
+      faulty_query:
+        title: 作業項目が読み込めませんでした。
+        description: クエリが誤っているため処理できませんでした。
+      no_results:
+        title: 表示できる作業項目がありません。
+        description: 作業項目が作成されていないかすべての作業項目が除外されています。
+      property_groups:
+        details: 詳細
+        people: 人
+        estimatesAndTime: 見積もりと 時間
+        other: その他
+      properties:
+        assignee: 担当者
+        author: 作成者
+        createdAt: 作成日時
+        description: 説明
+        date: 日付
+        dueDate: 期限
+        estimatedTime: 予定工数
+        spentTime: 作業時間の記録
+        category: カテゴリ
+        percentageDone: 完了比率
+        priority: 優先度
+        projectName: プロジェクト
+        responsible: 責任者
+        startDate: 開始日
+        status: ステータス
+        subject: 題名
+        title: タイトル
+        type: 種別
+        updatedAt: 更新日時
+        versionName: バージョン
+        version: バージョン
+      jump_marks:
+        pagination: 表のページ設定に移動する
+        label_pagination: ここをクリックすると、作業項目表をスキップしてページ設定に移動します
+        content: コンテンツにジャンプ
+        label_content: ここをクリックすると、メニューをスキップして、コンテンツへ移動します
+      placeholders:
+        default: "-"
+        description: クリックして説明を入力する...
+      query:
+        column_names: 列
+        group_by: グループ化
+        group: グループ化
+        group_by_disabled_by_hierarchy: 階層モードが有効なため、グループ化は無効です。
+        hierarchy_disabled_by_group_by: 結果が %{column} でグループ化されているため、階層モードは無効です。
+        hierarchy_mode: 階層モード
+        sort_ascending: 昇順にソート
+        sort_descending: 降順にソート
+        move_column_left: 列を左に移動
+        move_column_right: 列を右に移動
+        hide_column: 列を非表示
+        insert_columns: 列の挿入.
+        filters: フィルタ
+        display_sums: 合計を表示
+        errors:
+          unretrievable_query: URL からクエリを取得できません。
+          not_found: そのようなクエリはありません
+        text_no_results: 一致するクエリが見つかりませんでした。
+      table:
+        summary: 作業項目の行と、作業項目の属性の列から成る表。
+        text_inline_edit: この表のほとんどのセルは、属性のインライン編集機能を有効にするボタンです。
+        text_sort_hint: テーブル見出しのリンクで、並べ替え、グループ化、再並べ替え、削除、およびテーブルの列を追加ができます。
+        text_select_hint: 選択ボックスは 'ALT'と矢印キーで開きます。
+      tabs:
+        overview: 概要
+        activity: 活動
+        relations: 関連
+        watchers: ウォッチャー
+        attachments: 添付ファイル
+      time_relative:
+        days: " 日"
+        weeks: 週間
+        months: ヶ月間
+    toolbar:
+      settings:
+        columns: 列...
+        sort_by: 並べ替え...
+        group_by: グループ化...
+        display_sums: 合計を表示
+        display_hierarchy: 階層を表示
+        hide_hierarchy: 階層を非表示
+        hide_sums: 合計の非表示
+        save: 保存
+        save_as: 名前を付けて保存
+        export: 出力...
+        publish: 公開 ...
+        page_settings: 問い合わせ名を変更。。。
+        delete: 削除
+      filter: フィルタ
+      unselected_title: 作業項目
+      search_query_label: 保存されたフィルタクエリを検索
+      search_query_title: クリックして保存されたフィルタクエリを検索
+    modals:
+      label_settings: 問い合わせ名を変更
+      label_name: 名称
+      label_delete_page: 現在のページを削除
+      button_apply: 適用
+      button_save: 保存
+      button_submit: 適用
+      button_cancel: キャンセル
+      form_submit:
+        title: 続行の確認
+        text: この操作を実行してもよろしいですか？
+      upsale_relation_columns: ワークパッケージリストに関係を表示する必要がありますか?
+      upsale_relation_columns_link: エンタープライズ版をチェックしてください。
+      destroy_work_package:
+        title: "%{label} の削除を確認"
+        text: 次の %{label} を削除してもよろしいですか?
+        has_children: ワークパッケージは %{childUnits} あります。
+        deletes_children: すべての子ワークパッケージも削除されます。
+    notice_successful_create: 正常に作成しました。
+    notice_successful_delete: 正常に削除しました。
+    notice_successful_update: 正常に更新しました。
+    notice_bad_request: 不正な要求です。
+    relations:
+      empty: 関係は存在しません
+      remove: 関係を削除
+    inplace:
+      button_edit: "%{attribute}: 編集"
+      button_save: "%{attribute}: 保存"
+      button_cancel: "%{attribute}: キャンセル"
+      button_save_all: 保存
+      button_cancel_all: キャンセル
+      link_formatting_help: テキストの書式設定のヘルプ
+      btn_preview_enable: プレビュー
+      btn_preview_disable: プレビューを無効にする
+      null_value_label: 値なし
+      clear_value_label: "-"
+      errors:
+        required: "%{field}を空にできません"
+        number: "%{field}は有効な数値ではありません"
+        maxlength: "%{field} は %{maxLength} 以上の桁の数字を入れることはできません"
+        minlength: "%{field} は %{minLength} 未満の桁の数字を入れることはできません"
+        messages_on_field: 'このフィールドは無効です: %{messages}'
+    error_could_not_resolve_version_name: バージョン名を解決できませんでした。
+    error_could_not_resolve_user_name: ユーザ名を特定できません
+    units:
+      workPackage:
+        one: work package
+        other: ワークパッケージ
+      child_work_packages:
+        one: one child work package
+        other: "%{count} の子ワークパッケージ"
+      hour:
+        one: 1 hour
+        other: "%{count}時間"
+        zero: 0 hours
+    zen_mode:
+      button_activate: マナーモードをアクティブにする
+      button_deactivate: マナーモードを非アクティブにする

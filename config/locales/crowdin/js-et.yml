@@ -1,0 +1,626 @@
+---
+et:
+  js:
+    ajax:
+      hide: Peida
+      loading: Laadimine ...
+    close_popup_title: Sulge hüpikaken
+    close_filter_title: Close filter
+    close_form_title: Close form
+    clipboard:
+      browser_error: Your browser doesn't support copying to clipboard. Please copy
+        the selected text manually.
+      copied_successful: Sucessfully copied to clipboard!
+    button_add_watcher: Lisa jälgija
+    button_back_to_list_view: Back to list view
+    button_cancel: Tühista
+    button_close: Close
+    button_check_all: Märgi kõik
+    button_configure-form: Configure form
+    button_confirm: Confirm
+    button_continue: Continue
+    button_copy: Kopeeri
+    button_custom-fields: Lisaväljad
+    button_delete: Kustuta
+    button_delete_watcher: Kustuta jäligja
+    button_details_view: Üksikasjalik vaade
+    button_duplicate: Duplitseeri
+    button_edit: Muuda
+    button_filter: Filter
+    button_list_view: Nimekirja vaade
+    button_show_view: Fullscreen view
+    button_log_time: Logi aeg
+    button_more: Rohkem
+    button_move: Tõsta
+    button_open_details: Ava üksikasjalik vaade
+    button_close_details: Close details view
+    button_open_fullscreen: Open fullscreen view
+    button_quote: Tsiteeri
+    button_save: Salvesta
+    button_settings: Seaded
+    button_uncheck_all: Nulli valik
+    button_update: Uuenda
+    button_export-pdf: Download PDF
+    button_export-atom: Download Atom
+    description_available_columns: Saadaolevad väljad
+    description_current_position: 'Oled siin:'
+    description_select_work_package: 'Select work package #%{id}'
+    description_selected_columns: Valitud väljad
+    description_subwork_package: 'Child of work package #%{id}'
+    error:
+      internal: An internal error has occurred.
+    filter:
+      description:
+        text_open_filter: Open this filter with 'ALT' and arrow keys.
+        text_close_filter: To select an entry leave the focus for example by pressing
+          enter. To leave without filter select the first (empty) entry.
+      noneElement: "(pole)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} in your local time."
+        only_start: From %{from} in your local time.
+        only_end: Till %{to} in your local time.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: First sorting criteria
+          two: Second sorting criteria
+          three: Third sorting criteria
+    general_text_no: ei
+    general_text_yes: jah
+    general_text_No: Ei
+    general_text_Yes: Jah
+    label_activate: Aktiveerimine
+    label_activity_no: Activity entry number %{activityNo}
+    label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
+      comment.
+    label_add_columns: Add columns
+    label_add_comment: Lisa kommentaar
+    label_add_comment_title: Click to add a comment
+    label_add_selected_columns: Lisa valitud väljad
+    label_added_by: lisas
+    label_added_time_by: Added by %{author} %{age}
+    label_ago: päeva tagasi
+    label_all: kõik
+    label_all_work_packages: all work packages
+    label_and: ja
+    label_ascending: Kasvav
+    label_author: 'Author: %{user}'
+    label_between: between
+    label_board_locked: Lukus
+    label_board_sticky: Külgejääv
+    label_create_work_package: Lisa uus teema
+    label_created_by: Created by
+    label_date: Kuupäev
+    label_date_with_format: 'Enter the %{date_attribute} using the following format:
+      %{format}'
+    label_deactivate: Deactivate
+    label_descending: Kahanev
+    label_description: Kirjeldus
+    label_cancel_comment: Tühista kommentaar
+    label_closed_work_packages: suletud
+    label_collapse: Koonda
+    label_collapsed: collapsed
+    label_collapse_all: Ahenda kõik
+    label_comment: Kommentaar
+    label_committed_at: "%{committed_revision_link} at %{date}"
+    label_committed_link: committed revision %{revision_identifier}
+    label_contains: sisaldab
+    label_created_on: created on
+    label_edit_comment: Edit this comment
+    label_edit_status: Edit the status of the work package
+    label_equals: võrdub
+    label_expand: Laienda
+    label_expanded: laiendatud
+    label_expand_all: Voldi kõik lahti
+    label_export: Ekspordi
+    label_filename: Fail
+    label_filesize: Suurus
+    label_greater_or_equal: ">="
+    label_group_by: Group by
+    label_hide_attributes: Show less
+    label_hide_column: Peida veerg
+    label_in: sisaldub hulgas
+    label_in_less_than: on väiksem kui
+    label_in_more_than: on suurem kui
+    label_latest_activity: Viimane tegevus
+    label_last_updated_on: Viimati uuendatud
+    label_less_or_equal: "<="
+    label_less_than_ago: vähem kui päev tagasi
+    label_loading: Laadimine...
+    label_me: mina
+    label_menu_collapse: sulge
+    label_menu_expand: laienda
+    label_more_than_ago: vanem kui
+    label_next: Järgmine
+    label_no_data: Pole
+    label_no_due_date: lõpu kuupäeva pole
+    label_no_start_date: alguse kuupäeva pole
+    label_none: pole
+    label_not_contains: ei sisalda
+    label_not_equals: ei ole
+    label_on: 'on'
+    label_open_menu: Ava menüü
+    label_open_work_packages: avatud
+    label_password: Parool
+    label_previous: Eelmine
+    label_per_page: 'Lehekülje kohta:'
+    label_please_wait: Please wait
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Quote this comment
+    label_reset: Nulli
+    label_remove_columns: Eemalda valitud väljad
+    label_save_as: Salvesta kui
+    label_select_watcher: Vali jälgija...
+    label_selected_filter_list: Valitud filtrid
+    label_show_attributes: Show all attributes
+    label_show_in_menu: Show page in menu
+    label_sort_by: Sorteeri
+    label_sorted_by: sorted by
+    label_sort_higher: Nihuta üles
+    label_sort_lower: Nihuta alla
+    label_sorting: Sorteerimine
+    label_sum_for: Sum for
+    label_subject: Teema
+    label_this_week: sel nädalal
+    label_today: täna
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent}% Total progress"
+    label_visible_for_others: Page visible for others
+    label_updated_on: updated on
+    label_warning: Hoiatus
+    label_work_package: Teema
+    label_work_package_plural: Teemad
+    label_watch: Vaata
+    label_watch_work_package: Watch work package
+    label_watcher_added_successfully: Watcher successfully added!
+    label_watcher_deleted_successfully: Watcher successfully deleted!
+    label_work_package_details_you_are_here: You're on the %{tab} tab for %{type}
+      %{subject}.
+    label_unwatch: Ära jälgi
+    label_unwatch_work_package: Unwatch work package
+    label_uploaded_by: Uploaded by
+    label_global_queries: Shared queries
+    label_custom_queries: Private queries
+    label_columns: Väljad
+    label_attachments: Failid
+    label_drop_files: Drop files here
+    label_drop_files_hint: or click to add files
+    label_add_attachments: Add attachments
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Delete %{fileName}
+    label_remove_watcher: Remove watcher %{name}
+    label_remove_all_files: Delete all files
+    label_add_description: Add a description for %{file}
+    label_upload_notification: 'Uploading files for Work package #%{id}: %{subject}'
+    label_files_to_upload: 'These files will be uploaded:'
+    label_rejected_files: 'These files cannot be uploaded:'
+    label_rejected_files_reason: These files cannot be uploaded as their size is greater
+      than %{maximumFilesize}
+    label_wait: Please wait for configuration...
+    label_upload_counter: "%{done} of %{count} files finished"
+    label_validation_error: 'The work package could not be saved due to the following
+      errors:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: You need to enter your account password to confirm this change.
+      title: Confirm your password to continue
+    pagination:
+      no_other_page: You are on the only page.
+      pages:
+        next: Forward to the next page
+        previous: Back to the previous page
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: Palun vali
+      relation_description: Click to add description for this relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: Kas oled kindel?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: The name %{group} is used more than once. Group
+          names must be unique.
+        reset_title: Reset form configuration
+        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
+          This will reset the attributes to their default group, unset the visibility
+          checkboxes, and disable ALL custom fields.
+
+'
+        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
+          you mind supporting us OpenSource developers by becoming an Enterprise Edition
+          client?
+        more_information: More information
+        nevermind: Nevermind
+    watchers:
+      label_loading: loading watchers...
+      label_error_loading: An error occurred while loading the watchers
+      label_search_watchers: Search watchers
+      label_add: Jälgijaid lisada
+      label_discard: Discard selection
+      typeahead_placeholder: Search for possible watchers
+    relation_labels:
+      parent: Pärineb teemast
+      children: Children
+      relates: Related To
+      duplicates: Duplicates
+      duplicated: Duplicated by
+      blocks: Plokid
+      blocked: Blocked by
+      precedes: Precedes
+      follows: Follows
+      includes: Includes
+      partof: Part of
+      requires: Requires
+      required: Required by
+      relation_type: relation type
+    relations_hierarchy:
+      hierarchy_headline: hierarchy
+    relation_buttons:
+      change_parent: Change parent
+      remove_parent: Remove parent
+      group_by_wp_type: Group by work package type
+      group_by_relation_type: Group by relation type
+      add_parent: Add existing parent
+      add_new_child: Create new child
+      add_existing_child: Add existing child
+      remove_child: Remove child
+      add_new_relation: Create new relation
+      update_description: Set or update description of this relation
+      toggle_description: Toggle relation description
+      update_relation: Click to change the relation type
+      add_follower: Add follower
+      add_predecessor: Add predecessor
+      remove: Remove relation
+      save: Save relation
+      abort: Abort
+    relations_autocomplete:
+      placeholder: Enter the related work package id
+    repositories:
+      select_tag: Select tag
+      select_branch: Select branch
+    field_value_enter_prompt: Enter a value for '%{field}'
+    select2:
+      input_too_short:
+        one: Please enter one more character
+        other: Please enter {{count}} more characters
+        zero: Please enter more characters
+      load_more: Loading more results ...
+      no_matches: No matches found
+      searching: Searching ...
+      selection_too_big:
+        one: You can only select one item
+        other: You can only select {{limit}} items
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Ascending sort applied, '
+      sorted_dsc: 'Descending sort applied, '
+      sorted_no: 'No sort applied, '
+      sorting_disabled: sorting is disabled
+      activate_asc: activate to apply an ascending sort
+      activate_dsc: activate to apply a descending sort
+      activate_no: activate to remove the sort
+    text_work_packages_destroy_confirmation: Oled Sa kindel oma soovis valitud teema(d)
+      kustutada?
+    text_query_destroy_confirmation: Are you sure you want to delete the selected
+      query?
+    text_attachment_destroy_confirmation: Are you sure you want to delete the attachment?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Activate timeline mode
+      button_deactivate: Deactivate timeline mode
+      cancel: Tühista
+      change: Muudatus planeerimises
+      due_date: Tähtaeg
+      empty: "(tühi)"
+      error: An error has occurred.
+      errors:
+        not_implemented: Ajakava ei saa koostada, kuna see kasutab funktsiooni, mis
+          pole veel realiseeritud.
+        report_comparison: Ajakava ei saa kujutada konfigureeritud võrdlusi. Palun
+          kontrollige konfiguratsiooni vastavat jaotist, selle andmete algväärtustamine
+          võib aidata probleemi lahendada.
+        report_epicfail: Ajakava ei saa laadida ootamatu tõrke tõttu.
+        report_timeout: Ajakava ei saa laadida vastuvõetava aja jooksul.
+      filter:
+        column:
+          assigned_to: Määratud tegija
+          type: Liik
+          due_date: Lõppkuupäev
+          name: Nimi
+          status: Olek
+          responsible: Vastutaja
+          start_date: Alguskuupäev
+        grouping_other: Muu
+        noneSelection: "(pole)"
+      name: Nimi
+      new_work_package: Uus teema
+      outline: Lähtesta kontuur
+      outlines:
+        aggregation: Näita ainult summeeritult
+        level1: Laienda tasemele 1
+        level2: Laienda tasemele 2
+        level3: Laienda tasemele 3
+        level4: Laienda tasemele 4
+        level5: Laienda tasemele 5
+        all: Näita kõiki
+      project_status: Projekti olek
+      project_type: Projekti tüüp
+      really_close_dialog: Do you really want to close the dialog and lose the entered
+        data?
+      responsible: Vastutaja
+      save: Salvesta
+      start_date: Alguskuupäev
+      tooManyProjects: More than %{count} Projects. Please use a better filter!
+      selection_mode:
+        notification: Click on any highlighted work package to create the relation.
+          Press escape to cancel.
+      zoom:
+        in: Vaata lähemalt
+        out: Vaata kaugemalt
+        auto: Auto zoom
+        days: Päevad
+        weeks: Nädalad
+        months: Kuud
+        quarters: Kvartalid
+        years: Aastad
+        slider: Zoom slider
+    tl_toolbar:
+      zooms: Zoom level
+      outlines: Hierarchy level
+    unsupported_browser:
+      title: Your browser version is not supported
+      message: The browser version you are using is no longer supported by OpenProject.
+      update_message: Please update your browser.
+      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
+        to Microsoft Edge.
+      learn_more: Loe rohkem
+      close_warning: Ignore this warning.
+    wiki_formatting:
+      strong: Strong
+      italic: Krusiiv
+      underline: Allajoonitud
+      deleted: Kustutatud
+      code: Tekstisisene kood
+      heading1: Pealkiri 1
+      heading2: Pealkiri 2
+      heading3: Pealkiri 3
+      unordered_list: Järjestamata loend
+      ordered_list: Järjestatud loend
+      quote: Tsiteeri
+      unquote: Unquote
+      preformatted_text: Preformatted Text
+      wiki_link: Link to a Wiki page
+      image: Pilt
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Tühjenda
+      comment_added: The comment was successfully added.
+      comment_send_failed: An error has occurred. Could not submit the comment.
+      comment_updated: The comment was successfully updated.
+      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      description_filter: Filter
+      description_enter_text: Sisestage tekst
+      description_options_hide: Peida valikud
+      description_options_show: Näita valikuid
+      error:
+        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
+          this attribute is derived from relations (e.g, children) or otherwise not
+          configurable.
+        format:
+          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+        general: An error has occurred.
+      edit_attribute: "%{attribute} - Edit"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Enable multiselect
+      label_disable_multi_select: Disable multiselect
+      label_filter_add: Lisa filter
+      label_options: Valikud
+      label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
+        confirm selection with enter, delete with backspace'
+      label_switch_to_single_select: Switch to single select
+      label_switch_to_multi_select: Switch to multi select
+      message_error_during_bulk_delete: An error occurred while trying to delete work
+        packages.
+      message_successful_bulk_delete: Successfully deleted work packages.
+      message_successful_show_in_fullscreen: Click here to open this work package
+        in fullscreen view.
+      message_view_spent_time: Show spent time for this work package
+      no_value: No value
+      inline_create:
+        title: Click here to add a new work package to this list
+      create:
+        header: New %{type}
+        header_no_type: New work package (Type not yet set)
+        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        button: Loo uus
+      hierarchy:
+        show: Show hierarchy mode
+        hide: Hide hierarchy mode
+        toggle_button: Click to toggle hierarchy mode.
+        leaf: Work package leaf at level %{level}.
+        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
+          filtered children
+        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
+          filtered children
+      faulty_query:
+        title: Work packages could not be loaded.
+        description: Your query is erroneous and could not be processed.
+      no_results:
+        title: No work packages to display.
+        description: Either none have been created or all work packages are filtered
+          out.
+      property_groups:
+        details: Üksikasjad
+        people: Inimesed
+        estimatesAndTime: Hinnangud ja aeg
+        other: Muu
+      properties:
+        assignee: Määratud tegija
+        author: Autor
+        createdAt: Loodud
+        description: Kirjeldus
+        date: Kuupäev
+        dueDate: Tähtaeg
+        estimatedTime: Eeldatav ajakulu
+        spentTime: Kulutatud aeg
+        category: Kategooria
+        percentageDone: Percentage done
+        priority: Prioriteet
+        projectName: Projekt
+        responsible: Vastutaja
+        startDate: Alguskuupäev
+        status: Olek
+        subject: Teema
+        title: Pealkiri
+        type: Liik
+        updatedAt: Uuendatud
+        versionName: Versioon
+        version: Versioon
+      jump_marks:
+        pagination: Jump to table pagination
+        label_pagination: Click here to skip over the work packages table and go to
+          pagination
+        content: Jump to content
+        label_content: Click here to skip over the menu and go to the content
+      placeholders:
+        default: "-"
+        description: Click to enter description...
+      query:
+        column_names: Väljad
+        group_by: Grupeeri tulemused
+        group: Group by
+        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
+          mode being active.
+        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
+          being grouped by %{column}.
+        hierarchy_mode: Hierarchy mode
+        sort_ascending: Sorteeri kasvavalt
+        sort_descending: Sorteeri kahanevalt
+        move_column_left: Liiguta veerg vasakule
+        move_column_right: Liiguta veerg paremale
+        hide_column: Peida veerg
+        insert_columns: Lisa veerge...
+        filters: Filtrid
+        display_sums: Kuva summasid
+        errors:
+          unretrievable_query: Unable to retrieve query from URL
+          not_found: There is no such query
+        text_no_results: No matching queries were found.
+      table:
+        summary: Table with rows of work package and columns of work package attributes.
+        text_inline_edit: Most cells of this table are buttons that activate inline-editing
+          functionality of that attribute.
+        text_sort_hint: With the links in the table headers you can sort, group, reorder,
+          remove and add table columns.
+        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+      tabs:
+        overview: Ülevaade
+        activity: Tegevus
+        relations: Seosed
+        watchers: Jälgijad
+        attachments: Manused
+      time_relative:
+        days: päeva
+        weeks: nädalat
+        months: kuud
+    toolbar:
+      settings:
+        columns: Veerud ...
+        sort_by: Sorteeri...
+        group_by: Grupeeri ...
+        display_sums: Display sums
+        display_hierarchy: Display hierarchy
+        hide_hierarchy: Hide hierarchy
+        hide_sums: Hide sums
+        save: Salvesta
+        save_as: Salvesta kui ...
+        export: Ekspordi ...
+        publish: Publish ...
+        page_settings: Rename query ...
+        delete: Kustuta
+      filter: Filter
+      unselected_title: Teema
+      search_query_label: Search saved filter queries
+      search_query_title: Click to search saved filter queries
+    modals:
+      label_settings: Rename query
+      label_name: Nimi
+      label_delete_page: Delete current page
+      button_apply: Rakenda
+      button_save: Salvesta
+      button_submit: Sisesta
+      button_cancel: Tühista
+      form_submit:
+        title: Confirm to continue
+        text: Are you sure you want to perform this action?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Loomine õnnestus.
+    notice_successful_delete: Kustutamine õnnestus.
+    notice_successful_update: Uuendamine õnnestus.
+    notice_bad_request: Vigane päring.
+    relations:
+      empty: No relation exists
+      remove: Remove relation
+    inplace:
+      button_edit: "%{attribute}: Edit"
+      button_save: "%{attribute}: Save"
+      button_cancel: "%{attribute}: Cancel"
+      button_save_all: Salvesta
+      button_cancel_all: Tühista
+      link_formatting_help: Text formatting help
+      btn_preview_enable: Eelvaade
+      btn_preview_disable: Disable preview
+      null_value_label: No value
+      clear_value_label: "-"
+      errors:
+        required: "%{field} cannot be empty"
+        number: "%{field} is not a valid number"
+        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
+        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
+        messages_on_field: 'This field is invalid: %{messages}'
+    error_could_not_resolve_version_name: Couldn't resolve version name
+    error_could_not_resolve_user_name: Couldn't resolve user name
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 hour
+        other: "%{count} hours"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Activate zen mode
+      button_deactivate: Deactivate zen mode

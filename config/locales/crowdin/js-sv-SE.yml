@@ -1,0 +1,621 @@
+---
+sv-SE:
+  js:
+    ajax:
+      hide: Dölj
+      loading: Laddar ...
+    close_popup_title: Stäng popup
+    close_filter_title: Stäng filter
+    close_form_title: Stäng formulär
+    clipboard:
+      browser_error: Din webbläsare stöder inte kopiera till Urklipp. Vänligen kopiera
+        den markerade texten manuellt.
+      copied_successful: Kopierad till Urklipp!
+    button_add_watcher: Lägg till bevakare
+    button_back_to_list_view: Tillbaka till listvy
+    button_cancel: Avbryt
+    button_close: Close
+    button_check_all: Markera alla
+    button_configure-form: Ställ in formulär
+    button_confirm: Bekräfta
+    button_continue: Fortsätt
+    button_copy: Kopiera
+    button_custom-fields: Anpassade fält
+    button_delete: Ta bort
+    button_delete_watcher: Ta bort bevakare
+    button_details_view: Detaljvy
+    button_duplicate: Duplicera
+    button_edit: Redigera
+    button_filter: Filter
+    button_list_view: Listvy
+    button_show_view: Helskärmsläge
+    button_log_time: Logga tid
+    button_more: Mer
+    button_move: Flytta
+    button_open_details: Öppna detaljvyn
+    button_close_details: Stäng detaljvyn
+    button_open_fullscreen: Öppna fullskärmsläge
+    button_quote: Citat
+    button_save: Spara
+    button_settings: Inställningar
+    button_uncheck_all: Avmarkera alla
+    button_update: Uppdatera
+    button_export-pdf: Ladda ner PDF
+    button_export-atom: Ladda ner Atom
+    description_available_columns: Tillgängliga kolumner
+    description_current_position: 'Du är här:'
+    description_select_work_package: 'Välj arbetspaket #%{id}'
+    description_selected_columns: Markerade kolumner
+    description_subwork_package: 'Barn till arbetspaket #%{id}'
+    error:
+      internal: Ett internt fel har inträffat.
+    filter:
+      description:
+        text_open_filter: Öppna det här filtret med 'ALT' och piltangenterna.
+        text_close_filter: Välj en post genom att ändra fokus (ex. med 'ENTER'). Välj
+          den första (tomma) posten för att lämna utan filter.
+      noneElement: "(ingen)"
+      time_zone_converted:
+        two_values: "%{from} - %{to} lokal tid."
+        only_start: Från %{from} lokala tid.
+        only_end: Till %{to} lokala tid.
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: Första sorteringskriteriet
+          two: Andra sorteringskriteriet
+          three: Tredje sorteringskriteriet
+    general_text_no: nej
+    general_text_yes: ja
+    general_text_No: Nej
+    general_text_Yes: Ja
+    label_activate: Aktivera
+    label_activity_no: Aktivitetspost nummer %{activityNo}
+    label_activity_with_comment_no: Aktivitetspost nummer %{activityNo} har en användarkommentar.
+    label_add_columns: Lägg till kolumn
+    label_add_comment: Lägg till kommentar
+    label_add_comment_title: Klicka för att kommentera
+    label_add_selected_columns: Lägga till markerade kolumner
+    label_added_by: lagts till av
+    label_added_time_by: Lagts till av %{author} %{age}
+    label_ago: dagar sedan
+    label_all: alla
+    label_all_work_packages: alla arbetspaket
+    label_and: och
+    label_ascending: Stigande
+    label_author: 'Författare: %{user}'
+    label_between: mellan
+    label_board_locked: Låst
+    label_board_sticky: Klistrad
+    label_create_work_package: Skapa nya arbetspaket
+    label_created_by: Skapad av
+    label_date: Datum
+    label_date_with_format: 'Ange %{date_attribute} med följande format: %{format}'
+    label_deactivate: Deaktivera
+    label_descending: Fallande
+    label_description: Beskrivning
+    label_cancel_comment: Avbryt kommentar
+    label_closed_work_packages: stängt
+    label_collapse: Fäll ihop
+    label_collapsed: hopfällda
+    label_collapse_all: Fäll ihop alla
+    label_comment: Kommentar
+    label_committed_at: "%{committed_revision_link} den %{date}"
+    label_committed_link: lade till revision %{revision_identifier}
+    label_contains: innehåller
+    label_created_on: skapad den
+    label_edit_comment: Redigera kommentaren
+    label_edit_status: Edit the status of the work package
+    label_equals: är
+    label_expand: Expandera
+    label_expanded: expanderade
+    label_expand_all: Expandera alla
+    label_export: Exportera
+    label_filename: Fil
+    label_filesize: Filstorlek
+    label_greater_or_equal: ">="
+    label_group_by: Gruppera efter
+    label_hide_attributes: Visa mindre
+    label_hide_column: Dölj kolumn
+    label_in: i
+    label_in_less_than: i mindre än
+    label_in_more_than: i mer än
+    label_latest_activity: Senaste aktivitet
+    label_last_updated_on: Senast uppdaterad den
+    label_less_or_equal: "<="
+    label_less_than_ago: mindre än dagar sedan
+    label_loading: Laddar...
+    label_me: mig
+    label_menu_collapse: fäll ihop
+    label_menu_expand: expandera
+    label_more_than_ago: mer än dagar sedan
+    label_next: Nästa
+    label_no_data: Ingen data att visa
+    label_no_due_date: inget slutdatum
+    label_no_start_date: inget startdatum
+    label_none: ingen
+    label_not_contains: innehåller inte
+    label_not_equals: är inte
+    label_on: på
+    label_open_menu: Öppna meny
+    label_open_work_packages: öppna
+    label_password: Lösenord
+    label_previous: Föregående
+    label_per_page: 'Per sida:'
+    label_please_wait: Vänligen vänta
+    label_visibility_settings: Visibility settings
+    label_quote_comment: Citera denna kommentar
+    label_reset: Återställ
+    label_remove_columns: Ta bort markerade kolumner
+    label_save_as: Spara som
+    label_select_watcher: Välj en bevakare...
+    label_selected_filter_list: Valda filter
+    label_show_attributes: Visa alla attribut
+    label_show_in_menu: Visa sidan i menyn
+    label_sort_by: Sortera efter
+    label_sorted_by: sorterade efter
+    label_sort_higher: Flytta upp
+    label_sort_lower: Flytta ned
+    label_sorting: Sortering
+    label_sum_for: Summa för
+    label_subject: Ämne
+    label_this_week: denna vecka
+    label_today: idag
+    label_activity_show_only_comments: Show activities with comments only
+    label_activity_show_all: Show all activities
+    label_total_progress: "%{percent}% Totalt klart"
+    label_visible_for_others: Sidan synlig för andra
+    label_updated_on: uppdaterad den
+    label_warning: Varning
+    label_work_package: Arbetspaket
+    label_work_package_plural: Arbetspaketen
+    label_watch: Bevaka
+    label_watch_work_package: Bevaka arbetspaket
+    label_watcher_added_successfully: Bevakare har lagts till!
+    label_watcher_deleted_successfully: Bevakare har tagits bort!
+    label_work_package_details_you_are_here: Du är på fliken %{tab} för %{type} %{subject}.
+    label_unwatch: Sluta bevaka
+    label_unwatch_work_package: Sluta bevaka arbetspaket
+    label_uploaded_by: Uppladdad av
+    label_global_queries: Delade frågor
+    label_custom_queries: Privata frågor
+    label_columns: Kolumner
+    label_attachments: Filer
+    label_drop_files: Släpp filer här
+    label_drop_files_hint: eller klicka för att lägga till filer
+    label_add_attachments: Lägg till bilagor
+    label_formattable_attachment_hint: Attach and link files by dropping on this field,
+      or pasting from the clipboard.
+    label_remove_file: Radera %{fileName}
+    label_remove_watcher: Ta bort bevakare %{name}
+    label_remove_all_files: Ta bort alla filer
+    label_add_description: Lägga till en beskrivning för %{file}
+    label_upload_notification: 'Ladda upp filer för arbetspaket #%{id}: %{subject}'
+    label_files_to_upload: 'Dessa filer kommer att laddas upp:'
+    label_rejected_files: 'Dessa filer går inte att ladda upp:'
+    label_rejected_files_reason: Dessa filer går inte att ladda upp eftersom deras
+      storlek är större än %{maximumFilesize}
+    label_wait: Vänligen vänta för konfiguration...
+    label_upload_counter: "%{done} av %{count} filer färdiga"
+    label_validation_error: 'Arbetspaketet kunde inte sparas på grund av följande
+      fel:'
+    help_texts:
+      show_modal: Show attribute help text entry
+    password_confirmation:
+      field_description: Du behöver ange ditt lösenord för att bekräfta ändringen.
+      title: Bekräfta ditt lösenord för att fortsätta
+    pagination:
+      no_other_page: Du befinner dig på den enda sidan.
+      pages:
+        next: Fortsätt till nästa sida
+        previous: Bakåt till föregående sida
+    placeholders:
+      default: "-"
+      subject: Enter subject here
+      selection: Välj
+      relation_description: Klicka för att ange beskrivning för denna relation
+    project:
+      required_outside_context: You are not within a project context. Please choose
+        the project context first in order to select type and status
+      context: Project context
+      work_package_belongs_to: This work package belongs to project %{projectname}.
+      click_to_switch_context: Open this work package in that project.
+    text_are_you_sure: Är du säker?
+    types:
+      attribute_groups:
+        error_duplicate_group_name: Namnet %{group} används redan. Gruppnamn måste
+          vara unika.
+        reset_title: Återställ formulärinställningarna
+        confirm_reset: 'Varning: Är du säker på att du vill återställa formulärinställningarna?
+          Detta kommer att återställa attributen till deras standardgrupper, avmarkera
+          kryssrutorna för synlighet samt inaktivera samtliga anpassade fält.
+
+'
+        upgrade_to_ee: Uppgradera till Enterprise Edition
+        upgrade_to_ee_text: Wow! Om du behöver denna funktion så är du ett superproffs!
+          Skulle du vilja stötta oss OpenSource-utvecklare genom att bli en Enterprise
+          Edition-kund?
+        more_information: Mer information
+        nevermind: Det var inget
+    watchers:
+      label_loading: laddar bevakare...
+      label_error_loading: Ett fel inträffade när bevakarna laddades
+      label_search_watchers: Sök bevakare
+      label_add: Lägg till bevakare
+      label_discard: Förkasta val
+      typeahead_placeholder: Sök efter möjliga bevakare
+    relation_labels:
+      parent: Överordnad
+      children: Barn
+      relates: Relaterade till
+      duplicates: Dubbletter
+      duplicated: Duplicerad av
+      blocks: Block
+      blocked: Blockerad av
+      precedes: Föregår
+      follows: Följer
+      includes: Inkluderar
+      partof: Del av
+      requires: Kräver
+      required: Krävs av
+      relation_type: relationstyp
+    relations_hierarchy:
+      hierarchy_headline: hierarki
+    relation_buttons:
+      change_parent: Ändra överordnad
+      remove_parent: Ta bort förälder
+      group_by_wp_type: Gruppera efter arbetspakettyp
+      group_by_relation_type: Gruppera efter relationstyp
+      add_parent: Lägga till befintlig förälder
+      add_new_child: Skapa nytt barn
+      add_existing_child: Lägg till befintligt barn
+      remove_child: Ta bort barn
+      add_new_relation: Skapa ny relation
+      update_description: Ange eller uppdatera beskrivningen av denna relation
+      toggle_description: Visa/dölj relationsbeskrivning
+      update_relation: Klicka för att ändra relationstypen
+      add_follower: Lägg till följare
+      add_predecessor: Lägg till föregångare
+      remove: Radera relation
+      save: Spara relation
+      abort: Avbryt
+    relations_autocomplete:
+      placeholder: Ange ID på det relaterade arbetspaketet
+    repositories:
+      select_tag: Välj etikett
+      select_branch: Välj gren
+    field_value_enter_prompt: Ange ett värde för "%{field}"
+    select2:
+      input_too_short:
+        one: Var god skriv ett till tecken
+        other: Var god skriv {{count}} till tecken
+        zero: Please enter more characters
+      load_more: Laddar fler resultat...
+      no_matches: Inga matchningar hittade
+      searching: Söker ...
+      selection_too_big:
+        one: Du kan bara välja en sak
+        other: Du kan bara välja {{limit}} saker
+        zero: You cannot select any items
+    sort:
+      sorted_asc: 'Stigande sortering används, '
+      sorted_dsc: 'Fallande sortering används, '
+      sorted_no: 'Ingen sortering används, '
+      sorting_disabled: sortering är inaktiverad
+      activate_asc: aktivera om du vill tillämpa stigande sortering
+      activate_dsc: aktivera om du vill tillämpa fallande sortering
+      activate_no: aktivera för att ta bort sortering
+    text_work_packages_destroy_confirmation: Är du säker du vill ta bort det valda
+      arbetspaket(paketen)?
+    text_query_destroy_confirmation: Är du säker du vill ta bort den valda frågan?
+    text_attachment_destroy_confirmation: Är du säker på att du vill ta bort denna
+      bilaga?
+    timelines:
+      gantt_chart: Gantt chart
+      labels:
+        bar: Bar labels
+        left: Left
+        right: Right
+        farRight: Far right
+        showNone: "-- No label --"
+        description: 'Select the attributes you want to be shown in the respective
+          positions of the Gantt chart at all times. Note that when hovering an element,
+          its date labels will be shown instead of these attributes.
+
+'
+      button_activate: Aktivera tidslinjeläge
+      button_deactivate: Inaktivera tidslinjeläge
+      cancel: Avbryt
+      change: Ändra i planeringen
+      due_date: Förfallodatum
+      empty: "(tom)"
+      error: Ett fel har inträffat.
+      errors:
+        not_implemented: Tidslinjen kan inte skapas eftersom den använder en funktion
+          som inte har implementerats ännu.
+        report_comparison: Tidslinjen kunde inte återge de konfigurerade jämförelserna.
+          Kontrollera vänligen lämpligt avsnitt i konfiguration. Att återställa konfigurationen
+          kan lösa detta problem.
+        report_epicfail: Tidslinjen kunde inte hämtas på grund av ett oväntat fel.
+        report_timeout: Tidslinjen kunde inte laddas på en rimlig tid.
+      filter:
+        column:
+          assigned_to: Tilldelad till
+          type: Typ
+          due_date: Slutdatum
+          name: Namn
+          status: Status
+          responsible: Ansvarig
+          start_date: Startdatum
+        grouping_other: Andra
+        noneSelection: "(ingen)"
+      name: Namn
+      new_work_package: Nya arbetspaket
+      outline: Återställa disposition
+      outlines:
+        aggregation: Visa endast aggregeringar
+        level1: Expandera nivå 1
+        level2: Expandera nivå 2
+        level3: Expandera nivå 3
+        level4: Expandera nivå 4
+        level5: Expandera nivå 5
+        all: Visa alla
+      project_status: Projektstatus
+      project_type: Projekttyp
+      really_close_dialog: Vill du verkligen stänga dialogrutan och förlora inmatad
+        data?
+      responsible: Ansvarig
+      save: Spara
+      start_date: Startdatum
+      tooManyProjects: Mer än %{count} projekt. Var god och använd ett bättre filter!
+      selection_mode:
+        notification: Klicka på ett markerat arbetspaket för att skapa relationen.
+          Tryck på escape för att avbryta.
+      zoom:
+        in: Zooma in
+        out: Zooma ut
+        auto: Auto zoom
+        days: Dagar
+        weeks: Veckor
+        months: Månader
+        quarters: Kvartal
+        years: År
+        slider: Zoomreglaget
+    tl_toolbar:
+      zooms: Zoomnivå
+      outlines: Hierarkinivå
+    unsupported_browser:
+      title: Din version av webbläsaren stöds inte
+      message: Den webbläsarversion som du använder stöds inte längre av OpenProject.
+      update_message: Vänligen uppdatera din webbläsare.
+      update_ie_user: Vänligen byt till Mozilla Firefox eller Google Chrome, eller
+        uppgradera till Microsoft Edge.
+      learn_more: Lär dig mer
+      close_warning: Bortse från denna varning.
+    wiki_formatting:
+      strong: Fetstil
+      italic: Kursiv
+      underline: Understruken
+      deleted: Borttagna
+      code: Inline-källkod
+      heading1: Rubrik 1
+      heading2: Rubrik 2
+      heading3: Rubrik 3
+      unordered_list: Osorterad lista
+      ordered_list: Sorterad lista
+      quote: Citat
+      unquote: Slutcitat
+      preformatted_text: Förformaterad Text
+      wiki_link: Länka till en Wiki-sida
+      image: Bild
+    work_packages:
+      bulk_actions:
+        move: Bulk move
+        edit: Bulk edit
+        copy: Bulk copy
+        delete: Bulk delete
+      button_clear: Rensa
+      comment_added: Kommentaren lades till.
+      comment_send_failed: Ett fel har inträffat. Kommentaren kunde inte läggas till.
+      comment_updated: Kommentaren har uppdaterats.
+      confirm_edit_cancel: Är du säker på att du vill avbryta redigeringen av arbetspaketet?
+      description_filter: Filter
+      description_enter_text: Ange text
+      description_options_hide: Dölj alternativ
+      description_options_show: Visa alternativ
+      error:
+        edit_prohibited: Redigering av %{attribute} är låst för detta arbetspaket.
+          Antingen härrör attributet från relationer eller så kan det inte redigeringsbart.
+        format:
+          date: "%{attribute} är inget giltigt datum - förväntat format är åååå-mm-dd."
+        general: Ett fel har inträffat.
+      edit_attribute: "%{attribute} - Redigera"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: Aktivera multival
+      label_disable_multi_select: Inaktivera multival
+      label_filter_add: Lägg till filter
+      label_options: Alternativ
+      label_column_multiselect: 'Kombinerade nedrullningsbara fält: Markera med piltangenterna,
+        bekräfta val med RETUR, ta bort med BACKSTEG'
+      label_switch_to_single_select: Växla till enkelvalsläge
+      label_switch_to_multi_select: Växla till flervalsläge
+      message_error_during_bulk_delete: Ett fel uppstod vid försök att ta bort arbetspaket.
+      message_successful_bulk_delete: Arbetspaket togs bort.
+      message_successful_show_in_fullscreen: Klicka här för att öppna det här arbetspaketet
+        i fullskärmsläge.
+      message_view_spent_time: Visa loggad tid för detta arbetspaket
+      no_value: Inget värde
+      inline_create:
+        title: Klicka här för att lägga till ett nytt arbetspaket till listan
+      create:
+        header: Ny %{type}
+        header_no_type: Nytt arbetspaket (typ har inte angetts än)
+        header_with_parent: 'Ny %{type} (barn till %{parent_type} #%{id})'
+        button: Skapa
+      hierarchy:
+        show: Visa hierarkiläge
+        hide: Dölj hierarkiläge
+        toggle_button: Klicka för att växla hierarkiläge.
+        leaf: Arbetspaketsnod på nivå %{level}.
+        children_collapsed: Hierarkinivå %{level} kollapsade. Klicka för att visa
+          de filtrerade barnen
+        children_expanded: Hierarkinivå %{level} expanderade. Klicka för att dölja
+          de filtrerade barnen
+      faulty_query:
+        title: Arbetspaket kunde inte laddas.
+        description: Din fråga är felaktig och kunde inte behandlas.
+      no_results:
+        title: Inga arbetspaket att visa.
+        description: Antingen finns det inga arbetspaket eller så har alla filtrerats
+          bort.
+      property_groups:
+        details: Detaljer
+        people: Personer
+        estimatesAndTime: Uppskattningar & tid
+        other: Andra
+      properties:
+        assignee: Tilldelad till
+        author: Författare
+        createdAt: Skapat den
+        description: Beskrivning
+        date: Datum
+        dueDate: Förfallodatum
+        estimatedTime: Beräknad tid
+        spentTime: Förbrukad tid
+        category: Kategori
+        percentageDone: Procent gjort
+        priority: Prioritet
+        projectName: Projekt
+        responsible: Ansvarig
+        startDate: Startdatum
+        status: Status
+        subject: Ämne
+        title: Titel
+        type: Typ
+        updatedAt: Uppdaterat den
+        versionName: Version
+        version: Version
+      jump_marks:
+        pagination: Gå till sidnumrering för tabell
+        label_pagination: Klicka här för att hoppa arbetspaketets tabell och gå till
+          sidnumrering
+        content: Gå till innehåll
+        label_content: Klicka här för att hoppa över menyn och gå till innehållet
+      placeholders:
+        default: "-"
+        description: Klicka för att ange beskrivning...
+      query:
+        column_names: Kolumner
+        group_by: Gruppera resultat efter
+        group: Gruppera efter
+        group_by_disabled_by_hierarchy: Gruppering är inaktiverat när hierarkiläget
+          är aktivt.
+        hierarchy_disabled_by_group_by: Hierarkiläget är inaktiverat då resultaten
+          är grupperade efter %{column}.
+        hierarchy_mode: Hierarkiläge
+        sort_ascending: Sortera stigande
+        sort_descending: Sortera fallande
+        move_column_left: Flytta kolumnen till vänster
+        move_column_right: Flytta kolumnen till höger
+        hide_column: Dölj kolumn
+        insert_columns: Infoga kolumner...
+        filters: Filter
+        display_sums: Visa summor
+        errors:
+          unretrievable_query: Det gick inte att hämta fråga från URL
+          not_found: Det finns ingen sådan fråga
+        text_no_results: Inga matchande frågor hittades.
+      table:
+        summary: Tabell med ett arbetspaket för varje rad och kolumner för varje arbetspaketsattribut.
+        text_inline_edit: Du kan klicka på de flesta celler i den här tabellen för
+          att redigera attributens funktion.
+        text_sort_hint: Med hjälp av länkarna i tabellrubrikerna kan du sortera, gruppera,
+          ändra ordning, radera och lägga till kolumner.
+        text_select_hint: Valda celler öppnas med 'ALT' och piltangenterna.
+      tabs:
+        overview: Översikt
+        activity: Aktivitet
+        relations: Relationer
+        watchers: Bevakare
+        attachments: Bilagor
+      time_relative:
+        days: dagar
+        weeks: veckor
+        months: månader
+    toolbar:
+      settings:
+        columns: Kolumner ...
+        sort_by: Sortera efter ...
+        group_by: Gruppera efter ...
+        display_sums: Visa summor
+        display_hierarchy: Visa hierarki
+        hide_hierarchy: Dölj hierarki
+        hide_sums: Dölj summor
+        save: Spara
+        save_as: Spara som ...
+        export: Exportera...
+        publish: Publish ...
+        page_settings: Byt namn på fråga...
+        delete: Ta bort
+      filter: Filter
+      unselected_title: Arbetspaket
+      search_query_label: Sök sparade filtreringsfrågor
+      search_query_title: Klicka för att söka bland sparade filtreringsfrågor
+    modals:
+      label_settings: Byt namn på fråga
+      label_name: Namn
+      label_delete_page: Ta bort aktuell sida
+      button_apply: Använd
+      button_save: Spara
+      button_submit: Skicka
+      button_cancel: Avbryt
+      form_submit:
+        title: Bekräfta för att fortsätta
+        text: Är du säker på att du vill utföra den här åtgärden?
+      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns_link: Check out the Enterprise Edition.
+      destroy_work_package:
+        title: Confirm deletion of %{label}
+        text: Are you sure you want to delete the following %{label} ?
+        has_children: 'The work package has %{childUnits}:'
+        deletes_children: All child work packages will also be deleted.
+    notice_successful_create: Skapades utan problem.
+    notice_successful_delete: Raderades utan problem.
+    notice_successful_update: Uppdaterades utan problem.
+    notice_bad_request: Felaktig förfrågan.
+    relations:
+      empty: Inga samband finns
+      remove: Radera relation
+    inplace:
+      button_edit: "%{attribute}: Redigera"
+      button_save: "%{attribute}: Spara"
+      button_cancel: "%{attribute}: Avbryt"
+      button_save_all: Spara
+      button_cancel_all: Avbryt
+      link_formatting_help: Hjälp med textformatering
+      btn_preview_enable: Förhandsgranska
+      btn_preview_disable: Inaktivera förhandsgranskning
+      null_value_label: Inget värde
+      clear_value_label: "-"
+      errors:
+        required: "%{field} kan inte vara tomt"
+        number: "%{field} är inte ett giltigt tal"
+        maxlength: "%{field} kan inte innehålla mer än %{maxLength} siffra/siffror"
+        minlength: "%{field} kan inte innehålla mindre än %{minLength} siffra/siffror"
+        messages_on_field: 'Fältet är ogiltigt: %{messages}'
+    error_could_not_resolve_version_name: Kunde inte fastställa versionsnamn
+    error_could_not_resolve_user_name: Kunde inte fastställa användarnamn
+    units:
+      workPackage:
+        one: work package
+        other: work packages
+      child_work_packages:
+        one: one child work package
+        other: "%{count} work package children"
+      hour:
+        one: 1 timme
+        other: "%{count} timmar"
+        zero: 0 hours
+    zen_mode:
+      button_activate: Aktivera zen-läge
+      button_deactivate: Inaktivera avskalat läge

@@ -1,0 +1,589 @@
+---
+zh:
+  js:
+    ajax:
+      hide: 隐藏
+      loading: 加载中...
+    close_popup_title: 关闭弹出窗口
+    close_filter_title: 关闭过滤器
+    close_form_title: 关闭表单
+    clipboard:
+      browser_error: 您的浏览器不支持复制到剪贴板，请手动复制选定的文本。
+      copied_successful: 成功复制到剪贴板!
+    button_add_watcher: 添加关注者
+    button_back_to_list_view: 返回列表视图
+    button_cancel: 取消
+    button_close: 关闭
+    button_check_all: 全选
+    button_configure-form: 配置表单
+    button_confirm: 确认
+    button_continue: 继续
+    button_copy: 复制
+    button_custom-fields: 自定义字段
+    button_delete: 删除
+    button_delete_watcher: 删除关注人
+    button_details_view: 详细信息视图
+    button_duplicate: 复制
+    button_edit: 编辑
+    button_filter: 筛选器
+    button_list_view: 列表视图
+    button_show_view: 全屏视图
+    button_log_time: 记录时间
+    button_more: 更多
+    button_move: 移动
+    button_open_details: 打开详细信息视图
+    button_close_details: 关闭细节显示
+    button_open_fullscreen: 打开全屏视图
+    button_quote: 引用
+    button_save: 保存
+    button_settings: 设置
+    button_uncheck_all: 全部不选
+    button_update: 更新
+    button_export-pdf: 下载 PDF
+    button_export-atom: 下载原子
+    description_available_columns: 可用的列
+    description_current_position: 你在这里：
+    description_select_work_package: '选择工作包 #%{id}'
+    description_selected_columns: 选定的列
+    description_subwork_package: '子工作包 #%{id}'
+    error:
+      internal: 发生了内部错误。
+    filter:
+      description:
+        text_open_filter: 使用 ALT 和方向键打开筛选器。
+        text_close_filter: 要选择一个条目，请离开焦点，例如可以按 Enter。要在不使用筛选器的情况下离开，请选择第一个（空）条目。
+      noneElement: "(无)"
+      time_zone_converted:
+        two_values: "%{from} - %{to}（以您的当地时间为基准）。"
+        only_start: 从您的当地时间 %{from} 开始。
+        only_end: 至您的当地时间 %{to} 结束。
+      value_spacer: "-"
+      sorting:
+        criteria:
+          one: 第一个排序条件
+          two: 第二个排序条件
+          three: 第三个排序条件
+    general_text_no: 否
+    general_text_yes: 是
+    general_text_No: 否
+    general_text_Yes: 是
+    label_activate: 激活
+    label_activity_no: 活动条目编号 %{activityNo}
+    label_activity_with_comment_no: 活动条目编号 %{activityNo}，有用户评论。
+    label_add_columns: 增添列
+    label_add_comment: 添加评论
+    label_add_comment_title: 单击添加一条注释
+    label_add_selected_columns: 添加所选的列
+    label_added_by: 添加人
+    label_added_time_by: 由 %{author} %{age} 添加
+    label_ago: 天前
+    label_all: 所有
+    label_all_work_packages: 所有工作包
+    label_and: 和
+    label_ascending: 升序
+    label_author: '作者: %{user}'
+    label_between: 介于
+    label_board_locked: 锁定
+    label_board_sticky: 置顶
+    label_create_work_package: 创建新的工作包
+    label_created_by: 创建者
+    label_date: 日期
+    label_date_with_format: 以%{format} 的格式输入 %{date_attribute}
+    label_deactivate: 停用
+    label_descending: 降序
+    label_description: 描述
+    label_cancel_comment: 取消注释
+    label_closed_work_packages: 关闭
+    label_collapse: 折叠
+    label_collapsed: 折叠
+    label_collapse_all: 全部折叠
+    label_comment: 评论
+    label_committed_at: 在 %{date} %{committed_revision_link}
+    label_committed_link: 上传的修订 %{revision_identifier}
+    label_contains: 包含
+    label_created_on: 创建
+    label_edit_comment: 编辑此注释
+    label_edit_status: Edit the status of the work package
+    label_equals: 是
+    label_expand: 展开
+    label_expanded: 展开
+    label_expand_all: 全部展开
+    label_export: 导出
+    label_filename: 文件
+    label_filesize: 大小
+    label_greater_or_equal: ">="
+    label_group_by: 分组按照
+    label_hide_attributes: 隐藏显示
+    label_hide_column: 隐藏列
+    label_in: 在
+    label_in_less_than: 在小于
+    label_in_more_than: 在多于
+    label_latest_activity: 最新活动
+    label_last_updated_on: 最后更新日期
+    label_less_or_equal: "<="
+    label_less_than_ago: 小于数日前
+    label_loading: 正在加载...
+    label_me: 我
+    label_menu_collapse: 折叠
+    label_menu_expand: 展开
+    label_more_than_ago: 更多天前
+    label_next: 下一个
+    label_no_data: 没有要显示的数据
+    label_no_due_date: 没有结束日期
+    label_no_start_date: 没有开始日期
+    label_none: 无
+    label_not_contains: 不包含
+    label_not_equals: 不是
+    label_on: 于
+    label_open_menu: 打开菜单
+    label_open_work_packages: 打开
+    label_password: 密码
+    label_previous: 上一个
+    label_per_page: 每页：
+    label_please_wait: 请稍等
+    label_visibility_settings: 可见性设置
+    label_quote_comment: 引用这个评论
+    label_reset: 重置
+    label_remove_columns: 删除选定的列
+    label_save_as: 另存为
+    label_select_watcher: 选择一位关注者...
+    label_selected_filter_list: 所选的筛选器
+    label_show_attributes: 显示所有属性
+    label_show_in_menu: 在菜单中显示页面
+    label_sort_by: 排序按
+    label_sorted_by: 排序按照
+    label_sort_higher: 向上移动
+    label_sort_lower: 向下移动
+    label_sorting: 排序
+    label_sum_for: 总和
+    label_subject: 主题
+    label_this_week: 这一周
+    label_today: 今天
+    label_activity_show_only_comments: 仅显示批注的活动
+    label_activity_show_all: 显示所有项目
+    label_total_progress: "%{percent} %总进度"
+    label_visible_for_others: 页面可被他人访问
+    label_updated_on: 更新于
+    label_warning: 警告
+    label_work_package: 工作包
+    label_work_package_plural: 工作包
+    label_watch: 关注
+    label_watch_work_package: 关注工作包
+    label_watcher_added_successfully: 已成功添加的关注者 ！
+    label_watcher_deleted_successfully: 已成功删除关注者！
+    label_work_package_details_you_are_here: 您在 %{type} %{subject} 的 %{tab} 选项卡。
+    label_unwatch: 取消关注
+    label_unwatch_work_package: 取消工作包关注
+    label_uploaded_by: 上传者
+    label_global_queries: 共享的查询
+    label_custom_queries: 私人查询
+    label_columns: 列
+    label_attachments: 文件
+    label_drop_files: 将文件拖至此处
+    label_drop_files_hint: 或单击以添加文件
+    label_add_attachments: 添加附件
+    label_formattable_attachment_hint: 将文件拖拽到此区域或从剪贴板粘贴以附加文件
+    label_remove_file: 删除 %{fileName}
+    label_remove_watcher: 删除关注者 %{name}
+    label_remove_all_files: 删除所有文件
+    label_add_description: 为%{file} 添加说明
+    label_upload_notification: '正在为 #%{id}: %{subject} 工作列表上传文件'
+    label_files_to_upload: '这些文件将被上传:'
+    label_rejected_files: '这些文件无法上传:'
+    label_rejected_files_reason: 这些文件不能上传，因为它们大于 %{maximumFilesize}
+    label_wait: 请等待配置...
+    label_upload_counter: "%{count} 个中的 %{done} 个文件已完成"
+    label_validation_error: '由于下列错误，无法保存工作包:'
+    help_texts:
+      show_modal: 显示属性帮助文本项
+    password_confirmation:
+      field_description: 输入密码以确认更改
+      title: 输入密码以继续
+    pagination:
+      no_other_page: 您位于唯一页面上。
+      pages:
+        next: 前进到下一页
+        previous: 返回到上一页
+    placeholders:
+      default: "-"
+      subject: 在此处输入标题
+      selection: 请选择
+      relation_description: 点击为此关系添加描述
+    project:
+      required_outside_context: 您不在项目上下文中。请先选择项目上下文, 以便选择类型和状态
+      context: 项目上下文
+      work_package_belongs_to: 此工作包属于项目%{projectname}。
+      click_to_switch_context: 在该项目中打开此工作包。
+    text_are_you_sure: 是否确定？
+    types:
+      attribute_groups:
+        error_duplicate_group_name: 名称 %{group} 已多次使用。组名不能重复。
+        reset_title: 重置表单配置
+        confirm_reset: '警告：是否确定想要重置表单配置？这会将属性重置为它们的默认组，取消设置可见性复选框并禁用所有自定义字段。
+
+'
+        upgrade_to_ee: 升级到企业版
+        upgrade_to_ee_text: 哇！如果您需要使用此功能，说明您非常专业！您是否愿意成为企业版客户来支持 OpenSource 开发人员？
+        more_information: 更多信息
+        nevermind: 我愿意
+    watchers:
+      label_loading: 正在加载关注者...
+      label_error_loading: 加载关注者时出错
+      label_search_watchers: 搜索关注者
+      label_add: 添加关注人
+      label_discard: 放弃选择
+      typeahead_placeholder: 寻找可能的观察者
+    relation_labels:
+      parent: 父
+      children: 子类
+      relates: 关于
+      duplicates: 重复项
+      duplicated: 复制于
+      blocks: 块
+      blocked: 阻止于
+      precedes: 前置项
+      follows: 后置项
+      includes: 包括
+      partof: 隶属于
+      requires: 需要
+      required: 请求
+      relation_type: 关系类型
+    relations_hierarchy:
+      hierarchy_headline: 层次结构
+    relation_buttons:
+      change_parent: 更改父级
+      remove_parent: 删除上一级
+      group_by_wp_type: 按工作包类型分组
+      group_by_relation_type: 按关系类型分组
+      add_parent: 添加现有的上一级
+      add_new_child: 创建子结点
+      add_existing_child: 增加现有的子节点
+      remove_child: 删除子结点
+      add_new_relation: 创建新的关系
+      update_description: 设置或更新此关系的描述
+      toggle_description: 切换关系描述
+      update_relation: 点击以更改关系类型
+      add_follower: 添加后置项
+      add_predecessor: 添加前置项
+      remove: 删除关系
+      save: 保存关系
+      abort: 放弃
+    relations_autocomplete:
+      placeholder: 输入相关的工作包ID
+    repositories:
+      select_tag: 选择标签
+      select_branch: 选择分支
+    field_value_enter_prompt: 为'%{field}'输入值
+    select2:
+      input_too_short:
+        one: Please enter one more character
+        other: 请再输入{{count}} 个字符
+        zero: Please enter more characters
+      load_more: 正在加载更多的结果...
+      no_matches: 未找到匹配项
+      searching: 正在搜索...
+      selection_too_big:
+        one: You can only select one item
+        other: 您可以只选择 {{limit}} 个条目
+        zero: You cannot select any items
+    sort:
+      sorted_asc: '升序排列已应用， '
+      sorted_dsc: '降序排列已应用， '
+      sorted_no: '无序已应用， '
+      sorting_disabled: 排序被禁用
+      activate_asc: 激活以进行升序排序
+      activate_dsc: 激活以进行降序排序
+      activate_no: 激活以移除排序
+    text_work_packages_destroy_confirmation: 确实要删除所选的工作包吗?
+    text_query_destroy_confirmation: 是否确实要删除所选的查询?
+    text_attachment_destroy_confirmation: 你确定要删除这个附件?
+    timelines:
+      gantt_chart: 甘特图
+      labels:
+        bar: 条形标签
+        left: 左
+        right: 右
+        farRight: 最右
+        showNone: "--没有标签--"
+        description: '选择要在甘特图的各个位置显示的属性。请注意, 在元素上悬停时, 将显示其日期标签而不是这些属性。
+
+'
+      button_activate: 激活时间线模式
+      button_deactivate: 取消激活时间线模式
+      cancel: 取消
+      change: 更改计划
+      due_date: 截止日期
+      empty: "(空)"
+      error: 发生错误。
+      errors:
+        not_implemented: 不会呈现时间轴，因为它使用了一种尚未实现的功能。
+        report_comparison: 时间轴不能呈现配置对比。请检查配置中的相应内容，重置它可以帮助解决这一问题。
+        report_epicfail: 发生意外错误，无法加载时间线。
+        report_timeout: 不能在合理的时间内加载时间线。
+      filter:
+        column:
+          assigned_to: 指定人
+          type: 类型
+          due_date: 结束日期
+          name: 名称
+          status: 状态
+          responsible: 责任人
+          start_date: 开始日期
+        grouping_other: 其他
+        noneSelection: "(无)"
+      name: 名称
+      new_work_package: 新工作包
+      outline: 重置大纲
+      outlines:
+        aggregation: 仅显示聚合
+        level1: 展开 1 级
+        level2: 展开 2 级
+        level3: 展开 3 级
+        level4: 展开 4 级
+        level5: 展开 5 级
+        all: 全部显示
+      project_status: 项目状态
+      project_type: 项目类型
+      really_close_dialog: 你真的想要关闭对话框并丢失输入的数据吗？
+      responsible: 责任人
+      save: 保存
+      start_date: 开始日期
+      tooManyProjects: 超过 %{count} 个项目。请使用一个更好的筛选器 ！
+      selection_mode:
+        notification: 点击任何突出显示的工作包以创建关系。按 Escape 键可以取消。
+      zoom:
+        in: 放大
+        out: 缩小
+        auto: 自动缩放
+        days: 天
+        weeks: 周
+        months: 月
+        quarters: 季度
+        years: 年
+        slider: 缩放滑块
+    tl_toolbar:
+      zooms: 缩放级别
+      outlines: 层次结构级别
+    unsupported_browser:
+      title: 不支持您的浏览器版本
+      message: OpenProject不再支持您现在所使用的浏览器版本。
+      update_message: 请升级您的浏览器。
+      update_ie_user: 请使用Mozilla Firefox或者Google Chrome浏览器，或者升级到Microsoft Edge浏览器。
+      learn_more: 了解更多信息
+      close_warning: 请忽略这个警告。
+    wiki_formatting:
+      strong: 加强
+      italic: 斜体
+      underline: 下划线
+      deleted: 已删除
+      code: 内联代码
+      heading1: 标题 1
+      heading2: 标题 2
+      heading3: 标题 3
+      unordered_list: 无序列表
+      ordered_list: 顺序列表
+      quote: 引用
+      unquote: 取消引用
+      preformatted_text: 预格式化文本
+      wiki_link: 链接到一个 Wiki 页面
+      image: 图片
+    work_packages:
+      bulk_actions:
+        move: 批量移动
+        edit: 批量编辑
+        copy: 批量复制
+        delete: 批量删除
+      button_clear: 清除
+      comment_added: 注释已成功添加。
+      comment_send_failed: 出错。无法提交评论。
+      comment_updated: 注释已成功更新。
+      confirm_edit_cancel: 是否确定想要取消编辑工作包？
+      description_filter: 筛选器
+      description_enter_text: 输入文本
+      description_options_hide: 隐藏选项
+      description_options_show: 显示选项
+      error:
+        edit_prohibited: 已阻止对此工作包编辑 %{attribute}。此属性来源于关系（如儿童）或无法配置。
+        format:
+          date: "%{attribute} 不是有效日期 - 需要 YYYY-MM-DD。"
+        general: 发生错误。
+      edit_attribute: "%{attribute} - 编辑"
+      key_value: "%{key}: %{value}"
+      label_enable_multi_select: 启用多选
+      label_disable_multi_select: 禁用多选
+      label_filter_add: 添加筛选器
+      label_options: 选项
+      label_column_multiselect: '组合式的下拉字段: 使用箭头键选择，用 enter 键确认选择，用退格键删除'
+      label_switch_to_single_select: 切换为单选
+      label_switch_to_multi_select: 切换为多选
+      message_error_during_bulk_delete: 试图删除工作包时出错。
+      message_successful_bulk_delete: 已成功删除工作包。
+      message_successful_show_in_fullscreen: 单击此处以全屏视图打开此工作包。
+      message_view_spent_time: 显示这个工作包所花费的时间
+      no_value: 无值
+      inline_create:
+        title: 单击此处将新工作包添加至此列表
+      create:
+        header: 新 %{type}
+        header_no_type: 新工作包(类型尚未设置)
+        header_with_parent: '新的 %{type} （%{parent_type} #%{id} 子）'
+        button: 创建
+      hierarchy:
+        show: 显示层次结构模式
+        hide: 隐藏层次结构模式
+        toggle_button: 单击以切换层次结构模式。
+        leaf: 工作包叶处于 %{level} 级。
+        children_collapsed: 层次结构级别 %{level} 已折叠。单击以显示筛选的子任务
+        children_expanded: 层次结构级别 %{level} 已展开。单击以折叠筛选的子任务
+      faulty_query:
+        title: 无法加载工作包。
+        description: 您的查询不正确，无法处理。
+      no_results:
+        title: 没有要显示的工作包。
+        description: 没有已创建的工作包或所有工作包都被筛选排除。
+      property_groups:
+        details: 详细信息
+        people: 人员
+        estimatesAndTime: 估计与时间
+        other: 其他
+      properties:
+        assignee: 指定人
+        author: 作者
+        createdAt: 创建
+        description: 描述
+        date: 日期
+        dueDate: 截止日期
+        estimatedTime: 估计的时间
+        spentTime: 已耗时间
+        category: 类别
+        percentageDone: 完成百分比
+        priority: 优先级
+        projectName: 项目
+        responsible: 责任人
+        startDate: 开始日期
+        status: 状态
+        subject: 主题
+        title: 标题
+        type: 类型
+        updatedAt: 更新于
+        versionName: 版本
+        version: 版本
+      jump_marks:
+        pagination: 跳转到表格分页
+        label_pagination: 单击此处跳过工作包表格并转到分页
+        content: 跳到内容
+        label_content: 单击此处跳过菜单，转到内容
+      placeholders:
+        default: "-"
+        description: 点击此处输入描述......
+      query:
+        column_names: 列
+        group_by: 汇总结果根据
+        group: 分组按照
+        group_by_disabled_by_hierarchy: 分组依据已禁用，因为层次结构模式处于活动状态。
+        hierarchy_disabled_by_group_by: 层次结构模式已禁用，因为结果依据 %{column} 分组。
+        hierarchy_mode: 层次结构模式
+        sort_ascending: 升序排序
+        sort_descending: 降序排序
+        move_column_left: 左移列
+        move_column_right: 右移列
+        hide_column: 隐藏列
+        insert_columns: 插入列...
+        filters: 筛选器
+        display_sums: 显示汇总
+        errors:
+          unretrievable_query: 无法从 URL 检索查询
+          not_found: 无此查询
+        text_no_results: 未找到匹配的查询。
+      table:
+        summary: 行为工作包且列为工作包属性的表格。
+        text_inline_edit: 大多数此表格的单元格为激活工作包属性的直接编辑功能的按钮。
+        text_sort_hint: 使用表格标题中的链接，您可以对表格中的列排序、分组、重排序、删除和添加。
+        text_select_hint: 请使用Alt+方向键打开选择框。
+      tabs:
+        overview: 概述
+        activity: 活动
+        relations: 关系
+        watchers: 关注人
+        attachments: 附件
+      time_relative:
+        days: 天
+        weeks: 周
+        months: 月
+    toolbar:
+      settings:
+        columns: 列...
+        sort_by: 排序...
+        group_by: 分组...
+        display_sums: 显示汇总
+        display_hierarchy: 显示层次结构
+        hide_hierarchy: 隐藏层次结构
+        hide_sums: 隐藏汇总
+        save: 保存
+        save_as: 另存为...
+        export: 导出...
+        publish: 发布...
+        page_settings: 重命名查询...
+        delete: 删除
+      filter: 筛选器
+      unselected_title: 工作包
+      search_query_label: 搜索保存的筛选器查询
+      search_query_title: 单击搜索保存的筛选器查询
+    modals:
+      label_settings: 重命名查询
+      label_name: 名称
+      label_delete_page: 删除当前页面
+      button_apply: 应用
+      button_save: 保存
+      button_submit: 提交
+      button_cancel: 取消
+      form_submit:
+        title: 确认已继续
+        text: 是否确定想要执行此操作？
+      upsale_relation_columns: 需要查看工作包列表中的关系吗？
+      upsale_relation_columns_link: 签出企业版。
+      destroy_work_package:
+        title: 确认删除%{label}
+        text: 是否确实要删除以下%{label}？
+        has_children: '工作包有 %{childUnits}:'
+        deletes_children: 所有子工作包也将被删除。
+    notice_successful_create: 成功创建。
+    notice_successful_delete: 成功删除。
+    notice_successful_update: 成功更新。
+    notice_bad_request: 错误的请求。
+    relations:
+      empty: 不存在关联
+      remove: 删除关系
+    inplace:
+      button_edit: "%{attribute}: 编辑"
+      button_save: "%{attribute}: 保存"
+      button_cancel: "%{attribute}: 取消"
+      button_save_all: 保存
+      button_cancel_all: 取消
+      link_formatting_help: 文本格式帮助
+      btn_preview_enable: 预览
+      btn_preview_disable: 禁用预览
+      null_value_label: 无值
+      clear_value_label: "-"
+      errors:
+        required: "%{field} 不能为空"
+        number: "%{field} 不是一个有效的数字"
+        maxlength: "%{field} 不能超过 %{maxLength} 位数"
+        minlength: "%{field} 不能少于 %{minLength} 位数"
+        messages_on_field: 此字段无效：%{messages}
+    error_could_not_resolve_version_name: 无法解析版本名称
+    error_could_not_resolve_user_name: 不能确定用户名
+    units:
+      workPackage:
+        one: work package
+        other: 工作包
+      child_work_packages:
+        one: one child work package
+        other: "%{count} 子工作包"
+      hour:
+        one: 1 hour
+        other: "%{count} 小时"
+        zero: 0 hours
+    zen_mode:
+      button_activate: 激活 zen 模式
+      button_deactivate: 取消激活 zen 模式
