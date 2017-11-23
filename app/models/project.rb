@@ -635,15 +635,6 @@ class Project < ActiveRecord::Base
     name
   end
 
-  # Returns a short description of the projects (first lines)
-  def short_description(length = 255)
-    unless description.present?
-      return ''
-    end
-
-    description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
-  end
-
   def css_classes(options = {})
     s = 'project'
     if options[:ignore_hierarchy]
