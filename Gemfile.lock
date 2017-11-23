@@ -60,10 +60,10 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: 175b5aef8eb275157e2a42ccf64f373a149b1a75
+  revision: aabead0b1bf1b6c8be08821090d4bdfbaff1c7d6
   branch: release/7.3
   specs:
-    openproject-translations (7.3.2)
+    openproject-translations (7.3.3)
       crowdin-api (~> 0.4.1)
       mixlib-shellout (~> 2.1.0)
       rails (~> 5.0.0)
