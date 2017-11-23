@@ -58,7 +58,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
   <% operators_without_values = ['*', '!*', 't', 'w'] %>
   <fieldset class="advanced-filters--container">
-    <a id="projects-filter-close-button" title="{{ ::I18n.t('js.close_form_title') }}" class="simple-filters--close icon-context icon-close"></a>
+    <a id="projects-filter-close-button" title="{{ ::I18n.t('js.close_form_title') }}" class="advanced-filters--close icon-context icon-close"></a>
     <legend><%= t(:label_filter_plural) %></legend>
     <ul class="advanced-filters--filters">
       <% allowed_filters(@query).each do |filter| %>

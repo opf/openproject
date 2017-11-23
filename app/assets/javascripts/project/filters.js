@@ -31,6 +31,7 @@ jQuery(function($) {
   let $button = $('#projects-filter-toggle-button');
   let operatorsWithoutValues = ['*', '!*', 't', 'w'];
   let selectFilterTypes = ['list', 'list_all', 'list_optional'];
+  let $closeIcon = $('#projects-filter-close-button');
 
   function toggleProjectFilterForm() {
     if($button.hasClass('-active')) {
