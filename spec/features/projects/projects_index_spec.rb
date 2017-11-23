@@ -30,8 +30,12 @@ require 'spec_helper'
 require 'features/projects/projects_page'
 
 
-describe 'Projects index page', type: :feature, js: true, with_settings: { login_required?: false } do
-  let!(:admin) { FactoryGirl.create :admin, firstname: 'Admin', lastname: 'Larmin', login: 'admin' }
+describe 'Projects index page',
+         type: :feature,
+         js: true,
+         with_settings: { login_required?: false } do
+
+  let!(:admin) { FactoryGirl.create :admin }
 
   let!(:manager)   { FactoryGirl.create :role, name: 'Manager' }
   let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
@@ -39,13 +43,17 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
   let!(:custom_field) { FactoryGirl.create :project_custom_field }
   let!(:invisible_custom_field) { FactoryGirl.create :project_custom_field, visible: false }
 
-  let!(:project) { FactoryGirl.create(:project, name: 'Plain project', identifier: 'plain-project') }
+  let!(:project) do
+    FactoryGirl.create(:project,
+                       name: 'Plain project',
+                       identifier: 'plain-project')
+  end
   let!(:public_project) do
     project = FactoryGirl.create(:project,
-                       name: 'Public project',
-                       identifier: 'public-project',
-                       is_public: true)
-    project.custom_field_values = { invisible_custom_field.id => 'Secret CF'}
+                                 name: 'Public project',
+                                 identifier: 'public-project',
+                                 is_public: true)
+    project.custom_field_values = { invisible_custom_field.id => 'Secret CF' }
     project.save
     project
   end
@@ -55,7 +63,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
                        identifier: 'development-project')
   end
 
-  def visit_list_and_open_filter_form_as(user)
+  def load_and_open_filters(user)
     login_as(user)
     visit projects_path
     click_button('Show/hide filters')
@@ -104,6 +112,15 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
     end
   end
 
+  def allow_enterprise_edition
+    allow(EnterpriseToken).to receive(:allows_to?).with(:custom_fields_in_projects_list).and_return(true)
+    allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+  end
+
+  def remove_filter(name)
+    page.find("li[filter-name='#{name}'] .filter_rem").click
+  end
+
   feature 'restricts project visibility' do
     feature 'for a anonymous user' do
       scenario 'only public projects shall be visible' do
@@ -129,21 +146,21 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       end
 
       before do
-        allow(EnterpriseToken).to receive(:allows_to?).with(:custom_fields_in_projects_list).and_return(true)
-        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        allow_enterprise_edition
       end
 
       scenario 'only public project or those the user is member of shall be visible' do
         Role.non_member
         login_as(user)
         visit projects_path
+
         expect(page).to have_text(development_project.name)
         expect(page).to have_text(public_project.name)
         expect(page).to_not have_text(project.name)
 
         # Non-admin users shall not see invisible CFs.
         expect(page).to_not have_text(invisible_custom_field.name.upcase)
-        expect(page).to_not have_select('add_filter_select', :with_options => [invisible_custom_field.name])
+        expect(page).to_not have_select('add_filter_select', with_options: [invisible_custom_field.name])
       end
     end
 
@@ -168,13 +185,12 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(menu).to have_text('Delete')
         expect(menu).to have_text('Archive')
       end
-      pending "test that not 'visible' CFs are visible"
     end
   end
 
   feature 'without valid Enterprise token' do
     scenario 'CF columns and filters are not visible' do
-      visit_list_and_open_filter_form_as admin
+      load_and_open_filters admin
 
       # CF's columns are not present:
       expect(page).to_not have_text(custom_field.name.upcase)
@@ -185,12 +201,11 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
 
   feature 'with valid Enterprise token' do
     before do
-      allow(EnterpriseToken).to receive(:allows_to?).with(:custom_fields_in_projects_list).and_return(true)
-      allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+      allow_enterprise_edition
     end
 
     scenario 'CF columns and filters are visible' do
-      visit_list_and_open_filter_form_as admin
+      load_and_open_filters admin
 
       # CF's column is present:
       expect(page).to have_text(custom_field.name.upcase)
@@ -207,7 +222,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
 
   feature 'with a filter set' do
     scenario 'it should only show the matching projects and filters' do
-      visit_list_and_open_filter_form_as admin
+      load_and_open_filters admin
 
       set_filter('name_and_identifier',
                  'Name or identifier',
@@ -229,7 +244,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
     end
 
     scenario 'it keeps applying filters and order' do
-      visit_list_and_open_filter_form_as admin
+      load_and_open_filters admin
 
       set_filter('name_and_identifier',
                  'Name or identifier',
@@ -279,7 +294,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
   feature 'when filter of type' do
 
     scenario 'Name and identifier gives results in both, name and identifier' do
-      visit_list_and_open_filter_form_as admin
+      load_and_open_filters admin
 
       # Filter on model attribute 'name'
       set_filter('name_and_identifier',
@@ -294,7 +309,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       expect(page).to_not have_text(project.name)
 
       # Filter on model attribute 'identifier'
-      page.find('li[filter-name="name_and_identifier"] .filter_rem').click
+      remove_filter('name_and_identifier')
 
       set_filter('name_and_identifier',
                  'Name or identifier',
@@ -317,7 +332,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       end
 
       scenario 'filter on "status"' do
-        visit_list_and_open_filter_form_as admin
+        load_and_open_filters admin
 
         # value selection defaults to "active"'
         expect(page).to have_css('li[filter-name="status"]')
@@ -358,7 +373,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       let!(:date_custom_field) { FactoryGirl.create :date_project_custom_field }
       let(:datetime_of_this_week) do
         today = Date.today
-        # Ensure that the date is not today but in the middle of the week
+        # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
         date_of_this_week = today + (((today.wday) % 7) > 2 ? -1 : 1)
         DateTime.parse(date_of_this_week.to_s + 'T11:11:11+00:00')
       end
@@ -366,8 +381,8 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
 
       let!(:project_created_on_today) do
         project = FactoryGirl.create(:project,
-                           name: 'Created today project',
-                           created_on: DateTime.now)
+                                     name: 'Created today project',
+                                     created_on: DateTime.now)
         project.custom_field_values = { list_custom_field.id => '3'}
         project.custom_field_values = { date_custom_field.id => '2011-11-11'}
         project.save
@@ -390,14 +405,15 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       end
       let!(:todays_wp) do
         # This WP should trigger a change to the project's 'latest activity at' DateTime
-        FactoryGirl.create(:work_package, updated_at: DateTime.now, project: project_created_on_today)
+        FactoryGirl.create(:work_package,
+                           updated_at: DateTime.now,
+                           project: project_created_on_today)
       end
 
       before do
-        allow(EnterpriseToken).to receive(:allows_to?).with(:custom_fields_in_projects_list).and_return(true)
-        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        allow_enterprise_edition
         project_created_on_today
-        visit_list_and_open_filter_form_as admin
+        load_and_open_filters admin
       end
 
       scenario 'selecting operator' do
@@ -413,7 +429,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to_not have_text(project_created_on_fixed_date.name)
 
         # created on 'this week' shows projects that were created within the last seven days
-        page.find('li[filter-name="created_on"] .filter_rem').click
+        remove_filter('created_on')
 
         set_filter('created_on',
                    'Created on',
@@ -426,7 +442,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to_not have_text(project_created_on_fixed_date.name)
 
         # created on 'on' shows projects that were created within the last seven days
-        page.find('li[filter-name="created_on"] .filter_rem').click
+        remove_filter('created_on')
 
         set_filter('created_on',
                    'Created on',
@@ -440,7 +456,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to_not have_text(project_created_on_this_week.name)
 
         # created on 'less than days ago'
-        page.find('li[filter-name="created_on"] .filter_rem').click
+        remove_filter('created_on')
 
         set_filter('created_on',
                    'Created on',
@@ -453,7 +469,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to_not have_text(project_created_on_fixed_date.name)
 
         # created on 'more than days ago'
-        page.find('li[filter-name="created_on"] .filter_rem').click
+        remove_filter('created_on')
 
         set_filter('created_on',
                    'Created on',
@@ -466,7 +482,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to_not have_text(project_created_on_today.name)
 
         # created on 'between'
-        page.find('li[filter-name="created_on"] .filter_rem').click
+        remove_filter('created_on')
 
         set_filter('created_on',
                    'Created on',
@@ -479,7 +495,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to_not have_text(project_created_on_today.name)
 
         # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
-        page.find('li[filter-name="created_on"] .filter_rem').click
+        remove_filter('created_on')
 
         set_filter('latest_activity_at',
                    'Latest activity at',
@@ -491,7 +507,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to_not have_text(project_created_on_fixed_date.name)
 
         # CF List
-        page.find('li[filter-name="latest_activity_at"] .filter_rem').click
+        remove_filter('latest_activity_at')
 
         set_filter("cf_#{list_custom_field.id}",
                    list_custom_field.name,
@@ -543,7 +559,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         end
 
         # CF date filter work (at least for one operator)
-        page.find("li[filter-name='cf_#{list_custom_field.id}'] .filter_rem").click
+        remove_filter("cf_#{list_custom_field.id}")
 
         set_filter("cf_#{date_custom_field.id}",
                    date_custom_field.name,
@@ -603,7 +619,7 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       login_as(simple_member)
       visit projects_path
 
-      expect(page).to have_text('Parent project')
+      expect(page).to have_text(parent_project.name)
 
       # 'More' menu should be invisible by default
       expect(page).not_to have_css('.icon-show-more-horizontal')
@@ -612,12 +628,11 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       page.find('tbody tr').hover
       expect(page).to_not have_css('.icon-show-more-horizontal')
 
-
       # For a project member with :copy_projects privilege the 'More' menu is visible.
       login_as(can_copy_projects_manager)
       visit projects_path
 
-      expect(page).to have_text('Parent project')
+      expect(page).to have_text(parent_project.name)
 
       # 'More' menu should be invisible by default
       expect(page).not_to have_css('.icon-show-more-horizontal')
@@ -634,7 +649,6 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       expect(menu).to_not have_text('Delete')
       expect(menu).to_not have_text('Archive')
       expect(menu).to_not have_text('Unarchive')
-
 
       # For a project member with :add_subprojects privilege the 'More' menu is visible.
       login_as(can_add_subprojects_manager)
@@ -658,3 +672,4 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
     end
   end
 end
+

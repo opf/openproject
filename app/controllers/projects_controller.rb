@@ -60,21 +60,14 @@ class ProjectsController < ApplicationController
     sort_init 'lft'
     sort_update %w(lft name is_public created_on required_disk_space latest_activity_at)
 
-    projects = get_all_projects_for_overview_page
-    @projects = filter_projects_by_permission projects
-
-    @custom_fields = CustomField.where(type: 'ProjectCustomField')
-    unless User.current.admin?
-      # Non-admins shall not see invisible CFs
-      @custom_fields = @custom_fields.where(visible: true)
+    unless @projects = get_all_projects_for_overview_page
+      redirect_back(fallback_location: projects_path)
+      return
     end
 
-    respond_to do |format|
-      format.html do
-        @projects = @projects.order('lft')
-      end
-    end
+    @custom_fields = get_custom_fields
   end
+
 
   current_menu_item :index do
     :list_projects
@@ -313,18 +306,20 @@ class ProjectsController < ApplicationController
     end
 
     if @query.valid?
-      # TODO: remove order and user normal query orders. Look into pagination,
-      # too.
-      @query
+      # TODO: Use our query-based orders and pagination, instead of using this second version here.
+
+      projects = @query
         .results
         .with_required_storage
         .with_latest_activity
         .order(sort_clause)
         .page(page_param)
         .per_page(per_page_param)
+
+      filter_projects_by_permission projects
     else
-      # TODO: Do not call API V3, mixing up stuff.
-      raise ::API::Errors::InvalidQuery.new(@query.errors.full_messages)
+      flash[:error] = @query.errors.full_messages
+      return false
     end
   end
 
@@ -336,6 +331,15 @@ class ProjectsController < ApplicationController
     else
       projects.visible
     end
+  end
+
+  def get_custom_fields
+    custom_fields = CustomField.where(type: 'ProjectCustomField')
+    unless User.current.admin?
+      # Non-admins shall not see invisible CFs
+      custom_fields = custom_fields.where(visible: true)
+    end
+    return custom_fields
   end
 
   protected

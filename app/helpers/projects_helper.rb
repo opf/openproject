@@ -158,7 +158,7 @@ module ProjectsHelper
       query.find_available_filter(name)
     end
 
-    filter_instances.sort_by { |filter| filter.human_name }
+    filter_instances.sort_by(&:human_name)
   end
 
   def admin_only_filters
@@ -166,9 +166,9 @@ module ProjectsHelper
   end
 
   def more_menu_allowed?(project)
-    (User.current.admin? || \
-     project.copy_allowed? || \
-     User.current.allowed_to?(:add_subprojects, project) || \
+    (User.current.admin? ||
+     project.copy_allowed? ||
+     User.current.allowed_to?(:add_subprojects, project) ||
      User.current.allowed_to?({controller: :projects, action: :settings}, project))
   end
 end
