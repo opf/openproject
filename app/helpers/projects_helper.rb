@@ -135,14 +135,17 @@ module ProjectsHelper
   def allowed_filters(query)
     filters_static = %i(status name_and_identifier created_on latest_activity_at)
     filters_dynamic = []
+
     if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-      filters_dynamic = ProjectCustomField
-                          .where("field_format <> 'version'")
-                          .order(:name)
-                          .pluck(:id)
-                          .map do |id|
-                            "cf_#{id}".to_sym
-                            end
+      filters_dynamic_query = ProjectCustomField.where("field_format <> 'version'")
+
+      unless User.current.admin?
+        filters_dynamic_query = filters_dynamic_query.where(visible: true)
+      end
+      filters_dynamic_ids = filters_dynamic_query.order(:name).pluck(:id)
+      filters_dynamic = filters_dynamic_ids.map do |id|
+        "cf_#{id}".to_sym
+      end
     end
 
     filters = filters_static + filters_dynamic

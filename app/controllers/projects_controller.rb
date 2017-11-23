@@ -63,7 +63,11 @@ class ProjectsController < ApplicationController
     projects = get_all_projects_for_overview_page
     @projects = filter_projects_by_permission projects
 
-    @custom_fields = CustomField.all.where(type: 'ProjectCustomField')
+    @custom_fields = CustomField.where(type: 'ProjectCustomField')
+    unless User.current.admin?
+      # Non-admins shall not see invisible CFs
+      @custom_fields = @custom_fields.where(visible: true)
+    end
 
     respond_to do |format|
       format.html do

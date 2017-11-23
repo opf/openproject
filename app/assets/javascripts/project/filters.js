@@ -90,7 +90,7 @@ jQuery(function($) {
               filters.push(filterParam);
             }
           }
-        } else if (filterType == 'datetime_past') {
+        } else if (['datetime_past', 'date'].includes(filterType)) {
           if ($valueBlock.hasClass('days-ago')) {
             let value = $('.days-ago input[name="value"]', $valueBlock).val();
             if (value.length > 0) {
@@ -157,7 +157,7 @@ jQuery(function($) {
     let $multiSelect  = $('.multi-select select', $valueSelector);
 
     if ($valueSelector.hasClass('multi-value')) {
-      let values = $singleSelect.val();
+      let values = $multiSelect.val();
       let value = null;
       if (values && values.length > 1) {
         value = values[0];
@@ -166,8 +166,8 @@ jQuery(function($) {
       }
       $singleSelect.val(value);
     } else {
-      let value = $multiSelect.val();
-      $singleSelect.val(value);
+      let value = $singleSelect.val();
+      $multiSelect.val(value);
     }
 
     $valueSelector.toggleClass('multi-value');
@@ -177,7 +177,8 @@ jQuery(function($) {
   function addFilter(e) {
     e.preventDefault();
     $('[filter-name="' + $(this).val() + '"]').removeClass('hidden');
-    $('#add_filter_select option:selected', $filterForm).attr('disabled','disabled');
+    // If the user removes the filter the same filter has to be selectable from fresh again:
+    jQuery('#add_filter_select option').first().attr('selected','selected');
     return false;
   }
 
@@ -187,6 +188,7 @@ jQuery(function($) {
 
     $filter.addClass('hidden');
     $('#add_filter_select option[value="' + filterName + '"]', $filterForm).removeAttr('disabled');
+    $('#add_filter_select option:selected', $filterForm).attr('disabled','disabled');
   }
 
   function setValueVisibility() {
@@ -199,7 +201,7 @@ jQuery(function($) {
       $filterValue.removeClass('hidden');
     }
 
-    if (['>t-', '<t-', 't-'].includes(selectedOperator)) {
+    if (['>t-', '<t-', 't-', '<t+', '>t+', 't+'].includes(selectedOperator)) {
       $filterValue.addClass('days-ago');
       $filterValue.removeClass('on-date');
       $filterValue.removeClass('between-dates');
@@ -215,7 +217,7 @@ jQuery(function($) {
   }
 
   // Register event listeners
-  $('.advanced-filters--filter-value span.multi-select-toggle').click(toggleMultiselect);
+  $('.advanced-filters--filter-value a.multi-select-toggle').click(toggleMultiselect);
   $button.click(toggleProjectFilterForm);
   $closeIcon.click(toggleProjectFilterForm);
   $filterForm.submit(sendForm);

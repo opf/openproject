@@ -37,13 +37,17 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
   let!(:developer) { FactoryGirl.create :role, name: 'Developer' }
 
   let!(:custom_field) { FactoryGirl.create :project_custom_field }
+  let!(:invisible_custom_field) { FactoryGirl.create :project_custom_field, visible: false }
 
   let!(:project) { FactoryGirl.create(:project, name: 'Plain project', identifier: 'plain-project') }
   let!(:public_project) do
-    FactoryGirl.create(:project,
+    project = FactoryGirl.create(:project,
                        name: 'Public project',
                        identifier: 'public-project',
                        is_public: true)
+    project.custom_field_values = { invisible_custom_field.id => 'Secret CF'}
+    project.save
+    project
   end
   let!(:development_project) do
     FactoryGirl.create(:project,
@@ -59,7 +63,8 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
 
   def set_filter(name, human_name, human_operator = nil, values = [])
     select human_name, from: 'add_filter_select'
-    within('li[filter-name="' + name + '"]') do
+    selected_filter = page.find("li[filter-name='#{name}']")
+    within(selected_filter) do
       select human_operator, from: 'operator'
       if values.any?
         case name
@@ -68,6 +73,31 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         when 'status'
           if values.size == 1
             select values.first, from: 'value'
+          end
+        when 'created_on'
+          case human_operator
+          when 'on'
+            fill_in 'value', with: values.first
+          when 'less than days ago'
+            fill_in 'value', with: values.first
+          when 'more than days ago'
+            fill_in 'value', with: values.first
+          when 'days ago'
+            fill_in 'value', with: values.first
+          when 'between'
+            fill_in 'from_value', with: values.first
+            fill_in 'to_value', with: values.second
+          end
+        when /cf_[\d]+/
+          if selected_filter[:'filter-type'] == 'list_optional'
+            if values.size == 1
+              value_select = find('.single-select select[name="value"]')
+              value_select.select values.first
+            end
+          elsif selected_filter[:'filter-type'] == 'date'
+            if human_operator == 'on'
+              fill_in 'value', with: values.first
+            end
           end
         end
       end
@@ -98,6 +128,11 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
                            lastname: 'Turing')
       end
 
+      before do
+        allow(EnterpriseToken).to receive(:allows_to?).with(:custom_fields_in_projects_list).and_return(true)
+        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+      end
+
       scenario 'only public project or those the user is member of shall be visible' do
         Role.non_member
         login_as(user)
@@ -105,8 +140,11 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to have_text(development_project.name)
         expect(page).to have_text(public_project.name)
         expect(page).to_not have_text(project.name)
+
+        # Non-admin users shall not see invisible CFs.
+        expect(page).to_not have_text(invisible_custom_field.name.upcase)
+        expect(page).to_not have_select('add_filter_select', :with_options => [invisible_custom_field.name])
       end
-      pending "Not 'visible' CFs shall only be visible for admins"
     end
 
     feature 'for admins' do
@@ -118,12 +156,13 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
         expect(page).to have_text(project.name)
 
         # Test that the 'More' menu becomes visible on hover
-        page.first('tbody tr').hover
         expect(page).to_not have_css('.icon-show-more-horizontal')
+        page.first('tbody tr').hover
+        expect(page).to have_css('.icon-show-more-horizontal')
 
         # Test visiblity of 'more' menu list items
         page.first('tbody tr .icon-show-more-horizontal').click
-        menu = page.find_first('tbody tr .project-actions')
+        menu = page.first('tbody tr .project-actions')
         expect(menu).to have_text('Copy')
         expect(menu).to have_text('New subproject')
         expect(menu).to have_text('Delete')
@@ -157,7 +196,13 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       expect(page).to have_text(custom_field.name.upcase)
       # CF's filter is present:
       expect(page).to have_select('add_filter_select', with_options: [custom_field.name])
+
+      # Admins shall be the only ones to see invisible CFs
+      expect(page).to have_text(invisible_custom_field.name.upcase)
+      expect(page).to have_select('add_filter_select', :with_options => [invisible_custom_field.name])
     end
+
+    scenario
   end
 
   feature 'with a filter set' do
@@ -308,49 +353,210 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       end
     end
 
-    feature "Created on" do
-      feature "selecting operator" do
-        feature "'today'" do
-          pending "show projects that were created today"
-        end
-
-        feature "'this week'" do
-          pending "show projects that were created this week"
-        end
-
-        feature "'on'" do
-          pending "filters on a specific date"
-        end
-
-        feature "'less than or equal' days ago" do
-          pending "only shows matching projects"
-        end
-
-        feature "'more than or equal' days ago" do
-          pending "only shows matching projects"
-        end
-
-        feature "between two dates" do
-          pending "only shows matching projects"
-          pending "selecting same date for from and to value shows projects of that date"
-        end
-
+    feature 'other filter types' do
+      let!(:list_custom_field) { FactoryGirl.create :list_project_custom_field }
+      let!(:date_custom_field) { FactoryGirl.create :date_project_custom_field }
+      let(:datetime_of_this_week) do
+        today = Date.today
+        # Ensure that the date is not today but in the middle of the week
+        date_of_this_week = today + (((today.wday) % 7) > 2 ? -1 : 1)
+        DateTime.parse(date_of_this_week.to_s + 'T11:11:11+00:00')
       end
-    end
+      let(:fixed_datetime) { DateTime.parse('2017-11-11T11:11:11+00:00') }
 
-    feature "Latest activity at" do
-      pending "filter uses correct data"
-    end
+      let!(:project_created_on_today) do
+        project = FactoryGirl.create(:project,
+                           name: 'Created today project',
+                           created_on: DateTime.now)
+        project.custom_field_values = { list_custom_field.id => '3'}
+        project.custom_field_values = { date_custom_field.id => '2011-11-11'}
+        project.save
+        project
+      end
+      let!(:project_created_on_this_week) do
+        FactoryGirl.create(:project,
+                           name: 'Created on this week project',
+                           created_on: datetime_of_this_week)
+      end
+      let!(:project_created_on_six_days_ago) do
+        FactoryGirl.create(:project,
+                           name: 'Created on six days ago project',
+                           created_on: DateTime.now - 6.days)
+      end
+      let!(:project_created_on_fixed_date) do
+        FactoryGirl.create(:project,
+                           name: 'Created on fixed date project',
+                           created_on: fixed_datetime)
+      end
+      let!(:todays_wp) do
+        # This WP should trigger a change to the project's 'latest activity at' DateTime
+        FactoryGirl.create(:work_package, updated_at: DateTime.now, project: project_created_on_today)
+      end
 
-    feature "CF List" do
-      pending "switching to multiselect keeps the current selection"
-      pending "switching to single select keeps the first selection"
-      pending "whith only one value selected next load shows single select"
-      pending "whith more than one value selected next load shows multi select"
-    end
+      before do
+        allow(EnterpriseToken).to receive(:allows_to?).with(:custom_fields_in_projects_list).and_return(true)
+        allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+        project_created_on_today
+        visit_list_and_open_filter_form_as admin
+      end
 
-    feature "CF date" do
-      pending "shows correct results"
+      scenario 'selecting operator' do
+        # created on 'today' shows projects that were created today
+        set_filter('created_on',
+                   'Created on',
+                   'today')
+
+        click_on 'Filter'
+
+        expect(page).to have_text(project_created_on_today.name)
+        expect(page).to_not have_text(project_created_on_this_week.name)
+        expect(page).to_not have_text(project_created_on_fixed_date.name)
+
+        # created on 'this week' shows projects that were created within the last seven days
+        page.find('li[filter-name="created_on"] .filter_rem').click
+
+        set_filter('created_on',
+                   'Created on',
+                   'this week')
+
+        click_on 'Filter'
+
+        expect(page).to have_text(project_created_on_today.name)
+        expect(page).to have_text(project_created_on_this_week.name)
+        expect(page).to_not have_text(project_created_on_fixed_date.name)
+
+        # created on 'on' shows projects that were created within the last seven days
+        page.find('li[filter-name="created_on"] .filter_rem').click
+
+        set_filter('created_on',
+                   'Created on',
+                   'on',
+                    ['2017-11-11'])
+
+        click_on 'Filter'
+
+        expect(page).to have_text(project_created_on_fixed_date.name)
+        expect(page).to_not have_text(project_created_on_today.name)
+        expect(page).to_not have_text(project_created_on_this_week.name)
+
+        # created on 'less than days ago'
+        page.find('li[filter-name="created_on"] .filter_rem').click
+
+        set_filter('created_on',
+                   'Created on',
+                   'less than days ago',
+                   ['1'])
+
+        click_on 'Filter'
+
+        expect(page).to have_text(project_created_on_today.name)
+        expect(page).to_not have_text(project_created_on_fixed_date.name)
+
+        # created on 'more than days ago'
+        page.find('li[filter-name="created_on"] .filter_rem').click
+
+        set_filter('created_on',
+                   'Created on',
+                   'more than days ago',
+                   ['1'])
+
+        click_on 'Filter'
+
+        expect(page).to have_text(project_created_on_fixed_date.name)
+        expect(page).to_not have_text(project_created_on_today.name)
+
+        # created on 'between'
+        page.find('li[filter-name="created_on"] .filter_rem').click
+
+        set_filter('created_on',
+                   'Created on',
+                   'between',
+                   ['2017-11-10', '2017-11-12'])
+
+        click_on 'Filter'
+
+        expect(page).to have_text(project_created_on_fixed_date.name)
+        expect(page).to_not have_text(project_created_on_today.name)
+
+        # Latest activity at 'today'. This spot check would fail if the data does not get collected from multiple tables
+        page.find('li[filter-name="created_on"] .filter_rem').click
+
+        set_filter('latest_activity_at',
+                   'Latest activity at',
+                   'today')
+
+        click_on 'Filter'
+
+        expect(page).to have_text(project_created_on_today.name)
+        expect(page).to_not have_text(project_created_on_fixed_date.name)
+
+        # CF List
+        page.find('li[filter-name="latest_activity_at"] .filter_rem').click
+
+        set_filter("cf_#{list_custom_field.id}",
+                   list_custom_field.name,
+                   'is',
+                   ['3'])
+
+        click_on 'Filter'
+
+        expect(page).to have_text(project_created_on_today.name)
+        expect(page).to_not have_text(project_created_on_fixed_date.name)
+
+        # switching to multiselect keeps the current selection
+        cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
+        within(cf_filter) do
+          # Initial filter is a 'single select'
+          expect(cf_filter.find(:select, 'value')[:multiple]).to be_falsey
+          click_on 'Toggle multiselect'
+          # switching to multiselect keeps the current selection
+          expect(cf_filter.find(:select, 'value')[:multiple]).to be_truthy
+          expect(cf_filter).to have_select('value', selected: '3')
+
+          select '5', from: 'value'
+        end
+
+        click_on 'Filter'
+
+        cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
+        within(cf_filter) do
+          # Query has two values for that filter, so it shoud show a 'multi select'.
+          expect(cf_filter.find(:select, 'value')[:multiple]).to be_truthy
+          expect(cf_filter).to have_select('value', selected: ['3', '5'])
+
+          # switching to single select keeps the first selection
+          select '2', from: 'value'
+          unselect '3', from: 'value'
+
+          click_on 'Toggle multiselect'
+          expect(cf_filter.find(:select, 'value')[:multiple]).to be_falsey
+          expect(cf_filter).to have_select('value', selected: '2')
+          expect(cf_filter).to_not have_select('value', selected: '5')
+        end
+
+        click_on 'Filter'
+
+        cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
+        within(cf_filter) do
+          # Query has one value for that filter, so it should show a 'single select'.
+          expect(cf_filter.find(:select, 'value')[:multiple]).to be_falsey
+        end
+
+        # CF date filter work (at least for one operator)
+        page.find("li[filter-name='cf_#{list_custom_field.id}'] .filter_rem").click
+
+        set_filter("cf_#{date_custom_field.id}",
+                   date_custom_field.name,
+                   'on',
+                   ['2011-11-11'])
+
+        click_on 'Filter'
+
+        expect(page).to have_text(project_created_on_today.name)
+        expect(page).to_not have_text(project_created_on_fixed_date.name)
+      end
+
+      pending "NOT WORKING YET: Date vs. DateTime issue: Selecting same date for from and to value shows projects of that date"
     end
   end
 
@@ -441,7 +647,6 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       page.find('tbody tr').hover
       expect(page).to have_css('.icon-show-more-horizontal')
 
-
       # Test visiblity of 'more' menu list items
       page.find('tbody tr .icon-show-more-horizontal').click
       menu = page.find('tbody tr .project-actions')
@@ -452,6 +657,4 @@ describe 'Projects index page', type: :feature, js: true, with_settings: { login
       expect(menu).to_not have_text('Unrchive')
     end
   end
-
-  # TODO: Rewrite old Cucumber test for archiving to RSpec.
 end

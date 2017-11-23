@@ -180,5 +180,18 @@ FactoryGirl.define do
       type 'ProjectCustomField'
       sequence(:name) { |n| "ProjectCustomField #{n}" }
     end
+
+    factory :list_project_custom_field do
+      sequence(:name) { |n| "ListProjectCustomField #{n}" }
+      field_format 'list'
+      type 'ProjectCustomField'
+      possible_values ['1', '2', '3', '4', '5', '6', '7']
+    end
+
+    factory :date_project_custom_field do
+      sequence(:name) { |n| "DateProjectCustomField #{n}" }
+      field_format 'date'
+      type 'ProjectCustomField'
+    end
   end
 end

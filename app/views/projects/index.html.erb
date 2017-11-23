@@ -101,11 +101,11 @@ See doc/COPYRIGHT.rdoc for more details.
                                          .try(:values)
                                          .try(:first)),
                                  class: 'form--select -slim' %>
-                  <span href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
+                  <a href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
                     <span class="icon-context icon-button icon-add icon4" title="<%= t(:label_enable_multi_select) %>" icon-name="add" icon-title="<%= t(:label_enable_multi_select) %>" css-class="icon4">
                       <span class="hidden-for-sighted"><%= t(:label_enable_multi_select) %></span>
                     </span>
-                  </span>
+                  </a>
                 </span>
               </div>
               <div class="multi-select">
@@ -120,18 +120,18 @@ See doc/COPYRIGHT.rdoc for more details.
                                  ),
                                  class: 'form--select -slim',
                                  multiple: true %>
-                  <span href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
+                  <a href="" class="form-label no-decoration-on-hover -transparent multi-select-toggle" tabindex="0">
                     <span class="icon-context icon-button icon-minus2 icon4" title="<%= t(:label_enable_multi_select) %>" icon-name="minus2" icon-title="<%= t(:label_enable_multi_select) %>" css-class="icon4">
                       <span class="hidden-for-sighted"><%= t(:label_enable_multi_select) %></span>
                     </span>
-                  </span>
+                  </a>
                 </span>
               </div>
             </div>
-          <% elsif filter.type == :datetime_past %>
+          <% elsif [:datetime_past, :date].include? filter.type %>
             <%
               value_format = ''
-              if ['>t-', '<t-', 't-'].include? selected_operator
+              if ['>t-', '<t-', 't-', '<t+', '>t+', 't+'].include? selected_operator
                 value_format = 'days-ago'
               elsif selected_operator == '=d'
                 value_format = 'on-date'
@@ -296,6 +296,8 @@ See doc/COPYRIGHT.rdoc for more details.
                       <% elsif custom_field.field_format == 'list' %>
                         <%= project.custom_value_for(custom_field).formatted_value %>
                       <% elsif custom_field.field_format == 'user' %>
+                        <%= project.custom_value_for(custom_field).formatted_value %>
+                      <% elsif custom_field.field_format == 'date' %>
                         <%= project.custom_value_for(custom_field).formatted_value %>
                       <% elsif custom_field.field_format == 'int' %>
                         <%= project.custom_value_for(custom_field).value.to_s %>
