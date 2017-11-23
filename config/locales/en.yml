@@ -115,12 +115,8 @@ en:
   label_expiration_hint: "%{date} or on logout"
   label_actions: 'Actions'
   label_confirmed: 'Confirmed'
-  message_account_reset_phone: "Your current cell phone number has not yet been verified. If you want to return to using your previous verified number you may undo the number change now."
-  field_unverified_phone: "Current cell phone number"
-  field_verified_phone: "Previous cell phone number"
   button_continue: 'Continue'
   button_make_default: 'Mark as default'
-  button_revert_phone: "Return to previous number"
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
@@ -131,5 +127,4 @@ en:
   button_resend_otp_form: "Resend"
   button_otp_by_voice: "Voice call"
   button_otp_by_sms: "SMS"
-  notice_otp: "To access %{app_title} from the internet a two factor authentication is required. Please add a phone number and specify a delivery channel to receive the one time password generated during the login process."
   label_otp_channel: "Delivery channel"
