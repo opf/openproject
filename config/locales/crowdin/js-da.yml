@@ -1,0 +1,5 @@
+da:
+  js:
+    reporting_engine:
+      label_remove: "Slet"
+      label_response_error: "En fejl opstod under forespørgselshåndteringen."

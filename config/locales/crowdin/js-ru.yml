@@ -1,0 +1,5 @@
+ru:
+  js:
+    reporting_engine:
+      label_remove: "Удалить"
+      label_response_error: "Произошла ошибка при обработке запроса."

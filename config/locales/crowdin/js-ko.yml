@@ -1,0 +1,5 @@
+ko:
+  js:
+    reporting_engine:
+      label_remove: "삭제"
+      label_response_error: "쿼리 처리 중에 오류가 발생했습니다."

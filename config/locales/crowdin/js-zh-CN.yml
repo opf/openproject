@@ -1,0 +1,5 @@
+zh-CN:
+  js:
+    reporting_engine:
+      label_remove: "删除"
+      label_response_error: "处理查询时出错。"
