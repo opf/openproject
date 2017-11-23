@@ -36,13 +36,6 @@ See doc/COPYRIGHT.md for more details.
 (<%= link_to l(:button_reset), {:action => 'reset_rss_key'}, :method => :post %>)
 </p>
 
-<% if Setting.rest_api_enabled? %>
-<h4><%= l(:label_api_access_key) %></h4>
-<div>
-  <%= link_to_function(l(:button_show), "$('api-access-key').toggle();")%>
-  <pre id='api-access-key' class='autoscroll'><%= h(current_user.api_key) %></pre>
-</div>
-<%= javascript_tag("$('api-access-key').hide();") %>
 <p>
 <% if current_user.api_token %>
 <%= l(:label_api_access_key_created_on, distance_of_time_in_words(Time.now, current_user.api_token.created_on)) %>
