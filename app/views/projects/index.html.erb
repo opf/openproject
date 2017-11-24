@@ -55,7 +55,7 @@ See doc/COPYRIGHT.rdoc for more details.
   </li>
 <% end %>
 
-<%= render partial: 'filters', locals: { query: @query } %>
+<%= render partial: 'projects/filters/form', locals: { query: @query } %>
 
 <% if @projects.any? %>
   <div class="generic-table--container">
