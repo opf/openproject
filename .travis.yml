@@ -77,6 +77,8 @@ env:
     - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=4"
 
 before_install:
+  - sh script/travis_abort_conditions.sh
+
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
@@ -94,10 +96,18 @@ before_install:
 bundler_args: --binstubs --without development production docker
 
 before_script:
-  - sh script/ci_setup.sh $TEST_SUITE $DB
+  - "if [ $SKIP_BUILD ]; then
+      true;
+     else
+      sh script/ci_setup.sh $TEST_SUITE $DB;
+     fi"
 
 script:
-  - sh script/ci_runner.sh
+  - "if [ $SKIP_BUILD ]; then
+      true;
+     else
+      sh script/ci_runner.sh
+     fi"
 
 notifications:
   email: false
