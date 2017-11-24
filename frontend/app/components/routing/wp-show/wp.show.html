@@ -2,7 +2,7 @@
      class="work-packages--show-view"
      ng-if="$ctrl.workPackage">
 
-    <wp-breadcrumb work-package="$ctrl.workPackage"></wp-breadcrumb>
+    <wp-breadcrumb work-package="$ctrl.workPackage" class="hidden-for-mobile"></wp-breadcrumb>
 
     <div class="toolbar-container">
       <div id="toolbar">
@@ -22,7 +22,7 @@
           </ul>
         </div>
         <ul id="toolbar-items" class="toolbar-items hide-when-print">
-          <li class="toolbar-item">
+          <li class="toolbar-item hidden-for-mobile">
             <wp-create-button project-identifier="$ctrl.projectIdentifier"
                               allowed="!!$ctrl.workPackage.addChild"
                               state-name="work-packages.new"></wp-create-button>
@@ -42,6 +42,7 @@
                     locals="permittedActions,actionsAvailable,triggerMoreMenuAction"
                     title="{{I18n.t('js.button_more')}}">
               <op-icon icon-classes="button--icon icon-show-more"></op-icon>
+              <span class="button--text hidden-for-desktop">{{I18n.t('js.button_more')}}</span>
             </button>
           </li>
         </ul>

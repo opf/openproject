@@ -3,5 +3,5 @@
 
   <op-icon icon-classes="button--icon {{vm.watchIconClass}}"></op-icon>
 
-  <span class="button--text" ng-if="vm.showText" ng-bind="vm.buttonText"></span>
+  <span class="button--text" ng-class="vm.showText ? ''  : 'hidden-for-desktop'" ng-bind="vm.buttonText"></span>
 </button>
