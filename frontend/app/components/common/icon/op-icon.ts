@@ -26,7 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opUiComponentsModule} from "../../../angular-modules";
+import {Directive, ElementRef, Injector} from '@angular/core';
+import {UpgradeComponent} from '@angular/upgrade/static';
+import {opUiComponentsModule} from '../../../angular-modules';
 
 function opIcon() {
   return {
@@ -43,3 +45,13 @@ function opIcon() {
 };
 
 opUiComponentsModule.directive('opIcon', opIcon);
+
+
+@Directive({
+  selector: 'op-icon'
+})
+export class OpIcon extends UpgradeComponent {
+  constructor(elementRef:ElementRef, injector:Injector) {
+    super('opIcon', elementRef, injector);
+  }
+}

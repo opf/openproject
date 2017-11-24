@@ -1,3 +1,5 @@
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {UpgradeComponent} from '@angular/upgrade/static';
 //-- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -36,6 +38,9 @@ export class WorkPackageResizerController {
   public localStorageKey: string;
 
   constructor(public $element:ng.IAugmentedJQuery) {
+  }
+
+  $onInit() {
     // Get element
     this.resizingElement = <HTMLElement>document.getElementsByClassName(this.elementClass)[0];
 
@@ -123,8 +128,8 @@ function wpResizer():any {
     restrict: 'E',
     templateUrl: '/components/wp-resizer/wp-resizer.directive.html',
     scope: {
-      elementClass: '=',
-      localStorageKey: '='
+      elementClass: '<',
+      localStorageKey: '<'
     },
 
     bindToController: true,
@@ -134,3 +139,18 @@ function wpResizer():any {
 }
 
 openprojectModule.directive('wpResizer', wpResizer);
+
+
+@Directive({
+  selector: 'wp-resizer'
+})
+export class WpResizerDirectiveUpgraded extends UpgradeComponent {
+
+  @Input() elementClass:string;
+
+  @Input() localStorageKey:string;
+
+  constructor(elementRef:ElementRef, injector:Injector) {
+    super('wpResizer', elementRef, injector);
+  }
+}

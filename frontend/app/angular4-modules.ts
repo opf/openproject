@@ -31,10 +31,15 @@ import {BrowserModule} from '@angular/platform-browser';
 import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
+import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
+import {OpIcon} from 'core-components/common/icon/op-icon';
+import {ContextMenuService} from 'core-components/context-menus/context-menu.service';
 import {States} from 'core-components/states.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageDisplayFieldService} from 'core-components/wp-display/wp-display-field/wp-display-field.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
+import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
@@ -50,12 +55,15 @@ import {
   WorkPackagesTableControllerHolder
 } from 'core-components/wp-table/wp-table.directive';
 import {
+  $rootScopeToken,
   columnsModalToken,
   I18nToken,
   NotificationsServiceToken,
   upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
+import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
+import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 
 
 @NgModule({
@@ -73,11 +81,17 @@ import {
     upgradeService('wpTableTimeline', WorkPackageTableTimelineService),
     upgradeService('wpNotificationsService', WorkPackageNotificationService),
     upgradeService('wpTableHierarchies', WorkPackageTableHierarchiesService),
-    upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
+    upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
+    upgradeService('wpTableColumns', WorkPackageTableColumnsService),
+    upgradeService('contextMenu', ContextMenuService),
+    upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
+    upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
     upgradeServiceWithToken('columnsModal', columnsModalToken)
   ],
   declarations: [
+    OpIcon,
+    AccessibleByKeyboardDirectiveUpgraded,
     TablePaginationComponent,
     WorkPackageTablePaginationComponent,
     WorkPackageTimelineHeaderController,
@@ -86,10 +100,10 @@ import {
     WorkPackageTableTimelineGrid,
     WorkPackageTimelineTableController,
     WorkPackagesTableController,
-    // WorkPackageTableSumsRowController
+    WpResizerDirectiveUpgraded,
+    WorkPackageTableSumsRowController
   ],
   entryComponents: [
-    WorkPackageTimelineTableController,
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
     TablePaginationComponent

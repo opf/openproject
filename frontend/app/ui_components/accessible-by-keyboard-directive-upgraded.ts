@@ -1,12 +1,12 @@
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2006-2017 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -24,28 +24,16 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {InjectionToken} from '@angular/core';
-import {IRootScopeService} from 'angular';
+import {Directive, ElementRef, Injector} from '@angular/core';
+import {UpgradeComponent} from '@angular/upgrade/static';
 
-export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
-export const I18nToken = new InjectionToken<op.I18n>('I18n');
-export const columnsModalToken = new InjectionToken<any>('columnsModal');
-export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
-
-export function upgradeService(ng1InjectorName:string, providedType:any) {
-  return {
-    provide: providedType,
-    useFactory: (i:any) => i.get(ng1InjectorName),
-    deps: ['$injector']
-  };
-}
-
-export function upgradeServiceWithToken(ng1InjectorName:string, token:InjectionToken<any>) {
-  return {
-    provide: token,
-    useFactory: (i:any) => i.get(ng1InjectorName),
-    deps: ['$injector']
-  };
+@Directive({
+  selector: 'accessible-by-keyboard'
+})
+export class AccessibleByKeyboardDirectiveUpgraded extends UpgradeComponent {
+  constructor(elementRef:ElementRef, injector:Injector) {
+    super('accessibleByKeyboard', elementRef, injector);
+  }
 }

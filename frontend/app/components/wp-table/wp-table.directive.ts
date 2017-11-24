@@ -26,12 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component, ElementRef, Inject, Injectable} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Inject, Injectable, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent, downgradeInjectable} from '@angular/upgrade/static';
-import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {IRootScopeService} from 'angular';
+import {$rootScopeToken, columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
+import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
+import {GroupObject} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
+import {WorkPackageTableColumns} from 'core-components/wp-fast-table/wp-table-columns';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {Observable} from 'rxjs/Observable';
 import openprojectModule from '../../angular-modules';
-import {scopedObservable} from '../../helpers/angular-rx-utils';
 import {debugLog} from '../../helpers/debug_output';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {States} from '../states.service';
@@ -60,21 +64,42 @@ openprojectModule.factory(
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html')
 })
-export class WorkPackagesTableController implements AfterViewInit {
+export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   private $element:JQuery;
 
   private scrollSyncUpdate:(timelineVisible:boolean) => any;
 
+  private wpTableHoverSync:WpTableHoverSync;
+
   public table:HTMLElement;
 
+  public tbody:JQuery;
+
   public timeline:HTMLElement;
+
+  public locale:string;
+
+  public text:any;
+
+  public query:QueryResource;
+
+  public rowcount:number;
+
+  public groupBy:GroupObject[];
+
+  public columns:any;
+
+  public numTableColumns:number;
+
+  public timelineVisible:boolean;
 
   constructor(private elementRef:ElementRef,
               @Inject(columnsModalToken) private columnsModal:any,
               private contextMenu:ContextMenuService,
               private workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
               private states:States,
+              @Inject($rootScopeToken) private $rootScope:IRootScopeService,
               @Inject(I18nToken) private I18n:op.I18n,
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableTimeline:WorkPackageTableTimelineService,
@@ -83,16 +108,16 @@ export class WorkPackagesTableController implements AfterViewInit {
     workPackagesTableControllerHolder.instance = this;
   }
 
-  ngAfterViewInit():void {
+  ngOnInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
     this.scrollSyncUpdate = createScrollSync(this.$element);
 
     // Clear any old table subscribers
     this.states.table.stopAllSubscriptions.next();
 
-    $scope.locale = I18n.locale;
+    this.locale = I18n.locale;
 
-    $scope.text = {
+    this.text = {
       cancel: I18n.t('js.button_cancel'),
       noResults: {
         title: I18n.t('js.work_packages.no_results.title'),
@@ -111,31 +136,28 @@ export class WorkPackagesTableController implements AfterViewInit {
       ].join(' ')
     };
 
-    $scope.cancelInlineWorkPackage = function(index:number, row:any) {
-      $rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
-    };
-
     Observable.combineLatest(
-      scopedObservable($scope, states.query.resource.values$()),
-      scopedObservable($scope, states.table.results.values$()),
-      wpTableGroupBy.observeOnScope($scope),
-      wpTableColumns.observeOnScope($scope),
-      wpTableTimeline.observeOnScope($scope)
-    ).subscribe(([query, results, groupBy, columns, timelines]) => {
+      this.states.query.resource.values$(),
+      this.states.table.results.values$(),
+      this.wpTableGroupBy.state.values$(),
+      this.wpTableColumns.state.values$(),
+      this.wpTableTimeline.state.values$()
+    )
+      .takeUntil(componentDestroyed(this))
+      .subscribe(([query, results, groupBy, columns, timelines]) => {
+        this.query = query;
+        this.rowcount = results.count;
 
-      $scope.query = query;
-      $scope.rowcount = results.count;
+        this.groupBy = groupBy.current;
+        this.columns = columns.current;
+        // Total columns = all available columns + id + checkbox
+        this.numTableColumns = this.columns.length + 2;
 
-      $scope.groupBy = groupBy.current;
-      $scope.columns = columns.current;
-      // Total columns = all available columns + id + checkbox
-      $scope.numTableColumns = $scope.columns.length + 2;
-
-      if ($scope.timelineVisible !== timelines.current) {
-        this.scrollSyncUpdate(timelines.current);
-      }
-      $scope.timelineVisible = timelines.current;
-    });
+        if (this.timelineVisible !== timelines.current) {
+          this.scrollSyncUpdate(timelines.current);
+        }
+        this.timelineVisible = timelines.current;
+      });
 
     // Locate table and timeline elements
     const tableAndTimeline = this.getTableAndTimelineElement();
@@ -143,21 +165,25 @@ export class WorkPackagesTableController implements AfterViewInit {
     this.timeline = tableAndTimeline[1];
 
     // sync hover from table to timeline
-    const wpTableHoverSync = new WpTableHoverSync(this.$element);
-    wpTableHoverSync.activate();
-    this.$scope.$on('$destroy', () => {
-      wpTableHoverSync.deactivate();
-    });
+    this.wpTableHoverSync = new WpTableHoverSync(this.$element);
+    this.wpTableHoverSync.activate();
   }
+
+  public ngOnDestroy():void {
+    this.wpTableHoverSync.deactivate();
+  }
+
+  public cancelInlineWorkPackage(index:number, row:any) {
+    this.$rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
+  };
 
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
     var t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
-    this.$scope.table = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
-    this.$scope.tbody = tbody;
-    controller.workPackageTable = this.$scope.table;
-
+    const table = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
+    this.tbody = tbody;
+    controller.workPackageTable = table;
 
     var t1 = performance.now();
     debugLog('Render took ' + (t1 - t0) + ' milliseconds.');
@@ -186,6 +212,7 @@ export class WorkPackagesTableController implements AfterViewInit {
 
 // function wpTable():any {
 //   return {
+//     replace: true,
 //     scope: {
 //       projectIdentifier: '='
 //     },
