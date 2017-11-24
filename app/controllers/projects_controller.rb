@@ -65,7 +65,7 @@ class ProjectsController < ApplicationController
       return
     end
 
-    @custom_fields = get_custom_fields
+    @custom_fields = ProjectCustomField.visible(User.current)
   end
 
 
@@ -312,6 +312,7 @@ class ProjectsController < ApplicationController
         .results
         .with_required_storage
         .with_latest_activity
+        .includes(:custom_values, :enabled_modules)
         .order(sort_clause)
         .page(page_param)
         .per_page(per_page_param)
@@ -319,7 +320,7 @@ class ProjectsController < ApplicationController
       filter_projects_by_permission projects
     else
       flash[:error] = @query.errors.full_messages
-      return false
+      false
     end
   end
 
@@ -331,15 +332,6 @@ class ProjectsController < ApplicationController
     else
       projects.visible
     end
-  end
-
-  def get_custom_fields
-    custom_fields = CustomField.where(type: 'ProjectCustomField')
-    unless User.current.admin?
-      # Non-admins shall not see invisible CFs
-      custom_fields = custom_fields.where(visible: true)
-    end
-    return custom_fields
   end
 
   protected

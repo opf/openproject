@@ -125,11 +125,7 @@ module ProjectsHelper
   end
 
   def filter_set?
-    if params[:filters].present?
-      true
-    else
-      false
-    end
+    params[:filters].present?
   end
 
   def allowed_filters(query)
@@ -137,15 +133,11 @@ module ProjectsHelper
     filters_dynamic = []
 
     if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-      filters_dynamic_query = ProjectCustomField.where("field_format <> 'version'")
+      filters_dynamic_query = ProjectCustomField.where.not(field_format: 'version')
+                                                .visible(User.current)
 
-      unless User.current.admin?
-        filters_dynamic_query = filters_dynamic_query.where(visible: true)
-      end
       filters_dynamic_ids = filters_dynamic_query.order(:name).pluck(:id)
-      filters_dynamic = filters_dynamic_ids.map do |id|
-        "cf_#{id}".to_sym
-      end
+      filters_dynamic = filters_dynamic_ids.map { |id| "cf_#{id}".to_sym }
     end
 
     filters = filters_static + filters_dynamic
