@@ -40,8 +40,7 @@
 
 .work-packages--info-row
   font-size: 12px
-  line-height: 16px
-  padding: 5px 0
+  padding-top: 1px
 
 .work-packages--details--title
   @include grid-block
@@ -68,15 +67,6 @@
     textarea
       overflow: hidden
 
-  .work-packages--info-row
-    line-height: 12px
-    padding: 0
-    display: flex
-    flex-wrap: wrap
-    align-items: center
-
-    > *
-      margin-left: 3px
 
 .work-package--single-view
   // Make elements in split and full view span the entire width
@@ -250,8 +240,9 @@ i
         *:focus
           outline: 1px solid $gray
 
-.work-package--single-view
+.wp-info-wrapper
   display: flex
+  align-items: center
   .wp-status-button .button
     padding: 5px
     margin-bottom: 0
