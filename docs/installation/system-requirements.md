@@ -18,6 +18,7 @@ provide any official support for them.
 | CentOS/RHEL 7.x                 | centos-7     | systemd     |
 | Debian 7 Wheezy                 | debian-7     | sysvinit    |
 | Debian 8 Jessie                 | debian-8     | systemd     |
+| Debian 9 Stretch                | debian-9     | systemd     |
 | Suse Linux Enterprise Server 11 | sles-11      | sysvinit    |
 | Suse Linux Enterprise Server 12 | sles-12      | sysvinit    |
 | Ubuntu 14.04 Trusty Tahr        | ubuntu-14.04 | upstart     |
