@@ -241,7 +241,7 @@ module SortHelper
     sort_options = { sort: @sort_criteria.add(column.to_s, order).to_param }
 
     # Don't lose other params.
-    link_to_content_update(h(caption), request.query_parameters.merge(sort_options), html_options)
+    link_to_content_update(h(caption), safe_query_params(%w{filters page per_page}).merge(sort_options), html_options)
   end
 
   # Returns a table header <th> tag with a sort link for the named column

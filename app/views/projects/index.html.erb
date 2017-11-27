@@ -85,9 +85,9 @@ See doc/COPYRIGHT.rdoc for more details.
               <div class="generic-table--header-outer">
                 <div class="generic-table--header">
                   <% if params[:expand] == 'all' %>
-                    <%= link_to t(:button_collapse_all), {params: request.query_parameters.except(:expand)} %>
+                    <%= link_to t(:button_collapse_all), { params: safe_query_params(%w{filters page per_page sort}).except(:expand) } %>
                   <% else %>
-                    <%= link_to t(:button_expand_all), {params: request.query_parameters.merge(expand: 'all')} %>
+                    <%= link_to t(:button_expand_all), { params: safe_query_params(%w{filters page per_page sort}).merge(expand: 'all') } %>
                   <% end %>
                 </div>
               </div>
