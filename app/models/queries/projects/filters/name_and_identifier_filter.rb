@@ -36,13 +36,13 @@ class Queries::Projects::Filters::NameAndIdentifierFilter < Queries::Projects::F
   def where
     case operator
     when '='
-      where_equal(values)
+      where_equal
     when '!'
-      where_not(values)
+      where_not_equal
     when '~'
-      where_contains(values)
+      where_contains
     when '!~'
-      where_not_contains(values)
+      where_not_contains
     end
   end
 
@@ -56,44 +56,40 @@ class Queries::Projects::Filters::NameAndIdentifierFilter < Queries::Projects::F
 
   private
 
-  def where_equal(values)
+  def concatenate_with_values(condition, concatenation)
     conditions = []
     assignments = []
     values.each do |value|
-      conditions << "LOWER(projects.identifier) = ? OR LOWER(projects.name) = ?"
-      assignments = assignments + [value.downcase, value.downcase]
+      conditions << condition
+      assignments += [yield(value), yield(value)]
     end
-    [conditions.join(' OR '), *assignments]
+
+    [conditions.join(" #{concatenation} "), *assignments]
   end
 
-  def where_not(values)
-    conditions = []
-    assignments = []
-    values.each do |value|
-      conditions << "LOWER(projects.identifier) <> ? AND LOWER(projects.name) <> ?"
-      assignments = assignments + [value.downcase, value.downcase]
+  def where_equal
+    concatenate_with_values('LOWER(projects.identifier) = ? OR LOWER(projects.name) = ?', 'OR') do |value|
+      value.downcase
     end
-    [conditions.join(' AND '), *assignments]
   end
 
-  def where_contains(values)
-    conditions = []
-    assignments = []
-    values.each do |value|
-      conditions << "LOWER(projects.identifier) LIKE ? OR LOWER(projects.name) LIKE ?"
-      assignments = assignments + ["%#{value.downcase}%", "%#{value.downcase}"]
-    end
-    [conditions.join(' OR '), *assignments]
+  def where_not_equal
+    where_not(where_equal)
   end
 
-  def where_not_contains(values)
-    conditions = []
-    assignments = []
-    values.each do |value|
-      conditions << "LOWER(projects.identifier) LIKE ? OR LOWER(projects.name) LIKE ?"
-      assignments = assignments + ["%#{value.downcase}%", "%#{value.downcase}"]
+  def where_contains
+    concatenate_with_values('LOWER(projects.identifier) LIKE ? OR LOWER(projects.name) LIKE ?', 'OR') do |value|
+      "%#{value.downcase}%"
     end
-    ["NOT(#{conditions.join(' OR ')})", *assignments]
   end
 
+  def where_not_contains
+    where_not(where_contains)
+  end
+
+  def where_not(condition)
+    conditions = condition
+    conditions[0] = "NOT(#{conditions[0]})"
+    conditions
+  end
 end
