@@ -39,17 +39,8 @@ class Journal::BaseJournal < ActiveRecord::Base
     @journaled_attributes ||= column_names.map(&:to_sym) - excluded_attributes
   end
 
-  def self.column_names
-    db_columns(table_name).map(&:name)
-  end
-
   def self.excluded_attributes
     [primary_key.to_sym, inheritance_column.to_sym, :journal_id, :lock_version, :created_at, :root_id, :lft, :rgt]
   end
   private_class_method :excluded_attributes
-
-  def self.db_columns(table_name)
-    ActiveRecord::Base.connection.columns table_name
-  end
-  private_class_method :db_columns
 end
