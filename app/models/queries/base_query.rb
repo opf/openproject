@@ -98,7 +98,7 @@ class Queries::BaseQuery
   end
 
   def find_available_filter(name)
-    available_filters.index_by(&:name)[name]
+    available_filters.detect { |f| f.name == name }
   end
 
   protected
