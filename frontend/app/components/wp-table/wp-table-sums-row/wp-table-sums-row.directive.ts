@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Directive, ElementRef, Inject, OnInit} from '@angular/core';
+import {Component, Directive, ElementRef, Inject, OnInit, AfterViewInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
 import {combine} from 'reactivestates';
 import {openprojectModule} from '../../../angular-modules';
@@ -41,17 +41,18 @@ import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
 @Directive({
   selector: '[wpTableSumsRow]'
 })
-export class WorkPackageTableSumsRowController implements OnInit {
+export class WorkPackageTableSumsRowController implements OnInit, AfterViewInit {
 
   private text:{ sumFor:string, allWorkPackages:string };
-  private nativeElement:any;
+
+  // private nativeElement:any;
+
+  private $element:JQuery;
 
   constructor(public elementRef:ElementRef,
               private states:States,
               private wpDisplayField:WorkPackageDisplayFieldService,
               @Inject(I18nToken) private I18n:op.I18n) {
-
-    this.nativeElement = this.elementRef.nativeElement;
 
     this.text = {
       sumFor: I18n.t('js.label_sum_for'),
@@ -78,9 +79,12 @@ export class WorkPackageTableSumsRowController implements OnInit {
       });
   }
 
+  ngAfterViewInit(): void {
+    this.$element = jQuery(this.elementRef.nativeElement);
+  }
+
   private clear() {
-    const $element = jQuery(this.nativeElement).find('tr');
-    $element.empty();
+    this.$element.empty();
   }
 
   private refresh(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResourceInterface, schema:SchemaResource) {
@@ -89,10 +93,7 @@ export class WorkPackageTableSumsRowController implements OnInit {
   }
 
   private render(columns:WorkPackageTableColumns, resource:WorkPackageCollectionResourceInterface, schema:SchemaResource) {
-
-    const $element = jQuery(this.nativeElement).find('tr');
-
-    $element[0].classList.add('sum', 'group', 'all', 'issue', 'work_package');
+    this.$element[0].classList.add('sum', 'group', 'all', 'issue', 'work_package');
 
     // build
     columns.getColumns().forEach((column, i:number) => {
@@ -104,11 +105,11 @@ export class WorkPackageTableSumsRowController implements OnInit {
       }
 
       td.appendChild(div);
-      $element.append(td);
+      this.$element.append(td);
     });
 
     // Append last empty td
-    $element.append(`<td><div class="generic-table--footer-outer"></div></td>`);
+    this.$element.append(`<td><div class="generic-table--footer-outer"></div></td>`);
   }
 
   private renderContent(sums:any, name:string, fieldSchema:op.FieldSchema) {
@@ -129,12 +130,6 @@ export class WorkPackageTableSumsRowController implements OnInit {
   }
 }
 
-// openprojectModule.directive("wpTableSumsRow", function():any {
-//   return {
-//     restrict: 'A',
-//     controller: WorkPackageTableSumsRowController,
-//   };
-// });
 
 openprojectModule.directive(
   'wpTableSumsRow',
