@@ -161,7 +161,7 @@ module ProjectsHelper
     (User.current.admin? ||
      project.copy_allowed? ||
      User.current.allowed_to?(:add_subprojects, project) ||
-     User.current.allowed_to?({controller: :projects, action: :settings}, project))
+     User.current.allowed_to?({ controller: :projects, action: :settings }, project))
   end
 
   def shorten_text(text, length)

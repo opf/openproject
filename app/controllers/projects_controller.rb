@@ -60,14 +60,12 @@ class ProjectsController < ApplicationController
     sort_init 'lft'
     sort_update %w(lft name is_public created_on required_disk_space latest_activity_at)
 
-    unless @projects = get_all_projects_for_overview_page
+    if @projects = get_all_projects_for_overview_page
+      @custom_fields = ProjectCustomField.visible(User.current)
+    else
       redirect_back(fallback_location: projects_path)
-      return
     end
-
-    @custom_fields = ProjectCustomField.visible(User.current)
   end
-
 
   current_menu_item :index do
     :list_projects
@@ -138,8 +136,7 @@ class ProjectsController < ApplicationController
     @altered_project ||= @project
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @altered_project = Project.find(@project.id)
@@ -309,13 +306,13 @@ class ProjectsController < ApplicationController
       # TODO: Use our query-based orders and pagination, instead of using this second version here.
 
       projects = @query
-        .results
-        .with_required_storage
-        .with_latest_activity
-        .includes(:custom_values, :enabled_modules)
-        .order(sort_clause)
-        .page(page_param)
-        .per_page(per_page_param)
+                 .results
+                 .with_required_storage
+                 .with_latest_activity
+                 .includes(:custom_values, :enabled_modules)
+                 .order(sort_clause)
+                 .page(page_param)
+                 .per_page(per_page_param)
 
       filter_projects_by_permission projects
     else
@@ -337,11 +334,11 @@ class ProjectsController < ApplicationController
   protected
 
   def determine_base
-    if params[:project_type_id]
-      @base = ProjectType.find(params[:project_type_id]).projects
-    else
-      @base = Project
-    end
+    @base = if params[:project_type_id]
+              ProjectType.find(params[:project_type_id]).projects
+            else
+              Project
+            end
   end
 
   # Validates parent_id param according to user's permissions
