@@ -67,11 +67,8 @@ module Queries::Filters::Strategies
     end
 
     def default_operator_class
-      if self.class.default_operator
-        operator_map[self.class.default_operator]
-      else
-        operator_map[self.class.available_operators.first]
-      end
+      operator = self.class.default_operator || self.class.available_operators.first
+      operator_map[operator]
     end
 
     private
