@@ -73,7 +73,11 @@ export class WorkPackageDestroyModalController {
   }
 
   public close() {
-    this.wpDestroyModal.deactivate();
+    try {
+      this.wpDestroyModal.deactivate();
+    } catch(e) {
+      console.error("Failed to close deletion modal: " + e);
+    }
   }
 
   public confirmDeletion() {
