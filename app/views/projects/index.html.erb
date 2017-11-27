@@ -37,9 +37,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <% if User.current.allowed_to?(:add_project, nil, global: true) %>
     <li class="toolbar-item">
       <%= link_to new_project_path,
-          { class: 'button -alt-highlight',
-            aria: {label: t(:label_project_new)},
-            title: t(:label_project_new)} do %>
+                  { class: 'button -alt-highlight',
+                    aria: {label: t(:label_project_new)},
+                    title: t(:label_project_new) } do %>
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= Project.model_name.human %></span>
       <% end %>
@@ -191,7 +191,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <tr class="project-description <%= project.css_classes %> <%= efective_level > 0 ? "idnt idnt-#{efective_level}" : nil %> <%= params[:expand] == 'all' ? '-expanded' : '' %>">
                 <td colspan="<%= @custom_fields.size + (User.current.admin? ? 6 : 3) %>" class="project--hierarchy">
                   <div class="description-container">
-                    <span class="wiki"><%= format_text(shorten_text(project.description, 255), project: project) %></span>
+                    <span class="wiki"><%= format_text(project.short_description(255), project: project) %></span>
                   </div>
                 </td>
               </tr>
