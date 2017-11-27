@@ -38,13 +38,11 @@
                                  filter: filter } %>
           <% end %>
 
-          <% unless filter.name == :status %>
-            <div class="advanced-filters--remove-filter">
-              <a href="#" class="filter_rem">
-                <op-icon icon-classes="icon-close advanced-filters--remove-filter-icon" icon-title="{{I18n.t('js.button_delete')}}"></op-icon>
-              </a>
-            </div>
-          <% end %>
+          <div class="advanced-filters--remove-filter">
+            <a href="#" class="filter_rem">
+              <op-icon icon-classes="icon-close advanced-filters--remove-filter-icon" icon-title="{{I18n.t('js.button_delete')}}"></op-icon>
+            </a>
+          </div>
         </li>
       <% end %>
 

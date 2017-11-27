@@ -301,7 +301,7 @@ class ProjectsController < ApplicationController
     @query = ::API::V3::ParamsToQueryService.new(Project, current_user).call(params)
 
     # Set default filter on status if none is present.
-    unless @query.find_active_filter(:status)
+    if @query.find_active_filter(:status).nil? && @query.filters.blank?
       @query.where('status', '=', Project::STATUS_ACTIVE.to_s)
     end
 
