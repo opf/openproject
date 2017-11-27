@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,51 +26,29 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomValue::BoolStrategy < CustomValue::FormatStrategy
-  DB_VALUE_FALSE = 'f'.freeze
-  DB_VALUE_TRUE = 't'.freeze
+require 'spec_helper'
+require 'features/projects/projects_page'
 
-  def value_present?
-    present?(value)
+describe 'Projects custom fields', type: :feature do
+  let(:current_user) { FactoryGirl.create(:admin) }
+  let(:project) { FactoryGirl.create(:project, name: 'Foo project', identifier: 'foo-project') }
+  let!(:custom_field) do
+    FactoryGirl.create(:boolean_project_custom_field)
   end
 
-  def typed_value
-    return nil unless value_present?
+  let(:identifier) { "project_custom_field_values_#{custom_field.id}" }
 
-    ActiveRecord::Type::Boolean.new.cast(value)
+  before do
+    login_as current_user
   end
 
-  def formatted_value
-    if checked?
-      I18n.t(:general_text_Yes)
-    else
-      I18n.t(:general_text_No)
-    end
-  end
+  scenario 'allows settings the project boolean CF (regression #26313)', js: true do
+    visit settings_project_path(id: project.id)
+    expect(page).to have_no_checked_field identifier
+    check identifier
 
-  def checked?
-    ActiveRecord::Type::Boolean.new.cast(value)
-  end
-
-  def parse_value(val)
-    parsed_val = if !present?(val)
-                   nil
-                 elsif ActiveRecord::Type::Boolean::FALSE_VALUES.include?(val)
-                   DB_VALUE_FALSE
-                 else
-                   DB_VALUE_TRUE
-                 end
-
-    super(parsed_val)
-  end
-
-  def validate_type_of_value; end
-
-  private
-
-  def present?(val)
-    # can't use :blank? safely, because false.blank? == true
-    # can't use :present? safely, because false.present? == false
-    !val.nil? && val != ''
+    click_on 'Save'
+    expect(page).to have_selector('.flash.notice', text: I18n.t(:notice_successful_update))
+    expect(page).to have_checked_field identifier
   end
 end

@@ -39,6 +39,26 @@ FactoryGirl.define do
     visible true
     field_format 'bool'
 
+    factory :project_custom_field, class: ProjectCustomField do
+      sequence(:name) do |n| "Project Custom Field #{n}" end
+      type 'ProjectCustomField'
+
+      factory :boolean_project_custom_field do
+        name 'BooleanProjectCustomField'
+        field_format 'bool'
+      end
+
+      factory :integer_project_custom_field do
+        name 'IntegerProjectCustomField'
+        field_format 'int'
+      end
+
+      factory :text_project_custom_field do
+        name 'TextProjectCustomField'
+        field_format 'text'
+      end
+    end
+
     factory :user_custom_field, class: UserCustomField do
       sequence(:name) do |n| "User Custom Field #{n}" end
       type 'UserCustomField'
