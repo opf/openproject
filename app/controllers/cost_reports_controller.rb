@@ -18,6 +18,20 @@
 #++
 
 class CostReportsController < ApplicationController
+  module QueryPreperation
+    ##
+    # Make sure to add cost type filter after the
+    # query filters have been reset by .prepare_query
+    # from the Report::Controller.
+    def prepare_query
+      query = super
+
+      set_cost_type if @unit_id.present?
+
+      query
+    end
+  end
+
   rescue_from Exception do |exception|
     session.delete(CostQuery.name.underscore.to_sym)
     raise exception
@@ -33,7 +47,10 @@ class CostReportsController < ApplicationController
   before_action :load_all
   before_action :find_optional_project
   before_action :find_optional_user
+
   include Report::Controller
+  prepend QueryPreperation
+
   before_action :set_cost_types # has to be set AFTER the Report::Controller filters run
 
   verify method: :delete, only: %w[destroy]
