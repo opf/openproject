@@ -54,29 +54,34 @@ env:
   matrix:
     - "TEST_SUITE=npm"
 
-    - "TEST_SUITE=spec_legacy       DB=mysql"
-    - "TEST_SUITE=cucumber          DB=mysql     GROUP_SIZE=1  GROUP=1"
-    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=4  GROUP=1"
-    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=4  GROUP=2"
-    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=4  GROUP=3"
-    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=4  GROUP=4"
-    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=1"
-    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=2"
-    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=3"
-    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=4"
 
-    - "TEST_SUITE=spec_legacy       DB=postgres"
-    - "TEST_SUITE=cucumber          DB=postgres  GROUP_SIZE=1  GROUP=1"
-    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=4  GROUP=1"
-    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=4  GROUP=2"
-    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=4  GROUP=3"
-    - "TEST_SUITE=specs             DB=postgres  GROUP_SIZE=4  GROUP=4"
-    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=1"
-    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=2"
-    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=3"
-    - "TEST_SUITE=features          DB=postgres  GROUP_SIZE=4  GROUP=4"
+    - "TEST_SUITE=spec_legacy       DB=mysql     GROUP_SIZE=1 GROUP=1"
+    - "TEST_SUITE=spec_legacy       DB=postgres  GROUP_SIZE=1 GROUP=1"
+
+    - "TEST_SUITE=cucumber       DB=mysql     GROUP_SIZE=1 GROUP=1"
+    - "TEST_SUITE=cucumber       DB=postgres  GROUP_SIZE=1 GROUP=1"
+
+    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=1"
+    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=1"
+    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=2"
+    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=2"
+    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=3"
+    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=3"
+    - "TEST_SUITE=specs       DB=mysql     GROUP_SIZE=4 GROUP=4"
+    - "TEST_SUITE=specs       DB=postgres  GROUP_SIZE=4 GROUP=4"
+
+    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=1"
+    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=1"
+    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=2"
+    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=2"
+    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=3"
+    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=3"
+    - "TEST_SUITE=features       DB=mysql     GROUP_SIZE=4 GROUP=4"
+    - "TEST_SUITE=features       DB=postgres  GROUP_SIZE=4 GROUP=4"
+
 
 before_install:
+
   - "echo `firefox -v`"
   - "export DISPLAY=:99.0"
   - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
@@ -116,11 +121,6 @@ notifications:
 addons:
   # Setting latest here due to the switch from old selenium bindings
   # to Marionette. At the date of this writing, ESR is Firefox 52 and has
-  # bad support for it. Thus we use the almost-released FF 57
+  # bad support for it. Thus we use latest (57.0 as of this writing)
   firefox: "latest"
-  postgresql: "9.3"
-
-# Disabling coverage reporting until CodeClimate supports merging results from multiple partial tests
-#   code_climate:
-#       repo_token:
-#         secure: "W/lyd8Ud18GRASuVShsIKa2MRHhxjh8WICMQ4WKr68qt0X0Tlp7Bclv4ReiEgiQeKsIoJJy5FfJfINdAT8A4sy2JbrLeISShcIU7Kqpfh6DSLNoRAuLz5P7EXMNFns1gBKCmrSzcB+9ksuTLyTCKkjUcj1NbJzGqpB4jSTecAdg="
+  postgresql: "9.6"
