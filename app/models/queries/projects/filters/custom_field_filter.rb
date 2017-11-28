@@ -53,7 +53,7 @@ class Queries::Projects::Filters::CustomFieldFilter <
 
   def self.custom_fields(_context)
     custom_field_class
-      .all
+      .visible
   end
 
   private

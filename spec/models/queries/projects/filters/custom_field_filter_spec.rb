@@ -80,7 +80,7 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
 
     before do
       allow(ProjectCustomField)
-        .to receive_message_chain(:all, :exists?)
+        .to receive_message_chain(:visible, :exists?)
         .and_return(true)
     end
 
@@ -301,7 +301,7 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
   describe '.all_for' do
     before do
       allow(ProjectCustomField)
-        .to receive_message_chain(:all)
+        .to receive(:visible)
         .and_return([list_project_custom_field,
                      bool_project_custom_field,
                      int_project_custom_field,
