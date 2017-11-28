@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,7 +29,6 @@
 #++
 
 class Queries::Projects::Filters::LatestActivityAtFilter < Queries::Projects::Filters::ProjectFilter
-
   self.model = Project.with_latest_activity
 
   def type
@@ -41,6 +41,10 @@ class Queries::Projects::Filters::LatestActivityAtFilter < Queries::Projects::Fi
 
   def name
     :latest_activity_at
+  end
+
+  def available?
+    User.current.admin?
   end
 
   def human_name

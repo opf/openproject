@@ -28,16 +28,40 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::Projects::Filters::CreatedOnFilter < Queries::Projects::Filters::ProjectFilter
-  def type
-    :datetime_past
-  end
+require 'spec_helper'
 
-  def available?
-    User.current.admin?
-  end
+describe Queries::Projects::Filters::CreatedOnFilter, type: :model do
+  it_behaves_like 'basic query filter' do
+    let(:class_key) { :created_on }
+    let(:type) { :datetime_past }
+    let(:model) { Project }
+    let(:attribute) { :created_on }
+    let(:values) { ['3'] }
+    let(:admin) { FactoryGirl.build_stubbed(:admin) }
+    let(:user) { FactoryGirl.build_stubbed(:user) }
 
-  def order
-    9
+    describe '#available?' do
+      context 'for an admin' do
+        before do
+          login_as admin
+        end
+
+        it 'is true' do
+          expect(instance)
+            .to be_available
+        end
+      end
+
+      context 'for non admin' do
+        before do
+          login_as user
+        end
+
+        it 'is false' do
+          expect(instance)
+            .not_to be_available
+        end
+      end
+    end
   end
 end

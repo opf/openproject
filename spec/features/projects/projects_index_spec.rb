@@ -135,6 +135,7 @@ describe 'Projects index page',
   feature 'restricts project visibility' do
     feature 'for a anonymous user' do
       scenario 'only public projects shall be visible' do
+        Role.anonymous
         visit projects_path
 
         expect(page).to_not have_text(project.name)

@@ -31,16 +31,13 @@
 require 'spec_helper'
 
 describe Queries::Projects::Filters::ActiveOrArchivedFilter, type: :model do
-  include_context 'filter tests'
-  let(:values) { ['A name'] }
-  let(:model) { Project }
-
   it_behaves_like 'list_all query filter' do
+    let(:values) { ['A name'] }
+    let(:model) { Project }
     let(:class_key) { :status }
     let(:type) { :list_all }
-    let(:model) { Project }
     let(:attribute) { :status }
-    let(:valid_values) {[Project::STATUS_ACTIVE.to_s, Project::STATUS_ARCHIVED.to_s]}
+    let(:valid_values) { [Project::STATUS_ACTIVE.to_s, Project::STATUS_ARCHIVED.to_s] }
 
     describe '#allowed_values' do
       it 'to be either active or archived' do

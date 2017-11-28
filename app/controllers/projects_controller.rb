@@ -322,10 +322,10 @@ class ProjectsController < ApplicationController
   end
 
   def filter_projects_by_permission(projects)
+    # Cannot simply use .visible here as it would
+    # filter out archived projects for everybody.
     if User.current.admin?
       projects
-    elsif User.current.anonymous?
-      projects.active.public_projects
     else
       projects.visible
     end

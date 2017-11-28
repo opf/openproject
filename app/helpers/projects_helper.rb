@@ -129,35 +129,22 @@ module ProjectsHelper
   end
 
   def allowed_filters(query)
-    filters_static = %i(status name_and_identifier created_on latest_activity_at)
-    filters_dynamic = []
-
-    if EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
-      filters_dynamic_query = ProjectCustomField.where.not(field_format: 'version')
-                                                .visible(User.current)
-
-      filters_dynamic_ids = filters_dynamic_query.order(:name).pluck(:id)
-      filters_dynamic = filters_dynamic_ids.map { |id| "cf_#{id}".to_sym }
-    end
-
-    filters = filters_static + filters_dynamic
-
-    unless User.current.admin?
-      filters = filters - admin_only_filters
-    end
-
-    filter_instances = filters.map do |name|
-      query.find_available_filter(name)
-    end
-
-    filter_instances.sort_by(&:human_name)
+    query
+      .available_filters
+      .reject { |f| blacklisted_project_filter?(f) }
+      .sort_by(&:human_name)
   end
 
-  def admin_only_filters
-    %i(created_on latest_activity_at)
+  def blacklisted_project_filter?(filter)
+    blacklist = [Queries::Projects::Filters::AncestorFilter]
+    blacklist << Queries::Projects::Filters::CustomFieldFilter unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
+
+    blacklist.include?(filter.class)
   end
 
   def more_menu_allowed?(project)
+    # TODO: check if one can memoize the calls
+    # by using Project.allowed_to scope
     (User.current.admin? ||
      project.copy_allowed? ||
      User.current.allowed_to?(:add_subprojects, project) ||
