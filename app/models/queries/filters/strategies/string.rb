@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,7 +30,7 @@
 
 module Queries::Filters::Strategies
   class String < BaseStrategy
-    supported_operator_list ['=', '~', '!', '!~']
-    default_operator '~'
+    self.supported_operators = ['=', '~', '!', '!~']
+    self.default_operator = '~'
   end
 end

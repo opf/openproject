@@ -32,15 +32,8 @@ module Queries::Filters::Strategies
   class BaseStrategy
     attr_accessor :filter
 
-    class_attribute :supported_operators, :default_operator
-
-    def self.supported_operator_list(operator_list)
-      self.supported_operators = operator_list
-    end
-
-    def self.default_operator(operator)
-      self.default_operator = operator
-    end
+    class_attribute :supported_operators,
+                    :default_operator
 
     delegate :values,
              :errors,

@@ -28,6 +28,6 @@
 
 module Queries::Filters::Strategies
   class IntegerListOptional < ::Queries::Filters::Strategies::Integer
-    supported_operator_list ['=', '!', '*', '!*']
+    self.supported_operators = ['=', '!', '*', '!*']
   end
 end

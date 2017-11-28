@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,19 +29,16 @@
 #++
 
 module Queries::Filters::Strategies
-  class DateTimePast < BaseStrategy
-    supported_operator_list ['>t-', '<t-', 't-', 't', 'w', '=d', '<>d']
-
-    default_operator '>t-'
+  class DateTimePast < Queries::Filters::Strategies::Integer
+    self.supported_operators = ['>t-', '<t-', 't-', 't', 'w', '=d', '<>d']
+    self.default_operator = '>t-'
 
     def validate
       if operator == Queries::Operators::OnDateTime ||
          operator == Queries::Operators::BetweenDateTime
         validate_values_all_datetime
-      elsif operator == Queries::Operators::Ago ||
-            operator == Queries::Operators::LessThanAgo ||
-            operator == Queries::Operators::MoreThanAgo
-        validate_values_all_integer
+      else
+        super
       end
     end
 
@@ -52,18 +50,6 @@ module Queries::Filters::Strategies
       super_value['<>d'] = Queries::Operators::BetweenDateTime
 
       super_value
-    end
-
-    def validate_values_all_integer
-      if operator && operator.requires_value? && values.any? { |value| !integer?(value) }
-        errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer'))
-      end
-    end
-
-    def integer?(str)
-      true if Object.send('Integer', str)
-    rescue ArgumentError
-      false
     end
 
     def validate_values_all_datetime

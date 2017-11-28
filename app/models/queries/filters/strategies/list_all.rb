@@ -30,6 +30,6 @@
 
 module Queries::Filters::Strategies
   class ListAll < List
-    supported_operator_list ['=', '!', '*']
+    self.supported_operators = ['=', '!', '*']
   end
 end

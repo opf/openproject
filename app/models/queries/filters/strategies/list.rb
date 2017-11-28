@@ -33,9 +33,8 @@ module Queries::Filters::Strategies
     delegate :allowed_values,
              to: :filter
 
-    supported_operator_list ['=', '!']
-
-    default_operator '='
+    self.supported_operators = ['=', '!']
+    self.default_operator = '='
 
     def validate
       # TODO: the -1 is a special value that exists for historical reasons
