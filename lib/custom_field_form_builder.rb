@@ -69,7 +69,8 @@ class CustomFieldFormBuilder < TabularFormBuilder
     when 'text'
       text_area(field, input_options.merge(rows: 3))
     when 'bool'
-      check_box(field, input_options)
+      formatter = field_format.formatter.new(object)
+      check_box(field, input_options.merge(checked: formatter.checked?))
     when 'list'
       custom_field_input_list(field, input_options)
     else
