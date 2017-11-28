@@ -40,27 +40,57 @@ FactoryGirl.define do
     field_format 'bool'
 
     factory :project_custom_field, class: ProjectCustomField do
-      sequence(:name) do |n| "Project Custom Field #{n}" end
-      type 'ProjectCustomField'
+      sequence(:name) { |n| "Project custom field #{n}" }
 
-      factory :boolean_project_custom_field do
-        name 'BooleanProjectCustomField'
+      factory :list_project_custom_field do
+        sequence(:name) { |n| "List project custom field #{n}" }
+        field_format 'list'
+        possible_values ['A', 'B', 'C', 'D', 'E', 'F', 'G']
+      end
+
+      factory :version_project_custom_field do
+        sequence(:name) { |n| "Version project custom field #{n}" }
+        field_format 'version'
+      end
+
+      factory :bool_project_custom_field do
+        sequence(:name) { |n| "Bool project custom field #{n}" }
         field_format 'bool'
       end
 
-      factory :integer_project_custom_field do
-        name 'IntegerProjectCustomField'
+      factory :user_project_custom_field do
+        sequence(:name) { |n| "User project custom field #{n}" }
+        field_format 'user'
+      end
+
+      factory :int_project_custom_field do
+        sequence(:name) { |n| "Int project custom field #{n}" }
         field_format 'int'
       end
 
+      factory :float_project_custom_field do
+        sequence(:name) { |n| "Float project custom field #{n}" }
+        field_format 'float'
+      end
+
       factory :text_project_custom_field do
-        name 'TextProjectCustomField'
+        sequence(:name) { |n| "Text project custom field #{n}" }
         field_format 'text'
+      end
+
+      factory :string_project_custom_field do
+        sequence(:name) { |n| "String project custom field #{n}" }
+        field_format 'string'
+      end
+
+      factory :date_project_custom_field do
+        sequence(:name) { |n| "Date project custom field #{n}" }
+        field_format 'date'
       end
     end
 
     factory :user_custom_field, class: UserCustomField do
-      sequence(:name) do |n| "User Custom Field #{n}" end
+      sequence(:name) { |n| "User Custom Field #{n}" }
       type 'UserCustomField'
 
       factory :boolean_user_custom_field do
@@ -101,58 +131,58 @@ FactoryGirl.define do
     end
 
     factory :wp_custom_field, class: WorkPackageCustomField do
-      sequence(:name) do |n| "Work package custom field #{n}" end
+      sequence(:name) { |n| "Work package custom field #{n}" }
       type 'WorkPackageCustomField'
 
       factory :list_wp_custom_field do
-        sequence(:name) do |n| "List CF #{n}" end
+        sequence(:name) { |n| "List CF #{n}" }
         field_format 'list'
         possible_values ['A', 'B', 'C', 'D', 'E', 'F', 'G']
       end
 
       factory :version_wp_custom_field do
-        sequence(:name) do |n| "Version work package custom field #{n}" end
+        sequence(:name) { |n| "Version work package custom field #{n}" }
         field_format 'version'
       end
 
       factory :bool_wp_custom_field do
-        sequence(:name) do |n| "Bool WP custom field #{n}" end
+        sequence(:name) { |n| "Bool WP custom field #{n}" }
         field_format 'bool'
       end
 
       factory :user_wp_custom_field do
-        sequence(:name) do |n| "User WP custom field #{n}" end
+        sequence(:name) { |n| "User WP custom field #{n}" }
         field_format 'user'
       end
 
       factory :int_wp_custom_field do
-        sequence(:name) do |n| "Int WP custom field #{n}" end
+        sequence(:name) { |n| "Int WP custom field #{n}" }
         field_format 'int'
       end
 
       factory :float_wp_custom_field do
-        sequence(:name) do |n| "Float WP custom field #{n}" end
+        sequence(:name) { |n| "Float WP custom field #{n}" }
         field_format 'float'
       end
 
       factory :text_wp_custom_field do
-        sequence(:name) do |n| "Text WP custom field #{n}" end
+        sequence(:name) { |n| "Text WP custom field #{n}" }
         field_format 'text'
       end
 
       factory :string_wp_custom_field do
-        sequence(:name) do |n| "String WP custom field #{n}" end
+        sequence(:name) { |n| "String WP custom field #{n}" }
         field_format 'string'
       end
 
       factory :date_wp_custom_field do
-        sequence(:name) do |n| "Date WP custom field #{n}" end
+        sequence(:name) { |n| "Date WP custom field #{n}" }
         field_format 'date'
       end
     end
 
     factory :issue_custom_field, class: WorkPackageCustomField do
-      sequence(:name) do |n| "Issue Custom Field #{n}" end
+      sequence(:name) { |n| "Issue Custom Field #{n}" }
 
       factory :user_issue_custom_field do
         field_format 'user'
@@ -173,25 +203,6 @@ FactoryGirl.define do
     factory :time_entry_custom_field, class: TimeEntryCustomField do
       field_format 'text'
       sequence(:name) { |n| "TimeEntryCustomField #{n}" }
-    end
-
-    factory :project_custom_field, class: ProjectCustomField do
-      field_format 'text'
-      type 'ProjectCustomField'
-      sequence(:name) { |n| "ProjectCustomField #{n}" }
-    end
-
-    factory :list_project_custom_field do
-      sequence(:name) { |n| "ListProjectCustomField #{n}" }
-      field_format 'list'
-      type 'ProjectCustomField'
-      possible_values ['1', '2', '3', '4', '5', '6', '7']
-    end
-
-    factory :date_project_custom_field do
-      sequence(:name) { |n| "DateProjectCustomField #{n}" }
-      field_format 'date'
-      type 'ProjectCustomField'
     end
   end
 end

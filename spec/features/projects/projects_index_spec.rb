@@ -29,7 +29,6 @@
 require 'spec_helper'
 require 'features/projects/projects_page'
 
-
 describe 'Projects index page',
          type: :feature,
          js: true,
@@ -72,42 +71,54 @@ describe 'Projects index page',
   def set_filter(name, human_name, human_operator = nil, values = [])
     select human_name, from: 'add_filter_select'
     selected_filter = page.find("li[filter-name='#{name}']")
+
     within(selected_filter) do
       select human_operator, from: 'operator'
-      if values.any?
-        case name
-        when 'name_and_identifier'
-          fill_in 'value', with: values.first
-        when 'status'
-          if values.size == 1
-            select values.first, from: 'value'
-          end
-        when 'created_on'
-          case human_operator
-          when 'on'
-            fill_in 'value', with: values.first
-          when 'less than days ago'
-            fill_in 'value', with: values.first
-          when 'more than days ago'
-            fill_in 'value', with: values.first
-          when 'days ago'
-            fill_in 'value', with: values.first
-          when 'between'
-            fill_in 'from_value', with: values.first
-            fill_in 'to_value', with: values.second
-          end
-        when /cf_[\d]+/
-          if selected_filter[:'filter-type'] == 'list_optional'
-            if values.size == 1
-              value_select = find('.single-select select[name="value"]')
-              value_select.select values.first
-            end
-          elsif selected_filter[:'filter-type'] == 'date'
-            if human_operator == 'on'
-              fill_in 'value', with: values.first
-            end
-          end
-        end
+
+      return unless values.any?
+
+      case name
+      when 'name_and_identifier'
+        set_name_and_identifier_filter(values)
+      when 'status'
+        set_status_filter(values)
+      when 'created_on'
+        set_created_on_filter(human_operator, values)
+      when /cf_[\d]+/
+        set_custom_field_filter(selected_filter, human_operator, values)
+      end
+    end
+  end
+
+  def set_name_and_identifier_filter(values)
+    fill_in 'value', with: values.first
+  end
+
+  def set_status_filter(values)
+    if values.size == 1
+      select values.first, from: 'value'
+    end
+  end
+
+  def set_created_on_filter(human_operator, values)
+    case human_operator
+    when 'on', 'less than days ago', 'more than days ago', 'days ago'
+      fill_in 'value', with: values.first
+    when 'between'
+      fill_in 'from_value', with: values.first
+      fill_in 'to_value', with: values.second
+    end
+  end
+
+  def set_custom_field_filter(selected_filter, human_operator, values)
+    if selected_filter[:'filter-type'] == 'list_optional'
+      if values.size == 1
+        value_select = find('.single-select select[name="value"]')
+        value_select.select values.first
+      end
+    elsif selected_filter[:'filter-type'] == 'date'
+      if human_operator == 'on'
+        fill_in 'value', with: values.first
       end
     end
   end
@@ -130,8 +141,7 @@ describe 'Projects index page',
         expect(page).to have_text(public_project.name)
 
         # Test that the 'More' menu stays invisible on hover
-        page.find('tbody tr').hover
-        expect(page).to_not have_css('.icon-show-more-horizontal')
+        expect(page).to_not have_selector('.icon-show-more-horizontal')
       end
     end
 
@@ -172,15 +182,14 @@ describe 'Projects index page',
         expect(page).to have_text(public_project.name)
         expect(page).to have_text(project.name)
 
-        # Test that the 'More' menu becomes visible on hover
-        expect(page).to_not have_css('.icon-show-more-horizontal')
-        page.first('tbody tr').hover
-        expect(page).to have_css('.icon-show-more-horizontal')
+        # because we use css opacity we can not test for the visibility changes
+        expect(page).to have_selector('.icon-show-more-horizontal')
 
         # Test visiblity of 'more' menu list items
         page.first('tbody tr .icon-show-more-horizontal').click
         menu = page.first('tbody tr .project-actions')
         expect(menu).to have_text('Copy')
+        expect(menu).to have_text('Project settings')
         expect(menu).to have_text('New subproject')
         expect(menu).to have_text('Delete')
         expect(menu).to have_text('Archive')
@@ -214,10 +223,8 @@ describe 'Projects index page',
 
       # Admins shall be the only ones to see invisible CFs
       expect(page).to have_text(invisible_custom_field.name.upcase)
-      expect(page).to have_select('add_filter_select', :with_options => [invisible_custom_field.name])
+      expect(page).to have_select('add_filter_select', with_options: [invisible_custom_field.name])
     end
-
-    scenario
   end
 
   feature 'with a filter set' do
@@ -234,7 +241,7 @@ describe 'Projects index page',
       expect(page).to_not have_text(public_project.name)
       expect(page).to have_text(project.name)
       # Filter form is visible and the filter is still set.
-      expect(page).to have_css('li[filter-name="name_and_identifier"]')
+      expect(page).to have_selector('li[filter-name="name_and_identifier"]')
     end
   end
 
@@ -259,7 +266,7 @@ describe 'Projects index page',
       # Results should be filtered and ordered ASC by name
       expect(page).to have_text(development_project.name)
       expect(page).to_not have_text(project.name)        # as it filtered away
-      expect(page).to have_text('Next')          # as the result set is larger than 1
+      expect(page).to have_text('Next')                  # as the result set is larger than 1
       expect(page).to_not have_text(public_project.name) # as it is on the second page
 
       click_on '2' # Go to pagination page 2
@@ -287,12 +294,11 @@ describe 'Projects index page',
       expect(page).to have_text(public_project.name)
       expect(page).to_not have_text(development_project.name) # as it is on the second page
       expect(page).to_not have_text(project.name)             # as it filtered away
-      expect(page).to have_text('Next')               # as the result set is larger than 1
+      expect(page).to have_text('Next')                       # as the result set is larger than 1
     end
   end
 
   feature 'when filter of type' do
-
     scenario 'Name and identifier gives results in both, name and identifier' do
       load_and_open_filters admin
 
@@ -335,7 +341,7 @@ describe 'Projects index page',
         load_and_open_filters admin
 
         # value selection defaults to "active"'
-        expect(page).to have_css('li[filter-name="status"]')
+        expect(page).to have_selector('li[filter-name="status"]')
 
         # Filter has three operators 'all', 'active' and 'archived'
         expect(page.find('li[filter-name="status"] select[name="operator"] option[value="*"]')).to have_text('all')
@@ -374,7 +380,7 @@ describe 'Projects index page',
       let(:datetime_of_this_week) do
         today = Date.today
         # Ensure that the date is not today but still in the middle of the week to not run into week-start-issues here.
-        date_of_this_week = today + (((today.wday) % 7) > 2 ? -1 : 1)
+        date_of_this_week = today + ((today.wday % 7) > 2 ? -1 : 1)
         DateTime.parse(date_of_this_week.to_s + 'T11:11:11+00:00')
       end
       let(:fixed_datetime) { DateTime.parse('2017-11-11T11:11:11+00:00') }
@@ -383,9 +389,9 @@ describe 'Projects index page',
         project = FactoryGirl.create(:project,
                                      name: 'Created today project',
                                      created_on: DateTime.now)
-        project.custom_field_values = { list_custom_field.id => '3'}
-        project.custom_field_values = { date_custom_field.id => '2011-11-11'}
-        project.save
+        project.custom_field_values = { list_custom_field.id => list_custom_field.possible_values[2],
+                                        date_custom_field.id => '2011-11-11' }
+        project.save!
         project
       end
       let!(:project_created_on_this_week) do
@@ -447,7 +453,7 @@ describe 'Projects index page',
         set_filter('created_on',
                    'Created on',
                    'on',
-                    ['2017-11-11'])
+                   ['2017-11-11'])
 
         click_on 'Filter'
 
@@ -512,7 +518,7 @@ describe 'Projects index page',
         set_filter("cf_#{list_custom_field.id}",
                    list_custom_field.name,
                    'is',
-                   ['3'])
+                   [list_custom_field.possible_values[2].value])
 
         click_on 'Filter'
 
@@ -527,9 +533,9 @@ describe 'Projects index page',
           click_on 'Toggle multiselect'
           # switching to multiselect keeps the current selection
           expect(cf_filter.find(:select, 'value')[:multiple]).to be_truthy
-          expect(cf_filter).to have_select('value', selected: '3')
+          expect(cf_filter).to have_select('value', selected: list_custom_field.possible_values[2].value)
 
-          select '5', from: 'value'
+          select list_custom_field.possible_values[3].value, from: 'value'
         end
 
         click_on 'Filter'
@@ -538,16 +544,19 @@ describe 'Projects index page',
         within(cf_filter) do
           # Query has two values for that filter, so it shoud show a 'multi select'.
           expect(cf_filter.find(:select, 'value')[:multiple]).to be_truthy
-          expect(cf_filter).to have_select('value', selected: ['3', '5'])
+          expect(cf_filter)
+            .to have_select('value',
+                            selected: [list_custom_field.possible_values[2].value,
+                                       list_custom_field.possible_values[3].value])
 
           # switching to single select keeps the first selection
-          select '2', from: 'value'
-          unselect '3', from: 'value'
+          select list_custom_field.possible_values[1].value, from: 'value'
+          unselect list_custom_field.possible_values[2].value, from: 'value'
 
           click_on 'Toggle multiselect'
           expect(cf_filter.find(:select, 'value')[:multiple]).to be_falsey
-          expect(cf_filter).to have_select('value', selected: '2')
-          expect(cf_filter).to_not have_select('value', selected: '5')
+          expect(cf_filter).to have_select('value', selected: list_custom_field.possible_values[1].value)
+          expect(cf_filter).to_not have_select('value', selected: list_custom_field.possible_values[3].value)
         end
 
         click_on 'Filter'
@@ -587,7 +596,7 @@ describe 'Projects index page',
     let!(:parent_project) do
       FactoryGirl.create(:project,
                          name: 'Parent project',
-                         identifier: 'parent-project' )
+                         identifier: 'parent-project')
     end
 
     let!(:can_copy_projects_manager) do
@@ -621,12 +630,9 @@ describe 'Projects index page',
 
       expect(page).to have_text(parent_project.name)
 
-      # 'More' menu should be invisible by default
-      expect(page).not_to have_css('.icon-show-more-horizontal')
-
       # 'More' does not become visible on hover
       page.find('tbody tr').hover
-      expect(page).to_not have_css('.icon-show-more-horizontal')
+      expect(page).not_to have_selector('.icon-show-more-horizontal')
 
       # For a project member with :copy_projects privilege the 'More' menu is visible.
       login_as(can_copy_projects_manager)
@@ -634,12 +640,10 @@ describe 'Projects index page',
 
       expect(page).to have_text(parent_project.name)
 
-      # 'More' menu should be invisible by default
-      expect(page).not_to have_css('.icon-show-more-horizontal')
-
       # 'More' becomes visible on hover
+      # because we use css opacity we can not test for the visibility changes
       page.find('tbody tr').hover
-      expect(page).to have_css('.icon-show-more-horizontal')
+      expect(page).to have_selector('.icon-show-more-horizontal')
 
       # Test visiblity of 'more' menu list items
       page.find('tbody tr .icon-show-more-horizontal').click
@@ -654,12 +658,10 @@ describe 'Projects index page',
       login_as(can_add_subprojects_manager)
       visit projects_path
 
-      # 'More' menu should be invisible by default
-      expect(page).not_to have_css('.icon-show-more-horizontal')
-
       # 'More' becomes visible on hover
+      # because we use css opacity we can not test for the visibility changes
       page.find('tbody tr').hover
-      expect(page).to have_css('.icon-show-more-horizontal')
+      expect(page).to have_selector('.icon-show-more-horizontal')
 
       # Test visiblity of 'more' menu list items
       page.find('tbody tr .icon-show-more-horizontal').click
@@ -672,4 +674,3 @@ describe 'Projects index page',
     end
   end
 end
-
