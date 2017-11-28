@@ -53,6 +53,7 @@ export class EditActionsBarController {
       .saveWorkPackage()
       .finally(() => {
         this.saving = false;
+        this.onSave();
       });
   }
 
