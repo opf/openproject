@@ -100,6 +100,10 @@ class Query < ActiveRecord::Base
     self
   end
 
+  def to_s
+    name
+  end
+
   def add_default_filter
     return unless filters.blank?
 
