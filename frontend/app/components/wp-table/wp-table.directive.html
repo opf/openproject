@@ -20,7 +20,8 @@
         ng1.x
         <th sort-header ng-repeat="column in columns track by column.href"
         -->
-        <th sort-header *ngFor="let column of columns"
+        <th *ngFor="let column of columns"
+            sortHeader
             has-dropdown-menu
             class="wp-table--table-header"
             collision-container=".work-packages-tabletimeline--table-side"

@@ -64,6 +64,7 @@ import {
 } from './angular4-transition-utils';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
+import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 
 
 @NgModule({
@@ -101,7 +102,8 @@ import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-tab
     WorkPackageTimelineTableController,
     WorkPackagesTableController,
     WpResizerDirectiveUpgraded,
-    WorkPackageTableSumsRowController
+    WorkPackageTableSumsRowController,
+    SortHeaderDirective
   ],
   entryComponents: [
     WorkPackageTablePaginationComponent,
