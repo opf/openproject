@@ -61,6 +61,11 @@ export class WorkPackageTableSumsRowController implements OnInit, AfterViewInit 
   }
 
   ngOnInit() {
+  }
+
+  ngAfterViewInit(): void {
+    this.$element = jQuery(this.elementRef.nativeElement);
+
     combine(
       this.states.table.columns,
       this.states.table.results,
@@ -77,10 +82,6 @@ export class WorkPackageTableSumsRowController implements OnInit, AfterViewInit 
           this.clear();
         }
       });
-  }
-
-  ngAfterViewInit(): void {
-    this.$element = jQuery(this.elementRef.nativeElement);
   }
 
   private clear() {
