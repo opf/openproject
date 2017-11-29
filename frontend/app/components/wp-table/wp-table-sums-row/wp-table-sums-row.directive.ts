@@ -41,11 +41,9 @@ import {WorkPackageTableColumns} from '../../wp-fast-table/wp-table-columns';
 @Directive({
   selector: '[wpTableSumsRow]'
 })
-export class WorkPackageTableSumsRowController implements OnInit, AfterViewInit {
+export class WorkPackageTableSumsRowController implements AfterViewInit {
 
   private text:{ sumFor:string, allWorkPackages:string };
-
-  // private nativeElement:any;
 
   private $element:JQuery;
 
@@ -58,9 +56,6 @@ export class WorkPackageTableSumsRowController implements OnInit, AfterViewInit 
       sumFor: I18n.t('js.label_sum_for'),
       allWorkPackages: I18n.t('js.label_all_work_packages')
     };
-  }
-
-  ngOnInit() {
   }
 
   ngAfterViewInit(): void {
@@ -130,8 +125,3 @@ export class WorkPackageTableSumsRowController implements OnInit, AfterViewInit 
     jQuery(div).prepend(span);
   }
 }
-
-
-openprojectModule.directive(
-  'wpTableSumsRow',
-  downgradeComponent({component: WorkPackageTableSumsRowController}));
