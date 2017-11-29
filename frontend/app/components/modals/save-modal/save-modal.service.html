@@ -43,7 +43,7 @@
       <div class="form--space">
         <button class="button -highlight -with-icon icon-checkmark"
                 ng-click="saveQueryAs(queryName)"
-                ng-disabled="modalSaveForm.$invalid">
+                ng-disabled="isBusy || modalSaveForm.$invalid">
           {{ ::I18n.t('js.modals.button_save') }}
         </button>
         <button class="button" ng-click="$ctrl.closeMe()">

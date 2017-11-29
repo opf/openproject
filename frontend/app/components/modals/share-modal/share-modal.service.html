@@ -18,7 +18,9 @@
       is-public="$ctrl.isPublic">
     </query-sharing-form>
 
-    <button class="button -highlight -with-icon icon-checkmark" ng-click="$ctrl.saveQuery()">
+    <button class="button -highlight -with-icon icon-checkmark"
+            ng-disabled="$ctrl.isBusy"
+            ng-click="$ctrl.saveQuery()">
       {{ ::I18n.t('js.modals.button_save') }}
     </button>
     <button class="button" ng-click="$ctrl.closeModal()">
