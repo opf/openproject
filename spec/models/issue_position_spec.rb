@@ -264,7 +264,7 @@ describe WorkPackage, type: :model do
       let(:admin) { FactoryGirl.create(:admin) }
 
       def move_to_project(work_package, project)
-        service = MoveWorkPackageService.new(work_package, admin)
+        service = WorkPackages::MoveService.new(work_package, admin)
 
         service.call(project)
       end

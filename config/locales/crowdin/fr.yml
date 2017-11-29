@@ -14,13 +14,20 @@ fr:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "ne peut contenir que des ID de lots de travaux du sprint actuel."
               must_block_at_least_one_work_package: "doit contenir l'ID d'au moins un ticket."
+            parent_id:
+              type_must_be_one_of_the_following: 'Type doit être parmi : %{type_names}.'
+        sprint:
+          cannot_end_before_it_starts: "Un sprint ne peut pas se terminer avant d'avoir débuté."
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "doit être identique à la version de l'histoire."
             parent_id:
               parent_child_relationship_across_projects: "n'est pas valide parce que le lot de travaux «%{work_package_name}» est une tâche de backlog et par conséquent ne peut avoir un parent en dehors du projet actuel."
-              type_must_be_one_of_the_following: 'Type doit être parmi : %{type_names}.'
-        sprint:
-          cannot_end_before_it_starts: "Un sprint ne peut pas se terminer avant d'avoir débuté."
+
   backlogs:
     add_new_story: "Nouvelle histoire"
     any: "tout"

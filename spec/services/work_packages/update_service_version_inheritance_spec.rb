@@ -1,3 +1,5 @@
+
+
 #-- copyright
 # OpenProject Backlogs Plugin
 #
@@ -33,16 +35,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require File.expand_path(File.dirname(__FILE__) + '/../spec_helper')
+require File.expand_path(File.dirname(__FILE__) + '/../../spec_helper')
 
-describe WorkPackage, "changing a story's fixed_version changes the fixed_version of all it's tasks (and the tasks beyond)", type: :model do
+describe WorkPackages::UpdateService, "version inheritance", type: :model do
   let(:type_feature) { FactoryGirl.build(:type_feature) }
   let(:type_task) { FactoryGirl.build(:type_task) }
   let(:type_bug) { FactoryGirl.build(:type_bug) }
   let(:version1) { project.versions.first }
   let(:version2) { project.versions.last }
   let(:role) { FactoryGirl.build(:role) }
-  let(:user) { FactoryGirl.build(:user) }
+  let(:user) { FactoryGirl.build(:admin) }
   let(:issue_priority) { FactoryGirl.build(:priority) }
   let(:status) { FactoryGirl.build(:status, name: 'status 1', is_default: true) }
 
@@ -230,18 +232,19 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
   end
 
   describe 'WHEN changing fixed_version' do
+    let(:instance) { described_class.new(user: user, work_package: parent) }
+
     shared_examples_for "changing parent's fixed_version changes child's fixed version" do
       it "SHOULD change the child's fixed version to the parent's fixed version" do
-        subject.save!
-        child.parent_id = subject.id
+        parent.save!
+        child.parent_id = parent.id
         child.save!
 
         standard_child_layout
 
-        subject.reload
+        parent.reload
 
-        subject.fixed_version = version2
-        subject.save!
+        instance.call(attributes: { fixed_version: version2 })
 
         # Because of performance, these assertions are all in one it statement
         expect(child.reload.fixed_version).to eql version2
@@ -256,16 +259,15 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
     shared_examples_for "changing parent's fixed_version does not change child's fixed_version" do
       it "SHOULD keep the child's version" do
-        subject.save!
-        child.parent_id = subject.id
+        parent.save!
+        child.parent_id = parent.id
         child.save!
 
         standard_child_layout
 
-        subject.reload
+        parent.reload
 
-        subject.fixed_version = version2
-        subject.save!
+        instance.call(attributes: { fixed_version: version2 })
 
         # Because of performance, these assertions are all in one it statement
         expect(child.reload.fixed_version).to eql version1
@@ -284,7 +286,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
       end
 
       describe 'WITH a story' do
-        subject { story }
+        let(:parent) { story }
 
         describe 'WITH a task as child' do
           let(:child) { task2 }
@@ -306,7 +308,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
       end
 
       describe 'WITH a task (impediment) without a parent' do
-        subject { task }
+        let(:parent) { task }
 
         describe 'WITH a task as child' do
           let(:child) { task2 }
@@ -322,7 +324,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
       end
 
       describe 'WITH a non backlogs work_package' do
-        subject { bug }
+        let(:parent) { bug }
 
         describe 'WITH a task as child' do
           let(:child) { task }
@@ -350,7 +352,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
       end
 
       describe 'WITH a story' do
-        subject { story }
+        let(:parent) { story }
 
         describe 'WITH a task as child' do
           let(:child) { task2 }
@@ -378,7 +380,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
           task.save!
         end
 
-        subject { task }
+        let(:parent) { task }
 
         describe 'WITH a task as child' do
           let(:child) { task2 }
@@ -394,7 +396,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
       end
 
       describe 'WITH a task (impediment) without a parent' do
-        subject { task }
+        let(:parent) { task}
 
         describe 'WITH a task as child' do
           let(:child) { task2 }
@@ -410,7 +412,7 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
       end
 
       describe 'WITH a non backlogs work_package' do
-        subject { bug }
+        let(:parent) { bug }
 
         describe 'WITH a task as child' do
           let(:child) { task }
@@ -434,6 +436,8 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
   end
 
   describe 'WHEN changing the parent_id' do
+    let(:instance) { described_class.new(user: user, work_package: child) }
+
     shared_examples_for "changing the child's parent_issue to the parent changes child's fixed version" do
       it "SHOULD change the child's fixed version to the parent's fixed version" do
         child.save!
@@ -441,8 +445,8 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
         parent.fixed_version = version2
         parent.save!
-        child.parent_id = parent.id
-        child.save!
+
+        instance.call(attributes: { parent_id: parent.id })
 
         # Because of performance, these assertions are all in one it statement
         expect(child.reload.fixed_version).to eql version2
@@ -462,8 +466,8 @@ describe WorkPackage, "changing a story's fixed_version changes the fixed_versio
 
         parent.fixed_version = version2
         parent.save!
-        child.parent_id = parent.id
-        child.save!
+
+        instance.call(attributes: { parent_id: parent.id })
 
         # Because of performance, these assertions are all in one it statement
         expect(child.reload.fixed_version).to eql version1

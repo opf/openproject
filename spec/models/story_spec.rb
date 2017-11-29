@@ -205,35 +205,4 @@ describe Story, type: :model do
       end
     end
   end
-
-  describe 'journals created after adding a subtask to a story' do
-    before(:each) do
-      @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
-      allow(User).to receive(:current).and_return(@current)
-
-      @story = FactoryGirl.create(:story, fixed_version: version,
-                                          project: project,
-                                          status: status1,
-                                          type: type_feature,
-                                          priority: issue_priority)
-      @story.project.enabled_module_names += ['backlogs']
-
-      @work_package ||= FactoryGirl.create(:work_package, project: project, status: status1, type: type_feature, author: @current)
-    end
-
-    it 'should create a journal when adding a subtask which has remaining hours set' do
-      @work_package.remaining_hours = 15.0
-      @work_package.parent_id = @story.id
-      @work_package.save!
-
-      expect(@story.journals.last.changed_data[:remaining_hours]).to eq([nil, 15])
-    end
-
-    it 'should not create an empty journal when adding a subtask without remaining hours set' do
-      @work_package.parent_id  = @story.id
-      @work_package.save!
-
-      expect(@story.journals.last.changed_data[:remaining_hours]).to be_nil
-    end
-  end
 end

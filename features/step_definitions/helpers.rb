@@ -33,7 +33,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-def initialize_story_params(project, user = User.first)
+def initialize_story_params(project, user = User.current)
   data = Story.new.attributes.slice(RbStoriesController::PERMITTED_PARAMS)
   story = HashWithIndifferentAccess.new(data)
   story['type_id'] = Story.types.first

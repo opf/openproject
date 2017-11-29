@@ -14,13 +14,19 @@ pl:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "może zawierać tylko identyfikatory pakietów pracy w bieżącym sprincie."
               must_block_at_least_one_work_package: "musi zawierać ID co najmniej dla jednego biletu."
+            parent_id:
+              type_must_be_one_of_the_following: 'Musi być jeden z następujących typów: %{type_names}.'
+        sprint:
+          cannot_end_before_it_starts: "Sprint nie może się skończyć przed swoim rozpoczęciem."
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "musi być taka sama jak wersja story."
             parent_id:
               parent_child_relationship_across_projects: "jest nieprawidłowy, ponieważ paczka prac '%{work_package_name}' jest zadaniem backlogu, a więc nie może mieć rodziciela poza bieżącym projektem."
-              type_must_be_one_of_the_following: 'Musi być jeden z następujących typów: %{type_names}.'
-        sprint:
-          cannot_end_before_it_starts: "Sprint nie może się skończyć przed swoim rozpoczęciem."
   backlogs:
     add_new_story: "Nowe Story"
     any: "którekolwiek"

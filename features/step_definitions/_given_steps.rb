@@ -178,14 +178,24 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following stories in the followin
     params['subject'] = story['subject']
     params['fixed_version_id'] = Version.find_by(name: story['sprint'] || story['backlog']).id
     params['story_points'] = story['story_points']
-    params['status_id'] = Status.find_by(name: story['status']).id if story['status']
+    params['status'] =  if story['status']
+                             Status.find_by(name: story['status'])
+                           else
+                             Status.default
+                           end
     params['type_id'] = Type.find_by(name: story['type']).id if story['type']
+    params['priority'] = if story['priority']
+                              IssuePriority.find_by(name: story['priority'])
+                            else
+                              IssuePriority.default
+                            end
 
     params.delete 'position'
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    s = Story.create_and_position(params, { project: params[:project], author: params['author'] }, prev_id)
+    s = Story.create!(params.merge(project: params[:project], author: params['author']))
+    s.move_after(prev_id) unless prev_id.blank?
     prev_id = s.id
   end
 end
@@ -200,11 +210,22 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following tasks:$/ do |project_na
       story = Story.find_by(subject: task['parent'])
       params = initialize_task_params(project, story)
       params['subject'] = task['subject']
+      params['project_id'] = project.id
+      params['status'] =  if task['status']
+                               Status.find_by(name: story['task'])
+                             else
+                               Status.default
+                             end
+      params['priority'] = if task['priority']
+                              IssuePriority.find_by(name: task['priority'])
+                            else
+                              IssuePriority.default
+                            end
 
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,
       # however, should NOT bypass the controller
-      Task.create_with_relationships(params, project.id)
+      Task.create!(params)
     end
   end
 end
@@ -222,6 +243,11 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following work_packages:$/ do |pr
       params['subject'] = task['subject']
       version = Version.find_by(name: task['sprint'] || task['backlog'])
       params['fixed_version_id'] = version.id if version
+      params['priority'] = if task['priority']
+                              IssuePriority.find_by(name: task['priority'])
+                            else
+                              IssuePriority.default
+                            end
 
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,
@@ -244,15 +270,18 @@ Given /^the [pP]roject(?: "([^\"]*)")? has the following impediments:$/ do |proj
       blocks = Story.where(subject: impediment['blocks'].split(', ')).pluck(:id)
       params = initialize_impediment_params(project, sprint)
       params['subject'] = impediment['subject']
-      params['blocks_ids']  = blocks.join(',')
+      params['blocks_ids'] = blocks.join(',')
+      params['project_id'] = project.id
+      params['priority'] = if impediment['priority']
+                              IssuePriority.find_by(name: impediment['priority'])
+                            else
+                              IssuePriority.default
+                            end
 
       # NOTE: We're bypassing the controller here because we're just
       # setting up the database for the actual tests. The actual tests,
       # however, should NOT bypass the controller
-      imp = Impediment.create_with_relationships(params, project.id)
-      imp.blocks_ids += blocks
-      imp.save
-      imp
+      Impediment.create!(params)
     end
   end
 end

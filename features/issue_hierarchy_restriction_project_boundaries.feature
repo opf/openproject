@@ -49,19 +49,12 @@ Feature: The work_package hierarchy between backlogs stories and backlogs tasks 
     And the role "scrum master" may have the following rights:
         | view_master_backlog     |
         | view_taskboards         |
-        | update_sprints          |
-        | update_stories          |
-        | create_impediments      |
-        | update_impediments      |
-        | update_tasks            |
         | view_wiki_pages         |
         | edit_wiki_pages         |
         | view_work_packages      |
+        | add_work_packages       |
         | edit_work_packages      |
         | manage_subtasks         |
-        | create_tasks            |
-        | add_work_packages              |
-        | add_work_packages       |
     And the backlogs module is initialized
     And the following types are configured to track stories:
         | Story |

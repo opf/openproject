@@ -6,12 +6,6 @@ module BasicData
           member[:permissions].concat %i(
             view_master_backlog
             view_taskboards
-            create_stories
-            update_stories
-            create_tasks
-            update_tasks
-            create_impediments
-            update_impediments
           )
         end
       end

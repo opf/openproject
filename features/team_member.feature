@@ -61,11 +61,10 @@ Feature: Team Member
     And the role "team member" may have the following rights:
         | view_master_backlog |
         | view_taskboards     |
-        | create_tasks        |
-        | update_tasks        |
         | view_work_packages  |
         | edit_work_packages  |
         | manage_subtasks     |
+        | add_work_packages   |
     And the user "paul" is a "team member"
     And the project has the following sprints:
         | name       | start_date | effective_date |

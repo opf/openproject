@@ -41,19 +41,20 @@ describe Impediment, type: :model do
   let(:type_feature) { @type_feature ||= FactoryGirl.create(:type_feature) }
   let(:type_task) { @type_task ||= FactoryGirl.create(:type_task) }
   let(:issue_priority) { @issue_priority ||= FactoryGirl.create(:priority, is_default: true) }
+  let(:status) { FactoryGirl.create(:status) }
   let(:task) {
     FactoryGirl.build(:task, type: type_task,
                              project: project,
                              author: user,
                              priority: issue_priority,
-                             status: status1)
+                             status: status)
   }
   let(:feature) {
     FactoryGirl.build(:work_package, type: type_feature,
                                      project: project,
                                      author: user,
                                      priority: issue_priority,
-                                     status: status1)
+                                     status: status)
   }
   let(:version) { FactoryGirl.create(:version, project: project) }
 
@@ -67,14 +68,6 @@ describe Impediment, type: :model do
     @project
   end
 
-  let(:status1) { @status1 ||= FactoryGirl.create(:status, name: 'status 1', is_default: true) }
-  let(:status2) { @status2 ||= FactoryGirl.create(:status, name: 'status 2') }
-  let(:type_workflow) {
-    @workflow ||= Workflow.create(type_id: type_task.id,
-                                  old_status: status1,
-                                  new_status: status2,
-                                  role: role)
-  }
   let(:impediment) {
     FactoryGirl.build(:impediment, author: user,
                                    fixed_version: version,
@@ -82,239 +75,22 @@ describe Impediment, type: :model do
                                    priority: issue_priority,
                                    project: project,
                                    type: type_task,
-                                   status: status1)
+                                   status: status)
   }
 
   before(:each) do
-    ActionController::Base.perform_caching = false
+    allow(Setting)
+      .to receive(:plugin_openproject_backlogs)
+      .and_return({ 'points_burn_direction' => 'down',
+                    'wiki_template'         => '',
+                    'card_spec'             => 'Sattleford VM-5040',
+                    'story_types'           => [type_feature.id.to_s],
+                    'task_type'             => type_task.id.to_s })
 
-    allow(Setting).to receive(:plugin_openproject_backlogs).and_return({ 'points_burn_direction' => 'down',
-                                                                         'wiki_template'         => '',
-                                                                         'card_spec'             => 'Sattleford VM-5040',
-                                                                         'story_types'           => [type_feature.id.to_s],
-                                                                         'task_type'             => type_task.id.to_s })
-
-    allow(User).to receive(:current).and_return(user)
-    issue_priority.save
-    status1.save
-    project.save
-    type_workflow.save
-  end
-
-  describe 'class methods' do
-    describe '#create_with_relationships' do
-      before(:each) do
-        @impediment_subject = 'Impediment A'
-        role.permissions = [:create_impediments]
-        role.save
-      end
-
-      shared_examples_for 'impediment creation' do
-        it { expect(@impediment.subject).to eql @impediment_subject }
-        it { expect(@impediment.author).to eql User.current }
-        it { expect(@impediment.project).to eql project }
-        it { expect(@impediment.fixed_version).to eql version }
-        it { expect(@impediment.priority).to eql issue_priority }
-        it { expect(@impediment.status).to eql status1 }
-        it { expect(@impediment.type).to eql type_task }
-        it { expect(@impediment.assigned_to).to eql user }
-      end
-
-      shared_examples_for 'impediment creation with 1 blocking relationship' do
-        it_should_behave_like 'impediment creation'
-        it { expect(@impediment.relations_to.direct.size).to eq(1) }
-        it { expect(@impediment.relations_to.direct[0].to).to eql feature }
-        it { expect(@impediment.relations_to.direct[0].relation_type).to eql Relation::TYPE_BLOCKS }
-      end
-
-      shared_examples_for 'impediment creation with no blocking relationship' do
-        it_should_behave_like 'impediment creation'
-        it { expect(@impediment.relations_to.direct.size).to eq(0) }
-      end
-
-      describe 'WITH a blocking relationship to a story' do
-        describe 'WITH the story having the same version' do
-          before(:each) do
-            feature.fixed_version = version
-            feature.save
-            @impediment = Impediment.create_with_relationships({ subject: @impediment_subject,
-                                                                 assigned_to_id: user.id,
-                                                                 blocks_ids: feature.id.to_s,
-                                                                 status_id: status1.id,
-                                                                 fixed_version_id: version.id },
-                                                               project.id)
-          end
-
-          it_should_behave_like 'impediment creation with 1 blocking relationship'
-          it { expect(@impediment).not_to be_new_record }
-          it { expect(@impediment.relations_to.direct[0]).not_to be_new_record }
-        end
-
-        describe 'WITH the story having another version' do
-          before(:each) do
-            feature.fixed_version = FactoryGirl.create(:version, project: project, name: 'another version')
-            feature.save
-            @impediment = Impediment.create_with_relationships({ subject: @impediment_subject,
-                                                                 assigned_to_id: user.id,
-                                                                 blocks_ids: feature.id.to_s,
-                                                                 status_id: status1.id,
-                                                                 fixed_version_id: version.id },
-                                                               project.id)
-          end
-
-          it_should_behave_like 'impediment creation with no blocking relationship'
-          it { expect(@impediment).to be_new_record }
-          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
-        end
-
-        describe 'WITH the story being non existent' do
-          before(:each) do
-            @impediment = Impediment.create_with_relationships({ subject: @impediment_subject,
-                                                                 assigned_to_id: user.id,
-                                                                 blocks_ids: '0',
-                                                                 status_id: status1.id,
-                                                                 fixed_version_id: version.id },
-                                                               project.id)
-          end
-
-          it_should_behave_like 'impediment creation with no blocking relationship'
-          it { expect(@impediment).to be_new_record }
-          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
-        end
-      end
-
-      describe 'WITHOUT a blocking relationship defined' do
-        before(:each) do
-          @impediment = Impediment.create_with_relationships({ subject: @impediment_subject,
-                                                               assigned_to_id: user.id,
-                                                               blocks_ids: '',
-                                                               status_id: status1.id,
-                                                               fixed_version_id: version.id },
-                                                             project.id)
-        end
-
-        it_should_behave_like 'impediment creation with no blocking relationship'
-        it { expect(@impediment).to be_new_record }
-        it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
-      end
-    end
+    login_as user
   end
 
   describe 'instance methods' do
-    describe '#update_with_relationships' do
-      before(:each) do
-        role.permissions = [:update_impediments]
-        role.save
-
-        feature.fixed_version = version
-        feature.save
-
-        @impediment = impediment
-        @impediment.blocks_ids = feature.id.to_s
-        @impediment.save
-      end
-
-      shared_examples_for 'impediment update' do
-        it { expect(@impediment.author).to eql user }
-        it { expect(@impediment.project).to eql project }
-        it { expect(@impediment.fixed_version).to eql version }
-        it { expect(@impediment.priority).to eql issue_priority }
-        it { expect(@impediment.status).to eql status1 }
-        it { expect(@impediment.type).to eql type_task }
-        it { expect(@impediment.blocks_ids).to eql @blocks.split(/\D+/).map(&:to_i) }
-      end
-
-      shared_examples_for 'impediment update with changed blocking relationship' do
-        it_should_behave_like 'impediment update'
-        it { expect(@impediment.relations_to.direct.size).to eq(1) }
-        it { expect(@impediment.relations_to.direct[0]).not_to be_new_record }
-        it { expect(@impediment.relations_to.direct[0].to).to eql @story }
-        it { expect(@impediment.relations_to.direct[0].relation_type).to eql Relation::TYPE_BLOCKS }
-      end
-
-      shared_examples_for 'impediment update with unchanged blocking relationship' do
-        it_should_behave_like 'impediment update'
-        it { expect(@impediment.relations_to.direct.size).to eq(1) }
-        it { expect(@impediment.relations_to.direct[0]).not_to be_changed }
-        it { expect(@impediment.relations_to.direct[0].to).to eql feature }
-        it { expect(@impediment.relations_to.direct[0].relation_type).to eql Relation::TYPE_BLOCKS }
-      end
-
-      describe 'WHEN changing the blocking relationship to another story' do
-        before(:each) do
-          @story = FactoryGirl.build(:work_package, subject: 'another story',
-                                                    type: type_feature,
-                                                    project: project,
-                                                    author: user,
-                                                    priority: issue_priority,
-                                                    status: status1)
-        end
-
-        describe 'WITH the story having the same version' do
-          before(:each) do
-            @story.fixed_version = version
-            @story.save
-            @blocks = @story.id.to_s
-            @impediment.update_with_relationships({ blocks_ids: @blocks,
-                                                    status_id: status1.id.to_s })
-          end
-
-          it_should_behave_like 'impediment update with changed blocking relationship'
-          it { expect(@impediment).not_to be_changed }
-        end
-
-        describe 'WITH the story having another version' do
-          before(:each) do
-            other_version = FactoryGirl.create(:version, project: project, name: 'another version')
-            # the assignable versions are cached for performance, we thus have to
-            # throw away the cache
-            @story.project = Project.find(project.id)
-
-            @story.fixed_version = other_version
-            @story.save!
-            @blocks = @story.id.to_s
-            @saved = @impediment.update_with_relationships({ blocks_ids: @blocks,
-                                                             status_id: status1.id.to_s })
-          end
-
-          it_should_behave_like 'impediment update with unchanged blocking relationship'
-          it 'should not be saved successfully' do
-            expect(@saved).to be_falsey
-          end
-          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
-        end
-
-        describe 'WITH the story beeing non existent' do
-          before(:each) do
-            @blocks = '0'
-            @saved = @impediment.update_with_relationships({ blocks_ids: @blocks,
-                                                             status_id: status1.id.to_s })
-          end
-
-          it_should_behave_like 'impediment update with unchanged blocking relationship'
-          it 'should not be saved successfully' do
-            expect(@saved).to be_falsey
-          end
-          it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:can_only_contain_work_packages_of_current_sprint, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
-        end
-      end
-
-      describe 'WITHOUT a blocking relationship defined' do
-        before(:each) do
-          @blocks = ''
-          @saved = @impediment.update_with_relationships({ blocks_ids: @blocks,
-                                                           status_id: status1.id.to_s })
-        end
-
-        it_should_behave_like 'impediment update with unchanged blocking relationship'
-        it 'should not be saved successfully' do
-          expect(@saved).to be_falsey
-        end
-
-        it { expect(@impediment.errors[:blocks_ids]).to include I18n.t(:must_block_at_least_one_work_package, scope: [:activerecord, :errors, :models, :work_package, :attributes, :blocks_ids]) }
-      end
-    end
-
     describe 'blocks_ids=/blocks_ids' do
       describe 'WITH an integer' do
         it do

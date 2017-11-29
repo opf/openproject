@@ -14,13 +14,19 @@ sv:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "kan endast innehålla ID:n för arbetspaket i den aktuella sprinten."
               must_block_at_least_one_work_package: "måste innehålla ID för minst ett arbetspaket."
+            parent_id:
+              type_must_be_one_of_the_following: 'Typen måste vara en av följande: %{type_names}.'
+        sprint:
+          cannot_end_before_it_starts: "En sprint kan inte avslutas innan den startar."
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "måste vara samma som berättelsens version."
             parent_id:
               parent_child_relationship_across_projects: "är ogiltig eftersom arbetspaketet '%{work_package_name}' är en backlog aktivitet och kan därför inte ha en förälder utanför det aktuella projektet."
-              type_must_be_one_of_the_following: 'Typen måste vara en av följande: %{type_names}.'
-        sprint:
-          cannot_end_before_it_starts: "En sprint kan inte avslutas innan den startar."
   backlogs:
     add_new_story: "Ny berättelse"
     any: "någon"

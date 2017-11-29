@@ -35,39 +35,47 @@
 
 class RbImpedimentsController < RbApplicationController
   def create
-    @impediment = Impediment.create_with_relationships(impediment_params(Impediment.new), @project.id)
-    status = (@impediment.errors.empty? ? 200 : 400)
-    @include_meta = true
+    call = Impediments::CreateService
+           .new(user: current_user)
+           .call(attributes: impediment_params(Impediment.new).merge(project: @project))
 
-    respond_to do |format|
-      format.html { render partial: 'impediment', object: @impediment, status: status }
-    end
+    respond_with_impediment call
   end
 
   def update
     @impediment = Impediment.find(params[:id])
-    result = @impediment.update_with_relationships(impediment_params(@impediment))
-    status = (result ? 200 : 400)
+
+    call = Impediments::UpdateService
+           .new(user: current_user, impediment: @impediment)
+           .call(attributes: impediment_params(@impediment))
+
+    respond_with_impediment call
+  end
+
+  private
+
+  def respond_with_impediment(call)
+    status = call.success? ? 200 : 400
+    @impediment = call.result
+
     @include_meta = true
 
     respond_to do |format|
       format.html { render partial: 'impediment', object: @impediment, status: status }
     end
   end
-
-private
 
   def impediment_params(instance)
     # We do not need project_id, since ApplicationController will take care of
     # fetching the record.
     params.delete(:project_id)
 
-    hash = params.permit(:fixed_version_id, :status_id, :id, :prev, :sprint_id,
+    hash = params.permit(:fixed_version_id, :status_id, :id, :sprint_id,
                          :assigned_to_id, :remaining_hours, :subject, :blocks_ids)
 
     # We block block_ids only when user is not allowed to create or update the
     # instance passed.
-    unless instance && ((instance.new_record? && User.current.allowed_to?(:create_impediments, @project)) || User.current.allowed_to?(:update_impediments, @project))
+    unless instance && ((instance.new_record? && User.current.allowed_to?(:add_work_packages, @project)) || User.current.allowed_to?(:edit_work_packages, @project))
       hash.delete(:block_ids)
     end
 

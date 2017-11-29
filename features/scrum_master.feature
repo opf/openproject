@@ -49,10 +49,7 @@ Feature: Scrum Master
         | view_master_backlog     |
         | view_taskboards         |
         | update_sprints          |
-        | update_stories          |
-        | create_impediments      |
-        | update_impediments      |
-        | update_tasks            |
+        | add_work_packages       |
         | view_wiki_pages         |
         | edit_wiki_pages         |
         | view_work_packages      |

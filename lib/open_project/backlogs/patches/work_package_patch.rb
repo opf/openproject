@@ -43,10 +43,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
 
       before_validation :backlogs_before_validation, if: lambda { backlogs_enabled? }
 
-      before_save :inherit_version_from_closest_story_or_impediment, if: lambda { is_task? }
-      after_save :inherit_version_to_descendants, if: lambda { (fixed_version_id_changed? && backlogs_enabled? && closest_story_or_impediment == self) ||
-                                                               (parent_id_changed? && is_task?) }
-
       register_on_journal_formatter(:fraction, 'remaining_hours')
       register_on_journal_formatter(:decimal, 'story_points')
       register_on_journal_formatter(:decimal, 'position')
@@ -62,8 +58,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
                                                   greater_than_or_equal_to: 0,
                                                   if: lambda { backlogs_enabled? }
 
-      validate :validate_parent_work_package_relation
-
       include OpenProject::Backlogs::List
     end
   end
@@ -75,18 +69,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       # Caching like in the line above would prevent the types selected
       # for backlogs to be changed without restarting all app server.
       (Story.types << Task.type).compact
-    end
-
-    def take_child_update_semaphore
-      @child_updates = true
-    end
-
-    def child_update_semaphore_taken?
-      @child_updates
-    end
-
-    def place_child_update_semaphore
-      @child_updates = false
     end
 
     def children_of(ids)
@@ -161,71 +143,12 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
       blocked_by_relations.includes(:from).merge(WorkPackage.with_status_open).map(&:from)
     end
 
-    def recalculate_attributes_for(work_package_id)
-      p = if work_package_id.is_a? WorkPackage
-            work_package_id
-          else
-            WorkPackage.find_by(id: work_package_id)
-          end
-
-      return unless p.present?
-
-      if backlogs_enabled?
-        p.remaining_hours = p.leaves.sum(:remaining_hours).to_f
-        p.remaining_hours = nil if p.remaining_hours == 0.0
-      end
-
-      super(p)
-    end
-
-    def inherit_version_from(source)
-      self.fixed_version_id = source.fixed_version_id if source && project_id == source.project_id
-    end
-
     def backlogs_enabled?
       !!project.try(:module_enabled?, 'backlogs')
     end
 
     def in_backlogs_type?
       backlogs_enabled? && WorkPackage.backlogs_types.include?(type.try(:id))
-    end
-
-    # ancestors array similar to Module#ancestors
-    # i.e. returns immediate ancestors first
-    def ancestor_chain
-      ancestors = []
-      unless parent_id.nil?
-
-        # Unfortunately the nested set is only build on save hence, the #parent
-        # method is not always correct. Therefore we go to the parent the hard
-        # way and use nested set from there
-        real_parent = WorkPackage.find_by(id: parent_id)
-
-        # Sort immediate ancestors first
-        ancestors = real_parent
-                    .ancestors
-                    .includes(project: :enabled_modules)
-                    .order_by_ancestors('desc')
-                    .select('work_packages.*, COALESCE(max_depth.depth, 0)')
-
-        ancestors = [real_parent] + ancestors
-      end
-      ancestors
-    end
-
-    def closest_story_or_impediment
-      return nil unless in_backlogs_type?
-      return self if self.is_story? || self.is_impediment?
-      closest = nil
-      ancestor_chain.each do |i|
-        # break if we found an element in our chain that is not relevant in backlogs
-        break unless i.in_backlogs_type?
-        if i.is_story? || i.is_impediment?
-          closest = i
-          break
-        end
-      end
-      closest
     end
 
     private
@@ -235,51 +158,6 @@ module OpenProject::Backlogs::Patches::WorkPackagePatch
         self.estimated_hours = remaining_hours if estimated_hours.blank? && !remaining_hours.blank?
         self.remaining_hours = estimated_hours if remaining_hours.blank? && !estimated_hours.blank?
       end
-    end
-
-    def inherit_version_from_closest_story_or_impediment
-      root = closest_story_or_impediment
-      inherit_version_from(root) if root != self
-    end
-
-    def inherit_version_to_descendants
-      return if WorkPackage.child_update_semaphore_taken?
-
-      begin
-        WorkPackage.take_child_update_semaphore
-
-        all_descendants = descendants
-                            .includes(:parent_relation, project: :enabled_modules)
-                            .order('relations.hierarchy asc')
-                            .select('work_packages.*, relations.hierarchy')
-        stop_descendants_ids = []
-
-        descendant_tasks = all_descendants.reject do |t|
-          if stop_descendants_ids.include?(t.parent_relation.from_id) || !t.is_task?
-            stop_descendants_ids << t.id
-          end
-        end
-
-        descendant_tasks.each do |task|
-          task.inherit_version_from(self)
-          task.save if task.changed?
-        end
-      ensure
-        WorkPackage.place_child_update_semaphore
-      end
-    end
-
-    def validate_parent_work_package_relation
-      if parent && parent_work_package_relationship_spanning_projects?(parent, self)
-        errors.add(:parent_id,
-                   :parent_child_relationship_across_projects,
-                   work_package_name: subject,
-                   parent_name: parent.subject)
-      end
-    end
-
-    def parent_work_package_relationship_spanning_projects?(parent, child)
-      child.is_task? && parent.in_backlogs_type? && parent.project_id != child.project_id
     end
   end
 end

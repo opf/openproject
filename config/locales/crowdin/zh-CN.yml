@@ -14,13 +14,19 @@ zh-CN:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "只可以包含当前冲刺 (sprint) 中的工作包 ID。"
               must_block_at_least_one_work_package: "必须包含至少一个票证的 ID。"
+            parent_id:
+              type_must_be_one_of_the_following: 类型必须为以下其中一种：%{type_names}。
+        sprint:
+          cannot_end_before_it_starts: "冲刺 (Sprint) 不可以在开始前结束。"
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "必须与用户故事的版本相同。"
             parent_id:
               parent_child_relationship_across_projects: "无效，因为工作包“%{work_package_name}”是一个待办清单任务，不能具有当前项目以外的上级项目。"
-              type_must_be_one_of_the_following: 类型必须为以下其中一种：%{type_names}。
-        sprint:
-          cannot_end_before_it_starts: "冲刺 (Sprint) 不可以在开始前结束。"
   backlogs:
     add_new_story: "新故事"
     any: "任何"

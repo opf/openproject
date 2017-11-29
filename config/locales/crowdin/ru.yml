@@ -14,13 +14,19 @@ ru:
             blocks_ids:
               can_only_contain_work_packages_of_current_sprint: "может содержать только идентификаторы рабочих пакетов в текущем спринте."
               must_block_at_least_one_work_package: "должен содержаться идентификатор по крайней мере одного билета."
+            parent_id:
+              type_must_be_one_of_the_following: 'Тип должен быть одним из следующих: %{type_names}.'
+        sprint:
+          cannot_end_before_it_starts: "Спринт не может заканчиваться до того, как начнется."
+  activemodel:
+    errors:
+      models:
+        work_package:
+          attributes:
             fixed_version_id:
               task_version_must_be_the_same_as_story_version: "должен быть таким же, как и версия истории."
             parent_id:
               parent_child_relationship_across_projects: "недействителен, поскольку пакет работ '%{work_package_name}' - это невыполненное задание и, следовательно, не может иметь родителя за пределами текущего проекта."
-              type_must_be_one_of_the_following: 'Тип должен быть одним из следующих: %{type_names}.'
-        sprint:
-          cannot_end_before_it_starts: "Спринт не может заканчиваться до того, как начнется."
   backlogs:
     add_new_story: "Новая история"
     any: "любой"

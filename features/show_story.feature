@@ -46,13 +46,10 @@ Feature: Show story
       | view_master_backlog     |
       | view_taskboards         |
       | update_sprints          |
-      | update_stories          |
-      | create_impediments      |
-      | update_impediments      |
-      | update_tasks            |
       | view_wiki_pages         |
       | edit_wiki_pages         |
       | view_work_packages      |
+      | add_work_packages       |
       | edit_work_packages      |
       | manage_subtasks         |
     And the backlogs module is initialized
