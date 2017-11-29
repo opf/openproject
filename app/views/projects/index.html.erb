@@ -98,7 +98,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <% project_tree_when_sorted(@projects) do |project, level| %>
             <% show_hierarchy = sort_clause =~ /^lft/ ? true : false
                efective_level =  show_hierarchy ? level : 0 %>
-            <tr class="basics <%= project.css_classes(ignore_hierarchy: !show_hierarchy) %> <%= efective_level > 0 ? "idnt idnt-#{efective_level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
+            <tr class="basics context-menu--reveal <%= project.css_classes(ignore_hierarchy: !show_hierarchy) %> <%= efective_level > 0 ? "idnt idnt-#{efective_level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
               <td class="name project--hierarchy <%= project.archived? ? 'archived' : '' %>">
                 <% if project.archived? %>
                   <span class="archived-label"><%= t('project.archive.archived') %></span>
@@ -133,8 +133,8 @@ See doc/COPYRIGHT.rdoc for more details.
                       Because of multiple diverging implementations of dropdowns the
                       normal dropdown classes cannot be used any more without making special rules %>
                   <ul class="toolbar project-actions">
-                    <li aria-haspopup="true" title="<%= t(:label_more) %>" class="drop-down">
-                      <a class="icon icon-show-more-horizontal" title="<%= t(:label_more) %>" href="#"></a>
+                    <li aria-haspopup="true" title="<%= t(:label_open_menu) %>" class="drop-down">
+                      <a class="icon icon-show-more-horizontal context-menu--icon" title="<%= t(:label_open_menu) %>" href></a>
                       <ul style="display:none;" class="legacy-actions-more dropdown-menu">
                         <% items.each do |item| %>
                           <li>
@@ -146,8 +146,8 @@ See doc/COPYRIGHT.rdoc for more details.
                   </ul>
                 <% end %>
                 <% unless project.description.blank? %>
-                  <a class="icon collapse icon-arrow-up1" title="<%= t('label_project_hide_details') %>" onclick="toggleDescription(this);"></a>
-                  <a class="icon expand icon-arrow-down1" title="<%= t('label_project_show_details') %>" onclick="toggleDescription(this);"></a>
+                  <a class="icon collapse icon-arrow-up1 projects-table--description-toggle" href title="<%= t('label_project_hide_details') %>" onclick="toggleDescription(this);"></a>
+                  <a class="icon expand icon-arrow-down1 projects-table--description-toggle" href title="<%= t('label_project_show_details') %>" onclick="toggleDescription(this);"></a>
                 <% end %>
               </td>
             </tr>

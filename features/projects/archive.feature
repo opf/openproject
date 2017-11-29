@@ -42,7 +42,7 @@ Feature: Navigating to reports page
     Then I should be on the projects page
     And I should see "Projects"
     And I hover over "tbody > tr:nth-of-type(1)"
-    And I click on "More" within "tbody > tr:nth-of-type(1)"
+    And I click on "Open menu" within "tbody > tr:nth-of-type(1)"
     And I click on "Archive" within ".dropdown-menu"
     And I confirm popups
     Then I should be on the projects page
@@ -57,7 +57,7 @@ Feature: Navigating to reports page
     When I select "all" from "operator"
     And I click on "Filter"
     And I hover over "tbody > tr:nth-of-type(1)"
-    And I click on "More" within "tbody > tr:nth-of-type(1)"
+    And I click on "Open menu" within "tbody > tr:nth-of-type(1)"
     And I click on "Unarchive" within ".dropdown-menu"
     Then I should be on the projects page
     And I should see "ParentProject"

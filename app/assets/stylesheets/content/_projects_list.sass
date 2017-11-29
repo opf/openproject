@@ -50,7 +50,7 @@ form.project-filters
     &.between-dates
       >.on-date,
       >.days
-        display: none  
+        display: none
     &.on-date
       >.between-dates,
       >.days
@@ -129,11 +129,6 @@ form.project-filters
   .generic-table--header-outer:hover
     background: initial
 
-  tbody
-    tr:hover
-      .buttons .project-actions
-        visibility: visible
-
 // Ugly hack for now, so expanded more-menus do not get cut off. Actually that
 // should be handled from the drop down implementation with absolute positions
 // just as in the work package table.
@@ -143,10 +138,3 @@ body.controller-projects.action-index
     .generic-table--container
       min-height: 1
       overflow: visible
-
-// Hide the context menu button outside mobile
-html:not(.-browser-mobile)
-  #project-table
-    .buttons
-      .project-actions
-        visibility: hidden

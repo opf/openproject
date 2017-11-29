@@ -191,6 +191,7 @@ describe ProjectsController, type: :controller do
       let(:user) { User.anonymous }
 
       before do
+        Role.anonymous
         allow(User).to receive(:current).and_return user
         get 'index'
         expect(response).to be_success
