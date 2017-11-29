@@ -76,7 +76,7 @@ module API
 
           ids_of_values = cvs.map(&:value).select { |v| v =~ /\A\d+\z/ }
 
-          values_by_id = scope.find(ids_of_values).group_by(&:id)
+          values_by_id = scope.where(id: ids_of_values).group_by(&:id)
 
           cvs.each do |cv|
             next unless values_by_id[cv.value.to_i]
