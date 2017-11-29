@@ -207,4 +207,30 @@ module ProjectsHelper
   def shorten_text(text, length)
     text.to_s.gsub(/\A(.{#{length}[^\n\r]*).*\z/m, '\1...').strip
   end
+
+  def projects_with_level(projects)
+    ancestors = []
+
+    projects.each do |project|
+      while !ancestors.empty? && !project.is_descendant_of?(ancestors.last)
+        ancestors.pop
+      end
+
+      yield project, ancestors.count
+
+      ancestors << project
+    end
+  end
+
+  def project_css_classes(project, options = {})
+    s = 'project'
+    if options[:ignore_hierarchy]
+      s << ' root leaf'
+    else
+      s << ' root' if project.root?
+      s << ' child' if project.child?
+      s << (project.leaf? ? ' leaf' : ' parent')
+    end
+    s
+  end
 end

@@ -277,18 +277,6 @@ module ApplicationHelper
     Project.project_tree(projects, &block)
   end
 
-  # Returns a lft-sorted project hierarchy only when
-  # the sort helper has deemed a non-default sort option to be selected.
-  def project_tree_when_sorted(projects, &block)
-    if default_sort_order?
-      project_tree(projects, &block)
-    else
-      projects.each do |p|
-        yield p, 0
-      end
-    end
-  end
-
   def project_nested_ul(projects, &_block)
     s = ''
     if projects.any?

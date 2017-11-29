@@ -644,18 +644,6 @@ class Project < ActiveRecord::Base
     description.gsub(/\A(.{#{length}}[^\n\r]*).*\z/m, '\1...').strip
   end
 
-  def css_classes(options = {})
-    s = 'project'
-    if options[:ignore_hierarchy]
-      s << ' root leaf'
-    else
-      s << ' root' if root?
-      s << ' child' if child?
-      s << (leaf? ? ' leaf' : ' parent')
-    end
-    s
-  end
-
   # The earliest start date of a project, based on it's issues and versions
   def start_date
     [
