@@ -38,6 +38,27 @@ import {WorkPackageTableGroupByService} from './../../wp-fast-table/state/wp-tab
 import {scopeDestroyed$} from '../../../helpers/angular-rx-utils';
 import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
 import {RelationQueryColumn, TypeRelationQueryColumn} from '../../wp-query/query-column';
+import {AfterViewInit, Directive, Inject} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+
+
+@Directive({
+  selector: 'sortHeader'
+  })
+class SortHeaderDirective implements AfterViewInit {
+
+  constructor(private wpTableHierarchies:WorkPackageTableHierarchiesService,
+              private wpTableSortBy:WorkPackageTableSortByService,
+              private wpTableGroupBy:WorkPackageTableGroupByService,
+              private wpTableRelationColumns:WorkPackageTableRelationColumnsService,
+              @Inject(I18nToken) private I18n:op.I18n) {}
+
+  ngAfterViewInit():void {
+
+  }
+
+}
+
 
 angular
   .module('openproject.workPackages.directives')

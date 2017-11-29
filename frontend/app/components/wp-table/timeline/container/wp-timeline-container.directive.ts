@@ -435,6 +435,3 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
   }
 
 }
-
-// openprojectModule.directive('wpTimelineContainer',
-//   downgradeComponent({component: WorkPackageTimelineTableController}));
