@@ -35,27 +35,11 @@ describe UsersController, type: :controller do
 
   describe 'get' do
     before :each do
-      @params = { 'id' => '1' }
+      get 'edit', params: { id: 1 }
     end
 
-    describe '#edit' do
-      before :each do
-      end
-
-      describe 'RESULT' do
-        before :each do
-        end
-
-        describe 'html' do
-          before :each do
-            get 'edit', @params
-          end
-
-          it { expect(response).to be_success }
-          it { expect(assigns(:global_roles)).to eql @global_roles }
-          it { expect(response).to render_template 'users/edit' }
-        end
-      end
-    end
+    it { expect(response).to be_success }
+    it { expect(assigns(:global_roles)).to eql @global_roles }
+    it { expect(response).to render_template 'users/edit' }
   end
 end
