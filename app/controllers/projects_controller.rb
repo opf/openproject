@@ -59,21 +59,18 @@ class ProjectsController < ApplicationController
     sort_clear
 
     if query = get_all_projects_for_overview_page
-
-      # TODO: Use our query-based orders and pagination, instead of using this second version here.
-
       @projects = query
-                 .results
-                 .with_required_storage
-                 .with_latest_activity
-                 .includes(:custom_values, :enabled_modules)
-                 .page(page_param)
-                 .per_page(per_page_param)
+                  .results
+                  .with_required_storage
+                  .with_latest_activity
+                  .includes(:custom_values, :enabled_modules)
+                  .page(page_param)
+                  .per_page(per_page_param)
 
       orders = query.orders.map { |o| [o.attribute.to_s, o.direction.to_s] }
 
       sort_init orders
-      sort_update orders.map(&:first) #%w(lft name is_public created_on required_disk_space latest_activity_at)
+      sort_update orders.map(&:first)
 
       @projects = filter_projects_by_permission @projects
       @custom_fields = ProjectCustomField.visible(User.current)

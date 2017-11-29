@@ -28,21 +28,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+class Queries::Projects::Orders::CustomFieldOrder < Queries::BaseOrder
+  self.model = Project.all
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::ActiveOrArchivedFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedOnFilter
-  register.filter query, filters::LatestActivityAtFilter
+  def self.key
+    /cf_(\d+)/
+  end
 
-  register.order query, orders::DefaultOrder
-  register.order query, orders::LatestActivityAtOrder
-  register.order query, orders::RequiredDiskSpaceOrder
-  register.order query, orders::CustomFieldOrder
+  def custom_field
+    id = self.class.key.match(attribute)[1]
+
+    CustomField.find(id)
+  end
+
+  def scope
+    super.select(custom_field.order_statements)
+  end
+
+  private
+
+  def order
+    joined_statement = custom_field.order_statements.map do |statement|
+      "#{statement} #{direction}"
+    end.join(', ')
+
+    model.order(joined_statement)
+  end
 end

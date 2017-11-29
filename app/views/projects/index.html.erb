@@ -67,13 +67,7 @@ See doc/COPYRIGHT.rdoc for more details.
             <%= sort_header_tag('is_public', caption: Project.human_attribute_name(:is_public), param: :sortBy) %>
             <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
               <% @custom_fields.each do |custom_field| %>
-                <th>
-                  <div class="generic-table--header-outer">
-                    <div class="generic-table--header">
-                      <%= custom_field.name %>
-                    </div>
-                  </div>
-                </th>
+                <%= sort_header_tag("cf_#{custom_field.id}", caption: custom_field.name, param: :sortBy) %>
               <% end %>
             <% end %>
             <% if User.current.admin? %>
