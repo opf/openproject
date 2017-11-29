@@ -161,9 +161,9 @@ class TimelogController < ApplicationController
   end
 
   def update
-    @time_entry.attributes = permitted_params.time_entry
-
-    save_time_entry_and_respond @time_entry
+    service = TimeEntries::UpdateService.new user: current_user, time_entry: @time_entry
+    result = service.call(attributes: permitted_params.time_entry)
+    respond_for_saving result.success?
   end
 
   def destroy
@@ -248,12 +248,15 @@ class TimelogController < ApplicationController
 
   def save_time_entry_and_respond(time_entry)
     call_hook(:controller_timelog_edit_before_save, params: params, time_entry: time_entry)
+    respond_for_saving @time_entry.save
+  end
 
-    if @time_entry.save
+  def respond_for_saving(success)
+    if success
       respond_to do |format|
         format.html do
           flash[:notice] = l(:notice_successful_update)
-          redirect_back_or_default action: 'index', project_id: time_entry.project
+          redirect_back_or_default action: 'index', project_id: @time_entry.project
         end
       end
     else
