@@ -34,7 +34,7 @@ module API
 
         resource :principals do
           get do
-            query = ::API::V3::ParamsToQueryService.new(Principal, current_user).call(params)
+            query = ParamsToQueryService.new(Principal, current_user).call(params)
 
             if query.valid?
               users = query
@@ -44,10 +44,10 @@ module API
                       .includes(:preference)
 
               ::API::V3::Users::PaginatedUserCollectionRepresenter.new(users,
-                                                     api_v3_paths.users,
-                                                     page: to_i_or_nil(params[:offset]),
-                                                     per_page: resolve_page_size(params[:pageSize]),
-                                                     current_user: current_user)
+                                                                       api_v3_paths.users,
+                                                                       page: to_i_or_nil(params[:offset]),
+                                                                       per_page: resolve_page_size(params[:pageSize]),
+                                                                       current_user: current_user)
             else
               raise ::API::Errors::InvalidQuery.new(query.errors.full_messages)
             end

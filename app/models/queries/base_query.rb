@@ -117,7 +117,7 @@ class Queries::BaseQuery
     orders.each do |order|
       next if order.valid?
 
-      add_error(:orders, order.class.key, order)
+      add_error(:orders, order.name, order)
     end
   end
 

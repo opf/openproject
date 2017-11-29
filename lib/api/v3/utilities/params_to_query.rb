@@ -34,7 +34,7 @@ module API
           def collection_response(scope, current_user, params, representer: nil, self_link: nil)
             model = model_class(scope)
 
-            query = ::API::V3::ParamsToQueryService
+            query = ParamsToQueryService
                     .new(model, current_user)
                     .call(params)
 

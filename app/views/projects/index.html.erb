@@ -63,17 +63,17 @@ See doc/COPYRIGHT.rdoc for more details.
       <table class="generic-table" id="project-table">
         <thead>
           <tr>
-            <%= sort_header_tag('name', caption: Project.model_name.human, param: :sortBy) %>
-            <%= sort_header_tag('is_public', caption: Project.human_attribute_name(:is_public), param: :sortBy) %>
+            <%= sort_header_tag('name', caption: Project.model_name.human, param: :json) %>
+            <%= sort_header_tag('is_public', caption: Project.human_attribute_name(:is_public), param: :json) %>
             <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
               <% @custom_fields.each do |custom_field| %>
-                <%= sort_header_tag("cf_#{custom_field.id}", caption: custom_field.name, param: :sortBy) %>
+                <%= sort_header_tag("cf_#{custom_field.id}", caption: custom_field.name, param: :json) %>
               <% end %>
             <% end %>
             <% if User.current.admin? %>
-              <%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :sortBy) %>
-              <%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on), param: :sortBy) %>
-              <%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at), param: :sortBy) %>
+              <%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :json) %>
+              <%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on), param: :json) %>
+              <%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at), param: :json) %>
             <% end %>
             <th class="-right">
               <div class="generic-table--header-outer">

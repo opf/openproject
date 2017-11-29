@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -30,7 +31,7 @@
 module OpenProject
   module SafeParams
     def safe_query_params(whitelist = [])
-      request.query_parameters.select {|k,v| whitelist.include?(k) }
+      request.query_parameters.select { |k, _| whitelist.include?(k) }
     end
   end
 end

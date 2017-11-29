@@ -104,8 +104,12 @@ module SortHelper
       normalize!
     end
 
-    def to_param
-      @criteria.map { |k, o| k + (o ? '' : ':desc') }.join(',')
+    def to_param(format = nil)
+      if format == :json
+        JSON::dump(@criteria.map { |k, o| [k, o ? 'asc' : 'desc'] })
+      else
+        @criteria.map { |k, o| k + (o ? '' : ':desc') }.join(',')
+      end
     end
 
     def to_sql
@@ -240,11 +244,10 @@ module SortHelper
 
     sort_by = html_options.delete(:param)
 
-    sort_options = if sort_by == :sortBy
-                     { sortBy: JSON::dump(@sort_criteria.add(column.to_s, order).criteria.map { |a, o| [a, o ? 'asc' : 'desc'] }) }
-                   else
-                     { sort: @sort_criteria.add(column.to_s, order).to_param }
-                   end
+    sort_param = @sort_criteria.add(column.to_s, order).to_param(sort_by)
+    sort_key = sort_by == :json ? :sortBy : :sort
+
+    sort_options = { sort_key => sort_param }
 
     # Don't lose other params.
     link_to_content_update(h(caption), safe_query_params(%w{filters page per_page}).merge(sort_options), html_options)

@@ -68,9 +68,7 @@ class Queries::Projects::Filters::NameAndIdentifierFilter < Queries::Projects::F
   end
 
   def where_equal
-    concatenate_with_values('LOWER(projects.identifier) = ? OR LOWER(projects.name) = ?', 'OR') do |value|
-      value.downcase
-    end
+    concatenate_with_values('LOWER(projects.identifier) = ? OR LOWER(projects.name) = ?', 'OR', &:downcase)
   end
 
   def where_not_equal

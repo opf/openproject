@@ -56,26 +56,14 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
-    sort_clear
+    query = load_query
+    set_sorting(query)
 
-    if query = get_all_projects_for_overview_page
-      @projects = query
-                  .results
-                  .with_required_storage
-                  .with_latest_activity
-                  .includes(:custom_values, :enabled_modules)
-                  .page(page_param)
-                  .per_page(per_page_param)
-
-      orders = query.orders.map { |o| [o.attribute.to_s, o.direction.to_s] }
-
-      sort_init orders
-      sort_update orders.map(&:first)
-
-      @projects = filter_projects_by_permission @projects
+    if query.valid?
+      @projects = load_projects query
       @custom_fields = ProjectCustomField.visible(User.current)
     else
-      flash[:error] = @query.errors.full_messages
+      flash[:error] = query.errors.full_messages
       redirect_back(fallback_location: projects_path)
     end
   end
@@ -306,10 +294,8 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def get_all_projects_for_overview_page
-    # TODO: Do not call API V3, mixing up stuff.
-    @query = ::API::V3::ParamsToQueryService.new(Project, current_user).call(params)
-    binding.pry
+  def load_query
+    @query = ParamsToQueryService.new(Project, current_user).call(params)
 
     # Set default filter on status if none is present.
     if @query.find_active_filter(:status).nil? && @query.filters.blank? && !params[:filters]
@@ -337,6 +323,26 @@ class ProjectsController < ApplicationController
             else
               Project
             end
+  end
+
+  def set_sorting(query)
+    orders = query.orders.map { |o| [o.attribute.to_s, o.direction.to_s] }
+
+    sort_clear
+    sort_init orders
+    sort_update orders.map(&:first)
+  end
+
+  def load_projects(query)
+    projects = query
+               .results
+               .with_required_storage
+               .with_latest_activity
+               .includes(:custom_values, :enabled_modules)
+               .page(page_param)
+               .per_page(per_page_param)
+
+    filter_projects_by_permission projects
   end
 
   # Validates parent_id param according to user's permissions
