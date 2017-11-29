@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -103,16 +104,11 @@ module ProjectsHelper
   # Returns a set of options for a select field, grouped by project.
   def version_options_for_select(versions, selected = nil)
     grouped = Hash.new { |h, k| h[k] = [] }
-    versions.each do |version|
+    (versions + [selected]).compact.uniq.each do |version|
       grouped[version.project.name] << [version.name, version.id]
     end
 
-    # Add in the selected
-    if selected && !versions.include?(selected)
-      grouped[selected.project.name] << [selected.name, selected.id]
-    end
-
-    if grouped.keys.size > 1
+    if grouped.size > 1
       grouped_options_for_select(grouped, selected && selected.id)
     else
       options_for_select((grouped.values.first || []), selected && selected.id)
@@ -142,13 +138,70 @@ module ProjectsHelper
     blacklist.include?(filter.class)
   end
 
-  def more_menu_allowed?(project)
-    # TODO: check if one can memoize the calls
-    # by using Project.allowed_to scope
-    (User.current.admin? ||
-     project.copy_allowed? ||
-     User.current.allowed_to?(:add_subprojects, project) ||
-     User.current.allowed_to?({ controller: :projects, action: :settings }, project))
+  def project_more_menu_items(project)
+    [project_more_menu_subproject_item(project),
+     project_more_menu_settings_item(project),
+     project_more_menu_archive_item(project),
+     project_more_menu_unarchive_item(project),
+     project_more_menu_copy_item(project),
+     project_more_menu_delete_item(project)].compact
+  end
+
+  def project_more_menu_subproject_item(project)
+    if User.current.allowed_to? :add_subprojects, project
+      [t(:label_subproject_new),
+       new_project_path(parent_id: project),
+       class: 'icon-context icon-add',
+       title: t(:label_subproject_new)]
+    end
+  end
+
+  def project_more_menu_settings_item(project)
+    if User.current.allowed_to?({ controller: 'projects', action: 'settings' }, project)
+      [t(:label_project_settings),
+       { controller: 'projects', action: 'settings', id: project },
+       class: 'icon-context icon-settings',
+       title: t(:label_project_settings)]
+    end
+  end
+
+  def project_more_menu_archive_item(project)
+    if User.current.admin? && project.active?
+      [t(:button_archive),
+       archive_project_path(project, status: params[:status]),
+       data: { confirm: t('project.archive.are_you_sure', name: project.name) },
+       method: :put,
+       class: 'icon-context icon-locked',
+       title: t(:button_archive)]
+    end
+  end
+
+  def project_more_menu_unarchive_item(project)
+    if User.current.admin? && !project.active? && (project.parent.nil? || project.parent.active?)
+      [t(:button_unarchive),
+       unarchive_project_path(project, status: params[:status]),
+       method: :put,
+       class: 'icon-context icon-unlocked',
+       title: t(:button_unarchive)]
+    end
+  end
+
+  def project_more_menu_copy_item(project)
+    if User.current.allowed_to?(:copy_projects, project) && !project.archived?
+      [t(:button_copy),
+       copy_from_project_path(project, :admin),
+       class: 'icon-context icon-copy',
+       title: t(:button_copy)]
+    end
+  end
+
+  def project_more_menu_delete_item(project)
+    if User.current.admin
+      [t(:button_delete),
+       confirm_destroy_project_path(project),
+       class: 'icon-context icon-delete',
+       title: t(:button_delete)]
+    end
   end
 
   def shorten_text(text, length)

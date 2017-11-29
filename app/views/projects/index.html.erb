@@ -127,7 +127,8 @@ See doc/COPYRIGHT.rdoc for more details.
                 <td><%= format_date(project.latest_activity_at) %></td>
               <% end %>
               <td class="buttons">
-                <% if more_menu_allowed?(project) %>
+                <% items = project_more_menu_items(project) %>
+                <% if items.any?  %>
                   <%# toolbar and legacy-actions-more are only for styling purposes.
                       Because of multiple diverging implementations of dropdowns the
                       normal dropdown classes cannot be used any more without making special rules %>
@@ -135,47 +136,10 @@ See doc/COPYRIGHT.rdoc for more details.
                     <li aria-haspopup="true" title="<%= t(:label_more) %>" class="drop-down">
                       <a class="icon icon-show-more-horizontal" title="<%= t(:label_more) %>" href="#"></a>
                       <ul style="display:none;" class="legacy-actions-more dropdown-menu">
-                        <% unless project.archived? %>
-                          <% if User.current.allowed_to? :add_subprojects, project %>
-                            <%= li_unless_nil(link_to(t(:label_subproject_new),
-                                                      new_project_path(parent_id: project),
-                                                      class: 'icon-context icon-add',
-                                                      title: t(:label_subproject_new))) %>
-                          <% end %>
-                          <% if User.current.admin? || User.current.allowed_to?({action: :settings}, project) %>
-                            <%= li_unless_nil(link_to(t(:label_project_settings),
-                                                      {action: 'settings', id: project},
-                                                      class: 'icon-context icon-settings',
-                                                      title: t(:label_project_settings))) %>
-                          <% end %>
-                        <% end %>
-                        <% if User.current.admin? %>
-                          <% if project.active? %>
-                            <%= li_unless_nil(link_to(t(:button_archive),
-                                                      archive_project_path(project, status: params[:status]),
-                                                      data: { confirm: t('project.archive.are_you_sure', name: project.name) },
-                                                      method: :put,
-                                                      class: 'icon-context icon-locked',
-                                                      title: t(:button_archive))) %>
-                          <% elsif project.parent.nil? || project.parent.active? %>
-                            <%= li_unless_nil(link_to(t(:button_unarchive),
-                                                      unarchive_project_path(project, status: params[:status]),
-                                                      method: :put,
-                                                      class: 'icon-context icon-unlocked',
-                                                      title: t(:button_unarchive))) %>
-                          <% end %>
-                        <% end %>
-                        <% if !project.archived? && User.current.allowed_to?(:copy_projects, project) %>
-                          <%= li_unless_nil(link_to(t(:button_copy),
-                                                    copy_from_project_path(project, :admin),
-                                                    class: 'icon-context icon-copy',
-                                                    title: t(:button_copy))) %>
-                        <% end %>
-                        <% if User.current.admin? %>
-                          <%= li_unless_nil(link_to(t(:button_delete),
-                                                    confirm_destroy_project_path(project),
-                                                    class: 'icon-context icon-delete',
-                                                    title: t(:button_delete))) %>
+                        <% items.each do |item| %>
+                          <li>
+                            <%= link_to(*item) %>
+                          </li>
                         <% end %>
                       </ul>
                     </li>
