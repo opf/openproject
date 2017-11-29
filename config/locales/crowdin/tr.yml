@@ -63,64 +63,64 @@ tr:
       registration_failed_update: '2FA cihaz kaydı başarısız oldu, belirteç geçerli ancak cihaz güncellenemedi.'
       confirm_send_failed: '2FA cihazınızın onayı başarısız oldu.'
       button_complete_registration: '2FA kaydı tamamlayın'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your device."
-      text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
-      text_identifier: 'You can give the device a custom identifier using this field.'
-      failed_to_delete: 'Failed to delete 2FA device.'
-      is_default_cannot_delete: 'The device is marked as default and cannot be deleted due to an active security policy. Mark another device as default before deleting.'
-      not_existing: 'No 2FA device has been registered for your account.'
-      request_2fa: Please enter the code from your %{device_name} to verify your identity.
+      text_confirm_to_complete_html: "Lütfen cihazınızdan <strong>%{identifier}</strong> bir seferlik şifre girerek cihazınızın kaydını tamamlayın."
+      text_confirm_to_change_default_html: "Mevcut varsayılan cihazınızdan bir kerelik şifre girerek varsayılan cihazınızı <strong>%{new_identifier}</strong> olarak değiştirmenizi onaylayın."
+      text_identifier: 'Bu alanı kullanarak cihaza özel bir tanımlayıcı verebilirsiniz.'
+      failed_to_delete: '2FA cihazı silinemedi.'
+      is_default_cannot_delete: 'Cihaz varsayılan olarak işaretlidir ve etkin bir güvenlik politikası nedeniyle silinemez. Silmeden önce başka bir cihazı varsayılan olarak işaretleyin.'
+      not_existing: 'Hesabınız için hiçbir 2FA cihazı kayıtlı değil.'
+      request_2fa: Kimliğinizi doğrulamak için lütfen %{device_name} numaranızın kodunu girin.
       totp:
-        title: 'Use your app-based authenticator'
-        provisioning_uri: 'Provisioning URI'
-        secret_key: 'Seceret key'
-        time_based: 'Time based'
-        account: 'Account name / Issuer'
+        title: 'Uygulama dayalı kimlik doğrulayıcınızı kullanın'
+        provisioning_uri: 'URI Hazırlama'
+        secret_key: 'Gizli anahtar'
+        time_based: 'Zaman bazlı'
+        account: 'Hesap adı / veren'
         setup: |
-          For setting up two-factor authentication with Google Authenticator, download the application from the Apple App store or Google Play Store.
-          After opening the app, you can scan the following QR code to register the device.
+          Google Authenticator ile iki faktörlü kimlik doğrulama kurmak için uygulamayı Apple App mağazasından veya Google Play Store'dan indirin.
+          Uygulamayı açtıktan sonra, cihazı kaydetmek için aşağıdaki QR kodunu tarayabilirsiniz.
         question_cannot_scan: |
-          Unable to scan the code using your application?
+          Uygulamanızı kullanarak kodu tarayamıyor musunuz?
         text_cannot_scan: |
-          If you can't scan the code, you can enter the entry manually using the following details:
+          Kodu tarayamazsanız, aşağıdaki ayrıntıları kullanarak girişi manuel olarak girebilirsiniz:
         description: |
-          Register an application authenticator for use with OpenProject using the time-based one-time password authentication standard.
-          Common examples are Google Authenticator or Authy.
+          Zamana dayalı bir kerelik şifre doğrulama standardını kullanarak OpenProject ile kullanmak üzere bir uygulama kimlik doğrulayıcısı kaydettirin.
+          Genel örnekler, Google Authenticator veya Authy'dir.
       sms:
-        title: 'Use your mobile phone'
-        redacted_identifier: 'Mobile device (%{redacted_number})'
-        request_2fa_identifier: '%{redacted_identifier}, we sent you an authentication code via %{delivery_channel}'
+        title: 'Cep telefonunuzu kullanın'
+        redacted_identifier: 'Hareket eden aygıt (%{redacted_number})'
+        request_2fa_identifier: '%{redacted_identifier}, biz %{delivery_channel} ile bir kimlik doğrulama kodu gönderdik'
         description: |
-          Register your mobile phone number for delivery of OpenProject one-time passwords.
+          OpenProject'ın bir kerelik şifrelerini iletmek için cep telefonu numaranızı kaydedin.
     sns:
-      delivery_failed: 'SNS delivery failed:'
+      delivery_failed: 'SNS teslim başarısız oldu:'
     restdt:
-      delivery_failed_with_code: 'Token delivery failed. (Error code %{code})'
-    mobile_transmit_notification: "A one-time password has been sent to your cell phone."
-    label_two_factor_authentication: 'Two-factor authentication'
+      delivery_failed_with_code: 'Token teslimatı başarısız oldu. (Hata kodu %{code})'
+    mobile_transmit_notification: "Cep telefonunuza bir kerelik bir şifre gönderildi."
+    label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     forced_registration:
-      required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
-  field_phone: "Cell phone"
-  field_otp: "One-time password"
-  notice_account_otp_invalid: "Invalid one-time password."
-  notice_account_otp_expired: "The one-time password you entered expired."
-  notice_otp_sms_text: 'Your one-time password: %{token}'
-  notice_developer_strategy_otp: 'Developer strategy generated the following one-time password: %{token} (Channel: %{channel})'
-  notice_account_otp_send_failed: "Your one-time password could not be sent."
-  notice_account_has_no_phone: "No cell phone number is associated with your account."
-  label_expiration_hint: "%{date} or on logout"
-  label_actions: 'Actions'
-  label_confirmed: 'Confirmed'
-  button_continue: 'Continue'
-  button_make_default: 'Mark as default'
+      required_to_add_device: 'Etkin bir güvenlik ilkesi, iki faktörlü kimlik doğrulamayı etkinleştirmenizi gerektirir. Bir cihazı kaydetmek için lütfen aşağıdaki formu kullanın.'
+  field_phone: "Cep Telefonu"
+  field_otp: "Tek-kullanımlık Şifre"
+  notice_account_otp_invalid: "Geçersiz tek kullanımlık şifre."
+  notice_account_otp_expired: "Girdiğiniz tek kullanımlık şifrenin süresi doldu."
+  notice_otp_sms_text: 'Tek Kullanımlık Şifreniz: %{token}'
+  notice_developer_strategy_otp: 'Geliştirici stratejisi, aşağıdaki tek seferlik şifreyi oluşturdu: %{token} (kanal: %{channel})'
+  notice_account_otp_send_failed: "Tek kullanımlık şifreniz gönderilemedi."
+  notice_account_has_no_phone: "Hesabınızla ilişkili cep telefonu numarası yok."
+  label_expiration_hint: "%{date} veya oturum kapatma"
+  label_actions: 'Eylemler'
+  label_confirmed: 'Onaylandı'
+  button_continue: 'Devam et'
+  button_make_default: 'Varsayılan olarak kullanın'
   label_unverified_phone: "Cell phone not yet verified"
   message_expiration_time: "For security reasons it will expire in %{duration} (%{time}) automatically or when you log out."
-  notice_phone_number_format: 'Please enter the number in the following format: +XX XXXXXXXX.'
+  notice_phone_number_format: 'Lütfen numarasını yandaki biçimde girin: + XX XXXXXXXX.'
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
-  text_otp_not_receive: "Did not receive your one-time password?"
-  text_send_otp_again: "Resend one-time password by:"
-  button_resend_otp_form: "Resend"
-  button_otp_by_voice: "Voice call"
+  text_otp_not_receive: "Bir kerelik şifrenizi almadınız mı?"
+  text_send_otp_again: "Tek seferlik şifreyi şu yollarla tekrar gönderin:"
+  button_resend_otp_form: "Tekrar Gönder"
+  button_otp_by_voice: "Sesli arama"
   button_otp_by_sms: "SMS"
-  label_otp_channel: "Delivery channel"
+  label_otp_channel: "Teslimat kanalı"
