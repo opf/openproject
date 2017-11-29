@@ -31,14 +31,18 @@
 class Queries::Projects::Orders::CustomFieldOrder < Queries::BaseOrder
   self.model = Project.all
 
+  validates :custom_field, presence: { message: I18n.t(:'activerecord.errors.messages.does_not_exist') }
+
   def self.key
     /cf_(\d+)/
   end
 
   def custom_field
-    id = self.class.key.match(attribute)[1]
+    @custom_field ||= begin
+      id = self.class.key.match(attribute)[1]
 
-    CustomField.find(id)
+      ProjectCustomField.visible.find_by_id(id)
+    end
   end
 
   def scope
