@@ -27,7 +27,11 @@
 // ++
 
 import {wpDirectivesModule} from '../../../angular-modules';
+import {Directive} from "@angular/core";
 
+@Directive({
+  selector: '[wpGroupHeader]'
+})
 export class WorkPackageGroupHeaderController {
   constructor(public $scope:any, public I18n:op.I18n) {
     this.pushGroup(this.currentGroup);
@@ -70,13 +74,13 @@ export class WorkPackageGroupHeaderController {
   }
 }
 
-function wpGroupHeader():any {
-  return {
-    restrict: 'A',
-    controller: WorkPackageGroupHeaderController,
-    controllerAs: '$ctrl',
-    bindToController: true,
-  };
-}
+// function wpGroupHeader():any {
+//   return {
+//     restrict: 'A',
+//     controller: WorkPackageGroupHeaderController,
+//     controllerAs: '$ctrl',
+//     bindToController: true,
+//   };
+// }
 
-wpDirectivesModule.directive('wpGroupHeader', wpGroupHeader);
+// wpDirectivesModule.directive('wpGroupHeader', wpGroupHeader);

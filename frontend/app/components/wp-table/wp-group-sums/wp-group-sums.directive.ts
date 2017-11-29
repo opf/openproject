@@ -26,29 +26,37 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class WorkPackageGroupSumsController {
-  constructor(protected $scope:any) {
-    $scope.currentGroup = $scope.row.groupName;
-    $scope.currentGroupObject = _.find($scope.resource.groups, function(o:any) {
-      return o.value === $scope.currentGroup;
-    });
+import {AfterViewInit, Directive} from "@angular/core";
+
+@Directive({
+  selector: '[wpGroupSums]'
+})
+export class WorkPackageGroupSumsController implements AfterViewInit {
+
+  constructor() {
+    // $scope.currentGroup = $scope.row.groupName;
+    // $scope.currentGroupObject = _.find($scope.resource.groups, function (o: any) {
+    //   return o.value === $scope.currentGroup;
+    // });
   }
 
-  public $onInit() {}
-};
+  ngAfterViewInit(): void {
+  }
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('WorkPackageGroupSumsController', WorkPackageGroupSumsController);
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpGroupSums', wpGroupSums);
-
-function wpGroupSums():any {
-  return {
-    restrict: 'A',
-    scope: true,
-    controller: WorkPackageGroupSumsController
-  };
 }
+
+// angular
+//   .module('openproject.workPackages.controllers')
+//   .controller('WorkPackageGroupSumsController', WorkPackageGroupSumsController);
+//
+// angular
+//   .module('openproject.workPackages.directives')
+//   .directive('wpGroupSums', wpGroupSums);
+//
+// function wpGroupSums(): any {
+//   return {
+//     restrict: 'A',
+//     scope: true,
+//     controller: WorkPackageGroupSumsController
+//   };
+// }

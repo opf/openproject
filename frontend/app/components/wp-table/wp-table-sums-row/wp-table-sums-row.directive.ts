@@ -26,10 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, Directive, ElementRef, Inject, OnInit, AfterViewInit} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
+import {AfterViewInit, Directive, ElementRef, Inject} from '@angular/core';
 import {combine} from 'reactivestates';
-import {openprojectModule} from '../../../angular-modules';
 import {I18nToken} from '../../../angular4-transition-utils';
 import {SchemaResource} from '../../api/api-v3/hal-resources/schema-resource.service';
 import {WorkPackageCollectionResourceInterface} from '../../api/api-v3/hal-resources/wp-collection-resource.service';
@@ -58,7 +56,7 @@ export class WorkPackageTableSumsRowController implements AfterViewInit {
     };
   }
 
-  ngAfterViewInit(): void {
+  ngAfterViewInit():void {
     this.$element = jQuery(this.elementRef.nativeElement);
 
     combine(
