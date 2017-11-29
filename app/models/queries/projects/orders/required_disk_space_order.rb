@@ -28,20 +28,18 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+class Queries::Projects::Orders::RequiredDiskSpaceOrder < Queries::BaseOrder
+  self.model = Project
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::ActiveOrArchivedFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedOnFilter
-  register.filter query, filters::LatestActivityAtFilter
+  def self.key
+    :required_disk_space
+  end
 
-  register.order query, orders::DefaultOrder
-  register.order query, orders::LatestActivityAtOrder
-  register.order query, orders::RequiredDiskSpaceOrder
+  private
+
+  def order
+    attribute = "(COALESCE(wiki.filesize, 0) + COALESCE(wp.filesize, 0) + COALESCE(repos.required_storage_bytes, 0))"
+
+    model.order("#{attribute} #{direction}")
+  end
 end

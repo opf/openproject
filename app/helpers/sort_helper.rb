@@ -238,7 +238,13 @@ module SortHelper
     order = order_string(column, inverted: true) || default_order
     caption ||= column.to_s.humanize
 
-    sort_options = { sort: @sort_criteria.add(column.to_s, order).to_param }
+    sort_by = html_options.delete(:param)
+
+    sort_options = if sort_by == :sortBy
+                     { sortBy: JSON::dump(@sort_criteria.add(column.to_s, order).criteria.map { |a, o| [a, o ? 'asc' : 'desc'] }) }
+                   else
+                     { sort: @sort_criteria.add(column.to_s, order).to_param }
+                   end
 
     # Don't lose other params.
     link_to_content_update(h(caption), safe_query_params(%w{filters page per_page}).merge(sort_options), html_options)
@@ -273,11 +279,12 @@ module SortHelper
 
     default_order = options.delete(:default_order) || 'asc'
     lang = options.delete(:lang) || nil
+    param = options.delete(:param) || :sort
 
     options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      sort_link(column, caption, default_order, lang: lang, title: options[:title])
+      sort_link(column, caption, default_order, param: param, lang: lang, title: options[:title])
     end
   end
 

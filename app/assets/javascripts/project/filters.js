@@ -143,7 +143,7 @@ jQuery(function($) {
 
     let query = '?filters=' + encodeURIComponent(JSON.stringify(filters));
     if (orderParam && orderParam.length > 0) {
-      query = query + '&sort=' + encodeURIComponent(orderParam);
+      query = query + '&sortBy=' + encodeURIComponent(orderParam);
     }
 
     window.location = window.location.pathname + query;

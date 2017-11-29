@@ -28,20 +28,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects
-  register = ::Queries::Register
-  filters = ::Queries::Projects::Filters
-  orders = ::Queries::Projects::Orders
-  query = ::Queries::Projects::ProjectQuery
+class Queries::Projects::Orders::LatestActivityAtOrder < Queries::BaseOrder
+  self.model = Project
 
-  register.filter query, filters::AncestorFilter
-  register.filter query, filters::ActiveOrArchivedFilter
-  register.filter query, filters::NameAndIdentifierFilter
-  register.filter query, filters::CustomFieldFilter
-  register.filter query, filters::CreatedOnFilter
-  register.filter query, filters::LatestActivityAtFilter
+  def self.key
+    :latest_activity_at
+  end
 
-  register.order query, orders::DefaultOrder
-  register.order query, orders::LatestActivityAtOrder
-  register.order query, orders::RequiredDiskSpaceOrder
+  private
+
+  def order
+    model.order("activity.#{attribute} #{direction}")
+  end
 end
