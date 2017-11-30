@@ -77,7 +77,7 @@ Capybara.register_driver :selenium do |app|
   options = Selenium::WebDriver::Firefox::Options.new
   options.profile = profile
 
-  unless ENV['OPENPROJECT_TESTING_NO_HEADLESS']
+  unless ActiveRecord::Type::Boolean.new.cast(ENV['OPENPROJECT_TESTING_NO_HEADLESS'])
     options.args << "--headless"
   end
 
