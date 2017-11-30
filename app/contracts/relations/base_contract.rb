@@ -37,14 +37,11 @@ module Relations
     attribute :delay
     attribute :description
 
-    attribute :from
-    attribute :to
-
-    validate :from do
+    attribute :from do
       errors.add :from, :error_not_found unless visible_work_packages.exists? model.from_id
     end
 
-    validate :to do
+    attribute :to do
       errors.add :to, :error_not_found unless visible_work_packages.exists? model.to_id
     end
 
