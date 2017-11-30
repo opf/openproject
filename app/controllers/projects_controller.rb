@@ -59,13 +59,12 @@ class ProjectsController < ApplicationController
     query = load_query
     set_sorting(query)
 
-    if query.valid?
-      @projects = load_projects query
-      @custom_fields = ProjectCustomField.visible(User.current)
-    else
+    unless query.valid?
       flash[:error] = query.errors.full_messages
-      redirect_back(fallback_location: projects_path)
     end
+
+    @projects = load_projects query
+    @custom_fields = ProjectCustomField.visible(User.current)
   end
 
   current_menu_item :index do
@@ -326,7 +325,7 @@ class ProjectsController < ApplicationController
   end
 
   def set_sorting(query)
-    orders = query.orders.map { |o| [o.attribute.to_s, o.direction.to_s] }
+    orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
 
     sort_clear
     sort_init orders
