@@ -109,7 +109,9 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
 
   public stopEditing(workPackageId:string) {
     const state = this.multiState.get(workPackageId);
-    state && state.clear();
+    if (state && state.value) {
+      state.value.clear();
+    }
   }
 
   public saveChanges(workPackageId:string):Promise<WorkPackageResourceInterface | void> {
