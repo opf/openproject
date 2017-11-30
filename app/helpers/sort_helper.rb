@@ -106,9 +106,9 @@ module SortHelper
 
     def to_param(format = nil)
       if format == :json
-        JSON::dump(@criteria.map { |k, o| [k, o ? 'asc' : 'desc'] })
+        to_json_param
       else
-        @criteria.map { |k, o| k + (o ? '' : ':desc') }.join(',')
+        to_sort_param
       end
     end
 
@@ -169,6 +169,14 @@ module SortHelper
       else
         "#{criterion} DESC"
       end
+    end
+
+    def to_json_param
+      JSON::dump(@criteria.map { |k, o| [k, o ? 'asc' : 'desc'] })
+    end
+
+    def to_sort_param
+      @criteria.map { |k, o| k + (o ? '' : ':desc') }.join(',')
     end
   end
 
