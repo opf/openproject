@@ -39,8 +39,8 @@ feature 'resend invitation', type: :feature do
   end
 
   scenario 'admin resends the invitation' do
-    click_on 'Resend invitation'
+    click_on I18n.t(:label_send_invitation)
 
-    expect(page).to have_text 'Another invitation has been sent to holly@openproject.com.'
+    expect(page).to have_text 'An invitation has been sent to holly@openproject.com.'
   end
 end
