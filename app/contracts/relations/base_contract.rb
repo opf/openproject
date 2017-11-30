@@ -33,19 +33,14 @@ require 'model_contract'
 module Relations
   class BaseContract < ::ModelContract
     attribute :relation_type
-
     attribute :delay
     attribute :description
-
-    attribute :from do
-      errors.add :from, :error_not_found unless visible_work_packages.exists? model.from_id
-    end
-
-    attribute :to do
-      errors.add :to, :error_not_found unless visible_work_packages.exists? model.to_id
-    end
+    attribute :from
+    attribute :to
 
     validate :manage_relations_permission?
+    validate :validate_from_exists
+    validate :validate_to_exists
 
     attr_reader :user
 
@@ -60,6 +55,14 @@ module Relations
     end
 
     private
+
+    def validate_from_exists
+      errors.add :from, :error_not_found unless visible_work_packages.exists? model.from_id
+    end
+
+    def validate_to_exists
+      errors.add :to, :error_not_found unless visible_work_packages.exists? model.to_id
+    end
 
     def manage_relations_permission?
       if !manage_relations?
