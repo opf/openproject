@@ -31,6 +31,9 @@ See doc/COPYRIGHT.rdoc for more details.
   <legend class="form--fieldset-legend"><%= l(:button_copy) %></legend>
 
   <%= render partial: "copy_projects/copy_settings/block_checkbox",
+             locals: { name: "custom_values", checked: true, label: l('copy_project.project_custom_fields'),
+                       count: project.custom_values.count } %>
+  <%= render partial: "copy_projects/copy_settings/block_checkbox",
              locals: { name: "queries", checked: true, label: l(:label_query_plural),
                           count: project.queries.count } %>
   <%= render partial: "copy_projects/copy_settings/block_checkbox",

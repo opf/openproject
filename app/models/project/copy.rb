@@ -36,7 +36,7 @@ module Project::Copy
     base.not_to_copy ['id', 'created_on', 'updated_on', 'name', 'identifier', 'status', 'lft', 'rgt']
 
     # specify the order of associations to copy
-    base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki']
+    base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki', 'custom_values']
   end
 
   module CopyMethods
@@ -45,7 +45,6 @@ module Project::Copy
       with_model(project) do |project|
         self.enabled_module_names = project.enabled_module_names
         self.types = project.types
-        self.custom_values = project.custom_values.map(&:clone)
         self.work_package_custom_fields = project.work_package_custom_fields
       end
       return self
@@ -58,6 +57,11 @@ module Project::Copy
     end
 
     private
+
+    # Copies custom values from +project+
+    def copy_custom_values(project, selected_copies = [])
+      self.custom_values = project.custom_values.map(&:dup)
+    end
 
     # Copies wiki from +project+
     def copy_wiki(project, selected_copies = [])
