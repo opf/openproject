@@ -29,8 +29,17 @@
 #++
 
 module Queries::Filters::Strategies
-  class Float < BaseStrategy
-    include Queries::Filters::Strategies::Numeric
-    include Queries::Filters::Strategies::FloatNumeric
+  module CfNumeric
+    private
+
+    def operator_map
+      super_value = super.dup
+      super_value['!*'] = Queries::Operators::NoneOrBlank
+      super_value['*'] = Queries::Operators::AllAndNonBlank
+      super_value['>='] = Queries::Operators::CastedGreaterOrEqual
+      super_value['<='] = Queries::Operators::CastedLessOrEqual
+
+      super_value
+    end
   end
 end

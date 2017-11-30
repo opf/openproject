@@ -29,8 +29,15 @@
 #++
 
 module Queries::Filters::Strategies
-  class Float < BaseStrategy
-    include Queries::Filters::Strategies::Numeric
-    include Queries::Filters::Strategies::FloatNumeric
+  module FloatNumeric
+    private
+
+    def numeric_class
+      ::Float
+    end
+
+    def error_message
+      :not_a_float
+    end
   end
 end
