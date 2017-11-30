@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Injector} from '@angular/core';
+import {Component, Directive, ElementRef, Injector} from '@angular/core';
 import {UpgradeComponent} from '@angular/upgrade/static';
 
 @Directive({

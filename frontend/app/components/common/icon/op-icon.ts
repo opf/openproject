@@ -26,23 +26,26 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Directive, ElementRef, Injector} from '@angular/core';
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
 import {UpgradeComponent} from '@angular/upgrade/static';
 import {opUiComponentsModule} from '../../../angular-modules';
 
 function opIcon() {
   return {
     restrict: 'EA',
-    scope: { iconClasses: '@', title: '@iconTitle' },
+    scope: {
+      iconClasses: '@',
+      iconTitle: '@'
+    },
     link: (_scope:ng.IScope, element:ng.IAugmentedJQuery) => {
-        element.addClass('op-icon--wrapper');
+      element.addClass('op-icon--wrapper');
     },
     template: `
-    <i class="{{iconClasses}}" aria-hidden="true"></i>
-    <span class="hidden-for-sighted" ng-bind="title" ng-if="title"></span>
+      <i class="{{iconClasses}}" aria-hidden="true"></i>
+      <span class="hidden-for-sighted" ng-bind="iconTitle" ng-if="iconTitle"></span>
     `
   };
-};
+}
 
 opUiComponentsModule.directive('opIcon', opIcon);
 
@@ -51,6 +54,10 @@ opUiComponentsModule.directive('opIcon', opIcon);
   selector: 'op-icon'
 })
 export class OpIcon extends UpgradeComponent {
+
+  @Input('icon-classes') iconClasses:string;
+  @Input('icon-title') iconTitle:string;
+
   constructor(elementRef:ElementRef, injector:Injector) {
     super('opIcon', elementRef, injector);
   }

@@ -65,6 +65,8 @@ import {
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
+import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
+import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
 
 
 @NgModule({
@@ -82,6 +84,8 @@ import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-hea
     upgradeService('wpTableTimeline', WorkPackageTableTimelineService),
     upgradeService('wpNotificationsService', WorkPackageNotificationService),
     upgradeService('wpTableHierarchies', WorkPackageTableHierarchiesService),
+    upgradeService('wpTableSortBy', WorkPackageTableSortByService),
+    upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
     upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
     upgradeService('wpTableColumns', WorkPackageTableColumnsService),
     upgradeService('contextMenu', ContextMenuService),

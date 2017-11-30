@@ -16,19 +16,16 @@
       </caption>
       <thead class="-sticky">
       <tr>
-        <!--
-        ng1.x
-        <th sort-header ng-repeat="column in columns track by column.href"
-        -->
         <th *ngFor="let column of columns"
-            sortHeader
             has-dropdown-menu
             class="wp-table--table-header"
             collision-container=".work-packages-tabletimeline--table-side"
             target="columnContextMenu"
             locals="columns, column"
-            locale="column.custom_field && columns.custom_field.name_locale || locale"
-            header-column="column">
+            >
+          <sortHeader [headerColumn]="column"
+                      [locale]="column.custom_field && columns.custom_field.name_locale || locale">
+          </sortHeader>
         </th>
         <th class="wp-table--context-menu-column -short hide-when-print">
           <div class="generic-table--sort-header-outer">
