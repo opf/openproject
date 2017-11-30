@@ -62,7 +62,7 @@ module FileUploader
   end
 
   # remember the tmp file
-  def cache!(new_file)
+  def cache!(new_file = sanitized_file)
     super
     @old_tmp_file = new_file
   end
