@@ -29,9 +29,9 @@
 require 'fileutils'
 
 class LocalFileUploader < CarrierWave::Uploader::Base
+  storage :file
   include FileUploader
 
-  storage :file
   def copy_to(attachment)
     attachment.file = local_file
   end

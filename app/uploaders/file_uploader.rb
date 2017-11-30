@@ -47,13 +47,6 @@ module FileUploader
     file && File.readable?(local_file)
   end
 
-  # Delete cache and old rack file after store
-  # cf. https://github.com/carrierwaveuploader/carrierwave/wiki/How-to:-Delete-cache-garbage-directories
-
-  before :store, :remember_cache_id
-  after :store, :delete_tmp_dir
-  after :store, :delete_old_tmp_file
-
    # store! nil's the cache_id after it finishes so we need to remember it for deletion
    def remember_cache_id(_new_file)
     @cache_id_was = cache_id
