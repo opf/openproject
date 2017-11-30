@@ -249,38 +249,6 @@ pl:
     auth_source_login: Zaloguj się jako <em>%{login}</em> aby aktywować konto.
     omniauth_login: Zaloguj się, aby aktywować konto.
   actionview_instancetag_blank_option: Proszę wybrać
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: nie znaleziono
-            public:
-              error_unauthorized: "-Użytkownik ma nie ma uprawnień do tworzenia publicznych
-                zapytań."
-        relation:
-          attributes:
-            to:
-              error_not_found: nie można znaleźć lub wizualizować zadania w pozycji
-                "do"
-              error_readonly: nie można zmienić odnośnika bieżącego powiązania "do"
-            from:
-              error_not_found: nie można znaleźć lub wizualizować zadania w pozycji
-                "od"
-              error_readonly: nie można zmienić odnośnika bieżącego powiązania "of"
-        user:
-          attributes:
-            status:
-              invalid_on_create: nie jest prawidłowym statusem dla nowych użytkowników.
-            auth_source:
-              error_not_found: nie znaleziono
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Operator nie jest obsługiwany.
-              invalid_values: Wartość jest nieprawidłowa.
-              id_filter_required: Filtr 'id' jest wymagany.
   activerecord:
     attributes:
       announcements:
@@ -438,6 +406,7 @@ pl:
         blank: nie może być puste.
         cant_link_a_work_package_with_a_descendant: Zestaw zadań nie może być powiązany
           z jego podzadaniami.
+        follows_descendant: follows its descendant.
         circular_dependency: Ta relacja może wytworzyć zależność cykliczną.
         confirmation: nie pasuje do %{attribute}.
         does_not_exist: nie istnieje.
@@ -477,6 +446,12 @@ pl:
           at_least_one_custom_option: Przynajmniej jedna opcja musi być dostępna.
         enterprise_token:
           unreadable: nie można odczytać. Czy na pewno jest to token wsparcia?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Operator nie jest obsługiwany.
+              invalid_values: Wartość jest nieprawidłowa.
+              id_filter_required: Filtr 'id' jest wymagany.
         project:
           attributes:
             types:
@@ -486,12 +461,28 @@ pl:
             samym.
           project_association_not_allowed: niedozwolone połączenia.
         query:
+          attributes:
+            project:
+              error_not_found: nie znaleziono
+            public:
+              error_unauthorized: "-Użytkownik ma nie ma uprawnień do tworzenia publicznych
+                zapytań."
           group_by_hierarchies_exclusive: wzajemnie się wykluczają w ramach grupowania
             wg "%{group_by}". Nie można aktywować równocześnie.
           filters:
             custom_fields:
               inexistent: Brak pola niestandardowego dla tego filtra.
               invalid: Pole niestandardowe jest nieprawidłowe w danym kontekście.
+        relation:
+          attributes:
+            to:
+              error_not_found: nie można znaleźć lub wizualizować zadania w pozycji
+                "do"
+              error_readonly: nie można zmienić odnośnika bieżącego powiązania "do"
+            from:
+              error_not_found: nie można znaleźć lub wizualizować zadania w pozycji
+                "od"
+              error_readonly: nie można zmienić odnośnika bieżącego powiązania "of"
         repository:
           not_available: Producent SCM nie jest dostępny
           not_whitelisted: nie jest dozwolone w tej konfiguracji.
@@ -512,8 +503,6 @@ pl:
             start_date:
               violates_relationships: aby nie naruszyć relacji pakietu pracy, należy
                 ustawić datę %{soonest_start} lub późniejszą.
-              violates_parent_relationships: aby nie naruszyć relacji z przodkami
-                zadania, należy ustawić datę na %{soonest_start} lub późniejszą.
             status_id:
               status_transition_invalid: jest niewłaściwy z powodu braku prawidłowego
                 przekształcenia ze starego do nowego statusu dla aktualnej roli użytkownika.
@@ -549,6 +538,10 @@ pl:
                 confirm: Potwierdź nowe hasło.
                 description: '"Potwierdzenie hasła" powinno być zgodne z wartością
                   w polu ''Nowe hasło''.'
+            status:
+              invalid_on_create: nie jest prawidłowym statusem dla nowych użytkowników.
+            auth_source:
+              error_not_found: nie znaleziono
         member:
           principal_blank: Wybierz co najmniej jeden użytkownik lub Grupa.
           role_blank: Proszę wybrać przynajmniej jedną rolę.

@@ -213,35 +213,6 @@ zh:
     auth_source_login: 请使用 <em>%{login}</em> 登录来激活您的帐户，
     omniauth_login: 请登录以激活您的帐户。
   actionview_instancetag_blank_option: 请选择
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: 未找到
-            public:
-              error_unauthorized: "- 此用户没有创建公共查询的权限。"
-        relation:
-          attributes:
-            to:
-              error_not_found: 找不到这个工作包
-              error_readonly: 关系要持久
-            from:
-              error_not_found: 找不到这个工作包
-              error_readonly: 关系要持久
-        user:
-          attributes:
-            status:
-              invalid_on_create: 不是新用户的有效状态
-            auth_source:
-              error_not_found: 未找到
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: 不支持此运算符。
-              invalid_values: 值无效。
-              id_filter_required: "“id”筛选器为必填字段。"
   activerecord:
     attributes:
       announcements:
@@ -396,6 +367,7 @@ zh:
         accepted: 必须接受。
         blank: 不能为空。
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
+        follows_descendant: follows its descendant.
         circular_dependency: 这种关系将创建循环依赖项。
         confirmation: 不匹配 %{attribute}。
         does_not_exist: 不存在。
@@ -433,6 +405,12 @@ zh:
           at_least_one_custom_option: 至少有需要一个可用选项。
         enterprise_token:
           unreadable: 无法读取。是否确定为支持令牌？
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: 不支持此运算符。
+              invalid_values: 值无效。
+              id_filter_required: "“id”筛选器为必填字段。"
         project:
           attributes:
             types:
@@ -441,11 +419,24 @@ zh:
           identical_projects: 项目无法与自身创建依赖关系。
           project_association_not_allowed: 不允许关联。
         query:
+          attributes:
+            project:
+              error_not_found: 未找到
+            public:
+              error_unauthorized: "- 此用户没有创建公共查询的权限。"
           group_by_hierarchies_exclusive: 与按照“%{group_by}”分组的群组互相排斥。您无法将它们都激活。
           filters:
             custom_fields:
               inexistent: 过滤器没有自定义字段
               invalid: 自定义字段无效
+        relation:
+          attributes:
+            to:
+              error_not_found: 找不到这个工作包
+              error_readonly: 关系要持久
+            from:
+              error_not_found: 找不到这个工作包
+              error_readonly: 关系要持久
         repository:
           not_available: 供应链管理供应商不可用
           not_whitelisted: 配置所不允许的。
@@ -463,7 +454,6 @@ zh:
               not_a_valid_parent: 是无效的。
             start_date:
               violates_relationships: 仅可以设置为 %{soonest_start} 或之后，以免违反工作包的关系。
-              violates_parent_relationships: 仅可以设置为 %{soonest_start} 或之后，以免违反工作包上级的关系。
             status_id:
               status_transition_invalid: 是无效的，因为在当前用户的角色下，没有从旧到新的状态有效的过渡存在。
             priority_id:
@@ -494,6 +484,10 @@ zh:
               match:
                 confirm: 确认新密码。
                 description: "“确认密码”应该与“新密码”相同。"
+            status:
+              invalid_on_create: 不是新用户的有效状态
+            auth_source:
+              error_not_found: 未找到
         member:
           principal_blank: 请选择至少一个用户或组。
           role_blank: 请选择至少一个角色。
@@ -681,11 +675,11 @@ zh:
     day_names:
     - 星期日
     - 星期一
-    - 星期二
+    - '星期二 '
     - 星期三
     - 星期四
-    - 星期五
-    - 星期六
+    - '星期五 '
+    - '星期六 '
     formats:
       default: "%m/%d/%Y"
       long: "%B %d, %Y"

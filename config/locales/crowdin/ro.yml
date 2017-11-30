@@ -262,35 +262,6 @@ ro:
     auth_source_login: Autentifică-te ca <em>%{login}</em> pentru a activa contul.
     omniauth_login: Autentifică-te pentru activarea contului tău.
   actionview_instancetag_blank_option: Vă rugăm să selectaţi
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: not found
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
-            from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
-        user:
-          attributes:
-            status:
-              invalid_on_create: is not a valid status for new users.
-            auth_source:
-              error_not_found: not found
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: The operator is not supported.
-              invalid_values: A value is invalid.
-              id_filter_required: An 'id' filter is required.
   activerecord:
     attributes:
       announcements:
@@ -448,6 +419,7 @@ ro:
         blank: nu poate fi gol.
         cant_link_a_work_package_with_a_descendant: Un pachet de lucru nu poate fi
           legat de una din sub-activitățile sale.
+        follows_descendant: follows its descendant.
         circular_dependency: Această relație ar crea o dependință circulară.
         confirmation: nu se potrivește cu %{attribute}.
         does_not_exist: nu există.
@@ -487,6 +459,12 @@ ro:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: A value is invalid.
+              id_filter_required: An 'id' filter is required.
         project:
           attributes:
             types:
@@ -495,12 +473,25 @@ ro:
           identical_projects: Un proiect nu poate avea o dependență de sine însuși.
           project_association_not_allowed: nu permite asocieri.
         query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
             custom_fields:
               inexistent: There is no custom field for the filter.
               invalid: The custom field is not valid in the given context.
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
         repository:
           not_available: Nu este disponibil furnizorul de SCM
           not_whitelisted: nu este permisă de configurație.
@@ -521,9 +512,6 @@ ro:
             start_date:
               violates_relationships: poate fi setată doar pe %{soonest_start} sau
                 mai târziu pentru a nu viola relațiile între pachetele de lucru.
-              violates_parent_relationships: can only be set to %{soonest_start} or
-                later so as not to violate the relationships of the work_package's
-                ancestors.
             status_id:
               status_transition_invalid: este invalid, deoarece nu există nici o tranziție
                 validă din vechea în noua stare pentru rolurile utilizatorului curent.
@@ -561,6 +549,10 @@ ro:
                 confirm: Confirmaţi noua parolă.
                 description: Valoarea din 'Confirmare parolă' ar trebui să fie identică
                   cu cea introdusă în 'Parolă nouă'.
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: not found
         member:
           principal_blank: Trebuie să alegeţi cel puţin un utilizator sau grup.
           role_blank: Trebuie să alegeţi cel puţin un rol.

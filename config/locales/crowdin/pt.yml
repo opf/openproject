@@ -263,38 +263,6 @@ pt:
       a sua conta.
     omniauth_login: Por favor, inicie a sessão para ativar a sua conta.
   actionview_instancetag_blank_option: Por favor, selecione
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: não encontrado
-            public:
-              error_unauthorized: O utilizador não tem autorização para criar consultas
-                públicas.
-        relation:
-          attributes:
-            to:
-              error_not_found: pacote de trabalho na posição 'para' não foi encontrada
-                ou não está visível
-              error_readonly: uma ligação 'para' existente não pode ser mudada
-            from:
-              error_not_found: pacote de trabalho na posição 'de' não foi encontrada
-                ou não está visível
-              error_readonly: uma ligação 'de' existente não pode ser mudada
-        user:
-          attributes:
-            status:
-              invalid_on_create: não é um estado válido para novos utilizadores.
-            auth_source:
-              error_not_found: não encontrado
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Este operador não é compatível.
-              invalid_values: Um valor é inválido.
-              id_filter_required: É necessário um filtro de "id".
   activerecord:
     attributes:
       announcements:
@@ -452,6 +420,7 @@ pt:
         blank: não pode ficar em branco.
         cant_link_a_work_package_with_a_descendant: Um pacote de trabalho não pode
           ser ligado a uma das suas sub-tarefas.
+        follows_descendant: follows its descendant.
         circular_dependency: Esta relação vai criar uma dependência circular.
         confirmation: não coincide %{attribute}.
         does_not_exist: não existe.
@@ -490,6 +459,12 @@ pt:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
           unreadable: não foi possível ler. Tem a certeza que é um token de suporte?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Este operador não é compatível.
+              invalid_values: Um valor é inválido.
+              id_filter_required: É necessário um filtro de "id".
         project:
           attributes:
             types:
@@ -499,12 +474,28 @@ pt:
             e ele mesmo.
           project_association_not_allowed: não permite associações.
         query:
+          attributes:
+            project:
+              error_not_found: não encontrado
+            public:
+              error_unauthorized: O utilizador não tem autorização para criar consultas
+                públicas.
           group_by_hierarchies_exclusive: é mutuamente exclusivo com o grupo '%{group_by}'.
             Não é possível ativar os dois.
           filters:
             custom_fields:
               inexistent: Não existe nenhum campo personalizado para o filtro.
               invalid: O campo personalizado não é válido no contexto em questão.
+        relation:
+          attributes:
+            to:
+              error_not_found: pacote de trabalho na posição 'para' não foi encontrada
+                ou não está visível
+              error_readonly: uma ligação 'para' existente não pode ser mudada
+            from:
+              error_not_found: pacote de trabalho na posição 'de' não foi encontrada
+                ou não está visível
+              error_readonly: uma ligação 'de' existente não pode ser mudada
         repository:
           not_available: Fornecedor SCM não está disponível
           not_whitelisted: não é permitido pela configuração.
@@ -525,9 +516,6 @@ pt:
             start_date:
               violates_relationships: só pode ser definida como %{soonest_start} ou
                 posterior de modo a não violar as relações do pacote de trabalho.
-              violates_parent_relationships: Só pode ser definida como %{soonest_start}
-                ou posterior para não violar as relações dos antecessores do pacote
-                de trabalho.
             status_id:
               status_transition_invalid: é inválido porque não existe transição válida
                 da antiga para a nova situação do utilizador actual.
@@ -564,6 +552,10 @@ pt:
                 confirm: Confirme a nova senha.
                 description: A 'confirmação de senha' deverá coincidir com a entrada
                   no campo 'Nova senha'.
+            status:
+              invalid_on_create: não é um estado válido para novos utilizadores.
+            auth_source:
+              error_not_found: não encontrado
         member:
           principal_blank: Por favor, escolha pelo menos um utilizador ou grupo.
           role_blank: Por favor, escolha pelo menos um papel.

@@ -221,35 +221,6 @@ zh-TW:
     auth_source_login: 請登入 <em>%{login}</em> 來啟用您的帳號。
     omniauth_login: 請登入來啟用您的帳號。
   actionview_instancetag_blank_option: 請選擇
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: not found
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
-            from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
-        user:
-          attributes:
-            status:
-              invalid_on_create: is not a valid status for new users.
-            auth_source:
-              error_not_found: not found
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: The operator is not supported.
-              invalid_values: A value is invalid.
-              id_filter_required: An 'id' filter is required.
   activerecord:
     attributes:
       announcements:
@@ -406,6 +377,7 @@ zh-TW:
         accepted: 必須被接受
         blank: 不可空白
         cant_link_a_work_package_with_a_descendant: 一個工作項目不能聯結到它的一個子項目
+        follows_descendant: follows its descendant.
         circular_dependency: 這個關係會建立一個循環依賴
         confirmation: 不吻合 %{attribute}。
         does_not_exist: 不存在
@@ -444,6 +416,12 @@ zh-TW:
           at_least_one_custom_option: 需要至少一個選項可用。
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: A value is invalid.
+              id_filter_required: An 'id' filter is required.
         project:
           attributes:
             types:
@@ -452,12 +430,25 @@ zh-TW:
           identical_projects: 依賴關係無法在一個專案與自己間建立
           project_association_not_allowed: 不允許建立關聯
         query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
             custom_fields:
               inexistent: There is no custom field for the filter.
               invalid: The custom field is not valid in the given context.
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
         repository:
           not_available: 版本控制無法使用
           not_whitelisted: 不被設定所允許
@@ -476,7 +467,6 @@ zh-TW:
             start_date:
               violates_relationships: can only be set to %{soonest_start} or later
                 so as not to violate the work package's relationships.
-              violates_parent_relationships: 只能設定至 %{soonest_start} 或更晚，才不會違反上層工作項目的關連。
             status_id:
               status_transition_invalid: 無效，因為目前使用者的角色沒有從舊狀態到新狀態的有效過度狀態
             priority_id:
@@ -508,6 +498,10 @@ zh-TW:
               match:
                 confirm: 確認新密碼
                 description: "‘確認密碼’ 應該要符合 '新密碼'"
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: not found
         member:
           principal_blank: 請至少選擇一個使用者或群組。
           role_blank: 請至少選擇一個角色。

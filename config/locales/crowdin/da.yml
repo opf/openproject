@@ -253,35 +253,6 @@ da:
       konto.
     omniauth_login: Log venligst ind for at aktivere din konto.
   actionview_instancetag_blank_option: Vælg venligst
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: not found
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
-            from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
-        user:
-          attributes:
-            status:
-              invalid_on_create: is not a valid status for new users.
-            auth_source:
-              error_not_found: not found
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: The operator is not supported.
-              invalid_values: A value is invalid.
-              id_filter_required: An 'id' filter is required.
   activerecord:
     attributes:
       announcements:
@@ -439,6 +410,7 @@ da:
         blank: må ikke være tomt.
         cant_link_a_work_package_with_a_descendant: En arbejdspakke kan ikke knyttes
           til en af dens underopgaver.
+        follows_descendant: follows its descendant.
         circular_dependency: Denne relation vil skabe en cirkulær afhængighed.
         confirmation: matcher ikke %{attribute}.
         does_not_exist: findes ikke.
@@ -478,6 +450,12 @@ da:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: A value is invalid.
+              id_filter_required: An 'id' filter is required.
         project:
           attributes:
             types:
@@ -487,12 +465,25 @@ da:
             selv.
           project_association_not_allowed: tillader ikke forbindelser.
         query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
             custom_fields:
               inexistent: There is no custom field for the filter.
               invalid: The custom field is not valid in the given context.
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
         repository:
           not_available: SCM-leverandør utilgængelig
           not_whitelisted: tillades ikke af opsætningen.
@@ -512,9 +503,6 @@ da:
             start_date:
               violates_relationships: can only be set to %{soonest_start} or later
                 so as not to violate the work package's relationships.
-              violates_parent_relationships: can only be set to %{soonest_start} or
-                later so as not to violate the relationships of the work_package's
-                ancestors.
             status_id:
               status_transition_invalid: er ugyldig, da der mangler gyldig overførsel
                 fra gammel til ny status for den aktuelle brugers roller.
@@ -551,6 +539,10 @@ da:
                 confirm: Bekræft ny adgangskode.
                 description: "'Adgangskodebekræftelse' skal matche input fra feltet
                   'Ny adgangskode'."
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: not found
         member:
           principal_blank: Vælg venligst mindst én bruger eller gruppe.
           role_blank: Vælg venligst mindst én rolle.

@@ -254,35 +254,6 @@ vi:
     auth_source_login: Please login as <em>%{login}</em> to activate your account.
     omniauth_login: Please login to activate your account.
   actionview_instancetag_blank_option: Vui lòng chọn
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: not found
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
-            from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
-        user:
-          attributes:
-            status:
-              invalid_on_create: is not a valid status for new users.
-            auth_source:
-              error_not_found: not found
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: The operator is not supported.
-              invalid_values: A value is invalid.
-              id_filter_required: An 'id' filter is required.
   activerecord:
     attributes:
       announcements:
@@ -440,6 +411,7 @@ vi:
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
+        follows_descendant: follows its descendant.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
         does_not_exist: does not exist.
@@ -479,6 +451,12 @@ vi:
           at_least_one_custom_option: Ít nhất một lựa chọn cần phải được cung cấp.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: A value is invalid.
+              id_filter_required: An 'id' filter is required.
         project:
           attributes:
             types:
@@ -488,12 +466,25 @@ vi:
             chính nó.
           project_association_not_allowed: does not allow associations.
         query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
             custom_fields:
               inexistent: There is no custom field for the filter.
               invalid: The custom field is not valid in the given context.
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
         repository:
           not_available: SCM vendor is not available
           not_whitelisted: is not allowed by the configuration.
@@ -514,9 +505,6 @@ vi:
             start_date:
               violates_relationships: chỉ có thể được thiếp lập sang %{soonest_start}
                 hoặc mới hơn để không làm vi phạm các mối quan hệ của work package.
-              violates_parent_relationships: can only be set to %{soonest_start} or
-                later so as not to violate the relationships of the work_package's
-                ancestors.
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
@@ -553,6 +541,10 @@ vi:
                 confirm: Xác nhận lại mật khẩu.
                 description: "'Xác nhận mật khẩu ' phải trùng với dữ liệu trong mục
                   'Mật khẩu mới'."
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: not found
         member:
           principal_blank: Vui lòng chọn ít nhất một người dùng hoặc nhóm.
           role_blank: Vui lòng chọn ít nhất một vai trò.

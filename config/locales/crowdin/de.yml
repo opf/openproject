@@ -262,40 +262,6 @@ de:
       zu aktivieren.
     omniauth_login: Bitte loggen Sie sich ein um Ihr Konto zu aktivieren.
   actionview_instancetag_blank_option: Bitte auswählen
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: nicht gefunden
-            public:
-              error_unauthorized: "- Der Nutzer hat nicht die Berechtigung öffentliche
-                Filter zu erstellen."
-        relation:
-          attributes:
-            to:
-              error_not_found: Arbeitspaket in 'zu' Position nicht gefunden oder nicht
-                sichtbar
-              error_readonly: der 'zu' Link einer bestehenden Relation kann nicht
-                geändert werden
-            from:
-              error_not_found: Arbeitspaket in 'von' Position nicht gefunden oder
-                nicht sichtbar
-              error_readonly: der 'von' Link einer bestehenden Relation kann nicht
-                geändert werden
-        user:
-          attributes:
-            status:
-              invalid_on_create: ist kein gültiger Status für neue Benutzer.
-            auth_source:
-              error_not_found: nicht gefunden
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Der Operator wird nicht unterstützt.
-              invalid_values: Ein Wert ist ungültig.
-              id_filter_required: Ein "Id" Filter ist erforderlich.
   activerecord:
     attributes:
       announcements:
@@ -453,6 +419,7 @@ de:
         blank: muss ausgefüllt werden.
         cant_link_a_work_package_with_a_descendant: Ein Arbeitspaket kann nicht mit
           einer seiner Unteraufgaben verlinkt werden.
+        follows_descendant: follows its descendant.
         circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen.
         confirmation: stimmt nicht mit %{attribute} überein.
         does_not_exist: existiert nicht.
@@ -494,6 +461,12 @@ de:
         enterprise_token:
           unreadable: kann nicht gelesen werden. Ist dies ein Enterprise-Edition Support
             Token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Der Operator wird nicht unterstützt.
+              invalid_values: Ein Wert ist ungültig.
+              id_filter_required: Ein "Id" Filter ist erforderlich.
         project:
           attributes:
             types:
@@ -504,12 +477,30 @@ de:
             selbst erstellt werden.
           project_association_not_allowed: erlaubt keine Projekt-Abhängigkeiten.
         query:
+          attributes:
+            project:
+              error_not_found: nicht gefunden
+            public:
+              error_unauthorized: "- Der Nutzer hat nicht die Berechtigung öffentliche
+                Filter zu erstellen."
           group_by_hierarchies_exclusive: schließt sich gegenseitig mit der Gruppierung
             nach "%{group_by}" aus. Beide können nicht zeitgleich aktiv sein.
           filters:
             custom_fields:
               inexistent: Es existiert kein benutzerdefiniertes Feld für diesen Filter.
               invalid: Das benutzerdefinierte Feld ist in diesem Kontext ungültig.
+        relation:
+          attributes:
+            to:
+              error_not_found: Arbeitspaket in 'zu' Position nicht gefunden oder nicht
+                sichtbar
+              error_readonly: der 'zu' Link einer bestehenden Relation kann nicht
+                geändert werden
+            from:
+              error_not_found: Arbeitspaket in 'von' Position nicht gefunden oder
+                nicht sichtbar
+              error_readonly: der 'von' Link einer bestehenden Relation kann nicht
+                geändert werden
         repository:
           not_available: SCM-Anbieter ist nicht verfügbar
           not_whitelisted: wird durch die Konfiguration nicht erlaubt.
@@ -530,8 +521,6 @@ de:
             start_date:
               violates_relationships: muss mindestens auf %{soonest_start} gesetzt
                 werden, um Beziehungen zu anderen Arbeitspaketen nicht zu verletzten.
-              violates_parent_relationships: muss mindestens auf %{soonest_start}
-                gesetzt werden, um Beziehungen zu Eltern-Arbeitspaketen nicht zu verletzten.
             status_id:
               status_transition_invalid: ist ungültig da kein valider Übergang vom
                 alten zum neuen Status für die aktuelle Rolle des Nutzers existiert.
@@ -567,6 +556,10 @@ de:
               match:
                 confirm: Neues Kennwort bestätigen.
                 description: '"Kennwortbestätigung" sollte mit "Neues Kennwort" übereinstimmen.'
+            status:
+              invalid_on_create: ist kein gültiger Status für neue Benutzer.
+            auth_source:
+              error_not_found: nicht gefunden
         member:
           principal_blank: Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe.
           role_blank: Bitte wählen Sie mindestens eine Rolle.

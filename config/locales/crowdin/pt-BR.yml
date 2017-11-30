@@ -252,38 +252,6 @@ pt-BR:
     auth_source_login: Faça login como <em>%{login}</em> para ativar sua conta.
     omniauth_login: Faça login para ativar sua conta.
   actionview_instancetag_blank_option: Por favor selecione
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: não encontrado
-            public:
-              error_unauthorized: "-O usuário não tem permissão para criar consultas
-                públicas."
-        relation:
-          attributes:
-            to:
-              error_not_found: pacote de trabalho na posição 'para' não foi encontrado
-                ou não está visível
-              error_readonly: uma relação existente de link `para` é imutável
-            from:
-              error_not_found: pacote de trabalho na posição 'de' não foi encontrado
-                ou não está visível
-              error_readonly: uma relação existente de link `de` é imutável
-        user:
-          attributes:
-            status:
-              invalid_on_create: não é um estado válido para novos usuários.
-            auth_source:
-              error_not_found: não encontrado
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: O operador não é suportado.
-              invalid_values: Um valor é inválido.
-              id_filter_required: Um filtro de 'id' é necessário.
   activerecord:
     attributes:
       announcements:
@@ -441,6 +409,7 @@ pt-BR:
         blank: não pode ficar em branco.
         cant_link_a_work_package_with_a_descendant: Um pacote de trabalho não pode
           ser vinculado a uma das suas subtarefas.
+        follows_descendant: follows its descendant.
         circular_dependency: Esta relação vai criar uma dependência circular.
         confirmation: não coincide com %{attribute}.
         does_not_exist: não existe.
@@ -478,6 +447,12 @@ pt-BR:
           at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
         enterprise_token:
           unreadable: não pode ser lido. Tem certeza que é um token de suporte?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: O operador não é suportado.
+              invalid_values: Um valor é inválido.
+              id_filter_required: Um filtro de 'id' é necessário.
         project:
           attributes:
             types:
@@ -487,12 +462,28 @@ pt-BR:
             mesmo.
           project_association_not_allowed: não permite associações.
         query:
+          attributes:
+            project:
+              error_not_found: não encontrado
+            public:
+              error_unauthorized: "-O usuário não tem permissão para criar consultas
+                públicas."
           group_by_hierarchies_exclusive: é mutuamente exclusivo com o agrupamento
             por '%{group_by}'. Você não pode ativar os dois.
           filters:
             custom_fields:
               inexistent: Não há nenhum campo personalizado para o filtro.
               invalid: O campo personalizado não é válido no contexto em questão.
+        relation:
+          attributes:
+            to:
+              error_not_found: pacote de trabalho na posição 'para' não foi encontrado
+                ou não está visível
+              error_readonly: uma relação existente de link `para` é imutável
+            from:
+              error_not_found: pacote de trabalho na posição 'de' não foi encontrado
+                ou não está visível
+              error_readonly: uma relação existente de link `de` é imutável
         repository:
           not_available: Fornecedor SCM não está disponível
           not_whitelisted: não é permitido pela configuração.
@@ -513,9 +504,6 @@ pt-BR:
             start_date:
               violates_relationships: somente pode ser definida como %{soonest_start}
                 ou posterior para não violar as relações de trabalho do pacote.
-              violates_parent_relationships: só pode ser definida como %{soonest_start}
-                ou posterior para não violar as relações dos antecessores do pacote
-                de trabalho.
             status_id:
               status_transition_invalid: é inválido porque não existe transição válida
                 da antiga para a nova situação para o papel do usuário atual.
@@ -552,6 +540,10 @@ pt-BR:
                 confirm: Confirme a nova senha.
                 description: "'Confirmação de senha' deve coincidir com a entrada
                   no campo 'nova senha'."
+            status:
+              invalid_on_create: não é um estado válido para novos usuários.
+            auth_source:
+              error_not_found: não encontrado
         member:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
           role_blank: Por favor, escolha ao menos um papel.

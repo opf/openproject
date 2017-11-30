@@ -265,40 +265,6 @@ es:
       tu cuenta.
     omniauth_login: Por favor inicie sesión para activar su cuenta.
   actionview_instancetag_blank_option: Por favor, elija
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: no encontrado
-            public:
-              error_unauthorized: "- El usuario no tiene permiso para crear solicitudes
-                públicas."
-        relation:
-          attributes:
-            to:
-              error_not_found: el paquete de trabajo en posición 'a' no se ha encontrado
-                o no es visible
-              error_readonly: no se puede modificar el enlace de una relación existente
-                'a'
-            from:
-              error_not_found: el paquete de trabajo en la posición 'de' no se ha
-                encontrado o no es visible
-              error_readonly: no se puede modificar el enlace de una relación existente
-                'de'
-        user:
-          attributes:
-            status:
-              invalid_on_create: no es un estado válido para nuevos usuarios.
-            auth_source:
-              error_not_found: no encontrado
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Este operador no es compatible.
-              invalid_values: El valor no es válido.
-              id_filter_required: Se requiere el filtro 'id'.
   activerecord:
     attributes:
       announcements:
@@ -456,6 +422,7 @@ es:
         blank: no puede estar en blanco.
         cant_link_a_work_package_with_a_descendant: Un paquete de trabajo no puede
           ser vinculado a una de sus subtareas.
+        follows_descendant: follows its descendant.
         circular_dependency: Esta relación podría crear una dependencia circular.
         confirmation: no coincide con %{attribute}.
         does_not_exist: no existe.
@@ -495,6 +462,12 @@ es:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
           unreadable: no se puede leer. ¿Seguro que es un token de apoyo?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Este operador no es compatible.
+              invalid_values: El valor no es válido.
+              id_filter_required: Se requiere el filtro 'id'.
         project:
           attributes:
             types:
@@ -505,12 +478,30 @@ es:
             y sí mismo.
           project_association_not_allowed: no permite asociaciones.
         query:
+          attributes:
+            project:
+              error_not_found: no encontrado
+            public:
+              error_unauthorized: "- El usuario no tiene permiso para crear solicitudes
+                públicas."
           group_by_hierarchies_exclusive: es mutuamente exclusivo con el grupo '%{group_by}'.
             No puede activar ambos.
           filters:
             custom_fields:
               inexistent: No hay ningún campo personalizado para el filtro.
               invalid: El campo personalizado no es válido en el contexto válido.
+        relation:
+          attributes:
+            to:
+              error_not_found: el paquete de trabajo en posición 'a' no se ha encontrado
+                o no es visible
+              error_readonly: no se puede modificar el enlace de una relación existente
+                'a'
+            from:
+              error_not_found: el paquete de trabajo en la posición 'de' no se ha
+                encontrado o no es visible
+              error_readonly: no se puede modificar el enlace de una relación existente
+                'de'
         repository:
           not_available: El proveedor SMC no está disponible
           not_whitelisted: no está permitido por la configuración.
@@ -532,9 +523,6 @@ es:
               violates_relationships: sólo se puede establecer a %{soonest_start}
                 o posterior para que no se violen las relaciones de los paquetes de
                 trabajo.
-              violates_parent_relationships: solo se puede fijar en %{soonest_start}
-                o posterior para no violar las relaciones de los antecesores del paquete
-                de trabajo.
             status_id:
               status_transition_invalid: no es válido porque no existe ninguna transición
                 desde el estado antiguo al nuevo para los roles del usuario actual.
@@ -572,6 +560,10 @@ es:
                 confirm: Confirmar Nueva Contraseña.
                 description: "'La confirmación de la contraseña' debe coincidir con
                   la ingresada en el campo 'Nueva contraseña'."
+            status:
+              invalid_on_create: no es un estado válido para nuevos usuarios.
+            auth_source:
+              error_not_found: no encontrado
         member:
           principal_blank: Por favor seleccione al menos un usuario o grupo.
           role_blank: Elija al menos un rol.

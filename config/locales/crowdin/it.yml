@@ -258,39 +258,6 @@ it:
     auth_source_login: Accedi come <em>%{login}</em> per attivare il tuo account.
     omniauth_login: Accedi per attivare il tuo account.
   actionview_instancetag_blank_option: Si prega di selezionare
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: non trovato
-            public:
-              error_unauthorized: "- L'utente non è autorizzato a creare query pubbliche."
-        relation:
-          attributes:
-            to:
-              error_not_found: impossibile trovare o visualizzare la macro-attività
-                in posizione "a"
-              error_readonly: impossibile modificare il collegamento ad una relazione
-                esistente "a"
-            from:
-              error_not_found: impossibile trovare o visualizzare la macro-attività
-                in posizione "da"
-              error_readonly: impossibile modificare il collegamento ad una relazione
-                esistente "da"
-        user:
-          attributes:
-            status:
-              invalid_on_create: non è uno stato valido per i nuovi utenti.
-            auth_source:
-              error_not_found: non trovato
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Operatore non supportato.
-              invalid_values: Valore non valido.
-              id_filter_required: Il filtro "id" è obbligatorio.
   activerecord:
     attributes:
       announcements:
@@ -448,6 +415,7 @@ it:
         blank: non può essere lasciato vuoto.
         cant_link_a_work_package_with_a_descendant: Una macro-attività non può essere
           collegato a una delle sue sottoattività.
+        follows_descendant: follows its descendant.
         circular_dependency: Questa relazione creerebbe una dipendenza circolare.
         confirmation: non coincide con %{attribute}.
         does_not_exist: non esiste.
@@ -488,6 +456,12 @@ it:
         enterprise_token:
           unreadable: non può essere letto. Sei sicuro che si tratta di un token di
             assistenza?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Operatore non supportato.
+              invalid_values: Valore non valido.
+              id_filter_required: Il filtro "id" è obbligatorio.
         project:
           attributes:
             types:
@@ -497,12 +471,29 @@ it:
             con se stesso.
           project_association_not_allowed: non consente associazioni.
         query:
+          attributes:
+            project:
+              error_not_found: non trovato
+            public:
+              error_unauthorized: "- L'utente non è autorizzato a creare query pubbliche."
           group_by_hierarchies_exclusive: è mutuamente esclusivo con il raggruppamento
             per '%{group_by}'. Non puoi attivare entrambi.
           filters:
             custom_fields:
               inexistent: Nessun campo personalizzato per il filtro.
               invalid: Il campo personalizzato non è valido nel contesto dato.
+        relation:
+          attributes:
+            to:
+              error_not_found: impossibile trovare o visualizzare la macro-attività
+                in posizione "a"
+              error_readonly: impossibile modificare il collegamento ad una relazione
+                esistente "a"
+            from:
+              error_not_found: impossibile trovare o visualizzare la macro-attività
+                in posizione "da"
+              error_readonly: impossibile modificare il collegamento ad una relazione
+                esistente "da"
         repository:
           not_available: Il gestore SCM non è disponibile
           not_whitelisted: non è consentito dalla configurazione.
@@ -523,8 +514,6 @@ it:
             start_date:
               violates_relationships: può essere impostata solo su %{soonest_start}
                 o successiva per non violare le relazioni del pacchetto di lavori.
-              violates_parent_relationships: può essere impostata solo su %{soonest_start}
-                o successiva per non violare i predecessori della macro-attività.
             status_id:
               status_transition_invalid: non è valido perché non esiste alcuna transizione
                 valida dal vecchio al nuovo status sulla base del ruolo dell'utente
@@ -564,6 +553,10 @@ it:
                 confirm: Conferma la nuova password.
                 description: "'Conferma password' deve coincidere con il testo del
                   campo 'Nuova password'."
+            status:
+              invalid_on_create: non è uno stato valido per i nuovi utenti.
+            auth_source:
+              error_not_found: non trovato
         member:
           principal_blank: Si prega di scegliere almeno un utente o un gruppo.
           role_blank: Si prega di scegliere almeno un ruolo.

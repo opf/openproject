@@ -251,35 +251,6 @@ lt:
       paskyrą.
     omniauth_login: Prisijunkite, norėdami aktyvuoti savo paskyrą.
   actionview_instancetag_blank_option: Prašome pasirinkti
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: nerasta
-            public:
-              error_unauthorized: "- Vartotojas neturi teisių viešoms užklausoms kurti."
-        relation:
-          attributes:
-            to:
-              error_not_found: darbų paketas į 'iki' poziciją nerastas arba yra nematomas
-              error_readonly: esama ryšio sąsaja 'iki' yra nekintama
-            from:
-              error_not_found: darbų paketas į 'nuo' poziciją nerastas arba yra nematomas
-              error_readonly: esama ryšio sąsaja 'nuo' yra nekintama
-        user:
-          attributes:
-            status:
-              invalid_on_create: yra netinkama naujų vartotojų būsena.
-            auth_source:
-              error_not_found: nerasta
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Ši operacija nėra palaikoma.
-              invalid_values: Netinkama reikšmė.
-              id_filter_required: Reikalingas „id“ filtras.
   activerecord:
     attributes:
       announcements:
@@ -437,6 +408,7 @@ lt:
         blank: negali būti tuščia.
         cant_link_a_work_package_with_a_descendant: Darbų paketas negali būti susietas
           su viena iš savo vidinių užduočių.
+        follows_descendant: follows its descendant.
         circular_dependency: Šis ryšys sukurtų ciklinę priklausomybę.
         confirmation: nesutampa su %{attribute}.
         does_not_exist: neegzistuoja.
@@ -476,6 +448,12 @@ lt:
           at_least_one_custom_option: Turi būti prieinama bent viena savybė.
         enterprise_token:
           unreadable: neįmanoma perskaityti. Ar tai tikrai yra paramos raktas?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Ši operacija nėra palaikoma.
+              invalid_values: Netinkama reikšmė.
+              id_filter_required: Reikalingas „id“ filtras.
         project:
           attributes:
             types:
@@ -485,12 +463,25 @@ lt:
             jo paties.
           project_association_not_allowed: neleidžia sąsajų.
         query:
+          attributes:
+            project:
+              error_not_found: nerasta
+            public:
+              error_unauthorized: "- Vartotojas neturi teisių viešoms užklausoms kurti."
           group_by_hierarchies_exclusive: yra nesuderinamas su grupavimu pagal '%{group_by}'.
             Jūs negalite įjungti abiejų.
           filters:
             custom_fields:
               inexistent: Filtrui nėra jokio pasirenkamo laukelio.
               invalid: Pasirenkamas laukelis nėra tinkamas duotam kontekstui.
+        relation:
+          attributes:
+            to:
+              error_not_found: darbų paketas į 'iki' poziciją nerastas arba yra nematomas
+              error_readonly: esama ryšio sąsaja 'iki' yra nekintama
+            from:
+              error_not_found: darbų paketas į 'nuo' poziciją nerastas arba yra nematomas
+              error_readonly: esama ryšio sąsaja 'nuo' yra nekintama
         repository:
           not_available: SCM tiekėjas neprieinamas
           not_whitelisted: neleidžiama pagal konfigūraciją.
@@ -510,8 +501,6 @@ lt:
             start_date:
               violates_relationships: negali būti nustatyta į %{soonest_start} ar
                 vėliau, kad nepažeistų darbų paketo ryšių.
-              violates_parent_relationships: gali būti nustatyta tik į %{soonest_start}
-                arba vėliau, kad nepažeistų protėvių lygio darbų paketų ryšių.
             status_id:
               status_transition_invalid: netinkamas, nes nėra tinkamo perėjimo iš
                 senos į naują būseną esamoms vartotojų rolėms.
@@ -550,6 +539,10 @@ lt:
                 confirm: Patvirtinkite naują slaptažodį.
                 description: "„Slaptažodžio patvirtinimas“ turi sutapti su įvestu
                   į laukelį „Naujas slaptažodis“."
+            status:
+              invalid_on_create: yra netinkama naujų vartotojų būsena.
+            auth_source:
+              error_not_found: nerasta
         member:
           principal_blank: Prašome pasirinkti bent vieną vartotoją ar grupę.
           role_blank: Prašome pasirinkti bent vieną rolę.

@@ -215,35 +215,6 @@ ja:
     auth_source_login: アカウントをアクティブにするのに<em>%{login}</em>としてログインしてください。
     omniauth_login: アカウントをアクティブにするのにログインしてください。
   actionview_instancetag_blank_option: 選択してください
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: 存在しません
-            public:
-              error_unauthorized: "- ユーザーは、公開クエリを作成する権限がありません。"
-        relation:
-          attributes:
-            to:
-              error_not_found: "「終了」の位置のワークパッケージが存在しないか表示されません"
-              error_readonly: 既存の関係の「終了」のリンクは変更できません
-            from:
-              error_not_found: "「開始」の位置にワークパッケージが存在しないか表示されません"
-              error_readonly: 既存の関係の「開始」のリンクは変更できません
-        user:
-          attributes:
-            status:
-              invalid_on_create: 新規ユーザーの有効なステータスではありません。
-            auth_source:
-              error_not_found: 存在しません
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: 演算子はサポートされていません。
-              invalid_values: 値が無効です。
-              id_filter_required: "'Id' のフィルターが必要です。"
   activerecord:
     attributes:
       announcements:
@@ -398,6 +369,7 @@ ja:
         accepted: は受諾しなければなりません。
         blank: は空白にすることができません。
         cant_link_a_work_package_with_a_descendant: 親子関係にある作業項目間で関連設定できません。
+        follows_descendant: follows its descendant.
         circular_dependency: この関係は循環依存になります。
         confirmation: は%{attribute} と一致しません。
         does_not_exist: は存在しません。
@@ -435,6 +407,12 @@ ja:
           at_least_one_custom_option: 少なくとも 1 つオプションが有効である必要があります。
         enterprise_token:
           unreadable: 読み取りできません。サポート トークンですか?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: 演算子はサポートされていません。
+              invalid_values: 値が無効です。
+              id_filter_required: "'Id' のフィルターが必要です。"
         project:
           attributes:
             types:
@@ -443,11 +421,24 @@ ja:
           identical_projects: 同一プロジェクトと依存関係を作成できません。
           project_association_not_allowed: 関連付けを許可していません。
         query:
+          attributes:
+            project:
+              error_not_found: 存在しません
+            public:
+              error_unauthorized: "- ユーザーは、公開クエリを作成する権限がありません。"
           group_by_hierarchies_exclusive: "'%{group_by}' でのグループ化は相互に排他的です。両方を有効にはできません。"
           filters:
             custom_fields:
               inexistent: フィルターのカスタムフィールドはありません。
               invalid: カスタムフィールドは、指定されたコンテキストでは無効です。
+        relation:
+          attributes:
+            to:
+              error_not_found: "「終了」の位置のワークパッケージが存在しないか表示されません"
+              error_readonly: 既存の関係の「終了」のリンクは変更できません
+            from:
+              error_not_found: "「開始」の位置にワークパッケージが存在しないか表示されません"
+              error_readonly: 既存の関係の「開始」のリンクは変更できません
         repository:
           not_available: SCMベンダーは使用できません。
           not_whitelisted: は設定で許可されていません。
@@ -465,8 +456,6 @@ ja:
               not_a_valid_parent: は不正な値です。
             start_date:
               violates_relationships: は、作業項目の関係に違反しないように %{soonest_start} またはそれ以降にのみ設定できます。
-              violates_parent_relationships: ワークパッケージの先祖の関係に違反しないように %{soonest_start}
-                またはそれ以降にのみ設定できます。
             status_id:
               status_transition_invalid: ユーザの現在のロールでは旧ステータスから新ステータスへの有効な遷移がないため無効
             priority_id:
@@ -497,6 +486,10 @@ ja:
               match:
                 confirm: 新しいパスワードの確認
                 description: "「パスワードの確認」は、「新しいパスワード」フィールドの入力と一致する必要があります。"
+            status:
+              invalid_on_create: 新規ユーザーの有効なステータスではありません。
+            auth_source:
+              error_not_found: 存在しません
         member:
           principal_blank: 一つ以上のユーザまたはグループを選択してください。
           role_blank: 1つ以上のロールを選択してください。

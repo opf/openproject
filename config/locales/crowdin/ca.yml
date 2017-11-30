@@ -262,35 +262,6 @@ ca:
       compte.
     omniauth_login: Si us plau entra per activar el teu compte.
   actionview_instancetag_blank_option: Si us plau, selecciona
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: not found
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
-            from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
-        user:
-          attributes:
-            status:
-              invalid_on_create: is not a valid status for new users.
-            auth_source:
-              error_not_found: not found
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: The operator is not supported.
-              invalid_values: A value is invalid.
-              id_filter_required: An 'id' filter is required.
   activerecord:
     attributes:
       announcements:
@@ -449,6 +420,7 @@ ca:
         blank: no pot estar en blanc.
         cant_link_a_work_package_with_a_descendant: Un paquet de treball no es pot
           enllaçar a una de les seves subtasques.
+        follows_descendant: follows its descendant.
         circular_dependency: Aquesta relació crearia una dependència circular.
         confirmation: no coincideix amb el %{attribute}.
         does_not_exist: no existeix.
@@ -487,6 +459,12 @@ ca:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: A value is invalid.
+              id_filter_required: An 'id' filter is required.
         project:
           attributes:
             types:
@@ -496,12 +474,25 @@ ca:
             ell mateix.
           project_association_not_allowed: no permet associacions.
         query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
             custom_fields:
               inexistent: There is no custom field for the filter.
               invalid: The custom field is not valid in the given context.
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
         repository:
           not_available: El proveïdor SCM no està disponible
           not_whitelisted: no està permès per la configuració.
@@ -522,9 +513,6 @@ ca:
             start_date:
               violates_relationships: només es pot posar a %{soonest_start} o més
                 tard per tal de no es violar les relacions del paquet de treball.
-              violates_parent_relationships: can only be set to %{soonest_start} or
-                later so as not to violate the relationships of the work_package's
-                ancestors.
             status_id:
               status_transition_invalid: no és vàlida perquè no hi ha una transició
                 vàlida des d'estat antic a nou estat per al rol de l'usuari actual.
@@ -560,6 +548,10 @@ ca:
                 confirm: Confirmar nova contrasenya.
                 description: "'Confirmació de la contrasenya' ha de coincidir amb
                   la introduïda al camp 'Nova contrasenya'."
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: not found
         member:
           principal_blank: Trieu com a mínim un usuari o grup.
           role_blank: Seleccioneu almenys un rol.

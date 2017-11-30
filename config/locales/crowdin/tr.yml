@@ -251,36 +251,6 @@ tr:
       giriş yapın.
     omniauth_login: Hesabınızı aktifleştirmek için lütfen giriş yapın.
   actionview_instancetag_blank_option: Lütfen seçin
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: bulunamadı
-            public:
-              error_unauthorized: "- Kullanıcı genel sorgular oluşturma iznine sahip
-                değil."
-        relation:
-          attributes:
-            to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
-            from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
-        user:
-          attributes:
-            status:
-              invalid_on_create: is not a valid status for new users.
-            auth_source:
-              error_not_found: bulunamadı
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Biçim desteklenmiyor.
-              invalid_values: Bir değeri geçerli değil.
-              id_filter_required: Bir 'id' süzgeç gereklidir.
   activerecord:
     attributes:
       announcements:
@@ -438,6 +408,7 @@ tr:
         blank: boş bırakılamaz.
         cant_link_a_work_package_with_a_descendant: İş paketi alt görevlerinden birine
           bağlanamaz.
+        follows_descendant: follows its descendant.
         circular_dependency: Bu ilişki döngüsel bağımlılık oluşturacak.
         confirmation: "%{attribute} eşleşmiyor."
         does_not_exist: mevcut değil.
@@ -477,6 +448,12 @@ tr:
           at_least_one_custom_option: En az bir seçeneğin uygun olması gerekir.
         enterprise_token:
           unreadable: okunamıyor. Desteklenen bir destek anahtarı olduğuna emin misiniz?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Biçim desteklenmiyor.
+              invalid_values: Bir değeri geçerli değil.
+              id_filter_required: Bir 'id' süzgeç gereklidir.
         project:
           attributes:
             types:
@@ -485,12 +462,26 @@ tr:
           identical_projects: Bağımlılık bir proje ve kendisi arasında yaratılamaz.
           project_association_not_allowed: ilişkilere izin vermez.
         query:
+          attributes:
+            project:
+              error_not_found: bulunamadı
+            public:
+              error_unauthorized: "- Kullanıcı genel sorgular oluşturma iznine sahip
+                değil."
           group_by_hierarchies_exclusive: grubu tarafından '%{group_by}' ile birlikte
             kullanılamaz. Her ikisi de etkinleştiremezsiniz.
           filters:
             custom_fields:
               inexistent: There is no custom field for the filter.
               invalid: The custom field is not valid in the given context.
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
         repository:
           not_available: SCM vendor is not available
           not_whitelisted: is not allowed by the configuration.
@@ -511,8 +502,6 @@ tr:
             start_date:
               violates_relationships: can only be set to %{soonest_start} or later
                 so as not to violate the work package's relationships.
-              violates_parent_relationships: yalnızca %{soonest_start} veya daha sonra
-                iş paketi üst bağımlılık ilişkilerini ihlal etmediğinde ayarlanabilir.
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
@@ -547,6 +536,10 @@ tr:
               match:
                 confirm: Yeni parolayı doğrulayın.
                 description: '"Parola onayı" ''yeni şifre'' alanı girişi aynı olmalıdır.'
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: bulunamadı
         member:
           principal_blank: Lütfen en az bir kullanıcı veya grup seçin.
           role_blank: Lütfen en az bir rol seçin.

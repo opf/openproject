@@ -253,35 +253,6 @@ fi:
       tilisi.
     omniauth_login: Kirjaudu sisään aktivoidaksesi tilisi.
   actionview_instancetag_blank_option: Valitse
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: ei löydetty
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
-            from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
-        user:
-          attributes:
-            status:
-              invalid_on_create: ei ole kelvollinen tila uusille käyttäjille.
-            auth_source:
-              error_not_found: ei löydetty
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Operaattoria ei tueta.
-              invalid_values: Virheellinen arvo.
-              id_filter_required: An 'id' filter is required.
   activerecord:
     attributes:
       announcements:
@@ -440,6 +411,7 @@ fi:
         blank: ei voi olla sisällötön.
         cant_link_a_work_package_with_a_descendant: Työpakettia ei voida yhdistää
           ko. työpaketin alitehtäviin.
+        follows_descendant: follows its descendant.
         circular_dependency: Tämä suhde loisi kehän.
         confirmation: ei vastaa %{attribute}.
         does_not_exist: ei ole olemassa.
@@ -479,6 +451,12 @@ fi:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Operaattoria ei tueta.
+              invalid_values: Virheellinen arvo.
+              id_filter_required: An 'id' filter is required.
         project:
           attributes:
             types:
@@ -487,12 +465,25 @@ fi:
           identical_projects: Riippuvuutta ei voi luoda projektin ja sen itsensä välillä.
           project_association_not_allowed: ei salli yhdistämisiä.
         query:
+          attributes:
+            project:
+              error_not_found: ei löydetty
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
             custom_fields:
               inexistent: Ei ole mukautettua kenttää suodattimelle.
               invalid: Mukautettu kenttä ei ole kelvollinen tässä yhteydessä.
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
         repository:
           not_available: SCM vendor is not available
           not_whitelisted: ei ole sallittu kokoonpanossa.
@@ -513,9 +504,6 @@ fi:
             start_date:
               violates_relationships: voidaan määrittää vain %{soonest_start} tai
                 myöhempään, jotta ei rikota työpaketin suhteita.
-              violates_parent_relationships: can only be set to %{soonest_start} or
-                later so as not to violate the relationships of the work_package's
-                ancestors.
             status_id:
               status_transition_invalid: ei kelpaa, koska siirtymää ei ole määritelty
                 vanhan ja uuden tilan välille nykyisen käyttäjän rooleissa.
@@ -551,6 +539,10 @@ fi:
                 confirm: Vahvista uusi salasana.
                 description: '"Salasanan vahvistus" -kentän arvon tulee olla identtinen
                   "Uusi salasana" -kentän arvon kanssa.'
+            status:
+              invalid_on_create: ei ole kelvollinen tila uusille käyttäjille.
+            auth_source:
+              error_not_found: ei löydetty
         member:
           principal_blank: Valitse vähintään yksi käyttäjä tai ryhmä.
           role_blank: Valitse vähintään yksi rooli.

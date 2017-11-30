@@ -252,38 +252,6 @@ sv-SE:
       konto.
     omniauth_login: Vänligen logga in för att aktivera ditt konto.
   actionview_instancetag_blank_option: Välj
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: hittades inte
-            public:
-              error_unauthorized: "- Användaren har inte behörighet att skapa offentliga
-                frågor."
-        relation:
-          attributes:
-            to:
-              error_not_found: arbetspaketet i 'till' hittades inte eller är inte
-                synligt
-              error_readonly: en befintlig relations 'till'-länk går ej att ändra
-            from:
-              error_not_found: arbetspaketet i 'från' hittades inte eller är inte
-                synligt
-              error_readonly: en befintlig relations 'från'-länk går ej att ändra
-        user:
-          attributes:
-            status:
-              invalid_on_create: är inte en giltig status för nya användare.
-            auth_source:
-              error_not_found: hittades inte
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Operatorn stöds inte.
-              invalid_values: Ett värde är ogiltigt.
-              id_filter_required: Ett ID-filter krävs.
   activerecord:
     attributes:
       announcements:
@@ -441,6 +409,7 @@ sv-SE:
         blank: kan inte vara tomt.
         cant_link_a_work_package_with_a_descendant: Ett arbetspaket kan inte kopplas
           till någon av dess underaktiviteter.
+        follows_descendant: follows its descendant.
         circular_dependency: Detta förhållande skulle skapa ett cirkelberoende.
         confirmation: matchar inte %{attribute}.
         does_not_exist: finns inte.
@@ -479,6 +448,12 @@ sv-SE:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
           unreadable: kan inte läsas. Är du säker på att det är en support-nyckel?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Operatorn stöds inte.
+              invalid_values: Ett värde är ogiltigt.
+              id_filter_required: Ett ID-filter krävs.
         project:
           attributes:
             types:
@@ -488,12 +463,28 @@ sv-SE:
             själv.
           project_association_not_allowed: tillåter inte förbindelser.
         query:
+          attributes:
+            project:
+              error_not_found: hittades inte
+            public:
+              error_unauthorized: "- Användaren har inte behörighet att skapa offentliga
+                frågor."
           group_by_hierarchies_exclusive: är ömsesidigt uteslutande med grupperingen
             '%{group_by}'. Du kan inte aktivera båda.
           filters:
             custom_fields:
               inexistent: Det finns inget anpassat fält för filtret.
               invalid: Det anpassade fältet är inte giltigt i detta sammanhang.
+        relation:
+          attributes:
+            to:
+              error_not_found: arbetspaketet i 'till' hittades inte eller är inte
+                synligt
+              error_readonly: en befintlig relations 'till'-länk går ej att ändra
+            from:
+              error_not_found: arbetspaketet i 'från' hittades inte eller är inte
+                synligt
+              error_readonly: en befintlig relations 'från'-länk går ej att ändra
         repository:
           not_available: SCM leverantör är inte tillgänglig
           not_whitelisted: tillåts inte av konfigurationen.
@@ -513,8 +504,6 @@ sv-SE:
             start_date:
               violates_relationships: kan endast anges till %{soonest_start} eller
                 senare för att inte skada arbetspaketets relationer.
-              violates_parent_relationships: kan endast anges till %{soonest_start}
-                eller senare för att inte skada arbetspaketets relationer.
             status_id:
               status_transition_invalid: är ogiltig eftersom det finns någon giltig
                 övergång ifrån den gamla till nya statusen för den aktuella användarens
@@ -551,6 +540,10 @@ sv-SE:
               match:
                 confirm: Bekräfta nytt lösenord.
                 description: Lösenorden som anges i de två fälten måste matcha varandra.
+            status:
+              invalid_on_create: är inte en giltig status för nya användare.
+            auth_source:
+              error_not_found: hittades inte
         member:
           principal_blank: Välj minst en användare eller grupp.
           role_blank: Välj minst en roll.

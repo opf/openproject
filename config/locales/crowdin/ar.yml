@@ -248,35 +248,6 @@ ar:
     auth_source_login: الرجاء الدخول ك <em>%{login}</em>لتفعيل حسابك.
     omniauth_login: الرجاء تسجيل الدخول لتفعيل حسابك.
   actionview_instancetag_blank_option: من فضلك اختر
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: not found
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
-            from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: علاقة الارتباط هذه غير ممكن تغييرها
-        user:
-          attributes:
-            status:
-              invalid_on_create: ليس حالة صحيحة للمستخدمين الجدد.
-            auth_source:
-              error_not_found: not found
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: The operator is not supported.
-              invalid_values: A value is invalid.
-              id_filter_required: An 'id' filter is required.
   activerecord:
     attributes:
       announcements:
@@ -434,6 +405,7 @@ ar:
         blank: لا يمكن أن يكون فارغا.
         cant_link_a_work_package_with_a_descendant: حزمة العمل لا يمكن أن تكون مرتبطة
           إلى واحدة من المهام الفرعية.
+        follows_descendant: follows its descendant.
         circular_dependency: ان هذه العلاقة خلق تبعية دائرية.
         confirmation: لا يتطابق مع %{attribute}.
         does_not_exist: غير موجود.
@@ -471,6 +443,12 @@ ar:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: A value is invalid.
+              id_filter_required: An 'id' filter is required.
         project:
           attributes:
             types:
@@ -480,12 +458,25 @@ ar:
           identical_projects: لا يمكن إنشاء تبعية بين مشروع واحد ونفسه.
           project_association_not_allowed: لا يسمح للجمعيات.
         query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
             custom_fields:
               inexistent: لا يوجد أي حقل مخصص لعامل التصفية.
               invalid: الحقل المخصص غير صحيح في هذا السياق.
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: علاقة الارتباط هذه غير ممكن تغييرها
         repository:
           not_available: بائع SCM غير متاح
           not_whitelisted: غير مسموح بالتكوين.
@@ -505,9 +496,6 @@ ar:
             start_date:
               violates_relationships: يمكن فقط تعيينه إلى %{soonest_start} أو في وقت
                 لاحق حتى لا يتعارض مع علاقات حزمة العمل.
-              violates_parent_relationships: can only be set to %{soonest_start} or
-                later so as not to violate the relationships of the work_package's
-                ancestors.
             status_id:
               status_transition_invalid: غير مسموح لأن لا انتقال صالح موجود من القديم
                 إلى مركز جديد للأدوار للمستخدم الحالي.
@@ -551,6 +539,10 @@ ar:
                 confirm: تأكيد كلمة المرور الجديدة.
                 description: "'تأكيد كلمة المرور' يجب أن يطابق الإدخال في حقل 'كلمة
                   المرور الجديدة'."
+            status:
+              invalid_on_create: ليس حالة صحيحة للمستخدمين الجدد.
+            auth_source:
+              error_not_found: not found
         member:
           principal_blank: يرجى اختيار مستخدم واحد على الأقل أو مجموعة.
           role_blank: من فضلك قم باختيار دور واحد على الأقل.

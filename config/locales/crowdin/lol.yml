@@ -213,35 +213,6 @@ lol:
     auth_source_login: crwdns92440:0%{login}crwdne92440:0
     omniauth_login: crwdns92441:0crwdne92441:0
   actionview_instancetag_blank_option: crwdns92442:0crwdne92442:0
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: crwdns92443:0crwdne92443:0
-            public:
-              error_unauthorized: crwdns92444:0crwdne92444:0
-        relation:
-          attributes:
-            to:
-              error_not_found: crwdns92445:0crwdne92445:0
-              error_readonly: crwdns92446:0crwdne92446:0
-            from:
-              error_not_found: crwdns92447:0crwdne92447:0
-              error_readonly: crwdns92448:0crwdne92448:0
-        user:
-          attributes:
-            status:
-              invalid_on_create: crwdns92449:0crwdne92449:0
-            auth_source:
-              error_not_found: crwdns92450:0crwdne92450:0
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: crwdns92451:0crwdne92451:0
-              invalid_values: crwdns92452:0crwdne92452:0
-              id_filter_required: crwdns92453:0crwdne92453:0
   activerecord:
     attributes:
       announcements:
@@ -396,6 +367,7 @@ lol:
         accepted: crwdns92570:0crwdne92570:0
         blank: crwdns92571:0crwdne92571:0
         cant_link_a_work_package_with_a_descendant: crwdns92572:0crwdne92572:0
+        follows_descendant: crwdns95407:0crwdne95407:0
         circular_dependency: crwdns92573:0crwdne92573:0
         confirmation: crwdns92574:0%{attribute}crwdne92574:0
         does_not_exist: crwdns92575:0crwdne92575:0
@@ -433,6 +405,12 @@ lol:
           at_least_one_custom_option: crwdns92605:0crwdne92605:0
         enterprise_token:
           unreadable: crwdns92606:0crwdne92606:0
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: crwdns95408:0crwdne95408:0
+              invalid_values: crwdns95409:0crwdne95409:0
+              id_filter_required: crwdns95410:0crwdne95410:0
         project:
           attributes:
             types:
@@ -441,11 +419,24 @@ lol:
           identical_projects: crwdns92608:0crwdne92608:0
           project_association_not_allowed: crwdns92609:0crwdne92609:0
         query:
+          attributes:
+            project:
+              error_not_found: crwdns95411:0crwdne95411:0
+            public:
+              error_unauthorized: crwdns95412:0crwdne95412:0
           group_by_hierarchies_exclusive: crwdns92610:0%{group_by}crwdne92610:0
           filters:
             custom_fields:
               inexistent: crwdns92611:0crwdne92611:0
               invalid: crwdns92612:0crwdne92612:0
+        relation:
+          attributes:
+            to:
+              error_not_found: crwdns95413:0crwdne95413:0
+              error_readonly: crwdns95414:0crwdne95414:0
+            from:
+              error_not_found: crwdns95415:0crwdne95415:0
+              error_readonly: crwdns95416:0crwdne95416:0
         repository:
           not_available: crwdns92613:0crwdne92613:0
           not_whitelisted: crwdns92614:0crwdne92614:0
@@ -463,7 +454,6 @@ lol:
               not_a_valid_parent: crwdns94798:0crwdne94798:0
             start_date:
               violates_relationships: crwdns92623:0%{soonest_start}crwdne92623:0
-              violates_parent_relationships: crwdns92624:0%{soonest_start}crwdne92624:0
             status_id:
               status_transition_invalid: crwdns92625:0crwdne92625:0
             priority_id:
@@ -493,6 +483,10 @@ lol:
               match:
                 confirm: crwdns92639:0crwdne92639:0
                 description: crwdns92640:0crwdne92640:0
+            status:
+              invalid_on_create: crwdns95417:0crwdne95417:0
+            auth_source:
+              error_not_found: crwdns95418:0crwdne95418:0
         member:
           principal_blank: crwdns92641:0crwdne92641:0
           role_blank: crwdns92642:0crwdne92642:0

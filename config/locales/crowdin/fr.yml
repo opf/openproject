@@ -259,40 +259,6 @@ fr:
       activer votre compte.
     omniauth_login: Veuillez vous connecter pour activer votre compte.
   actionview_instancetag_blank_option: Veuillez sélectionner
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: non trouvé
-            public:
-              error_unauthorized: "- L’utilisateur n'est pas autorisé à créer des
-                requêtes publiques."
-        relation:
-          attributes:
-            to:
-              error_not_found: lot de travaux dans la position `à` introuvable ou
-                invisible
-              error_readonly: impossible de modifier le lien d'une relation existante
-                `à`
-            from:
-              error_not_found: lot de travaux dans la position `de` introuvable ou
-                invisible
-              error_readonly: impossible de modifier le lien d'une relation existante
-                `de`
-        user:
-          attributes:
-            status:
-              invalid_on_create: n’est pas un statut valide pour les nouveaux utilisateurs.
-            auth_source:
-              error_not_found: non trouvé
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: L’opérateur n’est pas pris en charge.
-              invalid_values: Une valeur est invalide.
-              id_filter_required: Un filtre sur l'id est requis.
   activerecord:
     attributes:
       announcements:
@@ -451,6 +417,7 @@ fr:
         blank: ne peut pas être vide.
         cant_link_a_work_package_with_a_descendant: Un lot de travaux ne peut pas
           être lié à l'une de ses sous-tâches.
+        follows_descendant: follows its descendant.
         circular_dependency: Cette relation créerait une dépendance circulaire.
         confirmation: ne correspond pas à %{attribute}.
         does_not_exist: n'existe pas.
@@ -491,6 +458,12 @@ fr:
         enterprise_token:
           unreadable: ne peut être lu. Êtes-vous sûr qu'il s'agisse d'une licence
             Entreprise ?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: L’opérateur n’est pas pris en charge.
+              invalid_values: Une valeur est invalide.
+              id_filter_required: Un filtre sur l'id est requis.
         project:
           attributes:
             types:
@@ -501,12 +474,30 @@ fr:
             et lui-même.
           project_association_not_allowed: n'autorise pas les associations.
         query:
+          attributes:
+            project:
+              error_not_found: non trouvé
+            public:
+              error_unauthorized: "- L’utilisateur n'est pas autorisé à créer des
+                requêtes publiques."
           group_by_hierarchies_exclusive: est mutuellement exclusif avec grouper par
             '%{group_by}'. Vous ne pouvez pas activer les deux.
           filters:
             custom_fields:
               inexistent: Il n’y a pas de champ personnalisé pour le filtre.
               invalid: Le champ personnalisé n’est pas valide dans le contexte donné.
+        relation:
+          attributes:
+            to:
+              error_not_found: lot de travaux dans la position `à` introuvable ou
+                invisible
+              error_readonly: impossible de modifier le lien d'une relation existante
+                `à`
+            from:
+              error_not_found: lot de travaux dans la position `de` introuvable ou
+                invisible
+              error_readonly: impossible de modifier le lien d'une relation existante
+                `de`
         repository:
           not_available: Le fournisseur de gestion de contrôle de sources n'est pas
             disponible
@@ -528,9 +519,6 @@ fr:
             start_date:
               violates_relationships: peut uniquement valoir %{soonest_start} ou une
                 date ultérieure afin de ne pas violer les relations du lot de travaux.
-              violates_parent_relationships: peut uniquement valoir %{soonest_start}
-                ou une date ultérieure afin de ne pas violer les relations des ancêtres
-                du lot de travaux.
             status_id:
               status_transition_invalid: n'est pas valide, car aucune transition valide
                 n'existe de l'ancien vers le nouveau statut pour les rôles de l'utilisateur
@@ -568,6 +556,10 @@ fr:
                 confirm: Confirmez le nouveau mot de passe.
                 description: La confirmation du mot de passe doit correspondre à celui
                   saisi dans le champ “Nouveau mot de passe”.
+            status:
+              invalid_on_create: n’est pas un statut valide pour les nouveaux utilisateurs.
+            auth_source:
+              error_not_found: non trouvé
         member:
           principal_blank: Veuillez choisir au moins un utilisateur ou un groupe.
           role_blank: Veuillez choisir au moins un rôle.

@@ -260,37 +260,6 @@ nl:
       activeren.
     omniauth_login: Gelieve in te loggen om uw account te activeren.
   actionview_instancetag_blank_option: Gelieve te selecteren
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: niet gevonden
-            public:
-              error_unauthorized: "-De gebruiker heeft geen toestemming om openbare
-                query's maken."
-        relation:
-          attributes:
-            to:
-              error_not_found: werkpakket in positie `naar` niet gevonden of niet
-                zichtbaar
-              error_readonly: een bestaande `te`-relatie is onveranderlijk
-            from:
-              error_not_found: werkpakket in `van`-positie niet gevonden of niet zichtbaar
-              error_readonly: een bestaande `van`-relatielink is onveranderlijk
-        user:
-          attributes:
-            status:
-              invalid_on_create: is niet een geldige status voor nieuwe gebruikers.
-            auth_source:
-              error_not_found: niet gevonden
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: De operator wordt niet ondersteund.
-              invalid_values: Een waarde is ongeldig.
-              id_filter_required: Een ' id' filter is vereist.
   activerecord:
     attributes:
       announcements:
@@ -448,6 +417,7 @@ nl:
         blank: mag niet leeg zijn.
         cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden
           gekoppeld aan een van de bijbehorende subtaken.
+        follows_descendant: follows its descendant.
         circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
         confirmation: komt niet overeen met %{attribute}.
         does_not_exist: bestaat niet.
@@ -487,6 +457,12 @@ nl:
         enterprise_token:
           unreadable: kan niet worden gelezen. Weet u zeer dat het een support token
             is?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: De operator wordt niet ondersteund.
+              invalid_values: Een waarde is ongeldig.
+              id_filter_required: Een ' id' filter is vereist.
         project:
           attributes:
             types:
@@ -497,12 +473,27 @@ nl:
             project en hetzelf.
           project_association_not_allowed: staat geen associaties toe.
         query:
+          attributes:
+            project:
+              error_not_found: niet gevonden
+            public:
+              error_unauthorized: "-De gebruiker heeft geen toestemming om openbare
+                query's maken."
           group_by_hierarchies_exclusive: is uitsluiten door samenvoeging, '%{group_by}'.
             U kunt beide niet activeren.
           filters:
             custom_fields:
               inexistent: Er is geen aangepast veld voor dit filter.
               invalid: Het aangepaste veld is niet geldig in deze context.
+        relation:
+          attributes:
+            to:
+              error_not_found: werkpakket in positie `naar` niet gevonden of niet
+                zichtbaar
+              error_readonly: een bestaande `te`-relatie is onveranderlijk
+            from:
+              error_not_found: werkpakket in `van`-positie niet gevonden of niet zichtbaar
+              error_readonly: een bestaande `van`-relatielink is onveranderlijk
         repository:
           not_available: SCM-leverancier is niet beschikbaar
           not_whitelisted: is niet toegestaan door de configuratie.
@@ -523,9 +514,6 @@ nl:
             start_date:
               violates_relationships: kan enkel naar %{soonest_start} worden gezet
                 of later met de bedoeling de relaties van het werkpakket niet te schenden.
-              violates_parent_relationships: kan enkel naar %{soonest_start} worden
-                gezet of later met de bedoeling de relaties van het werkpakket niet
-                te schenden.
             status_id:
               status_transition_invalid: is ongeldig omdat geen geldige overgang van
                 de oude naar de nieuwe status voor de huidige gebruikersrollen bestaat.
@@ -562,6 +550,10 @@ nl:
                 confirm: Bevestig nieuw wachtwoord.
                 description: "'Wachtwoordbevestiging' moet hetzelfde zijn als de invoer
                   bij het 'Nieuw wachtwoord'-veld."
+            status:
+              invalid_on_create: is niet een geldige status voor nieuwe gebruikers.
+            auth_source:
+              error_not_found: niet gevonden
         member:
           principal_blank: Kies ten minste één gebruiker of groep.
           role_blank: Kies ten minste één rol.

@@ -255,35 +255,6 @@ hr:
       vaš korisnički račun.
     omniauth_login: Molim vas prijavite se da bi ste aktivirali vaš korisnički račun.
   actionview_instancetag_blank_option: Molimo odaberite
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: nije pronađeno
-            public:
-              error_unauthorized: "- The user has no permission to create public queries."
-        relation:
-          attributes:
-            to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
-            from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
-        user:
-          attributes:
-            status:
-              invalid_on_create: is not a valid status for new users.
-            auth_source:
-              error_not_found: nije pronađeno
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Operator nije podržan.
-              invalid_values: Vrijednost nije valjana.
-              id_filter_required: An 'id' filter is required.
   activerecord:
     attributes:
       announcements:
@@ -441,6 +412,7 @@ hr:
         blank: ne može biti prazan unos.
         cant_link_a_work_package_with_a_descendant: Radni paket ne može biti pridružen
           podređenim radnim zadacima.
+        follows_descendant: follows its descendant.
         circular_dependency: Ova relacija izraditi će skupnu odnosno cirkularnu ovisnost.
         confirmation: ne odgovara %{attribute}.
         does_not_exist: ne postoji.
@@ -480,6 +452,12 @@ hr:
           at_least_one_custom_option: At least one option needs to be available.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Operator nije podržan.
+              invalid_values: Vrijednost nije valjana.
+              id_filter_required: An 'id' filter is required.
         project:
           attributes:
             types:
@@ -490,12 +468,25 @@ hr:
             sebe.
           project_association_not_allowed: ne dozvoljava udruživanje.
         query:
+          attributes:
+            project:
+              error_not_found: nije pronađeno
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
             You cannot activate both.
           filters:
             custom_fields:
               inexistent: There is no custom field for the filter.
               invalid: The custom field is not valid in the given context.
+        relation:
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
         repository:
           not_available: SCM dobavljač nije dostupn
           not_whitelisted: nije dopušteno postavljenom konfiguracijom.
@@ -516,9 +507,6 @@ hr:
             start_date:
               violates_relationships: can only be set to %{soonest_start} or later
                 so as not to violate the work package's relationships.
-              violates_parent_relationships: can only be set to %{soonest_start} or
-                later so as not to violate the relationships of the work_package's
-                ancestors.
             status_id:
               status_transition_invalid: nije valjano, zato jer ne postoji valjan
                 prijelaz s starog na novi status za trenutne korisničke role.
@@ -557,6 +545,10 @@ hr:
                 confirm: Potvrdite novu lozinku.
                 description: "' Potvrda lozinke' mora se podudarati s unosom unutar
                   polja 'Nova lozinka'."
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: nije pronađeno
         member:
           principal_blank: Molim vas odaberite najamnje jednog korisnika ili grupu.
           role_blank: Molim vas odaberite najmanje jednu rolu.

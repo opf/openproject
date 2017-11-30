@@ -252,36 +252,6 @@ ru:
       вашей учетной записи.
     omniauth_login: Пожалуйста, авторизируйтесь для активации вашей учетной записи.
   actionview_instancetag_blank_option: Пожалуйста, выберите
-  activemodel:
-    errors:
-      models:
-        query:
-          attributes:
-            project:
-              error_not_found: не найдено
-            public:
-              error_unauthorized: "- У пользователя нет прав для создания общедоступных
-                запросов."
-        relation:
-          attributes:
-            to:
-              error_not_found: рабочий пакет в позиции `до` не найден или не виден
-              error_readonly: в существующих отношениях связь `до` неизменна
-            from:
-              error_not_found: рабочий пакет в позиции `от` не найден или не виден
-              error_readonly: в существующих отношениях связь `от` неизменна
-        user:
-          attributes:
-            status:
-              invalid_on_create: для нового пользователя это неподходящий статус.
-            auth_source:
-              error_not_found: не найдено
-        parse_schema_filter_params_service:
-          attributes:
-            base:
-              unsupported_operator: Оператор не поддерживается.
-              invalid_values: Недопустимое значение.
-              id_filter_required: Требуется фильтр по 'Id'.
   activerecord:
     attributes:
       announcements:
@@ -439,6 +409,7 @@ ru:
         blank: не может быть пустым.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан
           с одной из своих подзадач.
+        follows_descendant: follows its descendant.
         circular_dependency: Это отношение создаст циклическую зависимость.
         confirmation: не совпадает со значением поля %{attribute}.
         does_not_exist: не существует.
@@ -478,6 +449,12 @@ ru:
           at_least_one_custom_option: По крайней мере один параметр должен быть доступен.
         enterprise_token:
           unreadable: невозможно прочитать. Вы уверены, что это маркер поддержки?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: Оператор не поддерживается.
+              invalid_values: Недопустимое значение.
+              id_filter_required: Требуется фильтр по 'Id'.
         project:
           attributes:
             types:
@@ -486,12 +463,26 @@ ru:
           identical_projects: У проекта не можеть быть зависимости с самим собой.
           project_association_not_allowed: не разрешает ассоциаций.
         query:
+          attributes:
+            project:
+              error_not_found: не найдено
+            public:
+              error_unauthorized: "- У пользователя нет прав для создания общедоступных
+                запросов."
           group_by_hierarchies_exclusive: является взаимоисключающим при группировке
             «%{group_by}». Вы не можете активировать оба.
           filters:
             custom_fields:
               inexistent: Для этого фильтра нет настраиваемого поля.
               invalid: В этом контексте настраиваемое поле неприменимо.
+        relation:
+          attributes:
+            to:
+              error_not_found: рабочий пакет в позиции `до` не найден или не виден
+              error_readonly: в существующих отношениях связь `до` неизменна
+            from:
+              error_not_found: рабочий пакет в позиции `от` не найден или не виден
+              error_readonly: в существующих отношениях связь `от` неизменна
         repository:
           not_available: SCM поставщик не доступен
           not_whitelisted: не допускается конфигурацией.
@@ -511,8 +502,6 @@ ru:
             start_date:
               violates_relationships: может быть установлено лишь в %{soonest_start}
                 или позднее и без нарушения взаимосвязи рабочих пакетов.
-              violates_parent_relationships: может быть установлено лишь в %{soonest_start}
-                или позднее и без нарушения взаимосвязи пакетов работ предков.
             status_id:
               status_transition_invalid: недопустимо, так как  для текущих ролей пользователя
                 нет правильного перехода от старого этапа к новому.
@@ -554,6 +543,10 @@ ru:
                 confirm: Подтвердите новый пароль.
                 description: "«Подтвержденный пароль» должен совпадать с введенным
                   «новым паролем»."
+            status:
+              invalid_on_create: для нового пользователя это неподходящий статус.
+            auth_source:
+              error_not_found: не найдено
         member:
           principal_blank: Пожалуйста, выберите по крайней мере одного пользователя
             или группу.
