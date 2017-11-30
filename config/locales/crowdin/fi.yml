@@ -24,10 +24,9 @@ fi:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "on oltava sama kuin tarinan versio."
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
               parent_child_relationship_across_projects: "ei kelpaa, koska työpaketti \"%{work_package_name}\" on työjonossa ja siksi sillä ei voi olla edeltäjää nykyisen projektin ulkopuolella."
-
   backlogs:
     add_new_story: "Uusi tarina"
     any: "kaikki"
@@ -122,12 +121,6 @@ fi:
   permission_view_master_backlog: "Näytä pääasiallinen työjono"
   permission_view_taskboards: "Näytä työtaulut"
   permission_update_sprints: "Päivitä sprinttejä"
-  permission_create_stories: "Luo tarinoita"
-  permission_update_stories: "Päivitä sprinttejä"
-  permission_create_tasks: "Luo tehtävä"
-  permission_update_tasks: "Päivitä tehtäviä"
-  permission_create_impediments: "Luo esteitä"
-  permission_update_impediments: "Päivitä esteitä"
   points_accepted: "hyväksytyt pisteet"
   points_committed: "pisteet joihin on sitouduttu"
   points_resolved: "hyväksytyt pisteet"

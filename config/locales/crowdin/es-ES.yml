@@ -24,7 +24,7 @@ es:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "debe ser el mismo que la version de la historia."
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
               parent_child_relationship_across_projects: "no es valido porque el paquete de trabjo '%{work_package_name}' es una tarea de backlog y por lo tanto no puede tener un padre fuera del proyecto actual."
   backlogs:
@@ -121,12 +121,6 @@ es:
   permission_view_master_backlog: "Ver backlog maestro"
   permission_view_taskboards: "Ver paneles de tareas"
   permission_update_sprints: "Actualizar sprints"
-  permission_create_stories: "Crear historias"
-  permission_update_stories: "Actualizar tareas"
-  permission_create_tasks: "Crear tareas"
-  permission_update_tasks: "Actualizar tareas"
-  permission_create_impediments: "Crear impedimentos"
-  permission_update_impediments: "Actualizar impedimentos"
   points_accepted: "puntos aceptados"
   points_committed: "puntos comprometidos"
   points_resolved: "puntos resueltos"

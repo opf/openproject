@@ -15,7 +15,7 @@ zh-CN:
               can_only_contain_work_packages_of_current_sprint: "只可以包含当前冲刺 (sprint) 中的工作包 ID。"
               must_block_at_least_one_work_package: "必须包含至少一个票证的 ID。"
             parent_id:
-              type_must_be_one_of_the_following: 类型必须为以下其中一种：%{type_names}。
+              type_must_be_one_of_the_following: '类型必须为以下其中一种：%{type_names}。'
         sprint:
           cannot_end_before_it_starts: "冲刺 (Sprint) 不可以在开始前结束。"
   activemodel:
@@ -24,7 +24,7 @@ zh-CN:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "必须与用户故事的版本相同。"
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
               parent_child_relationship_across_projects: "无效，因为工作包“%{work_package_name}”是一个待办清单任务，不能具有当前项目以外的上级项目。"
   backlogs:
@@ -121,12 +121,6 @@ zh-CN:
   permission_view_master_backlog: "查看主待办清单"
   permission_view_taskboards: "查看任务板"
   permission_update_sprints: "更新冲刺 (sprint)"
-  permission_create_stories: "创建故事"
-  permission_update_stories: "更新故事"
-  permission_create_tasks: "创建任务"
-  permission_update_tasks: "更新任务"
-  permission_create_impediments: "创建障碍"
-  permission_update_impediments: "更新障碍"
   points_accepted: "点数已接受"
   points_committed: "点数已确认"
   points_resolved: "点数已完成"

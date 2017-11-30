@@ -15,7 +15,7 @@ ko:
               can_only_contain_work_packages_of_current_sprint: "은(는) 현재 스프린트에서 작업 패키지의 ID만 포함할 수 있습니다."
               must_block_at_least_one_work_package: "은(는) 티켓 하나 이상의 ID를 포함해야 합니다."
             parent_id:
-              type_must_be_one_of_the_following: 유형은 다음 중 하나여야 합니다. %{type_names}.
+              type_must_be_one_of_the_following: '유형은 다음 중 하나여야 합니다. %{type_names}.'
         sprint:
           cannot_end_before_it_starts: "스프린트는 시작되기 전에 끝날 수 없습니다."
   activemodel:
@@ -24,10 +24,9 @@ ko:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "은(는) 스토리의 버전과 동일해야 합니다."
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
               parent_child_relationship_across_projects: "은(는) 유효하지 않습니다. 작업 패키지 '%{work_package_name}'이(가) 백로그 작업이기 때문입니다. 따라서 현재 프로젝트 외부에 부모가 있을 수 없습니다."
-
   backlogs:
     add_new_story: "새로운 스토리"
     any: "모두"
@@ -122,12 +121,6 @@ ko:
   permission_view_master_backlog: "마스터 백로그 보기"
   permission_view_taskboards: "작업 보드 보기"
   permission_update_sprints: "스프린트 업데이트"
-  permission_create_stories: "스토리 만들기"
-  permission_update_stories: "스토리 업데이트"
-  permission_create_tasks: "작업 만들기"
-  permission_update_tasks: "작업 업데이트"
-  permission_create_impediments: "제한 만들기"
-  permission_update_impediments: "제한 업데이트"
   points_accepted: "포인트 수락됨"
   points_committed: "포인트 커밋됨"
   points_resolved: "포인트 확인됨"

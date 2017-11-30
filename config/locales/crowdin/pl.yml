@@ -24,7 +24,7 @@ pl:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "musi być taka sama jak wersja story."
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
               parent_child_relationship_across_projects: "jest nieprawidłowy, ponieważ paczka prac '%{work_package_name}' jest zadaniem backlogu, a więc nie może mieć rodziciela poza bieżącym projektem."
   backlogs:
@@ -121,12 +121,6 @@ pl:
   permission_view_master_backlog: "Wyświetl master backlog"
   permission_view_taskboards: "Wyświetl panel zadań"
   permission_update_sprints: "Aktualizuj sprint"
-  permission_create_stories: "Utwórz historie"
-  permission_update_stories: "Aktualizuj historie"
-  permission_create_tasks: "Utwórz zadania"
-  permission_update_tasks: "Aktualizuj zadania"
-  permission_create_impediments: "Utwórz przeszkody"
-  permission_update_impediments: "Aktualizacja istniejących utrudnień"
   points_accepted: "punkty zaakceptowane"
   points_committed: "punkty zatwierdzone"
   points_resolved: "punkty wyjaśnione"

@@ -24,7 +24,7 @@ ca:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "ha de ser el mateix que la versió de la història."
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
               parent_child_relationship_across_projects: "no és vàlid perquè el paquet de treball '%{work_package_name}' és una tasca de la llista de pendents i per tant no pot tenir un pare fora el projecte actual."
   backlogs:
@@ -121,12 +121,6 @@ ca:
   permission_view_master_backlog: "View master backlog"
   permission_view_taskboards: "View taskboards"
   permission_update_sprints: "Update sprints"
-  permission_create_stories: "Create stories"
-  permission_update_stories: "Update stories"
-  permission_create_tasks: "Create tasks"
-  permission_update_tasks: "Update tasks"
-  permission_create_impediments: "Create impediments"
-  permission_update_impediments: "Update impediments"
   points_accepted: "points accepted"
   points_committed: "points committed"
   points_resolved: "points resolved"

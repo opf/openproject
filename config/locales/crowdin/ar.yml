@@ -24,7 +24,7 @@ ar:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "يجب أن يكون مطابقًا لنسخة القصة."
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
               parent_child_relationship_across_projects: "هو غير صالح لأن مجموعة العمل '%{work_package_name}' هي مهمة عمل متراكم غير منجز ولذلك لا يمكن أن يكون أحد الأصول خارج المشروع الحالي."
   backlogs:
@@ -121,12 +121,6 @@ ar:
   permission_view_master_backlog: "عرض العمل الرئيسي المتراكم غير المنجز"
   permission_view_taskboards: "شاهد لوحات المهمات"
   permission_update_sprints: "قم بتحديث السباقات"
-  permission_create_stories: "قم بإنشاء القصص"
-  permission_update_stories: "قم بتحديث القصص"
-  permission_create_tasks: "قم بإنشاء المهمات"
-  permission_update_tasks: "قم بتحديث المهمات"
-  permission_create_impediments: "قم بإنشاء العوائق"
-  permission_update_impediments: "قم بتحديث العوائق"
   points_accepted: "النقاط التي تم قبولها"
   points_committed: "النقاط التي تم إحرازها"
   points_resolved: "النقاط التي تم حلّها"

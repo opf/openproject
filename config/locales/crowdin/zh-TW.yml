@@ -24,7 +24,7 @@ zh-TW:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "必須符合使用者需求的版本"
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
               parent_child_relationship_across_projects: "是不正確的，因為這個工作項目 '%{work_package_name}' 是一個待辦任務，它不可以擁有一個在目前的專案以外的上層項目"
   backlogs:
@@ -121,12 +121,6 @@ zh-TW:
   permission_view_master_backlog: "檢視主待辦事項"
   permission_view_taskboards: "檢視任務看板"
   permission_update_sprints: "更新進度"
-  permission_create_stories: "建立需求"
-  permission_update_stories: "更新需求"
-  permission_create_tasks: "建立任務"
-  permission_update_tasks: "更新任務"
-  permission_create_impediments: "建立阻礙"
-  permission_update_impediments: "更新阻礙"
   points_accepted: "點數已被接受"
   points_committed: "點數已確認"
   points_resolved: "點數已完成"

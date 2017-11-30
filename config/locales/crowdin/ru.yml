@@ -24,7 +24,7 @@ ru:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "должен быть таким же, как и версия истории."
+              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
             parent_id:
               parent_child_relationship_across_projects: "недействителен, поскольку пакет работ '%{work_package_name}' - это невыполненное задание и, следовательно, не может иметь родителя за пределами текущего проекта."
   backlogs:
@@ -121,12 +121,6 @@ ru:
   permission_view_master_backlog: "Просмотреть главную невыполненную работу"
   permission_view_taskboards: "Просмотреть панели задач"
   permission_update_sprints: "Обновить спринты"
-  permission_create_stories: "Создать истории"
-  permission_update_stories: "Обновить истории"
-  permission_create_tasks: "Создать задачи"
-  permission_update_tasks: "Обновить задачи"
-  permission_create_impediments: "Создать препятствия"
-  permission_update_impediments: "Обновить препятствия"
   points_accepted: "принятые пункты"
   points_committed: "порученные точки"
   points_resolved: "решенные пункты"
