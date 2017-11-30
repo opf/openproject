@@ -38,7 +38,7 @@ class Queries::Projects::Orders::RequiredDiskSpaceOrder < Queries::BaseOrder
   private
 
   def order
-    attribute = "(COALESCE(wiki.filesize, 0) + COALESCE(wp.filesize, 0) + COALESCE(repos.required_storage_bytes, 0))"
+    attribute = Project.required_disk_space_sum
 
     model.order("#{attribute} #{direction}")
   end

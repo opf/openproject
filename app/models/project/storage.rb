@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -63,7 +64,8 @@ module Project::Storage
     #  - +repositories_required_space+ required disk space from a locally registered repository
     #  - +required_disk_space+ Total required disk space for this project over these above values.
     def with_required_storage
-      Project.from("#{Project.table_name} projects")
+      Project
+        .from("#{Project.table_name} projects")
         .joins("LEFT JOIN (#{wiki_storage_sql}) wiki ON projects.id = wiki.project_id")
         .joins("LEFT JOIN (#{work_package_sql}) wp ON projects.id = wp.project_id")
         .joins("LEFT JOIN #{Repository.table_name} repos ON repos.project_id = projects.id")
@@ -71,16 +73,19 @@ module Project::Storage
         .select('wiki.filesize AS wiki_required_space')
         .select('wp.filesize AS work_package_required_space')
         .select('repos.required_storage_bytes AS repositories_required_space')
-        .select('(COALESCE(wiki.filesize, 0) +
-                  COALESCE(wp.filesize, 0) +
-                  COALESCE(repos.required_storage_bytes, 0)) AS required_disk_space')
+        .select("#{required_disk_space_sum} AS required_disk_space")
     end
 
     ##
     # Returns the total required disk space for all projects in bytes
     def total_projects_size
-      Project.from("(#{Project.with_required_storage.to_sql}) sub")
+      Project
+        .from("(#{Project.with_required_storage.to_sql}) sub")
         .sum(:required_disk_space)
+    end
+
+    def required_disk_space_sum
+      '(COALESCE(wiki.filesize, 0) + COALESCE(wp.filesize, 0) + COALESCE(repos.required_storage_bytes, 0))'
     end
 
     private
