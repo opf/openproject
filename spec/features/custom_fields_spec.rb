@@ -60,10 +60,42 @@ describe 'Custom fields reporting', type: :feature, js: true do
     end
 
     let(:initial_custom_values) { { custom_field.id => 1 } }
+    let(:cf_id) { "custom_field#{custom_field.id}" }
 
     before do
       login_as(user)
       visit '/cost_reports'
+    end
+
+    it 'filters by the multi CF' do
+      expect(page).to have_selector('#add_filter_select option', text: 'List CF')
+      select 'List CF', from: 'add_filter_select'
+
+      # Adds filter to page
+      expect(page).to have_selector("label##{cf_id}")
+      custom_field_selector = "##{cf_id}_arg_1_val"
+      select = find(custom_field_selector)
+      expect(select).to have_selector('option', text: 'First option')
+      expect(select).to have_selector('option', text: 'Second option')
+      select.find('option', text: 'First option').select_option
+
+      find('#query-icon-apply-button').click
+
+      # Expect row of work package
+      within('#result-table') do
+        expect(page).to have_selector('.top.result', text: '12.50 hours')
+      end
+
+      # Update filter to other value
+      select = find(custom_field_selector)
+      select.find('option', text: 'Second option').select_option
+      find('#query-icon-apply-button').click
+
+      # Expect empty result table
+      within('#result-table') do
+        expect(page).to have_no_selector('.top.result', text: '12.50 hours')
+      end
+      expect(page).to have_selector('.generic-table--no-results-title')
     end
 
     it 'groups by the multi CF (Regression #26050)' do
