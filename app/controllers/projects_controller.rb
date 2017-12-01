@@ -296,9 +296,14 @@ class ProjectsController < ApplicationController
   def load_query
     @query = ParamsToQueryService.new(Project, current_user).call(params)
 
-    # Set default filter on status if none is present.
-    if @query.find_active_filter(:status).nil? && @query.filters.blank? && !params[:filters]
+    # Set default filter on status no filter is provided.
+    if !params[:filters]
       @query.where('status', '=', Project::STATUS_ACTIVE.to_s)
+    end
+
+    # Order lft if no order is provided.
+    if !params[:sortBy]
+      @query.order(lft: :asc)
     end
 
     @query

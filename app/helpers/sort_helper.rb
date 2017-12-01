@@ -276,8 +276,8 @@ module SortHelper
   #
   #   Generates (for the users controller and if the table is sorted by the column)
   #     <th>
-  #       <div class="generic-table--sort-header-outer'>
-  #         <div class="generic-table--sort-header'>
+  #       <div class="generic-table--sort-header-outer">
+  #         <div class="generic-table--sort-header">
   #           <span class="sort asc">
   #             <a href="/users?sort=id:desc%3Adesc">Id</a>
   #           </span>

@@ -124,8 +124,13 @@ describe 'Projects index page',
   end
 
   def allow_enterprise_edition
-    allow(EnterpriseToken).to receive(:allows_to?).with(:custom_fields_in_projects_list).and_return(true)
-    allow(EnterpriseToken).to receive(:allows_to?).with(:define_custom_style).and_return(true)
+    allow(EnterpriseToken)
+      .to receive(:allows_to?)
+      .and_return(false)
+    allow(EnterpriseToken)
+      .to receive(:allows_to?)
+      .with(:custom_fields_in_projects_list)
+      .and_return(true)
   end
 
   def remove_filter(name)
@@ -262,7 +267,7 @@ describe 'Projects index page',
       click_on 'Filter'
 
       # Sorts ASC by name
-      click_on 'Sort by "Project"'
+      click_on 'Sort by "Name"'
 
       # Results should be filtered and ordered ASC by name
       expect(page).to have_text(development_project.name)
@@ -279,7 +284,7 @@ describe 'Projects index page',
       expect(page).to_not have_text(development_project.name) # That one should be on page 1
 
       # Sorts DESC by name
-      click_on 'Ascending sorted by "Project"'
+      click_on 'Ascending sorted by "Name"'
 
       # On page 2 the same filters should still be intact but the order should be DESC on name
       expect(page).to have_text(development_project.name)
@@ -672,6 +677,96 @@ describe 'Projects index page',
       expect(menu).to_not have_text('Delete')
       expect(menu).to_not have_text('Archive')
       expect(menu).to_not have_text('Unrchive')
+    end
+  end
+
+  feature 'order' do
+    let!(:integer_custom_field) { FactoryGirl.create(:int_project_custom_field) }
+    # order is important here as the implementation uses lft
+    # first but then reorders in ruby
+    let!(:child_project_z) do
+      FactoryGirl.create(:project,
+                         parent: project,
+                         name: "Z Child")
+    end
+    let!(:child_project_a) do
+      FactoryGirl.create(:project,
+                         parent: project,
+                         name: "A Child")
+    end
+
+    before do
+      allow_enterprise_edition
+      login_as(admin)
+      visit projects_path
+
+      project.custom_field_values = { integer_custom_field.id => 1 }
+      project.save!
+      development_project.custom_field_values = { integer_custom_field.id => 2 }
+      development_project.save!
+      public_project.custom_field_values = { integer_custom_field.id => 3 }
+      public_project.save!
+      child_project_z.custom_field_values = { integer_custom_field.id => 4 }
+      child_project_z.save!
+      child_project_a.custom_field_values = { integer_custom_field.id => 4 }
+      child_project_a.save!
+    end
+
+    def expect_project_at_place(project, place)
+      expect(page)
+        .to have_selector("#project-table .project:nth-of-type(#{place}) td.name",
+                          text: project.name)
+    end
+
+    def expect_projects_in_order(*projects)
+      projects.each_with_index do |project, index|
+        expect_project_at_place(project, index + 1)
+      end
+    end
+
+    scenario 'allows to alter the order in which projects are displayed' do
+      # initially, ordered by name asc on each hierarchical level
+      expect_projects_in_order(development_project,
+                               project,
+                               child_project_a,
+                               child_project_z,
+                               public_project)
+
+      click_link('Name')
+
+      # Projects ordered by name asc
+      expect_projects_in_order(child_project_a,
+                               development_project,
+                               project,
+                               public_project,
+                               child_project_z)
+
+      click_link('Name')
+
+      # Projects ordered by name desc
+      expect_projects_in_order(child_project_z,
+                               public_project,
+                               project,
+                               development_project,
+                               child_project_a)
+
+      click_link(integer_custom_field.name)
+
+      # Projects ordered by cf asc first then project name desc
+      expect_projects_in_order(project,
+                               development_project,
+                               public_project,
+                               child_project_z,
+                               child_project_a)
+
+      click_link('Sort by "Project hierarchy"')
+
+      # again ordered by name asc on each hierarchical level
+      expect_projects_in_order(development_project,
+                               project,
+                               child_project_a,
+                               child_project_z,
+                               public_project)
     end
   end
 end

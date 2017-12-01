@@ -233,4 +233,41 @@ module ProjectsHelper
     end
     s
   end
+
+  def projects_with_levels_order_sensitive(projects, &block)
+    if sorted_by_lft?
+      project_tree(projects, &block)
+    else
+      projects_with_level(projects, &block)
+    end
+  end
+
+  # Just like sort_header tag but removes sorting by
+  # lft from the sort criteria as lft is mutually exclusive with
+  # the other criteria.
+  def projects_sort_header_tag(*args)
+    former_criteria = @sort_criteria.criteria.dup
+
+    @sort_criteria.criteria.reject! { |a, _| a == 'lft' }
+
+    sort_header_tag(*args)
+  ensure
+    @sort_criteria.criteria = former_criteria
+  end
+
+  def deactivate_class_on_lft_sort
+    if sorted_by_lft?
+      '-inactive'
+    end
+  end
+
+  def href_only_when_not_sort_lft
+    unless sorted_by_lft?
+      "href=#{projects_path(sortBy: JSON::dump([['lft', 'asc']]))}"
+    end
+  end
+
+  def sorted_by_lft?
+    @sort_criteria.first_key == 'lft'
+  end
 end
