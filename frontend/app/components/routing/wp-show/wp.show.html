@@ -2,7 +2,7 @@
      class="work-packages--show-view"
      ng-if="$ctrl.workPackage">
 
-    <wp-breadcrumb work-package="$ctrl.workPackage" class="hidden-for-mobile"></wp-breadcrumb>
+    <wp-breadcrumb work-package="$ctrl.workPackage"></wp-breadcrumb>
 
     <div class="toolbar-container">
       <div id="toolbar">
@@ -42,7 +42,6 @@
                     locals="permittedActions,actionsAvailable,triggerMoreMenuAction"
                     title="{{I18n.t('js.button_more')}}">
               <op-icon icon-classes="button--icon icon-show-more"></op-icon>
-              <span class="button--text hidden-for-desktop">{{I18n.t('js.button_more')}}</span>
             </button>
           </li>
         </ul>
