@@ -208,9 +208,6 @@ body.controller-work_packages.full-create
       font-size: 20px
       font-weight: bold
       line-height: 34px
-      @media only screen and (max-width: 679px)
-        // give subject full width
-        width: 100%
 
     .work-packages--subject-element
       &.work-packages--details--subject
@@ -226,9 +223,6 @@ body.controller-work_packages.full-create
 
 .work-packages--subject-type-row
   display: flex
-  @media only screen and (max-width: 679px)
-    // the children need to wrap on mobile as each child will be of 100% width
-    flex-wrap: wrap
 
   // Fix: align and size hover border like buttons in toolbar.
   .wp-edit-field.-no-label:not(.-active) .wp-table--cell-span
@@ -237,13 +231,10 @@ body.controller-work_packages.full-create
     margin-top: 2px
 
 .work-packages--type-selector
-  @media only screen and (max-width: 679px)
-    // Give it some space to the back button (same as below to subject)
-    margin-top: 10px
-    // full width for mobile
-    width: 100%
   .wp-table--cell-span
     padding-right: 5px !important
+    &:after
+      content: ':'
 
   // Remove left padding from type
   .wp-edit-field--display-field

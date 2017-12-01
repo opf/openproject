@@ -163,3 +163,17 @@
   body.controller-work_packages.action-show
     .work-packages--show-view
       padding: 0
+
+    #main-menu
+      display: none
+      &~ #content-wrapper
+        padding-top: 0 !important
+
+    #toolbar-items
+      position: absolute
+      top: 10px
+      justify-content: flex-end
+      .toolbar-item
+        flex-grow: 0
+    .work-packages-full-view--split-container
+      border-top: none
