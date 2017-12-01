@@ -73,7 +73,7 @@ describe 'users/edit', type: :view do
       end
 
       it 'renders the resend invitation button' do
-        expect(rendered).to include I18n.t(:label_resend_invitation)
+        expect(rendered).to include I18n.t(:label_send_invitation)
       end
     end
 
@@ -86,7 +86,7 @@ describe 'users/edit', type: :view do
       end
 
       it 'does not render the resend invitation button' do
-        expect(rendered).not_to include I18n.t(:label_resend_invitation)
+        expect(rendered).not_to include I18n.t(:label_send_invitation)
       end
     end
   end
@@ -103,7 +103,7 @@ describe 'users/edit', type: :view do
     end
 
     it 'also renders the resend invitation button' do
-      expect(rendered).to include I18n.t(:label_resend_invitation)
+      expect(rendered).to include I18n.t(:label_send_invitation)
     end
   end
 
