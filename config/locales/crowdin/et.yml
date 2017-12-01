@@ -701,6 +701,7 @@ et:
     failed: Projekti %{source_project_name} ei saa kopeerida
     succeeded: Projekt %{target_project_name} on loodud
     errors: Tõrge
+    project_custom_fields: Custom fields on project
     text:
       failed: Ei saanud kopeerida andmeid projektist "%{source_project_name}" projekti
         "%{target_project_name}".

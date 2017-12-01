@@ -701,6 +701,7 @@ hu:
     failed: 'Nem lehet másolni a %{source_project_name} projektet '
     succeeded: 'A %{target_project_name} projekt létrehozva '
     errors: Hiba
+    project_custom_fields: Custom fields on project
     text:
       failed: Nem lehet másolni a  "%{source_project_name}" projektet a "%{target_project_name}"
         projektbe.

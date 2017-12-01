@@ -719,6 +719,7 @@ de:
     failed: Das Projekt %{source_project_name} konnte nicht kopiert werden
     succeeded: Das Projekt %{target_project_name} wurde erstellt
     errors: Fehler
+    project_custom_fields: Custom fields on project
     text:
       failed: Das Projekt "%{source_project_name}" konnte nicht nach "%{target_project_name}"
         kopiert werden.

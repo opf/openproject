@@ -408,7 +408,7 @@ lt:
         blank: negali būti tuščia.
         cant_link_a_work_package_with_a_descendant: Darbų paketas negali būti susietas
           su viena iš savo vidinių užduočių.
-        follows_descendant: follows its descendant.
+        follows_descendant: seka savo palikuonis.
         circular_dependency: Šis ryšys sukurtų ciklinę priklausomybę.
         confirmation: nesutampa su %{attribute}.
         does_not_exist: neegzistuoja.
@@ -703,6 +703,7 @@ lt:
     failed: Negalima kopijuoti „%{source_project_name}“ projekto
     succeeded: Sukurtas projektas pavadinimu „%{target_project_name}“
     errors: Klaida
+    project_custom_fields: Custom fields on project
     text:
       failed: Nepavyko nukopijuoti „%{source_project_name}“ projekto į „%{target_project_name}“
         projektą.

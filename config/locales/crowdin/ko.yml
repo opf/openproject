@@ -669,6 +669,7 @@ ko:
     failed: 프로젝트 %{source_project_name}을(를) 복사할 수 없습니다.
     succeeded: 프로젝트 %{target_project_name} 생성함
     errors: 오류
+    project_custom_fields: Custom fields on project
     text:
       failed: 프로젝트 "%{source_project_name}"을(를) 프로젝트 "%{target_project_name}"에 복사할
         수 없습니다.

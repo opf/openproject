@@ -714,6 +714,7 @@ it:
     failed: Non è possibile copiare il progetto %{source_project_name}
     succeeded: Creato il progetto %{target_project_name}
     errors: Errore
+    project_custom_fields: Custom fields on project
     text:
       failed: Non posso copiare il progetto "%{source_project_name}" nel progetto
         "%{target_project_name}".

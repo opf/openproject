@@ -695,6 +695,7 @@ id:
     failed: Tidak dapat meng-copy Project %{source_project_name}
     succeeded: Project %{target_project_name} telah dibuat
     errors: Eror
+    project_custom_fields: Custom fields on project
     text:
       failed: Tidak dapat meng-copy Project "%{source_project_name}" ke Project "%{target_project_name}".
       succeeded: Project "%{source_project_name}" ke "%{target_project_name}" telah

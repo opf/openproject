@@ -711,6 +711,7 @@ ca:
     failed: No es pot copiar el projecte %{source_project_name}
     succeeded: Projecte %{target_project_name} creat
     errors: Error
+    project_custom_fields: Custom fields on project
     text:
       failed: No s'ha pogut copiar el projecte "%{source_project_name}" al projecte
         "%{target_project_name}".

@@ -713,6 +713,7 @@ sk:
     failed: Nie je možné kopírovať projekt %{source_project_name}
     succeeded: Projekt %{target_project_name} bol vytvorený
     errors: Chyba
+    project_custom_fields: Custom fields on project
     text:
       failed: Nepodarilo sa skopírovať projekt "%{source_project_name}" do projektu
         "%{target_project_name}".

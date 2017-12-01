@@ -701,6 +701,7 @@ da:
     failed: Kan ikke kopiere projektet %{source_project_name}
     succeeded: Oprettet projektet %{target_project_name}
     errors: Fejl
+    project_custom_fields: Custom fields on project
     text:
       failed: Kunne ikke kopiere projektet "%{source_project_name}" til projektet
         "%{target_project_name}".

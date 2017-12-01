@@ -702,6 +702,7 @@ sv-SE:
     failed: Kan inte kopiera projekt %{source_project_name}
     succeeded: Skapade projektet %{target_project_name}
     errors: Fel
+    project_custom_fields: Custom fields on project
     text:
       failed: Kunde inte kopiera projekt "%{source_project_name}" till projektet "%{target_project_name}".
       succeeded: Kopierade projektet "%{source_project_name}" till "%{target_project_name}".

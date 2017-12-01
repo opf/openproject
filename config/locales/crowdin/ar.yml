@@ -711,6 +711,7 @@ ar:
     failed: لا يمكن نسخ المشروع %{source_project_name}
     succeeded: المشروع الذي تم إنشاؤه %{target_project_name}
     errors: خطأ
+    project_custom_fields: Custom fields on project
     text:
       failed: تعذّر نسخ مشروع "%{source_project_name}" لمشروع "%{target_project_name}".
       succeeded: تمّ نسخ مشروع "%{source_project_name}" إلى "%{target_project_name}".

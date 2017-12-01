@@ -660,6 +660,7 @@ zh-TW:
     failed: 無法複製專案 %{source_project_name}
     succeeded: 專案 %{target_project_name} 建立成功
     errors: 錯誤
+    project_custom_fields: Custom fields on project
     text:
       failed: 無法從 “%{source_project_name}” 複製專案到 "%{target_project_name}"
       succeeded: 複製 "%{source_project_name}" 到 "%{target_project_name}"。

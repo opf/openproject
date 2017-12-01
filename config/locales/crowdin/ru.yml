@@ -708,6 +708,7 @@ ru:
     failed: Не удается скопировать проект %{source_project_name}
     succeeded: Созданный проект %{target_project_name}
     errors: Ошибка
+    project_custom_fields: Custom fields on project
     text:
       failed: Не удалось скопировать проект «%{source_project_name}» в проект «%{target_project_name}».
       succeeded: Скопированный проект «%{source_project_name}» в «%{target_project_name}».

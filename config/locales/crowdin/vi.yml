@@ -703,6 +703,7 @@ vi:
     failed: Không thể sao chép dự án %{source_project_name}
     succeeded: Lập dự án %{target_project_name}
     errors: Lỗi
+    project_custom_fields: Custom fields on project
     text:
       failed: Không thể chép dự án "%{source_project_name}" sang dự án "%{target_project_name}".
       succeeded: Đã sao chép dự án "%{source_project_name}" sang "%{target_project_name}".

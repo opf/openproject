@@ -702,6 +702,7 @@ pl:
     failed: Nie można skopiować projektu %{source_project_name}
     succeeded: Utworzono projekt %{target_project_name}
     errors: Błąd
+    project_custom_fields: Custom fields on project
     text:
       failed: Nie można skopiować projektu "%{source_project_name}" do "%{target_project_name}".
       succeeded: Skopiowano projekt "%{source_project_name}" do "%{target_project_name}".

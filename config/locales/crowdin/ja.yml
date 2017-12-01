@@ -647,6 +647,7 @@ ja:
     failed: プロジェクト「%{source_project_name}」をコピーできません。
     succeeded: "「%{target_project_name}」プロジェクトを作成しました。"
     errors: エラー！
+    project_custom_fields: Custom fields on project
     text:
       failed: プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーできませんでした。
       succeeded: プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーしました。

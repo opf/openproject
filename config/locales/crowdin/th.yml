@@ -695,6 +695,7 @@ th:
     failed: ไม่สามารถดำเนินการคัดลอกโครงการ %{source_project_name} ได้
     succeeded: สร้างโครงการ %{target_project_name} แล้ว
     errors: ข้อผิดพลาด
+    project_custom_fields: Custom fields on project
     text:
       failed: ไม่สามารถดำเนินการคัดลอก "%{source_project_name}" ไปยังโครงการ "%{target_project_name}"
         ได้

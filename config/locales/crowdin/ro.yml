@@ -713,6 +713,7 @@ ro:
     failed: Proiectul %{source_project_name} nu poate fi copiat
     succeeded: Proiectul %{target_project_name} a fost creat
     errors: Eroare
+    project_custom_fields: Custom fields on project
     text:
       failed: Proiectul "%{source_project_name}" nu a putut fi copiat în proiectul
         "%{target_project_name}".

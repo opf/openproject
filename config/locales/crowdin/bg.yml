@@ -704,6 +704,7 @@ bg:
     failed: Не може да се копира проект %{source_project_name}
     succeeded: Създаден проект %{target_project_name}
     errors: Грешка
+    project_custom_fields: Custom fields on project
     text:
       failed: Не можа да се копира проект "%{source_project_name}" в проект "%{target_project_name}".
       succeeded: Копиран проект "%{source_project_name}" в "%{target_project_name}".

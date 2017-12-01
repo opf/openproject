@@ -645,6 +645,7 @@ zh:
     failed: 无法复制项目 %{source_project_name}
     succeeded: 创建的项目 %{target_project_name}
     errors: 错误
+    project_custom_fields: Custom fields on project
     text:
       failed: 无法将项目"%{source_project_name}"复制到项目"%{target_project_name}"。
       succeeded: 已复制项目"%{source_project_name}"到"%{target_project_name}"。

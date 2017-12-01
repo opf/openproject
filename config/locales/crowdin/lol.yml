@@ -642,6 +642,7 @@ lol:
     failed: crwdns92782:0%{source_project_name}crwdne92782:0
     succeeded: crwdns92783:0%{target_project_name}crwdne92783:0
     errors: crwdns92784:0crwdne92784:0
+    project_custom_fields: crwdns95419:0crwdne95419:0
     text:
       failed: crwdns92785:0%{source_project_name}crwdnd92785:0%{target_project_name}crwdne92785:0
       succeeded: crwdns92786:0%{source_project_name}crwdnd92786:0%{target_project_name}crwdne92786:0

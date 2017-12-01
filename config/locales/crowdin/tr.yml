@@ -124,12 +124,11 @@ tr:
       no_results_content_text: Projeye üye ekle
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
-      no_results_title_text: There are currently no access tokens available.
+      failed_to_reset_token: 'Erişim anahtarı sıfırlaması başarısız oldu: %{error}'
+      notice_reset_token: 'Yeni bir %{type} anahtar üretildi. Erişim anahtarınız:'
+      token_value_warning: 'Not: Bu anahtarı görebileceğiniz tek an bu, kopyaladığınıza
+        emin olun.'
+      no_results_title_text: Şu anda hiçbir erişim anahtarı mevcut değil.
   news:
     index:
       no_results_title_text: There is currently no news to report.
@@ -408,7 +407,7 @@ tr:
         blank: boş bırakılamaz.
         cant_link_a_work_package_with_a_descendant: İş paketi alt görevlerinden birine
           bağlanamaz.
-        follows_descendant: follows its descendant.
+        follows_descendant: alt bileşenlerine bağlı.
         circular_dependency: Bu ilişki döngüsel bağımlılık oluşturacak.
         confirmation: "%{attribute} eşleşmiyor."
         does_not_exist: mevcut değil.
@@ -472,16 +471,18 @@ tr:
             kullanılamaz. Her ikisi de etkinleştiremezsiniz.
           filters:
             custom_fields:
-              inexistent: There is no custom field for the filter.
-              invalid: The custom field is not valid in the given context.
+              inexistent: Hiçbir özel alan filtresi yok.
+              invalid: Verilen içerikteki özel alan filitresi geçerli değil.
         relation:
           attributes:
             to:
-              error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
+              error_not_found: çalışma paketinde `to` konum bulunamadı veya görünür
+                değil
+              error_readonly: "`to` ilişkisi olduğundan bağlantı değiştirilemez"
             from:
-              error_not_found: work package in `from` position not found or not visible
-              error_readonly: an existing relation's `from` link is immutable
+              error_not_found: iş paketi içerisinde `from` pozisyonu bulunamayor ya
+                da görünür değil
+              error_readonly: "`from` ilişkisi olduğundan bağlantı değiştirilemez"
         repository:
           not_available: SCM vendor is not available
           not_whitelisted: is not allowed by the configuration.
@@ -500,8 +501,8 @@ tr:
               cannot_be_in_another_project: cannot be in another project.
               not_a_valid_parent: geçersizdir.
             start_date:
-              violates_relationships: can only be set to %{soonest_start} or later
-                so as not to violate the work package's relationships.
+              violates_relationships: yalnızca %{soonest_start} veya daha sonra iş
+                paketi üst bağımlılık ilişkilerini ihlal etmediğinde ayarlanabilir.
             status_id:
               status_transition_invalid: is invalid because no valid transition exists
                 from old to new status for the current user's roles.
@@ -537,7 +538,7 @@ tr:
                 confirm: Yeni parolayı doğrulayın.
                 description: '"Parola onayı" ''yeni şifre'' alanı girişi aynı olmalıdır.'
             status:
-              invalid_on_create: is not a valid status for new users.
+              invalid_on_create: yeni kullanıcılar için geçerli bir durum değil.
             auth_source:
               error_not_found: bulunamadı
         member:
@@ -699,6 +700,7 @@ tr:
     failed: "%{source_project_name} project kopyalanamadı"
     succeeded: "%{target_project_name} project oluşturuldu"
     errors: Hata
+    project_custom_fields: Custom fields on project
     text:
       failed: '"%{source_project_name}" project "%{target_project_name}" projesine
         kopyalanamadı.'
@@ -867,8 +869,8 @@ tr:
 '
   description_available_columns: Kullanılabilir sütunlar
   description_choose_project: Projeler
-  description_compare_from: Compare from
-  description_compare_to: Compare to
+  description_compare_from: Karşılaştır (kaynak)
+  description_compare_to: Karşılaştır (hedef)
   description_current_position: 'Buradasınız:'
   description_date_from: Başlangıç tarihini girin
   description_date_range_interval: Choose range by selecting start and end date
@@ -910,21 +912,21 @@ tr:
   error_can_not_delete_custom_field: Özel alan silinemiyor
   error_can_not_delete_type: Bu tür iş paketleri içeriyor ve silinemez.
   error_can_not_delete_standard_type: Standart türler silinemez.
-  error_can_not_invite_user: Failed to send invitation to user.
+  error_can_not_invite_user: Kullanıcı daveti gönderemedi.
   error_can_not_remove_role: Bu rol kullanımda ve silinemez.
   error_can_not_reopen_work_package_on_closed_version: Kapalı bir sürüme atanan bir
     iş paketi yeniden açılamaz
   error_check_user_and_role: Lütfen bir kullanıcı ve bir rol seçin.
-  error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
-    are enabled, as this application will not properly function without.
+  error_cookie_missing: OpenProject çerezi yok. Lütfen uygulamanın düzgün çalışabilmesi
+    için, tarayıcınızda çerezlere izin verildiğine emin olun.
   error_custom_option_not_found: Seçenek yok.
   error_failed_to_delete_entry: Girdi silinemedi.
   error_invalid_group_by: "%{value} ya göre guplandırılamadı"
   error_invalid_query_column: 'Geçersiz sorgu sütunu: %{value}'
   error_invalid_sort_criterion: 'Sütuna göre sıralama yapamazsınız: %{value}'
-  error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
-    Please reduce the number of columns.
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_pdf_export_too_many_columns: PDF Dışa Aktarma için çok fazla sütun seçili.
+    Sütun sayısını azaltın.
+  error_token_authenticity: Siteler arası sahte istek belirteci doğrulaması yapılamadı.
   error_work_package_done_ratios_not_updated: İş tamamlanma oranları güncellenmedi.
   error_work_package_not_found_in_project: The work package was not found or does
     not belong to this project
@@ -950,9 +952,8 @@ tr:
   error_workflow_copy_target: Lütfen kaynak tür(leri) veya rol(leri) seçin
   error_menu_item_not_created: Menü öğesini eklenemez
   error_menu_item_not_saved: Menü öğesi kaydedilemez
-  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}"
-    due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}"
-    (%{existing_identifier}).
+  error_wiki_root_menu_item_conflict: 'Var olan menü üyesi "%{existing_caption}" (%{existing_identifier})
+    ile çakıştığından, "%{old_name}" adı "%{new_name}" olarak değiştirilemiyor.
 
 '
   error_external_authentication_failed: An error occured during external authentication.
@@ -1103,8 +1104,8 @@ tr:
   label_change_status_of_user: "#{username} durumunu değiştir"
   label_change_view_all: Tüm değişiklikleri gör
   label_changes_details: Tüm değişikliklerin detayları
-  label_changeset: Changeset
-  label_changeset_id: Changeset ID
+  label_changeset: Değişiklik kümesi
+  label_changeset_id: Değişiklik kümesi kimliği
   label_changeset_plural: Changesets
   label_checked: checked
   label_check_uncheck_all_in_column: Check/Uncheck all in column
@@ -1197,7 +1198,7 @@ tr:
   label_filter_add: Filtre ekle
   label_filter_plural: Filtreler
   label_float: Float
-  label_folder: Folder
+  label_folder: Klasör
   label_follows: follows
   label_force_user_language_to_default: Set language of users having a non allowed
     language to default
@@ -1219,7 +1220,7 @@ tr:
   label_in_more_than: in more than
   label_inactive: Etkin değil
   label_incoming_emails: Gelen e-postalar
-  label_includes: includes
+  label_includes: içerir
   label_index_by_date: Index by date
   label_index_by_title: Index by title
   label_information: Bilgi
@@ -1318,7 +1319,7 @@ tr:
   label_overall_activity: Genel etkinlik
   label_overall_spent_time: Genel harcanan zaman
   label_overview: Genel Bakış
-  label_part_of: part of
+  label_part_of: parçası
   label_password_lost: Parolanızı mı unuttunuz?
   label_password_rule_lowercase: Küçük harf
   label_password_rule_numeric: Sayısal karakterler
@@ -1356,8 +1357,8 @@ tr:
   label_project_settings: Proje Ayarları
   label_projects_storage_information: "%{count} proje %{storage} disk alanı kullanıyor"
   label_project_view_all: Tüm projeleri görüntüle
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: Proje detaylarını göster
+  label_project_hide_details: Proje detaylarını gizle
   label_public_projects: Genel Projeler
   label_query_new: Yeni Sorgu
   label_query_plural: Özel Sorgular
@@ -1387,8 +1388,8 @@ tr:
   label_repository: Depo
   label_repository_root: Depo kökü
   label_repository_plural: Depolar
-  label_required: required
-  label_requires: requires
+  label_required: gerekli
+  label_requires: gerektirir
   label_responsible_for_work_packages: Benim sorumlu olduğum iş paketleri
   label_result_plural: Sonuçlar
   label_reverse_chronological_order: Ters tarih sırasına göre
@@ -1403,7 +1404,7 @@ tr:
   label_role_and_permissions: Roller ve izinler
   label_role_new: Yeni rol
   label_role_plural: Roller
-  label_role_search: Assign role to new members
+  label_role_search: Yeni üyelere rol atama
   label_scm: YKM
   label_search: Ara
   label_search_titles_only: Sadece başlıkları ara
@@ -1610,8 +1611,8 @@ tr:
   noscript_description: You need to activate JavaScript in order to use OpenProject!
   noscript_heading: JavaScript kapalı
   noscript_learn_more: Daha fazla bilgi edin
-  notice_accessibility_mode: The accessibility mode can be enabled in your [account
-    settings](url).
+  notice_accessibility_mode: Erişilebilirlik modu, [hesap settings](url). altından
+    etkinleştirilebilir.
   notice_account_activated: Hesabınız etkinleştirildi. Şimdi giriş yapabilirsiniz.
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
@@ -1636,10 +1637,10 @@ tr:
   notice_account_registered_and_logged_in: Hoş geldiniz, hesabınız etkinleştirildi.
     Şimdi giriş yaptınız.
   notice_activation_failed: The account could not be activated.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: "'%{stage}' aşması doğrulanamadı."
+  notice_auth_stage_wrong_stage: "'%{expected}' kimlik doğrulama aşamasının bitmesi
+    bekleniyordu ama '%{actual}' ile karşılaşıldı."
+  notice_auth_stage_error: "'%{stage}' kimlik doğrulama aşaması başarısız oldu."
   notice_can_t_change_password: This account uses an external authentication source.
     Impossible to change the password.
   notice_custom_options_deleted: "%{option_value} ayarı ve bunun %{num_deleted} tekrarı
@@ -1691,10 +1692,10 @@ tr:
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_logged_out: Oturumunuz kapatıldı.
-  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long
-    as there are still users using it.
-  notice_project_cannot_update_custom_fields: 'You cannot update the project''s available
-    custom fields. The project is invalid: %{errors}'
+  notice_wont_delete_auth_source: Kimlik doğrulama modunu kullanan kullanıcılar olduğu
+    sürece silinemez.
+  notice_project_cannot_update_custom_fields: 'Projenin kullanılabilir özel alanları
+    güncelleştirilemiyor. Proje geçersiz: %{errors}'
   notice_attachment_migration_wiki_page: 'Bu sayfa OpenProject güncelleme sırasında
     otomatik olarak yaratılır. Daha önce %{container_type} "%{container_name}" ile
     ilişkili tüm ekleri içerir.
@@ -1723,7 +1724,7 @@ tr:
     heading_getting_started: Genel görünümü al
     text_getting_started_description: OpenProject ile takım çalışması ve proje yönetimi
       konusuna genel bir bakış.
-    text_show_again: You can restart this video from the help menu
+    text_show_again: Bu videoyu Yardım menüsünden yeniden başlatabilirsiniz
     welcome: OpenProject'e hoş geldiniz
   permission_add_work_package_notes: Not eklemek
   permission_add_work_packages: Add work packages (also allows to add attachments
@@ -1808,8 +1809,8 @@ tr:
       warning_two: Existing links to the project will no longer work.
       title: Change the project's identifier
     archive:
-      are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
+      are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
+      archived: Arşivlendi
   project_module_activity: Etkinlik
   project_module_boards: Forumlar
   project_module_calendar: Takvim
@@ -1965,12 +1966,12 @@ tr:
       cannot_annotate: This file cannot be annotated.
   search_input_placeholder: Ara ...
   setting_email_delivery_method: E-posta teslim yöntemi
-  setting_sendmail_location: Location of the sendmail executable
-  setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_sendmail_location: Çalıştırılabilir sendmail aracının yolu
+  setting_smtp_enable_starttls_auto: STARTTLS varsa otomatik olarak kullan
   setting_smtp_address: SMTP Sunucusu
   setting_smtp_port: SMTP port
   setting_smtp_authentication: SMTP kimlik doğrulaması
-  setting_smtp_domain: SMTP HELLO domain
+  setting_smtp_domain: SMTP HELLO alan adı
   setting_smtp_user_name: SMTP Kullanıcı Adı
   setting_smtp_password: SMTP Parolası
   setting_activity_days_default: Days displayed on project activity
@@ -2029,7 +2030,8 @@ tr:
     (e.g., to create and update work packages).
   setting_mail_handler_api_key: API anahtarı
   setting_mail_handler_body_delimiters: Truncate emails after one of these lines
-  setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_body_delimiter_regex: Bu düzenli ifade ile uyuşan e-postaları
+    kırp
   setting_new_project_user_role_id: Role given to a non-admin user who creates a project
   setting_password_active_rules: Active character classes
   setting_password_count_former_banned: Number of most recently used passwords banned
@@ -2081,7 +2083,7 @@ tr:
     passwords: Parolalar
     session: Oturum
     brute_force_prevention: Otomatik kullanıcı engelleme
-  show_hide_project_menu: Expand/Collapse project menu
+  show_hide_project_menu: Genişlet/Daralt proje menüsü
   status_active: etkin
   status_invited: invited
   status_locked: locked
@@ -2109,7 +2111,7 @@ tr:
   text_caracters_maximum: En çok %{count} karakter.
   text_caracters_minimum: En az %{count} karakter uzunluğunda olmalı.
   text_comma_separated: Multiple values allowed (comma separated).
-  text_comment_wiki_page: 'Comment to wiki page: %{page}'
+  text_comment_wiki_page: 'Yorum için wiki sayfası: %{page}'
   text_custom_field_possible_values_info: One line for each value
   text_custom_field_hint_activate_per_project: 'Özel alanları kullanırken: Özel alanların
     her proje için aktif yapılması gerektiğini unutmayın.
@@ -2153,7 +2155,7 @@ tr:
   text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
     be changed to an unwanted date.
   text_hint_disable_with_0: 'Note: Disable with 0'
-  text_hours_between: Between %{min} and %{max} hours.
+  text_hours_between: "%{min} ve %{max} saat arasında."
   text_work_package_added: Work package %{id} has been reported by %{author}.
   text_work_package_category_destroy_assignments: Remove category assignments
   text_work_package_category_destroy_question: Some work packages (%{count}) are assigned
@@ -2199,17 +2201,18 @@ tr:
     tire kullanılabilir ve mutlaka küçük harfle başlamalıdır.
   text_reassign: 'Reassign to work package:'
   text_regexp_info: ör ^[A-Z0-9]+$
-  text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
+  text_regexp_multiline: Regex (düzenli ifade) birden çok satırlı modda uygulanır.
+    Örneğin, ^---\s+
   text_repository_usernames_mapping: |-
     Select or update the OpenProject user mapped to each username found in the repository log.
     Users with the same OpenProject and repository username or email are automatically mapped.
   text_select_mail_notifications: E-posta bildirimlerinin gönderilmesini istediğiniz
     eylemleri seçin.
   text_status_changed_by_changeset: Applied in changeset %{value}.
-  text_table_difference_description: In this table the single %{entries} are shown.
-    You can view the difference between any two entries by first selecting the according
-    checkboxes in the table. When clicking on the button below the table the differences
-    are shown.
+  text_table_difference_description: Bu tabloda tek %{entries} girdisi gösteriliyor.
+    İki girdi arasındaki farkı görmek için, tablodaki ilgili alanların üzerindeki
+    seçim kutularını işaretlemelisiniz. Seçiminizden sonra tablonun altındakı tuşa
+    tıklayarak farkları görebilirsiniz.
   text_time_logged_by_changeset: Applied in changeset %{value}.
   text_tip_work_package_begin_day: bu gün başlayan iş paketleri
   text_tip_work_package_begin_end_day: bugün başlayıp biten iş paketleri
@@ -2494,9 +2497,9 @@ tr:
     reset_failed_logins: Reset failed logins
     settings:
       mail_notifications: E-posta bildirimleri gönder
-      mail_project_explanaition: For unselected projects, you will only receive notifications
-        about things you watch or you're involved in (e.g. work packages you're the
-        author or assignee of).
+      mail_project_explanaition: 'Seçili olmayan projeler için, sadece dahil olduğunuz
+        (oluşturan veya atanan) ya da izlediğiniz öğeler hakkında uyarılar alacaksınız
+        (Ör: Yazarı olduğunuz ya da atandığınız iş paketleri).'
       mail_self_notified: I want to be notified of changes that I make myself
     status_user_and_brute_force: "%{user} ve %{brute_force}"
     status_change: Durum değişikliği
@@ -2541,8 +2544,8 @@ tr:
       code_409: Çakışan geliştirmeler sebebiyle kaynak güncellenememiştir.
       code_500: İç hata oluştur.
       expected:
-        date: YYYY-MM-DD (ISO 8601 date only)
-        duration: ISO 8601 duration
+        date: YYYY-AA-GG (ISO 8601 sadece tarih)
+        duration: ISO 8601 süre
       invalid_content_type: Beklenen içerik tipi '%{content_type}' ancak gerçekte
         olan '%{actual}.
       invalid_format: 'Invalid format for property ''%{property}'': Expected format

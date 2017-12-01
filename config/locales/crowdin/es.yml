@@ -721,6 +721,7 @@ es:
     failed: No se puede copiar proyecto %{source_project_name}
     succeeded: Proyecto creado %{target_project_name}
     errors: Error
+    project_custom_fields: Custom fields on project
     text:
       failed: No se pudo copiar el proyecto "%{source_project_name}" al proyecto "%{target_project_name}".
       succeeded: Proyecto copiado de "%{source_project_name}" a "%{target_project_name}".

@@ -700,6 +700,7 @@ fi:
     failed: Ei voi kopioida projektia %{source_project_name}
     succeeded: Projekti %{target_project_name} luotu
     errors: Virhe
+    project_custom_fields: Custom fields on project
     text:
       failed: Could not copy project "%{source_project_name}" to project "%{target_project_name}".
       succeeded: Copied project "%{source_project_name}" to "%{target_project_name}".

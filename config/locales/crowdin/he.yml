@@ -702,6 +702,7 @@ he:
     failed: אין אפשרות להעתיק את הפרויקט %{source_project_name}
     succeeded: נוצר הפרויקט %{target_project_name}
     errors: שגיאה
+    project_custom_fields: Custom fields on project
     text:
       failed: לא ניתן להעתיק את פרויקט "%{source_project_name}" לפרויקט "%{target_project_name}".
       succeeded: הועתק הפרויקט "%{source_project_name}" ל "%{target_project_name}".

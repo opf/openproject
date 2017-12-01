@@ -704,6 +704,7 @@ af:
     failed: Kan nie projek %{source_project_name} kopieer nie
     succeeded: Projek %{target_project_name} geskep
     errors: Fout
+    project_custom_fields: Custom fields on project
     text:
       failed: Kon nie projek "%{source_project_name}" kopieer na projek "%{target_project_name}".
       succeeded: Projek "%{source_project_name}" gekopieer na projek "%{target_project_name}".

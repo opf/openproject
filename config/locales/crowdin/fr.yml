@@ -720,6 +720,7 @@ fr:
     failed: Impossible de copier le projet %{source_project_name}
     succeeded: Projet %{target_project_name} créé
     errors: Erreur
+    project_custom_fields: Custom fields on project
     text:
       failed: Impossible de copier le projet "%{source_project_name}" vers le projet
         "%{target_project_name}".
