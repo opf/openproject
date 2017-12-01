@@ -43,103 +43,90 @@ jQuery(function($) {
     }
   }
 
-  function sendForm() {
-    $('#ajax-indicator').show();
+  function parseFilters() { 
     let $advancedFilters = $(".advanced-filters--filter:not(.hidden)", $filterForm);
     let filters = [];
-    let orderParam = getUrlParameter('sort');
 
-    $advancedFilters.each(function(_i, filter){
+    $advancedFilters.each(function(_i, filter) {
       let $filter = $(filter);
       let filterName = $filter.attr('filter-name');
-      let filterType = $filter.attr('filter-type');
-      let operator = $('select[name="operator"]', $filter).val();
+      let parsedOperator = $('select[name="operator"]', $filter).val();
+      let parsedValue = parseFilterValue($filter, parsedOperator);
 
-      let filterParam = {};
+      if (parsedValue) {
+        let filter = {}
+        filter[filterName] = { 'operator': parsedOperator, 'values': parsedValue };
 
-      if (operatorsWithoutValues.includes(operator)) {
-        // operator does not expect a value
-        filterParam[filterName] = {
-          'operator': operator,
-          'values': []
-        }
-        filters.push(filterParam);
-      } else {
-        // Operator expects presence of value(s)
-        let $valueBlock = $('.advanced-filters--filter-value', $filter);
-        if (selectFilterTypes.includes(filterType)) {
-          if ($valueBlock.hasClass('multi-value')) {
-            // Expect values to be an Array.
-            let values = $('.multi-select select[name="value[]"]', $valueBlock).val();
-            if (values.length > 0) {
-              filterParam[filterName] = {
-                'operator': operator,
-                'values': values
-              }
-              // only add filter if a value is present.
-              filters.push(filterParam);
-            }
-          } else {
-            // Expect value to be a single value.
-            let value = $('.single-select select[name="value"]', $valueBlock).val();
-            if (value.length > 0) {
-              filterParam[filterName] = {
-                'operator': operator,
-                'values': [value]
-              }
-              // only add filter if a value is present.
-              filters.push(filterParam);
-            }
-          }
-        } else if (['datetime_past', 'date'].includes(filterType)) {
-          if ($valueBlock.hasClass('days')) {
-            let value = $('.days input[name="value"]', $valueBlock).val();
-            if (value.length > 0) {
-              filterParam[filterName] = {
-                'operator': operator,
-                'values': [value]
-              }
-              // only add filter if a value is present.
-              filters.push(filterParam);
-            }
-          } else if ($valueBlock.hasClass('on-date')) {
-            let value = $('.on-date input[name="value"]', $valueBlock).val();
-            if (value.length > 0) {
-              filterParam[filterName] = {
-                'operator': operator,
-                'values': [value]
-              }
-              // only add filter if a value is present.
-              filters.push(filterParam);
-            }
-          } else if ($valueBlock.hasClass('between-dates')) {
-            let fromValue = $('.between-dates input[name="from_value"]',
-                              $valueBlock).val();
-            let toValue =   $('.between-dates input[name="to_value"]',
-                              $valueBlock).val();
-            if (value.length > 0) {
-              filterParam[filterName] = {
-                'operator': operator,
-                'values': [fromValue, toValue]
-              }
-              // only add filter if a value is present.
-              filters.push(filterParam);
-            }
-          }
-        } else {
-          // not a select box nor datetime_past
-          let value = $('input[name="value"]', $valueBlock).val();
-          if (value.length > 0) {
-            filterParam[filterName] = {
-              'operator': operator,
-              'values': [value]
-            };
-            // only add filter if a value is present.
-            filters.push(filterParam);
-          }
-        }
+        filters.push(filter);
       }
     });
+
+    return filters;
+  }
+
+  function parseFilterValue($filter, operator) {
+    let filterType = $filter.attr('filter-type');
+    let $valueBlock = $('.advanced-filters--filter-value', $filter);
+
+    if (operatorsWithoutValues.includes(operator)) {
+      return [];
+    } else if (selectFilterTypes.includes(filterType)) {
+      // Operator expects presence of value(s)
+      return parseSelectFilterValue($valueBlock);
+    } else if (['datetime_past', 'date'].includes(filterType)) {
+      return parseDateFilterValue($valueBlock);
+    } else {
+      // not a select box nor datetime_past
+      let value = $('input[name="value"]', $valueBlock).val();
+      if (value.length > 0) {
+        return [value];
+      }
+    }
+  }
+
+  function parseSelectFilterValue($valueBlock) {
+    let selector;
+
+    if ($valueBlock.hasClass('multi-value')) {
+      selector = '.multi-select select[name="value[]"]';
+    } else {
+      selector = '.single-select select[name="value"]';
+    }
+
+    let values = $(selector, $valueBlock).val();
+    values = _.flatten([values]);
+
+    if (values.length > 0) {
+      return values;
+    }
+  }
+
+  function parseDateFilterValue($valueBlock) {
+    let value;
+
+    if ($valueBlock.hasClass('days')) {
+      value = _.without([$('.days input[name="value"]', $valueBlock).val()], '');
+    } else if ($valueBlock.hasClass('on-date')) {
+      value = _.without([$('.on-date input[name="value"]', $valueBlock).val()], '');
+    } else if ($valueBlock.hasClass('between-dates')) {
+      let fromValue = $('.between-dates input[name="from_value"]',
+                        $valueBlock).val();
+      let toValue   = $('.between-dates input[name="to_value"]',
+                        $valueBlock).val();
+
+      value = [fromValue, toValue];
+    }
+
+    if (value.length > 0) {
+      return value;
+    }
+  }
+
+  function sendForm() {
+    $('#ajax-indicator').show();
+    let filters = parseFilters();
+    let orderParam = getUrlParameter('sort');
+
 
     let query = '?filters=' + encodeURIComponent(JSON.stringify(filters));
     if (orderParam && orderParam.length > 0) {
