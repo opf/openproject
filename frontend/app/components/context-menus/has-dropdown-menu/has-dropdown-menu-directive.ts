@@ -26,14 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {AfterViewInit, Directive, ElementRef, Inject, Input} from '@angular/core';
+import {focusHelperToken} from 'core-app/angular4-transition-utils';
 import {ContextMenuService} from '../context-menu.service';
 
 function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper:any) {
   return {
     restrict: 'A',
-    link: function (scope:any, element:ng.IAugmentedJQuery, attrs:ng.IAttributes) {
+    link: function(scope:any, element:ng.IAugmentedJQuery, attrs:ng.IAttributes) {
       let menuName = attrs['target'];
-      let locals:{[key:string]: any} = {};
+      let locals:{ [key:string]:any } = {};
       let afterFocusOn = attrs['afterFocusOn'];
       let positionRelativeTo = attrs['positionRelativeTo'];
       let collisionContainer = attrs['collisionContainer'];
@@ -42,10 +44,10 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper:any) {
       function open(event:Event) {
         var ignoreFocusOpener = true;
         // prepare locals, these define properties to be passed on to the context menu scope
-        var localKeys = (attrs['locals'] || '').split(',').map(function (local:any) {
+        var localKeys = (attrs['locals'] || '').split(',').map(function(local:any) {
           return local.trim();
         });
-        angular.forEach(localKeys, function (key) {
+        angular.forEach(localKeys, function(key) {
           locals[key] = scope[key];
         });
 
@@ -69,7 +71,7 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper:any) {
         open(evt);
       });
 
-      element.on(triggerOnEvent, function (event) {
+      element.on(triggerOnEvent, function(event) {
         event.preventDefault();
         event.stopPropagation();
         scope.$evalAsync(() => {
@@ -86,3 +88,61 @@ function hasDropdownMenu(contextMenu:ContextMenuService, FocusHelper:any) {
 angular
   .module('openproject.uiComponents')
   .directive('hasDropdownMenu', hasDropdownMenu);
+
+
+@Directive({
+  selector: '[hasDropdownMenu]'
+})
+export class HasDropdownMenuDirective implements AfterViewInit {
+
+  @Input('hasDropdownMenu-locals') private locals:any;
+
+  @Input('hasDropdownMenu-afterFocusOn') private afterFocusOn:string;
+
+  @Input('hasDropdownMenu-positionRelativeTo') private positionRelativeTo:string;
+
+  @Input('hasDropdownMenu-collisionContainer') private collisionContainer:string;
+
+  @Input('hasDropdownMenu-triggerOnEvent') private triggerOnEvent = 'click.dropdown.openproject';
+
+  @Input('hasDropdownMenu-target') private target:any;
+
+  private $element:JQuery;
+
+  private nativeElement:HTMLElement;
+
+  constructor(elementRef:ElementRef,
+              private contextMenu:ContextMenuService,
+              @Inject(focusHelperToken) private FocusHelper:any) {
+    this.$element = jQuery(elementRef.nativeElement);
+    this.nativeElement = elementRef.nativeElement;
+  }
+
+  ngAfterViewInit():void {
+    Mousetrap(this.nativeElement).bind('shift+alt+f10', (evt) => {
+      this.open(evt);
+    });
+
+    this.$element.on(this.triggerOnEvent, (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      this.open(event).then((menuElement:JQuery) => {
+        this.FocusHelper.focusElement(menuElement.find('.menu-item,input').first(), true);
+      });
+
+    });
+  }
+
+  open(event:ExtendedKeyboardEvent | JQueryEventObject) {
+    var ignoreFocusOpener = true;
+    return this.contextMenu.activate(this.target, event, this.locals, {
+      my: 'left top',
+      at: 'left bottom',
+      of: this.positionRelativeTo ? this.$element.find(this.positionRelativeTo) : this.$element,
+      within: this.collisionContainer ? angular.element(this.collisionContainer) : window
+    });
+  }
+
+}
+

@@ -98,6 +98,7 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
         } else {
           this.currentSortDirection = latestSortElement.direction;
         }
+        this.setActiveColumnClass();
 
         this.setFullTitleAndSummary();
 
@@ -105,9 +106,6 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
 
         this.directionClass = this.getDirectionClass();
       });
-
-    // TODO
-    //scope.$watch('currentSortDirection', setActiveColumnClass);
 
     this.text = {
       toggleHierarchy: I18n.t('js.work_packages.hierarchy.show'),
@@ -171,7 +169,8 @@ export class SortHeaderDirective implements OnDestroy, AfterViewInit {
   }
 
   setFullTitleAndSummary() {
-    // TODO unused?
+    // TODO
+    // RR: disabled due to Angular2 migration
     //this.fullTitle = this.headerTitle;
 
     // if (this.currentSortDirection) {

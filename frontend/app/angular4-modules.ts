@@ -34,6 +34,7 @@ import {TablePaginationComponent} from 'core-app/components/table-pagination/tab
 import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
 import {OpIcon} from 'core-components/common/icon/op-icon';
 import {ContextMenuService} from 'core-components/context-menus/context-menu.service';
+import {HasDropdownMenuDirective} from 'core-components/context-menus/has-dropdown-menu/has-dropdown-menu-directive';
 import {States} from 'core-components/states.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageDisplayFieldService} from 'core-components/wp-display/wp-display-field/wp-display-field.service';
@@ -56,7 +57,7 @@ import {
 } from 'core-components/wp-table/wp-table.directive';
 import {
   $rootScopeToken,
-  columnsModalToken,
+  columnsModalToken, focusHelperToken,
   I18nToken,
   NotificationsServiceToken,
   upgradeService,
@@ -92,7 +93,8 @@ import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-ta
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
-    upgradeServiceWithToken('columnsModal', columnsModalToken)
+    upgradeServiceWithToken('columnsModal', columnsModalToken),
+    upgradeServiceWithToken('FocusHelper', focusHelperToken)
   ],
   declarations: [
     OpIcon,
@@ -107,7 +109,8 @@ import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-ta
     WorkPackagesTableController,
     WpResizerDirectiveUpgraded,
     WorkPackageTableSumsRowController,
-    SortHeaderDirective
+    SortHeaderDirective,
+    HasDropdownMenuDirective
   ],
   entryComponents: [
     WorkPackageTablePaginationComponent,

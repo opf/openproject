@@ -32,6 +32,7 @@ import {IRootScopeService} from 'angular';
 export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
 export const I18nToken = new InjectionToken<op.I18n>('I18n');
 export const columnsModalToken = new InjectionToken<any>('columnsModal');
+export const focusHelperToken = new InjectionToken<any>('FocusHelper');
 export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
 
 export function upgradeService(ng1InjectorName:string, providedType:any) {
