@@ -129,6 +129,11 @@ class Principal < ActiveRecord::Base
     in_project(Project.visible(user))
   end
 
+  def self.in_visible_project_or_me(user = User.current)
+    in_visible_project(user)
+      .or(me)
+  end
+
   def status_name
     # Only Users should have another status than active.
     # User defines the status values and other classes like Principal

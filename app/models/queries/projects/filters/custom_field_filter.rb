@@ -35,14 +35,6 @@ class Queries::Projects::Filters::CustomFieldFilter <
 
   self.custom_field_class = ProjectCustomField
 
-  def allowed_values
-    if custom_field.field_format == 'user'
-      custom_field.possible_values_options(:of_all_projects)
-    else
-      super
-    end
-  end
-
   def type
     if custom_field && custom_field.field_format == 'float'
       :float
