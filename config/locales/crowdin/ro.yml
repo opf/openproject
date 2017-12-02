@@ -1121,7 +1121,7 @@ ro:
   label_select_main_menu_item: Selectare meniu wiki nou
   label_select_project: Select a project
   label_required_disk_storage: Necesar spațiu pe disc
-  label_resend_invitation: Retrimitere invitație
+  label_send_invitation: Send invitation
   label_change_plural: Modificări
   label_change_properties: Modificare proprietăţi
   label_change_status: Modificare stare
@@ -1721,7 +1721,7 @@ ro:
   notice_unable_delete_version: Nu se poate șterge versiunea.
   notice_user_missing_authentication_method: Utilizatorul nu a ales încă o parolă
     sau un alt mod de autentificare.
-  notice_user_invitation_resent: O altă invitație a fost trimisă la %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "%{key_name} tău/ta este: %{value}"
   notice_automatic_set_of_standard_type: Setare automată a tipului standard.
   notice_logged_out: Ați fost deconectat.

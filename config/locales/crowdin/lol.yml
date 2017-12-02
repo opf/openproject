@@ -1014,7 +1014,7 @@ lol:
   label_select_main_menu_item: crwdns93097:0crwdne93097:0
   label_select_project: crwdns93098:0crwdne93098:0
   label_required_disk_storage: crwdns93099:0crwdne93099:0
-  label_resend_invitation: crwdns93100:0crwdne93100:0
+  label_send_invitation: crwdns95420:0crwdne95420:0
   label_change_plural: crwdns93101:0crwdne93101:0
   label_change_properties: crwdns93102:0crwdne93102:0
   label_change_status: crwdns93103:0crwdne93103:0
@@ -1571,7 +1571,7 @@ lol:
   notice_unable_delete_time_entry: crwdns93636:0crwdne93636:0
   notice_unable_delete_version: crwdns93637:0crwdne93637:0
   notice_user_missing_authentication_method: crwdns93638:0crwdne93638:0
-  notice_user_invitation_resent: crwdns93639:0%{email}crwdne93639:0
+  notice_user_invitation_resent: crwdns95421:0%{email}crwdne95421:0
   present_access_key_value: crwdns93640:0%{key_name}crwdnd93640:0%{value}crwdne93640:0
   notice_automatic_set_of_standard_type: crwdns93641:0crwdne93641:0
   notice_logged_out: crwdns93642:0crwdne93642:0

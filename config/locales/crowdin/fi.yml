@@ -1094,7 +1094,7 @@ fi:
   label_select_main_menu_item: Valitse uusi valikkovaihtoehto päävalikkoon
   label_select_project: Valitse projekti
   label_required_disk_storage: Tarvittava levytila
-  label_resend_invitation: Lähetä kutsu uudelleen
+  label_send_invitation: Send invitation
   label_change_plural: Muutokset
   label_change_properties: Vaihda asetuksia
   label_change_status: Muuta tila
@@ -1683,7 +1683,7 @@ fi:
   notice_unable_delete_version: Version poisto epäonnistui
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: Another invitation has been sent to %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_logged_out: You have been logged out.

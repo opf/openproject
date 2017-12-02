@@ -1102,7 +1102,7 @@ bg:
   label_select_main_menu_item: Изберете нов елемент от главното меню
   label_select_project: Select a project
   label_required_disk_storage: Необходимо дисково пространство
-  label_resend_invitation: Повторно изпращане на покана
+  label_send_invitation: Send invitation
   label_change_plural: Промени
   label_change_properties: Промяна на свойствата
   label_change_status: Промяна на статуса
@@ -1698,7 +1698,7 @@ bg:
   notice_unable_delete_version: Не може да изтриете версия.
   notice_user_missing_authentication_method: Потребителят все още не е избрал парола
     или друг начин за влизане.
-  notice_user_invitation_resent: Друга покана е изпратена до %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Задаване на стандартен тип автоматично.
   notice_logged_out: Вие излязохте.

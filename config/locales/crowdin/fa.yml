@@ -1096,7 +1096,7 @@ fa:
   label_select_main_menu_item: Select new main menu item
   label_select_project: Select a project
   label_required_disk_storage: Required disk storage
-  label_resend_invitation: Resend invitation
+  label_send_invitation: Send invitation
   label_change_plural: Changes
   label_change_properties: Change properties
   label_change_status: Change status
@@ -1686,7 +1686,7 @@ fa:
   notice_unable_delete_version: Unable to delete version.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: Another invitation has been sent to %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_logged_out: You have been logged out.

@@ -1112,7 +1112,7 @@ lt:
   label_select_main_menu_item: Pasirinkti naują pagrindinio meniu punktą
   label_select_project: Pasirinkti projektą
   label_required_disk_storage: Reikalinga vieta diske
-  label_resend_invitation: Persiųsti pakvietimą
+  label_send_invitation: Send invitation
   label_change_plural: Pakeitimai
   label_change_properties: Pakeisti nustatymus
   label_change_status: Pakeisti būseną
@@ -1717,7 +1717,7 @@ lt:
   notice_unable_delete_version: Neįmanoma ištrinti versijos.
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio
     ar kitokio būdo prisijungimui.
-  notice_user_invitation_resent: Dar vienas pakvietimas buvo nusiųstas į %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Jūsų %{key_name} yra: %{value}'
   notice_automatic_set_of_standard_type: Automatiškai nustatyti standartinį tipą.
   notice_logged_out: Jūs sėkmingai atsijungėte.

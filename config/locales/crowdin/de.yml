@@ -1123,7 +1123,7 @@ de:
   label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
   label_select_project: Projekt auswählen
   label_required_disk_storage: Erforderlicher Festplattenspeicher
-  label_resend_invitation: Einladung erneut senden
+  label_send_invitation: Send invitation
   label_change_plural: Änderungen
   label_change_properties: Eigenschaften ändern
   label_change_status: Statuswechsel
@@ -1727,7 +1727,7 @@ de:
   notice_unable_delete_version: Die Version konnte nicht gelöscht werden.
   notice_user_missing_authentication_method: Benutzer muss noch ein Passwort oder
     eine andere Authentifizierungsmethode wählen.
-  notice_user_invitation_resent: Eine weitere Einladung wurde an %{email} gesendet.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Ihr %{key_name} ist: %{value}'
   notice_automatic_set_of_standard_type: Der Standard-Typ wurde automatisch gesetzt.
   notice_logged_out: Sie wurden ausgeloggt.

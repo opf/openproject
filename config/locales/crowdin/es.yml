@@ -1126,7 +1126,7 @@ es:
   label_select_main_menu_item: Seleccione nuevo elemento de menú principal
   label_select_project: Seleccione un proyecto
   label_required_disk_storage: Almacenamiento en disco requerido
-  label_resend_invitation: Reenviar invitación
+  label_send_invitation: Send invitation
   label_change_plural: Cambios
   label_change_properties: Cambiar propiedades
   label_change_status: Cambiar estado
@@ -1734,7 +1734,7 @@ es:
   notice_unable_delete_version: No se puede eliminar la versión.
   notice_user_missing_authentication_method: El usuario todavía tiene que elegir una
     contraseña u otra manera de iniciar sesión.
-  notice_user_invitation_resent: Otra invitación se ha enviado a %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Su %{key_name} es: %{value}'
   notice_automatic_set_of_standard_type: Establecer tipo estándar automáticamente.
   notice_logged_out: Has cerrado la sesion.

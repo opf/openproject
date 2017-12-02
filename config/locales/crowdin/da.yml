@@ -1097,7 +1097,7 @@ da:
   label_select_main_menu_item: Vælg nyt punkt i hovedmenu
   label_select_project: Select a project
   label_required_disk_storage: Påkrævet disklagerplads
-  label_resend_invitation: Resend invitation
+  label_send_invitation: Send invitation
   label_change_plural: Ændringer
   label_change_properties: Skift egenskaber
   label_change_status: Skift status
@@ -1689,7 +1689,7 @@ da:
   notice_unable_delete_version: Ude af stand til at slette versionen.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: Another invitation has been sent to %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Din %{key_name} er: %{value}'
   notice_automatic_set_of_standard_type: Fastsæt typen automatisk.
   notice_logged_out: Du er blevet logget ud.

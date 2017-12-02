@@ -1096,7 +1096,7 @@
   label_select_main_menu_item: Velg nytt hovedmenyelement
   label_select_project: Select a project
   label_required_disk_storage: Required disk storage
-  label_resend_invitation: Resend invitation
+  label_send_invitation: Send invitation
   label_change_plural: Endringer
   label_change_properties: Endre egenskaper
   label_change_status: Endre status
@@ -1685,7 +1685,7 @@
   notice_unable_delete_version: Kunne ikke slette versjon.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: Another invitation has been sent to %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Sett standardtype automatisk.
   notice_logged_out: Du ble logget av.

@@ -1097,7 +1097,7 @@ tr:
   label_select_main_menu_item: Yeni ana menü öğesi seç
   label_select_project: Bir proje seçin
   label_required_disk_storage: Gerekli disk alanı
-  label_resend_invitation: Daveti Yeniden Gönder
+  label_send_invitation: Send invitation
   label_change_plural: Değişiklikler
   label_change_properties: Özellikleri değiştir
   label_change_status: Durumu değiştir
@@ -1688,7 +1688,7 @@ tr:
   notice_unable_delete_version: Unable to delete version.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: Another invitation has been sent to %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_logged_out: Oturumunuz kapatıldı.

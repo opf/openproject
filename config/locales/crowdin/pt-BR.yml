@@ -1103,7 +1103,7 @@ pt-BR:
   label_select_main_menu_item: Selecione novo item do menu principal
   label_select_project: Selecionar um projeto
   label_required_disk_storage: Armazenamento em disco necessário
-  label_resend_invitation: Reenviar convite
+  label_send_invitation: Send invitation
   label_change_plural: Mudanças
   label_change_properties: Alterar propriedades
   label_change_status: Alterar situação
@@ -1703,7 +1703,7 @@ pt-BR:
   notice_unable_delete_version: Não é possível excluir a versão.
   notice_user_missing_authentication_method: Usuário ainda tem que escolher uma senha
     ou outra maneira de acesso.
-  notice_user_invitation_resent: Outro convite foi enviado para %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Seu %{key_name} é: %{value}'
   notice_automatic_set_of_standard_type: Defina o tipo padrão automaticamente.
   notice_logged_out: Você foi desconectado.

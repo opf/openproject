@@ -1020,7 +1020,7 @@ ja:
   label_select_main_menu_item: 新しいメインメニュー項目を選択する
   label_select_project: プロジェクトの選択
   label_required_disk_storage: 必要なディスク ストレージ
-  label_resend_invitation: 招待状を再送信
+  label_send_invitation: Send invitation
   label_change_plural: 変更
   label_change_properties: プロパティの変更
   label_change_status: ステータスの変更
@@ -1578,7 +1578,7 @@ ja:
   notice_unable_delete_time_entry: 作業時間記録を削除できません。
   notice_unable_delete_version: バージョンを削除できません。
   notice_user_missing_authentication_method: ユーザーは、サインインのパスワードまたは別の方法を選択する必要があります。
-  notice_user_invitation_resent: "%{email} に別の招待状が送信されました。"
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "%{key_name} は: %{value}"
   notice_automatic_set_of_standard_type: 自動的に標準型を設定します。
   notice_logged_out: ログアウトしました。

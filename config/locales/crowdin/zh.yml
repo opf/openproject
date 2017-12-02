@@ -676,11 +676,11 @@ zh:
     day_names:
     - 星期日
     - 星期一
-    - '星期二 '
+    - 星期二
     - 星期三
     - 星期四
-    - '星期五 '
-    - '星期六 '
+    - 星期五
+    - 星期六
     formats:
       default: "%m/%d/%Y"
       long: "%B %d, %Y"
@@ -1018,7 +1018,7 @@ zh:
   label_select_main_menu_item: 选择新的主菜单项
   label_select_project: 选择项目
   label_required_disk_storage: 所需的磁盘存储
-  label_resend_invitation: 重新发送邀请
+  label_send_invitation: Send invitation
   label_change_plural: 更改
   label_change_properties: 更改属性
   label_change_status: 更改状态
@@ -1580,7 +1580,7 @@ zh:
   notice_unable_delete_time_entry: 不能删除时间记录条目。
   notice_unable_delete_version: 不能删除版本。
   notice_user_missing_authentication_method: 用户尚未选择密码或另一种方式登录。
-  notice_user_invitation_resent: 另一个邀请已发送到 %{email}。
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: '你的 %{key_name} 是: %{value}'
   notice_automatic_set_of_standard_type: 自动设置标准类型。
   notice_logged_out: 您已被注销。

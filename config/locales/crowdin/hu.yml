@@ -6,9 +6,9 @@ hu:
       no_results_title_text: A projektben még nem történt semmi.
   admin:
     plugins:
-      no_results_title_text: There are currently no plugins available.
+      no_results_title_text: Nem állnak rendelkezésre pluginek.
     custom_styles:
-      custom_colors: Custom colors
+      custom_colors: Egyéni színek
       customize: 'Adjon meg saját logót az installált OpenProjecthez. Megjegyzés:
         Ez a logó nyilvánosan elérhető lesz.'
       enterprise_notice: As a special 'Thank you!' for their financial contribution
@@ -19,7 +19,7 @@ hu:
         alternative_color: Strong accent color, typically used for most the important
           button on a screen.
         content_link_color: A legtöbb hivatkozás színe.
-        primary_color: Main color.
+        primary_color: Fő szín.
         primary_color_dark: Typically a darker version of the main color used for
           hover effects.
         header_bg_color: A fejléc háttérszíne.
@@ -52,11 +52,11 @@ hu:
     edit: Súgószöveg "%{attribute_caption}" szerkesztése
   auth_sources:
     index:
-      no_results_content_title: There are currently no authentication modes.
-      no_results_content_text: Create a new authentication mode
+      no_results_content_title: Jelenleg nincs autentikációs mód.
+      no_results_content_text: Új autentikációs mód létrehozása
   boards:
     show:
-      no_results_title_text: There are currently no posts for the board.
+      no_results_title_text: Jelenleg nincs hozzászólás a fórumon.
   custom_fields:
     text_add_new_custom_field: 'Új egyéni mezők hozzáadásához először létre kell hozni
       őket, még mielőtt felvenné azokat a projekthez.
@@ -68,8 +68,8 @@ hu:
     confirm_destroy_option: Egy opció törlése az összes eddigi használatánál (úgy,
       mint munkacsomagok) is törlődnek. Biztosan törölni szeretné?
     tab:
-      no_results_title_text: There are currently no custom fields.
-      no_results_content_text: Create a new custom field
+      no_results_title_text: Jelenleg nincsenek egyéni mezők.
+      no_results_content_text: Új egyéni mező létrehozása
   deprecations:
     old_timeline:
       replacement: Ezt az idővonalak modult egy munkacsomagok modulba ágyazott interaktív
@@ -83,23 +83,23 @@ hu:
       removal: 'Kérjük, vegye figyelembe: Ez a modul az OpenProject 8.0-tól megszűnik.'
   groups:
     index:
-      no_results_title_text: There are currently no groups.
-      no_results_content_text: Create a new group
+      no_results_title_text: Jelenleg nincsenek csoportok.
+      no_results_content_text: Új csoport létrehozása
     users:
-      no_results_title_text: There are currently no users part of this group.
+      no_results_title_text: Jelenleg egy felhasználó sem tagja a csoportnak.
     memberships:
-      no_results_title_text: There are currently no projects part of this group.
+      no_results_title_text: Jelenleg egy projekt sem tagja a csoportnak.
   planning_element_type_colors:
     index:
-      no_results_title_text: There are currently no colors.
-      no_results_content_text: Create a new color
+      no_results_title_text: Jelenleg nincsenek színek.
+      no_results_content_text: Új szín létrehozása
   projects:
     index:
-      no_results_title_text: There are currently no projects
-      no_results_content_text: Create a new project
+      no_results_title_text: Jelenleg nincsenek projektek
+      no_results_content_text: Új projekt létrehozása
     settings:
       activities:
-        no_results_title_text: There are currently no activities available.
+        no_results_title_text: Jelenleg nincs elérhető esemény.
       boards:
         no_results_title_text: There are currently no boards for the project.
         no_results_content_text: Create a new board
@@ -407,7 +407,7 @@ hu:
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
-        follows_descendant: follows its descendant.
+        follows_descendant: leszármazottjait követi.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
         does_not_exist: does not exist.
@@ -530,8 +530,8 @@ hu:
               numeric: Szám (pl. '1')
               special: Különleges karakter (pl. '%')
               reused:
-                one: has been used before. Please choose one that is different from
-                  your last one.
+                one: korábban már használta. Kérjük, válasszon egyet, amely eltér
+                  az utolsónak használttól.
                 other: korábban már használta. Kérjük, válasszon egyet, amely eltér
                   a(z) %{count} utolsótól.
               match:
@@ -548,7 +548,7 @@ hu:
       template:
         body: 'Kérjük, ellenőrizze az alábbi mezőket:'
         header:
-          one: 1 error prohibited this %{model} from being saved
+          one: '1 hiba miatt nem menthető a következő: %{model}'
           other: "%{count} hiba miatt nem menthető a következő: %{model}"
     models:
       attachment: File
@@ -564,7 +564,7 @@ hu:
       project: Projekt
       query: Egyéni lekérdezés
       role:
-        one: Role
+        one: Szerepkör
         other: Szerepkörök
       type: Típus
       project_type: Projekt típus
@@ -701,7 +701,7 @@ hu:
     failed: 'Nem lehet másolni a %{source_project_name} projektet '
     succeeded: 'A %{target_project_name} projekt létrehozva '
     errors: Hiba
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Projekt egyéni mezői
     text:
       failed: Nem lehet másolni a  "%{source_project_name}" projektet a "%{target_project_name}"
         projektbe.
@@ -773,34 +773,34 @@ hu:
         one: körülbelül 1 év
         other: körülbelül %{count} év
       almost_x_years:
-        one: almost 1 year
-        other: majdnem %{count} év
+        one: majdnem 1 éve
+        other: majdnem %{count} éve
       half_a_minute: Fél perc
       less_than_x_minutes:
         one: kevesebb, mint %{count} perc
-        other: less than %{count} minutes
+        other: kevesebb, mint %{count} perce
       less_than_x_seconds:
         one: kevesebb, mint 1 másodperc
         other: kevesebb, mint %{count} másodperc
       over_x_years:
-        one: több mint %{count} év
-        other: over %{count} years
+        one: több mint 1 éve
+        other: több mint %{count} éve
       x_days:
-        one: "%{count} nap"
-        other: "%{count} days"
+        one: 1 napja
+        other: "%{count} napja"
       x_minutes:
-        one: "%{count} perc"
-        other: "%{count} minutes"
+        one: 1 perce
+        other: "%{count} perce"
       x_months:
-        one: "%{count} hónap"
-        other: "%{count} months"
+        one: 1 hónapja
+        other: "%{count} hónapja"
       x_seconds:
-        one: "%{count} másodperc"
-        other: "%{count} seconds"
+        one: 1 másodperce
+        other: "%{count} másodperce"
     units:
       hour:
         one: óra
-        other: hours
+        other: óra
   default_activity_development: Fejlesztés
   default_activity_management: Menedzsment
   default_activity_other: Egyéb
@@ -1102,7 +1102,7 @@ hu:
   label_select_main_menu_item: Válasszon ki új fő menüpontot
   label_select_project: Válasszon projektet
   label_required_disk_storage: Required disk storage
-  label_resend_invitation: Resend invitation
+  label_send_invitation: Send invitation
   label_change_plural: Változtat
   label_change_properties: A tulajdonságok megváltoztatása
   label_change_status: Az állapot megváltoztatása
@@ -1548,11 +1548,11 @@ hu:
     other: "%{count} komment"
     zero: no comments
   label_x_open_work_packages_abbr:
-    one: 1 open
+    one: 1 nyitott
     other: "%{count} nyitott"
     zero: 0 open
   label_x_open_work_packages_abbr_on_total:
-    one: 1 open / %{total}
+    one: 1 nyitott / %{total}
     other: "%{count} nyitott / %{total}"
     zero: 0 open / %{total}
   label_x_projects:
@@ -1648,10 +1648,10 @@ hu:
   notice_account_registered_and_logged_in: Üdvözöljük a fiókja aktiválva van. Most
     bejelentkezhet.
   notice_activation_failed: The account could not be activated.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: Szakasz (%{stage}) igazolása nem sikerült.
+  notice_auth_stage_wrong_stage: "'%{expected}' autentikációs szakasz befejezésére
+    várt, de '%{actual}' tért vissza."
+  notice_auth_stage_error: Autentikációs szakasz '%{stage}' nem sikerült.
   notice_can_t_change_password: Ez a fiók egy külső hitelesítési forrást használ.
     Lehetetlen a jelszó csere.
   notice_custom_options_deleted: A '%{option_value}' beállítás és annak %{num_deleted}
@@ -1696,7 +1696,7 @@ hu:
   notice_unable_delete_version: Nem lehet törölni a verziót.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: Another invitation has been sent to %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Automatikusan beállítja alap típust .
   notice_logged_out: Kijelentkeztél.
@@ -1722,8 +1722,8 @@ hu:
         format: "%n %u"
         units:
           byte:
-            one: Byte
-            other: Bytes
+            one: Bájt
+            other: Bájt
           gb: GB
           kb: kB
           mb: MB
@@ -2286,8 +2286,8 @@ hu:
     delete_thing: Töröl
     duration: Időtartam
     duration_days:
-      one: "%{count} nap"
-      other: "%{count} days"
+      one: 1 napja
+      other: "%{count} napja"
     edit_color: Színek szerkesztése
     edit_project_type: Projekt típus módosítása
     edit_thing: Szerkesztés
@@ -2495,7 +2495,7 @@ hu:
     assign_random_password: Assign random password (sent to user via email)
     blocked: ideiglenesen zárolva
     blocked_num_failed_logins:
-      one: locked temporarily (one failed login attempt)
+      one: ideiglenesen zárolva (egy sikertelen bejelentkezési kísérlet)
       other: ideiglenesen zárolva (%{count} sikertelen bejelentkezési kísérlet)
     confirm_status_change: "'%{name}' állapotát készül megváltoztatni. Biztosan folytatja?"
     deleted: Törölt felhasználó
@@ -2581,16 +2581,16 @@ hu:
       multiple_errors: Multiple field constraints have been violated.
       render:
         context_not_parsable: The context provided is not a link to a resource.
-        unsupported_context: The resource given is not supported as context.
-        context_object_not_found: Cannot find the resource given as the context.
+        unsupported_context: A megadott erőforrás nem támogatott kontextus.
+        context_object_not_found: Nem található a kontextusként megadott erőforrás.
       validation:
-        done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
-          by status or when it is disabled.
-        due_date: Due date cannot be set on parent work packages.
-        estimated_hours: Estimated hours cannot be set on parent work packages.
-        invalid_user_assigned_to_work_package: The chosen user is not allowed to be
-          '%{property}' for this work package.
-        start_date: Start date cannot be set on parent work packages.
+        done_ratio: Az arány nem megadható a szülő munkacsomagokon, amikor az a státuszból
+          következtethető vagy alapból ki van kapcsolva.
+        due_date: Esedékesség dátuma nem állítható a szülő munkacsomagokon.
+        estimated_hours: Becsült óra nem állítható a szülő munkacsomagokon.
+        invalid_user_assigned_to_work_package: A kiválasztott felhasználó '%{property}'-ként
+          való beállítása nem engedélyezett ehhez a munkacsomaghoz.
+        start_date: Kezdés dátuma nem állítható a szülő munkacsomagokon.
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Séma

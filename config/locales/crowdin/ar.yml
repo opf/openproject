@@ -1157,7 +1157,7 @@ ar:
   label_select_main_menu_item: حدد عنصر القائمة الرئيسية الجديد
   label_select_project: Select a project
   label_required_disk_storage: التخزين على القرص المطلوب
-  label_resend_invitation: إعادة إرسال دعوة
+  label_send_invitation: Send invitation
   label_change_plural: التغييرات
   label_change_properties: تغيير الخصائص
   label_change_status: تغيير الحالة
@@ -1758,7 +1758,7 @@ ar:
   notice_unable_delete_version: غير قادر على حذف الإصدار.
   notice_user_missing_authentication_method: على المستخدم اختيار كلمة مرور أو طريقة
     أخرى لتسجيل الدخول.
-  notice_user_invitation_resent: وقد تم إرسال دعوة أخرى إلى %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: "%{key_name} الخاص بك: %{value}"
   notice_automatic_set_of_standard_type: تعيين النوع القياسي تلقائياً.
   notice_logged_out: لقد قمت بتسجيل الخروج.

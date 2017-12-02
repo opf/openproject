@@ -1117,7 +1117,7 @@ hr:
   label_select_main_menu_item: Odaberite novi element glavnog izbornika
   label_select_project: Select a project
   label_required_disk_storage: Potraban diskovni prostor
-  label_resend_invitation: Ponovno slanje pozivnica
+  label_send_invitation: Send invitation
   label_change_plural: Promjene
   label_change_properties: Promjeni značajke
   label_change_status: Promijeni status
@@ -1725,7 +1725,7 @@ hr:
   notice_unable_delete_version: Nije moguće izbrisati verziju.
   notice_user_missing_authentication_method: Korisnik mora odabrati lozinku ili drugi
     način prijave.
-  notice_user_invitation_resent: Drugi poziv je poslan na %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Vaš %{key_name} je: %{value}'
   notice_automatic_set_of_standard_type: Automatski postavite standardni tip.
   notice_logged_out: Uspješno ste odjavljeni.

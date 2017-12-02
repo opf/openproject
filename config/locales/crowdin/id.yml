@@ -1089,7 +1089,7 @@ id:
   label_select_main_menu_item: Pilih item main menu baru
   label_select_project: Select a project
   label_required_disk_storage: Storage yang dibutuhkan
-  label_resend_invitation: Resend invitation
+  label_send_invitation: Send invitation
   label_change_plural: Perubahan
   label_change_properties: Ubah properti
   label_change_status: Ubah status
@@ -1678,7 +1678,7 @@ id:
   notice_unable_delete_version: Gagal menghapus versi.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: Another invitation has been sent to %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set Tipe standar secara otomatis.
   notice_logged_out: Anda telah logout.

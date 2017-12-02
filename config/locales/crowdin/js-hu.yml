@@ -107,7 +107,7 @@ hu:
     label_contains: tartalmaznak
     label_created_on: létrehozva
     label_edit_comment: Hozzászólás szerkesztése
-    label_edit_status: Edit the status of the work package
+    label_edit_status: A munkacsomag állapotának módosítása
     label_equals: van
     label_expand: Kibont
     label_expanded: kibontott

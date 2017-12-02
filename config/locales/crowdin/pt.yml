@@ -1117,7 +1117,7 @@ pt:
   label_select_main_menu_item: Seleccione novo item do menu principal
   label_select_project: Selecionar um projeto
   label_required_disk_storage: Espaço em disco necessário
-  label_resend_invitation: Reenviar o convite
+  label_send_invitation: Send invitation
   label_change_plural: Alterações
   label_change_properties: Alterar propriedades
   label_change_status: Alterar estado
@@ -1717,7 +1717,7 @@ pt:
   notice_unable_delete_version: Não é possível eliminar a versão.
   notice_user_missing_authentication_method: O utilizador ainda tem que escolher uma
     senha ou outro modo de iniciar a sessão.
-  notice_user_invitation_resent: Outro convite foi enviado para %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'O seu %{key_name} é: %{value}'
   notice_automatic_set_of_standard_type: Defina o tipo por defeito automaticamente.
   notice_logged_out: A sua sessão foi terminada.

@@ -1113,7 +1113,7 @@ ca:
   label_select_main_menu_item: Seleccioneu nou element de menú principal
   label_select_project: Select a project
   label_required_disk_storage: Emmagatzematge de disc necessari
-  label_resend_invitation: Tornar a enviar invitació
+  label_send_invitation: Send invitation
   label_change_plural: Canvis
   label_change_properties: Canvia les propietats
   label_change_status: Canvia l'estat
@@ -1719,7 +1719,7 @@ ca:
   notice_unable_delete_version: No s'ha pogut suprimir la versió.
   notice_user_missing_authentication_method: L'usuari encara ha de triar una contrassenya
     o una altra manera d'iniciar la sessió.
-  notice_user_invitation_resent: S'ha enviat una altra invitació a %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'El seu %{key_name} és: %{value}'
   notice_automatic_set_of_standard_type: Establir tipus estàndard automàticament.
   notice_logged_out: S'ha tancat la sessió.

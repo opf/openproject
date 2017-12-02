@@ -1111,7 +1111,7 @@ nl:
   label_select_main_menu_item: Selecteer nieuwe hoofdmenu-item
   label_select_project: Selecteer een project
   label_required_disk_storage: Vereiste schijfruimte
-  label_resend_invitation: Uitnodiging opnieuw verzenden
+  label_send_invitation: Send invitation
   label_change_plural: Wijzigingen
   label_change_properties: Eigenschappen wijzigen
   label_change_status: Status wijzigen
@@ -1713,7 +1713,7 @@ nl:
   notice_unable_delete_version: Niet in staat om versie te verwijderen.
   notice_user_missing_authentication_method: Gebruiker dient nog een wachtwoord te
     kiezen of een andere manier om in te loggen te bepalen.
-  notice_user_invitation_resent: Een nieuwe uitnodiging is verstuurd naar %{email}.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
   present_access_key_value: 'Uw %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Standaardtype automatisch ingesteld.
   notice_logged_out: U bent uitgelogd.
