@@ -126,8 +126,8 @@ pl:
   my:
     access_token:
       failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
+      notice_reset_token: 'Nowy token typu %{type} został wygenerowany. Twój token
+        dostępu to:'
       token_value_warning: 'Note: This is the only time you will see this token, make
         sure to copy it now.'
       no_results_title_text: Aktualnie nie ma dostępnych tokenów.
@@ -1112,7 +1112,7 @@ pl:
   label_select_main_menu_item: Wybierz nową pozycję menu głównego
   label_select_project: Wybierz projekt
   label_required_disk_storage: Wymagane miejsce na dysku
-  label_send_invitation: Send invitation
+  label_send_invitation: Wyślij zaproszenie
   label_change_plural: Zmiany
   label_change_properties: Zmiana właściwości
   label_change_status: Zmiana stanu
