@@ -26,13 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {Component, Directive, ElementRef, Injector} from '@angular/core';
+import {Component, Directive, ElementRef, Injector, Input, Output} from '@angular/core';
 import {UpgradeComponent} from '@angular/upgrade/static';
 
 @Directive({
   selector: 'accessible-by-keyboard'
 })
 export class AccessibleByKeyboardDirectiveUpgraded extends UpgradeComponent {
+
+  @Output() execute: any;
+  @Input() isDisabled: boolean;
+  @Input() linkClass: string;
+  @Input() linkTitle: string;
+  @Input() spanClass: string;
+  @Input() linkAriaLabel: string;
+
   constructor(elementRef:ElementRef, injector:Injector) {
     super('accessibleByKeyboard', elementRef, injector);
   }
