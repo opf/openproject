@@ -147,6 +147,7 @@ See doc/COPYRIGHT.rdoc for more details.
             </tr>
             <% unless project.description.blank? %>
               <tr class="project-description <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-expanded' : '' %>">
+                <td></td>
                 <td colspan="<%= @custom_fields.size + (User.current.admin? ? 6 : 3) %>" class="project--hierarchy">
                   <div class="description-container">
                     <span class="wiki"><%= format_text(project.short_description(255), project: project) %></span>
