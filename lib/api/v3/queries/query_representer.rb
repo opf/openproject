@@ -271,7 +271,11 @@ module API
         end
 
         def filters
-          represented.filters.map do |filter|
+          # HACK: we currently cannot display the id filter as there could potentially
+          # be too many candidates for the filter to be displayed.
+          # But as it is practical to have the id filter we allow users to type ids into the url. In such
+          # cases, the filter will be applied but it is not displayed as applied.
+          represented.filters.reject { |f| f.name == :id }.map do |filter|
             ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter
               .new(filter)
           end
