@@ -2132,6 +2132,12 @@ en:
   text_zoom_out: "Zoom out"
   text_setup_mail_configuration: "Configure your email provider"
 
+  text_pdftotext_available: "Pdftotext available (optional)"
+  text_unrtf_available: "Unrtf available (optional)"
+  text_catdoc_available: "Catdoc available (optional)"
+  text_xls2csv_available: "Xls2csv available (optional)"
+  text_catppt_available: "Catppt available (optional)"
+
   time:
     am: "am"
     formats:

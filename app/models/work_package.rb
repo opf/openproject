@@ -121,11 +121,18 @@ class WorkPackage < ActiveRecord::Base
 
   acts_as_customizable
 
+  # def self.attachments_searchable?
+  #   OpenProject::Configuration["enable_attachment_search"] && EnterpriseToken.allows_to?(:attachment_search)
+  # end
+
   acts_as_searchable columns: ['subject',
                                "#{table_name}.description",
-                               "#{Journal.table_name}.notes"],
-                     include: %i(project journals),
-                     references: %i(projects journals),
+                               "#{Journal.table_name}.notes"] +
+                              ["#{Attachment.table_name}.fulltext",
+                               "#{Attachment.table_name}.filename",
+                               "#{Attachment.table_name}.description"],
+                     include: %i(project journals).push(:attachments) ,
+                     references: %i(projects journals).push(:attachments),
                      date_column: "#{quoted_table_name}.created_at",
                      # sort by id so that limited eager loading doesn't break with postgresql
                      order_column: "#{table_name}.id"
@@ -144,15 +151,16 @@ class WorkPackage < ActiveRecord::Base
   acts_as_attachable after_remove: :attachments_changed, order: "#{Attachment.table_name}.filename"
 
   after_validation :set_attachments_error_details,
-                   if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
+  if: lambda { |work_package| work_package.errors.messages.has_key? :attachments }
 
   associated_to_ask_before_destruction TimeEntry,
-                                       ->(work_packages) {
+  ->(work_packages) {
                                          TimeEntry.on_work_packages(work_packages).count > 0
                                        },
-                                       method(:cleanup_time_entries_before_destruction_of)
+  method(:cleanup_time_entries_before_destruction_of)
 
   include WorkPackage::Journalized
+
 
   def self.done_ratio_disabled?
     Setting.work_package_done_ratio == 'disabled'
@@ -161,6 +169,7 @@ class WorkPackage < ActiveRecord::Base
   def self.use_status_for_done_ratio?
     Setting.work_package_done_ratio == 'status'
   end
+
 
   def self.use_field_for_done_ratio?
     Setting.work_package_done_ratio == 'field'

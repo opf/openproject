@@ -76,7 +76,12 @@ class AdminController < ApplicationController
     repository_writable = File.writable?(OpenProject::Configuration.attachments_storage_path)
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
-      [:text_file_repository_writable, repository_writable]
+      [:text_file_repository_writable, repository_writable],
+      # [:text_pdftotext_available,      OpenProject::TextExtractor::PdfHandler.available?],
+      # [:text_unrtf_available,          OpenProject::TextExtractor::RtfHandler.available?],
+      # [:text_catdoc_available,         OpenProject::TextExtractor::DocHandler.available?],
+      # [:text_xls2csv_available,        OpenProject::TextExtractor::XlsHandler.available?],
+      # [:text_catppt_available,         OpenProject::TextExtractor::PptHandler.available?]
     ]
 
     @storage_information = OpenProject::Storage.mount_information

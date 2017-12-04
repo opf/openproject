@@ -39,7 +39,8 @@ class Authorization::EnterpriseService
                        two_factor_authentication
                        ldap_groups
                        custom_fields_in_projects_list
-                       custom_actions).freeze
+                       custom_actions
+                       attachment_search).freeze
 
   def initialize(token)
     self.token = token

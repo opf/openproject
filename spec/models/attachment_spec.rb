@@ -73,6 +73,17 @@ describe Attachment, type: :model do
         expect(attachment.content_type).to eq 'image/jpeg'
       end
     end
+
+    # TODO: rewrite this unit test to spec
+    # def test_should_extract_fulltext
+    #   a = Attachment.create(
+    #     :container => Issue.find(1),
+    #               :file => uploaded_test_file("testfile.txt", "text/plain"),
+    #               :author => User.find(1),
+    #               :content_type => 'text/plain')
+    #   a.reload
+    #   assert a.fulltext.include?("this is a text file for upload tests\r\nwith multiple lines")
+    # end
   end
 
   describe 'update' do

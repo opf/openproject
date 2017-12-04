@@ -114,7 +114,7 @@ Note: We strongly recommend to update your OpenProject installation to the lates
   with that.
 
 * If you run the worker process with a cronjob, disable the cronjob temporarily.
-* Stop the (delayed\_job) worker process. In case you run the woker process through
+* Stop the (delayed\_job) worker process. In case you run the worker process through
   `RAILS_ENV=production bundle exec script/delayed_job start`, execute the following:
   `RAILS_ENV=production bundle exec script/delayed_job stop`.
 
