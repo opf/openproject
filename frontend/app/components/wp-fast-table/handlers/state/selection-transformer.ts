@@ -12,6 +12,11 @@ export class SelectionTransformer {
   public states:States;
   public FocusHelper:any;
 
+  // When first entering the page, the user
+  // wants to scroll to the focused work package in the table.
+  // We only want to do this once, so remember when we did the first focus
+  private hasFocusedOnElement = false;
+
   constructor(table:WorkPackageTable) {
     injectorBridge(this);
 
@@ -24,10 +29,13 @@ export class SelectionTransformer {
           return;
         }
 
-        const element = locateTableRow(singleSelection);
-        if (element.length) {
-          element[0].scrollIntoView();
-          this.FocusHelper.focusElement(element, true);
+        if (!this.hasFocusedOnElement) {
+          this.hasFocusedOnElement = true;
+          const element = locateTableRow(singleSelection);
+          if (element.length) {
+            element[0].scrollIntoView();
+            this.FocusHelper.focusElement(element, true);
+          }
         }
     });
 
