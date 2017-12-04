@@ -60,8 +60,9 @@ id:
     show:
       no_results_title_text: Tidak ada pos untuk papan saat ini.
   custom_fields:
-    text_add_new_custom_field: 'To add new custom fields to a project you first need
-      to create them before you can add them to this project.
+    text_add_new_custom_field: 'Untuk menambahkan kolom kustom baru untuk sebuah proyek,
+      pertama-tama Anda harus membuatnya, sebelum Anda dapat menambahkannya ke proyek
+      ini.
 
 '
     is_enabled_globally: Is enabled globally
@@ -74,12 +75,12 @@ id:
       no_results_content_text: Buat bidang kustom baru
   deprecations:
     old_timeline:
-      replacement: This timelines module is being replaced by the interactive timeline
-        embedded into the work packages module.
-      removal: This module is going to be removed with OpenProject 8.0. The configuration
-        for this view will NOT be migrated to the work package view.
-      further_information_before: Please take a look at
-      link_name: how to migrate to the new timeline.
+      replacement: Modul jadwal in digantikan oleh jadwal interaktiv yang dilekatkan
+        ke dalam paket modul kerja.
+      removal: Modul ini akan dihilangkan dengan OpenProject 8.0. Konfigurasi untuk
+        tampilan ini tidak akan di migrasikan ke tampilan paket kerja.
+      further_information_before: Silahkan lihat di
+      link_name: bagaimana untuk bermigrasi ke jadwal baru.
       further_information_after: ''
     calendar:
       removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
@@ -1127,7 +1128,7 @@ id:
   label_core_version: Core versi
   label_current_status: Status saat ini
   label_current_version: Versi saat ini
-  label_custom_field_add_no_type: Add this field to a work package type
+  label_custom_field_add_no_type: Tambahkan field ini ke sebuah jenis paket kerja
   label_custom_field_new: Isian kustom baru
   label_custom_field_plural: Isian kustom
   label_custom_field_default_type: Tipe kosong
@@ -1452,8 +1453,8 @@ id:
   label_updated_time_at: "%{author} %{age}"
   label_updated_time_by: Diperbarui oleh %{author} %{age} yang lalu
   label_used_by: Digunakan oleh
-  label_used_by_types: Used by types
-  label_used_in_projects: Used in projects
+  label_used_by_types: Digunakan oleh jenis
+  label_used_in_projects: Digunakan dalam proyek-proyek
   label_user: User
   label_user_activity: "%{value} aktivitas"
   label_user_anonymous: Anonimus
@@ -1711,9 +1712,9 @@ id:
           mb: MB
           tb: TB
   onboarding:
-    heading_getting_started: Get an overview
-    text_getting_started_description: Get a quick overview of project management and
-      team collaboration with OpenProject.
+    heading_getting_started: Mendapatkan gambaran
+    text_getting_started_description: Mendapatkan gambaran singkat mengenai manajemen
+      proyek dan tim kolaborasi bersama OpenProject.
     text_show_again: You can restart this video from the help menu
     welcome: Welcome to OpenProject
   permission_add_work_package_notes: Tambahkan catatan
@@ -1945,8 +1946,8 @@ id:
       managed_url: Managed URL
       password: Password Repository
       username: Username Repository
-    truncated: Sorry, we had to truncate this directory to %{limit} files. %{truncated}
-      entries were omitted from the list.
+    truncated: Maaf, kami harus menyingkat direktori ini ke file %{limit}. Isian %{truncated}
+      dihilangkan dari daftar.
     named_repository: "%{vendor_name} repository"
     update_settings_successful: Setting berhasil disimpan.
     url: URL repositori
@@ -2039,8 +2040,8 @@ id:
   setting_repository_checkout_text: Checkout instruction text
   setting_repository_log_display_limit: Jumlah maks. revisi yang ditampilkan di file
     log
-  setting_repository_truncate_at: Maximum number of files displayed in the repository
-    browser
+  setting_repository_truncate_at: Jumlah maksimum file yang ditampilkan dalam browser
+    tempat penyimpanan
   setting_rest_api_enabled: Aktifkan REST web service
   setting_self_registration: Registrasi mandiri
   setting_sequential_project_identifiers: Buat pengenal Project
@@ -2093,20 +2094,20 @@ id:
     package forms. You can freely group the fields to reflect the needs for your domain.
 
 '
-  text_form_configuration_drag_to_activate: Drag fields from here to activate them
-  text_form_configuration_required_attribute: Attribute is marked required and thus
-    always shown
+  text_form_configuration_drag_to_activate: Tarik field dari sini untuk mengaktifkkannya
+  text_form_configuration_required_attribute: Atribut ditandai "diperlukan" dan dengan
+    demikian selalu ditampilkan
   text_caracters_maximum: maks. %{count} karakter.
   text_caracters_minimum: Panjang katakter setidaknya %{count} karakter.
   text_comma_separated: Jika ada beberapa nilai, pisahkan dengan koma.
   text_comment_wiki_page: 'Comment to wiki page: %{page}'
   text_custom_field_possible_values_info: Satu baris untuk tiap nilai
-  text_custom_field_hint_activate_per_project: 'When using custom fields: Keep in
-    mind that custom fields need to be activated per project, too.
+  text_custom_field_hint_activate_per_project: 'Ketika menggunakan filed kustom: Perlu
+    diingat bahwa field kustom perlu diaktifkan per proyek, juga.
 
 '
-  text_custom_field_hint_activate_per_project_and_type: 'Custom fields need to be
-    activated per work package type and per project.
+  text_custom_field_hint_activate_per_project_and_type: 'Field-field kustom perlu
+    diaktifkan per jenis paket kerja dan per proyek.
 
 '
   text_custom_logo_instructions: 'A white logo on transparent background is recommended.
