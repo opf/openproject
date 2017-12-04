@@ -1,16 +1,13 @@
 user: openproject
 group: openproject
 targets:
-  debian-7: &debian7
-    build_dependencies:
-      - libsqlite3-dev
   debian-8: &debian8
     build_dependencies:
       - libsqlite3-dev
   debian-9:
-    <<: *debian7
+    <<: *debian8
   ubuntu-14.04:
-    <<: *debian7
+    <<: *debian8
   ubuntu-16.04:
     <<: *debian8
   centos-7:
