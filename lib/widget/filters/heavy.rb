@@ -38,8 +38,7 @@ class Widget::Filters::Heavy < Widget::Filters::Base
                           :"data-loading" => '',
                           id: "#{filter_class.underscore_name}_arg_1_val",
                           class: 'advanced-filters--select filter-value',
-                          :"data-filter-name" => filter_class.underscore_name,
-                          multiple: 'multiple' }
+                          :"data-filter-name" => filter_class.underscore_name }
       box = content_tag :select, select_options do
         render_widget Widget::Filters::Option, filter, to: '', content: opts
       end
