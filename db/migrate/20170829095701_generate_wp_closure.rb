@@ -36,8 +36,6 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
 
     insert_hierarchy_relation_for_parent
 
-    insert_reflexive_relations
-
     WorkPackage.rebuild_dag!
 
     relation_types.each do |column|
@@ -196,15 +194,6 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
       FROM work_packages w1
       JOIN work_packages w2
       ON w1.id = w2.parent_id
-    SQL
-  end
-
-  def insert_reflexive_relations
-    ActiveRecord::Base.connection.execute <<-SQL
-      INSERT INTO relations
-        (from_id, to_id)
-      SELECT id, id
-      FROM work_packages
     SQL
   end
 

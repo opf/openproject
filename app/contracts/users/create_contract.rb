@@ -39,12 +39,8 @@ module Users
       end
     end
 
-    def validate
-      user_allowed_to_add
-      authentication_defined
-
-      super
-    end
+    validate :user_allowed_to_add
+    validate :authentication_defined
 
     private
 
