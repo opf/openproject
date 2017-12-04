@@ -74,7 +74,7 @@ module OpenProject::GithubIntegration
 
       attributes = { journal_notes: notes_for_payload(payload) }
       wps.each do |wp|
-        ::UpdateWorkPackageService
+        ::WorkPackages::UpdateService
           .new(user: user, work_package: wp)
           .call(attributes: attributes)
       end
