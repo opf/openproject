@@ -146,7 +146,7 @@ RSpec.feature 'Work package timeline navigation', js: true, selenium: true do
     wp_timeline.expect_timeline_element(work_package)
 
     # Expect zoom at days
-    expect(page).to have_selector('#work-packages-timeline-zoom-auto-button.-pressed')
+    expect(page).to have_selector('#work-packages-timeline-zoom-auto-button.-disabled')
   end
 
   describe 'with a hierarchy being shown' do
