@@ -16,7 +16,6 @@ provide any official support for them.
 | Distribution (64 bits only)     | Identifier   | init system |
 | :------------------------------ | :----------- | :---------- |
 | CentOS/RHEL 7.x                 | centos-7     | systemd     |
-| Debian 7 Wheezy                 | debian-7     | sysvinit    |
 | Debian 8 Jessie                 | debian-8     | systemd     |
 | Debian 9 Stretch                | debian-9     | systemd     |
 | Suse Linux Enterprise Server 11 | sles-11      | sysvinit    |
