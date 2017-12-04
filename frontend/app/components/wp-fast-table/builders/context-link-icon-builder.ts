@@ -36,7 +36,7 @@ export class ContextLinkIconBuilder {
       ''
     );
 
-    detailsLink.classList.add(detailsLinkClassName, contextColumnIcon);
+    detailsLink.classList.add(detailsLinkClassName, contextColumnIcon, 'hidden-for-mobile');
     detailsLink.appendChild(opIconElement('icon', 'icon-info2'));
 
     // Enter the context menu arrow
