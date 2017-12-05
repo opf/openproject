@@ -199,6 +199,7 @@ describe WorkPackagesController, "rendering to xls", :type => :controller do
     end
 
     it 'should adapt the datetime fields to the user time zone' do
+      work_package.reload
       updated_at_cell = @sheet.rows.last.to_a.last
       expect(updated_at_cell.to_s(:number)).to eq(work_package.updated_at.in_time_zone(zone).to_s(:number))
     end
