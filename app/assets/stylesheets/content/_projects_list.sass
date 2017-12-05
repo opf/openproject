@@ -74,6 +74,17 @@ form.project-filters
     margin-top: 1rem
   margin-bottom: 1rem
 
+.projects-table--hierarchy-icon
+  display: none
+
+  &:before
+    @include icon-font-common
+    @include icon-mixin-arrow-right5
+    @extend .icon-small
+
+  tr.idnt &
+    display: initial
+
 #project-table
   tr.basics
     &.-expanded
@@ -82,15 +93,6 @@ form.project-filters
           display: inline
         .expand
           display: none
-    &.child
-      td.name
-        &.archived,
-        a
-          &:before
-            @include icon-font-common
-            @include icon-mixin-arrow-right2
-            font-size: 0.6875rem
-            padding-right: 0.5rem
     td.format-text
       min-width: 160px
     td.format-user

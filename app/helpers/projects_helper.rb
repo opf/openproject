@@ -222,14 +222,12 @@ module ProjectsHelper
     end
   end
 
-  def project_css_classes(project, options = {})
+  def project_css_classes(project)
     s = 'project'
 
-    if !options[:ignore_hierarchy]
-      s << ' root' if project.root?
-      s << ' child' if project.child?
-      s << (project.leaf? ? ' leaf' : ' parent')
-    end
+    s << ' root' if project.root?
+    s << ' child' if project.child?
+    s << (project.leaf? ? ' leaf' : ' parent')
 
     s
   end

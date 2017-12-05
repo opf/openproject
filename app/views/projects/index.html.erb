@@ -91,9 +91,10 @@ See doc/COPYRIGHT.rdoc for more details.
         </thead>
         <tbody>
           <% projects_with_levels_order_sensitive(@projects) do |project, level| %>
-            <tr class="basics context-menu--reveal <%= project_css_classes(project, ignore_hierarchy: level == 0) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
+            <tr class="basics context-menu--reveal <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
               <td></td>
               <td class="name project--hierarchy <%= project.archived? ? 'archived' : '' %>">
+                <i class="projects-table--hierarchy-icon"></i>
                 <% if project.archived? %>
                   <span class="archived-label"><%= t('project.archive.archived') %></span>
                 <% end %>
