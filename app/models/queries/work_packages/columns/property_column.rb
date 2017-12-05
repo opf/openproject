@@ -55,9 +55,17 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     },
     parent: {
       association: 'ancestors_relations',
+      default_order: 'asc',
       sortable: ["COALESCE(#{Relation.table_name}.from_id, #{WorkPackage.table_name}.id)",
-                 "#{Relation.table_name}.hierarchy"],
-      default_order: 'asc'
+                 "COALESCE(#{Relation.table_name}.hierarchy, 0)"],
+      sortable_join: <<-SQL
+        JOIN (
+          SELECT relations.hierarchy, relations.to_id, relations.from_id from relations
+        JOIN (
+          #{Relation.hierarchy_or_reflexive.group(:to_id).select('MAX(relations.hierarchy) hierarchy, relations.to_id').to_sql}) max_depth
+        ON max_depth.hierarchy = relations.hierarchy AND max_depth.to_id = relations.to_id) depth_relations
+        ON depth_relations.to_id = work_packages.id
+      SQL
     },
     status: {
       association: 'status',

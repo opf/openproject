@@ -45,11 +45,11 @@ describe 'Select work package row', type: :feature, js: true do
 
     let(:version_1) do
       FactoryGirl.create(:version, project: project,
-                                  name: 'aaa_version')
+                                   name: 'aaa_version')
     end
     let(:version_2) do
       FactoryGirl.create(:version, project: project,
-                                  name: 'zzz_version')
+                                   name: 'zzz_version')
     end
     let(:columns) { ::Components::WorkPackages::Columns.new }
 
