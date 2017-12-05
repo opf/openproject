@@ -26,14 +26,6 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-$project-table--start-indentation: 1em
-$project-table--child-indentation: 1.1em
-$project-table--icon-distance: 5px
-
-@mixin calc-indentation($indentation)
-  // This does not work for big font-sizes
-  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
-
 table
   td
     padding: 3px 6px
@@ -128,28 +120,6 @@ table
       background: none
 
 tr
-  &.project
-    td.name a
-      white-space: nowrap
-    &.idnt-1 td.project--hierarchy
-      @include calc-indentation(1)
-    &.idnt-2 td.project--hierarchy
-      @include calc-indentation(2)
-    &.idnt-3 td.project--hierarchy
-      @include calc-indentation(3)
-    &.idnt-4 td.project--hierarchy
-      @include calc-indentation(4)
-    &.idnt-5 td.project--hierarchy
-      @include calc-indentation(5)
-    &.idnt-6 td.project--hierarchy
-      @include calc-indentation(6)
-    &.idnt-7 td.project--hierarchy
-      @include calc-indentation(7)
-    &.idnt-8 td.project--hierarchy
-      @include calc-indentation(8)
-    &.idnt-9 td.project--hierarchy
-      @include calc-indentation(9)
-
   &.issue
     white-space: nowrap
     &.sum

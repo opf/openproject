@@ -26,6 +26,14 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$project-table--start-indentation: 0.5em
+$project-table--child-indentation: 1.1em
+$project-table--icon-distance: 5px
+
+@mixin calc-indentation($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
+
 form.project-filters
   display: none
   &.-expanded
@@ -133,6 +141,28 @@ form.project-filters
   .generic-table--sort-header-outer:hover,
   .generic-table--header-outer:hover
     background: initial
+
+  td.name a
+    white-space: nowrap
+
+  tr.idnt-1 td.project--hierarchy
+    @include calc-indentation(1)
+  tr.idnt-2 td.project--hierarchy
+    @include calc-indentation(2)
+  tr.idnt-3 td.project--hierarchy
+    @include calc-indentation(3)
+  tr.idnt-4 td.project--hierarchy
+    @include calc-indentation(4)
+  tr.idnt-5 td.project--hierarchy
+    @include calc-indentation(5)
+  tr.idnt-6 td.project--hierarchy
+    @include calc-indentation(6)
+  tr.idnt-7 td.project--hierarchy
+    @include calc-indentation(7)
+  tr.idnt-8 td.project--hierarchy
+    @include calc-indentation(8)
+  tr.idnt-9 td.project--hierarchy
+    @include calc-indentation(9)
 
 #project-table--hierarchy-header
   font-size: 1rem
