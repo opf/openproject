@@ -26,77 +26,96 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-interface OpDatePickerScope extends ng.IScope {
-  onChange?:Function;
-  onClose?:Function;
-}
+class OPDatePickerController {
+  public onChange?:Function;
+  public onClose?:Function;
+  public initialDate?:String;
 
-function opDatePickerLink(this:any, scope:OpDatePickerScope, element:ng.IAugmentedJQuery, _attrs:any) {
-  // we don't want the date picker in the accessibility mode
-  if (this.ConfigurationService.accessibilityModeEnabled()) {
-    return;
+  private datePickerInstance:any;
+  private input:JQuery;
+
+  public constructor(private $element:ng.IAugmentedJQuery,
+                     private ConfigurationService:any,
+                     private TimezoneService:any,
+                     private Datepicker:any) {
+    'ngInject';
   }
 
-  let input = element.find('input');
-  let datePickerInstance:any;
-  let DatePicker = this.Datepicker;
 
-  let defaultHandler = function () {
-    input.change();
-  };
-  let onChange = scope.onChange || defaultHandler;
-  let onClose = scope.onClose || defaultHandler;
+  public $onInit() {
+    // Added for compatibility
+  }
 
-  input.focus( () => {
-    showDatePicker();
-  });
-
-  input.keydown((event) => {
-    if (input.val() === '') {
-      datePickerInstance.clear();
+  public $postLink() {
+    // we don't want the date picker in the accessibility mode
+    if (!this.ConfigurationService.accessibilityModeEnabled()) {
+      this.input = this.$element.find('input');
+      this.setup();
     }
-  });
+  }
 
-  function showDatePicker() {
-    let options = {
+  public setup() {
+    this.input.focus(() => this.showDatePicker());
+    this.input.keydown((event) => {
+      if (this.isEmpty()) {
+        this.datePickerInstance.clear();
+      }
+    });
+  }
+
+  private isEmpty():boolean {
+    return this.currentValue().trim() === '';
+  }
+
+  private currentValue() {
+    return this.input.val();
+  }
+
+  private callbackIfSet(name:'onChange' | 'onClose') {
+    if (this[name]) {
+      this[name]!.bind(this).call();
+    }
+  }
+
+  private showDatePicker() {
+    let options:any = {
       onSelect: (date:any) => {
-        datePickerInstance.hide();
+        this.datePickerInstance.hide();
 
         let val = date;
 
-        if (input.val().trim() === '') {
+        if (this.isEmpty()) {
           val = null;
         }
-        input.val(val);
-        onChange();
+
+        this.input.val(val);
+        this.input.change();
+        this.callbackIfSet('onChange');
       },
-      onClose: onClose
+      onClose: () => this.callbackIfSet('onClose')
     };
-    datePickerInstance = new DatePicker(input, input.val(), options);
 
-    datePickerInstance.show();
-  }
-}
-
-function opDatePicker(ConfigurationService:any, Datepicker:any):any {
-  var dependencies = {
-    ConfigurationService: ConfigurationService,
-    Datepicker: Datepicker
-  };
-
-  return {
-    restrict: 'E',
-    transclude: true,
-    templateUrl: '/components/wp-edit/op-date-picker/op-date-picker.directive.html',
-    // http://stackoverflow.com/a/33614939/3206935
-    link: angular.bind(dependencies, opDatePickerLink),
-    scope: {
-      onChange: '&?',
-      onClose: '&?',
+    let initialValue;
+    if (this.isEmpty && this.initialDate) {
+      initialValue = this.TimezoneService.parseISODate(this.initialDate).toDate();
+    } else {
+      initialValue = this.currentValue();
     }
-  };
+
+    this.datePickerInstance = new this.Datepicker(this.input, initialValue, options);
+    this.datePickerInstance.show();
+  }
 }
 
 angular
   .module('openproject')
-  .directive('opDatePicker', opDatePicker);
+  .component('opDatePicker', {
+    templateUrl: '/components/wp-edit/op-date-picker/op-date-picker.directive.html',
+    transclude: true,
+    controller: OPDatePickerController,
+    bindings: {
+      initialDate: '@?',
+      onChange: '&?',
+      onClose: '&?',
+    }
+  });

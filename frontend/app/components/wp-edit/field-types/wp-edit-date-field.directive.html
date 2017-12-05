@@ -1,6 +1,7 @@
 <op-date-picker
   tabindex="-1"
   on-change="vm.handleUserSubmit()"
+  initial-date="{{ vm.field.defaultDate }}"
   on-change="vm.handleUserSubmit()">
 
   <input ng-model="vm.field.value"

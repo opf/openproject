@@ -27,7 +27,21 @@
 // ++
 
 import {EditField} from '../wp-edit-field/wp-edit-field.module';
+import {$injectFields} from 'core-components/angular/angular-injector-bridge.functions';
 
 export class DateEditField extends EditField {
   public template:string = '/components/wp-edit/field-types/wp-edit-date-field.directive.html';
+  /**
+   * Return the default date for the datepicker instance.
+   * If this field is the due date, we select the start date + 1 as the default.
+   */
+  public get defaultDate():String {
+    const isDueDate = this.name === 'dueDate';
+
+    if (isDueDate) {
+      return this.resource.startDate;
+    }
+
+    return '';
+  }
 }
