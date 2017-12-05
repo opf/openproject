@@ -54,7 +54,7 @@ describe CustomFieldsController do
         cost_query.group_by(custom_field_permanent_name)
         cost_query.save!
 
-        delete :destroy, id: custom_field.id
+        delete :destroy, params: { id: custom_field.id }
       end
     end
 

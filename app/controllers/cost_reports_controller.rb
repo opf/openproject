@@ -112,14 +112,52 @@ class CostReportsController < ApplicationController
   ##
   # Set a default query to cut down initial load time
   def default_filter_parameters
-    { operators: { user_id: '=', spent_on: '>d' },
+    {
+      operators: { user_id: '=', spent_on: '>d' },
       values: { user_id: [User.current.id], spent_on: [30.days.ago.strftime('%Y-%m-%d')] }
     }.tap do |hash|
       if @project
-        hash[:operators].merge! project_id: '='
-        hash[:values].merge! project_id: [@project.id]
+        set_project_filter(hash, @project.id)
       end
     end
+  end
+
+  ##
+  # Get the filter params with an optional project context
+  def filter_params
+    filters = super
+    update_project_context!(filters)
+
+    filters
+  end
+
+  ##
+  # Clear the query if the project context changed
+  def update_project_context!(filters)
+
+    # Only in project context
+    return unless @project
+
+    # Only if the project context changed
+    context = filters[:project_context]
+
+    # Context is same, don't set project (allow override)
+    return if context == @project.id
+
+    # Reset context if project missing
+    if context.nil?
+      filters[:project_context] = @project.id
+      return
+    end
+
+    # Update the project context and project_id filter
+    set_project_filter(filters, @project.id)
+  end
+
+  def set_project_filter(filters, project_id)
+    filters[:project_context] = project_id
+    filters[:operators].merge! project_id: '='
+    filters[:values].merge! project_id: [project_id]
   end
 
   ##
@@ -132,23 +170,6 @@ class CostReportsController < ApplicationController
         h[:rows] << :project_id
       end
     end
-  end
-
-  ##
-  # We apply a project filter, except when we are just applying a brand new query
-  def ensure_project_scope!(filters)
-    return unless ensure_project_scope?
-    if @project
-      filters[:operators].merge! project_id: '='
-      filters[:values].merge! project_id: @project.id.to_s
-    else
-      filters[:operators].delete :project_id
-      filters[:values].delete :project_id
-    end
-  end
-
-  def ensure_project_scope?
-    !(set_filter? or set_unit?)
   end
 
   ##

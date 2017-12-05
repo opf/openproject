@@ -34,7 +34,7 @@ describe CostReportsController, type: :controller do
     describe "WHEN providing invalid units
               WHEN having the view_cost_entries permission" do
       before do
-        get :show, id: 1, unit: -1
+        get :show, params: { id: 1, unit: -1 }
       end
 
       it "should respond with a 404 error" do
