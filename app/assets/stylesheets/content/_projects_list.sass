@@ -30,9 +30,13 @@ $project-table--start-indentation: 0.5em
 $project-table--child-indentation: 1.1em
 $project-table--icon-distance: 5px
 
-@mixin calc-indentation($indentation)
+@mixin calc-indentation-name($indentation)
   // This does not work for big font-sizes
   padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
+
+@mixin calc-indentation-description($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} + 9px)
 
 form.project-filters
   display: none
@@ -145,24 +149,14 @@ form.project-filters
   td.name a
     white-space: nowrap
 
-  tr.idnt-1 td.project--hierarchy
-    @include calc-indentation(1)
-  tr.idnt-2 td.project--hierarchy
-    @include calc-indentation(2)
-  tr.idnt-3 td.project--hierarchy
-    @include calc-indentation(3)
-  tr.idnt-4 td.project--hierarchy
-    @include calc-indentation(4)
-  tr.idnt-5 td.project--hierarchy
-    @include calc-indentation(5)
-  tr.idnt-6 td.project--hierarchy
-    @include calc-indentation(6)
-  tr.idnt-7 td.project--hierarchy
-    @include calc-indentation(7)
-  tr.idnt-8 td.project--hierarchy
-    @include calc-indentation(8)
-  tr.idnt-9 td.project--hierarchy
-    @include calc-indentation(9)
+  td.project--hierarchy
+    white-space: nowrap
+
+  @for $i from 1 through 9
+    tr.idnt-#{$i} td.project--hierarchy
+      @include calc-indentation-name($i)
+    tr.idnt-#{$i}.project-description td.project--hierarchy
+      @include calc-indentation-description($i)
 
 #project-table--hierarchy-header
   font-size: 1rem
