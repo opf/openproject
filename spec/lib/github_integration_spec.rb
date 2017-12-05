@@ -83,6 +83,8 @@ describe OpenProject::GithubIntegration do
       journal_count = wps.map { |wp| wp.journals.count }
       OpenProject::GithubIntegration::HookHandler.new.process('github', environment, params, user)
 
+      [wp1,wp2,wp3,wp4].map { |x| x.reload }
+
       expect(wp1.journals.count).to equal(journal_count[0] + 1)
       expect(wp2.journals.count).to equal(journal_count[1] + 1)
       expect(wp3.journals.count).to equal(journal_count[2] + 0)
@@ -125,6 +127,8 @@ describe OpenProject::GithubIntegration do
 
       journal_count = wps.map { |wp| wp.journals.count }
       OpenProject::GithubIntegration::HookHandler.new.process('github', environment, params, user)
+
+      [wp1,wp2,wp3,wp4].map { |x| x.reload }
 
       expect(wp1.journals.count).to eq(journal_count[0] + 1)
       expect(wp2.journals.count).to eq(journal_count[1] + 1)
@@ -169,6 +173,8 @@ describe OpenProject::GithubIntegration do
 
       journal_count = wps.map { |wp| wp.journals.count }
       OpenProject::GithubIntegration::HookHandler.new.process('github', environment, params, user)
+
+      [wp1,wp2,wp3,wp4].map { |x| x.reload }
 
       expect(wp1.journals.count).to equal(journal_count[0] + 1)
       expect(wp2.journals.count).to equal(journal_count[1] + 1)
@@ -216,6 +222,8 @@ describe OpenProject::GithubIntegration do
 
       journal_count = wps.map { |wp| wp.journals.count }
       OpenProject::GithubIntegration::HookHandler.new.process('github', environment, params, user)
+
+      [wp1,wp2,wp3,wp4].map { |x| x.reload }
 
       expect(wp1.journals.count).to equal(journal_count[0] + 1)
       expect(wp2.journals.count).to equal(journal_count[1] + 1)
