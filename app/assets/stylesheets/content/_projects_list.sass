@@ -29,6 +29,7 @@
 $project-table--start-indentation: 0.5em
 $project-table--child-indentation: 1.1em
 $project-table--icon-distance: 5px
+$project-table--description-indention: 9px
 
 @mixin calc-indentation-name($indentation)
   // This does not work for big font-sizes
@@ -36,7 +37,7 @@ $project-table--icon-distance: 5px
 
 @mixin calc-indentation-description($indentation)
   // This does not work for big font-sizes
-  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} + 9px)
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} + #{$project-table--description-indention})
 
 form.project-filters
   display: none
