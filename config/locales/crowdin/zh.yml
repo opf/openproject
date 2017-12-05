@@ -430,6 +430,8 @@ zh:
               inexistent: 过滤器没有自定义字段
               invalid: 自定义字段无效
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: 找不到这个工作包

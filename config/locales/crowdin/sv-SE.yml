@@ -476,6 +476,8 @@ sv-SE:
               inexistent: Det finns inget anpassat fält för filtret.
               invalid: Det anpassade fältet är inte giltigt i detta sammanhang.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: arbetspaketet i 'till' hittades inte eller är inte

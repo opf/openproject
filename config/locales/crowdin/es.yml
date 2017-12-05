@@ -491,6 +491,8 @@ es:
               inexistent: No hay ningún campo personalizado para el filtro.
               invalid: El campo personalizado no es válido en el contexto válido.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: el paquete de trabajo en posición 'a' no se ha encontrado

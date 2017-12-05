@@ -487,6 +487,8 @@ pt:
               inexistent: Não existe nenhum campo personalizado para o filtro.
               invalid: O campo personalizado não é válido no contexto em questão.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: pacote de trabalho na posição 'para' não foi encontrada

@@ -476,6 +476,8 @@ ru:
               inexistent: Для этого фильтра нет настраиваемого поля.
               invalid: В этом контексте настраиваемое поле неприменимо.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: рабочий пакет в позиции `до` не найден или не виден
@@ -708,7 +710,7 @@ ru:
     failed: Не удается скопировать проект %{source_project_name}
     succeeded: Созданный проект %{target_project_name}
     errors: Ошибка
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Настраиваемые поля проекта
     text:
       failed: Не удалось скопировать проект «%{source_project_name}» в проект «%{target_project_name}».
       succeeded: Скопированный проект «%{source_project_name}» в «%{target_project_name}».
@@ -1116,7 +1118,7 @@ ru:
   label_select_main_menu_item: Выберите новый пункт главного меню
   label_select_project: Выберите проект
   label_required_disk_storage: Требуется место на диске
-  label_send_invitation: Send invitation
+  label_send_invitation: Отправить приглашение
   label_change_plural: Изменения
   label_change_properties: Изменить свойства
   label_change_status: Изменить статус
@@ -1719,7 +1721,7 @@ ru:
   notice_unable_delete_version: Не удается удалить этап.
   notice_user_missing_authentication_method: Пользователь еще не выбрал пароль или
     другой способ авторизации.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Приглашение было отправлено на %{email}.
   present_access_key_value: 'Ваш ключ %{key_name}: %{value}'
   notice_automatic_set_of_standard_type: Установить стандартный тип автоматически.
   notice_logged_out: Вы вышли из системы.

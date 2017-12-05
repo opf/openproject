@@ -486,6 +486,8 @@ nl:
               inexistent: Er is geen aangepast veld voor dit filter.
               invalid: Het aangepaste veld is niet geldig in deze context.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: werkpakket in positie `naar` niet gevonden of niet

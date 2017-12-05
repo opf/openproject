@@ -452,6 +452,8 @@ ko:
               inexistent: 필터에 대한 사용자 지정 필드가 없습니다.
               invalid: 사용자 지정 필드가 지정된 컨텍스트에서 유효하지 않습니다.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: "'끝' 위치의 작업 패키지가 없거나 표시되지 않음"

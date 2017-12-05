@@ -487,6 +487,8 @@ fr:
               inexistent: Il n’y a pas de champ personnalisé pour le filtre.
               invalid: Le champ personnalisé n’est pas valide dans le contexte donné.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: lot de travaux dans la position `à` introuvable ou

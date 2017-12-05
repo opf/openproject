@@ -474,6 +474,8 @@ tr:
               inexistent: Hiçbir özel alan filtresi yok.
               invalid: Verilen içerikteki özel alan filitresi geçerli değil.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: çalışma paketinde `to` konum bulunamadı veya görünür

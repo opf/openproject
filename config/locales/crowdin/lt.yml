@@ -475,6 +475,8 @@ lt:
               inexistent: Filtrui nėra jokio pasirenkamo laukelio.
               invalid: Pasirenkamas laukelis nėra tinkamas duotam kontekstui.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: darbų paketas į 'iki' poziciją nerastas arba yra nematomas

@@ -483,6 +483,8 @@ it:
               inexistent: Nessun campo personalizzato per il filtro.
               invalid: Il campo personalizzato non è valido nel contesto dato.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: impossibile trovare o visualizzare la macro-attività

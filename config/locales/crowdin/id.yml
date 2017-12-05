@@ -473,6 +473,8 @@ id:
               inexistent: There is no custom field for the filter.
               invalid: The custom field is not valid in the given context.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: work package dalam posisi `to` tidak dapat ditemukan

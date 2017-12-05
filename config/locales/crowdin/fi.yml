@@ -477,6 +477,8 @@ fi:
               inexistent: Ei ole mukautettua kenttää suodattimelle.
               invalid: Mukautettu kenttä ei ole kelvollinen tässä yhteydessä.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible

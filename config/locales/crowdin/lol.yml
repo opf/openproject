@@ -430,6 +430,8 @@ lol:
               inexistent: crwdns92611:0crwdne92611:0
               invalid: crwdns92612:0crwdne92612:0
         relation:
+          typed_dag:
+            circular_dependency: crwdns95422:0crwdne95422:0
           attributes:
             to:
               error_not_found: crwdns95413:0crwdne95413:0

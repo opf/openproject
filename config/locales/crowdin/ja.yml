@@ -369,7 +369,7 @@ ja:
         accepted: は受諾しなければなりません。
         blank: は空白にすることができません。
         cant_link_a_work_package_with_a_descendant: 親子関係にある作業項目間で関連設定できません。
-        follows_descendant: follows its descendant.
+        follows_descendant: 子につながる。
         circular_dependency: この関係は循環依存になります。
         confirmation: は%{attribute} と一致しません。
         does_not_exist: は存在しません。
@@ -432,6 +432,8 @@ ja:
               inexistent: フィルターのカスタムフィールドはありません。
               invalid: カスタムフィールドは、指定されたコンテキストでは無効です。
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: "「終了」の位置のワークパッケージが存在しないか表示されません"
@@ -647,7 +649,7 @@ ja:
     failed: プロジェクト「%{source_project_name}」をコピーできません。
     succeeded: "「%{target_project_name}」プロジェクトを作成しました。"
     errors: エラー！
-    project_custom_fields: Custom fields on project
+    project_custom_fields: プロジェクトのカスタムフィールド
     text:
       failed: プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーできませんでした。
       succeeded: プロジェクト「%{target_project_name}」にプロジェクト「%{source_project_name}」をコピーしました。
@@ -1020,7 +1022,7 @@ ja:
   label_select_main_menu_item: 新しいメインメニュー項目を選択する
   label_select_project: プロジェクトの選択
   label_required_disk_storage: 必要なディスク ストレージ
-  label_send_invitation: Send invitation
+  label_send_invitation: 招待状を送信
   label_change_plural: 変更
   label_change_properties: プロパティの変更
   label_change_status: ステータスの変更
@@ -1578,7 +1580,7 @@ ja:
   notice_unable_delete_time_entry: 作業時間記録を削除できません。
   notice_unable_delete_version: バージョンを削除できません。
   notice_user_missing_authentication_method: ユーザーは、サインインのパスワードまたは別の方法を選択する必要があります。
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: "%{email} に招待状が送信されました。"
   present_access_key_value: "%{key_name} は: %{value}"
   notice_automatic_set_of_standard_type: 自動的に標準型を設定します。
   notice_logged_out: ログアウトしました。

@@ -490,6 +490,8 @@ de:
               inexistent: Es existiert kein benutzerdefiniertes Feld für diesen Filter.
               invalid: Das benutzerdefinierte Feld ist in diesem Kontext ungültig.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: Arbeitspaket in 'zu' Position nicht gefunden oder nicht

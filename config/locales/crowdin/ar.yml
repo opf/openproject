@@ -470,6 +470,8 @@ ar:
               inexistent: لا يوجد أي حقل مخصص لعامل التصفية.
               invalid: الحقل المخصص غير صحيح في هذا السياق.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible

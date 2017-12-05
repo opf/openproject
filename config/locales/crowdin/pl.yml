@@ -474,6 +474,8 @@ pl:
               inexistent: Brak pola niestandardowego dla tego filtra.
               invalid: Pole niestandardowe jest nieprawidłowe w danym kontekście.
         relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
           attributes:
             to:
               error_not_found: nie można znaleźć lub wizualizować zadania w pozycji
