@@ -33,9 +33,11 @@ require 'spec_helper'
 describe WorkPackages::SetScheduleService do
   let(:work_package) do
     FactoryGirl.build_stubbed(:stubbed_work_package,
+                              start_date: work_package_start_date,
                               due_date: work_package_due_date)
   end
   let(:work_package_due_date) { Date.today }
+  let(:work_package_start_date) { nil }
   let(:instance) do
     described_class.new(user: user, work_package: work_package)
   end
@@ -399,6 +401,33 @@ describe WorkPackages::SetScheduleService do
         let(:unchanged) do
           [following_work_package1]
         end
+      end
+    end
+  end
+
+  context 'with only a parent' do
+    let(:parent_work_package) do
+      FactoryGirl.build_stubbed(:stubbed_work_package)
+    end
+    let(:work_package_start_date) { Date.today - 5.days }
+    let(:following) do
+      {
+        [work_package] => [parent_work_package],
+        [parent_work_package] => []
+      }
+    end
+
+    before do
+      work_package.parent = parent_work_package
+      allow(parent_work_package)
+        .to receive(:descendants)
+        .and_return([work_package])
+      work_package.build_parent_relation from_id: parent_work_package.id
+    end
+
+    it_behaves_like 'reschedules' do
+      let(:expected) do
+        { parent_work_package => [work_package_start_date, work_package_due_date] }
       end
     end
   end

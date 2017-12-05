@@ -43,7 +43,7 @@ class WorkPackages::SetScheduleService
                 []
               end
 
-    if (%i(start_date due_date) & attributes).any?
+    if (%i(start_date due_date parent parent_id) & attributes).any?
       altered += schedule_following
     end
 

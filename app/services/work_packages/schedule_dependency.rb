@@ -182,8 +182,8 @@ class WorkPackages::ScheduleDependency
     end
 
     def ancestors_from_preloaded(work_package)
-      if work_package.parent_relation
-        parent = known_work_packages.detect { |c| work_package.parent_relation.from_id == c.id }
+      if work_package.parent_id
+        parent = known_work_packages.detect { |c| work_package.parent_id == c.id }
 
         if parent
           [parent] + ancestors_from_preloaded(parent)
@@ -192,7 +192,7 @@ class WorkPackages::ScheduleDependency
     end
 
     def descendants_from_preloaded(work_package)
-      children = known_work_packages.select { |c| c.parent_relation && c.parent_relation.from_id == work_package.id }
+      children = known_work_packages.select { |c| c.parent_id == work_package.id }
 
       children + children.map { |child| descendants_from_preloaded(child) }.flatten
     end
