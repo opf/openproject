@@ -142,8 +142,10 @@ class WorkPackages::SetScheduleService
   end
 
   def reschedule_to_date(scheduled, date)
-    scheduled.due_date = date + scheduled.duration - 1
-    scheduled.start_date = date
+    new_start_date = [scheduled.start_date, date].compact.max
+
+    scheduled.due_date = new_start_date + scheduled.duration - 1
+    scheduled.start_date = new_start_date
   end
 
   def reschedule_by_delta(scheduled, delta, min_start_date)
