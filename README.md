@@ -61,6 +61,16 @@ how and where they should be added</small>
 
 `display_name` changes a provider's label shown to the user.
 
+Remember that you can also define or override the configuration using ENV vars.
+The configuration above in ENV vars would look like this:
+
+```
+OPENPROJECT_OPENID__CONNECT_GOOGLE_IDENTIFIER=9295222hfbiu2btgu3b4i.apps.googleusercontent.com
+OPENPROJECT_OPENID__CONNECT_GOOGLE_SECRET=4z389thugh334t8h
+OPENPROJECT_OPENID__CONNECT_GOOGLE_DISPLAY__NAME=Google
+OPENPROJECT_OPENID__CONNECT_GOOGLE_ICON=openid_connect/auth_provider-google.png
+```
+
 ### Single Sign-On
 
 This plugin supports OpenID Connect Session Management. To setup a provider for SSO
