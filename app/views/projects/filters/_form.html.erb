@@ -75,6 +75,13 @@
                          focus: "false",
                          'aria-invalid': "false" %>
         </div>
+        <% unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)%>
+          <div class="notification-box upsale">
+            <div class="notification-box--content">
+              <%= t('ee.upsale.project_filters.description_html', link: link_to(t(:label_enterprise_edition), "#{OpenProject::Static::Links.links[:upsale][:href]}/?utm_source=unknown&utm_medium=community-edition&utm_campaign=project-list-filter")) %>
+            </div>
+          </div>
+        <% end %>
       </li>
       <li class="advanced-filters--controls">
         <%= submit_tag t('button_filter'), class: 'button -highlight', name: nil %>

@@ -878,6 +878,8 @@ en:
         description: "Customize the form configuration with these additional features:"
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
+      project_filters:
+        description_html: "Upgrade to %{link} to filter and sort on custom fields"
 
   enumeration_activities: "Activities (time tracking)"
   enumeration_work_package_priorities: "Work package priorities"
