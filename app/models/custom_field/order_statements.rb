@@ -57,6 +57,10 @@ module CustomField::OrderStatements
         order_by_user_sql('firstname'),
         order_by_user_sql('id')
       ]
+    when 'version'
+      [
+        order_by_version_sql('name')
+      ]
     end
   end
 
@@ -104,6 +108,14 @@ module CustomField::OrderStatements
     <<-SQL
     (SELECT #{column} user_cv_#{column} FROM #{User.table_name} cv_user
      WHERE cv_user.id = #{select_custom_value_as_decimal}
+     LIMIT 1)
+    SQL
+  end
+
+  def order_by_version_sql(column)
+    <<-SQL
+    (SELECT #{column} version_cv_#{column} FROM #{Version.table_name} cv_version
+     WHERE cv_version.id = #{select_custom_value_as_decimal}
      LIMIT 1)
     SQL
   end
