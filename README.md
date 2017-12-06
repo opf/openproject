@@ -51,17 +51,26 @@ default:
       ...
 ```
 
+The key `google` here can be chosen freely. Using `google`, however, will automatically use
+a set of custom options necessary for the authentication to work with Google specifically.
+If use any other identifier you may have to configure these options yourself.
+Check out [omniauth-openid_connect-providers](https://github.com/finnlabs/omniauth-openid_connect-providers/tree/dev/lib/omniauth/openid_connect) if you want more details.
+
+If you want to configure several different google accounts you can do so by using "google." as a
+prefix for different identifiers. E.g. `google.gmail` and `google.company`.
+
 Note that currently there are only two custom provider icons this plugin has out of the box (for supported providers):
 
 * `openid_connect/auth_provider-google.png`
 * `openid_connect/auth_provider-heroku.png`
 
-Other icons you will have to add yourself. <small>FIXME: Elaborate on this a bit as it is unclear
-how and where they should be added</small>
+Other icons you will have to add yourself which usually involves writing an own plugin.
+<small>FIXME: Elaborate on this a bit as it is unclear how and where they should be added</small>
 
 `display_name` changes a provider's label shown to the user.
 
-Remember that you can also define or override the configuration using ENV vars.
+Remember that you can also define or override the configuration using ENV vars only, i.e. without
+having to touch the `configuration.yml` at all.
 The configuration above in ENV vars would look like this:
 
 ```
