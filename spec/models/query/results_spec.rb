@@ -386,6 +386,63 @@ describe ::Query::Results, type: :model do
       end
     end
 
+    context 'sorting by parent' do
+      let(:work_package1) { FactoryGirl.create(:work_package, project: project_1, subject: '1') }
+      let(:work_package2) { FactoryGirl.create(:work_package, project: project_1, parent: work_package1, subject: '2') }
+      let(:work_package3) { FactoryGirl.create(:work_package, project: project_1, parent: work_package2, subject: '3') }
+      let(:work_package4) { FactoryGirl.create(:work_package, project: project_1, parent: work_package1, subject: '4') }
+      let(:work_package5) { FactoryGirl.create(:work_package, project: project_1, parent: work_package4, subject: '5') }
+      let(:work_package6) { FactoryGirl.create(:work_package, project: project_1, parent: work_package4, subject: '6') }
+      let(:work_package7) { FactoryGirl.create(:work_package, project: project_1, subject: '7') }
+      let(:work_package8) { FactoryGirl.create(:work_package, project: project_1, subject: '8') }
+      let(:work_package9) { FactoryGirl.create(:work_package, project: project_1, parent: work_package8, subject: '9') }
+
+      # have to sort by a second criteria as the order within each level (except for the first)
+      # is undefined without
+      let(:sort_by) { [['parent', 'asc'], ['subject', 'asc']] }
+
+      before do
+        allow(User).to receive(:current).and_return(user_1)
+
+        # intentionally messing with the id
+        work_package8
+        work_package9
+        work_package1
+        work_package4
+        work_package5
+        work_package3
+        work_package6
+        work_package2
+        work_package7
+      end
+
+      it 'sorts breadth first by parent where each level, except for the first, is orderd by the second criteria' do
+        expect(query_results.sorted_work_packages)
+          .to match [work_package8,
+                     work_package9,
+                     work_package1,
+                     work_package2,
+                     work_package4,
+                     work_package3,
+                     work_package5,
+                     work_package6,
+                     work_package7]
+
+        query.sort_criteria = [['parent', 'desc'], ['subject', 'asc']]
+
+        expect(query_results.sorted_work_packages)
+          .to match [work_package7,
+                     work_package3,
+                     work_package5,
+                     work_package6,
+                     work_package2,
+                     work_package4,
+                     work_package1,
+                     work_package9,
+                     work_package8]
+      end
+    end
+
     context 'filtering by bool cf' do
       let(:bool_cf) { FactoryGirl.create(:bool_wp_custom_field, is_filter: true) }
       let(:custom_value) do

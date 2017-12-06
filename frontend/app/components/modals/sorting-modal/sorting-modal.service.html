@@ -9,7 +9,7 @@
       <div id="modal-sorting"
            class="modal-content-container loading-indicator--location"
            data-indicator-name="sorting-modal">
-        <div class="form--row" ng-repeat="sort in sortationObjects">
+        <div class="form--row modal-sorting-row-{{$index}}" ng-repeat="sort in sortationObjects">
           <div class="form--field -full-width">
             <label
                 for="modal-sorting-attribute-{{$index}}"

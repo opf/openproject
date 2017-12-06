@@ -123,6 +123,10 @@ class Relation < ActiveRecord::Base
       .non_reflexive
   end
 
+  def self.hierarchy_or_reflexive
+    with_type_columns_0(WorkPackage._dag_options.type_columns - %i(hierarchy))
+  end
+
   def self.non_hierarchy_of_work_package(work_package)
     of_work_package(work_package)
       .non_hierarchy

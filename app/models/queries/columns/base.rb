@@ -29,18 +29,22 @@
 #++
 
 class Queries::Columns::Base
+  attr_reader :groupable,
+              :sortable,
+              :association
+
   attr_accessor :name,
-                :sortable,
-                :groupable,
+                :sortable_join,
                 :summable,
-                :default_order,
-                :association
+                :default_order
+
   alias_method :summable?, :summable
 
   def initialize(name, options = {})
     self.name = name
 
     %i(sortable
+       sortable_join
        groupable
        summable
        association

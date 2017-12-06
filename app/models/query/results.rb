@@ -75,6 +75,7 @@ class ::Query::Results
       .where(query.statement)
       .where(options[:conditions])
       .includes(all_includes)
+      .joins(all_joins)
       .order(order_option)
       .references(:projects)
   end
@@ -117,11 +118,11 @@ class ::Query::Results
     return nil unless query.grouped?
 
     group_work_packages = work_packages.select { |wp| query.group_by_column.value(wp) == group }
-    query.available_columns.inject({}) { |result, column|
+    query.available_columns.inject({}) do |result, column|
       sum = sum_of(column, group_work_packages)
       result[column] = sum unless sum.nil?
       result
-    }
+    end
   end
 
   def column_group_sums
@@ -141,6 +142,10 @@ class ::Query::Results
     (%i(status project) +
       includes_for_columns(include_columns) +
       (options[:include] || [])).uniq
+  end
+
+  def all_joins
+    query.sort_criteria_columns.map { |column, _direction| column.sortable_join }.compact
   end
 
   def includes_for_columns(column_names)
