@@ -476,7 +476,7 @@ lt:
               invalid: Pasirenkamas laukelis nėra tinkamas duotam kontekstui.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Ryšys sukuria ryšių ciklą.
           attributes:
             to:
               error_not_found: darbų paketas į 'iki' poziciją nerastas arba yra nematomas
@@ -705,7 +705,7 @@ lt:
     failed: Negalima kopijuoti „%{source_project_name}“ projekto
     succeeded: Sukurtas projektas pavadinimu „%{target_project_name}“
     errors: Klaida
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Vartotojo laukai projektui
     text:
       failed: Nepavyko nukopijuoti „%{source_project_name}“ projekto į „%{target_project_name}“
         projektą.
@@ -1114,7 +1114,7 @@ lt:
   label_select_main_menu_item: Pasirinkti naują pagrindinio meniu punktą
   label_select_project: Pasirinkti projektą
   label_required_disk_storage: Reikalinga vieta diske
-  label_send_invitation: Send invitation
+  label_send_invitation: Siųsti pakvietimą
   label_change_plural: Pakeitimai
   label_change_properties: Pakeisti nustatymus
   label_change_status: Pakeisti būseną
@@ -1719,7 +1719,7 @@ lt:
   notice_unable_delete_version: Neįmanoma ištrinti versijos.
   notice_user_missing_authentication_method: Vartotojas dar nepasirinko slaptažodžio
     ar kitokio būdo prisijungimui.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Pakvietimas buvo nusiųstas į %{email}.
   present_access_key_value: 'Jūsų %{key_name} yra: %{value}'
   notice_automatic_set_of_standard_type: Automatiškai nustatyti standartinį tipą.
   notice_logged_out: Jūs sėkmingai atsijungėte.
