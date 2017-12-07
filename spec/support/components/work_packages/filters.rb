@@ -135,7 +135,7 @@ module Components
 
       def within_values(id)
         page.within("#div-values-#{id}", wait: 10) do
-          inputs = page.first('select, input')
+          inputs = page.find('select, input')
 
           yield inputs.tag_name == 'select'
         end
