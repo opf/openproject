@@ -64,7 +64,11 @@ export class GroupedRenderPass extends PlainRenderPass {
 
       // Otherwise, fall back to simple value comparison.
       let value = group.value === '' ? null : group.value;
-      return value === property;
+
+      // Values provided by the API are always string
+      // so avoid triple equal here
+      // tslint:disable-next-line
+      return value == property;
     }) as GroupObject;
   }
 
