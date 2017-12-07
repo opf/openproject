@@ -99,4 +99,75 @@ describe ProjectsHelper, type: :helper do
       expect(link_to_version(Object)).to be_empty
     end
   end
+
+  describe '#projects_with_level' do
+    let(:root) do
+      stub_descendant_of
+    end
+
+    def stub_descendant_of(*ancestors)
+      wp = FactoryGirl.build_stubbed(:project)
+
+      allow(wp)
+        .to receive(:is_descendant_of?)
+        .and_return(false)
+
+      ancestors.each do |ancestor|
+        allow(wp)
+          .to receive(:is_descendant_of?)
+          .with(ancestor)
+          .and_return(true)
+      end
+
+      wp
+    end
+
+    let(:child1) { stub_descendant_of(root) }
+    let(:grandchild1) { stub_descendant_of(root, child1) }
+    let(:grandchild2) { stub_descendant_of(root, child1) }
+    let(:grandgrandchild1) { stub_descendant_of(root, child1, grandchild2) }
+    let(:child2) { stub_descendant_of(root) }
+
+    context 'when ordered by hierarchy' do
+      let(:projects) do
+        [root,
+         child1,
+         grandchild1,
+         grandchild2,
+         grandgrandchild1,
+         child2]
+      end
+
+      it 'returns the projects in the provided order with the appropriate levels' do
+        expect { |b| helper.projects_with_level(projects, &b) }
+          .to yield_successive_args [root, 0],
+                                    [child1, 1],
+                                    [grandchild1, 2],
+                                    [grandchild2, 2],
+                                    [grandgrandchild1, 3],
+                                    [child2, 1]
+      end
+    end
+
+    context 'when ordered by arbitrarily' do
+      let(:projects) do
+        [grandchild1,
+         child1,
+         grandchild2,
+         grandgrandchild1,
+         child2,
+         root]
+      end
+
+      it 'returns the projects in the provided order with the appropriate levels' do
+        expect { |b| helper.projects_with_level(projects, &b) }
+          .to yield_successive_args [grandchild1, 0],
+                                    [child1, 0],
+                                    [grandchild2, 1],
+                                    [grandgrandchild1, 2],
+                                    [child2, 0],
+                                    [root, 0]
+      end
+    end
+  end
 end

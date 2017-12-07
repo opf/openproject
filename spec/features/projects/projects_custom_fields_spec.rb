@@ -33,7 +33,7 @@ describe 'Projects custom fields', type: :feature do
   let(:current_user) { FactoryGirl.create(:admin) }
   let(:project) { FactoryGirl.create(:project, name: 'Foo project', identifier: 'foo-project') }
   let!(:custom_field) do
-    FactoryGirl.create(:boolean_project_custom_field)
+    FactoryGirl.create(:bool_project_custom_field)
   end
 
   let(:identifier) { "project_custom_field_values_#{custom_field.id}" }

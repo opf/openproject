@@ -31,50 +31,31 @@ See doc/COPYRIGHT.rdoc for more details.
   <%= javascript_include_tag "project/filters.js" %>
 <% end %>
 
-<% html_title(l(:label_project_plural)) -%>
+<% html_title(t(:label_project_plural)) -%>
 
-<%= toolbar title: l(:label_project_plural) do %>
+<%= toolbar title: t(:label_project_plural) do %>
   <% if User.current.allowed_to?(:add_project, nil, global: true) %>
     <li class="toolbar-item">
       <%= link_to new_project_path,
-          { class: 'button -alt-highlight',
-            aria: {label: t(:label_project_new)},
-            title: t(:label_project_new)} do %>
+                  { class: 'button -alt-highlight',
+                    aria: {label: t(:label_project_new)},
+                    title: t(:label_project_new) } do %>
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= Project.model_name.human %></span>
       <% end %>
     </li>
   <% end %>
   <li class="toolbar-item">
-    <button id="projects-filter-toggle-button" class="button toolbar-icon <%= filter_set? ? '-active' : '' %>">
+    <button id="projects-filter-toggle-button" title="<%= t(:label_filters_toggle) %>" class="button toolbar-icon <%= filter_set? ? '-active' : '' %>">
       <op-icon icon-classes="icon-filter button--icon"></op-icon>
-    </op-icon>
     </button>
   </li>
   <li class="toolbar-item">
-    <%= link_to l(:label_overall_activity), activities_path, class: 'button' %>
+    <%= link_to t(:label_overall_activity), activities_path, class: 'button' %>
   </li>
 <% end %>
 
-<%= form_tag({}, method: :get, class: "project-filters #{filter_set? ? '-expanded' : ''}") do %>
-  <fieldset class="simple-filters--container">
-    <legend><%= l(:label_filter_plural) %></legend>
-    <a id="projects-filter-close-button" title="{{ ::I18n.t('js.close_form_title') }}" class="simple-filters--close icon-context icon-close"></a>
-    <ul class="simple-filters--filters">
-      <li class="simple-filters--filter">
-          <label class='simple-filters--filter-name' for='status'><%= Project.human_attribute_name(:status) %></label>
-          <%= select_tag 'status', project_status_options_for_select(@status), onchange: "this.form.submit(); return false;", class: 'simple-filters--filter-value'  %>
-      </li>
-      <li class="simple-filters--filter">
-          <label class='simple-filters--filter-name' for='name'><%= Project.model_name.human %></label>
-          <%= text_field_tag 'name', params[:name], class: 'simple-filters--filter-value' %>
-      </li>
-      <li class="simple-filters--controls">
-        <%= submit_tag l(:button_apply), class: 'button -highlight', name: nil %>
-      </li>
-    </ul>
-  </fieldset>
-<% end %>
+<%= render partial: 'projects/filters/form', locals: { query: @query } %>
 
 <% if @projects.any? %>
   <div class="generic-table--container">
@@ -82,18 +63,26 @@ See doc/COPYRIGHT.rdoc for more details.
       <table class="generic-table" id="project-table">
         <thead>
           <tr>
-            <%= sort_header_tag('name', caption: Project.model_name.human) %>
-            <%= sort_header_tag('is_public', caption:Project.human_attribute_name(:is_public)) %>
-            <% if User.current.admin? %><%= sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage)) %><% end %>
-            <% if User.current.admin? %><%= sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on)) %><% end %>
-            <% if User.current.admin? %><%= sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at)) %><% end %>
+            <%= render partial: 'hierarchy_header' %>
+            <%= projects_sort_header_tag('name', caption: Project.human_attribute_name(:name), param: :json) %>
+            <%= projects_sort_header_tag('is_public', caption: Project.human_attribute_name(:is_public), param: :json) %>
+            <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
+              <% @custom_fields.each do |custom_field| %>
+                <%= sort_header_tag("cf_#{custom_field.id}", caption: custom_field.name, param: :json) %>
+              <% end %>
+            <% end %>
+            <% if User.current.admin? %>
+              <%= projects_sort_header_tag('required_disk_space', caption: I18n.t(:label_required_disk_storage), param: :json) %>
+              <%= projects_sort_header_tag('created_on', caption: Project.human_attribute_name(:created_on), param: :json) %>
+              <%= projects_sort_header_tag('latest_activity_at', caption: Project.human_attribute_name(:latest_activity_at), param: :json) %>
+            <% end %>
             <th class="-right">
               <div class="generic-table--header-outer">
                 <div class="generic-table--header">
                   <% if params[:expand] == 'all' %>
-                    <%= link_to t(:button_collapse_all), {params: request.query_parameters.except(:expand)} %>
+                    <%= link_to t(:button_collapse_all), { params: safe_query_params(%w{filters page per_page sort}).except(:expand) } %>
                   <% else %>
-                    <%= link_to t(:button_expand_all), {params: request.query_parameters.merge(expand: 'all')} %>
+                    <%= link_to t(:button_expand_all), { params: safe_query_params(%w{filters page per_page sort}).merge(expand: 'all') } %>
                   <% end %>
                 </div>
               </div>
@@ -101,57 +90,68 @@ See doc/COPYRIGHT.rdoc for more details.
           </tr>
         </thead>
         <tbody>
-          <% project_tree_when_sorted(@projects) do |project, level| %>
-            <tr class="basics <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
+          <% projects_with_levels_order_sensitive(@projects) do |project, level| %>
+            <tr class="basics context-menu--reveal <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' && project.short_description.present? ? '-no-highlighting -expanded' : '' %>">
+              <td></td>
               <td class="name project--hierarchy <%= project.archived? ? 'archived' : '' %>">
+                <i class="projects-table--hierarchy-icon"></i>
                 <% if project.archived? %>
                   <span class="archived-label"><%= t('project.archive.archived') %></span>
                 <% end %>
                 <%= link_to_project(project, {}, {}, false) %>
               </td>
               <td><%= checked_image project.is_public? %></td>
-              <% if User.current.admin? %><td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td><% end %>
-              <% if User.current.admin? %><td><%= format_date(project.created_on) %></td><% end %>
-              <% if User.current.admin? %><td><%= format_date(project.latest_activity_at) %></td><% end %>
+              <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
+                <% @custom_fields.each do |custom_field| %>
+                  <% if project.custom_value_for(custom_field).present? %>
+                    <td class="format-<%= custom_field.field_format %>">
+                      <% if custom_field.field_format == 'text' %>
+                        <%= shorten_text(project.custom_value_for(custom_field).formatted_value, 20) %>
+                      <% else %>
+                        <%= project.custom_value_for(custom_field).formatted_value %>
+                      <% end %>
+                    </td>
+                  <% else %>
+                    <td></td>
+                  <% end %>
+                <% end %>
+              <% end %>
+              <% if User.current.admin? %>
+                <td><%= number_to_human_size(project.required_disk_space, precision: 2) if project.required_disk_space.to_i > 0 %></td>
+                <td><%= format_date(project.created_on) %></td>
+                <td><%= format_date(project.latest_activity_at) %></td>
+              <% end %>
               <td class="buttons">
-                <% if User.current.admin? %>
-                  <!-- toolbar and legacy-actions-more are only for styling purposes.
-                  Because of multiple diverging implementations of dropdowns the normal dropdown classes cannot be used any more without making special rules -->
+                <% items = project_more_menu_items(project) %>
+                <% if items.any?  %>
+                  <%# toolbar and legacy-actions-more are only for styling purposes.
+                      Because of multiple diverging implementations of dropdowns the
+                      normal dropdown classes cannot be used any more without making special rules %>
                   <ul class="toolbar project-actions">
-                    <li aria-haspopup="true" title="<%= t(:label_more) %>" class="drop-down">
-                      <a class="icon icon-show-more-horizontal" title="<%= t(:label_more) %>" href></a>
+                    <li aria-haspopup="true" title="<%= t(:label_open_menu) %>" class="drop-down">
+                      <a class="icon icon-show-more-horizontal context-menu--icon" title="<%= t(:label_open_menu) %>" href></a>
                       <ul style="display:none;" class="legacy-actions-more dropdown-menu">
-                        <%= li_unless_nil(link_to(t(:label_subproject_new),
-                                                  new_project_path(parent_id: project),
-                                                    { class: 'icon-context icon-add',
-                                                      title: t(:label_subproject_new)})) if User.current.allowed_to?(:add_subprojects, project) %>
-                        <%= li_unless_nil(link_to(t(:label_project_settings), {action: 'settings', id: project}, class: 'icon-context icon-settings') ) %>
-                        <%= li_unless_nil(link_to(t(:button_archive),
-                                                  archive_project_path(project, status: params[:status]),
-                                                  data: { confirm: t('project.archive.are_you_sure', name: project.name) },
-                                                  method: :put,
-                                                  class: 'icon-context icon-locked') ) if project.active? %>
-                        <%= li_unless_nil(link_to(t(:button_unarchive),
-                                                  unarchive_project_path(project, status: params[:status]),
-                                                  method: :put,
-                                                  class: 'icon-context icon-unlocked') ) if !project.active? && (project.parent.nil? || project.parent.active?)%>
-                        <%= li_unless_nil(link_to(t(:button_copy), copy_from_project_path(project, :admin), class: 'icon-context icon-copy') ) %>
-                        <%= li_unless_nil(link_to(t(:button_delete), confirm_destroy_project_path(project), class: 'icon-context icon-delete') ) %>
+                        <% items.each do |item| %>
+                          <li>
+                            <%= link_to(*item) %>
+                          </li>
+                        <% end %>
                       </ul>
                     </li>
                   </ul>
                 <% end %>
-                <% unless project.short_description.empty? %>
-                  <a class="icon collapse icon-arrow-up1" title="<%= t('label_project_hide_details') %>" onclick="toggleDescription(this);"></a>
-                  <a class="icon expand icon-arrow-down1" title="<%= t('label_project_show_details') %>" onclick="toggleDescription(this);"></a>
+                <% unless project.description.blank? %>
+                  <a class="icon collapse icon-arrow-up1 projects-table--description-toggle" href title="<%= t('label_project_hide_details') %>" onclick="toggleDescription(this);"></a>
+                  <a class="icon expand icon-arrow-down1 projects-table--description-toggle" href title="<%= t('label_project_show_details') %>" onclick="toggleDescription(this);"></a>
                 <% end %>
               </td>
             </tr>
-            <% unless project.short_description.empty? %>
-              <tr class="project-description <%= project.css_classes %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-expanded' : '' %>">
-                <td colspan="<%= User.current.admin? ? 6 : 3 %>" class="project--hierarchy">
+            <% unless project.description.blank? %>
+              <tr class="project-description <%= project_css_classes(project) %> <%= level > 0 ? "idnt idnt-#{level}" : nil %> <%= params[:expand] == 'all' ? '-expanded' : '' %>">
+                <td></td>
+                <td colspan="<%= @custom_fields.size + (User.current.admin? ? 6 : 3) %>" class="project--hierarchy">
                   <div class="description-container">
-                    <span class="wiki"><%= format_text(project.short_description, project: project) %></span>
+                    <span class="wiki"><%= format_text(project.short_description(255), project: project) %></span>
                   </div>
                 </td>
               </tr>
@@ -170,7 +170,7 @@ See doc/COPYRIGHT.rdoc for more details.
 <% if User.current.admin? %>
   <p class="information-section">
     <%= op_icon('icon-info1') %>
-    <%= l(:label_projects_storage_information,
+    <%= t(:label_projects_storage_information,
           count: Project.count,
           storage: number_to_human_size(Project.total_projects_size, precision: 2)) %>
   </p>

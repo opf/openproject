@@ -90,6 +90,10 @@ class Queries::Filters::Base
     type_strategy.supported_operator_classes
   end
 
+  def default_operator
+    type_strategy.default_operator_class
+  end
+
   def scope
     scope = model.where(where)
     scope = scope.joins(joins) if joins

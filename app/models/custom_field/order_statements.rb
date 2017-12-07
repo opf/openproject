@@ -48,15 +48,15 @@ module CustomField::OrderStatements
       # Make the database cast values into numeric
       # Postgresql will raise an error if a value can not be casted!
       # CustomValue validations should ensure that it doesn't occur
-      [
-        select_custom_value_as_decimal
-      ]
+      [select_custom_value_as_decimal]
     when 'user'
       [
         order_by_user_sql('lastname'),
         order_by_user_sql('firstname'),
         order_by_user_sql('id')
       ]
+    when 'version'
+      [order_by_version_sql('name')]
     end
   end
 
@@ -104,6 +104,14 @@ module CustomField::OrderStatements
     <<-SQL
     (SELECT #{column} user_cv_#{column} FROM #{User.table_name} cv_user
      WHERE cv_user.id = #{select_custom_value_as_decimal}
+     LIMIT 1)
+    SQL
+  end
+
+  def order_by_version_sql(column)
+    <<-SQL
+    (SELECT #{column} version_cv_#{column} FROM #{Version.table_name} cv_version
+     WHERE cv_version.id = #{select_custom_value_as_decimal}
      LIMIT 1)
     SQL
   end

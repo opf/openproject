@@ -56,18 +56,15 @@ class ProjectsController < ApplicationController
 
   # Lists visible projects
   def index
-    sort_clear
-    sort_init 'lft'
-    sort_update %w(lft name is_public created_on required_disk_space latest_activity_at)
+    query = load_query
+    set_sorting(query)
 
-    projects = get_all_projects_for_overview_page
-    @projects = filter_projects_by_permission projects
-
-    respond_to do |format|
-      format.html do
-        @projects = @projects.order('lft')
-      end
+    unless query.valid?
+      flash[:error] = query.errors.full_messages
     end
+
+    @projects = load_projects query
+    @custom_fields = ProjectCustomField.visible(User.current)
   end
 
   current_menu_item :index do
@@ -139,8 +136,7 @@ class ProjectsController < ApplicationController
     @altered_project ||= @project
   end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @altered_project = Project.find(@project.id)
@@ -297,29 +293,27 @@ class ProjectsController < ApplicationController
     end
   end
 
-  def get_all_projects_for_overview_page
-    @status = params[:status] ? params[:status].to_i : 1
-    c = ARCondition.new(@status.zero? ? 'status <> 0' : ['status = ?', @status])
+  def load_query
+    @query = ParamsToQueryService.new(Project, current_user).call(params)
 
-    unless params[:name].blank?
-      name = "%#{params[:name].strip.downcase}%"
-      c << ['LOWER(identifier) LIKE ? OR LOWER(name) LIKE ?', name, name]
+    # Set default filter on status no filter is provided.
+    if !params[:filters]
+      @query.where('status', '=', Project::STATUS_ACTIVE.to_s)
     end
 
-    Project
-      .with_required_storage
-      .with_latest_activity
-      .order(sort_clause)
-      .where(c.conditions)
-      .page(page_param)
-      .per_page(per_page_param)
+    # Order lft if no order is provided.
+    if !params[:sortBy]
+      @query.order(lft: :asc)
+    end
+
+    @query
   end
 
   def filter_projects_by_permission(projects)
+    # Cannot simply use .visible here as it would
+    # filter out archived projects for everybody.
     if User.current.admin?
       projects
-    elsif User.current.anonymous?
-      projects.active.public_projects
     else
       projects.visible
     end
@@ -328,11 +322,31 @@ class ProjectsController < ApplicationController
   protected
 
   def determine_base
-    if params[:project_type_id]
-      @base = ProjectType.find(params[:project_type_id]).projects
-    else
-      @base = Project
-    end
+    @base = if params[:project_type_id]
+              ProjectType.find(params[:project_type_id]).projects
+            else
+              Project
+            end
+  end
+
+  def set_sorting(query)
+    orders = query.orders.select(&:valid?).map { |o| [o.attribute.to_s, o.direction.to_s] }
+
+    sort_clear
+    sort_init orders
+    sort_update orders.map(&:first)
+  end
+
+  def load_projects(query)
+    projects = query
+               .results
+               .with_required_storage
+               .with_latest_activity
+               .includes(:custom_values, :enabled_modules)
+               .page(page_param)
+               .per_page(per_page_param)
+
+    filter_projects_by_permission projects
   end
 
   # Validates parent_id param according to user's permissions

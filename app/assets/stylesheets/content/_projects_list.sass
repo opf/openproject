@@ -26,10 +26,77 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+$project-table--start-indentation: 0.5em
+$project-table--child-indentation: 1.1em
+$project-table--icon-distance: 5px
+$project-table--description-indention: 9px
+
+@mixin calc-indentation-name($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
+
+@mixin calc-indentation-description($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} + #{$project-table--description-indention})
+
 form.project-filters
   display: none
   &.-expanded
     display: block
+  .advanced-filters--filter-value
+    // visibility based on operator type
+    &.hidden
+      display: none
+
+    // visibility for list value selectors
+    .multi-select
+      display: none
+    .single-select
+      display: block
+    &.multi-value
+      .multi-select
+        display: block
+      .single-select
+        display: none
+
+    // visibility for datetime_past value selectors
+    &.between-dates
+      >.on-date,
+      >.days
+        display: none
+    &.on-date
+      >.between-dates,
+      >.days
+        display: none
+    &.days
+      >.on-date,
+      >.between-dates
+        display: none
+
+    // Special input field styles
+    &.between-dates
+      input[type="text"]
+        display: inline-block
+        max-width: 10rem
+  .advanced-filters--filter
+    &.hidden
+      display: none
+  .advanced-filters--controls
+    margin-left: 1rem
+    margin-right: 1rem
+    margin-top: 1rem
+  margin-bottom: 1rem
+
+.projects-table--hierarchy-icon
+  display: none
+
+  &:before
+    @include icon-font-common
+    @include icon-mixin-arrow-right5
+    @extend .icon-small
+
+  tr.idnt &
+    display: initial
 
 #project-table
   tr.basics
@@ -39,12 +106,10 @@ form.project-filters
           display: inline
         .expand
           display: none
-    &.child
-      td.name
-        &.archived,
-        a
-          &:before
-            content: '» '
+    td.format-text
+      min-width: 160px
+    td.format-user
+      min-width: 120px
     .buttons
       .collapse
         display: none
@@ -82,10 +147,25 @@ form.project-filters
   .generic-table--header-outer:hover
     background: initial
 
-  tbody
-    tr:hover
-      .buttons .project-actions
-        visibility: visible
+  td.name a
+    white-space: nowrap
+
+  td.project--hierarchy
+    white-space: nowrap
+
+  @for $i from 1 through 9
+    tr.idnt-#{$i} td.project--hierarchy
+      @include calc-indentation-name($i)
+    tr.idnt-#{$i}.project-description td.project--hierarchy
+      @include calc-indentation-description($i)
+
+#project-table--hierarchy-header
+  font-size: 1rem
+  max-width: 0.875rem
+
+  .generic-table--sort-header
+    min-width: 1rem
+    max-width: 1rem
 
 // Ugly hack for now, so expanded more-menus do not get cut off. Actually that
 // should be handled from the drop down implementation with absolute positions
@@ -96,10 +176,3 @@ body.controller-projects.action-index
     .generic-table--container
       min-height: 1
       overflow: visible
-
-// Hide the context menu button outside mobile
-html:not(.-browser-mobile)
-  #project-table
-    .buttons
-      .project-actions
-        visibility: hidden

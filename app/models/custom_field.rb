@@ -128,16 +128,12 @@ class CustomField < ActiveRecord::Base
 
   def possible_values_options(obj = nil)
     case field_format
-    when 'user', 'version'
-      if obj.is_a?(Project)
-        possible_values_options_in_project(obj)
-      elsif obj.try(:project)
-        possible_values_options_in_project(obj.project)
-      else
-        []
-      end
+    when 'user'
+      possible_user_values_options(obj)
+    when 'version'
+      possible_version_values_options(obj)
     when 'list'
-      possible_values.map { |option| [option.value, option.id.to_s] }
+      possible_list_values_options
     else
       possible_values
     end
@@ -257,15 +253,29 @@ class CustomField < ActiveRecord::Base
 
   private
 
-  def possible_values_options_in_project(project)
-    case field_format
-    when 'user'
-      project.users
-    when 'version'
-      project.versions
-    else
-      []
-    end.sort.map { |u| [u.to_s, u.id.to_s] }
+  def possible_version_values_options(obj)
+    mapped_with_deduced_project(obj) do |project|
+      if project
+        project.versions
+      else
+        Version.systemwide
+      end
+    end
+  end
+
+  def possible_user_values_options(obj)
+    mapped_with_deduced_project(obj) do |project|
+      if project
+        project.users
+      else
+        Principal
+          .in_visible_project_or_me(User.current)
+      end
+    end
+  end
+
+  def possible_list_values_options
+    possible_values.map { |option| [option.value, option.id.to_s] }
   end
 
   def possible_values_from_arg(arg)
@@ -274,5 +284,19 @@ class CustomField < ActiveRecord::Base
     else
       arg.to_s.split(/[\n\r]+/).map(&:strip).reject(&:blank?)
     end
+  end
+
+  def mapped_with_deduced_project(project)
+    project = if project.is_a?(Project)
+                project
+              elsif project.respond_to?(:project)
+                project.project
+              end
+
+    result = yield project
+
+    result
+      .sort
+      .map { |u| [u.name, u.id.to_s] }
   end
 end

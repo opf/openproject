@@ -28,11 +28,19 @@
 
 function toggleDescription(el) {
   let $el = jQuery(el);
-  let clickedRow = jQuery(el.closest('.project'))[0];
-  let descriptionRow = clickedRow.nextElementSibling;
+  let otherTrigger = $el.siblings('.projects-table--description-toggle')
+  let clickedRow = $el.closest('.project');
+  let descriptionRow = clickedRow.next();
 
+  clickedRow.toggleClass('-no-highlighting');
+  clickedRow.toggleClass('-expanded');
+  descriptionRow.toggleClass('-expanded');
 
-  clickedRow.classList.toggle('-no-highlighting');
-  clickedRow.classList.toggle('-expanded');
-  descriptionRow.classList.toggle('-expanded');
+  if (descriptionRow.hasClass('-expanded')) {
+    jQuery(descriptionRow).attr('aria-live', 'polite');
+  } else {
+    jQuery(descriptionRow).removeAttr('aria-live');
+  }
+
+  otherTrigger.focus();
 }

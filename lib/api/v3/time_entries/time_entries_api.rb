@@ -34,7 +34,7 @@ module API
 
         resources :time_entries do
           get do
-            query = ::API::V3::ParamsToQueryService
+            query = ParamsToQueryService
                     .new(TimeEntry, current_user)
                     .call(params)
 

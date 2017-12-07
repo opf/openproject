@@ -32,11 +32,8 @@ module Queries::Filters::Strategies
   class BaseStrategy
     attr_accessor :filter
 
-    class_attribute :supported_operators
-
-    def self.supported_operator_list(operator_list)
-      self.supported_operators = operator_list
-    end
+    class_attribute :supported_operators,
+                    :default_operator
 
     delegate :values,
              :errors,
@@ -60,6 +57,11 @@ module Queries::Filters::Strategies
         .slice(*self.class.supported_operators)
         .map(&:last)
         .sort_by { |o| self.class.supported_operators.index o.symbol.to_s }
+    end
+
+    def default_operator_class
+      operator = self.class.default_operator || self.class.available_operators.first
+      operator_map[operator]
     end
 
     private

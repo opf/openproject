@@ -94,6 +94,8 @@
   white-space: nowrap
   text-overflow: ellipsis
   font-size: 0.9rem
+  min-width: 120px
+  padding-right: 0
 
 .advanced-filters--filter-operator
   @include grid-content()
@@ -134,14 +136,21 @@
   padding:          0.25rem 0
 
 .advanced-filters--add-filter-label
-  @include grid-content(shrink)
-  font-size: 0.9rem
+  @extend .advanced-filters--filter-name
 
 .advanced-filters--add-filter-label-icon
   @extend .icon-add, .icon4
 
 .advanced-filters--add-filter-value
-  @include grid-content(3)
+  @include grid-content()
+  @include grid-visible-overflow
+  min-width: 120px
+  max-width: 200px
+
+.advanced-filters--add-filter-info
+  @include grid-content()
+  @include grid-visible-overflow
+
 
 .advanced-filters--spacer
   border-top:   1px solid $filters--border-color

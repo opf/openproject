@@ -670,6 +670,7 @@ en:
   button_edit: "Edit"
   button_edit_associated_wikipage: "Edit associated Wiki page: %{page_title}"
   button_expand_all: "Expand all"
+  button_filter: "Filter"
   button_generate: "Generate"
   button_list: "List"
   button_lock: "Lock"
@@ -880,6 +881,8 @@ en:
         description: "Customize the form configuration with these additional features:"
         add_groups: "Add new attribute groups"
         rename_groups: "Rename attributes groups"
+      project_filters:
+        description_html: "Upgrade to %{link} to filter and sort on custom fields"
 
   enumeration_activities: "Activities (time tracking)"
   enumeration_work_package_priorities: "Work package priorities"
@@ -1167,6 +1170,7 @@ en:
   label_file_plural: "Files"
   label_filter_add: "Add filter"
   label_filter_plural: "Filters"
+  label_filters_toggle: "Show/hide filters"
   label_float: "Float"
   label_folder: "Folder"
   label_follows: "follows"
@@ -1754,7 +1758,6 @@ en:
       title: Change the project's identifier
     archive:
       are_you_sure: "Are you sure you want to archive the project '%{name}'?"
-      archived: "Archived"
 
   project_module_activity: "Activity"
   project_module_boards: "Forums"
@@ -1772,10 +1775,12 @@ en:
   # possible query parameters (e.g. issue queries),
   # which are not attributes of an AR-Model.
   query_fields:
+    active_or_archived: "Active or archived"
     assigned_to_role: "Assignee's role"
     member_of_group: "Assignee's group"
     assignee_or_group: "Assignee or belonging group"
     subproject_id: "Subproject"
+    name_or_identifier: "Name or identifier"
 
   repositories:
     at_identifier: 'at %{identifier}'
@@ -1997,6 +2002,7 @@ en:
   show_hide_project_menu: "Expand/Collapse project menu"
 
   status_active: "active"
+  status_archived: "archived"
   status_invited: invited
   status_locked: locked
   status_registered: registered
