@@ -54,7 +54,7 @@ class WorkPackages::UpdateService
     result = set_attributes(attributes)
 
     if result.success?
-      result.merge!(update_dependent(attributes))
+      result.merge!(update_dependent)
     end
 
     if save_if_valid(result)
@@ -74,12 +74,12 @@ class WorkPackages::UpdateService
     result.success?
   end
 
-  def update_dependent(attributes)
+  def update_dependent
     result = ServiceResult.new(success: true, result: work_package)
 
     result.merge!(update_descendants)
 
-    cleanup(attributes) if result.success?
+    cleanup if result.success?
 
     result.merge!(reschedule_related)
 
@@ -108,15 +108,13 @@ class WorkPackages::UpdateService
     result
   end
 
-  def cleanup(attributes)
-    project_id = attributes[:project_id] || (attributes[:project] && attributes[:project].id)
-
-    if project_id
+  def cleanup
+    if work_package.project_id_changed?
       moved_work_packages = [work_package] + work_package.descendants
       delete_relations(moved_work_packages)
-      move_time_entries(moved_work_packages, project_id)
+      move_time_entries(moved_work_packages, work_package.project_id)
     end
-    if attributes.include?(:type_id) || attributes.include?(:type)
+    if work_package.type_id_changed?
       reset_custom_values
     end
   end
@@ -140,16 +138,35 @@ class WorkPackages::UpdateService
   end
 
   def reschedule_related
-    WorkPackages::SetScheduleService
-      .new(user: user,
-           work_package: work_package)
-      .call(work_package.changed.map(&:to_sym))
+    result = ServiceResult.new(success: true, result: work_package)
+
+    if work_package.parent_id_changed?
+      # HACK: we need to persist the parent relation before rescheduling the parent
+      # and the former parent
+      work_package.send(:update_parent_relation)
+
+      result.merge!(reschedule_former_parent) if work_package.parent_id_was
+    end
+
+    result.merge!(reschedule(work_package))
+
+    result
   end
 
-  def call_and_assign(method, params, updated, errors)
-    send(method, *params).tap do |updated_by_method, errors_by_method|
-      errors += errors_by_method
-      updated += updated_by_method
-    end
+  def reschedule_former_parent
+    former_siblings = WorkPackage.includes(:parent_relation).where(relations: { from_id: work_package.parent_id_was })
+
+    reschedule(former_siblings)
+  end
+
+  def reschedule(work_packages)
+    WorkPackages::SetScheduleService
+      .new(user: user,
+           work_package: work_packages)
+      .call(changed_attributes)
+  end
+
+  def changed_attributes
+    work_package.changed.map(&:to_sym)
   end
 end

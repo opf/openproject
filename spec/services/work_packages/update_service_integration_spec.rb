@@ -38,7 +38,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
   end
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) do
-    %i(view_work_packages edit_work_packages add_work_packages move_work_packages)
+    %i(view_work_packages edit_work_packages add_work_packages move_work_packages manage_subtasks)
   end
 
   let(:type) { FactoryGirl.create(:type_standard) }
@@ -861,6 +861,109 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
 
         expect(following3_work_package.due_date)
           .to eql Date.today + 31.days
+      end
+    end
+
+    describe 'changing the parent' do
+      let(:former_parent_attributes) do
+        {
+          subject: 'former parent',
+          project_id: project.id,
+          type_id: type.id,
+          author_id: user.id,
+          status_id: status.id,
+          priority: priority,
+          start_date: Date.today + 3.days,
+          due_date: Date.today + 9.days
+        }
+      end
+      let(:former_parent_work_package) do
+        FactoryGirl.create(:work_package, former_parent_attributes)
+      end
+
+      let(:former_sibling_attributes) do
+        work_package_attributes.merge(
+          subject: 'former sibling',
+          parent: former_parent_work_package,
+          start_date: Date.today + 3.days,
+          due_date: Date.today + 6.days
+        )
+      end
+      let(:former_sibling_work_package) do
+        FactoryGirl.create(:work_package, former_sibling_attributes)
+      end
+
+      let(:work_package_attributes) do
+        { project_id: project.id,
+          type_id: type.id,
+          author_id: user.id,
+          status_id: status.id,
+          priority: priority,
+          parent: former_parent_work_package,
+          start_date: Date.today + 7.days,
+          due_date: Date.today + 9.days }
+      end
+
+      let(:new_parent_attributes) do
+        work_package_attributes.merge(
+          subject: 'new parent',
+          parent: nil,
+          start_date: Date.today + 10.days,
+          due_date: Date.today + 12.days
+        )
+      end
+      let(:new_parent_work_package) do
+        FactoryGirl.create(:work_package, new_parent_attributes)
+      end
+
+      let(:new_sibling_attributes) do
+        work_package_attributes.merge(
+          subject: 'new sibling',
+          parent: new_parent_work_package,
+          start_date: Date.today + 10.days,
+          due_date: Date.today + 12.days
+        )
+      end
+      let(:new_sibling_work_package) do
+        FactoryGirl.create(:work_package, new_sibling_attributes)
+      end
+
+      before do
+        work_package.reload
+        former_parent_work_package.reload
+        former_sibling_work_package.reload
+        new_parent_work_package.reload
+        new_sibling_work_package.reload
+      end
+
+      let(:attributes) { { parent: new_parent_work_package } }
+
+      it 'changes the parent reference and reschedules former and new parent' do
+        expect(subject)
+          .to be_success
+
+        # sets the parent and leaves the dates unchanged
+        work_package.reload
+        expect(work_package.parent)
+          .to eql new_parent_work_package
+        expect(work_package.start_date)
+          .to eql work_package_attributes[:start_date]
+        expect(work_package.due_date)
+          .to eql work_package_attributes[:due_date]
+
+        # updates the former parent's dates
+        former_parent_work_package.reload
+        expect(former_parent_work_package.start_date)
+          .to eql former_sibling_attributes[:start_date]
+        expect(former_parent_work_package.due_date)
+          .to eql former_sibling_attributes[:due_date]
+
+        # updates the new parent's dates
+        new_parent_work_package.reload
+        expect(new_parent_work_package.start_date)
+          .to eql work_package_attributes[:start_date]
+        expect(new_parent_work_package.due_date)
+          .to eql new_sibling_attributes[:due_date]
       end
     end
   end
