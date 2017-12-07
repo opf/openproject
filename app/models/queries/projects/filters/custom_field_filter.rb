@@ -32,41 +32,5 @@ class Queries::Projects::Filters::CustomFieldFilter <
   Queries::Projects::Filters::ProjectFilter
 
   include Queries::Filters::Shared::CustomFieldFilter
-
-  self.custom_field_class = ProjectCustomField
-
-  def type
-    if custom_field && custom_field.field_format == 'float'
-      :float
-    else
-      super
-    end
-  end
-
-  def self.custom_fields(_context)
-    custom_field_class
-      .visible
-  end
-
-  private
-
-  def strategies
-    strategies = super
-    strategies[:float] = Queries::Filters::Strategies::CfFloat
-
-    strategies
-  end
-
-  def where_subselect_joins
-    cv_db_table = CustomValue.table_name
-    project_db_table = model.table_name
-
-    "LEFT OUTER JOIN #{cv_db_table}
-       ON #{cv_db_table}.customized_type='#{model.name}'
-       AND #{cv_db_table}.customized_id=#{project_db_table}.id
-       AND #{cv_db_table}.custom_field_id=#{custom_field.id}"
-  end
-
-  # compatibility only
-  def project; end
+  self.custom_field_context = ::Queries::Projects::Filters::CustomFieldContext
 end

@@ -28,62 +28,36 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::PrincipalBaseFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+require_relative 'base'
 
-  include MeValueFilterMixin
+module Queries::Filters::Shared
+  module CustomFields
+    class ListOptional < Base
 
-  def available?
-    User.current.logged? || allowed_values.any?
-  end
-
-  def value_objects_hash
-    objects = super
-
-    # Replace me value identifier
-    if has_me_value?
-      search = User.current.id
-      objects.each do |value_object|
-        if value_object[:id] == search
-          value_object[:id] = me_value
-          value_object[:name] = me_label
-          break
+      def value_objects
+        case custom_field.field_format
+        when 'version'
+          ::Version.where(id: values)
+        when 'list'
+          custom_field.custom_options.where(id: values)
+        else
+          super
         end
       end
-    end
 
-    objects
-  end
+      def ar_object_filter?
+        true
+      end
 
-  def ar_object_filter?
-    true
-  end
+      def type
+        :list_optional
+      end
 
-  def principal_resource?
-    true
-  end
+      protected
 
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
-  end
-
-  private
-
-  def principal_loader
-    @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
-  end
-
-  def values_replaced
-    vals = values.clone
-
-    if vals.delete(me_value)
-      if User.current.logged?
-        vals.push(User.current.id.to_s)
-      else
-        vals.push('0')
+      def type_strategy_class
+        ::Queries::Filters::Strategies::CfListOptional
       end
     end
-
-    vals
   end
 end

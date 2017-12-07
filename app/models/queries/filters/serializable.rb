@@ -28,62 +28,52 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::PrincipalBaseFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+require_relative 'base'
 
-  include MeValueFilterMixin
+module Queries
+  module Filters
+    class Serializable < Base
+      include ActiveModel::Serialization
 
-  def available?
-    User.current.logged? || allowed_values.any?
-  end
+      # (de-)serialization
+      def self.from_hash(filter_hash)
+        filter_hash.keys.map do |field|
+          begin
+            create!(name, filter_hash[field])
+          rescue ::Queries::Filters::InvalidError
+            Rails.logger.error "Failed to constantize field filter #{field} from hash."
+            ::Queries::NotExistingFilter.create!(field)
+          end
+        end
+      end
 
-  def value_objects_hash
-    objects = super
+      def to_hash
+        { name => attributes_hash }
+      end
 
-    # Replace me value identifier
-    if has_me_value?
-      search = User.current.id
-      objects.each do |value_object|
-        if value_object[:id] == search
-          value_object[:id] = me_value
-          value_object[:name] = me_label
-          break
+      def attributes
+        { name: name, operator: operator, values: values }
+      end
+
+      def ==(filter)
+        filter.attributes_hash == attributes_hash
+      end
+
+      protected
+
+      def attributes_hash
+        self.class.filter_params.inject({}) do |params, param_field|
+          params.merge(param_field => send(param_field))
+        end
+      end
+
+      private
+
+      def stringify_values
+        unless values.nil?
+          values.map!(&:to_s)
         end
       end
     end
-
-    objects
-  end
-
-  def ar_object_filter?
-    true
-  end
-
-  def principal_resource?
-    true
-  end
-
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
-  end
-
-  private
-
-  def principal_loader
-    @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
-  end
-
-  def values_replaced
-    vals = values.clone
-
-    if vals.delete(me_value)
-      if User.current.logged?
-        vals.push(User.current.id.to_s)
-      else
-        vals.push('0')
-      end
-    end
-
-    vals
   end
 end

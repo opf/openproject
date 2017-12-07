@@ -28,62 +28,28 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::PrincipalBaseFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
-
-  include MeValueFilterMixin
-
-  def available?
-    User.current.logged? || allowed_values.any?
-  end
-
-  def value_objects_hash
-    objects = super
-
-    # Replace me value identifier
-    if has_me_value?
-      search = User.current.id
-      objects.each do |value_object|
-        if value_object[:id] == search
-          value_object[:id] = me_value
-          value_object[:name] = me_label
-          break
-        end
-      end
+module Queries::Projects::Filter::CustomFieldContext
+  class << self
+    def custom_field_class
+      ::ProjectCustomField
     end
 
-    objects
-  end
-
-  def ar_object_filter?
-    true
-  end
-
-  def principal_resource?
-    true
-  end
-
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
-  end
-
-  private
-
-  def principal_loader
-    @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
-  end
-
-  def values_replaced
-    vals = values.clone
-
-    if vals.delete(me_value)
-      if User.current.logged?
-        vals.push(User.current.id.to_s)
-      else
-        vals.push('0')
-      end
+    def model
+      ::Project
     end
 
-    vals
+    def custom_fields(_context)
+      custom_field_class.visible
+    end
+
+    def where_subselect_joins(custom_field)
+      cv_db_table = CustomValue.table_name
+      project_db_table = Project.table_name
+
+      "LEFT OUTER JOIN #{cv_db_table}
+         ON #{cv_db_table}.customized_type='Project'
+         AND #{cv_db_table}.customized_id=#{project_db_table}.id
+         AND #{cv_db_table}.custom_field_id=#{custom_field.id}"
+    end
   end
 end

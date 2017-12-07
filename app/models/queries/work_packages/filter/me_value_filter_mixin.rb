@@ -28,51 +28,26 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::PrincipalBaseFilter <
-  Queries::WorkPackages::Filter::WorkPackageFilter
+##
+# Mixin to a filter or strategy
+module Queries::WorkPackages::Filter::MeValueFilterMixin
 
-  include MeValueFilterMixin
-
-  def available?
-    User.current.logged? || allowed_values.any?
+  ##
+  # Return whether the current values object has a me value
+  def has_me_value?
+    values.include? me_value
   end
 
-  def value_objects_hash
-    objects = super
-
-    # Replace me value identifier
-    if has_me_value?
-      search = User.current.id
-      objects.each do |value_object|
-        if value_object[:id] == search
-          value_object[:id] = me_value
-          value_object[:name] = me_label
-          break
-        end
-      end
-    end
-
-    objects
+  ##
+  # Return the AR principal values with the me_value being replaced
+  def value_objects
+    prepared_values = values.map { |value| value == me_value ? User.current.id : value }
+    Principal.where(id: prepared_values)
   end
 
-  def ar_object_filter?
-    true
-  end
-
-  def principal_resource?
-    true
-  end
-
-  def where
-    operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
-  end
-
-  private
-
-  def principal_loader
-    @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
-  end
-
+  ##
+  # Return the values object with the me value
+  # mapped to the current user.
   def values_replaced
     vals = values.clone
 
@@ -85,5 +60,25 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     end
 
     vals
+  end
+
+  protected
+
+  def me_value
+    'me'.freeze
+  end
+
+  def me_label
+    I18n.t(:label_me)
+  end
+
+  ##
+  # Returns the me value if the user is logged
+  def me_allowed_value
+    values = []
+    if User.current.logged?
+      values << [me_abel, me_value]
+    end
+    values
   end
 end
