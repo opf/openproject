@@ -37,7 +37,6 @@ module Token
     # Find a token from the token value
     def self.find_by_plaintext_value(input)
       find_by(value: input)
-
     end
 
     ##
@@ -48,9 +47,15 @@ module Token
 
     protected
 
+    ##
+    # Allows only a single value of the token?
+    def single_value?
+      true
+    end
+
     # Removes obsolete tokens (same user and action)
     def delete_previous_token
-      if user
+      if single_value? && user
         self.class.where(user_id: user.id, type: type).delete_all
       end
     end
