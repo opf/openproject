@@ -8,7 +8,8 @@ module ::TwoFactorAuthentication
     before_action :only_post, only: :confirm_otp
 
     # Require authenticated user from the core to be present
-    before_action :require_authenticated_user, only: [:request_otp, :confirm_otp, :retry]
+    before_action :require_authenticated_user,
+                  only: %i(request_otp enter_backup_code verify_backup_code confirm_otp retry)
 
     ##
     # Request token (if necessary) from the authenticated user
@@ -46,6 +47,27 @@ module ::TwoFactorAuthentication
     def retry
       service = service_from_resend_params
       perform_2fa_authentication service
+    end
+
+    ##
+    # Request user to enter backup code
+    def enter_backup_code
+      render
+    end
+
+    ##
+    # Verify backup code
+    def verify_backup_code
+      code = params[:backup_code]
+      return fail_login(t('two_factor_authentication.error_invalid_backup_code')) unless code.present?
+
+      service = TwoFactorAuthentication::UseBackupCodeService.new user: @authenticated_user
+      result = service.verify code
+      if result.success?
+        complete_stage_redirect 
+      else
+        fail_login(t('two_factor_authentication.error_invalid_backup_code'))
+      end
     end
 
     private

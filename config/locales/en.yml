@@ -25,6 +25,7 @@ en:
     error_no_device: "No registered 2FA device found for this user, despite being required for this instance."
     error_no_matching_strategy: "No matching 2FA strategy available for this user. Please contact your administratior."
     error_is_enforced_not_active: 'Configuration error: Two-factor authentication has been enforced, but no active strategies exist.'
+    error_invalid_backup_code: 'Invalid 2FA backup code'
     channel_unavailable: "The delivery channel %{channel} is unavailable."
     no_valid_phone_number: "No valid phone number exists."
     label_pwd_confirmation: "Password"
@@ -39,6 +40,10 @@ en:
     text_enter_2fa: 'Please enter the one-time password from your device.'
     text_2fa_enabled: 'Upon every login, you will be requested to enter a OTP token from your default 2FA device.'
     text_2fa_disabled: 'To enable two-factor authentication, use the button above to register a new 2FA device. If you already have a device, you need to make it a default.'
+    login:
+      enter_backup_code_title: Enter backup code
+      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
+      other_device: 'Use another device or backup code'
     admin:
       self_edit_path: 'To add or modify your own 2FA devices, please go to %{self_edit_link}'
       self_edit_link_name: 'Two-factor authentication on your account page'
@@ -50,6 +55,20 @@ en:
       button_register_mobile_phone_for_user: 'Register mobile phone'
       text_2fa_enabled: 'Upon every login, this user will be requested to enter a OTP token from his default 2FA device.'
       text_2fa_disabled: "The user did not set up a 2FA device through his 'My account page'"
+    backup_codes:
+      none_found: No backup codes exist for this account.
+      singular: Backup code
+      plural: Backup codes
+      your_codes: for your %{app_name} account %{login}
+      overview_description: |
+        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
+        Use the following button to generate a new set of backup codes.
+      generate:
+        title: Generate backup codes
+        keep_safe_as_password: 'Important! Treat these codes as passwords.'
+        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
+        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
+
     devices:
       add_new: 'Add new 2FA device'
       register: 'Register device'
@@ -122,7 +141,7 @@ en:
   notice_phone_number_format: "Please enter the number in the following format: +XX XXXXXXXX."
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
-  text_otp_not_receive: "Did not receive your one-time password?"
+  text_otp_not_receive: "Other verification methods"
   text_send_otp_again: "Resend one-time password by:"
   button_resend_otp_form: "Resend"
   button_otp_by_voice: "Voice call"

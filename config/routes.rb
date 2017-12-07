@@ -4,6 +4,8 @@ OpenProject::Application::routes.draw do
     get :request, to: 'authentication#request_otp'
     post :confirm, to: 'authentication#confirm_otp'
     post :retry, to: 'authentication#retry'
+    get :backup_code, to: 'authentication#enter_backup_code'
+    post :backup_code, to: 'authentication#verify_backup_code'
   end
 
   scope 'two_factor_authentication' do # Avoids adding the namespace prefix
@@ -37,6 +39,12 @@ OpenProject::Application::routes.draw do
 
 
   scope 'my' do
+    resource :backup_codes,
+             controller: 'two_factor_authentication/my/backup_codes',
+             as: 'my_2fa_backup_codes',
+             only: [:show, :create]
+
+
     resources :two_factor_devices,
               controller: 'two_factor_authentication/my/two_factor_devices',
               param: :device_id,

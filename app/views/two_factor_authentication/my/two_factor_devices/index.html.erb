@@ -20,7 +20,22 @@
 
 <section class="account--section">
   <h2><%= t 'two_factor_authentication.label_devices' %></h2>
-    <%= cell ::TwoFactorAuthentication::Devices::TableCell, @two_factor_devices, admin_table: false %>
-  </div>
+  <%= cell ::TwoFactorAuthentication::Devices::TableCell, @two_factor_devices, admin_table: false %>
 </section>
 
+<section class="account--section">
+  <h2><%= t 'two_factor_authentication.backup_codes.plural' %></h2>
+  <p>
+    <%= t 'two_factor_authentication.backup_codes.overview_description' %>
+    <br/>
+    <strong><%= t 'two_factor_authentication.backup_codes.generate.regenerate_warning' %></strong>
+  </p>
+
+  <%= password_confirmation_form_tag({ controller: 'two_factor_authentication/my/backup_codes', action: :create },
+                                     method: :post,
+                                     id: 'two_factor_backup_codes_form',
+                                     class: 'form--inline') do
+    submit_tag I18n.t('two_factor_authentication.backup_codes.generate.title'),
+             class: 'button'
+  end %>
+</section>

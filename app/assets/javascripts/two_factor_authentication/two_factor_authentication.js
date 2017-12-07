@@ -44,4 +44,16 @@ jQuery(function ($) {
     });
     return false;
   });
+
+  $('#print_2fa_backup_codes').click(function() {
+    window.print();
+  });
+
+  if ($('#download_2fa_backup_codes').length) {
+    var text = '';
+    $('.two-factor-authentication--backup-codes li').each(function() { text += this.textContent + "\n"; });
+    var element = $('#download_2fa_backup_codes');
+    element.attr('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.attr('download', 'backup-codes.txt');
+  }
 });

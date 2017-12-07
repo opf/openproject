@@ -1,0 +1,39 @@
+<%= render partial: '/two_factor_authentication/header_tags' %>
+<% html_title(t(:label_my_account), t('two_factor_authentication.backup_codes.plural')) -%>
+
+<h1>
+  <%= t('two_factor_authentication.backup_codes.plural') %>
+  <small>
+    <%= t('two_factor_authentication.backup_codes.your_codes', login: current_user.login, app_name: Setting.app_title) %>
+  </small>
+</h1>
+
+<div class="notification-box show-when-print -warning">
+  <div class="notification-box--content">
+    <p>
+      <strong><%= t 'two_factor_authentication.backup_codes.generate.keep_safe_as_password' %></strong>
+      <%= t 'two_factor_authentication.backup_codes.generate.keep_safe_warning' %>
+    </p>
+  </div>
+</div>
+
+<div class="two-factor-authentication--backup-codes">
+  <ul>
+    <% @backup_codes.each do |code| %>
+    <li><%= code %></li>
+    <% end %>
+  </ul>
+</div>
+
+<hr class="hide-when-print"/>
+
+<div class="two-factor-authentication--backup-actions">
+  <a id="download_2fa_backup_codes" class="button hide-when-print">
+    <%= op_icon 'button--icon icon-save' %>
+    <span class="button--text"><%= t(:button_download) %></span>
+  </a>
+  <button id="print_2fa_backup_codes" class="button hide-when-print">
+      <%= op_icon 'button--icon icon-print' %>
+      <span class="button--text"><%= t(:button_print) %></span>
+    </button>
+</div>

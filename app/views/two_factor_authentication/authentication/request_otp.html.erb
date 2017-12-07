@@ -53,7 +53,7 @@ end %>
     <% end %>
     <% if has_other_devices %>
       <hr/>
-      <div class="resend-header"><%= 'Or try another device' %></div>
+      <div class="resend-header"><%= t('two_factor_authentication.login.other_device') %></div>
         <ul>
         <% @active_devices.each do |device| %>
           <% next if device.id == @used_device.id %>
@@ -66,5 +66,13 @@ end %>
         <% end %>
         </ul>
     <% end %>
+    <% if @authenticated_user.otp_backup_codes.exists? %>
+      <ul>
+        <li>
+          <%= link_to(t('two_factor_authentication.login.enter_backup_code_title'), { action: :enter_backup_code }) %>
+          </a>
+        </li>
+      </ul>
+  <% end %>
   </div>
 </div>
