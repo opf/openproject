@@ -59,10 +59,10 @@
       </tbody>
       <tbody class="results-tbody work-package--results-tbody">
       </tbody>
-      <tbody wp-inline-create
-             *ngIf="!!table"
-             project-identifier="projectIdentifier"
-             table="table">
+      <tbody *ngIf="!!tableElement"
+             wpInlineCreate
+             [wpInlineCreate-table]="workPackageTable"
+             [wpInlineCreate-projectIdentifier]="projectIdentifier">
       </tbody>
       <tfoot>
       <tr wpTableSumsRow></tr>

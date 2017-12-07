@@ -44,6 +44,7 @@ import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/stat
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
+import {WpInlineCreateDirectiveUpgraded} from "core-components/wp-inline-create/wp-inline-create.directive";
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
@@ -110,7 +111,8 @@ import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-ta
     WpResizerDirectiveUpgraded,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
-    HasDropdownMenuDirective
+    HasDropdownMenuDirective,
+    WpInlineCreateDirectiveUpgraded
   ],
   entryComponents: [
     WorkPackageTablePaginationComponent,

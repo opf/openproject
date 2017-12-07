@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {Directive, ElementRef, Injector, Input, Output} from "@angular/core";
+import {UpgradeComponent} from "@angular/upgrade/static";
 import {onClickOrEnter} from "../wp-fast-table/handlers/click-or-enter-handler";
 import {opWorkPackagesModule} from "../../angular-modules";
 import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
@@ -134,6 +136,13 @@ export class WorkPackageInlineCreateController {
     });
   }
 
+  $onInit() {
+    console.log("this.projectIdentifier", this.projectIdentifier);
+    setTimeout(() => {
+      console.log(this.table);
+    }, 2000);
+  }
+
   public addWorkPackageRow() {
     this.wpCreate.createNewWorkPackage(this.projectIdentifier).then((changeset:WorkPackageChangeset) => {
       if (!changeset) {
@@ -217,3 +226,18 @@ function wpInlineCreate():any {
 }
 
 opWorkPackagesModule.directive('wpInlineCreate', wpInlineCreate);
+
+
+@Directive({
+  selector: '[wpInlineCreate]'
+})
+export class WpInlineCreateDirectiveUpgraded extends UpgradeComponent {
+
+  @Input("wpInlineCreate-table") table: WorkPackageTable;
+  @Input("wpInlineCreate-projectIdentifier") projectIdentifier: string;
+
+  constructor(elementRef:ElementRef, injector:Injector) {
+    super('wpInlineCreate', elementRef, injector);
+  }
+
+}

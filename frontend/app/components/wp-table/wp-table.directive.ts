@@ -72,7 +72,9 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
   private wpTableHoverSync:WpTableHoverSync;
 
-  public table:HTMLElement;
+  public tableElement:HTMLElement;
+
+  public workPackageTable:WorkPackageTable;
 
   public tbody:JQuery;
 
@@ -161,7 +163,7 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
 
     // Locate table and timeline elements
     const tableAndTimeline = this.getTableAndTimelineElement();
-    this.table = tableAndTimeline[0];
+    this.tableElement = tableAndTimeline[0];
     this.timeline = tableAndTimeline[1];
 
     // sync hover from table to timeline
@@ -181,9 +183,9 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     var t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
-    const table = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
+    this.workPackageTable = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
     this.tbody = tbody;
-    controller.workPackageTable = table;
+    controller.workPackageTable = this.workPackageTable;
 
     var t1 = performance.now();
     debugLog('Render took ' + (t1 - t0) + ' milliseconds.');
