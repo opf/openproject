@@ -36,6 +36,7 @@ class OpenProject::PluginGenerator < Rails::Generators::Base
   def generate_plugin
     plugin_dir
     lib_dir
+    bin_dir
   end
 
   def full_name
@@ -68,6 +69,16 @@ class OpenProject::PluginGenerator < Rails::Generators::Base
   def lib_dir
     @lib_dir ||= begin
       directory('lib', lib_path)
+    end
+  end
+
+  def bin_path
+    "#{plugin_path}/bin"
+  end
+
+  def bin_dir
+    @bin_dir ||= begin
+      directory('bin', bin_path)
     end
   end
 end
