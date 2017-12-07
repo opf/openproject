@@ -70,7 +70,7 @@ See doc/COPYRIGHT.rdoc for more details.
                     <td class="project"><%=h membership.project %></td>
                     <td class="roles">
                       <span id="member-<%= membership.id %>-roles"><%=h membership.roles.sort.collect(&:to_s).join(', ') %></span>
-                      <%= labelled_tabular_form_for(:membership, remote: true,
+                      <%= labelled_tabular_form_for(:membership,
                                                     url: membership_of_group_path(@group, membership),
                                                     method: :put,
                                                     remote: true,
