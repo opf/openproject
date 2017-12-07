@@ -34,38 +34,37 @@ end %>
         </div>
       <% end %>
   <% end %>
-  <% if resend_supported || has_other_devices %>
-      <div id="resend_otp_container" style="display: none">
-        <%= styled_form_tag({action: :retry }, autocomplete: 'off', id: 'resend_otp') do %>
-          <hr />
-          <div class="resend-header"><%= l(:text_send_otp_again) %></div>
-          <div class="radios-wrapper">
-            <% default_channel = @service.device.channel %>
-            <% supported_channels = @used_device.class.supported_channels & @strategy.class.supported_channels %>
-            <% supported_channels.each do |channel| %>
-                <%= radio_button_tag 'use_channel', channel, default_channel == channel %>
-                <label for="channel_<%= channel %>" ><%= t("button_otp_by_#{channel}") %></label>
-            <% end %>
+  <div id="resend_otp_container" style="display: none">
+    <% if resend_supported %>
+      <%= styled_form_tag({action: :retry }, autocomplete: 'off', id: 'resend_otp') do %>
+        <hr />
+        <div class="resend-header"><%= l(:text_send_otp_again) %></div>
+        <div class="radios-wrapper">
+          <% default_channel = @service.device.channel %>
+          <% supported_channels = @used_device.class.supported_channels & @strategy.class.supported_channels %>
+          <% supported_channels.each do |channel| %>
+              <%= radio_button_tag 'use_channel', channel, default_channel == channel %>
+              <label for="channel_<%= channel %>" ><%= t("button_otp_by_#{channel}") %></label>
+          <% end %>
 
-          </div>
-          <input type="submit" value="<%= l(:button_resend_otp_form) %>" id="submit_resend_form" class="button -highlight" />
-        <% end %>
-
-        <% if has_other_devices %>
-          <hr/>
-          <div class="resend-header"><%= 'Or try another device' %></div>
-            <ul>
-            <% @active_devices.each do |device| %>
-              <% next if device.id == @used_device.id %>
-              <li>
-                <%= form_tag({ action: :retry }, method: :post) do %>
-                  <%= hidden_field_tag 'use_device', device.id %>
-                  <%= submit_tag device.redacted_identifier, class: 'button--link' %>
-                <% end %>
-              </li>
+        </div>
+        <input type="submit" value="<%= l(:button_resend_otp_form) %>" id="submit_resend_form" class="button -highlight" />
+      <% end %>
+    <% end %>
+    <% if has_other_devices %>
+      <hr/>
+      <div class="resend-header"><%= 'Or try another device' %></div>
+        <ul>
+        <% @active_devices.each do |device| %>
+          <% next if device.id == @used_device.id %>
+          <li>
+            <%= form_tag({ action: :retry }, method: :post) do %>
+              <%= hidden_field_tag 'use_device', device.id %>
+              <%= submit_tag device.redacted_identifier, class: 'button--link' %>
             <% end %>
-            </ul>
+          </li>
         <% end %>
-      </div>
-  <% end %>
+        </ul>
+    <% end %>
+  </div>
 </div>

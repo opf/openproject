@@ -55,6 +55,8 @@ module ::TwoFactorAuthentication
     def successful_2fa_transmission(service, transmit)
       if transmit.result.present?
         flash[:notice] = transmit.result
+      else
+        flash.delete :notice
       end
 
       flash.delete :error
@@ -66,7 +68,23 @@ module ::TwoFactorAuthentication
     # Create a token service for the current user
     # with an optional override to use a non-default channel
     def otp_service(user, use_channel: nil, use_device: nil)
+      session[:two_factor_authentication_device_id] = use_device.try(:id)
       ::TwoFactorAuthentication::TokenService.new user: user, use_channel: use_channel, use_device: use_device
+    end
+
+    ##
+    # Get the used device for verification
+    def otp_service_for_verification(user)
+      use_device =
+        if session[:two_factor_authentication_device_id]
+          user.otp_devices.find(session[:two_factor_authentication_device_id])
+        else
+          nil
+        end
+      otp_service(user, use_device: use_device)
+    rescue ActiveRecord::RecordNotFound
+      render_404
+      false
     end
 
     ##
@@ -75,12 +93,15 @@ module ::TwoFactorAuthentication
       channel = params[:use_channel].presence
       device =
         if params[:use_device].present?
-          find_or_404 { @authenticated_user.otp_devices.find(params[:use_device]) }
+          @authenticated_user.otp_devices.find(params[:use_device])
         else
           nil
         end
 
       otp_service(@authenticated_user, use_channel: channel, use_device: device)
+    rescue ActiveRecord::RecordNotFound
+      render_404
+      false
     end
 
     ##
@@ -119,7 +140,7 @@ module ::TwoFactorAuthentication
     ##
     # Check OTP string and login if valid
     def login_if_otp_token_valid(user, token_string)
-      service = otp_service(user)
+      service = otp_service_for_verification(user)
       result = service.verify(token_string)
 
       if result.success?
@@ -153,13 +174,6 @@ module ::TwoFactorAuthentication
     rescue ActiveRecord::RecordNotFound
       Rails.logger.error "Failed to find authenticated_user for 2FA authentication."
       failure_stage_redirect
-    end
-
-    def find_or_404(&block)
-      yield
-    rescue ActiveRecord::RecordNotFound
-      render_404
-      false
     end
 
     def manager
