@@ -196,7 +196,9 @@ module ApplicationHelper
 
   # Renders flash messages
   def render_flash_messages
-    flash.map { |k, v| render_flash_message(k, v) }.join.html_safe
+    flash
+      .reject { |k,_| k.start_with? '_' }
+      .map { |k, v| render_flash_message(k, v) }.join.html_safe
   end
 
   def join_flash_messages(messages)
