@@ -11,7 +11,7 @@ module TwoFactorAuthentication
     ##
     # Validate a backup code that was input by the user
     def verify(code)
-      token = ::TwoFactorAuthentication::BackupCode.find_by_plaintext_value(code)
+      token = user.otp_backup_codes.find_by_plaintext_value(code)
 
       raise I18n.t('two_factor_authentication.error_invalid_backup_code') if token.nil?
       use_valid_token! token
