@@ -1,5 +1,6 @@
 <% resend_supported = @strategy.mobile_token? %>
 <% has_other_devices = @active_devices.count > 1 %>
+<% has_backup_codes = @authenticated_user.otp_backup_codes.exists? %>
 
 <% unless @user.impaired?
   disable_accessibility_css!
@@ -26,7 +27,7 @@ end %>
       </div>
     </div>
       <input type="submit" name="login" value="<%=l(:button_login)%>" class="button -highlight" tabindex="2" />
-      <% if resend_supported || has_other_devices %>
+      <% if resend_supported || has_other_devices || has_backup_codes %>
         <div class="login-options-container">
           <div class="login-links">
             <%= link_to(l(:text_otp_not_receive), '#', id: 'toggle_resend_form', tabindex: 3) %>
@@ -66,7 +67,7 @@ end %>
         <% end %>
         </ul>
     <% end %>
-    <% if @authenticated_user.otp_backup_codes.exists? %>
+    <% if has_backup_codes %>
       <ul>
         <li>
           <%= link_to(t('two_factor_authentication.login.enter_backup_code_title'), { action: :enter_backup_code }) %>
