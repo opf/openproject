@@ -15,7 +15,7 @@ ko:
               can_only_contain_work_packages_of_current_sprint: "은(는) 현재 스프린트에서 작업 패키지의 ID만 포함할 수 있습니다."
               must_block_at_least_one_work_package: "은(는) 티켓 하나 이상의 ID를 포함해야 합니다."
             parent_id:
-              type_must_be_one_of_the_following: '유형은 다음 중 하나여야 합니다. %{type_names}.'
+              type_must_be_one_of_the_following: 유형은 다음 중 하나여야 합니다. %{type_names}.
         sprint:
           cannot_end_before_it_starts: "스프린트는 시작되기 전에 끝날 수 없습니다."
   activemodel:
