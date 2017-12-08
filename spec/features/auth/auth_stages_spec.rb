@@ -221,7 +221,7 @@ describe 'Authentication Stages', type: :feature do
 
     # after the stage is finished it must redirect to the complete endpoint
     # the controller automatically adds the back_url param which we do by hand in the spec
-    visit "/login/dummy_step/success?back_url=/projects"
+    visit "/login/dummy_step/success"
 
     expect(current_path).to eql "/projects" # after which the user will actually be logged in
 

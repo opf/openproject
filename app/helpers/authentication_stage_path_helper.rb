@@ -30,7 +30,7 @@
 
 module AuthenticationStagePathHelper
   def authentication_stage_complete_path(identifier)
-    OpenProject::Authentication::Stage.complete_path identifier, session: session, back_url: back_url
+    OpenProject::Authentication::Stage.complete_path identifier, session: session
   end
 
   def authentication_stage_failure_path(identifier)
