@@ -60,10 +60,24 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
                  "COALESCE(#{Relation.table_name}.hierarchy, 0)"],
       sortable_join: <<-SQL
         JOIN (
-          SELECT relations.hierarchy, relations.to_id, relations.from_id from relations
+          SELECT
+            #{Relation.table_name}.hierarchy,
+            #{Relation.table_name}.to_id,
+            #{Relation.table_name}.from_id
+          FROM #{Relation.table_name}
         JOIN (
-          #{Relation.hierarchy_or_reflexive.group(:to_id).select('MAX(relations.hierarchy) hierarchy, relations.to_id').to_sql}) max_depth
-        ON max_depth.hierarchy = relations.hierarchy AND max_depth.to_id = relations.to_id) depth_relations
+          SELECT
+            MAX(#{Relation.table_name}.hierarchy) hierarchy,
+            #{Relation.table_name}.to_id
+          FROM #{Relation.table_name}
+          WHERE #{Relation.table_name}.relates = 0
+            AND #{Relation.table_name}.duplicates = 0
+            AND #{Relation.table_name}.follows = 0
+            AND #{Relation.table_name}.blocks = 0
+            AND #{Relation.table_name}.includes = 0
+            AND #{Relation.table_name}.requires = 0
+          GROUP BY #{Relation.table_name}.to_id) max_depth
+        ON max_depth.hierarchy = #{Relation.table_name}.hierarchy AND max_depth.to_id = #{Relation.table_name}.to_id) depth_relations
         ON depth_relations.to_id = work_packages.id
       SQL
     },
