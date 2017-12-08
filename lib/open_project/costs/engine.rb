@@ -89,10 +89,15 @@ module OpenProject::Costs
     end
 
     patches [:Project, :User, :TimeEntry, :PermittedParams,
-             :ProjectsController, :ApplicationHelper, :UsersHelper]
+             :ProjectsController, :ApplicationHelper]
     patch_with_namespace :API, :V3, :WorkPackages, :Schema, :SpecificWorkPackageSchema
     patch_with_namespace :BasicData, :RoleSeeder
     patch_with_namespace :BasicData, :SettingSeeder
+    patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
+
+    initializer 'patch helpers' do
+      require_relative('patches/users_helper_patch')
+    end
 
     add_api_attribute on: :work_package, ar_name: :cost_object_id
 
@@ -350,12 +355,6 @@ module OpenProject::Costs
       require 'open_project/costs/hooks/work_package_hook'
       require 'open_project/costs/hooks/work_package_action_menu'
       require 'open_project/costs/hooks/work_packages_show_attributes'
-    end
-
-    initializer 'costs.patch_number_helper' do |_app|
-      # we have to do the patching in the initializer to make sure we only do this once in development
-      # since the NumberHelper is not unloaded
-      ActionView::Helpers::NumberHelper.send(:include, OpenProject::Costs::Patches::NumberHelperPatch)
     end
 
     initializer 'costs.register_latest_project_activity' do

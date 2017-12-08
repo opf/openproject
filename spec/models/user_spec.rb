@@ -112,7 +112,7 @@ describe User, type: :model do
 
       before do
         project_hourly_rate.save!
-        user.rates(true)
+        user.rates.reload
 
         user.set_existing_rates(project, new_attributes)
       end
@@ -139,7 +139,7 @@ describe User, type: :model do
 
       before do
         project_hourly_rate.save!
-        user.rates(true)
+        user.rates.reload
         @original_rate = project_hourly_rate.rate
         @original_valid_from = project_hourly_rate.valid_from
 
@@ -163,13 +163,13 @@ describe User, type: :model do
               WHEN not providing attributes" do
       before do
         project_hourly_rate.save!
-        user.rates(true)
+        user.rates.reload
 
         user.set_existing_rates(project, {})
       end
 
       it 'should delete the hourly rate' do
-        expect(user.rates(true)).to be_empty
+        expect(user.rates.reload).to be_empty
       end
     end
 
@@ -177,13 +177,13 @@ describe User, type: :model do
               WHEN not providing attributes" do
       before do
         default_hourly_rate.save!
-        user.default_rates(true)
+        user.default_rates.reload
 
         user.set_existing_rates(nil, {})
       end
 
       it 'should delete the default hourly rate' do
-        expect(user.default_rates(true)).to be_empty
+        expect(user.default_rates.reload).to be_empty
       end
     end
   end
