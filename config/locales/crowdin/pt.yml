@@ -677,6 +677,7 @@ pt:
   button_edit: Editar
   button_edit_associated_wikipage: 'Editar página Wiki associada: %{page_title}'
   button_expand_all: Expandir Tudo
+  button_filter: Filtro
   button_generate: Gerar
   button_list: Lista
   button_lock: Bloquear
@@ -919,6 +920,8 @@ pt:
           adicionais:'
         add_groups: Adicionar novos grupos de atributos
         rename_groups: Mudar o nome de grupos de atributos
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Actividades (tempo)
   enumeration_work_package_priorities: Prioridades de tarefas
   enumeration_system_activity: Atividade do sistema
@@ -1219,6 +1222,7 @@ pt:
   label_file_plural: Ficheiros
   label_filter_add: Adicionar filtro
   label_filter_plural: Filtros
+  label_filters_toggle: Show/hide filters
   label_float: Float
   label_folder: Pasta
   label_follows: segue
@@ -1843,7 +1847,6 @@ pt:
       title: Alterar o identificador do projeto
     archive:
       are_you_sure: Tem a certeza de que deseja arquivar o projeto '%{name}'?
-      archived: Archived
   project_module_activity: Atividade
   project_module_boards: Fórums
   project_module_calendar: Calendário
@@ -1856,10 +1859,12 @@ pt:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Função do titular
     member_of_group: Grupo do titular
     assignee_or_group: Assignee or belonging group
     subproject_id: Sub-projecto
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: em %{identifier}
     atom_revision_feed: Feed de revisão Atom
@@ -2132,6 +2137,7 @@ pt:
     brute_force_prevention: Bloqueio de utilizador automatizado
   show_hide_project_menu: Expandir/Recolher menu de projeto
   status_active: ativo
+  status_archived: archived
   status_invited: convidado
   status_locked: bloqueado
   status_registered: registado

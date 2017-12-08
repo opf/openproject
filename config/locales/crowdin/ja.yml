@@ -611,6 +611,7 @@ ja:
   button_edit: 編集
   button_edit_associated_wikipage: '関連するWiki ページを編集: %{page_title}'
   button_expand_all: 全てを展開
+  button_filter: フィルタ
   button_generate: 生成
   button_list: リスト
   button_lock: ロック
@@ -845,6 +846,8 @@ ja:
         description: 'これらの追加機能でフォームの設定をカスタマイズします:'
         add_groups: 新しい属性グループを追加
         rename_groups: 属性グループの名前を変更
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: 作業分類 (時間の追跡)
   enumeration_work_package_priorities: 作業項目の優先度
   enumeration_system_activity: システム作業分類
@@ -1121,6 +1124,7 @@ ja:
   label_file_plural: ファイルを添付する
   label_filter_add: フィルタを追加
   label_filter_plural: フィルタ
+  label_filters_toggle: Show/hide filters
   label_float: 小数
   label_folder: フォルダ
   label_follows: 次の項目に後続
@@ -1697,7 +1701,6 @@ ja:
       title: プロジェクトの識別子を変更
     archive:
       are_you_sure: プロジェクト '%{name}' をアーカイブしてもよろしいですか？
-      archived: アーカイブ済
   project_module_activity: 活動
   project_module_boards: フォーラム
   project_module_calendar: カレンダー
@@ -1710,10 +1713,12 @@ ja:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: 担当者のロール
     member_of_group: 担当者のグループ
     assignee_or_group: 割り当てまたは所属するグループ
     subproject_id: 子プロジェクト
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: "%{identifier} で"
     atom_revision_feed: Atom リビジョンフィード
@@ -1936,6 +1941,7 @@ ja:
     brute_force_prevention: 自動的にユーザをロック
   show_hide_project_menu: プロジェクトメニューの展開/折りたたみ
   status_active: 有効
+  status_archived: archived
   status_invited: 招待済み
   status_locked: ロック済み
   status_registered: 登録済み

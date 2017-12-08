@@ -606,6 +606,7 @@ lol:
   button_edit: crwdns92745:0crwdne92745:0
   button_edit_associated_wikipage: crwdns92746:0%{page_title}crwdne92746:0
   button_expand_all: crwdns92747:0crwdne92747:0
+  button_filter: crwdns95437:0crwdne95437:0
   button_generate: crwdns92748:0crwdne92748:0
   button_list: crwdns92749:0crwdne92749:0
   button_lock: crwdns92750:0crwdne92750:0
@@ -840,6 +841,8 @@ lol:
         description: crwdns92935:0crwdne92935:0
         add_groups: crwdns92936:0crwdne92936:0
         rename_groups: crwdns92937:0crwdne92937:0
+      project_filters:
+        description_html: crwdns95438:0%{link}crwdne95438:0
   enumeration_activities: crwdns92938:0crwdne92938:0
   enumeration_work_package_priorities: crwdns92939:0crwdne92939:0
   enumeration_system_activity: crwdns92940:0crwdne92940:0
@@ -1115,6 +1118,7 @@ lol:
   label_file_plural: crwdns93196:0crwdne93196:0
   label_filter_add: crwdns93197:0crwdne93197:0
   label_filter_plural: crwdns93198:0crwdne93198:0
+  label_filters_toggle: crwdns95439:0crwdne95439:0
   label_float: crwdns93199:0crwdne93199:0
   label_folder: crwdns93200:0crwdne93200:0
   label_follows: crwdns93201:0crwdne93201:0
@@ -1688,7 +1692,6 @@ lol:
       title: crwdns93736:0crwdne93736:0
     archive:
       are_you_sure: crwdns93737:0%{name}crwdne93737:0
-      archived: crwdns94794:0crwdne94794:0
   project_module_activity: crwdns93738:0crwdne93738:0
   project_module_boards: crwdns93739:0crwdne93739:0
   project_module_calendar: crwdns93740:0crwdne93740:0
@@ -1701,10 +1704,12 @@ lol:
   query:
     attribute_and_direction: crwdns93747:0%{attribute}crwdnd93747:0%{direction}crwdne93747:0
   query_fields:
+    active_or_archived: crwdns95440:0crwdne95440:0
     assigned_to_role: crwdns93748:0crwdne93748:0
     member_of_group: crwdns93749:0crwdne93749:0
     assignee_or_group: crwdns93750:0crwdne93750:0
     subproject_id: crwdns93751:0crwdne93751:0
+    name_or_identifier: crwdns95441:0crwdne95441:0
   repositories:
     at_identifier: crwdns93752:0%{identifier}crwdne93752:0
     atom_revision_feed: crwdns93753:0crwdne93753:0
@@ -1912,6 +1917,7 @@ lol:
     brute_force_prevention: crwdns93943:0crwdne93943:0
   show_hide_project_menu: crwdns93944:0crwdne93944:0
   status_active: crwdns93945:0crwdne93945:0
+  status_archived: crwdns95442:0crwdne95442:0
   status_invited: crwdns93946:0crwdne93946:0
   status_locked: crwdns93947:0crwdne93947:0
   status_registered: crwdns93948:0crwdne93948:0

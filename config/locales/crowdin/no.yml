@@ -663,6 +663,7 @@
   button_edit: Rediger
   button_edit_associated_wikipage: 'Rediger tilknyttet Wiki-side: %{page_title}'
   button_expand_all: Utvid alle
+  button_filter: Filter
   button_generate: Generate
   button_list: Liste
   button_lock: Lås
@@ -902,6 +903,8 @@
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Aktiviteter (tidsstyring)
   enumeration_work_package_priorities: Prioritering av arbeidspakker
   enumeration_system_activity: Systemaktivitet
@@ -1197,6 +1200,7 @@
   label_file_plural: Filer
   label_filter_add: Legg til filter
   label_filter_plural: Filtre
+  label_filters_toggle: Show/hide filters
   label_float: Flyt
   label_folder: Mappe
   label_follows: følger
@@ -1809,7 +1813,6 @@
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: Aktivitet
   project_module_boards: Forum
   project_module_calendar: Kalender
@@ -1822,10 +1825,12 @@
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Deltakers rolle
     member_of_group: Deltakers gruppe
     assignee_or_group: Assignee or belonging group
     subproject_id: Underprosjekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2085,6 +2090,7 @@
     brute_force_prevention: Automatisk blokkering av brukere
   show_hide_project_menu: Vis/Skjul Prosjekt-menyen
   status_active: aktiv
+  status_archived: archived
   status_invited: invitert
   status_locked: låst
   status_registered: registrert

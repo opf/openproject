@@ -623,6 +623,7 @@ zh-TW:
   button_edit: 編輯
   button_edit_associated_wikipage: 編輯關聯的維基頁面：%{page_title}
   button_expand_all: 全部展開
+  button_filter: 篩選器
   button_generate: 產生
   button_list: 清單
   button_lock: 鎖定
@@ -859,6 +860,8 @@ zh-TW:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: 活動 (時間追蹤)
   enumeration_work_package_priorities: 工作項目優先等級
   enumeration_system_activity: 系統活動
@@ -1138,6 +1141,7 @@ zh-TW:
   label_file_plural: 檔案
   label_filter_add: 新增篩選器
   label_filter_plural: 篩選器
+  label_filters_toggle: Show/hide filters
   label_float: 浮點數
   label_folder: Folder
   label_follows: 關注
@@ -1722,7 +1726,6 @@ zh-TW:
       title: 修改專案的識別
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: 活動
   project_module_boards: 論壇
   project_module_calendar: 行事曆
@@ -1735,10 +1738,12 @@ zh-TW:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: 負責執行者的角色
     member_of_group: 負責執行者的群組
     assignee_or_group: 被指派或所屬的人或群組
     subproject_id: 子專案
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: 在 %{identifier}
     atom_revision_feed: 單一修訂串流
@@ -1965,6 +1970,7 @@ zh-TW:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: 展開/折疊專案選單
   status_active: 啟用
+  status_archived: archived
   status_invited: 已邀請
   status_locked: 鎖定
   status_registered: 已註冊

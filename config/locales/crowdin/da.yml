@@ -664,6 +664,7 @@ da:
   button_edit: Rediger
   button_edit_associated_wikipage: 'Rediger tilknyttet wiki-side: %{page_title}'
   button_expand_all: Fold alle ud
+  button_filter: Filter
   button_generate: Generér
   button_list: List
   button_lock: Lås
@@ -903,6 +904,8 @@ da:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Aktiviteter (styring af tid)
   enumeration_work_package_priorities: Prioritering af arbejdspakker
   enumeration_system_activity: Systemaktivitet
@@ -1198,6 +1201,7 @@ da:
   label_file_plural: Filer
   label_filter_add: Tilføj filter
   label_filter_plural: Filtre
+  label_filters_toggle: Show/hide filters
   label_float: Flyd
   label_folder: Folder
   label_follows: følger
@@ -1814,7 +1818,6 @@ da:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: Aktivitet
   project_module_boards: Fora
   project_module_calendar: Kalender
@@ -1827,10 +1830,12 @@ da:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Tildeltes rolle
     member_of_group: Tildeltes gruppe
     assignee_or_group: Tildelte eller tilhørende gruppe
     subproject_id: Underprojekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: på %{identifier}
     atom_revision_feed: Atom-revisionsfeed
@@ -2088,6 +2093,7 @@ da:
     brute_force_prevention: Automatiseret brugerblokering
   show_hide_project_menu: Expand/Collapse project menu
   status_active: aktiv
+  status_archived: archived
   status_invited: inviteret
   status_locked: Spærret
   status_registered: registreret

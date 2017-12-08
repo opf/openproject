@@ -665,6 +665,7 @@ sv-SE:
   button_edit: Redigera
   button_edit_associated_wikipage: 'Redigerade associerad wikisida: %{page_title}'
   button_expand_all: Expandera alla
+  button_filter: Filter
   button_generate: Generera
   button_list: Lista
   button_lock: Lås
@@ -903,6 +904,8 @@ sv-SE:
         description: 'Anpassa formulärets inställningar med dessa extrafunktioner:'
         add_groups: Lägg till nya attributgrupper
         rename_groups: Byt namn på attributgrupper
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Aktiviteter (tidredovisning)
   enumeration_work_package_priorities: Arbetspaketsprioritering
   enumeration_system_activity: Systemaktivitet
@@ -1198,6 +1201,7 @@ sv-SE:
   label_file_plural: Filer
   label_filter_add: Lägg till filter
   label_filter_plural: Filter
+  label_filters_toggle: Show/hide filters
   label_float: Flyttal
   label_folder: Mapp
   label_follows: följer
@@ -1812,7 +1816,6 @@ sv-SE:
       title: Ändra projektets identifierare
     archive:
       are_you_sure: Är du säker på att du vill arkivera projektet '%{name}'?
-      archived: Archived
   project_module_activity: Aktivitet
   project_module_boards: Forum
   project_module_calendar: Kalender
@@ -1825,10 +1828,12 @@ sv-SE:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Tilldelades roll
     member_of_group: Den tilldelades grupp
     assignee_or_group: Assignee or belonging group
     subproject_id: Delprojekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: på %{identifier}
     atom_revision_feed: Atom revisionsflöde
@@ -2085,6 +2090,7 @@ sv-SE:
     brute_force_prevention: Automatiserad användarblockering
   show_hide_project_menu: Expandera/minimera projektmenyn
   status_active: aktiv
+  status_archived: archived
   status_invited: inbjuden
   status_locked: låst
   status_registered: Registrerad

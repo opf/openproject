@@ -681,6 +681,7 @@ de:
   button_edit: Bearbeiten
   button_edit_associated_wikipage: 'Zugehörige Wikiseite bearbeiten: %{page_title}'
   button_expand_all: Alle ausklappen
+  button_filter: Filter
   button_generate: Generieren
   button_list: Liste
   button_lock: Sperren
@@ -922,6 +923,8 @@ de:
         description: 'Anpassen der Form-Konfiguration mit diesen zusätzlichen Funktionen:'
         add_groups: Neue Attributgruppen hinzufügen
         rename_groups: Attributgruppen umbenennen
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_work_package_priorities: Arbeitspaket-Prioritäten
   enumeration_system_activity: System-Aktivität
@@ -1225,6 +1228,7 @@ de:
   label_file_plural: Dateien
   label_filter_add: Filter hinzufügen
   label_filter_plural: Filter
+  label_filters_toggle: Show/hide filters
   label_float: Gleitkommazahl
   label_folder: Ordner
   label_follows: folgt
@@ -1854,7 +1858,6 @@ de:
       title: Projektkennung ändern
     archive:
       are_you_sure: Sind Sie sicher, dass Sie das Projekt '%{name}' archivieren wollen?
-      archived: Archiviert
   project_module_activity: Aktivität
   project_module_boards: Foren
   project_module_calendar: Kalender
@@ -1867,10 +1870,12 @@ de:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Rolle der zugewiesenen Person
     member_of_group: Gruppe der zugewiesenen Person
     assignee_or_group: Zugewiesen an Nutzer oder dessen Gruppe
     subproject_id: Unterprojekt von
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: auf %{identifier}
     atom_revision_feed: Revisionen als Atom Feed
@@ -2144,6 +2149,7 @@ de:
     brute_force_prevention: Automatisches Sperren von Benutzern
   show_hide_project_menu: Projektmenü einblenden / ausblenden
   status_active: aktiv
+  status_archived: archived
   status_invited: eingeladen
   status_locked: gesperrt
   status_registered: angemeldet

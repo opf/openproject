@@ -666,6 +666,7 @@ vi:
   button_edit: Chỉnh sửa
   button_edit_associated_wikipage: 'Chỉnh sửa trang Wiki liên quan: %{page_title}'
   button_expand_all: Mở rộng tất cả
+  button_filter: Bộ lọc
   button_generate: Generate
   button_list: Danh sách
   button_lock: Khóa
@@ -905,6 +906,8 @@ vi:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Hoạt động (theo dõi thời gian)
   enumeration_work_package_priorities: Độ ưu tiên của work package
   enumeration_system_activity: Hoạt động hệ thống
@@ -1200,6 +1203,7 @@ vi:
   label_file_plural: Tập tin
   label_filter_add: Thêm bộ lọc
   label_filter_plural: Bộ lọc
+  label_filters_toggle: Show/hide filters
   label_float: Float
   label_folder: Thư mục
   label_follows: follows
@@ -1816,7 +1820,6 @@ vi:
       title: Change the project's identifier
     archive:
       are_you_sure: Bạn có chắc bạn muốn lưu trữ các dự án '%{name}'?
-      archived: Đã lưu
   project_module_activity: Hoạt động
   project_module_boards: Diễn đàn
   project_module_calendar: Lịch
@@ -1829,10 +1832,12 @@ vi:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Người chuyển hoặc thuộc nhóm
     subproject_id: Dự án con
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2091,6 +2096,7 @@ vi:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Mở rộng/Thu gọn menu dự án
   status_active: active
+  status_archived: archived
   status_invited: invited
   status_locked: locked
   status_registered: registered

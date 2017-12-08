@@ -665,6 +665,7 @@ lv:
   button_edit: Labot
   button_edit_associated_wikipage: 'Edit associated Wiki page: %{page_title}'
   button_expand_all: Expand all
+  button_filter: Filtrēt
   button_generate: Ģenerēt
   button_list: List
   button_lock: Lock
@@ -915,6 +916,8 @@ lv:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activities (time tracking)
   enumeration_work_package_priorities: Work package priorities
   enumeration_system_activity: System Activity
@@ -1210,6 +1213,7 @@ lv:
   label_file_plural: Faili
   label_filter_add: Add filter
   label_filter_plural: Filtri
+  label_filters_toggle: Show/hide filters
   label_float: Float
   label_folder: Folder
   label_follows: follows
@@ -1826,7 +1830,6 @@ lv:
       title: Mainīt projekta identifikatoru
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: Activity
   project_module_boards: Forums
   project_module_calendar: Kalendārs
@@ -1839,10 +1842,12 @@ lv:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
     subproject_id: Subproject
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: pie %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2100,6 +2105,7 @@ lv:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Expand/Collapse project menu
   status_active: active
+  status_archived: archived
   status_invited: uzaicināts
   status_locked: locked
   status_registered: registered

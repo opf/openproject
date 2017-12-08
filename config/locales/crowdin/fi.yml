@@ -663,6 +663,7 @@ fi:
   button_edit: Muokkaa
   button_edit_associated_wikipage: 'Muokkaa liitettyä Wiki-sivua: %{page_title}'
   button_expand_all: Laajenna kaikki
+  button_filter: Suodata
   button_generate: Luo
   button_list: Lista
   button_lock: Lukitse
@@ -901,6 +902,8 @@ fi:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Historia (ajan seuranta)
   enumeration_work_package_priorities: Work package priorities
   enumeration_system_activity: Järjestelmän toiminta
@@ -1195,6 +1198,7 @@ fi:
   label_file_plural: Tiedostot
   label_filter_add: Lisää suodatin
   label_filter_plural: Suodattimet
+  label_filters_toggle: Show/hide filters
   label_float: Liukuluku
   label_folder: Kansio
   label_follows: seuraa
@@ -1807,7 +1811,6 @@ fi:
       title: Muuta projektin tunnistetta
     archive:
       are_you_sure: Oletko varma, että haluat arkistoida projektin "%{name}"?
-      archived: Archived
   project_module_activity: Aktiviteetti
   project_module_boards: Keskustelupalstat
   project_module_calendar: Kalenteri
@@ -1820,10 +1823,12 @@ fi:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Vastuuhenkilön rooli
     member_of_group: Vastuuhenkilön ryhmä
     assignee_or_group: Assignee or belonging group
     subproject_id: Aliprojekti
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: klo %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2083,6 +2088,7 @@ fi:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Laajenna tai tiivistä projektivalikko
   status_active: aktiivinen
+  status_archived: archived
   status_invited: kutsuttu
   status_locked: lukittu
   status_registered: registered

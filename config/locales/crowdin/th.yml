@@ -658,6 +658,7 @@ th:
   button_edit: แก้ไข
   button_edit_associated_wikipage: 'แก้ไขหน้าวิกิที่เกี่ยวข้อง: %{page_title}'
   button_expand_all: ขยายทั้งหมด
+  button_filter: ตัวกรอง
   button_generate: Generate
   button_list: รายการ
   button_lock: ล็อค
@@ -897,6 +898,8 @@ th:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: กิจกรรม (ติดตามการใชเวลา)
   enumeration_work_package_priorities: ระดับความสำคัญของชุดภารกิจ
   enumeration_system_activity: กิจกรรมของระบบ
@@ -1185,6 +1188,7 @@ th:
   label_file_plural: ไฟล์
   label_filter_add: เพิ่มตัวกรอง
   label_filter_plural: ตัวกรอง
+  label_filters_toggle: Show/hide filters
   label_float: ลอย
   label_folder: Folder
   label_follows: ดังต่อไปนี้
@@ -1784,7 +1788,6 @@ th:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: กิจกรรม
   project_module_boards: กระทู้
   project_module_calendar: ปฏิทิน
@@ -1797,10 +1800,12 @@ th:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: บทบาทของผู้รับผิดชอบ
     member_of_group: กลุ่มของผู้รับผิดชอบ
     assignee_or_group: Assignee or belonging group
     subproject_id: โครงการย่อย
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2054,6 +2059,7 @@ th:
     brute_force_prevention: การบล็อกผู้ใช้อัตโนมัติ
   show_hide_project_menu: ขยาย/ยุบเมนูโครงการ
   status_active: ใช้งานอยู่
+  status_archived: archived
   status_invited: invited
   status_locked: ล็อก
   status_registered: ลงทะเบียน

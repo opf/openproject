@@ -671,6 +671,7 @@ cs:
   button_edit: Upravit
   button_edit_associated_wikipage: 'Upravit přidruženou Wiki stránku: %{page_title}'
   button_expand_all: Rozbalit vše
+  button_filter: Filtr
   button_generate: Generate
   button_list: Seznam
   button_lock: Zámek
@@ -921,6 +922,8 @@ cs:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Aktivity (sledování času)
   enumeration_work_package_priorities: Priority pracovního balíčku
   enumeration_system_activity: Činnost systému
@@ -1216,6 +1219,7 @@ cs:
   label_file_plural: Soubory
   label_filter_add: Add filter
   label_filter_plural: Filtry
+  label_filters_toggle: Show/hide filters
   label_float: Float
   label_folder: Folder
   label_follows: follows
@@ -1837,7 +1841,6 @@ cs:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: Aktivita
   project_module_boards: Diskuse
   project_module_calendar: Kalendář
@@ -1850,10 +1853,12 @@ cs:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Řešitelova role
     member_of_group: Řešitelova skupina
     assignee_or_group: Assignee or belonging group
     subproject_id: Dílčí projekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2110,6 +2115,7 @@ cs:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Rozbalit/sbalit nabídku projektu
   status_active: active
+  status_archived: archived
   status_invited: invited
   status_locked: uzamčeno
   status_registered: registrován

@@ -659,6 +659,7 @@ id:
   button_edit: Edit
   button_edit_associated_wikipage: 'Edit Wiki terkait: %{page_title}'
   button_expand_all: Buka semua
+  button_filter: Filter
   button_generate: Generate
   button_list: List
   button_lock: Lock
@@ -898,6 +899,8 @@ id:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activity (pelacakan waktu)
   enumeration_work_package_priorities: Paket-Penugasan prioritas
   enumeration_system_activity: Sistem Activity
@@ -1192,6 +1195,7 @@ id:
   label_file_plural: File
   label_filter_add: Tambah Filter
   label_filter_plural: Filter
+  label_filters_toggle: Show/hide filters
   label_float: Float
   label_folder: Folder
   label_follows: Berikut
@@ -1803,7 +1807,6 @@ id:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: Activity
   project_module_boards: Forum
   project_module_calendar: Kalender
@@ -1816,10 +1819,12 @@ id:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Ditugaskan untuk Role
     member_of_group: Ditugaskan untuk Grup
     assignee_or_group: Assignee or belonging group
     subproject_id: Sub-Project
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2075,6 +2080,7 @@ id:
     brute_force_prevention: Pemblokiran otomatis user
   show_hide_project_menu: Expand/Collapse project menu
   status_active: aktif
+  status_archived: archived
   status_invited: invited
   status_locked: terkunci
   status_registered: telah terdaftar

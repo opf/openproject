@@ -682,6 +682,7 @@ fr:
   button_edit: Éditer
   button_edit_associated_wikipage: 'Éditer la page wiki associée : %{page_title}'
   button_expand_all: Tout déplier
+  button_filter: Filtre
   button_generate: Générer
   button_list: Liste
   button_lock: Verrouiller
@@ -924,6 +925,8 @@ fr:
           supplémentaires :'
         add_groups: Ajouter de nouveaux groupes d’attributs
         rename_groups: Renommer les groupes d’attributs
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activités (suivi de temps)
   enumeration_work_package_priorities: Priorités du Lot de Travaux
   enumeration_system_activity: Activité du système
@@ -1226,6 +1229,7 @@ fr:
   label_file_plural: Fichiers
   label_filter_add: Ajouter le filtre
   label_filter_plural: Filtres
+  label_filters_toggle: Show/hide filters
   label_float: Flottant
   label_folder: Dossier
   label_follows: suit
@@ -1855,7 +1859,6 @@ fr:
       title: Modifier l'identifiant du projet
     archive:
       are_you_sure: Êtes-vous sûr de vouloir archiver le projet '%{name}%' ?
-      archived: Archivé
   project_module_activity: Activité
   project_module_boards: Forums
   project_module_calendar: Calendrier
@@ -1868,10 +1871,12 @@ fr:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Rôle du Destinataire
     member_of_group: Groupe du Destinataire
     assignee_or_group: Assignee or belonging group
     subproject_id: Sous-projet
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: "%{identifier}"
     atom_revision_feed: Flux Atom des révisions
@@ -2144,6 +2149,7 @@ fr:
     brute_force_prevention: Bloquage d'utilisateur automatique (pour èviter les pirates)
   show_hide_project_menu: Déplier/Replier le menu du projet
   status_active: actif
+  status_archived: archived
   status_invited: invité
   status_locked: verrouillé
   status_registered: enregistré

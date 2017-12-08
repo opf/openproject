@@ -674,6 +674,7 @@ ar:
   button_edit: تعديل
   button_edit_associated_wikipage: 'تعديل مرتبط بصفحة ويكيبيديا: %{page_title}'
   button_expand_all: توسيع الجميع
+  button_filter: فلترة
   button_generate: أنتج
   button_list: القائمة
   button_lock: إغلاق
@@ -966,6 +967,8 @@ ar:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: الأنشطة (تتبع الوقت)
   enumeration_work_package_priorities: أولويات مجموعة العمل
   enumeration_system_activity: نشاط النظام
@@ -1260,6 +1263,7 @@ ar:
   label_file_plural: الملفّات
   label_filter_add: إضافة عامل تصفية
   label_filter_plural: عوامل التصفية
+  label_filters_toggle: Show/hide filters
   label_float: عدد عشري
   label_folder: مجلد
   label_follows: تتبع
@@ -1886,7 +1890,6 @@ ar:
       title: تغيير معرف المشروع
     archive:
       are_you_sure: هل أنت متأكد من أنك تريد أرشفة المشروع '%{name}'؟
-      archived: Archived
   project_module_activity: النشاط
   project_module_boards: منتديات
   project_module_calendar: التقويم
@@ -1899,10 +1902,12 @@ ar:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: دور الموكل إليه
     member_of_group: مجموعة الموكل إليه
     assignee_or_group: Assignee or belonging group
     subproject_id: مشروع فرعي
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: في %{identifier}
     atom_revision_feed: مراجعة تغذية ذرية
@@ -2155,6 +2160,7 @@ ar:
     brute_force_prevention: حجب المستخدم الآلي
   show_hide_project_menu: توسيع/طي قائمة المشروع
   status_active: نشِط
+  status_archived: archived
   status_invited: مدعوّ
   status_locked: مقفل
   status_registered: تم التسجيل

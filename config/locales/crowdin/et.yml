@@ -664,6 +664,7 @@ et:
   button_edit: Muuda
   button_edit_associated_wikipage: Muuda seotud vikilehte "%{page_title}"
   button_expand_all: Voldi kõik lahti
+  button_filter: Filter
   button_generate: Generate
   button_list: Listi
   button_lock: Lukusta
@@ -903,6 +904,8 @@ et:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Tegevused (ajajälgimine)
   enumeration_work_package_priorities: Teemade prioriteedid
   enumeration_system_activity: Süsteemi tegevus
@@ -1200,6 +1203,7 @@ et:
   label_file_plural: Failid
   label_filter_add: Lisa filter
   label_filter_plural: Filtrid
+  label_filters_toggle: Show/hide filters
   label_float: Ujuvkomaarv
   label_folder: Folder
   label_follows: järgneb
@@ -1808,7 +1812,6 @@ et:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: Tegevus
   project_module_boards: Foorumid
   project_module_calendar: Kalender
@@ -1821,10 +1824,12 @@ et:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Omistatud rollile
     member_of_group: Omistatud rühmale
     assignee_or_group: Assignee or belonging group
     subproject_id: Alamprojekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2084,6 +2089,7 @@ et:
     brute_force_prevention: Automatiseeritud kasutajate blokeerimine
   show_hide_project_menu: Expand/Collapse project menu
   status_active: aktiivne
+  status_archived: archived
   status_invited: invited
   status_locked: lukustatud
   status_registered: registreeritud

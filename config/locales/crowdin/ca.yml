@@ -673,6 +673,7 @@ ca:
   button_edit: Editar
   button_edit_associated_wikipage: 'Editar pàgines Wiki associades: %{page_title}'
   button_expand_all: Expandeix tot
+  button_filter: Filtre
   button_generate: Generar
   button_list: Llista
   button_lock: Bloquejar
@@ -915,6 +916,8 @@ ca:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activitats (seguidor de temps)
   enumeration_work_package_priorities: Prioritats dels paquets de treball
   enumeration_system_activity: Activitat del sistema
@@ -1214,6 +1217,7 @@ ca:
   label_file_plural: Arxius
   label_filter_add: Afegir un filtre
   label_filter_plural: Filtres
+  label_filters_toggle: Show/hide filters
   label_float: Flotant
   label_folder: Carpeta
   label_follows: segueix
@@ -1847,7 +1851,6 @@ ca:
       title: Canviar l'identificador del projecte
     archive:
       are_you_sure: Esteu segur que voleu arxivar el projecte "%{name}"?
-      archived: Archived
   project_module_activity: Activitat
   project_module_boards: Fòrums
   project_module_calendar: Calendari
@@ -1860,10 +1863,12 @@ ca:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Rol de l'assignat
     member_of_group: Grup de l'assignat
     assignee_or_group: Assignee or belonging group
     subproject_id: Subprojecte
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: a %{identifier}
     atom_revision_feed: Feed de revisió d'Atom
@@ -2143,6 +2148,7 @@ ca:
     brute_force_prevention: Bloqueig automàtic d'usuari
   show_hide_project_menu: Expandeix/contrau menú de projecte
   status_active: actiu
+  status_archived: archived
   status_invited: convidat
   status_locked: bloquejat
   status_registered: registrat

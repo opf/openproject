@@ -663,6 +663,7 @@ hu:
   button_edit: Szerkesztés
   button_edit_associated_wikipage: 'A hozzárendelt Wiki oldal: %{page_title} szerkesztése'
   button_expand_all: Az összes kibontása
+  button_filter: Szűrő
   button_generate: Generate
   button_list: Lista
   button_lock: Tilt
@@ -905,6 +906,8 @@ hu:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Tevékenységek (időkövetés)
   enumeration_work_package_priorities: Munkacsomag fontosság
   enumeration_system_activity: Rendszer tevékenység
@@ -1204,6 +1207,7 @@ hu:
   label_file_plural: Fájlok
   label_filter_add: Szűrő hozzáadása
   label_filter_plural: Szürő
+  label_filters_toggle: Show/hide filters
   label_float: Mozgó
   label_folder: Folder
   label_follows: következik
@@ -1820,7 +1824,6 @@ hu:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archivált
   project_module_activity: Tevékenység
   project_module_boards: fórumok
   project_module_calendar: Naptár
@@ -1833,10 +1836,12 @@ hu:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Hozzárendelt szerepkör
     member_of_group: Hozzárendelt csoport
     assignee_or_group: Megbízott, vagy a hozzá tartozó csoport
     subproject_id: Alprojekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2098,6 +2103,7 @@ hu:
     brute_force_prevention: Felhasználó automatikus blokkolása
   show_hide_project_menu: Expand/Collapse project menu
   status_active: aktív
+  status_archived: archived
   status_invited: invited
   status_locked: Zárolt
   status_registered: regisztrált

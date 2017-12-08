@@ -662,6 +662,7 @@ tr:
   button_edit: Düzenle
   button_edit_associated_wikipage: 'İlişkili Wiki sayfasını düzenle: %{page_title}'
   button_expand_all: Tümünü genişlet
+  button_filter: Filtre
   button_generate: Generate
   button_list: Listele
   button_lock: Kilitle
@@ -903,6 +904,8 @@ tr:
         description: 'Form yapılandırmasını bu ek özelliklerle kullanın:'
         add_groups: Yeni öznitelik grubu ekleyin
         rename_groups: Öznitelik grubunun adını değiştirin
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activities (time tracking)
   enumeration_work_package_priorities: İş paketi öncelikleri
   enumeration_system_activity: Sistem Etkinliği
@@ -1199,6 +1202,7 @@ tr:
   label_file_plural: Dosyalar
   label_filter_add: Filtre ekle
   label_filter_plural: Filtreler
+  label_filters_toggle: Show/hide filters
   label_float: Float
   label_folder: Klasör
   label_follows: follows
@@ -1812,7 +1816,6 @@ tr:
       title: Change the project's identifier
     archive:
       are_you_sure: "'%{name}' projesini arşivlemek istediğinize emin misiniz?"
-      archived: Arşivlendi
   project_module_activity: Etkinlik
   project_module_boards: Forumlar
   project_module_calendar: Takvim
@@ -1825,10 +1828,12 @@ tr:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Atanan veya ait olunan grup
     subproject_id: Alt proje
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2087,6 +2092,7 @@ tr:
     brute_force_prevention: Otomatik kullanıcı engelleme
   show_hide_project_menu: Genişlet/Daralt proje menüsü
   status_active: etkin
+  status_archived: archived
   status_invited: invited
   status_locked: locked
   status_registered: kayıtlı

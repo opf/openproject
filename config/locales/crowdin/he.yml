@@ -665,6 +665,7 @@ he:
   button_edit: עריכה
   button_edit_associated_wikipage: 'ערוך את דף הויקי הקשור: %{page_title}'
   button_expand_all: הרחב הכל
+  button_filter: סינון
   button_generate: Generate
   button_list: רשימה
   button_lock: נעול
@@ -926,6 +927,8 @@ he:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: פעילויות (מעקב זמן)
   enumeration_work_package_priorities: עדיפויות חבילת עבודה
   enumeration_system_activity: פעילות מערכת
@@ -1217,6 +1220,7 @@ he:
   label_file_plural: קבצים
   label_filter_add: Add filter
   label_filter_plural: מסננים
+  label_filters_toggle: Show/hide filters
   label_float: Float
   label_folder: Folder
   label_follows: follows
@@ -1842,7 +1846,6 @@ he:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: פעילות
   project_module_boards: פורומים
   project_module_calendar: לוח שנה
@@ -1855,10 +1858,12 @@ he:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
     subproject_id: תת פרוייקט
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2116,6 +2121,7 @@ he:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Expand/Collapse project menu
   status_active: active
+  status_archived: archived
   status_invited: invited
   status_locked: locked
   status_registered: registered
