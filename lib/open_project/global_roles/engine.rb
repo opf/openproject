@@ -31,8 +31,12 @@ module OpenProject::GlobalRoles
 
     assets %w(global_roles/global_roles.js)
 
-    patches [:Principal, :Role, :User, :RolesController, :UsersController, :RolesHelper, :UsersHelper]
+    patches [:Principal, :Role, :User, :RolesController, :UsersController]
 
+    initializer 'patch helper' do
+      require_relative 'patches/roles_helper_patch'
+      require_relative 'patches/users_helper_patch'
+    end
 
     global_roles_attributes = [:id, :principal_id, :role_id, role_ids: []]
     additional_permitted_attributes global_roles_principal_role: global_roles_attributes

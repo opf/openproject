@@ -22,16 +22,12 @@ require_dependency 'users_helper'
 module OpenProject::GlobalRoles::Patches
   module UsersHelperPatch
     def self.included(base)
-      base.send(:include, InstanceMethods)
-
-      base.class_eval do
-        alias_method_chain :user_settings_tabs, :global_roles
-      end
+      base.prepend InstanceMethods
     end
 
     module InstanceMethods
-      def user_settings_tabs_with_global_roles
-        tabs = user_settings_tabs_without_global_roles
+      def user_settings_tabs
+        tabs = super
         @global_roles ||= GlobalRole.all
         tabs << { name: 'global_roles', partial: 'users/global_roles', label: 'global_roles' }
         tabs

@@ -22,10 +22,10 @@ require_dependency 'users_controller'
 module OpenProject::GlobalRoles::Patches
   module UsersControllerPatch
     def self.included(base)
-      base.send(:include, InstanceMethods)
+      base.prepend InstanceMethods
 
       base.class_eval do
-        before_filter :add_global_roles, only: [:edit]
+        before_action :add_global_roles, only: [:edit]
       end
     end
 

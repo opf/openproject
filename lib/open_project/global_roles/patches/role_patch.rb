@@ -20,30 +20,24 @@
 module OpenProject::GlobalRoles::Patches
   module RolePatch
     def self.included(base)
-      base.send(:include, InstanceMethods)
-      base.send(:extend, ClassMethods)
+      base.prepend InstanceMethods
 
       base.class_eval do
         class << self
-          unless method_defined?(:find_all_givable_without_no_global_roles)
-            alias_method :find_all_givable_without_no_global_roles, :find_all_givable
-          end
-          alias_method :find_all_givable, :find_all_givable_with_no_global_roles
+          prepend ClassMethods
         end
-
-        alias_method_chain :setable_permissions, :no_global_roles
       end
     end
 
     module ClassMethods
-      def find_all_givable_with_no_global_roles
+      def find_all_givable
         where(builtin: 0, type: 'Role').order('position')
       end
     end
 
     module InstanceMethods
-      def setable_permissions_with_no_global_roles
-        setable_permissions = setable_permissions_without_no_global_roles
+      def setable_permissions
+        setable_permissions = super
         setable_permissions -= Redmine::AccessControl.global_permissions
         setable_permissions
       end
