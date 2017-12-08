@@ -203,6 +203,33 @@ describe 'Authentication Stages', type: :feature do
     expect(page).not_to have_text user.login # just checking we're really not logged in
   end
 
+  it 'redirects to the referer if there is one' do
+    visit "/projects"
+
+    click_on "Sign in"
+
+    expect do
+      within('#login-form') do
+        fill_in('username', with: user.login)
+        fill_in('password', with: user_password)
+        click_link_or_button I18n.t(:button_login)
+      end
+    end
+      .to raise_error(ActionController::RoutingError, /\/login\/stage_test/)
+
+    expect(current_path).to eql "/login/stage_test"
+
+    # after the stage is finished it must redirect to the complete endpoint
+    # the controller automatically adds the back_url param which we do by hand in the spec
+    visit "/login/dummy_step/success?back_url=/projects"
+
+    expect(current_path).to eql "/projects" # after which the user will actually be logged in
+
+    visit "/my/account"
+
+    expect(page).to have_text user.login # just checking we're really logged in
+  end
+
   context "with two stages" do
     before do
       OpenProject::Authentication::Stage.register :two_step do

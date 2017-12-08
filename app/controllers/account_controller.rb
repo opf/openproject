@@ -430,7 +430,7 @@ class AccountController < ApplicationController
 
       session[:authenticated_user_id] = user.id
 
-      redirect_to stage.path
+      redirect_to add_params_to_uri(stage.path, back_url: back_url)
     end
   end
 
