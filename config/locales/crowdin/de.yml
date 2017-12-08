@@ -23,6 +23,7 @@ de:
     error_no_device: "Kein registriertes 2FA-Gerät für diesen Nutzer gefunden, obwohl Zwei-Faktor-Authentifizierung für diese Instanz erforderlich ist."
     error_no_matching_strategy: "Keine passende 2FA-Zustellungsmechanismus für diesen Nutzer. Bitte kontaktieren Sie Ihren Administrator."
     error_is_enforced_not_active: 'Konfigurationsfehler: Zwei-Faktor-Authentifizierung wird erzwungen, aber keine aktive Strategie wurde konfiguriert.'
+    error_invalid_backup_code: 'Invalid 2FA backup code'
     channel_unavailable: "Die Zustellung über %{channel} ist nicht verfügbar."
     no_valid_phone_number: "Keine gültige Telefonnummer vorhanden."
     label_pwd_confirmation: "Kennwort"
@@ -37,6 +38,10 @@ de:
     text_enter_2fa: 'Bitte geben Sie das Einmalpasswort von Ihrem 2FA-Gerät ein.'
     text_2fa_enabled: 'Bei jedem Login werden Sie aufgefordert, ein Einmalpasswort aus Ihrem Standardgerät für 2FA einzugeben.'
     text_2fa_disabled: 'Um die Zwei-Faktor-Authentifizierung zu aktivieren, registrieren Sie ein 2FA-Gerät über die obige Schaltfläche. Wenn Sie bereits ein Gerät registriert haben, müssen Sie es noch als Standardgerät festlegen.'
+    login:
+      enter_backup_code_title: Enter backup code
+      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
+      other_device: 'Use another device or backup code'
     admin:
       self_edit_path: 'Bitte besuchen Sie %{self_edit_link} zum hinzufügen oder bearbeiten Ihrer eigenen 2FA-Geräte'
       self_edit_link_name: 'Zwei-Faktor-Authentifizierung auf Ihrer Kontoseite'
@@ -48,6 +53,19 @@ de:
       button_register_mobile_phone_for_user: 'Mobiltelefon registrieren'
       text_2fa_enabled: 'Bei jedem Login werden dieser Nutzer aufgefordert, ein Einmalpasswort aus seinem Standardgerät für 2FA einzugeben.'
       text_2fa_disabled: "Der Nutzer hat kein 2FA-Gerät über seine Kontoseite registriert"
+    backup_codes:
+      none_found: No backup codes exist for this account.
+      singular: Backup code
+      plural: Backup codes
+      your_codes: for your %{app_name} account %{login}
+      overview_description: |
+        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
+        Use the following button to generate a new set of backup codes.
+      generate:
+        title: Generate backup codes
+        keep_safe_as_password: 'Important! Treat these codes as passwords.'
+        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
+        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
     devices:
       add_new: 'Neues 2FA-Gerät hinzufügen'
       register: '2FA-Gerät registrieren'
@@ -117,7 +135,7 @@ de:
   notice_phone_number_format: 'Bitte geben Sie die Nummer in folgendem Format ein: +XX XXXXXXXX.'
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
-  text_otp_not_receive: "Einmalpasswort nicht erhalten?"
+  text_otp_not_receive: "Other verification methods"
   text_send_otp_again: "Einmalpasswort neu senden über:"
   button_resend_otp_form: "Erneut senden"
   button_otp_by_voice: "Sprachanruf"

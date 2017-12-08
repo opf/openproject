@@ -23,6 +23,7 @@ nl:
     error_no_device: "Geen geregistreerd 2FA-apparaat gevonden voor deze gebruiker, ondanks dat dit vereist is voor dit voorbeeld."
     error_no_matching_strategy: "Er is geen overeenkomende 2FA-strategie beschikbaar voor deze gebruiker. Neem contact op met uw beheerder."
     error_is_enforced_not_active: 'Configuratiefout: tweefactorauthenticatie is afgedwongen, maar er zijn geen actieve strategieën.'
+    error_invalid_backup_code: 'Invalid 2FA backup code'
     channel_unavailable: "Het bezorgkanaal %{channel} is niet beschikbaar."
     no_valid_phone_number: "Er is geen geldig telefoonnummer."
     label_pwd_confirmation: "Wachtwoord"
@@ -37,6 +38,10 @@ nl:
     text_enter_2fa: 'Voer het eenmalige wachtwoord in vanaf uw apparaat.'
     text_2fa_enabled: 'Bij elke aanmelding wordt u gevraagd om een OTP-token in te voeren vanaf uw standaard 2FA-apparaat.'
     text_2fa_disabled: 'Om authenticatie met twee factoren in te schakelen, gebruikt u de knop hierboven om een nieuw 2FA-apparaat te registreren. Als u al een apparaat heeft, moet u dit als standaard instellen.'
+    login:
+      enter_backup_code_title: Enter backup code
+      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
+      other_device: 'Use another device or backup code'
     admin:
       self_edit_path: 'Om uw eigen 2FA-apparaten toe te voegen of te wijzigen, gaat u naar %{self_edit_link}'
       self_edit_link_name: 'Twee-factor-authenticatie op uw accountpagina'
@@ -48,6 +53,19 @@ nl:
       button_register_mobile_phone_for_user: 'Mobiele telefoon registreren'
       text_2fa_enabled: 'Bij elke aanmelding wordt deze gebruiker gevraagd om een OTP-token in te voeren vanaf zijn standaard 2FA-apparaat.'
       text_2fa_disabled: "De gebruiker heeft geen 2FA-apparaat ingesteld via zijn 'Mijn accountpagina'"
+    backup_codes:
+      none_found: No backup codes exist for this account.
+      singular: Backup code
+      plural: Backup codes
+      your_codes: for your %{app_name} account %{login}
+      overview_description: |
+        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
+        Use the following button to generate a new set of backup codes.
+      generate:
+        title: Generate backup codes
+        keep_safe_as_password: 'Important! Treat these codes as passwords.'
+        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
+        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
     devices:
       add_new: 'Nieuwe 2FA-apparaat toevoegen'
       register: 'Registreer apparaat'
@@ -117,7 +135,7 @@ nl:
   notice_phone_number_format: 'Voer het nummer alstublieft in de volgende indeling in: + XX XXXXXXXX.'
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
-  text_otp_not_receive: "Heeft u uw eenmalige wachtwoord niet ontvangen?"
+  text_otp_not_receive: "Other verification methods"
   text_send_otp_again: "Eenmalig wachtwoord opnieuw verzenden door:"
   button_resend_otp_form: "Opnieuw verzenden"
   button_otp_by_voice: "Spraakoproep"
