@@ -104,7 +104,7 @@ export class CommentFieldDirectiveController {
   }
 
   public handleUserSubmit() {
-    if (this.field.isEmpty()) {
+    if (this.field.isBusy || this.field.isEmpty()) {
       return;
     }
 
