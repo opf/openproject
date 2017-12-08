@@ -73,7 +73,9 @@ export class TableRowEditContext implements WorkPackageEditContext {
     // Forcibly set the width since the edit field may otherwise
     // be given more width
     const td = this.findCell(fieldName);
-    td.css('width', td.css('width'));
+    const width = td.css('width');
+    td.css('max-width', width);
+    td.css('width', width);
 
     // Create a field handler for the newly active field
     const fieldHandler = new WorkPackageEditFieldHandler(
@@ -113,6 +115,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
     if (cell.length) {
       this.findCell(fieldName).css('width', '');
+      this.findCell(fieldName).css('max-width', '');
       this.cellBuilder.refresh(cell[0], workPackage, fieldName);
 
       if (focus) {
