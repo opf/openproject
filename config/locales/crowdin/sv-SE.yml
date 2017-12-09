@@ -11,7 +11,7 @@ sv:
         start_time_hour: "Starttid"
     errors:
       messages:
-        invalid_time_format: 'är inte en giltig tid. Använd formatet HH:MM'
+        invalid_time_format: är inte en giltig tid. Använd formatet HH:MM
     models:
       meeting_agenda: "Agenda"
       meeting_minutes: "Protokoll"
