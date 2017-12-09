@@ -3,4 +3,4 @@ id:
     work_packages:
       properties:
         storyPoints: "Cerita poin"
-        remainingTime: "Jam tersisa"
+        remainingTime: "Jam yang tersisa"
