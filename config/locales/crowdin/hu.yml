@@ -1,0 +1,19 @@
+hu:
+  activerecord:
+    models:
+      document: "Dokumentum"
+  default_doc_category_tech: "Technikai dokumentáció"
+  default_doc_category_user: "Felhasználói dokumentáció"
+  enumeration_doc_categories: "Dokumentum kategóriák"
+  enumeration:
+    document_category:
+      documentation: Dokumentáció
+      specification: Specifikáció
+      other: Egyéb
+  label_document_added: "Dokumentum hozzáadva"
+  label_document_new: "Új dokumentum"
+  label_document_plural: "Dokumentumok"
+  label_documents: "Dokumentumok"
+  permission_manage_documents: "Dokumentumok kezelése"
+  permission_view_documents: "Dokumetumok megtekintése"
+  project_module_documents: "Dokumentumok"
