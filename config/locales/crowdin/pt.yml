@@ -685,6 +685,7 @@ pt:
   button_login: Iniciar sessão
   button_move: Mover
   button_move_and_follow: Mover e seguir
+  button_print: Print
   button_quote: Citar
   button_remove: Remover
   button_remove_widget: Remover o widget
@@ -1706,8 +1707,7 @@ pt:
   notice_bad_request: Pedido inválido.
   notice_not_authorized: Não está autorizado a aceder a esta página.
   notice_not_authorized_archived_project: O projeto ao qual tentou aceder foi arquivado.
-  notice_password_confirmation_failed: Sua palavra-passe não está correta. As alterações
-    não foram guardadas.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: Foram encontrados %{number} resultados. Carregue
     em TAB para ver o primeiro resultado.
   notice_principals_found_single: Foi encontrado um resultado. Carregue em TAB para

@@ -672,6 +672,7 @@ et:
   button_login: Logi sisse
   button_move: Tõsta
   button_move_and_follow: Tõsta ja järgne
+  button_print: Print
   button_quote: Tsiteeri
   button_remove: Remove
   button_remove_widget: Eemalda vidin
@@ -1673,8 +1674,7 @@ et:
   notice_bad_request: Vigane päring.
   notice_not_authorized: Sul ei ole sellele lehele ligipääsuks õigusi.
   notice_not_authorized_archived_project: See projekt on arhiveeritud.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."

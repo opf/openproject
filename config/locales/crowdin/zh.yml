@@ -617,6 +617,7 @@ zh:
   button_login: 登录
   button_move: 移动
   button_move_and_follow: 移动和跟踪
+  button_print: Print
   button_quote: 引用
   button_remove: 移除
   button_remove_widget: 删除部件
@@ -1570,7 +1571,7 @@ zh:
   notice_bad_request: 错误的请求。
   notice_not_authorized: 您无权访问此页。
   notice_not_authorized_archived_project: 您尝试访问的项目已存档。
-  notice_password_confirmation_failed: 您输入的密码不正确，更改不会生效。
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: |-
     找到 %{number} 条结果。
      点击以关注第一条结果。

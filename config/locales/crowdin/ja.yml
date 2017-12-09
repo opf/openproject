@@ -433,7 +433,7 @@ ja:
               invalid: カスタムフィールドは、指定されたコンテキストでは無効です。
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: 関係が、関係のループを作ります。
           attributes:
             to:
               error_not_found: "「終了」の位置のワークパッケージが存在しないか表示されません"
@@ -619,6 +619,7 @@ ja:
   button_login: ログイン
   button_move: 移動
   button_move_and_follow: 移動後表示
+  button_print: Print
   button_quote: 引用
   button_remove: 削除
   button_remove_widget: ウィジェットを削除
@@ -847,7 +848,7 @@ ja:
         add_groups: 新しい属性グループを追加
         rename_groups: 属性グループの名前を変更
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: "%{link} にアップグレードして、カスタムフィールドをフィルターおよび並べ替え"
   enumeration_activities: 作業分類 (時間の追跡)
   enumeration_work_package_priorities: 作業項目の優先度
   enumeration_system_activity: システム作業分類
@@ -1124,7 +1125,7 @@ ja:
   label_file_plural: ファイルを添付する
   label_filter_add: フィルタを追加
   label_filter_plural: フィルタ
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: フィルターの表示/非表示
   label_float: 小数
   label_folder: フォルダ
   label_follows: 次の項目に後続
@@ -1572,7 +1573,7 @@ ja:
   notice_bad_request: 不正な要求です。
   notice_not_authorized: このページにアクセスする権限がありません。
   notice_not_authorized_archived_project: アクセスしようとしたプロジェクトはアーカイブされています。
-  notice_password_confirmation_failed: パスワードが正しくありません。 変更は保存されませんでした。
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "%{number} の検索結果があります。 \n タブで最初の結果へフォーカスします。"
   notice_principals_found_single: "1 つの結果があります。 \n タブでフォーカスします。"
   notice_project_not_deleted: プロジェクトを削除していません。
@@ -1713,12 +1714,12 @@ ja:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: アクティブまたはアーカイブ
     assigned_to_role: 担当者のロール
     member_of_group: 担当者のグループ
     assignee_or_group: 割り当てまたは所属するグループ
     subproject_id: 子プロジェクト
-    name_or_identifier: Name or identifier
+    name_or_identifier: 名前または ID
   repositories:
     at_identifier: "%{identifier} で"
     atom_revision_feed: Atom リビジョンフィード
@@ -1941,7 +1942,7 @@ ja:
     brute_force_prevention: 自動的にユーザをロック
   show_hide_project_menu: プロジェクトメニューの展開/折りたたみ
   status_active: 有効
-  status_archived: archived
+  status_archived: アーカイブ済
   status_invited: 招待済み
   status_locked: ロック済み
   status_registered: 登録済み

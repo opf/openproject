@@ -672,6 +672,7 @@ da:
   button_login: Log ind
   button_move: Flyt
   button_move_and_follow: Flyt og følg
+  button_print: Print
   button_quote: Citer
   button_remove: Fjern
   button_remove_widget: Fjern widget
@@ -1678,8 +1679,7 @@ da:
   notice_not_authorized: Du har ikke tilladelser til at gå til denne side.
   notice_not_authorized_archived_project: Det projekt du forsøger at tilgå er blevet
     arkiveret.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."

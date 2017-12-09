@@ -678,6 +678,7 @@ ru:
   button_login: Войти
   button_move: Переместить
   button_move_and_follow: Переместить и следовать
+  button_print: Print
   button_quote: Цитата
   button_remove: Удалить
   button_remove_widget: Удалить виджет
@@ -1708,8 +1709,7 @@ ru:
   notice_not_authorized: Вы не авторизованы для доступа к этой странице.
   notice_not_authorized_archived_project: Проект, к которому Вы пытаетесь получить
     доступ, заархивирован.
-  notice_password_confirmation_failed: Ваш пароль не правильный. Изменения сохранены
-    не были.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: Найдено %{number} результатов. Нажмите <TAB> для
     перехода к первому.
   notice_principals_found_single: Найден один результат. Нажмите <TAB> для перехода

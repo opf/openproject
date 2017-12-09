@@ -52,8 +52,8 @@ hu:
     filter:
       description:
         text_open_filter: A szűrő megnyitásához nyomja meg az "ALT" és a nyíl gombokat!
-        text_close_filter: To select an entry leave the focus for example by pressing
-          enter. To leave without filter select the first (empty) entry.
+        text_close_filter: A bejegyzés kiválasztáshoz pl. nyomjon Entert. Kiválasztás
+          elmulasztásához válassza az első bejegyzést.
       noneElement: "(nincs)"
       time_zone_converted:
         two_values: "%{from} - %{to} helyi idő szerint."

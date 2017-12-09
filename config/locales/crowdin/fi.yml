@@ -671,6 +671,7 @@ fi:
   button_login: Kirjaudu
   button_move: Siirrä
   button_move_and_follow: Siirrä ja seuraa
+  button_print: Print
   button_quote: Siteeraa
   button_remove: Poista
   button_remove_widget: Poista widgetti
@@ -1673,7 +1674,7 @@ fi:
   notice_bad_request: Bad Request.
   notice_not_authorized: Sinulla ole oikeuksia käyttää tätä sivua.
   notice_not_authorized_archived_project: Haluamasi projekti on arkistoitu.
-  notice_password_confirmation_failed: Salasana ei kelpaa. Muutoksia ei tallennettu.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."

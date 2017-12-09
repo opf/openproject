@@ -101,54 +101,54 @@ hu:
       activities:
         no_results_title_text: Jelenleg nincs elérhető esemény.
       boards:
-        no_results_title_text: There are currently no boards for the project.
-        no_results_content_text: Create a new board
+        no_results_title_text: Jelenleg nincs fórum a projekthez.
+        no_results_content_text: Új fórum létrehozása
       categories:
-        no_results_title_text: There are currently no work package categories.
-        no_results_content_text: Create a new work package category
+        no_results_title_text: Jelenleg nincsenek munkacsomag kategóriák.
+        no_results_content_text: Hozzon létre egy új munkacsomag kategóriát
       custom_fields:
-        no_results_title_text: There are currently no custom fields available.
+        no_results_title_text: Jelenleg nincs elérhető egyedi mező.
       types:
-        no_results_title_text: There are currently no types available.
+        no_results_title_text: Jelenleg nincs elérhető típus.
       versions:
-        no_results_title_text: There are currently no versions for the project.
-        no_results_content_text: Create a new version
+        no_results_title_text: Jelenleg nincsenek verziók a projekthez.
+        no_results_content_text: Új verzió létrehozása
   project_types:
     index:
-      no_results_title_text: There are currently no project types.
-      no_results_content_text: Create a new project type
+      no_results_title_text: Jelenleg nincsenek projekt típusok.
+      no_results_content_text: Új projekt típus létrehozása
   members:
     index:
-      no_results_title_text: There are currently no members part of this project.
-      no_results_content_text: Add a member to the project
+      no_results_title_text: Jelenleg egy tagja sincs a projektnek.
+      no_results_content_text: Tag hozzáadása a projekthez
   my:
     access_token:
       failed_to_reset_token: Nem sikerült a hozzáférési tokent ( %{error} ) visszaállítani
       notice_reset_token: 'Egy új %{type} token létrehozva. A hozzáférési token:'
       token_value_warning: 'Megjegyzés: Ez az egyetlen alkalom, mikor ezt a tokent
         láthatja, győződjön meg arról, hogy most átmásolta.'
-      no_results_title_text: There are currently no access tokens available.
+      no_results_title_text: Jelenleg nincs elérhető hozzáférési kulcs.
   news:
     index:
-      no_results_title_text: There is currently no news to report.
-      no_results_content_text: Add a news item
+      no_results_title_text: Nincs megjeleníthető hír.
+      no_results_content_text: Hír hozzáadása
     my_page:
-      no_results_title_text: Nothing new to report.
+      no_results_title_text: Semmi új jelenteni való.
   users:
     memberships:
-      no_results_title_text: This user is currently not a member of a project.
+      no_results_title_text: Ez a felhasználó jelenleg nem tagja egy projektnek sem.
   reportings:
     index:
-      no_results_title_text: There are currently no status reportings.
-      no_results_content_text: Add a status reporting
+      no_results_title_text: Jelenleg nincsenek állapot jelentések.
+      no_results_content_text: Állapot jelentés hozzáadása
   statuses:
     index:
-      no_results_title_text: There are currently no work package statuses.
-      no_results_content_text: Add a new status
+      no_results_title_text: Jelenleg nincsenek munkacsomag státuszok.
+      no_results_content_text: Új státusz hozzáadása
   types:
     index:
-      no_results_title_text: There are currently no types.
-      no_results_content_text: Create a new type
+      no_results_title_text: Jelenleg nincsenek típusok.
+      no_results_content_text: Új típus létrehozása
     edit:
       settings: Beállítások
       form_configuration: Form configuration
@@ -158,66 +158,64 @@ hu:
       reset: Alapbeállítások visszaállítása
   versions:
     overview:
-      no_results_title_text: There are currently no work packages assigned to this
-        version.
+      no_results_title_text: Jelenleg nincsenek ehhez a verzióhoz hozzárendelt munkacsomagok.
   wiki:
-    no_results_title_text: There are currently no wiki pages.
+    no_results_title_text: Jelenleg nincsenek wiki oldalak.
     index:
-      no_results_content_text: Add a new wiki page
+      no_results_content_text: Új wiki oldal hozzáadása
   work_flows:
     index:
-      no_results_title_text: There are currently no workflows.
+      no_results_title_text: Jelenleg nincsenek munkafolyamatok.
   work_packages:
     move:
-      unsupported_for_multiple_projects: Bulk move/copy is not supported for work
-        packages from multiple projects
+      unsupported_for_multiple_projects: Tömeges mozgatás/másolás nem támogatott a
+        különböző projektekből származó munkacsomagokhoz
     list_simple:
       assigned:
-        no_results_title_text: There are currently no work packages assigned to me.
+        no_results_title_text: Nincs hozzám rendelt munkacsomag.
       reported:
-        no_results_title_text: There are currently no work packages that I have reported.
+        no_results_title_text: Nincs általam beszámolt munkacsomag.
       responsible:
-        no_results_title_text: There are currently no work packages that I am responsible
-          for.
+        no_results_title_text: Nincs munkacsomag, amelyért én vagyok a felelős.
       watched:
-        no_results_title_text: There are currently no work packages that I am watching.
+        no_results_title_text: Nincs általam megfigyelt munkacsomag.
     summary:
       reports:
         category:
-          no_results_title_text: There are currently no categories available.
+          no_results_title_text: Nincs elérhető kategória.
         assigned_to:
-          no_results_title_text: There are currently no members part of this project.
+          no_results_title_text: Jelenleg egy tagja sincs a projektnek.
         responsible:
-          no_results_title_text: There are currently no members part of this project.
+          no_results_title_text: Jelenleg egy tagja sincs a projektnek.
         author:
-          no_results_title_text: There are currently no members part of this project.
+          no_results_title_text: Jelenleg egy tagja sincs a projektnek.
         priority:
-          no_results_title_text: There are currently no priorities available.
+          no_results_title_text: Nincs elérhető prioritás.
         type:
-          no_results_title_text: There are currently no types available.
+          no_results_title_text: Jelenleg nincs elérhető típus.
         version:
-          no_results_title_text: There are currently no versions available.
-  label_invitation: Invitation
+          no_results_title_text: Nincs elérhető verzió.
+  label_invitation: Meghívó
   account:
     delete: Felhasználói hozzáférés törölése
     delete_confirmation: Biztosan törölni akarja ezt a felhasználói hozzáférést?
     deleted: A felhasználóiiók sikeresen törölve
     deletion_info:
       data_consequences:
-        other: Of the data the user created (e.g. email, preferences, work packages,
-          wiki entries) as much as possible will be deleted. Note however, that data
-          like work packages and wiki entries can not be deleted without impeding
-          the work of the other users. Such data is hence reassigned to an account
-          called "Deleted user". As the data of every deleted account is reassigned
-          to this account it will not be possible to distinguish the data the user
-          created from the data of another deleted account.
-        self: Of the data you created (e.g. email, preferences, work packages, wiki
-          entries) as much as possible will be deleted. Note however, that data like
-          work packages and wiki entries can not be deleted without impeding the work
-          of the other users. Such data is hence reassigned to an account called "Deleted
-          user". As the data of every deleted account is reassigned to this account
-          it will not be possible to distinguish the data you created from the data
-          of another deleted account.
+        other: A létrehozott adatok (pl. e-mail, beállítások, munkacsomag, wiki bejegyzés)
+          lehetőség szerint törlődnek. Azonban máshol használt adatokat, mint pl.
+          a munkacsomagok és wiki bejegyzések, nem lehet törölni a többi felhasználó
+          munkájának akadályozása nélkül. Az ilyen adatokat ezért áthelyezzük egy
+          "törölt felhasználó" nevű fiókba. Mivel minden törölt hozzáférésnél ez a
+          fiók tartalmazza az adatokat, nem lehet megkülönböztetni a törölt felhasználók
+          adatainak szerzőjét egymástól.
+        self: A létrehozott adatok (pl. e-mail, beállítások, munkacsomag, wiki bejegyzés)
+          lehetőség szerint törlődnek. Azonban máshol használt adatokat, mint pl.
+          a munkacsomagok és wiki bejegyzések, nem lehet törölni a többi felhasználó
+          munkájának akadályozása nélkül. Az ilyen adatokat ezért áthelyezzük egy
+          "törölt felhasználó" nevű fiókba. Mivel minden törölt hozzáférésnél ez a
+          fiók tartalmazza az adatokat, nem lehet megkülönböztetni a törölt felhasználók
+          adatainak szerzőjét egymástól.
       heading: Felhasználói hozzáférés törlése %{name}
       info:
         other: A felhasználói hozzáférés törlése visszafordíthatatlan művelet.
@@ -230,8 +228,8 @@ hu:
           nem tud bejelentkezni a jelenlegi hozzáférésével. Ha úgy dönt, hogy a felhasználó
           az alkalmazást újra hasznáhatja, akkor azt újra megteheti.
       login_verification:
-        other: Enter the login %{name} to verify the deletion.
-        self: Enter your login %{name} to verify the deletion.
+        other: Adja meg %{name} bejelentkezési nevét a törlés megerősítéséhez!
+        self: Adja meg az Ön %{name} bejelentkezési nevét a törlés megerősítéséhez!
     error_inactive_activation_by_mail: 'A felhasználói hozzáférésed még nem aktív.
       Felhasználói fiókjának aktiválásához kattintson az e-mailben kapott linkre.
 
@@ -246,9 +244,10 @@ hu:
 
 '
     login_with_auth_provider: vagy jelentkezzen be a meglévő hozzáférésével.
-    signup_with_auth_provider: or sign up using
-    auth_source_login: Please login as <em>%{login}</em> to activate your account.
-    omniauth_login: Please login to activate your account.
+    signup_with_auth_provider: vagy jelentkezzen be
+    auth_source_login: Kérjük, jelentkezzen be <em>%{login}</em>ként, hogy aktiválja
+      fiókját.
+    omniauth_login: Kérjük, jelentkezzen be, hogy aktiválja fiókját.
   actionview_instancetag_blank_option: Kérem válasszon
   activerecord:
     attributes:
@@ -334,14 +333,14 @@ hu:
         spent_on: Dátum
         type: Típus
       type:
-        is_in_roadmap: In roadmap
-        in_aggregation: In aggregation
-        is_milestone: Is milestone
+        is_in_roadmap: Ütemtervben
+        in_aggregation: Összesítésben
+        is_milestone: Mérföldkő
         color: Szín
       user:
         admin: Alkalmazásgazda
         auth_source: Hitelesítési mód
-        current_password: Current password
+        current_password: Jelenlegi jelszó
         force_password_change: Kötelező jelszóváltás a következő bejelentkezéskor
         language: Nyelv
         last_login_on: Utolsó bejelentkezés
@@ -383,17 +382,17 @@ hu:
         reported_project_status: Projekt állapot
         created_at: Létrehoz
       work_package:
-        begin_insertion: Begin of the insertion
-        begin_deletion: Begin of the deletion
-        done_ratio: Progress (%)
-        end_insertion: End of the insertion
-        end_deletion: End of the deletion
+        begin_insertion: Beillesztés kezdete
+        begin_deletion: Törlés kezdete
+        done_ratio: Folyamat állapot (%)
+        end_insertion: Beillesztés vége
+        end_deletion: Törlés vége
         fixed_version: Verzió
         parent: Szülő
         parent_issue: Szülő
         parent_work_package: Szülő
         priority: Fontosság
-        progress: Progress (%)
+        progress: Folyamat állapot (%)
         responsible: Felelős
         spent_hours: Eltöltött idő
         spent_time: Eltöltött idő
@@ -403,15 +402,15 @@ hu:
         watcher: Megfigyelő
     errors:
       messages:
-        accepted: must be accepted.
-        blank: can't be blank.
-        cant_link_a_work_package_with_a_descendant: A work package cannot be linked
-          to one of its subtasks.
+        accepted: el kell fogadni.
+        blank: nem lehet üres.
+        cant_link_a_work_package_with_a_descendant: A munka csomag nem kapcsolható
+          saját részfeladatához.
         follows_descendant: leszármazottjait követi.
-        circular_dependency: This relation would create a circular dependency.
-        confirmation: doesn't match %{attribute}.
+        circular_dependency: Ez a kapcsolat egy körkörös függőséget eredményezne.
+        confirmation: "%{attribute} nem egyezik."
         does_not_exist: does not exist.
-        empty: can't be empty.
+        empty: nem lehet üres.
         even: must be even.
         exclusion: is reserved.
         file_too_large: is too large (maximum size is %{count} Bytes).
@@ -476,7 +475,7 @@ hu:
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: A kapcsolat körkörös függőséget hoz létre.
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible
@@ -671,6 +670,7 @@ hu:
   button_login: Bejelentkezés
   button_move: Mozgatás
   button_move_and_follow: Mozgatés és a következő
+  button_print: Print
   button_quote: Idéz
   button_remove: Remove
   button_remove_widget: Widget eltávolítása
@@ -835,7 +835,7 @@ hu:
   default_status_on_hold: Visszatartva
   default_status_rejected: Elutasítva
   default_status_scheduled: Beütemezve
-  default_status_specified: Specified
+  default_status_specified: Megadva
   default_status_tested: Tesztelve
   default_status_test_failed: Teszt meghiúsult
   default_status_to_be_scheduled: Ütemezendő
@@ -844,7 +844,7 @@ hu:
   default_priority_high: Magas
   default_priority_immediate: Azonnali
   default_project_type_scrum: Scrum csapat
-  default_project_type_standard: Standard project
+  default_project_type_standard: Sztenderd projekt
   default_reported_project_status_green: Zöld
   default_reported_project_status_amber: Borostyán
   default_reported_project_status_red: Piros
@@ -1107,7 +1107,7 @@ hu:
   label_select_main_menu_item: Válasszon ki új fő menüpontot
   label_select_project: Válasszon projektet
   label_required_disk_storage: Required disk storage
-  label_send_invitation: Send invitation
+  label_send_invitation: Meghívó küldése
   label_change_plural: Változtat
   label_change_properties: A tulajdonságok megváltoztatása
   label_change_status: Az állapot megváltoztatása
@@ -1207,7 +1207,7 @@ hu:
   label_file_plural: Fájlok
   label_filter_add: Szűrő hozzáadása
   label_filter_plural: Szürő
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Szűrők mutatása/elrejtése
   label_float: Mozgó
   label_folder: Folder
   label_follows: következik
@@ -1686,8 +1686,7 @@ hu:
   notice_bad_request: Rossz kérés.
   notice_not_authorized: Ön nem jogosult a lap eléréséhez.
   notice_not_authorized_archived_project: Az elérni kivánt projekt archiválva.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1702,7 +1701,7 @@ hu:
   notice_unable_delete_version: Nem lehet törölni a verziót.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Meghívó elküldve a %{email} címre.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Automatikusan beállítja alap típust .
   notice_logged_out: Kijelentkeztél.
@@ -1836,12 +1835,12 @@ hu:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Aktív vagy archivált
     assigned_to_role: Hozzárendelt szerepkör
     member_of_group: Hozzárendelt csoport
     assignee_or_group: Megbízott, vagy a hozzá tartozó csoport
     subproject_id: Alprojekt
-    name_or_identifier: Name or identifier
+    name_or_identifier: Név vagy azonosító
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2103,7 +2102,7 @@ hu:
     brute_force_prevention: Felhasználó automatikus blokkolása
   show_hide_project_menu: Expand/Collapse project menu
   status_active: aktív
-  status_archived: archived
+  status_archived: archivált
   status_invited: invited
   status_locked: Zárolt
   status_registered: regisztrált
@@ -2570,25 +2569,24 @@ hu:
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
         duration: ISO 8601 duration
-      invalid_content_type: Expected CONTENT-TYPE to be '%{content_type}' but got
-        '%{actual}'.
+      invalid_content_type: A várt CONTENT-TYPE '%{content_type}', a kapott '%{actual}'.
       invalid_format: 'Invalid format for property ''%{property}'': Expected format
         like ''%{expected_format}'', but got ''%{actual}''.'
       invalid_json: The request could not be parsed as JSON.
-      invalid_relation: The relation is invalid.
+      invalid_relation: A kapcsolat érvénytelen.
       invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
         but got '%{actual}'.
-      invalid_user_status_transition: The current user account status does not allow
-        this operation.
-      missing_content_type: not specified
+      invalid_user_status_transition: A jelenlegi felhasználói fiók állapota nem teszi
+        lehetővé ezt a műveletet.
+      missing_content_type: nincs megadva
       missing_request_body: There was no request body.
       missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
         or malformed.
       multipart_body_error: The request body did not contain the expected multipart
         parts.
-      multiple_errors: Multiple field constraints have been violated.
+      multiple_errors: Több mező megszorítás is megszegésre került.
       render:
-        context_not_parsable: The context provided is not a link to a resource.
+        context_not_parsable: A megadott kontextus nem erőforrásra hivatkozik.
         unsupported_context: A megadott erőforrás nem támogatott kontextus.
         context_object_not_found: Nem található a kontextusként megadott erőforrás.
       validation:
@@ -2599,6 +2597,6 @@ hu:
         invalid_user_assigned_to_work_package: A kiválasztott felhasználó '%{property}'-ként
           való beállítása nem engedélyezett ehhez a munkacsomaghoz.
         start_date: Kezdés dátuma nem állítható a szülő munkacsomagokon.
-      writing_read_only_attributes: You must not write a read-only attribute.
+      writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma

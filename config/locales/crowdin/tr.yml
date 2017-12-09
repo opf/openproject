@@ -670,6 +670,7 @@ tr:
   button_login: Oturum aç
   button_move: Taşı
   button_move_and_follow: Taşı ve takip et
+  button_print: Print
   button_quote: Alıntı
   button_remove: Kaldır
   button_remove_widget: Widgetleri kaldır
@@ -1677,7 +1678,7 @@ tr:
   notice_bad_request: Hatalı istek.
   notice_not_authorized: Bu sayfaya erişme yetkiniz yok.
   notice_not_authorized_archived_project: Erişmeye çalıştığınız proje arşive kaldırılmış.
-  notice_password_confirmation_failed: Parolanız doğru değil. Değişiklikler kaydedilmedi.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: |-
     %{number} sonuç bulundu.
     İlk sonuç için TABa basın.

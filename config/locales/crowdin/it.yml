@@ -685,6 +685,7 @@ it:
   button_login: Accedi
   button_move: Sposta
   button_move_and_follow: Sposta e segui
+  button_print: Print
   button_quote: Cita
   button_remove: Rimuovi
   button_remove_widget: Rimuovi widget
@@ -1716,8 +1717,7 @@ it:
   notice_not_authorized: Non sei autorizzato ad accedere a questa pagina.
   notice_not_authorized_archived_project: Il progetto che stai tentando di accedere
     è stato archiviato.
-  notice_password_confirmation_failed: La password non è corretta. Le modifiche non
-    sono state salvate.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "Trovati %{number} risultati. \n Premi Tab per
     evidenziare il primo."
   notice_principals_found_single: "Trovato un solo risultato. \n Premi Tab per evidenziarlo."

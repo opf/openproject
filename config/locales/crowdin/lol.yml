@@ -614,6 +614,7 @@ lol:
   button_login: crwdns92752:0crwdne92752:0
   button_move: crwdns92753:0crwdne92753:0
   button_move_and_follow: crwdns92754:0crwdne92754:0
+  button_print: crwdns95443:0crwdne95443:0
   button_quote: crwdns92755:0crwdne92755:0
   button_remove: crwdns92756:0crwdne92756:0
   button_remove_widget: crwdns92757:0crwdne92757:0
@@ -1565,7 +1566,7 @@ lol:
   notice_bad_request: crwdns93624:0crwdne93624:0
   notice_not_authorized: crwdns93625:0crwdne93625:0
   notice_not_authorized_archived_project: crwdns93626:0crwdne93626:0
-  notice_password_confirmation_failed: crwdns93627:0crwdne93627:0
+  notice_password_confirmation_failed: crwdns95444:0crwdne95444:0
   notice_principals_found_multiple: crwdns93628:0%{number}crwdne93628:0
   notice_principals_found_single: crwdns93629:0crwdne93629:0
   notice_project_not_deleted: crwdns93630:0crwdne93630:0

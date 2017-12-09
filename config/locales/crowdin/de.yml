@@ -689,6 +689,7 @@ de:
   button_login: Anmelden
   button_move: Verschieben
   button_move_and_follow: Verschieben und Arbeitspaket anzeigen
+  button_print: Print
   button_quote: Zitieren
   button_remove: Entfernen
   button_remove_widget: Infobox löschen
@@ -1712,8 +1713,7 @@ de:
   notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
   notice_not_authorized_archived_project: Das Projekt wurde archiviert und ist daher
     nicht verfügbar.
-  notice_password_confirmation_failed: Ihr Passwort ist nicht korrekt. Die Änderungen
-    wurden nicht gespeichert.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: |-
     Es wurden %{number} Ergebnisse gefunden.
     Drücke Tab um das erste Ergebnis zu fokussieren.

@@ -673,6 +673,7 @@ sv-SE:
   button_login: Logga in
   button_move: Flytta
   button_move_and_follow: Flytta och följ
+  button_print: Print
   button_quote: Citat
   button_remove: Ta bort
   button_remove_widget: Ta bort widget
@@ -1677,8 +1678,7 @@ sv-SE:
   notice_bad_request: Felaktig förfrågan.
   notice_not_authorized: Du har inte behörighet att komma åt denna sida.
   notice_not_authorized_archived_project: Projektet som du försöker komma åt har arkiverats.
-  notice_password_confirmation_failed: Ditt lösenord är inte korrekt. Ändringarna
-    sparades inte.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "%{number} resultat hittades. Använd TAB för att
     fokusera på det första."
   notice_principals_found_single: Ett resultat. Använd TAB för att fokusera på det.

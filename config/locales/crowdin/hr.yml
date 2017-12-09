@@ -679,6 +679,7 @@ hr:
   button_login: Prijavi se
   button_move: Premjesti
   button_move_and_follow: Premjesti i slijedi
+  button_print: Print
   button_quote: Citiraj
   button_remove: Ukloni
   button_remove_widget: Ukloni widget
@@ -1714,8 +1715,7 @@ hr:
   notice_bad_request: Neispravan zahtjev.
   notice_not_authorized: Niste autorizirani da pristupite ovoj stranici.
   notice_not_authorized_archived_project: Projekt kojem pokušavate pristupiti je arhiviran.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."

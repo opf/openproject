@@ -18,19 +18,19 @@ id:
       instructions:
         alternative_color: Strong accent color, typically used for most the important
           button on a screen.
-        content_link_color: Font color of most of the links.
+        content_link_color: Warna font sebagian besar tautan.
         primary_color: Warna utama.
         primary_color_dark: Typically a darker version of the main color used for
           hover effects.
-        header_bg_color: Background color of the header.
-        header_item_bg_hover_color: Background color of clickable header items when
-          hovered with the mouse.
-        header_item_font_color: Font color of clickable header items.
-        header_item_font_hover_color: Font color of clickable header items when hovered
-          with the mouse.
-        header_border_bottom_color: Thin line under the header. Leave this field empty
-          if you don't want any line.
-        main_menu_bg_color: Left side menu's background color.
+        header_bg_color: Warna latar belakang header (bagian atas halaman / judul)
+        header_item_bg_hover_color: Warna latar belakang "item header" yang bisa di
+          klik ketika ditunjuk dengan mouse.
+        header_item_font_color: Warna font item header yang bisa diklik.
+        header_item_font_hover_color: Warna font "item header" yang bisa di klik ketika
+          ditunjuk dengan mouse.
+        header_border_bottom_color: Garis tipis di bawah header. Biarkan filed ini
+          kosong jika Anda tidak ingin garis apapun.
+        main_menu_bg_color: Warna latar belakang menu sisi kiri.
     enterprise:
       upgrade_to_ee: Upgrade to Enterprise Edition
       add_token: Upload an Enterprise Edition support token
@@ -667,6 +667,7 @@ id:
   button_login: Login
   button_move: Pindahkan
   button_move_and_follow: Pindahkan dan amati
+  button_print: Print
   button_quote: Kutipan
   button_remove: Remove
   button_remove_widget: Hapus widget
@@ -1251,8 +1252,8 @@ id:
   label_logged_as: Login sbg
   label_login: Login
   label_custom_logo: Custom logo
-  label_custom_favicon: Custom favicon
-  label_custom_touch_icon: Custom touch icon
+  label_custom_favicon: Favicon sesuai keinginan
+  label_custom_touch_icon: Ikon sentuh sesuai keinginan
   label_logout: Logout
   label_main_menu: Sidemenu
   label_manage_groups: Manage groups
@@ -1667,8 +1668,7 @@ id:
   notice_bad_request: Bad Request.
   notice_not_authorized: Anda tidak diizinkan untuk mengakses halaman ini.
   notice_not_authorized_archived_project: Project yang Anda coba akses telah diarsipkan.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "Ada beberapa %{number} hasil yang ditemukan.
     \n Tab untuk fokus ke hasil pertama."
   notice_principals_found_single: |-
@@ -2118,20 +2118,21 @@ id:
     diaktifkan per jenis paket kerja dan per proyek.
 
 '
-  text_custom_logo_instructions: 'A white logo on transparent background is recommended.
-    For best results on both, conventional and retina displays, make sure your image''s
-    dimensions are 460px by 60px.
+  text_custom_logo_instructions: 'Logo putih dalam latar belakang transparan lebih
+    disarankan. Untuk hasil terbaik pada keduanya, konvensional dan tampilan retina,
+    pastikan dimensi gambar Anda adalah 460px kali 110px.
 
 '
-  text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser
-    window/tab next to the page''s title. It''s needs to be a squared 32 by 32 pixels
-    sized PNG image file with a transparent background.
+  text_custom_favicon_instructions: 'Ini adalah ikon mungil yang tampak dalam jendela/tab
+    browser Anda disebelah judul halaman. Disyaratkan file gambar dalam format PNG
+    berbentuk kotak ukuran 32 kali 32 pixel dengan latar belakang transparan.
 
 '
-  text_custom_touch_icon_instructions: 'This is the icon that appears in your mobile
-    or tablet when you place a bookmark on your homescreen. It''s needs to be a squared
-    180 by 180 pixels sized PNG image file. Please make sure the image''s background
-    is not transparent otherwise it will look bad on iOS.
+  text_custom_touch_icon_instructions: 'Ini adalah ikon yang tampak dalam handphone
+    atau tablet Anda ketika Anda menempatkan penanda halaman dalam layar depan. Disyaratkan
+    file gambar dalam format PNG berbentuk kotak ukuran 180 kali 180 pixel. Pastikan
+    latar belakang gambar tidak transparan; jika sebaliknya, akan tampak buruk pada
+    iOS.
 
 '
   text_default_administrator_account_changed: Akun administrator default terlah dirubah

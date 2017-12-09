@@ -674,6 +674,7 @@ lt:
   button_login: Prisijungti
   button_move: Perkelti
   button_move_and_follow: Perkelti ir sekti
+  button_print: Print
   button_quote: Cituoti
   button_remove: Pašalinti
   button_remove_widget: Pašalinti valdiklį
@@ -1704,8 +1705,7 @@ lt:
   notice_not_authorized: Jūs neturite prieigos teisių prie šio puslapio.
   notice_not_authorized_archived_project: Projektas, kurį bandote atidaryti, buvo
     suarchyvuotas.
-  notice_password_confirmation_failed: Jūsų pateiktas slaptažodis nėra teisingas.
-    Pakeitimai nebuvo išsaugoti.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: |-
     Rasta %{number} rezultatai (-as, -ų).
     Paspauskite 'Tab', kad susikoncentruotumėte į pirmą rezultatą.

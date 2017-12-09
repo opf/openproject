@@ -640,6 +640,7 @@ ko:
   button_login: 로그인
   button_move: 이동
   button_move_and_follow: 이동하고 따라가기
+  button_print: Print
   button_quote: 인용
   button_remove: 제거
   button_remove_widget: 위젯 제거
@@ -1635,7 +1636,7 @@ ko:
   notice_bad_request: 잘못된 요청입니다.
   notice_not_authorized: 이 페이지에 액세스할 권한이 없습니다.
   notice_not_authorized_archived_project: 액세스하려는 프로젝트는 이미 보관되어 있습니다.
-  notice_password_confirmation_failed: 암호가 올바르지 않습니다. 변경 내용이 저장되지 않았습니다.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: |-
     %{number} 개의 결과가 발견되었습니다.
     첫번째 결과를 보려면 탭 해주세요.

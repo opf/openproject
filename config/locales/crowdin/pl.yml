@@ -672,6 +672,7 @@ pl:
   button_login: Zaloguj
   button_move: Przenieś
   button_move_and_follow: Przenieś i kontynuuj
+  button_print: Print
   button_quote: Cytat
   button_remove: Usuń
   button_remove_widget: Usuń widżet
@@ -1703,8 +1704,7 @@ pl:
   notice_not_authorized: Brak uprawnień dostępu do tej strony.
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
-  notice_password_confirmation_failed: Hasło nie jest poprawne. Zmiany nie zostały
-    zapisane.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: |-
     Znaleziono %{number} wyników.
     Naciśnij Tab, aby wybrać pierwszy rezultat.

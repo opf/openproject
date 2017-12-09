@@ -692,6 +692,7 @@ es:
   button_login: Ingresar
   button_move: Mover
   button_move_and_follow: Mover y seguir
+  button_print: Print
   button_quote: Comentario
   button_remove: Eliminar
   button_remove_widget: Quitar componente
@@ -1721,8 +1722,7 @@ es:
   notice_not_authorized: No está autorizado a acceder a esta página.
   notice_not_authorized_archived_project: El proyecto que usted esta tratando de acceder
     ha sido archivado.
-  notice_password_confirmation_failed: Tu contraseña no es correcta. Los cambios no
-    han sido guardados.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "Hemos encontrado %{number} resultados. \n Pulse
     TAB para ver el primer resultado."
   notice_principals_found_single: "Se ha encontrado solo un resultado. \n Pulse TAB

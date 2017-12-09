@@ -674,6 +674,7 @@ af:
   button_login: Teken in
   button_move: Skuif
   button_move_and_follow: Skuif en volg
+  button_print: Print
   button_quote: Haal aan
   button_remove: Remove
   button_remove_widget: Verwyder legstuk
@@ -1688,8 +1689,7 @@ af:
   notice_not_authorized: You are not authorized to access this page.
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."

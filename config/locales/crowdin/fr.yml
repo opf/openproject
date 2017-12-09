@@ -690,6 +690,7 @@ fr:
   button_login: Connexion
   button_move: Déplacer
   button_move_and_follow: Déplacer et suivre
+  button_print: Print
   button_quote: Citation
   button_remove: Supprimer
   button_remove_widget: Supprimer widget
@@ -1719,8 +1720,7 @@ fr:
   notice_not_authorized: Vous n'êtes pas autorisé à accéder à cette page.
   notice_not_authorized_archived_project: Le projet auquel vous essayer d'accéder
     a été archivé.
-  notice_password_confirmation_failed: Votre mot de passe n’est pas correct. Les changements
-    n’ont pas été enregistrés.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: Il y a %{number} résultats trouvés. Tabulation
     pour sélectionner le premier résultat.
   notice_principals_found_single: Il y a un seul résultat. Tabulation pour le sélectionner.

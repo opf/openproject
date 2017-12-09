@@ -681,6 +681,7 @@ ca:
   button_login: Iniciar sessió
   button_move: Moure
   button_move_and_follow: Moure i continuar
+  button_print: Print
   button_quote: Citar
   button_remove: Suprimir
   button_remove_widget: Treure els widgets
@@ -1707,8 +1708,7 @@ ca:
   notice_not_authorized: No teniu permís per accedir a aquesta pàgina.
   notice_not_authorized_archived_project: El projecte al que intenta accedir esta
     arxivat.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."

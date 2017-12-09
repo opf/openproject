@@ -682,6 +682,7 @@ nl:
   button_login: Inloggen
   button_move: Verplaatsen
   button_move_and_follow: Verplaatsen en volgen
+  button_print: Print
   button_quote: Citeer
   button_remove: Verwijder
   button_remove_widget: Widget verwijderen
@@ -1703,8 +1704,7 @@ nl:
   notice_not_authorized: U bent niet gemachtigd om deze pagina te openen.
   notice_not_authorized_archived_project: Het project dat u probeert te bezoeken is
     gearchiveerd.
-  notice_password_confirmation_failed: Uw wachtwoord is niet correct. De wijzigingen
-    zijn niet opgeslagen.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: Er zijn %{number} resultaten gevonden.   Tab om
     het eerste resultaat te tonen.
   notice_principals_found_single: Er is één resultaat. Tab om te tonen.
