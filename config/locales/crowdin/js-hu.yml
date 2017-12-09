@@ -1,0 +1,5 @@
+hu:
+  js:
+    reporting_engine:
+      label_remove: "Töröl"
+      label_response_error: "Hiba lépett fel a lekérdezés kezelése közben."
