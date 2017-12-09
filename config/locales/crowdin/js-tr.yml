@@ -1,0 +1,12 @@
+tr:
+  js:
+    work_packages:
+      property_groups:
+        costs: "Ücretler"
+      properties:
+        costObject: "Bütçe"
+        overallCosts: "Tüm maliyetler"
+        spentUnits: "Harcanan birimler"
+    button_log_costs: "Günlük birim maliyetleri"
+    label_hour: "saat"
+    label_hours: "saatler"
