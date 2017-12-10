@@ -119,9 +119,9 @@ tr:
     label_group_by: Grupla
     label_hide_attributes: Daha az göster
     label_hide_column: Sütunu gizle
-    label_in: in
-    label_in_less_than: in less than
-    label_in_more_than: in more than
+    label_in: şurada
+    label_in_less_than: daha azdır
+    label_in_more_than: daha fazla
     label_latest_activity: Son Etkinlik
     label_last_updated_on: Son güncelleme
     label_less_or_equal: "<="
