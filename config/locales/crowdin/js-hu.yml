@@ -16,7 +16,7 @@ hu:
     button_cancel: Mégsem
     button_close: Bezár
     button_check_all: Az összes kijelölése
-    button_configure-form: Configure form
+    button_configure-form: Űrlap beállítás
     button_confirm: Jóváhagy
     button_continue: Folytatás
     button_copy: Másol
@@ -276,8 +276,8 @@ hu:
       update_description: Kapcsolat részleteinek beállítása vagy frissítése
       toggle_description: Kapcsolat leírás kapcsolása
       update_relation: Klikk a kapcsolat típus módosításához
-      add_follower: Add follower
-      add_predecessor: Add predecessor
+      add_follower: Követő hozzáadása
+      add_predecessor: Előző hozzáadása
       remove: Kapcsolat eltávolítása
       save: Kapcsolat mentése
       abort: Megszakít
@@ -300,13 +300,13 @@ hu:
         other: Csak {{limit}} elem választható
         zero: You cannot select any items
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
+      sorted_asc: 'Növekvő sorrend alkalmazása, '
+      sorted_dsc: 'Csökkenő rendezés alkalmazva, '
+      sorted_no: 'Ne rendezze alkalmazva, '
+      sorting_disabled: rendezés kikapcsolva
+      activate_asc: aktiválja a növekvő sorrendhez
+      activate_dsc: aktiválja a csökkenő sorrendhez
+      activate_no: aktiválva a rendezés törlése
     text_work_packages_destroy_confirmation: Biztosan törli a kijelölt munkacsomagot?
     text_query_destroy_confirmation: Biztosan törli a kijelölt lekérdezést?
     text_attachment_destroy_confirmation: Biztosan törli a mellékletet?
@@ -323,8 +323,8 @@ hu:
           a dátumcímkék jelennek meg ezen attribútumok helyén.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Aktiválva az idővonal mód
+      button_deactivate: Idővonal mód kikapcsolva
       cancel: Mégsem
       change: A tervezés módosítása
       due_date: Lejárati időpont
@@ -440,8 +440,8 @@ hu:
       label_options: Beállítások
       label_column_multiselect: 'Kombinált legördülő mező: Nyilakkal jelöljön ki,
         enter-el hagyja jóvá, és backspace-vel töröljön'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
+      label_switch_to_single_select: Váltás az egyszeri kiválasztásra
+      label_switch_to_multi_select: Váltás a többszörös kiválasztásra
       message_error_during_bulk_delete: Hiba történt a munkacsomag törlése közben.
       message_successful_bulk_delete: Sikerült törölni a munkacsomagokat.
       message_successful_show_in_fullscreen: Click here to open this work package

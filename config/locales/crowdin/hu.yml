@@ -411,7 +411,7 @@ hu:
         confirmation: "%{attribute} nem egyezik."
         does_not_exist: nem létezik.
         empty: nem lehet üres.
-        even: must be even.
+        even: kell még.
         exclusion: foglalt.
         file_too_large: túl nagy fájlméret (maximális méret %{count} Byte).
         greater_than: nagyobbnak kell lenni mint %{count}.
@@ -1035,15 +1035,15 @@ hu:
       access_token: Hozzáférési token
       headers:
         action: Művelet
-        expiration: Expires
-      indefinite_expiration: Never
+        expiration: Lejár
+      indefinite_expiration: Soha
   label_accessibility: Kisegítő lehetőségek
   label_account: Felhasználói fiók
   label_active: Aktív
   label_activate_user: Felhasználó aktiválása
   label_active_in_new_projects: Új projektekben aktív
   label_activity: Tevékenység
-  label_add_edit_translations: Add and edit translations
+  label_add_edit_translations: Fordítások hozzáadása és szerkesztése
   label_add_another_file: Másik file hozzáadása
   label_add_columns: A kiválasztott oszlopok hozzáadása
   label_add_note: Jegyzet hozzáadása
@@ -1056,7 +1056,7 @@ hu:
   label_additional_workflow_transitions_for_author: A további áttűnések engedélyezett,
     ha a felhasználó a szerző
   label_administration: Adminisztráció
-  label_advanced_settings: Advanced settings
+  label_advanced_settings: Speciális beállítások
   label_age: Életkor
   label_ago: nappal ezelőtt
   label_all: mind
@@ -1082,11 +1082,12 @@ hu:
   label_auth_source_new: Új hitelesítési mód
   label_auth_source_plural: Hitelesítési mód
   label_authentication: Hitelesítés
-  label_available_project_work_package_categories: Available work package categories
-  label_available_project_boards: Available boards
-  label_available_project_versions: Available versions
-  label_available_project_repositories: Available repositories
-  label_api_documentation: API documentation
+  label_available_project_work_package_categories: Rendelkezésre álló munkacsomag
+    kategóriák
+  label_available_project_boards: Rendelkezésre álló táblák
+  label_available_project_versions: Rendelkezésre álló verziók
+  label_available_project_repositories: Rendelkezésre álló tárolók
+  label_api_documentation: API dokumentáció
   label_between: között
   label_blocked_by: blokkolta
   label_blocks: blokkol
@@ -1105,7 +1106,7 @@ hu:
   label_wiki_menu_item: Wiki menüpont
   label_select_main_menu_item: Válasszon ki új fő menüpontot
   label_select_project: Válasszon projektet
-  label_required_disk_storage: Required disk storage
+  label_required_disk_storage: Szükséges lemezterület
   label_send_invitation: Meghívó küldése
   label_change_plural: Változtat
   label_change_properties: A tulajdonságok megváltoztatása
@@ -1117,9 +1118,9 @@ hu:
   label_changeset_id: Changeset ID
   label_changeset_plural: Változáskészlet
   label_checked: Ellenőrzött
-  label_check_uncheck_all_in_column: Check/Uncheck all in column
-  label_check_uncheck_all_in_row: Check/Uncheck all in row
-  label_child_element: Child element
+  label_check_uncheck_all_in_column: Megjelöl/Jelölést töröl minden oszlopban
+  label_check_uncheck_all_in_row: Megjelöl/Jelölést töröl minden sorban
+  label_child_element: Gyermek alkotó
   label_chronological_order: Időrendben
   label_close_versions: Lezárja a befejezett változatokat
   label_closed_work_packages: Lezárva
@@ -1135,7 +1136,7 @@ hu:
   label_contains: tartalmaznak
   label_content: Tartalom
   label_copied: másolva
-  label_copy_to_clipboard: Copy to clipboard
+  label_copy_to_clipboard: Másolás a vágólapra
   label_copy_same_as_target: Ugyanaz, mint a cél
   label_copy_source: Forrás
   label_copy_target: Cél
@@ -1163,7 +1164,7 @@ hu:
   label_deleted_custom_field: "(egyéni mező törölve)"
   label_descending: Csökkenő
   label_details: Részletek
-  label_development_roadmap: Development roadmap
+  label_development_roadmap: Fejlesztési ütemterv
   label_diff: különbség
   label_diff_inline: beágyazott
   label_diff_side_by_side: egymás mellett
@@ -1180,10 +1181,10 @@ hu:
   label_duplicates: Ismétlődések
   label_edit: Szerkesztés
   label_enable_multi_select: Multiselect ki-/ bekapcsolása
-  label_enabled_project_custom_fields: Enabled custom fields
-  label_enabled_project_types: Enabled types
-  label_enabled_project_modules: Enabled modules
-  label_enabled_project_activities: Enabled time tracking activities
+  label_enabled_project_custom_fields: Egyéni mezők engedélyezve
+  label_enabled_project_types: Engedélyezett típusok
+  label_enabled_project_modules: Engedélyezett modulok
+  label_enabled_project_activities: Engedélyezett időkövetés tevékenységek
   label_end_to_end: végétől a végéig
   label_end_to_start: végétől az elejéig
   label_enumeration_new: Új felsorolási érték
@@ -1237,15 +1238,15 @@ hu:
   label_information_plural: Információk
   label_integer: Egész szám
   label_internal: Belső
-  label_invite_user: Invite user
-  label_show_hide: Show/hide
+  label_invite_user: Felhasználó meghívása
+  label_show_hide: Megjelenítés/Elrejtés
   label_show_all_registered_users: Minden regisztrált felhasználó megjelenítése
   label_journal: Hírközlés
   label_journal_diff: Leírás összehasonlítás
   label_language: Nyelv
   label_jump_to_a_project: Ugrás a projekthez
   label_language_based: A felhasználói nyelv alapján
-  label_last_activity: Last activity
+  label_last_activity: Utolsó aktivitás
   label_last_change_on: Last change on
   label_last_changes: utolsó %{count} változások
   label_last_login: Utolsó bejelentkezés
@@ -1267,13 +1268,13 @@ hu:
   label_custom_touch_icon: Egyedi "touch-icon"
   label_logout: Kijelentkezés
   label_main_menu: Oldalsó menü
-  label_manage_groups: Manage groups
-  label_managed_repositories_vendor: Managed %{vendor} repositories
+  label_manage_groups: Csoportok kezelése
+  label_managed_repositories_vendor: Kezelt %{vendor} adattárak
   label_max_size: Maximális mérete
   label_me: Nekem
   label_member_new: Új tag
   label_member_plural: Tagok
-  label_view_all_members: View all members
+  label_view_all_members: Az összes tag megtekintése
   label_menu_item_name: A menüpont neve
   label_message: Üzenet
   label_message_last: Utolsó üzenet
@@ -1281,9 +1282,9 @@ hu:
   label_message_plural: Üzenetek
   label_message_posted: Üzenet hozzáadva
   label_min_max_length: Min - Max hossza
-  label_minute_plural: minutes
-  label_missing_api_access_key: Missing API access key
-  label_missing_feeds_access_key: Missing RSS access key
+  label_minute_plural: percek
+  label_missing_api_access_key: Hiányzó access API-kulcs
+  label_missing_feeds_access_key: Hiányzó RSS hozzáférési kulcs
   label_modification: "%{count} változás"
   label_modified: módosított
   label_module_plural: Modulok
@@ -1312,7 +1313,7 @@ hu:
   label_next_week: A jövő héten
   label_no_change_option: "(Nincs változás)"
   label_no_data: Nincs megjelenítendő adat
-  label_nothing_display: Nothing to display
+  label_nothing_display: Nincs megjeleníthető
   label_nobody: senki sem
   label_none: Nincs
   label_none_parentheses: "(nincs)"
@@ -1350,21 +1351,22 @@ hu:
   label_preview: Előnézet
   label_previous: Korábbi
   label_previous_week: Előző héten
-  label_principal_invite_via_email: " or invite new users via email"
-  label_principal_search: Add existing users or groups
+  label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
+  label_principal_search: Meglévő felhasználók vagy csoportok hozzáadása
   label_product_version: Product version
-  label_professional_support: Professional support
+  label_professional_support: Szakmai támogatás
   label_profile: Profil
   label_project_all: Minden projekt
-  label_project_count: Total number of projects
+  label_project_count: A projektek teljes száma
   label_project_copy_notifications: E-mail értesítéseket küld a projekt másolás során
   label_project_latest: Legújabb projektek
   label_project_default_type: Engedélyezi az üres típust
-  label_project_hierarchy: Project hierarchy
+  label_project_hierarchy: Projekt-hierarchia
   label_project_new: Új projekt
   label_project_plural: Projektek
   label_project_settings: Projekt beállítások
-  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_projects_storage_information: "%{storage} lemezterületet %{count} projekt
+    használja"
   label_project_view_all: Minden projekt megtekintése
   label_project_show_details: Projekt részleteinek megjelenítése
   label_project_hide_details: Projekt részleteinek elrejtése
@@ -1384,18 +1386,18 @@ hu:
   label_relates_to: kapcsolódó
   label_relation_delete: Kapcsolat törlése
   label_relation_new: Új kapcsolat
-  label_release_notes: Release notes
+  label_release_notes: Kiadási megjegyzések
   label_remove_columns: Eltávolítja a kijelölt oszlopokat
   label_renamed: átnevez
   label_reply_plural: Válaszok
   label_report: Jelentés
-  label_report_bug: Report a bug
+  label_report_bug: Hiba bejelentése
   label_report_plural: Jelentések
   label_reported_work_packages: Ezekkről a munkacsomagokról készült jelentés
   label_reporting: Jelentés
   label_reporting_plural: Jelentések
   label_repository: Csomagtároló
-  label_repository_root: Repository root
+  label_repository_root: Tároló gyökérkönyvtára
   label_repository_plural: Csomagtárolók
   label_required: required
   label_requires: requires
@@ -1420,7 +1422,7 @@ hu:
   label_send_information: Fiókinformációkat küldése a felhasználónak
   label_send_test_email: Teszt levél küldése
   label_settings: Beállítások
-  label_system_settings: System settings
+  label_system_settings: Rendszerbeállítások
   label_show_completed_versions: Befejezett verziók megjelenítése
   label_sort: Rendez
   label_sort_by: Rendezés %{value} szerint
@@ -1436,10 +1438,10 @@ hu:
   label_status: Állapot
   label_status_updated: Munkacsomag állapotának frissítése
   label_stay_logged_in: Bejelentkezve maradok
-  label_storage_free_space: Remaining disk space
-  label_storage_used_space: Used disk space
-  label_storage_group: Storage filesystem %{identifier}
-  label_storage_for: Encompasses storage for
+  label_storage_free_space: Fennmaradó lemezterület
+  label_storage_used_space: Felhasznált lemezterület
+  label_storage_group: Tároló fájlrendszer %{identifier}
+  label_storage_for: Tartalmazza a tárolás
   label_string: Szöveg
   label_subproject: Alprojekt
   label_subproject_new: Új alprojekt
@@ -1537,8 +1539,8 @@ hu:
     megtekintése
   label_work_package_view_all_reported_by_me: Az összes munkacsomag megtekintése az
     általam készített jelentés szerint
-  label_work_package_view_all_responsible_for: View all work packages that I am responsible
-    for
+  label_work_package_view_all_responsible_for: Az összes munkacsomag megtekintése,
+    amelyért én vagyok a felelős
   label_work_package_view_all_watched: Az összes megfigyelt munkacsomag megtekintése
   label_work_package_watchers: Megfigyelők
   label_workflow: Munkafolyamat
@@ -1819,9 +1821,9 @@ hu:
       subprojects_confirmation: 'Az alprojekt(ek): %{value} is törlődni fog.'
       title: A projekt %{name} törlése
     identifier:
-      warning_one: Members of the project will have to relocate the project's repositories.
-      warning_two: Existing links to the project will no longer work.
-      title: Change the project's identifier
+      warning_one: A projekt tagjai áthelyezik a projekt tárolóit.
+      warning_two: A projekthez tartozó hivatkozások már nem működnek.
+      title: Módosítsa a projekt azonosítóját
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
   project_module_activity: Tevékenység
@@ -1843,17 +1845,17 @@ hu:
     subproject_id: Alprojekt
     name_or_identifier: Név vagy azonosító
   repositories:
-    at_identifier: at %{identifier}
-    atom_revision_feed: Atom revision feed
+    at_identifier: "%{identifier} -n"
+    atom_revision_feed: Atom felülvizsgálat jelzés
     autofetch_information: |-
       Check this if you want repositories to be updated automatically when accessing the repository module page.
       This encompasses the retrieval of commits from the repository and refreshing the required disk storage.
     checkout:
       access:
-        readwrite: Read + Write
-        read: Read-only
-        none: No checkout access, you may only view the repository through this application.
-      access_permission: Your permissions on this repository
+        readwrite: Olvasás + írás
+        read: Írásvédett
+        none: Nincs checkout hozzáférés csak megtekintheti a tárolóban lévő alkalmazást.
+      access_permission: A te engedélyed a tárolón
       url: Checkout URL
       base_url_text: |-
         The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).
@@ -1915,7 +1917,7 @@ hu:
         available.
       remote_call_failed: 'Calling the managed remote failed with message ''%{message}''
         (Code: %{code})'
-      remote_invalid_response: Received an invalid response from the managed remote.
+      remote_invalid_response: Érvénytelen választ kapott a távoli felügyelettől.
       remote_save_failed: Could not save the repository with the parameters retrieved
         from the remote.
     git:
@@ -1931,52 +1933,52 @@ hu:
         it with OpenProject to access it from within the application.
       managed_introduction: Let OpenProject create and integrate a local Git repository
         automatically.
-      managed_title: Git repository integrated into OpenProject
-      managed_url: Managed URL
-      path: Path to Git repository
+      managed_title: Git tároló integrálva az OpenProject-be
+      managed_url: Kezelt URL
+      path: Git tároló elérési útja
       path_encoding: Elérési út kódolás
-    go_to_revision: Go to revision
-    managed_remote: Managed repositories for this vendor are handled remotely.
+    go_to_revision: Lépés a felülvizsgálatra
+    managed_remote: A kezelt tárolókat távolról kezelik a szállítónak.
     managed_remote_note: Information on the URL and path of this repository is not
       available prior to its creation.
-    managed_url: Managed URL
+    managed_url: Kezelt URL
     settings:
-      automatic_managed_repos_disabled: Disable automatic creation
-      automatic_managed_repos: Automatic creation of managed repositories
+      automatic_managed_repos_disabled: Automatikus létrehozatal letiltása
+      automatic_managed_repos: A kezelt tárolók automatikus létrehozatala
       automatic_managed_repos_text: By setting a vendor here, newly created projects
         will automatically receive a managed repository of this vendor.
-    scm_vendor: Source control management system
-    scm_type: Repository type
+    scm_vendor: Forrás menedzsment rendszer
+    scm_type: Tároló típusa
     scm_types:
-      local: Link existing local repository
-      existing: Link existing repository
-      managed: Create new repository in OpenProject
+      local: Hivatkozás egy meglévő helyi tárolóra
+      existing: Hivatkozás egy meglévő tárolóra
+      managed: Új tároló létrehozása az OpenProject-ben
     storage:
-      not_available: Disk storage consumption is not available for this repository.
+      not_available: A lemez felhasználási adatai nem érhetőek el a tárolón.
       update_timeout: |-
         Keep the last required disk space information for a repository for N minutes.
         As counting the required disk space of a repository may be costly, increase this value to reduce performance impact.
     subversion:
-      existing_title: Existing Subversion repository
-      existing_introduction: If you have an existing Subversion repository, you can
-        link it with OpenProject to access it from within the application.
+      existing_title: Meglévő Subversion tároló
+      existing_introduction: Ha rendelkezik meglévő Subversion tárolóval, akkor az
+        OpenProject segítségével kapcsolódhat hozzá az alkalmazáson belül.
       existing_url: Existing URL
       instructions:
-        managed_url: This is the URL of the managed (local) Subversion repository.
+        managed_url: Ez egy hivatkozás kezelt (helyi) Subversion tárolóra.
         url: |-
           Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.
           The following URL schemes are supported:
-      managed_title: Subversion repository integrated into OpenProject
-      managed_introduction: Let OpenProject create and integrate a local Subversion
-        repository automatically.
-      managed_url: Managed URL
-      password: Repository Password
-      username: Repository username
+      managed_title: Subversion tároló integrálva az OpenProject-be
+      managed_introduction: Hagyja, hogy az OpenProject hozza létre, és integrálja
+        a helyi Subversion tárolót automatikusan.
+      managed_url: Kezelt URL
+      password: Tároló jelszava
+      username: Tároló felhasználónév
     truncated: Elnézést, le kellett szűkítenünk ezt a könyvtárat %{limit} fájlra.
       %{truncated} bejegyzés került kihagyásra.
-    named_repository: "%{vendor_name} repository"
-    update_settings_successful: The settings have been sucessfully saved.
-    url: URL to repository
+    named_repository: "%{vendor_name} tároló"
+    update_settings_successful: A beállításokat mentése sikerült.
+    url: Tároló URL-címe
     warnings:
       cannot_annotate: This file cannot be annotated.
   search_input_placeholder: Search ...
@@ -1993,13 +1995,13 @@ hu:
   setting_app_subtitle: Alkalmazás felirat
   setting_app_title: Alkalmazás címe
   setting_attachment_max_size: Melléklet max. méret
-  setting_autofetch_changesets: Autofetch repository changes
+  setting_autofetch_changesets: Automatikus letöltés tároló változás
   setting_autologin: Automatikus bejelentkezés
   setting_available_languages: A rendelkezésre álló nyelvek
   setting_bcc_recipients: Titkos másolat címzettjei (bcc)
-  setting_brute_force_block_after_failed_logins: Block user after this number of failed
-    login attempts
-  setting_brute_force_block_minutes: Time the user is blocked for
+  setting_brute_force_block_after_failed_logins: Mennyi hibás bejelentkezési próbálkozás
+    után tiltsa a felhasználót
+  setting_brute_force_block_minutes: Mennyi időre tiltsa ki
   setting_cache_formatted_text: Gyorsítótárazott formázott szöveg
   setting_column_options: A munkacsomag listák megjelenésének testreszabása
   setting_commit_fix_keywords: Kulcsszavak rögzítése
@@ -2036,7 +2038,7 @@ hu:
   setting_work_package_startdate_is_adddate: Az aktuális dátum használata, mint kezdő
     dátuma az új munkacsomagoknak
   setting_work_packages_export_limit: A munkacsomagok exportjának a korlátozása
-  setting_journal_aggregation_time_minutes: Display journals as aggregated within
+  setting_journal_aggregation_time_minutes: A megjelenített hírek összevonása
   setting_log_requesting_user: Jelentkezzen be a felhasználóként, név és e-mail cím
     minden lekéréshez
   setting_login_required: Hitelesítés szükséges
@@ -2053,21 +2055,21 @@ hu:
   setting_password_active_rules: Választható karakter típusok
   setting_password_count_former_banned: A legutóbb használt  jelszavak száma, ezeket
     tilos újra felhasználni
-  setting_password_days_valid: Number of days, after which to enforce a password change
+  setting_password_days_valid: Hány nap után kényszerítse ki a jelszó cserét
   setting_password_min_length: Minimum hosszúság
   setting_password_min_adhered_rules: Minimális számú szükséges ezekhez az osztályokhoz
   setting_per_page_options: Objektum per oldal opció
   setting_plain_text_mail: Egyszerű szöveges e-mail (nem HTML)
   setting_protocol: Protokol
   setting_registration_footer: Regisztráció lábléc
-  setting_repositories_automatic_managed_vendor: Automatic repository vendor type
+  setting_repositories_automatic_managed_vendor: Automatikus tároló típus
   setting_repositories_encodings: Tárolók kódolásai
   setting_repository_authentication_caching_enabled: A hitelesítési kérelem gyorsítótárazásának
     engedélyezése a vezérlő szoftver verzióban
-  setting_repository_storage_cache_minutes: Repository disk size cache
-  setting_repository_checkout_display: Show checkout instructions
-  setting_repository_checkout_base_url: Checkout base URL
-  setting_repository_checkout_text: Checkout instruction text
+  setting_repository_storage_cache_minutes: Tároló lemezgyorsítótár méret
+  setting_repository_checkout_display: Checkout utasítások megjelenítése
+  setting_repository_checkout_base_url: Checkout alap URL-címe
+  setting_repository_checkout_text: Checkout útmutató szöveg
   setting_repository_log_display_limit: A felülvizsgálatok maximális száma  megjelenitve
     a naplófájlban
   setting_repository_truncate_at: Megjelenített fájlok maximális száma a tároló böngészőben
@@ -2089,10 +2091,10 @@ hu:
   setting_users_deletable_by_admins: A felhasználói fiókok az adminok által törölhetőek
   setting_users_deletable_by_self: Engedélyezi, hogy a felhasználók törölhessék a
     saját fiókjukat
-  setting_welcome_text: Welcome block text
-  setting_welcome_title: Welcome block title
-  setting_welcome_on_homescreen: Display welcome block on homescreen
-  setting_welcome_on_projects_page: Display welcome block on project overview
+  setting_welcome_text: Üdvözlő blokk szöveg
+  setting_welcome_title: Üdvözlő blokk címe
+  setting_welcome_on_homescreen: Üdvözlő blokk megjelenítése a kezdőképernyőn
+  setting_welcome_on_projects_page: Üdvözlő blokk megjelenítése a projekt áttekintőben
   setting_wiki_compression: Wiki előzmények tömörítése
   setting_work_package_group_assignment: Hozzárendelés engedélyezése csoportokhoz
   settings:
@@ -2104,7 +2106,7 @@ hu:
   show_hide_project_menu: Expand/Collapse project menu
   status_active: aktív
   status_archived: archivált
-  status_invited: invited
+  status_invited: meghívott
   status_locked: Zárolt
   status_registered: regisztrált
   support:
@@ -2115,8 +2117,8 @@ hu:
     mozgásukban korlátozottak számára lett tervezve. Gyengénlátók számára a fókuszált
     elemek kivételes kiemeléssel jelennek meg. Vegye figyelembe, hogy a "Backlogs"
     modul nem érhető el ebben a módban.
-  text_access_token_hint: Access tokens allow you to grant external applications access
-    to resources in OpenProject.
+  text_access_token_hint: Hozzáférés tokennel lehetővé teszi, hogy külső alkalmazások
+    hozzáférhessenek az OpenProject forrásaihoz.
   text_analyze: 'További elemzése: %{subject}'
   text_are_you_sure: Biztos vagy benne?
   text_are_you_sure_with_children: Törli a munkacsomagot és minden hozzá tartozó gyermek
@@ -2176,7 +2178,7 @@ hu:
   text_git_repo_example: a rövid és a helyi csomag tároló (pl. /gitrepo, c:\gitrepo)
   text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
     be changed to an unwanted date.
-  text_hint_disable_with_0: 'Note: Disable with 0'
+  text_hint_disable_with_0: 'Megjegyzés: 0-val kikapcsol'
   text_hours_between: Between %{min} and %{max} hours.
   text_work_package_added: Munkacsomag %{id} jelentés %{author} által készitve.
   text_work_package_category_destroy_assignments: Távolítsa el kategória hozzárendeléseket
@@ -2185,8 +2187,8 @@ hu:
   text_work_package_category_reassign_to: A munkacsomag ismételt hozzárendelése ehhez
     a kategóriához
   text_work_package_updated: Munkacsomag %{id} jelentés %{author} által készitve.
-  text_work_package_watcher_added: You have been added as a watcher to Work package
-    %{id} by %{watcher_setter}.
+  text_work_package_watcher_added: Ön hozzáadott egy megfigyelőt a Munkacsomaghoz
+    %{id} a %{watcher_setter}.
   text_work_packages_destroy_confirmation: Biztosan törli a kijelölt munkacsomagot?
   text_work_packages_ref_in_commit_messages: Viszonyítandó és elintézendő munkacsomagok
     a véglegesítési üzenetekben
@@ -2201,12 +2203,12 @@ hu:
   text_journal_deleted_with_diff: "%{label} törölt (%{link})"
   text_journal_set_to: "%{label} beállított %{value}"
   text_journal_set_with_diff: "%{label} beállított (%{link})"
-  text_latest_note: 'The latest comment is: %{note}'
+  text_latest_note: 'Az utolsó megjegyzés: %{note}'
   text_length_between: "%{min} és %{max} karakter közötti hosszúságú."
   text_line_separated: A többszörös érték adás megengedett (minden érték külön sorban).
   text_load_default_configuration: Az alapértelmezett konfiguráció betöltése
   text_min_max_length_info: 0 azt jelenti, hogy nincs korlátozás
-  text_no_roles_defined: There are no roles defined.
+  text_no_roles_defined: Nincsenek szerepkörök meghatározva.
   text_no_access_tokens_configurable: There are no access tokens which can be configured.
   text_no_configuration_data: Szerepkörök, típusok, a munkacsomag állapotok és a munkafolyamatok
     nincsenek beállítva. Erősen ajánlott, az alapértelmezett konfiguráció betöltése.
@@ -2510,7 +2512,7 @@ hu:
     error_status_change_failed: 'A felhasználó állapotának a módosítása nem sikerült
       a következő hiba miatt: %{errors}'
     invite: Invite user via email
-    invited: invited
+    invited: meghívott
     lock: Zárolva
     locked: zárolva
     no_login: Ez a felhasználó a bejelentkezési jelszóval  hitelesít magát. Mivel

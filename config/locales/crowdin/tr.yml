@@ -1403,7 +1403,7 @@ tr:
   label_revision_plural: Düzeltmeler
   label_roadmap: Yol haritası
   label_roadmap_edit: "%{name} yol haritasını düzenle"
-  label_roadmap_due_in: Due in %{value}
+  label_roadmap_due_in: "%{value} Nedeniyle"
   label_roadmap_no_work_packages: Bu sürüm için iş paketi yok
   label_roadmap_overdue: "%{value} late"
   label_role_and_permissions: Roller ve izinler
