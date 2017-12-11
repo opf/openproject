@@ -190,7 +190,7 @@ module OpenProject
             .compact
         end
 
-        def complete_path(identifier, session:)
+        def complete_path(identifier, session:, back_url:nil)
           stage_success_path stage: identifier, secret: Hash(session[:stage_secrets])[identifier]
         end
 
