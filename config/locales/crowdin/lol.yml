@@ -367,7 +367,6 @@ lol:
         accepted: crwdns92570:0crwdne92570:0
         blank: crwdns92571:0crwdne92571:0
         cant_link_a_work_package_with_a_descendant: crwdns92572:0crwdne92572:0
-        follows_descendant: crwdns95407:0crwdne95407:0
         circular_dependency: crwdns92573:0crwdne92573:0
         confirmation: crwdns92574:0%{attribute}crwdne92574:0
         does_not_exist: crwdns92575:0crwdne92575:0
@@ -661,7 +660,7 @@ lol:
     - crwdns92793:0crwdne92793:0
     - crwdns92794:0crwdne92794:0
     abbr_month_names:
-    - 
+    -
     - crwdns92795:0crwdne92795:0
     - crwdns92796:0crwdne92796:0
     - crwdns92797:0crwdne92797:0
@@ -687,7 +686,7 @@ lol:
       long: crwdns92815:0%Bcrwdnd92815:0%dcrwdnd92815:0%Ycrwdne92815:0
       short: crwdns92816:0%bcrwdnd92816:0%dcrwdne92816:0
     month_names:
-    - 
+    -
     - crwdns92817:0crwdne92817:0
     - crwdns92818:0crwdne92818:0
     - crwdns92819:0crwdne92819:0

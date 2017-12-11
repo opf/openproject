@@ -360,68 +360,40 @@ describe WorkPackages::BaseContract do
     subject do
       contract.validate
 
-      contract.errors.symbols_for(:parent)
+      # while we do validate the parent
+      # the errors are still put on :base so that the messages can be reused
+      contract.errors.symbols_for(:base)
     end
 
-    context 'the parent is a descendant' do
+    context 'a relation exists between the parent and its ancestors and the work package and its descendants' do
       let(:parent) { child }
 
-      let(:wp_relation_1) do
-        rel = FactoryGirl.build_stubbed(:relation,
-                                        from: work_package,
-                                        to: child,
-                                        relation_type: Relation::TYPE_HIERARCHY)
-
-        allow(rel)
-          .to receive(:hierarchy?)
-          .and_return true
-
-        rel
-      end
-
       before do
-        allow(work_package)
-          .to receive_message_chain(:relations_to, :hierarchy_or_follows)
-          .and_return([wp_relation_1])
-        allow(parent)
-          .to receive_message_chain(:relations_to, :hierarchy_or_follows)
-          .and_return([])
+        from_parent_stub = double('from parent stub')
+        allow(Relation)
+          .to receive(:from_parent_to_self_and_descendants)
+          .with(work_package)
+          .and_return(from_parent_stub)
+
+        from_descendants_stub = double('from descendants stub')
+        allow(Relation)
+          .to receive(:from_self_and_descendants_to_ancestors)
+          .with(work_package)
+          .and_return(from_descendants_stub)
+
+        allow(from_parent_stub)
+          .to receive(:or)
+          .with(from_descendants_stub)
+          .and_return(from_parent_stub)
+
+        allow(from_parent_stub)
+          .to receive_message_chain(:non_reflexive, :exists?)
+          .and_return(true)
       end
 
       it 'is invalid' do
-        expect(subject)
-          .to match_array [:cant_link_a_work_package_with_a_descendant]
-      end
-    end
-
-    context 'the parent has a follows relation to a work package the current work package has a hierarchy relation with' do
-      let(:other_work_package) { FactoryGirl.build_stubbed(:stubbed_work_package) }
-
-      let(:wp_relation_1) do
-        FactoryGirl.build_stubbed(:relation,
-                                  from: work_package,
-                                  to: other_work_package,
-                                  relation_type: Relation::TYPE_FOLLOWS)
-      end
-      let(:wp_parent_relation_1) do
-        FactoryGirl.build_stubbed(:relation,
-                                  from: parent,
-                                  to: other_work_package,
-                                  relation_type: Relation::TYPE_HIERARCHY)
-      end
-
-      before do
-        allow(work_package)
-          .to receive_message_chain(:relations_to, :hierarchy_or_follows)
-          .and_return([wp_relation_1])
-        allow(parent)
-          .to receive_message_chain(:relations_to, :hierarchy_or_follows)
-          .and_return([wp_parent_relation_1])
-      end
-
-      it 'is invalid' do
-        expect(subject)
-          .to match_array [:follows_descendant]
+        expect(subject.include?(:cant_link_a_work_package_with_a_descendant))
+          .to be_truthy
       end
     end
   end

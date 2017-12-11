@@ -409,7 +409,6 @@ sv-SE:
         blank: kan inte vara tomt.
         cant_link_a_work_package_with_a_descendant: Ett arbetspaket kan inte kopplas
           till någon av dess underaktiviteter.
-        follows_descendant: follows its descendant.
         circular_dependency: Detta förhållande skulle skapa ett cirkelberoende.
         confirmation: matchar inte %{attribute}.
         does_not_exist: finns inte.
@@ -721,7 +720,7 @@ sv-SE:
     - Fre
     - Lör
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -747,7 +746,7 @@ sv-SE:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Januari
     - Februari
     - Mars

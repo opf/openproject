@@ -417,7 +417,6 @@ nl:
         blank: mag niet leeg zijn.
         cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden
           gekoppeld aan een van de bijbehorende subtaken.
-        follows_descendant: follows its descendant.
         circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
         confirmation: komt niet overeen met %{attribute}.
         does_not_exist: bestaat niet.
@@ -732,7 +731,7 @@ nl:
     - Vr
     - Za
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -758,7 +757,7 @@ nl:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Januari
     - Februari
     - Maart

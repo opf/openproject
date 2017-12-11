@@ -406,7 +406,6 @@ id:
         blank: harus di isi.
         cant_link_a_work_package_with_a_descendant: Work package tidak dapat dihubungkan
           dengan subtask-nya.
-        follows_descendant: follows its descendant.
         circular_dependency: Relasi ini menyebabkan dependensi circular.
         confirmation: tidak sesuai dengan %{attribute}.
         does_not_exist: tidak ditemukan.
@@ -716,7 +715,7 @@ id:
     - Jum
     - Sab
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -742,7 +741,7 @@ id:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Januari
     - Februari
     - Maret

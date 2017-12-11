@@ -367,7 +367,6 @@ zh:
         accepted: 必须接受。
         blank: 不能为空。
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
-        follows_descendant: follows its descendant.
         circular_dependency: 这种关系将创建循环依赖项。
         confirmation: 不匹配 %{attribute}。
         does_not_exist: 不存在。
@@ -664,7 +663,7 @@ zh:
     - 周五
     - 周六
     abbr_month_names:
-    - 
+    -
     - 1月
     - 2月
     - 3月
@@ -690,7 +689,7 @@ zh:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - 1月
     - 2月
     - 3月

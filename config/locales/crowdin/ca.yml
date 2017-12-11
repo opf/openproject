@@ -420,7 +420,6 @@ ca:
         blank: no pot estar en blanc.
         cant_link_a_work_package_with_a_descendant: Un paquet de treball no es pot
           enllaçar a una de les seves subtasques.
-        follows_descendant: follows its descendant.
         circular_dependency: Aquesta relació crearia una dependència circular.
         confirmation: no coincideix amb el %{attribute}.
         does_not_exist: no existeix.
@@ -731,7 +730,7 @@ ca:
     - Dv
     - Ds
     abbr_month_names:
-    - 
+    -
     - Gen
     - Feb
     - Mar
@@ -757,7 +756,7 @@ ca:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Gener
     - Febrer
     - Març

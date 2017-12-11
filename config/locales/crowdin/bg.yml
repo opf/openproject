@@ -412,7 +412,6 @@ bg:
         blank: не може да бъде празно.
         cant_link_a_work_package_with_a_descendant: Работния пакет не може да бъде
           свързан с една от неговите подзадачи.
-        follows_descendant: follows its descendant.
         circular_dependency: Тази връзка ще доведе до циклична зависимост.
         confirmation: не съвпада с %{attribute}.
         does_not_exist: не съществува.
@@ -723,7 +722,7 @@ bg:
     - пт
     - сб
     abbr_month_names:
-    - 
+    -
     - яну
     - фев
     - мар
@@ -749,7 +748,7 @@ bg:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Януари
     - Февруари
     - Март

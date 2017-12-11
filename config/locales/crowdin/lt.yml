@@ -408,7 +408,6 @@ lt:
         blank: negali būti tuščia.
         cant_link_a_work_package_with_a_descendant: Darbų paketas negali būti susietas
           su viena iš savo vidinių užduočių.
-        follows_descendant: seka savo palikuonis.
         circular_dependency: Šis ryšys sukurtų ciklinę priklausomybę.
         confirmation: nesutampa su %{attribute}.
         does_not_exist: neegzistuoja.
@@ -723,7 +722,7 @@ lt:
     - Pen
     - Šeš
     abbr_month_names:
-    - 
+    -
     - Sau
     - Vas
     - Kov
@@ -749,7 +748,7 @@ lt:
       long: "%Y %d, %B"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Sausis
     - Vasaris
     - Kovas

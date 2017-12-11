@@ -409,7 +409,6 @@ pt-BR:
         blank: não pode ficar em branco.
         cant_link_a_work_package_with_a_descendant: Um pacote de trabalho não pode
           ser vinculado a uma das suas subtarefas.
-        follows_descendant: segue seu descendente.
         circular_dependency: Esta relação vai criar uma dependência circular.
         confirmation: não coincide com %{attribute}.
         does_not_exist: não existe.

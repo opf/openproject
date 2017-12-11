@@ -369,7 +369,6 @@ ja:
         accepted: は受諾しなければなりません。
         blank: は空白にすることができません。
         cant_link_a_work_package_with_a_descendant: 親子関係にある作業項目間で関連設定できません。
-        follows_descendant: 子につながる。
         circular_dependency: この関係は循環依存になります。
         confirmation: は%{attribute} と一致しません。
         does_not_exist: は存在しません。
@@ -666,7 +665,7 @@ ja:
     - "（金）"
     - "（土）"
     abbr_month_names:
-    - 
+    -
     - 1月
     - 2月
     - 3月
@@ -692,7 +691,7 @@ ja:
       long: "%B %d、%Y"
       short: "%b%d"
     month_names:
-    - 
+    -
     - 1月
     - 2月
     - 3月

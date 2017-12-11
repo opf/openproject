@@ -415,7 +415,6 @@ it:
         blank: non può essere lasciato vuoto.
         cant_link_a_work_package_with_a_descendant: Una macro-attività non può essere
           collegato a una delle sue sottoattività.
-        follows_descendant: follows its descendant.
         circular_dependency: Questa relazione creerebbe una dipendenza circolare.
         confirmation: non coincide con %{attribute}.
         does_not_exist: non esiste.
@@ -734,7 +733,7 @@ it:
     - Ven
     - Sab
     abbr_month_names:
-    - 
+    -
     - Gen
     - Feb
     - Mar
@@ -760,7 +759,7 @@ it:
       long: "%B %d %y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Gennaio
     - Febbraio
     - Marzo

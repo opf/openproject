@@ -420,7 +420,6 @@ pt:
         blank: não pode ficar em branco.
         cant_link_a_work_package_with_a_descendant: Um pacote de trabalho não pode
           ser ligado a uma das suas sub-tarefas.
-        follows_descendant: follows its descendant.
         circular_dependency: Esta relação vai criar uma dependência circular.
         confirmation: não coincide %{attribute}.
         does_not_exist: não existe.
@@ -735,7 +734,7 @@ pt:
     - Sex
     - Sáb
     abbr_month_names:
-    - 
+    -
     - Jan
     - Fev
     - Mar
@@ -761,7 +760,7 @@ pt:
       long: "%d de %B de %Y"
       short: "%d/%b"
     month_names:
-    - 
+    -
     - Janeiro
     - Fevereiro
     - Março

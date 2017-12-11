@@ -410,7 +410,6 @@ da:
         blank: må ikke være tomt.
         cant_link_a_work_package_with_a_descendant: En arbejdspakke kan ikke knyttes
           til en af dens underopgaver.
-        follows_descendant: follows its descendant.
         circular_dependency: Denne relation vil skabe en cirkulær afhængighed.
         confirmation: matcher ikke %{attribute}.
         does_not_exist: findes ikke.
@@ -721,7 +720,7 @@ da:
     - Fre
     - Lør
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -747,7 +746,7 @@ da:
       long: "%B %d %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Januar
     - Februar
     - Marts

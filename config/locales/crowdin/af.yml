@@ -411,7 +411,6 @@ af:
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
-        follows_descendant: follows its descendant.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
         does_not_exist: does not exist.
@@ -723,7 +722,7 @@ af:
     - Vr
     - Sa
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mrt
@@ -749,7 +748,7 @@ af:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Januarie
     - Februarie
     - Maart

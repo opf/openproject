@@ -405,7 +405,6 @@ ar:
         blank: لا يمكن أن يكون فارغا.
         cant_link_a_work_package_with_a_descendant: حزمة العمل لا يمكن أن تكون مرتبطة
           إلى واحدة من المهام الفرعية.
-        follows_descendant: follows its descendant.
         circular_dependency: ان هذه العلاقة خلق تبعية دائرية.
         confirmation: لا يتطابق مع %{attribute}.
         does_not_exist: غير موجود.
@@ -730,7 +729,7 @@ ar:
     - الجمعة
     - السبت
     abbr_month_names:
-    - 
+    -
     - كانون الثاني
     - شباط
     - آذار
@@ -756,7 +755,7 @@ ar:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - كانون الثاني
     - شباط
     - آذار

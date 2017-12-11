@@ -406,7 +406,6 @@ tr:
         blank: boş bırakılamaz.
         cant_link_a_work_package_with_a_descendant: İş paketi alt görevlerinden birine
           bağlanamaz.
-        follows_descendant: alt bileşenlerine bağlı.
         circular_dependency: Bu ilişki döngüsel bağımlılık oluşturacak.
         confirmation: "%{attribute} eşleşmiyor."
         does_not_exist: mevcut değil.
@@ -720,7 +719,7 @@ tr:
     - Cum
     - Cmt
     abbr_month_names:
-    - 
+    -
     - Oca
     - Şub
     - Mar
@@ -746,7 +745,7 @@ tr:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Ocak
     - Şubat
     - Mart
