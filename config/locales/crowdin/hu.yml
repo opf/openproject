@@ -14,7 +14,7 @@ hu:
       enterprise_notice: As a special 'Thank you!' for their financial contribution
         to develop OpenProject, this tiny feature is only available for Enterprise
         Edition support subscribers.
-      manage_colors: Edit color select options
+      manage_colors: A színválasztás beállításainak módosítása
       instructions:
         alternative_color: Strong accent color, typically used for most the important
           button on a screen.
@@ -30,16 +30,16 @@ hu:
           semmilyen vonalat nem szeretne.
         main_menu_bg_color: Baloldali menü háttérszíne.
     enterprise:
-      upgrade_to_ee: Upgrade to Enterprise Edition
+      upgrade_to_ee: Frissítés a Vállalati Verzióra
       add_token: Upload an Enterprise Edition support token
       replace_token: Replace your current support token
-      order: Order Enterprise Edition
+      order: Vállalati Verzió megrendelése
       paste: Paste your Enterprise Edition support token
       required_for_feature: This feature is only available with an active Enterprise
         Edition support token.
       enterprise_link: For more information, click here.
   announcements:
-    show_until: Show until
+    show_until: Mutassa eddig
     is_active: jelenleg látható
     is_inactive: jelenleg nem látható
   attribute_help_texts:
@@ -63,8 +63,8 @@ hu:
 
 '
     is_enabled_globally: Is enabled globally
-    enabled_in_project: Enabled in project
-    contained_in_type: Contained in type
+    enabled_in_project: Engedélyezve a projektben
+    contained_in_type: A típus tartalmazza
     confirm_destroy_option: Egy opció törlése az összes eddigi használatánál (úgy,
       mint munkacsomagok) is törlődnek. Biztosan törölni szeretné?
     tab:
@@ -151,7 +151,7 @@ hu:
       no_results_content_text: Új típus létrehozása
     edit:
       settings: Beállítások
-      form_configuration: Form configuration
+      form_configuration: Űrlap konfiguráció
       projects: Projektek
       enabled_projects: Enabled projects
       add_group: Csoport hozzáadása
@@ -252,7 +252,7 @@ hu:
   activerecord:
     attributes:
       announcements:
-        show_until: Display until
+        show_until: Megjelenít eddig
       attachment:
         downloads: Letöltés
         file: File
@@ -291,10 +291,10 @@ hu:
       custom_value:
         value: Érték
       enterprise_token:
-        starts_at: Valid since
-        expires_at: Expires at
-        subscriber: Subscriber
-        encoded_token: Enterprise support token
+        starts_at: Érvényes
+        expires_at: Lejárat ekkor
+        subscriber: Előfizető
+        encoded_token: Vállalati támogatás kulcs
       relation:
         delay: Késés
         from: Munkacsomag
@@ -307,7 +307,7 @@ hu:
         roles: Szerepkörök
       project:
         identifier: Azonosító
-        latest_activity_at: Latest activity at
+        latest_activity_at: Legújabb tevékenység ekkor
         parent: Alprojekt
         project_type: Projekt típus
         queries: Lekérdezések
@@ -425,7 +425,7 @@ hu:
         invalid: érvénytelen.
         less_than_or_equal_to: kisebbnek vagy egyenlőnek kell lennie mint, %{count}.
         not_a_date: nem érvényes dátum.
-        not_a_datetime: is not a valid date time.
+        not_a_datetime: ez nem érvényes dátum.
         not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: ez nem egy szám.
         not_an_integer: ez nem egy szám.
@@ -1001,10 +1001,10 @@ hu:
       projects: Legújabb projektek ebben az esetben.
       users: Legújabb regisztrált felhasználók ebben az esetben.
     blocks:
-      community: OpenProject community
+      community: OpenProject Közösség
       upsale:
-        become_hero: Become a hero!
-        title: Upgrade to Enterprise Edition
+        become_hero: Legyél egy hős!
+        title: Frissítés a Vállalati Verzióra
         description: Boost your productivity with the Enterprise Edition
         more_info: További információ
         additional_features: Additional powerful premium features
@@ -1012,14 +1012,14 @@ hu:
         you_contribute: Developers need to pay their bills, too. With Enterprise Edition
           you substantially contribute to this Open-Source community effort.
     links:
-      upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      upgrade_enterprise_edition: Frissítés a Vállalati Verzióra
       user_guides: Felhasználói útmutató
       faq: GY. I. K.
       glossary: Szószedet
       shortcuts: Parancsikonok
       forums: fórumok
       blog: OpenProject blog
-      boards: Community forum
+      boards: Közösségi fórum
       newsletter: Biztonsági figyelmeztetések / hírlevél
   instructions_after_registration: Be tud jelentkezni, amint fiókját aktiválta ide
     %{signin} kattintva.
@@ -1062,8 +1062,8 @@ hu:
   label_all: mind
   label_all_time: minden alkalommal
   label_all_words: Minden szó
-  label_always_visible: Always displayed
-  label_announcement: Announcement
+  label_always_visible: Mindig látható
+  label_announcement: Hírdetmény
   label_and_its_subprojects: "%{value} és az alprojektjei"
   label_api_access_key: API-hozzáférés kulcs
   label_api_access_key_created_on: 'APIhozzáférési kulcs készítette: %{value} ezelőtt'
@@ -1149,7 +1149,7 @@ hu:
   label_custom_field_new: Új választható mező
   label_custom_field_plural: Választható mezők
   label_custom_field_default_type: Üres típus
-  label_custom_style: Design
+  label_custom_style: Kinézet
   label_date: Dátum
   label_date_and_time: Dátum és idő
   label_date_from: "-ból, -ből"
@@ -1209,11 +1209,11 @@ hu:
   label_filter_plural: Szürő
   label_filters_toggle: Szűrők mutatása/elrejtése
   label_float: Mozgó
-  label_folder: Folder
+  label_folder: Mappa
   label_follows: következik
   label_force_user_language_to_default: Nyelv beállitása a felhasználóknak, amelyeknél
     nem az alapértelmezett nyelv az elfogadott
-  label_form_configuration: Form configuration
+  label_form_configuration: Űrlap konfiguráció
   label_general: Általános
   label_generate_key: Létrehoz egy kulcsot
   label_git_path: ".Git könyvtár elérési útja"
@@ -1247,7 +1247,7 @@ hu:
   label_jump_to_a_project: Ugrás a projekthez
   label_language_based: A felhasználói nyelv alapján
   label_last_activity: Utolsó aktivitás
-  label_last_change_on: Last change on
+  label_last_change_on: Utolsó módosítás a
   label_last_changes: utolsó %{count} változások
   label_last_login: Utolsó bejelentkezés
   label_last_month: A múlt hónap
@@ -1353,7 +1353,7 @@ hu:
   label_previous_week: Előző héten
   label_principal_invite_via_email: " vagy új felhasználót hívhat meg e-mailben"
   label_principal_search: Meglévő felhasználók vagy csoportok hozzáadása
-  label_product_version: Product version
+  label_product_version: Termékverzió
   label_professional_support: Szakmai támogatás
   label_profile: Profil
   label_project_all: Minden projekt
@@ -1495,7 +1495,7 @@ hu:
   label_version_sharing_none: Nem megosztott
   label_version_sharing_system: Az összes projekt
   label_version_sharing_tree: A projekt fában
-  label_video: Video
+  label_video: Videó
   label_view_all_revisions: Az összes módosítás megtekintése
   label_view_diff: A különbségek megtekintése
   label_view_revisions: A változtatások megtekintése
@@ -1848,8 +1848,8 @@ hu:
     at_identifier: "%{identifier} -n"
     atom_revision_feed: Atom felülvizsgálat jelzés
     autofetch_information: |-
-      Check this if you want repositories to be updated automatically when accessing the repository module page.
-      This encompasses the retrieval of commits from the repository and refreshing the required disk storage.
+      Pipálja ki, ha szeretné, hogy a tárolók automatikusan frissüljenek, mikor újra a tároló modult látogatja.
+      Ez egyben végigkeresi a commitokat és frissíti a szükséges tárhely méretét is.
     checkout:
       access:
         readwrite: Olvasás + írás
@@ -1858,76 +1858,71 @@ hu:
       access_permission: A te engedélyed a tárolón
       url: Checkout URL
       base_url_text: |-
-        The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).
-        Note: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered.
+        Az alap URL a checkout URL-ek generáláshoz (e.g., https://myserver.example.org/repos/).
+        Megjegyzés: Az alap URL csak a kezelt tárolók checkout URL-jeinek újraírásához kerül felhasználásra. Más tárolók nem változnak.
       default_instructions:
         git: |-
-          The data contained in this repository can be downloaded to your computer with Git.
-          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+          Az ebben a tárolóban tárolt adatok letölthetőek számítógépére Git segítségével.
+          Kérem, tájékozódjon a Git dokumentációból, ha további információra van szüksége a checkoutról, vagy az elérhető kliensekről.
         subversion: |-
-          The data contained in this repository can be downloaded to your computer with Subversion.
-          Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
-      enable_instructions_text: Displays checkout instructions defined below on all
-        repository-related pages.
-      instructions: Checkout instructions
-      show_instructions: Display checkout instructions
-      text_instructions: This text is displayed alongside the checkout URL for guidance
-        on how to check out the repository.
-      not_available: Checkout instructions are not defined for this repository. Ask
-        your administrator to enable them for this repository in the system settings.
-    create_managed_delay: 'Please note: The repository is managed, it is created asynchronously
-      on the disk and will be available shortly.'
-    create_successful: The repository has been registered.
-    delete_sucessful: The repository has been deleted.
+          Az ebben a tárolóban tárolt adatok letölthetőek számítógépére Subversion segítségével.
+          Kérem, tájékozódjon a Subversion dokumentációból, ha további információra van szüksége a checkoutról, vagy az elérhető kliensekről.
+      enable_instructions_text: Megjeleníti a megadott checkout utasításokat lent
+        az összes tárolóhoz tartozó oldalon.
+      instructions: Checkout utasítások
+      show_instructions: Checkout utasítások megjelenítése
+      text_instructions: Ez a szöveg megjelenik a checkout URL mellett, amely útmutatást
+        nyújt hogyan kell ellenőrizni az adattárat.
+      not_available: A checkout utasítások nincsenek meghatározva ehhez a tárolóhoz.
+        Kérje meg a rendszergazdát, hogy engedélyezze ezeket a rendszerbeállításokban.
+    create_managed_delay: 'Kérjük, vegye figyelembe: Kezelt tároló, folyamatoktól
+      függetlenül készül a lemezen, hamarosan elérhető lesz.'
+    create_successful: A tároló regisztrációja sikerült.
+    delete_sucessful: A tároló törölve lett.
     destroy:
-      confirmation: If you continue, this will permanently delete the managed repository.
-      info: Deleting the repository is an irreversible action.
-      info_not_managed: 'Note: This will NOT delete the contents of this repository,
-        as it is not managed by OpenProject.'
-      managed_path_note: 'The following directory will be erased: %{path}'
-      repository_verification: Enter the project's identifier %{identifier} to verify
-        the deletion of its repository.
-      subtitle: Do you really want to delete the %{repository_type} of the project
-        %{project_name}?
-      subtitle_not_managed: Do you really want to remove the linked %{repository_type}
-        %{url} from the project %{project_name}?
-      title: Delete the %{repository_type}
-      title_not_managed: Remove the linked %{repository_type}?
+      confirmation: Ha folytatja, a kezelt tároló véglegesen törlésre kerül.
+      info: A tároló törlése visszafordíthatatlan művelet.
+      info_not_managed: 'Megjegyzés: Ez NEM törli a tároló tartalmát, mivel nem az
+        OpenProject által kezelt.'
+      managed_path_note: 'Az következő könyvtár törlésre kerül: %{path}'
+      repository_verification: Írja be a projekt azonosítót %{identifier} a tároló
+        törlésének megerősítéséhez.
+      subtitle: Biztosan törli a %{project_name} projekthez tartozó %{repository_type}-t?
+      subtitle_not_managed: Biztosan törli a %{project_name} projekthez kapcsolt %{repository_type}
+        %{url} -t?
+      title: "%{repository_type} törlése"
+      title_not_managed: Törli a csatolt %{repository_type}-t?
     errors:
-      build_failed: Unable to create the repository with the selected configuration.
-        %{reason}
-      managed_delete: Unable to delete the managed repository.
-      managed_delete_local: 'Unable to delete the local repository on filesystem at
-        ''%{path}'': %{error_message}'
-      empty_repository: The repository exists, but is empty. It does not contain any
-        revisions yet.
-      exists_on_filesystem: The repository directory already exists in the filesystem.
-      filesystem_access_failed: 'An error occurred while accessing the repository
-        in the filesystem: %{message}'
-      not_manageable: This repository vendor cannot be managed by OpenProject.
-      path_permission_failed: 'An error occurred trying to create the following path:
-        %{path}. Please ensure that OpenProject may write to that folder.'
-      unauthorized: You're not authorized to access the repository or the credentials
-        are invalid.
-      unavailable: The repository is unavailable.
-      exception_title: 'Cannot access the repository: %{message}'
-      disabled_or_unknown_type: The selected type %{type} is disabled or no longer
-        available for the SCM vendor %{vendor}.
-      disabled_or_unknown_vendor: The SCM vendor %{vendor} is disabled or no longer
-        available.
-      remote_call_failed: 'Calling the managed remote failed with message ''%{message}''
-        (Code: %{code})'
+      build_failed: A tároló nem hozható létre a kiválasztott konfigurációval. %{reason}
+      managed_delete: Nem lehet törölni a használt tárolót.
+      managed_delete_local: 'Nem lehetséges törölni a helyi tárolót a fájlrendszeren
+        a ''%{path}'' helyen: %{error_message}'
+      empty_repository: A tároló létezik, de üres. Nem tartalmaz egy revíziót sem.
+      exists_on_filesystem: A tároló könyvtár már létezik a fájlrendszeren.
+      filesystem_access_failed: 'Hiba merült fel a tároló fájlrendszeren való elérésekor:
+        %{message}'
+      not_manageable: A tároló típusa OpenProjecttel nem kezelhető.
+      path_permission_failed: 'Hiba merült fel a következő létrehozásakor: %{path}.
+        Kérem, biztosítsa az OpenProject írási jogát a könyvtárban.'
+      unauthorized: Nincs jogosultsága elérni a tárolót vagy a hitelesítő adatai hibásak.
+      unavailable: A tároló nem érhető el.
+      exception_title: 'A tároló nem elérhető: %{message}'
+      disabled_or_unknown_type: A kiválasztott típus %{type} ki van kapcsolva vagy
+        már nem elérhető a verzió követő %{vendor} rendszerhez.
+      disabled_or_unknown_vendor: A verzió követő %{vendor} rendszer ki van kapcsolva
+        vagy már nem elérhető.
+      remote_call_failed: 'A kezelt távoli ág hívása meghiúsult: ''%{message}'' (Code:
+        %{code})'
       remote_invalid_response: Érvénytelen választ kapott a távoli felügyelettől.
-      remote_save_failed: Could not save the repository with the parameters retrieved
-        from the remote.
+      remote_save_failed: A tároló nem menthető a távoli ágról (remote) származó paraméterekkel.
     git:
       instructions:
-        managed_url: This is the URL of the managed (local) Git repository.
+        managed_url: Ez a kezelt (helyi) Git tároló URL-e.
         path: Adja meg a helyi Git tároló elérési útját (pl. %{example_path} ). Távoli
           tárolót is használhat http(s):// vagy file:// kezdettel, ami aztán helyben
           klónozásra kerül.
-        path_encoding: 'Override Git path encoding (Default: UTF-8)'
-      local_title: Link existing local Git repository
+        path_encoding: 'Git útvonal kódolásának felülírása (Alapértelmezett: UTF-8)'
+      local_title: Hivatkozás egy meglévő helyi tárolóra
       local_url: Local URL
       local_introduction: If you have an existing local Git repository, you can link
         it with OpenProject to access it from within the application.
@@ -1985,12 +1980,12 @@ hu:
   setting_email_delivery_method: Email delivery method
   setting_sendmail_location: Location of the sendmail executable
   setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
-  setting_smtp_address: SMTP server
-  setting_smtp_port: SMTP port
-  setting_smtp_authentication: SMTP authentication
-  setting_smtp_domain: SMTP HELLO domain
-  setting_smtp_user_name: SMTP username
-  setting_smtp_password: SMTP password
+  setting_smtp_address: SMTP-kiszolgáló
+  setting_smtp_port: SMTP-port
+  setting_smtp_authentication: SMTP-hitelesítés
+  setting_smtp_domain: SMTP HELLO-tartomány
+  setting_smtp_user_name: SMTP-Felhasználónév
+  setting_smtp_password: SMTP-jelszó
   setting_activity_days_default: A napok megjelenitése a projekttevékenységben
   setting_app_subtitle: Alkalmazás felirat
   setting_app_title: Alkalmazás címe
@@ -2049,7 +2044,7 @@ hu:
     (úgy mint munkacsomag készítés, frissítés).
   setting_mail_handler_api_key: API-kulcs
   setting_mail_handler_body_delimiters: E-mailek csonkolása e sorok után
-  setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_mail_handler_body_delimiter_regex: E-mailek csonkítása a megegyező kifejezéssel
   setting_new_project_user_role_id: Szerepkör a  nem admin felhasználónak, aki létrehoz
     egy projektet,
   setting_password_active_rules: Választható karakter típusok
@@ -2103,7 +2098,7 @@ hu:
     passwords: Jelszavak
     session: Munkamenet
     brute_force_prevention: Felhasználó automatikus blokkolása
-  show_hide_project_menu: Expand/Collapse project menu
+  show_hide_project_menu: Kibontás/Összecsukás projekt menü
   status_active: aktív
   status_archived: archivált
   status_invited: meghívott
@@ -2223,7 +2218,7 @@ hu:
   text_powered_by: Készítette %{link}
   text_project_identifier_info: Csak kisbetű (a-z), számok, kötőjelek és aláhúzásjelek
     van engedélyezve, és kisbetűvel kell kezdődnie.
-  text_reassign: 'Reassign to work package:'
+  text_reassign: 'A munkacsomag ismételt hozzárendelése:'
   text_regexp_info: pl. ^[A-Z0-9]+$
   text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
   text_repository_usernames_mapping: Jelölje be, vagy frissítse az alkalmazás felhasználóit,
@@ -2485,9 +2480,9 @@ hu:
   queries:
     apply_filter: Előre beállított szűrő alkalmazása
   top_menu:
-    additional_resources: Additional resources
-    getting_started: Getting started
-    help_and_support: Help and support
+    additional_resources: További források
+    getting_started: Kezdés
+    help_and_support: Súgó és támogatás
   total_progress: Teljes folyamat
   user:
     all: mind
@@ -2511,7 +2506,7 @@ hu:
     deleted: Törölt felhasználó
     error_status_change_failed: 'A felhasználó állapotának a módosítása nem sikerült
       a következő hiba miatt: %{errors}'
-    invite: Invite user via email
+    invite: Felhasználó meghívása email-ben
     invited: meghívott
     lock: Zárolva
     locked: zárolva
@@ -2521,7 +2516,7 @@ hu:
     registered: regisztrált
     reset_failed_logins: A sikertelen bejelentkezés alaphelyzetbe állitása
     settings:
-      mail_notifications: Send email notifications
+      mail_notifications: E-mail értesítések
       mail_project_explanaition: For unselected projects, you will only receive notifications
         about things you watch or you're involved in (e.g. work packages you're the
         author or assignee of).

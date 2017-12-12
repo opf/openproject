@@ -419,7 +419,7 @@ de:
         blank: muss ausgefüllt werden.
         cant_link_a_work_package_with_a_descendant: Ein Arbeitspaket kann nicht mit
           einer seiner Unteraufgaben verlinkt werden.
-        follows_descendant: follows its descendant.
+        follows_descendant: folgt seinen Unterelementen.
         circular_dependency: Diese Beziehung würde eine zyklische Abhängigkeit erzeugen.
         confirmation: stimmt nicht mit %{attribute} überein.
         does_not_exist: existiert nicht.
@@ -491,7 +491,7 @@ de:
               invalid: Das benutzerdefinierte Feld ist in diesem Kontext ungültig.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Die Beziehung erzeugt eine zirkuläre Abhängigkeit.
           attributes:
             to:
               error_not_found: Arbeitspaket in 'zu' Position nicht gefunden oder nicht
@@ -689,7 +689,7 @@ de:
   button_login: Anmelden
   button_move: Verschieben
   button_move_and_follow: Verschieben und Arbeitspaket anzeigen
-  button_print: Print
+  button_print: Drucken
   button_quote: Zitieren
   button_remove: Entfernen
   button_remove_widget: Infobox löschen
@@ -723,7 +723,7 @@ de:
     failed: Das Projekt %{source_project_name} konnte nicht kopiert werden
     succeeded: Das Projekt %{target_project_name} wurde erstellt
     errors: Fehler
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Benutzerdefinierte Felder des Projekts
     text:
       failed: Das Projekt "%{source_project_name}" konnte nicht nach "%{target_project_name}"
         kopiert werden.
@@ -925,7 +925,8 @@ de:
         add_groups: Neue Attributgruppen hinzufügen
         rename_groups: Attributgruppen umbenennen
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Upgraden auf %{link} um nach benutzerdefinierten Felder
+          zu filtern und sortieren
   enumeration_activities: Aktivitäten (Zeiterfassung)
   enumeration_work_package_priorities: Arbeitspaket-Prioritäten
   enumeration_system_activity: System-Aktivität
@@ -1129,7 +1130,7 @@ de:
   label_select_main_menu_item: Neuen Hauptmenüpunkt auwählen
   label_select_project: Projekt auswählen
   label_required_disk_storage: Erforderlicher Festplattenspeicher
-  label_send_invitation: Send invitation
+  label_send_invitation: Einladung senden
   label_change_plural: Änderungen
   label_change_properties: Eigenschaften ändern
   label_change_status: Statuswechsel
@@ -1229,7 +1230,7 @@ de:
   label_file_plural: Dateien
   label_filter_add: Filter hinzufügen
   label_filter_plural: Filter
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Filter ein-/ausblenden
   label_float: Gleitkommazahl
   label_folder: Ordner
   label_follows: folgt
@@ -1677,10 +1678,10 @@ de:
   notice_account_registered_and_logged_in: Willkommen, ihr Benutzerkonto wurde aktiviert.
     Sie sind nun angemeldet.
   notice_activation_failed: Das Konto konnte nicht aktiviert werden.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: Konnte Stufe "%{stage}" nicht verifizieren.
+  notice_auth_stage_wrong_stage: Erwartet Authentifizierungs-Stufe "%{expected}" zu
+    beenden, aber "%{actual}" zurückgegeben.
+  notice_auth_stage_error: Authentifizierungs-Stufe "%{stage}" gescheitert.
   notice_can_t_change_password: Dieses Konto verwendet eine externe Authentifizierungs-Quelle;
     das Kennwort kann nicht geändert werden.
   notice_custom_options_deleted: Option "%{option_value}" und ihre %{num_deleted}
@@ -1713,7 +1714,8 @@ de:
   notice_not_authorized: Sie sind nicht berechtigt, auf diese Seite zuzugreifen.
   notice_not_authorized_archived_project: Das Projekt wurde archiviert und ist daher
     nicht verfügbar.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Ihr Passwort ist nicht korrekt. Kann nicht
+    fortgesetzt werden.
   notice_principals_found_multiple: |-
     Es wurden %{number} Ergebnisse gefunden.
     Drücke Tab um das erste Ergebnis zu fokussieren.
@@ -1733,7 +1735,7 @@ de:
   notice_unable_delete_version: Die Version konnte nicht gelöscht werden.
   notice_user_missing_authentication_method: Benutzer muss noch ein Passwort oder
     eine andere Authentifizierungsmethode wählen.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Eine Einladung wurde an %{email} gesendet.
   present_access_key_value: 'Ihr %{key_name} ist: %{value}'
   notice_automatic_set_of_standard_type: Der Standard-Typ wurde automatisch gesetzt.
   notice_logged_out: Sie wurden ausgeloggt.
@@ -1870,12 +1872,12 @@ de:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Aktiv oder archiviert
     assigned_to_role: Rolle der zugewiesenen Person
     member_of_group: Gruppe der zugewiesenen Person
     assignee_or_group: Zugewiesen an Nutzer oder dessen Gruppe
     subproject_id: Unterprojekt von
-    name_or_identifier: Name or identifier
+    name_or_identifier: Name oder Kennung
   repositories:
     at_identifier: auf %{identifier}
     atom_revision_feed: Revisionen als Atom Feed
@@ -2149,7 +2151,7 @@ de:
     brute_force_prevention: Automatisches Sperren von Benutzern
   show_hide_project_menu: Projektmenü einblenden / ausblenden
   status_active: aktiv
-  status_archived: archived
+  status_archived: archiviert
   status_invited: eingeladen
   status_locked: gesperrt
   status_registered: angemeldet

@@ -619,7 +619,7 @@ ja:
   button_login: ログイン
   button_move: 移動
   button_move_and_follow: 移動後表示
-  button_print: Print
+  button_print: 印刷
   button_quote: 引用
   button_remove: 削除
   button_remove_widget: ウィジェットを削除
@@ -1573,7 +1573,7 @@ ja:
   notice_bad_request: 不正な要求です。
   notice_not_authorized: このページにアクセスする権限がありません。
   notice_not_authorized_archived_project: アクセスしようとしたプロジェクトはアーカイブされています。
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: パスワードが正しくありません。続行できません。
   notice_principals_found_multiple: "%{number} の検索結果があります。 \n タブで最初の結果へフォーカスします。"
   notice_principals_found_single: "1 つの結果があります。 \n タブでフォーカスします。"
   notice_project_not_deleted: プロジェクトを削除していません。

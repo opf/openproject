@@ -409,7 +409,7 @@ pt-BR:
         blank: não pode ficar em branco.
         cant_link_a_work_package_with_a_descendant: Um pacote de trabalho não pode
           ser vinculado a uma das suas subtarefas.
-        follows_descendant: follows its descendant.
+        follows_descendant: segue seu descendente.
         circular_dependency: Esta relação vai criar uma dependência circular.
         confirmation: não coincide com %{attribute}.
         does_not_exist: não existe.
@@ -476,7 +476,7 @@ pt-BR:
               invalid: O campo personalizado não é válido no contexto em questão.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: O relacionamento cria um círculo de relacionamentos.
           attributes:
             to:
               error_not_found: pacote de trabalho na posição 'para' não foi encontrado
@@ -673,7 +673,7 @@ pt-BR:
   button_login: Login
   button_move: Mover
   button_move_and_follow: Mover e seguir
-  button_print: Print
+  button_print: Imprimir
   button_quote: Citar
   button_remove: Remover
   button_remove_widget: Remover widget
@@ -910,7 +910,8 @@ pt-BR:
         add_groups: Adicionar novos grupos de atributos
         rename_groups: Renomear grupos de atributos
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Atualizar para %{link} para filtrar e classificar em campos
+          personalizados
   enumeration_activities: Atividades (controle de tempo)
   enumeration_work_package_priorities: Prioridades do pacote de trabalho
   enumeration_system_activity: Atividade do Sistema
@@ -1209,7 +1210,7 @@ pt-BR:
   label_file_plural: Arquivos
   label_filter_add: Adicionar filtro
   label_filter_plural: Filtros
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Mostrar/ocultar filtros
   label_float: Ponto flutuante
   label_folder: Pasta
   label_follows: seguidores
@@ -1658,7 +1659,7 @@ pt-BR:
     você está conectado.
   notice_activation_failed: A conta não pôde ser ativada.
   notice_auth_stage_verification_error: Não foi possível verificar o estágio '%{stage}'.
-  notice_auth_stage_wrong_stage: Expectativa de terminar o estágio de autenticação
+  notice_auth_stage_wrong_stage: Esperava-se que terminasse o estágio de autenticação
     '%{expected}', mas retornou '%{actual}'.
   notice_auth_stage_error: Estágio de autenticação '%{stage}' falhou.
   notice_can_t_change_password: Esta conta usa autenticação externa. Impossível alterar
@@ -1693,7 +1694,8 @@ pt-BR:
   notice_not_authorized: Você não está autorizado a acessar esta página.
   notice_not_authorized_archived_project: O projeto que você está tentando acessar
     foi arquivado.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Sua senha não está correta. Não é possível
+    continuar.
   notice_principals_found_multiple: |-
     Existe(m) %{number} resultado(s) encontrado(s).
     Tecle tab para ir ao primeiro resultado.
@@ -1843,12 +1845,12 @@ pt-BR:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Ativo ou arquivado
     assigned_to_role: Atribuído ao papel
     member_of_group: Atribuído ao grupo
     assignee_or_group: Responsável ou grupo
     subproject_id: Subprojeto
-    name_or_identifier: Name or identifier
+    name_or_identifier: Nome ou identificador
   repositories:
     at_identifier: em %{identifier}
     atom_revision_feed: Revisão de atom feed
@@ -2119,7 +2121,7 @@ pt-BR:
     brute_force_prevention: Bloqueio de usuário automatizado
   show_hide_project_menu: Expandir/Recolher o menu do projeto
   status_active: ativo
-  status_archived: archived
+  status_archived: arquivado
   status_invited: convidado
   status_locked: bloqueado
   status_registered: registrado
