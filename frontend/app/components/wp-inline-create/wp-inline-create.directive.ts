@@ -48,6 +48,7 @@ import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class WorkPackageInlineCreateController {
 
@@ -74,6 +75,7 @@ export class WorkPackageInlineCreateController {
               public wpCreate:WorkPackageCreateService,
               public wpTableColumns:WorkPackageTableColumnsService,
               private wpTableFilters:WorkPackageTableFiltersService,
+              private wpTableFocus:WorkPackageTableFocusService,
               private AuthorisationService:any,
               private $q:ng.IQService,
               private I18n:op.I18n) {
@@ -96,7 +98,7 @@ export class WorkPackageInlineCreateController {
           this.addWorkPackageRow();
 
           // Focus on the last inserted id
-          this.states.focusedWorkPackage.putValue(wp.id, 'Added in inline create');
+          this.wpTableFocus.updateFocus(wp.id);
         } else {
           // Remove current row
           this.table.editing.stopEditing('new');

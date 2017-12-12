@@ -76,9 +76,9 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
     element = find(".work-package-table--container tr:nth-of-type(#{number}) .wp-table--cell-td.id")
     loading_indicator_saveguard
 
-    page.driver.browser.action.key_down(:control)
+    page.driver.browser.action.key_down(:meta)
         .click(element.native)
-        .key_up(:control)
+        .key_up(:meta)
         .perform
   end
 

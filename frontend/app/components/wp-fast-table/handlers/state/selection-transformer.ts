@@ -1,42 +1,34 @@
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
+import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
 import {States} from "../../../states.service";
 import {tableRowClassName} from "../../builders/rows/single-row-builder";
 import {checkedClassName} from "../../builders/ui-state-link-builder";
-import {rowId, locateTableRow} from "../../helpers/wp-table-row-helpers";
+import {rowId, locateTableRow, scrollTableRowIntoView} from "../../helpers/wp-table-row-helpers";
 import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
 import {WorkPackageTable} from "../../wp-fast-table";
 import {WPTableRowSelectionState} from "../../wp-table.interfaces";
+import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
 
 export class SelectionTransformer {
   public wpTableSelection:WorkPackageTableSelection;
+  public wpTableFocus:WorkPackageTableFocusService;
   public states:States;
   public FocusHelper:any;
 
-  // When first entering the page, the user
-  // wants to scroll to the focused work package in the table.
-  // We only want to do this once, so remember when we did the first focus
-  private hasFocusedOnElement = false;
-
   constructor(table:WorkPackageTable) {
-    injectorBridge(this);
+    $injectFields(this, 'wpTableSelection', 'wpTableFocus', 'states', 'FocusHelper');
 
     // Focus a single selection when active
     this.states.table.rendered.values$()
       .takeUntil(this.states.table.stopAllSubscriptions)
       .subscribe(() => {
-        const singleSelection = this.wpTableSelection.getSingleSelection;
-        if (singleSelection === null) {
-          return;
-        }
 
-        if (!this.hasFocusedOnElement) {
-          this.hasFocusedOnElement = true;
-          const element = locateTableRow(singleSelection);
+        this.wpTableFocus.ifShouldFocus((wpId:string) => {
+          const element = locateTableRow(wpId);
           if (element.length) {
-            element[0].scrollIntoView();
+            scrollTableRowIntoView(wpId);
             this.FocusHelper.focusElement(element, true);
           }
-        }
+        });
     });
 
 
@@ -75,4 +67,3 @@ export class SelectionTransformer {
   }
 }
 
-SelectionTransformer.$inject = ['wpTableSelection', 'states', 'FocusHelper'];
