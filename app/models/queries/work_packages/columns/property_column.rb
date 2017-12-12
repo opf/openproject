@@ -59,25 +59,23 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       sortable: ["COALESCE(#{Relation.table_name}.from_id, #{WorkPackage.table_name}.id)",
                  "COALESCE(#{Relation.table_name}.hierarchy, 0)"],
       sortable_join: <<-SQL
-        JOIN (
+        LEFT OUTER JOIN (
           SELECT
-            #{Relation.table_name}.hierarchy,
-            #{Relation.table_name}.to_id,
-            #{Relation.table_name}.from_id
-          FROM #{Relation.table_name}
-        JOIN (
-          SELECT
-            MAX(#{Relation.table_name}.hierarchy) hierarchy,
-            #{Relation.table_name}.to_id
-          FROM #{Relation.table_name}
-          WHERE #{Relation.table_name}.relates = 0
-            AND #{Relation.table_name}.duplicates = 0
-            AND #{Relation.table_name}.follows = 0
-            AND #{Relation.table_name}.blocks = 0
-            AND #{Relation.table_name}.includes = 0
-            AND #{Relation.table_name}.requires = 0
-          GROUP BY #{Relation.table_name}.to_id) max_depth
-        ON max_depth.hierarchy = #{Relation.table_name}.hierarchy AND max_depth.to_id = #{Relation.table_name}.to_id) depth_relations
+            r1.from_id,
+            r1.to_id,
+            r1.hierarchy
+        FROM relations r1
+        LEFT OUTER JOIN relations r2
+          ON
+            r1.to_id = r2.to_id
+            AND r1.hierarchy < r2.hierarchy
+            AND r1.relates = 0
+            AND r1.duplicates = 0
+            AND r1.follows = 0
+            AND r1.blocks = 0
+            AND r1.includes = 0
+            AND r1.requires = 0
+          WHERE r2.id IS NULL) depth_relations
         ON depth_relations.to_id = work_packages.id
       SQL
     },
