@@ -69,9 +69,12 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
   end
 
   describe "creating a relation" do
+    let(:setup) {}
     before do
       # reflexive relations
       expect(Relation.count).to eq 2
+
+      setup
 
       header "Content-Type", "application/json"
       post "/api/v3/work_packages/#{from.id}/relations", params.to_json
@@ -94,6 +97,35 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       expect(rel.relation_type).to eq type
       expect(rel.description).to eq description
       expect(rel.delay).to eq delay
+    end
+
+    context 'relation that would create a circular scheduling dependency' do
+      let(:from_child) do
+        FactoryGirl.create(:work_package, parent: from)
+      end
+      let(:to_child) do
+        FactoryGirl.create(:work_package, parent: to)
+      end
+      let(:children_follows_relation) do
+        FactoryGirl.create :relation,
+                           from: to_child,
+                           to: from_child,
+                           relation_type: Relation::TYPE_FOLLOWS
+      end
+      let(:relation_type) { Relation::TYPE_FOLLOWS }
+      let(:setup) do
+        children_follows_relation
+      end
+
+      it 'responds with error' do
+        expect(last_response.status).to eql 422
+      end
+
+      it 'states the reason for the error' do
+        expect(last_response.body)
+          .to be_json_eql(I18n.t(:'activerecord.errors.messages.circular_dependency').to_json)
+          .at_path('message')
+      end
     end
   end
 
