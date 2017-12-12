@@ -189,4 +189,40 @@ describe 'custom field inplace editor', js: true do
       end
     end
   end
+
+
+  describe 'float type' do
+    let(:custom_field) {
+      FactoryGirl.create(:float_wp_custom_field, args.merge(name: 'MyFloat'))
+    }
+    let(:args) { {} }
+    let(:initial_custom_values) { { custom_field.id => 123.50 } }
+    let(:fieldName) { "customField#{custom_field.id}" }
+
+    context 'with english locale' do
+      let(:user) { FactoryGirl.create :admin, language: 'en' }
+
+      it 'displays the float with english locale and allows editing' do
+        field.expect_state_text '123.5'
+        field.update '10000.55'
+        field.expect_state_text '10,000.55'
+
+        work_package.reload
+        expect(work_package.custom_value_for(custom_field.id).typed_value).to eq 10000.55
+      end
+    end
+
+    context 'with german locale' do
+      let(:user) { FactoryGirl.create :admin, language: 'de' }
+
+      it 'displays the float with german locale and allows editing' do
+        field.expect_state_text '123,5'
+        field.update '10000,55'
+        field.expect_state_text '10.000,55'
+
+        work_package.reload
+        expect(work_package.custom_value_for(custom_field.id).typed_value).to eq 10000.55
+      end
+    end
+  end
 end
