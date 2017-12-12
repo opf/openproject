@@ -2,7 +2,7 @@
   <div class="inplace-edit--controls"
        ng-hide="!vm.fieldController.active">
     <accessible-by-keyboard execute="vm.onSave()"
-                            ng-disabled="vm.field.required && vm.field.isEmpty()"
+                            ng-disabled="vm.field.isBusy || (vm.field.required && vm.field.isEmpty())"
                             is-disabled="vm.field.required && vm.field.isEmpty()"
                             link-title="{{ vm.saveTitle }}"
                             class="inplace-edit--control inplace-edit--control--save">
