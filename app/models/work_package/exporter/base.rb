@@ -51,7 +51,8 @@ class WorkPackage::Exporter::Base
 
   def valid_export_columns
     query.columns.select do |c|
-      c.is_a?(Queries::WorkPackages::Columns::PropertyColumn) ||
+      c.is_a?(Queries::WorkPackages::Columns::WorkPackageColumn) ||
+        c.is_a?(Queries::WorkPackages::Columns::PropertyColumn) ||
         c.is_a?(Queries::WorkPackages::Columns::CustomFieldColumn)
     end
   end
