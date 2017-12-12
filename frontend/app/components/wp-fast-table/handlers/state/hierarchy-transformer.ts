@@ -7,6 +7,7 @@ import {WorkPackageTableHierarchies} from "../../wp-table-hierarchies";
 import {indicatorCollapsedClass} from "../../builders/modes/hierarchy/single-hierarchy-row-builder";
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {debugLog} from '../../../../helpers/debug_output';
+import { locateTableRow } from "core-components/wp-fast-table/helpers/wp-table-row-helpers";
 
 export class HierarchyTransformer {
   public wpTableHierarchies:WorkPackageTableHierarchiesService;
@@ -80,6 +81,29 @@ export class HierarchyTransformer {
        }
      });
    });
+
+   // Keep focused on the last element, if any.
+   // Based on https://stackoverflow.com/a/3782959
+   if (state.last) {
+     try {
+       const element = locateTableRow(state.last);
+       const container = element.scrollParent();
+       const containerTop = container.scrollTop();
+       const containerBottom = containerTop + container.height();
+
+       const elemTop = element[0].offsetTop;
+       const elemBottom = elemTop + element.height();
+
+        if (elemTop < containerTop) {
+          container[0].scrollTop = elemTop;
+        } else if (elemBottom > containerBottom) {
+          container[0].scrollTop = elemBottom - container.height();
+        }
+     } catch (e) {
+       console.warn("Can't scroll hierarchy element into view: " + e);
+     }
+   }
+
 
    this.states.table.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
   }
