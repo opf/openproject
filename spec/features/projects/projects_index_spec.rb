@@ -253,7 +253,7 @@ describe 'Projects index page',
 
   feature 'when paginating' do
     before do
-      allow(Setting).to receive(:per_page_options_array).and_return([1])
+      allow(Setting).to receive(:per_page_options_array).and_return([1, 5])
     end
 
     scenario 'it keeps applying filters and order' do
@@ -274,6 +274,10 @@ describe 'Projects index page',
       expect(page).to_not have_text(project.name)        # as it filtered away
       expect(page).to have_text('Next')                  # as the result set is larger than 1
       expect(page).to_not have_text(public_project.name) # as it is on the second page
+
+      # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
+      find('.pagination--options .pagination--item', text: '5').click # click page size '5'
+      find('.pagination--options .pagination--item', text: '1').click # return back to page size '1'
 
       click_on '2' # Go to pagination page 2
 

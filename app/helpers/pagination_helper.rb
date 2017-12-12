@@ -40,7 +40,12 @@ module PaginationHelper
                             class: 'pagination--pages')
 
       if pagination_options[:per_page_links]
-        content << content_tag(:div, pagination_settings(paginator, pagination_options[:params]),
+        content << content_tag(:div,
+                               pagination_settings(
+                                 paginator,
+                                 pagination_options[:params]
+                                 .merge(safe_query_params(%w{filters sortBy expand}))
+                               ),
                                class: 'pagination--options')
       end
 
