@@ -41,6 +41,7 @@ module Relations
     validate :manage_relations_permission?
     validate :validate_from_exists
     validate :validate_to_exists
+    validate :validate_only_one_follow_direction_between_hierarchies
 
     attr_reader :user
 
@@ -54,6 +55,12 @@ module Relations
       @user = user
     end
 
+    def validate!(*args)
+      # same as before_validation callback
+      model.send(:reverse_if_needed)
+      super
+    end
+
     private
 
     def validate_from_exists
@@ -62,6 +69,14 @@ module Relations
 
     def validate_to_exists
       errors.add :to, :error_not_found unless visible_work_packages.exists? model.to_id
+    end
+
+    def validate_only_one_follow_direction_between_hierarchies
+      return unless [Relation::TYPE_HIERARCHY, Relation::TYPE_FOLLOWS].include? model.relation_type
+
+      if follow_relations_in_oposite_direction.exists?
+        errors.add :base, I18n.t(:'activerecord.errors.messages.circular_dependency')
+      end
     end
 
     def manage_relations_permission?
@@ -76,6 +91,18 @@ module Relations
 
     def manage_relations?
       user.allowed_to? :manage_work_package_relations, model.from.project
+    end
+
+    def follow_relations_in_oposite_direction
+      from_set = hierarchy_or_follows_of(model.from)
+      to_set = hierarchy_or_follows_of(model.to).where('follows > 0')
+
+      from_set.where(to_id: to_set.select(:to_id))
+    end
+
+    def hierarchy_or_follows_of(work_package)
+      root_id = Relation.to_root(work_package).select(:from_id)
+      Relation.hierarchy_or_follows.where(from_id: root_id)
     end
   end
 end

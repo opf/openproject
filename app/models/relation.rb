@@ -133,6 +133,17 @@ class Relation < ActiveRecord::Base
       .direct
   end
 
+  def self.to_root(work_package)
+    # MySQL does not support limit inside a subquery.
+    # As this is intended to be used inside a subquery, we have to avoid using limit
+    joins("LEFT OUTER JOIN relations r2
+          ON relations.to_id = r2.to_id
+          AND relations.hierarchy < r2.hierarchy")
+      .where('r2.id IS NULL')
+      .where(to_id: work_package.id)
+      .hierarchy_or_reflexive
+  end
+
   def relation_type=(type)
     attribute_will_change!('relation_type') if relation_type != type
     @relation_type = type
