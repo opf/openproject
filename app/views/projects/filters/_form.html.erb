@@ -46,7 +46,8 @@
         </li>
       <% end %>
 
-      <li class="advanced-filters--spacer"></li>
+
+      <li class="advanced-filters--spacer <%= query.filters.blank? ? 'hidden' : '' %>"></li>
 
       <li class="advanced-filters--add-filter">
         <!-- Add filters -->
