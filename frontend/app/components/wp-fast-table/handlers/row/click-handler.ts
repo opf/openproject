@@ -7,6 +7,7 @@ import {WorkPackageTableSelection} from '../../state/wp-table-selection.service'
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {tdClassName} from '../../builders/cell-builder';
 import {KeepTabService} from "../../../wp-panels/keep-tab/keep-tab.service";
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class RowClickHandler implements TableEventHandler {
   // Injections
@@ -14,12 +15,13 @@ export class RowClickHandler implements TableEventHandler {
   public states:States;
   public keepTab:KeepTabService;
   public wpTableSelection:WorkPackageTableSelection;
+  public wpTableFocus:WorkPackageTableFocusService;
 
   private clicks = 0;
   private timer:number;
 
   constructor(table:WorkPackageTable) {
-    $injectFields(this, 'keepTab', '$state', 'states', 'wpTableSelection');
+    $injectFields(this, 'keepTab', '$state', 'states', 'wpTableSelection', 'wpTableFocus');
   }
 
   public get EVENT() {
@@ -63,11 +65,7 @@ export class RowClickHandler implements TableEventHandler {
       return true;
     }
 
-    // The current row is the last selected work package
-    // not matter what other rows are (de-)selected below.
-    // Thus save that row for the details view button.
     let [index, row] = table.findRenderedRow(classIdentifier);
-    this.states.focusedWorkPackage.putValue(wpId);
 
     // Update single selection if no modifier present
     if (!(evt.ctrlKey || evt.metaKey || evt.shiftKey)) {
@@ -84,6 +82,10 @@ export class RowClickHandler implements TableEventHandler {
       this.wpTableSelection.toggleRow(wpId);
     }
 
+    // The current row is the last selected work package
+    // not matter what other rows are (de-)selected below.
+    // Thus save that row for the details view button.
+    this.wpTableFocus.updateFocus(wpId);
     return false;
   }
 }

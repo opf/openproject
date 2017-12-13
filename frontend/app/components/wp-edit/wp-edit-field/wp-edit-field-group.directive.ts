@@ -38,6 +38,7 @@ import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-create/wp-create.service';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class WorkPackageEditFieldGroupController {
   public workPackage:WorkPackageResourceInterface;
@@ -55,6 +56,7 @@ export class WorkPackageEditFieldGroupController {
               protected wpEditing:WorkPackageEditingService,
               protected wpNotificationsService:WorkPackageNotificationService,
               protected wpTableSelection:WorkPackageTableSelection,
+              protected wpTableFocus:WorkPackageTableFocusService,
               protected $rootScope:ng.IRootScopeService,
               protected $window:ng.IWindowService,
               protected ConfigurationService:any,
@@ -172,7 +174,7 @@ export class WorkPackageEditFieldGroupController {
     if (this.successState) {
       this.$state.go(this.successState, {workPackageId: savedWorkPackage.id})
         .then(() => {
-          this.wpTableSelection.focusOn(savedWorkPackage.id);
+          this.wpTableFocus.updateFocus(savedWorkPackage.id);
           this.wpNotificationsService.showSave(savedWorkPackage, isInitial);
         });
     }

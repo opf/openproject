@@ -35,6 +35,7 @@ import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
 import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-request.service';
 import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class WorkPackageViewController {
 
@@ -49,6 +50,7 @@ export class WorkPackageViewController {
   protected I18n:op.I18n;
   protected wpTableRefresh:WorkPackageTableRefreshService;
   protected wpEditing:WorkPackageEditingService;
+  protected wpTableFocus:WorkPackageTableFocusService;
 
   // Helper promise to detect when the controller has been initialized
   // (when a WP has loaded).
@@ -67,7 +69,7 @@ export class WorkPackageViewController {
   constructor(public $scope:ng.IScope,
               protected workPackageId:string) {
     $injectFields(this, '$q', '$state', 'keepTab', 'wpCacheService', 'WorkPackageService',
-      'states', 'wpEditing', 'PathHelper', 'I18n', 'wpTableRefresh');
+      'states', 'wpEditing', 'PathHelper', 'I18n', 'wpTableRefresh', 'wpTableFocus');
 
     this.initialized = this.$q.defer();
     this.initializeTexts();
@@ -111,7 +113,6 @@ export class WorkPackageViewController {
 
     // Preselect this work package for future list operations
     this.showStaticPagePath = this.PathHelper.workPackagePath(this.workPackage);
-    this.states.focusedWorkPackage.putValue(this.workPackage.id);
 
     // Listen to tab changes to update the tab label
     scopedObservable(this.$scope, this.keepTab.observable).subscribe((tabs:any) => {
