@@ -55,12 +55,12 @@
           <op-icon icon-classes="icon-add icon4" class="op-icon--wrapper">
             <i class="icon-add icon4" aria-hidden="true"></i>
           </op-icon>
-          Add filter:
+          <%= t(:label_filter_add) %>:
         </label>
         <label for="add_filter_select" class="hidden-for-sighted ng-binding">
-          Add filter
-          Open this filter with 'ALT' and arrow keys.
-          To select an entry leave the focus for example by pressing enter. To leave without filter select the first (empty) entry.
+          <%= t(:label_filter_add) %>
+          <%= t('js.filter.description.text_open_filter') %>
+          <%= t('js.filter.description.text_close_filter') %>
         </label>
 
         <div class="advanced-filters--add-filter-value">
