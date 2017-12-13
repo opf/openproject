@@ -1046,5 +1046,77 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           .to eql new_parent_predecessor_attributes[:due_date] + 4.days
       end
     end
+
+    describe 'removing the parent on a work package which precedes its sibling' do
+      let(:work_package_attributes) do
+        { project_id: project.id,
+          type_id: type.id,
+          author_id: user.id,
+          status_id: status.id,
+          priority: priority,
+          parent: parent_work_package,
+          start_date: Date.today,
+          due_date: Date.today + 3.days }
+      end
+
+      let(:parent_attributes) do
+        { project_id: project.id,
+          subject: 'parent',
+          type_id: type.id,
+          author_id: user.id,
+          status_id: status.id,
+          priority: priority,
+          start_date: Date.today,
+          due_date: Date.today + 10.days }
+      end
+
+      let(:parent_work_package) do
+        FactoryGirl.create(:work_package, parent_attributes)
+      end
+
+      let(:sibling_attributes) do
+        work_package_attributes.merge(
+          subject: 'sibling',
+          start_date: Date.today + 4.days,
+          due_date: Date.today + 10.days
+        )
+      end
+
+      let(:sibling_work_package) do
+        wp = FactoryGirl.create(:work_package, sibling_attributes)
+
+        wp.follows << work_package
+
+        wp
+      end
+
+      before do
+        work_package.reload
+        parent_work_package.reload
+        sibling_work_package.reload
+      end
+
+      let(:attributes) { { parent: nil } }
+
+      it 'removes the parent and reschedules it' do
+        expect(subject)
+          .to be_success
+
+        # work package itself is unchanged (except for the parent)
+        work_package.reload
+        expect(work_package.parent)
+          .to be_nil
+        expect(work_package.start_date)
+          .to eql work_package_attributes[:start_date]
+        expect(work_package.due_date)
+          .to eql work_package_attributes[:due_date]
+
+        parent_work_package.reload
+        expect(parent_work_package.start_date)
+          .to eql sibling_attributes[:start_date]
+        expect(parent_work_package.due_date)
+          .to eql sibling_attributes[:due_date]
+      end
+    end
   end
 end

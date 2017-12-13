@@ -68,7 +68,8 @@ class WorkPackages::UpdateService
 
   def save_if_valid(result)
     if result.success?
-      result.success = result.all_results.all?(&:save)
+      result.success = consolidated_results(result)
+                       .all?(&:save)
     end
 
     result.success?
@@ -168,5 +169,24 @@ class WorkPackages::UpdateService
 
   def changed_attributes
     work_package.changed.map(&:to_sym)
+  end
+
+  # When multiple services change a work package, we still only want one update to the database due to:
+  # * performance
+  # * having only one journal entry
+  # * stale object errors
+  # we thus consolidate the results so that one instance contains the changes made by all the services.
+  def consolidated_results(result)
+    result.all_results.group_by(&:id).inject([]) do |a, (_, instances)|
+      master = instances.pop
+
+      instances.each do |instance|
+        master.attributes = instance.changes.map do |attribute, values|
+          [attribute, values.last]
+        end.to_h
+      end
+
+      a + [master]
+    end
   end
 end
