@@ -74,11 +74,12 @@ function SortingModalController(this:any,
     }
   }
 
-  $scope.$watchCollection('sortationObjects', () => {
-    let usedColumns = _.map($scope.sortationObjects, (object:SortModalObject) => object.column);
+  $scope.$watchCollection('sortationObjects', () => $scope.updatedSelection());
 
+  $scope.updatedSelection = () => {
+    let usedColumns = _.map($scope.sortationObjects, (object:SortModalObject) => object.column);
     $scope.availableColumns = _.differenceBy($scope.allColumns, usedColumns, '$href');
-  });
+  };
 
   $scope.availableColumnsAndCurrent = (column:SortModalObject) => {
     return _.uniqBy(_.concat($scope.availableColumns, _.compact([column])), '$href');
