@@ -61,24 +61,24 @@ class WorkPackages::SetAttributesService
   def set_attributes(attributes)
     work_package.attributes = attributes
 
-    set_default_attributes if work_package.new_record?
-
-    unify_dates if work_package_now_milestone?
-
-    update_project_dependent_attributes if work_package.project_id_changed? && work_package.project_id
-
-    # Take over any default custom values
-    # for new custom fields
-    work_package.set_default_values! if custom_field_context_changed?
+    set_default_attributes
+    unify_dates
+    update_project_dependent_attributes
+    update_dates
+    reset_custom_values
   end
 
   def set_default_attributes
+    return unless work_package.new_record?
+
     work_package.priority ||= IssuePriority.active.default
     work_package.author ||= user
     work_package.status ||= Status.default
   end
 
   def unify_dates
+    return unless work_package_now_milestone?
+
     unified_date = work_package.due_date || work_package.start_date
     work_package.start_date = work_package.due_date = unified_date
   end
@@ -92,9 +92,20 @@ class WorkPackages::SetAttributesService
   end
 
   def update_project_dependent_attributes
+    return unless work_package.project_id_changed? && work_package.project_id
+
     set_fixed_version_to_nil
     reassign_category
     reassign_type unless work_package.type_id_changed?
+  end
+
+  def update_dates
+    min_start = new_start_date
+
+    if min_start
+      work_package.due_date = min_start + work_package.duration - 1
+      work_package.start_date = min_start
+    end
   end
 
   def set_fixed_version_to_nil
@@ -130,5 +141,25 @@ class WorkPackages::SetAttributesService
     return if available_statuses.include? work_package.status
 
     work_package.status = available_statuses.detect(&:is_default) || available_statuses.first
+  end
+
+  def reset_custom_values
+    # Take over any default custom values
+    # for new custom fields
+    work_package.set_default_values! if custom_field_context_changed?
+  end
+
+  def new_start_date
+    current_start_date = work_package.start_date || work_package.due_date
+
+    return unless work_package.parent_id_changed? &&
+                  work_package.parent_id &&
+                  current_start_date
+
+    min_start = work_package.parent.soonest_start
+
+    if min_start && (min_start > current_start_date)
+      min_start
+    end
   end
 end
