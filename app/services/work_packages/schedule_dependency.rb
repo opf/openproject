@@ -164,6 +164,7 @@ class WorkPackages::ScheduleDependency
     def max_date_of_followed
       (follows_moved + follows_unmoved)
         .map(&:successor_soonest_start)
+        .compact
         .max
     end
 
