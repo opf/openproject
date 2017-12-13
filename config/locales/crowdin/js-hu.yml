@@ -456,17 +456,17 @@ hu:
         header_with_parent: 'Új %{type} (%{parent_type} #%{id} gyermek)'
         button: Létrehoz
       hierarchy:
-        show: Show hierarchy mode
-        hide: Hide hierarchy mode
-        toggle_button: Click to toggle hierarchy mode.
-        leaf: Work package leaf at level %{level}.
-        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
-          filtered children
-        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
-          filtered children
+        show: Hierarchikus mód megjelenítése
+        hide: Hierarchikus mód elrejtése
+        toggle_button: Kattintson a hierarchia mód váltásához.
+        leaf: Munkacsomag ezen %{level} a szinten.
+        children_collapsed: A hierarchia szintje %{level} szűkült. Kattintson a szűrt
+          gyermek-objektum megjelenítéséhez
+        children_expanded: A hierarchia szintje %{level} bővült. Kattintson a szűrt
+          gyermek-objektum megjelenítéséhez
       faulty_query:
-        title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        title: A munkacsomag nem tölthető be.
+        description: A lekérdezése hibás, és nem sikerült feldolgozni.
       no_results:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered
@@ -502,8 +502,8 @@ hu:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
           pagination
-        content: Jump to content
-        label_content: Click here to skip over the menu and go to the content
+        content: Ugrás a tartalomhoz
+        label_content: Kattintson ide a menü átugrásához és a tartalom megtekintéséhez
       placeholders:
         default: "-"
         description: Kattintson a leírás megadásához...
@@ -511,11 +511,11 @@ hu:
         column_names: Oszlopok
         group_by: Csoport szintű eredmények
         group: Csoportosítás a következők szerint
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
-          mode being active.
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
-          being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
+        group_by_disabled_by_hierarchy: A csoportosítás le van tiltva, mivel a hierarchia
+          mód aktív.
+        hierarchy_disabled_by_group_by: A hierarchia mód le van tiltva az eredmények
+          csoportosítása e-szerint %{column}.
+        hierarchy_mode: Hierarchia mód
         sort_ascending: Növekvő sorrend
         sort_descending: Csökkenő sorrend
         move_column_left: Oszlop mozgatása balra
@@ -527,7 +527,7 @@ hu:
         errors:
           unretrievable_query: Nem olvasható be a lekérdezés az URL-címről
           not_found: Nincs ilyen lekérdezés
-        text_no_results: No matching queries were found.
+        text_no_results: Nem található egyező lekérdezés.
       table:
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
@@ -552,8 +552,8 @@ hu:
         sort_by: Rendezés...
         group_by: Csoportosítás...
         display_sums: Megjelenitendő összegek
-        display_hierarchy: Display hierarchy
-        hide_hierarchy: Hide hierarchy
+        display_hierarchy: Hierarchia megjelenítése
+        hide_hierarchy: Hierarchia elrejtése
         hide_sums: Összegek elrejtése
         save: Mentés
         save_as: Mentés másként ...
@@ -574,8 +574,8 @@ hu:
       button_submit: Küldés
       button_cancel: Mégsem
       form_submit:
-        title: Confirm to continue
-        text: Are you sure you want to perform this action?
+        title: Megerősítés a folytatáshoz
+        text: Biztosan végre szeretné hajtani ezt a műveletet?
       upsale_relation_columns: Szeretné látni a munkacsomag kapcsolatait?
       upsale_relation_columns_link: Tekintse meg az Enterprise Edition-t!
       destroy_work_package:
@@ -621,5 +621,5 @@ hu:
         other: "%{count} óra"
         zero: 0 hours
     zen_mode:
-      button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_activate: Zen mód aktiválása
+      button_deactivate: Zen mód kikapcsolása

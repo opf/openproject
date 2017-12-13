@@ -307,8 +307,8 @@ tr:
       activate_asc: artan sıralamı uygulamak için etkinleştir
       activate_dsc: azalan sıralama uygulamak için etkinleştir
       activate_no: sıralamayı kaldırmak için etkinleştir
-    text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
-      work package(s)?
+    text_work_packages_destroy_confirmation: Seçilen çalışma paket(ler) ini silmek
+      istediğinizden emin misiniz?
     text_query_destroy_confirmation: Seçili öğeleri silmek istediğinizden emin misiniz?
     text_attachment_destroy_confirmation: Eki silmek istediğinizden emin misiniz?
     timelines:
@@ -327,19 +327,18 @@ tr:
       button_activate: Zaman çizelgesini etkinleştir
       button_deactivate: Zaman çizelgesini pasifleştir
       cancel: İptal
-      change: Change in planning
+      change: Planlama değişikliği
       due_date: Teslim tarihi
       empty: "(boş)"
       error: Bir hata oluştu.
       errors:
-        not_implemented: The timeline could not be rendered because it uses a feature
-          that is not yet implemented.
-        report_comparison: The timeline could not render the configured comparisons.
-          Please check the appropriate section in the configuration, resetting it
-          can help solve this problem.
-        report_epicfail: The timeline could not be loaded due to an unexpected error.
-        report_timeout: The timeline could not be loaded in a reasonable amount of
-          time.
+        not_implemented: Zaman çizelgesi, henüz uygulanmayan bir özellik kullandığından
+          oluşturulamadı.
+        report_comparison: Zaman çizelgesi, yapılandırılmış karşılaştırmaları işleyemedi.
+          Lütfen konfigürasyonda uygun bölümü kontrol edin, bu sorunu sıfırlamak,
+          bu sorunu çözmenize yardımcı olabilir.
+        report_epicfail: Beklenmeyen bir hata nedeniyle zaman çizelgesi yüklenemedi.
+        report_timeout: Zaman çizelgesi makul bir süre içinde yüklenemedi.
       filter:
         column:
           assigned_to: Atanan

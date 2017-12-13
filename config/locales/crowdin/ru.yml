@@ -678,7 +678,7 @@ ru:
   button_login: Войти
   button_move: Переместить
   button_move_and_follow: Переместить и следовать
-  button_print: Print
+  button_print: Печать
   button_quote: Цитата
   button_remove: Удалить
   button_remove_widget: Удалить виджет
@@ -1221,7 +1221,7 @@ ru:
   label_file_plural: Файлы
   label_filter_add: Добавить фильтр
   label_filter_plural: Фильтры
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Показать/скрыть фильтры
   label_float: Плавающий
   label_folder: Папка
   label_follows: следует
@@ -1709,7 +1709,7 @@ ru:
   notice_not_authorized: Вы не авторизованы для доступа к этой странице.
   notice_not_authorized_archived_project: Проект, к которому Вы пытаетесь получить
     доступ, заархивирован.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Пароль не правильный. Продолжить нельзя.
   notice_principals_found_multiple: Найдено %{number} результатов. Нажмите <TAB> для
     перехода к первому.
   notice_principals_found_single: Найден один результат. Нажмите <TAB> для перехода
@@ -1862,12 +1862,12 @@ ru:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: активно или в архиве
     assigned_to_role: Роль назначенного
     member_of_group: Группа назначенного
     assignee_or_group: Назначенец или его группа
     subproject_id: Подпроект
-    name_or_identifier: Name or identifier
+    name_or_identifier: Имя или идентификатор
   repositories:
     at_identifier: в %{identifier}
     atom_revision_feed: Atom-канал
@@ -2132,7 +2132,7 @@ ru:
     brute_force_prevention: Автоматическое блокирование пользователя
   show_hide_project_menu: Развернуть или свернуть меню проекта
   status_active: Активно
-  status_archived: archived
+  status_archived: в архиве
   status_invited: приглашено
   status_locked: заблокировано
   status_registered: Зарегистрирован

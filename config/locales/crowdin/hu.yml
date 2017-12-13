@@ -11,9 +11,9 @@ hu:
       custom_colors: Egyéni színek
       customize: 'Adjon meg saját logót az installált OpenProjecthez. Megjegyzés:
         Ez a logó nyilvánosan elérhető lesz.'
-      enterprise_notice: As a special 'Thank you!' for their financial contribution
-        to develop OpenProject, this tiny feature is only available for Enterprise
-        Edition support subscribers.
+      enterprise_notice: Ez egy különleges "Köszönöm!" az OpenProject kifejlesztéséhez
+        nyújtott pénzügyi hozzájárulásért, ami egy aprócska szolgáltatás a Vállalati
+        Verziót használó előfizetők számára.
       manage_colors: A színválasztás beállításainak módosítása
       instructions:
         alternative_color: Strong accent color, typically used for most the important
@@ -31,13 +31,13 @@ hu:
         main_menu_bg_color: Baloldali menü háttérszíne.
     enterprise:
       upgrade_to_ee: Frissítés a Vállalati Verzióra
-      add_token: Upload an Enterprise Edition support token
-      replace_token: Replace your current support token
+      add_token: Töltse fel a Vállalati Verzió támogatási tokenjét
+      replace_token: A jelenlegi támogatási token lecserélése
       order: Vállalati Verzió megrendelése
-      paste: Paste your Enterprise Edition support token
-      required_for_feature: This feature is only available with an active Enterprise
-        Edition support token.
-      enterprise_link: For more information, click here.
+      paste: Illessze be a Vállalati Verzió támogatási tokentjét
+      required_for_feature: Ez a funkció csak aktív Vállalati Verzió támogatási tokennel
+        érhető el.
+      enterprise_link: További információért kattintson ide.
   announcements:
     show_until: Mutassa eddig
     is_active: jelenleg látható
@@ -62,7 +62,7 @@ hu:
       őket, még mielőtt felvenné azokat a projekthez.
 
 '
-    is_enabled_globally: Is enabled globally
+    is_enabled_globally: Globálisan engedélyezve van
     enabled_in_project: Engedélyezve a projektben
     contained_in_type: A típus tartalmazza
     confirm_destroy_option: Egy opció törlése az összes eddigi használatánál (úgy,
@@ -153,7 +153,7 @@ hu:
       settings: Beállítások
       form_configuration: Űrlap konfiguráció
       projects: Projektek
-      enabled_projects: Enabled projects
+      enabled_projects: Engedélyezett projektek
       add_group: Csoport hozzáadása
       reset: Alapbeállítások visszaállítása
   versions:
@@ -418,7 +418,7 @@ hu:
         greater_than_or_equal_to: nagyobbnak vagy egyenlőnek kell lennie mint %{count}.
         smaller_than_or_equal_to_max_length: a maximális hossznak kisebbnek vagy egyenlőnek
           kell lennie.
-        greater_than_start_date: must be greater than the start date.
+        greater_than_start_date: nagyobbnak kell lennie, mint a kezdő dátum.
         greater_than_or_equal_to_start_date: must be greater than or equal to the
           start date.
         inclusion: nem a megengedett értékek egyike lett beállítva.
@@ -449,7 +449,7 @@ hu:
         parse_schema_filter_params_service:
           attributes:
             base:
-              unsupported_operator: The operator is not supported.
+              unsupported_operator: Az operátor nem támogatott.
               invalid_values: Egy érték érvénytelen.
               id_filter_required: Egy "id" szűrő szükséges.
         project:
@@ -1924,24 +1924,25 @@ hu:
         path_encoding: 'Git útvonal kódolásának felülírása (Alapértelmezett: UTF-8)'
       local_title: Hivatkozás egy meglévő helyi tárolóra
       local_url: Local URL
-      local_introduction: If you have an existing local Git repository, you can link
-        it with OpenProject to access it from within the application.
-      managed_introduction: Let OpenProject create and integrate a local Git repository
-        automatically.
+      local_introduction: Ha rendelkezik meglévő helyi Git tárolóval, akkor az OpenProject
+        alkalmazáson belül kapcsolódhat hozzá.
+      managed_introduction: Engedélyezze, hogy az OpenProject automatikusan létrehozza
+        és integrálja a helyi Git tárolót.
       managed_title: Git tároló integrálva az OpenProject-be
       managed_url: Kezelt URL
       path: Git tároló elérési útja
       path_encoding: Elérési út kódolás
     go_to_revision: Lépés a felülvizsgálatra
     managed_remote: A kezelt tárolókat távolról kezelik a szállítónak.
-    managed_remote_note: Information on the URL and path of this repository is not
-      available prior to its creation.
+    managed_remote_note: Ennek a tárolónak az URL címére és elérési útjára vonatkozó
+      információk nem állnak rendelkezésre a létrehozás előtt.
     managed_url: Kezelt URL
     settings:
       automatic_managed_repos_disabled: Automatikus létrehozatal letiltása
       automatic_managed_repos: A kezelt tárolók automatikus létrehozatala
-      automatic_managed_repos_text: By setting a vendor here, newly created projects
-        will automatically receive a managed repository of this vendor.
+      automatic_managed_repos_text: Ha itt állít be egy csomagtárolót, az újonnan
+        létrehozott projektek automatikusan megkapják az adott csomagtároló kezelt
+        tárolóját.
     scm_vendor: Forrás menedzsment rendszer
     scm_type: Tároló típusa
     scm_types:
@@ -1950,9 +1951,10 @@ hu:
       managed: Új tároló létrehozása az OpenProject-ben
     storage:
       not_available: A lemez felhasználási adatai nem érhetőek el a tárolón.
-      update_timeout: |-
-        Keep the last required disk space information for a repository for N minutes.
-        As counting the required disk space of a repository may be costly, increase this value to reduce performance impact.
+      update_timeout: Tartsa meg az utolsó szükséges lemezterület-információt egy
+        tárolóhoz N percig. Mivel egy tároló szükséges lemezterületének kiszámítása
+        erőforrás igényes lehet, növelje ezt az értéket a teljesítmény növelésének
+        érdekében.
     subversion:
       existing_title: Meglévő Subversion tároló
       existing_introduction: Ha rendelkezik meglévő Subversion tárolóval, akkor az
@@ -1960,9 +1962,8 @@ hu:
       existing_url: Existing URL
       instructions:
         managed_url: Ez egy hivatkozás kezelt (helyi) Subversion tárolóra.
-        url: |-
-          Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.
-          The following URL schemes are supported:
+        url: 'Adja meg az tároló URL-jét. Ez akár egy helyi tároló is lehet (kezdődő
+          %{local_proto} ), vagy egy távoli cím. A következő URL-sémák támogatottak:'
       managed_title: Subversion tároló integrálva az OpenProject-be
       managed_introduction: Hagyja, hogy az OpenProject hozza létre, és integrálja
         a helyi Subversion tárolót automatikusan.
@@ -1975,7 +1976,7 @@ hu:
     update_settings_successful: A beállításokat mentése sikerült.
     url: Tároló URL-címe
     warnings:
-      cannot_annotate: This file cannot be annotated.
+      cannot_annotate: Ez a fájl nem annotálható.
   search_input_placeholder: Search ...
   setting_email_delivery_method: Email delivery method
   setting_sendmail_location: Location of the sendmail executable
@@ -2171,8 +2172,8 @@ hu:
     hozzárendelve."
   text_file_repository_writable: A mellékletek könyvtára írható
   text_git_repo_example: a rövid és a helyi csomag tároló (pl. /gitrepo, c:\gitrepo)
-  text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
-    be changed to an unwanted date.
+  text_hint_date_format: Adjon meg egy dátumot éééé-hh-nn formájában Más formátumok
+    nem megfelelő dátumot eredményezhetnek.
   text_hint_disable_with_0: 'Megjegyzés: 0-val kikapcsol'
   text_hours_between: Between %{min} and %{max} hours.
   text_work_package_added: Munkacsomag %{id} jelentés %{author} által készitve.
@@ -2188,9 +2189,9 @@ hu:
   text_work_packages_ref_in_commit_messages: Viszonyítandó és elintézendő munkacsomagok
     a véglegesítési üzenetekben
   text_journal_added: "%{label} %{value} hozzáadva"
-  text_journal_aggregation_time_explanation: Combine journals for display if their
-    age difference is less than the specified timespan. This will also delay mail
-    notifications by the same amount of time.
+  text_journal_aggregation_time_explanation: Fűzze össze a tartalmat az értesítésekben,
+    amennyiben az idő kisebb, mint a megadott érték. Ez ugyanúgy késleltetheti az
+    e-mail kiküldését.
   text_journal_changed: "%{label} megváltozott %{old} -tól %{new} -ig"
   text_journal_changed_no_detail: "%{label} frissítve"
   text_journal_changed_with_diff: "%{label} megváltozott (%{link})"
@@ -2204,11 +2205,11 @@ hu:
   text_load_default_configuration: Az alapértelmezett konfiguráció betöltése
   text_min_max_length_info: 0 azt jelenti, hogy nincs korlátozás
   text_no_roles_defined: Nincsenek szerepkörök meghatározva.
-  text_no_access_tokens_configurable: There are no access tokens which can be configured.
+  text_no_access_tokens_configurable: Nincs hozzáférési token, amely konfigurálható.
   text_no_configuration_data: Szerepkörök, típusok, a munkacsomag állapotok és a munkafolyamatok
     nincsenek beállítva. Erősen ajánlott, az alapértelmezett konfiguráció betöltése.
     Akkor képes lesz arra, hogy módosítsa.
-  text_no_notes: There are no comments available for this work package.
+  text_no_notes: Ehhez a munkacsomaghoz nincsenek megjegyzések.
   text_notice_too_many_values_are_inperformant: 'Megjegyzés: Az oldalanként több mint
     100 elem megjelenítésekor az oldal betöltési ideje  növekedhet.'
   text_own_membership_delete_confirmation: Értesítem arról, hogy eltávolít néhány
@@ -2238,7 +2239,7 @@ hu:
   text_tip_work_package_end_day: ezen a napon zárul a munkacsomag
   text_type_no_workflow: Nincs munkafolyamat meghatározva ehhez a típushoz
   text_unallowed_characters: Nem engedélyezett karakterek
-  text_user_invited: The user has been invited and is pending registration.
+  text_user_invited: A felhasználót meghívták és a regisztráció folyamatban van.
   text_user_wrote: "%{value} írta:"
   text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
     lost if you leave this page.
@@ -2463,8 +2464,8 @@ hu:
       months: Hónapok
       quarters: Negyedek
       years: Évek
-  title_remove_and_delete_user: Remove the invited user from the project and delete
-    him/her.
+  title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
+    és törölje őt.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
     be used for active users to choose a new authentication method. When used with
@@ -2497,7 +2498,8 @@ hu:
 
 '
     authorization_rejected: Nem megengedett bejelentkezés.
-    assign_random_password: Assign random password (sent to user via email)
+    assign_random_password: Véletlenszerű jelszó hozzárendelése ( e-mailben küldése
+      a felhasználónak)
     blocked: ideiglenesen zárolva
     blocked_num_failed_logins:
       one: ideiglenesen zárolva (egy sikertelen bejelentkezési kísérlet)
@@ -2552,8 +2554,8 @@ hu:
 
 '
     destroy:
-      info: Deleting the work package is an irreversible action.
-      title: Delete the work package
+      info: A munkacsomag törlése egy visszafordíthatatlan művelet.
+      title: Munkacsomag törlése
   nothing_to_preview: Nincs előnézet
   api_v3:
     attributes:
@@ -2564,7 +2566,7 @@ hu:
       code_403: Ön nem jogosult az erőforrás eléréséhez.
       code_404: A kért erőforrás nem található.
       code_409: Nem sikerült frissíteni a forrást az ütköző módosítások miatt.
-      code_500: An internal error has occured.
+      code_500: Belső hiba történt.
       expected:
         date: YYYY-MM-DD (ISO 8601 date only)
         duration: ISO 8601 duration

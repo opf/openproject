@@ -321,7 +321,7 @@ id:
         relations_of_type_column: "%{type} relations"
         group_by: Group
         filters: Filter
-        timeline_labels: Timeline labels
+        timeline_labels: Label alur waktu
       repository:
         url: URL
       role:
@@ -486,8 +486,8 @@ id:
         repository:
           not_available: Vendor SCM tidak tersedia
           not_whitelisted: konfigurasi tidak mengijinkan.
-          invalid_url: is not a valid repository URL or path.
-          must_not_be_ssh: must not be an SSH url.
+          invalid_url: bukan tempat penyimpanan atau alamat URL yang benar.
+          must_not_be_ssh: tidak boleh sebuah url SSH.
           no_directory: is not a directory.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Paket-Penugasan #%{id} tidak valid
@@ -906,7 +906,7 @@ id:
   enumeration_work_package_priorities: Paket-Penugasan prioritas
   enumeration_system_activity: Sistem Activity
   enumeration_reported_project_statuses: Status Project yang di-Report
-  error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
+  error_auth_source_sso_failed: Single Sign-On (SSO) untuk pengguna '%{value}' gagal
   error_can_not_archive_project: Project ini tidak bisa diarsip
   error_can_not_delete_entry: Unable to delete entry
   error_can_not_delete_custom_field: Tidak dapat menghapus isian kustom
@@ -1010,7 +1010,7 @@ id:
       forums: Forum
       blog: OpenProject blog
       boards: Community forum
-      newsletter: Security alerts / Newsletter
+      newsletter: Peringatan keamanan / Jurnal berkala
   instructions_after_registration: Anda dapat login setelah akun Anda diaktifkan,
     klik %{signin}.
   instructions_after_logout: Anda dapat login kembali dengan mengklik %{signin}.
@@ -1030,8 +1030,8 @@ id:
   label_accessibility: Accessibility
   label_account: Akun
   label_active: Aktif
-  label_activate_user: Activate user
-  label_active_in_new_projects: Active in new projects
+  label_activate_user: Pengguna diaktifkan
+  label_active_in_new_projects: Aktif dalam proyek-proyek baru
   label_activity: Activity
   label_add_edit_translations: Add and edit translations
   label_add_another_file: Tambah file lain
@@ -1100,7 +1100,7 @@ id:
   label_change_plural: Perubahan
   label_change_properties: Ubah properti
   label_change_status: Ubah status
-  label_change_status_of_user: 'Change status of #{username}'
+  label_change_status_of_user: 'Mengganti status #{username}'
   label_change_view_all: Tampilkan semua perubahan
   label_changes_details: Rincian semua perubahan
   label_changeset: Changeset
@@ -1147,7 +1147,7 @@ id:
   label_date_to: Ke
   label_day_plural: hari
   label_default: Default
-  label_delete_user: Delete user
+  label_delete_user: Menghapus pengguna
   label_delete_project: Delete project
   label_deleted: dihapus
   label_deleted_custom_field: "(isian kustom dihapus)"
@@ -1228,7 +1228,7 @@ id:
   label_internal: Internal
   label_invite_user: Invite user
   label_show_hide: Show/hide
-  label_show_all_registered_users: Show all registered users
+  label_show_all_registered_users: Menampilkan semua pengguna teregistrasi
   label_journal: Journal
   label_journal_diff: Deskripsi perbandingan
   label_language: Bahasa
@@ -1248,7 +1248,7 @@ id:
   label_less_than_ago: kemarin lusa
   label_list: List
   label_loading: Loading...
-  label_lock_user: Lock user
+  label_lock_user: Mengunci pengguna
   label_logged_as: Login sbg
   label_login: Login
   label_custom_logo: Custom logo
@@ -1494,7 +1494,7 @@ id:
   label_wiki_dont_show_menu_item: Sembunyikan halaman Wiki ini dalam navigasi Project
   label_wiki_edit: Edit Wiki
   label_wiki_edit_plural: Wiki edit
-  label_wiki_page_attachments: Wiki page attachments
+  label_wiki_page_attachments: Lampiran halaman Wiki
   label_wiki_page_id: Wiki page ID
   label_wiki_navigation: Wiki navigasi
   label_wiki_page: Halaman Wiki
@@ -1505,7 +1505,7 @@ id:
   label_wiki_show_submenu_item: 'Tampilkan sebagai submenu item '
   label_work_package: Paket-Penugasan
   label_work_package_added: Paket-Penugasan telah ditambah
-  label_work_package_attachments: Work package attachments
+  label_work_package_attachments: Lampiran paket kerja
   label_work_package_category_new: Kategori Baru
   label_work_package_category_plural: Kategori Paket-Penugasan
   label_work_package_hierarchy: Work package hierarchy
@@ -1589,7 +1589,7 @@ id:
   macro_execution_error: ERROR eksekusi makro %{macro_name}
   macro_unavailable: Makro %{macro_name} tidak dapat ditampilkan.
   mail:
-    actions: Actions
+    actions: Tindakan
   mail_body_account_activation_request: 'User (%{value}) telah terdaftar. Akun Anda
     menunggu persetujuan Anda:'
   mail_body_account_information: Info akun Anda
@@ -2475,8 +2475,8 @@ id:
     blocked_num_failed_logins:
       one: locked temporarily (one failed login attempt)
       other: dilock sementara (karena %{count} kali gagal login)
-    confirm_status_change: You are about to change the status of '%{name}'. Are you
-      sure you want to continue?
+    confirm_status_change: Anda sedang mengubah status '%{name}'. Apakah Anda yakin
+      ingin melanjutkan?
     deleted: User telah dihapus
     error_status_change_failed: 'Mengubah status user gagal karena : %{errors}'
     invite: Invite user via email
@@ -2495,7 +2495,7 @@ id:
         author or assignee of).
       mail_self_notified: I want to be notified of changes that I make myself
     status_user_and_brute_force: "%{user} dan %{brute_force}"
-    status_change: Status change
+    status_change: Perubahan status
     unlock: Unlock
     unlock_and_reset_failed_logins: Unlock dan reset gagal login
   version_status_closed: berakhir
