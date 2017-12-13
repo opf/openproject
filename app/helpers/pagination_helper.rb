@@ -52,7 +52,7 @@ module PaginationHelper
                                        pagination_options[:params]
                                         .merge(safe_query_params(%w{filters sortBy expand})))
 
-    content_tag(:div, option_links,class: 'pagination--options')
+    content_tag(:div, option_links, class: 'pagination--options')
   end
 
   ##
