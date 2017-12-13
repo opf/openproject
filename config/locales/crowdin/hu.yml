@@ -406,7 +406,6 @@ hu:
         blank: nem lehet üres.
         cant_link_a_work_package_with_a_descendant: A munka csomag nem kapcsolható
           saját részfeladatához.
-        follows_descendant: leszármazottjait követi.
         circular_dependency: Ez a kapcsolat egy körkörös függőséget eredményezne.
         confirmation: "%{attribute} nem egyezik."
         does_not_exist: nem létezik.
@@ -721,7 +720,7 @@ hu:
     - Péntek
     - Szombat
     abbr_month_names:
-    - 
+    -
     - Január
     - Február
     - Március
@@ -747,7 +746,7 @@ hu:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Január
     - Február
     - Március

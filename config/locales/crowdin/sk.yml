@@ -415,7 +415,6 @@ sk:
         blank: nemôže byť prázdne.
         cant_link_a_work_package_with_a_descendant: Pracovný balíček nemôže byť previazaný
           na žiadny zo svojich podriadenými balíčkov.
-        follows_descendant: follows its descendant.
         circular_dependency: Tento vzťah by vytvoril cyklickú závislosť.
         confirmation: "%{attribute} sa nezhoduje."
         does_not_exist: neexistuje.
@@ -734,7 +733,7 @@ sk:
     - Pia
     - Sob
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -760,7 +759,7 @@ sk:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Január
     - Február
     - Marec

@@ -406,7 +406,6 @@ pl:
         blank: nie może być puste.
         cant_link_a_work_package_with_a_descendant: Zestaw zadań nie może być powiązany
           z jego podzadaniami.
-        follows_descendant: follows its descendant.
         circular_dependency: Ta relacja może wytworzyć zależność cykliczną.
         confirmation: nie pasuje do %{attribute}.
         does_not_exist: nie istnieje.
@@ -721,7 +720,7 @@ pl:
     - Pt
     - Sb
     abbr_month_names:
-    - 
+    -
     - Sty
     - Lut
     - Mar
@@ -747,7 +746,7 @@ pl:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Styczeń
     - Luty
     - Marzec

@@ -419,7 +419,6 @@ ro:
         blank: nu poate fi gol.
         cant_link_a_work_package_with_a_descendant: Un pachet de lucru nu poate fi
           legat de una din sub-activitățile sale.
-        follows_descendant: follows its descendant.
         circular_dependency: Această relație ar crea o dependință circulară.
         confirmation: nu se potrivește cu %{attribute}.
         does_not_exist: nu există.
@@ -733,7 +732,7 @@ ro:
     - V
     - S
     abbr_month_names:
-    - 
+    -
     - ian
     - feb
     - mar
@@ -759,7 +758,7 @@ ro:
       long: "%d %B %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - Ianuarie
     - Februarie
     - Martie

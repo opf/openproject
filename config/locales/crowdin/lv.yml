@@ -406,7 +406,6 @@ lv:
         blank: nevar būt tukšs.
         cant_link_a_work_package_with_a_descendant: Darbu kompleksu nevar saistīt
           vienu no tā apakšuzdevumiem.
-        follows_descendant: follows its descendant.
         circular_dependency: Šī attiecība radītu riņķveida saistību.
         confirmation: neatbilst %{attribute}.
         does_not_exist: nepastāv.
@@ -721,7 +720,7 @@ lv:
     - Fri
     - Sat
     abbr_month_names:
-    - 
+    -
     - Jan
     - Feb
     - Mar
@@ -747,7 +746,7 @@ lv:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - January
     - February
     - March

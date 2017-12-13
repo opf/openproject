@@ -377,7 +377,6 @@ zh-TW:
         accepted: 必須被接受
         blank: 不可空白
         cant_link_a_work_package_with_a_descendant: 一個工作項目不能聯結到它的一個子項目
-        follows_descendant: follows its descendant.
         circular_dependency: 這個關係會建立一個循環依賴
         confirmation: 不吻合 %{attribute}。
         does_not_exist: 不存在
@@ -679,7 +678,7 @@ zh-TW:
     - 五
     - 六
     abbr_month_names:
-    - 
+    -
     - 一月
     - 二月
     - 三月
@@ -705,7 +704,7 @@ zh-TW:
       long: "%Y年%B%d日"
       short: "%b%d日"
     month_names:
-    - 
+    -
     - 一月
     - 二月
     - 三月

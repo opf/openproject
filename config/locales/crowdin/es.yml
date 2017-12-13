@@ -422,7 +422,6 @@ es:
         blank: no puede estar en blanco.
         cant_link_a_work_package_with_a_descendant: Un paquete de trabajo no puede
           ser vinculado a una de sus subtareas.
-        follows_descendant: follows its descendant.
         circular_dependency: Esta relación podría crear una dependencia circular.
         confirmation: no coincide con %{attribute}.
         does_not_exist: no existe.
@@ -740,7 +739,7 @@ es:
     - Vie
     - Sab
     abbr_month_names:
-    - 
+    -
     - Ene
     - Feb
     - Mar
@@ -766,7 +765,7 @@ es:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Enero
     - Febrero
     - Marzo

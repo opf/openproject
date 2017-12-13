@@ -412,7 +412,6 @@ hr:
         blank: ne može biti prazan unos.
         cant_link_a_work_package_with_a_descendant: Radni paket ne može biti pridružen
           podređenim radnim zadacima.
-        follows_descendant: follows its descendant.
         circular_dependency: Ova relacija izraditi će skupnu odnosno cirkularnu ovisnost.
         confirmation: ne odgovara %{attribute}.
         does_not_exist: ne postoji.
@@ -727,7 +726,7 @@ hr:
     - Pet
     - Sub
     abbr_month_names:
-    - 
+    -
     - Sije
     - Velj
     - Ožu
@@ -753,7 +752,7 @@ hr:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Siječanj
     - Veljača
     - Ožujak

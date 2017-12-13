@@ -411,7 +411,6 @@ fi:
         blank: ei voi olla sisällötön.
         cant_link_a_work_package_with_a_descendant: Työpakettia ei voida yhdistää
           ko. työpaketin alitehtäviin.
-        follows_descendant: follows its descendant.
         circular_dependency: Tämä suhde loisi kehän.
         confirmation: ei vastaa %{attribute}.
         does_not_exist: ei ole olemassa.
@@ -719,7 +718,7 @@ fi:
     - Pe
     - La
     abbr_month_names:
-    - 
+    -
     - Tammi
     - Helmi
     - Maalis
@@ -745,7 +744,7 @@ fi:
       long: "%A%e. %Bta %Y"
       short: "%e.%m.%Y"
     month_names:
-    - 
+    -
     - Tammikuu
     - Helmikuu
     - Maaliskuu

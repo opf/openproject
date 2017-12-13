@@ -412,7 +412,6 @@ cs:
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
-        follows_descendant: follows its descendant.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
         does_not_exist: does not exist.
@@ -727,7 +726,7 @@ cs:
     - Pá
     - So
     abbr_month_names:
-    - 
+    -
     - Led
     - Úno
     - Bře
@@ -753,7 +752,7 @@ cs:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - leden
     - únor
     - březen

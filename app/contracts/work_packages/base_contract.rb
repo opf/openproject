@@ -176,14 +176,8 @@ module WorkPackages
 
     # have to validate ourself as the parent relation is created after saving
     def validate_parent_not_subtask
-      return unless model.parent_id_changed? && model.parent
-
-      invalid_relations.each do |invalid_relation|
-        if invalid_relation.hierarchy?
-          errors.add :parent, :cant_link_a_work_package_with_a_descendant
-        else
-          errors.add :parent, :follows_descendant
-        end
+      if model.parent_id_changed? && model.parent && invalid_relations_with_new_hierarchy.exists?
+        errors.add :base, :cant_link_a_work_package_with_a_descendant
       end
     end
 
@@ -274,29 +268,11 @@ module WorkPackages
                                    user.roles(model.project))
     end
 
-    def invalid_relations
-      model_relations = relations_to_check_for(model).to_a
-
-      invalid_parent_relations(model_relations) + invalid_model_relations(model_relations)
-    end
-
-    def relations_to_check_for(wp)
-      wp.relations_to.hierarchy_or_follows
-    end
-
-    def invalid_parent_relations(model_relations)
-      parent_relations = relations_to_check_for(model.parent).to_a
-      model_relation_ids = model_relations.map(&:to_id)
-
-      parent_relations.select do |parent_rel|
-        model_relation_ids.include?(parent_rel.to_id) || parent_rel.to_id == model.id
-      end
-    end
-
-    def invalid_model_relations(model_relations)
-      model_relations.select do |model_rel|
-        model_rel.to_id == model.parent_id
-      end
+    def invalid_relations_with_new_hierarchy
+      Relation
+        .from_parent_to_self_and_descendants(model)
+        .or(Relation.from_self_and_descendants_to_ancestors(model))
+        .non_reflexive
     end
   end
 end

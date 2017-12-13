@@ -118,6 +118,17 @@ class Relation < ActiveRecord::Base
       .or(where(from_id: work_package.id))
   end
 
+  def self.from_parent_to_self_and_descendants(work_package)
+    from_work_package_or_ancestors(work_package.parent)
+      .where(to_id: work_package.self_and_descendants.select(:id))
+  end
+
+  def self.from_self_and_descendants_to_ancestors(work_package)
+    # using parent.self_and_ancestors to be able to cope with unpersisted parent
+    where(from_id: work_package.self_and_descendants.select(:id))
+      .where(to_id: work_package.parent.self_and_ancestors.select(:id))
+  end
+
   def self.hierarchy_or_follows
     with_type_columns_0(WorkPackage._dag_options.type_columns - %i(hierarchy follows))
       .non_reflexive

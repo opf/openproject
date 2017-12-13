@@ -388,7 +388,6 @@ ko:
         blank: 내용을 입력해주세요
         cant_link_a_work_package_with_a_descendant: 작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수
           없습니다.
-        follows_descendant: follows its descendant.
         circular_dependency: 이 연계는 순환 종속관계를 만듭니다.
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         does_not_exist: 존재하지 않음
@@ -690,7 +689,7 @@ ko:
     - 금
     - 토
     abbr_month_names:
-    - 
+    -
     - 1월
     - 2월
     - 3월
@@ -716,7 +715,7 @@ ko:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - 1월
     - 2월
     - 3월

@@ -409,7 +409,6 @@ et:
         blank: ei tohi olla tühi.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
-        follows_descendant: follows its descendant.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
         does_not_exist: does not exist.
@@ -721,7 +720,7 @@ et:
     - R
     - L
     abbr_month_names:
-    - 
+    -
     - jaanuar
     - veebruar
     - märts
@@ -747,7 +746,7 @@ et:
       long: "%d %B %Y"
       short: "%d %b"
     month_names:
-    - 
+    -
     - jaanuar
     - veebruar
     - märts

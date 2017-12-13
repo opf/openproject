@@ -409,7 +409,6 @@ ru:
         blank: не может быть пустым.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан
           с одной из своих подзадач.
-        follows_descendant: follows its descendant.
         circular_dependency: Это отношение создаст циклическую зависимость.
         confirmation: не совпадает со значением поля %{attribute}.
         does_not_exist: не существует.
@@ -727,7 +726,7 @@ ru:
     - Пт
     - Сб
     abbr_month_names:
-    - 
+    -
     - Ян
     - Фев
     - Март
@@ -753,7 +752,7 @@ ru:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    - 
+    -
     - Январь
     - Февраль
     - Март
