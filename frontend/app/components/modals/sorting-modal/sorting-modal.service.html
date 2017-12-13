@@ -21,6 +21,7 @@
                 <select
                     id="modal-sorting-attribute-{{$index}}"
                     ng-model="sort.column"
+                    ng-change="updatedSelection()"
                     focus="!$index"
                     class="form--select"
                     ng-options="column.name for column in availableColumnsAndCurrent(sort.column) | orderBy:'name' track by column.$href">

@@ -81,6 +81,28 @@ describe 'Select work package row', type: :feature, js: true do
     end
   end
 
+  describe 'sorting modal' do
+    let(:sort_by) { ::Components::WorkPackages::SortBy.new }
+
+    before do
+      login_as user
+      wp_table.visit!
+    end
+
+    it 'provides the default sortation and allows second criterion after parent (Regression WP#26792)' do
+      # Expect current criteria
+      sort_by.expect_criteria(['Parent', 'asc'], ['ID', 'asc'])
+
+      # Expect we can change the criteria and reuse that value
+      sort_by.open_modal
+      sort_by.update_nth_criteria(1, 'Type')
+      sort_by.update_nth_criteria(0, 'ID', descending: true)
+
+      sort_by.apply_changes
+      sort_by.expect_criteria(['ID', 'desc'], ['Type', 'asc'])
+    end
+  end
+
   describe 'parent sorting' do
     let(:sort_by) { ::Components::WorkPackages::SortBy.new }
 
