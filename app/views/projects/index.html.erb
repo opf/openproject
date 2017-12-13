@@ -164,7 +164,7 @@ See doc/COPYRIGHT.rdoc for more details.
     </div>
   </div>
 <% else %>
-  <%= no_results_box(action_url: new_project_path, display_action: true) %>
+  <%= no_results_box(no_projects_result_box_params) %>
 <% end %>
 
 <% if User.current.admin? %>
