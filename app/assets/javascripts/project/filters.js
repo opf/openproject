@@ -164,7 +164,6 @@ jQuery(function($) {
 
   function addFilter(e) {
     e.preventDefault();
-    $('.advanced-filters--spacer').removeClass('hidden');
     $('[filter-name="' + $(this).val() + '"]').removeClass('hidden');
     // If the user removes the filter the same filter has to be selectable from fresh again:
     $('#add_filter_select option:selected', $filterForm).prop('disabled','disabled');
