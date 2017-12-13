@@ -29,6 +29,8 @@
 #++
 
 class CustomValue::DateStrategy < CustomValue::FormatStrategy
+  include Redmine::I18n
+
   def typed_value
     unless value.blank?
       Date.iso8601(value)
