@@ -36,10 +36,7 @@ class ModelReorganization < ActiveRecord::Migration[5.0]
     User.transaction do
       User.find_each do |user|
         phone = user.verified_phone || user.unverified_phone
-        unless phone.present?
-          warn "Can't migrate #{user.id} to new OTP devices, missing phone number."
-          next
-        end
+        next unless phone.present?
 
         sms = ::TwoFactorAuthentication::Device::Sms.create!(
           user_id: user.id,
