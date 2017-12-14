@@ -719,7 +719,7 @@
     - Fre
     - Lør
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mar
@@ -745,7 +745,7 @@
       long: "%d. %B %Y"
       short: "%d. %b"
     month_names:
-    -
+    - 
     - Januar
     - Februar
     - Mars

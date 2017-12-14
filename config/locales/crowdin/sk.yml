@@ -733,7 +733,7 @@ sk:
     - Pia
     - Sob
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mar
@@ -759,7 +759,7 @@ sk:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Január
     - Február
     - Marec

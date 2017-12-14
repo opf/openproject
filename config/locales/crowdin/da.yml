@@ -720,7 +720,7 @@ da:
     - Fre
     - Lør
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mar
@@ -746,7 +746,7 @@ da:
       long: "%B %d %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Januar
     - Februar
     - Marts
@@ -872,8 +872,8 @@ da:
 '
   description_available_columns: Tilgængelige kolonner
   description_choose_project: Projekter
-  description_compare_from: Compare from
-  description_compare_to: Compare to
+  description_compare_from: Sammenlign fra
+  description_compare_to: Sammenlign med
   description_current_position: 'Du er her:'
   description_date_from: Indtast startdato
   description_date_range_interval: Fastsæt interval ved at vælge start- og slutdato
@@ -1225,7 +1225,7 @@ da:
   label_in_more_than: på mere end
   label_inactive: Inactive
   label_incoming_emails: Indkommende e-mails
-  label_includes: includes
+  label_includes: inkluderer
   label_index_by_date: Indhold efter dato
   label_index_by_title: Indhold efter titel
   label_information: Information
@@ -1324,7 +1324,7 @@ da:
   label_overall_activity: Samlet aktivitet
   label_overall_spent_time: Samlet brugt tid
   label_overview: Overblik
-  label_part_of: part of
+  label_part_of: del af
   label_password_lost: Glemt din adgangskode?
   label_password_rule_lowercase: Små bogstaver
   label_password_rule_numeric: Tal
@@ -1731,7 +1731,7 @@ da:
     text_getting_started_description: Get a quick overview of project management and
       team collaboration with OpenProject.
     text_show_again: You can restart this video from the help menu
-    welcome: Welcome to OpenProject
+    welcome: Velkommen til OpenProject
   permission_add_work_package_notes: Tilføj noter
   permission_add_work_packages: Add work packages (also allows to add attachments
     to all work packages)
@@ -1793,7 +1793,7 @@ da:
   permission_view_work_package_watchers: Se liste over tilsynsførende
   permission_view_work_packages: View work packages
   permission_view_messages: Vis meddelelser
-  permission_view_members: View members
+  permission_view_members: Vis medlemmer
   permission_view_project_associations: Vis projektets aflæggere
   permission_view_reportings: Vis rapporteringer
   permission_view_time_entries: Vis anvendt tid
@@ -1919,7 +1919,7 @@ da:
           by using a value starting with http(s):// or file://.
         path_encoding: 'Tilsidesæt Git-stikodning (standard: UTF-8)'
       local_title: Link eksisterende lokalt Git-repositorie
-      local_url: Local URL
+      local_url: Lokal URL
       local_introduction: Har du et eksisterende underversions-repositorie, kan du
         lænke dette med OpenProject for at kunne tilgå det indefra applikationen.
       managed_introduction: Lad OpenProject oprette og integrere et lokalt Git-repositorie
@@ -1972,7 +1972,7 @@ da:
     url: URL til repositorie
     warnings:
       cannot_annotate: Denne fil kan ikke kommenteres.
-  search_input_placeholder: Search ...
+  search_input_placeholder: Søg ...
   setting_email_delivery_method: Email delivery method
   setting_sendmail_location: Location of the sendmail executable
   setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available

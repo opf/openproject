@@ -721,7 +721,7 @@ vi:
     - Thứ Sáu
     - Thứ Bảy
     abbr_month_names:
-    -
+    - 
     - Th. 1
     - Th. 2
     - Thg 3
@@ -747,7 +747,7 @@ vi:
       long: "%d %B, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Tháng Một
     - Tháng hai
     - Tháng Ba

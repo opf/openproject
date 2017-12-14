@@ -689,7 +689,7 @@ ko:
     - 금
     - 토
     abbr_month_names:
-    -
+    - 
     - 1월
     - 2월
     - 3월
@@ -715,7 +715,7 @@ ko:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - 1월
     - 2월
     - 3월

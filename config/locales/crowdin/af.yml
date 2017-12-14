@@ -722,7 +722,7 @@ af:
     - Vr
     - Sa
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mrt
@@ -748,7 +748,7 @@ af:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Januarie
     - Februarie
     - Maart

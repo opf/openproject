@@ -732,7 +732,7 @@ ro:
     - V
     - S
     abbr_month_names:
-    -
+    - 
     - ian
     - feb
     - mar
@@ -758,7 +758,7 @@ ro:
       long: "%d %B %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - Ianuarie
     - Februarie
     - Martie

@@ -718,7 +718,7 @@ fi:
     - Pe
     - La
     abbr_month_names:
-    -
+    - 
     - Tammi
     - Helmi
     - Maalis
@@ -744,7 +744,7 @@ fi:
       long: "%A%e. %Bta %Y"
       short: "%e.%m.%Y"
     month_names:
-    -
+    - 
     - Tammikuu
     - Helmikuu
     - Maaliskuu

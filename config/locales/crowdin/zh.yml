@@ -663,7 +663,7 @@ zh:
     - 周五
     - 周六
     abbr_month_names:
-    -
+    - 
     - 1月
     - 2月
     - 3月
@@ -689,7 +689,7 @@ zh:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - 1月
     - 2月
     - 3月

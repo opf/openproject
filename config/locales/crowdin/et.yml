@@ -720,7 +720,7 @@ et:
     - R
     - L
     abbr_month_names:
-    -
+    - 
     - jaanuar
     - veebruar
     - märts
@@ -746,7 +746,7 @@ et:
       long: "%d %B %Y"
       short: "%d %b"
     month_names:
-    -
+    - 
     - jaanuar
     - veebruar
     - märts

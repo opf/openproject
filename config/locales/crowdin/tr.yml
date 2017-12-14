@@ -719,7 +719,7 @@ tr:
     - Cum
     - Cmt
     abbr_month_names:
-    -
+    - 
     - Oca
     - Şub
     - Mar
@@ -745,7 +745,7 @@ tr:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Ocak
     - Şubat
     - Mart

@@ -678,7 +678,7 @@ zh-TW:
     - 五
     - 六
     abbr_month_names:
-    -
+    - 
     - 一月
     - 二月
     - 三月
@@ -704,7 +704,7 @@ zh-TW:
       long: "%Y年%B%d日"
       short: "%b%d日"
     month_names:
-    -
+    - 
     - 一月
     - 二月
     - 三月

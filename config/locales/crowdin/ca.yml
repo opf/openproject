@@ -730,7 +730,7 @@ ca:
     - Dv
     - Ds
     abbr_month_names:
-    -
+    - 
     - Gen
     - Feb
     - Mar
@@ -756,7 +756,7 @@ ca:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Gener
     - Febrer
     - Març

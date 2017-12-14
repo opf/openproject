@@ -720,7 +720,7 @@ pl:
     - Pt
     - Sb
     abbr_month_names:
-    -
+    - 
     - Sty
     - Lut
     - Mar
@@ -746,7 +746,7 @@ pl:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Styczeń
     - Luty
     - Marzec

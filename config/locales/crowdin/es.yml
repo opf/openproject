@@ -739,7 +739,7 @@ es:
     - Vie
     - Sab
     abbr_month_names:
-    -
+    - 
     - Ene
     - Feb
     - Mar
@@ -765,7 +765,7 @@ es:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Enero
     - Febrero
     - Marzo

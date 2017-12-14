@@ -720,7 +720,7 @@ sv-SE:
     - Fre
     - Lör
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mar
@@ -746,7 +746,7 @@ sv-SE:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Januari
     - Februari
     - Mars

@@ -34,7 +34,7 @@ da:
     button_move: Flyt
     button_open_details: Åbn detaljevisning
     button_close_details: Close details view
-    button_open_fullscreen: Open fullscreen view
+    button_open_fullscreen: Fuldskærmsvisning
     button_quote: Citer
     button_save: Gem
     button_settings: Indstillinger
@@ -44,11 +44,11 @@ da:
     button_export-atom: Download Atom
     description_available_columns: Tilgængelige kolonner
     description_current_position: 'Du er her:'
-    description_select_work_package: 'Select work package #%{id}'
+    description_select_work_package: 'Vælg arbejds pakke #%{id}'
     description_selected_columns: Valgte kolonner
     description_subwork_package: 'Child of work package #%{id}'
     error:
-      internal: An internal error has occurred.
+      internal: En intern fejl opstod.
     filter:
       description:
         text_open_filter: Åbn dette filter med 'ALT' og pile tasterne.
@@ -62,9 +62,9 @@ da:
       value_spacer: "-"
       sorting:
         criteria:
-          one: First sorting criteria
-          two: Second sorting criteria
-          three: Third sorting criteria
+          one: Første sorteringskriterium
+          two: Anden sorteringskriterier
+          three: Tredje sorteringskriterium
     general_text_no: nej
     general_text_yes: ja
     general_text_No: Nej
@@ -96,7 +96,7 @@ da:
     label_deactivate: Deaktivér
     label_descending: Faldende
     label_description: Beskrivelse
-    label_cancel_comment: Cancel comment
+    label_cancel_comment: Annuller kommentar
     label_closed_work_packages: lukket
     label_collapse: Fold sammen
     label_collapsed: sammenfoldet
@@ -106,7 +106,7 @@ da:
     label_committed_link: tilknyttet revision %{revision_identifier}
     label_contains: indeholder
     label_created_on: oprettet d.
-    label_edit_comment: Edit this comment
+    label_edit_comment: Rediger denne kommentar
     label_edit_status: Edit the status of the work package
     label_equals: er
     label_expand: Udvid
@@ -117,7 +117,7 @@ da:
     label_filesize: Størrelse
     label_greater_or_equal: ">="
     label_group_by: Gruppér efter
-    label_hide_attributes: Show less
+    label_hide_attributes: Vis mindre
     label_hide_column: Gem kolonne
     label_in: i
     label_in_less_than: på mindre end
@@ -209,7 +209,7 @@ da:
       no_other_page: You are on the only page.
       pages:
         next: Forward to the next page
-        previous: Back to the previous page
+        previous: Tilbage til forrige side
     placeholders:
       default: "-"
       subject: Enter subject here
@@ -329,7 +329,7 @@ da:
       change: Ændring i planlægning
       due_date: Forfaldsdato
       empty: "(tom)"
-      error: An error has occurred.
+      error: Der opstod en fejl.
       errors:
         not_implemented: Tidslinjen kan ikke gengives, fordi den bruger en funktion,
           der endnu ikke er implementeret.
@@ -429,7 +429,7 @@ da:
           configurable.
         format:
           date: "%{attribute} is no valid date - YYYY-MM-DD expected."
-        general: An error has occurred.
+        general: Der opstod en fejl.
       edit_attribute: "%{attribute} - Edit"
       key_value: "%{key}: %{value}"
       label_enable_multi_select: Tillad multimarkeringer
@@ -603,7 +603,7 @@ da:
         number: "%{field} er ikke et gyldigt tal"
         maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
         minlength: "%{field} cannot contain less than %{minLength} digit(s)"
-        messages_on_field: 'This field is invalid: %{messages}'
+        messages_on_field: 'Dette felt er ugyldigt: %{messages}'
     error_could_not_resolve_version_name: Kunne ikke fastslå versionsnavn
     error_could_not_resolve_user_name: Kunne ikke finde brugernavnet
     units:

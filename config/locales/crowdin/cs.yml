@@ -726,7 +726,7 @@ cs:
     - Pá
     - So
     abbr_month_names:
-    -
+    - 
     - Led
     - Úno
     - Bře
@@ -752,7 +752,7 @@ cs:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - leden
     - únor
     - březen

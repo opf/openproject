@@ -731,7 +731,7 @@ nl:
     - Vr
     - Za
     abbr_month_names:
-    -
+    - 
     - Jan
     - Feb
     - Mar
@@ -757,7 +757,7 @@ nl:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Januari
     - Februari
     - Maart

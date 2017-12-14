@@ -722,7 +722,7 @@ lt:
     - Pen
     - Šeš
     abbr_month_names:
-    -
+    - 
     - Sau
     - Vas
     - Kov
@@ -748,7 +748,7 @@ lt:
       long: "%Y %d, %B"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Sausis
     - Vasaris
     - Kovas

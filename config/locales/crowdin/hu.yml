@@ -720,7 +720,7 @@ hu:
     - Péntek
     - Szombat
     abbr_month_names:
-    -
+    - 
     - Január
     - Február
     - Március
@@ -746,7 +746,7 @@ hu:
       long: "%B %d, %Y"
       short: "%b %d"
     month_names:
-    -
+    - 
     - Január
     - Február
     - Március
