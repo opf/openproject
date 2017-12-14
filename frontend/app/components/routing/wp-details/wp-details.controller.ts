@@ -56,6 +56,8 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
       const isFirstRoute = firstRoute.name === 'work-packages.list.details.overview';
       const isSameID = firstRoute.params && wpId === firstRoute.params.workPackageI;
       this.wpTableFocus.updateFocus(wpId, (isFirstRoute && isSameID));
+    } else {
+      this.wpTableFocus.updateFocus(wpId, false);
     }
 
     if (this.wpTableSelection.isEmpty) {
@@ -66,7 +68,8 @@ export class WorkPackageDetailsController extends WorkPackageViewController {
       $scope,
       this.wpTableFocus.whenChanged()
     ).subscribe(newId => {
-        if (wpId !== newId && $state.includes('work-packages.list.details')) {
+        const idSame = wpId.toString() === newId.toString();
+        if (!idSame && $state.includes('work-packages.list.details')) {
           $state.go(
             ($state.current.name as string),
             {workPackageId: newId, focus: false }

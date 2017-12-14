@@ -45,6 +45,10 @@ module Components
         page.find(".relation-row-#{relatable.id}")
       end
 
+      def click_relation(relatable)
+        page.find(".relation-row-#{relatable.id} .wp-relations--subject-field").click
+      end
+
       def hover_action(relatable, action)
         retry_block do
           # Focus type edit to expose buttons
