@@ -26,40 +26,24 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-// Styles taken from jquery-dropdown plugin:
-// https://github.com/plapier/jquery-dropdown
-// (dual MIT/GPL-Licensed)
+// --------------------------------------------------------
+// At the moment we have basically two different class sets for dropdowns.
+// '.dropdown' is used for all menus within the WP context
+//  --> (contextMenus (createButton, statusButton, tableContextMenu), wpToolbarSettingsButton))
+// '.drop-down' is used for the rest
+//  --> top menu and all other toolbar settings menus (e.g. wiki)
+// --------------------------------------------------------
 
 
-.dropdown.dropdownToolbar
-  margin: 10px 0 0 0
-
-#column-context-menu .menu
-  margin: 0
-
-.dropdown
-  // Will be overridden by the js code but having this here will prevent the
-  // dropdown to displayed in the upper right corner until the js sets the
-  // position explicitly.
-  visibility: hidden
-
-  // Avoid a context menu that MAY get too large for the screen
-  // to exceed it, but rather limit its height to the view port.
-  &.-overflow-in-view
-    max-height: 100vh
-    overflow: auto
-
+// ---------------------------- SHARED styles --------------------------------
 .dropdown,
-.toolbar .legacy-actions-more
+.drop-down .menu-drop-down-container
   position: absolute
   z-index: 9999999
 
-.toolbar .legacy-actions-more
-  right: 0
-
 .dropdown .dropdown-menu,
 .dropdown .dropdown-panel,
-.toolbar .legacy-actions-more
+.drop-down .menu-drop-down-container
   min-width: 200px
   list-style: none
   background: #FFF
@@ -71,51 +55,8 @@
   padding: 3px 0
   margin: 0
 
-.dropdown-menu.-empty
-  visibility: hidden
-
-.dropdown .dropdown-panel
-  padding: 10px
-
-.dropdown.dropdown-tip
-  margin-top: 8px
-
-.dropdown.dropdown-tip:before
-  position: absolute
-  top: -6px
-  left: 9px
-  content: ''
-  border-left: 7px solid transparent
-  border-right: 7px solid transparent
-  border-bottom: 7px solid #CCC
-  border-bottom-color: rgba(0, 0, 0, 0.2)
-  display: inline-block
-
-.dropdown.dropdown-tip.dropdown-anchor-right:before
-  left: auto
-  right: 9px
-
-.dropdown.dropdown-tip:after
-  position: absolute
-  top: -5px
-  left: 10px
-  content: ''
-  border-left: 6px solid transparent
-  border-right: 6px solid transparent
-  border-bottom: 6px solid #FFF
-  display: inline-block
-
-.dropdown.dropdown-tip.dropdown-anchor-right:after
-  left: auto
-  right: 10px
-
-.dropdown.dropdown-scroll .dropdown-menu,
-.dropdown.dropdown-scroll .dropdown-panel
-  max-height: 358px
-  overflow: auto
-
 .dropdown .dropdown-menu,
-.toolbar .legacy-actions-more
+.drop-down .menu-drop-down-container
   LI
     list-style: none
     padding: 0
@@ -123,7 +64,7 @@
     line-height: 20px
 
 .dropdown .dropdown-menu,
-.toolbar .legacy-actions-more
+.drop-down .menu-drop-down-container
   LI > A,
   LABEL,
   .menu-item
@@ -149,6 +90,40 @@
   LI > A.inactive
     color: #999999
 
+
+
+// ---------------------------- .DROPDOWN styles --------------------------------
+
+// Styles taken from jquery-dropdown plugin:
+// https://github.com/plapier/jquery-dropdown
+// (dual MIT/GPL-Licensed)
+
+#column-context-menu .menu
+  margin: 0
+
+.dropdown
+  // Will be overridden by the js code but having this here will prevent the
+  // dropdown to displayed in the upper right corner until the js sets the
+  // position explicitly.
+  visibility: hidden
+
+  // Avoid a context menu that MAY get too large for the screen
+  // to exceed it, but rather limit its height to the view port.
+  &.-overflow-in-view
+    max-height: 100vh
+    overflow: auto
+
+.dropdown-menu.-empty
+  visibility: hidden
+
+.dropdown .dropdown-panel
+  padding: 10px
+
+.dropdown.dropdown-scroll .dropdown-menu,
+.dropdown.dropdown-scroll .dropdown-panel
+  max-height: 358px
+  overflow: auto
+
 .dropdown LI > A.dropdown-menu-hasicons
   display: block
   @include varprop(color, context-menu-unselected-font-color)
@@ -171,3 +146,29 @@
 // extended styles
 .wp-create-button li
   float: none !important
+
+
+
+// ---------------------------- .DROP-DOWN styles --------------------------------
+.drop-down
+  list-style-type: none
+  select
+    width: 100%
+
+.drop-down .button--dropdown-indicator
+  &:before
+    @include icon-font-common
+    font-size: 10px
+    padding: 0 0 0 9px
+    @extend .icon-pulldown:before
+
+.drop-down .menu-drop-down-container
+  right: 0
+  display: none
+  height: auto
+  li
+    white-space: nowrap
+    list-style-type: none
+    a
+      height: 32px
+      text-decoration: none

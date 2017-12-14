@@ -34,7 +34,7 @@
       <li><a>Menu item text</a></li>
       <li class="drop-down">
         <a class="icon icon-more" href="javascript:">More functions</a>
-        <ul style="display:none;" class="legacy-actions-more">
+        <ul style="display:none;" class="menu-drop-down-container">
           <li><a>Menu item text</a></li>
         </ul>
       </li>
