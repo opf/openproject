@@ -103,17 +103,15 @@ See doc/COPYRIGHT.rdoc for more details.
               <td><%= checked_image project.is_public? %></td>
               <% if EnterpriseToken.allows_to?(:custom_fields_in_projects_list) %>
                 <% @custom_fields.each do |custom_field| %>
-                  <% if project.custom_value_for(custom_field).present? %>
-                    <td class="format-<%= custom_field.field_format %>">
-                      <% if custom_field.field_format == 'text' %>
-                        <%= shorten_text(project.custom_value_for(custom_field).formatted_value, 20) %>
-                      <% else %>
-                        <%= project.custom_value_for(custom_field).formatted_value %>
-                      <% end %>
-                    </td>
-                  <% else %>
-                    <td></td>
-                  <% end %>
+                  <td class="format-<%= custom_field.field_format %>">
+                    <% custom_value = project.custom_value_for(custom_field).formatted_value %>
+
+                    <% if custom_field.field_format == 'text' %>
+                      <%= shorten_text(custom_value, 20) %>
+                    <% else %>
+                      <%= custom_value %>
+                    <% end %>
+                  </td>
                 <% end %>
               <% end %>
               <% if User.current.admin? %>
