@@ -27,7 +27,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 <% html_title(l(:label_administration), "#{ l('account.deletion_info.heading', name: @user.name)}") -%>
-<%= labelled_tabular_form_for :user, url: user_path(@user), html: { method: :delete, class: 'confirm_required form danger-zone' } do %>
+<%= labelled_tabular_form_for(
+    :user,
+    url: user_path(@user),
+    html: {
+        method: :delete, class: 'confirm_required form danger-zone',
+        data: { :'request-for-confirmation' => '' }
+    }) do %>
   <div class='wiki'>
     <section class="form--section">
       <h3 class="form--section-title">
@@ -55,18 +61,8 @@ See doc/COPYRIGHT.rdoc for more details.
           concat content_tag :i, '', class: 'button--icon icon-delete'
           concat content_tag :span, l(:button_delete), class: 'button--text'
           end %>
-        <%= link_to edit_user_path(@user),
-          title: l(:button_cancel),
-          class: 'button -with-icon icon-cancel' do %>
-            <%= l(:button_cancel) %>
-          <% end %>
       </div>
     </section>
   </div>
 <% end %>
 
-<%= javascript_tag do -%>
-  jQuery(document).ready(function() {
-    SubmitConfirm.init(jQuery('.confirm_required'), '<%= l('account.delete_confirmation') %>');
-  });
-<% end -%>
