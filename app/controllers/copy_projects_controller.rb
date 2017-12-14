@@ -33,7 +33,6 @@ class CopyProjectsController < ApplicationController
   before_action :disable_api
   before_action :find_project
   before_action :authorize
-  before_action :prepare_for_copy_project
 
   def copy
     @copy_project = project_copy
@@ -87,12 +86,5 @@ class CopyProjectsController < ApplicationController
 
   def origin
     params[:coming_from] == 'admin' ? projects_path : settings_project_path(@project.id)
-  end
-
-  def prepare_for_copy_project
-    @issue_custom_fields = WorkPackageCustomField.order("#{CustomField.table_name}.position")
-    @types = ::Type.all
-    @root_projects = Project.where("parent_id IS NULL AND status = #{Project::STATUS_ACTIVE}")
-                     .order('name')
   end
 end
