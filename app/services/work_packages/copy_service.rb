@@ -74,7 +74,8 @@ class WorkPackages::CopyService
       .attributes
       .slice(*writable_work_package_attributes(wp))
       .merge('author_id' => user.id,
-             'parent_id' => wp.parent_id)
+             'parent_id' => wp.parent_id,
+             'custom_field_values' => wp.custom_value_attributes)
       .merge(override)
   end
 
