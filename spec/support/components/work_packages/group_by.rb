@@ -47,6 +47,10 @@ module Components
         click_button 'Apply'
       end
 
+      def disable_via_menu
+        enable_via_menu '-'
+      end
+
       def expect_not_grouped_by(name)
         open_table_column_context_menu(name)
 
