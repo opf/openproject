@@ -157,13 +157,13 @@ See doc/COPYRIGHT.rdoc for more details.
           <% end %>
         </tbody>
       </table>
-
-      <%= pagination_links_full @projects %>
     </div>
   </div>
+  <%= pagination_links_full @projects %>
 <% else %>
   <%= no_results_box(no_projects_result_box_params) %>
 <% end %>
+
 
 <% if User.current.admin? %>
   <p class="information-section">
