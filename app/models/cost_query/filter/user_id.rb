@@ -27,8 +27,8 @@ class CostQuery::Filter::UserId < Report::Filter::Base
     # Excludes the anonymous user
     users = User.joins(members: :project)
                 .merge(Project.visible)
-                .where.not(id: User.anonymous)
-                .order_by_name
+                .not_builtin
+                .limit(100)
                 .select(User::USER_FORMATS_STRUCTURE[Setting.user_format].map(&:to_s) << :id)
                 .distinct
 
