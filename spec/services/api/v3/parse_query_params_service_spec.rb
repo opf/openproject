@@ -71,6 +71,31 @@ describe ::API::V3::ParseQueryParamsService,
         end
       end
 
+      context 'set to empty string' do
+        it_behaves_like 'transforms' do
+          let(:params) { { g: '' } }
+          let(:expected) { { group_by: nil } }
+        end
+
+        it_behaves_like 'transforms' do
+          let(:params) { { group_by: '' } }
+          let(:expected) { { group_by: nil } }
+        end
+
+        it_behaves_like 'transforms' do
+          let(:params) { { groupBy: '' } }
+          let(:expected) { { group_by: nil } }
+        end
+      end
+
+      context 'not given' do
+        let(:params) { { bla: 'foo' } }
+        it 'does not set group_by' do
+          expect(subject).to be_success
+          expect(subject.result).not_to have_key(:group_by)
+        end
+      end
+
       context 'with an attribute called differently in v3' do
         it_behaves_like 'transforms' do
           let(:params) { { groupBy: 'assignee' } }

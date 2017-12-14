@@ -11,6 +11,7 @@ describe 'Work Package group by progress', js: true do
   let!(:wp_4) { FactoryGirl.create(:work_package, project: project, done_ratio: 50) }
 
   let(:wp_table) { Pages::WorkPackagesTable.new(project) }
+  let(:group_by) { ::Components::WorkPackages::GroupBy.new }
 
   let!(:query) do
     query              = FactoryGirl.build(:query, user: user, project: project)
@@ -49,5 +50,32 @@ describe 'Work Package group by progress', js: true do
     expect(page).to have_selector('.group--value .count', count: 2)
     expect(page).to have_selector('.group--value', text: '10 (2)')
     expect(page).to have_selector('.group--value', text: '50 (2)')
+  end
+
+  context 'with grouped query' do
+    let!(:query) do
+      query              = FactoryGirl.build(:query, user: user, project: project)
+      query.column_names = ['subject', 'done_ratio']
+      query.group_by = 'done_ratio'
+
+      query.save!
+      query
+    end
+
+    it 'keeps the disabled group by when reloading (Regression WP#26778)' do
+      # Expect table to be grouped as WP created above
+      expect(page).to have_selector('.group--value .count', count: 3)
+
+      group_by.disable_via_menu
+      expect(page).to have_no_selector('.group--value')
+
+      # Expect disabled group by to be kept after reload
+      page.driver.browser.navigate.refresh
+      expect(page).to have_no_selector('.group--value')
+
+      # But query has not been changed
+      query.reload
+      expect(query.group_by).to eq 'done_ratio'
+    end
   end
 end

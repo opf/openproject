@@ -77,10 +77,7 @@ export class UrlParamsHelperService {
 
     paramsData.tzl = query.timelineZoomLevel;
     paramsData.hi = !!query.showHierarchies;
-
-    if (query.groupBy) {
-      paramsData.g = query.groupBy.id;
-    }
+    paramsData.g = _.get(query.groupBy, 'id', '');
     if (query.sortBy) {
       paramsData.t = query
         .sortBy
@@ -145,9 +142,7 @@ export class UrlParamsHelperService {
       queryData.showHierarchies = properties.hi;
     }
 
-    if (properties.g) {
-      queryData.groupBy = properties.g;
-    }
+    queryData.groupBy = _.get(properties, 'g', '');
 
     // Filters
     if (properties.f) {
@@ -195,10 +190,7 @@ export class UrlParamsHelperService {
     queryData.timelineVisible = query.timelineVisible;
     queryData.timelineZoomLevel = query.timelineZoomLevel;
     queryData.showHierarchies = query.showHierarchies;
-
-    if (query.groupBy) {
-      queryData.groupBy = query.groupBy.id;
-    }
+    queryData.groupBy = _.get(query.groupBy, 'id', '');
 
     // Filters
     const filters = query.filters.map((filter:any) => {
