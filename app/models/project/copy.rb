@@ -46,10 +46,12 @@ module Project::Copy
         self.enabled_module_names = project.enabled_module_names
         self.types = project.types
         self.work_package_custom_fields = project.work_package_custom_fields
+        self.custom_field_values = project.custom_value_attributes
       end
-      return self
+
+      self
     rescue ActiveRecord::RecordNotFound
-      return nil
+      nil
     end
 
     def copy_associations(from_model, options = {})

@@ -82,7 +82,7 @@ module CopyModel
           end
           self
         end
-    end
+      end
     end
 
     # copies everything (associations and attributes) based on

@@ -38,7 +38,11 @@ class CopyProjectsController < ApplicationController
     @copy_project = project_copy
 
     if @copy_project.valid?
-      target_project_params = @copy_project.attributes.compact
+      target_project_params = @copy_project
+                              .attributes
+                              .compact
+                              .with_indifferent_access
+                              .merge(custom_field_values: @copy_project.custom_value_attributes)
 
       copy_project_job = CopyProjectJob.new(user_id: User.current.id,
                                             source_project_id: @project.id,

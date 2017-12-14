@@ -146,6 +146,12 @@ module Redmine
           end
         end
 
+        def custom_value_attributes
+          custom_field_values
+            .map { |cv| [cv.custom_field_id, cv.value] }
+            .to_h
+        end
+
         def visible_custom_field_values
           custom_field_values.select(&:visible?)
         end
