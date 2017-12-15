@@ -34,7 +34,7 @@ export class WorkPackageResizerController {
   private elementFlex:number;
   private oldPosition:number;
   private mouseMoveHandler:any;
-  public resizeEvent: string;
+  public resizeEvent:string;
   public elementClass: string;
   public localStorageKey: string;
 
@@ -155,6 +155,8 @@ openprojectModule.directive('wpResizer', wpResizer);
 export class WpResizerDirectiveUpgraded extends UpgradeComponent {
 
   @Input() elementClass:string;
+
+  @Input() resizeEvent:string;
 
   @Input() localStorageKey:string;
 

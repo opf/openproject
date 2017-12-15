@@ -26,31 +26,29 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Directive, ElementRef, Injector, Input, Output} from "@angular/core";
-import {UpgradeComponent} from "@angular/upgrade/static";
-import {onClickOrEnter} from "../wp-fast-table/handlers/click-or-enter-handler";
-import {opWorkPackagesModule} from "../../angular-modules";
-import {WorkPackageTableColumnsService} from "../wp-fast-table/state/wp-table-columns.service";
-import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
-import {WorkPackageResourceInterface} from "../api/api-v3/hal-resources/work-package-resource.service";
-import {QueryFilterInstanceResource} from '../api/api-v3/hal-resources/query-filter-instance-resource.service';
-import {WorkPackageCreateService} from "../wp-create/wp-create.service";
-import {WorkPackageCacheService} from "../work-packages/work-package-cache.service";
-import {
-  inlineCreateCancelClassName,
-  InlineCreateRowBuilder,
-  inlineCreateRowClassName
-} from "./inline-create-row-builder";
+import {Directive, ElementRef, Injector, Input} from '@angular/core';
+import {UpgradeComponent} from '@angular/upgrade/static';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {opWorkPackagesModule} from '../../angular-modules';
 import {scopeDestroyed$, scopedObservable} from '../../helpers/angular-rx-utils';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {States} from '../states.service';
-import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
-import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
-import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
+import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
+import {WorkPackageCreateService} from '../wp-create/wp-create.service';
 import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
 import {WorkPackageChangeset} from '../wp-edit-form/work-package-changeset';
+import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
 import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 import {WorkPackageFilterValues} from '../wp-edit-form/work-package-filter-values';
-import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {TimelineRowBuilder} from '../wp-fast-table/builders/timeline/timeline-row-builder';
+import {onClickOrEnter} from '../wp-fast-table/handlers/click-or-enter-handler';
+import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
+import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
+import {
+  inlineCreateCancelClassName, InlineCreateRowBuilder,
+  inlineCreateRowClassName
+} from './inline-create-row-builder';
 
 export class WorkPackageInlineCreateController {
 
@@ -139,7 +137,7 @@ export class WorkPackageInlineCreateController {
   }
 
   $onInit() {
-    console.log("this.projectIdentifier", this.projectIdentifier);
+    console.log('this.projectIdentifier', this.projectIdentifier);
     setTimeout(() => {
       console.log(this.table);
     }, 2000);
@@ -171,7 +169,7 @@ export class WorkPackageInlineCreateController {
           this.workPackageEditForm!.activateMissingFields();
           this.hideRow();
         });
-      })
+      });
     });
   }
 
@@ -224,7 +222,7 @@ function wpInlineCreate():any {
     bindToController: true,
     controllerAs: '$ctrl',
     controller: WorkPackageInlineCreateController
-  }
+  };
 }
 
 opWorkPackagesModule.directive('wpInlineCreate', wpInlineCreate);
@@ -235,8 +233,8 @@ opWorkPackagesModule.directive('wpInlineCreate', wpInlineCreate);
 })
 export class WpInlineCreateDirectiveUpgraded extends UpgradeComponent {
 
-  @Input("wpInlineCreate-table") table: WorkPackageTable;
-  @Input("wpInlineCreate-projectIdentifier") projectIdentifier: string;
+  @Input('wpInlineCreate-table') table:WorkPackageTable;
+  @Input('wpInlineCreate-projectIdentifier') projectIdentifier:string;
 
   constructor(elementRef:ElementRef, injector:Injector) {
     super('wpInlineCreate', elementRef, injector);
