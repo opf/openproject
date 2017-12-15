@@ -136,9 +136,6 @@ export class WorkPackageInlineCreateController {
     });
   }
 
-  $onInit() {
-  }
-
   public addWorkPackageRow() {
     this.wpCreate.createNewWorkPackage(this.projectIdentifier).then((changeset:WorkPackageChangeset) => {
       if (!changeset) {

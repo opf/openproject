@@ -209,19 +209,6 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   }
 }
 
-// angular
-//   .module('openproject.workPackages.directives')
-//   .directive('wpTable', wpTable);
-
-// function wpTable():any {
-//   return {
-//     replace: true,
-//     scope: {
-//       projectIdentifier: '='
-//     },
-//   };
-// }
-
 angular
   .module('openproject.workPackages.directives')
   .directive('wpTable',
