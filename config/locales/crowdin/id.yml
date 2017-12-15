@@ -16,12 +16,12 @@ id:
         Enterprise Edition dukungan pelanggan.
       manage_colors: Edit warna pilih opsi
       instructions:
-        alternative_color: Strong accent color, typically used for most the important
-          button on a screen.
+        alternative_color: Warna cerah, umumnya dipakai sebagai penanda tombol penting
+          pada layar monitor.
         content_link_color: Warna font sebagian besar tautan.
         primary_color: Warna utama.
-        primary_color_dark: Typically a darker version of the main color used for
-          hover effects.
+        primary_color_dark: Warna yang lebih gelap dari warna utama biasanya dipakai
+          sebagai efek lintasan kursor.
         header_bg_color: Warna latar belakang header (bagian atas halaman / judul)
         header_item_bg_hover_color: Warna latar belakang "item header" yang bisa di
           klik ketika ditunjuk dengan mouse.
@@ -32,10 +32,10 @@ id:
           kosong jika Anda tidak ingin garis apapun.
         main_menu_bg_color: Warna latar belakang menu sisi kiri.
     enterprise:
-      upgrade_to_ee: Upgrade to Enterprise Edition
-      add_token: Upload an Enterprise Edition support token
-      replace_token: Replace your current support token
-      order: Order Enterprise Edition
+      upgrade_to_ee: Tingkatkan ke edisi enterprise
+      add_token: Unggah sebuah token bantuan edisi enterprise
+      replace_token: Gantilah token bantuan yang sedang digunakan
+      order: Pesanlah edisi enterprise
       paste: Paste your Enterprise Edition support token
       required_for_feature: This feature is only available with an active Enterprise
         Edition support token.
@@ -45,13 +45,13 @@ id:
     is_active: currently displayed
     is_inactive: currently not displayed
   attribute_help_texts:
-    text_overview: In this view, you can create custom help texts for attributes view.
-      When defined, these texts can be shown by clicking the help icon next to its
-      belonging attribute.
-    label_plural: Attribute help texts
-    show_preview: Preview text
-    add_new: Add help text
-    edit: Edit help text for %{attribute_caption}
+    text_overview: Pada tampilan ini, anda dapat membuat teks-teks bantuan yang dikhususkan
+      untuk tampilan atribut-atribut tersebut. Ketika didefinisikan, teks-teks ini
+      dapat ditampilkan dengan mengklik ikon bantuan pada atribut miliknya.
+    label_plural: Atribut teks bantuan
+    show_preview: Teks pratinjau
+    add_new: Menambahkan teks bantuan
+    edit: Mengedit teks bantuan untuk %{attribute_caption}
   auth_sources:
     index:
       no_results_content_title: Tidak ada mode otentikasi saat ini.
@@ -68,8 +68,8 @@ id:
     is_enabled_globally: Is enabled globally
     enabled_in_project: Enabled in project
     contained_in_type: Contained in type
-    confirm_destroy_option: Deleting an option will delete all of its occurrences
-      (e.g. in work packages). Are you sure you want to delete it?
+    confirm_destroy_option: Menghapus sebuah pilihan akan menghapus semua kemunculan
+      yang terjadi (mis. dalam paket pekerjaan). Apakah Anda yakin ingin menghapusnya?
     tab:
       no_results_title_text: Tidak ada bidang kustom saat ini.
       no_results_content_text: Buat bidang kustom baru
@@ -83,7 +83,7 @@ id:
       link_name: bagaimana untuk bermigrasi ke jadwal baru.
       further_information_after: ''
     calendar:
-      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+      removal: 'Harap dicatat: Modul ini akan dihilangkan dengan OpenProject 8.0.'
   groups:
     index:
       no_results_title_text: Tidak ada grup untuk saat ini.
@@ -260,7 +260,7 @@ id:
         filesize: Size
       attribute_help_text:
         attribute_name: Atribut
-        help_text: Help text
+        help_text: Teks bantuan
       auth_source:
         account: Akun
         attr_firstname: Atribut nama depan
@@ -317,8 +317,8 @@ id:
         work_packages: Paket-Penugasan
       query:
         column_names: Kolom
-        relations_to_type_column: Relations to %{type}
-        relations_of_type_column: "%{type} relations"
+        relations_to_type_column: Relasi untuk %{type}
+        relations_of_type_column: Relasi %{type}
         group_by: Group
         filters: Filter
         timeline_labels: Label alur waktu
@@ -439,10 +439,11 @@ id:
         before: harus sebelum %{date}.
         before_or_equal_to: harus sebelum atau maksimal %{date}.
         could_not_be_copied: sebagian tidak dapat dicopy.
-        regex_invalid: could not be validated with the associated regular expression.
+        regex_invalid: tidak dapat divalidasi dengan ekspresi reguler terkait.
       models:
         custom_field:
-          at_least_one_custom_option: At least one option needs to be available.
+          at_least_one_custom_option: Paling tidak, satu pilihan dibutuhkan untuk
+            tersedia.
         enterprise_token:
           unreadable: can't be read. Are you sure it is a support token?
         parse_schema_filter_params_service:
@@ -550,7 +551,7 @@ id:
           other: "%{count} errors prohibited this %{model} from being saved"
     models:
       attachment: File
-      attribute_help_text: Attribute help text
+      attribute_help_text: Atribut teks bantuan
       board: Forum
       comment: Komentar
       custom_field: Isian kustom
@@ -907,7 +908,7 @@ id:
   enumeration_reported_project_statuses: Status Project yang di-Report
   error_auth_source_sso_failed: Single Sign-On (SSO) untuk pengguna '%{value}' gagal
   error_can_not_archive_project: Project ini tidak bisa diarsip
-  error_can_not_delete_entry: Unable to delete entry
+  error_can_not_delete_entry: Tidak dapat menghapus isian
   error_can_not_delete_custom_field: Tidak dapat menghapus isian kustom
   error_can_not_delete_type: Tipe ini berisi Work Package dan tidak dapat dihapus.
   error_can_not_delete_standard_type: Tipe standar tidak dapat dihapus.
@@ -993,7 +994,7 @@ id:
       community: OpenProject community
       upsale:
         become_hero: Become a hero!
-        title: Upgrade to Enterprise Edition
+        title: Tingkatkan ke edisi enterprise
         description: Boost your productivity with the Enterprise Edition
         more_info: More information
         additional_features: Additional powerful premium features
@@ -1001,7 +1002,7 @@ id:
         you_contribute: Developers need to pay their bills, too. With Enterprise Edition
           you substantially contribute to this Open-Source community effort.
     links:
-      upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      upgrade_enterprise_edition: Tingkatkan ke edisi enterprise
       user_guides: User guides
       faq: FAQ
       glossary: Glossary
@@ -1692,9 +1693,9 @@ id:
     as there are still users using it.
   notice_project_cannot_update_custom_fields: 'You cannot update the project''s available
     custom fields. The project is invalid: %{errors}'
-  notice_attachment_migration_wiki_page: 'This page was generated automatically during
-    the update of OpenProject. It contains all attachments previously associated with
-    the %{container_type} "%{container_name}".
+  notice_attachment_migration_wiki_page: 'Halaman ini dihasilkan secara otomatis selama
+    pembaharuan OpenProject. Ini berisi semua lampiran yang terkait sebelumnya dengan
+    %{container_type} "%{container_name}".
 
 '
   number:
@@ -1821,7 +1822,7 @@ id:
     active_or_archived: Active or archived
     assigned_to_role: Ditugaskan untuk Role
     member_of_group: Ditugaskan untuk Grup
-    assignee_or_group: Assignee or belonging group
+    assignee_or_group: Penerima atau anggota kelompok
     subproject_id: Sub-Project
     name_or_identifier: Name or identifier
   repositories:
@@ -1902,9 +1903,10 @@ id:
     git:
       instructions:
         managed_url: URL ini dikelola dengan Git lokal.
-        path: Specify the path to your local Git repository ( e.g., %{example_path}
-          ). You can also use remote repositories which are cloned to a local copy
-          by using a value starting with http(s):// or file://.
+        path: Menetukan jejak ke tempat penyimpanan lokal Git (mis. %{example_path}
+          ). Anda dapat juga menggunakan tempat penyimpanan jarak jauh yang dikloning
+          ke salinan lokal dengan menggunakan nilai yang dimulai dengan http(s)://
+          atau file://.
         path_encoding: 'Encoding git (Default: UTF-8)'
       local_title: Ambil dari Git lokal
       local_url: Local URL
@@ -2054,7 +2056,7 @@ id:
   setting_session_ttl: Sesi kadaluwarsa ketika tidak aktif
   setting_session_ttl_hint: Nilai di bawah 5 akan didisable
   setting_session_ttl_enabled: Sesi telah berakhir
-  setting_start_of_week: Week starts on
+  setting_start_of_week: Minggu dimulai pada
   setting_sys_api_enabled: Aktifkan web service untuk manajemen repository
   setting_sys_api_description: Repository management web service menyediakan integrasi
     fungsi dan otorisasi untuk akses repository.
@@ -2097,8 +2099,9 @@ id:
   text_are_you_sure: Anda yakin?
   text_are_you_sure_with_children: Hapus Paket-Penugasan dan semua paket turunannya?
   text_assign_to_project: Tetapkan untuk Project
-  text_form_configuration: 'You can customize which fields will be displayed in work
-    package forms. You can freely group the fields to reflect the needs for your domain.
+  text_form_configuration: 'Anda dapat mengkustom field-field mana yang akan ditampilkan
+    dalam form paket kerja. Anda dapat dengan bebas mengelompokkan field-field untuk
+    mencerminkan kebutuhan-kebutuhan untuk domain Anda.
 
 '
   text_form_configuration_drag_to_activate: Tarik field dari sini untuk mengaktifkkannya

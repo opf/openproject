@@ -234,7 +234,7 @@ id:
           SEMUA field kustom.
 
 '
-        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee: Tingkatkan ke edisi enterprise
         upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
           you mind supporting us OpenSource developers by becoming an Enterprise Edition
           client?
@@ -622,4 +622,4 @@ id:
         zero: 0 hours
     zen_mode:
       button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_deactivate: Menonaktifkan modus zen
