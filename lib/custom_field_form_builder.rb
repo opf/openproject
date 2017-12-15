@@ -55,17 +55,17 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
   def custom_field_input(options = {})
     field = :value
-
+    custom_field_id = custom_field_field_id + options[:id_extension]
     input_options = options.merge(no_label: true,
                                   name: custom_field_field_name,
-                                  id: custom_field_field_id)
+                                  id: custom_field_id)
 
     field_format = OpenProject::CustomFieldFormat.find_by_name(object.custom_field.field_format)
 
     case field_format.try(:edit_as)
     when 'date'
       text_field(field, input_options) +
-        template.calendar_for(custom_field_field_id)
+        template.calendar_for(custom_field_id)
     when 'text'
       text_area(field, input_options.merge(rows: 3))
     when 'bool'

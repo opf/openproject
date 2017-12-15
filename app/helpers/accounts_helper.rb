@@ -13,12 +13,12 @@ module AccountsHelper
     end
   end
 
-  def login_field(form)
-    form.text_field :login, size: 25, required: true
+  def login_field(form, id)
+    form.text_field :login, size: 25, required: true, id: id
   end
 
-  def email_field(form)
-    form.text_field :mail, required: true
+  def email_field(form, id)
+    form.text_field :mail, required: true, id: id
   end
 
   ##

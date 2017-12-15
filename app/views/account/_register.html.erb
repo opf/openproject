@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <div class="modal-wrapper--content">
-  <%= labelled_tabular_form_for(@user, url: account_register_path, html: { class: 'form -wide-labels' }) do |f| %>
+  <%= labelled_tabular_form_for(@user, url: account_register_path, html: { class: 'form -wide-labels', id: 'new_user_' + @id_extension }) do |f| %>
 
     <%= back_url_hidden_field_tag %>
     <%= error_messages_for :user %>
@@ -43,23 +43,23 @@ See doc/COPYRIGHT.rdoc for more details.
         <% if @user.auth_source_id.nil? %>
           <div class="form--field -wide-label">
             <% if Setting.email_login? %>
-              <%= email_field(f) %>
+              <%= email_field(f, @id_extension) %>
             <% else %>
-              <%= login_field(f) %>
+              <%= login_field(f, @id_extension) %>
             <% end %>
           </div>
         <% end %>
         <div class="form--field -wide-label">
-          <%= f.text_field :firstname, required: true %>
+          <%= f.text_field :firstname, required: true, id: 'user_firstname_' + @id_extension %>
         </div>
 
         <div class="form--field -wide-label">
-          <%= f.text_field :lastname,  required: true %>
+          <%= f.text_field :lastname,  required: true, id: 'user_lastname_' + @id_extension %>
         </div>
 
         <% if registration_show_email? %>
           <div class="form--field -wide-label">
-            <%= email_field(f) %>
+            <%= email_field(f, @id_extension) %>
           </div>
         <% end %>
 
@@ -70,13 +70,14 @@ See doc/COPYRIGHT.rdoc for more details.
                                   v.editable? || v.required?
                                 },
                    as:          :value,
-                   locals:      { form: f, wide_labels: true } %>
+                   locals:      { form: f, wide_labels: true, id_extension: @id_extension } %>
 
         <br/><br/>
         <% if @user.change_password_allowed? %>
           <div class="form--field -wide-label -reduced-margin">
             <%= f.password_field :password,
                                  required: true,
+                                 id: 'user_password_' + @id_extension,
                                  size: 25,
                                  autocomplete: 'off' %>
             <div class="form--field-instructions">
@@ -86,6 +87,7 @@ See doc/COPYRIGHT.rdoc for more details.
           <div class="form--field -wide-label">
             <%= f.password_field :password_confirmation,
                                  required: true,
+                                 id: 'user_password_confirmation_' + @id_extension,
                                  size: 25,
                                  autocomplete: 'off'  %>
           </div>
