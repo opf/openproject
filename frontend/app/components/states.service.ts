@@ -37,6 +37,7 @@ import {QuerySortByResource} from './api/api-v3/hal-resources/query-sort-by-reso
 import {QueryGroupByResource} from './api/api-v3/hal-resources/query-group-by-resource.service';
 import {WPTableRowSelectionState} from './wp-fast-table/wp-table.interfaces';
 import {WorkPackageTableRelationColumns} from './wp-fast-table/wp-table-relation-columns';
+import {WPFocusState} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class States extends StatesGroup {
 
@@ -62,7 +63,7 @@ export class States extends StatesGroup {
   updates = new UserUpdaterStates(this);
 
   // Current focused work package (e.g, row preselected for details button)
-  focusedWorkPackage = input<string>();
+  focusedWorkPackage = input<WPFocusState>();
 
 }
 

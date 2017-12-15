@@ -28,6 +28,10 @@
 
 import {opServicesModule} from '../../../angular-modules';
 
+export function removeSuccessFlashMessages() {
+  jQuery('.flash.notice').remove();
+}
+
 function NotificationsService($rootScope:ng.IRootScopeService, $timeout:ng.ITimeoutService, ConfigurationService:any) {
   var createNotification = function (message:any) {
       if (typeof message === 'string') {
@@ -94,6 +98,9 @@ function NotificationsService($rootScope:ng.IRootScopeService, $timeout:ng.ITime
 
   // public
   var add = function (message:any, timeoutAfter = 5000) {
+      // Remove flash messages
+      removeSuccessFlashMessages();
+
       var notification = createNotification(message);
       broadcast('notification.add', notification);
       notificationAdded(notification);

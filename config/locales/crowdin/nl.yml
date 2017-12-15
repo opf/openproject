@@ -417,7 +417,6 @@ nl:
         blank: mag niet leeg zijn.
         cant_link_a_work_package_with_a_descendant: Een werkpakket kan niet worden
           gekoppeld aan een van de bijbehorende subtaken.
-        follows_descendant: follows its descendant.
         circular_dependency: Deze relatie zou een circulaire afhankelijkheid creëren.
         confirmation: komt niet overeen met %{attribute}.
         does_not_exist: bestaat niet.
@@ -674,6 +673,7 @@ nl:
   button_edit: Wijzig
   button_edit_associated_wikipage: 'Bewerk gekoppelde wikipagina: %{page_title}'
   button_expand_all: Alles uitklappen
+  button_filter: Filter
   button_generate: Genereer
   button_list: Lijst
   button_lock: Vergrendelen
@@ -681,6 +681,7 @@ nl:
   button_login: Inloggen
   button_move: Verplaatsen
   button_move_and_follow: Verplaatsen en volgen
+  button_print: Print
   button_quote: Citeer
   button_remove: Verwijder
   button_remove_widget: Widget verwijderen
@@ -915,6 +916,8 @@ nl:
         description: 'Pas de formulier configuratie aan met de additionele funcities:'
         add_groups: Toevoegen van nieuwe attribuutgroepen
         rename_groups: Attribuutgroepen hernoemen
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activiteiten (tijdregistratie)
   enumeration_work_package_priorities: Werkpakket prioriteiten
   enumeration_system_activity: Systeemactiviteit
@@ -1213,6 +1216,7 @@ nl:
   label_file_plural: Bestanden
   label_filter_add: Filter toevoegen
   label_filter_plural: Filters
+  label_filters_toggle: Show/hide filters
   label_float: Zwevend
   label_folder: Map
   label_follows: volgt
@@ -1699,8 +1703,7 @@ nl:
   notice_not_authorized: U bent niet gemachtigd om deze pagina te openen.
   notice_not_authorized_archived_project: Het project dat u probeert te bezoeken is
     gearchiveerd.
-  notice_password_confirmation_failed: Uw wachtwoord is niet correct. De wijzigingen
-    zijn niet opgeslagen.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: Er zijn %{number} resultaten gevonden.   Tab om
     het eerste resultaat te tonen.
   notice_principals_found_single: Er is één resultaat. Tab om te tonen.
@@ -1839,7 +1842,6 @@ nl:
       title: Wijzig het identificatienummer van het project
     archive:
       are_you_sure: Weet u zeker dat u dit project '%{name}' wilt archiveren?
-      archived: Archived
   project_module_activity: Activiteit
   project_module_boards: Fora
   project_module_calendar: Agenda
@@ -1852,10 +1854,12 @@ nl:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Werknemer's rol
     member_of_group: Werknemer's groep
     assignee_or_group: Toegekend aan of hoort bij groep
     subproject_id: Subproject
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: op %{identifier}
     atom_revision_feed: Atom wijzigingsfeed
@@ -2125,6 +2129,7 @@ nl:
     brute_force_prevention: Automatische gebruiker blokkering
   show_hide_project_menu: Project menu uitvouwen/samenvouwen
   status_active: actief
+  status_archived: archived
   status_invited: uitgenodigd
   status_locked: geblokkeerd
   status_registered: geregistreerd

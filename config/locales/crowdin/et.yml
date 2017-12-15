@@ -409,7 +409,6 @@ et:
         blank: ei tohi olla tühi.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
-        follows_descendant: follows its descendant.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
         does_not_exist: does not exist.
@@ -664,6 +663,7 @@ et:
   button_edit: Muuda
   button_edit_associated_wikipage: Muuda seotud vikilehte "%{page_title}"
   button_expand_all: Voldi kõik lahti
+  button_filter: Filter
   button_generate: Generate
   button_list: Listi
   button_lock: Lukusta
@@ -671,6 +671,7 @@ et:
   button_login: Logi sisse
   button_move: Tõsta
   button_move_and_follow: Tõsta ja järgne
+  button_print: Print
   button_quote: Tsiteeri
   button_remove: Remove
   button_remove_widget: Eemalda vidin
@@ -903,6 +904,8 @@ et:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Tegevused (ajajälgimine)
   enumeration_work_package_priorities: Teemade prioriteedid
   enumeration_system_activity: Süsteemi tegevus
@@ -1200,6 +1203,7 @@ et:
   label_file_plural: Failid
   label_filter_add: Lisa filter
   label_filter_plural: Filtrid
+  label_filters_toggle: Show/hide filters
   label_float: Ujuvkomaarv
   label_folder: Folder
   label_follows: järgneb
@@ -1669,8 +1673,7 @@ et:
   notice_bad_request: Vigane päring.
   notice_not_authorized: Sul ei ole sellele lehele ligipääsuks õigusi.
   notice_not_authorized_archived_project: See projekt on arhiveeritud.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1808,7 +1811,6 @@ et:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: Tegevus
   project_module_boards: Foorumid
   project_module_calendar: Kalender
@@ -1821,10 +1823,12 @@ et:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Omistatud rollile
     member_of_group: Omistatud rühmale
     assignee_or_group: Assignee or belonging group
     subproject_id: Alamprojekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2084,6 +2088,7 @@ et:
     brute_force_prevention: Automatiseeritud kasutajate blokeerimine
   show_hide_project_menu: Expand/Collapse project menu
   status_active: aktiivne
+  status_archived: archived
   status_invited: invited
   status_locked: lukustatud
   status_registered: registreeritud

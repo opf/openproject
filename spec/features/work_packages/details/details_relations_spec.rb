@@ -232,6 +232,30 @@ describe 'Work package relations tab', js: true, selenium: true do
         expect(page).to have_no_selector('.wp-relations--subject-field', text: relatable.subject)
       end
 
+      it 'should follow the relation links (Regression #26794)' do
+        relations.add_relation(type: 'follows', to: relatable)
+
+        relations.click_relation(relatable)
+        subject = work_packages_page.edit_field(:subject)
+        subject.expect_state_text relatable.subject
+
+        relations.click_relation(work_package)
+        subject = work_packages_page.edit_field(:subject)
+        subject.expect_state_text work_package.subject
+
+        # Switch to full view
+        find('.work-packages--details-fullscreen-icon').click
+        full_page = ::Pages::FullWorkPackage.new(work_package)
+
+        relations.click_relation(relatable)
+        subject = full_page.edit_field(:subject)
+        subject.expect_state_text relatable.subject
+
+        relations.click_relation(work_package)
+        subject = full_page.edit_field(:subject)
+        subject.expect_state_text work_package.subject
+      end
+
       it 'should allow to change relation descriptions' do
         relations.add_relation(type: 'follows', to: relatable)
 

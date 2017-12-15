@@ -94,7 +94,7 @@
   white-space: nowrap
   text-overflow: ellipsis
   font-size: 0.9rem
-  min-width: 120px
+  min-width: 156px
   padding-right: 0
 
 .advanced-filters--filter-operator
@@ -124,6 +124,9 @@
 
   a
     display: block
+    &:hover
+      text-decoration: none
+
 
 .advanced-filters--remove-filter-icon
   @extend .icon-close, .icon4
@@ -156,6 +159,12 @@
   border-top:   1px solid $filters--border-color
   height: 1px
   margin:          0.75rem 1rem
+
+.advanced-filters--spacer,
+.advanced-filters--filter
+  &.hidden
+    display: none
+
 
 
 fieldset#date-range p

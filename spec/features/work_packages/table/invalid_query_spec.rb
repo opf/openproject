@@ -28,7 +28,7 @@ describe 'Invalid query spec', js: true, retry: 2 do
     query.add_filter('assigned_to_id', '=', [99999])
     query.columns << 'cf_0815'
     query.group_by = 'cf_0815'
-    query.sort_criteria = [['cf_0815', 'desc']]
+    query.sort_criteria = [%w(cf_0815 desc)]
     query.save(validate: false)
 
     query
@@ -56,7 +56,6 @@ describe 'Invalid query spec', js: true, retry: 2 do
   end
 
   it 'should handle invalid queries' do
-
     # should load a faulty query and also the drop down
     wp_table.visit_query(invalid_query)
 
@@ -78,7 +77,7 @@ describe 'Invalid query spec', js: true, retry: 2 do
 
     filter_props = [{ 'n': 'assignee', 'o': '=', 'v': ['999999'] },
                     { 'n': 'status', 'o': '=', 'v': [status.id.to_s, status2.id.to_s] }]
-    column_props = ['id', 'subject', 'customField0815']
+    column_props = %w(id subject customField0815)
     invalid_props = JSON.dump('f': filter_props,
                               'c': column_props,
                               'g': 'customField0815',
@@ -92,13 +91,9 @@ describe 'Invalid query spec', js: true, retry: 2 do
     wp_table.expect_no_work_package_listed
     filters.expect_filter_count 2
 
-    # wait a bit for the filters to load
-    sleep 2
-
     filters.open
     filters.expect_filter_by('Assignee', 'is', I18n.t('js.placeholders.selection'))
     filters.expect_filter_by('Status', 'is', [status.name, status2.name])
-
 
     wp_table.group_by('Assignee')
     sleep(0.3)

@@ -412,7 +412,6 @@ bg:
         blank: не може да бъде празно.
         cant_link_a_work_package_with_a_descendant: Работния пакет не може да бъде
           свързан с една от неговите подзадачи.
-        follows_descendant: follows its descendant.
         circular_dependency: Тази връзка ще доведе до циклична зависимост.
         confirmation: не съвпада с %{attribute}.
         does_not_exist: не съществува.
@@ -666,6 +665,7 @@ bg:
   button_edit: Редактиране
   button_edit_associated_wikipage: 'Редактиране на свързани Wiki страница: %{page_title}'
   button_expand_all: Разгъване на всички
+  button_filter: Филтър
   button_generate: Генерирай
   button_list: Списък
   button_lock: Заключи
@@ -673,6 +673,7 @@ bg:
   button_login: Влизане
   button_move: Премести
   button_move_and_follow: Преместване и последване
+  button_print: Print
   button_quote: Цитат
   button_remove: Премахване
   button_remove_widget: Премахване на притурка
@@ -906,6 +907,8 @@ bg:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Дейности (проследяване по време)
   enumeration_work_package_priorities: Приоритети на работни пакети
   enumeration_system_activity: Системна дейност
@@ -1204,6 +1207,7 @@ bg:
   label_file_plural: Файлове
   label_filter_add: Добавяне на филтър
   label_filter_plural: Филтри
+  label_filters_toggle: Show/hide filters
   label_float: Плаващ
   label_folder: Папка
   label_follows: следва
@@ -1684,8 +1688,7 @@ bg:
   notice_not_authorized: Нямате право на достъп до тази страница.
   notice_not_authorized_archived_project: Проектът, до който се опитвате да получите
     достъп е бил архивиран.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1822,7 +1825,6 @@ bg:
       title: Change the project's identifier
     archive:
       are_you_sure: Наистина ли искате да архивирате на проекта "%{name}"?
-      archived: Archived
   project_module_activity: Активност
   project_module_boards: Форуми
   project_module_calendar: Календар
@@ -1835,10 +1837,12 @@ bg:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
     subproject_id: Подпроект
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2094,6 +2098,7 @@ bg:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Разгъване/свиване на проектното меню
   status_active: active
+  status_archived: archived
   status_invited: invited
   status_locked: locked
   status_registered: registered

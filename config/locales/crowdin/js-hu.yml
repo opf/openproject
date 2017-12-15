@@ -5,19 +5,19 @@ hu:
       hide: Elrejt
       loading: Betöltés folyamatban… ...
     close_popup_title: Előugró ablak bezárása
-    close_filter_title: Close filter
-    close_form_title: Close form
+    close_filter_title: Szűrő bezárása
+    close_form_title: Űrlap bezárása
     clipboard:
-      browser_error: A böngésző nem támogatja a vágólapra másolása. Kérjük, másolja
+      browser_error: A böngésző nem támogatja a vágólapra másolást. Kérjük, másolja
         a kijelölt szöveget manuálisan.
-      copied_successful: A vágolapra másolás sikeres!
+      copied_successful: A vágólapra másolás sikeres!
     button_add_watcher: Megfigyelő hozzáadása
     button_back_to_list_view: Vissza a lista nézethez
     button_cancel: Mégsem
     button_close: Bezár
     button_check_all: Az összes kijelölése
-    button_configure-form: Configure form
-    button_confirm: Confirm
+    button_configure-form: Űrlap beállítás
+    button_confirm: Jóváhagy
     button_continue: Folytatás
     button_copy: Másol
     button_custom-fields: Választható mezők
@@ -28,32 +28,32 @@ hu:
     button_edit: Szerkesztés
     button_filter: Szűrő
     button_list_view: Lista nézet
-    button_show_view: Teljes képernyős
+    button_show_view: Teljes képernyős nézet
     button_log_time: Eltöltött idő rögzítése
     button_more: További
     button_move: Mozgatás
     button_open_details: Részletes nézet megnyitása
     button_close_details: Részletes nézet bezárása
-    button_open_fullscreen: Open fullscreen view
+    button_open_fullscreen: Teljes képernyős nézet
     button_quote: Idéz
     button_save: Mentés
     button_settings: Beállítások
     button_uncheck_all: Az összes kijelölés megszüntetése
     button_update: Frissítés
-    button_export-pdf: Download PDF
-    button_export-atom: Download Atom
+    button_export-pdf: PDF-fájl letöltése
+    button_export-atom: Atom letöltés
     description_available_columns: Elérhető oszlopok
     description_current_position: 'Itt vagy:'
-    description_select_work_package: 'Select work package #%{id}'
+    description_select_work_package: 'Munkacsomag kiválasztás #%{id}'
     description_selected_columns: Oszlopok kiválasztása
-    description_subwork_package: 'Child of work package #%{id}'
+    description_subwork_package: 'Munkacsomag gyermeke #%{id}'
     error:
-      internal: An internal error has occurred.
+      internal: Belső hiba történt.
     filter:
       description:
-        text_open_filter: A szűrő megnyitásához nyomja meg az "ALT" és a nyíl gombokat!
-        text_close_filter: To select an entry leave the focus for example by pressing
-          enter. To leave without filter select the first (empty) entry.
+        text_open_filter: A szűrő megnyitásához nyomja meg az "ALT" és a nyíl gombokat.
+        text_close_filter: A bejegyzés kiválasztáshoz pl. nyomjon Entert. Kiválasztás
+          elmulasztásához válassza az első bejegyzést.
       noneElement: "(nincs)"
       time_zone_converted:
         two_values: "%{from} - %{to} helyi idő szerint."
@@ -85,11 +85,11 @@ hu:
     label_and: és
     label_ascending: Növekvő
     label_author: 'Szerző: %{user}'
-    label_between: between
+    label_between: között
     label_board_locked: Zárolva
     label_board_sticky: Kiemelt
     label_create_work_package: Új munkacsomag létrehozása
-    label_created_by: Created by
+    label_created_by: Létrehozta
     label_date: Dátum
     label_date_with_format: 'Adja meg a %{date_attribute}, a következő formátumban:
       %{format}'
@@ -117,7 +117,7 @@ hu:
     label_filesize: Méret
     label_greater_or_equal: ">="
     label_group_by: Csoportosítás a következők szerint
-    label_hide_attributes: Show less
+    label_hide_attributes: Kevesebb mutatása
     label_hide_column: Oszlop elrejtése
     label_in: in
     label_in_less_than: kevesebb, mint
@@ -144,7 +144,7 @@ hu:
     label_password: Jelszó
     label_previous: Korábbi
     label_per_page: 'Oldalanként:'
-    label_please_wait: Please wait
+    label_please_wait: Kérem várjon
     label_visibility_settings: Láthatósági beállítások
     label_quote_comment: Hozzászólás idézése
     label_reset: Visszaállít, reset
@@ -185,7 +185,7 @@ hu:
     label_attachments: Fájlok
     label_drop_files: Húzza a fájlokat ide
     label_drop_files_hint: vagy kattintson a fájlok hozzáadásához
-    label_add_attachments: Add attachments
+    label_add_attachments: Melléklet hozzáadása
     label_formattable_attachment_hint: Fájl hozzárendelése mellékletként a fájl "ideejtésével"
       vagy vágólapról beillesztésével.
     label_remove_file: "%{fileName} törlése"
@@ -203,18 +203,18 @@ hu:
     help_texts:
       show_modal: Attribútum-súgószöveg mutatása
     password_confirmation:
-      field_description: You need to enter your account password to confirm this change.
-      title: Confirm your password to continue
+      field_description: A változás megerősítéséhez adja meg jelszavát.
+      title: Adja meg a jelszavát a folytatáshoz
     pagination:
-      no_other_page: You are on the only page.
+      no_other_page: Csak egyetlen oldalon tartózkodik.
       pages:
-        next: Forward to the next page
-        previous: Back to the previous page
+        next: Ugrás a következő oldalra
+        previous: Vissza az előző oldalra
     placeholders:
       default: "-"
       subject: Itt adja meg a témát
       selection: Kérem válasszon
-      relation_description: Click to add description for this relation
+      relation_description: Kapcsolat leírásának hozzáadása ide kattintva
     project:
       required_outside_context: Nincs projekt kiválasztva. Kérem, először válasszon
         projektet, hogy típust és állapotot választhasson
@@ -233,7 +233,7 @@ hu:
           elvesznek és MINDEN egyéni mező deaktiválódik.
 
 '
-        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee: Frissítés a Vállalati Verzióra
         upgrade_to_ee_text: Hűha! Ha erre a funkcióra szükséged van, profi vagy! Támogatna
           minket, "nyiltforrású" fejlesztőket azzal, hogy Enterprise Edition ügyfelünk
           legyen?
@@ -256,33 +256,33 @@ hu:
       blocked: Blokkolta
       precedes: Megelőzi
       follows: Következik
-      includes: Includes
-      partof: Part of
-      requires: Requires
-      required: Required by
-      relation_type: relation type
+      includes: Tartalmazza
+      partof: Része
+      requires: Kötelező
+      required: Által megkövetelt
+      relation_type: kapcsolat típusa
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      hierarchy_headline: hierarchia
     relation_buttons:
       change_parent: Szülő módosítása
-      remove_parent: Remove parent
-      group_by_wp_type: Group by work package type
-      group_by_relation_type: Group by relation type
-      add_parent: Add existing parent
-      add_new_child: Create new child
-      add_existing_child: Add existing child
-      remove_child: Remove child
-      add_new_relation: Create new relation
-      update_description: Set or update description of this relation
+      remove_parent: Szülő eltávolítása
+      group_by_wp_type: Rendezés munkacsomag típusai szerint
+      group_by_relation_type: Rendezés kapcsolati típusok szerint
+      add_parent: Meglévő szülő kapcsolat hozzáadása
+      add_new_child: Új gyermek kapcsolat hozzáadása
+      add_existing_child: Meglévő gyermek kapcsolat hozzáadása
+      remove_child: Gyermek kapcsolat törlése
+      add_new_relation: Új kapcsolat hozzáadása
+      update_description: Kapcsolat részleteinek beállítása vagy frissítése
       toggle_description: Kapcsolat leírás kapcsolása
       update_relation: Klikk a kapcsolat típus módosításához
-      add_follower: Add follower
-      add_predecessor: Add predecessor
+      add_follower: Követő hozzáadása
+      add_predecessor: Előző hozzáadása
       remove: Kapcsolat eltávolítása
-      save: Save relation
-      abort: Abort
+      save: Kapcsolat mentése
+      abort: Megszakít
     relations_autocomplete:
-      placeholder: Enter the related work package id
+      placeholder: Adja meg a kapcsolódó munka csomag azonosítóját
     repositories:
       select_tag: Címke kiválasztása
       select_branch: Branch kiválasztása
@@ -300,13 +300,13 @@ hu:
         other: Csak {{limit}} elem választható
         zero: You cannot select any items
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
+      sorted_asc: 'Növekvő sorrend alkalmazása, '
+      sorted_dsc: 'Csökkenő rendezés alkalmazva, '
+      sorted_no: 'Ne rendezze alkalmazva, '
+      sorting_disabled: rendezés kikapcsolva
+      activate_asc: aktiválja a növekvő sorrendhez
+      activate_dsc: aktiválja a csökkenő sorrendhez
+      activate_no: aktiválva a rendezés törlése
     text_work_packages_destroy_confirmation: Biztosan törli a kijelölt munkacsomagot?
     text_query_destroy_confirmation: Biztosan törli a kijelölt lekérdezést?
     text_attachment_destroy_confirmation: Biztosan törli a mellékletet?
@@ -323,8 +323,8 @@ hu:
           a dátumcímkék jelennek meg ezen attribútumok helyén.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Aktiválva az idővonal mód
+      button_deactivate: Idővonal mód kikapcsolva
       cancel: Mégsem
       change: A tervezés módosítása
       due_date: Lejárati időpont
@@ -387,12 +387,13 @@ hu:
       outlines: Hierarchia szint
     unsupported_browser:
       title: Az ön böngészője nem támogatott
-      message: The browser version you are using is no longer supported by OpenProject.
-      update_message: Please update your browser.
-      update_ie_user: Please switch to Mozilla Firefox or Google Chrome, or upgrade
-        to Microsoft Edge.
+      message: Az ön által használt böngésző verzióját már nem támogatja az OpenProject.
+        Kérjük frissítse böngészőjét.
+      update_message: Kérjük frissítse a böngészőjét.
+      update_ie_user: Kérjük frissítse böngészőjét Mozilla Firefox, Google Chrome
+        vagy Microsoft Edge-re.
       learn_more: További információ
-      close_warning: Ignore this warning.
+      close_warning: Figyelmeztetés figyelmen kívül hagyása.
     wiki_formatting:
       strong: Erős
       italic: Dőlt betű
@@ -419,7 +420,7 @@ hu:
       comment_added: Megjegyzés sikeresen hozzáadva.
       comment_send_failed: Hiba történt. A megjegyzés elküldése meghiúsult.
       comment_updated: A megjegyzés sikeresen frissítve.
-      confirm_edit_cancel: Are you sure you want to cancel editing the work package?
+      confirm_edit_cancel: Biztosan meg kívánja szakítani a munkacsomag szerkesztést?
       description_filter: Szűrő
       description_enter_text: Írjon szöveget
       description_options_hide: Beállítások elrejtése
@@ -439,33 +440,33 @@ hu:
       label_options: Beállítások
       label_column_multiselect: 'Kombinált legördülő mező: Nyilakkal jelöljön ki,
         enter-el hagyja jóvá, és backspace-vel töröljön'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
+      label_switch_to_single_select: Váltás az egyszeri kiválasztásra
+      label_switch_to_multi_select: Váltás a többszörös kiválasztásra
       message_error_during_bulk_delete: Hiba történt a munkacsomag törlése közben.
       message_successful_bulk_delete: Sikerült törölni a munkacsomagokat.
       message_successful_show_in_fullscreen: Click here to open this work package
         in fullscreen view.
-      message_view_spent_time: Show spent time for this work package
+      message_view_spent_time: Munkacsomaggal töltött idő megjelenítése
       no_value: Nincs érték
       inline_create:
         title: Click here to add a new work package to this list
       create:
-        header: New %{type}
-        header_no_type: New work package (Type not yet set)
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        header: Új %{type}
+        header_no_type: Új munkacsomag (a típus még nem meghatározott)
+        header_with_parent: 'Új %{type} (%{parent_type} #%{id} gyermek)'
         button: Létrehoz
       hierarchy:
-        show: Show hierarchy mode
-        hide: Hide hierarchy mode
-        toggle_button: Click to toggle hierarchy mode.
-        leaf: Work package leaf at level %{level}.
-        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
-          filtered children
-        children_expanded: Hierarchy level %{level}, expanded. Click to collapse the
-          filtered children
+        show: Hierarchikus mód megjelenítése
+        hide: Hierarchikus mód elrejtése
+        toggle_button: Kattintson a hierarchia mód váltásához.
+        leaf: Munkacsomag ezen %{level} a szinten.
+        children_collapsed: A hierarchia szintje %{level} szűkült. Kattintson a szűrt
+          gyermek-objektum megjelenítéséhez
+        children_expanded: A hierarchia szintje %{level} bővült. Kattintson a szűrt
+          gyermek-objektum megjelenítéséhez
       faulty_query:
-        title: Work packages could not be loaded.
-        description: Your query is erroneous and could not be processed.
+        title: A munkacsomag nem tölthető be.
+        description: A lekérdezése hibás, és nem sikerült feldolgozni.
       no_results:
         title: No work packages to display.
         description: Either none have been created or all work packages are filtered
@@ -501,8 +502,8 @@ hu:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
           pagination
-        content: Jump to content
-        label_content: Click here to skip over the menu and go to the content
+        content: Ugrás a tartalomhoz
+        label_content: Kattintson ide a menü átugrásához és a tartalom megtekintéséhez
       placeholders:
         default: "-"
         description: Kattintson a leírás megadásához...
@@ -510,11 +511,11 @@ hu:
         column_names: Oszlopok
         group_by: Csoport szintű eredmények
         group: Csoportosítás a következők szerint
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
-          mode being active.
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
-          being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
+        group_by_disabled_by_hierarchy: A csoportosítás le van tiltva, mivel a hierarchia
+          mód aktív.
+        hierarchy_disabled_by_group_by: A hierarchia mód le van tiltva az eredmények
+          csoportosítása e-szerint %{column}.
+        hierarchy_mode: Hierarchia mód
         sort_ascending: Növekvő sorrend
         sort_descending: Csökkenő sorrend
         move_column_left: Oszlop mozgatása balra
@@ -525,15 +526,16 @@ hu:
         display_sums: Megjelenitendő összegek
         errors:
           unretrievable_query: Nem olvasható be a lekérdezés az URL-címről
-          not_found: There is no such query
-        text_no_results: No matching queries were found.
+          not_found: Nincs ilyen lekérdezés
+        text_no_results: Nem található egyező lekérdezés.
       table:
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
           functionality of that attribute.
         text_sort_hint: A táblázat fejlécében található hivatkozásokkal rendezhet,
           csoportosíthat, átsorolhat, törölhet és hozzáadhat oszlopokat.
-        text_select_hint: Select boxes should be opened with 'ALT' and arrow keys.
+        text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT"
+          és nyílgombokat.
       tabs:
         overview: Áttekintő
         activity: Tevékenység
@@ -550,8 +552,8 @@ hu:
         sort_by: Rendezés...
         group_by: Csoportosítás...
         display_sums: Megjelenitendő összegek
-        display_hierarchy: Display hierarchy
-        hide_hierarchy: Hide hierarchy
+        display_hierarchy: Hierarchia megjelenítése
+        hide_hierarchy: Hierarchia elrejtése
         hide_sums: Összegek elrejtése
         save: Mentés
         save_as: Mentés másként ...
@@ -572,8 +574,8 @@ hu:
       button_submit: Küldés
       button_cancel: Mégsem
       form_submit:
-        title: Confirm to continue
-        text: Are you sure you want to perform this action?
+        title: Megerősítés a folytatáshoz
+        text: Biztosan végre szeretné hajtani ezt a műveletet?
       upsale_relation_columns: Szeretné látni a munkacsomag kapcsolatait?
       upsale_relation_columns_link: Tekintse meg az Enterprise Edition-t!
       destroy_work_package:
@@ -619,5 +621,5 @@ hu:
         other: "%{count} óra"
         zero: 0 hours
     zen_mode:
-      button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_activate: Zen mód aktiválása
+      button_deactivate: Zen mód kikapcsolása

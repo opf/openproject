@@ -34,7 +34,7 @@ module Concerns
 
     def authentication_stages(after_activation: false, reset: true)
       if !OpenProject::Authentication::Stage.stages.empty?
-        session.delete [:authentication_stages, :stage_secrets] if reset
+        session.delete [:authentication_stages, :stage_secrets, :back_url] if reset
 
         if session.include?(:authentication_stages)
           lookup_authentication_stages
@@ -60,6 +60,7 @@ module Concerns
       session[:stage_secrets] = session[:authentication_stages]
         .map { |ident| [ident, stage_secret(ident)] }
         .to_h
+      session[:back_url] = back_url
 
       stages
     end

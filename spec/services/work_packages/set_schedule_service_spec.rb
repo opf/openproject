@@ -83,7 +83,6 @@ describe WorkPackages::SetScheduleService do
     child
   end
 
-
   let(:follower1_start_date) { Date.today + 1.day }
   let(:follower1_due_date) { Date.today + 3.day }
   let(:follower1_delay) { 0 }
@@ -417,6 +416,44 @@ describe WorkPackages::SetScheduleService do
         end
         let(:unchanged) do
           [following_work_package1]
+        end
+      end
+    end
+
+    context 'with the successor having another predecessor which has no dates' do
+      let(:following_work_package1) do
+        stub_follower(follower1_start_date,
+                      follower1_due_date,
+                      work_package => follower1_delay,
+                      another_successor => 0)
+      end
+      let(:another_successor) do
+        FactoryGirl.build_stubbed(:stubbed_work_package,
+                                  start_date: nil,
+                                  due_date: nil)
+      end
+
+      context 'moving forward' do
+        before do
+          work_package.due_date = Date.today + 5.days
+        end
+
+        it_behaves_like 'reschedules' do
+          let(:expected) do
+            { following_work_package1 => [Date.today + 6.days, Date.today + 8.day] }
+          end
+        end
+      end
+
+      context 'moving backwards' do
+        before do
+          work_package.due_date = Date.today - 5.days
+        end
+
+        it_behaves_like 'reschedules' do
+          let(:expected) do
+            { following_work_package1 => [Date.today - 4.days, Date.today - 2.day] }
+          end
         end
       end
     end

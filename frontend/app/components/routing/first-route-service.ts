@@ -1,4 +1,5 @@
-//-- copyright
+
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,19 +25,24 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-function internal2externalFloat($locale:ng.ILocaleService) {
-	return function(input:any) {
-    if (input === null) {
-      return '';
-    }
-    else {
-      return input.toLocaleString($locale.id, { useGrouping: false, maximumFractionDigits: 20 });
-    }
-	};
-};
+import {opServicesModule} from '../../angular-modules';
 
-angular
-  .module('openproject')
-  .filter('internal2externalFloat', internal2externalFloat);
+export class FirstRouteService {
+  public name:string;
+  public params:any;
+
+  constructor() {}
+
+  public setIfFirst(state:ng.ui.IState, params:any) {
+    if (this.name) {
+      return;
+    }
+
+    this.name = state.name!;
+    this.params = params;
+  }
+}
+
+opServicesModule.service('firstRoute', FirstRouteService);

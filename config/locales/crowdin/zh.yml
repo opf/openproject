@@ -367,7 +367,6 @@ zh:
         accepted: 必须接受。
         blank: 不能为空。
         cant_link_a_work_package_with_a_descendant: 工作包无法链接到它的子任务之一。
-        follows_descendant: follows its descendant.
         circular_dependency: 这种关系将创建循环依赖项。
         confirmation: 不匹配 %{attribute}。
         does_not_exist: 不存在。
@@ -609,6 +608,7 @@ zh:
   button_edit: 编辑
   button_edit_associated_wikipage: 编辑关联的 Wiki 页面： %{page_title}
   button_expand_all: 全部展开
+  button_filter: 筛选器
   button_generate: 生成
   button_list: 列表
   button_lock: 锁定
@@ -616,6 +616,7 @@ zh:
   button_login: 登录
   button_move: 移动
   button_move_and_follow: 移动和跟踪
+  button_print: Print
   button_quote: 引用
   button_remove: 移除
   button_remove_widget: 删除部件
@@ -843,6 +844,8 @@ zh:
         description: 使用这些附加功能自定义表单配置：
         add_groups: 添加新属性群组
         rename_groups: 重命名属性群组
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: 活动 （时间跟踪）
   enumeration_work_package_priorities: 工作包优先级
   enumeration_system_activity: 系统活动
@@ -1119,6 +1122,7 @@ zh:
   label_file_plural: 文件
   label_filter_add: 添加筛选器
   label_filter_plural: 筛选器
+  label_filters_toggle: Show/hide filters
   label_float: 浮动
   label_folder: 文件夹
   label_follows: 跟踪
@@ -1566,7 +1570,7 @@ zh:
   notice_bad_request: 错误的请求。
   notice_not_authorized: 您无权访问此页。
   notice_not_authorized_archived_project: 您尝试访问的项目已存档。
-  notice_password_confirmation_failed: 您输入的密码不正确，更改不会生效。
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: |-
     找到 %{number} 条结果。
      点击以关注第一条结果。
@@ -1698,7 +1702,6 @@ zh:
       title: 更改项目的标识符
     archive:
       are_you_sure: 是否确定想要存档项目 '%{name}'？
-      archived: 存档
   project_module_activity: 活动
   project_module_boards: 论坛
   project_module_calendar: 日历
@@ -1711,10 +1714,12 @@ zh:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: 指定人角色
     member_of_group: 指定人用户组
     assignee_or_group: 受让人或所属组
     subproject_id: 子项目
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: 在 %{identifier}
     atom_revision_feed: 原子修订种子
@@ -1925,6 +1930,7 @@ zh:
     brute_force_prevention: 自动化的用户阻止
   show_hide_project_menu: 展开/折叠项目菜单
   status_active: 激活
+  status_archived: archived
   status_invited: 已邀请
   status_locked: 锁定
   status_registered: 已注册

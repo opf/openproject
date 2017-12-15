@@ -415,7 +415,6 @@ it:
         blank: non può essere lasciato vuoto.
         cant_link_a_work_package_with_a_descendant: Una macro-attività non può essere
           collegato a una delle sue sottoattività.
-        follows_descendant: follows its descendant.
         circular_dependency: Questa relazione creerebbe una dipendenza circolare.
         confirmation: non coincide con %{attribute}.
         does_not_exist: non esiste.
@@ -677,6 +676,7 @@ it:
   button_edit: Modifica
   button_edit_associated_wikipage: 'Modifica pagina wiki associata: %{page_title}'
   button_expand_all: Espandi tutto
+  button_filter: Filtro
   button_generate: Genera
   button_list: Elenca
   button_lock: Blocca
@@ -684,6 +684,7 @@ it:
   button_login: Accedi
   button_move: Sposta
   button_move_and_follow: Sposta e segui
+  button_print: Print
   button_quote: Cita
   button_remove: Rimuovi
   button_remove_widget: Rimuovi widget
@@ -919,6 +920,8 @@ it:
           aggiuntive:'
         add_groups: Aggiunta di gruppi di proprietà
         rename_groups: Rinominazione di gruppi di proprietà
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Attività (monitoraggio tempi)
   enumeration_work_package_priorities: Priorità della macro-attività (work package)
   enumeration_system_activity: Attività del sistema
@@ -1221,6 +1224,7 @@ it:
   label_file_plural: File
   label_filter_add: Aggiungi filtro
   label_filter_plural: Filtri
+  label_filters_toggle: Show/hide filters
   label_float: Virgola mobile
   label_folder: Cartella
   label_follows: segue
@@ -1712,8 +1716,7 @@ it:
   notice_not_authorized: Non sei autorizzato ad accedere a questa pagina.
   notice_not_authorized_archived_project: Il progetto che stai tentando di accedere
     è stato archiviato.
-  notice_password_confirmation_failed: La password non è corretta. Le modifiche non
-    sono state salvate.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "Trovati %{number} risultati. \n Premi Tab per
     evidenziare il primo."
   notice_principals_found_single: "Trovato un solo risultato. \n Premi Tab per evidenziarlo."
@@ -1856,7 +1859,6 @@ it:
       title: Modifica l'identificatore del progetto
     archive:
       are_you_sure: Sicuro di voler archiviare il progetto '%{name}'?
-      archived: Archived
   project_module_activity: Attività
   project_module_boards: Forum
   project_module_calendar: Calendario
@@ -1869,10 +1871,12 @@ it:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Ruolo dell'incaricato
     member_of_group: Gruppo dell'incaricato
     assignee_or_group: Assignee or belonging group
     subproject_id: Sottoprogetto
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: presso %{identifier}
     atom_revision_feed: Revisione di Atom feed
@@ -2157,6 +2161,7 @@ it:
     brute_force_prevention: Blocco automatico degli utenti
   show_hide_project_menu: Espandi/Comprimi il menù di progetto
   status_active: attivo
+  status_archived: archived
   status_invited: invitato
   status_locked: bloccato
   status_registered: registrato

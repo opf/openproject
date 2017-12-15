@@ -168,6 +168,7 @@ jQuery(function($) {
     // If the user removes the filter the same filter has to be selectable from fresh again:
     $('#add_filter_select option:selected', $filterForm).prop('disabled','disabled');
     jQuery('#add_filter_select option:first-of-type').prop('selected','selected');
+    setSpacerVisibility();
     return false;
   }
 
@@ -177,6 +178,12 @@ jQuery(function($) {
 
     $filter.addClass('hidden');
     $('#add_filter_select option[value="' + filterName + '"]', $filterForm).removeAttr('disabled');
+    setSpacerVisibility();
+  }
+
+  function setSpacerVisibility() {
+    let remaining = $(".advanced-filters--filter:not(.hidden)").length;
+    $('.advanced-filters--spacer').toggle(remaining > 0);
   }
 
   function setValueVisibility() {

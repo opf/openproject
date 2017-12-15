@@ -417,7 +417,6 @@ fr:
         blank: ne peut pas être vide.
         cant_link_a_work_package_with_a_descendant: Un lot de travaux ne peut pas
           être lié à l'une de ses sous-tâches.
-        follows_descendant: follows its descendant.
         circular_dependency: Cette relation créerait une dépendance circulaire.
         confirmation: ne correspond pas à %{attribute}.
         does_not_exist: n'existe pas.
@@ -682,6 +681,7 @@ fr:
   button_edit: Éditer
   button_edit_associated_wikipage: 'Éditer la page wiki associée : %{page_title}'
   button_expand_all: Tout déplier
+  button_filter: Filtre
   button_generate: Générer
   button_list: Liste
   button_lock: Verrouiller
@@ -689,6 +689,7 @@ fr:
   button_login: Connexion
   button_move: Déplacer
   button_move_and_follow: Déplacer et suivre
+  button_print: Print
   button_quote: Citation
   button_remove: Supprimer
   button_remove_widget: Supprimer widget
@@ -924,6 +925,8 @@ fr:
           supplémentaires :'
         add_groups: Ajouter de nouveaux groupes d’attributs
         rename_groups: Renommer les groupes d’attributs
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activités (suivi de temps)
   enumeration_work_package_priorities: Priorités du Lot de Travaux
   enumeration_system_activity: Activité du système
@@ -1226,6 +1229,7 @@ fr:
   label_file_plural: Fichiers
   label_filter_add: Ajouter le filtre
   label_filter_plural: Filtres
+  label_filters_toggle: Show/hide filters
   label_float: Flottant
   label_folder: Dossier
   label_follows: suit
@@ -1715,8 +1719,7 @@ fr:
   notice_not_authorized: Vous n'êtes pas autorisé à accéder à cette page.
   notice_not_authorized_archived_project: Le projet auquel vous essayer d'accéder
     a été archivé.
-  notice_password_confirmation_failed: Votre mot de passe n’est pas correct. Les changements
-    n’ont pas été enregistrés.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: Il y a %{number} résultats trouvés. Tabulation
     pour sélectionner le premier résultat.
   notice_principals_found_single: Il y a un seul résultat. Tabulation pour le sélectionner.
@@ -1855,7 +1858,6 @@ fr:
       title: Modifier l'identifiant du projet
     archive:
       are_you_sure: Êtes-vous sûr de vouloir archiver le projet '%{name}%' ?
-      archived: Archivé
   project_module_activity: Activité
   project_module_boards: Forums
   project_module_calendar: Calendrier
@@ -1868,10 +1870,12 @@ fr:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Rôle du Destinataire
     member_of_group: Groupe du Destinataire
     assignee_or_group: Assignee or belonging group
     subproject_id: Sous-projet
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: "%{identifier}"
     atom_revision_feed: Flux Atom des révisions
@@ -2144,6 +2148,7 @@ fr:
     brute_force_prevention: Bloquage d'utilisateur automatique (pour èviter les pirates)
   show_hide_project_menu: Déplier/Replier le menu du projet
   status_active: actif
+  status_archived: archived
   status_invited: invité
   status_locked: verrouillé
   status_registered: enregistré

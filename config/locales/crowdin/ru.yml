@@ -409,7 +409,6 @@ ru:
         blank: не может быть пустым.
         cant_link_a_work_package_with_a_descendant: Пакет работ не может быть связан
           с одной из своих подзадач.
-        follows_descendant: follows its descendant.
         circular_dependency: Это отношение создаст циклическую зависимость.
         confirmation: не совпадает со значением поля %{attribute}.
         does_not_exist: не существует.
@@ -670,6 +669,7 @@ ru:
   button_edit: Правка
   button_edit_associated_wikipage: 'Редактирование связанной wiki-страницы: %{page_title}'
   button_expand_all: Развернуть все
+  button_filter: Фильтр
   button_generate: Генерировать
   button_list: Список
   button_lock: Заблокировать
@@ -677,6 +677,7 @@ ru:
   button_login: Войти
   button_move: Переместить
   button_move_and_follow: Переместить и следовать
+  button_print: Печать
   button_quote: Цитата
   button_remove: Удалить
   button_remove_widget: Удалить виджет
@@ -921,6 +922,8 @@ ru:
         description: 'Настроить конфигурацию формы с этими дополнительными особенностями:'
         add_groups: Добавить новую группу атрибутов
         rename_groups: Переименовать группу атрибутов
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_work_package_priorities: Приоритеты пакета работ
   enumeration_system_activity: Активность системы
@@ -1217,6 +1220,7 @@ ru:
   label_file_plural: Файлы
   label_filter_add: Добавить фильтр
   label_filter_plural: Фильтры
+  label_filters_toggle: Показать/скрыть фильтры
   label_float: Плавающий
   label_folder: Папка
   label_follows: следует
@@ -1704,8 +1708,7 @@ ru:
   notice_not_authorized: Вы не авторизованы для доступа к этой странице.
   notice_not_authorized_archived_project: Проект, к которому Вы пытаетесь получить
     доступ, заархивирован.
-  notice_password_confirmation_failed: Ваш пароль не правильный. Изменения сохранены
-    не были.
+  notice_password_confirmation_failed: Пароль не правильный. Продолжить нельзя.
   notice_principals_found_multiple: Найдено %{number} результатов. Нажмите <TAB> для
     перехода к первому.
   notice_principals_found_single: Найден один результат. Нажмите <TAB> для перехода
@@ -1846,7 +1849,6 @@ ru:
       title: Измените идентификатор проекта
     archive:
       are_you_sure: Уверены, что хотите архивизировать проект %{name}%?
-      archived: Архивные
   project_module_activity: Деятельность
   project_module_boards: Форумы
   project_module_calendar: Календарь
@@ -1859,10 +1861,12 @@ ru:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: активно или в архиве
     assigned_to_role: Роль назначенного
     member_of_group: Группа назначенного
     assignee_or_group: Назначенец или его группа
     subproject_id: Подпроект
+    name_or_identifier: Имя или идентификатор
   repositories:
     at_identifier: в %{identifier}
     atom_revision_feed: Atom-канал
@@ -2127,6 +2131,7 @@ ru:
     brute_force_prevention: Автоматическое блокирование пользователя
   show_hide_project_menu: Развернуть или свернуть меню проекта
   status_active: Активно
+  status_archived: в архиве
   status_invited: приглашено
   status_locked: заблокировано
   status_registered: Зарегистрирован

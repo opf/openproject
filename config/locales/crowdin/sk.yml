@@ -415,7 +415,6 @@ sk:
         blank: nemôže byť prázdne.
         cant_link_a_work_package_with_a_descendant: Pracovný balíček nemôže byť previazaný
           na žiadny zo svojich podriadenými balíčkov.
-        follows_descendant: follows its descendant.
         circular_dependency: Tento vzťah by vytvoril cyklickú závislosť.
         confirmation: "%{attribute} sa nezhoduje."
         does_not_exist: neexistuje.
@@ -676,6 +675,7 @@ sk:
   button_edit: Upraviť
   button_edit_associated_wikipage: 'Upraviť naviazanú Wiki stránku: %{page_title}'
   button_expand_all: Rozbaliť všetko
+  button_filter: Filtrovať
   button_generate: Generovať
   button_list: Zoznam
   button_lock: Uzamknúť
@@ -683,6 +683,7 @@ sk:
   button_login: Prihlásiť sa
   button_move: Presunúť
   button_move_and_follow: Presunúť a nasledovať
+  button_print: Print
   button_quote: Citovať
   button_remove: Vymazať
   button_remove_widget: Odstrániť widget
@@ -929,6 +930,8 @@ sk:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Činnosti (sledovanie času)
   enumeration_work_package_priorities: Priority Pracovného balíka
   enumeration_system_activity: Systémové aktivity
@@ -1225,6 +1228,7 @@ sk:
   label_file_plural: Súbory
   label_filter_add: Pridať filter
   label_filter_plural: Filtre
+  label_filters_toggle: Show/hide filters
   label_float: Plávajúce (float)
   label_folder: Priečinok
   label_follows: nasleduje
@@ -1709,8 +1713,7 @@ sk:
   notice_not_authorized: You are not authorized to access this page.
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1850,7 +1853,6 @@ sk:
       title: Change the project's identifier
     archive:
       are_you_sure: Naozaj chcete archivovať projekt "%{name}"?
-      archived: Archivované
   project_module_activity: Činnosť
   project_module_boards: Diskusie
   project_module_calendar: Kalendár
@@ -1863,10 +1865,12 @@ sk:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Priradená rola
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
     subproject_id: Podprojekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2125,6 +2129,7 @@ sk:
     brute_force_prevention: Automatizované blokovanie používateľa
   show_hide_project_menu: Rozbaliť/Zbaliť ponuku projektu
   status_active: active
+  status_archived: archived
   status_invited: invited
   status_locked: zamknuté
   status_registered: registrovaný

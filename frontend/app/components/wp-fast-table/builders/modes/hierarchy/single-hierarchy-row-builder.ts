@@ -86,7 +86,7 @@ export class SingleHierarchyRowBuilder extends SingleRowBuilder {
 
     const workPackage = this.states.workPackages.get(ancestor.id).value!;
     const [tr, hidden] = this.buildEmpty(workPackage);
-    tr.classList.add(additionalHierarchyRowClassName)
+    tr.classList.add(additionalHierarchyRowClassName);
     return [tr, hidden];
   }
 

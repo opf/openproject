@@ -66,8 +66,8 @@ export class WorkPackageCreateController {
         this.newWorkPackage = changeset.workPackage;
 
 
+        wpCacheService.updateWorkPackage(this.newWorkPackage);
         this.wpEditing.updateValue('new', changeset);
-        wpCacheService.updateWorkPackage(changeset.workPackage);
 
         if ($state.params['parent_id']) {
           this.changeset.setValue(

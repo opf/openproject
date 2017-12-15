@@ -59,11 +59,23 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       sortable: ["COALESCE(#{Relation.table_name}.from_id, #{WorkPackage.table_name}.id)",
                  "COALESCE(#{Relation.table_name}.hierarchy, 0)"],
       sortable_join: <<-SQL
-        JOIN (
-          SELECT relations.hierarchy, relations.to_id, relations.from_id from relations
-        JOIN (
-          #{Relation.hierarchy_or_reflexive.group(:to_id).select('MAX(relations.hierarchy) hierarchy, relations.to_id').to_sql}) max_depth
-        ON max_depth.hierarchy = relations.hierarchy AND max_depth.to_id = relations.to_id) depth_relations
+        LEFT OUTER JOIN (
+          SELECT
+            r1.from_id,
+            r1.to_id,
+            r1.hierarchy
+        FROM relations r1
+        LEFT OUTER JOIN relations r2
+          ON
+            r1.to_id = r2.to_id
+            AND r1.hierarchy < r2.hierarchy
+            AND r1.relates = 0
+            AND r1.duplicates = 0
+            AND r1.follows = 0
+            AND r1.blocks = 0
+            AND r1.includes = 0
+            AND r1.requires = 0
+          WHERE r2.id IS NULL) depth_relations
         ON depth_relations.to_id = work_packages.id
       SQL
     },

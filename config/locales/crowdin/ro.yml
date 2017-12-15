@@ -419,7 +419,6 @@ ro:
         blank: nu poate fi gol.
         cant_link_a_work_package_with_a_descendant: Un pachet de lucru nu poate fi
           legat de una din sub-activitățile sale.
-        follows_descendant: follows its descendant.
         circular_dependency: Această relație ar crea o dependință circulară.
         confirmation: nu se potrivește cu %{attribute}.
         does_not_exist: nu există.
@@ -676,6 +675,7 @@ ro:
   button_edit: Editare
   button_edit_associated_wikipage: 'Editare pagină wiki asociată: %{page_title}'
   button_expand_all: Extindere totală
+  button_filter: Filtrare
   button_generate: Generare
   button_list: Listă
   button_lock: Blocare
@@ -683,6 +683,7 @@ ro:
   button_login: Autentificare
   button_move: Mutare
   button_move_and_follow: Mutare și continuare
+  button_print: Print
   button_quote: Citare
   button_remove: Eliminare
   button_remove_widget: Elimină secțiune
@@ -928,6 +929,8 @@ ro:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activități (durata de lucru)
   enumeration_work_package_priorities: Priorități pentru pachetele de lucru
   enumeration_system_activity: Activitate sistem
@@ -1222,6 +1225,7 @@ ro:
   label_file_plural: Fişiere
   label_filter_add: Adăugare filtru
   label_filter_plural: Filtre
+  label_filters_toggle: Show/hide filters
   label_float: Număr real
   label_folder: Dosar
   label_follows: urmează după
@@ -1707,8 +1711,7 @@ ro:
   notice_not_authorized: Nu sunteți autorizat să accesați această pagină.
   notice_not_authorized_archived_project: Proiectul pe care încercați să îl accesați
     a fost arhivat.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1847,7 +1850,6 @@ ro:
       title: Modificare identificator proiect
     archive:
       are_you_sure: Sunteţi sigur că doriţi să arhivaţi proiectul '%{name}'?
-      archived: Archived
   project_module_activity: Activitate
   project_module_boards: Forumuri
   project_module_calendar: Calendar
@@ -1860,10 +1862,12 @@ ro:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Rolul executantului
     member_of_group: Grupul executantului
     assignee_or_group: Assignee or belonging group
     subproject_id: Subproiect
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: la %{identifier}
     atom_revision_feed: Lista de revizii Atom
@@ -2139,6 +2143,7 @@ ro:
     brute_force_prevention: Blocare automată a utilizatorilor
   show_hide_project_menu: Extindere/Restrângere meniu proiect
   status_active: activ
+  status_archived: archived
   status_invited: invitat
   status_locked: blocat
   status_registered: înregistrat

@@ -408,7 +408,6 @@ lt:
         blank: negali būti tuščia.
         cant_link_a_work_package_with_a_descendant: Darbų paketas negali būti susietas
           su viena iš savo vidinių užduočių.
-        follows_descendant: seka savo palikuonis.
         circular_dependency: Šis ryšys sukurtų ciklinę priklausomybę.
         confirmation: nesutampa su %{attribute}.
         does_not_exist: neegzistuoja.
@@ -666,6 +665,7 @@ lt:
   button_edit: Redaguoti
   button_edit_associated_wikipage: 'Redaguoti susijusį Wiki puslapį: %{page_title}'
   button_expand_all: Išskleisti visus
+  button_filter: Filtras
   button_generate: Generuoti
   button_list: Sąrašas
   button_lock: Užrakinti
@@ -673,6 +673,7 @@ lt:
   button_login: Prisijungti
   button_move: Perkelti
   button_move_and_follow: Perkelti ir sekti
+  button_print: Spausdinti
   button_quote: Cituoti
   button_remove: Pašalinti
   button_remove_widget: Pašalinti valdiklį
@@ -918,6 +919,9 @@ lt:
         description: 'Pritaikyti sau formos konfigūraciją su šiomis naujomis funkcijomis:'
         add_groups: Pridėti naujas atributų grupes
         rename_groups: Pervadinti atributų grupes
+      project_filters:
+        description_html: Atnaujinti į %{link} siekiant filtruoti ir rūšiuoti stulpelius
+          naudojant vartotojo laukelius
   enumeration_activities: Veikla (laiko sekimas)
   enumeration_work_package_priorities: Darbų paketo prioritetai
   enumeration_system_activity: Sistemos veikla
@@ -1213,6 +1217,7 @@ lt:
   label_file_plural: Failai
   label_filter_add: Pridėti filtrą
   label_filter_plural: Filtrai
+  label_filters_toggle: Rodyti/slėpti filtrus
   label_float: Skaičius su kableliu
   label_folder: Aplankas
   label_follows: seka
@@ -1700,8 +1705,8 @@ lt:
   notice_not_authorized: Jūs neturite prieigos teisių prie šio puslapio.
   notice_not_authorized_archived_project: Projektas, kurį bandote atidaryti, buvo
     suarchyvuotas.
-  notice_password_confirmation_failed: Jūsų pateiktas slaptažodis nėra teisingas.
-    Pakeitimai nebuvo išsaugoti.
+  notice_password_confirmation_failed: Jūsų slaptažodis yra neteisingas. Negalima
+    tęsti.
   notice_principals_found_multiple: |-
     Rasta %{number} rezultatai (-as, -ų).
     Paspauskite 'Tab', kad susikoncentruotumėte į pirmą rezultatą.
@@ -1845,7 +1850,6 @@ lt:
       title: Pakeisti projekto identifikatorių
     archive:
       are_you_sure: Ar Jūs tikrai norite suarchyvuoti projektą '%{name}'?
-      archived: Suarchyvuotas
   project_module_activity: Veikla
   project_module_boards: Forumai
   project_module_calendar: Kalendorius
@@ -1858,10 +1862,12 @@ lt:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Aktyvus arba suarchyvuotas
     assigned_to_role: Priskirtojo asmens rolė
     member_of_group: Priskirtojo asmens grupė
     assignee_or_group: Paskirtas ar priklausanti grupė
     subproject_id: Sub-projektas
+    name_or_identifier: Pavadinimas arba indentifikatorius
   repositories:
     at_identifier: "%{identifier}"
     atom_revision_feed: Atominių pakeitimų naujienų srautas
@@ -2131,6 +2137,7 @@ lt:
     brute_force_prevention: Automatinis vartotojų blokavimas
   show_hide_project_menu: Išplėsti/sutraukti projekto meniu
   status_active: aktyvus
+  status_archived: suarchyvuotas
   status_invited: pakviestas
   status_locked: užrakinti
   status_registered: registruotas

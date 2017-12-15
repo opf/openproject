@@ -242,7 +242,7 @@ describe 'Projects index page',
                  'contains',
                  ['Plain'])
 
-      click_on 'Filter'
+      click_on 'Apply'
       # Filter is applied: Only the project that contains the the word "Plain" gets listed
       expect(page).to_not have_text(public_project.name)
       expect(page).to have_text(project.name)
@@ -253,7 +253,7 @@ describe 'Projects index page',
 
   feature 'when paginating' do
     before do
-      allow(Setting).to receive(:per_page_options_array).and_return([1])
+      allow(Setting).to receive(:per_page_options_array).and_return([1, 5])
     end
 
     scenario 'it keeps applying filters and order' do
@@ -264,7 +264,7 @@ describe 'Projects index page',
                  'doesn\'t contain',
                  ['Plain'])
 
-      click_on 'Filter'
+      click_on 'Apply'
 
       # Sorts ASC by name
       click_on 'Sort by "Name"'
@@ -274,6 +274,10 @@ describe 'Projects index page',
       expect(page).to_not have_text(project.name)        # as it filtered away
       expect(page).to have_text('Next')                  # as the result set is larger than 1
       expect(page).to_not have_text(public_project.name) # as it is on the second page
+
+      # Changing the page size to 5 and back to 1 should not change the filters (which we test later on the second page)
+      find('.pagination--options .pagination--item', text: '5').click # click page size '5'
+      find('.pagination--options .pagination--item', text: '1').click # return back to page size '1'
 
       click_on '2' # Go to pagination page 2
 
@@ -293,7 +297,7 @@ describe 'Projects index page',
       expect(page).to_not have_text(public_project.name) # That one should be on page 1
 
       # Sending the filter form again what implies to compose the request freshly
-      click_on 'Filter'
+      click_on 'Apply'
 
       # We should see page 1, resetting pagination, as it is a new filter, but keeping the DESC order on the project
       # name
@@ -314,7 +318,7 @@ describe 'Projects index page',
                  'doesn\'t contain',
                  ['Plain'])
 
-      click_on 'Filter'
+      click_on 'Apply'
 
       expect(page).to have_text(development_project.name)
       expect(page).to have_text(public_project.name)
@@ -328,7 +332,7 @@ describe 'Projects index page',
                  'is',
                  ['plain-project'])
 
-      click_on 'Filter'
+      click_on 'Apply'
 
       expect(page).to have_text(project.name)
       expect(page).to_not have_text(development_project.name)
@@ -365,7 +369,7 @@ describe 'Projects index page',
                    'is',
                    ['archived'])
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         # Test visiblity of 'more' menu list items
         page.find('tbody tr').hover
@@ -434,7 +438,7 @@ describe 'Projects index page',
                    'Created on',
                    'today')
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to_not have_text(project_created_on_this_week.name)
@@ -447,7 +451,7 @@ describe 'Projects index page',
                    'Created on',
                    'this week')
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to have_text(project_created_on_this_week.name)
@@ -461,7 +465,7 @@ describe 'Projects index page',
                    'on',
                    ['2017-11-11'])
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         expect(page).to have_text(project_created_on_fixed_date.name)
         expect(page).to_not have_text(project_created_on_today.name)
@@ -475,7 +479,7 @@ describe 'Projects index page',
                    'less than days ago',
                    ['1'])
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to_not have_text(project_created_on_fixed_date.name)
@@ -488,7 +492,7 @@ describe 'Projects index page',
                    'more than days ago',
                    ['1'])
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         expect(page).to have_text(project_created_on_fixed_date.name)
         expect(page).to_not have_text(project_created_on_today.name)
@@ -501,7 +505,7 @@ describe 'Projects index page',
                    'between',
                    ['2017-11-10', '2017-11-12'])
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         expect(page).to have_text(project_created_on_fixed_date.name)
         expect(page).to_not have_text(project_created_on_today.name)
@@ -513,7 +517,7 @@ describe 'Projects index page',
                    'Latest activity at',
                    'today')
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to_not have_text(project_created_on_fixed_date.name)
@@ -526,7 +530,7 @@ describe 'Projects index page',
                    'is',
                    [list_custom_field.possible_values[2].value])
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to_not have_text(project_created_on_fixed_date.name)
@@ -544,7 +548,7 @@ describe 'Projects index page',
           select list_custom_field.possible_values[3].value, from: 'value'
         end
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
         within(cf_filter) do
@@ -565,7 +569,7 @@ describe 'Projects index page',
           expect(cf_filter).to_not have_select('value', selected: list_custom_field.possible_values[3].value)
         end
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         cf_filter = page.find("li[filter-name='cf_#{list_custom_field.id}']")
         within(cf_filter) do
@@ -581,7 +585,7 @@ describe 'Projects index page',
                    'on',
                    ['2011-11-11'])
 
-        click_on 'Filter'
+        click_on 'Apply'
 
         expect(page).to have_text(project_created_on_today.name)
         expect(page).to_not have_text(project_created_on_fixed_date.name)

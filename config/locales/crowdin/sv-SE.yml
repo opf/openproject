@@ -409,7 +409,6 @@ sv-SE:
         blank: kan inte vara tomt.
         cant_link_a_work_package_with_a_descendant: Ett arbetspaket kan inte kopplas
           till någon av dess underaktiviteter.
-        follows_descendant: follows its descendant.
         circular_dependency: Detta förhållande skulle skapa ett cirkelberoende.
         confirmation: matchar inte %{attribute}.
         does_not_exist: finns inte.
@@ -665,6 +664,7 @@ sv-SE:
   button_edit: Redigera
   button_edit_associated_wikipage: 'Redigerade associerad wikisida: %{page_title}'
   button_expand_all: Expandera alla
+  button_filter: Filter
   button_generate: Generera
   button_list: Lista
   button_lock: Lås
@@ -672,6 +672,7 @@ sv-SE:
   button_login: Logga in
   button_move: Flytta
   button_move_and_follow: Flytta och följ
+  button_print: Print
   button_quote: Citat
   button_remove: Ta bort
   button_remove_widget: Ta bort widget
@@ -903,6 +904,8 @@ sv-SE:
         description: 'Anpassa formulärets inställningar med dessa extrafunktioner:'
         add_groups: Lägg till nya attributgrupper
         rename_groups: Byt namn på attributgrupper
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Aktiviteter (tidredovisning)
   enumeration_work_package_priorities: Arbetspaketsprioritering
   enumeration_system_activity: Systemaktivitet
@@ -1198,6 +1201,7 @@ sv-SE:
   label_file_plural: Filer
   label_filter_add: Lägg till filter
   label_filter_plural: Filter
+  label_filters_toggle: Show/hide filters
   label_float: Flyttal
   label_folder: Mapp
   label_follows: följer
@@ -1673,8 +1677,7 @@ sv-SE:
   notice_bad_request: Felaktig förfrågan.
   notice_not_authorized: Du har inte behörighet att komma åt denna sida.
   notice_not_authorized_archived_project: Projektet som du försöker komma åt har arkiverats.
-  notice_password_confirmation_failed: Ditt lösenord är inte korrekt. Ändringarna
-    sparades inte.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "%{number} resultat hittades. Använd TAB för att
     fokusera på det första."
   notice_principals_found_single: Ett resultat. Använd TAB för att fokusera på det.
@@ -1812,7 +1815,6 @@ sv-SE:
       title: Ändra projektets identifierare
     archive:
       are_you_sure: Är du säker på att du vill arkivera projektet '%{name}'?
-      archived: Archived
   project_module_activity: Aktivitet
   project_module_boards: Forum
   project_module_calendar: Kalender
@@ -1825,10 +1827,12 @@ sv-SE:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Tilldelades roll
     member_of_group: Den tilldelades grupp
     assignee_or_group: Assignee or belonging group
     subproject_id: Delprojekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: på %{identifier}
     atom_revision_feed: Atom revisionsflöde
@@ -2085,6 +2089,7 @@ sv-SE:
     brute_force_prevention: Automatiserad användarblockering
   show_hide_project_menu: Expandera/minimera projektmenyn
   status_active: aktiv
+  status_archived: archived
   status_invited: inbjuden
   status_locked: låst
   status_registered: Registrerad

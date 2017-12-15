@@ -12,9 +12,9 @@ id:
         teks yang dipilih secara manual.
       copied_successful: Berhasil disalin ke clipboard!
     button_add_watcher: Tambah pemantau
-    button_back_to_list_view: Back to list view
+    button_back_to_list_view: Kembali ke tampilan daftar
     button_cancel: Batal
-    button_close: Close
+    button_close: Tutup
     button_check_all: Cek semua
     button_configure-form: Configure form
     button_confirm: Konfirmasi
@@ -145,7 +145,7 @@ id:
     label_previous: Sebelumnya
     label_per_page: 'Per halaman:'
     label_please_wait: Please wait
-    label_visibility_settings: Visibility settings
+    label_visibility_settings: Seting penampakan
     label_quote_comment: Quote this comment
     label_reset: Reset
     label_remove_columns: Hapus kolom terpilih
@@ -163,8 +163,8 @@ id:
     label_subject: Perihal
     label_this_week: minggu ini
     label_today: hari ini
-    label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_activity_show_only_comments: Tampilkan hanya aktivitas bersama komentar
+    label_activity_show_all: Tampilkan semua aktivitas
     label_total_progress: "%{percent}% total progres"
     label_visible_for_others: Halaman dapat diakses oleh member lain
     label_updated_on: diupdate pada
@@ -186,8 +186,8 @@ id:
     label_drop_files: Drop file di sini
     label_drop_files_hint: atau klik untuk menambahkan
     label_add_attachments: Tambahkan lampiran
-    label_formattable_attachment_hint: Attach and link files by dropping on this field,
-      or pasting from the clipboard.
+    label_formattable_attachment_hint: Lampirkan dan hubungkan file dengan meletakkannya
+      pada field ini, atau sisipkan dari clipboard.
     label_remove_file: Hapus %{fileName}
     label_remove_watcher: Remove watcher %{name}
     label_remove_all_files: Hapus semua file
@@ -202,7 +202,7 @@ id:
     label_validation_error: 'Proses penyimpanan work package gagal. Kesalahan yang
       terjadi:'
     help_texts:
-      show_modal: Show attribute help text entry
+      show_modal: Tampilkan atribut-atribut teks bantuan yang dimasukkan
     password_confirmation:
       field_description: Anda harus mengisi kata sandi akun untuk mengkonfirmasi perubahan.
       title: Konfirmasi kata sandi anda untuk melanjutkan
@@ -228,12 +228,13 @@ id:
         error_duplicate_group_name: The name %{group} is used more than once. Group
           names must be unique.
         reset_title: Reset form configuration
-        confirm_reset: 'Warning: Are you sure you want to reset the form configuration?
-          This will reset the attributes to their default group, unset the visibility
-          checkboxes, and disable ALL custom fields.
+        confirm_reset: 'Perhatian: Apakah Anda yakin untuk melakukan penyetelan ulang
+          form konfigurasi? Ini akan menyetel ulang atribut-atribut ke nilai awal
+          kelompoknya, membatakan seting penampakan kotak centang, dan menon aktifkan
+          SEMUA field kustom.
 
 '
-        upgrade_to_ee: Upgrade to Enterprise Edition
+        upgrade_to_ee: Tingkatkan ke edisi enterprise
         upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
           you mind supporting us OpenSource developers by becoming an Enterprise Edition
           client?
@@ -274,8 +275,8 @@ id:
       remove_child: Remove child
       add_new_relation: Create new relation
       update_description: Set or update description of this relation
-      toggle_description: Toggle relation description
-      update_relation: Click to change the relation type
+      toggle_description: Mengganti-ganti penjelasan hubungan
+      update_relation: Klik untuk mengganti jenis hubungan
       add_follower: Tambah pengikut
       add_predecessor: Add predecessor
       remove: Remove relation
@@ -370,8 +371,8 @@ id:
       start_date: Tanggal start
       tooManyProjects: Lebih dari %{count} proyek. Silakan gunakan filter lebih baik!
       selection_mode:
-        notification: Click on any highlighted work package to create the relation.
-          Press escape to cancel.
+        notification: Klik pada bagian terang paket kerja untuk membuat relasi. Tekan
+          escape untuk membatalkan.
       zoom:
         in: Zoom in
         out: Zoom out
@@ -411,10 +412,10 @@ id:
       image: Gambar
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: Perpindahan massal
+        edit: Edit massal
+        copy: Penggandaan massal
+        delete: Penghapusan massal
       button_clear: Clear
       comment_added: The comment was successfully added.
       comment_send_failed: An error has occurred. Could not submit the comment.
@@ -557,7 +558,7 @@ id:
         save: Simpan
         save_as: Simpan sebagai...
         export: Ekspor...
-        publish: Publish ...
+        publish: Terbitkan ...
         page_settings: Ubah nama query ...
         delete: Hapus
       filter: Filter
@@ -621,4 +622,4 @@ id:
         zero: 0 hours
     zen_mode:
       button_activate: Activate zen mode
-      button_deactivate: Deactivate zen mode
+      button_deactivate: Menonaktifkan modus zen

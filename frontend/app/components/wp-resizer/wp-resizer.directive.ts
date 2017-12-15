@@ -34,6 +34,7 @@ export class WorkPackageResizerController {
   private elementFlex:number;
   private oldPosition:number;
   private mouseMoveHandler:any;
+  public resizeEvent: string;
   public elementClass: string;
   public localStorageKey: string;
 
@@ -96,7 +97,13 @@ export class WorkPackageResizerController {
     // When the mouseup is outside the container these values will differ
     // which will cause problems at the next movement start
     let localStorageValue = localStorage.getItem(this.localStorageKey);
-    if(localStorageValue) { this.elementFlex = parseInt(localStorageValue, 10) };
+    if (localStorageValue) {
+      this.elementFlex = parseInt(localStorageValue, 10);
+    }
+
+    // Send a event that we resized this element
+    const event = new Event(this.resizeEvent);
+    window.dispatchEvent(event);
   }
 
   private resizeElement(element:HTMLElement, e:MouseEvent) {
@@ -129,6 +136,7 @@ function wpResizer():any {
     templateUrl: '/components/wp-resizer/wp-resizer.directive.html',
     scope: {
       elementClass: '<',
+      resizeEvent: '@',
       localStorageKey: '<'
     },
 

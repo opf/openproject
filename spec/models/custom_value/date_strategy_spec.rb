@@ -60,8 +60,10 @@ describe CustomValue::DateStrategy do
     context 'value is some date string' do
       let(:value) { '2015-01-03' }
 
-      it 'is the date' do
-        is_expected.to eql value
+      context 'date format', with_settings: { date_format: '%Y-%m-%d' } do
+        it 'is the date' do
+          is_expected.to eql value
+        end
       end
     end
 
@@ -69,7 +71,7 @@ describe CustomValue::DateStrategy do
       let(:value) { '' }
 
       it 'is a blank string' do
-        is_expected.to eql value
+        is_expected.to eq nil
       end
     end
 

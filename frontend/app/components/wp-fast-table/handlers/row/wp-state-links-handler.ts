@@ -7,6 +7,7 @@ import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
 import {tableRowClassName} from "../../builders/rows/single-row-builder";
 import {States} from "../../../states.service";
 import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
   // Injections
@@ -14,9 +15,10 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
   public keepTab:KeepTabService;
   public states:States;
   public wpTableSelection:WorkPackageTableSelection;
+  public wpTableFocus:WorkPackageTableFocusService;
 
   constructor(table: WorkPackageTable) {
-    $injectFields(this, '$state', 'keepTab', 'states', 'wpTableSelection');
+    $injectFields(this, '$state', 'keepTab', 'states', 'wpTableSelection', 'wpTableFocus');
   }
 
   public get EVENT() {
@@ -56,7 +58,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
     let classIdentifier = row.data('classIdentifier');
     let [index, _] = table.findRenderedRow(classIdentifier);
 
-    this.states.focusedWorkPackage.putValue(workPackageId);
+    this.wpTableFocus.updateFocus(workPackageId);
 
     // Update single selection if no modifier present
     this.wpTableSelection.setSelection(workPackageId, index);

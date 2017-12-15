@@ -55,7 +55,7 @@ Feature: Navigating to reports page
     When I go to the projects page
     And I click on "projects-filter-toggle-button"
     When I select "all" from "operator"
-    And I click on "Filter"
+    And I click on "Apply"
     And I hover over "tbody > tr:nth-of-type(1)"
     And I click on "Open menu" within "tbody > tr:nth-of-type(1)"
     And I click on "Unarchive" within ".dropdown-menu"

@@ -388,7 +388,6 @@ ko:
         blank: 내용을 입력해주세요
         cant_link_a_work_package_with_a_descendant: 작업 패키지는 하위 작업패키지들 중 하나에 연결 될 수
           없습니다.
-        follows_descendant: follows its descendant.
         circular_dependency: 이 연계는 순환 종속관계를 만듭니다.
         confirmation: "%{attribute} 속성에 부합하지 않습니다."
         does_not_exist: 존재하지 않음
@@ -632,6 +631,7 @@ ko:
   button_edit: 편집
   button_edit_associated_wikipage: 연결된 위키 페이지 %{page_title} 편집
   button_expand_all: 모두 확장
+  button_filter: 필터
   button_generate: 생성
   button_list: 목록
   button_lock: 잠금
@@ -639,6 +639,7 @@ ko:
   button_login: 로그인
   button_move: 이동
   button_move_and_follow: 이동하고 따라가기
+  button_print: Print
   button_quote: 인용
   button_remove: 제거
   button_remove_widget: 위젯 제거
@@ -891,6 +892,8 @@ ko:
         description: 이 추가적인 기능들로 양식 구성을 커스텀하세요;
         add_groups: 새로운 특성 그룹 추가
         rename_groups: 특성 그룹 이름 바꾸기
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: 작업(시간 추적)
   enumeration_work_package_priorities: 작업 패키지 우선 순위
   enumeration_system_activity: 시스템 작업
@@ -1172,6 +1175,7 @@ ko:
   label_file_plural: 파일
   label_filter_add: 필터 추가
   label_filter_plural: 필터
+  label_filters_toggle: Show/hide filters
   label_float: 부동
   label_folder: 폴더
   label_follows: 팔로우
@@ -1631,7 +1635,7 @@ ko:
   notice_bad_request: 잘못된 요청입니다.
   notice_not_authorized: 이 페이지에 액세스할 권한이 없습니다.
   notice_not_authorized_archived_project: 액세스하려는 프로젝트는 이미 보관되어 있습니다.
-  notice_password_confirmation_failed: 암호가 올바르지 않습니다. 변경 내용이 저장되지 않았습니다.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: |-
     %{number} 개의 결과가 발견되었습니다.
     첫번째 결과를 보려면 탭 해주세요.
@@ -1768,7 +1772,6 @@ ko:
       title: 프로젝트의 식별자 변경
     archive:
       are_you_sure: 프로젝트 '%{name}'을(를) 보관하시겠습니까?
-      archived: Archived
   project_module_activity: 활동
   project_module_boards: 포럼
   project_module_calendar: 달력
@@ -1781,10 +1784,12 @@ ko:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: 담당자의 역할
     member_of_group: 담당자의 그룹
     assignee_or_group: Assignee or belonging group
     subproject_id: 하위 프로젝트
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: "- %{identifier}"
     atom_revision_feed: Atom 수정 피드
@@ -2013,6 +2018,7 @@ ko:
     brute_force_prevention: 자동화된 사용자 차단
   show_hide_project_menu: 프로젝트 메뉴 확장/축소
   status_active: 활성
+  status_archived: archived
   status_invited: 초대됨
   status_locked: 잠김
   status_registered: 등록됨

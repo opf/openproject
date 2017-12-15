@@ -420,6 +420,9 @@ class AccountController < ApplicationController
     stages = authentication_stages reset: reset_stages
 
     if stages.empty?
+      # setting params back_url to be used by redirect_after_login
+      params[:back_url] = session.delete :back_url if session.include?(:back_url)
+
       if session[:finish_registration]
         finish_registration! user
       else

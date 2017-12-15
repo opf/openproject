@@ -236,12 +236,15 @@ export function registerWorkPackageMouseHandler(this:void,
     const queryDm:QueryDmService = $injectNow('QueryDm');
     const states:States = $injectNow('states');
 
+    // Remmeber the time before saving the work package to know which work packages to update
+    const updatedAt = moment().toISOString();
+
     return loadingIndicator.table.promise = changeset.save()
       .then((wp) => {
         wpNotificationsService.showSave(wp);
         const ids = _.map(states.table.rendered.value!, row => row.workPackageId);
         loadingIndicator.table.promise =
-          queryDm.loadIdsUpdatedSince(ids, wp.updatedAt).then(workPackageCollection => {
+          queryDm.loadIdsUpdatedSince(ids, updatedAt).then(workPackageCollection => {
           wpCacheService.updateWorkPackageList(workPackageCollection.elements);
 
           wpTableRefresh.request(`Moved work package ${wp.id} through timeline`);

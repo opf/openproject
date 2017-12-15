@@ -406,7 +406,6 @@ pl:
         blank: nie może być puste.
         cant_link_a_work_package_with_a_descendant: Zestaw zadań nie może być powiązany
           z jego podzadaniami.
-        follows_descendant: follows its descendant.
         circular_dependency: Ta relacja może wytworzyć zależność cykliczną.
         confirmation: nie pasuje do %{attribute}.
         does_not_exist: nie istnieje.
@@ -664,6 +663,7 @@ pl:
   button_edit: Edycja
   button_edit_associated_wikipage: 'Edytuj powiązaną stronę Wiki: %{page_title}'
   button_expand_all: Rozwiń wszystkie
+  button_filter: Filtr
   button_generate: Utwórz
   button_list: Lista
   button_lock: Blokada
@@ -671,6 +671,7 @@ pl:
   button_login: Zaloguj
   button_move: Przenieś
   button_move_and_follow: Przenieś i kontynuuj
+  button_print: Drukuj
   button_quote: Cytat
   button_remove: Usuń
   button_remove_widget: Usuń widżet
@@ -915,6 +916,8 @@ pl:
         description: 'Dostosuj konfigurację formularza z tymi dodatkowymi funkcjami:'
         add_groups: Dodaj nowe grupy atrybutów
         rename_groups: Zmień grupy atrybutów
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Działania
   enumeration_work_package_priorities: Priorytety pakietów roboczych
   enumeration_system_activity: Aktywność systemu
@@ -1214,6 +1217,7 @@ pl:
   label_file_plural: Pliki
   label_filter_add: Dodaj filtr
   label_filter_plural: Filtry
+  label_filters_toggle: Show/hide filters
   label_float: Liczba rzeczywista
   label_folder: Katalog
   label_follows: follows
@@ -1699,8 +1703,7 @@ pl:
   notice_not_authorized: Brak uprawnień dostępu do tej strony.
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
-  notice_password_confirmation_failed: Hasło nie jest poprawne. Zmiany nie zostały
-    zapisane.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: |-
     Znaleziono %{number} wyników.
     Naciśnij Tab, aby wybrać pierwszy rezultat.
@@ -1843,7 +1846,6 @@ pl:
       title: Zmień identyfikator projektu
     archive:
       are_you_sure: Jesteś pewien, że chcesz zarchiwizować projekt '%{name}'?
-      archived: Zarchiwizowane
   project_module_activity: Działanie
   project_module_boards: Fora
   project_module_calendar: Kalendarz
@@ -1856,10 +1858,12 @@ pl:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Przypisany do roli
     member_of_group: Przypisany do grupy
     assignee_or_group: Przypisana osoba lub przynależna grupa
     subproject_id: Podprojekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: w %{identifier}
     atom_revision_feed: Przegląd wersji Atom'a
@@ -2125,6 +2129,7 @@ pl:
     brute_force_prevention: Automatyczne blokowanie użytkowników
   show_hide_project_menu: Rozwiń/zwiń menu projektu
   status_active: aktywne
+  status_archived: archived
   status_invited: zaproszony
   status_locked: zablokowane
   status_registered: zarejestrowany

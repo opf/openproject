@@ -134,6 +134,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
     // Refresh on changes to work packages
     this.updateOnWorkPackageChanges();
 
+    // Refresh on window resize events
+    window.addEventListener('wp-resize.timeline', this.debouncedRefresh.bind(this));
+
     // Refresh timeline view after table rendered
     this.states.table.rendered.values$()
       .takeUntil(this.states.table.stopAllSubscriptions)

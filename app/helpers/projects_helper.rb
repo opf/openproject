@@ -138,6 +138,14 @@ module ProjectsHelper
     blacklist.include?(filter.class)
   end
 
+  def no_projects_result_box_params
+    if User.current.allowed_to?(:add_project, nil, global: true)
+      { action_url: new_project_path, display_action: true }
+    else
+      {}
+    end
+  end
+
   def project_more_menu_items(project)
     [project_more_menu_subproject_item(project),
      project_more_menu_settings_item(project),

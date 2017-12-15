@@ -30,8 +30,8 @@ require 'spec_helper'
 
 RSpec.feature 'Work package create uses attributes from filters', js: true, selenium: true do
   let(:user) { FactoryGirl.create(:admin) }
-  let(:type_bug) { FactoryGirl.create(:type_task) }
-  let(:type_task) { FactoryGirl.create(:type_bug) }
+  let(:type_bug) { FactoryGirl.create(:type_bug) }
+  let(:type_task) { FactoryGirl.create(:type_task) }
   let(:project) { FactoryGirl.create(:project, types: [type_task, type_bug]) }
   let(:status) { FactoryGirl.create(:default_status) }
 

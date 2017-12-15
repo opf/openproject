@@ -412,7 +412,6 @@ uk:
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
-        follows_descendant: follows its descendant.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
         does_not_exist: does not exist.
@@ -671,6 +670,7 @@ uk:
   button_edit: Edit
   button_edit_associated_wikipage: 'Edit associated Wiki page: %{page_title}'
   button_expand_all: Expand all
+  button_filter: Filter
   button_generate: Generate
   button_list: List
   button_lock: Lock
@@ -678,6 +678,7 @@ uk:
   button_login: Sign in
   button_move: Move
   button_move_and_follow: Move and follow
+  button_print: Print
   button_quote: Quote
   button_remove: Remove
   button_remove_widget: Remove widget
@@ -922,6 +923,8 @@ uk:
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Activities (time tracking)
   enumeration_work_package_priorities: Work package priorities
   enumeration_system_activity: System Activity
@@ -1217,6 +1220,7 @@ uk:
   label_file_plural: Files
   label_filter_add: Add filter
   label_filter_plural: Filters
+  label_filters_toggle: Show/hide filters
   label_float: Float
   label_folder: Folder
   label_follows: follows
@@ -1696,7 +1700,7 @@ uk:
   notice_not_authorized: You are not authorized to access this page.
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
-  notice_password_confirmation_failed: Ваш пароль невірний. Зміни не були збережені.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1835,7 +1839,6 @@ uk:
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: Activity
   project_module_boards: Forums
   project_module_calendar: Calendar
@@ -1848,10 +1851,12 @@ uk:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
     subproject_id: Subproject
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2109,6 +2114,7 @@ uk:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Expand/Collapse project menu
   status_active: active
+  status_archived: archived
   status_invited: invited
   status_locked: locked
   status_registered: registered

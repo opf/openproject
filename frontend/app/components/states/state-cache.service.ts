@@ -52,6 +52,14 @@ export abstract class StateCacheService<T> {
   }
 
   /**
+   * Touch the current state to fire subscribers.
+   */
+  public touch(id:string):void {
+    const state = this.multiState.get(id);
+    state.putValue(state.value, 'Touching the state');
+  }
+
+  /**
    * Update the value due to application changes.
    *
    * @param id The value's identifier.

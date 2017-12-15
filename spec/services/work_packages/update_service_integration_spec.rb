@@ -184,7 +184,7 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
                                  project: target_project)
             end
 
-            it 'replaces the current category by the qually named one' do
+            it 'replaces the current category by the equally named one' do
               expect(subject)
                 .to be_success
 
@@ -964,6 +964,158 @@ describe WorkPackages::UpdateService, 'integration tests', type: :model do
           .to eql work_package_attributes[:start_date]
         expect(new_parent_work_package.due_date)
           .to eql new_sibling_attributes[:due_date]
+      end
+    end
+
+    describe 'changing the parent with the parent being restricted in moving to an earlier date' do
+      # there is actually some time between the new parent and its predecessor
+      let(:new_parent_attributes) do
+        work_package_attributes.merge(
+          subject: 'new parent',
+          parent: nil,
+          start_date: Date.today + 8.days,
+          due_date: Date.today + 14.days
+        )
+      end
+      let(:new_parent_work_package) do
+        FactoryGirl.create(:work_package, new_parent_attributes)
+      end
+
+      let(:new_parent_predecessor_attributes) do
+        work_package_attributes.merge(
+          subject: 'new parent predecessor',
+          parent: nil,
+          start_date: Date.today + 1.day,
+          due_date: Date.today + 4.days
+        )
+      end
+      let(:new_parent_predecessor_work_package) do
+        wp = FactoryGirl.create(:work_package, new_parent_predecessor_attributes)
+
+        wp.precedes << new_parent_work_package
+
+        wp
+      end
+
+      let(:work_package_attributes) do
+        { project_id: project.id,
+          type_id: type.id,
+          author_id: user.id,
+          status_id: status.id,
+          priority: priority,
+          start_date: Date.today,
+          due_date: Date.today + 3.days }
+      end
+
+      before do
+        work_package.reload
+        new_parent_work_package.reload
+        new_parent_predecessor_work_package.reload
+      end
+
+      let(:attributes) { { parent: new_parent_work_package } }
+
+      it 'reschedules the parent and the work package while adhering to the limitation imposed by the predecessor' do
+        expect(subject)
+          .to be_success
+
+        # sets the parent and adapts the dates
+        # The dates are overwritten as the new parent is unable
+        # to move to the dates of its new child because of the follows relation.
+        work_package.reload
+        expect(work_package.parent)
+          .to eql new_parent_work_package
+        expect(work_package.start_date)
+          .to eql new_parent_predecessor_attributes[:due_date] + 1.day
+        expect(work_package.due_date)
+          .to eql new_parent_predecessor_attributes[:due_date] + 4.days
+
+        # adapts the parent's dates but adheres to its limitations
+        # due to the follows relationship
+        new_parent_work_package.reload
+        expect(new_parent_work_package.start_date)
+          .to eql new_parent_predecessor_attributes[:due_date] + 1.day
+        expect(new_parent_work_package.due_date)
+          .to eql new_parent_predecessor_attributes[:due_date] + 4.days
+
+        # leaves the parent's predecessor unchanged
+        new_parent_work_package.reload
+        expect(new_parent_work_package.start_date)
+          .to eql new_parent_predecessor_attributes[:due_date] + 1.day
+        expect(new_parent_work_package.due_date)
+          .to eql new_parent_predecessor_attributes[:due_date] + 4.days
+      end
+    end
+
+    describe 'removing the parent on a work package which precedes its sibling' do
+      let(:work_package_attributes) do
+        { project_id: project.id,
+          type_id: type.id,
+          author_id: user.id,
+          status_id: status.id,
+          priority: priority,
+          parent: parent_work_package,
+          start_date: Date.today,
+          due_date: Date.today + 3.days }
+      end
+
+      let(:parent_attributes) do
+        { project_id: project.id,
+          subject: 'parent',
+          type_id: type.id,
+          author_id: user.id,
+          status_id: status.id,
+          priority: priority,
+          start_date: Date.today,
+          due_date: Date.today + 10.days }
+      end
+
+      let(:parent_work_package) do
+        FactoryGirl.create(:work_package, parent_attributes)
+      end
+
+      let(:sibling_attributes) do
+        work_package_attributes.merge(
+          subject: 'sibling',
+          start_date: Date.today + 4.days,
+          due_date: Date.today + 10.days
+        )
+      end
+
+      let(:sibling_work_package) do
+        wp = FactoryGirl.create(:work_package, sibling_attributes)
+
+        wp.follows << work_package
+
+        wp
+      end
+
+      before do
+        work_package.reload
+        parent_work_package.reload
+        sibling_work_package.reload
+      end
+
+      let(:attributes) { { parent: nil } }
+
+      it 'removes the parent and reschedules it' do
+        expect(subject)
+          .to be_success
+
+        # work package itself is unchanged (except for the parent)
+        work_package.reload
+        expect(work_package.parent)
+          .to be_nil
+        expect(work_package.start_date)
+          .to eql work_package_attributes[:start_date]
+        expect(work_package.due_date)
+          .to eql work_package_attributes[:due_date]
+
+        parent_work_package.reload
+        expect(parent_work_package.start_date)
+          .to eql sibling_attributes[:start_date]
+        expect(parent_work_package.due_date)
+          .to eql sibling_attributes[:due_date]
       end
     end
   end

@@ -27,6 +27,7 @@
 // ++
 
 import {openprojectModule} from '../../angular-modules';
+import {FirstRouteService} from 'app/components/routing/first-route-service';
 
 const panels = {
   get overview() {
@@ -198,6 +199,7 @@ openprojectModule
 
   .run(($location:ng.ILocationService,
         $rootElement:ng.IRootElementService,
+        firstRoute:FirstRouteService,
         $timeout:ng.ITimeoutService,
         $rootScope:ng.IRootScopeService,
         $state:ng.ui.IStateService,
@@ -236,7 +238,12 @@ openprojectModule
       evt.preventDefault();
     });
 
+
     $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
+      // We need to distinguish between actions that should run on the initial page load
+      // (ie. openining a new tab in the details view should focus on the element in the table)
+      // so we need to know which route we visited initially
+      firstRoute.setIfFirst(toState, toParams);
 
       $rootScope.$emit('notifications.clearAll');
 

@@ -410,7 +410,6 @@
         blank: can't be blank.
         cant_link_a_work_package_with_a_descendant: A work package cannot be linked
           to one of its subtasks.
-        follows_descendant: follows its descendant.
         circular_dependency: This relation would create a circular dependency.
         confirmation: doesn't match %{attribute}.
         does_not_exist: does not exist.
@@ -663,6 +662,7 @@
   button_edit: Rediger
   button_edit_associated_wikipage: 'Rediger tilknyttet Wiki-side: %{page_title}'
   button_expand_all: Utvid alle
+  button_filter: Filter
   button_generate: Generate
   button_list: Liste
   button_lock: Lås
@@ -670,6 +670,7 @@
   button_login: Logg inn
   button_move: Flytt
   button_move_and_follow: Flytt og følg
+  button_print: Print
   button_quote: Sitèr
   button_remove: Fjern
   button_remove_widget: Fjern widget
@@ -902,6 +903,8 @@
         description: 'Customize the form configuration with these additional features:'
         add_groups: Add new attribute groups
         rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
   enumeration_activities: Aktiviteter (tidsstyring)
   enumeration_work_package_priorities: Prioritering av arbeidspakker
   enumeration_system_activity: Systemaktivitet
@@ -1197,6 +1200,7 @@
   label_file_plural: Filer
   label_filter_add: Legg til filter
   label_filter_plural: Filtre
+  label_filters_toggle: Show/hide filters
   label_float: Flyt
   label_folder: Mappe
   label_follows: følger
@@ -1670,8 +1674,7 @@
   notice_bad_request: Ugyldig forespørsel.
   notice_not_authorized: Du har ikke tilgang til å åpne denne siden.
   notice_not_authorized_archived_project: Prosjektet du forsøker å åpne er arkivert.
-  notice_password_confirmation_failed: Your password is not correct. The changes were
-    not saved.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
   notice_principals_found_multiple: "There are %{number} results found. \n Tab to
     focus the first result."
   notice_principals_found_single: "There is one result. \n Tab to focus it."
@@ -1809,7 +1812,6 @@
       title: Change the project's identifier
     archive:
       are_you_sure: Are you sure you want to archive the project '%{name}'?
-      archived: Archived
   project_module_activity: Aktivitet
   project_module_boards: Forum
   project_module_calendar: Kalender
@@ -1822,10 +1824,12 @@
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
+    active_or_archived: Active or archived
     assigned_to_role: Deltakers rolle
     member_of_group: Deltakers gruppe
     assignee_or_group: Assignee or belonging group
     subproject_id: Underprosjekt
+    name_or_identifier: Name or identifier
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2085,6 +2089,7 @@
     brute_force_prevention: Automatisk blokkering av brukere
   show_hide_project_menu: Vis/Skjul Prosjekt-menyen
   status_active: aktiv
+  status_archived: archived
   status_invited: invitert
   status_locked: låst
   status_registered: registrert

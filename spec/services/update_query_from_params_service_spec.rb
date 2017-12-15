@@ -52,6 +52,17 @@ describe UpdateQueryFromParamsService,
             .to eql('status')
         end
       end
+
+      context 'for an explicitly nil value' do
+        let(:params) { { group_by: nil } }
+
+        it 'sets the value' do
+          subject
+
+          expect(query.group_by)
+            .to eql(nil)
+        end
+      end
     end
 
     context 'filters' do

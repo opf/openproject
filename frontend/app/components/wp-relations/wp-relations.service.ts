@@ -127,7 +127,11 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
       this.multiState.get(wpId).doModify((value:RelationsStateValue) => {
         value[relation.id] = relation;
         return value;
-      }, () => { return {}; });
+      }, () => {
+        let value:RelationsStateValue = {};
+        value[relation.id] = relation;
+        return value;
+      });
     });
   }
 
