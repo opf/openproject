@@ -17,7 +17,7 @@ module AccountsHelper
     form.text_field :login, size: 25, required: true, id: id
   end
 
-  def email_field(form, id)
+  def account_email_field(form, id)
     form.text_field :mail, required: true, id: id
   end
 

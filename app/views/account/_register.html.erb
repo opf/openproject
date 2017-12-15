@@ -43,9 +43,9 @@ See doc/COPYRIGHT.rdoc for more details.
         <% if @user.auth_source_id.nil? %>
           <div class="form--field -wide-label">
             <% if Setting.email_login? %>
-              <%= email_field(f, @id_extension) %>
+              <%= account_email_field(f, 'user_mail_' + @id_extension) %>
             <% else %>
-              <%= login_field(f, @id_extension) %>
+              <%= login_field(f, 'user_login_' + @id_extension) %>
             <% end %>
           </div>
         <% end %>
@@ -59,7 +59,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
         <% if registration_show_email? %>
           <div class="form--field -wide-label">
-            <%= email_field(f, @id_extension) %>
+            <%= account_email_field(f, 'user_mail_' + @id_extension) %>
           </div>
         <% end %>
 

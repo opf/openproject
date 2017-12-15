@@ -32,12 +32,12 @@ Feature:User Activation
 Scenario: An admin could activate the pending registration request
 
 Given I open the registration modal
-And I fill in "user_login" with "heidi"
-And I fill in "user_password" with "test123=321test"
-And I fill in "user_password_confirmation" with "test123=321test"
-And I fill in "user_firstname" with "Heidi"
-And I fill in "user_lastname" with "Swiss"
-And I fill in "user_mail" with "heidi@heidiland.com"
+And I fill in "user_login_registration" with "heidi"
+And I fill in "user_password_registration" with "test123=321test"
+And I fill in "user_password_confirmation_registration" with "test123=321test"
+And I fill in "user_firstname_registration" with "Heidi"
+And I fill in "user_lastname_registration" with "Swiss"
+And I fill in "user_mail_registration" with "heidi@heidiland.com"
 And I click on "Create" within ".registration-modal"
 Then I should see "Your account was created and is now pending administrator approval"
 And I am admin
@@ -48,12 +48,12 @@ Then I should see "heidi" within ".generic-table"
 Scenario: An admin activates the pending registration request
 
 Given I open the registration modal
-And I fill in "user_login" with "heidi"
-And I fill in "user_password" with "test123=321test"
-And I fill in "user_password_confirmation" with "test123=321test"
-And I fill in "user_firstname" with "Heidi"
-And I fill in "user_lastname" with "Swiss"
-And I fill in "user_mail" with "heidi@heidiland.com"
+And I fill in "user_login_registration" with "heidi"
+And I fill in "user_password_registration" with "test123=321test"
+And I fill in "user_password_confirmation_registration" with "test123=321test"
+And I fill in "user_firstname_registration" with "Heidi"
+And I fill in "user_lastname_registration" with "Swiss"
+And I fill in "user_mail_registration" with "heidi@heidiland.com"
 And I click on "Create" within ".registration-modal"
 Then I should see "Your account was created and is now pending administrator approval"
 And I am already admin

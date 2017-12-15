@@ -55,7 +55,7 @@ class CustomFieldFormBuilder < TabularFormBuilder
 
   def custom_field_input(options = {})
     field = :value
-    custom_field_id = custom_field_field_id + options[:id_extension]
+    custom_field_id = defined? options[:id_extension] ? custom_field_field_id + options[:id_extension] : custom_field_field_id
     input_options = options.merge(no_label: true,
                                   name: custom_field_field_name,
                                   id: custom_field_id)

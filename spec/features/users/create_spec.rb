@@ -80,8 +80,8 @@ describe 'create users', type: :feature, selenium: true do
         end
 
         it 'registers the user upon submission' do
-          fill_in 'user_password', with: 'foobarbaz1'
-          fill_in 'user_password_confirmation', with: 'foobarbaz1'
+          fill_in 'user_password_registration_', with: 'foobarbaz1'
+          fill_in 'user_password_confirmation_', with: 'foobarbaz1'
 
           click_button 'Create'
 
