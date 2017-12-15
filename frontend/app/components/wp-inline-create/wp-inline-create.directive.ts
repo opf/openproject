@@ -137,10 +137,6 @@ export class WorkPackageInlineCreateController {
   }
 
   $onInit() {
-    console.log('this.projectIdentifier', this.projectIdentifier);
-    setTimeout(() => {
-      console.log(this.table);
-    }, 2000);
   }
 
   public addWorkPackageRow() {

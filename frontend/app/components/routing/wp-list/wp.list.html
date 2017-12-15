@@ -44,7 +44,6 @@
     </div>
   </div>
 
-
   <filter-container></filter-container>
 
   <accessible-by-keyboard
@@ -61,7 +60,7 @@
     <div class="work-packages-split-view--tabletimeline-side loading-indicator--location" data-indicator-name="table">
 
       <!-- TABLE + TIMELINE horizontal split -->
-      <wp-table project-identifier="projectIdentifier"
+      <wp-table [project-identifier]="projectIdentifier"
                 ng-if="tableInformationLoaded"
                 style="display: flex; flex: 1"></wp-table>
 

@@ -26,13 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component, ElementRef, Inject, Injectable, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, Injectable, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent, downgradeInjectable} from '@angular/upgrade/static';
 import {IRootScopeService} from 'angular';
 import {$rootScopeToken, columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {GroupObject} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
-import {WorkPackageTableColumns} from 'core-components/wp-fast-table/wp-table-columns';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {Observable} from 'rxjs/Observable';
 import openprojectModule from '../../angular-modules';
@@ -65,6 +64,8 @@ openprojectModule.factory(
   template: require('!!raw-loader!./wp-table.directive.html')
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {
+
+  @Input() projectIdentifier:string;
 
   private $element:JQuery;
 
