@@ -1,9 +1,9 @@
 tr:
   error_can_not_be_assigned: Bu kullanıcı için rol atanabilir değil
-  global_roles: Global Roles
-  label_role_type: Type
+  global_roles: Küresel rolleri
+  label_role_type: Tür
   label_member_role: Proje rolü
-  label_global_role: Global Role
+  label_global_role: Küresel rolü
   label_not_changeable: (değiştirilemez)
-  label_no_assignable_role: No global role available for assignment
-  label_global: Global
+  label_no_assignable_role: Atanabilir küresel rolü mevcut değil
+  label_global: Küresel
