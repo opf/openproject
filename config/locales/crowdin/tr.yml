@@ -23,7 +23,7 @@ tr:
     error_no_device: "Bu örnek için gerekli olmasına rağmen, bu kullanıcı için kayıtlı 2FA cihazı bulunamadı."
     error_no_matching_strategy: "Bu kullanıcı için uygun 2FA stratejisi yok. Lütfen yöneticinize başvurun."
     error_is_enforced_not_active: 'Yapılandırma hatası: İki faktörlü kimlik doğrulama zorlanmış, ancak etkin bir strateji mevcut değil.'
-    error_invalid_backup_code: 'Invalid 2FA backup code'
+    error_invalid_backup_code: '2FA yedek kodu geçersiz'
     channel_unavailable: "%{channel} dağıtım kanalı kullanılamıyor."
     no_valid_phone_number: "Geçerli telefon numarası yok."
     label_pwd_confirmation: "Parola"
@@ -39,9 +39,9 @@ tr:
     text_2fa_enabled: 'Her girişte, varsayılan 2FA cihazınızdan bir OTP jetonu girmeniz istenir.'
     text_2fa_disabled: 'İki faktörlü kimlik doğrulamayı etkinleştirmek için yukarıdaki düğmeyi kullanarak yeni bir 2FA aygıtı kaydettirin. Hâlihazırda bir aygıtınız varsa, onu bir varsayılan yapın.'
     login:
-      enter_backup_code_title: Enter backup code
-      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      other_device: 'Use another device or backup code'
+      enter_backup_code_title: Yedekleme kodunuzu girin
+      enter_backup_code_text: Kayıtlı 2FA cihazlarınıza erişemediğiniz taktirde lütfen kod listenizden geçerli bir yedek kod girin.
+      other_device: 'Başka bir aygıt veya yedek kodu kullanın'
     admin:
       self_edit_path: 'Kendi 2FA cihazlarınızı eklemek veya değiştirmek için lütfen %{self_edit_link} adresine gidin'
       self_edit_link_name: 'Hesap sayfanızdaki iki faktörlü kimlik doğrulama'
@@ -54,18 +54,17 @@ tr:
       text_2fa_enabled: 'Her girişte bu kullanıcının varsayılan 2FA cihazından bir OTP jetonu girmesi istenir.'
       text_2fa_disabled: "Kullanıcı, \"Hesabım sayfası\" nı kullanarak bir 2FA cihazı kurmadı,"
     backup_codes:
-      none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
-      your_codes: for your %{app_name} account %{login}
+      none_found: Bu hesap için geçerli bir yedek kod bulunmamaktadır.
+      singular: Yedekleme kodu
+      plural: Yedekleme kodları
+      your_codes: sizin %{app_name} hesabınız için %{login}
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        Kayıtlı 2FA cihazlarınıza erişiminiz yoksa, 2FA yedek kod girerek hesabınıza erişebilirsiniz. Yeni bir yedek kod oluşturmak için aşağıdaki düğmeyi kullanın.
       generate:
-        title: Generate backup codes
-        keep_safe_as_password: 'Important! Treat these codes as passwords.'
-        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
-        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
+        title: Yedek kodları oluşturun
+        keep_safe_as_password: 'Önemli! Bu kodlara parola gibi davranın.'
+        keep_safe_warning: 'Yedek kodlarınızı şifre yöneticinize kaydedin veya bu sayfayı yazdırıp güvenli bir yerde saklayın.'
+        regenerate_warning: 'Uyarı: Önceden oluşturduğunuz 2FA yedek kodları geçersiz olur ve artık kullanılamazlar.'
     devices:
       add_new: 'Yeni 2FA aygıtı ekle'
       register: 'Cihazınızı Kaydettirin'
@@ -136,7 +135,7 @@ tr:
   notice_phone_number_format: 'Lütfen numarasını yandaki biçimde girin: + XX XXXXXXXX.'
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
-  text_otp_not_receive: "Other verification methods"
+  text_otp_not_receive: "Diğer doğrulama yöntemleri"
   text_send_otp_again: "Tek seferlik şifreyi şu yollarla tekrar gönderin:"
   button_resend_otp_form: "Tekrar Gönder"
   button_otp_by_voice: "Sesli arama"
