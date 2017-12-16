@@ -36,10 +36,10 @@ id:
       add_token: Unggah sebuah token bantuan edisi enterprise
       replace_token: Gantilah token bantuan yang sedang digunakan
       order: Pesanlah edisi enterprise
-      paste: Paste your Enterprise Edition support token
-      required_for_feature: This feature is only available with an active Enterprise
-        Edition support token.
-      enterprise_link: For more information, click here.
+      paste: Tempelkan token pendukung Edisi Perusahaan Anda
+      required_for_feature: Fitur ini hanya tersedia bersama dengan sebuah token pendukung
+        Edisi Perusahaan yang aktif.
+      enterprise_link: Untuk informasi lebih lanjut, klik di sini.
   announcements:
     show_until: Show until
     is_active: currently displayed
@@ -65,9 +65,9 @@ id:
       ini.
 
 '
-    is_enabled_globally: Is enabled globally
-    enabled_in_project: Enabled in project
-    contained_in_type: Contained in type
+    is_enabled_globally: Diaktifkan secara global
+    enabled_in_project: Diaktifkan pada proyek
+    contained_in_type: Terkandung dalam jenis
     confirm_destroy_option: Menghapus sebuah pilihan akan menghapus semua kemunculan
       yang terjadi (mis. dalam paket pekerjaan). Apakah Anda yakin ingin menghapusnya?
     tab:
@@ -126,11 +126,11 @@ id:
       no_results_content_text: Add a member to the project
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      failed_to_reset_token: 'Gagal untuk menset ulang akses token: %{error}'
+      notice_reset_token: 'Sebuah token baru %{type} telah dibuat. Token akses Anda
+        adalah:'
+      token_value_warning: 'Catatan: Anda hanya akan melihat token ini satu kali,
+        pastikan untuk membuat salinannya sekarang.'
       no_results_title_text: There are currently no access tokens available.
   news:
     index:
@@ -157,9 +157,9 @@ id:
       settings: Pengaturan
       form_configuration: Form configuration
       projects: Project
-      enabled_projects: Enabled projects
-      add_group: Add group
-      reset: Reset to defaults
+      enabled_projects: Proyek-proyek yang diaktifkan
+      add_group: Menambah grup
+      reset: Disetel ulang ke kondisi bawaan
   versions:
     overview:
       no_results_title_text: There are currently no work packages assigned to this
@@ -283,7 +283,7 @@ id:
         is_required: Harus diisi
         max_length: Panjang maksimum
         min_length: Panjang minimum
-        multi_value: Allow multi-select
+        multi_value: Membolehkan pilihan majemuk
         possible_values: Nilai yang mungkin
         regexp: Regular expression
         searchable: Dapat dicari
@@ -291,10 +291,10 @@ id:
       custom_value:
         value: Nilai
       enterprise_token:
-        starts_at: Valid since
-        expires_at: Expires at
-        subscriber: Subscriber
-        encoded_token: Enterprise support token
+        starts_at: Valid sejak
+        expires_at: Berakhir masa berlaku pada
+        subscriber: Pelanggan
+        encoded_token: Token pendukung perusahaan
       relation:
         delay: Jeda
         from: Paket-Penugasan
@@ -325,8 +325,8 @@ id:
       repository:
         url: URL
       role:
-        assignable: Work packages can be assigned to users and groups in possession
-          of this role in the respective project
+        assignable: Paket kerja dapat ditetapkan untuk pengguna-pengguna tunggal dan
+          kelompok-kelompok yang memiliki peran dalam proyek masing-masing
       time_entry:
         activity: Activity
         hours: Jam
@@ -353,8 +353,8 @@ id:
         impaired: Mode aksesibel
         time_zone: Time Zone
         auto_hide_popups: Pemberitahuan Auto-hide sukses
-        warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
-          changes
+        warn_on_leaving_unsaved: Ingatkan saya ketika meninggalkan sebuah paket kerja
+          dengan perubahan yang belum disimpan
       version:
         effective_date: Tenggat waktu
         sharing: Sharing
@@ -423,8 +423,8 @@ id:
         inclusion: belum di set dengan nilai yang diperbolehkan.
         invalid: tidak valid.
         less_than_or_equal_to: harus kurang dari atau sama dengan %{count}.
-        not_a_date: is not a valid date.
-        not_a_datetime: is not a valid date time.
+        not_a_date: bukan tanggal yang valid.
+        not_a_datetime: bukan tanggal waktu yang valid.
         not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
         not_a_number: harus diisi angka.
         not_an_integer: harus bilangan bulat.
@@ -445,13 +445,13 @@ id:
           at_least_one_custom_option: Paling tidak, satu pilihan dibutuhkan untuk
             tersedia.
         enterprise_token:
-          unreadable: can't be read. Are you sure it is a support token?
+          unreadable: tidak dapat dibaca. Apakah Anda yakin ini adalah token pendukung?
         parse_schema_filter_params_service:
           attributes:
             base:
-              unsupported_operator: The operator is not supported.
-              invalid_values: A value is invalid.
-              id_filter_required: An 'id' filter is required.
+              unsupported_operator: Operator (simbol operasi matematika) tidak didukung.
+              invalid_values: Nilai tidak valid.
+              id_filter_required: Sebuah pemilah 'id' dibutuhkan.
         project:
           attributes:
             types:
@@ -465,16 +465,17 @@ id:
             project:
               error_not_found: tidak ditemukan
             public:
-              error_unauthorized: "- The user has no permission to create public queries."
-          group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
-            You cannot activate both.
+              error_unauthorized: "- Pengguna tidak memiliki izin untuk menciptakan
+                query publik."
+          group_by_hierarchies_exclusive: saling ekslusif bersama kelompok dengan
+            '%{group_by}'. Anda tidak dapat mengaktifkan keduanya.
           filters:
             custom_fields:
               inexistent: There is no custom field for the filter.
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Relasi menciptakan lingkaran relasi-relasi.
           attributes:
             to:
               error_not_found: work package dalam posisi `to` tidak dapat ditemukan
@@ -516,10 +517,10 @@ id:
         type:
           attributes:
             attribute_groups:
-              group_without_name: Unnamed groups are not allowed.
-              duplicate_group: The group name %{group} is used more than once. Group
-                names must be unique.
-              attribute_unknown: Invalid work package attribute used.
+              group_without_name: Kelompok tak bernama tidak dibolehkan.
+              duplicate_group: Nama kelompok %{group} dipakai lebihdari satu kali.
+                Nama kelompok harus unik.
+              attribute_unknown: Atribut paket kerja tidak valid digunakan.
         user:
           attributes:
             password:
@@ -667,12 +668,12 @@ id:
   button_login: Login
   button_move: Pindahkan
   button_move_and_follow: Pindahkan dan amati
-  button_print: Print
+  button_print: Cetak
   button_quote: Kutipan
   button_remove: Remove
   button_remove_widget: Hapus widget
   button_rename: Ubah nama
-  button_replace: Replace
+  button_replace: Ganti
   button_reply: Balas
   button_reset: Reset
   button_rollback: Kembali ke versi ini
@@ -687,7 +688,7 @@ id:
   button_unlock: Unlock
   button_unwatch: Unwatch
   button_update: Update
-  button_upload: Upload
+  button_upload: Unggah
   button_view: Lihat
   button_watch: Pantau
   button_manage_menu_entry: Mengkonfigurasi menu item
@@ -700,7 +701,7 @@ id:
     failed: Tidak dapat meng-copy Project %{source_project_name}
     succeeded: Project %{target_project_name} telah dibuat
     errors: Eror
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Field kustom pada proyek
     text:
       failed: Tidak dapat meng-copy Project "%{source_project_name}" ke Project "%{target_project_name}".
       succeeded: Project "%{source_project_name}" ke "%{target_project_name}" telah
@@ -897,11 +898,13 @@ id:
   ee:
     upsale:
       form_configuration:
-        description: 'Customize the form configuration with these additional features:'
-        add_groups: Add new attribute groups
-        rename_groups: Rename attributes groups
+        description: 'Kustomisasi konfigurasi formulir dengan fitur-fitur tambahan
+          ini:'
+        add_groups: Menambahkan atribut kelompok-kelompok baru
+        rename_groups: Menamai ulang atribut kelompok-kelompok
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Tingkatkan ke %{link} untuk menyaring dan mengurutkan menurut
+          field-field kustom
   enumeration_activities: Activity (pelacakan waktu)
   enumeration_work_package_priorities: Paket-Penugasan prioritas
   enumeration_system_activity: Sistem Activity
@@ -919,11 +922,11 @@ id:
   error_check_user_and_role: Silakan pilih user dan Role.
   error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
     are enabled, as this application will not properly function without.
-  error_custom_option_not_found: Option does not exist.
-  error_failed_to_delete_entry: Failed to delete this entry.
-  error_invalid_group_by: 'Can''t group by: %{value}'
-  error_invalid_query_column: 'Invalid query column: %{value}'
-  error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
+  error_custom_option_not_found: Pilihan tidak ada.
+  error_failed_to_delete_entry: Gagal untuk menghapus isian ini.
+  error_invalid_group_by: 'Tidak dapat dikelompokkan dengan: %{value}'
+  error_invalid_query_column: 'Permintaan tidak valid kolom: %{value}'
+  error_invalid_sort_criterion: 'Tidak dapat diurutkan dengan kolom: %{value}'
   error_pdf_export_too_many_columns: Kolom yang dipilih utnuk ekspor PDF terlalu banyak.
     Mohon kurangi jumlah kolom.
   error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
@@ -993,14 +996,15 @@ id:
     blocks:
       community: OpenProject community
       upsale:
-        become_hero: Become a hero!
+        become_hero: Menjadi seorang pahlawan!
         title: Tingkatkan ke edisi enterprise
-        description: Boost your productivity with the Enterprise Edition
-        more_info: More information
-        additional_features: Additional powerful premium features
-        professional_support: Professional support from the OpenProject experts
-        you_contribute: Developers need to pay their bills, too. With Enterprise Edition
-          you substantially contribute to this Open-Source community effort.
+        description: Tingkatkan produktivitas Anda dengan Edisi Perusahaan
+        more_info: Informasi lebih lanjut
+        additional_features: Tambahan fitur premium yang sangat berdaya guna
+        professional_support: Dukungan profesional dari para ahli OpenProject
+        you_contribute: Pengembang harus membayar tagihan mereka juga. Dengan Edisi
+          Perusahaan, Anda secara substansial menyumbang kepada upaya komunitas Open-Source
+          ini.
     links:
       upgrade_enterprise_edition: Tingkatkan ke edisi enterprise
       user_guides: User guides
@@ -1027,7 +1031,7 @@ id:
         action: Action
         expiration: Expires
       indefinite_expiration: Never
-  label_accessibility: Accessibility
+  label_accessibility: Kemampuan akses
   label_account: Akun
   label_active: Aktif
   label_activate_user: Pengguna diaktifkan
@@ -1059,7 +1063,7 @@ id:
   label_api_access_key_created_on: API access key dibuat %{value} yg lalu
   label_api_access_key_type: API
   label_applied_status: Status berjalan
-  label_archive_project: Archive project
+  label_archive_project: Proyek arsip
   label_ascending: Askending
   label_assigned_to_me_work_packages: Paket-Penugasan yang saya kerjakan
   label_associated_revisions: Revisi terkait
@@ -1077,7 +1081,7 @@ id:
   label_available_project_versions: Available versions
   label_available_project_repositories: Available repositories
   label_api_documentation: API documentation
-  label_between: between
+  label_between: antara
   label_blocked_by: diblokir oleh
   label_blocks: blok
   label_blog: Blog
@@ -1094,9 +1098,9 @@ id:
   label_category: Kategori
   label_wiki_menu_item: Wiki menu item
   label_select_main_menu_item: Pilih item main menu baru
-  label_select_project: Select a project
+  label_select_project: Memilih sebuah proyek
   label_required_disk_storage: Storage yang dibutuhkan
-  label_send_invitation: Send invitation
+  label_send_invitation: Kirim undangan
   label_change_plural: Perubahan
   label_change_properties: Ubah properti
   label_change_status: Ubah status
@@ -1138,9 +1142,9 @@ id:
   label_custom_field_new: Isian kustom baru
   label_custom_field_plural: Isian kustom
   label_custom_field_default_type: Tipe kosong
-  label_custom_style: Design
+  label_custom_style: Rancangan
   label_date: Tanggal
-  label_date_and_time: Date and time
+  label_date_and_time: Tanggal dan waktu
   label_date_from: Dari
   label_date_from_to: Dari %{start} ke %{end}
   label_date_range: Kisaran tanggal
@@ -1148,7 +1152,7 @@ id:
   label_day_plural: hari
   label_default: Default
   label_delete_user: Menghapus pengguna
-  label_delete_project: Delete project
+  label_delete_project: Hapus proyek
   label_deleted: dihapus
   label_deleted_custom_field: "(isian kustom dihapus)"
   label_descending: Deskending
@@ -1179,10 +1183,10 @@ id:
   label_enumeration_new: Nilai enumerasi baru
   label_enumeration_value: Enumeration value
   label_enumerations: Enumerasi
-  label_enterprise: Enterprise
-  label_enterprise_edition: Enterprise Edition
+  label_enterprise: Perusahaan
+  label_enterprise_edition: Edisi Perusahaan
   label_environment: Environment
-  label_estimates_and_time: Estimates and time
+  label_estimates_and_time: Perkiraan dan waktu
   label_equals: adalah
   label_example: Contoh
   label_export_to: 'Juga tersedia dalam:'
@@ -1196,7 +1200,7 @@ id:
   label_file_plural: File
   label_filter_add: Tambah Filter
   label_filter_plural: Filter
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Tampilkan/Sembunyikan penyaringan
   label_float: Float
   label_folder: Folder
   label_follows: Berikut
@@ -1217,7 +1221,7 @@ id:
   label_in: dalam
   label_in_less_than: kurang dari
   label_in_more_than: lebih dari
-  label_inactive: Inactive
+  label_inactive: Tidak aktif
   label_incoming_emails: Email masuk
   label_includes: termasuk
   label_index_by_date: Indeks menurut tanggal
@@ -1251,7 +1255,7 @@ id:
   label_lock_user: Mengunci pengguna
   label_logged_as: Login sbg
   label_login: Login
-  label_custom_logo: Custom logo
+  label_custom_logo: Logo khusus
   label_custom_favicon: Favicon sesuai keinginan
   label_custom_touch_icon: Ikon sentuh sesuai keinginan
   label_logout: Logout
@@ -1356,8 +1360,8 @@ id:
   label_projects_storage_information: "%{count} proyek menggunakan %{storage} dari
     storage"
   label_project_view_all: Lihat semua Project
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: Tampilkan detail proyek
+  label_project_hide_details: Sembunyikan detail proyek
   label_public_projects: Project untuk publik
   label_query_new: Queri baru
   label_query_plural: Kustom queri
@@ -1637,14 +1641,14 @@ id:
   notice_account_registered_and_logged_in: Selamat datang, akun Anda telah diaktifkan.
     Anda sudah login sekarang.
   notice_activation_failed: The account could not be activated.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: Tidak dapat memeriksa tahap '%{stage}'.
+  notice_auth_stage_wrong_stage: Diharapkan untuk menyelesaikan pembuktian keaslian
+    tahap '%{expected}', namun '%{actual}' dikembalikan.
+  notice_auth_stage_error: Pembuktian keaslian tahap '%{stage}' gagal.
   notice_can_t_change_password: Akun ini menggunakan otentikasi eksternal. Ubah password
     tidak bisa dilakukan.
-  notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
-    were deleted.
+  notice_custom_options_deleted: Pilihan '%{option_value}' dan kejadian %{num_deleted}
+    ini dihapus.
   notice_email_error: Error saat mengirim e-mail (%{value})
   notice_email_sent: Email telah dikirim ke %{value}
   notice_failed_to_save_work_packages: 'Gagal menyimpan %{count} Paket-Penugasan untuk
@@ -1668,7 +1672,7 @@ id:
   notice_bad_request: Bad Request.
   notice_not_authorized: Anda tidak diizinkan untuk mengakses halaman ini.
   notice_not_authorized_archived_project: Project yang Anda coba akses telah diarsipkan.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Password Anda tidak tepat. Tidak dapat melanjutkan.
   notice_principals_found_multiple: "Ada beberapa %{number} hasil yang ditemukan.
     \n Tab untuk fokus ke hasil pertama."
   notice_principals_found_single: |-
@@ -1685,7 +1689,7 @@ id:
   notice_unable_delete_version: Gagal menghapus versi.
   notice_user_missing_authentication_method: User has yet to choose a password or
     another way to sign in.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Sebuah undangan telah dikirim ke %{email}.
   present_access_key_value: 'Your %{key_name} is: %{value}'
   notice_automatic_set_of_standard_type: Set Tipe standar secara otomatis.
   notice_logged_out: Anda telah logout.
@@ -1819,12 +1823,12 @@ id:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Aktif atau arsip
     assigned_to_role: Ditugaskan untuk Role
     member_of_group: Ditugaskan untuk Grup
     assignee_or_group: Penerima atau anggota kelompok
     subproject_id: Sub-Project
-    name_or_identifier: Name or identifier
+    name_or_identifier: Nama atau pengenal
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2081,7 +2085,7 @@ id:
     brute_force_prevention: Pemblokiran otomatis user
   show_hide_project_menu: Expand/Collapse project menu
   status_active: aktif
-  status_archived: archived
+  status_archived: diarsipkan
   status_invited: invited
   status_locked: terkunci
   status_registered: telah terdaftar
@@ -2089,10 +2093,10 @@ id:
     array:
       sentence_connector: dan
       skip_last_comma: 'false'
-  text_accessibility_hint: The accessibility mode is designed for users who are blind,
-    motorically handicaped or have a bad eyesight. For the latter focused elements
-    are specially highlighted. Please notice, that the Backlogs module is not available
-    in this mode.
+  text_accessibility_hint: Modus aksesibilitas dirancang untuk pengguna yang buta,
+    terkendala secara motorik atau memiliki penglihatan yang buruk. Untuk elemen-elemen
+    fokus terakhir secara khusus diperhatikan. Harap diperhatikan, bahwa modul Backlogs
+    tidak tersedia dalam modus ini.
   text_access_token_hint: Access tokens allow you to grant external applications access
     to resources in OpenProject.
   text_analyze: 'Analisa lanjut: %{subject}'
@@ -2220,8 +2224,8 @@ id:
   text_unallowed_characters: Unallowed characters
   text_user_invited: The user has been invited and is pending registration.
   text_user_wrote: "%{value} wrote:"
-  text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
-    lost if you leave this page.
+  text_warn_on_leaving_unsaved: Paket kerja berisi teks yang belum disimpan yang akan
+    hilang jika Anda meninggalkan halaman ini.
   text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
     its content?
   text_wiki_page_destroy_children: Hapus sub-halaman dan semua turunannya
@@ -2442,10 +2446,10 @@ id:
       years: Tahun
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
-  tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
-    case the old one expired or the user did not get the original email. Can also
-    be used for active users to choose a new authentication method. When used with
-    active users their status will be changed to ''invited''.
+  tooltip_resend_invitation: 'Kirim email undangan lain dengan token yang baru dalam
+    hal yang lama kadaluwarsa atau pengguna tidak mendapat email yang asli. Dapat
+    juga digunakan oleh pengguna aktif untuk memilih metode otentikasi baru. Ketika
+    digunakan bersama pengguna aktif, status mereka akan berganti menjadi ''diundang''.
 
 '
   tooltip:
@@ -2553,8 +2557,8 @@ id:
         this operation.
       missing_content_type: not specified
       missing_request_body: There was no request body.
-      missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
-        or malformed.
+      missing_or_malformed_parameter: Parameter query '%{parameter}' hilang atau salah
+        bentuk.
       multipart_body_error: The request body did not contain the expected multipart
         parts.
       multiple_errors: Multiple field constraints have been violated.
