@@ -2,10 +2,6 @@
   <div class="work-packages-tabletimeline--table-side work-package-table--container">
     <table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
-        <!--
-        ng1.x
-        <col highlight-col ng-repeat="column in columns track by column.href"/>
-        -->
         <col highlight-col *ngFor="let column of columns"/>
         <col highlight-col/>
       </colgroup>
@@ -44,12 +40,12 @@
       <tbody class="work-package--empty-tbody" *ngIf="query.hasError || rowcount === 0">
       <tr id="empty-row-notification">
         <td [attr.colspan]="columns.length + 1">
-          <span ng-if="!query.hasError">
+          <span *ngIf="!query.hasError">
             <op-icon icon-classes="icon-info1 icon-context"></op-icon>
             <strong>{{text.noResults.title}}</strong>
             <span>{{text.noResults.description}}</span>
           </span>
-          <span ng-if="query.hasError">
+          <span *ngIf="query.hasError">
             <op-icon icon-classes="wp-table--faulty-query-icon icon-warning icon-context"></op-icon>
             <strong>{{text.faultyQuery.title}}</strong>
             <span>{{text.faultyQuery.description}}</span>
