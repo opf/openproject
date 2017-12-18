@@ -31,7 +31,7 @@
 module WorkPackage::Parent
   def self.prepended(base)
     base.after_save :update_parent_relation
-    base.define_attribute_method 'parent_id'
+    base.attribute 'parent_id', :integer
     base.define_attribute_method 'parent'
   end
 
@@ -49,6 +49,10 @@ module WorkPackage::Parent
       @parent_object = nil
       @parent_id = nil
     end
+  end
+
+  def parent_will_change!
+    parent_id_will_change!
   end
 
   def parent
