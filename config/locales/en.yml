@@ -250,8 +250,8 @@ en:
         other: "The account will be deleted from the system. Therefore, the user will no longer be able to log in with his current credentials. He/she can choose to become a user of this application again by the means this application grants."
         self: "Your account will be deleted from the system. Therefore, you will no longer be able to log in with your current credentials. If you choose to become a user of this application again, you can do so by using the means this application grants."
       login_verification:
-        other: "Enter the login %{name} to verify the deletion."
-        self: "Enter your login %{name} to verify the deletion."
+        other: "Enter the login %{name} to verify the deletion. Once submitted, you will be ask to confirm your password."
+        self: "Enter your login %{name} to verify the deletion. Once submitted, you will be ask to confirm your password."
     error_inactive_activation_by_mail: >
       Your account has not yet been activated.
       To activate your account, click on the link that was emailed to you.
