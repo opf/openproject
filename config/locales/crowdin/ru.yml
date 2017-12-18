@@ -476,7 +476,7 @@ ru:
               invalid: В этом контексте настраиваемое поле неприменимо.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Зацикливание зависимостей.
           attributes:
             to:
               error_not_found: рабочий пакет в позиции `до` не найден или не виден
@@ -923,7 +923,8 @@ ru:
         add_groups: Добавить новую группу атрибутов
         rename_groups: Переименовать группу атрибутов
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Обновить до %{link} для фильтрации и сортировки по пользовательским
+          полям
   enumeration_activities: Деятельность (отслеживание времени)
   enumeration_work_package_priorities: Приоритеты пакета работ
   enumeration_system_activity: Активность системы

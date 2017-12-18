@@ -16,7 +16,7 @@ id:
     button_cancel: Batal
     button_close: Tutup
     button_check_all: Cek semua
-    button_configure-form: Configure form
+    button_configure-form: Mengkonfigurasi formulir
     button_confirm: Konfirmasi
     button_continue: Lanjut
     button_copy: Salin
@@ -33,7 +33,7 @@ id:
     button_more: Lanjut
     button_move: Pindahkan
     button_open_details: Lihat tampilan detail
-    button_close_details: Close details view
+    button_close_details: Menutup tampilan rinci
     button_open_fullscreen: Open fullscreen view
     button_quote: Kutipan
     button_save: Simpan
@@ -56,9 +56,9 @@ id:
           enter. To leave without filter select the first (empty) entry.
       noneElement: "(kosong)"
       time_zone_converted:
-        two_values: "%{from} - %{to} in your local time."
-        only_start: From %{from} in your local time.
-        only_end: Till %{to} in your local time.
+        two_values: "%{from} - %{to} menurut waktu lokal Anda."
+        only_start: Dari %{from} menurut waktu lokal Anda.
+        only_end: Sampai %{to} menurut waktu lokal Anda.
       value_spacer: Hapus nilai
       sorting:
         criteria:
@@ -73,7 +73,7 @@ id:
     label_activity_no: Activity entry number %{activityNo}
     label_activity_with_comment_no: Activity entry number %{activityNo}. Has a user
       comment.
-    label_add_columns: Add columns
+    label_add_columns: Tambah kolom
     label_add_comment: Tambah komentar
     label_add_comment_title: Click to add a comment
     label_add_selected_columns: Tambahkan kolom terpilih
@@ -85,7 +85,7 @@ id:
     label_and: dan
     label_ascending: Askending
     label_author: 'Author: %{user}'
-    label_between: between
+    label_between: antara
     label_board_locked: Locked
     label_board_sticky: Sticky
     label_create_work_package: Buat Paket-Penugasan baru
@@ -107,7 +107,7 @@ id:
     label_contains: berisi
     label_created_on: dibuat pada
     label_edit_comment: Edit this comment
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Edit status paket kerja
     label_equals: adalah
     label_expand: Expand
     label_expanded: diperluas
@@ -213,21 +213,21 @@ id:
         previous: Back to the previous page
     placeholders:
       default: Hapus nilai
-      subject: Enter subject here
+      subject: Masukkan subjek di sini
       selection: Silakan pilih
       relation_description: Click to add description for this relation
     project:
-      required_outside_context: You are not within a project context. Please choose
-        the project context first in order to select type and status
-      context: Project context
-      work_package_belongs_to: This work package belongs to project %{projectname}.
-      click_to_switch_context: Open this work package in that project.
+      required_outside_context: Anda tidak sedang berada dalam konteks proyek. Silahkan
+        pilih konteks proyek terlebih dahulu untuk memilih jenis dan status
+      context: Konteks proyek
+      work_package_belongs_to: Paket kerja ini menjadi milik proyek %{projectname}.
+      click_to_switch_context: Buka paket kerja ini dalam proyek tersebut.
     text_are_you_sure: Anda yakin?
     types:
       attribute_groups:
-        error_duplicate_group_name: The name %{group} is used more than once. Group
-          names must be unique.
-        reset_title: Reset form configuration
+        error_duplicate_group_name: Nama %{group} digunakan lebih dari satu kali.
+          Nama grup harus unik.
+        reset_title: Setel ulang konfigurasi formulir
         confirm_reset: 'Perhatian: Apakah Anda yakin untuk melakukan penyetelan ulang
           form konfigurasi? Ini akan menyetel ulang atribut-atribut ke nilai awal
           kelompoknya, membatakan seting penampakan kotak centang, dan menon aktifkan
@@ -235,11 +235,11 @@ id:
 
 '
         upgrade_to_ee: Tingkatkan ke edisi enterprise
-        upgrade_to_ee_text: Wow! If you need this feature you are a super pro! Would
-          you mind supporting us OpenSource developers by becoming an Enterprise Edition
-          client?
-        more_information: More information
-        nevermind: Nevermind
+        upgrade_to_ee_text: Wow! Kalau Anda membutuhkan fitur ini, Anda adalah profesional
+          yang super! Bersediakah Anda mendukung kami, pengembang OpenSource, untuk
+          menjadi pelanggan Edisi Perusahaan?
+        more_information: Informasi lebih lanjut
+        nevermind: Tidak masalah
     watchers:
       label_loading: memuat pengamat...
       label_error_loading: An error occurred while loading the watchers
@@ -278,7 +278,7 @@ id:
       toggle_description: Mengganti-ganti penjelasan hubungan
       update_relation: Klik untuk mengganti jenis hubungan
       add_follower: Tambah pengikut
-      add_predecessor: Add predecessor
+      add_predecessor: Tambahkan pendahulu
       remove: Remove relation
       save: Save relation
       abort: Abort
@@ -301,32 +301,33 @@ id:
         other: Anda hanya dapat memilih {{limit}} item
         zero: You cannot select any items
     sort:
-      sorted_asc: 'Ascending sort applied, '
-      sorted_dsc: 'Descending sort applied, '
-      sorted_no: 'No sort applied, '
-      sorting_disabled: sorting is disabled
-      activate_asc: activate to apply an ascending sort
-      activate_dsc: activate to apply a descending sort
-      activate_no: activate to remove the sort
+      sorted_asc: 'Urutan menaik diterapkan, '
+      sorted_dsc: 'Urutan menurun diterapkan, '
+      sorted_no: 'Tidak urut diterapkan, '
+      sorting_disabled: pengurutan dinonaktifkan
+      activate_asc: aktifkan untuk penerapan urutan menaik
+      activate_dsc: aktifkan untuk penerapan urutan menurun
+      activate_no: aktifkan untuk menghapus urutan
     text_work_packages_destroy_confirmation: Yakin akan menghapus?
     text_query_destroy_confirmation: Apakah Anda yakin Anda ingin menghapus query
       yang dipilih?
     text_attachment_destroy_confirmation: Apakah Anda yakin ingin menghapus lampiran?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: Bagan Gantt
       labels:
-        bar: Bar labels
-        left: Left
-        right: Right
-        farRight: Far right
-        showNone: "-- No label --"
-        description: 'Select the attributes you want to be shown in the respective
-          positions of the Gantt chart at all times. Note that when hovering an element,
-          its date labels will be shown instead of these attributes.
+        bar: Label batang
+        left: Kiri
+        right: Kanan
+        farRight: Jauh sekali
+        showNone: "-- Tidak ada label --"
+        description: 'Pilih atribut-atribut yang ingin Anda tampilkan dalam posisi
+          masing-masing di bagan gantt setiap saat. Perhatikan bahwa ketika kursor
+          menunjuk sebuah elemen, label tanggalnya akan ditampilkan sebagai ganti
+          atributnya.
 
 '
-      button_activate: Activate timeline mode
-      button_deactivate: Deactivate timeline mode
+      button_activate: Aktifkan untuk modus garis waktu
+      button_deactivate: Menonaktifkan modus garis waktu
       cancel: Batal
       change: Perubahan dalam perencanaan
       due_date: Tenggat waktu
@@ -376,7 +377,7 @@ id:
       zoom:
         in: Zoom in
         out: Zoom out
-        auto: Auto zoom
+        auto: Zoom otomatis
         days: Hari
         weeks: Minggu
         months: Bulan
@@ -440,8 +441,8 @@ id:
       label_options: Opsi
       label_column_multiselect: 'Combined dropdown field: Select with arrow keys,
         confirm selection with enter, delete with backspace'
-      label_switch_to_single_select: Switch to single select
-      label_switch_to_multi_select: Switch to multi select
+      label_switch_to_single_select: Beralih ke pilihan tunggal
+      label_switch_to_multi_select: Beralih ke pilihan majemuk
       message_error_during_bulk_delete: 'Error: Menghapus Paket-Penugasan.'
       message_successful_bulk_delete: Paket-Penugasan telah dihapus.
       message_successful_show_in_fullscreen: Click here to open this work package
@@ -456,12 +457,12 @@ id:
         header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
         button: Buat baru
       hierarchy:
-        show: Show hierarchy mode
-        hide: Hide hierarchy mode
+        show: Menampilkan modus hiraki
+        hide: Sembunyikan modus hirarki
         toggle_button: Klik untuk beralih ke mode hirarki.
-        leaf: Work package leaf at level %{level}.
-        children_collapsed: Hierarchy level %{level}, collapsed. Click to show the
-          filtered children
+        leaf: Lapisan Paket kerja pada tingkatan %{level}.
+        children_collapsed: Hirarki tingkat %{level}, ditutup. Klik untuk menampilkan
+          turunan yang telah dipilah
         children_expanded: Hirarki tingkat %{level}, telah diperluas. Klik untuk menjabarkan
           anak anak yang telah disaring
       faulty_query:
@@ -502,8 +503,8 @@ id:
         pagination: Jump to table pagination
         label_pagination: Click here to skip over the work packages table and go to
           pagination
-        content: Jump to content
-        label_content: Click here to skip over the menu and go to the content
+        content: Melompat ke isi
+        label_content: Klik di sini untuk melompati menu dan langsung ke isi
       placeholders:
         default: Hapus nilai
         description: Klik untuk masukkan keterangan...
@@ -511,11 +512,11 @@ id:
         column_names: Kolom
         group_by: Group
         group: Grup oleh
-        group_by_disabled_by_hierarchy: Group by is disabled due to the hierarchy
-          mode being active.
-        hierarchy_disabled_by_group_by: Hierarchy mode is disabled due to results
-          being grouped by %{column}.
-        hierarchy_mode: Hierarchy mode
+        group_by_disabled_by_hierarchy: Pengelompokan dengan, dinonaktifkan sehubungan
+          dengan modus hirarki menjadi aktif.
+        hierarchy_disabled_by_group_by: Modus hirarki dinonaktifkan sehubungan dengan
+          hasil yang dikelompokkan menurut %{column}.
+        hierarchy_mode: Modus hirarki
         sort_ascending: Urutkan askending
         sort_descending: Urutkan deskending
         move_column_left: Pindahkan kolom ke kiri
@@ -527,7 +528,7 @@ id:
         errors:
           unretrievable_query: Tidak dapat mengambil queri URL
           not_found: Tidak ada pertanyaan lagi
-        text_no_results: No matching queries were found.
+        text_no_results: Tidak ada pertanyaan yang cocok ditemukan.
       table:
         summary: Table with rows of work package and columns of work package attributes.
         text_inline_edit: Most cells of this table are buttons that activate inline-editing
@@ -576,13 +577,14 @@ id:
       form_submit:
         title: Konfirmasi untuk melanjutkan
         text: Apakah Anda yakin untuk melakukan tindakan ini?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
+      upsale_relation_columns: Apakah perlu untuk melihat hubungan dalam daftar paker
+        kerja?
+      upsale_relation_columns_link: Periksa edisi Perusahaan.
       destroy_work_package:
-        title: Confirm deletion of %{label}
-        text: Are you sure you want to delete the following %{label} ?
-        has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        title: Mengkonfirmasi penghapusan %{label}
+        text: Apakah Anda yakin ingin menghapus %{label} berikut ?
+        has_children: 'Paket kerja memiliki %{childUnits}:'
+        deletes_children: Semua turunan paket kerja juga akan dihapus.
     notice_successful_create: Berhasil dibuat.
     notice_successful_delete: Berhasil dihapus.
     notice_successful_update: Berhasil diperbarui.
@@ -612,14 +614,14 @@ id:
     units:
       workPackage:
         one: work package
-        other: work packages
+        other: paket kerja
       child_work_packages:
         one: one child work package
-        other: "%{count} work package children"
+        other: Paket kerja %{count} turunan
       hour:
         one: 1 hour
         other: "%{count} jam"
         zero: 0 hours
     zen_mode:
-      button_activate: Activate zen mode
+      button_activate: Mengaktifkan modus zen
       button_deactivate: Menonaktifkan modus zen
