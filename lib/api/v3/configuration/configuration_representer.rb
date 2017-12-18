@@ -44,7 +44,7 @@ module API
                  getter: ->(*) { attachment_max_size.to_i.kilobyte }
 
         property :per_page_options,
-                 getter: ->(*) { per_page_options.split(',').map(&:to_i) }
+                 getter: ->(*) { per_page_options_array }
 
         def _type
           'Configuration'
