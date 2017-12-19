@@ -28,19 +28,6 @@
 
 module OpenProject
   ##
-  # Events defined in OpenProject, e.g. created work packages.
-  # The module defines a constant for each event.
-  #
-  # Plugins should register their events here too by prepending a module
-  # including the respective constants.
-  #
-  # @note Does not include all events but it should!
-  # @see OpenProject::Notifications
-  module Events
-    AGGREGATED_WORK_PACKAGE_JOURNAL_READY = "aggregated_work_package_journal_ready"
-  end
-
-  ##
   # Notifications about Events in OpenProject (e.g. created work packages)
   #
   # @see OpenProject::Events
