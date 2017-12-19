@@ -60,11 +60,8 @@ a.button
 
   &.-highlight
     @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
-    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), $button--highlight-font-color, $button-style)
-    @include varprop(border-color, button--highlight-background-color)
-
-    &:hover, &:focus
-      @include varprop(border-color, button--highlight-background-hover-color)
+    @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, var(--button--highlight-font-color), $button-style)
+    @include varprop(border-color, button--highlight-font-color)
 
   &.-alt-highlight
     @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
