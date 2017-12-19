@@ -199,8 +199,10 @@ ja:
         other: このアカウントはシステムから削除されます。したがって、このユーザは現在の認証情報でログイン不可能になります。再度このアプリケーションのユーザになることは可能です。
         self: 自分のアカウントがシステムから削除されます。したがって、現在の認証情報ではログイン不可能になります。再度このアプリケーションのユーザになることは可能です。
       login_verification:
-        other: 削除を確認するため、ログイン %{name} を入力してください。
-        self: 削除を確認するため、あなたのログイン %{name} を入力してください。
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'アカウントが有効化されていません。アカウントを有効にするために、受信したメール内のリンクをクリックしてください。
 
 '

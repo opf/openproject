@@ -232,8 +232,10 @@ ru:
           не сможете войти в систему с текущими учетными данными. Если  снова хотите  стать
           пользователем, то делайте это через средства пердоставления прав этого приложения.
       login_verification:
-        other: Введите логин %{name} для проверки удаления.
-        self: Введите ваш логин %{name} для проверки удаления.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Ваша учетная запись не была активирована.
       Для активации перейдите по ссылке, высланной вам по электронной почте.
 

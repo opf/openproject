@@ -197,8 +197,10 @@ zh:
         other: 将从系统中删除该帐户。因此，用户将不再能够用他当前的凭据登录。用户可以选择由该应用程序允许的方式再次成为此应用程序的用户。
         self: 将从系统中删除您的帐户。因此，您将不再能够使用您的当前凭据登录。如果你选择再次成为此应用程序的用户，你可以通过此应用程序所允许的方式进行。
       login_verification:
-        other: 输入登录 %{name} 以确认删除。
-        self: 输入你的登录 %{name} 以确认删除。
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: '您的帐户尚未激活。要激活您的帐户，请单击通过电子邮件发送到您的链接。
 
 '

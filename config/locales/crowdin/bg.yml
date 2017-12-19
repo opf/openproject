@@ -235,8 +235,10 @@ bg:
           потребител на това приложение отново, можете да го направите с помощта на
           средствата, които предоставя това приложение.
       login_verification:
-        other: Въведете потребителско име %{name} да потвърдите изтриването.
-        self: Въведете потребителско име %{name} да потвърдите изтриването.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Все още не е активиран вашия акаунт. За да
       активирате вашия акаунт, щракнете върху връзката, която е била изпратена към
       Вас.

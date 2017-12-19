@@ -231,8 +231,10 @@ lt:
           su savo prisijungimo duomenimis. Jei panorėsite vėl tapti šios sistemos
           vartotoju, galite pasinaudoti suteikta galimybe.
       login_verification:
-        other: Įveskite prisijungimo vardą %{name}, kad patvirtintumėte ištrynimą.
-        self: Įveskite savo prisijungimo vardą %{name}, kad patvirtintumėte ištrynimą.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Jūsų paskyra dar neaktyvuota. Norėdami aktyvuoti,
       paspauskite nuorodą, kuri buvo nusiųsta į Jūsų nurodytą el. pašto dėžutę.
 

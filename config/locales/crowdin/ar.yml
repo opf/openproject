@@ -229,8 +229,10 @@ ar:
           إذا أردت أن تصبح مستخدمًا للتطبيق مرة أخرى، بإمكانك ذلك مستخدمًا الوسائل
           التي يمنحها هذا التطبيق.
       login_verification:
-        other: أدخل تسجيل الدخول إلى %{name} للتحقق من الحذف.
-        self: أدخل تسجيل الدخول إلى%{name} للتحقق من الحذف.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'حسابك لم يُفعّل حتى الآن. لتفعيل حسابك، اضغط
       على الرابط الذي تم إرساله بالبريد الالكتروني إليك.
 

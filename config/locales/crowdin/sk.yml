@@ -239,8 +239,10 @@ sk:
           prihlásiť pomocou aktuálneho mena a hesla. Ak sa rozhodnete znovu zaregistrovať,
           môžte tak urobiť prostredníctvom tohto formulára.
       login_verification:
-        other: Zadajte prihlasovacie meno %{name} na overenie odstránenia.
-        self: Zadajte vaše prihlasovacie meno %{name} na overenie odstránenia.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Váš účet ešte nebol aktivovaný. Ak ho chcete
       aktivovať, kliknite na odkaz, ktorý bol doručený na Vašu e-mailovú adresu.
 

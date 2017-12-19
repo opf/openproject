@@ -233,8 +233,10 @@ da:
           kunne logge ind med dine nuværende oplysninger. Du vil dog kunne blive bruger
           af denne app igen med en ny registrering.
       login_verification:
-        other: Angiv login %{name} for at verificere sletningen.
-        self: Angiv login %{name} for at verificere sletningen.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Din konto er endnu ikke blevet aktiveret.
       For at aktivere din konto, klik på det link, der blev sendt til dig.
 

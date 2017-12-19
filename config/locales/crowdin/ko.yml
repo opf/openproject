@@ -214,8 +214,10 @@ ko:
         self: 당신의 계정이 시스템에서 삭제됩니다. 따라서 당신은 지금의 인증 정보로 더 이상 로그인할 수 없습니다. 원한다면 이 애플리케이션이
           허용하는 방법을 따라서 다시 사용자가 될 수 있습니다.
       login_verification:
-        other: 삭제를 확인 하려면 로그인 %{name} (을)를 입력하세요.
-        self: 삭제를 확인 하려면 로그인 %{name} (을)를 입력하세요.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: '당신의 계정이 아직 활성화되지 않았습니다. 계정을 활성화하기 위해, 이메일로
       전송된 링크를 클릭하십시오.
 

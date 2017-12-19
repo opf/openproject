@@ -238,8 +238,10 @@ it:
           di diventare nuovamente utente di quest'applicazione, potrai farlo ripercorrendo
           le normali procedure.
       login_verification:
-        other: Inserisci il nome utente %{name} per verificare l'eliminazione.
-        self: Inserisci il tuo nome utente %{name} per verificare l'eliminazione.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Il tuo account non è stato ancora attivato.
       Per attivare il tuo account, clicca sul link che ti è stato inviato via email.
 

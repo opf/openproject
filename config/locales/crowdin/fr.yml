@@ -239,8 +239,10 @@ fr:
           actuelles. Vous pourrez choisir de redevenir un utilisateur de cette application
           en suivant les procédures habituelles.
       login_verification:
-        other: Saisissez l'identifiant %{name} pour vérifier la suppression.
-        self: Saisissez votre identifiant %{name} pour vérifier la suppression.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Votre compte n''a pas encore été activé. Pour
       activer votre compte, cliquez sur le lien qui vous a été envoyé par courriel.
 

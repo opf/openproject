@@ -234,8 +234,10 @@ hr:
           U skladu s postavljenim dozvolama aplikacije korisnik/ica mogo ponovno izvršiti
           registraciju i pristupiti aplikaciji.
       login_verification:
-        other: Unesite korisničko ime %{name} za potvrdu brisanja.
-        self: Molim vas unesite vaše korisničko ime %{name} za potrvrdu brisanja.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Vaš korisnički račun još nije aktiviran. Da
       bi ste aktivirali vaš korisnički račun, molimo vas da potvrdite poveznicu koja
       vam je poslana na email.

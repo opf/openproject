@@ -230,8 +230,10 @@ pl:
           już mógł zalogować się przy użyciu bieżących poświadczeń. Będziesz natomiast
           mógł stać się użytkownikiem tej aplikacji ponownie.
       login_verification:
-        other: Wprowadź login %{name} aby potwierdzić usunięcie.
-        self: Wprowadź swój login %{name} aby potwierdzić usunięcie.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Twoje konto nie zostało jeszcze aktywowane.
       Aby aktywować swoje konto, kliknij na link, który został do Ciebie wysłany mailem.
 

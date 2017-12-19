@@ -242,8 +242,10 @@ ca:
           d'aquesta aplicació una altra vegada, pot fer-ho utilitzant els mitjans
           que l'aplicació proporciona.
       login_verification:
-        other: Introduïu el nom d'usuari %{name} per verificar la supressió.
-        self: Introdueix el teu nom d'usuari %{name} per verificar la supressió.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'El teu compte encara no ha estat activat.
       Per activar el compte, feu clic a l''enllaç que se us va enviar per e-mail.
 

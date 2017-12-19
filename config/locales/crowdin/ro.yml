@@ -243,8 +243,10 @@ ro:
           putea accesa aplicația cu credențialele curente. Puteți deveni din nou utilizator
           al aplicației prin mijloacele permise de sistem.
       login_verification:
-        other: Introdu autentificarea pentru %{name} spre a valida ștergerea.
-        self: Introdu autentificarea ta pentru %{name} spre a valida ștergerea.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Contul nu a fost încă activat. Pentru a activa
       contul dumneavoastră, dați click pe link-ul care v-a fost trimis prin e-mail.
 

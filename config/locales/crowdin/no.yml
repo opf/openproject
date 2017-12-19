@@ -234,8 +234,10 @@
           av denne applikasjonen igjen, kan du registrere deg på nytt så fremt applikasjonen
           tillater det.
       login_verification:
-        other: Enter the login %{name} to verify the deletion.
-        self: Enter your login %{name} to verify the deletion.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Din konto er ennå ikke aktivert. For å aktivere
       kontoen må du følge lenken som er sendt deg på e-post.
 

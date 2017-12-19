@@ -232,8 +232,10 @@ sv-SE:
           logga in med dina aktuella autentiseringsuppgifter. Du kan välja att bli
           användare igen genom det sätt som detta system medger.
       login_verification:
-        other: Ange användarnamn %{name} för att bekräfta raderingen.
-        self: Ange användarnamn %{name} för att bekräfta raderingen.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Ditt konto har ännu inte aktiverats. För att
       aktivera ditt konto, klicka på länken som har skickas till dig via E-post.
 
