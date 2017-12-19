@@ -67,6 +67,11 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
       job = DeliverWorkPackageNotificationJob.new(journal.id, recipient.id, @author_id)
       Delayed::Job.enqueue job
     end
+
+    OpenProject::Notifications.send(
+      OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
+      { journal_id: journal.id }
+    )
   end
 
   def raw_journal
