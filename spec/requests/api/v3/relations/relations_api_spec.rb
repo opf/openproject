@@ -69,6 +69,18 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
   end
 
   describe "creating a relation" do
+    shared_examples_for 'creates the relation' do
+      it 'creates the relation correctly' do
+        rel = ::API::V3::Relations::RelationPayloadRepresenter.new(Relation.new, current_user: user).from_json last_response.body
+
+        expect(rel.from).to eq from
+        expect(rel.to).to eq to
+        expect(rel.relation_type).to eq type
+        expect(rel.description).to eq description
+        expect(rel.delay).to eq delay
+      end
+    end
+
     let(:setup) {}
     before do
       # reflexive relations
@@ -89,15 +101,7 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       expect(Relation.count).to eq 3
     end
 
-    it 'should have created the relation correctly' do
-      rel = ::API::V3::Relations::RelationPayloadRepresenter.new(Relation.new, current_user: user).from_json last_response.body
-
-      expect(rel.from).to eq from
-      expect(rel.to).to eq to
-      expect(rel.relation_type).to eq type
-      expect(rel.description).to eq description
-      expect(rel.delay).to eq delay
-    end
+    it_behaves_like 'creates the relation'
 
     context 'relation that would create a circular scheduling dependency' do
       let(:from_child) do
@@ -126,6 +130,27 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
           .to be_json_eql(I18n.t(:'activerecord.errors.messages.circular_dependency').to_json)
           .at_path('message')
       end
+    end
+
+    context 'follows relation within siblings' do
+      let(:sibling) do
+        FactoryGirl.create(:work_package)
+      end
+      let(:parent) do
+        wp = FactoryGirl.create(:work_package)
+
+        wp.children = [sibling, from, to]
+      end
+      let(:existing_follows) do
+        FactoryGirl.create(:relation, relation_type: 'follows', from: to, to: sibling)
+      end
+
+      let(:setup) do
+        parent
+        existing_follows
+      end
+
+      it_behaves_like 'creates the relation'
     end
   end
 
