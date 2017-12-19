@@ -74,7 +74,7 @@ module Relations
     def validate_only_one_follow_direction_between_hierarchies
       return unless [Relation::TYPE_HIERARCHY, Relation::TYPE_FOLLOWS].include? model.relation_type
 
-      if follow_relations_in_oposite_direction.exists?
+      if follow_relations_in_opposite_direction.exists?
         errors.add :base, I18n.t(:'activerecord.errors.messages.circular_dependency')
       end
     end
@@ -93,16 +93,27 @@ module Relations
       user.allowed_to? :manage_work_package_relations, model.from.project
     end
 
-    def follow_relations_in_oposite_direction
-      from_set = hierarchy_or_follows_of(model.from)
-      to_set = hierarchy_or_follows_of(model.to).where('follows > 0')
+    # Go up to's hierarchy till the root.
+    # Fetch all endpoints of relations that are reachable by following at least one follows
+    # and zero or more hierarchy relations.
+    # We now need to check whether those endpoints include any that are in from's hierarchy
+    # with the exemption of siblings where relations are allowed.
+    def follow_relations_in_opposite_direction
+      to_set = hierarchy_or_follows_of(model.to)
+      from_set = Relation.tree_of(model.from)
 
-      from_set.where(to_id: to_set.select(:to_id))
+      from_set
+        .where(to_id: to_set.select(:to_id))
+        .where.not(to_id: Relation.sibling_of(from).select(:to_id))
     end
 
     def hierarchy_or_follows_of(work_package)
       root_id = Relation.to_root(work_package).select(:from_id)
-      Relation.hierarchy_or_follows.where(from_id: root_id)
+
+      Relation
+        .hierarchy_or_follows
+        .where(from_id: root_id)
+        .where('follows > 0')
     end
   end
 end
