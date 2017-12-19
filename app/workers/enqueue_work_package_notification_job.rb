@@ -70,7 +70,8 @@ class EnqueueWorkPackageNotificationJob < ApplicationJob
 
     OpenProject::Notifications.send(
       OpenProject::Events::AGGREGATED_WORK_PACKAGE_JOURNAL_READY,
-      journal_id: journal.id
+      journal_id: journal.id,
+      initial: journal.initial?
     )
   end
 
