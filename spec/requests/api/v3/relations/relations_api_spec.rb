@@ -152,6 +152,30 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
 
       it_behaves_like 'creates the relation'
     end
+
+    context 'follows relation to sibling\'s child' do
+      let(:sibling) do
+        FactoryGirl.create(:work_package)
+      end
+      let(:sibling_child) do
+        FactoryGirl.create(:work_package, parent: sibling)
+      end
+      let(:parent) do
+        wp = FactoryGirl.create(:work_package)
+
+        wp.children = [sibling, from, to]
+      end
+      let(:existing_follows) do
+        FactoryGirl.create(:relation, relation_type: 'follows', from: to, to: sibling_child)
+      end
+
+      let(:setup) do
+        parent
+        existing_follows
+      end
+
+      it_behaves_like 'creates the relation'
+    end
   end
 
   describe "updating a relation" do
