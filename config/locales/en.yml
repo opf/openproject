@@ -658,6 +658,7 @@ en:
   button_change_password: "Change password"
   button_check_all: "Check all"
   button_clear: "Clear"
+  button_close: 'Close'
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
   button_copy: "Copy"
