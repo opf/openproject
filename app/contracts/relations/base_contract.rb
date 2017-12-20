@@ -96,15 +96,19 @@ module Relations
     # Go up to's hierarchy till the root.
     # Fetch all endpoints of relations that are reachable by following at least one follows
     # and zero or more hierarchy relations.
-    # We now need to check whether those endpoints include any that are in from's hierarchy
-    # with the exemption of siblings where relations are allowed.
+    # We now need to check whether those endpoints include any that
+    #
+    # * are an ancestor of from
+    # * are a descendant of from
+    # * are from itself
+    #
+    # Siblings and sibling subtrees of ancestors are ok to have relations
     def follow_relations_in_opposite_direction
       to_set = hierarchy_or_follows_of(model.to)
-      from_set = Relation.tree_of(model.from)
 
-      from_set
-        .where(to_id: to_set.select(:to_id))
-        .where.not(to_id: Relation.sibling_of(from).select(:to_id))
+      follows_relations_to_ancestors(to_set)
+        .or(follows_relations_to_descendants(to_set))
+        .or(follows_relations_to_from(to_set))
     end
 
     def hierarchy_or_follows_of(work_package)
@@ -114,6 +118,20 @@ module Relations
         .hierarchy_or_follows
         .where(from_id: root_id)
         .where('follows > 0')
+    end
+
+    def follows_relations_to_ancestors(to_set)
+      ancestors = Relation.hierarchy.where(to_id: model.from)
+      to_set.where(to_id: ancestors.select(:from_id))
+    end
+
+    def follows_relations_to_descendants(to_set)
+      descendants = Relation.hierarchy.where(from_id: model.from)
+      to_set.where(to_id: descendants.select(:to_id))
+    end
+
+    def follows_relations_to_from(to_set)
+      to_set.where(to_id: model.from_id)
     end
   end
 end
