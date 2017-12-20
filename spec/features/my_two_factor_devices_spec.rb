@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe 'My Account 2FA configuration', type: :feature,
+describe 'My Account 2FA configuration', with_2fa_ee: true, type: :feature,
          with_config: {:'2fa' => {active_strategies: [:developer, :totp]}},
          js: true do
   let(:dialog) { ::Components::PasswordConfirmationDialog.new }

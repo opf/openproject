@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative '../shared_2fa_examples'
 
-describe 'Login by switching 2FA device', type: :feature,
+describe 'Login by switching 2FA device', with_2fa_ee: true, type: :feature,
          with_config: {:'2fa' => {active_strategies: [:developer, :totp]}},
          js: true do
   let(:user_password) {'bob!' * 4}

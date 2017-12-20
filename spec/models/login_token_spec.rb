@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe TwoFactorAuthentication::LoginToken do
+describe TwoFactorAuthentication::LoginToken, with_2fa_ee: true do
 
   before(:each) do
     @user = mock_model(User, :login => "john", :password => "doe")

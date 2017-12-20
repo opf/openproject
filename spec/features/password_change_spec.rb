@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe 'Password change with OTP', type: :feature,
+describe 'Password change with OTP', with_2fa_ee: true, type: :feature,
          with_config: {:'2fa' => {active_strategies: [:developer]}},
          js: true do
   let(:user_password) {'bob' * 4}

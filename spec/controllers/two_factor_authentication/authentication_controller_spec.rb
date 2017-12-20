@@ -1,7 +1,7 @@
 require_relative '../../spec_helper'
 require_relative './authentication_controller_shared_examples'
 
-describe ::TwoFactorAuthentication::AuthenticationController, with_settings: { login_required?: true } do
+describe ::TwoFactorAuthentication::AuthenticationController, with_2fa_ee: true, with_settings: { login_required?: true } do
   let(:valid_credentials) do
     { username: 'foobar', password: 'AAA1111!!!!' }
   end

@@ -34,7 +34,7 @@ module OpenProject::TwoFactorAuthentication
       ##
       # Whether any active strategy exists
       def enabled?
-        !active_strategies.empty?
+        !active_strategies.empty? && EnterpriseToken.allows_to?(:two_factor_authentication)
       end
 
       ##
@@ -84,7 +84,14 @@ module OpenProject::TwoFactorAuthentication
       ##
       # 2FA Plugin configuration
       def configuration
-        OpenProject::Configuration['2fa'] || {}
+        config = OpenProject::Configuration['2fa'] || {}
+        settings = Setting.plugin_openproject_two_factor_authentication
+
+        # Allow enforcing from settings if not true in configuration
+        config[:enforced] ||= settings[:enforced]
+        config[:active_strategies] ||= settings[:active_strategies]
+
+        config
       end
 
       def lookup_active_strategy(klazz)
