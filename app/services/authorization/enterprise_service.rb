@@ -36,6 +36,7 @@ class Authorization::EnterpriseService
                        edit_attribute_groups
                        work_package_query_relation_columns
                        attribute_help_texts
+                       two_factor_authentication
                        custom_fields_in_projects_list).freeze
 
   def initialize(token)
