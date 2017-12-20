@@ -440,6 +440,8 @@ es:
           inicio.
         inclusion: no está establecido a uno de los valores permitidos.
         invalid: no es válido.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: debe ser menor o igual a %{count}.
         not_a_date: no es una fecha válida.
         not_a_datetime: no es una fecha/hora válida.

@@ -404,6 +404,8 @@ ko:
         greater_than_or_equal_to_start_date: 은(는) 시작 날짜 이후이거나 같아야 합니다.
         inclusion: 은(는) 허용되는 값이 아닙니다.
         invalid: 은(는) 올바르지 않은 값입니다
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: 은(는) %{count} 보다 작거나 같아야 합니다
         not_a_date: 은(는) 유효한 날짜가 아닙니다.
         not_a_datetime: 은(는) 유효한 날짜가 아닙니다.

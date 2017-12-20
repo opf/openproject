@@ -424,6 +424,8 @@ tr:
           büyük olması gerekir.
         inclusion: izin verilen değerlerden birine ayarlanmamış.
         invalid: geçersizdir.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
         not_a_date: geçerli bir tarih değil.
         not_a_datetime: geçerli bir zaman değil.

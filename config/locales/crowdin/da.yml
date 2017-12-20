@@ -428,6 +428,8 @@ da:
           start date.
         inclusion: er ikke sat til en tilladt værdi.
         invalid: er ugyldig.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: skal være mindre end eller lig med %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.

@@ -427,6 +427,8 @@ ru:
           с ней.
         inclusion: не задано ни одно из допустимых значений.
         invalid: неверно.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: должно быть меньше или равно %{count}.
         not_a_date: не является допустимой датой.
         not_a_datetime: дата и время не являются допустимыми.

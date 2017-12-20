@@ -437,6 +437,8 @@ ro:
           de începere.
         inclusion: nu este setată la una din valorile permise.
         invalid: este invalid.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: trebuie să fie mai mic sau egal cu %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.

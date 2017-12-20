@@ -426,6 +426,8 @@ sv-SE:
         greater_than_or_equal_to_start_date: måste vara senare eller lika som startdatumet.
         inclusion: inte är inställd på ett av de tillåtna värdena.
         invalid: är ogiltig.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: måste vara mindre än eller lika med %{count}.
         not_a_date: är inte är ett giltigt datum.
         not_a_datetime: är inte en giltig datumtid.

@@ -385,6 +385,8 @@ ja:
         greater_than_or_equal_to_start_date: は開始日以後にしてください。
         inclusion: は許可されている値ではありません。
         invalid: は不正な値です。
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: は%{count}以下の値にしてください。
         not_a_date: は有効な日付ではありません。
         not_a_datetime: は有効な日時ではありません。

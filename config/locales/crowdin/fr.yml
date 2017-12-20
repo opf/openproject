@@ -435,6 +435,8 @@ fr:
           de début.
         inclusion: ne correspond à aucune des valeurs autorisées.
         invalid: est invalide.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: doit être inférieur ou égal à %{count}.
         not_a_date: n'est pas une date valide.
         not_a_datetime: n'est pas une heure valide.

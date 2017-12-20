@@ -394,6 +394,8 @@ zh-TW:
           start date.
         inclusion: 沒有被設置為一個允許的值。
         invalid: 不正確。
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: 必須少於或者等於 %{count}。
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.

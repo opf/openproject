@@ -381,6 +381,8 @@ lol:
         greater_than_or_equal_to_start_date: crwdns92584:0crwdne92584:0
         inclusion: crwdns92585:0crwdne92585:0
         invalid: crwdns92586:0crwdne92586:0
+        invalid_url: crwdns95447:0crwdne95447:0
+        invalid_url_scheme: crwdns95448:0%{allowed_schemes}crwdne95448:0
         less_than_or_equal_to: crwdns92587:0%{count}crwdne92587:0
         not_a_date: crwdns92588:0crwdne92588:0
         not_a_datetime: crwdns92589:0crwdne92589:0

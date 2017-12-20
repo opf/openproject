@@ -424,6 +424,8 @@ hu:
           start date.
         inclusion: nem a megengedett értékek egyike lett beállítva.
         invalid: érvénytelen.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: kisebbnek vagy egyenlőnek kell lennie mint, %{count}.
         not_a_date: nem érvényes dátum.
         not_a_datetime: ez nem érvényes dátum.

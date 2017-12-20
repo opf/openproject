@@ -433,6 +433,8 @@ it:
           data di inizio.
         inclusion: non è impostata su uno dei valori consentiti.
         invalid: non è valido.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: deve essere inferiore o uguale a %{count}.
         not_a_date: non è una data valida.
         not_a_datetime: non è un'orario valido.

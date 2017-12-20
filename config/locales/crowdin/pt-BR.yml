@@ -425,6 +425,8 @@ pt-BR:
         greater_than_or_equal_to_start_date: deve ser maior ou igual a data de início.
         inclusion: Não está definido como um dos valores permitidos.
         invalid: é inválido.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
         not_a_date: não é uma data válida.
         not_a_datetime: não é uma data/hora válida.
