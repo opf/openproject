@@ -648,6 +648,7 @@ th:
   button_change_password: เปลี่ยนรหัสผ่าน
   button_check_all: ตรวจสอบทั้งหมด
   button_clear: ล้างข้อมูล
+  button_close: Close
   button_collapse_all: ยุบทั้งหมด
   button_configure: กำหนดค่า
   button_copy: คัดลอก

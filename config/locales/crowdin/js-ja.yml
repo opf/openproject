@@ -55,9 +55,9 @@ ja:
           (空の) のエントリを選択します。
       noneElement: "(なし)"
       time_zone_converted:
-        two_values: 現地時間で %{from} - %{to}。
-        only_start: 現地時間で %{from} から。
-        only_end: 現地時間で %{to} まで。
+        two_values: 'ローカル時間で %{from} - %{to} '
+        only_start: ローカル時間で %{from} から
+        only_end: ローカル時間で %{to} まで
       value_spacer: "-"
       sorting:
         criteria:
@@ -227,7 +227,7 @@ ja:
         upgrade_to_ee_text: この機能が必要な場合、あなたは超プロです! Enterprise Edition クライアントになることによって私達のオープン
           ソース開発者を支援していただけませんか?
         more_information: 詳細情報
-        nevermind: 心配しないで
+        nevermind: 無視
     watchers:
       label_loading: ウォッチャーを読み込み中...
       label_error_loading: ウォッチャーを読み込み中にエラーが発生しました。

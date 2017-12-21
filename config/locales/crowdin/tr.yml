@@ -651,6 +651,7 @@ tr:
   button_change_password: Parolayı değiştir
   button_check_all: Tümünü işaretle
   button_clear: Temizle
+  button_close: Kapat
   button_collapse_all: Tümünü daralt
   button_configure: Düzenle
   button_copy: Kopyala

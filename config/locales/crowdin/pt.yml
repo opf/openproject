@@ -667,6 +667,7 @@ pt:
   button_change_password: Alterar senha
   button_check_all: Seleccionar Todos
   button_clear: Limpar
+  button_close: Close
   button_collapse_all: Ocultar tudo
   button_configure: Configurar
   button_copy: Copiar

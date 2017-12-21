@@ -622,6 +622,7 @@ ko:
   button_change_password: 암호 변경
   button_check_all: 모두 선택
   button_clear: 선택 취소
+  button_close: Close
   button_collapse_all: 모두 축소
   button_configure: 구성
   button_copy: 복사

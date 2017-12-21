@@ -653,6 +653,7 @@ fi:
   button_change_password: Vaihda salasana
   button_check_all: Valitse kaikki
   button_clear: Tyhjää
+  button_close: Close
   button_collapse_all: Tiivistä kaikki
   button_configure: Asetukset
   button_copy: Kopioi
