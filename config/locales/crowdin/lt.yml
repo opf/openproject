@@ -231,10 +231,10 @@ lt:
           su savo prisijungimo duomenimis. Jei panorėsite vėl tapti šios sistemos
           vartotoju, galite pasinaudoti suteikta galimybe.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: Įveskite prisijungimo vardą %{name}, jei norite patvirtinti naikinimą.
+          Tada Jūsų paprašys patvirtinti savo slaptažodį.
+        self: Įveskite savo prisijungimo vardą %{name}, jei norite patvirtinti naikinimą.
+          Tada Jūsų paprašys patvirtinti savo slaptažodį.
     error_inactive_activation_by_mail: 'Jūsų paskyra dar neaktyvuota. Norėdami aktyvuoti,
       paspauskite nuorodą, kuri buvo nusiųsta į Jūsų nurodytą el. pašto dėžutę.
 
@@ -426,8 +426,8 @@ lt:
           datą.
         inclusion: nenustatyta kaip viena iš leidžiamų reikšmių.
         invalid: " neteisingas."
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: nėra tinkamas URL.
+        invalid_url_scheme: 'nėra palaikomos protokolas (leidžiamas: %{allowed_schemes}).'
         less_than_or_equal_to: turi būti mažesnis arba lygus %{count}.
         not_a_date: nėra tinkama data.
         not_a_datetime: nėra tinkama data ir laikas.

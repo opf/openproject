@@ -667,7 +667,7 @@ it:
   button_change_password: Cambia password
   button_check_all: Seleziona tutti
   button_clear: Pulisci
-  button_close: Close
+  button_close: Chiuso
   button_collapse_all: Comprimi Tutto
   button_configure: Configura
   button_copy: Copia
@@ -1636,7 +1636,7 @@ it:
   macro_execution_error: Errore nell'esecuzione della macro %{macro_name}
   macro_unavailable: Non può essere visualizzata la macro %{macro_name}.
   mail:
-    actions: Actions
+    actions: Azioni
   mail_body_account_activation_request: 'Un nuovo utente (%{value}) si è registrato.
     L''account è in attesa di approvazione:'
   mail_body_account_information: Informazioni sul tuo account

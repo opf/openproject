@@ -239,10 +239,10 @@ fr:
           actuelles. Vous pourrez choisir de redevenir un utilisateur de cette application
           en suivant les procédures habituelles.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: Entrez le login %{name} pour vérifier la suppression. Une fois celui-ci
+          soumis, vous devrez confirmer votre mot de passe.
+        self: Entrez votre login %{name} pour vérifier la suppression. Une fois celui-ci
+          soumis, vous devrez confirmer votre mot de passe.
     error_inactive_activation_by_mail: 'Votre compte n''a pas encore été activé. Pour
       activer votre compte, cliquez sur le lien qui vous a été envoyé par courriel.
 
@@ -435,8 +435,8 @@ fr:
           de début.
         inclusion: ne correspond à aucune des valeurs autorisées.
         invalid: est invalide.
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: n’est pas une URL valide.
+        invalid_url_scheme: 'n’est pas un protocole pris en charge (autorisés : %{allowed_schemes}).'
         less_than_or_equal_to: doit être inférieur ou égal à %{count}.
         not_a_date: n'est pas une date valide.
         not_a_datetime: n'est pas une heure valide.
@@ -491,7 +491,7 @@ fr:
               invalid: Le champ personnalisé n’est pas valide dans le contexte donné.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: La relation créée un cercle de relations.
           attributes:
             to:
               error_not_found: lot de travaux dans la position `à` introuvable ou
@@ -694,7 +694,7 @@ fr:
   button_login: Connexion
   button_move: Déplacer
   button_move_and_follow: Déplacer et suivre
-  button_print: Print
+  button_print: Imprimer
   button_quote: Citation
   button_remove: Supprimer
   button_remove_widget: Supprimer widget
@@ -728,7 +728,7 @@ fr:
     failed: Impossible de copier le projet %{source_project_name}
     succeeded: Projet %{target_project_name} créé
     errors: Erreur
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Champs personnalisés du projet
     text:
       failed: Impossible de copier le projet "%{source_project_name}" vers le projet
         "%{target_project_name}".
@@ -931,7 +931,7 @@ fr:
         add_groups: Ajouter de nouveaux groupes d’attributs
         rename_groups: Renommer les groupes d’attributs
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Passez à %{link} pour filtrer et trier dans les champs personnalisés
   enumeration_activities: Activités (suivi de temps)
   enumeration_work_package_priorities: Priorités du Lot de Travaux
   enumeration_system_activity: Activité du système
@@ -1134,7 +1134,7 @@ fr:
   label_select_main_menu_item: Sélectionner nouvel élément de menu principal
   label_select_project: Sélectionner un projet
   label_required_disk_storage: Espace disque requis
-  label_send_invitation: Send invitation
+  label_send_invitation: Envoyer une invitation
   label_change_plural: Changements
   label_change_properties: Modifier les propriétés
   label_change_status: Changer le statut
@@ -1234,7 +1234,7 @@ fr:
   label_file_plural: Fichiers
   label_filter_add: Ajouter le filtre
   label_filter_plural: Filtres
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Afficher/masquer les filtres
   label_float: Flottant
   label_folder: Dossier
   label_follows: suit
@@ -1688,10 +1688,10 @@ fr:
   notice_account_registered_and_logged_in: Bienvenue, votre compte a été activé. Vous
     êtes maintenant connecté.
   notice_activation_failed: Le compte n'a pas pu être activé.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: Impossible de vérifier l'étape '%{stage}'.
+  notice_auth_stage_wrong_stage: L'étape d'authentification '%{expected}' était censée
+    être terminée, mais '%{actual}' a été renvoyé.
+  notice_auth_stage_error: Échec de l'étape d'authentification '%{stage}'.
   notice_can_t_change_password: Ce compte utilise une source d'authentification externe.
     Impossible de changer le mot de passe.
   notice_custom_options_deleted: L'option « %{option_value} » et ses %{num_deleted}
@@ -1724,7 +1724,8 @@ fr:
   notice_not_authorized: Vous n'êtes pas autorisé à accéder à cette page.
   notice_not_authorized_archived_project: Le projet auquel vous essayer d'accéder
     a été archivé.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Votre mot de passe est incorrect. Impossible
+    de continuer.
   notice_principals_found_multiple: Il y a %{number} résultats trouvés. Tabulation
     pour sélectionner le premier résultat.
   notice_principals_found_single: Il y a un seul résultat. Tabulation pour le sélectionner.
@@ -1739,7 +1740,7 @@ fr:
   notice_unable_delete_version: Impossible de supprimer la version.
   notice_user_missing_authentication_method: L'utilisateur n'a pas encore choisi de
     mot de passe ou un autre moyen de s'authentifier.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Une invitation a été envoyée à %{email}.
   present_access_key_value: 'Votre %{key_name} est : %{value}'
   notice_automatic_set_of_standard_type: Fixer le type standard automatiquement.
   notice_logged_out: Vous avez été déconnecté.
@@ -1875,12 +1876,12 @@ fr:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Actif ou archivé
     assigned_to_role: Rôle du Destinataire
     member_of_group: Groupe du Destinataire
-    assignee_or_group: Assignee or belonging group
+    assignee_or_group: Cessionnaire ou groupe d'appartenance
     subproject_id: Sous-projet
-    name_or_identifier: Name or identifier
+    name_or_identifier: Nom ou identifiant
   repositories:
     at_identifier: "%{identifier}"
     atom_revision_feed: Flux Atom des révisions
@@ -2153,7 +2154,7 @@ fr:
     brute_force_prevention: Bloquage d'utilisateur automatique (pour èviter les pirates)
   show_hide_project_menu: Déplier/Replier le menu du projet
   status_active: actif
-  status_archived: archived
+  status_archived: archivé
   status_invited: invité
   status_locked: verrouillé
   status_registered: enregistré

@@ -108,7 +108,7 @@ fr:
     label_contains: contenus
     label_created_on: créé le
     label_edit_comment: Éditer ce commentaire
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Modifier le statut du lot de travaux
     label_equals: est
     label_expand: Étendre
     label_expanded: étendu
@@ -322,14 +322,15 @@ fr:
     timelines:
       gantt_chart: Diagramme de Gantt
       labels:
-        bar: Bar labels
+        bar: Libellés des barres
         left: Gauche
         right: Droite
-        farRight: Far right
+        farRight: Extrême droite
         showNone: "--Aucune étiquette--"
-        description: 'Select the attributes you want to be shown in the respective
-          positions of the Gantt chart at all times. Note that when hovering an element,
-          its date labels will be shown instead of these attributes.
+        description: 'Sélectionnez les attributs que vous voulez afficher à tout moment
+          dans les positions respectives du diagramme de Gantt. Notez que, quand vous
+          passez le curseur sur un élément, ses libellés de date seront affichés à
+          la place de ces attributs.
 
 '
       button_activate: Activer le mode ligne du temps
@@ -590,13 +591,14 @@ fr:
       form_submit:
         title: Confirmez pour continuer
         text: Êtes-vous sûr de vouloir effectuer cette action ?
-      upsale_relation_columns: Need to see relations in the work package list?
+      upsale_relation_columns: Besoin de voir les relations sur la liste des lots
+        de travaux ?
       upsale_relation_columns_link: Découvrez l’édition entreprise.
       destroy_work_package:
         title: Confirmer la suppression de %{label}
-        text: Are you sure you want to delete the following %{label} ?
+        text: Voulez-vous vraiment supprimer le %{label} suivant ?
         has_children: 'Le lot de travaux a %{childUnits} :'
-        deletes_children: All child work packages will also be deleted.
+        deletes_children: Tous les lots de travaux enfants seront également supprimés.
     notice_successful_create: Création réussie.
     notice_successful_delete: Suppression réussie.
     notice_successful_update: Mise à jour réussie.
@@ -625,11 +627,11 @@ fr:
     error_could_not_resolve_user_name: Impossible de trouver l'utilisateur
     units:
       workPackage:
-        one: work package
-        other: work packages
+        one: lot de travaux
+        other: lots de travaux
       child_work_packages:
-        one: one child work package
-        other: "%{count} work package children"
+        one: un lot de travaux enfant
+        other: "%{count} lots de travaux enfant"
       hour:
         one: 1 heure
         other: "%{count} heures"

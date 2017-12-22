@@ -15,18 +15,15 @@ ko:
       manage_colors: 색상 선택 옵션 편집
       instructions:
         alternative_color: 강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다.
-        content_link_color: Font color of most of the links.
+        content_link_color: 대부분 링크의 글꼴색입니다.
         primary_color: 주 색상
         primary_color_dark: 일반적으로 메인 색상의 어두운 버전은 호버 효과에 사용됩니다.
-        header_bg_color: Background color of the header.
-        header_item_bg_hover_color: Background color of clickable header items when
-          hovered with the mouse.
-        header_item_font_color: Font color of clickable header items.
-        header_item_font_hover_color: Font color of clickable header items when hovered
-          with the mouse.
-        header_border_bottom_color: Thin line under the header. Leave this field empty
-          if you don't want any line.
-        main_menu_bg_color: Left side menu's background color.
+        header_bg_color: 헤더의 배경색입니다.
+        header_item_bg_hover_color: 마우스로 가리킬 때 클릭 가능한 헤더 항목의 배경색입니다.
+        header_item_font_color: 클릭 가능한 헤더 항목의 글꼴색입니다.
+        header_item_font_hover_color: 마우스로 가리킬 때 클릭 가능한 헤더 항목의 글꼴색입니다.
+        header_border_bottom_color: 헤더 아래 가는 줄입니다. 줄을 원하지 않으면 이 필드를 비워 둡니다.
+        main_menu_bg_color: 왼쪽 메뉴의 배경색입니다.
     enterprise:
       upgrade_to_ee: Enterprise Edition으로 업그레이드 하세요.
       add_token: Enterprise Edition 지원 토큰을 업로드하세요.
@@ -622,7 +619,7 @@ ko:
   button_change_password: 암호 변경
   button_check_all: 모두 선택
   button_clear: 선택 취소
-  button_close: Close
+  button_close: 닫기
   button_collapse_all: 모두 축소
   button_configure: 구성
   button_copy: 복사
@@ -1236,8 +1233,8 @@ ko:
   label_logged_as: '로그인한 계정:'
   label_login: 로그인
   label_custom_logo: 사용자 정의 로고
-  label_custom_favicon: Custom favicon
-  label_custom_touch_icon: Custom touch icon
+  label_custom_favicon: 사용자 지정 favicon
+  label_custom_touch_icon: 사용자 지정 터치 아이콘
   label_logout: 로그아웃
   label_main_menu: 측면 메뉴
   label_manage_groups: 그룹 관리
@@ -1690,9 +1687,9 @@ ko:
           mb: MB
           tb: TB
   onboarding:
-    heading_getting_started: Get an overview
-    text_getting_started_description: Get a quick overview of project management and
-      team collaboration with OpenProject.
+    heading_getting_started: 개요 가져오기
+    text_getting_started_description: OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올
+      수 있습니다.
     text_show_again: 도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다.
     welcome: OpenProject에 오신 것을 환영합니다.
   permission_add_work_package_notes: 메모 추가
@@ -2044,8 +2041,7 @@ ko:
 
 '
   text_form_configuration_drag_to_activate: 여기에서 필드를 끌어와서 활성화
-  text_form_configuration_required_attribute: Attribute is marked required and thus
-    always shown
+  text_form_configuration_required_attribute: 특성이 필수로 나타나므로 항상 표시됩니다.
   text_caracters_maximum: 최대 %{count}자입니다.
   text_caracters_minimum: 최소 %{count}자여야 합니다.
   text_comma_separated: 여러 값이 허용됩니다(쉼표로 구분).

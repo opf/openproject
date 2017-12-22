@@ -674,7 +674,7 @@ es:
   button_change_password: Cambiar contraseña
   button_check_all: Marcar todo
   button_clear: Eliminar
-  button_close: Close
+  button_close: Cerrar
   button_collapse_all: Colapsar todo
   button_configure: Configurar
   button_copy: Copiar
@@ -1638,7 +1638,7 @@ es:
   macro_execution_error: Error ejecutando el macro %{macro_name}
   macro_unavailable: Macro  %{macro_name} no puede ser mostrado.
   mail:
-    actions: Actions
+    actions: Acciones
   mail_body_account_activation_request: 'Ha registrado un nuevo usuario (%{value}).
     La cuenta está pendiente de aprobación:'
   mail_body_account_information: Información de su cuenta

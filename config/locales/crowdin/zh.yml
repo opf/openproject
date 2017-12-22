@@ -197,10 +197,8 @@ zh:
         other: 将从系统中删除该帐户。因此，用户将不再能够用他当前的凭据登录。用户可以选择由该应用程序允许的方式再次成为此应用程序的用户。
         self: 将从系统中删除您的帐户。因此，您将不再能够使用您的当前凭据登录。如果你选择再次成为此应用程序的用户，你可以通过此应用程序所允许的方式进行。
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: 输入登录名 %{name} 以验证删除。提交后，系统将要求您确认您的密码。
+        self: 输入您的登录名 %{name} 以验证删除。提交后，系统将要求您确认您的密码。
     error_inactive_activation_by_mail: '您的帐户尚未激活。要激活您的帐户，请单击通过电子邮件发送到您的链接。
 
 '
@@ -383,8 +381,8 @@ zh:
         greater_than_or_equal_to_start_date: 必须晚于或等于开始日期。
         inclusion: 未设置为允许的值之一。
         invalid: 是无效的。
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: 不是有效的 URL。
+        invalid_url_scheme: 不是受支持的协议（允许：%{allowed_schemes}）。
         less_than_or_equal_to: 必须小于或等于 %{count}。
         not_a_date: 不是有效的日期。
         not_a_datetime: 不是有效的日期时间。
@@ -434,7 +432,7 @@ zh:
               invalid: 自定义字段无效
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: 关系会创建关系的循环。
           attributes:
             to:
               error_not_found: 找不到这个工作包
@@ -621,7 +619,7 @@ zh:
   button_login: 登录
   button_move: 移动
   button_move_and_follow: 移动和跟踪
-  button_print: Print
+  button_print: 打印
   button_quote: 引用
   button_remove: 移除
   button_remove_widget: 删除部件
@@ -653,7 +651,7 @@ zh:
     failed: 无法复制项目 %{source_project_name}
     succeeded: 创建的项目 %{target_project_name}
     errors: 错误
-    project_custom_fields: Custom fields on project
+    project_custom_fields: 项目上的自定义字段
     text:
       failed: 无法将项目"%{source_project_name}"复制到项目"%{target_project_name}"。
       succeeded: 已复制项目"%{source_project_name}"到"%{target_project_name}"。
@@ -850,7 +848,7 @@ zh:
         add_groups: 添加新属性群组
         rename_groups: 重命名属性群组
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: 升级到 %{link} 以在自定义字段上筛选和排序
   enumeration_activities: 活动 （时间跟踪）
   enumeration_work_package_priorities: 工作包优先级
   enumeration_system_activity: 系统活动
@@ -1028,7 +1026,7 @@ zh:
   label_select_main_menu_item: 选择新的主菜单项
   label_select_project: 选择项目
   label_required_disk_storage: 所需的磁盘存储
-  label_send_invitation: Send invitation
+  label_send_invitation: 发送邀请
   label_change_plural: 更改
   label_change_properties: 更改属性
   label_change_status: 更改状态
@@ -1127,7 +1125,7 @@ zh:
   label_file_plural: 文件
   label_filter_add: 添加筛选器
   label_filter_plural: 筛选器
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: 显示/隐藏筛选器
   label_float: 浮动
   label_folder: 文件夹
   label_follows: 跟踪
@@ -1550,10 +1548,9 @@ zh:
   notice_account_wrong_password: 密码错误
   notice_account_registered_and_logged_in: 欢迎，您的帐户已激活。您现在已登录。
   notice_activation_failed: 无法激活该帐户。
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: 无法验证阶段“%{stage}”。
+  notice_auth_stage_wrong_stage: 预计完成身份验证阶段“%{expected}”，但“%{actual}”返回。
+  notice_auth_stage_error: 身份验证阶段“%{stage}”失败。
   notice_can_t_change_password: 此帐户使用外部身份验证源。无法更改密码。
   notice_custom_options_deleted: 选项“%{option_value}”和其“%{num_deleted}”事件已删除。
   notice_email_error: 发送邮件 (%{value}) 时出错
@@ -1575,7 +1572,7 @@ zh:
   notice_bad_request: 错误的请求。
   notice_not_authorized: 您无权访问此页。
   notice_not_authorized_archived_project: 您尝试访问的项目已存档。
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: 您的密码不正确。无法继续。
   notice_principals_found_multiple: |-
     找到 %{number} 条结果。
      点击以关注第一条结果。
@@ -1591,7 +1588,7 @@ zh:
   notice_unable_delete_time_entry: 不能删除时间记录条目。
   notice_unable_delete_version: 不能删除版本。
   notice_user_missing_authentication_method: 用户尚未选择密码或另一种方式登录。
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: 邀请已发送到 %{email}。
   present_access_key_value: '你的 %{key_name} 是: %{value}'
   notice_automatic_set_of_standard_type: 自动设置标准类型。
   notice_logged_out: 您已被注销。
@@ -1719,12 +1716,12 @@ zh:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: 激活或存档
     assigned_to_role: 指定人角色
     member_of_group: 指定人用户组
     assignee_or_group: 受让人或所属组
     subproject_id: 子项目
-    name_or_identifier: Name or identifier
+    name_or_identifier: 名称或标识符
   repositories:
     at_identifier: 在 %{identifier}
     atom_revision_feed: 原子修订种子
@@ -1935,7 +1932,7 @@ zh:
     brute_force_prevention: 自动化的用户阻止
   show_hide_project_menu: 展开/折叠项目菜单
   status_active: 激活
-  status_archived: archived
+  status_archived: 已存档
   status_invited: 已邀请
   status_locked: 锁定
   status_registered: 已注册
