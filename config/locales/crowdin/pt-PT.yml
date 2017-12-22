@@ -24,7 +24,7 @@ pt:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "tem ser o mesmo que a versão da história do pai."
             parent_id:
               parent_child_relationship_across_projects: "é inválido porque o pacote de trabalho '%{work_package_name}' é uma tarefa da lista de acumulados e, portanto, não pode ter um parente fora do projeto atual."
   backlogs:
@@ -81,8 +81,8 @@ pt:
   backlogs_velocity_missing: "Não foi possível calcular velocidade para este projeto"
   backlogs_velocity_varies: "A velocidade varia significativamente ao longo dos sprints"
   backlogs_wiki_template: "Modelo para a página wiki de sprint"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "Não estão definidas versões para utilizar com os repositórios"
+  backlogs_empty_action_text: "Para iniciar os repositórios, crie uma nova versão e atribua-a a uma coluna de repositórios."
   button_edit_wiki: "Editar página wiki"
   error_intro_plural: "Os seguintes erros foram encontrados:"
   error_intro_singular: "Foi encontrado o seguinte erro:"

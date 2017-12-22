@@ -24,7 +24,7 @@ zh-CN:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "必须与父级故事的版本相同。"
             parent_id:
               parent_child_relationship_across_projects: "无效，因为工作包“%{work_package_name}”是一个待办清单任务，不能具有当前项目以外的上级项目。"
   backlogs:
@@ -81,8 +81,8 @@ zh-CN:
   backlogs_velocity_missing: "此项目不能计算速度"
   backlogs_velocity_varies: "速度在不同冲刺 (sprint) 中差异很大"
   backlogs_wiki_template: "冲刺 (sprint) 的 Wiki 页面模板"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "未定义要用于待办清单的版本"
+  backlogs_empty_action_text: "要开始使用待办清单，请创建一个新版本并将其分配到待办清单列。"
   button_edit_wiki: "编辑 Wiki 页面"
   error_intro_plural: "发生以下错误："
   error_intro_singular: "发生以下错误："

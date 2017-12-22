@@ -24,7 +24,7 @@ fr:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "doit être identique à la version de l'histoire parente."
             parent_id:
               parent_child_relationship_across_projects: "n'est pas valide parce que le lot de travaux «%{work_package_name}» est une tâche de backlog et par conséquent ne peut avoir un parent en dehors du projet actuel."
   backlogs:
@@ -81,8 +81,8 @@ fr:
   backlogs_velocity_missing: "Aucune vélocité n'a pu être calculée pour ce projet"
   backlogs_velocity_varies: "La vélocité varie significativement d'un sprint à l'autre"
   backlogs_wiki_template: "Modèle pour page wiki de sprint"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "Aucune version n'est définie pour être utilisée dans les backlogs"
+  backlogs_empty_action_text: "Pour démarrer avec les backlogs, créez une nouvelle version et assignez-y une colonne de backlogs."
   button_edit_wiki: "Éditer la page du wiki"
   error_intro_plural: "Les erreurs suivantes ont été rencontrées :"
   error_intro_singular: "L'erreur suivante a été rencontrée :"
