@@ -16,7 +16,7 @@ fr:
   label_work_package_tracking: " Suivi des lots de travaux"
   label_members: "Membres"
   label_member_view_all: "Afficher tous les membres"
-  label_no_visible_members: "This project has no visible members."
+  label_no_visible_members: "Ce projet n'a pas de membre visible."
   label_subprojects: "Sous-projets"
   project_page:
     all: "Afficher tout"
