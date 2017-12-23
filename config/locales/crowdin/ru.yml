@@ -16,7 +16,7 @@ ru:
   label_work_package_tracking: " Отслеживание комплекса работ"
   label_members: "Участники"
   label_member_view_all: "Просмотреть всех участников"
-  label_no_visible_members: "This project has no visible members."
+  label_no_visible_members: "В этом проекте нет видимых участников."
   label_subprojects: "Подпроекты"
   project_page:
     all: "Показывать всё"

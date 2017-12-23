@@ -16,7 +16,7 @@ it:
   label_work_package_tracking: " Monitoraggio macro-attività"
   label_members: "Membri"
   label_member_view_all: "Visualizza tutti i membri"
-  label_no_visible_members: "This project has no visible members."
+  label_no_visible_members: "Questo progetto non ha membri visibili."
   label_subprojects: "Sottoprogetti"
   project_page:
     all: "Mostra tutti"
