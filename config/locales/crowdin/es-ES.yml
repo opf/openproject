@@ -23,7 +23,7 @@ es:
     error_no_device: "Ningún dispositivo 2FA registrado para este usuario, a pesar de ser requerido para esta instancia."
     error_no_matching_strategy: "Ninguna estrategia 2FA disponible para este usuario. Póngase en contacto con su administrador."
     error_is_enforced_not_active: 'Error de configuración: La autenticación de dos factores ha sido implementada, pero no hay estrategias activas.'
-    error_invalid_backup_code: 'Invalid 2FA backup code'
+    error_invalid_backup_code: 'Código de seguridad de 2FA no válido'
     channel_unavailable: "El %{channel} de canal de entrega no está disponible."
     no_valid_phone_number: "No existe ningún número de teléfono válido."
     label_pwd_confirmation: "Contraseña"
@@ -39,9 +39,9 @@ es:
     text_2fa_enabled: 'Al iniciar cada sesión, se le pedirá introducir un token OTP del dispositivo predeterminado 2FA.'
     text_2fa_disabled: 'Para habilitar la autenticación de dos factores, utilice el botón de arriba para registrar un nuevo dispositivo 2FA. Si ya tiene un dispositivo, se necesita convertirlo en el predeterminado.'
     login:
-      enter_backup_code_title: Enter backup code
-      enter_backup_code_text: Please enter a valid backup code from your list of codes in case you can no longer access your registered 2FA devices.
-      other_device: 'Use another device or backup code'
+      enter_backup_code_title: Escriba el código de seguridad
+      enter_backup_code_text: Si ya no tiene acceso a sus dispositivos de 2FA registrados, escriba un código de seguridad válido de la lista de códigos.
+      other_device: 'Usar otro dispositivo o un código de seguridad'
     admin:
       self_edit_path: 'Para añadir o modificar sus propios dispositivos 2FA, vaya a %{self_edit_link}'
       self_edit_link_name: 'Autenticación de dos factores en su página de cuenta'
@@ -54,18 +54,18 @@ es:
       text_2fa_enabled: 'Al iniciar cada sesión, a este usuario se le pedirá introducir un token OTP del dispositivo predeterminado 2FA del usuario.'
       text_2fa_disabled: "El usuario no fijó un dispositivo 2FA a través de su 'Página de cuenta'"
     backup_codes:
-      none_found: No backup codes exist for this account.
-      singular: Backup code
-      plural: Backup codes
-      your_codes: for your %{app_name} account %{login}
+      none_found: No existe ningún código de seguridad para esta cuenta.
+      singular: Código de seguridad
+      plural: Códigos de seguridad
+      your_codes: para su cuenta de %{app_name} %{login}
       overview_description: |
-        If you are unable to access your two factor devices, you can use a backup code to regain access to your account.
-        Use the following button to generate a new set of backup codes.
+        Si no puede obtener acceso a sus dispositivos de autenticación en dos fases, puede usar un código de seguridad para volver a obtener acceso a su cuenta.
+        Use el botón siguiente para generar un nuevo conjunto de códigos de seguridad.
       generate:
-        title: Generate backup codes
-        keep_safe_as_password: 'Important! Treat these codes as passwords.'
-        keep_safe_warning: 'Either save them in your password manager, or print this page and put in a safe place.'
-        regenerate_warning: 'Warning: If you have created backup codes before, they will be invalidated and will no longer work.'
+        title: Generar códigos de seguridad
+        keep_safe_as_password: 'Importante: Considere estos códigos como contraseñas.'
+        keep_safe_warning: 'Guárdelos en un administrador de contraseñas, o bien imprima esta página y guárdela en un lugar seguro.'
+        regenerate_warning: 'Advertencia: Si anteriormente creó códigos de seguridad, se invalidarán y dejarán de funcionar.'
     devices:
       add_new: 'Añadir nuevo dispositivo 2FA'
       register: 'Registrar dispositivo'
@@ -134,7 +134,7 @@ es:
   notice_phone_number_format: 'Introduzca el número en el siguiente formato: + XX XXXXXXXX.'
   error_password_on_phone_change: "is required if you want to change your cell phone number"
   notice_field_phone: "To login by one-time password you must be able to receive SMS messages sent to this number"
-  text_otp_not_receive: "Other verification methods"
+  text_otp_not_receive: "Otros métodos de verificación"
   text_send_otp_again: "Reenviar contraseña de un solo uso por:"
   button_resend_otp_form: "Reenviar"
   button_otp_by_voice: "Llamada de voz"
