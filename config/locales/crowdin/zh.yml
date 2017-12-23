@@ -1549,7 +1549,7 @@ zh:
   notice_account_registered_and_logged_in: 欢迎，您的帐户已激活。您现在已登录。
   notice_activation_failed: 无法激活该帐户。
   notice_auth_stage_verification_error: 无法验证阶段“%{stage}”。
-  notice_auth_stage_wrong_stage: 预计完成身份验证阶段“%{expected}”，但“%{actual}”返回。
+  notice_auth_stage_wrong_stage: 预期完成身份验证阶段“%{expected}”，但返回“%{actual}”。
   notice_auth_stage_error: 身份验证阶段“%{stage}”失败。
   notice_can_t_change_password: 此帐户使用外部身份验证源。无法更改密码。
   notice_custom_options_deleted: 选项“%{option_value}”和其“%{num_deleted}”事件已删除。
@@ -1716,7 +1716,7 @@ zh:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: 激活或存档
+    active_or_archived: 激活或已存档
     assigned_to_role: 指定人角色
     member_of_group: 指定人用户组
     assignee_or_group: 受让人或所属组

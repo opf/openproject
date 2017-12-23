@@ -437,8 +437,8 @@ de:
           sein.
         inclusion: ist nicht auf einen erlaubten Wert gesetzt.
         invalid: ist ungültig.
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: ist keine gültige URL.
+        invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         less_than_or_equal_to: muss kleiner oder gleich %{count} sein.
         not_a_date: ist kein gültiges Datum.
         not_a_datetime: ist kein gültiges Datum.

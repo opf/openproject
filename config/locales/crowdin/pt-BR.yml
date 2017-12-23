@@ -233,10 +233,10 @@ pt-BR:
           de entrar com suas credenciais atuais. Se quiser, poderá cadastrar-se novamente
           pelos meios que este aplicativo permite.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: Digite o login %{name} para verificar a exclusão. Depois de enviado,
+          você receberá uma solicitação de confirmação de senha.
+        self: Digite seu login %{name} para verificar a exclusão. Depois de enviado,
+          você receberá uma solicitação de confirmação de senha.
     error_inactive_activation_by_mail: 'Sua conta ainda não foi ativada. Para ativar
       sua conta, clique no link que foi enviado por e-mail à você.
 
@@ -425,8 +425,8 @@ pt-BR:
         greater_than_or_equal_to_start_date: deve ser maior ou igual a data de início.
         inclusion: Não está definido como um dos valores permitidos.
         invalid: é inválido.
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: não é uma URL válida.
+        invalid_url_scheme: 'não é um protocolo com suporte (permitido: %{allowed_schemes}).'
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
         not_a_date: não é uma data válida.
         not_a_datetime: não é uma data/hora válida.

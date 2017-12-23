@@ -232,10 +232,10 @@ ru:
           не сможете войти в систему с текущими учетными данными. Если  снова хотите  стать
           пользователем, то делайте это через средства пердоставления прав этого приложения.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
-        self: Enter your login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: Чтобы подтвердить удаление, введите логин %{name}. Затем вам нужно
+          будет ввести пароль.
+        self: Чтобы подтвердить удаление, введите свой логин %{name}. Затем вам нужно
+          будет ввести пароль.
     error_inactive_activation_by_mail: 'Ваша учетная запись не была активирована.
       Для активации перейдите по ссылке, высланной вам по электронной почте.
 
@@ -427,8 +427,9 @@ ru:
           с ней.
         inclusion: не задано ни одно из допустимых значений.
         invalid: неверно.
-        invalid_url: is not a valid URL.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url: не является допустимым URL-адресом.
+        invalid_url_scheme: 'не является поддерживаемым протоколом (разрешены следующие:
+          %{allowed_schemes}).'
         less_than_or_equal_to: должно быть меньше или равно %{count}.
         not_a_date: не является допустимой датой.
         not_a_datetime: дата и время не являются допустимыми.

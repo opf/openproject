@@ -14,7 +14,7 @@ pt:
     button_add_watcher: Adicionar observadores
     button_back_to_list_view: Voltar à visualização de lista
     button_cancel: Cancelar
-    button_close: Close
+    button_close: Fechar
     button_check_all: Seleccionar Todos
     button_configure-form: Configurar formulário
     button_confirm: Confirmar
@@ -107,7 +107,7 @@ pt:
     label_contains: contém
     label_created_on: criado a
     label_edit_comment: Editar este comentário
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Editar o estado do pacote de trabalho
     label_equals: é
     label_expand: Expandir
     label_expanded: expandido
@@ -145,7 +145,7 @@ pt:
     label_previous: Anterior
     label_per_page: 'Por página:'
     label_please_wait: Aguarde, por favor
-    label_visibility_settings: Visibility settings
+    label_visibility_settings: Configurações de visibilidade
     label_quote_comment: Citar este comentário
     label_reset: Reiniciar
     label_remove_columns: Remover colunas selecionadas
@@ -163,8 +163,8 @@ pt:
     label_subject: Assunto
     label_this_week: esta semana
     label_today: hoje
-    label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_activity_show_only_comments: Mostrar apenas atividades com comentários
+    label_activity_show_all: Mostrar todas as atividades
     label_total_progress: "%{percent}% Total de progresso"
     label_visible_for_others: Página visível para os outros
     label_updated_on: atualizado em
@@ -187,8 +187,8 @@ pt:
     label_drop_files: Largar ficheiro aqui
     label_drop_files_hint: ou clique para adicionar ficheiros
     label_add_attachments: Adicionar anexos
-    label_formattable_attachment_hint: Attach and link files by dropping on this field,
-      or pasting from the clipboard.
+    label_formattable_attachment_hint: Anexar e associar arquivos soltando neste campo,
+      ou colando da área de transferência.
     label_remove_file: Apagar %{fileName}
     label_remove_watcher: Remover o observador %{name}
     label_remove_all_files: Elimina todos os ficheiros
@@ -202,7 +202,7 @@ pt:
     label_upload_counter: "%{done} de %{count} de ficheiros acabados"
     label_validation_error: 'A tarefa não pode ser guardada devido aos seguintes erros:'
     help_texts:
-      show_modal: Show attribute help text entry
+      show_modal: Mostrar entrada do texto de ajuda de atributos
     password_confirmation:
       field_description: Tem que digitar a sua palavra-passe para confirmar esta alteração.
       title: Confirme a sua palavra-passe para continuar
@@ -213,15 +213,15 @@ pt:
         previous: Voltar à página anterior
     placeholders:
       default: "-"
-      subject: Enter subject here
+      subject: Introduzir assunto aqui
       selection: Por favor, selecione
       relation_description: Clique para adicionar a descrição para esta relação
     project:
-      required_outside_context: You are not within a project context. Please choose
-        the project context first in order to select type and status
-      context: Project context
-      work_package_belongs_to: This work package belongs to project %{projectname}.
-      click_to_switch_context: Open this work package in that project.
+      required_outside_context: Não está dentro de um contexto de projeto. Escolha
+        primeiro o contexto do projeto para selecionar o tipo e o estado
+      context: Contexto do projeto
+      work_package_belongs_to: Este pacote de trabalho pertence ao projeto %{projectname}.
+      click_to_switch_context: Abra este pacote de trabalho nesse projeto.
     text_are_you_sure: Tem a certeza?
     types:
       attribute_groups:
@@ -313,16 +313,16 @@ pt:
     text_query_destroy_confirmation: Tem certeza que deseja excluir a consulta selecionada?
     text_attachment_destroy_confirmation: Tem certeza de que deseja apagar o anexo?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: Gráfico de Gantt
       labels:
-        bar: Bar labels
-        left: Left
-        right: Right
-        farRight: Far right
-        showNone: "-- No label --"
-        description: 'Select the attributes you want to be shown in the respective
-          positions of the Gantt chart at all times. Note that when hovering an element,
-          its date labels will be shown instead of these attributes.
+        bar: Barra de rótulos
+        left: Esquerda
+        right: Direita
+        farRight: Extrema direita
+        showNone: "-- Sem rótulo --"
+        description: 'Selecione os atributos que pretende ver nas respectivas posições
+          do gráfico de Gantt a qualquer altura. Observe que ao passar o rato sobre
+          um elemento, os seus marcadores de data serão exibidos em vez desses atributos.
 
 '
       button_activate: Ativar modo de linha temporal
@@ -376,7 +376,7 @@ pt:
       zoom:
         in: Zoom +
         out: Zoom -
-        auto: Auto zoom
+        auto: Zoom automático
         days: Dias
         weeks: Semanas
         months: Meses
@@ -412,10 +412,10 @@ pt:
       image: Imagem
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: Mover vários
+        edit: Editar vários
+        copy: Copiar vários
+        delete: Apagar vários
       button_clear: Limpar
       comment_added: O comentário foi adicionado com sucesso.
       comment_send_failed: Ocorreu um erro. Não foi possível submeter o comentário.
@@ -556,7 +556,7 @@ pt:
         save: Guardar
         save_as: Guardar Como ...
         export: Exportar ...
-        publish: Publish ...
+        publish: Publicar...
         page_settings: Renomear a consulta...
         delete: Eliminar
       filter: Filtro
@@ -574,13 +574,13 @@ pt:
       form_submit:
         title: Confirmar para continuar
         text: Tem a certeza que pretende realizar esta ação?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
+      upsale_relation_columns: Precisa de ver as relações na lista do pacote de trabalho?
+      upsale_relation_columns_link: Experimente a versão Enterprise Edition.
       destroy_work_package:
-        title: Confirm deletion of %{label}
-        text: Are you sure you want to delete the following %{label} ?
-        has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        title: Confirmar exclusão do %{label}
+        text: Tem certeza que deseja apagar o seguinte %{label}?
+        has_children: 'O pacote de trabalho tem %{childUnits}:'
+        deletes_children: Todos os pacotes de trabalho filhos também serão eliminados.
     notice_successful_create: Criado com sucesso.
     notice_successful_delete: Eliminado com sucesso.
     notice_successful_update: Actualizado com sucesso.
@@ -609,10 +609,10 @@ pt:
     error_could_not_resolve_user_name: Não consegui resolver o nome do utilizador
     units:
       workPackage:
-        one: work package
+        one: pacote de trabalho
         other: work packages
       child_work_packages:
-        one: one child work package
+        one: um pacote de trabalho filho
         other: "%{count} work package children"
       hour:
         one: 1 hora

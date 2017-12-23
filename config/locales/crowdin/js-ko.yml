@@ -104,7 +104,7 @@ ko:
     label_contains: 포함
     label_created_on: 생성
     label_edit_comment: 코멘트 편집
-    label_edit_status: Edit the status of the work package
+    label_edit_status: 작업 패키지 상태 편집
     label_equals: 일치함
     label_expand: 확장
     label_expanded: 확장됨
@@ -142,7 +142,7 @@ ko:
     label_previous: 이전
     label_per_page: '페이지 당:'
     label_please_wait: 잠시 기다려 주세요.
-    label_visibility_settings: Visibility settings
+    label_visibility_settings: 표시 여부 설정
     label_quote_comment: 코멘트 인용
     label_reset: 재설정
     label_remove_columns: 선택된 열 제거
@@ -160,8 +160,8 @@ ko:
     label_subject: 제목
     label_this_week: 이번 주
     label_today: 오늘
-    label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_activity_show_only_comments: 코멘트가 있는 활동만 표시
+    label_activity_show_all: 모든 활동 표시
     label_total_progress: "%{percent}% 진행"
     label_visible_for_others: 다른사람에게 보이기
     label_updated_on: '업데이트 :'
@@ -183,8 +183,7 @@ ko:
     label_drop_files: 여기에 파일을 놓으세요
     label_drop_files_hint: 또는 파일을 추가 하려면 클릭하세요
     label_add_attachments: 첨부 파일 추가
-    label_formattable_attachment_hint: Attach and link files by dropping on this field,
-      or pasting from the clipboard.
+    label_formattable_attachment_hint: 이 필드에 놓거나 클립보드에서 붙여넣어 파일을 첨부하고 연결하세요.
     label_remove_file: "%{fileName} 삭제"
     label_remove_watcher: 관찰자 %{name} 제거
     label_remove_all_files: 모든 파일을 삭제
@@ -197,7 +196,7 @@ ko:
     label_upload_counter: "%{count} 개 파일 중 %{done} 개 파일 완료됨"
     label_validation_error: 다음 오류로 인해 작업 패키지를 저장할 수 없습니다.
     help_texts:
-      show_modal: Show attribute help text entry
+      show_modal: 특성 도움말 텍스트 항목 표시
     password_confirmation:
       field_description: 이 변경 내용을 확인하려면 계정 암호를 입력해야 합니다.
       title: 계속하려면 암호 확인
@@ -208,15 +207,15 @@ ko:
         previous: 전 페이지로
     placeholders:
       default: "-"
-      subject: Enter subject here
+      subject: 여기에 제목 입력
       selection: 선택하십시오
       relation_description: 이 관계에 대한 설명을 추가하려면 클릭
     project:
-      required_outside_context: You are not within a project context. Please choose
-        the project context first in order to select type and status
-      context: Project context
-      work_package_belongs_to: This work package belongs to project %{projectname}.
-      click_to_switch_context: Open this work package in that project.
+      required_outside_context: 프로젝트 컨텍스트 내에서 있지 않습니다. 유형 및 상태를 선택하려면 프로젝트 컨텍스트를 먼저
+        선택하세요.
+      context: 프로젝트 컨텍스트
+      work_package_belongs_to: 이 작업 패키지는 프로젝트 %{projectname}에 속합니다.
+      click_to_switch_context: 해당 프로젝트에서 이 작업 패키지를 여세요.
     text_are_you_sure: 계속하시겠습니까?
     types:
       attribute_groups:
@@ -304,16 +303,15 @@ ko:
     text_query_destroy_confirmation: 선택한 쿼리를 삭제하시겠습니까?
     text_attachment_destroy_confirmation: 정말 이 첨부 파일을 삭제 하시겠습니까?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: Gantt 차트
       labels:
-        bar: Bar labels
-        left: Left
-        right: Right
-        farRight: Far right
-        showNone: "-- No label --"
-        description: 'Select the attributes you want to be shown in the respective
-          positions of the Gantt chart at all times. Note that when hovering an element,
-          its date labels will be shown instead of these attributes.
+        bar: 막대 레이블
+        left: 왼쪽
+        right: 오른쪽
+        farRight: 맨 오른쪽
+        showNone: "-- 레이블 없음 --"
+        description: '항상 Gantt 차트의 각 위치에 표시할 특성을 선택하세요. 요소를 가리키면 해당 특성 대신 날짜 레이블이
+          표시됩니다.
 
 '
       button_activate: 타임라인 모드 활성화
@@ -363,7 +361,7 @@ ko:
       zoom:
         in: 확대
         out: 축소
-        auto: Auto zoom
+        auto: 자동 확대/축소
         days: 일
         weeks: 주
         months: 개월
@@ -398,10 +396,10 @@ ko:
       image: 이미지
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: 대량 이동
+        edit: 대량 편집
+        copy: 대량 복사
+        delete: 대량 삭제
       button_clear: 선택 취소
       comment_added: 코멘트가 성공적으로 추가 되었습니다.
       comment_send_failed: 오류가 발생했습니다. 코멘트를 제출할 수 없습니다.
@@ -532,7 +530,7 @@ ko:
         save: 저장
         save_as: 다른 이름으로 저장...
         export: 내보내기...
-        publish: Publish ...
+        publish: 게시...
         page_settings: 쿼리 이름 바꾸기...
         delete: 삭제
       filter: 필터
@@ -550,13 +548,13 @@ ko:
       form_submit:
         title: 계속하려면 확인하세요
         text: 정말로 이 작업을 수행하기를 원하시나요?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
+      upsale_relation_columns: 작업 패키지 목록에서 관계를 표시해야 합니까?
+      upsale_relation_columns_link: Enterprise Edition을 체크아웃하세요.
       destroy_work_package:
-        title: Confirm deletion of %{label}
-        text: Are you sure you want to delete the following %{label} ?
-        has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        title: "%{label} 삭제 확인"
+        text: 다음 %{label}을(를) 삭제하시겠습니까?
+        has_children: 작업 패키지에 %{childUnits}이(가) 있습니다.
+        deletes_children: 모든 자식 작업 패키지도 삭제됩니다.
     notice_successful_create: 생성에 성공했습니다.
     notice_successful_delete: 삭제에 성공했습니다.
     notice_successful_update: 업데이트에 성공했습니다.
@@ -586,10 +584,10 @@ ko:
     units:
       workPackage:
         one: work package
-        other: work packages
+        other: 작업 패키지
       child_work_packages:
         one: one child work package
-        other: "%{count} work package children"
+        other: "%{count}개의 작업 패키지 자식"
       hour:
         one: 1 hour
         other: "%{count} 시간"
