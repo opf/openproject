@@ -24,7 +24,7 @@ es:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "debe coincidir con la versión de la historia principal."
             parent_id:
               parent_child_relationship_across_projects: "no es valido porque el paquete de trabjo '%{work_package_name}' es una tarea de backlog y por lo tanto no puede tener un padre fuera del proyecto actual."
   backlogs:
@@ -81,8 +81,8 @@ es:
   backlogs_velocity_missing: "No se puede calcular la velocidad de este proyecto"
   backlogs_velocity_varies: "La velocidad varía significativamente a lo largo de las iteraciones"
   backlogs_wiki_template: "Plantilla para la página wiki de iteración"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "No se especificó ninguna versión en los trabajos pendientes"
+  backlogs_empty_action_text: "Para empezar con los trabajos pendientes, cree una nueva versión y asígnela a la columna de trabajos pendientes."
   button_edit_wiki: "Editar página wiki"
   error_intro_plural: "Se encontraron los siguientes errores:"
   error_intro_singular: "Se ha encontrado el siguiente error:"

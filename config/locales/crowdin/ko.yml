@@ -24,7 +24,7 @@ ko:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "은(는) 부모 스토리의 버전과 동일해야 합니다."
             parent_id:
               parent_child_relationship_across_projects: "은(는) 유효하지 않습니다. 작업 패키지 '%{work_package_name}'이(가) 백로그 작업이기 때문입니다. 따라서 현재 프로젝트 외부에 부모가 있을 수 없습니다."
   backlogs:
@@ -81,8 +81,8 @@ ko:
   backlogs_velocity_missing: "이 프로젝트에 대한 속도를 계산할 수 없습니다."
   backlogs_velocity_varies: "속도는 스프린트에서 상당히 다릅니다."
   backlogs_wiki_template: "스프린트 위키 페이지에 대한 템플릿"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "백로그에 사용할 버전이 정의되지 않았습니다."
+  backlogs_empty_action_text: "백로그를 시작하려면 새 버전을 만들고 백로그 열에 이 버전을 할당하세요."
   button_edit_wiki: "위키 페이지 편집"
   error_intro_plural: "다음 오류가 발생했습니다."
   error_intro_singular: "다음 오류가 발생했습니다."

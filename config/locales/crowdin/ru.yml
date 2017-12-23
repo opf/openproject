@@ -24,7 +24,7 @@ ru:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "должен быть таким же, как этап родительской истории."
             parent_id:
               parent_child_relationship_across_projects: "недействителен, поскольку пакет работ '%{work_package_name}' - это невыполненное задание и, следовательно, не может иметь родителя за пределами текущего проекта."
   backlogs:
@@ -81,8 +81,8 @@ ru:
   backlogs_velocity_missing: "Нельзя рассчитать скорость для этого проекта"
   backlogs_velocity_varies: "Скорость спринтов значительно различается"
   backlogs_wiki_template: "Шаблон для wiki-страницы по спринту"
-  backlogs_empty_title: "No versions are defined to be used in backlogs"
-  backlogs_empty_action_text: "To get started with backlogs, create a new version and assign it to a backlogs column."
+  backlogs_empty_title: "Для невыполненных работ не задано ни одного этапа"
+  backlogs_empty_action_text: "Чтобы пользоваться модулем невыполненной работы, создайте этап и назначьте его столбцу невыполненной работы."
   button_edit_wiki: "Редактировать wiki-страницу"
   error_intro_plural: "Найдены следующие ошибки:"
   error_intro_singular: "Найдена следующая ошибка:"
