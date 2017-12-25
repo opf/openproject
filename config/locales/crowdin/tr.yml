@@ -2419,7 +2419,7 @@ tr:
       “%{project_b}”
     project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Project type could not be saved
-    type_could_not_be_saved: Type could not be saved
+    type_could_not_be_saved: Type kaydedilemedi
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Özellikler
     really_delete_color: 'Are you sure, you want to delete the following color? Types
@@ -2490,10 +2490,10 @@ tr:
 '
     authorization_rejected: Oturum açma izniniz yok.
     assign_random_password: Rastgele şifre atayın (kullanıcıya e-posta ile gönderilir)
-    blocked: locked temporarily
+    blocked: geçici olarak kilitlendi
     blocked_num_failed_logins:
-      one: locked temporarily (one failed login attempt)
-      other: locked temporarily (%{count} failed login attempts)
+      one: geçici olarak kilitlenmiştir (bir başarısız giriş denemesi)
+      other: geçici olarak kilitlenmiştir (%{count} başarısız giriş denemeleri)
     confirm_status_change: "'%{name}' durumunu değiştirmek üzeresiniz. Devam etmek
       istediğinizden emin misiniz?"
     deleted: Kullanıcı silindi
