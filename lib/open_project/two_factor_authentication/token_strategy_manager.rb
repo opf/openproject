@@ -85,7 +85,7 @@ module OpenProject::TwoFactorAuthentication
       # 2FA Plugin configuration
       def configuration
         config = OpenProject::Configuration['2fa'] || {}
-        settings = Setting.plugin_openproject_two_factor_authentication
+        settings = Setting.plugin_openproject_two_factor_authentication || {}
 
         # Allow enforcing from settings if not true in configuration
         config[:enforced] ||= settings[:enforced]

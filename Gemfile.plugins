@@ -1,0 +1,7 @@
+# Used by travis to bundle this plugin with the OpenProject core.
+# The tested plugin will be moved to the path `./plugins/this`
+# whereas OpenProject will be checked out to `.`.
+
+gem 'openproject-two_factor_authentication', path: 'plugins/this'
+
+# If the plugin has any dependencies declare them here:
