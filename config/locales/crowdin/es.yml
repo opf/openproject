@@ -441,7 +441,7 @@ es:
           inicio.
         inclusion: no está establecido a uno de los valores permitidos.
         invalid: no es válido.
-        invalid_url: no es una dirección URL válida.
+        invalid_url: no es una URL válida.
         invalid_url_scheme: 'no es un protocolo admitido (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: debe ser menor o igual a %{count}.
         not_a_date: no es una fecha válida.
@@ -1238,7 +1238,7 @@ es:
   label_file_plural: Archivos
   label_filter_add: Añadir filtro
   label_filter_plural: Filtros
-  label_filters_toggle: Mostrar u ocultar filtros
+  label_filters_toggle: Mostrar/Ocultar filtro
   label_float: Desprender
   label_folder: Carpeta
   label_follows: sigue
@@ -1692,10 +1692,10 @@ es:
   notice_account_registered_and_logged_in: Bienvenido, tu cuenta ha sido activada.
     Ahora estás logueado.
   notice_activation_failed: No se pudo activar la cuenta.
-  notice_auth_stage_verification_error: No se pudo verificar la fase “%{stage}”.
+  notice_auth_stage_verification_error: No se podría verificar la etapa '%{stage}'.
   notice_auth_stage_wrong_stage: Se esperaba que finalizara la fase de autenticación
-    “%{expected}”, pero se devolvió “%{actual}”.
-  notice_auth_stage_error: La fase de autenticación “%{stage}” produjo errores.
+    '%{expected}', pero se devolvió '%{actual}'.
+  notice_auth_stage_error: La fase de autenticación '%{stage}' produjo errores.
   notice_can_t_change_password: Esta cuenta utiliza una fuente de autenticación externa.
     Es imposible cambiar la contraseña.
   notice_custom_options_deleted: Se ha eliminado la opción '%{option_value}' y sus
