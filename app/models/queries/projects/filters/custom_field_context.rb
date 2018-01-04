@@ -28,7 +28,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-module Queries::Projects::Filter::CustomFieldContext
+module Queries::Projects::Filters::CustomFieldContext
   class << self
     def custom_field_class
       ::ProjectCustomField

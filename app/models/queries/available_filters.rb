@@ -67,7 +67,7 @@ module Queries::AvailableFilters
     Rails.logger.error "Failed to register filter for #{key}: #{e} \n" \
                        "Falling back to non-existing filter."
     non_existing_filter(key)
-  rescue ::Queries::Filters::Missing => e
+  rescue ::Queries::Filters::MissingError => e
     Rails.logger.error "Failed to find filter for #{key}: #{e} \n" \
                        "Falling back to non-existing filter."
     non_existing_filter(key)

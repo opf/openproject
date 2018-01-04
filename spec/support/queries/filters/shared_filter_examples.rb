@@ -30,12 +30,9 @@ shared_context 'filter tests' do
   let(:context) { nil }
   let(:values) { ['bogus'] }
   let(:operator) { '=' }
+  let(:instance_key) { described_class.key }
   let(:instance) do
-    filter = described_class.new
-    filter.context = context
-    filter.operator = operator
-    filter.values = values
-    filter
+    described_class.create!(name: instance_key, context: context, operator: operator, values: values)
   end
   let(:name) { model.human_attribute_name((instance_key || class_key).to_s.gsub('_id', '')) }
   let(:model) { WorkPackage }
@@ -46,7 +43,6 @@ shared_examples_for 'basic query filter' do
 
   let(:context) { FactoryGirl.build_stubbed(:query, project: project) }
   let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:instance_key) { nil }
   let(:class_key) { raise 'needs to be defined' }
   let(:type) { raise 'needs to be defined' }
   let(:human_name) { nil }

@@ -31,17 +31,16 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:filter) { Queries::WorkPackages::Filter::StatusFilter.new }
-  let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.new }
+  let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
+  let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
   let(:custom_field_filter) do
-    filter = Queries::WorkPackages::Filter::CustomFieldFilter.new
+    filter = Queries::WorkPackages::Filter::CustomFieldFilter.create! "cf_#{custom_field.id}"
 
     allow(WorkPackageCustomField)
       .to receive(:find_by_id)
       .with(custom_field.id)
       .and_return(custom_field)
 
-    filter.name = "cf_#{custom_field.id}"
 
     filter
   end

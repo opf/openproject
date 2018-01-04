@@ -34,11 +34,8 @@ describe ::API::V3::Queries::Schemas::BooleanFilterDependencyRepresenter, clear_
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:bool_cf) { FactoryGirl.build_stubbed(:bool_wp_custom_field) }
   let(:filter) do
-    filter = Queries::WorkPackages::Filter::CustomFieldFilter.new(context: project)
-
-    filter.custom_field = bool_cf
-
-    filter
+    Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: bool_cf,
+                                                                        context: project
   end
 
   let(:form_embedded) { false }

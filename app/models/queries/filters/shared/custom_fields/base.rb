@@ -50,7 +50,7 @@ module Queries::Filters::Shared
       end
 
       def project
-        context && context.project
+        context.try(:project)
       end
 
       def available?

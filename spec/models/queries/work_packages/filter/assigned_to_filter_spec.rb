@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::AssignedToFilter, type: :model do
   let(:instance) do
-    filter = described_class.new
+    filter = described_class.create!
     filter.values = values
     filter.operator = operator
     filter

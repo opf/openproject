@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::ProjectFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:filter) { Queries::WorkPackages::Filter::ProjectFilter.new }
+  let(:filter) { Queries::WorkPackages::Filter::ProjectFilter.create! }
   let(:form_embedded) { false }
 
   let(:instance) do

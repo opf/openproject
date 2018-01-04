@@ -58,6 +58,7 @@ describe Queries::TimeEntries::Filters::UserFilter, type: :model do
   it_behaves_like 'list_optional query filter' do
     let(:attribute) { :user_id }
     let(:model) { TimeEntry }
+    let(:instance_key) { :user_id }
     let(:valid_values) { [user1.id.to_s] }
   end
 end

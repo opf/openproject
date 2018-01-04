@@ -43,9 +43,8 @@ describe ::API::V3::Queries::Schemas::CustomOptionFilterDependencyRepresenter, c
     cf
   end
   let(:filter) do
-    filter = Queries::WorkPackages::Filter::CustomFieldFilter.new(context: query)
-    filter.custom_field = custom_field
-    filter
+    Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field,
+                                                                        context: query
   end
   let(:form_embedded) { false }
 

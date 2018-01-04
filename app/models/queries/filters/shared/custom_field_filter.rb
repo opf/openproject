@@ -50,11 +50,11 @@ module Queries::Filters::Shared::CustomFieldFilter
 
     def all_for(context = nil)
       custom_field_context.custom_fields(context).map do |cf|
-        cf_name = custom_field_accessor(cf)
+        cf_accessor = custom_field_accessor(cf)
         begin
-          create!(cf_name, { custom_field: cf })
+          create!(name: cf_accessor, custom_field: cf)
         rescue ::Queries::Filters::InvalidError => e
-          Rails.logger.error "Failed to map custom field filter for #{name} (CF##{cf.id}."
+          Rails.logger.error "Failed to map custom field filter for #{cf_accessor} (CF##{cf.id}."
           nil
         end
       end.compact
@@ -66,22 +66,23 @@ module Queries::Filters::Shared::CustomFieldFilter
       match = name.match /cf_(\d+)/
 
       if match.present? && match[1].to_i > 0
-        custom_field_context.custom_field_class.find_by(id: match[1])
+        custom_field_context.custom_field_class.find_by(id: match[1].to_i)
       end
     end
 
     ##
-    # Create a filter instance for the given custom field accesor
-    def create!(cf_name, options = {})
-      custom_field = options.delete(:custom_field) { find_by_accessor(cf_name) }
+    # Create a filter instance for the given custom field accessor
+    def create!(name:, **options)
+      custom_field = find_by_accessor(name)
       raise ::Queries::Filters::InvalidError if custom_field.nil?
 
-      new_for_custom_field(cf_name, custom_field, options)
+      from_custom_field!(custom_field: custom_field, **options)
     end
 
+
     ##
-    # Create a new custom field subfilter for the given custom field
-    def new_for_custom_field(name, custom_field, options)
+    # Create a filter instance for the given custom field
+    def from_custom_field!(custom_field:, **options)
       constant_name = subfilter_module(custom_field)
       clazz = "::Queries::Filters::Shared::CustomFields::#{constant_name}".constantize
       clazz.create!(custom_field, custom_field_context, options)
