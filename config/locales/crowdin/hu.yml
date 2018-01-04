@@ -167,7 +167,7 @@ hu:
   text_destroy_time_and_cost_entries: "Delete reported hours and costs"
   text_destroy_time_and_cost_entries_question: "%{hours} hours, %{cost_entries} were reported on the work packages you are about to delete. What do you want to do ?"
   text_reassign_time_and_cost_entries: "Reassign reported hours and costs to this work package:"
-  text_warning_hidden_elements: "Some entries may have been excluded from the aggregation."
+  text_warning_hidden_elements: "Néhány bejegyzés lehet, hogy kimaradt az összesítésből."
   week: "hét"
   js:
     text_are_you_sure: "Biztos vagy benne?"
