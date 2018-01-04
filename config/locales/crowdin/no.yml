@@ -1040,7 +1040,7 @@
   label_accessibility: Tilgjengelighet
   label_account: Konto
   label_active: Aktiv
-  label_activate_user: Activate user
+  label_activate_user: Aktiver bruker
   label_active_in_new_projects: Active in new projects
   label_activity: Aktivitet
   label_add_edit_translations: Add and edit translations
@@ -1238,7 +1238,7 @@
   label_internal: Intern
   label_invite_user: Inviter bruker
   label_show_hide: Vis/Skjul
-  label_show_all_registered_users: Show all registered users
+  label_show_all_registered_users: Vis alle registrerte brukere
   label_journal: Journal
   label_journal_diff: Sammenligning av beskrivelse
   label_language: Språk
@@ -1274,7 +1274,7 @@
   label_member_plural: Medlemmer
   label_view_all_members: View all members
   label_menu_item_name: Navn på menyelement
-  label_message: Message
+  label_message: Melding
   label_message_last: Siste melding
   label_message_new: Ny melding
   label_message_plural: Meldinger
@@ -1396,8 +1396,8 @@
   label_repository: Pakkebrønn
   label_repository_root: Repository root
   label_repository_plural: Pakkebrønner
-  label_required: required
-  label_requires: requires
+  label_required: påkrevd
+  label_requires: krever
   label_responsible_for_work_packages: Arbeidspakker jeg står som ansvarlig for
   label_result_plural: Resultater
   label_reverse_chronological_order: I omvendt kronologisk rekkefølge
@@ -1919,7 +1919,7 @@
           by using a value starting with http(s):// or file://.
         path_encoding: 'Override Git path encoding (Default: UTF-8)'
       local_title: Link existing local Git repository
-      local_url: Local URL
+      local_url: Lokal URL
       local_introduction: If you have an existing local Git repository, you can link
         it with OpenProject to access it from within the application.
       managed_introduction: Let OpenProject create and integrate a local Git repository
