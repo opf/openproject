@@ -34,6 +34,8 @@ module Queries::Filters::Shared
       attr_reader :custom_field
       attr_reader :custom_field_context
 
+      validate :custom_field_valid
+
       def initialize(custom_field, custom_field_context, options = {})
         name = :"cf_#{custom_field.id}"
 
@@ -104,14 +106,46 @@ module Queries::Filters::Shared
           (SELECT #{model_db_table}.id
           FROM #{model_db_table}
           #{custom_field_context.where_subselect_joins(custom_field)}
-          WHERE #{operator_strategy.sql_for_field(values, cv_db_table, 'value')})
+          WHERE #{operator_strategy.sql_for_field(values_replaced, cv_db_table, 'value')})
         SQL
+      end
+
+      def error_messages
+        messages = errors
+          .full_messages
+          .join(" #{I18n.t('support.array.sentence_connector')} ")
+
+        human_name + I18n.t(default: ' %<message>s', message: messages)
       end
 
       protected
 
       def type_strategy_class
         strategies[type] || strategies[:inexistent]
+      end
+
+      def custom_field_valid
+        if invalid_custom_field_for_context?
+          errors.add(:base, I18n.t('activerecord.errors.models.query.filters.custom_fields.invalid'))
+        end
+      end
+
+      def invalid_custom_field_for_context?
+        if project
+          invalid_custom_field_for_project?
+        else
+          invalid_custom_field_globally?
+        end
+      end
+
+      def invalid_custom_field_globally?
+        !self.custom_field_context.custom_fields(project)
+          .exists?(custom_field.id)
+      end
+
+      def invalid_custom_field_for_project?
+        !self.custom_field_context.custom_fields(project)
+          .map(&:id).include? custom_field.id
       end
     end
   end

@@ -30,67 +30,9 @@
 
 module Queries::Filters::Shared::CustomFieldFilter
   def self.included(base)
-    base.include(InstanceMethods)
     base.extend(ClassMethods)
-
     base.class_eval do
-      attr_accessor :custom_field
-      validate :custom_field_valid
-
       class_attribute :custom_field_context
-    end
-  end
-
-  module InstanceMethods
-    def error_messages
-      messages = errors
-                 .full_messages
-                 .join(" #{I18n.t('support.array.sentence_connector')} ")
-
-      human_name + I18n.t(default: ' %<message>s', message: messages)
-    end
-
-    private
-
-    def type_strategy
-      @type_strategy ||= (strategies[type] || strategies[:inexistent]).new(self)
-    end
-
-    def custom_field_valid
-      if custom_field.nil?
-        errors.add(:base, I18n.t('activerecord.errors.models.query.filters.custom_fields.inexistent'))
-      elsif invalid_custom_field_for_context?
-        errors.add(:base, I18n.t('activerecord.errors.models.query.filters.custom_fields.invalid'))
-      end
-    end
-
-    def validate_inclusion_of_operator
-      super if custom_field
-    end
-
-    def invalid_custom_field_for_context?
-      project && invalid_custom_field_for_project? ||
-        !project && invalid_custom_field_globally?
-    end
-
-    def invalid_custom_field_globally?
-      !self.class.custom_fields(project)
-           .exists?(custom_field.id)
-    end
-
-    def invalid_custom_field_for_project?
-      !self.class.custom_fields(project)
-           .map(&:id).include? custom_field.id
-    end
-
-    def strategies
-      strategies = Queries::Filters::STRATEGIES.dup
-      strategies[:list_optional] = Queries::Filters::Strategies::CfListOptional
-      strategies[:integer] = Queries::Filters::Strategies::CfInteger
-      # knowing that only bool have list type
-      strategies[:list] = Queries::Filters::Strategies::BooleanList
-
-      strategies
     end
   end
 
@@ -121,13 +63,11 @@ module Queries::Filters::Shared::CustomFieldFilter
     ##
     # Find the given custom field by its accessor, should it exist.
     def find_by_accessor(name)
-      match = name.match /(custom_field_|cf_)(\d+)/
+      match = name.match /cf_(\d+)/
 
-      if match.present? && match[2].to_i > 0
-        custom_field_context.custom_field_class.find_by(id: match[2])
+      if match.present? && match[1].to_i > 0
+        custom_field_context.custom_field_class.find_by(id: match[1])
       end
-
-      nil
     end
 
     ##

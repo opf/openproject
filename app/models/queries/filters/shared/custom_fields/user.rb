@@ -39,6 +39,11 @@ module Queries::Filters::Shared
       # from the Me mixin, which will override the ListOptional value_objects definition.
       include ::Queries::WorkPackages::Filter::MeValueFilterMixin
 
+      def allowed_values
+        @allowed_values ||= begin
+          me_allowed_value + super
+        end
+      end
     end
   end
 end

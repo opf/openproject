@@ -37,24 +37,6 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     User.current.logged? || allowed_values.any?
   end
 
-  def value_objects_hash
-    objects = super
-
-    # Replace me value identifier
-    if has_me_value?
-      search = User.current.id
-      objects.each do |value_object|
-        if value_object[:id] == search
-          value_object[:id] = me_value
-          value_object[:name] = me_label
-          break
-        end
-      end
-    end
-
-    objects
-  end
-
   def ar_object_filter?
     true
   end
@@ -71,19 +53,5 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
 
   def principal_loader
     @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
-  end
-
-  def values_replaced
-    vals = values.clone
-
-    if vals.delete(me_value)
-      if User.current.logged?
-        vals.push(User.current.id.to_s)
-      else
-        vals.push('0')
-      end
-    end
-
-    vals
   end
 end

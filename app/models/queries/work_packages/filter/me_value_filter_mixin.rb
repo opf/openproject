@@ -46,6 +46,31 @@ module Queries::WorkPackages::Filter::MeValueFilterMixin
   end
 
   ##
+  # Returns a hash of the value objects with the me value referenced
+  # in order for the representer to identify it.
+  def value_objects_hash
+    objects = super
+
+    # Replace me value identifier
+    if has_me_value?
+      search = User.current.id
+      objects.each do |value_object|
+        if value_object[:id] == search
+          value_object[:id] = me_value
+          value_object[:name] = me_label
+          break
+        end
+      end
+    end
+
+    objects
+  end
+
+  def values
+    super
+  end
+
+  ##
   # Return the values object with the me value
   # mapped to the current user.
   def values_replaced
@@ -77,7 +102,7 @@ module Queries::WorkPackages::Filter::MeValueFilterMixin
   def me_allowed_value
     values = []
     if User.current.logged?
-      values << [me_abel, me_value]
+      values << [me_label, me_value]
     end
     values
   end

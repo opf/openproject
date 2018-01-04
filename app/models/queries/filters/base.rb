@@ -140,6 +140,9 @@ class Queries::Filters::Base
     @values || []
   end
 
+  # Values may contain an internal representation for some filters
+  alias :values_replaced :values
+
   def values=(values)
     @values = Array(values).map(&:to_s)
   end
