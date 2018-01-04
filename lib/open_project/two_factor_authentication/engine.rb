@@ -11,7 +11,7 @@ module OpenProject::TwoFactorAuthentication
              settings: {
                  default: {
                      enforced: false,
-                     active_strategies: [:totp]
+                     active_strategies: []
                  },
                  partial: 'settings/openproject_two_factor_authentication'
              },

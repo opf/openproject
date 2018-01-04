@@ -1,7 +1,8 @@
-require 'spec_helper'
+require_relative '../spec_helper'
 
 describe ::OpenProject::TwoFactorAuthentication::TokenStrategyManager do
   let(:dev_strategy) { ::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer }
+  let(:totp_strategy) { ::OpenProject::TwoFactorAuthentication::TokenStrategy::Totp }
   let(:configuration) do
     {
       active_strategies: active_strategies,
@@ -66,6 +67,53 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategyManager do
 
         it 'raises when validating' do
           expect { described_class.validate_active_strategies! }.to raise_error(ArgumentError)
+        end
+      end
+    end
+
+    describe 'with additional settings given' do
+      let(:active_strategies) { [:developer] }
+      let(:enforced) { false }
+
+      before do
+        allow(Setting).to receive(:plugin_openproject_two_factor_authentication).and_return(settings)
+      end
+
+      context 'when nothing given' do
+        let(:settings) { nil }
+
+        it 'uses the configuration' do
+          expect(described_class.active_strategies).to eq([dev_strategy])
+          expect(described_class).not_to be_enforced
+        end
+      end
+
+      context 'when additional strategy given' do
+        let(:settings) { { active_strategies: [:totp] } }
+
+        it 'merges configuration and settings' do
+          expect(described_class.active_strategies).to eq([dev_strategy, totp_strategy])
+          expect(described_class).not_to be_enforced
+        end
+      end
+
+      context 'when enforced set' do
+        context 'when true and config is false' do
+          let(:enforced) { false }
+          let(:settings) { { enforced: true } }
+
+          it 'does override the configuration' do
+            expect(described_class).to be_enforced
+          end
+        end
+
+        context 'when false and config is true' do
+          let(:enforced) { true }
+          let(:settings) { { enforced: false } }
+
+          it 'does not override the configuration' do
+            expect(described_class).to be_enforced
+          end
         end
       end
     end

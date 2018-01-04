@@ -55,7 +55,6 @@ module OpenProject::TwoFactorAuthentication
         enforced? && !enabled?
       end
 
-
       ##
       # Fetch all active strategies
       def active_strategies
@@ -87,11 +86,21 @@ module OpenProject::TwoFactorAuthentication
         config = OpenProject::Configuration['2fa'] || {}
         settings = Setting.plugin_openproject_two_factor_authentication || {}
 
-        # Allow enforcing from settings if not true in configuration
-        config[:enforced] ||= settings[:enforced]
-        config[:active_strategies] ||= settings[:active_strategies]
+        merge_with_settings! config, settings
 
         config
+      end
+
+      def merge_with_settings!(config, settings)
+        # Allow enforcing from settings if not true in configuration
+        unless config[:enforced]
+          config[:enforced] = settings[:enforced]
+        end
+
+        predefined_strategies = config.fetch(:active_strategies, [])
+        additional_strategies = settings.fetch(:active_strategies, [])
+
+        config[:active_strategies] = predefined_strategies | additional_strategies
       end
 
       def lookup_active_strategy(klazz)
