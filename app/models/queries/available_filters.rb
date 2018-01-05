@@ -76,7 +76,7 @@ module Queries::AvailableFilters
   private
 
   def non_existing_filter(key)
-    Queries::NotExistingFilter.create!(key)
+    Queries::NotExistingFilter.create!(name: key)
   end
 
   def get_initialized_filter(key, no_memoization)
@@ -85,7 +85,7 @@ module Queries::AvailableFilters
     return unless filter
 
     if no_memoization
-      filter.create!(key)
+      filter.create!(name: key)
     else
       initialize_filter(filter)
 

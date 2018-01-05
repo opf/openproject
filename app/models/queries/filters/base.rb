@@ -47,7 +47,7 @@ class Queries::Filters::Base
   alias :field :name
 
   def initialize(name, options = {})
-    @name = name
+    @name = name.to_sym
     self.context = options[:context]
 
     self.class.filter_params.each do |param_field|
@@ -65,7 +65,7 @@ class Queries::Filters::Base
   ##
   # Creates a filter instance with the given name if the options are acceptable.
   # Raises an +InvalidFilterError+ if the given filter cannot be created with this option.
-  def self.create!(name = key, options = {})
+  def self.create!(name: key, **options)
     new(name, options)
   end
 
@@ -121,7 +121,7 @@ class Queries::Filters::Base
   end
 
   def self.all_for(context = nil)
-    create!(key, { context: context })
+    create!(name: key, context: context)
   end
 
   def where
