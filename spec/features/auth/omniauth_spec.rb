@@ -144,7 +144,7 @@ describe 'Omniauth authentication', type: :feature do
 
       # on register form, we are prompted for a last name
       within('#content') do
-        fill_in('user_lastname', with: user.lastname)
+        fill_in('user_lastname_autologin-registration', with: user.lastname)
         click_link_or_button 'Create'
       end
 
@@ -183,7 +183,7 @@ describe 'Omniauth authentication', type: :feature do
 
       # on register form, we are prompted for a last name
       within('#content') do
-        fill_in('user_lastname', with: user.lastname)
+        fill_in('user_lastname_autologin-registration', with: user.lastname)
         click_link_or_button 'Create'
       end
 

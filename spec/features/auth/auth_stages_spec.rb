@@ -92,13 +92,13 @@ describe 'Authentication Stages', type: :feature do
       visit signin_path
       click_on "Create a new account"
 
-      within("#new_user") do
-        fill_in "user_login", with: "h.wurst"
-        fill_in "user_firstname", with: "Hans"
-        fill_in "user_lastname", with: "Wurst"
-        fill_in "user_mail", with: "h.wurst@openproject.com"
-        fill_in "user_password", with: "hansihansi"
-        fill_in "user_password_confirmation", with: "hansihansi"
+      within("#new_user_registration_fullscreen") do
+        fill_in "user_login_registration_fullscreen", with: "h.wurst"
+        fill_in "user_firstname_registration_fullscreen", with: "Hans"
+        fill_in "user_lastname_registration_fullscreen", with: "Wurst"
+        fill_in "user_mail_registration_fullscreen", with: "h.wurst@openproject.com"
+        fill_in "user_password_registration_fullscreen", with: "hansihansi"
+        fill_in "user_password_confirmation_registration_fullscreen", with: "hansihansi"
       end
 
       expect { click_on("Create") }.to raise_error(ActionController::RoutingError, /\/activation\/stage_test/)
@@ -118,7 +118,7 @@ describe 'Authentication Stages', type: :feature do
       visit signin_path
       click_on "Create a new account"
 
-      within("#new_user") do
+      within("#new_user_registration_fullscreen") do
         click_on "Omniauth Developer"
       end
 
