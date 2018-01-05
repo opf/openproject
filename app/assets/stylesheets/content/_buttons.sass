@@ -60,8 +60,17 @@ a.button
 
   &.-highlight
     @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, $button--highlight-font-color, $button-style)
-    @include button-style($button--highlight-background-color, $button--highlight-background-hover-color, var(--button--highlight-font-color), $button-style)
-    @include varprop(border-color, button--highlight-font-color)
+    @include button-style(var(--button--highlight-background-color), var(--button--highlight-background-hover-color), $button--highlight-font-color, $button-style)
+    @include varprop(border-color, button--highlight-background-color)
+
+    &:hover, &:focus
+      @include varprop(border-color, button--highlight-background-hover-color)
+
+  &.-highlight-inverted
+    @include button-style($body-background, darken($body-background, 5), $content-link-color, $button-style)
+    @include button-style($body-background, darken($body-background, 5), var(--content-link-color), $button-style)
+    @include varprop(border-color, content-link-color)
+
 
   &.-alt-highlight
     @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
