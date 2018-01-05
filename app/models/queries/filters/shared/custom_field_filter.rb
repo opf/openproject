@@ -84,7 +84,7 @@ module Queries::Filters::Shared::CustomFieldFilter
     def from_custom_field!(custom_field:, **options)
       constant_name = subfilter_module(custom_field)
       clazz = "::Queries::Filters::Shared::CustomFields::#{constant_name}".constantize
-      clazz.create!(name: custom_field, custom_field_context: custom_field_context, **options)
+      clazz.create!(custom_field: custom_field, custom_field_context: custom_field_context, **options)
     rescue NameError => e
       Rails.logger.error "Failed to constantize custom field filter for #{name}. #{e}"
       raise ::Queries::Filters::InvalidError

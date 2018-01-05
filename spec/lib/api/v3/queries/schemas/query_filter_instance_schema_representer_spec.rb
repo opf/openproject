@@ -34,11 +34,11 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
   let(:filter) { Queries::WorkPackages::Filter::StatusFilter.create! }
   let(:assigned_to_filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
   let(:custom_field_filter) do
-    filter = Queries::WorkPackages::Filter::CustomFieldFilter.create! "cf_#{custom_field.id}"
+    filter = Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field
 
     allow(WorkPackageCustomField)
-      .to receive(:find_by_id)
-      .with(custom_field.id)
+      .to receive(:find_by)
+      .with(id: custom_field.id)
       .and_return(custom_field)
 
 
@@ -203,7 +203,7 @@ describe ::API::V3::Queries::Schemas::QueryFilterInstanceSchemaRepresenter, clea
           end
 
           context 'when filter is a list filter' do
-            let(:filter) { Queries::WorkPackages::Filter::AuthorFilter.new }
+            let(:filter) { Queries::WorkPackages::Filter::AuthorFilter.create! }
 
             it 'is the hash' do
               expected = {

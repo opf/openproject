@@ -55,7 +55,7 @@ module API
                 raise API::Errors::NotFound unless filter_class
 
                 begin
-                  filter = filter_class.create! ar_id
+                  filter = filter_class.create! name: ar_id
                   ::API::V3::Queries::Filters::QueryFilterRepresenter.new(filter)
                 rescue ::Queries::Filters::InvalidError
                   Rails.logger.error "Failed to instantiate filter #{ar_id} through API"

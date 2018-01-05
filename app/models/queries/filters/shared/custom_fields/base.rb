@@ -36,7 +36,7 @@ module Queries::Filters::Shared
 
       validate :custom_field_valid
 
-      def initialize(custom_field, custom_field_context, options = {})
+      def initialize(custom_field:, custom_field_context:, **options)
         name = :"cf_#{custom_field.id}"
 
         @custom_field = custom_field
@@ -46,7 +46,7 @@ module Queries::Filters::Shared
       end
 
       def self.create!(custom_field:, custom_field_context:, **options)
-        new(custom_field, custom_field_context, options)
+        new(custom_field: custom_field, custom_field_context: custom_field_context, **options)
       end
 
       def project

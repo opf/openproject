@@ -37,7 +37,7 @@ describe ::API::V3::Queries::Schemas::UserFilterDependencyRepresenter, clear_cac
   let(:form_embedded) { false }
 
   let(:instance) do
-    described_class.create(filter,
+    described_class.new(filter,
                         operator,
                         form_embedded: form_embedded)
   end

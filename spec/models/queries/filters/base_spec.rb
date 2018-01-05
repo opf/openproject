@@ -40,7 +40,7 @@ describe Queries::Filters::Base, type: :model do
       end
     end
 
-    filter_class.create! :test_integer
+    filter_class.create! name: :test_integer
   end
 
   let(:date_filter) do
@@ -54,7 +54,7 @@ describe Queries::Filters::Base, type: :model do
       end
     end
 
-    filter_class.create! :test_date
+    filter_class.create! name: :test_date
   end
 
   let(:datetime_past_filter) do
@@ -68,7 +68,7 @@ describe Queries::Filters::Base, type: :model do
       end
     end
 
-    filter_class.create! :test_datetime
+    filter_class.create! name: :test_datetime
   end
 
   shared_examples_for 'validity checked' do
