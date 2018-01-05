@@ -10,6 +10,7 @@
             download>
 
           {{ ::attachment.fileName || attachment.customName || attachment.name }}
+          <authoring class="work-package--attachments--info" created-on="attachment.createdAt" author="attachment.author" show-author-as-link="false"></authoring>
         </a>
       </span>
       <a

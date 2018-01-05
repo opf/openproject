@@ -113,7 +113,9 @@ describe('wpAttachmentList directive', () => {
     beforeEach(angular.mock.inject(($q:any) => {
       attachment = {
         name: 'name',
-        fileName: 'fileName'
+        fileName: 'fileName',
+        author: 'Firstname Lastname',
+        createdAt: '2017-12-08T13:54:59+00:00'
       };
 
       attachments = [attachment, attachment];
@@ -160,6 +162,8 @@ describe('wpAttachmentList directive', () => {
         attachment = {
           name: 'name',
           fileName: 'fileName',
+          author: 'Firstname Lastname',
+          createdAt: '2017-12-08T13:54:59+00:00',
           $links: { delete: () => undefined }
         };
 
