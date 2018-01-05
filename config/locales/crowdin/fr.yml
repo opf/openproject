@@ -610,7 +610,7 @@ fr:
     active: Actif
     assigned_to: Assigné à
     assignee: Assigné à
-    attachments: Fichiers
+    attachments: Pièces jointes
     author: Auteur
     base: 'Erreur générale :'
     blocks_ids: IDs des lots de travaux bloqués
@@ -1068,7 +1068,7 @@ fr:
   label_accessibility: Accessibilité
   label_account: Compte
   label_active: Actif
-  label_activate_user: Autoriser l'utilisateur
+  label_activate_user: Activer l'utilisateur
   label_active_in_new_projects: Activer dans de nouveaux projets
   label_activity: Activité
   label_add_edit_translations: Ajouter et modifier des traductions
@@ -1138,7 +1138,7 @@ fr:
   label_change_plural: Changements
   label_change_properties: Modifier les propriétés
   label_change_status: Changer le statut
-  label_change_status_of_user: 'Changer l''état de #{username}'
+  label_change_status_of_user: 'Changer le statut de #{username}'
   label_change_view_all: Afficher tous les changements
   label_changes_details: Détails de tous les changements
   label_changeset: Lot de modification
@@ -1267,7 +1267,7 @@ fr:
   label_internal: Interne
   label_invite_user: Inviter utilisateur
   label_show_hide: Afficher/masquer
-  label_show_all_registered_users: Voir des utilisateurs enregistrés
+  label_show_all_registered_users: Afficher tous les utilisateurs enregistrés
   label_journal: Journal
   label_journal_diff: Comparaison de description
   label_language: Langue
@@ -1395,7 +1395,7 @@ fr:
   label_projects_storage_information: "%{count} projets utilisant %{storage} d'espace
     disque"
   label_project_view_all: Afficher tous les projets
-  label_project_show_details: Afficher statut du projet
+  label_project_show_details: Afficher les détails du projet
   label_project_hide_details: Masquer les détails du projet
   label_public_projects: Projets publics
   label_query_new: Nouvelle requête
@@ -2039,7 +2039,7 @@ fr:
   setting_activity_days_default: Nombre des jours affichés dans l'activité du projet
   setting_app_subtitle: Sous-titre de l'Application
   setting_app_title: Titre de l'Application
-  setting_attachment_max_size: Taille maximale de la pièce-jointe
+  setting_attachment_max_size: Taille maximale de la pièce jointe
   setting_autofetch_changesets: Rapatrier automatiquement les changements du dépôt
   setting_autologin: Auto-connexion
   setting_available_languages: Langages disponibles

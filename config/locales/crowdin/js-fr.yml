@@ -556,7 +556,7 @@ fr:
         activity: Activité
         relations: Relations
         watchers: Observateurs
-        attachments: Fichiers
+        attachments: Pièces jointes
       time_relative:
         days: jours
         weeks: semaines
