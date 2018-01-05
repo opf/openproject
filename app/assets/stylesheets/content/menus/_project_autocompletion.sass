@@ -1,0 +1,60 @@
+.project-search-results
+  margin: 0 0 0 -2px
+  border: 2px solid $header-drop-down-border-color
+  background: white
+  // Overwrite Selct2's width calculations
+  width: 396px !important
+
+  @include default-font($header-drop-down-projects-search-font-color, 13px)
+  li
+    padding: 0 10px
+    font-size: 15px
+
+  .select2-search
+    margin: 1px 0 0 0
+    color: #b3b3b3
+    border-top: 1px solid #D9D9D9
+    border-bottom: 1px solid #D9D9D9
+
+    &:before
+      color: #b3b3b3
+      top: 21px
+      right: 25px
+      font-size: 14px
+
+  .select2-results
+    margin: 6px 0
+    padding: 0
+
+    .select2-highlighted
+      @include varprop(background, drop-down-selected-bg-color, !important)
+      border-radius: 0 !important
+      font-weight: normal !important
+      @include varprop(color, drop-down-selected-font-color)
+      &:hover
+        @include varprop(background, drop-down-hover-bg-color, !important)
+        @include varprop(color, drop-down-hover-font-color, !important)
+
+  // Search input
+  input.project-menu-autocomplete--input
+    margin: 12px 10px
+    padding: 0px 32px 0px 10px
+    border: 1px solid #D9D9D9
+    box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.1)
+    box-sizing: border-box
+    width: calc(100% - 20px)
+    height: 2.125rem
+    background: $header-drop-down-projects-search-input-bg-color
+
+  // Lens icon on the right
+  .project-menu-autocomplete--search-icon
+    position: absolute
+    color: #b3b3b3
+    top: 18px
+    right: 20px
+    font-size: 14px
+
+  // Override top menu height
+  ul.project-menu-autocomplete--results
+    max-height: 55vh
+    overflow-y: auto
