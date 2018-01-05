@@ -75,7 +75,6 @@ class ::Query::Results
       .where(query.statement)
       .where(options[:conditions])
       .includes(all_includes)
-      .joins(all_joins)
       .order(order_option)
       .references(:projects)
   end
@@ -142,10 +141,6 @@ class ::Query::Results
     (%i(status project) +
       includes_for_columns(include_columns) +
       (options[:include] || [])).uniq
-  end
-
-  def all_joins
-    query.sort_criteria_columns.map { |column, _direction| column.sortable_join }.compact
   end
 
   def includes_for_columns(column_names)
