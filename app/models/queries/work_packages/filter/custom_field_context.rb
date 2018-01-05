@@ -30,7 +30,6 @@
 
 module Queries::WorkPackages::Filter::CustomFieldContext
   class << self
-
     def custom_field_class
       ::WorkPackageCustomField
     end

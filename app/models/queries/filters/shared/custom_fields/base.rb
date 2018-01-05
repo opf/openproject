@@ -111,9 +111,8 @@ module Queries::Filters::Shared
       end
 
       def error_messages
-        messages = errors
-          .full_messages
-          .join(" #{I18n.t('support.array.sentence_connector')} ")
+        messages = errors.full_messages
+                         .join(" #{I18n.t('support.array.sentence_connector')} ")
 
         human_name + I18n.t(default: ' %<message>s', message: messages)
       end
@@ -139,13 +138,11 @@ module Queries::Filters::Shared
       end
 
       def invalid_custom_field_globally?
-        !self.custom_field_context.custom_fields(project)
-          .exists?(custom_field.id)
+        !custom_field_context.custom_fields(project).exists?(custom_field.id)
       end
 
       def invalid_custom_field_for_project?
-        !self.custom_field_context.custom_fields(project)
-          .map(&:id).include? custom_field.id
+        !custom_field_context.custom_fields(project).map(&:id).include? custom_field.id
       end
     end
   end

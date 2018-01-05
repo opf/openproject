@@ -59,7 +59,6 @@ describe 'filter me value', js: true do
         query
       end
 
-
       it 'shows an error visiting a query with a me value' do
         wp_table.visit_query assignee_query
         wp_table.expect_notification(type: :error,
@@ -108,20 +107,20 @@ describe 'filter me value', js: true do
   end
 
   describe 'custom_field of type user' do
-    let(:custom_field) {
+    let(:custom_field) do
       FactoryGirl.create(
         :work_package_custom_field,
         name: 'CF user',
         field_format: 'user',
         is_required: false
       )
-    }
+    end
     let(:type_task) { FactoryGirl.create(:type_task, custom_fields: [custom_field]) }
-    let(:project) {
+    let(:project) do
       FactoryGirl.create(:project,
                          types: [type_task],
                          work_package_custom_fields: [custom_field])
-    }
+    end
 
     let(:cf_accessor) { "cf_#{custom_field.id}" }
     let(:cf_accessor_frontend) { "customField#{custom_field.id}" }
@@ -151,7 +150,6 @@ describe 'filter me value', js: true do
 
         query
       end
-
 
       it 'shows an error visiting a query with a me value' do
         wp_table.visit_query assignee_query

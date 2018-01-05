@@ -33,7 +33,6 @@ require_relative 'base'
 module Queries::Filters::Shared
   module CustomFields
     class Bool < Base
-
       def allowed_values
         [
           [I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],

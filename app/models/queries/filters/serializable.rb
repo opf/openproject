@@ -55,8 +55,8 @@ module Queries
         { name: name, operator: operator, values: values }
       end
 
-      def ==(filter)
-        filter.attributes_hash == attributes_hash
+      def ==(other)
+        other.attributes_hash == attributes_hash
       end
 
       protected

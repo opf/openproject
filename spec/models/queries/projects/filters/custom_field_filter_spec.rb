@@ -136,7 +136,6 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
   end
 
   describe '#type' do
-
     context 'integer' do
       let(:cf_accessor) { "cf_#{int_project_custom_field.id}" }
 
@@ -425,8 +424,7 @@ describe Queries::Projects::Filters::CustomFieldFilter, type: :model do
         before do
           allow(Principal)
             .to receive(:where)
-                  .with(id: [user1.id.to_s, user2.id.to_s])
-                  .and_return([user1, user2])
+            .and_return([user1, user2])
 
           instance.values = [user1.id.to_s, user2.id.to_s]
         end

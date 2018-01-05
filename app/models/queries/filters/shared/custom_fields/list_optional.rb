@@ -33,7 +33,6 @@ require_relative 'base'
 module Queries::Filters::Shared
   module CustomFields
     class ListOptional < Base
-
       def value_objects
         case custom_field.field_format
         when 'version'

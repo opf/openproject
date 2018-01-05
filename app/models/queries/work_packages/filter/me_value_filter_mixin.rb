@@ -31,7 +31,6 @@
 ##
 # Mixin to a filter or strategy
 module Queries::WorkPackages::Filter::MeValueFilterMixin
-
   ##
   # Return whether the current values object has a me value
   def has_me_value?

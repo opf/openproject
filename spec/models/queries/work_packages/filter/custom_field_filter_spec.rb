@@ -206,7 +206,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     context 'float' do
       let(:cf_accessor) { "cf_#{float_wp_custom_field.id}" }
 
-        it 'is integer for a float' do
+      it 'is integer for a float' do
         expect(instance.type)
           .to eql(:float)
       end
@@ -282,7 +282,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     end
   end
 
-  describe '#allowed_values' do   
+  describe '#allowed_values' do
     context 'integer' do
       let(:cf_accessor) { "cf_#{int_wp_custom_field.id}" }
 
@@ -291,7 +291,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
           .to be_nil
       end
     end
-    
+
     context 'float' do
       let(:cf_accessor) { "cf_#{float_wp_custom_field.id}" }
 
@@ -300,7 +300,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
           .to be_nil
       end
     end
-    
+
     context 'text' do
       let(:cf_accessor) { "cf_#{text_wp_custom_field.id}" }
 
@@ -309,7 +309,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
           .to be_nil
       end
     end
-    
+
     context 'list' do
       let(:cf_accessor) { "cf_#{list_wp_custom_field.id}" }
 
@@ -350,7 +350,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
           .to match_array bogus_return_value
       end
     end
-    
+
     context 'date' do
       let(:cf_accessor) { "cf_#{date_wp_custom_field.id}" }
 
@@ -359,7 +359,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
           .to be_nil
       end
     end
-    
+
     context 'bool' do
       let(:cf_accessor) { "cf_#{bool_wp_custom_field.id}" }
 
@@ -369,7 +369,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
                            [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
       end
     end
-    
+
     context 'string' do
       let(:cf_accessor) { "cf_#{string_wp_custom_field.id}" }
 

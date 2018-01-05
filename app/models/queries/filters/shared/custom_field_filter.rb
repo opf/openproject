@@ -53,7 +53,7 @@ module Queries::Filters::Shared::CustomFieldFilter
         cf_accessor = custom_field_accessor(cf)
         begin
           create!(name: cf_accessor, custom_field: cf)
-        rescue ::Queries::Filters::InvalidError => e
+        rescue ::Queries::Filters::InvalidError
           Rails.logger.error "Failed to map custom field filter for #{cf_accessor} (CF##{cf.id}."
           nil
         end
@@ -78,7 +78,6 @@ module Queries::Filters::Shared::CustomFieldFilter
 
       from_custom_field!(custom_field: custom_field, **options)
     end
-
 
     ##
     # Create a filter instance for the given custom field
