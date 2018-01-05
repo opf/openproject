@@ -39,7 +39,7 @@ See doc/COPYRIGHT.md for more details.
       <% end %>
     </ul>
     <p>
-      <%= link_to l(:label_work_package_view_all), {:controller => '/work_packages', :action => 'index', :project_id => project}, :class => 'button -highlight' %>
+      <%= link_to l(:label_work_package_view_all), {:controller => '/work_packages', :action => 'index', :project_id => project}, :class => 'button -highlight-inverted' %>
       <% if User.current.allowed_to?(:view_gantt, project, :global => true) %>
         <%= link_to(l(:label_gantt), {:controller => '/gantts', :action => 'show', :project_id => project}, :class => 'button -highlight') %>
       <% end %>

@@ -32,11 +32,6 @@ See doc/COPYRIGHT.md for more details.
   <div class="news overview">
     <%= render :partial => 'news/news', :collection => recent_news %>
     <p>
-      <%= link_to l(:label_news_view_all),
-                  {:controller => 'news',
-                  :action => 'index',
-                  :project_id => project},
-                  :class => 'button -highlight' %>
       <%= link_to new_project_news_path(@project),
             { class: 'button -alt-highlight',
               title: t(:label_news_new),
@@ -44,6 +39,11 @@ See doc/COPYRIGHT.md for more details.
           <%= op_icon('button--icon icon-add') %>
           <span class="button--text"><%= l('activerecord.models.news') %></span>
         <% end %>
+      <%= link_to l(:label_news_view_all),
+                  {:controller => 'news',
+                   :action => 'index',
+                   :project_id => project},
+                  :class => 'button -highlight-inverted' %>
     </p>
   </div>
 <% end %>
