@@ -122,13 +122,10 @@ See doc/COPYRIGHT.rdoc for more details.
               <td class="buttons">
                 <% items = project_more_menu_items(project) %>
                 <% if items.any?  %>
-                  <%# toolbar and legacy-actions-more are only for styling purposes.
-                      Because of multiple diverging implementations of dropdowns the
-                      normal dropdown classes cannot be used any more without making special rules %>
-                  <ul class="toolbar project-actions">
+                  <ul class="project-actions">
                     <li aria-haspopup="true" title="<%= t(:label_open_menu) %>" class="drop-down">
                       <a class="icon icon-show-more-horizontal context-menu--icon" title="<%= t(:label_open_menu) %>" href></a>
-                      <ul style="display:none;" class="legacy-actions-more dropdown-menu">
+                      <ul style="display:none;" class="menu-drop-down-container">
                         <% items.each do |item| %>
                           <li>
                             <%= link_to(*item) %>

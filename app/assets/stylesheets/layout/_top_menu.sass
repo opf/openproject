@@ -58,14 +58,14 @@
     color: $header-search-field-font-color
   :-moz-placeholder
     color: $header-search-field-font-color
-  ul
+  .menu_root
     margin: 0
     padding: 0
     float: left
     height: $header-height
     border-top: 0
     position: relative
-  li
+  li.drop-down
     float: left
     list-style-type: none
     white-space: nowrap
@@ -78,49 +78,27 @@
       zoom: 1
       @include varprop(color, header-item-font-color)
       @include varprop(font-size, header-item-font-size)
-      font-weight: normal
       text-decoration: none
-      padding: 0 15px 0 15px
+      padding: 0 15px
 
     > a:hover
       @include varprop(background, header-item-bg-hover-color)
       @include varprop(color, header-item-font-hover-color)
 
     > ul
-      top: $header-height + $header-border-bottom-width
-      display: none
-      position: absolute
-      height: auto
       min-width: 270px
-      left: -1px
-      z-index: 20
+      padding: 6px 0
       border: 2px solid $header-drop-down-border-color
       border-top: 0
       background-color: $header-drop-down-bg-color
       li
         float: none
-        white-space: nowrap
-        a
-          height: 32px
-          line-height: 32px
-          font-size: 1rem
     > ul.drop-down--projects
       min-width: 400px
-  li.open > a
-    position: relative
-    top: 0
-    z-index: 21
+      left: 0
+      box-shadow: none
 
   li.drop-down
-    select
-      width: 100%
-
-    .button--dropdown-indicator
-      &:before
-        @include icon-font-common
-        font-size: 10px
-        padding: 0 0 0 9px
-        @extend .icon-pulldown:before
     &:hover
       @include varprop(background-color, header-item-bg-hover-color)
       > a
@@ -142,13 +120,9 @@
     li
       > a
         color: $header-drop-down-item-font-color
-        padding: 0 15px
         &:hover
           @include varprop(background, drop-down-hover-bg-color)
           @include varprop(color, drop-down-hover-font-color)
-
-    > ul
-      padding: 6px 0
 
   li.last-child > ul,
   .drop-down--help,
@@ -258,8 +232,6 @@ input.top-menu-search--input
   padding-top: 0
   .top-menu-items-right
     float: right
-#top-menu.open
-  z-index: 5
 
 #select2-drop.project-search-results
   margin: 0 0 0 -2px
@@ -344,7 +316,7 @@ input.top-menu-search--input
 #account-nav-right
   .drop-down.last-child
     .avatar
-      // To accommodate the padding of the help icon which exisits because of the circle
+      // To accommodate the padding of the help icon which exists because of the circle
       margin-top: -5px
   .icon-help:before
     border-width: 2px

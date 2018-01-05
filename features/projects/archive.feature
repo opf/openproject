@@ -43,7 +43,7 @@ Feature: Navigating to reports page
     And I should see "Projects"
     And I hover over "tbody > tr:nth-of-type(1)"
     And I click on "Open menu" within "tbody > tr:nth-of-type(1)"
-    And I click on "Archive" within ".dropdown-menu"
+    And I click on "Archive" within ".menu-drop-down-container"
     And I confirm popups
     Then I should be on the projects page
     And I should not see "ParentProject"
@@ -58,7 +58,7 @@ Feature: Navigating to reports page
     And I click on "Apply"
     And I hover over "tbody > tr:nth-of-type(1)"
     And I click on "Open menu" within "tbody > tr:nth-of-type(1)"
-    And I click on "Unarchive" within ".dropdown-menu"
+    And I click on "Unarchive" within ".menu-drop-down-container"
     Then I should be on the projects page
     And I should see "ParentProject"
     When I go to the page of the project called "ParentProject"
