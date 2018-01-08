@@ -30,7 +30,9 @@
 
 module Queries::Filters::Shared
   module CustomFields
-    class Base < Queries::Filters::Serializable
+    class Base < Queries::Filters::Base
+      include Queries::Filters::Serializable
+
       attr_reader :custom_field
       attr_reader :custom_field_context
 

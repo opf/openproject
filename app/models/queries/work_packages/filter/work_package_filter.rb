@@ -28,7 +28,9 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Serializable
+class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Base
+  include ::Queries::Filters::Serializable
+
   self.model = WorkPackage
 
   def human_name

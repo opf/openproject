@@ -28,21 +28,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require_relative 'base'
-
 module Queries
   module Filters
-    class Serializable < Base
+    module Serializable
       include ActiveModel::Serialization
+      extend ActiveSupport::Concern
 
-      # (de-)serialization
-      def self.from_hash(filter_hash)
-        filter_hash.keys.map do |field|
-          begin
-            create!(name, filter_hash[field])
-          rescue ::Queries::Filters::InvalidError
-            Rails.logger.error "Failed to constantize field filter #{field} from hash."
-            ::Queries::NotExistingFilter.create!(field)
+      class_methods do
+        # (de-)serialization
+        def from_hash(filter_hash)
+          filter_hash.keys.map do |field|
+            begin
+              create!(name, filter_hash[field])
+            rescue ::Queries::Filters::InvalidError
+              Rails.logger.error "Failed to constantize field filter #{field} from hash."
+              ::Queries::NotExistingFilter.create!(field)
+            end
           end
         end
       end
