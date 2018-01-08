@@ -436,6 +436,8 @@ en:
         greater_than_or_equal_to_start_date: "must be greater than or equal to the start date."
         inclusion: "is not set to one of the allowed values."
         invalid: "is invalid."
+        invalid_url: 'is not a valid URL.'
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "must be less than or equal to %{count}."
         not_a_date: "is not a valid date."
         not_a_datetime: "is not a valid date time."
@@ -656,6 +658,7 @@ en:
   button_change_password: "Change password"
   button_check_all: "Check all"
   button_clear: "Clear"
+  button_close: 'Close'
   button_collapse_all: "Collapse all"
   button_configure: "Configure"
   button_copy: "Copy"

@@ -20,8 +20,8 @@ hu:
           button on a screen.
         content_link_color: A legtöbb hivatkozás színe.
         primary_color: Fő szín.
-        primary_color_dark: Typically a darker version of the main color used for
-          hover effects.
+        primary_color_dark: Általában az alap szín sötétebb verzióját használjuk a
+          hover effekthez.
         header_bg_color: A fejléc háttérszíne.
         header_item_bg_hover_color: Kattintható fejléc háttérszíne egér hatására.
         header_item_font_color: Kattintható fejléc betűszíne.
@@ -228,8 +228,10 @@ hu:
           nem tud bejelentkezni a jelenlegi hozzáférésével. Ha úgy dönt, hogy a felhasználó
           az alkalmazást újra hasznáhatja, akkor azt újra megteheti.
       login_verification:
-        other: Adja meg %{name} bejelentkezési nevét a törlés megerősítéséhez!
-        self: Adja meg az Ön %{name} bejelentkezési nevét a törlés megerősítéséhez!
+        other: Add meg a felhasználó nevet %{name}, hogy megerősítsd a törlést. Amikor
+          elküldöd, meg kell erősítened a jelszavadat.
+        self: Add meg a felhasználó neved %{name}, hogy megerősítsd a törlést. Amikor
+          elküldöd, meg kell erősítened a jelszavadat.
     error_inactive_activation_by_mail: 'A felhasználói hozzáférésed még nem aktív.
       Felhasználói fiókjának aktiválásához kattintson az e-mailben kapott linkre.
 
@@ -352,9 +354,9 @@ hu:
         hide_mail: Rejtsd el az email címem
         impaired: Kisegítő mód
         time_zone: Idő zóna
-        auto_hide_popups: Auto-hide success notifications
-        warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
-          changes
+        auto_hide_popups: Siker értesítések automatikus elrejtése
+        warn_on_leaving_unsaved: Figyelmeztess, ha úgy hogyom el a munkacsomagot,
+          hogy nem mentett változások vannak rata
       version:
         effective_date: Lejárati időpont
         sharing: Megosztás
@@ -418,14 +420,16 @@ hu:
         smaller_than_or_equal_to_max_length: a maximális hossznak kisebbnek vagy egyenlőnek
           kell lennie.
         greater_than_start_date: nagyobbnak kell lennie, mint a kezdő dátum.
-        greater_than_or_equal_to_start_date: must be greater than or equal to the
-          start date.
+        greater_than_or_equal_to_start_date: nagyobbnak vagy egyenlőnek kell lennie,
+          mint a kezdő dátum.
         inclusion: nem a megengedett értékek egyike lett beállítva.
         invalid: érvénytelen.
+        invalid_url: nem érvényes URL.
+        invalid_url_scheme: 'nem támogatott protokoll (támogatott: %{allowed_schemes}).'
         less_than_or_equal_to: kisebbnek vagy egyenlőnek kell lennie mint, %{count}.
         not_a_date: nem érvényes dátum.
         not_a_datetime: ez nem érvényes dátum.
-        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
+        not_an_iso_date: nem érvényes dátum. A szükséges formátum ÉÉÉÉ-HH-NN.
         not_a_number: ez nem egy szám.
         not_an_integer: ez nem egy szám.
         not_same_project: nem azonos projekthez tartozik.
@@ -444,7 +448,7 @@ hu:
         custom_field:
           at_least_one_custom_option: Minimum egy opciónak elérhetőnek kell lennie.
         enterprise_token:
-          unreadable: can't be read. Are you sure it is a support token?
+          unreadable: nem olvasható. Biztos vagy benne, hogy ez támogatási token?
         parse_schema_filter_params_service:
           attributes:
             base:
@@ -462,7 +466,7 @@ hu:
         query:
           attributes:
             project:
-              error_not_found: not found
+              error_not_found: nem található
             public:
               error_unauthorized: "- A felhasználó nem jogosult nyilvános lekérdezéseket
                 létrehozni."
@@ -470,7 +474,7 @@ hu:
             You cannot activate both.
           filters:
             custom_fields:
-              inexistent: There is no custom field for the filter.
+              inexistent: Nincs egyedi mező ehhez a szűrőhöz.
               invalid: The custom field is not valid in the given context.
         relation:
           typed_dag:
@@ -501,8 +505,8 @@ hu:
               cannot_be_in_another_project: nem lehet egy másik projektben.
               not_a_valid_parent: érvénytelen.
             start_date:
-              violates_relationships: can only be set to %{soonest_start} or later
-                so as not to violate the work package's relationships.
+              violates_relationships: csak %{soonest_start} vagy későbbre lehet állítani,
+                hogy ne okozzon problémát a munkacsomag kapcsolataiban.
             status_id:
               status_transition_invalid: érvénytelen, mert nincs érvényes átmenet
                 a régi és új felhasználói szerepkör állapota között.
@@ -542,7 +546,7 @@ hu:
             status:
               invalid_on_create: ez nem egy érvényes állapot, az új felhasználó számára.
             auth_source:
-              error_not_found: not found
+              error_not_found: nem található
         member:
           principal_blank: Kérem, válasszon legalább egy felhasználót vagy csoportot.
           role_blank: kérem, válasszon legalább egy szerepkört.
@@ -648,6 +652,7 @@ hu:
   button_change_password: Jelszó változtatás
   button_check_all: Az összes kijelölése
   button_clear: Törlés
+  button_close: Bezár
   button_collapse_all: Az összes bezárása
   button_configure: Beállít
   button_copy: Másol
@@ -903,8 +908,8 @@ hu:
     upsale:
       form_configuration:
         description: 'Customize the form configuration with these additional features:'
-        add_groups: Add new attribute groups
-        rename_groups: Rename attributes groups
+        add_groups: Attribútum-csoport hozzáadása
+        rename_groups: Attribútum-csoportok átnevezése
       project_filters:
         description_html: Egyedi mezők szűrése és rendszerezése %{link}
   enumeration_activities: Tevékenységek (időkövetés)
@@ -917,7 +922,7 @@ hu:
   error_can_not_delete_custom_field: Nem törölhető az egyéni mező
   error_can_not_delete_type: Ez a típus munkcsomagot  tartalmaz, és nem lehet törölni.
   error_can_not_delete_standard_type: Alap típusokat nem lehet törölni.
-  error_can_not_invite_user: Failed to send invitation to user.
+  error_can_not_invite_user: A meghívó küldése sikertelen a felhasználó részére.
   error_can_not_remove_role: Ez a szerepkör használatban van, nem lehet törölni
   error_can_not_reopen_work_package_on_closed_version: A munkacsomag lezárt verzió,
     nem lehet újra nyitni
@@ -930,9 +935,9 @@ hu:
   error_invalid_group_by: 'Nem csoportosítható e szerint: %{value}'
   error_invalid_query_column: 'Érvénytelen lekérdezési oszlop: %{value}'
   error_invalid_sort_criterion: 'Nem lehet rendezni ezen oszlop szerint: %{value}'
-  error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
-    Please reduce the number of columns.
-  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_pdf_export_too_many_columns: Túl sok oszlop lett kiválasztva a PDF exportáláshoz.
+    Kérlek csökkentsd a sorok számát.
+  error_token_authenticity: A CSRF token nem ellenőrizhető.
   error_work_package_done_ratios_not_updated: A munkacsomag a megtett arányokat nem
     frissítette.
   error_work_package_not_found_in_project: A munkacsomag nem található, vagy nem tartozik
@@ -1004,12 +1009,12 @@ hu:
       upsale:
         become_hero: Legyél egy hős!
         title: Frissítés a Vállalati Verzióra
-        description: Boost your productivity with the Enterprise Edition
+        description: Növeld a termelékenységedet a vállalati kiadással
         more_info: További információ
-        additional_features: Additional powerful premium features
-        professional_support: Professional support from the OpenProject experts
-        you_contribute: Developers need to pay their bills, too. With Enterprise Edition
-          you substantially contribute to this Open-Source community effort.
+        additional_features: További erőteljes prémium funkciók
+        professional_support: Professzionális támogatás az OpenProject szakértőktől
+        you_contribute: A fejlesztőknek is fizetni kell a számláikat. A vállalati
+          verzióval jelentősen hozzájárulsz a nyílt forráskódú közösség erőfesszítéseihez.
     links:
       upgrade_enterprise_edition: Frissítés a Vállalati Verzióra
       user_guides: Felhasználói útmutató
@@ -1230,7 +1235,7 @@ hu:
   label_in_more_than: több mint
   label_inactive: Inaktív
   label_incoming_emails: Bejövő e-mailek
-  label_includes: includes
+  label_includes: tartalmazza
   label_index_by_date: Index dátum szerint
   label_index_by_title: Index cím szerint
   label_information: Információk
@@ -1329,7 +1334,7 @@ hu:
   label_overall_activity: Általános tevékenység
   label_overall_spent_time: Teljes eltöltött idő
   label_overview: Áttekintő
-  label_part_of: part of
+  label_part_of: része
   label_password_lost: Elfelejtetted a jelszavad?
   label_password_rule_lowercase: Kisbetűk
   label_password_rule_numeric: Numerikus karakterek
@@ -1398,8 +1403,8 @@ hu:
   label_repository: Csomagtároló
   label_repository_root: Tároló gyökérkönyvtára
   label_repository_plural: Csomagtárolók
-  label_required: required
-  label_requires: requires
+  label_required: kötelező
+  label_requires: igényel
   label_responsible_for_work_packages: Én vagyok felelős ezekért a munkacsomagokért
   label_result_plural: Eredmények
   label_reverse_chronological_order: Fordított időrendi sorrendben
@@ -1414,7 +1419,7 @@ hu:
   label_role_and_permissions: Szerepkörök és engedélyek
   label_role_new: Új szerepkör
   label_role_plural: Szerepkörök
-  label_role_search: Assign role to new members
+  label_role_search: Szerep hozzárendelése az új tagokhoz
   label_scm: SCM
   label_search: Keresés
   label_search_titles_only: Keresés csak a címekben
@@ -1508,7 +1513,7 @@ hu:
   label_wiki_edit: Wiki szerkesztés
   label_wiki_edit_plural: Wiki szerkesztések
   label_wiki_page_attachments: Wiki oldal mellékletek
-  label_wiki_page_id: Wiki page ID
+  label_wiki_page_id: Wiki oldal azonosító
   label_wiki_navigation: Wiki navigáció
   label_wiki_page: Wiki oldal
   label_wiki_page_plural: Wiki oldalak
@@ -1521,7 +1526,7 @@ hu:
   label_work_package_attachments: Munkacsomag mellékletek
   label_work_package_category_new: Új kategória
   label_work_package_category_plural: Munkacsomag kategóriák
-  label_work_package_hierarchy: Work package hierarchy
+  label_work_package_hierarchy: Munkacsomag hierarchia
   label_work_package_new: Új munkacsomag
   label_work_package_note_added: Munkacsomag megjegyzés hozzáadva
   label_work_package_edit: Munkacsomag %{name} szerkesztése
@@ -1627,8 +1632,8 @@ hu:
     !
   noscript_heading: JavaScript le van tiltva
   noscript_learn_more: További információ
-  notice_accessibility_mode: The accessibility mode can be enabled in your [account
-    settings](url).
+  notice_accessibility_mode: A kisegítő lehetőségek mód bekapcsolható a [felhasználói
+    fiók beállításaiban](url).
   notice_account_activated: A fiók aktiválva van. Most már bejelentkezhet.
   notice_account_already_activated: A fiók már aktiválva van.
   notice_account_invalid_token: Érvénytelen aktivációs token
@@ -1647,8 +1652,8 @@ hu:
   notice_account_register_done: Fiók létrehozása sikeresen megtörtént. A fiók aktiválásához
     kattintson az emilben kapott linkre.
   notice_account_unknown_email: Ismeretlen felhasználó.
-  notice_account_update_failed: Account setting could not be saved. Please have a
-    look at your account page.
+  notice_account_update_failed: A felhasználói beállítások nem menthetők. Kérem, vessen
+    egy pillantást a fiók oldalra.
   notice_account_updated: A hozzáférése volt sikeresen frissítve.
   notice_account_wrong_password: Hibás jelszó
   notice_account_registered_and_logged_in: Üdvözöljük a fiókja aktiválva van. Most
@@ -1679,7 +1684,7 @@ hu:
   notice_locking_conflict_reload_page: Töltse újra az oldalt, tekintse át a módosításokat,
     és a frissítse újra.
   notice_member_added: Hozzáadva %{name} projekthez.
-  notice_members_added: Added %{number} users to the project.
+  notice_members_added: "%{number} felhasználó hozzáadva a projekthez."
   notice_member_removed: "%{user} eltávolítva a projektből."
   notice_member_deleted: "%{user} felhasználó el lett távolítva a projektből és törölve
     lett."
@@ -1708,8 +1713,8 @@ hu:
   notice_logged_out: Kijelentkeztél.
   notice_wont_delete_auth_source: Az autentikációs mód nem törölhető, amíg valamelyik
     felhasználó azt használja.
-  notice_project_cannot_update_custom_fields: 'You cannot update the project''s available
-    custom fields. The project is invalid: %{errors}'
+  notice_project_cannot_update_custom_fields: 'Nem tudod firssíteni a projekt egyedi
+    mezőit. A projekt érvénytelen: %{errors}'
   notice_attachment_migration_wiki_page: 'Ez az oldal automatikusan jött létre az
     OpenProject frissítésekor. Tartalmazza az összes mellékletet az alábbiakhoz: %{container_type}
     %{container_name}.
@@ -1738,8 +1743,8 @@ hu:
     heading_getting_started: Áttekintés
     text_getting_started_description: Gyors áttekintés a projekt menedzsmentről és
       csapatmunkáról az OpenProjecttel.
-    text_show_again: You can restart this video from the help menu
-    welcome: Welcome to OpenProject
+    text_show_again: Újra tudod indítani ezt a videót a segítség menüből
+    welcome: Üdvözöl az OpenProject
   permission_add_work_package_notes: Megjegyzések hozzáadása
   permission_add_work_packages: Munkacsomag hozzáadása (lehetővé teszi, hogy hozzáadjunk
     mellékleteket minden munkacsomaghoz)
@@ -1802,7 +1807,7 @@ hu:
   permission_view_work_package_watchers: A megfigyelők listájának megtekintése
   permission_view_work_packages: Munkacsomagok megtekintése
   permission_view_messages: Üzenetek megtekintése
-  permission_view_members: View members
+  permission_view_members: Tagok megtekintése
   permission_view_project_associations: Projekt függőségeinek megtekintése
   permission_view_reportings: Jelentések megtekintése
   permission_view_time_entries: Az eltöltött idő megtekintése
@@ -1824,7 +1829,7 @@ hu:
       warning_two: A projekthez tartozó hivatkozások már nem működnek.
       title: Módosítsa a projekt azonosítóját
     archive:
-      are_you_sure: Are you sure you want to archive the project '%{name}'?
+      are_you_sure: Biztosan szeretnéd arhiválni a projektet '%{name}'?
   project_module_activity: Tevékenység
   project_module_boards: fórumok
   project_module_calendar: Naptár
@@ -1922,7 +1927,7 @@ hu:
           klónozásra kerül.
         path_encoding: 'Git útvonal kódolásának felülírása (Alapértelmezett: UTF-8)'
       local_title: Hivatkozás egy meglévő helyi tárolóra
-      local_url: Local URL
+      local_url: Helyi URL
       local_introduction: Ha rendelkezik meglévő helyi Git tárolóval, akkor az OpenProject
         alkalmazáson belül kapcsolódhat hozzá.
       managed_introduction: Engedélyezze, hogy az OpenProject automatikusan létrehozza
@@ -1958,7 +1963,7 @@ hu:
       existing_title: Meglévő Subversion tároló
       existing_introduction: Ha rendelkezik meglévő Subversion tárolóval, akkor az
         OpenProject segítségével kapcsolódhat hozzá az alkalmazáson belül.
-      existing_url: Existing URL
+      existing_url: Létező URL
       instructions:
         managed_url: Ez egy hivatkozás kezelt (helyi) Subversion tárolóra.
         url: 'Adja meg az tároló URL-jét. Ez akár egy helyi tároló is lehet (kezdődő
@@ -1976,10 +1981,10 @@ hu:
     url: Tároló URL-címe
     warnings:
       cannot_annotate: Ez a fájl nem annotálható.
-  search_input_placeholder: Search ...
-  setting_email_delivery_method: Email delivery method
+  search_input_placeholder: Keresés ...
+  setting_email_delivery_method: E-mail küldés módja
   setting_sendmail_location: Location of the sendmail executable
-  setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_smtp_enable_starttls_auto: Automatikus STARTTLS, ha rendelkezésre áll
   setting_smtp_address: SMTP-kiszolgáló
   setting_smtp_port: SMTP-port
   setting_smtp_authentication: SMTP-hitelesítés
@@ -2129,7 +2134,7 @@ hu:
   text_caracters_maximum: legfeljebb %{count} hosszúságú karakter lehet.
   text_caracters_minimum: Legalább %{count} karakter hosszúnak kell lennie.
   text_comma_separated: Többszörös érték megengedett (vesszővel elválasztva).
-  text_comment_wiki_page: 'Comment to wiki page: %{page}'
+  text_comment_wiki_page: 'Megjegyzés a wiki oldalhoz: %{page}'
   text_custom_field_possible_values_info: Az egyes értékek külön sorban
   text_custom_field_hint_activate_per_project: 'Egyéni mezők használatakor: tartsa
     szem előtt, hogy az egyéni mezőket minden projektben külön aktiválni kell.
@@ -2174,7 +2179,7 @@ hu:
   text_hint_date_format: Adjon meg egy dátumot éééé-hh-nn formájában Más formátumok
     nem megfelelő dátumot eredményezhetnek.
   text_hint_disable_with_0: 'Megjegyzés: 0-val kikapcsol'
-  text_hours_between: Between %{min} and %{max} hours.
+  text_hours_between: "%{min} és %{max} óra között."
   text_work_package_added: Munkacsomag %{id} jelentés %{author} által készitve.
   text_work_package_category_destroy_assignments: Távolítsa el kategória hozzárendeléseket
   text_work_package_category_destroy_question: Egyes munkacsomagok (%{count}) ehhez
@@ -2240,8 +2245,8 @@ hu:
   text_unallowed_characters: Nem engedélyezett karakterek
   text_user_invited: A felhasználót meghívták és a regisztráció folyamatban van.
   text_user_wrote: "%{value} írta:"
-  text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
-    lost if you leave this page.
+  text_warn_on_leaving_unsaved: A munkacsomag nem mentett szöveget tartalmaz, ami
+    elveszik ha elhagyod ezt az oldalt.
   text_wiki_destroy_confirmation: Biztosan törli ezt a wikit és annak tartalmát?
   text_wiki_page_destroy_children: A gyermek oldalak és azok aloldalainak törlése
   text_wiki_page_destroy_question: Ez az oldal  %{descendants} gyermek oldalakkal
@@ -2252,7 +2257,7 @@ hu:
   text_workflow_edit: Válassza ki a szerepkört, és a típust a munkafolyamat szerkesztéséhez
   text_zoom_in: Nagyítás
   text_zoom_out: Kicsinyítés
-  text_setup_mail_configuration: Configure your email provider
+  text_setup_mail_configuration: Állítsd be az e-mail szolgáltatódat
   time:
     am: Délelött
     formats:
@@ -2567,7 +2572,7 @@ hu:
       code_409: Nem sikerült frissíteni a forrást az ütköző módosítások miatt.
       code_500: Belső hiba történt.
       expected:
-        date: YYYY-MM-DD (ISO 8601 date only)
+        date: ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)
         duration: ISO 8601 duration
       invalid_content_type: A várt CONTENT-TYPE '%{content_type}', a kapott '%{actual}'.
       invalid_format: 'Érvénytelen formátum tulajdonság "%{property}": várható formátum

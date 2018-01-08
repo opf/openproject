@@ -235,8 +235,10 @@ vi:
           thành một người sử dụng của ứng dụng này một lần nữa, bạn có thể làm như
           vậy bằng cách sử dụng các phương tiện ứng dụng này cho phép.
       login_verification:
-        other: Enter the login %{name} to verify the deletion.
-        self: Enter your login %{name} to verify the deletion.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Tài khoản của bạn đã không được nêu ra được
       kích hoạt. Để kích hoạt tài khoản của bạn, nhấp vào liên kết được gửi đến bạn.
 
@@ -426,6 +428,8 @@ vi:
         greater_than_or_equal_to_start_date: phải lớn hơn hoặc bằng ngày bắt đầu.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -652,6 +656,7 @@ vi:
   button_change_password: Thay đổi mật khẩu
   button_check_all: Đánh dấu tất cả
   button_clear: Xóa
+  button_close: Đóng
   button_collapse_all: Thu gọn tất cả
   button_configure: Thiết lập
   button_copy: Sao chép

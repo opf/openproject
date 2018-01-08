@@ -229,8 +229,10 @@ ar:
           إذا أردت أن تصبح مستخدمًا للتطبيق مرة أخرى، بإمكانك ذلك مستخدمًا الوسائل
           التي يمنحها هذا التطبيق.
       login_verification:
-        other: أدخل تسجيل الدخول إلى %{name} للتحقق من الحذف.
-        self: أدخل تسجيل الدخول إلى%{name} للتحقق من الحذف.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'حسابك لم يُفعّل حتى الآن. لتفعيل حسابك، اضغط
       على الرابط الذي تم إرساله بالبريد الالكتروني إليك.
 
@@ -419,6 +421,8 @@ ar:
         greater_than_or_equal_to_start_date: يجب أن يكون أكبر أو يساوي تاريخ البدء.
         inclusion: لم يتم تعيين إلى واحدة من القيم المسموح بها.
         invalid: غير صالح.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: يجب أن يكون أقل من أو يساوي %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -660,6 +664,7 @@ ar:
   button_change_password: تغيير كلمة المرور
   button_check_all: اختر الكل
   button_clear: إزالة
+  button_close: Close
   button_collapse_all: طَيْ الجميع
   button_configure: تكوين
   button_copy: انسخ

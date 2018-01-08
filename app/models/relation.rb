@@ -155,6 +155,19 @@ class Relation < ActiveRecord::Base
       .hierarchy_or_reflexive
   end
 
+  def self.tree_of(work_package)
+    root_id = to_root(work_package)
+              .select(:from_id)
+
+    hierarchy
+      .where(from_id: root_id)
+  end
+
+  def self.sibling_of(work_package)
+    hierarchy
+      .where(from_id: work_package.parent_id)
+  end
+
   def relation_type=(type)
     attribute_will_change!('relation_type') if relation_type != type
     @relation_type = type

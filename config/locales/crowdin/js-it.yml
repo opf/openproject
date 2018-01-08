@@ -14,7 +14,7 @@ it:
     button_add_watcher: Aggiungi osservatore
     button_back_to_list_view: Torna alla visualizzazione in lista
     button_cancel: Cancella
-    button_close: Close
+    button_close: Chiuso
     button_check_all: Seleziona tutti
     button_configure-form: Configura modulo
     button_confirm: Conferma
@@ -108,7 +108,7 @@ it:
     label_contains: contiene
     label_created_on: creato il
     label_edit_comment: Modifica questo commento
-    label_edit_status: Edit the status of the work package
+    label_edit_status: Modifica lo stato della macro-attività
     label_equals: è
     label_expand: Espandi
     label_expanded: espanso
@@ -146,7 +146,7 @@ it:
     label_previous: Precedente
     label_per_page: 'Per pagina:'
     label_please_wait: Attendere
-    label_visibility_settings: Visibility settings
+    label_visibility_settings: Impostazioni di visibilità
     label_quote_comment: Annota questo commento
     label_reset: Reimposta
     label_remove_columns: Rimuovi le colonne selezionate
@@ -164,8 +164,8 @@ it:
     label_subject: Soggetto
     label_this_week: questa settimana
     label_today: oggi
-    label_activity_show_only_comments: Show activities with comments only
-    label_activity_show_all: Show all activities
+    label_activity_show_only_comments: Mostra solo le attività con commenti
+    label_activity_show_all: Mostra tutte le attività
     label_total_progress: "%{percent}% Progresso totale"
     label_visible_for_others: Pagina visibile per gli altri
     label_updated_on: aggiornato il
@@ -187,8 +187,8 @@ it:
     label_drop_files: Trascina i file qui
     label_drop_files_hint: o fai clic per aggiungere file
     label_add_attachments: Aggiungi allegati
-    label_formattable_attachment_hint: Attach and link files by dropping on this field,
-      or pasting from the clipboard.
+    label_formattable_attachment_hint: Allega e collega i file trascinandoli in questo
+      campo, o incollandoli dagli appunti.
     label_remove_file: Cancella %{fileName}
     label_remove_watcher: Rimuovi watcher %{name}
     label_remove_all_files: Elimina tutti i file
@@ -204,7 +204,7 @@ it:
     label_validation_error: 'La macro-attività non può essere salvata a causa dei
       seguenti errori:'
     help_texts:
-      show_modal: Show attribute help text entry
+      show_modal: Mostra l'immissione di testo della guida dell'attributo
     password_confirmation:
       field_description: È necessario inserire la password dell'account per confermare
         la modifica.
@@ -216,15 +216,15 @@ it:
         previous: Torna alla pagina precedente
     placeholders:
       default: "-"
-      subject: Enter subject here
+      subject: Inserisci l'oggetto qui
       selection: Si prega di selezionare
       relation_description: Clicca per aggiungere una descrizione per la relazione
     project:
-      required_outside_context: You are not within a project context. Please choose
-        the project context first in order to select type and status
-      context: Project context
-      work_package_belongs_to: This work package belongs to project %{projectname}.
-      click_to_switch_context: Open this work package in that project.
+      required_outside_context: Non sei all'interno di un contesto di progetto. Scegli
+        prima il contesto del progetto per selezionare il tipo e lo stato
+      context: Contesto del progetto
+      work_package_belongs_to: Questa macro-attività appartiene al progetto %{projectname}.
+      click_to_switch_context: Apri questa macro-attività nel progetto.
     text_are_you_sure: Sei sicuro?
     types:
       attribute_groups:
@@ -315,16 +315,17 @@ it:
     text_query_destroy_confirmation: Sei sicuro di voler eliminare le query selezionate?
     text_attachment_destroy_confirmation: Sei sicuro di che voler eliminare l'allegato?
     timelines:
-      gantt_chart: Gantt chart
+      gantt_chart: Diagramma di Gantt
       labels:
-        bar: Bar labels
-        left: Left
-        right: Right
-        farRight: Far right
-        showNone: "-- No label --"
-        description: 'Select the attributes you want to be shown in the respective
-          positions of the Gantt chart at all times. Note that when hovering an element,
-          its date labels will be shown instead of these attributes.
+        bar: Etichette di barra
+        left: Sinistra
+        right: Destra
+        farRight: Estrema destra
+        showNone: "-- Nessuna etichetta --"
+        description: 'Seleziona gli attributi che desideri mostrare nelle rispettive
+          posizioni del diagramma di Gantt in ogni momento. Nota che al passaggio
+          del mouse su un elemento, verranno visualizzate le etichette delle date
+          anziché questi attributi.
 
 '
       button_activate: Attiva modalità sequenza temporale
@@ -381,7 +382,7 @@ it:
       zoom:
         in: Zoom avanti
         out: Zoom indietro
-        auto: Auto zoom
+        auto: Zoom automatico
         days: Giorni
         weeks: Settimane
         months: Mesi
@@ -417,10 +418,10 @@ it:
       image: Immagine
     work_packages:
       bulk_actions:
-        move: Bulk move
-        edit: Bulk edit
-        copy: Bulk copy
-        delete: Bulk delete
+        move: Spostamento di massa
+        edit: Modifica di massa
+        copy: Copia di massa
+        delete: Eliminazione di massa
       button_clear: Pulisci
       comment_added: Il commento è stato aggiunto con successo.
       comment_send_failed: Si è verificato un errore. Impossibile inviare il commento.
@@ -565,7 +566,7 @@ it:
         save: Salva
         save_as: Salva come …
         export: Esporta ...
-        publish: Publish ...
+        publish: Pubblica...
         page_settings: Rinomina query...
         delete: Cancella
       filter: Filtro
@@ -583,13 +584,13 @@ it:
       form_submit:
         title: Conferma per continuare
         text: Eseguire questa azione?
-      upsale_relation_columns: Need to see relations in the work package list?
-      upsale_relation_columns_link: Check out the Enterprise Edition.
+      upsale_relation_columns: Vuoi visualizzare le relazioni nell'elenco di macro-attività?
+      upsale_relation_columns_link: Scopri Enterprise Edition.
       destroy_work_package:
-        title: Confirm deletion of %{label}
-        text: Are you sure you want to delete the following %{label} ?
-        has_children: 'The work package has %{childUnits}:'
-        deletes_children: All child work packages will also be deleted.
+        title: Conferma l'eliminazione di %{label}
+        text: Eliminare i seguenti %{label} ?
+        has_children: 'Questa macro-attività ha %{childUnits}:'
+        deletes_children: Verranno eliminate anche tutte le macro-attività subordinate.
     notice_successful_create: Creato con successo.
     notice_successful_delete: Cancellato con successo.
     notice_successful_update: Aggiornato con successo.
@@ -618,11 +619,11 @@ it:
     error_could_not_resolve_user_name: Impossibile determinare il nome utente
     units:
       workPackage:
-        one: work package
-        other: work packages
+        one: macro-attività
+        other: macro-attività
       child_work_packages:
-        one: one child work package
-        other: "%{count} work package children"
+        one: una macro-attività subordinata
+        other: "%{count} macro-attività subordinate"
       hour:
         one: 1 ora
         other: "%{count} ore"

@@ -241,8 +241,10 @@ de:
           Sofern Sie es wünschen, können Sie sich über die von der Anwendung zur Verfügung
           gestellten Mechanismen einen neuen Account zulegen.
       login_verification:
-        other: Geben Sie den Benutzernamen %{name} ein um die Löschung zu bestätigen.
-        self: Geben Sie Ihren Benutzernamen %{name} ein um die Löschung zu bestätigen.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Ihr Konto wurde noch nicht aktiviert. Zur
       Aktivierung folgen Sie bitte dem Link, der Ihnen bei der Registrierung per E-Mail
       zugeschickt wurde.
@@ -435,6 +437,8 @@ de:
           sein.
         inclusion: ist nicht auf einen erlaubten Wert gesetzt.
         invalid: ist ungültig.
+        invalid_url: ist keine gültige URL.
+        invalid_url_scheme: 'ist kein unterstütztes Protokoll (erlaubt: %{allowed_schemes}).'
         less_than_or_equal_to: muss kleiner oder gleich %{count} sein.
         not_a_date: ist kein gültiges Datum.
         not_a_datetime: ist kein gültiges Datum.
@@ -667,6 +671,7 @@ de:
   button_change_password: Kennwort ändern
   button_check_all: Alles auswählen
   button_clear: Zurücksetzen
+  button_close: Schließen
   button_collapse_all: Alle zuklappen
   button_configure: Konfigurieren
   button_copy: Kopieren

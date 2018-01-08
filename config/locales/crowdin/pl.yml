@@ -125,11 +125,11 @@ pl:
       no_results_content_text: Dodaj członka projektu
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
+      failed_to_reset_token: 'Nie można zresetować tokena dostępu: %{error}'
       notice_reset_token: 'Nowy token typu %{type} został wygenerowany. Twój token
         dostępu to:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      token_value_warning: 'Uwaga: jest to jedyny raz, gdy zobaczysz ten token, koniecznie
+        skopiuj go teraz.'
       no_results_title_text: Aktualnie nie ma dostępnych tokenów.
   news:
     index:
@@ -230,8 +230,10 @@ pl:
           już mógł zalogować się przy użyciu bieżących poświadczeń. Będziesz natomiast
           mógł stać się użytkownikiem tej aplikacji ponownie.
       login_verification:
-        other: Wprowadź login %{name} aby potwierdzić usunięcie.
-        self: Wprowadź swój login %{name} aby potwierdzić usunięcie.
+        other: Wprowadź login %{name}, aby potwierdzić usunięcie. Następnie trzeba
+          będzie podać hasło.
+        self: Wprowadź login %{name}, aby potwierdzić usunięcie. Następnie trzeba
+          będzie podać hasło.
     error_inactive_activation_by_mail: 'Twoje konto nie zostało jeszcze aktywowane.
       Aby aktywować swoje konto, kliknij na link, który został do Ciebie wysłany mailem.
 
@@ -422,6 +424,8 @@ pl:
           albo równa jej.
         inclusion: jest niezgodne z jednym z dozwolonych wartości.
         invalid: jest nieprawidłowe.
+        invalid_url: nie jest poprawnym adresem URL.
+        invalid_url_scheme: 'nie jest obsługiwanym protokołem (dozwolone: %{allowed_schemes}).'
         less_than_or_equal_to: musi być mniejsze niż lub równe %{count}.
         not_a_date: nie jest poprawną datą.
         not_a_datetime: nie jest poprawną datą i czasem.
@@ -474,7 +478,7 @@ pl:
               invalid: Pole niestandardowe jest nieprawidłowe w danym kontekście.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: Relacja tworzy krąg relacji.
           attributes:
             to:
               error_not_found: nie można znaleźć lub wizualizować zadania w pozycji
@@ -650,6 +654,7 @@ pl:
   button_change_password: Zmiana hasła
   button_check_all: Zaznacz wszystko
   button_clear: Wyczyść
+  button_close: Zamknij
   button_collapse_all: Zwiń wszystko
   button_configure: Konfigurowanie
   button_copy: Kopiuj
@@ -705,7 +710,7 @@ pl:
     failed: Nie można skopiować projektu %{source_project_name}
     succeeded: Utworzono projekt %{target_project_name}
     errors: Błąd
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Niestandardowe pola projektu
     text:
       failed: Nie można skopiować projektu "%{source_project_name}" do "%{target_project_name}".
       succeeded: Skopiowano projekt "%{source_project_name}" do "%{target_project_name}".
@@ -917,7 +922,8 @@ pl:
         add_groups: Dodaj nowe grupy atrybutów
         rename_groups: Zmień grupy atrybutów
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Zaktualizuj do %{link}, aby filtrować i sortować wg pól
+          niestandardowych
   enumeration_activities: Działania
   enumeration_work_package_priorities: Priorytety pakietów roboczych
   enumeration_system_activity: Aktywność systemu
@@ -1217,7 +1223,7 @@ pl:
   label_file_plural: Pliki
   label_filter_add: Dodaj filtr
   label_filter_plural: Filtry
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Pokaż/Ukryj filtry
   label_float: Liczba rzeczywista
   label_folder: Katalog
   label_follows: follows
@@ -1668,10 +1674,10 @@ pl:
   notice_account_registered_and_logged_in: Witaj Twoje konto zostało aktywowane. Zostałeś
     zalogowany.
   notice_activation_failed: Konto nie może być aktywowane.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: Nie można zweryfikować etapu '%{stage}'.
+  notice_auth_stage_wrong_stage: Oczekiwano ukończenia etapu uwierzytelniania '%{expected}',
+    ale zwrócono '%{actual}'.
+  notice_auth_stage_error: Etap uwierzytelniania '%{stage}' nie powiódł się.
   notice_can_t_change_password: This account uses an external authentication source.
     Impossible to change the password.
   notice_custom_options_deleted: Opcja '%{option_value}' i jej %{num_deleted} wystąpień
@@ -1703,7 +1709,7 @@ pl:
   notice_not_authorized: Brak uprawnień dostępu do tej strony.
   notice_not_authorized_archived_project: The project you're trying to access has
     been archived.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: Nieprawidłowe hasło. Nie można kontynuować.
   notice_principals_found_multiple: |-
     Znaleziono %{number} wyników.
     Naciśnij Tab, aby wybrać pierwszy rezultat.
@@ -1722,7 +1728,7 @@ pl:
   notice_unable_delete_version: Nie można usunąć wersji.
   notice_user_missing_authentication_method: Użytkownik jeszcze nie wybrał sposobu
     logowania przez hasło lub inaczej.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Zaproszenie wysłano do %{email}.
   present_access_key_value: 'Twój %{key_name} jest: %{value}'
   notice_automatic_set_of_standard_type: Set standard type automatically.
   notice_logged_out: Zostałeś wylogowany.
@@ -1858,12 +1864,12 @@ pl:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Aktywne lub zarchiwizowane
     assigned_to_role: Przypisany do roli
     member_of_group: Przypisany do grupy
     assignee_or_group: Przypisana osoba lub przynależna grupa
     subproject_id: Podprojekt
-    name_or_identifier: Name or identifier
+    name_or_identifier: Nazwa lub identyfikator
   repositories:
     at_identifier: w %{identifier}
     atom_revision_feed: Przegląd wersji Atom'a
@@ -2129,7 +2135,7 @@ pl:
     brute_force_prevention: Automatyczne blokowanie użytkowników
   show_hide_project_menu: Rozwiń/zwiń menu projektu
   status_active: aktywne
-  status_archived: archived
+  status_archived: w archiwum
   status_invited: zaproszony
   status_locked: zablokowane
   status_registered: zarejestrowany

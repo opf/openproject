@@ -15,18 +15,15 @@ ko:
       manage_colors: 색상 선택 옵션 편집
       instructions:
         alternative_color: 강한 강조 색은 일반적으로 화면의 가장 중요한 버튼에 사용됩니다.
-        content_link_color: Font color of most of the links.
+        content_link_color: 대부분 링크의 글꼴색입니다.
         primary_color: 주 색상
         primary_color_dark: 일반적으로 메인 색상의 어두운 버전은 호버 효과에 사용됩니다.
-        header_bg_color: Background color of the header.
-        header_item_bg_hover_color: Background color of clickable header items when
-          hovered with the mouse.
-        header_item_font_color: Font color of clickable header items.
-        header_item_font_hover_color: Font color of clickable header items when hovered
-          with the mouse.
-        header_border_bottom_color: Thin line under the header. Leave this field empty
-          if you don't want any line.
-        main_menu_bg_color: Left side menu's background color.
+        header_bg_color: 헤더의 배경색입니다.
+        header_item_bg_hover_color: 마우스로 가리킬 때 클릭 가능한 헤더 항목의 배경색입니다.
+        header_item_font_color: 클릭 가능한 헤더 항목의 글꼴색입니다.
+        header_item_font_hover_color: 마우스로 가리킬 때 클릭 가능한 헤더 항목의 글꼴색입니다.
+        header_border_bottom_color: 헤더 아래 가는 줄입니다. 줄을 원하지 않으면 이 필드를 비워 둡니다.
+        main_menu_bg_color: 왼쪽 메뉴의 배경색입니다.
     enterprise:
       upgrade_to_ee: Enterprise Edition으로 업그레이드 하세요.
       add_token: Enterprise Edition 지원 토큰을 업로드하세요.
@@ -40,13 +37,12 @@ ko:
     is_active: 현재 표시됨
     is_inactive: 현재 표시 안 됨
   attribute_help_texts:
-    text_overview: In this view, you can create custom help texts for attributes view.
-      When defined, these texts can be shown by clicking the help icon next to its
-      belonging attribute.
-    label_plural: Attribute help texts
-    show_preview: Preview text
-    add_new: Add help text
-    edit: Edit help text for %{attribute_caption}
+    text_overview: 이 보기에서 특성 보기에 대한 사용자 지정 도움말 텍스트를 작성할 수 있습니다. 이 텍스트를 정의하면 속하는 특성
+      옆에 있는 도움말 아이콘을 클릭하여 표시할 수 있습니다.
+    label_plural: 특성 도움말 텍스트
+    show_preview: 미리 보기 텍스트
+    add_new: 도움말 텍스트 추가
+    edit: "%{attribute_caption}에 대한 도움말 텍스트 편집"
   auth_sources:
     index:
       no_results_content_title: 사용인증 모드가 없습니다.
@@ -62,8 +58,7 @@ ko:
     is_enabled_globally: 는 세계적으로 사용 가능합니다.
     enabled_in_project: 프로젝트에 사용 가능함.
     contained_in_type: 타입에 포함됨.
-    confirm_destroy_option: Deleting an option will delete all of its occurrences
-      (e.g. in work packages). Are you sure you want to delete it?
+    confirm_destroy_option: '옵션을 삭제하면 모든 해당 항목(예: 작업 패키지 내 모든 항목)이 삭제됩니다. 그래도 삭제하시겠습니까?'
     tab:
       no_results_title_text: 사용자 필드가 없습니다.
       no_results_content_text: 새 사용자 필드 생성
@@ -76,7 +71,7 @@ ko:
       link_name: 새 타임라인을 마이그레이션하는 방법.
       further_information_after: ''
     calendar:
-      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+      removal: '참고: 이 모듈은 OpenProject 8.0에서 제거될 것입니다.'
   groups:
     index:
       no_results_title_text: 그룹이 없습니다.
@@ -119,11 +114,9 @@ ko:
       no_results_content_text: 프로젝트에 새 멤버 추가
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      failed_to_reset_token: '액세스 토큰을 재설정하지 못함: %{error}'
+      notice_reset_token: '새로운 %{type} 토큰이 생성되었습니다. 액세스 토큰:'
+      token_value_warning: '참고: 이번에만 이 토큰이 표시됩니다. 지금 이 토큰을 복사해야 합니다.'
       no_results_title_text: 가능한 접근 토큰이 없습니다.
   news:
     index:
@@ -214,8 +207,8 @@ ko:
         self: 당신의 계정이 시스템에서 삭제됩니다. 따라서 당신은 지금의 인증 정보로 더 이상 로그인할 수 없습니다. 원한다면 이 애플리케이션이
           허용하는 방법을 따라서 다시 사용자가 될 수 있습니다.
       login_verification:
-        other: 삭제를 확인 하려면 로그인 %{name} (을)를 입력하세요.
-        self: 삭제를 확인 하려면 로그인 %{name} (을)를 입력하세요.
+        other: 삭제를 확인하려면 로그인 %{name}을(를) 입력하세요. 제출하면 암호를 확인하라는 메시지가 표시됩니다.
+        self: 삭제를 확인하려면 로그인 %{name}을(를) 입력하세요. 제출하면 암호를 확인하라는 메시지가 표시됩니다.
     error_inactive_activation_by_mail: '당신의 계정이 아직 활성화되지 않았습니다. 계정을 활성화하기 위해, 이메일로
       전송된 링크를 클릭하십시오.
 
@@ -244,7 +237,7 @@ ko:
         filesize: 크기
       attribute_help_text:
         attribute_name: 특성
-        help_text: Help text
+        help_text: 도움말 텍스트
       auth_source:
         account: 계정
         attr_firstname: 성 속성
@@ -301,11 +294,11 @@ ko:
         work_packages: 작업 패키지
       query:
         column_names: 컬럼
-        relations_to_type_column: Relations to %{type}
-        relations_of_type_column: "%{type} relations"
+        relations_to_type_column: "%{type}에 대한 관계"
+        relations_of_type_column: "%{type} 관계"
         group_by: 그룹 결과
         filters: 필터
-        timeline_labels: Timeline labels
+        timeline_labels: 타임라인 레이블
       repository:
         url: 주소
       role:
@@ -402,6 +395,8 @@ ko:
         greater_than_or_equal_to_start_date: 은(는) 시작 날짜 이후이거나 같아야 합니다.
         inclusion: 은(는) 허용되는 값이 아닙니다.
         invalid: 은(는) 올바르지 않은 값입니다
+        invalid_url: 은(는) 올바른 URL이 아닙니다.
+        invalid_url_scheme: '은(는) 지원되는 프로토콜(허용: %{allowed_schemes})이 아닙니다.'
         less_than_or_equal_to: 은(는) %{count} 보다 작거나 같아야 합니다
         not_a_date: 은(는) 유효한 날짜가 아닙니다.
         not_a_datetime: 은(는) 유효한 날짜가 아닙니다.
@@ -419,10 +414,10 @@ ko:
         before: 은(는) %{date} 보다 전이어야 합니다.
         before_or_equal_to: 은(는) %{date} 이전이어야 합니다.
         could_not_be_copied: 은(는) (완전히) 복제될 수 없습니다.
-        regex_invalid: could not be validated with the associated regular expression.
+        regex_invalid: 관련 정규식으로 유효성을 확인할 수 없습니다.
       models:
         custom_field:
-          at_least_one_custom_option: At least one option needs to be available.
+          at_least_one_custom_option: 하나 이상의 옵션을 사용할 수 있어야 합니다.
         enterprise_token:
           unreadable: 읽을 수 없습니다. 지원하는 토큰이 확실한가요?
         parse_schema_filter_params_service:
@@ -452,7 +447,7 @@ ko:
               invalid: 사용자 지정 필드가 지정된 컨텍스트에서 유효하지 않습니다.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: 이 관계는 관계의 원을 만듭니다.
           attributes:
             to:
               error_not_found: "'끝' 위치의 작업 패키지가 없거나 표시되지 않음"
@@ -463,8 +458,8 @@ ko:
         repository:
           not_available: SCM 업체가 가용하지 않습니다.
           not_whitelisted: 은(는) 설절에 허용되지 않습니다.
-          invalid_url: is not a valid repository URL or path.
-          must_not_be_ssh: must not be an SSH url.
+          invalid_url: 유효한 리포지토리 URL 또는 경로가 아닙니다.
+          must_not_be_ssh: SSH url이 아니어야 합니다.
           no_directory: 디텍터리가 아님
         work_package:
           is_not_a_valid_target_for_time_entries: '작업 패키지 #%{id}은(는) 시간 항목 재할당에 올바른
@@ -524,7 +519,7 @@ ko:
           other: "%{count} 오류 때문에 %{model} 을 저장할 수 없습니다."
     models:
       attachment: 파일
-      attribute_help_text: Attribute help text
+      attribute_help_text: 특성 도움말 텍스트
       board: 포럼
       comment: 코멘트
       custom_field: 사용자 정의 필드
@@ -618,6 +613,7 @@ ko:
   button_change_password: 암호 변경
   button_check_all: 모두 선택
   button_clear: 선택 취소
+  button_close: 닫기
   button_collapse_all: 모두 축소
   button_configure: 구성
   button_copy: 복사
@@ -639,7 +635,7 @@ ko:
   button_login: 로그인
   button_move: 이동
   button_move_and_follow: 이동하고 따라가기
-  button_print: Print
+  button_print: 인쇄
   button_quote: 인용
   button_remove: 제거
   button_remove_widget: 위젯 제거
@@ -672,7 +668,7 @@ ko:
     failed: 프로젝트 %{source_project_name}을(를) 복사할 수 없습니다.
     succeeded: 프로젝트 %{target_project_name} 생성함
     errors: 오류
-    project_custom_fields: Custom fields on project
+    project_custom_fields: 프로젝트의 사용자 지정 필드
     text:
       failed: 프로젝트 "%{source_project_name}"을(를) 프로젝트 "%{target_project_name}"에 복사할
         수 없습니다.
@@ -893,14 +889,14 @@ ko:
         add_groups: 새로운 특성 그룹 추가
         rename_groups: 특성 그룹 이름 바꾸기
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: 사용자 지정 필드에서 필터링하고 정렬하려면 %{link}(으)로 업그레이드
   enumeration_activities: 작업(시간 추적)
   enumeration_work_package_priorities: 작업 패키지 우선 순위
   enumeration_system_activity: 시스템 작업
   enumeration_reported_project_statuses: 보고된 프로젝트 상태
-  error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
+  error_auth_source_sso_failed: 사용자 '%{value}'에 대한 Single Sign-On(SSO) 실패
   error_can_not_archive_project: 이 프로젝트를 보관할 수 없습니다.
-  error_can_not_delete_entry: Unable to delete entry
+  error_can_not_delete_entry: 항목을 삭제할 수 없습니다.
   error_can_not_delete_custom_field: 사용자 지정 필드를 삭제할 수 없습니다.
   error_can_not_delete_type: 이 유형에는 작업 패키지가 포함되어 있으며 삭제할 수 없습니다.
   error_can_not_delete_standard_type: 표준 유형은 삭제할 수 없습니다.
@@ -994,7 +990,7 @@ ko:
       forums: 포럼
       blog: OpenProject 블로그
       boards: 커뮤니티 포럼
-      newsletter: Security alerts / Newsletter
+      newsletter: 보안 알림/뉴스레터
   instructions_after_registration: "%{signin}을(를) 클릭하여 계정이 활성화되면 바로 로그인할 수 있습니다."
   instructions_after_logout: "%{signin}을(를) 클릭하면 다시 로그인할 수 있습니다."
   instructions_after_error: "%{signin}을(를) 클릭하여 다시 로그인해 볼 수 있습니다. 오류가 계속되면 관리자에게 도움을
@@ -1012,8 +1008,8 @@ ko:
   label_accessibility: 접근성
   label_account: 계정
   label_active: 활성
-  label_activate_user: Activate user
-  label_active_in_new_projects: Active in new projects
+  label_activate_user: 사용자 활성화
+  label_active_in_new_projects: 새로운 프로젝트에서 활성
   label_activity: 활동
   label_add_edit_translations: 추가 및 편집 번역
   label_add_another_file: 다른 파일 추가
@@ -1076,11 +1072,11 @@ ko:
   label_select_main_menu_item: 새 기본 메뉴 항목 선택
   label_select_project: 프로젝트를 선택하세요
   label_required_disk_storage: 필요한 디스크 스토리지
-  label_send_invitation: Send invitation
+  label_send_invitation: 초대장 보내기
   label_change_plural: 변경
   label_change_properties: 속성 변경
   label_change_status: 상태 변경
-  label_change_status_of_user: 'Change status of #{username}'
+  label_change_status_of_user: "#{username} 상태 변경"
   label_change_view_all: 모든 변경 사항 보기
   label_changes_details: 모든 변경 사항의 세부 정보
   label_changeset: 변경 집합
@@ -1127,7 +1123,7 @@ ko:
   label_date_to: 끝
   label_day_plural: 일
   label_default: 기본
-  label_delete_user: Delete user
+  label_delete_user: 사용자 삭제
   label_delete_project: 프로젝트 삭제
   label_deleted: 삭제됨
   label_deleted_custom_field: "(삭제된 사용자 지정 필드)"
@@ -1175,7 +1171,7 @@ ko:
   label_file_plural: 파일
   label_filter_add: 필터 추가
   label_filter_plural: 필터
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: 필터 표시/숨기기
   label_float: 부동
   label_folder: 폴더
   label_follows: 팔로우
@@ -1207,7 +1203,7 @@ ko:
   label_internal: 내부
   label_invite_user: 사용자 초대
   label_show_hide: 표시/숨기기
-  label_show_all_registered_users: Show all registered users
+  label_show_all_registered_users: 등록된 사용자 모두 표시
   label_journal: 기록일지
   label_journal_diff: 설명 비교
   label_language: 언어
@@ -1227,12 +1223,12 @@ ko:
   label_less_than_ago: 일 미만 전
   label_list: 목록
   label_loading: 로드 중...
-  label_lock_user: Lock user
+  label_lock_user: 사용자 잠금
   label_logged_as: '로그인한 계정:'
   label_login: 로그인
   label_custom_logo: 사용자 정의 로고
-  label_custom_favicon: Custom favicon
-  label_custom_touch_icon: Custom touch icon
+  label_custom_favicon: 사용자 지정 favicon
+  label_custom_touch_icon: 사용자 지정 터치 아이콘
   label_logout: 로그아웃
   label_main_menu: 측면 메뉴
   label_manage_groups: 그룹 관리
@@ -1334,8 +1330,8 @@ ko:
   label_project_settings: 프로젝트 설정
   label_projects_storage_information: "%{count} 개의 프로젝트가 %{storage} 디스크 스토리지를 사용 중"
   label_project_view_all: 모든 프로젝트 보기
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: 프로젝트 세부 정보 표시
+  label_project_hide_details: 프로젝트 세부 정보 숨기기
   label_public_projects: 공용 프로젝트
   label_query_new: 새 쿼리
   label_query_plural: 사용자 지정 쿼리
@@ -1471,7 +1467,7 @@ ko:
   label_wiki_dont_show_menu_item: 프로젝트 탐색에 이 위키 페이지 표시 안 함
   label_wiki_edit: 위키 편집
   label_wiki_edit_plural: 위키 편집
-  label_wiki_page_attachments: Wiki page attachments
+  label_wiki_page_attachments: Wiki 페이지 첨부 파일
   label_wiki_page_id: 위키 페이지 ID
   label_wiki_navigation: 위키 탐색
   label_wiki_page: 위키 페이지
@@ -1482,7 +1478,7 @@ ko:
   label_wiki_show_submenu_item: '다음의 하위 메뉴 항목으로 표시: '
   label_work_package: 작업 패키지
   label_work_package_added: 작업 패키지 추가됨
-  label_work_package_attachments: Work package attachments
+  label_work_package_attachments: 작업 패키지 첨부 파일
   label_work_package_category_new: 새 카테고리
   label_work_package_category_plural: 작업 패키지 카테고리
   label_work_package_hierarchy: 작업 패키지 계층 구조
@@ -1569,7 +1565,7 @@ ko:
   macro_execution_error: 매크로 %{macro_name} 실행 중에 오류 발생
   macro_unavailable: 매크로 %{macro_name}은(는) 표시할 수 없습니다.
   mail:
-    actions: Actions
+    actions: 작업
   mail_body_account_activation_request: 새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는
     중입니다.
   mail_body_account_information: 계정 정보
@@ -1608,10 +1604,10 @@ ko:
   notice_account_wrong_password: 잘못된 암호
   notice_account_registered_and_logged_in: 환영합니다. 계정이 활성화되었습니다 이제 로그인되었습니다.
   notice_activation_failed: 계정이 활성화 되지 못했습니다.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: 단계 '%{stage}'을(를) 확인할 수 없습니다.
+  notice_auth_stage_wrong_stage: 인증 단계 '%{expected}'을(를) 마쳐야 하지만, '%{actual}'이(가)
+    반환되었습니다.
+  notice_auth_stage_error: 인증 단계 '%{stage}'이(가) 실패했습니다.
   notice_can_t_change_password: 이 계정은 외부 인증 소스를 사용합니다. 암호를 변경할 수 없습니다.
   notice_custom_options_deleted: 옵션 '%{option_value}'와 그것의 %{num_deleted} 항목은 삭제 되었습니다.
   notice_email_error: 메일을 전송하는 중에 오류가 발생했습니다(%{value}).
@@ -1635,7 +1631,7 @@ ko:
   notice_bad_request: 잘못된 요청입니다.
   notice_not_authorized: 이 페이지에 액세스할 권한이 없습니다.
   notice_not_authorized_archived_project: 액세스하려는 프로젝트는 이미 보관되어 있습니다.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: 암호가 올바르지 않습니다. 계속할 수 없습니다.
   notice_principals_found_multiple: |-
     %{number} 개의 결과가 발견되었습니다.
     첫번째 결과를 보려면 탭 해주세요.
@@ -1653,16 +1649,15 @@ ko:
   notice_unable_delete_time_entry: 시간 로그 항목을 삭제할 수 없습니다.
   notice_unable_delete_version: 버전을 삭제할 수 없습니다.
   notice_user_missing_authentication_method: 사용자가 암호나 로그인할 수 있는 다른 방법을 선택해야 합니다.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: 초대장이 %{email}(으)로 전송되었습니다.
   present_access_key_value: '당신의 %{key_name} : %{value}'
   notice_automatic_set_of_standard_type: 자동으로 표준 유형을 설정합니다.
   notice_logged_out: 로그아웃했습니다.
   notice_wont_delete_auth_source: 사용자가 사용 중인 인증 모드는 삭제할 수 없습니다.
   notice_project_cannot_update_custom_fields: '프로젝트의 사용 가능한 사용자 지정 필드를 업데이트할 수 없습니다.
     프로젝트가 유효하지 않습니다: %{errors}'
-  notice_attachment_migration_wiki_page: 'This page was generated automatically during
-    the update of OpenProject. It contains all attachments previously associated with
-    the %{container_type} "%{container_name}".
+  notice_attachment_migration_wiki_page: '이 페이지는 OpenProject 업데이트 중에 자동으로 생성되었습니다.
+    이 페이지에는 %{container_type} "%{container_name}"과(와) 이전에 연결된 모든 첨부 파일이 포함되어 있습니다.
 
 '
   number:
@@ -1685,9 +1680,9 @@ ko:
           mb: MB
           tb: TB
   onboarding:
-    heading_getting_started: Get an overview
-    text_getting_started_description: Get a quick overview of project management and
-      team collaboration with OpenProject.
+    heading_getting_started: 개요 가져오기
+    text_getting_started_description: OpenProject로 프로젝트 관리 및 팀 공동 작업에 대한 간략한 개요를 가져올
+      수 있습니다.
     text_show_again: 도움말 메뉴에서 이 비디오를 다시 시작할 수 있습니다.
     welcome: OpenProject에 오신 것을 환영합니다.
   permission_add_work_package_notes: 메모 추가
@@ -1784,12 +1779,12 @@ ko:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: 활성 또는 보관됨
     assigned_to_role: 담당자의 역할
     member_of_group: 담당자의 그룹
-    assignee_or_group: Assignee or belonging group
+    assignee_or_group: 담당자 또는 소속 그룹
     subproject_id: 하위 프로젝트
-    name_or_identifier: Name or identifier
+    name_or_identifier: 이름 또는 식별자
   repositories:
     at_identifier: "- %{identifier}"
     atom_revision_feed: Atom 수정 피드
@@ -1854,9 +1849,8 @@ ko:
     git:
       instructions:
         managed_url: 관리되는 (로컬) Git 리포지토리의 URL입니다.
-        path: Specify the path to your local Git repository ( e.g., %{example_path}
-          ). You can also use remote repositories which are cloned to a local copy
-          by using a value starting with http(s):// or file://.
+        path: '로컬 Git 리포지토리(예: %{example_path})의 경로를 지정하세요. http(s):// 또는 file://로
+          시작하는 값을 사용하여 로컬 복사본에 복제된 원격 리포지토리를 사용할 수도 있습니다.'
         path_encoding: 'Git 경로 인코딩 재정의(기본: UTF-8)'
       local_title: 기존 로컬 Git 리포지토리 연결
       local_url: 로컬 URL
@@ -1995,7 +1989,7 @@ ko:
   setting_session_ttl: 비활성화된 후 세션 만료 시간
   setting_session_ttl_hint: 5 아래 값은 사용 안함으로 작동합니다.
   setting_session_ttl_enabled: 세션 만료됨
-  setting_start_of_week: Week starts on
+  setting_start_of_week: '주의 시작:'
   setting_sys_api_enabled: 리포지토리 관리 웹 서비스 사용
   setting_sys_api_description: 리포지토리 관리 웹 서비스는 리포지토리에 액세스하기 위한 통합 및 사용자 인증을 제공합니다.
   setting_text_formatting: 텍스트 서식 지정
@@ -2018,7 +2012,7 @@ ko:
     brute_force_prevention: 자동화된 사용자 차단
   show_hide_project_menu: 프로젝트 메뉴 확장/축소
   status_active: 활성
-  status_archived: archived
+  status_archived: 보관됨
   status_invited: 초대됨
   status_locked: 잠김
   status_registered: 등록됨
@@ -2034,13 +2028,12 @@ ko:
   text_are_you_sure: 계속하시겠습니까?
   text_are_you_sure_with_children: 작업 패키지 및 모든 자식 작업 패키지를 삭제하시겠습니까?
   text_assign_to_project: 프로젝트에 할당
-  text_form_configuration: 'You can customize which fields will be displayed in work
-    package forms. You can freely group the fields to reflect the needs for your domain.
+  text_form_configuration: '작업 패키지 양식으로 표시할 필드를 사용자 지정할 수 있습니다. 해당 도메인의 요구 사항을 반영하도록
+    필드를 자유롭게 그룹화할 수 있습니다.
 
 '
   text_form_configuration_drag_to_activate: 여기에서 필드를 끌어와서 활성화
-  text_form_configuration_required_attribute: Attribute is marked required and thus
-    always shown
+  text_form_configuration_required_attribute: 특성이 필수로 나타나므로 항상 표시됩니다.
   text_caracters_maximum: 최대 %{count}자입니다.
   text_caracters_minimum: 최소 %{count}자여야 합니다.
   text_comma_separated: 여러 값이 허용됩니다(쉼표로 구분).
@@ -2054,20 +2047,16 @@ ko:
     활성화해야 합니다.
 
 '
-  text_custom_logo_instructions: 'A white logo on transparent background is recommended.
-    For best results on both, conventional and retina displays, make sure your image''s
-    dimensions are 460px by 60px.
+  text_custom_logo_instructions: '투명한 배경에 흰색 로고가 권장됩니다. 기존 디스플레이와 레티나 디스플레이 둘 다에서
+    최상의 결과를 위해 이미지의 크기는 460px x 60px여야 합니다.
 
 '
-  text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser
-    window/tab next to the page''s title. It''s needs to be a squared 32 by 32 pixels
-    sized PNG image file with a transparent background.
+  text_custom_favicon_instructions: '페이지 제목 옆의 브라우저 창/탭에 나타나는 작은 아이콘입니다. 투명한 배경을 가진
+    32x32 제곱 픽셀 크기 PNG 이미지 파일이어야 합니다.
 
 '
-  text_custom_touch_icon_instructions: 'This is the icon that appears in your mobile
-    or tablet when you place a bookmark on your homescreen. It''s needs to be a squared
-    180 by 180 pixels sized PNG image file. Please make sure the image''s background
-    is not transparent otherwise it will look bad on iOS.
+  text_custom_touch_icon_instructions: '홈 화면에 북마크를 추가하면 휴대폰 또는 태블릿에 표시되는 아이콘입니다. 180x180
+    제곱 픽셀 크기의 PNG 이미지 파일이어야 합니다. 이미지의 배경이 투명하지 않은지 확인하세요. 그렇지 않으면 iOS에서 제대로 표시되지 않습니다.
 
 '
   text_default_administrator_account_changed: 기본 관리자 계정 변경됨
@@ -2383,8 +2372,7 @@ ko:
     blocked_num_failed_logins:
       one: locked temporarily (one failed login attempt)
       other: 일시적으로 잠김 (%{count} 로그인 시도 실패)
-    confirm_status_change: You are about to change the status of '%{name}'. Are you
-      sure you want to continue?
+    confirm_status_change: "%{name} 상태가 변경됩니다. 계속하시겠습니까?"
     deleted: 사용자 삭제됨
     error_status_change_failed: '다음 오류 때문에 사용자 상태 변경 실패함: %{errors}'
     invite: 이메일을 통해 사용자 초대
@@ -2401,7 +2389,7 @@ ko:
         작업 패키지)에 대한 알림만 받게 됩니다.'
       mail_self_notified: 내가 만든 것이 변경되면 알림을 받고 싶습니다.
     status_user_and_brute_force: "%{user} 및 %{brute_force}"
-    status_change: Status change
+    status_change: 상태 변경
     unlock: 잠금 해제
     unlock_and_reset_failed_logins: 실패한 로그인 잠금 해제 및 재설정
   version_status_closed: 닫음

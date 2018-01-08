@@ -230,8 +230,10 @@ id:
         other: Akun akan dihapus dari sistem. User tidak akan bisa Login kembali.
         self: Akun Anda akan dihapus dari sistem. Anda tidak akan bisa Login kembali.
       login_verification:
-        other: Enter the login %{name} to verify the deletion.
-        self: Enter your login %{name} to verify the deletion.
+        other: Masuk ke login %{name} untuk memeriksa penghapusan. Begitu dikirim,
+          Anda akan diminta untuk mengkonfirmasi password Anda.
+        self: Masuk ke login Anda %{name} untuk memeriksa penghapusan. Begitu dikirim,
+          Anda akan diminta untuk mengkonfirmasi password Anda.
     error_inactive_activation_by_mail: 'Akun anda belum diaktifkan. Untuk mengaktifkan,
       klik pada link yang ada di email anda.
 
@@ -422,6 +424,9 @@ id:
           start date.
         inclusion: belum di set dengan nilai yang diperbolehkan.
         invalid: tidak valid.
+        invalid_url: bukanlah URL yang Valid.
+        invalid_url_scheme: 'bukanlah sebuah protokol yang didukung (diperbolehkan:
+          %{allowed_schemes}).'
         less_than_or_equal_to: harus kurang dari atau sama dengan %{count}.
         not_a_date: bukan tanggal yang valid.
         not_a_datetime: bukan tanggal waktu yang valid.
@@ -647,6 +652,7 @@ id:
   button_change_password: Ubah password
   button_check_all: Cek semua
   button_clear: Clear
+  button_close: Tutup
   button_collapse_all: Tutup semua
   button_configure: Konfigurasi
   button_copy: Salin

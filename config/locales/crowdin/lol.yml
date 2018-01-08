@@ -197,8 +197,8 @@ lol:
         other: crwdns92431:0crwdne92431:0
         self: crwdns92432:0crwdne92432:0
       login_verification:
-        other: crwdns92433:0%{name}crwdne92433:0
-        self: crwdns92434:0%{name}crwdne92434:0
+        other: crwdns95445:0%{name}crwdne95445:0
+        self: crwdns95446:0%{name}crwdne95446:0
     error_inactive_activation_by_mail: 'crwdns92435:0crwdne92435:0
 
 '
@@ -381,6 +381,8 @@ lol:
         greater_than_or_equal_to_start_date: crwdns92584:0crwdne92584:0
         inclusion: crwdns92585:0crwdne92585:0
         invalid: crwdns92586:0crwdne92586:0
+        invalid_url: crwdns95447:0crwdne95447:0
+        invalid_url_scheme: crwdns95448:0%{allowed_schemes}crwdne95448:0
         less_than_or_equal_to: crwdns92587:0%{count}crwdne92587:0
         not_a_date: crwdns92588:0crwdne92588:0
         not_a_datetime: crwdns92589:0crwdne92589:0
@@ -592,6 +594,7 @@ lol:
   button_change_password: crwdns92732:0crwdne92732:0
   button_check_all: crwdns92733:0crwdne92733:0
   button_clear: crwdns92734:0crwdne92734:0
+  button_close: crwdns95449:0crwdne95449:0
   button_collapse_all: crwdns92735:0crwdne92735:0
   button_configure: crwdns92736:0crwdne92736:0
   button_copy: crwdns92737:0crwdne92737:0

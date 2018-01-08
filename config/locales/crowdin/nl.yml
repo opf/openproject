@@ -240,8 +240,10 @@ nl:
           kiest om een gebruiker van deze toepassing opnieuw te worden, kan je dus
           met behulp van de middelen deze toepassing verleent.
       login_verification:
-        other: Voer de login-%{name} in om de verwijdering te controleren.
-        self: Voer uw login-%{name} in om de verwijdering te controleren.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Uw account is nog niet geactiveerd. Klik op
       de link in de u toegestuurde mail om uw account te activeren.
 
@@ -432,6 +434,8 @@ nl:
         greater_than_or_equal_to_start_date: moet groter of gelijk zijn aan startdatum.
         inclusion: is niet ingesteld op één van de toegestane waarden.
         invalid: is ongeldig.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: moet kleiner zijn dan of gelijk aan %{count}.
         not_a_date: is geen geldige datum.
         not_a_datetime: is geen geldige datum tijd.
@@ -660,6 +664,7 @@ nl:
   button_change_password: Wijzig wachtwoord
   button_check_all: Selecteer alles
   button_clear: Wissen
+  button_close: Sluiten
   button_collapse_all: Alles inklappen
   button_configure: Configureer
   button_copy: Kopieer

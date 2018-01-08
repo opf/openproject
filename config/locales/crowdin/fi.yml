@@ -233,8 +233,10 @@ fi:
           käyttäjätiedoillasi. Voit halutessasi rekisteröityä uudestaan tämän sovelluksen
           käyttäjäksi kuten kuka tahansa joka ei ole vielä sovelluksen käyttäjä.
       login_verification:
-        other: Syötä tunnus %{name} vahvistaaksesi poiston.
-        self: Syötä tunnuksesi %{name} vahvistaaksesi poiston.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Tilisi ei ole vielä aktivoitu. Aktivoidaksesi
       tilin, klikkaa linkkiä joka välitettiin sähköpostiisi.
 
@@ -427,6 +429,8 @@ fi:
           alkamispäivä.
         inclusion: ei löydy listauksesta.
         invalid: ei kelpaa.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: täytyy olla pienempi tai yhtä suuri kuin %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -649,6 +653,7 @@ fi:
   button_change_password: Vaihda salasana
   button_check_all: Valitse kaikki
   button_clear: Tyhjää
+  button_close: Close
   button_collapse_all: Tiivistä kaikki
   button_configure: Asetukset
   button_copy: Kopioi

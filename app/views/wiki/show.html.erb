@@ -74,7 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
       <span class="button--text"><%= t(:label_more) %></span>
       <%= op_icon('button--dropdown-indicator') %>
     </a>
-    <ul style="display:none;" class="legacy-actions-more">
+    <ul style="display:none;" class="menu-drop-down-container">
       <% if @editable %>
         <%= li_unless_nil(link_to_if_authorized(l(:button_lock), {action: 'protect', id: @page, protected: 1}, method: :post, class: 'icon-context icon-locked')) if !@page.protected? %>
         <%= li_unless_nil(link_to_if_authorized(l(:button_unlock), {action: 'protect', id: @page, protected: 0}, method: :post, class: 'icon-context icon-unlocked')) if @page.protected? %>

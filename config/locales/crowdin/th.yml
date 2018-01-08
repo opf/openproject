@@ -231,8 +231,10 @@ th:
         self: บัญชีผู้ใช้ของคุณจะถูกลบออกจากระบบ เพราะฉะนั้น คุณจะไม่สามารถล็อกอินได้อีกต่อไป
           หากคุณต้องการกลับมาเป็นผู้ใช้แอปพลิเคชั่นนี้ใหม่อีกครั้ง คุณสามารถทำได้โดยวิธีการอนุญาตให้ใช้งานแอปพลิเคชั่น
       login_verification:
-        other: Enter the login %{name} to verify the deletion.
-        self: Enter your login %{name} to verify the deletion.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'บัญชีของคุณได้ไม่ได้เปิดการใช้งาน กรุณาคลิกที่ลิงค์ที่ถูกส่งไปยังอีเมลของคุณ
       เพื่อเปิดการใช้งาน
 
@@ -423,6 +425,8 @@ th:
           start date.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -644,6 +648,7 @@ th:
   button_change_password: เปลี่ยนรหัสผ่าน
   button_check_all: ตรวจสอบทั้งหมด
   button_clear: ล้างข้อมูล
+  button_close: Close
   button_collapse_all: ยุบทั้งหมด
   button_configure: กำหนดค่า
   button_copy: คัดลอก

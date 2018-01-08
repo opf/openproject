@@ -468,7 +468,7 @@ hu:
         title: A munkacsomag nem tölthető be.
         description: A lekérdezése hibás, és nem sikerült feldolgozni.
       no_results:
-        title: No work packages to display.
+        title: Nincs megjelenítendő munkacsomag.
         description: Either none have been created or all work packages are filtered
           out.
       property_groups:
@@ -499,9 +499,9 @@ hu:
         versionName: Verzió
         version: Verzió
       jump_marks:
-        pagination: Jump to table pagination
-        label_pagination: Click here to skip over the work packages table and go to
-          pagination
+        pagination: Ugrás a táblázat lapszámozásához
+        label_pagination: Kattints ide, hogy átugorj a munkacsomag táblán és a lapszámozáshoz
+          menj
         content: Ugrás a tartalomhoz
         label_content: Kattintson ide a menü átugrásához és a tartalom megtekintéséhez
       placeholders:
@@ -529,9 +529,9 @@ hu:
           not_found: Nincs ilyen lekérdezés
         text_no_results: Nem található egyező lekérdezés.
       table:
-        summary: Table with rows of work package and columns of work package attributes.
-        text_inline_edit: Most cells of this table are buttons that activate inline-editing
-          functionality of that attribute.
+        summary: Táblázat melynek sorai munkacsomagok és oszlopai munkacsomag attribútumok.
+        text_inline_edit: A legtöbb mezője ennek a táblázatnak olyan gomb, mely aktiválja
+          a soron belüli szerkesztését az attribútumnak.
         text_sort_hint: A táblázat fejlécében található hivatkozásokkal rendezhet,
           csoportosíthat, átsorolhat, törölhet és hozzáadhat oszlopokat.
         text_select_hint: Válassza ki a megnyitni kíván mezőket és használja az "ALT"
@@ -604,9 +604,9 @@ hu:
       errors:
         required: "%{field} nem lehet üres"
         number: "%{field} nem egy érvényes szám"
-        maxlength: "%{field} cannot contain more than %{maxLength} digit(s)"
-        minlength: "%{field} cannot contain less than %{minLength} digit(s)"
-        messages_on_field: 'This field is invalid: %{messages}'
+        maxlength: "%{field} nem tartalmazhat több számjegyet mint %{maxLength}"
+        minlength: "%{field} nem tartalmazhat kevesebb számjegyet mint %{minLength}"
+        messages_on_field: 'Ez a mező érvénytelen: %{messages}'
     error_could_not_resolve_version_name: Nem sikerült a verziószám visszafejtése
     error_could_not_resolve_user_name: Nem sikerült a felhasználó visszafejtése
     units:

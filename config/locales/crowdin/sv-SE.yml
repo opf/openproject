@@ -232,8 +232,10 @@ sv-SE:
           logga in med dina aktuella autentiseringsuppgifter. Du kan välja att bli
           användare igen genom det sätt som detta system medger.
       login_verification:
-        other: Ange användarnamn %{name} för att bekräfta raderingen.
-        self: Ange användarnamn %{name} för att bekräfta raderingen.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Ditt konto har ännu inte aktiverats. För att
       aktivera ditt konto, klicka på länken som har skickas till dig via E-post.
 
@@ -424,6 +426,8 @@ sv-SE:
         greater_than_or_equal_to_start_date: måste vara senare eller lika som startdatumet.
         inclusion: inte är inställd på ett av de tillåtna värdena.
         invalid: är ogiltig.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: måste vara mindre än eller lika med %{count}.
         not_a_date: är inte är ett giltigt datum.
         not_a_datetime: är inte en giltig datumtid.
@@ -651,6 +655,7 @@ sv-SE:
   button_change_password: Ändra lösenord
   button_check_all: Markera alla
   button_clear: Rensa
+  button_close: Close
   button_collapse_all: Fäll ihop alla
   button_configure: Konfigurera
   button_copy: Kopiera

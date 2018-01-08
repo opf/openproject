@@ -23,14 +23,14 @@ pt:
         primary_color_dark: Normalmente é utilizada uma cor mais escura da cor principal
           para a ação de passar com o rato por cima.
         header_bg_color: Cor de fundo do cabeçalho.
-        header_item_bg_hover_color: Background color of clickable header items when
-          hovered with the mouse.
-        header_item_font_color: Font color of clickable header items.
-        header_item_font_hover_color: Font color of clickable header items when hovered
-          with the mouse.
-        header_border_bottom_color: Thin line under the header. Leave this field empty
-          if you don't want any line.
-        main_menu_bg_color: Left side menu's background color.
+        header_item_bg_hover_color: Cor de fundo de itens do cabeçalho clicáveis quando
+          se passa com o rato por cima.
+        header_item_font_color: Cor da fonte dos itens do cabeçalho clicáveis.
+        header_item_font_hover_color: Cor da fonte de itens do cabeçalho clicáveis
+          quando se passa com o rato por cima.
+        header_border_bottom_color: Linha fina sob o cabeçalho. Deixe este campo vazio
+          se não deseja qualquer linha.
+        main_menu_bg_color: Cor de fundo do menu do lado esquerdo.
     enterprise:
       upgrade_to_ee: Atualizar para a versão Enterprise
       add_token: Carregar um token de suporte da versão Enterprise
@@ -45,13 +45,13 @@ pt:
     is_active: atualmente exibidos
     is_inactive: não exibidos atualmente
   attribute_help_texts:
-    text_overview: In this view, you can create custom help texts for attributes view.
-      When defined, these texts can be shown by clicking the help icon next to its
-      belonging attribute.
-    label_plural: Attribute help texts
-    show_preview: Preview text
-    add_new: Add help text
-    edit: Edit help text for %{attribute_caption}
+    text_overview: Neste modo de exibição, pode criar textos de ajuda personalizados
+      para a visualização de atributos. Quando definidos, estes textos podem ser exibidos
+      clicando no ícone de ajuda ao lado do seu respetivo atributo.
+    label_plural: Textos de ajuda de atributo
+    show_preview: Texto de pré-visualização
+    add_new: Adicionar texto de ajuda
+    edit: Editar texto de ajuda para %{attribute_caption}
   auth_sources:
     index:
       no_results_content_title: Atualmente, não existem modos de autenticação.
@@ -67,8 +67,8 @@ pt:
     is_enabled_globally: Ativado a nível global
     enabled_in_project: Ativado no projeto
     contained_in_type: Incluído no tipo
-    confirm_destroy_option: Deleting an option will delete all of its occurrences
-      (e.g. in work packages). Are you sure you want to delete it?
+    confirm_destroy_option: Apagar uma opção irá apagar todas as suas ocorrências
+      (ex. em pacotes de trabalho). Tem certeza que quer apagá-la?
     tab:
       no_results_title_text: Atualmente, não existem campos personalizados.
       no_results_content_text: Criar um novo campo personalizado
@@ -82,7 +82,7 @@ pt:
       link_name: Como migrar para uma uma nova linha temporal.
       further_information_after: ''
     calendar:
-      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+      removal: 'Atenção: Este módulo será removido com o OpenProject 8.0.'
   groups:
     index:
       no_results_title_text: Atualmente, não existem grupos.
@@ -127,11 +127,11 @@ pt:
       no_results_content_text: Adicione um membro ao projeto
   my:
     access_token:
-      failed_to_reset_token: 'Failed to reset access token: %{error}'
-      notice_reset_token: 'A new %{type} token has been generated. Your access token
-        is:'
-      token_value_warning: 'Note: This is the only time you will see this token, make
-        sure to copy it now.'
+      failed_to_reset_token: 'Não foi possível reiniciar o token de acesso: %{error}'
+      notice_reset_token: 'Foi gerado um novo token de %{type}. O seu token de acesso
+        é:'
+      token_value_warning: 'Nota: Esta é a única vez que irá ver este token, certifique-se
+        que o copia agora.'
       no_results_title_text: Atualmente, não existem fichas de acesso disponíveis.
   news:
     index:
@@ -243,8 +243,10 @@ pt:
           entrar com as suas credenciais atuais. Poderá escolher ser utilizador desta
           aplicação outra vez nos termos permitidos pela aplicação.
       login_verification:
-        other: Insira os dados da sessão %{name} para verificar a eliminação.
-        self: Insira os dados da sua sessão %{name} para verificar a eliminação.
+        other: Introduza o login %{name} para verificar a eliminação. Depois de enviar
+          irá receber uma solicitação de confirmação da sua palavra passe.
+        self: Introduza o seu login %{name} para verificar a eliminação. Depois de
+          enviar irá receber uma solicitação de confirmação da sua palavra passe.
     error_inactive_activation_by_mail: 'A sua conta ainda não foi activada. Para activar
       sua conta, clique no link que foi enviado por e-mail.
 
@@ -274,7 +276,7 @@ pt:
         filesize: Tamanho
       attribute_help_text:
         attribute_name: Atributo
-        help_text: Help text
+        help_text: Texto de ajuda
       auth_source:
         account: Conta
         attr_firstname: Atributo nome
@@ -331,11 +333,11 @@ pt:
         work_packages: Tarefas
       query:
         column_names: Colunas
-        relations_to_type_column: Relations to %{type}
-        relations_of_type_column: "%{type} relations"
+        relations_to_type_column: Relações com %{type}
+        relations_of_type_column: relações de %{type}
         group_by: Agrupar resultados por
         filters: Filtros
-        timeline_labels: Timeline labels
+        timeline_labels: Etiquetas de linha temporal
       repository:
         url: URL
       role:
@@ -435,6 +437,8 @@ pt:
         greater_than_or_equal_to_start_date: deve ser maior ou igual à data de início.
         inclusion: não está definido como um dos valores permitidos.
         invalid: é inválido.
+        invalid_url: não é um URL válido.
+        invalid_url_scheme: 'não é um protocolo suportado (permitido: %{allowed_schemes}).'
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
         not_a_date: não é uma data válida.
         not_a_datetime: não é uma data/hora válida.
@@ -452,10 +456,10 @@ pt:
         before: tem de ser anterior a %{date}.
         before_or_equal_to: deve ser antes ou igual a %{date}.
         could_not_be_copied: não pode ser (totalmente) copiado.
-        regex_invalid: could not be validated with the associated regular expression.
+        regex_invalid: não pode ser validado com a expressão regular associada.
       models:
         custom_field:
-          at_least_one_custom_option: At least one option needs to be available.
+          at_least_one_custom_option: Pelo menos uma opção precisa estar disponível.
         enterprise_token:
           unreadable: não foi possível ler. Tem a certeza que é um token de suporte?
         parse_schema_filter_params_service:
@@ -487,7 +491,7 @@ pt:
               invalid: O campo personalizado não é válido no contexto em questão.
         relation:
           typed_dag:
-            circular_dependency: The relationship creates a circle of relationships.
+            circular_dependency: A relação cria um círculo de relações.
           attributes:
             to:
               error_not_found: pacote de trabalho na posição 'para' não foi encontrada
@@ -500,8 +504,8 @@ pt:
         repository:
           not_available: Fornecedor SCM não está disponível
           not_whitelisted: não é permitido pela configuração.
-          invalid_url: is not a valid repository URL or path.
-          must_not_be_ssh: must not be an SSH url.
+          invalid_url: não é um caminho ou URL válido do repositório.
+          must_not_be_ssh: não pode ser um url SSH.
           no_directory: não é um diretório.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Pacote de trabalho #%{id} não válido
@@ -567,7 +571,7 @@ pt:
           other: "%{count} erros impediram que este %{model} fosse guardado"
     models:
       attachment: Ficheiro
-      attribute_help_text: Attribute help text
+      attribute_help_text: Texto de ajuda do atributo
       board: Fórum
       comment: Comentario
       custom_field: Campo personalizado
@@ -663,6 +667,7 @@ pt:
   button_change_password: Alterar senha
   button_check_all: Seleccionar Todos
   button_clear: Limpar
+  button_close: Fechar
   button_collapse_all: Ocultar tudo
   button_configure: Configurar
   button_copy: Copiar
@@ -684,7 +689,7 @@ pt:
   button_login: Iniciar sessão
   button_move: Mover
   button_move_and_follow: Mover e seguir
-  button_print: Print
+  button_print: Imprimir
   button_quote: Citar
   button_remove: Remover
   button_remove_widget: Remover o widget
@@ -718,7 +723,7 @@ pt:
     failed: Não é possível copiar o projecto %{source_project_name}
     succeeded: Criado o projecto %{target_project_name}
     errors: Erro
-    project_custom_fields: Custom fields on project
+    project_custom_fields: Campos personalizados no projeto
     text:
       failed: Não foi possível copiar o projecto "%{source_project_name}" para o projecto
         "%{target_project_name}".
@@ -921,14 +926,16 @@ pt:
         add_groups: Adicionar novos grupos de atributos
         rename_groups: Mudar o nome de grupos de atributos
       project_filters:
-        description_html: Upgrade to %{link} to filter and sort on custom fields
+        description_html: Atualizar para %{link} para filtrar e ordenar nos campos
+          personalizados
   enumeration_activities: Actividades (tempo)
   enumeration_work_package_priorities: Prioridades de tarefas
   enumeration_system_activity: Atividade do sistema
   enumeration_reported_project_statuses: Estado do projeto reportado
-  error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
+  error_auth_source_sso_failed: Single Sign-On (SSO) para o utilizador '%{value}'
+    falhou
   error_can_not_archive_project: Este projeto não pode ser arquivado
-  error_can_not_delete_entry: Unable to delete entry
+  error_can_not_delete_entry: Não é possível apagar a entrada
   error_can_not_delete_custom_field: Não é possível eliminar o campo personalizado
   error_can_not_delete_type: Este tipo contém pacotes de trabalho e não pode ser apagado.
   error_can_not_delete_standard_type: Tipos de padrão não podem ser eliminados.
@@ -1036,7 +1043,7 @@ pt:
       forums: Fórums
       blog: Blog de OpenProject
       boards: Fórum da Comunidade
-      newsletter: Security alerts / Newsletter
+      newsletter: Alertas de segurança / Boletim informativo
   instructions_after_registration: Pode iniciar a sessão assim que a sua conta for
     ativada ao clicar em %{signin}.
   instructions_after_logout: Pode iniciar sessão novamente ao clicar em %{signin}.
@@ -1055,8 +1062,8 @@ pt:
   label_accessibility: Accessibilidade
   label_account: Conta
   label_active: Ativo
-  label_activate_user: Activate user
-  label_active_in_new_projects: Active in new projects
+  label_activate_user: Ativar utilizador
+  label_active_in_new_projects: Ativo em novos projetos
   label_activity: Atividade
   label_add_edit_translations: Adicionar e editar traduções
   label_add_another_file: Adicione outro ficheiro
@@ -1122,11 +1129,11 @@ pt:
   label_select_main_menu_item: Seleccione novo item do menu principal
   label_select_project: Selecionar um projeto
   label_required_disk_storage: Espaço em disco necessário
-  label_send_invitation: Send invitation
+  label_send_invitation: Enviar convite
   label_change_plural: Alterações
   label_change_properties: Alterar propriedades
   label_change_status: Alterar estado
-  label_change_status_of_user: 'Change status of #{username}'
+  label_change_status_of_user: 'Alterar o estado de #{username}'
   label_change_view_all: Ver todas as alterações
   label_changes_details: Detalhes de todas as alterações
   label_changeset: Changeset
@@ -1173,7 +1180,7 @@ pt:
   label_date_to: Para
   label_day_plural: dias
   label_default: Predefinido
-  label_delete_user: Delete user
+  label_delete_user: Apagar utilizador
   label_delete_project: Apagar projeto
   label_deleted: eliminado
   label_deleted_custom_field: "(campo personalizado apagado)"
@@ -1222,7 +1229,7 @@ pt:
   label_file_plural: Ficheiros
   label_filter_add: Adicionar filtro
   label_filter_plural: Filtros
-  label_filters_toggle: Show/hide filters
+  label_filters_toggle: Mostrar/ocultar filtros
   label_float: Float
   label_folder: Pasta
   label_follows: segue
@@ -1255,7 +1262,7 @@ pt:
   label_internal: Interno
   label_invite_user: Convidar utilziador
   label_show_hide: Mostrar/ocultar
-  label_show_all_registered_users: Show all registered users
+  label_show_all_registered_users: Mostrar todos utilizadores registrados
   label_journal: Diário
   label_journal_diff: Comparação de descrição
   label_language: Idioma
@@ -1275,12 +1282,12 @@ pt:
   label_less_than_ago: menos que dias atrás
   label_list: Lista
   label_loading: A carregar...
-  label_lock_user: Lock user
+  label_lock_user: Bloquear utilizador
   label_logged_as: Autenticado como
   label_login: Iniciar sessão
   label_custom_logo: Logótipo personalizado
-  label_custom_favicon: Custom favicon
-  label_custom_touch_icon: Custom touch icon
+  label_custom_favicon: Favicon personalizado
+  label_custom_touch_icon: Ícone de toque personalizado
   label_logout: Terminar Sessão
   label_main_menu: Menu lateral
   label_manage_groups: Gerir grupos
@@ -1384,8 +1391,8 @@ pt:
   label_projects_storage_information: "%{count} projetos a utilizar %{storage} de
     armazenamento em disco"
   label_project_view_all: Ver todos os projetos
-  label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_show_details: Mostrar detalhes do projeto
+  label_project_hide_details: Ocultar detalhes do projeto
   label_public_projects: Projetos públicos
   label_query_new: Nova consulta
   label_query_plural: Consultas personalizadas
@@ -1523,7 +1530,7 @@ pt:
   label_wiki_dont_show_menu_item: Não mostrar esta página wiki na navegação do projecto
   label_wiki_edit: Editar wiki
   label_wiki_edit_plural: Edições de wiki
-  label_wiki_page_attachments: Wiki page attachments
+  label_wiki_page_attachments: Anexos da página wiki
   label_wiki_page_id: ID da página wiki
   label_wiki_navigation: Navegação wiki
   label_wiki_page: Página wiki
@@ -1534,7 +1541,7 @@ pt:
   label_wiki_show_submenu_item: 'Mostrar como item do sub-menu de '
   label_work_package: Pacote de trabalho
   label_work_package_added: Tarefa adicionada
-  label_work_package_attachments: Work package attachments
+  label_work_package_attachments: Anexos do pacote de trabalho
   label_work_package_category_new: Nova categoria
   label_work_package_category_plural: Categorias de tarefas
   label_work_package_hierarchy: Hierarquia de pacotes de trabalho
@@ -1622,7 +1629,7 @@ pt:
   macro_execution_error: Erro a executar a macro %{macro_name}
   macro_unavailable: Macro %{macro_name} não pode ser mostrada.
   mail:
-    actions: Actions
+    actions: Ações
   mail_body_account_activation_request: 'Um novo utilizador (%{value}) registou-se.
     A conta está a aguardar aprovação:'
   mail_body_account_information: Sua informação de conta
@@ -1672,10 +1679,10 @@ pt:
   notice_account_registered_and_logged_in: Bem-vindo, sua conta foi ativada. Agora
     você está autenticado.
   notice_activation_failed: A conta não pode ser ativada.
-  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
-  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
-    but '%{actual}' returned.
-  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_auth_stage_verification_error: Não foi possível verificar o estágio '%{stage}'.
+  notice_auth_stage_wrong_stage: Era esperado que terminasse o estágio de autenticação
+    '%{expected}', mas foi recebido '%{actual}'.
+  notice_auth_stage_error: O estágio de autenticação '%{stage}' falhou.
   notice_can_t_change_password: Esta conta utiliza uma fonte de autenticação externa.
     Não é possível alterar a senha.
   notice_custom_options_deleted: A opção '%{option_value}' e suas %{num_deleted} ocorrências
@@ -1706,7 +1713,8 @@ pt:
   notice_bad_request: Pedido inválido.
   notice_not_authorized: Não está autorizado a aceder a esta página.
   notice_not_authorized_archived_project: O projeto ao qual tentou aceder foi arquivado.
-  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_password_confirmation_failed: A sua palavra passe está incorreta. Não foi
+    possível continuar.
   notice_principals_found_multiple: Foram encontrados %{number} resultados. Carregue
     em TAB para ver o primeiro resultado.
   notice_principals_found_single: Foi encontrado um resultado. Carregue em TAB para
@@ -1722,7 +1730,7 @@ pt:
   notice_unable_delete_version: Não é possível eliminar a versão.
   notice_user_missing_authentication_method: O utilizador ainda tem que escolher uma
     senha ou outro modo de iniciar a sessão.
-  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  notice_user_invitation_resent: Foi enviado um convite para %{email}.
   present_access_key_value: 'O seu %{key_name} é: %{value}'
   notice_automatic_set_of_standard_type: Defina o tipo por defeito automaticamente.
   notice_logged_out: A sua sessão foi terminada.
@@ -1730,9 +1738,9 @@ pt:
     houver utilizadores a usá-lo.
   notice_project_cannot_update_custom_fields: 'Não pode atualizar os campos personalizados
     disponíveis do projeto. O projeto não é válido: %{errors}'
-  notice_attachment_migration_wiki_page: 'This page was generated automatically during
-    the update of OpenProject. It contains all attachments previously associated with
-    the %{container_type} "%{container_name}".
+  notice_attachment_migration_wiki_page: 'Esta página foi gerada automaticamente durante
+    a atualização do OpenProject. Ela contém todos os anexos anteriormente associados
+    a %{container_type} "%{container_name}".
 
 '
   number:
@@ -1858,12 +1866,12 @@ pt:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Ativo ou arquivado
     assigned_to_role: Função do titular
     member_of_group: Grupo do titular
-    assignee_or_group: Assignee or belonging group
+    assignee_or_group: Responsável ou grupo
     subproject_id: Sub-projecto
-    name_or_identifier: Name or identifier
+    name_or_identifier: Nome ou identificador
   repositories:
     at_identifier: em %{identifier}
     atom_revision_feed: Feed de revisão Atom
@@ -1948,9 +1956,9 @@ pt:
     git:
       instructions:
         managed_url: Esta é a URL do repositório Git (local) gerido.
-        path: Specify the path to your local Git repository ( e.g., %{example_path}
-          ). You can also use remote repositories which are cloned to a local copy
-          by using a value starting with http(s):// or file://.
+        path: Especifique o caminho para seu repositório Git local (por exemplo, %{example_path}).
+          Também pode utilizar repositórios remotos, que são clonados para uma cópia
+          local usando um valor começando com http (s) :// ou file://.
         path_encoding: 'Substituir o caminho de codificação Git (padrão: UTF-8)'
       local_title: Ligação existente a repositório Git local
       local_url: URL local
@@ -2110,7 +2118,7 @@ pt:
   setting_session_ttl: Tempo de expiração de sessão após inatividade
   setting_session_ttl_hint: Valor abaixo de 5 trabalhos como desativado
   setting_session_ttl_enabled: A Sessão expirou
-  setting_start_of_week: Week starts on
+  setting_start_of_week: A semana começa a
   setting_sys_api_enabled: Habilitar o serviço web de gestão do repositório
   setting_sys_api_description: O serviço de web de gestão de repositório fornece integração
     e autorização ao utilizador para aceder a repositórios.
@@ -2136,7 +2144,7 @@ pt:
     brute_force_prevention: Bloqueio de utilizador automatizado
   show_hide_project_menu: Expandir/Recolher menu de projeto
   status_active: ativo
-  status_archived: archived
+  status_archived: arquivado
   status_invited: convidado
   status_locked: bloqueado
   status_registered: registado
@@ -2155,8 +2163,9 @@ pt:
   text_are_you_sure_with_children: Apagar o pacote de trabalho e todos os pacotes
     de trabalho filhos?
   text_assign_to_project: Atribuir ao projeto
-  text_form_configuration: 'You can customize which fields will be displayed in work
-    package forms. You can freely group the fields to reflect the needs for your domain.
+  text_form_configuration: 'Pode personalizar quais os campos que serão exibidos nos
+    formulários de pacote de trabalho. Pode agrupar livremente os campos para refletir
+    as necessidades para o seu domínio.
 
 '
   text_form_configuration_drag_to_activate: Arraste campos daqui para ativá-los
@@ -2175,20 +2184,20 @@ pt:
     precisam ser ativados por tipo de pacote de trabalho e por projeto.
 
 '
-  text_custom_logo_instructions: 'A white logo on transparent background is recommended.
-    For best results on both, conventional and retina displays, make sure your image''s
-    dimensions are 460px by 60px.
+  text_custom_logo_instructions: 'Recomenda-se um logotipo branco sobre um fundo transparente.
+    Para obter melhores resultados tanto em ecrãs convencionais como de retina, certifique-se
+    que as dimensões da sua imagem são de 460px por 60px.
 
 '
-  text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser
-    window/tab next to the page''s title. It''s needs to be a squared 32 by 32 pixels
-    sized PNG image file with a transparent background.
+  text_custom_favicon_instructions: 'Este é o pequeno ícone que aparece na janela/separador
+    do seu navegador ao lado do título da página. Precisa de ser um ficheiro de imagem
+    PNG de 32 por 32 píxeis com fundo transparente.
 
 '
-  text_custom_touch_icon_instructions: 'This is the icon that appears in your mobile
-    or tablet when you place a bookmark on your homescreen. It''s needs to be a squared
-    180 by 180 pixels sized PNG image file. Please make sure the image''s background
-    is not transparent otherwise it will look bad on iOS.
+  text_custom_touch_icon_instructions: 'Este é o ícone que aparece no seu telemóvel
+    ou tablet quando coloca um marcador no seu ecrã inicial. Precisa de ser um ficheiro
+    de imagem PNG de 180 por 180 píxeis. Certifique-se que o fundo da imagem não é
+    transparente, caso contrário ficará esteticamente mal no iOS.
 
 '
   text_default_administrator_account_changed: Conta padrão de administrador alterada
@@ -2543,8 +2552,8 @@ pt:
     blocked_num_failed_logins:
       one: bloqueada temporariamente (uma tentativa de início de sessão falhada)
       other: bloqueada temporariamente (%{count} tentativas de início de sessão falhadas)
-    confirm_status_change: You are about to change the status of '%{name}'. Are you
-      sure you want to continue?
+    confirm_status_change: Está prestes a mudar o estado de '%{name}'. Tem certeza
+      que deseja continuar?
     deleted: Eliminar Utilizador
     error_status_change_failed: 'A alteração do estado do utilizador falhou devido
       aos seguintes erros: %{errors}'
@@ -2564,7 +2573,7 @@ pt:
         quais é autor ou que lhe estão atribuídos).
       mail_self_notified: Quero ser notificado de alterações feitas por mim
     status_user_and_brute_force: "%{user} e %{brute_force}"
-    status_change: Status change
+    status_change: Alteração de estado
     unlock: Desbloquear
     unlock_and_reset_failed_logins: Desbloquear e redefinir logins errados
   version_status_closed: fechado

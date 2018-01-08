@@ -205,8 +205,10 @@ zh-TW:
         other: 將從系統中刪除該帳號。因此，使用者將不再能夠用他當前的帳密登錄。未來必須重新申請，才能再度成為使用者。
         self: 您的帳號將從系統中刪除。因此，您將不再能夠使用當前的帳密登錄。未來必需重新申請，才能再度成為使用者。
       login_verification:
-        other: 輸入登入的 %{name} 來確認刪除
-        self: 輸入你的登入 %{name} 來確認刪除
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: '您的帳號尚未啟用。要啟用您的帳號，請點擊系統通過電子郵件發送給您的連結。
 
 '
@@ -392,6 +394,8 @@ zh-TW:
           start date.
         inclusion: 沒有被設置為一個允許的值。
         invalid: 不正確。
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: 必須少於或者等於 %{count}。
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -609,6 +613,7 @@ zh-TW:
   button_change_password: 變更密碼
   button_check_all: 勾選全部
   button_clear: 清除
+  button_close: 關閉
   button_collapse_all: 全部摺疊
   button_configure: 設定
   button_copy: 複製

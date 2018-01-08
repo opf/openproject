@@ -243,8 +243,10 @@ ro:
           putea accesa aplicația cu credențialele curente. Puteți deveni din nou utilizator
           al aplicației prin mijloacele permise de sistem.
       login_verification:
-        other: Introdu autentificarea pentru %{name} spre a valida ștergerea.
-        self: Introdu autentificarea ta pentru %{name} spre a valida ștergerea.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Contul nu a fost încă activat. Pentru a activa
       contul dumneavoastră, dați click pe link-ul care v-a fost trimis prin e-mail.
 
@@ -435,6 +437,8 @@ ro:
           de începere.
         inclusion: nu este setată la una din valorile permise.
         invalid: este invalid.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: trebuie să fie mai mic sau egal cu %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -662,6 +666,7 @@ ro:
   button_change_password: Modificare parolă
   button_check_all: Selectează tot
   button_clear: Inițializare
+  button_close: Close
   button_collapse_all: Restrângere totală
   button_configure: Configurare
   button_copy: Copiere

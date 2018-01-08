@@ -199,8 +199,8 @@ ja:
         other: このアカウントはシステムから削除されます。したがって、このユーザは現在の認証情報でログイン不可能になります。再度このアプリケーションのユーザになることは可能です。
         self: 自分のアカウントがシステムから削除されます。したがって、現在の認証情報ではログイン不可能になります。再度このアプリケーションのユーザになることは可能です。
       login_verification:
-        other: 削除を確認するため、ログイン %{name} を入力してください。
-        self: 削除を確認するため、あなたのログイン %{name} を入力してください。
+        other: 削除を確認するため、ログイン %{name} を入力します。送信した後は、パスワードを確認します。
+        self: 削除を確認するため、あなたのログイン %{name} を入力します。送信した後は、パスワードを確認します。
     error_inactive_activation_by_mail: 'アカウントが有効化されていません。アカウントを有効にするために、受信したメール内のリンクをクリックしてください。
 
 '
@@ -383,6 +383,8 @@ ja:
         greater_than_or_equal_to_start_date: は開始日以後にしてください。
         inclusion: は許可されている値ではありません。
         invalid: は不正な値です。
+        invalid_url: は有効な URL ではありません。
+        invalid_url_scheme: 'はサポートされたプロトコルではありません (可能: %{allowed_schemes})。'
         less_than_or_equal_to: は%{count}以下の値にしてください。
         not_a_date: は有効な日付ではありません。
         not_a_datetime: は有効な日時ではありません。
@@ -597,6 +599,7 @@ ja:
   button_change_password: パスワードの変更
   button_check_all: 全てを選択
   button_clear: クリア
+  button_close: 閉じる
   button_collapse_all: 全てを折りたたむ
   button_configure: 設定
   button_copy: コピー

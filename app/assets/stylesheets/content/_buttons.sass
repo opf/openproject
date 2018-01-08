@@ -66,6 +66,12 @@ a.button
     &:hover, &:focus
       @include varprop(border-color, button--highlight-background-hover-color)
 
+  &.-highlight-inverted
+    @include button-style($body-background, darken($body-background, 5), $content-link-color, $button-style)
+    @include button-style($body-background, darken($body-background, 5), var(--content-link-color), $button-style)
+    @include varprop(border-color, content-link-color)
+
+
   &.-alt-highlight
     @include button-style($button--alt-highlight-background-color, $button--alt-highlight-background-hover-color, $button--alt-highlight-font-color, $button-style)
     @include button-style(var(--button--alt-highlight-background-color), var(--button--alt-highlight-background-hover-color), $button--alt-highlight-font-color, $button-style)

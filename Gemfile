@@ -234,7 +234,6 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.4.9.2'
   gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
-  gem 'pry-doc', '~> 0.10'
   gem 'bootsnap', '~> 1.1.2', require: false
 end
 

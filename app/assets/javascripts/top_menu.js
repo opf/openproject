@@ -116,12 +116,12 @@
       var menu_start_position;
       if (this.menu_container.next().get(0) != undefined && (this.menu_container.next().get(0).tagName == 'H2')){
         menu_start_position = this.menu_container.next().innerHeight() + this.menu_container.next().position().top;
-        this.menu_container.find("ul.legacy-actions-more").css({ top: menu_start_position });
+        this.menu_container.find("ul.menu-drop-down-container").css({ top: menu_start_position });
       }
       else if(this.menu_container.next().hasClass("wiki-content") && this.menu_container.next().children().next().first().get(0) != undefined && this.menu_container.next().children().next().first().get(0).tagName == 'H1'){
         var wiki_heading = this.menu_container.next().children().next().first();
         menu_start_position = wiki_heading.innerHeight() + wiki_heading.position().top;
-        this.menu_container.find("ul.legacy-actions-more").css({ top: menu_start_position });
+        this.menu_container.find("ul.menu-drop-down-container").css({ top: menu_start_position });
       }
     },
 

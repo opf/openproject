@@ -228,8 +228,10 @@ tr:
           oturum açmanız mümkün olmaz. Eğer bu uygulamaya tekrar üye olmak isterseniz.
           uygulamanın izin verdiği yollarla bunu gerçekleştirebilirsiniz.
       login_verification:
-        other: Silme işlemini doğrulamak için %{name} girişini girin.
-        self: Silme işlemini doğrulamak için %{name} alan adınızı girin.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Hesabınız henüz etkinleştirilmedi. Hesabınızı
       etkinleştirmek için size gönderilen e-posta bağlantısını tıklatın.
 
@@ -422,6 +424,8 @@ tr:
           büyük olması gerekir.
         inclusion: izin verilen değerlerden birine ayarlanmamış.
         invalid: geçersizdir.
+        invalid_url: geçerli bir adres değil.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
         not_a_date: geçerli bir tarih değil.
         not_a_datetime: geçerli bir zaman değil.
@@ -647,6 +651,7 @@ tr:
   button_change_password: Parolayı değiştir
   button_check_all: Tümünü işaretle
   button_clear: Temizle
+  button_close: Kapat
   button_collapse_all: Tümünü daralt
   button_configure: Düzenle
   button_copy: Kopyala
@@ -1718,7 +1723,7 @@ tr:
         format: "%n %u"
         units:
           byte:
-            one: Byte
+            one: Bayt
             other: Bayt
           gb: GB
           kb: KB
@@ -2367,18 +2372,18 @@ tr:
       project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
       project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
         %{end_label} %{endspan}%{endspanunit} from now"
-      project_filters: Filter projects
+      project_filters: Projeleri filtrele
       project_responsible: Show projects with responsible
       project_status: Show project status
-      project_types: Show project types
+      project_types: Proje türlerini göster
       timeframe: Zaman aralığını göster
       timeframe_end: bitiş
       timeframe_start: başlangıç
       timeline: Genel Ayarlar
-      zoom: Zoom factor
+      zoom: Yakınlaştırma faktörü
     history: Geçmiş
     new_color: Yeni renk
-    new_association: New dependency
+    new_association: Yeni bağımlılık
     new_work_package: Yeni iş paketi
     new_project_type: Yeni proje türü
     new_reporting: Yeni raporlama
@@ -2387,8 +2392,8 @@ tr:
       association can be created.
     no_right_to_view_timeline: You do not have the necessary permission to view the
       linked timeline.
-    no_timeline_for_id: There is no timeline with ID %{id}.
-    notice_successful_deleted_all_elements: Successfully deleted all elements
+    no_timeline_for_id: "%{id} kimlik numaralı bir zaman akışı yok."
+    notice_successful_deleted_all_elements: Tüm elementler başarıyla silindi
     outline: Reset Outline
     outlines:
       aggregation: Show aggregations only
@@ -2413,24 +2418,22 @@ tr:
     project_association_with_other: Project dependency between “%{project_a}” and
       “%{project_b}”
     project_association_of_type: Dependency to project of type “%{type}”
-    project_type_could_not_be_saved: Project type could not be saved
-    type_could_not_be_saved: Type could not be saved
-    reporting_could_not_be_saved: Reporting could not be saved
+    project_type_could_not_be_saved: Proje türü kaydedilemedi
+    type_could_not_be_saved: Type kaydedilemedi
+    reporting_could_not_be_saved: Raporlama kaydedilemedi
     properties: Özellikler
-    really_delete_color: 'Are you sure, you want to delete the following color? Types
-      using this color will not be deleted.
+    really_delete_color: 'Aşağıdaki rengi silmek istediğinizden emin misiniz? Bu rengi
+      kullanan türler silinmeyecek.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
-
-'
+    really_delete_project_association_between_project_a_and_project_b: "%{project_a}
+      ve %{project_b} arasındaki bağımlılığı silmek istediğinizden emin misiniz?\n"
     really_delete_project_type: 'Aşağıdaki proje türünü silmek istediğinizden emin
       misiniz? Bu türü kullanan projeler silinmeyecek.
 
 '
-    really_delete_timeline: 'Are you sure, you want to delete the following timeline
-      report? Work packages shown in this timeline report will not be deleted.
+    really_delete_timeline: 'Aşağıdaki zaman akışı raporunu silmek istediğinizden
+      emin misiniz? Zaman akışı raporunda görünen iş paketleri silinmeyecek.
 
 '
     really_delete_reporting: 'Are you sure, you want to delete the following reporting?
@@ -2442,7 +2445,7 @@ tr:
     timelines: Zaman çizelgesi raporu
     settings: Zaman çizelgeleri
     vertical_work_package: Dikey iş paketleri
-    without_project_type: Without project type
+    without_project_type: Proje türü olmadan
     you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
     zoom:
       in: Yakınlaştır
@@ -2485,10 +2488,10 @@ tr:
 '
     authorization_rejected: Oturum açma izniniz yok.
     assign_random_password: Rastgele şifre atayın (kullanıcıya e-posta ile gönderilir)
-    blocked: locked temporarily
+    blocked: geçici olarak kilitlendi
     blocked_num_failed_logins:
-      one: locked temporarily (one failed login attempt)
-      other: locked temporarily (%{count} failed login attempts)
+      one: geçici olarak kilitlenmiştir (bir başarısız giriş denemesi)
+      other: geçici olarak kilitlenmiştir (%{count} başarısız giriş denemeleri)
     confirm_status_change: "'%{name}' durumunu değiştirmek üzeresiniz. Devam etmek
       istediğinizden emin misiniz?"
     deleted: Kullanıcı silindi

@@ -234,8 +234,10 @@ hr:
           U skladu s postavljenim dozvolama aplikacije korisnik/ica mogo ponovno izvršiti
           registraciju i pristupiti aplikaciji.
       login_verification:
-        other: Unesite korisničko ime %{name} za potvrdu brisanja.
-        self: Molim vas unesite vaše korisničko ime %{name} za potrvrdu brisanja.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Vaš korisnički račun još nije aktiviran. Da
       bi ste aktivirali vaš korisnički račun, molimo vas da potvrdite poveznicu koja
       vam je poslana na email.
@@ -428,6 +430,8 @@ hr:
           start date.
         inclusion: nije postavljeno na jednu od dozvoljenih vrijednosti.
         invalid: je nevažeće.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: mora biti manji od ili jednak %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -657,6 +661,7 @@ hr:
   button_change_password: Promjeni lozinku
   button_check_all: Označi sve
   button_clear: Očisti
+  button_close: Close
   button_collapse_all: Sažmi sve
   button_configure: Postavi
   button_copy: Kopiraj

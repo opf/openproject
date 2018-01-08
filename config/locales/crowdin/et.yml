@@ -233,8 +233,10 @@ et:
           oma praeguste kasutajatunnustega. Küll aga võid sa registreerida end uuesti
           rakenduse kasutajaks.
       login_verification:
-        other: Enter the login %{name} to verify the deletion.
-        self: Enter your login %{name} to verify the deletion.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Sinu konto ei ole veel aktiivne. Sulle saadetud
       e-kirjas on link, millega saad oma konto aktiveerida.
 
@@ -425,6 +427,8 @@ et:
           start date.
         inclusion: is not set to one of the allowed values.
         invalid: on vigane.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -650,6 +654,7 @@ et:
   button_change_password: Muuda parool
   button_check_all: Märgi kõik
   button_clear: Tühjenda
+  button_close: Close
   button_collapse_all: Ahenda kõik
   button_configure: Seadista
   button_copy: Kopeeri

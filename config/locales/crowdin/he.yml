@@ -232,8 +232,10 @@ he:
           תבחר להפוך למשתמש של האפליקצייה שוב, תוכל לעשות זאת שוב על-ידי האפשרויות
           השאפליקצייה מאפשרת.
       login_verification:
-        other: Enter the login %{name} to verify the deletion.
-        self: Enter your login %{name} to verify the deletion.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'החשבון שלך עדיין לא הופעל. כדי להפעיל את חשבונך,
       לחץ על הקישור שנשלח לדוא״ל שלך.
 
@@ -424,6 +426,8 @@ he:
           start date.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -651,6 +655,7 @@ he:
   button_change_password: שינוי סיסמה
   button_check_all: סמן את כולם
   button_clear: נקה
+  button_close: Close
   button_collapse_all: סגור הכל
   button_configure: הגדר
   button_copy: העתק

@@ -235,8 +235,10 @@ af:
           jy kies om weer 'n gebruiker van hierdie applikasie te word, sal jy kan
           deur middel van die toegewings toegestaan deur hierdie applikasie.
       login_verification:
-        other: Enter the login %{name} to verify the deletion.
-        self: Enter your login %{name} to verify the deletion.
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Jou rekening is nog nie geaktiveer nie. Om
       jou rekening te aktiveer, klik op die skakel wat aan jou per e-pos gestuur is.
 
@@ -427,6 +429,8 @@ af:
           begindatum.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
         not_a_datetime: is not a valid date time.
@@ -652,6 +656,7 @@ af:
   button_change_password: Verander wagwoord
   button_check_all: Kontroleer almal
   button_clear: Verwyder
+  button_close: Close
   button_collapse_all: Vou almal op
   button_configure: Stel op
   button_copy: Kopieer
