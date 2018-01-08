@@ -258,10 +258,7 @@ group :opf_plugins do
   gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'translations-in-core'
 end
 
-# TODO: Make this group :optional when bundler v10.x
-# is matured enough that we can use this everywhere
-# http://bundler.io/blog/2015/06/24/version-1-10-released.html
-group :docker do
+group :docker, optional: true do
   gem 'passenger'
 
   # Used to easily precompile assets
