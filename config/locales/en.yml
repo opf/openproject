@@ -123,6 +123,15 @@ en:
 
     forced_registration:
       required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}.
+        This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Cell phone"
   field_otp: "One-time password"
   notice_account_otp_invalid: "Invalid one-time password."

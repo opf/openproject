@@ -34,7 +34,7 @@ describe 'Login with 2FA backup code', with_2fa_ee: true, type: :feature,
 
       # Open other options
       find('#toggle_resend_form').click
-      find('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title')).click
+      find('a', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'), wait: 10).click
 
       expect(page).to have_selector('h2', text: I18n.t('two_factor_authentication.login.enter_backup_code_title'))
       fill_in 'backup_code', with: 'whatever'

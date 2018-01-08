@@ -43,7 +43,7 @@ module OpenProject::TwoFactorAuthentication
 
     config.to_prepare do
       # Verify the validity of the configuration
-      ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.validate_active_strategies!
+      ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.validate_configuration!
     end
 
     config.after_initialize do

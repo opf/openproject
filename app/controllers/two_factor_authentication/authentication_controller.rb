@@ -1,6 +1,11 @@
 module ::TwoFactorAuthentication
   class AuthenticationController < ApplicationController
 
+    # Remmeber token functionality
+    include ::TwoFactorAuthentication::Concerns::RememberToken
+    # Backup tokens functionality
+    include ::TwoFactorAuthentication::Concerns::BackupCodes
+
     # User is not yet logged in, so skip login required check
     skip_before_action :check_if_login_required
 
@@ -11,16 +16,12 @@ module ::TwoFactorAuthentication
     before_action :require_authenticated_user,
                   only: %i(request_otp enter_backup_code verify_backup_code confirm_otp retry)
 
+    before_action :ensure_valid_configuration, only: [:request_otp]
+
     ##
     # Request token (if necessary) from the authenticated user
     def request_otp
       service = otp_service(@authenticated_user)
-
-      # In case of mis-configuration, block all logins
-      if manager.invalid_configuration?
-        render_500 message: I18n.t('two_factor_authentication.error_is_enforced_not_active')
-        return
-      end
 
       # Allow users to register their own devices if they try to authenticate with an
       # non-existing 2nd factor.
@@ -29,10 +30,10 @@ module ::TwoFactorAuthentication
       if service.needs_registration?
         flash[:info] = I18n.t('two_factor_authentication.forced_registration.required_to_add_device')
         redirect_to new_forced_2fa_device_path
-      elsif service.requires_token?
-        perform_2fa_authentication service
-      else
+      elsif !service.requires_token?
         complete_stage_redirect
+      else
+        perform_2fa_authentication_with_remember service
       end
     end
 
@@ -47,27 +48,6 @@ module ::TwoFactorAuthentication
     def retry
       service = service_from_resend_params
       perform_2fa_authentication service
-    end
-
-    ##
-    # Request user to enter backup code
-    def enter_backup_code
-      render
-    end
-
-    ##
-    # Verify backup code
-    def verify_backup_code
-      code = params[:backup_code]
-      return fail_login(t('two_factor_authentication.error_invalid_backup_code')) unless code.present?
-
-      service = TwoFactorAuthentication::UseBackupCodeService.new user: @authenticated_user
-      result = service.verify code
-      if result.success?
-        complete_stage_redirect 
-      else
-        fail_login(t('two_factor_authentication.error_invalid_backup_code'))
-      end
     end
 
     private
@@ -166,6 +146,7 @@ module ::TwoFactorAuthentication
       result = service.verify(token_string)
 
       if result.success?
+        set_remember_token!
         complete_stage_redirect
       else
         fail_login(I18n.t(:notice_account_otp_invalid))
@@ -185,6 +166,7 @@ module ::TwoFactorAuthentication
     ##
     # fail the login
     def fail_login(msg)
+      clear_remember_token!
       flash[:error] = msg
       failure_stage_redirect
     end
@@ -200,6 +182,15 @@ module ::TwoFactorAuthentication
 
     def manager
       ::OpenProject::TwoFactorAuthentication::TokenStrategyManager
+    end
+
+    ##
+    # In case of mis-configuration, block all logins
+    def ensure_valid_configuration
+      if manager.invalid_configuration?
+        render_500 message: I18n.t('two_factor_authentication.error_is_enforced_not_active')
+        return false
+      end
     end
 
     ##

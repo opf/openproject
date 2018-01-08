@@ -8,7 +8,7 @@ module ::TwoFactorAuthentication
       before_action :require_not_self
 
       # Password confirmation helpers and actions
-      include Concerns::PasswordConfirmation
+      include ::Concerns::PasswordConfirmation
       before_action :check_password_confirmation,
                     only: :make_default
 

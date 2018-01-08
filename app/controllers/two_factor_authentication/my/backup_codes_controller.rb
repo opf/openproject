@@ -5,7 +5,7 @@ module ::TwoFactorAuthentication
       before_action :require_login
 
       # Password confirmation helpers and actions
-      include Concerns::PasswordConfirmation
+      include ::Concerns::PasswordConfirmation
       before_action :check_password_confirmation, only: [:create]
 
       # Verify that flash was set (coming from create)

@@ -44,6 +44,10 @@ OpenProject::Application::routes.draw do
              as: 'my_2fa_backup_codes',
              only: [:show, :create]
 
+    resource :remember_cookie,
+             controller: 'two_factor_authentication/my/remember_cookie',
+             as: 'my_2fa_remember_cookie',
+             only: [:destroy]
 
     resources :two_factor_devices,
               controller: 'two_factor_authentication/my/two_factor_devices',

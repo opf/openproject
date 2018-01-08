@@ -18,6 +18,11 @@ def expect_logged_in
   expect(page).to have_selector('.form--field-container', text: user.login)
 end
 
+def expect_not_logged_in
+  visit my_account_path
+  expect(page).to have_no_selector('.form--field-container', text: user.login)
+end
+
 shared_examples 'login without 2FA' do
   it 'logs in the user without any active devices' do
     first_login_step

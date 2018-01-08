@@ -26,6 +26,16 @@ end %>
         <%= styled_text_field_tag 'otp', nil, autocomplete: 'off', size: 6, maxlength: 6, tabindex: 1, focus: true  %>
       </div>
     </div>
+    <% if remember_2fa_enabled? %>
+    <div class="form--field -wide-label">
+      <label class="form--label-with-check-box">
+        <div class="form--check-box-container">
+          <%= styled_check_box_tag 'remember_me', true, false %>
+        </div>
+        <%= t 'two_factor_authentication.remember.dont_ask_again', days: remember_2fa_days %>
+      </label>
+    </div>
+    <% end %>
       <input type="submit" name="login" value="<%=l(:button_login)%>" class="button -highlight" tabindex="2" />
       <% if resend_supported || has_other_devices || has_backup_codes %>
         <div class="login-options-container">

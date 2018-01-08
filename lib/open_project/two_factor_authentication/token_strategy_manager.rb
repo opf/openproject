@@ -8,6 +8,11 @@ module OpenProject::TwoFactorAuthentication
         active_strategies.detect { |s| s.supported_channels.include? channel.to_sym }
       end
 
+      #validate_configuration
+      def validate_configuration!
+        validate_active_strategies!
+      end
+
       ##
       # Validate the configured set of strategies
       def validate_active_strategies!
@@ -47,6 +52,10 @@ module OpenProject::TwoFactorAuthentication
       # Whether the system requires 2FA for all users
       def enforced?
         !!configuration[:enforced]
+      end
+
+      def allow_remember_for_days
+        configuration[:allow_remember_for_days].to_i
       end
 
       ##

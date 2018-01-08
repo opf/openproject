@@ -8,8 +8,11 @@ module ::TwoFactorAuthentication
 
       before_action :find_device, except: [:new, :index, :register]
 
+      # Remmeber token functionality
+      include ::TwoFactorAuthentication::Concerns::RememberToken
+
       # Password confirmation helpers and actions
-      include Concerns::PasswordConfirmation
+      include ::Concerns::PasswordConfirmation
       before_action :check_password_confirmation,
                     only: [:make_default, :destroy]
 
@@ -18,6 +21,7 @@ module ::TwoFactorAuthentication
 
       def index
         @two_factor_devices = @user.otp_devices.reload
+        @remember_token = get_2fa_remember_cookie(current_user)
       end
 
       ##
