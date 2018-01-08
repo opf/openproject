@@ -38,6 +38,16 @@ Reform::Contract.class_eval do
   include Reform::Form::ActiveModel::Validations
 end
 
+Reform::Form::ActiveModel::Validations::Validator.class_eval do
+  ##
+  # use activerecord as the base scope instead of 'activemodel' to be compatible
+  # to the messages we have already stored
+  def self.i18n_scope
+    :activerecord
+  end
+end
+
+
 require 'reform/contract'
 
 require 'open_project/patches/reform'
