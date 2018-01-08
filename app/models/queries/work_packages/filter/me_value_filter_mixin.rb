@@ -31,16 +31,19 @@
 ##
 # Mixin to a filter or strategy
 module Queries::WorkPackages::Filter::MeValueFilterMixin
+  # The 'me' value is passed to the frontend
+  ME_VALUE = 'me'.freeze
+
   ##
   # Return whether the current values object has a me value
   def has_me_value?
-    values.include? me_value
+    values.include? ME_VALUE
   end
 
   ##
   # Return the AR principal values with the me_value being replaced
   def value_objects
-    prepared_values = values.map { |value| value == me_value ? User.current.id : value }
+    prepared_values = values.map { |value| value == ME_VALUE ? User.current.id : value }
     Principal.where(id: prepared_values)
   end
 
@@ -55,7 +58,7 @@ module Queries::WorkPackages::Filter::MeValueFilterMixin
       search = User.current.id
       objects.each do |value_object|
         if value_object[:id] == search
-          value_object[:id] = me_value
+          value_object[:id] = ME_VALUE
           value_object[:name] = me_label
           break
         end
@@ -75,7 +78,7 @@ module Queries::WorkPackages::Filter::MeValueFilterMixin
   def values_replaced
     vals = values.clone
 
-    if vals.delete(me_value)
+    if vals.delete(ME_VALUE)
       if User.current.logged?
         vals.push(User.current.id.to_s)
       else
@@ -88,10 +91,6 @@ module Queries::WorkPackages::Filter::MeValueFilterMixin
 
   protected
 
-  def me_value
-    'me'.freeze
-  end
-
   def me_label
     I18n.t(:label_me)
   end
@@ -101,7 +100,7 @@ module Queries::WorkPackages::Filter::MeValueFilterMixin
   def me_allowed_value
     values = []
     if User.current.logged?
-      values << [me_label, me_value]
+      values << [me_label, ME_VALUE]
     end
     values
   end
