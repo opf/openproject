@@ -49,6 +49,14 @@ module Components
         page.find(".relation-row-#{relatable.id} .wp-relations--subject-field").click
       end
 
+      def edit_relation_type(relatable, to_type:)
+        row = find_row(relatable)
+        row.find('.relation-row--type').click
+
+        expect(row).to have_selector('select.wp-inline-edit--field')
+        row.find('.wp-inline-edit--field option', text: to_type).select_option
+      end
+
       def hover_action(relatable, action)
         retry_block do
           # Focus type edit to expose buttons
