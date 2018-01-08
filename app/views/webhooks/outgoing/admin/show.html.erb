@@ -1,0 +1,74 @@
+
+<%= render partial: 'header_tags' %>
+<% html_title(t(:label_administration), t('webhooks.singular'), @webhook.name) -%>
+<% local_assigns[:additional_breadcrumb] = [
+  link_to(t('webhooks.plural'), admin_outgoing_webhooks_path),
+  @webhook.name
+  ]
+%>
+
+<%= toolbar title: "#{t('webhooks.singular')} - #{@webhook.name}" do %>
+  <li class="toolbar-item">
+    <%= link_to edit_admin_outgoing_webhook_path(@webhook),
+          { class: 'button',
+            aria: {label: t(:label_edit)},
+            title: t(:label_edit)} do %>
+      <%= op_icon('button--icon icon-edit') %>
+      <span class="button--text"><%= t(:label_edit) %></span>
+    <% end %>
+  </li>
+  <li class="toolbar-item">
+    <%= link_to admin_outgoing_webhook_path(@webhook),
+                class: 'button -danger',
+                data: { method: 'delete', confirm: I18n.t(:text_are_you_sure) } do %>
+      <%= op_icon('button--icon icon-delete') %>
+      <span class="button--text"><%= t(:button_delete) %></span>
+    <% end %>
+  </li>
+<% end %>
+
+<%= cell ::Components::OnOffStatusCell,
+         is_on: @webhook.enabled?,
+         on_text: t('webhooks.outgoing.status.enabled'),
+         on_description: t('webhooks.outgoing.status.enabled_text'),
+         off_text: t('webhooks.outgoing.status.disabled'),
+         off_description: t('webhooks.outgoing.status.disabled_text') %>
+
+<div class="account--section">
+  <div class="attributes-group">
+    <div class="attributes-key-value">
+
+      <div class="attributes-key-value--key"><%= ::Webhooks::Webhook.human_attribute_name('events') %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= @webhook.event_names.join(', ') %></span>
+        </div>
+      </div>
+
+      <div class="attributes-key-value--key"><%= ::Webhooks::Webhook.human_attribute_name('projects') %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span>
+            <% if @webhook.all_projects? %>
+              (<%= t(:label_all) %>)
+            <% else %>
+              <%= @webhook.projects.join(', ') %>
+            <% end %>
+          </span>
+        </div>
+      </div>
+
+      <div class="attributes-key-value--key"><%= ::Webhooks::Webhook.human_attribute_name('description') %></div>
+      <div class="attributes-key-value--value-container">
+        <div class="attributes-key-value--value -text">
+          <span><%= @webhook.description %></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="account--section">
+  <h2><%= t 'webhooks.outgoing.deliveries.title' %></h2>
+  <%= cell ::Webhooks::Outgoing::Deliveries::TableCell, @webhook.deliveries.newest %>
+</div>

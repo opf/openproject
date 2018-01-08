@@ -1,0 +1,98 @@
+<fieldset class="form--fieldset">
+  <p>
+    <%= t 'webhooks.outgoing.form.introduction' %>
+    <br/>
+    <%= link_to t('webhooks.outgoing.form.apiv3_doc_url'), OpenProject::Static::Links.links[:api_docs][:href] %>
+  </p>
+
+  <div class="form--field">
+    <%= f.text_field :name, required: true, container_class: '-middle' %>
+  </div>
+
+  <div class="form--field">
+      <%= f.url_field :url, required: true, container_class: '-wide' %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_area :description, placeholder: t('webhooks.outgoing.form.description.placeholder'), container_class: '-wide' %>
+  </div>
+
+  <div class="form--field">
+    <%= f.text_field :secret, container_class: '-wide' %>
+    <div class="form--field-instructions">
+      <%= t('webhooks.outgoing.form.secret.description') %>
+    </div>
+  </div>
+
+  <div class="form--field">
+    <%= f.check_box :enabled %>
+    <div class="form--field-instructions">
+      <%= t('webhooks.outgoing.form.enabled.description') %>
+    </div>
+  </div>
+</fieldset>
+
+<fieldset class="form--fieldset" id="webhooks-selected-events">
+  <legend class="form--fieldset-legend" title="<%= t 'webhooks.outgoing.form.events.title' %>">
+      <%= t 'webhooks.outgoing.form.events.title' %>
+  </legend>
+  <div class="form--fieldset-control">
+    <span class="form--fieldset-control-container">
+        (<%= check_all_links 'webhooks-selected-events' %>)
+    </span>
+  </div>
+
+  <% event_names = @webhook.event_names %>
+  <% OpenProject::Webhooks::EventResources.available_events_map.each do |resource_label, events|  %>
+    <div class="form--field">
+      <label class="form--label"><%= resource_label %></label>
+      <div class="form--field-container -vertical">
+        <% events.each do |key, label| %>
+          <label class="form--label-with-check-box">
+            <%= styled_check_box_tag 'webhook[events][]',
+                              key,
+                              event_names.include?(key) -%>
+            <%= label %>
+          </label>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</fieldset>
+
+<fieldset class="form--fieldset">
+  <legend class="form--fieldset-legend" title="<%= 'webhooks.outgoing.form.project_ids.title' %>">
+    <%= t 'webhooks.outgoing.form.project_ids.title' %>
+  </legend>
+  <p><%= t('webhooks.outgoing.form.project_ids.description') %></p>
+  <div class="form--field">
+      <%= f.radio_button :project_ids,
+                         'all',
+                         checked: @webhook.all_projects?,
+                         label: t('webhooks.outgoing.form.project_ids.all'),
+                         container_class: '-wide' %>
+  </div>
+  <div class="form--field">
+      <%= f.radio_button :project_ids,
+                         'selection',
+                         checked: !@webhook.all_projects?,
+                         label: t('webhooks.outgoing.form.project_ids.selected'),
+                         container_class: '-wide' %>
+  </div>
+
+  <div class="form--field">
+    <label class="form--label"><%= t 'webhooks.outgoing.form.selected_project_ids.title' %></label>
+    <div class="form--field-container -vertical">
+      <% Project.pluck(:id, :name).each do |id, name| %>
+        <label class="form--label-with-check-box">
+          <%= styled_check_box_tag 'webhook[selected_project_ids][]',
+                            id,
+                            !@webhook.all_projects? && @webhook.project_ids.include?(id),
+                            disabled: @webhook.all_projects?,
+                            class: 'webhooks--selected-project-ids' -%>
+          <%= name %>
+        </label>
+      <% end %>
+    </div>
+  </div>
+</fieldset>
