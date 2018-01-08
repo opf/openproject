@@ -1,7 +1,7 @@
 require_relative '../../../spec_helper'
 require_relative './../authentication_controller_shared_examples'
 
-describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController do
+describe ::TwoFactorAuthentication::Users::TwoFactorDevicesController, with_2fa_ee: true do
   let(:admin) { FactoryGirl.create :admin }
   let(:user) { FactoryGirl.create(:user, login: 'foobar') }
   let(:other_user) { FactoryGirl.create(:user) }

@@ -8,6 +8,13 @@ module OpenProject::TwoFactorAuthentication
 
     register 'openproject-two_factor_authentication',
              author_url: 'http://openproject.com',
+             settings: {
+                 default: {
+                     enforced: false,
+                     active_strategies: []
+                 },
+                 partial: 'settings/openproject_two_factor_authentication'
+             },
              requires_openproject: '>= 4.0.0' do
                menu :my_menu,
                     :two_factor_authentication,

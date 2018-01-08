@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe ::TwoFactorAuthentication::TokenService do
+describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
   describe 'sending messages' do
     let(:user) { FactoryGirl.create(:user) }
     let(:dev_strategy) { ::OpenProject::TwoFactorAuthentication::TokenStrategy::Developer }

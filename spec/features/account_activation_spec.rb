@@ -2,6 +2,7 @@ require_relative '../spec_helper'
 require_relative './shared_2fa_examples'
 
 describe 'activating an invited account',
+         with_2fa_ee: true,
          type: :feature,
          js: true,
          with_config: {:'2fa' => {active_strategies: [:developer]}} do
