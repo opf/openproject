@@ -45,17 +45,82 @@ class RebuildDag < ActiveRecord::Migration[5.0]
 
     WorkPackage.rebuild_dag!
 
-    # supports finding relations that are to be deleted
-    add_index :relations, :count, where: 'count = 0'
+    add_count_index
+
+    add_scheduling_indices
+
+    add_non_hierarchy_index
   end
 
   def down
     remove_column :relations, :count
 
+    remove_index :relations,
+                 name: 'index_relations_hierarchy_follows_scheduling'
+    remove_index :relations,
+                 name: 'index_relations_only_hierarchy'
+    remove_index :relations,
+                 name: 'index_relations_to_from_only_follows'
+    remove_index :relations,
+                 name: 'index_relations_direct_non_hierarchy'
+
     truncate_closure_entries
   end
 
   private
+
+  def add_count_index
+    # supports finding relations that are to be deleted
+    add_index :relations, :count, where: 'count = 0'
+  end
+
+  def add_scheduling_indices
+    # supports relying on fast "Index Only Scan" for finding work packages that need to be rescheduled after a work package
+    # has been moved
+    add_index :relations,
+              %i(to_id hierarchy follows from_id),
+              name: 'index_relations_hierarchy_follows_scheduling',
+              where: <<-SQL
+                relations.relates = 0
+                AND relations.duplicates = 0
+                AND relations.blocks = 0
+                AND relations.includes = 0
+                AND relations.requires = 0
+                AND (hierarchy + relates + duplicates + follows + blocks + includes + requires > 0)
+              SQL
+
+    add_index :relations,
+              %i(from_id to_id hierarchy),
+              name: 'index_relations_only_hierarchy',
+              where: <<-SQL
+                relations.relates = 0
+                AND relations.duplicates = 0
+                AND relations.follows = 0
+                AND relations.blocks = 0
+                AND relations.includes = 0
+                AND relations.requires = 0
+              SQL
+
+    add_index :relations,
+              %i(to_id follows from_id),
+              name: 'index_relations_to_from_only_follows',
+              where: <<-SQL
+                hierarchy = 0
+                AND relates = 0
+                AND duplicates = 0
+                AND blocks = 0
+                AND includes = 0
+                AND requires = 0
+              SQL
+  end
+
+  def add_non_hierarchy_index
+    # supports finding relations via the api as only non hierarchy relations are returned
+    add_index :relations,
+              :from_id,
+              name: 'index_relations_direct_non_hierarchy',
+              where: '(hierarchy + relates + duplicates + follows + blocks + includes + requires = 1) AND relations.hierarchy = 0'
+  end
 
   def set_count_to_1
     ActiveRecord::Base.connection.execute <<-SQL
