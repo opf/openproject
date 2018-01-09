@@ -113,12 +113,16 @@ module SortHelper
     end
 
     def to_sql
-      sql = @criteria.map { |k, o|
-        if s = @available_criteria[k]
-          (o ? Array(s) : Array(s).map { |c| append_desc(c) }).join(', ')
-        end
-      }.compact.join(', ')
+      sql = to_a.join(', ')
       sql.blank? ? nil : sql
+    end
+
+    def to_a
+      @criteria
+        .map { |c, o| [@available_criteria[c], o] }
+        .reject { |c, _| c.nil? }
+        .map { |c, o| append_direction(Array(c), o) }
+        .compact
     end
 
     def add!(key, asc)
@@ -160,6 +164,14 @@ module SortHelper
 
       @criteria.slice!(3)
       self
+    end
+
+    def append_direction(criterion, asc = true)
+      if asc
+        criterion
+      else
+        criterion.map { |c| append_desc(c) }
+      end
     end
 
     # Appends DESC to the sort criterion unless it has a fixed order
