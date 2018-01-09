@@ -136,13 +136,17 @@ describe  'API v3 Relation resource', type: :request, content_type: :json do
       let(:sibling) do
         FactoryGirl.create(:work_package)
       end
+      let(:other_sibling) do
+        FactoryGirl.create(:work_package)
+      end
       let(:parent) do
         wp = FactoryGirl.create(:work_package)
 
-        wp.children = [sibling, from, to]
+        wp.children = [sibling, from, to, other_sibling]
       end
       let(:existing_follows) do
         FactoryGirl.create(:relation, relation_type: 'follows', from: to, to: sibling)
+        FactoryGirl.create(:relation, relation_type: 'follows', from: other_sibling, to: from)
       end
 
       let(:setup) do
