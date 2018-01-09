@@ -130,12 +130,12 @@ class Relation < ActiveRecord::Base
   end
 
   def self.hierarchy_or_follows
-    with_type_columns_0(WorkPackage._dag_options.type_columns - %i(hierarchy follows))
+    with_type_columns_0(self.class._dag_options.type_columns - %i(hierarchy follows))
       .non_reflexive
   end
 
   def self.hierarchy_or_reflexive
-    with_type_columns_0(WorkPackage._dag_options.type_columns - %i(hierarchy))
+    with_type_columns_0(self.class._dag_options.type_columns - %i(hierarchy))
   end
 
   def self.non_hierarchy_of_work_package(work_package)
