@@ -32,6 +32,7 @@ import {
   IAutocompleteItem,
   ILazyAutocompleterBridge
 } from 'core-components/common/autocomplete/lazyloaded/lazyloaded-autocompleter';
+import {keyCodes} from 'core-components/common/keyCodes.enum';
 
 interface IProjectMenuEntry {
   id:number;
@@ -95,7 +96,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
       });
 
       this.setup(this.input, autocompleteValues);
-      this.addBlurHandler();
+      this.addInputHandlers();
       this.loaded = true;
     });
   }
@@ -201,8 +202,18 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
   /**
    * Avoid closing the results when the input has lost focus.
    */
-  protected addBlurHandler() {
+  protected addInputHandlers() {
     this.input.off('blur');
+
+    this.input.keydown((evt:JQueryKeyEventObject) => {
+      if (evt.which === keyCodes.ESCAPE) {
+        this.input.val('');
+        this.input[this.widgetName].call(this.input, 'search', '');
+        return false;
+      }
+
+      return true;
+    });
   }
 
   protected setupParams(autocompleteValues:ProjectAutocompleteItem[]) {
