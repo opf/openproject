@@ -86,7 +86,7 @@ describe Queries::AvailableFilters, type: :model do
         .and_return(:filter_1)
 
       allow(filter)
-        .to receive(:new)
+        .to receive(:create!)
         .and_return(filter_1_instance)
 
       allow(filter)

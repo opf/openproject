@@ -28,16 +28,35 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Base
-  include ::Queries::Filters::Serializable
+require_relative 'base'
 
-  self.model = WorkPackage
+module Queries::Filters::Shared
+  module CustomFields
+    class ListOptional < Base
+      def value_objects
+        case custom_field.field_format
+        when 'version'
+          ::Version.where(id: values)
+        when 'list'
+          custom_field.custom_options.where(id: values)
+        else
+          super
+        end
+      end
 
-  def human_name
-    WorkPackage.human_attribute_name(name)
-  end
+      def ar_object_filter?
+        true
+      end
 
-  def project
-    context.project
+      def type
+        :list_optional
+      end
+
+      protected
+
+      def type_strategy_class
+        ::Queries::Filters::Strategies::CfListOptional
+      end
+    end
   end
 end

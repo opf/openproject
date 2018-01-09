@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Queries::Schemas::RoleFilterDependencyRepresenter, clear_cache: true do
   include ::API::V3::Utilities::PathHelper
 
-  let(:filter) { Queries::WorkPackages::Filter::RoleFilter.new }
+  let(:filter) { Queries::WorkPackages::Filter::RoleFilter.create! }
   let(:form_embedded) { false }
 
   let(:instance) do

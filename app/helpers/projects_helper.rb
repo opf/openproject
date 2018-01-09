@@ -133,9 +133,9 @@ module ProjectsHelper
 
   def blacklisted_project_filter?(filter)
     blacklist = [Queries::Projects::Filters::AncestorFilter]
-    blacklist << Queries::Projects::Filters::CustomFieldFilter unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
+    blacklist << Queries::Filters::Shared::CustomFields::Base unless EnterpriseToken.allows_to?(:custom_fields_in_projects_list)
 
-    blacklist.include?(filter.class)
+    blacklist.detect { |clazz| filter.is_a? clazz }
   end
 
   def no_projects_result_box_params

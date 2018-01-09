@@ -31,7 +31,7 @@ require 'spec_helper'
 describe ::API::V3::Queries::Filters::QueryFilterRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.new }
+  let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.create! }
   let(:representer) { described_class.new(filter) }
 
   subject { representer.to_json }
@@ -58,7 +58,7 @@ describe ::API::V3::Queries::Filters::QueryFilterRepresenter do
     end
 
     context 'for a translated filter' do
-      let(:filter) { Queries::WorkPackages::Filter::AssignedToFilter.new }
+      let(:filter) { Queries::WorkPackages::Filter::AssignedToFilter.create! }
 
       describe '_links' do
         it_behaves_like 'has a titled link' do
@@ -77,15 +77,17 @@ describe ::API::V3::Queries::Filters::QueryFilterRepresenter do
 
     context 'for a custom field filter' do
       let(:custom_field) { FactoryGirl.build_stubbed(:list_wp_custom_field) }
-      let(:filter) { Queries::WorkPackages::Filter::CustomFieldFilter.new }
+      let(:filter) do
+        Queries::WorkPackages::Filter::CustomFieldFilter.from_custom_field! custom_field: custom_field
+      end
 
       before do
         allow(WorkPackageCustomField)
-          .to receive(:find_by_id)
-          .with(custom_field.id)
+          .to receive(:find_by)
+          .with(id: custom_field.id)
           .and_return custom_field
 
-        filter.name = "cf_#{custom_field.id}"
+        filter
       end
 
       describe '_links' do

@@ -41,4 +41,9 @@ module Queries::Filters
     float: Queries::Filters::Strategies::Float,
     inexistent: Queries::Filters::Strategies::Inexistent
   }.freeze
+
+  ##
+  # Wrapper class for invalid filters being created
+  class InvalidError < StandardError; end
+  class MissingError < StandardError; end
 end

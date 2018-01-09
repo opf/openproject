@@ -28,16 +28,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Base
-  include ::Queries::Filters::Serializable
+require_relative 'base'
 
-  self.model = WorkPackage
+module Queries::Filters::Shared
+  module CustomFields
+    class Bool < Base
+      def allowed_values
+        [
+          [I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
+          [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]
+        ]
+      end
 
-  def human_name
-    WorkPackage.human_attribute_name(name)
-  end
+      def type
+        :list
+      end
 
-  def project
-    context.project
+      protected
+
+      def type_strategy_class
+        ::Queries::Filters::Strategies::BooleanList
+      end
+    end
   end
 end

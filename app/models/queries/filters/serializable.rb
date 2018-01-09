@@ -28,16 +28,53 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Base
-  include ::Queries::Filters::Serializable
+module Queries
+  module Filters
+    module Serializable
+      include ActiveModel::Serialization
+      extend ActiveSupport::Concern
 
-  self.model = WorkPackage
+      class_methods do
+        # (de-)serialization
+        def from_hash(filter_hash)
+          filter_hash.keys.map do |field|
+            begin
+              create!(name, filter_hash[field])
+            rescue ::Queries::Filters::InvalidError
+              Rails.logger.error "Failed to constantize field filter #{field} from hash."
+              ::Queries::NotExistingFilter.create!(field)
+            end
+          end
+        end
+      end
 
-  def human_name
-    WorkPackage.human_attribute_name(name)
-  end
+      def to_hash
+        { name => attributes_hash }
+      end
 
-  def project
-    context.project
+      def attributes
+        { name: name, operator: operator, values: values }
+      end
+
+      def ==(other)
+        other.attributes_hash == attributes_hash
+      end
+
+      protected
+
+      def attributes_hash
+        self.class.filter_params.inject({}) do |params, param_field|
+          params.merge(param_field => send(param_field))
+        end
+      end
+
+      private
+
+      def stringify_values
+        unless values.nil?
+          values.map!(&:to_s)
+        end
+      end
+    end
   end
 end

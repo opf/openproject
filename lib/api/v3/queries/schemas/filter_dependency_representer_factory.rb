@@ -78,7 +78,7 @@ module API
           end
 
           def cf_representer_class(filter)
-            return unless filter.is_a?(::Queries::WorkPackages::Filter::CustomFieldFilter)
+            return unless filter.is_a?(::Queries::Filters::Shared::CustomFields::Base)
 
             format = filter.custom_field.field_format
 

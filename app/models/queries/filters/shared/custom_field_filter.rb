@@ -30,154 +30,9 @@
 
 module Queries::Filters::Shared::CustomFieldFilter
   def self.included(base)
-    base.include(InstanceMethods)
     base.extend(ClassMethods)
-
     base.class_eval do
-      attr_accessor :custom_field
-      validate :custom_field_valid
-
-      class_attribute :custom_field_class
-    end
-  end
-
-  module InstanceMethods
-    def allowed_values
-      case custom_field.field_format
-      when 'bool'
-        [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
-         [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
-      when 'user', 'version', 'list'
-        custom_field.possible_values_options(project)
-      end
-    end
-
-    def type
-      return nil unless custom_field
-
-      case custom_field.field_format
-      when 'int', 'float'
-        :integer
-      when 'text'
-        :text
-      when 'list', 'user', 'version'
-        :list_optional
-      when 'date'
-        :date
-      when 'bool'
-        :list
-      else
-        :string
-      end
-    end
-
-    def order
-      20
-    end
-
-    def name
-      :"cf_#{custom_field.id}"
-    end
-
-    def human_name
-      custom_field ? custom_field.name : ''
-    end
-
-    def name=(field_name)
-      cf_id = self.class.key.match(field_name)[1]
-
-      self.custom_field = self.class.custom_field_class.find_by_id(cf_id.to_i)
-
-      super
-    end
-
-    def ar_object_filter?
-      %w{user version list}.include? custom_field.field_format
-    end
-
-    def available?
-      custom_field.present?
-    end
-
-    def value_objects
-      case custom_field.field_format
-      when 'user'
-        User.where(id: values)
-      when 'version'
-        Version.where(id: values)
-      when 'list'
-        custom_field.custom_options.where(id: values)
-      else
-        super
-      end
-    end
-
-    def where
-      model_db_table = model.table_name
-      cv_db_table = CustomValue.table_name
-
-      <<-SQL
-        #{model_db_table}.id IN
-          (SELECT #{model_db_table}.id
-           FROM #{model_db_table}
-           #{where_subselect_joins}
-           WHERE #{operator_strategy.sql_for_field(values, cv_db_table, 'value')})
-      SQL
-    end
-
-    def where_subselect_joins
-      raise NotImplementedError
-    end
-
-    def error_messages
-      messages = errors
-                 .full_messages
-                 .join(" #{I18n.t('support.array.sentence_connector')} ")
-
-      human_name + I18n.t(default: ' %<message>s', message: messages)
-    end
-
-    private
-
-    def type_strategy
-      @type_strategy ||= (strategies[type] || strategies[:inexistent]).new(self)
-    end
-
-    def custom_field_valid
-      if custom_field.nil?
-        errors.add(:base, I18n.t('activerecord.errors.models.query.filters.custom_fields.inexistent'))
-      elsif invalid_custom_field_for_context?
-        errors.add(:base, I18n.t('activerecord.errors.models.query.filters.custom_fields.invalid'))
-      end
-    end
-
-    def validate_inclusion_of_operator
-      super if custom_field
-    end
-
-    def invalid_custom_field_for_context?
-      project && invalid_custom_field_for_project? ||
-        !project && invalid_custom_field_globally?
-    end
-
-    def invalid_custom_field_globally?
-      !self.class.custom_fields(project)
-           .exists?(custom_field.id)
-    end
-
-    def invalid_custom_field_for_project?
-      !self.class.custom_fields(project)
-           .map(&:id).include? custom_field.id
-    end
-
-    def strategies
-      strategies = Queries::Filters::STRATEGIES.dup
-      strategies[:list_optional] = Queries::Filters::Strategies::CfListOptional
-      strategies[:integer] = Queries::Filters::Strategies::CfInteger
-      # knowing that only bool have list type
-      strategies[:list] = Queries::Filters::Strategies::BooleanList
-
-      strategies
+      class_attribute :custom_field_context
     end
   end
 
@@ -186,26 +41,67 @@ module Queries::Filters::Shared::CustomFieldFilter
       /cf_(\d+)/
     end
 
-    def all_for(context = nil)
-      project = context ? context.project : nil
+    ##
+    # TODO this differs from CustomField#accessor_name for reasons I don't see,
+    # however this name will be persisted in queries so we can't just map one to the other.
+    def custom_field_accessor(custom_field)
+      "cf_#{custom_field.id}"
+    end
 
-      custom_fields(project).map do |cf|
-        filter = new
-        filter.custom_field = cf
-        filter.context = context
-        filter
+    def all_for(context = nil)
+      custom_field_context.custom_fields(context).map do |cf|
+        cf_accessor = custom_field_accessor(cf)
+        begin
+          create!(name: cf_accessor, custom_field: cf)
+        rescue ::Queries::Filters::InvalidError
+          Rails.logger.error "Failed to map custom field filter for #{cf_accessor} (CF##{cf.id}."
+          nil
+        end
+      end.compact
+    end
+
+    ##
+    # Find the given custom field by its accessor, should it exist.
+    def find_by_accessor(name)
+      match = name.match /cf_(\d+)/
+
+      if match.present? && match[1].to_i > 0
+        custom_field_context.custom_field_class.find_by(id: match[1].to_i)
       end
     end
 
-    def custom_fields(project)
-      if project
-        project.all_work_package_custom_fields
+    ##
+    # Create a filter instance for the given custom field accessor
+    def create!(name:, **options)
+      custom_field = find_by_accessor(name)
+      raise ::Queries::Filters::InvalidError if custom_field.nil?
+
+      from_custom_field!(custom_field: custom_field, **options)
+    end
+
+    ##
+    # Create a filter instance for the given custom field
+    def from_custom_field!(custom_field:, **options)
+      constant_name = subfilter_module(custom_field)
+      clazz = "::Queries::Filters::Shared::CustomFields::#{constant_name}".constantize
+      clazz.create!(custom_field: custom_field, custom_field_context: custom_field_context, **options)
+    rescue NameError => e
+      Rails.logger.error "Failed to constantize custom field filter for #{name}. #{e}"
+      raise ::Queries::Filters::InvalidError
+    end
+
+    ##
+    # Get the subfilter class name for the given custom field
+    def subfilter_module(custom_field)
+      case custom_field.field_format
+      when 'user'
+        :User
+      when 'list', 'version'
+        :ListOptional
+      when 'bool'
+        :Bool
       else
-        custom_field_class
-          .filter
-          .for_all
-          .where
-          .not(field_format: ['user', 'version'])
+        :Base
       end
     end
   end

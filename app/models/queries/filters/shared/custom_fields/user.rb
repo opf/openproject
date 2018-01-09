@@ -28,16 +28,21 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::WorkPackageFilter < ::Queries::Filters::Base
-  include ::Queries::Filters::Serializable
+require_relative 'list_optional'
 
-  self.model = WorkPackage
+module Queries::Filters::Shared
+  module CustomFields
+    class User < ListOptional
+      ##
+      # User CFs may reference the 'me' value, so use the values helpers
+      # from the Me mixin, which will override the ListOptional value_objects definition.
+      include ::Queries::WorkPackages::Filter::MeValueFilterMixin
 
-  def human_name
-    WorkPackage.human_attribute_name(name)
-  end
-
-  def project
-    context.project
+      def allowed_values
+        @allowed_values ||= begin
+          me_allowed_value + super
+        end
+      end
+    end
   end
 end
