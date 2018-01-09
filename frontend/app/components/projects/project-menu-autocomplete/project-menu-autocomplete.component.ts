@@ -80,7 +80,6 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
 
     this.dropdownMenu.on('opened', () => this.open());
     this.dropdownMenu.on('closed', () => this.close());
-
   }
 
   public close() {
@@ -96,6 +95,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
       });
 
       this.setup(this.input, autocompleteValues);
+      this.addBlurHandler();
       this.loaded = true;
     });
   }
@@ -115,7 +115,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
     this.noResults.toggle(ui.content.length === 0);
   }
 
-  protected customizeItem(item:ProjectAutocompleteItem, div:JQuery):void {
+  public customizeItem(item:ProjectAutocompleteItem, div:JQuery):void {
     // When in hierarchy, indent
     if (item.object.level > 0) {
       div
@@ -198,6 +198,13 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
     return results;
   }
 
+  /**
+   * Avoid closing the results when the input has lost focus.
+   */
+  protected addBlurHandler() {
+    this.input.off('blur');
+  }
+
   protected setupParams(autocompleteValues:ProjectAutocompleteItem[]) {
     const params:any = super.setupParams(autocompleteValues);
 
@@ -206,6 +213,9 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
     params.classes = {
       'ui-autocomplete': '-inplace project-menu-autocomplete--results'
     };
+    params.position = {
+      of: '.project-menu-autocomplete--input-container'
+    }
 
     return params;
   }
@@ -213,6 +223,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
 
 wpControllersModule.component('projectMenuAutocomplete', {
   templateUrl: '/components/projects/project-menu-autocomplete/project-menu-autocomplete.template.html',
-  controller: ProjectMenuAutocompleteController
+  controller: ProjectMenuAutocompleteController,
+  controllerAs: '$ctrl'
 });
 

@@ -43,7 +43,7 @@ export abstract class ILazyAutocompleterBridge<T> {
    * @param {IAutocompleteItem} item
    * @param {JQuery} div
    */
-  protected customizeItem(item:IAutocompleteItem<T>, div:JQuery):void {
+  public customizeItem(item:IAutocompleteItem<T>, div:JQuery):void {
     // Do nothing
   }
 
@@ -190,6 +190,11 @@ export namespace LazyLoadedAutocompleter {
         if (widget.options.autoFocus) {
           menu.next(new jQuery.Event('mouseover'));
         }
+      },
+
+      _resizeMenu: function () {
+        var ul = this.menu.element;
+        ul.outerWidth(this.element.outerWidth());
       },
 
       _renderItem: function (this:any, ul:JQuery, item:IAutocompleteItem<T>) {
