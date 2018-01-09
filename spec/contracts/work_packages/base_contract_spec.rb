@@ -260,6 +260,18 @@ describe WorkPackages::BaseContract do
   describe 'due date' do
     it_behaves_like 'a parent unwritable property', :due_date
     it_behaves_like 'a date attribute', :due_date
+
+    it 'returns an error when trying to set it before the start date' do
+      work_package.start_date = Date.today + 2.days
+      work_package.due_date = Date.today
+
+      contract.validate
+
+      message = I18n.t('activerecord.errors.messages.greater_than_or_equal_to_start_date')
+
+      expect(contract.errors[:due_date])
+        .to include message
+    end
   end
 
   describe 'percentage done' do
