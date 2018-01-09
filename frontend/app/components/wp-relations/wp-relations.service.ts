@@ -83,9 +83,21 @@ export class WorkPackageRelationsService extends StateCacheService<RelationsStat
   }
 
   /**
-   * Update the given relation
+   * Update the given relation type, setting new values for from and to
    */
-  public updateRelation(workPackageId:string, relation:RelationResourceInterface, params:any) {
+  public updateRelationType(from:WorkPackageResourceInterface, to:WorkPackageResourceInterface, relation:RelationResourceInterface, type:string) {
+    const params = {
+      _links: {
+        from: {href: from.href},
+        to: {href: to.href}
+      },
+      type: type
+    };
+
+    return this.updateRelation(relation, params);
+  }
+
+  public updateRelation(relation:RelationResourceInterface, params:{[key:string]: any}) {
     return relation.updateImmediately(params)
       .then((savedRelation:RelationResourceInterface) => {
         this.insertIntoStates(savedRelation);

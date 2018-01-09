@@ -119,6 +119,27 @@ describe Relation, type: :model do
     end
   end
 
+  describe '#relation_type=' do
+    let(:column_name) { 'relates' }
+    let(:type) { :relates }
+    let(:relation) do
+      FactoryGirl.build(:relation,
+                        relation_type: 'relates')
+    end
+
+    it 'updates the column value' do
+      relation.save!
+      expect(relation.relates).to eq 1
+
+      relation.relation_type = 'duplicates'
+      relation.save!
+      expect(relation.relation_type).to eq('duplicates')
+
+      expect(relation.relates).to eq 0
+      expect(relation.duplicates).to eq 1
+    end
+  end
+
   describe 'follows / precedes' do
     context 'for FOLLOWS' do
       let(:type) { Relation::TYPE_FOLLOWS }

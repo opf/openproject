@@ -104,13 +104,15 @@ describe 'Work package relations tab', js: true, selenium: true do
     let(:toggle_btn_selector) { '#wp-relation-group-by-toggle' }
     let(:visit) { false }
 
-    it 'allows to toggle how relations are grouped' do
+    before do
       visit_relations
 
       work_packages_page.visit_tab!('relations')
       work_packages_page.expect_subject
       loading_indicator_saveguard
+    end
 
+    it 'allows to toggle how relations are grouped' do
       # Expect to be grouped by relation type by default
       expect(page).to have_selector(toggle_btn_selector,
                                     text: 'Group by work package type', wait: 10)
@@ -129,6 +131,23 @@ describe 'Work package relations tab', js: true, selenium: true do
 
       expect(page).to have_selector('.relation-row--type', text: 'Follows')
       expect(page).to have_selector('.relation-row--type', text: 'Related To')
+    end
+
+    it 'allows to edit relation types when toggled' do
+      find(toggle_btn_selector).click
+      expect(page).to have_selector(toggle_btn_selector, text: 'Group by relation type', wait: 10)
+
+      expect(page).to have_selector('.relation-row--type', text: 'Follows')
+      expect(page).to have_selector('.relation-row--type', text: 'Related To')
+
+      # Expect current to be follows, then edit to blocks
+      relations.edit_relation_type(to_1, to_type: 'blocks')
+
+      expect(page).to have_selector('.relation-row--type', text: 'Blocks')
+      expect(page).to have_selector('.relation-row--type', text: 'Related To')
+
+      updated_relation = Relation.find(relation_1.id)
+      expect(updated_relation.relation_type).to eq('blocks')
     end
   end
 
