@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {Injectable} from '@angular/core';
 import {ConfigurationDmService} from "core-components/api/api-v3/hal-resource-dms/configuration-dm.service";
 import {opServicesModule} from "../../angular-modules";
 
@@ -41,6 +42,7 @@ export interface IPaginationOptions {
   optionsTruncationSize:number;
 }
 
+@Injectable()
 export class PaginationService {
   private paginationOptions: IPaginationOptions;
 

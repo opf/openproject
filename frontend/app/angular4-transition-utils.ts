@@ -34,6 +34,10 @@ export const I18nToken = new InjectionToken<op.I18n>('I18n');
 export const columnsModalToken = new InjectionToken<any>('columnsModal');
 export const focusHelperToken = new InjectionToken<any>('FocusHelper');
 export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
+export const v3PathToken = new InjectionToken<any>('v3Path');
+export const $qToken = new InjectionToken<any>('$q');
+export const $httpToken = new InjectionToken<any>('$http');
+export const halResourceFactoryToken = new InjectionToken<any>('halResourceFactory');
 
 export function upgradeService(ng1InjectorName:string, providedType:any) {
   return {

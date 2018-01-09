@@ -28,7 +28,6 @@
 
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
@@ -43,33 +42,28 @@ import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/stat
 import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
+import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
+import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
-import {WpInlineCreateDirectiveUpgraded} from "core-components/wp-inline-create/wp-inline-create.directive";
+import {WpInlineCreateDirectiveUpgraded} from 'core-components/wp-inline-create/wp-inline-create.directive';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
+import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
+import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
 import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeline/global-elements/wp-timeline-relations.directive';
 import {WorkPackageTableTimelineStaticElements} from 'core-components/wp-table/timeline/global-elements/wp-timeline-static-elements.directive';
 import {WorkPackageTableTimelineGrid} from 'core-components/wp-table/timeline/grid/wp-timeline-grid.directive';
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
+import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import {
   WorkPackagesTableController,
   WorkPackagesTableControllerHolder
 } from 'core-components/wp-table/wp-table.directive';
 import {
-  $rootScopeToken,
-  columnsModalToken, focusHelperToken,
-  I18nToken,
-  NotificationsServiceToken,
-  upgradeService,
+  $rootScopeToken, columnsModalToken, focusHelperToken, I18nToken, NotificationsServiceToken, upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
-import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
-import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
-import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
-import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
-import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
-
 
 @NgModule({
   imports: [
@@ -129,8 +123,3 @@ export class OpenProjectModule {
     this.upgrade.bootstrap(document.body, ['openproject'], {strictDi: false});
   }
 }
-
-
-setTimeout(function() {
-  platformBrowserDynamic().bootstrapModule(OpenProjectModule);
-}, 0);

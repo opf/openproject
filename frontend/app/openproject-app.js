@@ -27,3 +27,9 @@
 //++
 
 require('./init-app');
+const OpenProjectModule = require('./angular4-modules').OpenProjectModule;
+const platformBrowserDynamic = require('@angular/platform-browser-dynamic').platformBrowserDynamic;
+
+setTimeout(function () {
+  platformBrowserDynamic().bootstrapModule(OpenProjectModule);
+}, 0);

@@ -169,6 +169,6 @@ debugOutput.whenDebugging(function () {
 });
 
 
-// load Angular 4 modules and bootstrap
+// load Angular 4 modules
 require("./angular4-modules");
 

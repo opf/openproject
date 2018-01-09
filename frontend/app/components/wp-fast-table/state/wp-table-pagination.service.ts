@@ -26,6 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {Injectable} from '@angular/core';
 import {
   WorkPackageTableBaseService,
   TableStateStates
@@ -48,6 +49,7 @@ interface PaginationUpdateObject {
   count?:number;
 }
 
+@Injectable()
 export class WorkPackageTablePaginationService extends WorkPackageTableBaseService {
   protected stateName = 'pagination' as TableStateStates;
 

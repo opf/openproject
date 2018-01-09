@@ -1,4 +1,4 @@
-//-- copyright
+// -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 //
@@ -24,23 +24,26 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-//++
+// ++
 
-import {Inject, Injectable} from '@angular/core';
-import {opApiModule} from 'core-app/angular-modules';
-import {v3PathToken} from 'core-app/angular4-transition-utils';
-import {HalRequestService} from '../hal-request/hal-request.service';
-import {ConfigurationResource} from '../hal-resources/configuration-resource.service';
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!!! NEVER CHANGE THE ORDER OF THE REQUIRE IMPORTS !!!!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+require('angular');
 
-@Injectable()
-export class ConfigurationDmService {
-  constructor(protected halRequest:HalRequestService,
-              @Inject(v3PathToken) protected v3Path:any) {
-  }
+require('zone.js');
+require('zone.js/dist/long-stack-trace-zone');
+require('zone.js/dist/async-test');
+require('zone.js/dist/fake-async-test');
+require('zone.js/dist/sync-test');
+require('zone.js/dist/proxy');
+require('zone.js/dist/mocha-patch');
 
-  public load():ng.IPromise<ConfigurationResource> {
-    return this.halRequest.get(this.v3Path.configuration());
-  }
-}
+import {getTestBed} from '@angular/core/testing';
+import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from '@angular/platform-browser-dynamic/testing';
 
-opApiModule.service('ConfigurationDm', ConfigurationDmService);
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting()
+);
+
