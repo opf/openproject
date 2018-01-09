@@ -57,7 +57,7 @@ module Redmine::MenuManager::TopMenu::ProjectsMenu
       }
     ) do
       content_tag(:li, id: 'project-search-container') do
-        hidden_field_tag('', '', class: 'select2-select')
+        angular_component_tag('project-menu-autocomplete')
       end
     end
   end

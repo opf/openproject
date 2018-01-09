@@ -267,6 +267,7 @@ jQuery(document).ready(function($) {
     addClickEventToAllErrorMessages();
   });
 
+  // TODO remove after select2
   $.extend($.fn.select2.defaults, {
     formatNoMatches: function () {
       return I18n.t("js.select2.no_matches");
@@ -287,97 +288,6 @@ jQuery(document).ready(function($) {
     adaptContainerCssClass: function(clazz) {
       return null;
     }
-  });
-
-  jQuery('#project-search-container .select2-select').each(function (ix, select) {
-    var PROJECT_JUMP_BOX_PAGE_SIZE = 50;
-
-    select = $(select);
-    var select2,
-        menu = select.parents('li.drop-down');
-
-    select.select2({
-        formatResult : OpenProject.Helpers.Search.formatter,
-        matcher      : OpenProject.Helpers.Search.matcher,
-        query        : OpenProject.Helpers.Search.projectQueryWithHierarchy(
-                                    jQuery.proxy(openProject, 'fetchProjects'),
-                                    PROJECT_JUMP_BOX_PAGE_SIZE),
-        dropdownCssClass : "project-search-results",
-        containerCssClass : "select2-select"
-      }).
-      on('change', function (e) {
-        // this handles expected 'new-tab behaviour'
-        if (e.val) {
-          // jQuery sets metaKey to true when pressing ctrl
-          if (e.metaKey) {
-            window.open(select2.data().project.url);
-          } else {
-            window.location = select2.data().project.url;
-          }
-        }
-      }).
-      on('close', function () {
-        if (menu.is('.open')) {
-          menu.trigger("closeMenu");
-        }
-      });
-
-    select2 = select.data('select2');
-
-    // Adding an event handler to change select2's default behavior concerning
-    // TAB and ESC
-    select2.search.keydown(function (e) {
-      switch (e.which) {
-        case 9: // TAB
-          closestVisible = select2.container.children(".select2-choice").closest(":visible");
-          if (e.shiftKey) {
-            closestVisible.previousElementInDom(":input:visible, a:visible").focus();
-          } else {
-            closestVisible.nextElementInDom(":input:visible, a:visible").focus();
-          }
-          e.stopImmediatePropagation();
-          e.preventDefault();
-          return false;
-        case 27: // ESC
-          e.stopImmediatePropagation();
-          e.preventDefault();
-          return false;
-      }
-    });
-    // Moving the newly attached handler to the beginning of the handler chain
-    // Warning: This uses the internal jQuery API.
-    // http://stackoverflow.com/a/2641047/420614
-    if (select2.search.length) {
-      var last_handler = jQuery._data(select2.search[0], 'events').keydown.pop();
-      jQuery._data(select2.search[0], 'events').keydown.unshift(last_handler);
-    }
-
-    menu.bind("closed", function () {
-      // Close select2 result list, when menu is closed
-      select2.close();
-    });
-
-    menu.bind("opened", function () {
-      // Open select2 element, when menu is opened
-      select2.open();
-      jQuery("#select2-drop-mask").hide();
-
-      // Include input in tab cycle by attaching keydown handlers to previous
-      // and next interactive DOM element.
-      select2.container.previousElementInDom(":input:visible, a:visible").keydown(function (e) {
-        if (!e.shiftKey && e.which === 9) {
-          select2.search.focus();
-          e.preventDefault();
-        }
-      });
-
-      select2.container.nextElementInDom(":input:visible:not(.select2-input), a:visible:not(.select2-input)").keydown(function (e) {
-        if (e.shiftKey && e.which === 9 && select2.search.is(":visible")) {
-          select2.search.focus();
-          e.preventDefault();
-        }
-      });
-    });
   });
 
   // file table thumbnails

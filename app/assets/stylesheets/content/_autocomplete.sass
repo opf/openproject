@@ -82,8 +82,8 @@ div.autocomplete
 
     &.ui-state-active, &.ui-state-active a
       border: none
-      @include varprop(background, drop-down-hover-bg-color)
-      @include varprop(color, drop-down-hover-font-color)
+      @include varprop(background, drop-down-selected-bg-color)
+      @include varprop(color, drop-down-selected-font-color)
 
   &.-inplace
     position: relative
@@ -103,6 +103,12 @@ div.autocomplete
   &.-error, &.-error:hover, &.-error:focus
     background: $nm-color-error-background
     border-color: $nm-color-error-border
+
+mark.ui-autocomplete-match
+  background: none
+  @include varprop(color, primary-color)
+  text-decoration: underline
+  font-weight: bold !important
 
 // Loading indicator
 .ui-autocomplete--loading
