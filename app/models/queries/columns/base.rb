@@ -34,7 +34,6 @@ class Queries::Columns::Base
               :association
 
   attr_accessor :name,
-                :sortable_join,
                 :summable,
                 :default_order
 
@@ -44,7 +43,6 @@ class Queries::Columns::Base
     self.name = name
 
     %i(sortable
-       sortable_join
        groupable
        summable
        association
