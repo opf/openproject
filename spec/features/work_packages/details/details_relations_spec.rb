@@ -147,7 +147,7 @@ describe 'Work package relations tab', js: true, selenium: true do
       expect(page).to have_selector('.relation-row--type', text: 'Related To')
 
       updated_relation = Relation.find(relation_1.id)
-      expect(updated_relation.relation_type).to eq(:blocks) # ! Reports mixed
+      expect(updated_relation.relation_type).to eq('blocks')
     end
   end
 
