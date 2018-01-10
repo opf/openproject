@@ -34,14 +34,14 @@ function opAutoComplete(AutoCompleteHelper:AutoCompleteHelperService, currentPro
   return {
     restrict: 'AC',
     scope: false,
-    link: function(scope:any, element:ng.IAugmentedJQuery, attrs) {
-      var projectId:string|null;
-      if (attrs['opAutoCompleteProjectId']) {
-        projectId = attrs['opAutoCompleteProjectId'];
-      } else {
-        projectId = currentProject.id;
-      }
-      AutoCompleteHelper.enableTextareaAutoCompletion(element, projectId);
+    link: function(scope:any, element:ng.IAugmentedJQuery, attrs:any) {
+      scope.$watch(
+        () => attrs['opAutoCompleteProjectId'] || currentProject.id,
+        (newVal:string, oldVal:string) => {
+          if (newVal !== oldVal) {
+            AutoCompleteHelper.enableTextareaAutoCompletion(element, newVal);
+          }
+      });
     },
   };
 }
