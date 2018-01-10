@@ -51,19 +51,12 @@ describe('WorkPackageService', function() {
   describe('performBulkDelete', function() {
     var deleteFunction;
 
-    var workPackages = [
-      Factory.build('PlanningElement', {id: 1}),
-      Factory.build('PlanningElement', {id: 2})
-    ];
-
     beforeEach(inject(function($http) {
       deleteFunction = sinon.stub($http, 'delete');
     }));
 
     beforeEach(inject(function($http) {
-      var ids = workPackages.map(function(wp) {
-        return wp.id;
-      });
+      var ids = [1,2]
       WorkPackageService.performBulkDelete(ids);
     }));
 

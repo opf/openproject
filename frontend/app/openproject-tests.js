@@ -34,9 +34,6 @@ var requireComponent;
 
 require('../tests/unit/tests/test-helper.js');
 
-requireComponent = require.context('../tests/unit/factories/');
-requireComponent.keys().forEach(requireComponent);
-
 requireComponent = require.context('../tests/unit/tests/', true, /test\.(js|ts)$/);
 requireComponent.keys().forEach(requireComponent);
 
