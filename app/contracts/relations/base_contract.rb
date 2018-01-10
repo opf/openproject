@@ -93,7 +93,7 @@ module Relations
       user.allowed_to? :manage_work_package_relations, model.from.project
     end
 
-    # Go up to's hierarchy till the root.
+    # Go up to's hierarchy to the highest ancestor not shared with from.
     # Fetch all endpoints of relations that are reachable by following at least one follows
     # and zero or more hierarchy relations.
     # We now need to check whether those endpoints include any that
@@ -104,20 +104,40 @@ module Relations
     #
     # Siblings and sibling subtrees of ancestors are ok to have relations
     def follow_relations_in_opposite_direction
-      to_set = hierarchy_or_follows_of(model.to)
+      to_set = hierarchy_or_follows_of
 
       follows_relations_to_ancestors(to_set)
         .or(follows_relations_to_descendants(to_set))
         .or(follows_relations_to_from(to_set))
     end
 
-    def hierarchy_or_follows_of(work_package)
-      root_id = Relation.to_root(work_package).select(:from_id)
+    def hierarchy_or_follows_of
+      to_root_ancestor = tos_highest_ancestor_not_shared_by_from
 
       Relation
         .hierarchy_or_follows
-        .where(from_id: root_id)
+        .where(from_id: to_root_ancestor)
         .where('follows > 0')
+    end
+
+    def tos_highest_ancestor_not_shared_by_from
+      # mysql does not support a limit inside a subquery.
+      # we thus join/subselect the query for ancestors of to not shared by from
+      # with itself and exclude all that have a hierarchy value smaller than hierarchy - 1
+      unshared_ancestors = tos_ancestors_not_shared_by_from
+
+      unshared_ancestors
+        .where.not(hierarchy: unshared_ancestors.select('hierarchy - 1'))
+        .select(:from_id)
+    end
+
+    def tos_ancestors_not_shared_by_from
+      Relation
+        .hierarchy_or_reflexive
+        .where(to_id: model.to_id)
+        .where.not(from_id: Relation.hierarchy_or_reflexive
+                              .where(to_id: model.from_id)
+                              .select(:from_id))
     end
 
     def follows_relations_to_ancestors(to_set)
