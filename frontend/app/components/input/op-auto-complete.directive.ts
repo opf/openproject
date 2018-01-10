@@ -34,8 +34,13 @@ function opAutoComplete(AutoCompleteHelper:AutoCompleteHelperService, currentPro
   return {
     restrict: 'AC',
     scope: false,
-    link: function(scope:ng.IScope, element:ng.IAugmentedJQuery) {
-      var projectId:string|null = currentProject.id;
+    link: function(scope:any, element:ng.IAugmentedJQuery, attrs) {
+      var projectId:string|null;
+      if (attrs['opAutoCompleteProjectId']) {
+        projectId = attrs['opAutoCompleteProjectId'];
+      } else {
+        projectId = currentProject.id;
+      }
       AutoCompleteHelper.enableTextareaAutoCompletion(element, projectId);
     },
   };
