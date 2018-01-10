@@ -62,7 +62,6 @@ module.exports = function (config) {
 
       '../app/assets/javascripts/date-en-US.js',
 
-      'tests/unit/lib/rosie.js',
       'tests/unit/tests/asset_functions.js',
 
       'tests/openproject-test-bundle.js'
