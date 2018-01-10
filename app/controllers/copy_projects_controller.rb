@@ -28,8 +28,6 @@
 #++
 
 class CopyProjectsController < ApplicationController
-  helper :timelines
-
   before_action :disable_api
   before_action :find_project
   before_action :authorize

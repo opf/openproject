@@ -120,6 +120,10 @@ module ProjectsHelper
     l("label_version_sharing_#{sharing}")
   end
 
+  def options_for_project_types
+    ProjectType.all.map { |t| [t.name, t.id] }
+  end
+
   def filter_set?
     params[:filters].present?
   end
