@@ -94,7 +94,7 @@ en:
       totp:
         title: 'Use your app-based authenticator'
         provisioning_uri: 'Provisioning URI'
-        secret_key: 'Seceret key'
+        secret_key: 'Secret key'
         time_based: 'Time based'
         account: 'Account name / Issuer'
         setup: |
