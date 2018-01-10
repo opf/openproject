@@ -84,7 +84,7 @@ en:
       registration_failed_update: '2FA device registration failed, the token was valid but the device could not be updated.'
       confirm_send_failed: 'Confirmation of your 2FA device failed.'
       button_complete_registration: 'Complete 2FA registration'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your device."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
       text_identifier: 'You can give the device a custom identifier using this field.'
       failed_to_delete: 'Failed to delete 2FA device.'
