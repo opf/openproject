@@ -35,14 +35,20 @@ function opAutoComplete(AutoCompleteHelper:AutoCompleteHelperService, currentPro
     restrict: 'AC',
     scope: false,
     link: function(scope:any, element:ng.IAugmentedJQuery, attrs:any) {
+      let projectId:string|null = attrs['opAutoCompleteProjectId'] || currentProject.id;
+      // Ensure the autocompleter gets enabled at least once.
+      AutoCompleteHelper.enableTextareaAutoCompletion(element, projectId);
+
+      // The project id might change at a later point in time. Then re-enable the autocompleter.
       scope.$watch(
         () => attrs['opAutoCompleteProjectId'] || currentProject.id,
         (newVal:string, oldVal:string) => {
           if (newVal !== oldVal) {
             AutoCompleteHelper.enableTextareaAutoCompletion(element, newVal);
           }
-      });
-    },
+        }
+      );
+    }
   };
 }
 
