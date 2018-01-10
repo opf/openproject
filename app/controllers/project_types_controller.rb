@@ -28,13 +28,10 @@
 #++
 
 class ProjectTypesController < ApplicationController
-  helper :timelines
-
   before_action :disable_api
   before_action :check_permissions
   accept_key_auth :index, :show
 
-  helper :timelines
   layout 'admin'
 
   def index
