@@ -10,6 +10,10 @@ export function locateTableRow(workPackageId:string):JQuery {
   return jQuery('.' + rowId(workPackageId));
 }
 
+export function locateTableRowByIdentifier(identifier:string) {
+  return jQuery(`.${identifier}-table`);
+}
+
 export function scrollTableRowIntoView(workPackageId:string):void {
   try {
     const element = locateTableRow(workPackageId);

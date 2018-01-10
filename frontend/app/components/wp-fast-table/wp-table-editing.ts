@@ -3,6 +3,7 @@ import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
 import {TableRowEditContext} from "../wp-edit-form/table-row-edit-context";
 import {WorkPackageEditingService} from "../wp-edit-form/work-package-editing-service";
 import {$injectFields} from "../angular/angular-injector-bridge.functions";
+import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 
 export class WorkPackageTableEditingContext {
   public wpEditing:WorkPackageEditingService;
@@ -16,6 +17,10 @@ export class WorkPackageTableEditingContext {
   public reset() {
     _.each(this.forms, (form) => form.destroy());
     this.forms = {};
+  }
+
+  public changeset(workPackageId:string):WorkPackageChangeset|undefined {
+    return this.wpEditing.state(workPackageId).value;
   }
 
   public stopEditing(workPackageId:string) {

@@ -89,6 +89,14 @@ export class WorkPackageChangeset {
   }
 
   /**
+   * Get attributes
+   * @returns {string[]}
+   */
+  public get changedAttributes() {
+    return _.keys(this.changes);
+  }
+
+  /**
    * Retrieve the editing value for the given attribute
    *
    * @param {string} key The attribute to read
