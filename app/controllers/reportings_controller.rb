@@ -28,8 +28,6 @@
 #++
 
 class ReportingsController < ApplicationController
-  helper :timelines
-
   before_action :disable_api
   before_action :find_project_by_project_id
   before_action :authorize

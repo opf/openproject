@@ -310,42 +310,4 @@ Redmine::AccessControl.map do |map|
   end
 
   map.project_module :activity
-
-  map.project_module :timelines do |timelines|
-    timelines.permission :view_project_associations,
-                         project_associations: [:index, :show]
-
-    timelines.permission :edit_project_associations,
-                         { project_associations: [:edit, :update, :new,
-                                                  :create,
-                                                  :available_projects] },
-                         require: :member
-
-    timelines.permission :delete_project_associations,
-                         { project_associations: [:confirm_destroy, :destroy] },
-                         require: :member
-
-    timelines.permission :view_timelines,
-                         timelines: [:index, :show]
-
-    timelines.permission :edit_timelines,
-                         { timelines: [:edit, :update, :new, :create] },
-                         require: :member
-
-    timelines.permission :delete_timelines,
-                         { timelines: [:confirm_destroy, :destroy] },
-                         require: :member
-
-    timelines.permission :view_reportings,
-                         reportings: [:index, :all, :show]
-
-    timelines.permission :edit_reportings,
-                         { reportings: [:new, :create, :edit,
-                                        :update, :available_projects] },
-                         require: :member
-
-    timelines.permission :delete_reportings,
-                         { reportings: [:confirm_destroy, :destroy] },
-                         require: :member
-  end
 end

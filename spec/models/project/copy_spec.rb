@@ -267,21 +267,6 @@ describe Project::Copy, type: :model do
       end
     end
 
-    describe '#copy_timelines' do
-      before do
-        timeline = FactoryGirl.create(:timeline, project: project)
-        # set options to nil, is known to have been buggy
-        timeline.send :write_attribute, :options, nil
-
-        copy.send(:copy_timelines, project)
-        copy.save
-      end
-
-      subject { copy.timelines.count }
-
-      it { is_expected.to eq(project.timelines.count) }
-    end
-
     describe '#copy_queries' do
       let(:query) { FactoryGirl.create(:query, project: project) }
 

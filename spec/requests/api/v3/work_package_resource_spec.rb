@@ -45,7 +45,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
     FactoryGirl.create(:project, identifier: 'test_project', is_public: false)
   end
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
-  let(:permissions) { [:view_work_packages, :view_timelines, :edit_work_packages] }
+  let(:permissions) { [:view_work_packages, :edit_work_packages] }
   let(:current_user) do
     user = FactoryGirl.create(:user, member_in_project: project, member_through_role: role)
 
@@ -133,7 +133,6 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
       describe 'response body' do
         subject(:parsed_response) { JSON.parse(last_response.body) }
-        let!(:timeline)    { FactoryGirl.create(:timeline,     project_id: project.id) }
         let!(:other_wp)    {
           FactoryGirl.create(:work_package, project_id: project.id,
                                             status: closed_status)

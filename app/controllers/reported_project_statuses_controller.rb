@@ -28,8 +28,6 @@
 #++
 
 class ReportedProjectStatusesController < ApplicationController
-  helper :timelines
-
   before_action :disable_api
   before_action :determine_base
   accept_key_auth :index, :show

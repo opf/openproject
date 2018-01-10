@@ -290,19 +290,6 @@ class PermittedParams
     params.require(:content).permit(*self.class.permitted_attributes[:wiki_content])
   end
 
-  def timeline
-    # Options here will be empty. This is just initializing it.
-    whitelist = params.require(:timeline).permit(:name, options: {})
-
-    if params['timeline'].has_key?('options')
-      params['timeline']['options'].each do |key, _value|
-        whitelist['options'][key] = params['timeline']['options'][key]
-      end
-    end
-
-    whitelist.permit!
-  end
-
   def pref
     params.require(:pref).permit(:hide_mail, :time_zone, :impaired, :theme,
                                  :comments_sorting, :warn_on_leaving_unsaved,
