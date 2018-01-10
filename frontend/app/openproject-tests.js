@@ -32,7 +32,6 @@ require('jquery-mockjax')(jQuery, window);
 
 var requireComponent;
 
-require('../tests/unit/tests/timeline_stubs.js');
 require('../tests/unit/tests/test-helper.js');
 
 requireComponent = require.context('../tests/unit/factories/');

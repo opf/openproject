@@ -130,38 +130,6 @@ describe PermittedParams, type: :model do
     end
   end
 
-  describe '#timeline' do
-    let(:attribute) { :timeline }
-
-    context 'all acceptable options params and one name params' do
-      let(:hash) do
-        acceptable_options_params = ['exist', 'zoom_factor', 'initial_outline_expansion', 'timeframe_start',
-                                     'timeframe_end', 'columns', 'project_sort', 'compare_to_relative',
-                                     'compare_to_relative_unit', 'compare_to_absolute', 'vertical_planning_elements',
-                                     'exclude_own_planning_elements', 'planning_element_status',
-                                     'planning_element_types', 'planning_element_responsibles',
-                                     'planning_element_assignee', 'exclude_reporters', 'exclude_empty', 'project_types',
-                                     'project_status', 'project_responsibles', 'parents', 'planning_element_time_types',
-                                     'planning_element_time_absolute_one', 'planning_element_time_absolute_two',
-                                     'planning_element_time_relative_one', 'planning_element_time_relative_one_unit',
-                                     'planning_element_time_relative_two', 'planning_element_time_relative_two_unit',
-                                     'grouping_one_enabled', 'grouping_one_selection', 'grouping_one_sort', 'hide_other_group']
-
-        acceptable_options_params_with_data = HashWithIndifferentAccess[acceptable_options_params.map { |x| [x, 'value'] }]
-
-        { 'name' => 'my name', 'options' => acceptable_options_params_with_data }
-      end
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'only name' do
-      let(:hash) { { 'name' => 'my name' } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
   describe '#pref' do
     let(:attribute) { :pref }
 

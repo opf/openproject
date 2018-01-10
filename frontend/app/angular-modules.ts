@@ -58,30 +58,6 @@ export const opViewModelsModule = angular.module('openproject.viewModels', [
   'openproject.services'
 ]);
 
-// timelines
-angular.module('openproject.timelines', [
-  'openproject.timelines.controllers',
-  'openproject.timelines.directives',
-  'openproject.uiComponents'
-]);
-angular.module('openproject.timelines.models', ['openproject.helpers']);
-angular
-  .module('openproject.timelines.helpers', []);
-angular.module(
-  'openproject.timelines.controllers', [
-    'openproject.timelines.models'
-  ]);
-angular.module('openproject.timelines.services', [
-  'openproject.timelines.models',
-  'openproject.timelines.helpers'
-]);
-angular.module('openproject.timelines.directives', [
-  'openproject.timelines.models',
-  'openproject.timelines.services',
-  'openproject.uiComponents',
-  'openproject.helpers'
-]);
-
 // work packages
 export const opWorkPackagesModule = angular.module('openproject.workPackages', [
   'openproject.workPackages.activities',
@@ -174,7 +150,6 @@ export const openprojectModule = angular.module('openproject', [
   'openproject.animations',
   'openproject.config',
   'openproject.uiComponents',
-  'openproject.timelines',
   'openproject.workPackages',
   'openproject.messages',
   'openproject.timeEntries',
