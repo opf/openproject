@@ -40,7 +40,8 @@ module API
           end
           get do
             from = @work_package
-            work_packages = work_package_queried params[:query], from, params[:pageSize]
+
+            work_packages = work_package_queried params[:query], from, params[:type], params[:pageSize]
 
             # MySQL does not support LIMIT inside a subquery
             # As the representer wraps the work_packages scope

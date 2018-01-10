@@ -39,9 +39,18 @@ module API
         # @param query [String] The ID or part of a subject to filter by
         # @param from [WorkPackage] The work package in the `from` position of a relation.
         # @param limit [Integer] Maximum number of results to retrieve.
-        def work_package_queried(query, from, limit)
-          WorkPackage
-            .relateable_to(from)
+        def work_package_queried(query, from, type, limit)
+          canonical_type = Relation.canonical_type(type)
+
+          scope = if type != 'parent' && canonical_type == type
+                    WorkPackage
+                      .relateable_to(from)
+                  else
+                    WorkPackage
+                      .relateable_from(from)
+                  end
+
+          scope
             .where("work_packages.id = ? OR LOWER(work_packages.subject) LIKE ?",
                    query.to_i, "%#{query.downcase}%")
             .limit(limit)
