@@ -154,7 +154,7 @@ NumericLiterals:
 OneLineConditional:
   Enabled: false
 
-OpMethod:
+BinaryOperatorParameter:
   Enabled: false
 
 ParameterLists:
