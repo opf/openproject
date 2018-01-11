@@ -247,6 +247,10 @@ class Relation < ActiveRecord::Base
   end
 
   def canonical_type
+    self.class(relation_type)
+  end
+
+  def self.canonical_type(relation_type)
     if TYPES.key?(relation_type) &&
        TYPES[relation_type][:reverse]
       TYPES[relation_type][:reverse]

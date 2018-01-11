@@ -399,7 +399,7 @@ describe WorkPackages::BaseContract do
           .and_return(from_parent_stub)
 
         allow(from_parent_stub)
-          .to receive_message_chain(:non_reflexive, :exists?)
+          .to receive_message_chain(:direct, :exists?)
           .and_return(true)
       end
 
