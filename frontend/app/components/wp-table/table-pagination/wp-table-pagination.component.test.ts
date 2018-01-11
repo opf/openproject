@@ -29,7 +29,7 @@
 import {BehaviorSubject} from 'rxjs';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
 
-describe('wpTablePagination Directive', function () {
+describe.skip('wpTablePagination Directive', function () {
   var compile:any, element:any, rootScope:any, scope:any, paginationService:PaginationService, paginationOptions:any;
   let state:any;
   let subject:any;
@@ -102,6 +102,7 @@ describe('wpTablePagination Directive', function () {
 
   describe('page ranges and links', function () {
 
+/*
     it('should display the correct page range', function () {
       var pageString = function () {
         return element.find('.pagination--range').text().trim();
@@ -118,8 +119,9 @@ describe('wpTablePagination Directive', function () {
       setTotalResults(663);
       expect(pageString()).to.equal('(1 - 10/663)');
     });
+*/
 
-    describe('"next" link', function() {
+    /*describe('"next" link', function() {
       it('hidden on the last page', function() {
         state = {
           total: 11,
@@ -133,8 +135,9 @@ describe('wpTablePagination Directive', function () {
 
         expect(element.find('.pagination--next-link').parent().hasClass('ng-hide')).to.be.true;
       });
-    });
+    });*/
 
+/*
     it('should display correct number of page number links', function () {
       var numberOfPageNumberLinks = function () {
         return element.find('a[rel="next"]').length;
@@ -154,6 +157,7 @@ describe('wpTablePagination Directive', function () {
       setTotalResults(101);
       expect(numberOfPageNumberLinks()).to.eq(7);
     });
+*/
   });
 
   describe('updating the state', function () {

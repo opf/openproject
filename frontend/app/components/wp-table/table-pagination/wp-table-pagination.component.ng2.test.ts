@@ -33,14 +33,32 @@ import {$httpToken, $qToken, halResourceFactoryToken, I18nToken, v3PathToken} fr
 import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
 import {ConfigurationDmService} from 'core-components/api/api-v3/hal-resource-dms/configuration-dm.service';
 import {States} from 'core-components/states.service';
-import {PaginationService} from 'core-components/table-pagination/pagination-service';
+import {PaginationInstance} from 'core-components/table-pagination/pagination-instance';
+import {IPaginationOptions, PaginationService} from 'core-components/table-pagination/pagination-service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePaginationComponent} from 'core-components/wp-table/table-pagination/wp-table-pagination.component';
 
+function setupMocks(paginationService:PaginationService) {
+  sinon.stub(paginationService, 'loadPaginationOptions', () => {
+    const options:IPaginationOptions = {
+      perPage: 0,
+      perPageOptions: [10, 100, 500, 1000],
+      maxVisiblePageOptions: 0,
+      optionsTruncationSize: 0
+    };
+    return Promise.resolve(options);
+  });
+}
 
-describe('AppComponent', () => {
+function pageString(element:JQuery) {
+  return element.find('.pagination--range').text().trim();
+}
+
+describe('wpTablePagination Directive', () => {
 
   beforeEach(async(() => {
+
+    // noinspection JSIgnoredPromiseFromCall
     TestBed.configureTestingModule({
       declarations: [
         WorkPackageTablePaginationComponent
@@ -51,28 +69,82 @@ describe('AppComponent', () => {
         WorkPackageTablePaginationService,
         ConfigurationDmService,
         HalRequestService,
-        {provide: v3PathToken, useValue: null},
-        {provide: $qToken, useValue: null},
-        {provide: $httpToken, useValue: null},
-        {provide: halResourceFactoryToken, useValue: null},
-        {provide: I18nToken, useValue: (window as any).I18n}
+        {provide: I18nToken, useValue: (window as any).I18n},
+        {provide: v3PathToken, useValue: {}},
+        {provide: $qToken, useValue: {}},
+        {provide: $httpToken, useValue: {}},
+        {provide: halResourceFactoryToken, useValue: {}},
       ]
     }).compileComponents();
   }));
 
-  it('dummy', inject([PaginationService], (paginationService:PaginationService) => {
-    expect(2).to.eq(2);
+  describe('page ranges and links', function() {
 
-    console.log('paginationService', paginationService);
+    it('should display the correct page range',
+      inject([PaginationService], (paginationService:PaginationService) => {
+        setupMocks(paginationService);
+        const fixture = TestBed.createComponent(WorkPackageTablePaginationComponent);
+        const app:WorkPackageTablePaginationComponent = fixture.debugElement.componentInstance;
+        const element = jQuery(fixture.elementRef.nativeElement);
 
-    const fixture = TestBed.createComponent(WorkPackageTablePaginationComponent);
-    const app = fixture.debugElement.componentInstance;
-    const element = fixture.elementRef.nativeElement;
+        app.pagination = new PaginationInstance(1, 0, 10);
+        app.update();
+        fixture.detectChanges();
+        expect(pageString(element)).to.equal('');
 
-    console.log('fixture', fixture);
-    console.log('app', app);
-    console.log('element', element);
-  }));
+        app.pagination = new PaginationInstance(1, 11, 10);
+        app.update();
+        fixture.detectChanges();
+        expect(pageString(element)).to.equal('(1 - 10/11)');
+
+      }));
+
+    describe('"next" link', function() {
+      it('hidden on the last page',
+        inject([PaginationService], (paginationService:PaginationService) => {
+          setupMocks(paginationService);
+          const fixture = TestBed.createComponent(WorkPackageTablePaginationComponent);
+          const app:WorkPackageTablePaginationComponent = fixture.debugElement.componentInstance;
+          const element = jQuery(fixture.elementRef.nativeElement);
+
+          app.pagination = new PaginationInstance(2, 11, 10);
+          app.update();
+          fixture.detectChanges();
+
+          const liWithNextLink = element.find('.pagination--next-link').parent('li');
+          const attrHidden = liWithNextLink.attr('hidden');
+          expect(attrHidden).not.to.be.undefined;
+        }));
+    });
+
+    it('should display correct number of page number links',
+      inject([PaginationService], (paginationService:PaginationService) => {
+        setupMocks(paginationService);
+        const fixture = TestBed.createComponent(WorkPackageTablePaginationComponent);
+        const app:WorkPackageTablePaginationComponent = fixture.debugElement.componentInstance;
+        const element = jQuery(fixture.elementRef.nativeElement);
+
+        function numberOfPageNumberLinks() {
+          return element.find('a[rel="next"]').length;
+        }
+
+        app.pagination = new PaginationInstance(1, 1, 10);
+        app.update();
+        fixture.detectChanges();
+        expect(numberOfPageNumberLinks()).to.eq(1);
+
+        app.pagination = new PaginationInstance(1, 11, 10);
+        app.update();
+        fixture.detectChanges();
+        expect(numberOfPageNumberLinks()).to.eq(2);
+
+        app.pagination = new PaginationInstance(1, 59, 10);
+        app.update();
+        fixture.detectChanges();
+        expect(numberOfPageNumberLinks()).to.eq(6);
+      }));
+
+  });
 
 });
 
