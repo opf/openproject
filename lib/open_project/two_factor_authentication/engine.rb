@@ -9,11 +9,10 @@ module OpenProject::TwoFactorAuthentication
     register 'openproject-two_factor_authentication',
              author_url: 'http://openproject.com',
              settings: {
-                 default: {
-                     enforced: false,
-                     active_strategies: []
-                 },
-                 partial: 'settings/openproject_two_factor_authentication'
+               default: {
+                 enforced: false,
+                 active_strategies: []
+               }
              },
              requires_openproject: '>= 4.0.0' do
                menu :my_menu,
@@ -37,9 +36,7 @@ module OpenProject::TwoFactorAuthentication
       )
     end
 
-    patches [
-      :User, :UsersHelper
-    ]
+    patches %i[User UsersHelper]
 
     config.to_prepare do
       # Verify the validity of the configuration
@@ -56,4 +53,3 @@ module OpenProject::TwoFactorAuthentication
     end
   end
 end
-
