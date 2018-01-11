@@ -141,7 +141,7 @@ describe 'Work package relations tab', js: true, selenium: true do
       expect(page).to have_selector('.relation-row--type', text: 'Related To')
 
       # Expect current to be follows, then edit to blocks
-      relations.edit_relation_type(to_1, to_type: 'blocks')
+      relations.edit_relation_type(to_1, to_type: 'Blocks')
 
       expect(page).to have_selector('.relation-row--type', text: 'Blocks')
       expect(page).to have_selector('.relation-row--type', text: 'Related To')
