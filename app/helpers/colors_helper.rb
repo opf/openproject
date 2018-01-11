@@ -42,4 +42,13 @@ module ColorsHelper
     end
     s
   end
+
+  def icon_for_color(color, options = {})
+    return unless color
+
+    options = options.merge(class: 'timelines-phase ' + options[:class].to_s,
+                            :'-style' => "background-color: #{color.hexcode};" + options[:style].to_s)
+
+    content_tag(:span, ' ', options)
+  end
 end

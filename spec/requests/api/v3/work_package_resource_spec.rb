@@ -162,8 +162,7 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
       * Relaxed
       * Debonaire
 
-      {{timeline(#{timeline.id})}}
-        }}
+      }}
 
         it 'should respond with work package in HAL+JSON format' do
           expect(parsed_response['id']).to eq(work_package.id)
@@ -186,11 +185,6 @@ describe 'API v3 Work package resource', type: :request, content_type: :json do
 
         it 'should resolve simple macros' do
           expect(parsed_response['description']).to have_text('Table of Contents')
-        end
-
-        it 'should not resolve/show complex macros' do
-          expect(parsed_response['description'])
-            .to have_text('Macro timeline cannot be displayed.')
         end
       end
 

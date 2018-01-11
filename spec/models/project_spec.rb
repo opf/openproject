@@ -60,21 +60,6 @@ describe Project, type: :model do
     end
   end
 
-  describe 'associated_project_candidates' do
-    let(:project_type) { FactoryGirl.create(:project_type, allows_association: true) }
-
-    before do
-      FactoryGirl.create(:type_standard)
-    end
-
-    it 'should not include the project' do
-      project.project_type = project_type
-      project.save!
-
-      expect(project.associated_project_candidates(admin)).to be_empty
-    end
-  end
-
   context 'when the wiki module is enabled' do
     let(:project) { FactoryGirl.create(:project, disable_modules: 'wiki') }
 

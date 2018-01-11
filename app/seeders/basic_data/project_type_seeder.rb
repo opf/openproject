@@ -39,7 +39,7 @@ module BasicData
     end
 
     def applicable?
-      if ProjectType.any? || ReportedProjectStatus.all.empty?
+      if ProjectType.any?
         return false
       end
 
@@ -49,15 +49,13 @@ module BasicData
     def not_applicable_message
       if ProjectType.any?
         'Skipping project types as there are already some configured'
-      elsif ReportedProjectStatus.all.empty?
-        'Skipping project types as it required to have reported project status'
       end
     end
 
     def data
       [
-        { name: I18n.t(:default_project_type_scrum),    reported_project_status_ids: ReportedProjectStatus.pluck(:id) },
-        { name: I18n.t(:default_project_type_standard), reported_project_status_ids: ReportedProjectStatus.pluck(:id) }
+        { name: I18n.t(:default_project_type_scrum) },
+        { name: I18n.t(:default_project_type_standard) }
       ]
     end
   end
