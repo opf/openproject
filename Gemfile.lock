@@ -1,14 +1,4 @@
 GIT
-  remote: https://github.com/carrierwaveuploader/carrierwave
-  revision: 5367a636053b85bd639f2d1ee6ab25ef8305aeaf
-  branch: master
-  specs:
-    carrierwave (1.0.0.beta)
-      activemodel (>= 4.0.0)
-      activesupport (>= 4.0.0)
-      mime-types (>= 1.16)
-
-GIT
   remote: https://github.com/dr0verride/RubyTree.git
   revision: 06f53ee78cc2a48377c1bd177d3bc83c1504701c
   ref: 06f53ee
@@ -190,6 +180,10 @@ GEM
     capybara-screenshot (1.0.17)
       capybara (>= 1.0, < 3)
       launchy
+    carrierwave (1.2.2)
+      activemodel (>= 4.0.0)
+      activesupport (>= 4.0.0)
+      mime-types (>= 1.16)
     cells (4.1.3)
       tilt (>= 1.4, < 3)
       uber (>= 0.0.9)
@@ -632,7 +626,7 @@ DEPENDENCIES
   capybara-ng (~> 0.2.7)
   capybara-screenshot (~> 1.0.14)
   capybara-select2!
-  carrierwave!
+  carrierwave (~> 1.2.2)
   cells-erb (~> 0.0.8)
   cells-rails (~> 0.0.6)
   cocaine (~> 0.5.8)
