@@ -156,7 +156,7 @@ gem 'nokogiri', '~> 1.8.1'
 # fog dependency chain. We only need aws here, so we can avoid it
 # at the cost of referencing carrierwave#master for now.
 gem 'fog-aws'
-gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
+gem 'carrierwave', '~> 1.2.2'
 
 gem 'openproject-token', '~> 1.0.1'
 
