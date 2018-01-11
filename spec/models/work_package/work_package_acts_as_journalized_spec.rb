@@ -448,6 +448,7 @@ describe WorkPackage, type: :model do
         @issue.save!
 
         @issue.description = ''
+        @issue.save!
         expect(@issue.send(:incremental_journal_changes)).to be_empty
       end
     end

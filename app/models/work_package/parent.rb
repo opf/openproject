@@ -30,16 +30,19 @@
 
 module WorkPackage::Parent
   def self.prepended(base)
-    base.after_save :update_parent_relation
+    base.after_save :update_parent_relation, if: :saved_change_to_parent_id?
     base.attribute 'parent_id', :integer
     base.define_attribute_method 'parent'
+    base.define_attribute_method 'parent_id'
   end
 
   attr_accessor :parent_object,
                 :do_halt
 
   def parent=(work_package)
-    parent_id_will_change! if parent_id != (work_package && work_package.id)
+    if parent_id != (work_package && work_package.id)
+      signal_parent_id_change_to_mutation_trackers(work_package && work_package.id)
+    end
     @parent_set = true
 
     if work_package
@@ -49,10 +52,6 @@ module WorkPackage::Parent
       @parent_object = nil
       @parent_id = nil
     end
-  end
-
-  def parent_will_change!
-    parent_id_will_change!
   end
 
   def parent
@@ -72,20 +71,12 @@ module WorkPackage::Parent
     super
   end
 
-  def changes_applied
-    @parent_id_previous_changes = changes.slice(:parent_id)
-
-    super
-  end
-
-  def previous_changes
-    super.merge(@parent_id_previous_changes || {})
-  end
-
   def parent_id=(id)
     id = id.to_i > 0 ? id.to_i : nil
 
-    parent_id_will_change! if parent_id != id
+    if parent_id != id
+      signal_parent_id_change_to_mutation_trackers(id)
+    end
     @parent_set = true
 
     @parent_object = nil if @parent_object && @parent_object.id != id
@@ -98,11 +89,7 @@ module WorkPackage::Parent
     @parent_id || parent && parent.id
   end
 
-  private
-
   def update_parent_relation
-    return unless changes[:parent_id]
-
     if parent_relation
       parent_relation.destroy
     end
@@ -114,8 +101,11 @@ module WorkPackage::Parent
     end
   end
 
+  private
+
   def parent_from_relation
     if parent_relation && ((@parent_id && parent_relation.from.id == @parent_id) || !@parent_id)
+      signal_current_parent_id_to_mutation_trackers(parent_relation.from)
       parent_relation.from
     end
   end
@@ -123,6 +113,22 @@ module WorkPackage::Parent
   def parent_from_id
     if @parent_id
       @parent_object = WorkPackage.find(@parent_id)
+      signal_current_parent_id_to_mutation_trackers(@parent_object)
+      @parent_object
     end
+  end
+
+  # Used to persists the changes to parent_id in the mutation_tracker used by
+  # AR::Dirty so that it looks like every other attribute.
+  # Using parent_id_will_change! does not place the value in the tracker but merely forces
+  # the attribute to be returned when asking the object for changes.
+  def signal_current_parent_id_to_mutation_trackers(value)
+    attributes = mutation_tracker.send(:attributes)
+    attributes["parent_id"].instance_variable_set(:@value_before_type_cast, value && value.id)
+  end
+
+  def signal_parent_id_change_to_mutation_trackers(value)
+    attributes = mutation_tracker.send(:attributes)
+    attributes["parent_id"] = attributes["parent_id"].with_value_from_user(value)
   end
 end
