@@ -224,6 +224,10 @@ i
         page-break-inside: avoid
         break-inside: avoid
         overflow: hidden
+        // For some reason chrome seems to treat a two column layout
+        // as if it would result in showing the backside of this element.
+        // This leads to input and select elements not showing their values.
+        backface-visibility: visible
 
       @supports (column-span: all)
         // Let some elements still span both columns
