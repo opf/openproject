@@ -55,7 +55,11 @@ export class DisplayFieldRenderer {
 
     const field = this.getField(workPackage, fieldSchema, schemaName, changeset);
     field.render(span, this.getText(field, placeholder));
-    span.setAttribute('title', this.getLabel(field, workPackage));
+
+    const title = field.title;
+    if (title) {
+      span.setAttribute('title', title);
+    }
     span.setAttribute('aria-label', this.getAriaLabel(field, workPackage));
 
     return [field, span];
@@ -115,14 +119,6 @@ export class DisplayFieldRenderer {
       span.setAttribute('role', 'button');
     } else {
       span.classList.add(readOnlyClassName);
-    }
-  }
-
-  private getLabel(field:DisplayField, workPackage:WorkPackageResourceInterface):string {
-    if (field.writable && workPackage.isEditable) {
-      return this.I18n.t('js.inplace.button_edit', { attribute: `${field.displayName}` });
-    } else {
-      return field.displayName;
     }
   }
 
