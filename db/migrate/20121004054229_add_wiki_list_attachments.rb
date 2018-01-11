@@ -27,11 +27,11 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddWikiListAttachments < ActiveRecord::Migration[4.2]
+class AddWikiListAttachments < ActiveRecord::Migration[5.1]
   # model removed
   class Role < ActiveRecord::Base; end
 
-  class AddViewWikiEditsPermission < ActiveRecord::Migration[4.2]
+  class AddViewWikiEditsPermission < ActiveRecord::Migration[5.1]
     def self.up
       Role.all.each do |r|
         r.add_permission!(:list_attachments) if r.has_permission?(:view_wiki_pages) || r.has_permission?(:view_issues)

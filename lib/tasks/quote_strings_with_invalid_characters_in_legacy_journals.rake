@@ -40,7 +40,7 @@ namespace :migrations do
 
     private
 
-    class InvalidChangedDataStringQuoter < ActiveRecord::Migration
+    class InvalidChangedDataStringQuoter < ActiveRecord::Migration[5.1]
       include Migration::Utils
 
       def quote_strings_with_invalid_characters

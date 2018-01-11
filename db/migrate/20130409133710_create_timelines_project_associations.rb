@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesProjectAssociations < ActiveRecord::Migration[4.2]
+class CreateTimelinesProjectAssociations < ActiveRecord::Migration[5.1]
   def self.up
     create_table(:timelines_project_associations) do |t|
       t.belongs_to :project_a
@@ -37,9 +37,6 @@ class CreateTimelinesProjectAssociations < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
-
-    add_index :timelines_project_associations, :project_a_id
-    add_index :timelines_project_associations, :project_b_id
   end
 
   def self.down

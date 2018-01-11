@@ -29,7 +29,7 @@
 ##
 # Removes all remaining Repository::Filesystem entries.
 #
-class RemoveFilesystemRepositories < ActiveRecord::Migration[4.2]
+class RemoveFilesystemRepositories < ActiveRecord::Migration[5.1]
   include Migration::Utils
 
   def up

@@ -1,7 +1,7 @@
 require Rails.root.join('db', 'migrate', 'migration_utils', 'migration_squasher').to_s
 require 'open_project/plugins/migration_mapping'
 # This migration aggregates the migrations detailed in the MIGRATION_FILES
-class AggregatedAnnouncementsMigrations < ActiveRecord::Migration[4.2]
+class AggregatedAnnouncementsMigrations < ActiveRecord::Migration[5.1]
   MIGRATION_FILES = <<-MIGRATIONS
     001_create_announcements.rb
     20121114100640_index_on_announcements.rb

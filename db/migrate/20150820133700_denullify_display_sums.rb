@@ -25,7 +25,7 @@
 #
 # See docs/COPYRIGHT.rdoc for more details.
 #++
-class DenullifyDisplaySums < ActiveRecord::Migration[4.2]
+class DenullifyDisplaySums < ActiveRecord::Migration[5.1]
   def change
     change_column_default :queries, :display_sums, false
     change_column_null :queries, :display_sums, false, false

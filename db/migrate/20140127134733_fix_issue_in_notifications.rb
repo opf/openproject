@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class FixIssueInNotifications < ActiveRecord::Migration[4.2]
+class FixIssueInNotifications < ActiveRecord::Migration[5.1]
   REPLACED = {
     'issue_added' => 'work_package_added',
     'issue_updated' => 'work_package_updated',

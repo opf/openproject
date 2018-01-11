@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateNewsJournals < ActiveRecord::Migration[4.2]
+class CreateNewsJournals < ActiveRecord::Migration[5.1]
   def change
     create_table :news_journals do |t|
       t.integer :journal_id,                                   null: false

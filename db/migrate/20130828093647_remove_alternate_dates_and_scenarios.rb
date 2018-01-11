@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class RemoveAlternateDatesAndScenarios < ActiveRecord::Migration[4.2]
+class RemoveAlternateDatesAndScenarios < ActiveRecord::Migration[5.1]
   def up
     drop_table(:alternate_dates)
     drop_table(:scenarios)

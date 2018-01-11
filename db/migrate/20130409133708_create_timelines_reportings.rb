@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesReportings < ActiveRecord::Migration[4.2]
+class CreateTimelinesReportings < ActiveRecord::Migration[5.1]
   def self.up
     create_table(:timelines_reportings) do |t|
       t.column :reported_project_status_comment, :text
@@ -38,9 +38,6 @@ class CreateTimelinesReportings < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
-    add_index :timelines_reportings, :project_id
-    add_index :timelines_reportings, :reporting_to_project_id
-    add_index :timelines_reportings, :reported_project_status_id
   end
 
   def self.down

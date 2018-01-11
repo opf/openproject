@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class AddMissingIndexesOnWikiMenuItems < ActiveRecord::Migration[4.2]
+class AddMissingIndexesOnWikiMenuItems < ActiveRecord::Migration[5.1]
   def self.up
     add_index :wiki_menu_items, [:wiki_id, :title]
     add_index :wiki_menu_items, :parent_id

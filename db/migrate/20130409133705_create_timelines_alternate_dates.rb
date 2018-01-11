@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesAlternateDates < ActiveRecord::Migration[4.2]
+class CreateTimelinesAlternateDates < ActiveRecord::Migration[5.1]
   def self.up
     create_table(:timelines_alternate_dates) do |t|
       t.column :start_date, :date, null: false
@@ -38,8 +38,6 @@ class CreateTimelinesAlternateDates < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
-    add_index :timelines_alternate_dates, :planning_element_id
-    add_index :timelines_alternate_dates, :scenario_id
   end
 
   def self.down

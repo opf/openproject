@@ -28,7 +28,9 @@
 #++
 
 # store email header and footer localized (take Setting.default_language first, then english)
-class LocalizeEmailHeaderAndFooter < ActiveRecord::Migration[4.2]
+class LocalizeEmailHeaderAndFooter < ActiveRecord::Migration[5.1]
+  require 'globalize'
+
   def self.up
     emails_header = Setting.find_by name: 'emails_header'
     emails_footer = Setting.find_by name: 'emails_footer'

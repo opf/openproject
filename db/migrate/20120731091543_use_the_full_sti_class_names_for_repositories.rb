@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class UseTheFullStiClassNamesForRepositories < ActiveRecord::Migration[4.2]
+class UseTheFullStiClassNamesForRepositories < ActiveRecord::Migration[5.1]
   def self.up
     concatenation = "('Repository::' || type)"
 

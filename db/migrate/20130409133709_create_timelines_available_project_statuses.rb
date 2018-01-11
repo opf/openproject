@@ -27,17 +27,14 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateTimelinesAvailableProjectStatuses < ActiveRecord::Migration[4.2]
+class CreateTimelinesAvailableProjectStatuses < ActiveRecord::Migration[5.1]
   def self.up
     create_table(:timelines_available_project_statuses) do |t|
       t.belongs_to :project_type
-      t.belongs_to :reported_project_status
+      t.belongs_to :reported_project_status, index: { name: 'index_avail_project_statuses_on_rep_project_status_id' }
 
       t.timestamps
     end
-
-    add_index :timelines_available_project_statuses, :project_type_id
-    add_index :timelines_available_project_statuses, :reported_project_status_id, name: 'index_avail_project_statuses_on_rep_project_status_id'
   end
 
   def self.down

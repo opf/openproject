@@ -27,7 +27,7 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
-class CreateWikiContentJournals < ActiveRecord::Migration[4.2]
+class CreateWikiContentJournals < ActiveRecord::Migration[5.1]
   def change
     create_table :wiki_content_journals do |t|
       t.integer :journal_id,                         null: false
