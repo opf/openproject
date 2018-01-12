@@ -20,12 +20,12 @@ describe 'activity comments', js: true, selenium: true do
   let(:initial_comment) { 'the first comment in this WP' }
 
   before do
-    login_as(user)
-    allow(user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
+    login_as(current_user)
+    allow(current_user.pref).to receive(:warn_on_leaving_unsaved?).and_return(false)
   end
 
   context 'with permission' do
-    let(:user) { FactoryGirl.create :admin }
+    let(:current_user) { FactoryGirl.create :admin }
 
     before do
       wp_page.visit!
@@ -125,6 +125,10 @@ describe 'activity comments', js: true, selenium: true do
         end
       end
 
+      it_behaves_like 'a principal autocomplete field' do
+        let(:field) { comment_field }
+      end
+
       describe 'quoting' do
         it 'can quote a previous comment' do
           expect(page).to have_selector('.user-comment .message',
@@ -194,7 +198,7 @@ describe 'activity comments', js: true, selenium: true do
   end
 
   context 'with no permission' do
-    let(:user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
+    let(:current_user) { FactoryGirl.create(:user, member_in_project: project, member_through_role: role) }
     let(:role) { FactoryGirl.create :role, permissions: %i(view_work_packages) }
 
     before do
