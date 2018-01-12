@@ -33,6 +33,7 @@ import {
   ILazyAutocompleterBridge
 } from 'core-components/common/autocomplete/lazyloaded/lazyloaded-autocompleter';
 import {keyCodes} from 'core-components/common/keyCodes.enum';
+import {LinkHandling} from 'core-components/common/link-handling/link-handling';
 
 interface IProjectMenuEntry {
   id:number;
@@ -97,6 +98,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
 
       this.setup(this.input, autocompleteValues);
       this.addInputHandlers();
+      this.addClickHandler();
       this.loaded = true;
     });
   }
@@ -116,10 +118,15 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
     this.noResults.toggle(ui.content.length === 0);
   }
 
-  public customizeItem(item:ProjectAutocompleteItem, div:JQuery):void {
+  public renderItem(item:ProjectAutocompleteItem, div:JQuery):void {
+    const link = jQuery('<a>')
+      .attr('href', this.PathHelper.projectPath(item.object.identifier))
+      .text(item.label)
+      .appendTo(div);
+
     // When in hierarchy, indent
     if (item.object.level > 0) {
-      div
+      link
         .text(`» ${item.label}`)
         .css('padding-left', (4 + item.object.level * 16) + 'px');
     }
@@ -214,6 +221,23 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
 
       return true;
     });
+  }
+
+  /**
+   * When clicking an item with meta keys,
+   * avoid its propagation.
+   *
+   */
+  protected addClickHandler() {
+    this.$element
+      .find('.project-menu-autocomplete--results')
+      .on('click', '.ui-menu-item a', (evt:JQueryEventObject) => {
+        if (LinkHandling.isClickedWithModifier(evt)) {
+          evt.stopImmediatePropagation();
+        }
+
+        return true;
+      });
   }
 
   protected setupParams(autocompleteValues:ProjectAutocompleteItem[]) {
