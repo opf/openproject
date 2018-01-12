@@ -58,6 +58,13 @@ module API
           { href: api_v3_paths.versions_by_project(represented.id) }
         end
 
+        link 'types' do
+          next unless current_user_allowed_to(:view_work_packages, context: represented) ||
+                      current_user_allowed_to(:manage_types, context: represented)
+
+          { href: api_v3_paths.types_by_project(represented.id) }
+        end
+
         property :id, render_nil: true
         property :identifier,   render_nil: true
 
