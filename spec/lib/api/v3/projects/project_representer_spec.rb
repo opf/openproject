@@ -31,13 +31,25 @@ require 'spec_helper'
 describe ::API::V3::Projects::ProjectRepresenter do
   include ::API::V3::Utilities::PathHelper
 
-  let(:project) { FactoryGirl.create(:project) }
+  let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:representer) { described_class.new(project, current_user: user) }
   let(:user) do
-    FactoryGirl.build(:user, member_in_project: project, member_through_role: role)
+    FactoryGirl.build_stubbed(:user)
   end
-  let(:role) { FactoryGirl.create(:role, permissions: permissions) }
   let(:permissions) { [:add_work_packages] }
+
+  before do
+    allow(user)
+      .to receive(:allowed_to?)
+      .and_return(false)
+
+    permissions.each do |permission|
+      allow(user)
+        .to receive(:allowed_to?)
+        .with(permission, project)
+        .and_return(true)
+    end
+  end
 
   context 'generation' do
     subject(:generated) { representer.to_json }
@@ -106,6 +118,34 @@ describe ::API::V3::Projects::ProjectRepresenter do
         it 'has the correct link to its versions' do
           is_expected.to be_json_eql(api_v3_paths.versions_by_project(project.id).to_json)
             .at_path('_links/versions/href')
+        end
+      end
+
+      describe 'types' do
+        context 'for a user having the view_work_packages permission' do
+          let(:permissions) { [:view_work_packages] }
+
+          it 'links to the types active in the project' do
+            is_expected.to be_json_eql(api_v3_paths.types_by_project(project.id).to_json)
+              .at_path('_links/types/href')
+          end
+        end
+
+        context 'for a user having the manage_types permission' do
+          let(:permissions) { [:manage_types] }
+
+          it 'links to the types active in the project' do
+            is_expected.to be_json_eql(api_v3_paths.types_by_project(project.id).to_json)
+                             .at_path('_links/types/href')
+          end
+        end
+
+        context 'for a user not having the necessary permissions' do
+          let(:permission) { [] }
+
+          it 'has no types link' do
+            is_expected.to_not have_json_path('_links/types/href')
+          end
         end
       end
     end
