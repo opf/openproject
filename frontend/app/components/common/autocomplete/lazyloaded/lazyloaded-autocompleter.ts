@@ -43,8 +43,8 @@ export abstract class ILazyAutocompleterBridge<T> {
    * @param {IAutocompleteItem} item
    * @param {JQuery} div
    */
-  public customizeItem(item:IAutocompleteItem<T>, div:JQuery):void {
-    // Do nothing
+  public renderItem(item:IAutocompleteItem<T>, div:JQuery):void {
+    div.text(item.label);
   }
 
   /**
@@ -200,11 +200,9 @@ export namespace LazyLoadedAutocompleter {
       _renderItem: function (this:any, ul:JQuery, item:IAutocompleteItem<T>) {
         const term = this.element.val();
         const disabled = item.render === 'disabled';
-        const div = jQuery('<div>')
-          .text(item.label)
-          .addClass('ui-menu-item-wrapper');
+        const div = jQuery('<div>').addClass('ui-menu-item-wrapper');
 
-        ctrl.customizeItem(item, div);
+        ctrl.renderItem(item, div);
 
         const element = jQuery('<li>')
           .toggleClass('ui-state-disabled', disabled)
