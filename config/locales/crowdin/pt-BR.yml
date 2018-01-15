@@ -81,7 +81,7 @@ pt-BR:
       registration_failed_update: 'O registro do dispositivo 2FA falhou, o token era válido, mas o dispositivo não pôde ser atualizado.'
       confirm_send_failed: 'Não foi possível confirmar seu dispositivo 2FA.'
       button_complete_registration: 'Registo 2FA concluído'
-      text_confirm_to_complete_html: "Conclua o registro de seu dispositivo <strong>%{identifier}</strong> inserindo uma senha de uso único de seu dispositivo."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Confirme a alteração de seu dispositivo padrão para <strong>%{new_identifier}</strong> inserindo uma senha de uso único de seu dispositivo padrão atual."
       text_identifier: 'Você pode fornecer ao dispositivo um identificador personalizado usando este campo.'
       failed_to_delete: 'Falha ao excluir o dispositivo 2FA.'
@@ -91,7 +91,7 @@ pt-BR:
       totp:
         title: 'Use o seu autenticador com base no aplicativo'
         provisioning_uri: 'Posicionando URI'
-        secret_key: 'Chave secreta'
+        secret_key: 'Secret key'
         time_based: 'Com base no tempo'
         account: 'Nome da conta / Emissor'
         setup: |
@@ -118,6 +118,13 @@ pt-BR:
     label_two_factor_authentication: 'Autenticação de dois fatores'
     forced_registration:
       required_to_add_device: 'Uma política de segurança ativa exige que você ative a autenticação de dois fatores. Use o seguinte formulário para registrar um dispositivo.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Telefone celular"
   field_otp: "Senha de uso único"
   notice_account_otp_invalid: "Senha de uso único inválida."

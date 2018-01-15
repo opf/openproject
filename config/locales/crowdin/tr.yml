@@ -80,7 +80,7 @@ tr:
       registration_failed_update: '2FA cihaz kaydı başarısız oldu, belirteç geçerli ancak cihaz güncellenemedi.'
       confirm_send_failed: '2FA cihazınızın onayı başarısız oldu.'
       button_complete_registration: '2FA kaydı tamamlayın'
-      text_confirm_to_complete_html: "Lütfen cihazınızdan <strong>%{identifier}</strong> bir seferlik şifre girerek cihazınızın kaydını tamamlayın."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Mevcut varsayılan cihazınızdan bir kerelik şifre girerek varsayılan cihazınızı <strong>%{new_identifier}</strong> olarak değiştirmenizi onaylayın."
       text_identifier: 'Bu alanı kullanarak cihaza özel bir tanımlayıcı verebilirsiniz.'
       failed_to_delete: '2FA cihazı silinemedi.'
@@ -90,7 +90,7 @@ tr:
       totp:
         title: 'Uygulama dayalı kimlik doğrulayıcınızı kullanın'
         provisioning_uri: 'URI Hazırlama'
-        secret_key: 'Gizli anahtar'
+        secret_key: 'Secret key'
         time_based: 'Zaman bazlı'
         account: 'Hesap adı / veren'
         setup: |
@@ -117,6 +117,13 @@ tr:
     label_two_factor_authentication: 'İki faktörlü kimlik doğrulama'
     forced_registration:
       required_to_add_device: 'Etkin bir güvenlik ilkesi, iki faktörlü kimlik doğrulamayı etkinleştirmenizi gerektirir. Bir cihazı kaydetmek için lütfen aşağıdaki formu kullanın.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Cep Telefonu"
   field_otp: "Tek-kullanımlık Şifre"
   notice_account_otp_invalid: "Geçersiz tek kullanımlık şifre."

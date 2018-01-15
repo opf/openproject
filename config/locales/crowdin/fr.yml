@@ -80,7 +80,7 @@ fr:
       registration_failed_update: 'L’enregistrement du appareil 2FA a échoué, le jeton était valide, mais l’appareil ne pourrait pas être actualisé.'
       confirm_send_failed: 'Confirmation de votre appareil 2FA a échoué.'
       button_complete_registration: 'Enregistrement 2FA complet'
-      text_confirm_to_complete_html: "Veuillez remplir l’enregistrement de votre appareil <strong>%{identifier}</strong> en entrant un mot de passe unique de votre appareil."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "S’il vous plaît confirmer modifier le appareil par défaut à <strong>%{new_identifier}</strong> en entrant un mot de passe unique de votre appareil par défaut actuel."
       text_identifier: 'Vous pouvez donner à l’appareil un identifiant personnalisé à l’aide de ce champ.'
       failed_to_delete: 'Impossible de supprimer le appareil 2FA.'
@@ -90,7 +90,7 @@ fr:
       totp:
         title: 'Utilisez votre authentificateur axée sur l’app'
         provisioning_uri: 'Provisionnement URI'
-        secret_key: 'Seceret clé'
+        secret_key: 'Secret key'
         time_based: 'Basé de temps'
         account: 'Nom de compte / émetteur'
         setup: |
@@ -115,6 +115,13 @@ fr:
     label_two_factor_authentication: 'Authentification à deux facteurs'
     forced_registration:
       required_to_add_device: 'Une politique de sécurité active nécessite d’activer l’authentification à deux facteurs. Veuillez utiliser le formulaire ci-dessous pour enregistrer un appareil.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Téléphone cellulaire"
   field_otp: "Mot de passe unique"
   notice_account_otp_invalid: "Mot de passe unique non valide."

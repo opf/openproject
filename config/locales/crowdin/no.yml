@@ -81,7 +81,7 @@
       registration_failed_update: '2FA-enhetsregistrering mislyktes, symbolet var gyldig, men enheten kunne ikke oppdateres.'
       confirm_send_failed: 'Bekreftelse av 2FA-enheten din mislyktes.'
       button_complete_registration: 'Fullfør 2FA-registrering'
-      text_confirm_to_complete_html: "Vennligst fyll ut registreringen av enheten din <strong> %{identifier} </ strong> ved å skrive inn et engangspassord fra enheten."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Vennligst bekreft at standardinnstillingen din endres til <strong> %{new_identifier} </ strong> ved å skrive inn et engangspassord fra den gjeldende standard enheten din."
       text_identifier: 'Du kan gi enheten en egendefinert Id ved hjelp av dette feltet.'
       failed_to_delete: 'Kunne ikke slette 2FA-enheten.'
@@ -91,7 +91,7 @@
       totp:
         title: 'Bruk appbasert godkjenning'
         provisioning_uri: 'Levering av URI'
-        secret_key: 'Hemmelig nøkkel'
+        secret_key: 'Secret key'
         time_based: 'Tidsbasert'
         account: 'Kontonavn / Utsteder'
         setup: |
@@ -118,6 +118,13 @@
     label_two_factor_authentication: 'Tofaktorautentisering'
     forced_registration:
       required_to_add_device: 'En aktiv sikkerhetspolicy krever at du aktiverer tofaktorautentisering. Vennligst bruk følgende skjema for å registrere en enhet.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Mobiltelefon"
   field_otp: "Engangspassord"
   notice_account_otp_invalid: "Ugyldig engangspassord."

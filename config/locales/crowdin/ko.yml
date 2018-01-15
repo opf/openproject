@@ -81,7 +81,7 @@ ko:
       registration_failed_update: '2FA 장치 등록 실패, 토큰이 유효하지만 장치를 업데이트할 수 없습니다.'
       confirm_send_failed: '2FA 장치 확인에 실패했습니다.'
       button_complete_registration: '2FA 등록 완료'
-      text_confirm_to_complete_html: "장치에서 일회용 암호를 입력하여 장치 <strong>%{identifier}</strong> 등록을 완료하세요."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "현재 기본 장치에서 일회용 암호를 입력하여 기본 장치를 <strong>%{new_identifier}</strong>(으)로 변경을 확인하세요."
       text_identifier: '이 필드를 사용하여 사용자 지정 식별자를 장치에 지정할 수 있습니다.'
       failed_to_delete: '2FA 장치를 삭제하지 못했습니다.'
@@ -91,7 +91,7 @@ ko:
       totp:
         title: '앱 기반 인증자 사용'
         provisioning_uri: '프로비저닝 URI'
-        secret_key: '비밀 키'
+        secret_key: 'Secret key'
         time_based: '시간 기반'
         account: '계정 이름/발급자'
         setup: |
@@ -118,6 +118,13 @@ ko:
     label_two_factor_authentication: '2단계 인증'
     forced_registration:
       required_to_add_device: '활성 보안 정책에서는 2단계 인증을 사용하도록 요구합니다. 다음 양식을 사용하여 장치를 등록하세요.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "휴대폰"
   field_otp: "일회용 암호"
   notice_account_otp_invalid: "일회용 암호가 잘못되었습니다 ."

@@ -81,7 +81,7 @@ pl:
       registration_failed_update: 'Rejestracja urządzenia 2FA nie powiodła się, token był ważny, ale urządzenie nie mogło zostać zaktualizowane.'
       confirm_send_failed: 'Potwierdzenie twojego urządzenia 2FA nie powiodło się.'
       button_complete_registration: 'Ukończ rejestrację 2FA'
-      text_confirm_to_complete_html: "Proszę zakończyć rejestrację Twojego urządzenia <strong>%{identifier}</strong> wpisując hasło jednorazowe z urządzenia."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Proszę potwierdzić, zmiana domyślnego urządzenia do <strong>%{new_identifier}</strong> poprzez wpisanie hasła jednorazowego z bieżącego urządzenia domyślnego."
       text_identifier: 'Możesz nadać urządzeniu niestandardowy identyfikator za pomocą tego pola.'
       failed_to_delete: 'Nie można usunąć urządzenia 2FA.'
@@ -91,7 +91,7 @@ pl:
       totp:
         title: 'Użyj uwierzytelniacza opartego na aplikacji'
         provisioning_uri: 'Inicjowanie obsługi URI'
-        secret_key: 'Sekretny klucz'
+        secret_key: 'Secret key'
         time_based: 'Oparte na czasie'
         account: 'Nazwa rachunku / wystawcy'
         setup: |
@@ -118,6 +118,13 @@ pl:
     label_two_factor_authentication: 'Uwierzytelnianie dwuskładnikowe'
     forced_registration:
       required_to_add_device: 'Aktywna polityka bezpieczeństwa wymaga włączenia uwierzytelniania dwuskładnikowego. Użyj poniższego formularza, aby zarejestrować urządzenie.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Komórka"
   field_otp: "Jednorazowe hasło"
   notice_account_otp_invalid: "Nieprawidłowe hasło jednorazowe."

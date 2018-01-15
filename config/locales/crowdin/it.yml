@@ -80,7 +80,7 @@ it:
       registration_failed_update: '2FA registrazione dispositivo non riuscita, il token è valido, ma il dispositivo potrebbe non essere aggiornato.'
       confirm_send_failed: 'Conferma del dispositivo 2FA non riuscita.'
       button_complete_registration: 'Completa la registrazione 2FA'
-      text_confirm_to_complete_html: "Si prega di compilare la registrazione del suo dispositivo <strong>%{identifier}</strong> inserendo una password monouso dal suo dispositivo."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Si prega di confermare cambiando dispositivo predefinito a <strong>%{new_identifier}</strong> inserendo una password monouso dal dispositivo predefinito corrente."
       text_identifier: 'Puoi dare al dispositivo un identificativo personalizzato usando questo campo.'
       failed_to_delete: 'Impossibile eliminare 2FA dispositivo.'
@@ -90,7 +90,7 @@ it:
       totp:
         title: 'Usa il suo autenticatore basato su app'
         provisioning_uri: 'URI di provisioning'
-        secret_key: 'Chiave segreta'
+        secret_key: 'Secret key'
         time_based: 'Basato sul tempo'
         account: 'Nome account / emittente'
         setup: |
@@ -115,6 +115,13 @@ it:
     label_two_factor_authentication: 'Two-factor authentication'
     forced_registration:
       required_to_add_device: 'Una politica di sicurezza attiva richiede l''abilitazione di two-factor authentication. Si prega di utilizzare il seguente modulo per registrare un dispositivo.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Telefono cellulare"
   field_otp: "Password monouso"
   notice_account_otp_invalid: "One-Time Password non valido."
