@@ -75,7 +75,7 @@ bg:
       от потребител.
     label_add_columns: Add columns
     label_add_comment: Добави коментар
-    label_add_comment_title: Щракнете, за да добавите коментар
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Добавяне на избраните колони
     label_added_by: добавен от
     label_added_time_by: Добавено от %{author} %{age}
@@ -222,6 +222,8 @@ bg:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Сигурни ли сте?
     types:
       attribute_groups:

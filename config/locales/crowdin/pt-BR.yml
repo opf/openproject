@@ -233,10 +233,10 @@ pt-BR:
           de entrar com suas credenciais atuais. Se quiser, poderá cadastrar-se novamente
           pelos meios que este aplicativo permite.
       login_verification:
-        other: Digite o login %{name} para verificar a exclusão. Depois de enviado,
-          você receberá uma solicitação de confirmação de senha.
-        self: Digite seu login %{name} para verificar a exclusão. Depois de enviado,
-          você receberá uma solicitação de confirmação de senha.
+        other: Digite o nome de usuário %{name} para verificar a exclusão. Depois
+          de enviado, você receberá uma solicitação de confirmação da sua senha.
+        self: Digite seu nome de usuário %{name} para verificar a exclusão. Depois
+          de enviado, você receberá uma solicitação de confirmação da sua senha.
     error_inactive_activation_by_mail: 'Sua conta ainda não foi ativada. Para ativar
       sua conta, clique no link que foi enviado por e-mail à você.
 
@@ -426,7 +426,7 @@ pt-BR:
         inclusion: Não está definido como um dos valores permitidos.
         invalid: é inválido.
         invalid_url: não é uma URL válida.
-        invalid_url_scheme: 'não é um protocolo com suporte (permitido: %{allowed_schemes}).'
+        invalid_url_scheme: 'não é um protocolo suportado (permitidos: %{allowed_schemes}).'
         less_than_or_equal_to: deve ser menor ou igual a %{count}.
         not_a_date: não é uma data válida.
         not_a_datetime: não é uma data/hora válida.
@@ -1612,6 +1612,14 @@ pt-BR:
     ldap_auth_failed: Não foi possível autenticar com o servidor LDAP.
   macro_execution_error: Erro de execução da macro %{macro_name}
   macro_unavailable: Macro %{macro_name} não pode ser exibida.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Novo pacote de trabalho
+      link_name_type: New %{type_name}
   mail:
     actions: Ações
   mail_body_account_activation_request: 'Um novo usuário (%{value}) registrou-se.
@@ -2613,6 +2621,7 @@ pt-BR:
       multipart_body_error: O corpo da requisição não continha as partes multipart
         esperadas.
       multiple_errors: Várias restrições de campo foram violadas.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: O contexto fornecido não é um link para o recurso.
         unsupported_context: O recurso dado não esta suportado como contexto.

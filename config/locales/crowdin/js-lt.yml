@@ -75,7 +75,7 @@ lt:
       vartotojo komentarą.
     label_add_columns: Pridėti stulpelių
     label_add_comment: Pridėti komentarą
-    label_add_comment_title: Paspauskite, jei norite pridėti atsiliepimą
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Pridėti pažymėtus stulpelius
     label_added_by: pridėta
     label_added_time_by: Pridėta %{author} %{age}
@@ -221,6 +221,8 @@ lt:
       context: Projekto kontekstas
       work_package_belongs_to: Šis darbų paketas priklauso projektui %{projectname}.
       click_to_switch_context: Atidaryti darbų paketą tame projekte.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Ar esate įsitikinę?
     types:
       attribute_groups:

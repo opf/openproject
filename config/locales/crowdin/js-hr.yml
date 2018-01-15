@@ -75,7 +75,7 @@ hr:
       korisnika.
     label_add_columns: Add columns
     label_add_comment: Dodaj komentar
-    label_add_comment_title: Odaberite za dodavanje komentara
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Dodaj odabrani stupac
     label_added_by: dodao
     label_added_time_by: Dodao %{author} %{age}
@@ -222,6 +222,8 @@ hr:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Da li ste sigurni?
     types:
       attribute_groups:

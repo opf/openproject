@@ -72,7 +72,7 @@ lol:
     label_activity_with_comment_no: crwdns94346:0%{activityNo}crwdne94346:0
     label_add_columns: crwdns94347:0crwdne94347:0
     label_add_comment: crwdns94348:0crwdne94348:0
-    label_add_comment_title: crwdns94349:0crwdne94349:0
+    label_add_comment_title: crwdns95455:0crwdne95455:0
     label_add_selected_columns: crwdns94350:0crwdne94350:0
     label_added_by: crwdns94351:0crwdne94351:0
     label_added_time_by: crwdns94352:0%{author}crwdnd94352:0%{age}crwdne94352:0
@@ -214,6 +214,8 @@ lol:
       context: crwdns94481:0crwdne94481:0
       work_package_belongs_to: crwdns94482:0%{projectname}crwdne94482:0
       click_to_switch_context: crwdns94483:0crwdne94483:0
+      autocompleter:
+        label: crwdns95456:0crwdne95456:0
     text_are_you_sure: crwdns94484:0crwdne94484:0
     types:
       attribute_groups:

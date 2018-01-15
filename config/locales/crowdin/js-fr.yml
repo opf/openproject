@@ -76,7 +76,7 @@ fr:
       utilisateur.
     label_add_columns: Ajouter des colonnes
     label_add_comment: Ajouter un commentaire
-    label_add_comment_title: Cliquez ici pour ajouter un commentaire
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Ajouter les colonnes sélectionnées
     label_added_by: Ajouté par
     label_added_time_by: Ajouté par %{author} %{age}
@@ -227,6 +227,8 @@ fr:
       context: Contexte du projet
       work_package_belongs_to: Ce lot de travaux appartient au projet %{projectname}.
       click_to_switch_context: Ouvrir ce lot de travaux dans ce projet.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Êtes-vous sûr ?
     types:
       attribute_groups:

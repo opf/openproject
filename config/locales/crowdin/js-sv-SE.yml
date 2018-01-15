@@ -74,7 +74,7 @@ sv-SE:
     label_activity_with_comment_no: Aktivitetspost nummer %{activityNo} har en användarkommentar.
     label_add_columns: Lägg till kolumn
     label_add_comment: Lägg till kommentar
-    label_add_comment_title: Klicka för att kommentera
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Lägga till markerade kolumner
     label_added_by: lagts till av
     label_added_time_by: Lagts till av %{author} %{age}
@@ -220,6 +220,8 @@ sv-SE:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Är du säker?
     types:
       attribute_groups:

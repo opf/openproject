@@ -72,7 +72,7 @@ zh-TW:
     label_activity_with_comment_no: 活動條目編號 %{activityNo}。有的使用者評論。
     label_add_columns: Add columns
     label_add_comment: 新增評論
-    label_add_comment_title: 按一下添加注釋
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: 新增所選欄
     label_added_by: 新增者
     label_added_time_by: 由 %{author} 於%{age} 新增
@@ -214,6 +214,8 @@ zh-TW:
       context: 專案內容
       work_package_belongs_to: 此工作項目屬於專案 %{projectname}。
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: 是否確定？
     types:
       attribute_groups:

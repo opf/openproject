@@ -5,6 +5,8 @@ languages:
 engines:
   rubocop:
     enabled: true
+  brakeman:
+    enabled: true
   bundler-audit:
     enabled: true
   eslint:
@@ -15,6 +17,8 @@ engines:
   csslint:
     enabled: true
   scsslint:
+    enabled: true
+  tslint:
     enabled: true
   fixme:
     enabled: true
