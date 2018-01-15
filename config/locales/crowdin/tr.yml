@@ -228,8 +228,8 @@ tr:
           oturum açmanız mümkün olmaz. Eğer bu uygulamaya tekrar üye olmak isterseniz.
           uygulamanın izin verdiği yollarla bunu gerçekleştirebilirsiniz.
       login_verification:
-        other: Enter the login %{name} to verify the deletion. Once submitted, you
-          will be ask to confirm your password.
+        other: Silme işlemini doğrulamak için %{name} giriniz. Gönderildikten sonra,
+          şifrenizi onaylamanız istenecektir.
         self: Enter your login %{name} to verify the deletion. Once submitted, you
           will be ask to confirm your password.
     error_inactive_activation_by_mail: 'Hesabınız henüz etkinleştirilmedi. Hesabınızı
@@ -425,7 +425,7 @@ tr:
         inclusion: izin verilen değerlerden birine ayarlanmamış.
         invalid: geçersizdir.
         invalid_url: geçerli bir adres değil.
-        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        invalid_url_scheme: 'bu protokol desteklenmiyor (izin: %{allowed_schemes}).'
         less_than_or_equal_to: "%{count} 'ten küçük veya bu değere eşit olmalıdır."
         not_a_date: geçerli bir tarih değil.
         not_a_datetime: geçerli bir zaman değil.
@@ -1600,6 +1600,14 @@ tr:
     ldap_auth_failed: LDAP sunucusunda kimlik doğrulaması yapılamadı.
   macro_execution_error: Makroyu çalıştırırken hata oluştu %{macro_name}
   macro_unavailable: Makro %{macro_name} görüntülenemiyor.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Yeni iş paketi
+      link_name_type: New %{type_name}
   mail:
     actions: Eylemler
   mail_body_account_activation_request: 'Yeni bir kullanıcı ( %{value}) kaydoldu.
@@ -2575,6 +2583,7 @@ tr:
         hatalı biçimlendirilmiş.
       multipart_body_error: İstek gövdesi, beklenen çok parçalı parçaları içeriyordu.
       multiple_errors: Çoklu alan kısıtlamaları ihlal edilmiştir.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: Sağlanan bağlam, bir kaynağa bağ değildir.
         unsupported_context: Verilen kaynak bağlam olarak desteklenmiyor.

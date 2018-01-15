@@ -74,7 +74,7 @@ ar:
     label_activity_with_comment_no: رقم إدخال النشاط %{activityNo}. يمتلك تعليق مستخدم.
     label_add_columns: Add columns
     label_add_comment: أضِف تعليقًا
-    label_add_comment_title: اضغط لإضافة تعليق
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: اضف الأعمدة المحددة
     label_added_by: أضيف بواسطة
     label_added_time_by: أضيف بواسطة %{author} %{age}
@@ -218,6 +218,8 @@ ar:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: هل أنت متأكد؟
     types:
       attribute_groups:

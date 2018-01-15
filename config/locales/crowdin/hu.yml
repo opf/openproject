@@ -355,8 +355,8 @@ hu:
         impaired: Kisegítő mód
         time_zone: Idő zóna
         auto_hide_popups: Siker értesítések automatikus elrejtése
-        warn_on_leaving_unsaved: Figyelmeztess, ha úgy hogyom el a munkacsomagot,
-          hogy nem mentett változások vannak rata
+        warn_on_leaving_unsaved: Figyelmeztess, ha úgy hagyom el a munkacsomagot,
+          hogy nem mentett változások vannak rajta
       version:
         effective_date: Lejárati időpont
         sharing: Megosztás
@@ -1608,6 +1608,14 @@ hu:
     ldap_auth_failed: A hitelesítés meghiúsult az LDAP-kiszolgálón.
   macro_execution_error: Hiba a makro %{macro_name} végrehajtásában
   macro_unavailable: A %{macro_name} makró nem jeleníthető meg.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Új munkacsomag
+      link_name_type: New %{type_name}
   mail:
     actions: Műveletek
   mail_body_account_activation_request: 'Új felhasználó (%{value}) regisztrálva van.
@@ -2589,6 +2597,7 @@ hu:
         or malformed.
       multipart_body_error: A kérelem nem tartalmazott várható többrészes elemet.
       multiple_errors: Több mező megszorítás is megszegésre került.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: A megadott kontextus nem erőforrásra hivatkozik.
         unsupported_context: A megadott erőforrás nem támogatott kontextus.

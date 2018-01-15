@@ -76,7 +76,7 @@ uk:
       користувача.
     label_add_columns: Add columns
     label_add_comment: Додати коментар
-    label_add_comment_title: Клацніть, щоб додати коментар
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Add selected columns
     label_added_by: додав(-ла)
     label_added_time_by: Додав(-ла) %{author} %{age}
@@ -224,6 +224,8 @@ uk:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Are you sure?
     types:
       attribute_groups:

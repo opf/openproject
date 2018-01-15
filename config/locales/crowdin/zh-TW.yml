@@ -1531,6 +1531,14 @@ zh-TW:
     ldap_auth_failed: 無法在 LDAP 伺服器上驗證
   macro_execution_error: 執行巨集 (%{macro_name}) 錯誤
   macro_unavailable: 巨集 "%{macro_name}" 無法顯示
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: 新增工作項目
+      link_name_type: New %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 一個新的使用者 (%{value}) 已註冊。該帳號正等您核准：
@@ -2438,6 +2446,7 @@ zh-TW:
         or malformed.
       multipart_body_error: 請求正文不包含預期的多段部分。
       multiple_errors: Multiple field constraints have been violated.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: The context provided is not a link to a resource.
         unsupported_context: The resource given is not supported as context.

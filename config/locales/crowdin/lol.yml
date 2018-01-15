@@ -1506,6 +1506,13 @@ lol:
     ldap_auth_failed: crwdns93562:0crwdne93562:0
   macro_execution_error: crwdns93563:0%{macro_name}crwdne93563:0
   macro_unavailable: crwdns93564:0%{macro_name}crwdne93564:0
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: crwdns95450:0crwdne95450:0
+        invalid_type: crwdns95451:0%{type}crwdnd95451:0%{project}crwdne95451:0
+      link_name: crwdns95452:0crwdne95452:0
+      link_name_type: crwdns95453:0%{type_name}crwdne95453:0
   mail:
     actions: crwdns93565:0crwdne93565:0
   mail_body_account_activation_request: crwdns93566:0%{value}crwdne93566:0
@@ -2317,6 +2324,7 @@ lol:
       missing_or_malformed_parameter: crwdns94273:0%{parameter}crwdne94273:0
       multipart_body_error: crwdns94274:0crwdne94274:0
       multiple_errors: crwdns94275:0crwdne94275:0
+      unable_to_create_attachment: crwdns95454:0crwdne95454:0
       render:
         context_not_parsable: crwdns94276:0crwdne94276:0
         unsupported_context: crwdns94277:0crwdne94277:0

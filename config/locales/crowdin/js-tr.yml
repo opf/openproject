@@ -75,7 +75,7 @@ tr:
       yorumu var.
     label_add_columns: Sütunlar ekle
     label_add_comment: Yorum ekle
-    label_add_comment_title: Yorum eklemek için tıklayın
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Seçilen sütunları ekle
     label_added_by: ekleyen
     label_added_time_by: "%{author} %{age} tarafından eklendi"
@@ -221,6 +221,8 @@ tr:
       context: Proje içeriği
       work_package_belongs_to: Bu iş paketi %{projectname} projesine ait.
       click_to_switch_context: Bu iş paketini o projede aç.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Emin misiniz?
     types:
       attribute_groups:

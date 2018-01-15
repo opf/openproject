@@ -1598,6 +1598,14 @@
     ldap_auth_failed: Kan ikke autentisere mot LDAP-Server.
   macro_execution_error: Feil ved kjøring av makroen %{macro_name}
   macro_unavailable: Makroen %{macro_name} kan ikke vises.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Ny arbeidspakke
+      link_name_type: New %{type_name}
   mail:
     actions: Handlinger
   mail_body_account_activation_request: 'En ny bruker (%{value}) har registrert seg.
@@ -2573,6 +2581,7 @@
       multipart_body_error: Brødteksten i forespørselen inneholder ikke de forventede
         multipart-delene.
       multiple_errors: Flere feltsbegrensninger er brutt.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: Konteksten som er angitt er ikke koblet til en ressurs.
         unsupported_context: Ressursen som er gitt støttes ikke som kontekst.

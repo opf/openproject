@@ -1628,6 +1628,14 @@ hr:
     ldap_auth_failed: Neuspjela autentifikacija na LDAP poslužitelju.
   macro_execution_error: Došlo je do pogreške tijekom izvođenja makroa %{macro_name}
   macro_unavailable: Makro %{macro_name} ne možete biti prikazan.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Novi radni paket
+      link_name_type: New %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'Novi korisnik je (%{value}) je registriran.
@@ -2618,6 +2626,7 @@ hr:
       multipart_body_error: The request body did not contain the expected multipart
         parts.
       multiple_errors: Multiple field constraints have been violated.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: Predviđena dopuna nije poveznica na resurs.
         unsupported_context: Dani resurs nije podržan u obliku konteksta.

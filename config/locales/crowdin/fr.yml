@@ -1636,6 +1636,14 @@ fr:
     ldap_auth_failed: Ne peut s'authentifier sur le serveur LDAP.
   macro_execution_error: Erreur lors de l'exécution de la macro %{macro_name}
   macro_unavailable: La macro %{macro_name} ne peut être affichée.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Nouveau Lot de Travaux
+      link_name_type: New %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'Un nouvel utilisateur (%{value}) s''est enregistré.
@@ -2655,6 +2663,7 @@ fr:
       multipart_body_error: Le corps de la requête ne contenait pas les pièces multiparts
         attendus.
       multiple_errors: Plusieurs contraintes de champ n'ont pas été respectées.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: Le contexte fourni n'est pas un lien vers une ressource.
         unsupported_context: La ressource donnée n'est pas prise en charge comme contexte.

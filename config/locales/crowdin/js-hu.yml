@@ -75,7 +75,7 @@ hu:
       Felhasználói megjegyzéssel.
     label_add_columns: Oszlopok hozzáadása
     label_add_comment: Megjegyzés hozzáadása
-    label_add_comment_title: Hozzászóláshoz kattintson
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: A kiválasztott oszlopok hozzáadása
     label_added_by: Hozzáadta
     label_added_time_by: Hozzáadva %{author} %{age}
@@ -222,6 +222,8 @@ hu:
       work_package_belongs_to: Ez a munkacsomag a(z) %{projectname} nevű projekthez
         tartozik.
       click_to_switch_context: Munkacsomag megnyitása a projektben.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Biztos vagy benne?
     types:
       attribute_groups:

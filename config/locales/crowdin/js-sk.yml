@@ -75,7 +75,7 @@ sk:
       komentár)
     label_add_columns: Add columns
     label_add_comment: Pridať komentár
-    label_add_comment_title: Kliknite pre pridanie komentára
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Pridať vybraté stĺpce
     label_added_by: Pridal
     label_added_time_by: Pridal %{author} %{age}
@@ -221,6 +221,8 @@ sk:
       context: Kontext projektu
       work_package_belongs_to: Tento pracovný balíček patrí k projektu %{projectname}.
       click_to_switch_context: Otvoriť tento pracovný balík v danom projekte.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Are you sure?
     types:
       attribute_groups:

@@ -1623,6 +1623,14 @@ ca:
     ldap_auth_failed: No s'ha pogut autenticar en el servidor de LDAP.
   macro_execution_error: Error en l'execució de la macro %{macro_name}
   macro_unavailable: No es pot mostrar la macro %{macro_name}.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Paquet de treball nou
+      link_name_type: New %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'S''ha registrat un usuari nou (%{value}).
@@ -2644,6 +2652,7 @@ ca:
       multipart_body_error: El cos de la sol·licitud no conté les parts de multiparts
         que s'esperava.
       multiple_errors: Diverses restriccions de camp han estat violades.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: El context proporcionat no és un enllaç a un recurs.
         unsupported_context: El recurs proporcionat no s'admet com a context.

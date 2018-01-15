@@ -1633,6 +1633,14 @@ sk:
     ldap_auth_failed: Could not authenticate at the LDAP-Server.
   macro_execution_error: Error executing the macro %{macro_name}
   macro_unavailable: Macro %{macro_name} cannot be displayed.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Nový pracovný balíček
+      link_name_type: New %{type_name}
   mail:
     actions: Akcie
   mail_body_account_activation_request: 'A new user (%{value}) has registered. The
@@ -2615,6 +2623,7 @@ sk:
         or malformed.
       multipart_body_error: Telo žiadosti neobsahuje očakávaný viacnásobné časti.
       multiple_errors: Boli porušené obmedzenia voči viacerým poliam.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: Zadaný kontext nie je odkazom na prostriedok.
         unsupported_context: Zadaný prostriedok nie je podporovaný ako kontext.
