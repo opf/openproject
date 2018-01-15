@@ -91,9 +91,9 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     top_menu.search 'Plain other project'
 
     within(top_menu.search_results) do
-      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: 'Plain project')
       expect(page).to have_selector('.ui-state-disabled .ui-menu-item-wrapper', text: '<strong>foobar</strong>')
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: '» Plain other project')
+      expect(page).to have_selector('.ui-menu-item-wrapper.ui-state-active', text: '» Plain other project')
+      expect(page).to have_selector('.ui-menu-item-wrapper', text: 'Plain project')
     end
 
     # Visit a project

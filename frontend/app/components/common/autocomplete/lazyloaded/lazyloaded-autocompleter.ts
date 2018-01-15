@@ -59,9 +59,7 @@ export abstract class ILazyAutocompleterBridge<T> {
       return items;
     }
 
-    return timeOutput('FUSE', () => {
-      return this.fuseInstance.search(term) as any;
-    });
+    return this.fuseInstance.search(term) as any;
   }
 
   /**

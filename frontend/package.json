@@ -86,7 +86,7 @@
     "happypack": "^4.0.0",
     "html-loader": "^0.2.3",
     "jquery": "^3.1.1",
-    "jquery-ui": "^1.12.1",
+    "jquery-ui": "git://github.com/jquery/jquery-ui#74f8a0ac952f6f45f773312292baef1c26d81300",
     "jquery-ujs": "^1.2.2",
     "jquery.caret": "^0.3.1",
     "json5": "^0.5.0",

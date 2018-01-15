@@ -3742,9 +3742,10 @@
       }
     },
     "jquery-ui": {
-      "version": "1.12.1",
-      "resolved": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz",
-      "integrity": "sha1-vLQEXI3QU5wTS8FIjN0+dop6nlE="
+      "version": "git://github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
+      "requires": {
+        "jquery": "3.1.1"
+      }
     },
     "jquery-ujs": {
       "version": "1.2.2",
