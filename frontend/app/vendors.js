@@ -81,7 +81,7 @@ require('jquery.caret');
 // Text highlight for autocompleter
 require('mark.js/dist/jquery.mark.min.js');
 // Micro Text fuzzy search library
-require('fuzzy');
+require('fuse.js');
 
 require('at.js/jquery.atwho.min.js');
 

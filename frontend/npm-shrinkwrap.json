@@ -3178,10 +3178,10 @@
         }
       }
     },
-    "fuzzy": {
-      "version": "0.1.3",
-      "resolved": "https://registry.npmjs.org/fuzzy/-/fuzzy-0.1.3.tgz",
-      "integrity": "sha1-THbsL/CsGjap3M+aAN+GIweNTtg="
+    "fuse.js": {
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/fuse.js/-/fuse.js-3.2.0.tgz",
+      "integrity": "sha1-8ESOgGmFW/Kj5oPNwdMg5+KgfvQ="
     },
     "generate-function": {
       "version": "2.0.0",

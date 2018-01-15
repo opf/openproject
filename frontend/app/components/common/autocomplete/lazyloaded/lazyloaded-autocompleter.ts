@@ -1,4 +1,5 @@
-import * as fuzzy from 'fuzzy';
+import * as Fuse from 'fuse.js';
+import {timeOutput} from '../../../../helpers/debug_output';
 
 export interface IAutocompleteItem<T> {
   label:string;
@@ -12,6 +13,9 @@ export abstract class ILazyAutocompleterBridge<T> {
 
   // Input autocomplete element
   public input:JQuery;
+
+  // Fuzzy instance for the results
+  public fuseInstance:any;
 
   public constructor(public widgetName:string) {
     LazyLoadedAutocompleter.register(widgetName, this);
@@ -55,9 +59,9 @@ export abstract class ILazyAutocompleterBridge<T> {
       return items;
     }
 
-    const options = { extract: (i:IAutocompleteItem<T>) => i.label };
-    const results = fuzzy.filter(term, items, options);
-    return results.map(el => el.original);
+    return timeOutput('FUSE', () => {
+      return this.fuseInstance.search(term) as any;
+    });
   }
 
   /**
@@ -85,13 +89,25 @@ export abstract class ILazyAutocompleterBridge<T> {
     this.currentPage = 0;
     this.input = input;
     this.input[this.widgetName].call(this.input, this.setupParams(items));
+    const options = {
+      shouldSort: true,
+      tokenize: true,
+      threshold: 0.2,
+      location: 0,
+      distance: 100,
+      maxPatternLength: 16,
+      minMatchCharLength: 2,
+      keys: ['label']
+    };
+
+    this.fuseInstance = new Fuse(items, options);
   }
 
   protected setupParams(autocompleteValues:IAutocompleteItem<T>[]) {
     const ctrl = this;
 
     return {
-      delay: 0,
+      delay: 50,
       source: function (request:any, response:any) {
         const fuzzyResults = ctrl.fuzzySearch(autocompleteValues, request.term);
         response(ctrl.augmentedResultSet(autocompleteValues, fuzzyResults));
