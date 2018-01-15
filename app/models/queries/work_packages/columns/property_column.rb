@@ -56,35 +56,12 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
     parent: {
       association: 'ancestors_relations',
       default_order: 'asc',
-      sortable: ["COALESCE(depth_relations.from_id, #{WorkPackage.table_name}.id)",
-                 "COALESCE(depth_relations.hierarchy, 0)"],
+      sortable: ["CONCAT_WS(',', hierarchy_paths.path, work_packages.id)"],
       sortable_join: <<-SQL
-        LEFT OUTER JOIN (
-          SELECT
-            r1.from_id,
-            r1.to_id,
-            r1.hierarchy
-          FROM relations r1
-          LEFT OUTER JOIN relations r2
-            ON
-              r1.to_id = r2.to_id
-              AND r1.hierarchy < r2.hierarchy
-              AND r2.relates = 0
-              AND r2.duplicates = 0
-              AND r2.follows = 0
-              AND r2.blocks = 0
-              AND r2.includes = 0
-              AND r2.requires = 0
-          WHERE
-            r2.id IS NULL
-            AND r1.relates = 0
-            AND r1.duplicates = 0
-            AND r1.follows = 0
-            AND r1.blocks = 0
-            AND r1.includes = 0
-            AND r1.requires = 0
-        ) depth_relations
-        ON depth_relations.to_id = work_packages.id
+        LEFT OUTER JOIN
+          hierarchy_paths
+        ON
+          hierarchy_paths.work_package_id = work_packages.id
       SQL
     },
     status: {
