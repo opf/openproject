@@ -469,13 +469,26 @@ class WorkPackage < ActiveRecord::Base
   end
 
   def self.relateable_to(wp)
+    # can't relate to itself and not to a descendant (see relations)
+    relateable_shared(wp)
+      .not_having_relations_from(wp) # can't relate to wp that relates to us (direct or transitively)
+      .not_having_direct_relation_to(wp) # can't relate to wp we relate to directly
+  end
+
+  def self.relateable_from(wp)
+    # can't relate to itself and not to a descendant (see relations)
+    relateable_shared(wp)
+      .not_having_relations_to(wp) # can't relate to wp that relates to us (direct or transitively)
+      .not_having_direct_relation_from(wp) # can't relate to wp we relate to directly
+  end
+
+  def self.relateable_shared(wp)
     visible
       .not_self(wp) # can't relate to itself
-      .not_having_relations_from(wp) # can't relate to wp that relate to us (direct or transitively)
-      .not_having_direct_relation_to(wp) # can't relate to wp we relate to directly
       .not_being_descendant_of(wp) # can't relate to a descendant (see relations)
       .satisfying_cross_project_setting(wp)
   end
+  private_class_method :relateable_shared
 
   def self.satisfying_cross_project_setting(wp)
     if Setting.cross_project_work_package_relations?
@@ -493,8 +506,16 @@ class WorkPackage < ActiveRecord::Base
     where.not(id: wp.relations_to.direct.select(:to_id))
   end
 
+  def self.not_having_direct_relation_from(wp)
+    where.not(id: wp.relations_from.direct.select(:from_id))
+  end
+
   def self.not_having_relations_from(wp)
     where.not(id: wp.relations_from.select(:from_id))
+  end
+
+  def self.not_having_relations_to(wp)
+    where.not(id: wp.relations_to.select(:to_id))
   end
 
   def self.not_being_descendant_of(wp)

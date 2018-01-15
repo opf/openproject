@@ -5,7 +5,7 @@
 
         <div class="grid-content medium-3 collapse">
             <span class="relation-row--type"
-                  ng-click="$ctrl.userInputs.showRelationTypesForm = true"
+                  ng-click="$ctrl.activateRelationTypeEdit()"
                   tabindex="0"
                   ng-if="!$ctrl.userInputs.showRelationTypesForm">
 
@@ -22,7 +22,8 @@
                         ng-model="$ctrl.selectedRelationType"
                         role="listbox"
                         focus
-                        ng-options="relationType.name for relationType in $ctrl.availableRelationTypes"
+                        ng-keydown="$ctrl.cancelRelationTypeEditOnEscape($event)"
+                        ng-options="relationType as relationType.label for relationType in $ctrl.availableRelationTypes track by relationType.name"
                         ng-change="$ctrl.saveRelationType()"></select>
             </div>
         </div>

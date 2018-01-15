@@ -62,19 +62,15 @@ module API
               get do
                 ar_name = ::API::Utilities::QueryFiltersNameConverter
                           .to_ar_name(params[:id], refer_to_ids: true)
-
                 filter_class = Query.find_registered_filter(ar_name)
 
-                if filter_class
-                  filter = filter_class.new context: OpenStruct.new(project: nil)
-                  filter.name = ar_name
+                raise ::API::Errors::NotFound.new if filter_class.nil?
 
-                  single_representer.new(filter,
-                                         api_v3_paths.query_filter_instance_schema(params[:id]),
-                                         current_user: current_user)
-                else
-                  raise ::API::Errors::NotFound.new
-                end
+                filter = filter_class.create! name: ar_name, context: OpenStruct.new(project: nil)
+
+                single_representer.new(filter,
+                                       api_v3_paths.query_filter_instance_schema(params[:id]),
+                                       current_user: current_user)
               end
             end
           end

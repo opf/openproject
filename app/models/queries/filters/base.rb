@@ -42,10 +42,12 @@ class Queries::Filters::Base
 
   self.filter_params = %i(operator values)
 
-  attr_accessor :context,
-                *filter_params
+  attr_accessor :context, *filter_params
+  attr_reader :name
+  alias :field :name
 
-  def initialize(options = {})
+  def initialize(name, options = {})
+    @name = name.to_sym
     self.context = options[:context]
 
     self.class.filter_params.each do |param_field|
@@ -53,17 +55,27 @@ class Queries::Filters::Base
     end
   end
 
+  ##
+  # Treat the constructor as private, as the filter MAY need to check
+  # the options before accepting them as a filter.
+  #
+  # Use +#create+ instead.
+  private_class_method :new
+
+  ##
+  # Creates a filter instance with the given name if the options are acceptable.
+  # Raises an +InvalidFilterError+ if the given filter cannot be created with this option.
+  def self.create!(name: key, **options)
+    new(name, options)
+  end
+
   def [](name)
     send(name)
   end
 
-  def name
-    @name || self.class.key
-  end
-  alias :field :name
-
-  def name=(name)
-    @name = name.to_sym
+  def filter_instance_options
+    values = filter_params.map { |key| [key, send(key)] }
+    initial_options.merge(Hash[values])
   end
 
   def human_name
@@ -109,9 +121,7 @@ class Queries::Filters::Base
   end
 
   def self.all_for(context = nil)
-    filter = new
-    filter.context = context
-    filter
+    create!(name: key, context: context)
   end
 
   def where
@@ -129,6 +139,9 @@ class Queries::Filters::Base
   def values
     @values || []
   end
+
+  # Values may contain an internal representation for some filters
+  alias :values_replaced :values
 
   def values=(values)
     @values = Array(values).map(&:to_s)

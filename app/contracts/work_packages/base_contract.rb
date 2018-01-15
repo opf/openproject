@@ -272,7 +272,7 @@ module WorkPackages
       Relation
         .from_parent_to_self_and_descendants(model)
         .or(Relation.from_self_and_descendants_to_ancestors(model))
-        .non_reflexive
+        .direct
     end
   end
 end

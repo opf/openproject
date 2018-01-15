@@ -33,9 +33,6 @@ describe 'filter me value', js: true do
   let(:role) { FactoryGirl.create :existing_role, permissions: [:view_work_packages] }
   let(:admin) { FactoryGirl.create :admin }
   let(:user) { FactoryGirl.create :user }
-  let(:wp_admin) { FactoryGirl.create :work_package, project: project, assigned_to: admin }
-  let(:wp_user) { FactoryGirl.create :work_package, project: project, assigned_to: user }
-
   let(:wp_table) { ::Pages::WorkPackagesTable.new(project) }
   let(:filters) { ::Components::WorkPackages::Filters.new }
 
@@ -45,63 +42,159 @@ describe 'filter me value', js: true do
     project.add_member! user, role
   end
 
-  context 'as anonymous', with_settings: { login_required?: false } do
-    let(:assignee_query) do
-      query = FactoryGirl.create(:query,
-                                 name: 'Assignee Query',
-                                 project: project,
-                                 user: user)
+  describe 'assignee' do
+    let(:wp_admin) { FactoryGirl.create :work_package, project: project, assigned_to: admin }
+    let(:wp_user) { FactoryGirl.create :work_package, project: project, assigned_to: user }
 
-      query.add_filter('assigned_to_id', '=', ['me'])
-      query.save!(validate: false)
+    context 'as anonymous', with_settings: { login_required?: false } do
+      let(:assignee_query) do
+        query = FactoryGirl.create(:query,
+                                   name: 'Assignee Query',
+                                   project: project,
+                                   user: user)
 
-      query
+        query.add_filter('assigned_to_id', '=', ['me'])
+        query.save!(validate: false)
+
+        query
+      end
+
+      it 'shows an error visiting a query with a me value' do
+        wp_table.visit_query assignee_query
+        wp_table.expect_notification(type: :error,
+                                     message: I18n.t('js.work_packages.faulty_query.description'))
+      end
     end
 
+    context 'logged in' do
+      before do
+        wp_admin
+        wp_user
 
-    it 'shows an error visiting a query with a me value' do
-      wp_table.visit_query assignee_query
-      wp_table.expect_notification(type: :error,
-                                   message: I18n.t('js.work_packages.faulty_query.description'))
+        login_as(admin)
+      end
+
+      it 'shows the one work package filtering for myself' do
+        wp_table.visit!
+        wp_table.expect_work_package_listed(wp_admin, wp_user)
+
+        # Add and save query with me filter
+        filters.open
+        filters.remove_filter 'status'
+        filters.add_filter_by('Assignee', 'is', 'me')
+
+        wp_table.expect_work_package_not_listed(wp_user)
+        wp_table.expect_work_package_listed(wp_admin)
+
+        wp_table.save_as('Me query')
+        loading_indicator_saveguard
+
+        # Expect correct while saving
+        wp_table.expect_title 'Me query'
+        query = Query.last
+        expect(query.filters.first.values).to eq ['me']
+        filters.expect_filter_by('Assignee', 'is', 'me')
+
+        # Revisit query
+        wp_table.visit_query query
+        wp_table.expect_work_package_not_listed(wp_user)
+        wp_table.expect_work_package_listed(wp_admin)
+
+        filters.open
+        filters.expect_filter_by('Assignee', 'is', 'me')
+      end
     end
   end
 
-  context 'logged in' do
-    before do
-      wp_admin
-      wp_user
-
-      login_as(admin)
+  describe 'custom_field of type user' do
+    let(:custom_field) do
+      FactoryGirl.create(
+        :work_package_custom_field,
+        name: 'CF user',
+        field_format: 'user',
+        is_required: false
+      )
+    end
+    let(:type_task) { FactoryGirl.create(:type_task, custom_fields: [custom_field]) }
+    let(:project) do
+      FactoryGirl.create(:project,
+                         types: [type_task],
+                         work_package_custom_fields: [custom_field])
     end
 
-    it 'shows the one work package filtering for myself' do
-      wp_table.visit!
-      wp_table.expect_work_package_listed(wp_admin, wp_user)
+    let(:cf_accessor) { "cf_#{custom_field.id}" }
+    let(:cf_accessor_frontend) { "customField#{custom_field.id}" }
+    let(:wp_admin) do
+      FactoryGirl.create :work_package,
+                         type: type_task,
+                         project: project,
+                         custom_field_values: { custom_field.id => admin.id }
+    end
 
-      # Add and save query with me filter
-      filters.open
-      filters.remove_filter 'status'
-      filters.add_filter_by('Assignee', 'is', 'me')
+    let(:wp_user) do
+      FactoryGirl.create :work_package,
+                         type: type_task,
+                         project: project,
+                         custom_field_values: { custom_field.id => user.id }
+    end
 
-      wp_table.expect_work_package_not_listed(wp_user)
-      wp_table.expect_work_package_listed(wp_admin)
+    context 'as anonymous', with_settings: { login_required?: false } do
+      let(:assignee_query) do
+        query = FactoryGirl.create(:query,
+                                   name: 'CF user Query',
+                                   project: project,
+                                   user: user)
 
-      wp_table.save_as('Me query')
-      loading_indicator_saveguard
+        query.add_filter(cf_accessor, '=', ['me'])
+        query.save!(validate: false)
 
-      # Expect correct while saving
-      wp_table.expect_title 'Me query'
-      query = Query.last
-      expect(query.filters.first.values).to eq ['me']
-      filters.expect_filter_by('Assignee', 'is', 'me')
+        query
+      end
 
-      # Revisit query
-      wp_table.visit_query query
-      wp_table.expect_work_package_not_listed(wp_user)
-      wp_table.expect_work_package_listed(wp_admin)
+      it 'shows an error visiting a query with a me value' do
+        wp_table.visit_query assignee_query
+        wp_table.expect_notification(type: :error,
+                                     message: I18n.t('js.work_packages.faulty_query.description'))
+      end
+    end
 
-      filters.open
-      filters.expect_filter_by('Assignee', 'is', 'me')
+    context 'logged in' do
+      before do
+        wp_admin
+        wp_user
+
+        login_as(admin)
+      end
+
+      it 'shows the one work package filtering for myself' do
+        wp_table.visit!
+        wp_table.expect_work_package_listed(wp_admin, wp_user)
+
+        # Add and save query with me filter
+        filters.open
+        filters.remove_filter 'status'
+        filters.add_filter_by('CF user', 'is', 'me', cf_accessor_frontend)
+
+        wp_table.expect_work_package_not_listed(wp_user)
+        wp_table.expect_work_package_listed(wp_admin)
+
+        wp_table.save_as('Me query')
+        loading_indicator_saveguard
+
+        # Expect correct while saving
+        wp_table.expect_title 'Me query'
+        query = Query.last
+        expect(query.filters.first.values).to eq ['me']
+        filters.expect_filter_by('CF user', 'is', 'me', cf_accessor_frontend)
+
+        # Revisit query
+        wp_table.visit_query query
+        wp_table.expect_work_package_not_listed(wp_user)
+        wp_table.expect_work_package_listed(wp_admin)
+
+        filters.open
+        filters.expect_filter_by('CF user', 'is', 'me', cf_accessor_frontend)
+      end
     end
   end
 end

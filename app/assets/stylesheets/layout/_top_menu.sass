@@ -65,7 +65,9 @@
     height: $header-height
     border-top: 0
     position: relative
-  li.drop-down
+  li.drop-down,
+  li.help-menu--overridden-link,
+  .accessibility-mode & li
     float: left
     list-style-type: none
     white-space: nowrap
@@ -94,7 +96,7 @@
       li
         float: none
     > ul.drop-down--projects
-      min-width: 400px
+      width: 400px
       left: 0
       box-shadow: none
 
@@ -232,51 +234,6 @@ input.top-menu-search--input
   padding-top: 0
   .top-menu-items-right
     float: right
-
-#select2-drop.project-search-results
-  margin: 0 0 0 -2px
-  border: 2px solid $header-drop-down-border-color
-  border-top: 0
-  // Overwrite Selct2's width calculations
-  width: 396px !important
-
-  @include default-font($header-drop-down-projects-search-font-color, 13px)
-  li
-    padding: 0 10px
-    font-size: 15px
-
-  .select2-search
-    margin: 1px 0 0 0
-    color: #b3b3b3
-    border-top: 1px solid #D9D9D9
-    border-bottom: 1px solid #D9D9D9
-
-    &:before
-      color: #b3b3b3
-      top: 21px
-      right: 25px
-      font-size: 14px
-
-  .select2-search input.select2-input
-    margin: 12px 10px
-    padding: 0px 32px 0px 10px
-    border: 1px solid #D9D9D9
-    box-shadow: inset 0px 1px 3px 0px rgba(0,0,0,0.1)
-    width: calc(100% - 20px)
-    background: $header-drop-down-projects-search-input-bg-color
-
-  .select2-results
-    margin: 6px 0
-    padding: 0
-
-    .select2-highlighted
-      @include varprop(background, drop-down-selected-bg-color, !important)
-      border-radius: 0 !important
-      font-weight: normal !important
-      @include varprop(color, drop-down-selected-font-color)
-      &:hover
-        @include varprop(background, drop-down-hover-bg-color, !important)
-        @include varprop(color, drop-down-hover-font-color, !important)
 
 #header
   min-width: 840px

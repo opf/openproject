@@ -191,6 +191,14 @@ export class WorkPackageEditFieldHandler {
   }
 
   /**
+   * Reference the current set project
+   */
+  public get project() {
+    const changeset = this.form.changeset;
+    return changeset.value('project');
+  }
+
+  /**
    * Return a unique ID for this edit field
    */
   public get htmlId() {

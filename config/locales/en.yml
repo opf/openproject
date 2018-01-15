@@ -1560,6 +1560,13 @@ en:
 
   macro_execution_error: "Error executing the macro %{macro_name}"
   macro_unavailable: "Macro %{macro_name} cannot be displayed."
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: 'Calling create_work_package_link macro from outside project context.'
+        invalid_type: "No type found with name '%{type}' in project '%{project}'."
+      link_name: 'New work package'
+      link_name_type: 'New %{type_name}'
 
   mail:
     actions: 'Actions'
@@ -2433,6 +2440,7 @@ en:
       missing_or_malformed_parameter: "The query parameter '%{parameter}' is missing or malformed."
       multipart_body_error: "The request body did not contain the expected multipart parts."
       multiple_errors: "Multiple field constraints have been violated."
+      unable_to_create_attachment: "The attachment could not be created"
       render:
         context_not_parsable: "The context provided is not a link to a resource."
         unsupported_context: "The resource given is not supported as context."

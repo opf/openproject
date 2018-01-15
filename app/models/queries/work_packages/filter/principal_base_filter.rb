@@ -30,31 +30,11 @@
 
 class Queries::WorkPackages::Filter::PrincipalBaseFilter <
   Queries::WorkPackages::Filter::WorkPackageFilter
+
+  include MeValueFilterMixin
+
   def available?
     User.current.logged? || allowed_values.any?
-  end
-
-  def value_objects_hash
-    objects = super
-
-    # Replace me value identifier
-    if has_me_value?
-      search = User.current.id
-      objects.each do |value_object|
-        if value_object[:id] == search
-          value_object[:id] = 'me'
-          value_object[:name] = I18n.t(:label_me)
-          break
-        end
-      end
-    end
-
-    objects
-  end
-
-  def value_objects
-    prepared_values = values.map { |value| value == me_value ? User.current.id : value }
-    Principal.where(id: prepared_values)
   end
 
   def ar_object_filter?
@@ -65,43 +45,13 @@ class Queries::WorkPackages::Filter::PrincipalBaseFilter <
     true
   end
 
-  def has_me_value?
-    values.include? me_value
-  end
-
   def where
     operator_strategy.sql_for_field(values_replaced, self.class.model.table_name, self.class.key)
   end
 
   private
 
-  def me_allowed_value
-    values = []
-    if User.current.logged?
-      values << [I18n.t(:label_me), me_value]
-    end
-    values
-  end
-
-  def me_value
-    'me'.freeze
-  end
-
   def principal_loader
     @principal_loader ||= ::Queries::WorkPackages::Filter::PrincipalLoader.new(project)
-  end
-
-  def values_replaced
-    vals = values.clone
-
-    if vals.delete(me_value)
-      if User.current.logged?
-        vals.push(User.current.id.to_s)
-      else
-        vals.push('0')
-      end
-    end
-
-    vals
   end
 end

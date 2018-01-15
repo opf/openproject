@@ -9,6 +9,8 @@ import {RelationCellbuilder} from '../relation-cell-builder';
 import {WorkPackageChangeset} from '../../../wp-edit-form/work-package-changeset';
 import {ContextLinkIconBuilder} from "../context-link-icon-builder";
 import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
+import {locateTableRowByIdentifier} from 'core-components/wp-fast-table/helpers/wp-table-row-helpers';
+import {debugLog} from '../../../../helpers/debug_output';
 
 // Work package table row entries
 export const tableRowClassName = 'wp-table--row';
@@ -135,11 +137,29 @@ export class SingleRowBuilder {
   }
 
   protected buildEmptyRow(workPackage:WorkPackageResourceInterface, row:HTMLElement):[HTMLElement, boolean] {
-    let cell = null;
+    const changeset = this.workPackageTable.editing.changeset(workPackage.id);
+    let cells:{ [attribute:string]:JQuery } = {};
+
+    if (changeset && !changeset.empty) {
+      // Try to find an old instance of this row
+      const oldRow = locateTableRowByIdentifier(this.classIdentifier(workPackage));
+
+      changeset.changedAttributes.forEach((attribute:string) => {
+        cells[attribute] = oldRow.find(`.${wpCellTdClassName}.${attribute}`);
+      });
+    }
 
     this.augmentedColumns.forEach((column:QueryColumn) => {
-      cell = this.buildCell(workPackage, column);
-      row.appendChild(cell);
+      let cell:Element;
+      let oldCell:JQuery|undefined = cells[column.id];
+
+      if (oldCell && oldCell.length) {
+        debugLog(`Rendering previous open column ${column.id} on ${workPackage.id}`);
+        jQuery(row).append(oldCell);
+      } else {
+        cell = this.buildCell(workPackage, column);
+        row.appendChild(cell);
+      }
     });
 
     // Set the row selection state

@@ -33,7 +33,7 @@ describe ::API::V3::Queries::Schemas::TextFilterDependencyRepresenter, clear_cac
 
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
-  let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.new(context: query) }
+  let(:filter) { Queries::WorkPackages::Filter::SubjectFilter.create!(context: query) }
   let(:form_embedded) { false }
 
   let(:instance) do

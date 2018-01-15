@@ -156,7 +156,7 @@ gem 'nokogiri', '~> 1.8.1'
 # fog dependency chain. We only need aws here, so we can avoid it
 # at the cost of referencing carrierwave#master for now.
 gem 'fog-aws'
-gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
+gem 'carrierwave', '~> 1.2.2'
 
 gem 'openproject-token', '~> 1.0.1'
 
@@ -258,10 +258,7 @@ group :opf_plugins do
   gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'translations-in-core'
 end
 
-# TODO: Make this group :optional when bundler v10.x
-# is matured enough that we can use this everywhere
-# http://bundler.io/blog/2015/06/24/version-1-10-released.html
-group :docker do
+group :docker, optional: true do
   gem 'passenger'
 
   # Used to easily precompile assets

@@ -175,6 +175,10 @@ export class PathHelperService {
     return this.apiV2 + '/projects';
   }
 
+  public apiV2ProjectsList() {
+    return this.apiV2ProjectsPath() +  '/level_list.json';
+  }
+
   // API V3
   public apiConfigurationPath() {
     return this.apiV3 + '/configuration';

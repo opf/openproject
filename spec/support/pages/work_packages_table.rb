@@ -94,7 +94,7 @@ module Pages
 
     def click_inline_create
       find('.wp-inline-create--add-link').click
-      expect(page).to have_selector('.wp-inline-create-row')
+      expect(page).to have_selector('.wp-inline-create-row', wait: 10)
     end
 
     def create_wp_split_screen(type)

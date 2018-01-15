@@ -85,6 +85,9 @@ module API
                                                   description: metadata.description
             rescue ActiveRecord::RecordInvalid => error
               raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
+            rescue => e
+              Rails.logger.error "Failed to save attachment on #{@work_package.id}: #{e.class} - #{e.message}"
+              raise ::API::Errors::InternalError.new(I18n.t('api_v3.errors.unable_to_create_attachment'))
             end
 
             ::API::V3::Attachments::AttachmentRepresenter.new(attachment,

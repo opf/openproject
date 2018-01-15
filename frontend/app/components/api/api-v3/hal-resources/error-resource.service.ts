@@ -83,7 +83,13 @@ export class ErrorResource extends HalResource {
       columns = this.errors;
     }
 
-    return columns.map(field => field.details.attribute);
+    return _.flatten(columns.map((resource:ErrorResource) => {
+      if (resource.errorIdentifier === v3ErrorIdentifierMultipleErrors) {
+        return this.extractMultiError(resource)[0];
+      } else {
+        return resource.details.attribute;
+      }
+    }));
   }
 
   public getMessagesPerAttribute():{ [attribute:string]:string[] } {
@@ -94,7 +100,11 @@ export class ErrorResource extends HalResource {
     }
     else {
       _.forEach(this.errors, (error:any) => {
-        if (perAttribute[error.details.attribute]) {
+        if (error.errorIdentifier === v3ErrorIdentifierMultipleErrors) {
+          const [attribute, messages] = this.extractMultiError(error);
+          let current = perAttribute[attribute] || [];
+          perAttribute[attribute] = current.concat(messages);
+        } else if (perAttribute[error.details.attribute]) {
           perAttribute[error.details.attribute].push(error.message);
         }
         else {
@@ -104,6 +114,13 @@ export class ErrorResource extends HalResource {
     }
 
     return perAttribute;
+  }
+
+  protected extractMultiError(resource:ErrorResource):[string, string[]] {
+    let attribute = resource.errors[0].details.attribute;
+    let messages = resource.errors.map((el:ErrorResource) => el.message);
+
+    return [attribute, messages];
   }
 }
 

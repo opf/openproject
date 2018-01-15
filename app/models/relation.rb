@@ -130,12 +130,12 @@ class Relation < ActiveRecord::Base
   end
 
   def self.hierarchy_or_follows
-    with_type_columns_0(WorkPackage._dag_options.type_columns - %i(hierarchy follows))
+    with_type_columns_0(_dag_options.type_columns - %i(hierarchy follows))
       .non_reflexive
   end
 
   def self.hierarchy_or_reflexive
-    with_type_columns_0(WorkPackage._dag_options.type_columns - %i(hierarchy))
+    with_type_columns_0(_dag_options.type_columns - %i(hierarchy))
   end
 
   def self.non_hierarchy_of_work_package(work_package)
@@ -175,6 +175,14 @@ class Relation < ActiveRecord::Base
 
   def relation_type_changed?
     changed.include?('relation_type')
+  end
+
+  def relation_type_was
+    if changes['relation_type']
+      changes['relation_type'].first
+    else
+      relation_type
+    end
   end
 
   def relation_type
@@ -239,6 +247,10 @@ class Relation < ActiveRecord::Base
   end
 
   def canonical_type
+    self.class(relation_type)
+  end
+
+  def self.canonical_type(relation_type)
     if TYPES.key?(relation_type) &&
        TYPES[relation_type][:reverse]
       TYPES[relation_type][:reverse]
@@ -246,6 +258,8 @@ class Relation < ActiveRecord::Base
       relation_type
     end
   end
+
+  private
 
   def shared_hierarchy?
     to_from = hierarchy_but_not_self(to: to, from: from)
@@ -255,8 +269,6 @@ class Relation < ActiveRecord::Base
       .or(from_to)
       .any?
   end
-
-  private
 
   def validate_sanity_of_relation
     return unless from && to
@@ -268,11 +280,15 @@ class Relation < ActiveRecord::Base
   end
 
   def set_type_column
+    if relation_type_changed? && relation_type_was
+      was_column = self.class.relation_column(relation_type_was)
+      send("#{was_column}=", 0)
+    end
+
     return unless relation_type
+    new_column = self.class.relation_column(relation_type)
 
-    column = self.class.relation_column(relation_type)
-
-    send("#{column}=", 1)
+    send("#{new_column}=", 1)
   end
 
   # Reverses the relation if needed so that it gets stored in the proper way

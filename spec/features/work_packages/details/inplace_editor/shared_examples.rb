@@ -127,12 +127,29 @@ shared_examples 'a principal autocomplete field' do
   let!(:user) { FactoryGirl.create :user, member_in_project: project, firstname: 'John' }
   let!(:mentioned_user) { FactoryGirl.create :user, member_in_project: project, firstname: 'Laura', lastname: 'Foobar' }
 
-  it 'autocompletes links to user profiles' do
-    field.activate!
-    field.input_element.send_keys(" @lau")
-    expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+  shared_examples 'principal autocomplete on field' do
+    before do
+      wp_page.visit!
+      wp_page.ensure_page_loaded
+    end
 
-    field.input_element.send_keys(" @Laura Fo")
-    expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+    it 'autocompletes links to user profiles' do
+      field.activate!
+      field.input_element.send_keys(" @lau")
+      expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+
+      field.input_element.send_keys(" @Laura Fo")
+      expect(page).to have_selector('.atwho-view-ul li.cur', text: mentioned_user.name)
+    end
+  end
+
+  context 'in project' do
+    let(:wp_page) { Pages::SplitWorkPackage.new(work_package, project) }
+    it_behaves_like 'principal autocomplete on field'
+  end
+
+  context 'outside project' do
+    let(:wp_page) { Pages::SplitWorkPackage.new(work_package) }
+    it_behaves_like 'principal autocomplete on field'
   end
 end

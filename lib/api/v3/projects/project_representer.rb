@@ -37,17 +37,21 @@ module API
         self_link
 
         link :createWorkPackage do
+          next unless current_user_allowed_to(:add_work_packages, context: represented)
+
           {
             href: api_v3_paths.create_project_work_package_form(represented.id),
             method: :post
-          } if current_user_allowed_to(:add_work_packages, context: represented)
+          }
         end
 
         link :createWorkPackageImmediate do
+          next unless current_user_allowed_to(:add_work_packages, context: represented)
+
           {
             href: api_v3_paths.work_packages_by_project(represented.id),
             method: :post
-          } if current_user_allowed_to(:add_work_packages, context: represented)
+          }
         end
 
         link 'categories' do
@@ -56,6 +60,13 @@ module API
 
         link 'versions' do
           { href: api_v3_paths.versions_by_project(represented.id) }
+        end
+
+        link 'types' do
+          next unless current_user_allowed_to(:view_work_packages, context: represented) ||
+                      current_user_allowed_to(:manage_types, context: represented)
+
+          { href: api_v3_paths.types_by_project(represented.id) }
         end
 
         property :id, render_nil: true
@@ -67,13 +78,13 @@ module API
         property :created_on,
                  as: 'createdAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.created_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.created_on) }
         property :updated_on,
                  as: 'updatedAt',
                  exec_context: :decorator,
-                 getter: -> (*) { datetime_formatter.format_datetime(represented.updated_on) }
+                 getter: ->(*) { datetime_formatter.format_datetime(represented.updated_on) }
 
-        property :type, getter: -> (*) { project_type.try(:name) }, render_nil: true
+        property :type, getter: ->(*) { project_type.try(:name) }, render_nil: true
 
         def _type
           'Project'

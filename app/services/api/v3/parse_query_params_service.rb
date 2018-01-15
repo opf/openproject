@@ -186,7 +186,17 @@ module API
       end
 
       def params_exist?(params, symbols)
-        params.detect { |k, _| symbols.include? k.to_sym }
+        unsafe_params(params).detect { |k, _| symbols.include? k.to_sym }
+      end
+
+      ##
+      # Access the parameters as a hash, which has been deprecated
+      def unsafe_params(params)
+        if params.is_a? ActionController::Parameters
+          params.to_unsafe_h
+        else
+          params
+        end
       end
 
       def without_empty(hash, exceptions)
