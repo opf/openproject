@@ -76,7 +76,7 @@ ca:
       d'un comentari d'usuari.
     label_add_columns: Add columns
     label_add_comment: Afegeix un comentari
-    label_add_comment_title: Feu clic per afegir un comentari
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Afegir columnes seleccionades
     label_added_by: afegit per
     label_added_time_by: Afegit per %{author} %{age}
@@ -225,6 +225,8 @@ ca:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: N'esteu segur?
     types:
       attribute_groups:

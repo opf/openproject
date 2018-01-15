@@ -73,7 +73,7 @@ ko:
     label_activity_with_comment_no: 활동 항목 번호 %{activityNo}. 사용자 의견 포함.
     label_add_columns: 열 추가
     label_add_comment: 댓글 달기
-    label_add_comment_title: 코멘트를 추가하려면 클릭하세요.
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: 선택된 열 추가
     label_added_by: '추가함 : '
     label_added_time_by: "%{author} %{age}가 추가함"
@@ -216,6 +216,8 @@ ko:
       context: 프로젝트 컨텍스트
       work_package_belongs_to: 이 작업 패키지는 프로젝트 %{projectname}에 속합니다.
       click_to_switch_context: 해당 프로젝트에서 이 작업 패키지를 여세요.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: 계속하시겠습니까?
     types:
       attribute_groups:

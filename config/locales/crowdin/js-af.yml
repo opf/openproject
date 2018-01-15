@@ -75,7 +75,7 @@ af:
       comment.
     label_add_columns: Add columns
     label_add_comment: Add comment
-    label_add_comment_title: Click to add a comment
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Voeg geselekteerde kolomme by
     label_added_by: added by
     label_added_time_by: Added by %{author} %{age}
@@ -222,6 +222,8 @@ af:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Are you sure?
     types:
       attribute_groups:

@@ -1608,6 +1608,14 @@ af:
     ldap_auth_failed: Could not authenticate at the LDAP-Server.
   macro_execution_error: Error executing the macro %{macro_name}
   macro_unavailable: Macro %{macro_name} cannot be displayed.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Nuwe werkspakket
+      link_name_type: New %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'A new user (%{value}) has registered. The
@@ -2587,6 +2595,7 @@ af:
       multipart_body_error: Die versoekliggaam het nie die verwagte multipartdele
         bevat nie.
       multiple_errors: Verskeie veld beperkinge is oortree.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: Die konteks voorsien is nie 'n skakel na 'n hulpbron
           nie.

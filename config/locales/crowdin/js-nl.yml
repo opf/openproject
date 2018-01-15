@@ -76,7 +76,7 @@ nl:
       gebruikerscommentaar.
     label_add_columns: Kolommen toevoegen
     label_add_comment: Commentaar toevoegen
-    label_add_comment_title: Klik om een opmerking toe te voegen
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Geselecteerde kolommen toevoegen
     label_added_by: toegevoegd door
     label_added_time_by: Toegevoegd door %{author} %{age}
@@ -224,6 +224,8 @@ nl:
       context: Context van het project
       work_package_belongs_to: Dit werkpakket behoort tot project %{projectname}.
       click_to_switch_context: Open dit werkpakket in dat project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Weet u het zeker?
     types:
       attribute_groups:

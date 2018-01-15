@@ -1630,6 +1630,14 @@ ru:
     ldap_auth_failed: Не удалось проверить подлинность через LDAP-сервер.
   macro_execution_error: Ошибка при выполнении макроса %{macro_name}
   macro_unavailable: Макрос %{macro_name} не может быть отображен.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Новый пакет работ
+      link_name_type: New %{type_name}
   mail:
     actions: Действия
   mail_body_account_activation_request: 'Новый пользователь (%{value}) зарегистрирован.
@@ -2625,6 +2633,7 @@ ru:
         или имеет неправильный формат.
       multipart_body_error: Тело запроса не содержит ожидаемых частей.
       multiple_errors: Для нескольких полей были нарушены ограничения.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: Предоставленного контекста не является ссылка на ресурс.
         unsupported_context: Ресурс не поддерживается как контекст.

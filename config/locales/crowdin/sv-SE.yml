@@ -1600,6 +1600,14 @@ sv-SE:
     ldap_auth_failed: Kunde inte autentisera på LDAP-servern.
   macro_execution_error: Fel under körning av makrot %{macro_name}
   macro_unavailable: Makrot %{macro_name} kan inte visas.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Nya arbetspaket
+      link_name_type: New %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'En ny användare (%{value}) har registrerats.
@@ -2568,6 +2576,7 @@ sv-SE:
         saknas.
       multipart_body_error: Frågan innehöll inte de förväntade multipart sektionerna.
       multiple_errors: Flera villkor för fält har överträtts.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: Kontexten som angavs är inte en länk till en resurs.
         unsupported_context: Resursen som angavs stöds inte som kontext.

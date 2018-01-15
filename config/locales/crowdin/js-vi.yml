@@ -75,7 +75,7 @@ vi:
       xét của người dùng.
     label_add_columns: Add columns
     label_add_comment: Thêm bình luận
-    label_add_comment_title: Nhấn vào đây để thêm một bình luận
+    label_add_comment_title: Comment and type @ to notify other people
     label_add_selected_columns: Thêm cột đang chọn
     label_added_by: được gửi bởi
     label_added_time_by: Thêm bởi %{author} %{age}
@@ -222,6 +222,8 @@ vi:
       context: Project context
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
+      autocompleter:
+        label: Project autocompletion
     text_are_you_sure: Are you sure?
     types:
       attribute_groups:

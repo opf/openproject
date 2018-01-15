@@ -1675,6 +1675,14 @@ ar:
     ldap_auth_failed: لا يمكن مصادقة على ملقم LDAP.
   macro_execution_error: خطأ في تنفيذ %{macro_name} الماكرو
   macro_unavailable: لا يمكن عرض الماكرو %{macro_name}.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: مجموعة عمل جديدة
+      link_name_type: New %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'وقد سجل مستخدم جديد (%{value}). الحساب انتظار
@@ -2640,6 +2648,7 @@ ar:
         or malformed.
       multipart_body_error: لم يتضمن نص الطلب على أجزاء متعددة الأجزاء المتوقعة.
       multiple_errors: تم انتهاك قيود متعددة الحقول.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: سياق المقدمة ليس ارتباط إلى مورد.
         unsupported_context: غير معتمد المورد نظراً للسياق.

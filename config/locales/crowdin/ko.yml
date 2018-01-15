@@ -1564,6 +1564,14 @@ ko:
     ldap_auth_failed: LDAP 서버에서 인증할 수 없습니다.
   macro_execution_error: 매크로 %{macro_name} 실행 중에 오류 발생
   macro_unavailable: 매크로 %{macro_name}은(는) 표시할 수 없습니다.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: 새 작업 패키지
+      link_name_type: New %{type_name}
   mail:
     actions: 작업
   mail_body_account_activation_request: 새 사용자(%{value})가 등록되었습니다. 이 계정은 관리자 승인을 기다리는
@@ -2445,6 +2453,7 @@ ko:
       missing_or_malformed_parameter: 쿼리 매개 변수 '%{parameter}'는 누락되거나 잘못되었습니다.
       multipart_body_error: 요청 본문에는 필요한 multipart 부분이 포함되어 있지 않습니다.
       multiple_errors: 다중 필드 제약 조건이 위반되었습니다.
+      unable_to_create_attachment: The attachment could not be created
       render:
         context_not_parsable: 제공된 컨텍스트는 리소스에 대한 링크가 아닙니다.
         unsupported_context: 지정된 리소스는 컨텍스트로 지원되지 않습니다.
