@@ -24,7 +24,7 @@ pl:
         work_package:
           attributes:
             fixed_version_id:
-              task_version_must_be_the_same_as_story_version: "must be the same as the parent story's version."
+              task_version_must_be_the_same_as_story_version: "musi być taka sama jak wersja story nadrzędnej."
             parent_id:
               parent_child_relationship_across_projects: "jest nieprawidłowy, ponieważ paczka prac '%{work_package_name}' jest zadaniem backlogu, a więc nie może mieć rodziciela poza bieżącym projektem."
   backlogs:
