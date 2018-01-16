@@ -1,3 +1,5 @@
+require 'text_extractor'
+
 class ExtractFulltextJob < ApplicationJob
   # queue_as :text_extraction
 
@@ -6,9 +8,9 @@ class ExtractFulltextJob < ApplicationJob
   end
 
   def perform
-    if attachment = find_attachment(@attachment_id) and
-      attachment.readable? and
-      text = OpenProject::TextExtractor.new(attachment).text
+    if (attachment = find_attachment(@attachment_id) and
+        attachment.readable? and
+        text = TextExtractor::Resolver.new(attachment.diskfile, attachment.content_type).text)
 
       attachment.update_column :fulltext, text
     end
