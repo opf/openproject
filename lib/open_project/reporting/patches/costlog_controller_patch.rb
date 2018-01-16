@@ -22,17 +22,10 @@ require_dependency 'costlog_controller'
 module OpenProject::Reporting::Patches
   module CostlogControllerPatch
     def self.included(base) # :nodoc:
-      base.send(:include, InstanceMethods)
-
-      base.class_eval do
-
-        alias_method_chain :index, :reports_view
-        alias_method_chain :find_optional_project, :own
-      end
+      base.prepend InstanceMethods
     end
 
     module InstanceMethods
-
       ##
       # @Override
       # This is for cost reporting
@@ -44,10 +37,10 @@ module OpenProject::Reporting::Patches
         end
       end
 
-      def index_with_reports_view
+      def index
         # we handle single project reporting currently
         if @project.nil? || !@project.module_enabled?(:reporting_module)
-          return index_without_reports_view
+          return super
         end
         filters = {operators: {}, values: {}}
 
@@ -77,13 +70,13 @@ module OpenProject::Reporting::Patches
             return
           }
           format.all {
-            index_without_report_view
+            super
           }
         end
       end
 
-      def find_optional_project_with_own
-        find_optional_project_without_own
+      def find_optional_project
+        super
         deny_access unless User.current.allowed_to?(:view_cost_entries, @project, global: true) ||
                            User.current.allowed_to?(:view_own_cost_entries, @project, global: true)
       end

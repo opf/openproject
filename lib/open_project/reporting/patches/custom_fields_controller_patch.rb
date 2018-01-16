@@ -22,17 +22,11 @@ require_dependency 'costlog_controller'
 module OpenProject::Reporting::Patches
   module CustomFieldsControllerPatch
     def self.included(base) # :nodoc:
-      base.send(:include, InstanceMethods)
-
-      base.class_eval do
-
-        alias_method_chain :destroy, :custom_fields
-      end
+      base.prepend InstanceMethods
     end
 
     module InstanceMethods
-
-      def destroy_with_custom_fields
+      def destroy
         id = @custom_field.id
         begin
           reports = CostQuery.where("serialized LIKE '%CustomField#{id}%'")
@@ -43,7 +37,7 @@ module OpenProject::Reporting::Patches
           Rails.logger.error "Failed to remove custom_field #{id} from custom queries. " \
                              "#{e.class}: #{e.message}"
         ensure
-          destroy_without_custom_fields
+          super
         end
       end
 
