@@ -20,23 +20,18 @@
 module OpenProject::GlobalRoles::Patches
   module RolesControllerPatch
     def self.included(base)
-      base.send(:include, InstanceMethods)
-
-      base.class_eval do
-        alias_method_chain :create, :global_roles
-        alias_method_chain :new, :global_roles
-      end
+      base.prepend InstanceMethods
     end
 
     module InstanceMethods
-      def new_with_global_roles
-        new_without_global_roles
+      def new
+        super
 
         @member_permissions = (@role.setable_permissions || @permissions)
         @global_permissions = GlobalRole.setable_permissions
       end
 
-      def create_with_global_roles
+      def create
         if params['global_role']
           create_global_role
         else
@@ -44,7 +39,7 @@ module OpenProject::GlobalRoles::Patches
           @role = Role.new(permitted_params.role? || { permissions: Role.non_member.permissions })
           @member_permissions = (@role.setable_permissions || @permissions)
           @global_permissions = GlobalRole.setable_permissions
-          create_without_global_roles
+          super
         end
      end
 

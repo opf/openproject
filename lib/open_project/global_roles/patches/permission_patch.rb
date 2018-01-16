@@ -22,17 +22,14 @@ require_dependency 'redmine/access_control'
 module OpenProject::GlobalRoles::Patches
   module PermissionPatch
     def self.included(base)
-      base.send(:include, InstanceMethods)
-
-      base.class_eval do
-        alias_method_chain :initialize, :global_option
-      end
+      base.prepend(InstanceMethods)
     end
 
     module InstanceMethods
-      def initialize_with_global_option(name, hash, options)
+      def initialize(name, hash, options)
         @global = options[:global] || false
-        initialize_without_global_option(name, hash, options)
+
+        super(name, hash, options)
       end
 
       def global?
