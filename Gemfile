@@ -158,6 +158,9 @@ gem 'nokogiri', '~> 1.8.1'
 gem 'fog-aws'
 gem 'carrierwave', '~> 1.2.2'
 
+# Require aws-sdk for SMS and other features
+gem 'aws-sdk', '~> 2.10.1'
+
 gem 'openproject-token', '~> 1.0.1'
 
 group :test do
@@ -196,7 +199,6 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'aws-sdk', '~> 2.10.1'
   gem 'capybara', '~> 2.15.0'
   gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
