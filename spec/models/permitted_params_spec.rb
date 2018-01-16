@@ -387,51 +387,6 @@ describe PermittedParams, type: :model do
     it_behaves_like 'allows params'
   end
 
-  describe '#planning_element_type' do
-    let(:attribute) { :planning_element_type }
-
-    context 'name' do
-      let(:hash) { { 'name' => 'blubs' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'in_aggregation' do
-      let(:hash) { { 'in_aggregation' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'is_milestone' do
-      let(:hash) { { 'is_milestone' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'is_default' do
-      let(:hash) { { 'is_default' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'color_id' do
-      let(:hash) { { 'color_id' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
-  describe '#planning_element_type_move' do
-    let(:attribute) { :planning_element_type_move }
-    let(:hash_key) { 'planning_element_type' }
-
-    context 'move_to' do
-      let(:hash) { { 'move_to' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
   describe "#update_work_package" do
     let(:attribute) { :update_work_package }
     let(:hash_key) { 'work_package' }

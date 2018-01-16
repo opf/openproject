@@ -120,26 +120,6 @@ class PermittedParams
     params.require(:member).permit(*self.class.permitted_attributes[:member])
   end
 
-  def planning_element_type
-    params.require(:planning_element_type)
-      .permit(*self.class.permitted_attributes[:planning_element_type])
-  end
-
-  def planning_element_type_move
-    params.require(:planning_element_type)
-      .permit(*self.class.permitted_attributes[:move_to])
-  end
-
-  def planning_element(args = {})
-    permitted = permitted_attributes(:planning_element, args)
-
-    permitted_params = params.require(:planning_element).permit(*permitted)
-
-    permitted_params = permitted_params.merge(custom_field_values(:planning_element))
-
-    permitted_params
-  end
-
   def project_type
     params.require(:project_type).permit(*self.class.permitted_attributes[:project_type])
   end
@@ -522,7 +502,6 @@ class PermittedParams
         member: [
           role_ids: []],
         new_work_package: [
-          # attributes common with :planning_element below
           :assigned_to_id,
           { attachments: [:file, :description] },
           :category_id,
@@ -559,55 +538,6 @@ class PermittedParams
           # attributes unique to :new_work_package
           :journal_notes,
           :lock_version],
-        planning_element: [
-          # attributes common with :new_work_package above
-          :assigned_to_id,
-          { attachments: [:file, :description] },
-          :category_id,
-          :description,
-          :done_ratio,
-          :due_date,
-          :estimated_hours,
-          :fixed_version_id,
-          :parent_id,
-          :priority_id,
-          :responsible_id,
-          :start_date,
-          :status_id,
-          :type_id,
-          :subject,
-          Proc.new do |args|
-            # avoid costly allowed_to? if the param is not there at all
-            if args[:params]['planning_element'] &&
-               args[:params]['planning_element'].has_key?('watcher_user_ids') &&
-               args[:current_user].allowed_to?(:add_work_package_watchers, args[:project])
-
-              { watcher_user_ids: [] }
-            end
-          end,
-          Proc.new do |args|
-            # avoid costly allowed_to? if the param is not there at all
-            if args[:params]['planning_element'] &&
-               args[:params]['planning_element'].has_key?('time_entry') &&
-               args[:current_user].allowed_to?(:log_time, args[:project])
-
-              { time_entry: [:hours, :activity_id, :comments] }
-            end
-          end,
-          # attributes unique to planning_element
-          :note,
-          custom_fields: [ # json
-            :id,
-            :value,
-            custom_field: [ # xml
-              :id,
-              :value]]],
-        planning_element_type: [
-          :name,
-          :in_aggregation,
-          :is_milestone,
-          :is_default,
-          :color_id],
         project_type: [
           :name,
           :allows_association,
