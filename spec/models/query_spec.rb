@@ -45,7 +45,7 @@ describe Query, type: :model do
       query = Query.new_default
 
       expect(query.sort_criteria)
-        .to match_array([['parent', 'asc'], ['id', 'asc']])
+        .to match_array([['parent', 'asc']])
     end
 
     it 'does not use the default sortation if an order is provided' do

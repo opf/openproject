@@ -89,17 +89,17 @@ describe 'Select work package row', type: :feature, js: true do
       wp_table.visit!
     end
 
-    it 'provides the default sortation and allows second criterion after parent (Regression WP#26792)' do
+    it 'provides the default sortation and allows using the value at another level (Regression WP#26792)' do
       # Expect current criteria
-      sort_by.expect_criteria(['Parent', 'asc'], ['ID', 'asc'])
+      sort_by.expect_criteria(['Parent', 'asc'])
 
       # Expect we can change the criteria and reuse that value
       sort_by.open_modal
-      sort_by.update_nth_criteria(1, 'Type')
       sort_by.update_nth_criteria(0, 'ID', descending: true)
+      sort_by.update_nth_criteria(1, 'Parent')
 
       sort_by.apply_changes
-      sort_by.expect_criteria(['ID', 'desc'], ['Type', 'asc'])
+      sort_by.expect_criteria(['ID', 'desc'], ['Parent', 'asc'])
     end
   end
 
