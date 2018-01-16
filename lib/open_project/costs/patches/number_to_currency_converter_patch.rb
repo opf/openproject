@@ -17,18 +17,17 @@
 # Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 #++
 
-module OpenProject::Costs::Patches::UsersHelperPatch
+module OpenProject::Costs::Patches::NumberToCurrencyConverterPatch
   def self.included(base) # :nodoc:
-    base.prepend(InstanceMethods)
+    base.prepend InstanceMethods
   end
 
   module InstanceMethods
-    # Adds a rates tab to the user administration page
-    def user_settings_tabs
-      # Core defined data
-      super + [{ name: 'rates', partial: 'users/rates', label: :caption_rate_history }]
+    def i18n_opts
+      super.merge(unit: ERB::Util.h(Setting.plugin_openproject_costs['costs_currency']),
+                  format: ERB::Util.h(Setting.plugin_openproject_costs['costs_currency_format']),
+                  delimiter: I18n.t(:currency_delimiter),
+                  separator: I18n.t(:currency_separator))
     end
   end
 end
-
-UsersHelper.send(:include, OpenProject::Costs::Patches::UsersHelperPatch)

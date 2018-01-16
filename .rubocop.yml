@@ -154,9 +154,6 @@ NumericLiterals:
 OneLineConditional:
   Enabled: false
 
-OpMethod:
-  Enabled: false
-
 ParameterLists:
   Enabled: false
 
@@ -246,9 +243,6 @@ ElseLayout:
   Enabled: false
 
 HandleExceptions:
-  Enabled: false
-
-InvalidCharacterLiteral:
   Enabled: false
 
 LiteralInCondition:

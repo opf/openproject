@@ -22,191 +22,233 @@ require File.expand_path('../../spec_helper', __FILE__)
 describe PermittedParams, type: :model do
   let(:user) { FactoryGirl.build(:user) }
 
+  shared_examples_for 'allows params' do
+    let(:params_key) { defined?(hash_key) ? hash_key : attribute }
+    let(:params) do
+      nested_params = if defined?(nested_key)
+                        { nested_key => hash }
+                      else
+                        hash
+                      end
+
+      ac_params = if defined?(flat) && flat
+                    nested_params
+                  else
+                    { params_key => nested_params }
+                  end
+
+      ActionController::Parameters.new(ac_params)
+    end
+
+    subject { PermittedParams.new(params, user).send(attribute).to_h }
+
+    it do
+      expected = defined?(allowed_params) ? allowed_params : hash
+      expect(subject).to eq(expected)
+    end
+  end
+
   describe '#cost_entry' do
-    it 'should return comments' do
-      params = ActionController::Parameters.new(cost_entry: { 'comments' => 'blubs' })
+    let(:attribute) { :cost_entry }
 
-      expect(PermittedParams.new(params, user).cost_entry).to eq({ 'comments' => 'blubs' })
+    context 'comments' do
+      let(:hash) { { 'comments' => 'blubs' } }
+
+      it_behaves_like 'allows params'
     end
 
-    it 'should return units' do
-      params = ActionController::Parameters.new(cost_entry: { 'units' => '5.0' })
+    context 'units' do
+      let(:hash) { { 'units' => '5.0' } }
 
-      expect(PermittedParams.new(params, user).cost_entry).to eq({ 'units' => '5.0' })
+      it_behaves_like 'allows params'
     end
 
-    it 'should return overridden_costs' do
-      params = ActionController::Parameters.new(cost_entry: { 'overridden_costs' => '5.0' })
+    context 'overridden_costs' do
+      let(:hash) { { 'overridden_costs' => '5.0' } }
 
-      expect(PermittedParams.new(params, user).cost_entry).to eq({ 'overridden_costs' => '5.0' })
+      it_behaves_like 'allows params'
     end
 
-    it 'should return spent_on' do
-      params = ActionController::Parameters.new(cost_entry: { 'spent_on' => Date.today.to_s })
+    context 'spent_on' do
+      let(:hash) { { 'spent_on' => Date.today.to_s } }
 
-      expect(PermittedParams.new(params, user).cost_entry).to eq({ 'spent_on' => Date.today.to_s })
+      it_behaves_like 'allows params'
     end
 
-    it 'should not return project_id' do
-      params = ActionController::Parameters.new(cost_entry: { 'project_id' => 42 })
+    context 'project_id' do
+      let(:hash) { { 'project_id' => 42 } }
 
-      expect(PermittedParams.new(params, user).cost_entry).to eq({})
+      it_behaves_like 'allows params' do
+        let(:allowed_params) { {} }
+      end
     end
   end
 
   describe '#cost_object' do
-    it 'should return comments' do
-      params = ActionController::Parameters.new(cost_object: { 'subject' => 'subject_test' })
+    let(:attribute) { :cost_object }
 
-      expect(PermittedParams.new(params, user).cost_object).to eq({ 'subject' => 'subject_test' })
+    context 'subject' do
+      let(:hash) { { 'subject' => 'subject_test' } }
+
+      it_behaves_like 'allows params'
     end
 
-    it 'should return description' do
-      params = ActionController::Parameters.new(cost_object: { 'description' => 'description_test' })
+    context 'description' do
+      let(:hash) { { 'description' => 'description_test' } }
 
-      expect(PermittedParams.new(params, user).cost_object).to eq({ 'description' => 'description_test' })
+      it_behaves_like 'allows params'
     end
 
-    it 'should return fixed_date' do
-      params = ActionController::Parameters.new(cost_object: { 'fixed_date' => '2013-05-06' })
+    context 'fixed_date' do
+      let(:hash) { { 'fixed_date' => '2017-03-01' } }
 
-      expect(PermittedParams.new(params, user).cost_object).to eq({ 'fixed_date' => '2013-05-06' })
+      it_behaves_like 'allows params'
     end
 
-    it 'should not return project_id' do
-      params = ActionController::Parameters.new(cost_object: { 'project_id' => 42 })
+    context 'project_id' do
+      let(:hash) { { 'project_id' => 42 } }
 
-      expect(PermittedParams.new(params, user).cost_object).to eq({})
+      it_behaves_like 'allows params' do
+        let(:allowed_params) { {} }
+      end
     end
 
-    context 'with budget item params' do
-      let(:params) { ActionController::Parameters.new(cost_object: budget_item_params) }
-      subject { PermittedParams.new(params, user).cost_object }
-
-      context 'of an existing material budget item' do
-        let(:budget_item_params) do
-          { 'existing_material_budget_item_attributes' => { '1' => {
-            'units' => '100.0',
-            'cost_type_id' => '1',
-            'comments' => 'First package',
-            'budget' => '5,000.00'
-          }
-                                                        } }
-        end
-
-        it { is_expected.to eq(budget_item_params) }
+    context 'existing material budget item' do
+      let(:hash) do
+        { 'existing_material_budget_item_attributes' => { '1' => {
+          'units' => '100.0',
+          'cost_type_id' => '1',
+          'comments' => 'First package',
+          'budget' => '5,000.00'
+        } } }
       end
 
-      context 'of a new material budget item' do
-        let(:budget_item_params) do
-          { 'new_material_budget_item_attributes' => { '1' => {
-            'units' => '20',
-            'cost_type_id' => '2',
-            'comments' => 'Macbooks',
-            'budget' => '52,000.00'
-          } } }
-        end
+      it_behaves_like 'allows params'
+    end
 
-        it { is_expected.to eq(budget_item_params) }
+    context 'new material budget item' do
+      let(:hash) do
+        { 'new_material_budget_item_attributes' => { '1' => {
+          'units' => '20',
+          'cost_type_id' => '2',
+          'comments' => 'Macbooks',
+          'budget' => '52,000.00'
+        } } }
       end
 
-      context 'of an existing labor budget item' do
-        let(:budget_item_params) do
-          { 'existing_labor_budget_item_attributes' => { '1' => {
-            'hours' => '20.0',
-            'user_id' => '1',
-            'comments' => 'App Setup',
-            'budget' => '2000.00'
-          } } }
-        end
+      it_behaves_like 'allows params'
+    end
 
-        it { is_expected.to eq(budget_item_params) }
+    context 'existing labor budget item' do
+      let(:hash) do
+        { 'existing_labor_budget_item_attributes' => { '1' => {
+          'hours' => '20.0',
+          'user_id' => '1',
+          'comments' => 'App Setup',
+          'budget' => '2000.00'
+        } } }
       end
 
-      context 'of a new labor budget item' do
-        let(:budget_item_params) do
-          { 'new_labor_budget_item_attributes' => { '1' => {
-            'hours' => '5.0',
-            'user_id' => '2',
-            'comments' => 'Overhead',
-            'budget' => '400'
-          } } }
-        end
+      it_behaves_like 'allows params'
+    end
 
-        it { is_expected.to eq(budget_item_params) }
+    context 'new labor budget item' do
+      let(:hash) do
+        { 'new_labor_budget_item_attributes' => { '1' => {
+          'hours' => '5.0',
+          'user_id' => '2',
+          'comments' => 'Overhead',
+          'budget' => '400'
+        } } }
       end
+
+      it_behaves_like 'allows params'
     end
   end
 
   describe '#cost_type' do
-    it 'should return name' do
-      params = ActionController::Parameters.new(cost_type: { 'name' => 'name_test' })
+    let(:attribute) { :cost_type }
 
-      expect(PermittedParams.new(params, user).cost_type).to eq({ 'name' => 'name_test' })
+    context 'name' do
+      let(:hash) { { 'name' => 'name_test' } }
+
+      it_behaves_like 'allows params'
     end
 
-    it 'should return unit' do
-      params = ActionController::Parameters.new(cost_type: { 'unit' => 'unit_test' })
+    context 'unit' do
+      let(:hash) { { 'unit' => 'unit_test' } }
 
-      expect(PermittedParams.new(params, user).cost_type).to eq({ 'unit' => 'unit_test' })
+      it_behaves_like 'allows params'
     end
 
-    it 'should return unit_plural' do
-      params = ActionController::Parameters.new(cost_type: { 'unit_plural' => 'unit_plural_test' })
+    context 'unit_plural' do
+      let(:hash) { { 'unit_plural' => 'unit_plural_test' } }
 
-      expect(PermittedParams.new(params, user).cost_type).to eq({ 'unit_plural' => 'unit_plural_test' })
+      it_behaves_like 'allows params'
     end
 
-    it 'should return default' do
-      params = ActionController::Parameters.new(cost_type: { 'default' => 7 })
+    context 'default' do
+      let(:hash) { { 'default' => 7 } }
 
-      expect(PermittedParams.new(params, user).cost_type).to eq({ 'default' => 7 })
+      it_behaves_like 'allows params'
     end
 
-    it 'should return new_rate_attributes' do
-      params = ActionController::Parameters.new(cost_type: { 'new_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' }, '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } })
+    context 'new_rate_attributes' do
+      let(:hash) do
+        { 'new_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' }, '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } }
+      end
 
-      expect(PermittedParams.new(params, user).cost_type).to eq({ 'new_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' }, '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } })
+      it_behaves_like 'allows params'
     end
 
-    it 'should return existing_rate_attributes' do
-      params = ActionController::Parameters.new(cost_type: { 'existing_rate_attributes' => { '9' => { 'valid_from' => '2013-05-05', 'rate' => '50.0' } } })
+    context 'existing_rate_attributes' do
+      let(:hash) do
+        { 'existing_rate_attributes' => { '9' => { 'valid_from' => '2013-05-05', 'rate' => '50.0' } } }
+      end
 
-      expect(PermittedParams.new(params, user).cost_type).to eq({ 'existing_rate_attributes' => { '9' => { 'valid_from' => '2013-05-05', 'rate' => '50.0' } } })
+      it_behaves_like 'allows params'
     end
 
-    it 'should not return project_id' do
-      params = ActionController::Parameters.new(cost_type: { 'project_id' => 42 })
+    context 'project_id' do
+      let(:hash) { { 'project_id' => 42 } }
 
-      expect(PermittedParams.new(params, user).cost_type).to eq({})
+      it_behaves_like 'allows params' do
+        let(:allowed_params) { {} }
+      end
     end
   end
 
   describe '#user_rates' do
-    it 'should return new_rate_attributes' do
-      params = ActionController::Parameters.new(user: { 'new_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' },
-                                                                                   '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } })
+    let(:attribute) { :user_rates }
+    let(:hash_key) { :user }
 
-      expect(PermittedParams.new(params, user).user_rates).to eq({ 'new_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' },
-                                                                                              '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } })
+    context 'new_rate_attributes' do
+      let(:hash) do
+        { 'new_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' },
+                                     '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } }
+      end
+
+      it_behaves_like 'allows params'
     end
 
-    it 'should return existing_rate_attributes' do
-      params = ActionController::Parameters.new(user: { 'existing_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' },
-                                                                                        '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } })
+    context 'existing_rate_attributes' do
+      let(:hash) do
+        { 'existing_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' },
+                                          '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } }
+      end
 
-      expect(PermittedParams.new(params, user).user_rates).to eq({ 'existing_rate_attributes' => { '0' => { 'valid_from' => '2013-05-08', 'rate' => '5002' },
-                                                                                                   '1' => { 'valid_from' => '2013-05-10', 'rate' => '5004' } } })
+      it_behaves_like 'allows params'
     end
   end
 
   describe '#update_work_package' do
-    it 'should permit cost_object_id' do
-      hash = { 'cost_object_id' => '1' }
+    let(:attribute) { :update_work_package }
+    let(:hash_key) { :work_package }
 
-      params = ActionController::Parameters.new(work_package: hash)
+    context 'cost_object_id' do
+      let(:hash) { { 'cost_object_id' => '1' } }
 
-      expect(PermittedParams.new(params, user).update_work_package).to eq(hash)
+      it_behaves_like 'allows params'
     end
   end
 end

@@ -20,18 +20,14 @@
 module OpenProject::Costs
   module DeletedUserFallback
     def self.included(base)
-      base.send(:include, InstanceMethods)
-
-      base.class_eval do
-        alias_method_chain :user, :deleted_user_fallback
-      end
+      base.prepend InstanceMethods
     end
 
     module InstanceMethods
-      def user_with_deleted_user_fallback(force_reload = true)
-        associated_user = user_without_deleted_user_fallback
+      def user(force_reload = true)
+        associated_user = super()
 
-        associated_user.reload if force_reload && !associated_user.nil?
+        associated_user = reload_user if force_reload && !associated_user.nil?
 
         if associated_user.nil? && read_attribute(:user_id).present?
           associated_user = DeletedUser.first
