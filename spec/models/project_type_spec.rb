@@ -45,8 +45,7 @@ describe ProjectType, type: :model do
 
   describe '- Validations ' do
     let(:attributes) {
-      { name:               'Project Type No. 1',
-        allows_association: true }
+      { name:               'Project Type No. 1' }
     }
 
     describe 'name' do
@@ -68,31 +67,6 @@ describe ProjectType, type: :model do
 
         expect(project_type.errors[:name]).to be_present
         expect(project_type.errors[:name]).to eq(['is too long (maximum is 255 characters).'])
-      end
-    end
-
-    describe 'allows_association' do
-      it 'is invalid w/o the allows_association property' do
-        attributes[:allows_association] = nil
-        project_type = ProjectType.new(attributes)
-
-        expect(project_type).not_to be_valid
-
-        expect(project_type.errors[:allows_association]).to be_present
-      end
-
-      it 'is valid w/ allows_association set to true' do
-        attributes[:allows_association] = true
-        project_type = ProjectType.new(attributes)
-
-        expect(project_type).to be_valid
-      end
-
-      it 'is valid w/ allows_association set to false' do
-        attributes[:allows_association] = false
-        project_type = ProjectType.new(attributes)
-
-        expect(project_type).to be_valid
       end
     end
   end

@@ -385,15 +385,7 @@ en:
       planning_element_type_color:
         hexcode: Hex code
       project_type:
-        reported_project_statuses: Reported project statuses
         position: Position
-      timeline:
-        options: ""
-      reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
       work_package:
         begin_insertion: "Begin of the insertion"
         begin_deletion: "Begin of the deletion"

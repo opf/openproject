@@ -189,14 +189,6 @@ class Project < ActiveRecord::Base
     self.active? and (self.is_public? or user.admin? or user.member_of?(self))
   end
 
-  def allows_association?
-    if project_type.present?
-      project_type.allows_association
-    else
-      true
-    end
-  end
-
   def copy_allowed?
     User.current.allowed_to?(:copy_projects, self) && (parent.nil? || User.current.allowed_to?(:add_subprojects, parent))
   end

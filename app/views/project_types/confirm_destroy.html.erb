@@ -39,23 +39,6 @@ See doc/COPYRIGHT.rdoc for more details.
     </span>
   </div>
 
-  <fieldset class="form--fieldset">
-    <legend class="form--fieldset-legend"><%= l('timelines.properties') %></legend>
-    <div class="form--field">
-      <%= f.check_box :allows_association, disabled: true %>
-    </div>
-    <div class="form--field">
-      <label for="" class="form--label"><%= ProjectType.human_attribute_name(:reported_project_statuses) %></label>
-      <div class="form--field-container">
-        <% if @project_type.reported_project_statuses.present? %>
-          <%=h @project_type.reported_project_statuses.map(&:name).join(', ') %>
-        <% else %>
-          -
-        <% end %>
-      </div>
-    </div>
-  </fieldset>
-
   <%= submit_tag l(:button_delete), class: 'button -highlight' %>
   <%= link_to l(:button_cancel), project_types_path, class: 'button' %>
 <% end %>

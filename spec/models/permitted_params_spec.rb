@@ -105,18 +105,6 @@ describe PermittedParams, type: :model do
 
       it_behaves_like 'allows params'
     end
-
-    describe 'allows_association' do
-      let(:hash) { { 'allows_association' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    describe 'allows_association' do
-      let(:hash) { { 'reported_project_status_ids' => ['1'] } }
-
-      it_behaves_like 'allows params'
-    end
   end
 
   describe '#project_type_move' do
@@ -211,26 +199,6 @@ describe PermittedParams, type: :model do
     end
 
     it_behaves_like 'allows params'
-  end
-
-  describe '#reporting' do
-    let(:attribute) { :reporting }
-
-    context 'whitelisted params' do
-      let(:hash) do
-        %w(reporting_to_project_id
-           reported_project_status_id
-           reported_project_status_comment).map { |x| [x, 'value'] }.to_h
-      end
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'empty' do
-      let(:hash) { {} }
-
-      it_behaves_like 'allows params'
-    end
   end
 
   describe '#membership' do

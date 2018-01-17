@@ -390,12 +390,6 @@ class PermittedParams
     params.require(:wiki).permit(:start_page)
   end
 
-  def reporting
-    params.fetch(:reporting, {}).permit(:reporting_to_project_id,
-                                        :reported_project_status_id,
-                                        :reported_project_status_comment)
-  end
-
   def repository_diff
     params.permit(:rev, :rev_to, :project, :action, :controller)
   end
@@ -540,9 +534,7 @@ class PermittedParams
           :lock_version],
         project_type: [
           :name,
-          :allows_association,
-          type_ids: [],
-          reported_project_status_ids: []],
+          type_ids: []],
         query: [
           :name,
           :display_sums,
