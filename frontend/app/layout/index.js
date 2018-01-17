@@ -48,21 +48,3 @@ angular.module('openproject.layout')
     'QUERY_MENU_ITEM_TYPE',
     require('./query-menu-item-factory')
   ])
-  /**
-   * queryMenuItem directive
-   *
-   * Patches query menu items generated on the server-side by applying the link function provided
-   * by the queryMenuItemFactory.
-   * The link function makes the query menu item's 'selected' class reflect the application state
-   * and provides an event-based mechanism to remove the item on the fly.
-   */
-  .directive('queryMenuItem', [
-    'queryMenuItemFactory',
-    function(queryMenuItemFactory) {
-      return {
-        restrict: 'A',
-        scope: true,
-        link: queryMenuItemFactory.link
-      };
-    }
-  ]);

@@ -42,7 +42,7 @@ module.exports = function($rootScope, $compile, $http, $templateCache, $animate)
       throw new Error('Container must be specified menu item to have exacly one of either `template` or `templateUrl`');
     }
 
-    var templateUrl = '/templates/layout/menu_item.html',
+    var templateUrl = options.templateUrl || '/templates/layout/menu_item.html',
         type        = options.type,
         linkFn      = options.linkFn,
         container, scope;

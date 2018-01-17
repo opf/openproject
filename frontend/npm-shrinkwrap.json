@@ -172,6 +172,11 @@
       "resolved": "https://registry.npmjs.org/@types/webpack-env/-/webpack-env-1.13.0.tgz",
       "integrity": "sha1-MEQ4FkfhHulzxa8uklMjkw9pHYA="
     },
+    "@uirouter/core": {
+      "version": "5.0.3",
+      "resolved": "https://registry.npmjs.org/@uirouter/core/-/core-5.0.3.tgz",
+      "integrity": "sha1-4rWx5FGQ4gxnuk4VwBPeXU4MyrM="
+    },
     "accepts": {
       "version": "1.3.3",
       "resolved": "https://registry.npmjs.org/accepts/-/accepts-1.3.3.tgz",
@@ -314,11 +319,11 @@
       "integrity": "sha1-L6zvuRU4ZlXcX0QVAlgDJRcjbQE="
     },
     "angular-ui-router": {
-      "version": "1.0.0-rc.1",
-      "resolved": "https://registry.npmjs.org/angular-ui-router/-/angular-ui-router-1.0.0-rc.1.tgz",
-      "integrity": "sha1-LRaCMOggT8jSqT0QB61JufM9CcY=",
+      "version": "1.0.3",
+      "resolved": "https://registry.npmjs.org/angular-ui-router/-/angular-ui-router-1.0.3.tgz",
+      "integrity": "sha1-vySUyq6Vw3zwGvN2HYl0fP7S20U=",
       "requires": {
-        "ui-router-core": "3.1.0"
+        "@uirouter/core": "5.0.3"
       }
     },
     "animation-frame-polyfill": {
@@ -5572,11 +5577,6 @@
           }
         }
       }
-    },
-    "ui-router-core": {
-      "version": "3.1.0",
-      "resolved": "https://registry.npmjs.org/ui-router-core/-/ui-router-core-3.1.0.tgz",
-      "integrity": "sha1-wpfoGYYxqy42iSqV0PmpLBjvvBc="
     },
     "ui-select": {
       "version": "0.19.6",

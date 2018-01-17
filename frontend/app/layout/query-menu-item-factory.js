@@ -38,46 +38,9 @@ module.exports = function(menuItemFactory, $state, $stateParams, $animate, $time
   return menuItemFactory({
     type: QUERY_MENU_ITEM_TYPE,
     container: '#main-menu-work-packages-wrapper ~ .menu-children',
-    linkFn: function(scope, element, attrs) {
-      scope.queryId = scope.objectId || attrs.objectId;
-      scope.uiRouteStateName = 'work-packages.list';
-      // Remove any query_props value
-      scope.uiRouteParams = '{ query_props: null, query_id: ' + scope.queryId + ' }';
-
-      function setActiveState() {
-        // Apparently the queryId sometimes is a number, sometimes a string, sometimes
-        // undefined and sometimes null. Use == instead of == to make sure these
-        // comparisons work.
-        // No idea though, why these sometimes are null and sometimes are undefined.
-        element.toggleClass('selected', !!($state.includes('work-packages') &&
-                                        scope.queryId == $stateParams.query_id));
-      }
-      scope.$on('openproject.layout.activateMenuItem', setActiveState);
-
-      scope.$watchCollection(function(){
-        return {
-          query_id: $stateParams['query_id'],
-        };
-      }, setActiveState);
-
-
-      function removeItem() {
-        $animate.leave(element.parent(), function () {
-          scope.$destroy();
-        });
-      }
-
-      scope.$on('openproject.layout.removeMenuItem', function(event, itemData) {
-        if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.objectId == scope.queryId) {
-          removeItem();
-        }
-      });
-
-      scope.$on('openproject.layout.renameMenuItem', function(event, itemData) {
-        if (itemData.itemType === QUERY_MENU_ITEM_TYPE && itemData.objectId == scope.queryId) {
-          element.find('.menu-item--title').html(itemData.objectName);
-        }
-      });
-    }
+    linkFn: function() {
+      // only a stub nowadays
+    },
+    templateUrl: '/templates/layout/query_menu_item.html'
   });
 };

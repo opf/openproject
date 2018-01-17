@@ -209,28 +209,6 @@ openprojectModule
     // handled by Rails. As such, we disable the default link-hijacking that
     // Angular's HTML5-mode turns on.
     $rootElement.off('click');
-    $rootElement.on('click', 'a[data-ui-route]', (event) => {
-      if (jQuery('div[ui-view]').length === 0
-        || event.shiftKey || event.ctrlKey || event.metaKey
-        || event.which === 2) {
-        return true;
-      }
-
-      // Find the potential parent (or self) with the data attribute
-      const el = jQuery(event.target).closest('a[data-ui-route]');
-
-      try {
-        const stateName = el.data('uiRoute');
-        const params = $rootScope.$eval(el.data('uiRouteParams')) || {};
-
-        $timeout(() => $state.go(stateName, params));
-        event.preventDefault();
-        return false;
-      } catch(e) {
-        console.error("Tried to parse ui-route link but failed with: " + e);
-        return true;
-      }
-    });
 
     // Prevent angular handling clicks on href="#" links from other libraries
     // (especially jquery-ui and its datepicker) from routing to <base url>/#
