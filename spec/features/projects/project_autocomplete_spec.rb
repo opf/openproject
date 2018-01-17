@@ -75,7 +75,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     top_menu.search 'Plain pr'
     within(top_menu.search_results) do
       expect(page).to have_selector('.ui-menu-item-wrapper', text: 'Plain project')
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: 'Plain other project')
+      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: 'Plain other project')
     end
 
     # Expect hierarchy

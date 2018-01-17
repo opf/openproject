@@ -89,7 +89,7 @@ export abstract class ILazyAutocompleterBridge<T> {
     this.input[this.widgetName].call(this.input, this.setupParams(items));
     const options = {
       shouldSort: true,
-      tokenize: true,
+      tokenize: false,
       threshold: 0.2,
       location: 0,
       distance: 100,
