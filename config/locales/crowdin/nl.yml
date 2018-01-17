@@ -80,7 +80,7 @@ nl:
       registration_failed_update: '2FA registratie van het apparaat mislukt, het token was geldig, maar het apparaat kan niet worden bijgewerkt.'
       confirm_send_failed: 'Bevestiging van uw 2FA-apparaat is mislukt.'
       button_complete_registration: 'Voltooi 2FA-registratie'
-      text_confirm_to_complete_html: "Voltooi de registratie van uw apparaat <strong>%{identifier}</strong> door een eenmalig wachtwoord in te voeren vanaf uw apparaat."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Bevestig uw standaardapparaat aan <strong>%{new_identifier}</strong> door een eenmalig wachtwoord in te voeren vanaf uw huidige standaardapparaat."
       text_identifier: 'U kunt het apparaat een aangepaste Id geven met behulp van dit veld.'
       failed_to_delete: 'Kan het 2FA-apparaat niet verwijderen.'
@@ -90,7 +90,7 @@ nl:
       totp:
         title: 'Gebruik uw app-gebaseerde authenticator'
         provisioning_uri: 'Voorbereiden van URI'
-        secret_key: 'Geheime sleutel'
+        secret_key: 'Secret key'
         time_based: 'Tijdgebonden'
         account: 'Accountnaam / verstrekker'
         setup: |
@@ -116,6 +116,13 @@ nl:
     label_two_factor_authentication: 'Twee-factor-authenticatie'
     forced_registration:
       required_to_add_device: 'Voor een actief beveiligingsbeleid moet u authenticatie met twee factoren inschakelen. Gebruik het volgende formulier om een apparaat te registreren.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Mobiele telefoon"
   field_otp: "Eenmalig wachtwoord"
   notice_account_otp_invalid: "Ongeldig éénmalig wachtwoord."

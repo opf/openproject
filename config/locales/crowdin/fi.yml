@@ -80,7 +80,7 @@ fi:
       registration_failed_update: '2FA laitteen rekisteröinti epäonnistui, merkki oli voimassa, mutta laitetta ei voitu päivittää.'
       confirm_send_failed: 'Confirmation of your 2FA device failed.'
       button_complete_registration: 'Complete 2FA registration'
-      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your device."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Please confirm changing your default device to <strong>%{new_identifier}</strong> by entering a one-time password from your current default device."
       text_identifier: 'You can give the device a custom identifier using this field.'
       failed_to_delete: 'Failed to delete 2FA device.'
@@ -90,7 +90,7 @@ fi:
       totp:
         title: 'Use your app-based authenticator'
         provisioning_uri: 'Provisioning URI'
-        secret_key: 'Seceret key'
+        secret_key: 'Secret key'
         time_based: 'Time based'
         account: 'Account name / Issuer'
         setup: |
@@ -117,6 +117,13 @@ fi:
     label_two_factor_authentication: 'Two-factor authentication'
     forced_registration:
       required_to_add_device: 'An active security policy requires you to enable two-factor authentication. Please use the following form to register a device.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Cell phone"
   field_otp: "One-time password"
   notice_account_otp_invalid: "Invalid one-time password."

@@ -81,7 +81,7 @@ zh-CN:
       registration_failed_update: '2FA 设备注册失败，令牌有效，但设备无法更新。'
       confirm_send_failed: '确认您的 2FA 设备失败。'
       button_complete_registration: '完成 2FA 注册'
-      text_confirm_to_complete_html: "请从您的设备输入一次性密码，完成设备 <strong>%{identifier}</strong> 的注册。"
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "请从您的当前默认设备输入一次性密码，确认将您的默认设备更改为 <strong>%{new_identifier}</strong>。"
       text_identifier: '您可以使用此字段为设备提供自定义标识符。'
       failed_to_delete: '删除 2FA 设备失败。'
@@ -91,7 +91,7 @@ zh-CN:
       totp:
         title: '使用您的基于应用程序的身份验证器'
         provisioning_uri: '配置 URI'
-        secret_key: '密钥'
+        secret_key: 'Secret key'
         time_based: '基于时间'
         account: '帐户名/颁发者'
         setup: |
@@ -118,6 +118,13 @@ zh-CN:
     label_two_factor_authentication: '双重身份验证'
     forced_registration:
       required_to_add_device: '活动安全策略要求您启用双重身份验证。请使用以下表单注册设备。'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "手机"
   field_otp: "一次性密码"
   notice_account_otp_invalid: "一次性密码无效。"

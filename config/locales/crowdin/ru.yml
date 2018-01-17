@@ -81,7 +81,7 @@ ru:
       registration_failed_update: 'Ошибка регистрации устройства 2ФА: токен действителен, однако обновить устройство не удалось.'
       confirm_send_failed: 'Не удалось подтвердить устройство 2ФА.'
       button_complete_registration: 'Завершить регистрацию 2ФА'
-      text_confirm_to_complete_html: "Завершите регистрацию устройства <strong>%{identifier}</strong>: введите с него одноразовый пароль."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Подтвердите новое устройство по умолчанию — <strong>%{new_identifier}</strong>: введите одноразовый пароль с текущего устройства по умолчанию."
       text_identifier: 'С помощью этого поля устройству можно присвоить идентификатор.'
       failed_to_delete: 'Не удалось удалить устройство 2ФА.'
@@ -91,7 +91,7 @@ ru:
       totp:
         title: 'Использование приложения для аутентификации'
         provisioning_uri: 'URI для подключения'
-        secret_key: 'Секретный ключ'
+        secret_key: 'Secret key'
         time_based: 'С синхронизацией по времени'
         account: 'Имя учетной записи / эмитент'
         setup: |
@@ -118,6 +118,13 @@ ru:
     label_two_factor_authentication: 'Двухфакторная аутентификация'
     forced_registration:
       required_to_add_device: 'Активная политика безопасности требует использования двухфакторной аутентификации. Зарегистрируйте устройство с помощью следующей формы.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Сотовый телефон"
   field_otp: "Одноразовый пароль"
   notice_account_otp_invalid: "Неправильный одноразовый пароль."

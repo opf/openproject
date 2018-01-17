@@ -81,7 +81,7 @@ es:
       registration_failed_update: 'Error en el registro del dispositivo 2FA, el token es válido pero el dispositivo no pudo ser actualizado.'
       confirm_send_failed: 'Falló la confirmación del dispositivo 2FA.'
       button_complete_registration: 'Completar el registro del 2FA'
-      text_confirm_to_complete_html: "Complete el registro de tu dispositivo <strong>%{identifier}</strong> introduciendo una contraseña de un solo uso de su dispositivo."
+      text_confirm_to_complete_html: "Please complete the registration of your device <strong>%{identifier}</strong> by entering a one-time password from your default device."
       text_confirm_to_change_default_html: "Confirme el cambio de dispositivo predeterminado a <strong>%{new_identifier}</strong> introduciendo una contraseña de un solo uso, del dispositivo predeterminado actual."
       text_identifier: 'Puede dar al dispositivo un identificador personalizado utilizando este campo.'
       failed_to_delete: 'Error al eliminar dispositivo 2FA.'
@@ -91,7 +91,7 @@ es:
       totp:
         title: 'Utilice su autenticador basado en software'
         provisioning_uri: 'Aprovisionamiento URI'
-        secret_key: 'Clave secreta'
+        secret_key: 'Secret key'
         time_based: 'Basado en tiempo'
         account: 'Nombre de cuenta / emisor'
         setup: |
@@ -116,6 +116,13 @@ es:
     label_two_factor_authentication: 'Autenticación de dos factores'
     forced_registration:
       required_to_add_device: 'Una política de seguridad activa requiere habilitar autenticación de dos factores. Utilice el siguiente formulario para registrar un dispositivo.'
+    remember:
+      active_session_notice: >
+        Your account has an active remember cookie valid until %{expires_on}. This cookie allows you to log in without a second factor to your account until that time.
+      label: 'Remember'
+      clear_cookie: 'Click here to remove this cookie'
+      cookie_removed: 'The remember cookie has been removed.'
+      dont_ask_again: "Create cookie to remember 2FA authentication on this client for %{days} days."
   field_phone: "Teléfono móvil"
   field_otp: "Contraseña de un solo uso"
   notice_account_otp_invalid: "Contraseña de un solo uso no válida."
