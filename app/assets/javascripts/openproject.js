@@ -41,5 +41,8 @@ window.OpenProject = (function ($) {
     }
   };
 
+  // Compatibility for OP.Helpers.Angular
+  OP.Helpers = {};
+
   return OP;
 })(jQuery);
