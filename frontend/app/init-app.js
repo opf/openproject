@@ -38,6 +38,10 @@ require('jquery-ui/themes/base/core.css');
 require('jquery-ui/themes/base/datepicker.css');
 require('jquery-ui/themes/base/dialog.css');
 
+// Global scripts previously part of the application.js
+var requireGlobals = require.context('./globals/', true, /\.ts$/);
+requireGlobals.keys().forEach(requireGlobals);
+
 // load I18n, depending on the html element having a 'lang' attribute
 var documentLang = (angular.element('html').attr('lang') || 'en').toLowerCase();
 require('angular-i18n/angular-locale_' + documentLang + '.js');
@@ -45,6 +49,10 @@ require('angular-i18n/angular-locale_' + documentLang + '.js');
 var opApp = require('./angular-modules.ts').default;
 
 window.appBasePath = jQuery('meta[name=app_base_path]').attr('content') || '';
+
+const meta = jQuery('meta[name=openproject_initializer]');
+I18n.locale = meta.data('defaultLocale');
+I18n.locale = meta.data('locale');
 
 opApp
     .config([
@@ -54,7 +62,7 @@ opApp
       function($compileProvider, $locationProvider, $httpProvider) {
 
         // Disable debugInfo outside development mode
-        $compileProvider.debugInfoEnabled(window.openProject.environment === 'development');
+        $compileProvider.debugInfoEnabled(window.OpenProject.environment === 'development');
 
         $locationProvider.html5Mode({
           enabled: true,
@@ -125,7 +133,7 @@ opApp
         KeyboardShortcutService.activate();
 
         // Disable the CacheService for test environment
-        if ($window.openProject.environment === 'test') {
+        if (window.OpenProject.environment === 'test') {
           CacheService.disableCaching();
         }
 
@@ -150,10 +158,6 @@ require('./work_packages');
 
 // Run the browser detection
 require('expose-loader?bowser!bowser');
-
-// Global scripts previously part of the application.js
-var requireGlobals = require.context('./globals/', true, /\.ts$/);
-requireGlobals.keys().forEach(requireGlobals);
 
 var requireTemplate = require.context('./templates', true, /\.html$/);
 requireTemplate.keys().forEach(requireTemplate);

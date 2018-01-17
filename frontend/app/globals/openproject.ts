@@ -26,29 +26,48 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-OpenProject.Helpers.Angular = OpenProject.Helpers.Angular || {};
+import {$currentInjector} from "core-components/angular/angular-injector-bridge.functions";
 
-jQuery.extend(OpenProject.Helpers.Angular, {
-  memoizedCompileScope: null,
-  compile: function(htmlCode) {
-    var compile = this.injector.get('$compile');
+export class OpenProjectAngularHelpers {
+  public static memoizedCompileScope: any = null;
 
-    return compile(htmlCode)(this.compileScope);
+  public get injector() {
+    return $currentInjector();
   }
-});
 
-Object.defineProperty(OpenProject.Helpers.Angular, 'injector', {
-  get: function() {
-    return angular.element(document.body).injector();
-  }
-});
-
-Object.defineProperty(OpenProject.Helpers.Angular, 'compileScope', {
-  get: function() {
-    if (!this.memoizedCompileScope) {
-      this.memoizedCompileScope = this.injector.get('$rootScope').$new();
+  public get compileScope() {
+    if (OpenProjectAngularHelpers.memoizedCompileScope) {
+      OpenProjectAngularHelpers.memoizedCompileScope = $currentInjector().$new();
     }
 
-    return this.memoizedCompileScope;
+    return OpenProjectAngularHelpers.memoizedCompileScope;
   }
-});
+
+  public compile(html: string) {
+    const compile = this.injector.get('$compile');
+    return compile(html)(this.compileScope);
+  }
+}
+
+/**
+* OpenProject instance methods
+*/
+export class OpenProject {
+
+  public get urlRoot(): string {
+    return jQuery('meta[name=app_base_path]').attr('content') || '';
+  }
+
+  public get environment(): JQuery {
+    return jQuery('meta[name=openproject_initializer]').data('environment');
+  }
+
+  public get Helpers() {
+    return {
+      angular: OpenProjectAngularHelpers
+    };
+  }
+}
+
+
+(window as any).OpenProject = new OpenProject();

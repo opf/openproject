@@ -50,6 +50,4 @@ The only views that currently rely on `angular` are:
 - Timelines
 - some private plugins
 
-Keep in mind, that there are places in the application where JavaScript code is safely stored away in a ruby method, an example would be the `ApplicationHelper`s own `user_specific_javascript_includes`.
-
 A quick search for `jQuery` over all ruby files usually yields very good starting points and clues how and where to start refactoring.
