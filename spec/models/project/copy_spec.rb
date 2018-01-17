@@ -267,21 +267,6 @@ describe Project::Copy, type: :model do
       end
     end
 
-    describe '#copy_timelines' do
-      before do
-        timeline = FactoryGirl.create(:timeline, project: project)
-        # set options to nil, is known to have been buggy
-        timeline.send :write_attribute, :options, nil
-
-        copy.send(:copy_timelines, project)
-        copy.save
-      end
-
-      subject { copy.timelines.count }
-
-      it { is_expected.to eq(project.timelines.count) }
-    end
-
     describe '#copy_queries' do
       let(:query) { FactoryGirl.create(:query, project: project) }
 
@@ -458,36 +443,6 @@ describe Project::Copy, type: :model do
       subject { copy.versions.count }
 
       it { is_expected.to eq(project.versions.count) }
-    end
-
-    describe '#copy_project_associations' do
-      let(:project2) { FactoryGirl.create(:project_with_types) }
-
-      describe '#project_a_associations' do
-        before do
-          FactoryGirl.create(:project_association, project_a: project, project_b: project2)
-
-          copy.send(:copy_project_associations, project)
-          copy.save
-        end
-
-        subject { copy.send(:project_a_associations).count }
-
-        it { is_expected.to eq(project.send(:project_a_associations).count) }
-      end
-
-      describe '#project_b_associations' do
-        before do
-          FactoryGirl.create(:project_association, project_a: project2, project_b: project)
-
-          copy.send(:copy_project_associations, project)
-          copy.save
-        end
-
-        subject { copy.send(:project_b_associations).count }
-
-        it { is_expected.to eq(project.send(:project_b_associations).count) }
-      end
     end
 
     describe '#copy_categories' do

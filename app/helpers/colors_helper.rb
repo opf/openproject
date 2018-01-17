@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,15 +28,27 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AuthenticationController < ApplicationController
-  before_action :disable_api
-  before_action :require_login
+module ColorsHelper
+  def options_for_colors(colored_thing)
+    s = content_tag(:option, '')
+    colored_thing.available_colors.each do |c|
+      options = {}
+      options[:value] = c.id
+      options[:selected] = 'selected' if c.id == colored_thing.color_id
 
-  accept_key_auth :index
+      options[:style] = "background-color: #{c.hexcode}; color: #{c.text_hexcode}"
 
-  def index
-    respond_to do |format|
-      format.html
+      s << content_tag(:option, h(c.name), options)
     end
+    s
+  end
+
+  def icon_for_color(color, options = {})
+    return unless color
+
+    options = options.merge(class: 'timelines-phase ' + options[:class].to_s,
+                            :'-style' => "background-color: #{color.hexcode};" + options[:style].to_s)
+
+    content_tag(:span, ' ', options)
   end
 end

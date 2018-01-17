@@ -37,6 +37,9 @@ OpenProject::Application.routes.draw do
   # see https://github.com/rails/rails/issues/5688
   get '/issues/*rest' => redirect { |params, _req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
+  # Respond with 410 gone for APIV2 calls
+  match '/api/v2(/*unmatched_route)', to: proc { [410, {}, ['']] }, via: :all
+
   # Redirect wp short url for work packages to full URL
   get '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   get '/wp/*rest' => redirect { |params, _req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
@@ -60,60 +63,6 @@ OpenProject::Application.routes.draw do
 
     get '/login/:stage/failure', action: 'stage_failure', as: 'stage_failure'
     get '/login/:stage/:secret', action: 'stage_success', as: 'stage_success'
-  end
-
-  namespace :api do
-    namespace :v2 do
-      resources :authentication
-      resources :users, only: [:index]
-      resources :planning_element_journals
-      resources :statuses
-      resources :colors, controller: 'planning_element_type_colors'
-      resources :planning_element_types
-      resources :planning_elements
-      resources :project_types
-      resources :reported_project_statuses
-      resources :statuses, only: [:index, :show]
-      resources :timelines
-      resources :planning_element_priorities, only: [:index]
-
-      resources :projects do
-        resources :planning_elements
-        resources :planning_element_types
-        resources :reportings do
-          get :available_projects, on: :collection
-        end
-        resources :project_associations do
-          get :available_projects, on: :collection
-        end
-        resources :statuses, only: [:index, :show]
-        resources :versions, only: [:index]
-        resources :users, only: [:index]
-
-        member do
-          get :planning_element_custom_fields
-        end
-        resources :workflows, only: [:index]
-
-        collection do
-          get :level_list
-        end
-      end
-
-      resources :custom_fields
-
-      namespace :pagination, as: 'paginate' do
-        [:users,
-         :principals,
-         :statuses,
-         :types,
-         :project_types,
-         :reported_project_statuses,
-         :projects].each do |model|
-          resources model, only: [:index]
-        end
-      end
-    end
   end
 
   # Because of https://github.com/intridea/grape/pull/853/files this has to be
@@ -214,6 +163,10 @@ OpenProject::Application.routes.draw do
       get :destroy_info, as: 'confirm_destroy'
     end
 
+    collection do
+      get :level_list
+    end
+
     resource :enumerations, controller: 'project_enumerations', only: [:update, :destroy]
 
     resources :versions, only: [:new, :create] do
@@ -265,19 +218,6 @@ OpenProject::Application.routes.draw do
         post :replace_main_menu_item, to: 'wiki_menu_items#replace_main_menu_item'
         post :preview
       end
-    end
-
-    resources :project_associations, controller: 'project_associations' do
-      get :confirm_destroy, on: :member
-      get :available_projects, on: :collection
-    end
-
-    resources :reportings, controller: 'reportings' do
-      get :confirm_destroy, on: :member
-    end
-
-    resources :timelines, controller: 'timelines' do
-      get :confirm_destroy, on: :member
     end
 
     # as routes for index and show are swapped
@@ -581,10 +521,7 @@ OpenProject::Application.routes.draw do
     end
 
     resources :projects, only: [:index, :show], controller: 'projects'
-    resources :reported_project_statuses, controller: 'reported_project_statuses'
   end
-
-  resources :reported_project_statuses, controller: 'reported_project_statuses'
 
   # This route should probably be removed, but it's used at least by one cuke and we don't
   # want to break it.

@@ -340,10 +340,6 @@ default:
   #     password: admin
 
 
-  # By default, the legacy APIv2 allows authentication through basic auth.
-  # Uncomment the following line to restrict APIv2 access to API tokens
-  # apiv2_enable_basic_auth: false
-
   # By default, the APIv3 allows authentication through basic auth.
   # Uncomment the following line to restrict APIv3 access to session.
   # apiv3_enable_basic_auth: false

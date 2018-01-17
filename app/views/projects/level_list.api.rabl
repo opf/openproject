@@ -1,13 +1,12 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+# Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
 #
 # This program is free software; you can redistribute it and/or
 # modify it under the terms of the GNU General Public License version 3.
 #
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2006-2013 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
 #
 # This program is free software; you can redistribute it and/or
@@ -27,15 +26,24 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class AuthenticationController < ApplicationController
-  before_action :disable_api
-  before_action :require_login
+collection @projects => "projects"
 
-  accept_key_auth :index
+# This is a bit verbose as Project.level_list produces an array of hashes with the form:
+# [
+#  { :project => <Project object>,
+#    :level   => <hierarchy level> }
+# ]
 
-  def index
-    respond_to do |format|
-      format.html
-    end
-  end
+node(:id)           { |p| p[:project].id }
+node(:name)         { |p| p[:project].name }
+node(:identifier)   { |p| p[:project].identifier }
+node(:has_children) { |p| !p[:project].leaf? }
+node(:level)        { |p| p[:level] }
+
+node(:created_on, if: lambda { |p| p[:project].created_on }) do |p|
+  p[:project].created_on.utc
+end
+
+node(:updated_on, if: lambda { |p| p[:project].updated_on }) do |p|
+  p[:project].updated_on.utc
 end

@@ -105,18 +105,6 @@ describe PermittedParams, type: :model do
 
       it_behaves_like 'allows params'
     end
-
-    describe 'allows_association' do
-      let(:hash) { { 'allows_association' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    describe 'allows_association' do
-      let(:hash) { { 'reported_project_status_ids' => ['1'] } }
-
-      it_behaves_like 'allows params'
-    end
   end
 
   describe '#project_type_move' do
@@ -125,38 +113,6 @@ describe PermittedParams, type: :model do
 
     describe 'move_to' do
       let(:hash) { { 'move_to' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
-  describe '#timeline' do
-    let(:attribute) { :timeline }
-
-    context 'all acceptable options params and one name params' do
-      let(:hash) do
-        acceptable_options_params = ['exist', 'zoom_factor', 'initial_outline_expansion', 'timeframe_start',
-                                     'timeframe_end', 'columns', 'project_sort', 'compare_to_relative',
-                                     'compare_to_relative_unit', 'compare_to_absolute', 'vertical_planning_elements',
-                                     'exclude_own_planning_elements', 'planning_element_status',
-                                     'planning_element_types', 'planning_element_responsibles',
-                                     'planning_element_assignee', 'exclude_reporters', 'exclude_empty', 'project_types',
-                                     'project_status', 'project_responsibles', 'parents', 'planning_element_time_types',
-                                     'planning_element_time_absolute_one', 'planning_element_time_absolute_two',
-                                     'planning_element_time_relative_one', 'planning_element_time_relative_one_unit',
-                                     'planning_element_time_relative_two', 'planning_element_time_relative_two_unit',
-                                     'grouping_one_enabled', 'grouping_one_selection', 'grouping_one_sort', 'hide_other_group']
-
-        acceptable_options_params_with_data = HashWithIndifferentAccess[acceptable_options_params.map { |x| [x, 'value'] }]
-
-        { 'name' => 'my name', 'options' => acceptable_options_params_with_data }
-      end
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'only name' do
-      let(:hash) { { 'name' => 'my name' } }
 
       it_behaves_like 'allows params'
     end
@@ -243,26 +199,6 @@ describe PermittedParams, type: :model do
     end
 
     it_behaves_like 'allows params'
-  end
-
-  describe '#reporting' do
-    let(:attribute) { :reporting }
-
-    context 'whitelisted params' do
-      let(:hash) do
-        %w(reporting_to_project_id
-           reported_project_status_id
-           reported_project_status_comment).map { |x| [x, 'value'] }.to_h
-      end
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'empty' do
-      let(:hash) { {} }
-
-      it_behaves_like 'allows params'
-    end
   end
 
   describe '#membership' do
@@ -417,51 +353,6 @@ describe PermittedParams, type: :model do
     end
 
     it_behaves_like 'allows params'
-  end
-
-  describe '#planning_element_type' do
-    let(:attribute) { :planning_element_type }
-
-    context 'name' do
-      let(:hash) { { 'name' => 'blubs' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'in_aggregation' do
-      let(:hash) { { 'in_aggregation' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'is_milestone' do
-      let(:hash) { { 'is_milestone' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'is_default' do
-      let(:hash) { { 'is_default' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-
-    context 'color_id' do
-      let(:hash) { { 'color_id' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
-  end
-
-  describe '#planning_element_type_move' do
-    let(:attribute) { :planning_element_type_move }
-    let(:hash_key) { 'planning_element_type' }
-
-    context 'move_to' do
-      let(:hash) { { 'move_to' => '1' } }
-
-      it_behaves_like 'allows params'
-    end
   end
 
   describe "#update_work_package" do

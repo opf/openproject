@@ -23,9 +23,6 @@ OpenProject::Application.configure do
     project/filters.js
     repository_navigation.js
     select_list_move.js
-    timelines.css
-    timelines_modal.js
-    timelines_select_boxes.js
     types_checkboxes.js
     work_packages.js
   )

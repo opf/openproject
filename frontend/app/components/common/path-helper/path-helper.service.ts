@@ -39,10 +39,6 @@ export class PathHelperService {
     return this.appBasePath;
   }
 
-  public get apiV2() {
-    return this.appBasePath + '/api/v2';
-  }
-
   public get apiV3() {
     return this.appBasePath + '/api/v3';
   }
@@ -170,13 +166,8 @@ export class PathHelperService {
     return path;
   }
 
-  // API V2
-  public apiV2ProjectsPath() {
-    return this.apiV2 + '/projects';
-  }
-
-  public apiV2ProjectsList() {
-    return this.apiV2ProjectsPath() +  '/level_list.json';
+  public projectLevelListPath() {
+    return this.projectsPath() +  '/level_list.json';
   }
 
   // API V3

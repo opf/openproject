@@ -39,30 +39,6 @@ See doc/COPYRIGHT.rdoc for more details.
 <div class="form--field">
   <%= f.text_field :name, required: true, container_class: '-middle' %>
 </div>
-<div class="form--field">
-  <%= f.check_box :allows_association %>
-</div>
-
-<fieldset class="form--fieldset -with-control" id="project-type-statuses">
-  <legend class="form--fieldset-legend"><%= ProjectType.human_attribute_name(:reported_project_statuses) %></legend>
-
-  <div class="form--fieldset-control">
-    <span class="form--fieldset-control-container">
-      (<%= check_all_links 'project-type-statuses' %>)
-    </span>
-  </div>
-
-  <% ReportedProjectStatus.all.each do |association| %>
-  <div class="form--field">
-    <%= f.collection_check_box :reported_project_status_ids,
-                               association.id,
-                               project_type.reported_project_statuses.include?(association),
-                               association.name %>
-
-  </div>
-  <% end %>
-</fieldset>
-
 
 <%= f.button t(:button_save), class: 'button -highlight -with-icon icon-checkmark' %>
 <%= link_to t(:button_cancel), project_types_path, class: 'button' %>

@@ -42,10 +42,6 @@ Feature: Administering Project Types
         | Phase          |
         | Milestone      |
         | Something else |
-      And there are the following reported project statuses:
-        | Name     |
-        | Yeah Boy |
-        | Oh Yeah  |
 
   Scenario: Accessing the Project Type Administration Page should yield all available project types
      When I go to the admin page
@@ -60,8 +56,6 @@ Feature: Administering Project Types
      Then I should see "Standard Project"
       And I should see "Types"
       And I should see "Reported project statuses"
-      And I should see "Yeah Boy"
-      And I should see "Oh Yeah"
 
   Scenario: Admins should be able to modify the project type order
      When I go to the admin page
@@ -75,44 +69,11 @@ Feature: Administering Project Types
       And "Extraordinary Project" should be the last element in the list
       And I should see "Successful update."
 
-  Scenario: Admins should be able to modify allows_association? through the edit form
-     When I go to the admin page
-      And I follow "Project types"
-      And I follow "New project type"
-      And I fill in "Test Type" for "Name"
-      And I check "Allows association"
-      And I press "Save"
-     Then the "Test Type" row should be marked as allowing associations
-
-     When I follow the edit link of the project type "Test Type"
-      And I uncheck "Allows association"
-      And I press "Save"
-     Then the "Test Type" row should not be marked as allowing associations
-
-  Scenario: Admins can set the reported project statuses of a project type
-     When I go to the admin page
-      And I follow "Project types"
-      And I follow the edit link of the project type "Standard Project"
-      And I check "Yeah Boy"
-      And I press "Save"
-     Then I should see "Successful update."
-     When I follow the edit link of the project type "Standard Project"
-     Then the "Yeah Boy" checkbox should be checked
-     Then the "Oh Yeah" checkbox should not be checked
-     When I uncheck "Yeah Boy"
-      And I check "Oh Yeah"
-      And I press "Save"
-     Then I should see "Successful update."
-     When I follow the edit link of the project type "Standard Project"
-     Then the "Yeah Boy" checkbox should not be checked
-      And the "Oh Yeah" checkbox should be checked
-
   Scenario: Admins can create new project types JUST LIKE THAT
      When I go to the admin page
       And I follow "Project types"
       And I follow "New project type"
       And I fill in "Name" with "Another Project Type"
-      And I check "Yeah Boy"
       And I press "Save"
      Then I should see "Successful creation."
       And "Another Project Type" should be the last element in the list

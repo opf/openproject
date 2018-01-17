@@ -38,15 +38,7 @@ class ProjectType < ActiveRecord::Base
   has_many :projects, class_name:  'Project',
                       foreign_key: 'project_type_id'
 
-  has_many :available_project_statuses, class_name:  'AvailableProjectStatus',
-                                        foreign_key: 'project_type_id',
-                                        dependent: :destroy,
-                                        validate: false
-  has_many :reported_project_statuses, through: :available_project_statuses
-
   validates_presence_of :name
-  validates_inclusion_of :allows_association, in: [true, false]
-
   validates_length_of :name, maximum: 255, unless: lambda { |e| e.name.blank? }
 
   def self.available_grouping_project_types

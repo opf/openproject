@@ -412,22 +412,6 @@ describe 'routing', type: :routing do
     }
   end
 
-  context 'project_enumerations' do
-    context 'project_scoped' do
-      it {
-        is_expected.to route(:put, '/projects/64/enumerations').to(controller: 'project_enumerations',
-                                                                   action: 'update',
-                                                                   project_id: '64')
-      }
-
-      it {
-        is_expected.to route(:delete, '/projects/64/enumerations').to(controller: 'project_enumerations',
-                                                                      action: 'destroy',
-                                                                      project_id: '64')
-      }
-    end
-  end
-
   context 'timelogs' do
     it {
       is_expected.to route(:get, '/time_entries').to(controller: 'timelog',
