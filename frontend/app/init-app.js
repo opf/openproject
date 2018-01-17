@@ -148,10 +148,8 @@ opApp
 
 require('./helpers');
 require('./layout');
-require('./messages');
 require('./models');
 require('./services');
-require('./time_entries');
 require('./ui_components');
 require('./work_packages');
 

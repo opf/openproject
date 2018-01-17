@@ -34,12 +34,12 @@ See doc/COPYRIGHT.rdoc for more details.
     <h2><%= link_to h(@board.name), project_board_path(@project, @board) %> &#187; <%= t(:label_message_new) %></h2>
     <%= labelled_tabular_form_for Message.new,
                                   url: board_topics_path(@board),
-                                  html: { multipart: true,
-                                          id: 'message-form',
-                                          class: 'form' } do |f| %>
+                                  html: {multipart: true,
+                                         id: 'message-form',
+                                         class: 'form'} do |f| %>
       <%= render partial: 'messages/form', locals: {f: f} %>
 
-      <hr class="form--separator" />
+      <hr class="form--separator"/>
       <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
       <%= preview_link preview_board_topics_path(@board), 'message-form-preview' %>
       <%= link_to t(:button_cancel), '', onclick: 'jQuery("#add-message").hide();', class: 'button' %>
@@ -51,11 +51,11 @@ See doc/COPYRIGHT.rdoc for more details.
 <%= toolbar title: @board.name, subtitle: format_text(@board.description) do %>
   <% if authorize_for(:messages, :new) %>
     <li class="toolbar-item">
-      <%= link_to({ controller: '/messages', action: 'new', board_id: @board},
-                  { class: 'button -alt-highlight',
-                    aria: {label: t(:label_message_new)},
-                    title: t(:label_message_new)},
-                    onclick: 'jQuery("#add-message").show(); jQuery("#message_subject").focus(); return false;') do %>
+      <%= link_to({controller: '/messages', action: 'new', board_id: @board},
+                  {class: 'button -alt-highlight',
+                   aria: {label: t(:label_message_new)},
+                   title: t(:label_message_new)},
+                  onclick: 'jQuery("#add-message").show(); jQuery("#message_subject").focus(); return false;') do %>
         <%= op_icon('button--icon icon-add') %>
         <span class="button--text"><%= t(:label_message) %></span>
       <% end %>
@@ -68,102 +68,80 @@ See doc/COPYRIGHT.rdoc for more details.
   <% end %>
 <% end %>
 
-<div ng-controller="MessagesController" ng-cloak>
-  <% if @topics.any? %>
-    <div class="generic-table--container">
-        <div class="generic-table--results-container">
-          <table class="generic-table">
-            <colgroup>
-              <col highlight-col>
-              <col highlight-col>
-              <col highlight-col>
-              <col highlight-col>
-              <col highlight-col>
-            </colgroup>
-          <thead>
-            <tr>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= Message.human_attribute_name(:subject) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <%= Message.human_attribute_name(:author) %>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <sort-link sort-attr="created_on" sort-func="loadMessages()">
-                        <%= Message.human_attribute_name(:created_on) %>
-                      </sort-link>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <sort-link sort-attr="replies" sort-func="loadMessages()">
-                        <%= t(:label_reply_plural) %>
-                      </sort-link>
-                    </span>
-                  </div>
-                </div>
-              </th>
-              <th>
-                <div class="generic-table--sort-header-outer">
-                  <div class="generic-table--sort-header">
-                    <span>
-                      <sort-link sort-attr="updated_on" sort-func="loadMessages()">
-                        <%= t(:label_message_last) %>
-                      </sort-link>
-                    </span>
-                  </div>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr ng-repeat="message in messages">
-              <td class="subject">
-                <op-icon ng-if="message.isSticky == true" icon-classes="icon-wiki" icon-title="{{I18n.t('js.label_board_sticky')}}"></op-icon>
-                <op-icon ng-if="message.isLocked == true" icon-classes="icon-locked" icon-title="{{I18n.t('js.label_board_locked')}}"></op-icon>
-                <a ng-href="{{PathHelper.messagePath(message.id)}}">{{message.subject}}</a>
-              </td>
-              <td class="author"><a ng-href="{{PathHelper.userPath(message.author.id)}}">{{message.author.name}}</a></td>
-              <td class="created_on" date-time date-time-value="message.created_on"></td>
-              <td class="replies">{{message.replies_count}}</td>
-              <td class="last_message">
-                <span ng-if="message.last_reply !== undefined">
-                  <authoring created-on="message.last_reply.created_on" author="message.last_reply.author" project="projectId" activity="activityModuleEnabled"></authoring>
-                  <br />
-                  <a ng-href="{{PathHelper.messagePath(message.last_reply.id)}}">{{message.subject}}</a>
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-      </div>
-     </div>
-    <table-pagination [total-entries]="totalMessageCount" (update-results)="loadMessages($event)"></table-pagination>
-    <modal-loading></modal-loading>
-  <% else %>
-    <%= no_results_box %>
-  <% end %>
-</div>
+<% if @topics.any? %>
+  <div class="generic-table--container">
+    <div class="generic-table--results-container">
+      <table class="generic-table">
+        <colgroup>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+          <col highlight-col>
+        </colgroup>
+        <thead>
+        <tr>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                  <span>
+                    <%= Message.human_attribute_name(:subject) %>
+                  </span>
+              </div>
+            </div>
+          </th>
+          <th>
+            <div class="generic-table--sort-header-outer">
+              <div class="generic-table--sort-header">
+                  <span>
+                    <%= Message.human_attribute_name(:author) %>
+                  </span>
+              </div>
+            </div>
+          </th>
+          <%= sort_header_tag("created_on", caption: Message.human_attribute_name(:created_on)) %>
+          <%= sort_header_tag("replies", caption: t(:label_reply_plural)) %>
+          <%= sort_header_tag("updated_on", caption: t(:label_message_last)) %>
+        </tr>
+        </thead>
+        <tbody>
+        <% @topics.each do |message| %>
+          <tr>
+            <td class="subject">
+              <% if message.sticky? %>
+                <%= op_icon('icon-wiki', title: I18n.t('js.label_board_sticky')) %>
+              <% end %>
+              <% if message.locked? %>
+                <%= op_icon('icon-locked', title: I18n.t('js.label_board_locked')) %>
+              <% end %>
+              <%= link_to message.subject, topic_path(message) %>
+            </td>
+            <td class="author">
+              <% if message.author %>
+                <%= link_to message.author.name, user_path(message.author) %>
+              <% end %>
+            </td>
+            <td class="created_on">
+              <%= format_time message.created_on %>
+            </td>
+            <td class="replies"><%= message.replies_count %></td>
+            <td class="last_message">
+              <% if message.last_reply %>
+                <%= authoring message.last_reply.created_on, message.last_reply.author %><br/>
+                <br/>
+                <%= link_to message.subject, topic_path(message.last_reply) %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <%= pagination_links_full @topics %>
+<% else %>
+  <%= no_results_box %>
+<% end %>
 
 <%= other_formats_links do |f| %>
   <%= f.link_to 'Atom', url: {key: User.current.rss_key} %>
