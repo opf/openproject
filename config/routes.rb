@@ -518,10 +518,7 @@ OpenProject::Application.routes.draw do
     end
 
     resources :projects, only: [:index, :show], controller: 'projects'
-    resources :reported_project_statuses, controller: 'reported_project_statuses'
   end
-
-  resources :reported_project_statuses, controller: 'reported_project_statuses'
 
   # This route should probably be removed, but it's used at least by one cuke and we don't
   # want to break it.
