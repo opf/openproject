@@ -37,6 +37,9 @@ OpenProject::Application.routes.draw do
   # see https://github.com/rails/rails/issues/5688
   get '/issues/*rest' => redirect { |params, _req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
+  # Respond with 410 gone for APIV2 calls
+  match '/api/v2(/*unmatched_route)', to: proc { [410, {}, ['']] }, via: :all
+
   # Redirect wp short url for work packages to full URL
   get '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   get '/wp/*rest' => redirect { |params, _req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
