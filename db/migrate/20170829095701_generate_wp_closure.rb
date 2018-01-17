@@ -36,12 +36,6 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
 
     insert_hierarchy_relation_for_parent
 
-    WorkPackage.rebuild_dag!
-
-    relation_types.each do |column|
-      change_column_null :relations, column, true
-    end
-
     remove_column :relations, :relation_type
 
     remove_nested_set_columns
@@ -51,8 +45,6 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
     recreate_nested_set_columns
 
     invert_from_to_on_follows('follows = 1')
-
-    truncate_closure_entries
 
     set_parent_id
 
@@ -72,21 +64,9 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
   def add_relation_type_column
     change_table :relations do |r|
       relation_types.each do |column|
-        r.column column, :integer, default: 0
+        r.column column, :integer, default: 0, null: false
       end
     end
-
-    add_index :relations,
-              %i(hierarchy relates duplicates blocks follows includes requires),
-              name: 'relations_on_type_columns'
-  end
-
-  def exactly_one_column_eql_1(columns, prefix = '')
-    columns.map { |column| "#{prefix}#{column} = 1" }.join(' XOR ')
-  end
-
-  def sum_of_columns(columns, prefix = '')
-    columns.map { |column| "#{prefix}#{column}" }.join(' + ')
   end
 
   def remove_nested_set_columns
@@ -104,14 +84,6 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
 
     add_index :work_packages, :parent_id
     add_index :work_packages, %i(root_id lft rgt)
-  end
-
-  def truncate_closure_entries
-    ActiveRecord::Base.connection.execute <<-SQL
-      DELETE FROM relations
-      WHERE (#{relation_types.join(' + ')} > 1)
-      OR (#{relation_types.join(' + ')} = 0)
-    SQL
   end
 
   def remove_hierarchy_relations
@@ -202,7 +174,17 @@ class GenerateWpClosure < ActiveRecord::Migration[5.0]
       UPDATE
         work_packages
       SET
-        parent_id = (SELECT from_id FROM relations WHERE to_id = work_packages.id AND relations.hierarchy = 1)
+        parent_id =
+          (SELECT from_id
+          FROM relations
+          WHERE to_id = work_packages.id
+          AND relations.hierarchy = 1
+          AND relations.relates = 0
+          AND relations.duplicates = 0
+          AND relations.blocks = 0
+          AND relations.follows = 0
+          AND relations.includes = 0
+          AND relations.requires = 0)
     SQL
   end
 

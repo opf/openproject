@@ -32,7 +32,7 @@ provide any official support for them.
 * __Application server:__ [Phusion Passenger](https://www.phusionpassenger.com/)
   or [Unicorn](http://unicorn.bogomips.org/)
 * __Database:__ [MySQL](https://www.mysql.com/) Version >= 5.6
-  or [PostgreSQL](http://www.postgresql.org/) Version >= 9.1
+  or [PostgreSQL](http://www.postgresql.org/) Version >= 9.5
 
 Please be aware that the dependencies listed above also have a lot of
 dependencies themselves.
