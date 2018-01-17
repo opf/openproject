@@ -1617,9 +1617,9 @@ pt-BR:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
           context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        invalid_type: Nenhum tipo com o nome '%{type}' encontrado no projeto '%{project}'.
       link_name: Novo pacote de trabalho
-      link_name_type: New %{type_name}
+      link_name_type: Novo %{type_name}
   mail:
     actions: Ações
   mail_body_account_activation_request: 'Um novo usuário (%{value}) registrou-se.
@@ -2621,7 +2621,7 @@ pt-BR:
       multipart_body_error: O corpo da requisição não continha as partes multipart
         esperadas.
       multiple_errors: Várias restrições de campo foram violadas.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: O anexo não pôde ser criado
       render:
         context_not_parsable: O contexto fornecido não é um link para o recurso.
         unsupported_context: O recurso dado não esta suportado como contexto.
