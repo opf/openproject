@@ -27,24 +27,3 @@
 //++
 
 require('./controllers');
-
-angular.module('openproject.layout')
-  .factory('menuItemFactory', [
-    '$rootScope',
-    '$compile',
-    '$http',
-    '$templateCache',
-    '$animate',
-    require('./menu-item-factory')
-  ])
-
-.constant('QUERY_MENU_ITEM_TYPE', 'query-menu-item')
-  .factory('queryMenuItemFactory', [
-    'menuItemFactory',
-    '$state',
-    '$stateParams',
-    '$animate',
-    '$timeout',
-    'QUERY_MENU_ITEM_TYPE',
-    require('./query-menu-item-factory')
-  ])

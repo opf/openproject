@@ -26,21 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-/**
- * queryMenuItemFactory
- *
- * Defines a menu item factory for query menu items, which is set up providing type,
- * container and a link function. The link function makes the item sensitive to its
- * selected state and provides an event-based way to destroy the menu item, signalled
- * by the 'openproject.layout.removeMenuItem' event.
- */
-module.exports = function(menuItemFactory, $state, $stateParams, $animate, $timeout, QUERY_MENU_ITEM_TYPE) {
-  return menuItemFactory({
-    type: QUERY_MENU_ITEM_TYPE,
-    container: '#main-menu-work-packages-wrapper ~ .menu-children',
-    linkFn: function() {
-      // only a stub nowadays
-    },
-    templateUrl: '/templates/layout/query_menu_item.html'
-  });
+import {wpServicesModule} from '../../angular-modules';
+import {input} from 'reactivestates';
+
+export type QueryMenuEvent = {
+  event:'add'|'remove'|'rename';
+  queryId:string;
+  path?:string;
+  label?:string;
 };
+
+export class QueryMenuService {
+  private events = input<QueryMenuEvent>();
+
+  /**
+   * Add a query menu item
+   * @param {string} queryId
+   * @param {string} name
+   */
+  public add(name:string, path:string, queryId:string) {
+    this.events.putValue({ event: 'add', queryId: queryId, path: path, label: name });
+  }
+
+  public rename(queryId:string, name:string) {
+    this.events.putValue({ event: 'rename', queryId: queryId, label: name });
+  }
+
+  public remove(queryId:string) {
+    this.events.putValue({ event: 'remove', queryId: queryId, label: queryId });
+  }
+
+  public on(type:string) {
+    return this.events
+      .values$()
+      .filter((e:QueryMenuEvent) => e.event === type)
+      .distinctUntilChanged();
+  }
+}
+
+wpServicesModule.service('queryMenu', QueryMenuService)

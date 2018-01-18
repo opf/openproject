@@ -26,20 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
+
 angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackagesController', WorkPackagesController);
 
-function WorkPackagesController($scope, $state, $stateParams, $rootScope) {
+function WorkPackagesController($scope:ng.IScope,
+                                $state:ng.ui.IStateService,
+                                $stateParams:ng.ui.IStateParamsService) {
 
   // Setup
   $scope.$state = $state;
   $scope.selectedTitle = I18n.t('js.label_work_package_plural');
   $scope.query_id = $stateParams.query_id;
 
-  $scope.getToggleActionLabel = function(active) {
+  $scope.getToggleActionLabel = function(active:boolean) {
     return (active) ? I18n.t('js.label_deactivate') : I18n.t('js.label_activate');
   };
 
-  $rootScope.$broadcast('openproject.layout.activateMenuItem');
 }

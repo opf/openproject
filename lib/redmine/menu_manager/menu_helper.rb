@@ -62,12 +62,9 @@ module Redmine::MenuManager::MenuHelper
                   caption: query_menu_item.title,
                   parent: :work_packages,
                   html:    {
+                    id: "wp-query-menu-item-#{query_menu_item.navigatable_id}",
                     class: 'query-menu-item',
-                    'data-ui-route' => 'work-packages.list',
-                    'data-ui-route-params' => "{ query_id: #{query_menu_item.navigatable_id}, query_props: null }",
-                    'wp-query-menu-item' => query_menu_item.navigatable_id,
-                    'query-menu-item' => 'query-menu-item',
-                    'object-id' => query_menu_item.navigatable_id
+                    'data-query-id' => query_menu_item.navigatable_id
                   }
       end
     end

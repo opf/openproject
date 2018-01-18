@@ -36,6 +36,7 @@ import {WorkPackageCollectionResource} from '../api/api-v3/hal-resources/wp-coll
 import {WorkPackageTablePaginationService} from '../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackagesListInvalidQueryService} from './wp-list-invalid-query.service';
 import {WorkPackageStatesInitializationService} from './wp-states-initialization.service';
+import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
 
 export class WorkPackagesListService {
   constructor(protected NotificationsService:any,
@@ -50,7 +51,7 @@ export class WorkPackagesListService {
               protected wpStatesInitialization:WorkPackageStatesInitializationService,
               protected wpListInvalidQueryService:WorkPackagesListInvalidQueryService,
               protected I18n:op.I18n,
-              protected queryMenuItemFactory:any) {
+              protected queryMenu:QueryMenuService) {
   }
 
   /**
@@ -197,8 +198,8 @@ export class WorkPackagesListService {
         this.NotificationsService.addSuccess(this.I18n.t('js.notice_successful_update'));
 
         this
-          .queryMenuItemFactory
-          .renameMenuItem(query!.id, query!.name);
+          .queryMenu
+          .rename(query!.id.toString(), query!.name);
 
         // We should actually put the query newly received
         // from the backend in here.
@@ -287,8 +288,6 @@ export class WorkPackagesListService {
     } else {
       this.removeMenuItem(query);
     }
-
-    this.activateMenuItem();
   }
 
   private handleQueryLoadingError(error:ErrorResource, queryProps:any, queryId:number, projectIdentifier?:string) {
@@ -324,23 +323,17 @@ export class WorkPackagesListService {
   }
 
   private createMenuItem(query:QueryResource) {
-    this
-      .queryMenuItemFactory
-      .generateMenuItem(query.name,
+    return this
+      .queryMenu
+      .add(query.name,
         this.$state.href('work-packages.list', {query_id: query.id}),
-        query.id);
+        query.id.toString());
   }
 
   private removeMenuItem(query:QueryResource) {
-    this
-      .queryMenuItemFactory
-      .removeMenuItem(query.id);
-  }
-
-  private activateMenuItem() {
-    this
-      .queryMenuItemFactory
-      .activateMenuItem();
+    return this
+      .queryMenu
+      .remove(query.id.toString());
   }
 }
 
