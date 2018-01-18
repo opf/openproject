@@ -91,7 +91,7 @@ export class WorkPackageInlineCreateController {
   // Will be called by Angular
   // noinspection JSUnusedGlobalSymbols
   $onChanges() {
-    if (_.isNil(this.projectIdentifier) || _.isNil(this.table)) {
+    if (_.isNil(this.table)) {
       return;
     }
 
