@@ -52,17 +52,26 @@ import {
 
 export class WorkPackageInlineCreateController {
 
+  // inputs
+
   public projectIdentifier:string;
+
   public table:WorkPackageTable;
 
+  // inner state
+
   public isHidden:boolean = false;
+
   public focus:boolean = false;
 
   public text:{ create:string };
 
   private currentWorkPackage:WorkPackageResourceInterface | null;
+
   private workPackageEditForm:WorkPackageEditForm | undefined;
+
   private rowBuilder:InlineCreateRowBuilder;
+
   private timelineBuilder:TimelineRowBuilder;
 
   constructor(public $scope:ng.IScope,
@@ -76,9 +85,16 @@ export class WorkPackageInlineCreateController {
               public wpTableColumns:WorkPackageTableColumnsService,
               private wpTableFilters:WorkPackageTableFiltersService,
               private wpTableFocus:WorkPackageTableFocusService,
-              private AuthorisationService:any,
-              private $q:ng.IQService,
-              private I18n:op.I18n) {
+              private AuthorisationService:any) {
+  }
+
+  // Will be called by Angular
+  // noinspection JSUnusedGlobalSymbols
+  $onChanges() {
+    if (_.isNil(this.projectIdentifier) || _.isNil(this.table)) {
+      return;
+    }
+
     this.rowBuilder = new InlineCreateRowBuilder(this.table);
     this.timelineBuilder = new TimelineRowBuilder(this.table);
     this.text = {
@@ -110,7 +126,7 @@ export class WorkPackageInlineCreateController {
     // Watch on this scope when the columns change and refresh this row
     this.states.table.columns.values$()
       .filter(() => this.isHidden) // Take only when row is inserted
-      .takeUntil(scopeDestroyed$($scope)).subscribe(() => {
+      .takeUntil(scopeDestroyed$(this.$scope)).subscribe(() => {
       const rowElement = this.$element.find(`.${inlineCreateRowClassName}`);
 
       if (rowElement.length && this.currentWorkPackage) {
@@ -226,8 +242,8 @@ opWorkPackagesModule.directive('wpInlineCreate', wpInlineCreate);
 })
 export class WpInlineCreateDirectiveUpgraded extends UpgradeComponent {
 
-  @Input('wpInlineCreate-table') table:WorkPackageTable;
-  @Input('wpInlineCreate-projectIdentifier') projectIdentifier:string;
+  @Input('wp-inline-create--table') table:WorkPackageTable;
+  @Input('wp-inline-create--project-identifier') projectIdentifier:string;
 
   constructor(elementRef:ElementRef, injector:Injector) {
     super('wpInlineCreate', elementRef, injector);
