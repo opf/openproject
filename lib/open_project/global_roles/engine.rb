@@ -32,6 +32,7 @@ module OpenProject::GlobalRoles
     assets %w(global_roles/global_roles.js)
 
     patches [:Principal, :Role, :User, :RolesController, :UsersController]
+    patch_with_namespace :BasicData, :RoleSeeder
 
     initializer 'patch helper' do
       require_relative 'patches/roles_helper_patch'
