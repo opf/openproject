@@ -110,7 +110,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
   }
 
   onItemSelected(project:IProjectMenuEntry):void {
-    this.$window.location.href = this.PathHelper.projectPath(project.identifier);
+    this.$window.location.href = this.projectLink(project.identifier);
   }
 
   onNoResultsFound(event:JQueryUI.AutocompleteEvent, ui:any):void {
@@ -120,7 +120,7 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
 
   public renderItem(item:ProjectAutocompleteItem, div:JQuery):void {
     const link = jQuery('<a>')
-      .attr('href', this.PathHelper.projectPath(item.object.identifier))
+      .attr('href', this.projectLink(item.object.identifier))
       .text(item.label)
       .appendTo(div);
 
@@ -130,6 +130,17 @@ export class ProjectMenuAutocompleteController extends ILazyAutocompleterBridge<
         .text(`» ${item.label}`)
         .css('padding-left', (4 + item.object.level * 16) + 'px');
     }
+  }
+
+  public projectLink(identifier:string) {
+    const currentMenuItem = jQuery('meta[name="current_menu_item"]').attr('content');
+    let url = this.PathHelper.projectPath(identifier);
+
+    if (currentMenuItem) {
+      url += '?jump=' + encodeURIComponent(currentMenuItem);
+    }
+
+    return url;
   }
 
   public get loadingText():string {

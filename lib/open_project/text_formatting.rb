@@ -226,7 +226,7 @@ module OpenProject
       # when using an image link, try to use an attachment, if possible
       if options[:attachments] || (obj && obj.respond_to?(:attachments))
         attachments = nil
-        text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpeg|png))"(\s+alt="([^"]*)")?/i) do |m|
+        text.gsub!(/src="([^\/"]+\.(bmp|gif|jpg|jpeg|png|svg))"(\s+alt="([^"]*)")?/i) do |m|
           filename = $1.downcase
           ext = $2
           alt = $3
