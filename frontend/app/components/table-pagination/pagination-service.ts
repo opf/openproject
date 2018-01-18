@@ -47,20 +47,35 @@ export class PaginationService {
   private paginationOptions: IPaginationOptions;
 
   constructor(private ConfigurationDm:ConfigurationDmService) {
+    const gonPaginationOptions = this.getInitialPageOptions();
+
     this.paginationOptions = {
-      perPage: this.getCachedPerPage(),
-      perPageOptions: [],
+      perPage: this.getCachedPerPage(gonPaginationOptions),
+      perPageOptions: gonPaginationOptions,
       maxVisiblePageOptions: DEFAULT_PAGINATION_OPTIONS.maxVisiblePageOptions,
       optionsTruncationSize: DEFAULT_PAGINATION_OPTIONS.optionsTruncationSize
     };
   }
 
-  public getCachedPerPage():number {
+  public getInitialPageOptions():number[] {
+    try {
+      return (window as any).gon.settings.pagination.per_page_options;
+    } catch(e) {
+      console.error("Can't load initial page options from gon: " + e);
+      return [];
+    }
+  }
+
+  public getCachedPerPage(initialPageOptions:number[]):number {
     const value = window.localStorage.getItem('pagination.perPage');
     const perPage = parseInt(value!, 10);
 
     if (perPage > 0) {
       return perPage;
+    }
+
+    if (initialPageOptions.length > 0) {
+      return initialPageOptions[0];
     }
 
     return 20;
