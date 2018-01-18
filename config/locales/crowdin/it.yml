@@ -379,20 +379,8 @@ it:
         redirect_existing_links: Reindirizza i collegamenti esistenti
       planning_element_type_color:
         hexcode: Codice esadecimale
-      project_association:
-        description: Causa
-        project_b: Progetto subordinato
       project_type:
-        allows_association: Consenti associazioni
-        reported_project_statuses: Stati di progetto segnalati
         position: Posizione
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: Commento sullo stato
-        reporting_to_project: Segnala al progetto
-        reported_project_status: Stato del progetto
-        created_at: Creato
       work_package:
         begin_insertion: Inizio inserimento
         begin_deletion: Inizio cancellazione
@@ -470,10 +458,6 @@ it:
           attributes:
             types:
               in_use_by_work_packages: 'ancora in uso dalla macro-attività: %{types}'
-        project_association:
-          identical_projects: Non può essere creata una dipendenza di un progetto
-            con se stesso.
-          project_association_not_allowed: non consente associazioni.
         query:
           attributes:
             project:
@@ -1803,7 +1787,6 @@ it:
   permission_delete_work_packages: Cancellare macro-attività (work package)
   permission_delete_messages: Cancellare messaggi
   permission_delete_own_messages: Cancellare i propri messaggi
-  permission_delete_project_associations: Eliminare le dipendenze del progetto
   permission_delete_reportings: Eliminare prospetti
   permission_delete_timelines: Elimina cronologie
   permission_delete_wiki_pages: Eliminare pagine wiki
@@ -1815,7 +1798,6 @@ it:
   permission_edit_own_messages: Modificare i propri messaggi
   permission_edit_own_time_entries: Modificare i propri registri di orario effettuato
   permission_edit_project: Modificare un progetto
-  permission_edit_project_associations: Modificare le dipendenze di un progetto
   permission_edit_reportings: Modificare prospetti
   permission_edit_time_entries: Modificare le registrazioni dell'orario effettuato
   permission_edit_timelines: Modificare cronologie
@@ -1851,7 +1833,6 @@ it:
   permission_view_work_packages: Visualizza le macro-attività
   permission_view_messages: Visualizza i messaggi
   permission_view_members: Mostra membri
-  permission_view_project_associations: Visualizzare le dipendenze del progetto
   permission_view_reportings: Visualizzare prospetti
   permission_view_time_entries: Visualizza il tempo impiegato
   permission_view_timelines: Visualizza le cronologie
@@ -2357,11 +2338,9 @@ it:
       project_type: Tipo di progetto
       project_types: Tipi di progetto
     project_menu:
-      project_associations: Dipendenze
       reportings: Prospetti sullo stato
       reports: Rapporti tempistiche
       timelines: Tempistiche
-    add_project_association: Aggiungi dipendenza
     associations: Dipendenze
     board_could_not_be_saved: Il quadro non può essere salvato
     button_delete_all: Cancella tutti
@@ -2510,20 +2489,12 @@ it:
     planning_element_update: 'Aggiorna: %{title}'
     work_packages_are_displayed_in_aggregations: Le macro-attività (work package)
       vengono visualizzate nelle aggregazioni
-    project_association_new: Aggiungi dipendenza del progetto
-    project_association_new_for_with: Imposta una dipendenza per %{project_a} con
-    project_association_with_other: Dipendenza del progetto tra "%{project_a}" e "%{project_b}"
-    project_association_of_type: Dipendenza ai progetti di tipo "%{type}"
     project_type_could_not_be_saved: Il tipo del progetto non può essere salvato
     type_could_not_be_saved: Il tipo non può essere salvato
     reporting_could_not_be_saved: Il prospetto non può essere salvato
     properties: Proprietà
     really_delete_color: 'Sei sicuro di che voler eliminare il seguente colore?  I
       tipi che utilizzano questo colore non verranno eliminati.
-
-'
-    really_delete_project_association_between_project_a_and_project_b: 'Sei sicuro
-      di che voler eliminare la dipendenza tra "%{project_a}" e "%{project_b}"?
 
 '
     really_delete_project_type: 'Sei sicuro di voler eliminare il seguente tipo del

@@ -380,20 +380,8 @@ nl:
         redirect_existing_links: Bestaande koppelingen omleiden
       planning_element_type_color:
         hexcode: Hexadecimale code
-      project_association:
-        description: Oorzaak
-        project_b: Afhankelijk project
       project_type:
-        allows_association: Sta associatie toe
-        reported_project_statuses: Gerapporteerde projectstatussen
         position: Positie
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: Status reactie
-        reporting_to_project: Project verslagen
-        reported_project_status: Projectstatus
-        created_at: Gemaakt
       work_package:
         begin_insertion: Begin van het invoegen
         begin_deletion: Begin van de verwijdering
@@ -471,10 +459,6 @@ nl:
             types:
               in_use_by_work_packages: 'nog steeds in gebruik door werkpakketten:
                 %{types}'
-        project_association:
-          identical_projects: Afhankelijkheid kan niet worden gecreëerd tussen een
-            project en hetzelf.
-          project_association_not_allowed: staat geen associaties toe.
         query:
           attributes:
             project:
@@ -1786,7 +1770,6 @@ nl:
   permission_delete_work_packages: Werkpakketten verwijderen
   permission_delete_messages: Berichten verwijderen
   permission_delete_own_messages: Eigen berichten verwijderen
-  permission_delete_project_associations: Project afhankelijkheden verwijderen
   permission_delete_reportings: Rapporteringen verwijderen
   permission_delete_timelines: Tijdlijnen verwijderen
   permission_delete_wiki_pages: Wiki pagina's verwijderen
@@ -1798,7 +1781,6 @@ nl:
   permission_edit_own_messages: Eigen berichten bewerken
   permission_edit_own_time_entries: Bewerk de logboeken van de eigen tijd
   permission_edit_project: Project bewerken
-  permission_edit_project_associations: Afhankelijkheden tussen projecten bewerken
   permission_edit_reportings: Rapporteringen bewerken
   permission_edit_time_entries: Bewerk de logboeken van de tijd
   permission_edit_timelines: Bewerken van tijdlijnen
@@ -1832,7 +1814,6 @@ nl:
   permission_view_work_packages: Bekijk werkpakketten
   permission_view_messages: Berichten weergeven
   permission_view_members: Bekijk leden
-  permission_view_project_associations: Weergave project afhankelijkheden
   permission_view_reportings: Weergave rapporteringen
   permission_view_time_entries: Verbruikte tijd weergeven
   permission_view_timelines: Weergave tijdlijnen
@@ -2315,11 +2296,9 @@ nl:
       project_type: Projecttype
       project_types: Projecttypes
     project_menu:
-      project_associations: Afhankelijkheden
       reportings: Status rapporteringen
       reports: Tijdlijn rapporten
       timelines: Tijdlijnen
-    add_project_association: Afhankelijkheid toevoegen
     associations: Afhankelijkheden
     board_could_not_be_saved: Bord kon niet opgeslagen worden
     button_delete_all: Alles verwijderen
@@ -2464,22 +2443,12 @@ nl:
     planning_element_update: 'Bijgewerkt: %{title}'
     work_packages_are_displayed_in_aggregations: Werkpakketten worden weergegeven
       in samenvoegingen
-    project_association_new: Voeg project afhankelijkheid toe
-    project_association_new_for_with: Afhankelijkheid voor "%{project_a}" instellen
-      met
-    project_association_with_other: Project afhankelijkheid tussen "%{project_a}"
-      en "%{project_b}"
-    project_association_of_type: Afhankelijkheid van project van het type "%{type}"
     project_type_could_not_be_saved: Projecttype kan niet worden opgeslagen
     type_could_not_be_saved: Type kan niet worden opgeslagen
     reporting_could_not_be_saved: Rapportage kan niet worden opgeslagen
     properties: Eigenschappen
     really_delete_color: 'Weet u zeker, dat u wilt de volgende kleur verwijderen?
       Typen van deze kleur zullen niet worden verwijderd.
-
-'
-    really_delete_project_association_between_project_a_and_project_b: 'Weet u zeker,
-      dat u van de afhankelijkheid tussen "%{project_a}" en "%{project_b}"wilt verwijderen?
 
 '
     really_delete_project_type: 'Weet u zeker, dat u de volgende projecttype wilt
