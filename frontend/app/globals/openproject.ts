@@ -29,18 +29,18 @@
 import {$currentInjector} from "core-components/angular/angular-injector-bridge.functions";
 
 export class OpenProjectAngularHelpers {
-  public static memoizedCompileScope: any = null;
+  private memoizedCompileScope: any = null;
 
   public get injector() {
     return $currentInjector();
   }
 
   public get compileScope() {
-    if (OpenProjectAngularHelpers.memoizedCompileScope) {
-      OpenProjectAngularHelpers.memoizedCompileScope = $currentInjector().$new();
+    if (!this.memoizedCompileScope) {
+      this.memoizedCompileScope = this.injector.get('$rootScope').$new();
     }
 
-    return OpenProjectAngularHelpers.memoizedCompileScope;
+    return this.memoizedCompileScope;
   }
 
   public compile(html: string) {
@@ -64,7 +64,7 @@ export class OpenProject {
 
   public get Helpers() {
     return {
-      angular: OpenProjectAngularHelpers
+      Angular: new OpenProjectAngularHelpers()
     };
   }
 }
