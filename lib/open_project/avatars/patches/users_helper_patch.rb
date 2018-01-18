@@ -21,15 +21,11 @@ module OpenProject::Avatars
     module UsersHelperPatch
       def self.included(base) # :nodoc:
         base.prepend(InstanceMethods)
-        base.class_eval do
-          alias_method :user_settings_tabs_without_avatar, :user_settings_tabs
-          alias_method :user_settings_tabs, :user_settings_tabs_with_avatar
-        end
       end
 
       module InstanceMethods
-        def user_settings_tabs_with_avatar
-          tabs = user_settings_tabs_without_avatar
+        def user_settings_tabs
+          tabs = super
           if ::OpenProject::Avatars::AvatarManager.avatars_enabled?
             tabs << { name: 'avatar', partial: 'avatars/users/avatar_tab', label: :label_avatar }
           end
