@@ -28,15 +28,16 @@
 
 class RebuildDag < ActiveRecord::Migration[5.0]
   def up
-    add_column :relations, :count, :integer, default: 0, null: false
-
-    set_count_to_1
+    truncate_closure_entries
+    remove_duplicate_relations
 
     if index_exists?(:relations, relation_types)
       remove_index :relations, relation_types
     end
 
-    truncate_closure_entries
+    add_column :relations, :count, :integer, default: 0, null: false
+
+    set_count_to_1
 
     add_index :relations,
               %i(from_id to_id hierarchy relates duplicates blocks follows includes requires),
@@ -136,6 +137,24 @@ class RebuildDag < ActiveRecord::Migration[5.0]
       DELETE FROM relations
       WHERE (#{relation_types.join(' + ')} > 1)
       OR (#{relation_types.join(' + ')} = 0)
+    SQL
+  end
+
+  def remove_duplicate_relations
+    equal_conditions = relation_types.map do |type|
+      "r1.#{type} = r2.#{type}"
+    end.join(' AND ')
+
+    ActiveRecord::Base.connection.execute <<-SQL
+      DELETE
+      FROM relations
+      WHERE id IN (SELECT id FROM (SELECT r1.id
+                                   FROM relations r1
+                                   JOIN relations r2
+                                   ON r1.id > r2.id
+                                   AND r1.from_id = r2.from_id
+                                   AND r1.to_id = r2.to_id
+                                   AND #{equal_conditions}) delete_ids)
     SQL
   end
 
