@@ -25,11 +25,14 @@ describe 'Refreshing in inline-create row', js: true do
   it 'correctly updates the set of active columns' do
     expect(page).to have_selector('.wp--row', count: 0)
 
-    wp_table.click_inline_create
-    expect(page).to have_selector('.wp--row', count: 1)
-    expect(page).to have_selector('.wp-inline-create-row')
-    expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.subject')
-    expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.category')
+    retry_block do
+      wp_table.click_inline_create
+      expect(page).to have_selector('.wp--row', count: 1)
+
+      expect(page).to have_selector('.wp-inline-create-row')
+      expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.subject')
+      expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.category')
+    end
 
     work_packages_page.add_column! 'Progress (%)'
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.wp-table--cell-td.percentageDone')
