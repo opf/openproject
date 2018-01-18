@@ -26,9 +26,12 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {AfterViewInit, Component, ElementRef, Inject, Injectable, OnDestroy} from '@angular/core';
+import {downgradeComponent, downgradeInjectable} from '@angular/upgrade/static';
 import {Moment} from 'moment';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {openprojectModule} from '../../../../angular-modules';
-import {scopeDestroyed$} from '../../../../helpers/angular-rx-utils';
+import {I18nToken, NotificationsServiceToken} from '../../../../angular4-transition-utils';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
 import {TypeResource} from '../../../api/api-v3/hal-resources/type-resource.service';
 import {WorkPackageResourceInterface} from '../../../api/api-v3/hal-resources/work-package-resource.service';
@@ -42,7 +45,7 @@ import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-tim
 import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
 
 import {selectorTimelineSide} from '../../wp-table-scroll-sync';
-import {WorkPackagesTableController} from '../../wp-table.directive';
+import {WorkPackagesTableController, WorkPackagesTableControllerHolder} from '../../wp-table.directive';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {
@@ -56,8 +59,13 @@ import {
 } from '../wp-timeline';
 import moment = require('moment');
 
+@Component({
+  selector: 'wp-timeline-container',
+  template: require('!!raw-loader!./wp-timeline-container.html')
+})
+export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {
 
-export class WorkPackageTimelineTableController {
+  private $element:JQuery;
 
   public wpTableDirective:WorkPackagesTableController;
 
@@ -85,19 +93,23 @@ export class WorkPackageTimelineTableController {
 
   private debouncedRefresh:() => any;
 
-  constructor(private $scope:angular.IScope,
-              private $element:angular.IAugmentedJQuery,
+  constructor(private elementRef:ElementRef,
               private states:States,
-              private NotificationsService:any,
+              workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
+              @Inject(NotificationsServiceToken) private NotificationsService:any,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
               private wpRelations:WorkPackageRelationsService,
               private wpTableHierarchies:WorkPackageTableHierarchiesService,
-              private I18n:op.I18n) {
+              @Inject(I18nToken) private I18n:op.I18n) {
     'ngInject';
+
+    this.wpTableDirective = workPackagesTableControllerHolder.instance;
   }
 
-  $onInit() {
+  ngAfterViewInit() {
+    this.$element = jQuery(this.elementRef.nativeElement);
+
     this.text = {
       selectionMode: this.I18n.t('js.timelines.selection_mode.notification')
     };
@@ -146,7 +158,7 @@ export class WorkPackageTimelineTableController {
     // Refresh timeline view when becoming visible
     this.states.table.timelineVisible.values$()
       .filter((timelineState:WorkPackageTableTimelineState) => timelineState.isVisible)
-      .takeUntil(scopeDestroyed$(this.$scope))
+      .takeUntil(componentDestroyed(this))
       .subscribe((timelineState:WorkPackageTableTimelineState) => {
         this.viewParameters.settings.zoomLevel = timelineState.zoomLevel;
         this.debouncedRefresh();
@@ -162,6 +174,10 @@ export class WorkPackageTimelineTableController {
           this.debouncedRefresh();
         });
       });
+  }
+
+  ngOnDestroy():void {
+    // empty
   }
 
   workPackageInView(wpId:string):boolean {
@@ -237,7 +253,7 @@ export class WorkPackageTimelineTableController {
   updateOnWorkPackageChanges() {
     this.states.workPackages.observeChange()
       .withLatestFrom(this.states.table.timelineVisible.values$())
-      .takeUntil(scopeDestroyed$(this.$scope))
+      .takeUntil(componentDestroyed(this))
       .filter(([, timelineState]) => this.initialized && timelineState.isVisible)
       .map(([[wpId]]) => wpId)
       .filter((wpId) => this.cellsRenderer.hasCell(wpId))
@@ -422,11 +438,3 @@ export class WorkPackageTimelineTableController {
   }
 
 }
-
-openprojectModule.component('wpTimelineContainer', {
-  controller: WorkPackageTimelineTableController,
-  templateUrl: '/components/wp-table/timeline/container/wp-timeline-container.html',
-  require: {
-    wpTableDirective: '^wpTable'
-  }
-});

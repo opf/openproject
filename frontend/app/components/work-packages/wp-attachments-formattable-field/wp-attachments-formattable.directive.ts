@@ -14,7 +14,7 @@ import {CommentFieldDirectiveController} from '../work-package-comment/work-pack
 import {UploadFile} from '../../api/op-file-upload/op-file-upload.service';
 
 export class WpAttachmentsFormattableController {
-  constructor(protected $scope:ng.IScope,
+  constructor(protected $scope:any,
               protected $element:ng.IAugmentedJQuery,
               protected $rootScope:ng.IRootScopeService,
               protected $location:ng.ILocationService,
@@ -215,7 +215,7 @@ function wpAttachmentsFormattable():any {
   return {
     bindToController: true,
     controller: WpAttachmentsFormattableController,
-    link: (scope:ng.IScope,
+    link: (scope:any,
            element:ng.IAugmentedJQuery,
            attrs:ng.IAttributes,
            controllers:[WorkPackageSingleViewController, CommentFieldDirectiveController]) => {

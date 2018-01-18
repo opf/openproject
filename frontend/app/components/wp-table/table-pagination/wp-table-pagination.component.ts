@@ -26,54 +26,51 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TablePaginationController} from '../../table-pagination/table-pagination.controller';
 import {ConfigurationResource} from '../../api/api-v3/hal-resources/configuration-resource.service';
 import {ConfigurationDmService} from '../../api/api-v3/hal-resource-dms/configuration-dm.service';
 import {WorkPackageTablePaginationService} from '../../wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTablePagination} from '../../wp-fast-table/wp-table-pagination';
 import {wpDirectivesModule} from '../../../angular-modules';
+import {TablePaginationComponent} from 'core-components/table-pagination/table-pagination.component';
+import {componentDestroyed} from 'ng2-rx-componentdestroyed';
+import {Inject, OnDestroy, Component} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {PaginationService} from 'core-components/table-pagination/pagination-service';
+import {downgradeComponent} from '@angular/upgrade/static';
 
-wpDirectivesModule
-  .directive('wpTablePagination', wpTablePagination);
+@Component({
+  template: require('!!raw-loader!core-components/table-pagination/table-pagination.component.html')
+})
+export class WorkPackageTablePaginationComponent extends TablePaginationComponent  implements OnDestroy {
+  constructor(protected paginationService:PaginationService,
+              protected wpTablePagination:WorkPackageTablePaginationService,
+              @Inject(I18nToken) protected I18n:op.I18n) {
+    super(paginationService, I18n);
 
-export class WorkPackageTablePaginationController extends TablePaginationController {
-  constructor(protected $scope:ng.IScope,
-              protected PaginationService:any,
-              protected I18n:op.I18n,
-              protected wpTablePagination:WorkPackageTablePaginationService) {
+  }
 
-    super($scope, PaginationService, I18n);
-
-    this.wpTablePagination.observeOnScope($scope).subscribe((wpPagination:WorkPackageTablePagination) => {
-      this.$scope.totalEntries = wpPagination.total;
-
-      this.PaginationService.setPerPage(wpPagination.current.perPage);
-      this.PaginationService.setPage(wpPagination.current.page);
-
-      this.updateCurrentRangeLabel();
-      this.updatePageNumbers();
+  public newPagination() {
+    this.wpTablePagination
+      .observeUntil(componentDestroyed(this))
+      .subscribe((wpPagination:WorkPackageTablePagination) => {
+        this.pagination = wpPagination.current;
+        this.update();
     });
+  }
+
+  ngOnDestroy():void {
+    // Empty
+  }
+
+  public selectPerPage(perPage:number) {
+    this.wpTablePagination.updateFromObject({page: 1, perPage: perPage});
+ }
+
+  public showPage(pageNumber:number) {
+    this.wpTablePagination.updateFromObject({page: pageNumber});
   }
 }
 
-function wpTablePagination(wpTablePagination:WorkPackageTablePaginationService):any {
-  return {
-    restrict: 'EA',
-    templateUrl: '/components/table-pagination/table-pagination.directive.html',
-
-    scope: {},
-
-    controller: WorkPackageTablePaginationController,
-
-    link: function(scope:any) {
-
-      scope.selectPerPage = function(perPage:number){
-        wpTablePagination.updateFromObject({page: 1, perPage: perPage});
-     };
-
-      scope.showPage = function(pageNumber:number){
-        wpTablePagination.updateFromObject({page: pageNumber});
-      };
-    }
-  };
-}
+wpDirectivesModule
+  .directive('wpTablePagination',
+             downgradeComponent({component: WorkPackageTablePaginationComponent}));

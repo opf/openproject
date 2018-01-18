@@ -25,8 +25,8 @@
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+import {AfterViewInit, Component, ElementRef} from '@angular/core';
 import * as moment from 'moment';
-import {openprojectModule} from '../../../../angular-modules';
 import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 import {
@@ -48,19 +48,23 @@ function checkForWeekendHighlight(date:Moment, cell:HTMLElement) {
   }
 }
 
-export class WorkPackageTableTimelineGrid {
-
-  public wpTimeline:WorkPackageTimelineTableController;
+@Component({
+  selector: 'wp-timeline-grid',
+  template: '<div class="wp-table-timeline--grid"></div>'
+})
+export class WorkPackageTableTimelineGrid implements AfterViewInit {
 
   private activeZoomLevel:TimelineZoomLevel;
 
   private gridContainer:ng.IAugmentedJQuery;
 
-  constructor(public $element:ng.IAugmentedJQuery) {
+  constructor(private elementRef:ElementRef,
+              public wpTimeline:WorkPackageTimelineTableController) {
   }
 
-  $onInit() {
-    this.gridContainer = this.$element.find('.wp-table-timeline--grid');
+  ngAfterViewInit() {
+    const $element = jQuery(this.elementRef.nativeElement);
+    this.gridContainer = $element.find('.wp-table-timeline--grid');
     this.wpTimeline.onRefreshRequested('grid', (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 
@@ -183,11 +187,3 @@ export class WorkPackageTableTimelineGrid {
     }, 0);
   }
 }
-
-openprojectModule.component('wpTimelineGrid', {
-  template: '<div class="wp-table-timeline--grid"></div>',
-  controller: WorkPackageTableTimelineGrid,
-  require: {
-    wpTimeline: '^wpTimelineContainer'
-  }
-});

@@ -47,7 +47,7 @@ export class WatchersPanelController {
   public watching: any[] = [];
   public text: any;
 
-  constructor(public $scope: ng.IScope,
+  constructor(public $scope: any,
               public $element: ng.IAugmentedJQuery,
               public $q: ng.IQService,
               public I18n: op.I18n,

@@ -26,29 +26,31 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-export class WorkPackageGroupSumsController {
-  constructor(protected $scope:any) {
-    $scope.currentGroup = $scope.row.groupName;
-    $scope.currentGroupObject = _.find($scope.resource.groups, function(o:any) {
-      return o.value === $scope.currentGroup;
-    });
-  }
+import {InjectionToken} from '@angular/core';
+import {IRootScopeService} from 'angular';
 
-  public $onInit() {}
-};
+export const $rootScopeToken = new InjectionToken<IRootScopeService>('$rootScope');
+export const I18nToken = new InjectionToken<op.I18n>('I18n');
+export const columnsModalToken = new InjectionToken<any>('columnsModal');
+export const focusHelperToken = new InjectionToken<any>('FocusHelper');
+export const NotificationsServiceToken = new InjectionToken<any>('NotificationsService');
+export const v3PathToken = new InjectionToken<any>('v3Path');
+export const $qToken = new InjectionToken<any>('$q');
+export const $httpToken = new InjectionToken<any>('$http');
+export const halResourceFactoryToken = new InjectionToken<any>('halResourceFactory');
 
-angular
-  .module('openproject.workPackages.controllers')
-  .controller('WorkPackageGroupSumsController', WorkPackageGroupSumsController);
-
-angular
-  .module('openproject.workPackages.directives')
-  .directive('wpGroupSums', wpGroupSums);
-
-function wpGroupSums():any {
+export function upgradeService(ng1InjectorName:string, providedType:any) {
   return {
-    restrict: 'A',
-    scope: true,
-    controller: WorkPackageGroupSumsController
+    provide: providedType,
+    useFactory: (i:any) => i.get(ng1InjectorName),
+    deps: ['$injector']
+  };
+}
+
+export function upgradeServiceWithToken(ng1InjectorName:string, token:InjectionToken<any>) {
+  return {
+    provide: token,
+    useFactory: (i:any) => i.get(ng1InjectorName),
+    deps: ['$injector']
   };
 }

@@ -216,8 +216,6 @@ describe('toggledMultiselect Directive', function() {
           expect(options.length).to.equal(3);
           expect(options[0].textContent).to.equal('PLACEHOLDER');
 
-          console.error(options[1].textContent)
-          console.error(options[2].textContent)
           expect(options[1].value).to.equal(allowedValues[0].$href);
           expect(options[1].textContent).to.equal(allowedValues[0].name);
 

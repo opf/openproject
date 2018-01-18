@@ -26,12 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+import {Inject, Injectable} from '@angular/core';
+import {$httpToken, $qToken, halResourceFactoryToken} from 'core-app/angular4-transition-utils';
 import {opApiModule} from '../../../../angular-modules';
 import {HalResource} from '../hal-resources/hal-resource.service';
 import {HalResourceFactoryService} from '../hal-resource-factory/hal-resource-factory.service';
 import IPromise = angular.IPromise;
 import {CollectionResource} from '../hal-resources/collection-resource.service';
 
+@Injectable()
 export class HalRequestService {
   /**
    * Default headers sent with every request.
@@ -43,9 +46,9 @@ export class HalRequestService {
     'Content-Type': 'application/json'
   };
 
-  constructor(protected $q:ng.IQService,
-              protected $http:ng.IHttpService,
-              protected halResourceFactory:HalResourceFactoryService) {
+  constructor(@Inject($qToken) protected $q:ng.IQService,
+              @Inject($httpToken) protected $http:ng.IHttpService,
+              @Inject(halResourceFactoryToken) protected halResourceFactory:HalResourceFactoryService) {
   }
 
   /**

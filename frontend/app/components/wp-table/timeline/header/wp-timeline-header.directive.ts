@@ -1,7 +1,3 @@
-import * as moment from 'moment';
-import {openprojectModule} from '../../../../angular-modules';
-import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
-import {WorkPackageTimelineTableController} from '../container/wp-timeline-container.directive';
 // -- copyright
 // OpenProject is a project management system.
 // Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -29,24 +25,38 @@ import {WorkPackageTimelineTableController} from '../container/wp-timeline-conta
 //
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
+
+import {Component, ElementRef, OnInit} from '@angular/core';
+import {WorkPackageTimelineTableController} from 'core-components/wp-table/timeline/container/wp-timeline-container.directive';
+import * as moment from 'moment';
+import {TimelineZoomLevel} from '../../../api/api-v3/hal-resources/query-resource.service';
 import {calculatePositionValueForDayCount, getTimeSlicesForHeader, TimelineViewParameters} from '../wp-timeline';
 import Moment = moment.Moment;
 
+
 export const timelineHeaderCSSClass = 'wp-timeline--header-element';
 
-export class WorkPackageTimelineHeaderController {
+@Component({
+  selector: 'wp-timeline-header',
+  template: require('!!raw-loader!./wp-timeline-header.html'),
+})
+export class WorkPackageTimelineHeaderController implements OnInit {
 
-  public wpTimeline:WorkPackageTimelineTableController;
+  public $element:JQuery;
 
   private activeZoomLevel:TimelineZoomLevel;
 
-  private innerHeader:ng.IAugmentedJQuery;
+  private innerHeader:JQuery;
 
-  constructor(public $element:ng.IAugmentedJQuery) {
+  constructor(elementRef:ElementRef,
+              public workPackageTimelineTableController:WorkPackageTimelineTableController) {
+
+    this.$element = jQuery(elementRef.nativeElement);
   }
 
-  $onInit() {
-    this.wpTimeline.onRefreshRequested('header', (vp:TimelineViewParameters) => this.refreshView(vp));
+  ngOnInit() {
+    this.workPackageTimelineTableController
+      .onRefreshRequested('header', (vp:TimelineViewParameters) => this.refreshView(vp));
   }
 
   refreshView(vp:TimelineViewParameters) {
@@ -211,11 +221,3 @@ export class WorkPackageTimelineHeaderController {
     return label;
   }
 }
-
-openprojectModule.component('wpTimelineHeader', {
-  templateUrl: '/components/wp-table/timeline/header/wp-timeline-header.html',
-  controller: WorkPackageTimelineHeaderController,
-  require: {
-    wpTimeline: '^wpTimelineContainer'
-  }
-});

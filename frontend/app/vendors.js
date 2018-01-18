@@ -30,6 +30,11 @@
 //
 // dependencies required by classic (Rails) and Angular application.
 
+// Angular 4 deps. Must be loaded early!
+require('reflect-metadata');
+require('zone.js');
+require('@angular/core');
+
 // NOTE: currently needed for PhantomJS to support Webpack's style-loader.
 // See: https://github.com/webpack/style-loader/issues/31
 require('phantomjs-polyfill');

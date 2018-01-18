@@ -2,69 +2,74 @@
   <div class="work-packages-tabletimeline--table-side work-package-table--container">
     <table class="keyboard-accessible-list generic-table work-package-table">
       <colgroup>
-        <col highlight-col ng-repeat="column in columns track by column.href"/>
+        <col highlight-col *ngFor="let column of columns"/>
         <col highlight-col/>
       </colgroup>
       <caption class="hidden-for-sighted">
-        <span ng-bind="::text.tableSummary"></span>
+        <span>{{text.tableSummary}}</span>
         <span id="wp-table-sort-summary"></span>
-        <span ng-bind="::text.tableSummaryHints"></span>
+        <span>{{text.tableSummaryHints}}</span>
       </caption>
       <thead class="-sticky">
       <tr>
-        <th sort-header ng-repeat="column in columns track by column.href"
-            has-dropdown-menu
-            class="wp-table--table-header"
-            collision-container=".work-packages-tabletimeline--table-side"
-            target="columnContextMenu"
-            locals="columns, column"
-            locale="column.custom_field && columns.custom_field.name_locale || locale"
-            header-column="column">
+        <th *ngFor="let column of columns"
+            class="wp-table--table-header">
+          <sortHeader [headerColumn]="column"
+                      [locale]="column.custom_field && columns.custom_field.name_locale || locale"
+
+                      hasDropdownMenu
+                      [hasDropdownMenu-locals]="{'columns':columns, 'column':column}"
+                      [hasDropdownMenu-collisionContainer]="'.work-packages-tabletimeline--table-side'"
+                      [hasDropdownMenu-target]="'columnContextMenu'">
+          </sortHeader>
         </th>
         <th class="wp-table--context-menu-column -short hide-when-print">
           <div class="generic-table--sort-header-outer">
             <accessible-by-keyboard
-              execute="openColumnsModal()"
-              link-class="wp-table--columns-selection"
-              link-title="{{ ::text.addColumns }}"
-              link-aria-label="{{ ::text.addColumns }}">
+                (execute)="openColumnsModal()"
+                linkClass="wp-table--columns-selection"
+                linkTitle="{{text.addColumns}}"
+                linkAriaLabel="{{text.addColumns}}"
+            >
               <op-icon icon-classes="icon-button icon-small icon-add"></op-icon>
             </accessible-by-keyboard>
           </div>
         </th>
       </tr>
       </thead>
-      <tbody class="work-package--empty-tbody" ng-if="query.hasError || rowcount === 0">
+      <tbody class="work-package--empty-tbody" *ngIf="query.hasError || rowcount === 0">
       <tr id="empty-row-notification">
-        <td colspan="{{ columns.length + 1 }}">
-          <span ng-if="!query.hasError">
+        <td [attr.colspan]="columns.length + 1">
+          <span *ngIf="!query.hasError">
             <op-icon icon-classes="icon-info1 icon-context"></op-icon>
-            <strong ng-bind="text.noResults.title"></strong>
-            <span ng-bind="text.noResults.description"></span>
+            <strong>{{text.noResults.title}}</strong>
+            <span>{{text.noResults.description}}</span>
           </span>
-          <span ng-if="query.hasError">
+          <span *ngIf="query.hasError">
             <op-icon icon-classes="wp-table--faulty-query-icon icon-warning icon-context"></op-icon>
-            <strong ng-bind="text.faultyQuery.title"></strong>
-            <span ng-bind="text.faultyQuery.description"></span>
+            <strong>{{text.faultyQuery.title}}</strong>
+            <span>{{text.faultyQuery.description}}</span>
           </span>
         </td>
       </tr>
       </tbody>
       <tbody class="results-tbody work-package--results-tbody">
       </tbody>
-      <tbody wp-inline-create
-             ng-if="!!table"
-             project-identifier="projectIdentifier"
-             table="table">
+      <tbody *ngIf="!!tableElement"
+             wpInlineCreate
+             [wp-inline-create--table]="workPackageTable"
+             [wp-inline-create--project-identifier]="projectIdentifier">
       </tbody>
       <tfoot>
-        <tr wp-table-sums-row></tr>
+      <tr wpTableSumsRow></tr>
       </tfoot>
     </table>
   </div>
 
   <div class="work-packages--tabletimeline--timeline--resizer hidden-for-mobile hide-when-print">
-    <wp-resizer element-class="'work-packages-tabletimeline--timeline-side'" resize-event="wp-resize.timeline" local-storage-key="'openProject-timelineFlexBasis'"></wp-resizer>
+    <wp-resizer [elementClass]="'work-packages-tabletimeline--timeline-side'"
+                [resizeEvent]="'wp-resize.timeline'"
+                [localStorageKey]="'openProject-timelineFlexBasis'"></wp-resizer>
   </div>
 
   <div class="work-packages-tabletimeline--timeline-side">

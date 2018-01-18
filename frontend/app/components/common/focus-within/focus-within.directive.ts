@@ -40,7 +40,7 @@ function focusWithinDirective($timeout:ng.ITimeoutService) {
       selector: '=focusWithin'
     },
 
-    link: (scope:ng.IScope, element:ng.IAugmentedJQuery) => {
+    link: (scope:any, element:ng.IAugmentedJQuery) => {
       let focusedObservable = new BehaviorSubject(false);
 
       scopedObservable(

@@ -247,7 +247,7 @@ openprojectModule
 
       $rootScope.$emit('notifications.clearAll');
 
-      const projectIdentifier = toParams.projectPath || $rootScope['projectIdentifier'];
+      const projectIdentifier = toParams.projectPath || ($rootScope as any)['projectIdentifier'];
 
       if (!toParams.projects && projectIdentifier) {
         const newParams = _.clone(toParams);

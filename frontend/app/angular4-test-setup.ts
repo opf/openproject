@@ -26,46 +26,23 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TablePaginationController} from './table-pagination.controller';
-import {opUiComponentsModule} from '../../angular-modules';
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// !!!! NEVER CHANGE THE ORDER OF THE REQUIRE IMPORTS !!!!
+// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+require('angular');
+require('zone.js');
+require('zone.js/dist/long-stack-trace-zone');
+require('zone.js/dist/async-test');
+require('zone.js/dist/fake-async-test');
+require('zone.js/dist/sync-test');
+require('zone.js/dist/proxy');
+require('zone.js/dist/mocha-patch');
 
-opUiComponentsModule
-  .directive('tablePagination', tablePagination);
+import {getTestBed} from '@angular/core/testing';
+import {BrowserDynamicTestingModule, platformBrowserDynamicTesting} from '@angular/platform-browser-dynamic/testing';
 
+getTestBed().initTestEnvironment(
+  BrowserDynamicTestingModule,
+  platformBrowserDynamicTesting()
+);
 
-function tablePagination(PaginationService:any):any {
-  return {
-    restrict: 'EA',
-    templateUrl: '/components/table-pagination/table-pagination.directive.html',
-
-    scope: {
-      updateResults: '&',
-      totalEntries: '='
-    },
-
-    controller: TablePaginationController,
-
-    link: function(scope:ng.IScope,
-                   element:any,
-                   attributes:any,
-                   controller:TablePaginationController) {
-      scope.selectPerPage = function(perPage:any){
-        PaginationService.setPerPage(perPage);
-
-        scope.showPage(1);
-      };
-
-      scope.showPage = function(pageNumber:any){
-        PaginationService.setPage(pageNumber);
-
-        controller.updateCurrentRangeLabel();
-        controller.updatePageNumbers();
-
-        scope.updateResults();
-      };
-
-      controller.updateCurrentRangeLabel();
-      controller.updatePageNumbers();
-    }
-  };
-}

@@ -196,6 +196,7 @@ function getWebpackMainConfig() {
 
       alias: _.merge({
         'locales': './../../config/locales',
+        'core-app': path.resolve(__dirname, 'app'),
         'core-components': path.resolve(__dirname, 'app', 'components'),
 
         'at.js': path.resolve(__dirname, 'vendor', 'at.js'),
@@ -217,6 +218,14 @@ function getWebpackMainConfig() {
       // errors are detected (this includes TS warnings)
       // It is ONLY executed when `ENV[CI]` is set or `--bail` is used.
       TypeScriptDiscruptorPlugin,
+
+      // required for Angular (2+) to avoid error message:
+      // > WARNING in ../node_modules/@angular/core/@angular/core.es5.js
+      // > 5659:15-36 Critical dependency: the request of a dependency is an expression
+      new webpack.ContextReplacementPlugin(
+        /angular([\\\/])core/,
+        path.resolve(__dirname, '../src')
+      ),
 
       // Define modes for debug output
       new webpack.DefinePlugin({

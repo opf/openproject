@@ -40,7 +40,7 @@ export class WorkPackageDestroyModalController {
   public workPackages:WorkPackageResourceInterface[];
   public workPackageLabel:string;
 
-  constructor(private $scope:ng.IScope,
+  constructor(private $scope:any,
               private $state:ng.ui.IStateService,
               private states:States,
               private WorkPackageService:any,

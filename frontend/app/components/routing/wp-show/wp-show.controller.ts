@@ -51,7 +51,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
 
   private wpMoreMenu:WorkPackageMoreMenuService;
 
-  constructor(public $scope:ng.IScope,
+  constructor(public $scope:any,
               public $state:ng.ui.IStateService,
               public wpTableFocus:WorkPackageTableFocusService,
               protected wpMoreMenuService:WorkPackageMoreMenuService) {

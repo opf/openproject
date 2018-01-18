@@ -27,3 +27,10 @@
 //++
 
 require('./init-app');
+const OpenProjectModule = require('./angular4-modules').OpenProjectModule;
+const platformBrowserDynamic = require('@angular/platform-browser-dynamic').platformBrowserDynamic;
+
+jQuery(function () {
+  // Due to the behaviour of the Edge browser we need to wait for 'DOM ready'
+  platformBrowserDynamic().bootstrapModule(OpenProjectModule);
+});

@@ -41,114 +41,49 @@ See doc/COPYRIGHT.rdoc for more details.
         <col>
       </colgroup>
       <thead>
-        <tr>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <sort-link sort-attr="spent_on" sort-func="loadTimeEntries()">
-                    <%= TimeEntry.human_attribute_name(:spent_on) %>
-                  </sort-link>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <sort-link sort-attr="user" sort-func="loadTimeEntries()">
-                    <%= TimeEntry.human_attribute_name(:user) %>
-                  </sort-link>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <sort-link sort-attr="activity" sort-func="loadTimeEntries()">
-                    <%= TimeEntry.human_attribute_name(:activity) %>
-                  </sort-link>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <sort-link sort-attr="project" sort-func="loadTimeEntries()">
-                  <%= TimeEntry.human_attribute_name(:project) %>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <sort-link sort-attr="work_package" sort-func="loadTimeEntries()">
-                    <%= TimeEntry.human_attribute_name(:issue) %>
-                  </sort-link>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <sort-link sort-attr="comments" sort-func="loadTimeEntries()">
-                    <%= TimeEntry.human_attribute_name(:comments) %>
-                  </sort-link>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th>
-            <div class="generic-table--sort-header-outer">
-              <div class="generic-table--sort-header">
-                <span>
-                  <sort-link sort-attr="hours" sort-func="loadTimeEntries()">
-                    <%= TimeEntry.human_attribute_name(:hours) %>
-                  </sort-link>
-                </span>
-              </div>
-            </div>
-          </th>
-          <th><div class="generic-table--empty-header"></div></th>
-        </tr>
+      <tr>
+        <%= sort_header_tag("spent_on", caption: TimeEntry.human_attribute_name(:spent_on)) %>
+        <%= sort_header_tag("user", caption: TimeEntry.human_attribute_name(:user)) %>
+        <%= sort_header_tag("activity", caption: TimeEntry.human_attribute_name(:activity)) %>
+        <%= sort_header_tag("project", caption: TimeEntry.human_attribute_name(:project)) %>
+        <%= sort_header_tag("work_package", caption: TimeEntry.human_attribute_name(:issue)) %>
+        <%= sort_header_tag("comments", caption: TimeEntry.human_attribute_name(:comments)) %>
+        <%= sort_header_tag("hours", caption: TimeEntry.human_attribute_name(:hours)) %>
+        <th>
+          <div class="generic-table--empty-header"></div>
+        </th>
+      </tr>
       </thead>
       <tbody>
-        <tr class="time-entry" ng-repeat="timeEntry in timeEntries" >
-          <td class="spent_on"><op-date date-value="timeEntry.spent_on"></op-date></td>
-          <td class="user"><a ng-href="{{PathHelper.userPath(timeEntry.user.id)}}">{{timeEntry.user.name}}</a></td>
-          <td class="activity">{{timeEntry.activity.name}}</td>
-          <td class="project"><a ng-href="{{PathHelper.projectPath(timeEntry.project.id)}}">{{timeEntry.project.name}}</a></td>
+      <% entries.each do |entry| -%>
+        <tr class="time-entry">
+          <td class="spent_on"><%= format_date(entry.spent_on) %></td>
+          <td class="user"><%= link_to_user(entry.user) %></td>
+          <td class="activity"><%= h entry.activity %></td>
+          <td class="project"><%= link_to_project(entry.project) %></td>
           <td class="subject">
-            <div ng-if="timeEntry.work_package !== undefined" style="width:150px;overflow:hidden;text-overflow:ellipsis;">
-              <a ng-if="timeEntry.work_package.isVisible == true"
-                 ng-href="{{PathHelper.workPackagePath(timeEntry.work_package.id)}}">
-                 #{{ timeEntry.work_package.id }} {{ timeEntry.work_package.subject }}</a>
-              </a>
-              <span ng-if="timeEntry.work_package.isVisible == false">#{{timeEntry.work_package.id}}</span>
-            </div>
+            <% if entry.work_package -%>
+              <%= entry.work_package.visible? ? link_to_work_package(entry.work_package, truncate: 50) : "##{entry.work_package.id}" -%>
+            <% end -%>
           </td>
-          <td class="comments">{{timeEntry.comments}}</td>
-          <td class="hours">{{timeEntry.hours.toFixed(2)}}</td>
-          <td class="buttons">
-            <span ng-if="timeEntry.isEditable == true">
-              <a ng-href="{{PathHelper.timeEntryEditPath(timeEntry.id)}}" class="no-decoration-on-hover">
-                <op-icon icon-classes="icon-edit" icon-title="{{I18n.t('js.button_edit')}}"></op-icon>
-              </a>
-              <a ng-click="deleteTimeEntry(timeEntry.id)" href="" class="no-decoration-on-hover">
-                <op-icon icon-classes="icon-delete" icon-title="{{I18n.t('js.button_delete')}}"></op-icon>
-              </a>
-            </span>
+          <td class="comments"><%= h entry.comments %></td>
+          <td class="hours"><%= html_hours("%.2f" % entry.hours) %></td>
+          <td align="center">
+            <% if entry.editable_by?(current_user) -%>
+              <%= link_to icon_wrapper('icon-context icon-edit', t(:button_edit)),
+                          edit_time_entry_path(entry),
+                          class: 'no-decoration-on-hover',
+                          title: t(:button_edit) %>
+              <%= link_to icon_wrapper('icon-context icon-delete', t(:button_delete)),
+                          time_entry_path(entry),
+                          confirm: t(:text_are_you_sure),
+                          class: 'no-decoration-on-hover',
+                          method: :delete,
+                          title: t(:button_delete) %>
+            <% end -%>
           </td>
         </tr>
+      <% end %>
       </tbody>
     </table>
   </div>

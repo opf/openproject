@@ -64,7 +64,7 @@ export class ConfirmDialogService {
    */
   public confirm(options:ConfirmDialogOptions):ng.IPromise<void> {
     const deferred = this.$q.defer<void>();
-    const scope = this.$rootScope.$new();
+    const scope:any = this.$rootScope.$new();
     let dialog:IDialogOpenResult;
 
     scope.text = options.text;

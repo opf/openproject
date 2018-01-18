@@ -26,13 +26,16 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-import {opApiModule} from '../../../../angular-modules';
-import {ConfigurationResource} from '../hal-resources/configuration-resource.service';
+import {Inject, Injectable} from '@angular/core';
+import {opApiModule} from 'core-app/angular-modules';
+import {v3PathToken} from 'core-app/angular4-transition-utils';
 import {HalRequestService} from '../hal-request/hal-request.service';
+import {ConfigurationResource} from '../hal-resources/configuration-resource.service';
 
+@Injectable()
 export class ConfigurationDmService {
   constructor(protected halRequest:HalRequestService,
-              protected v3Path:any) {
+              @Inject(v3PathToken) protected v3Path:any) {
   }
 
   public load():ng.IPromise<ConfigurationResource> {

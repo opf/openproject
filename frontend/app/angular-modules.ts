@@ -32,7 +32,7 @@ declare const I18n: op.I18n;
 export const opUiComponentsModule = angular.module('openproject.uiComponents',
   ['ui.select', 'ui.router', 'ui.router.state.events', 'openproject.workPackages.services'])
   .run(['$rootScope', function ($rootScope:ng.IRootScopeService) {
-    $rootScope['I18n'] = I18n;
+    ($rootScope as any)['I18n'] = I18n;
   }]);
 export const animationsModule = angular.module('openproject.animations', [
   'ngAnimate'
