@@ -1048,6 +1048,8 @@ en:
   label_attachment_delete: "Delete file"
   label_attachment_new: "New file"
   label_attachment_plural: "Files"
+  label_attachment_content: "Attachment content"
+  label_attachment_file_name: "Attachment file name"
   label_attribute: "Attribute"
   label_attribute_plural: "Attributes"
   label_auth_source: "Authentication mode"

@@ -216,7 +216,11 @@ class ::Query::Results
       columns << query.group_by_column.association
     end
 
-    columns.compact.uniq.map(&:to_sym)
+    query.filters.each do |filter|
+      columns << filter.includes
+    end
+
+    columns.flatten.compact.uniq.map(&:to_sym)
   end
 
   def sort_criteria_array
