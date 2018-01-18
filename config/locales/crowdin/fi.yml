@@ -374,20 +374,8 @@ fi:
         redirect_existing_links: Uudelleenohjaa olemassa olevat linkit
       planning_element_type_color:
         hexcode: Hex koodi
-      project_association:
-        description: Syy
-        project_b: Riippuvuus porjektiin
       project_type:
-        allows_association: Salli yhteys
-        reported_project_statuses: Raportoidut tilat projektille
         position: Sijainti
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: Tilan kommentti
-        reporting_to_project: Projektin raportit
-        reported_project_status: Projektin tila
-        created_at: Luotu
       work_package:
         begin_insertion: Lisäyksen alku
         begin_deletion: Poistokohdan alku
@@ -464,9 +452,6 @@ fi:
           attributes:
             types:
               in_use_by_work_packages: 'edelleen käytössä työpaketeissa: %{types}'
-        project_association:
-          identical_projects: Riippuvuutta ei voi luoda projektin ja sen itsensä välillä.
-          project_association_not_allowed: ei salli yhdistämisiä.
         query:
           attributes:
             project:
@@ -1756,7 +1741,6 @@ fi:
   permission_delete_work_packages: Poista työpaketteja
   permission_delete_messages: Poista viestit
   permission_delete_own_messages: Poista omia viestejä
-  permission_delete_project_associations: Poista projektien viittaukset
   permission_delete_reportings: Poista raportoinnit
   permission_delete_timelines: Poista aikajanat
   permission_delete_wiki_pages: Poista wiki sivuja
@@ -1768,7 +1752,6 @@ fi:
   permission_edit_own_messages: Muokkaa omia viestejä
   permission_edit_own_time_entries: Muokka omia aikamerkintöjä
   permission_edit_project: Muokkaa projektia
-  permission_edit_project_associations: Muokkaa projektien viittauksia
   permission_edit_reportings: Muokkaa raportointeja
   permission_edit_time_entries: Muokkaa aika lokeja
   permission_edit_timelines: Muokkaa aikajanoja
@@ -1802,7 +1785,6 @@ fi:
   permission_view_work_packages: View work packages
   permission_view_messages: Näytä viestejä
   permission_view_members: Näytä jäsenet
-  permission_view_project_associations: Tarkastele projektien riippuvuuksia
   permission_view_reportings: Tarkastele raportointeja
   permission_view_time_entries: Näytä käytetty aika
   permission_view_timelines: Tarkastele aikajanoja
@@ -2269,11 +2251,9 @@ fi:
       project_type: Projektityyppi
       project_types: Projektityypit
     project_menu:
-      project_associations: Riippuvuudet
       reportings: Tilanneraportit
       reports: Aikajanaraportit
       timelines: Aikataulut
-    add_project_association: Lisää riippuvuus
     associations: Riippuvuudet
     board_could_not_be_saved: Taulua ei voitu tallentaa
     button_delete_all: Poista kaikki
@@ -2414,21 +2394,12 @@ fi:
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
     work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Ominaisuudet
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
-
-'
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Are you sure, you want to delete the following project

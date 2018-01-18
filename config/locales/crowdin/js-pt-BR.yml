@@ -75,7 +75,7 @@ pt-BR:
       de um usuário.
     label_add_columns: Adicionar colunas
     label_add_comment: Adicionar comentário
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Comente e digite @ para notificar outras pessoas
     label_add_selected_columns: Adicionar colunas selecionadas
     label_added_by: adicionado por
     label_added_time_by: Adicionado por %{author} %{age}
@@ -225,7 +225,7 @@ pt-BR:
       work_package_belongs_to: Este pacote de trabalho pertence ao projeto %{projectname}.
       click_to_switch_context: Abra esse pacote de trabalho nesse projeto.
       autocompleter:
-        label: Project autocompletion
+        label: Autocompletar projeto
     text_are_you_sure: Tem certeza?
     types:
       attribute_groups:

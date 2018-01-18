@@ -75,7 +75,7 @@ ru:
       пользователя.
     label_add_columns: Добавить столбец
     label_add_comment: Добавить комментарий
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Комментарий и тип @ для уведомления других людей
     label_add_selected_columns: Добавить выбранные столбцы
     label_added_by: Добавил(-а)
     label_added_time_by: Добавил(-а) %{author} %{age}
@@ -222,7 +222,7 @@ ru:
       work_package_belongs_to: Этот пакет работ относится к проекту %{projectname}.
       click_to_switch_context: Открыть пакет работ в этом проекте.
       autocompleter:
-        label: Project autocompletion
+        label: Автоматическое завершение проекта
     text_are_you_sure: Вы уверены?
     types:
       attribute_groups:

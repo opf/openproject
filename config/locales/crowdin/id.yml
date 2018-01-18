@@ -369,20 +369,8 @@ id:
         redirect_existing_links: Redirect link
       planning_element_type_color:
         hexcode: Kode Hexa
-      project_association:
-        description: Penyebab
-        project_b: Proyek yang dependent
       project_type:
-        allows_association: Mungkinkan asosiasi
-        reported_project_statuses: Status Project yang di-Report
         position: Posisi
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: Status komentar
-        reporting_to_project: Report untuk Project
-        reported_project_status: Project status
-        created_at: Dibuat
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -461,10 +449,6 @@ id:
           attributes:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
-        project_association:
-          identical_projects: Dependensi tidak dapat dilakukan terhadap proyek yang
-            identik.
-          project_association_not_allowed: asosiasi tidak dimungkinkan.
         query:
           attributes:
             project:
@@ -1757,7 +1741,6 @@ id:
   permission_delete_work_packages: Hapus Paket-Penugasan
   permission_delete_messages: Hapus pesan
   permission_delete_own_messages: Hapus pesan
-  permission_delete_project_associations: Hapus dependensi Project
   permission_delete_reportings: Hapus Laporan
   permission_delete_timelines: Menghapus Timeline
   permission_delete_wiki_pages: Hapus halaman Wiki
@@ -1769,7 +1752,6 @@ id:
   permission_edit_own_messages: Edit pesan
   permission_edit_own_time_entries: Edit Time log
   permission_edit_project: Edit Project
-  permission_edit_project_associations: Edit dependensi Project
   permission_edit_reportings: Edit pelaporan
   permission_edit_time_entries: Edit Time log
   permission_edit_timelines: Edit Timeline
@@ -1803,7 +1785,6 @@ id:
   permission_view_work_packages: View work packages
   permission_view_messages: Lihat pesan
   permission_view_members: Tampilkan Anggota
-  permission_view_project_associations: Lihat dependensi Project
   permission_view_reportings: Lihat laporan
   permission_view_time_entries: Lihat durasi
   permission_view_timelines: Lihat Timeline
@@ -2270,11 +2251,9 @@ id:
       project_type: Tipe Project
       project_types: Tipe Project
     project_menu:
-      project_associations: Dependensi
       reportings: Status reporting
       reports: Laporan Timeline
       timelines: Timeline
-    add_project_association: Tambahkan dependensi
     associations: Dependensi
     board_could_not_be_saved: Board tidak dapat disimpan
     button_delete_all: Hapus semua
@@ -2415,20 +2394,12 @@ id:
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
     work_packages_are_displayed_in_aggregations: Paket-Penugasan ditampilkan di agregasi
-    project_association_new: Tambah Project dependensi
-    project_association_new_for_with: Set dependensi "%{project_a}" dengan
-    project_association_with_other: Project dependensi antara "%{project_a}" dan "%{project_b}"
-    project_association_of_type: Dependensi Tipe Project "%{type}"
     project_type_could_not_be_saved: Tipe Project tidak bisa disimpan
     type_could_not_be_saved: Tipe tidak bisa disimpan
     reporting_could_not_be_saved: Pelaporan tidak bisa disimpan
     properties: Properti
     really_delete_color: 'Yakin ingin menghapus? Tipe yang menggunakan warna tersebut
       tidak akan dihapus.
-
-'
-    really_delete_project_association_between_project_a_and_project_b: 'Yakin ingin
-      menghapus dependensi antara "%{project_a}" dan "%{project_b}"?
 
 '
     really_delete_project_type: 'Yakin ingin menghapus? Project yang menggunakan Tipe

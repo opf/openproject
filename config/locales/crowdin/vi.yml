@@ -374,20 +374,8 @@ vi:
         redirect_existing_links: Chuyển hướng các liên kết hiện có
       planning_element_type_color:
         hexcode: Mã Hex
-      project_association:
-        description: Nguyên nhân
-        project_b: Dự án phụ thuộc
       project_type:
-        allows_association: Cho phép liên kết
-        reported_project_statuses: Tình trạng dự án đã báo cáo
         position: Vị trí
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: Tình trạng bình luận
-        reporting_to_project: Báo cáo dự án
-        reported_project_status: Tình trạng dự án
-        created_at: Đã tạo
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -464,10 +452,6 @@ vi:
           attributes:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
-        project_association:
-          identical_projects: Sự phụ thuộc không thể được tạo ra giữa một dự án và
-            chính nó.
-          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1764,7 +1748,6 @@ vi:
   permission_delete_work_packages: Delete work packages
   permission_delete_messages: Delete messages
   permission_delete_own_messages: Delete own messages
-  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Delete reportings
   permission_delete_timelines: Delete timelines
   permission_delete_wiki_pages: Delete wiki pages
@@ -1776,7 +1759,6 @@ vi:
   permission_edit_own_messages: Edit own messages
   permission_edit_own_time_entries: Edit own time logs
   permission_edit_project: Edit project
-  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Edit reportings
   permission_edit_time_entries: Edit time logs
   permission_edit_timelines: Edit timelines
@@ -1810,7 +1792,6 @@ vi:
   permission_view_work_packages: View work packages
   permission_view_messages: View messages
   permission_view_members: View members
-  permission_view_project_associations: View project dependencies
   permission_view_reportings: View reportings
   permission_view_time_entries: View spent time
   permission_view_timelines: View timelines
@@ -2278,11 +2259,9 @@ vi:
       project_type: Loại dự án
       project_types: Project types
     project_menu:
-      project_associations: Dependencies
       reportings: Status reportings
       reports: Timeline reports
       timelines: Timelines
-    add_project_association: Add dependency
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
@@ -2424,21 +2403,12 @@ vi:
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
     work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Properties
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
-
-'
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Are you sure, you want to delete the following project

@@ -331,20 +331,8 @@ ja:
         redirect_existing_links: 既存のリンクをリダイレクトする
       planning_element_type_color:
         hexcode: 16進コード
-      project_association:
-        description: 原因
-        project_b: 依存するプロジェクト
       project_type:
-        allows_association: 関連付けが可能
-        reported_project_statuses: 報告されたプロジェクトのステータス
         position: 位置
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ステータスのコメント
-        reporting_to_project: プロジェクトに直属する
-        reported_project_status: プロジェクトの進捗状況
-        created_at: 作成日時
       work_package:
         begin_insertion: 挿入の始まり
         begin_deletion: 削除の始まり
@@ -418,9 +406,6 @@ ja:
           attributes:
             types:
               in_use_by_work_packages: 'まだ作業項目によって使用されています: %{types}'
-        project_association:
-          identical_projects: 同一プロジェクトと依存関係を作成できません。
-          project_association_not_allowed: 関連付けを許可していません。
         query:
           attributes:
             project:
@@ -1516,11 +1501,10 @@ ja:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: 外部プロジェクトのコンテキストから create_work_package_link マクロを呼び出します。
+        invalid_type: プロジェクト '%{project}' に名前 '%{type}' のタイプが見つかりません。
       link_name: 新しい作業項目
-      link_name_type: New %{type_name}
+      link_name_type: 新しい %{type_name}
   mail:
     actions: 操作
   mail_body_account_activation_request: 新しいユーザ%{value}が登録されました。このアカウントは承認待ちです：
@@ -1645,7 +1629,6 @@ ja:
   permission_delete_work_packages: 作業項目の削除
   permission_delete_messages: メッセージの削除
   permission_delete_own_messages: 自身が投稿したメッセージの削除
-  permission_delete_project_associations: プロジェクトの依存関係の削除
   permission_delete_reportings: レポートの削除
   permission_delete_timelines: タイムラインの削除
   permission_delete_wiki_pages: Wikiページの削除
@@ -1657,7 +1640,6 @@ ja:
   permission_edit_own_messages: 自分の投稿したメッセージの編集
   permission_edit_own_time_entries: 自分が記入した作業時間の編集
   permission_edit_project: プロジェクトの編集
-  permission_edit_project_associations: プロジェクトの依存関係の編集
   permission_edit_reportings: レポートの編集
   permission_edit_time_entries: 作業時間記録の編集
   permission_edit_timelines: タイムラインの編集
@@ -1691,7 +1673,6 @@ ja:
   permission_view_work_packages: 作業項目の表示
   permission_view_messages: メッセージの閲覧
   permission_view_members: メンバーを表示
-  permission_view_project_associations: プロジェクトの依存関係の閲覧
   permission_view_reportings: レポートの閲覧
   permission_view_time_entries: 作業時間記録の閲覧
   permission_view_timelines: タイムラインの閲覧
@@ -2093,11 +2074,9 @@ ja:
       project_type: プロジェクトの種類
       project_types: プロジェクトの種類
     project_menu:
-      project_associations: 依存関係
       reportings: 進捗レポート
       reports: タイムラインレポート
       timelines: タイムライン
-    add_project_association: 依存関係を追加
     associations: 依存関係
     board_could_not_be_saved: ボードを保存できませんでした。
     button_delete_all: 全ての削除
@@ -2228,10 +2207,6 @@ ja:
       show: ステータス:%{comment}
     planning_element_update: 更新:%{title}
     work_packages_are_displayed_in_aggregations: 集計に表示
-    project_association_new: プロジェクトの依存関係を追加する
-    project_association_new_for_with: "「“%{project_a}” 」の依存関係を設定する"
-    project_association_with_other: "「%{project_a}」と「%{project_b}」間のプロジェクトの依存関係"
-    project_association_of_type: "「%{type}」種類のプロジェクトへの依存性"
     project_type_could_not_be_saved: プロジェクトの種類を保存できませんでした。
     type_could_not_be_saved: 作業項目の型を保存できませんでした。
     reporting_could_not_be_saved: レポートを保存できませんでした。
@@ -2239,7 +2214,6 @@ ja:
     really_delete_color: '次の色を削除してもよろしいですか。この色を使用している作業項目は削除されません。
 
 '
-    really_delete_project_association_between_project_a_and_project_b: "%{project_a}”と“%{project_b}”の間の依存関係を削除してもよろしいですか？\n"
     really_delete_project_type: 'このプロジェクトの種類を削除してもよろしいですか。この種類を使用しているプロジェクトは削除されません。
 
 '
@@ -2364,7 +2338,7 @@ ja:
       missing_or_malformed_parameter: クエリパラメーター '%{parameter}' が存在しないか、正しくありません。
       multipart_body_error: 要求の本体に、期待したマルチパートが含まれていませんでした。
       multiple_errors: 複数フィールド制限に違反が生じました。
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: 添付ファイルを作成できませんでした
       render:
         context_not_parsable: このコンテキストはリソースへのリンクではありません。
         unsupported_context: 指定されたリソースは、コンテキストとしてはサポートされません。

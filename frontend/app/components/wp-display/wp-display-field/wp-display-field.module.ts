@@ -71,6 +71,17 @@ export class DisplayField extends Field {
     return (this.schema.name || this.name);
   }
 
+  public get title():string|null {
+
+    // Don't return a value for long text fields,
+    // since they shouldn't / won't be truncated.
+    if (this.isFormattable) {
+      return null;
+    }
+
+    return this.valueString;
+  }
+
   protected get $injector():ng.auto.IInjectorService {
     return (this.constructor as typeof DisplayField).$injector;
   }

@@ -75,7 +75,7 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     top_menu.search 'Plain pr'
     within(top_menu.search_results) do
       expect(page).to have_selector('.ui-menu-item-wrapper', text: 'Plain project')
-      expect(page).to have_selector('.ui-menu-item-wrapper', text: 'Plain other project')
+      expect(page).to have_no_selector('.ui-menu-item-wrapper', text: 'Plain other project')
     end
 
     # Expect hierarchy
@@ -99,5 +99,16 @@ describe 'Projects autocomplete page', type: :feature, js: true do
     # Visit a project
     top_menu.search_and_select '<strong'
     top_menu.expect_current_project project2.name
+
+    # Keeps the current module
+    visit project_work_packages_path(project2)
+    expect(page).to have_selector('.work-packages-menu-item.selected')
+
+    top_menu.toggle
+    top_menu.expect_open
+    top_menu.search_and_select 'Plain project'
+
+    expect(current_path).to eq(project_work_packages_path(project))
+    expect(page).to have_selector('.work-packages-menu-item.selected')
   end
 end
