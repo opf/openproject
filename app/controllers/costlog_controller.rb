@@ -97,7 +97,7 @@ class CostlogController < ApplicationController
     elsif @cost_entry.save
 
       flash[:notice] = t(:notice_cost_logged_successfully)
-      redirect_back_or_default action: 'index', project_id: @cost_entry.project
+      redirect_back_or_default action: 'index', work_package_id: @cost_entry.work_package.id
 
     else
       render action: 'edit'
@@ -114,7 +114,7 @@ class CostlogController < ApplicationController
     elsif @cost_entry.save
 
       flash[:notice] = t(:notice_successful_update)
-      redirect_back_or_default action: 'index', project_id: @cost_entry.project
+      redirect_back_or_default action: 'index', work_package_id: @cost_entry.work_package.id
 
     else
       render action: 'edit'
@@ -134,7 +134,7 @@ class CostlogController < ApplicationController
       redirect_to :back
     end
   rescue ::ActionController::RedirectBackError
-    redirect_to action: 'index', project_id: @cost_entry.project
+    redirect_to action: 'index', work_package_id: @cost_entry.work_package.id
   end
 
   def get_cost_type_unit_plural

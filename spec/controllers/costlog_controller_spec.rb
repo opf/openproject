@@ -282,7 +282,7 @@ describe CostlogController, type: :controller do
       end
 
       # is this really usefull, shouldn't it redirect to the creating work_package by default?
-      it { expect(response).to redirect_to(controller: 'costlog', action: 'index', project_id: project) }
+      it { expect(response).to redirect_to(controller: 'costlog', action: 'index', work_package_id: cost_entry.work_package.id) }
       it { expect(assigns(:cost_entry)).not_to be_new_record }
       it_should_behave_like 'assigns'
       it { expect(flash[:notice]).to eql('Unit cost logged successfully.') }
@@ -507,7 +507,7 @@ describe CostlogController, type: :controller do
         put :update, params: params
       end
 
-      it { expect(response).to redirect_to(controller: 'costlog', action: 'index', project_id: project) }
+      it { expect(response).to redirect_to(controller: 'costlog', action: 'index', work_package_id: expected_work_package.id) }
       it { expect(assigns(:cost_entry)).to eq(cost_entry) }
       it_should_behave_like 'assigns'
       it { expect(assigns(:cost_entry)).not_to be_changed }
