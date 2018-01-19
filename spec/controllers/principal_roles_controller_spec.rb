@@ -113,7 +113,7 @@ describe PrincipalRolesController, type: :controller do
           before :each do
             allow(@principal_role).to receive(:valid?).and_return(true)
 
-            put :update, params: @params, xhr: true
+            put :update, params: @params.merge(id: @principal_role.id), xhr: true
           end
 
           it { expect(response).to be_success }
@@ -125,7 +125,7 @@ describe PrincipalRolesController, type: :controller do
         describe 'js' do
           before :each do
             allow(@principal_role).to receive(:valid?).and_return(false)
-            put :update, params: @params, xhr: true
+            put :update, params: @params.merge(id: @principal_role.id), xhr: true
           end
 
           it { expect(response).to be_success }
