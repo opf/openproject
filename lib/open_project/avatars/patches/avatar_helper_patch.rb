@@ -38,7 +38,7 @@ module OpenProject::Avatars
         def avatar(user, options = {})
           if local_avatar? user
             local_avatar_image_tag user, options
-          elsif manager.gravatar_enabled?
+          elsif avatar_manager.gravatar_enabled?
             build_gravatar_image_tag user, options
           else
             super
@@ -51,7 +51,7 @@ module OpenProject::Avatars
         def avatar_url(user, options = {})
           if local_avatar? user
             local_avatar_image_url user
-          elsif manager.gravatar_enabled?
+          elsif avatar_manager.gravatar_enabled?
             build_gravatar_image_url user, options
           else
             super
@@ -62,15 +62,15 @@ module OpenProject::Avatars
         end
 
         def any_avatar?(user)
-          manager.gravatar_enabled? || local_avatar?(user)
+          avatar_manager.gravatar_enabled? || local_avatar?(user)
         end
 
         def local_avatar?(user)
-          return false unless manager.local_avatars_enabled?
+          return false unless avatar_manager.local_avatars_enabled?
           user.respond_to?(:local_avatar_attachment) && user.local_avatar_attachment
         end
 
-        def manager
+        def avatar_manager
           ::OpenProject::Avatars::AvatarManager
         end
 

@@ -36,7 +36,7 @@ module OpenProject::Avatars
              requires_openproject: '>= 7.0.0' do
 
       add_menu_item :my_menu, :avatar,
-                    { controller: 'avatars/my_avatar', action: 'show' },
+                    { controller: '/avatars/my_avatar', action: 'show' },
                     caption: ->(*) { I18n.t('avatars.label_avatar') },
                     if: ->(*) { ::OpenProject::Avatars::AvatarManager::avatars_enabled? },
                     icon: 'icon2 icon-image1'
