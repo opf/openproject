@@ -10,7 +10,11 @@
             download>
 
           {{ ::attachment.fileName || attachment.customName || attachment.name }}
-          <authoring class="work-package--attachments--info" created-on="attachment.createdAt" author="attachment.author" show-author-as-link="false"></authoring>
+          <authoring class="work-package--attachments--info"
+                     created-on="attachment.createdAt"
+                     author="attachment.author"
+                     show-author-as-link="false"
+                     ng-if="!$ctrl.workPackage.isNew"></authoring>
         </a>
       </span>
       <a
