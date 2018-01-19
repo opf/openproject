@@ -43,7 +43,7 @@ describe MeetingContentsController do
   end
 
   shared_examples_for 'delivered by mail' do
-    before { put 'notify', meeting_id: meeting.id }
+    before { put 'notify',  params: { meeting_id: meeting.id } }
 
     it { expect(ActionMailer::Base.deliveries.count).to eql(mail_count) }
   end
@@ -80,11 +80,11 @@ describe MeetingContentsController do
         end
 
         it 'does not raise an error' do
-          expect { put 'notify', meeting_id: meeting.id }.to_not raise_error
+          expect { put 'notify', params: { meeting_id: meeting.id } }.to_not raise_error
         end
 
         it 'produces a flash message containing the mail addresses raising the error' do
-          put 'notify', meeting_id: meeting.id
+          put 'notify',  params: { meeting_id: meeting.id }
           meeting.participants.each do |participant|
             expect(flash[:error]).to include(participant.name)
           end

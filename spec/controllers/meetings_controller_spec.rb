@@ -21,7 +21,7 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe MeetingsController, type: :controller do
-  let(:project) { FactoryGirl.build :project }
+  let(:project) { FactoryGirl.create :project }
 
   before do
     allow(Project).to receive(:find).and_return(project)
@@ -45,7 +45,7 @@ describe MeetingsController, type: :controller do
       end
       describe 'html' do
         before(:each) do
-          get 'index', project_id: project.id
+          get 'index',  params: { project_id: project.id }
         end
         it { expect(response).to be_success }
         it { expect(assigns(:meetings_by_start_year_month_date)).to eql @grouped }
@@ -61,7 +61,7 @@ describe MeetingsController, type: :controller do
       end
       describe 'html' do
         before(:each) do
-          get 'show', id: @m.id
+          get 'show',  params: { id: @m.id }
         end
         it { expect(response).to be_success }
       end
@@ -77,7 +77,7 @@ describe MeetingsController, type: :controller do
       end
       describe 'html' do
         before(:each) do
-          get 'new', project_id: project.id
+          get 'new',  params: { project_id: project.id }
         end
         it { expect(response).to be_success }
         it { expect(assigns(:meeting)).to eql @m }
@@ -92,7 +92,7 @@ describe MeetingsController, type: :controller do
       end
       describe 'html' do
         before(:each) do
-          get 'edit', id: @m.id
+          get 'edit',  params: { id: @m.id }
         end
         it { expect(response).to be_success }
         it { expect(assigns(:meeting)).to eql @m }
@@ -104,11 +104,14 @@ describe MeetingsController, type: :controller do
 
       before do
         allow(Project).to receive(:find).and_return(project)
-        post :create, project_id: project.id,
-                      meeting: {
-                        title: 'Foobar',
-                        duration: '1.0',
-                      }.merge(params)
+        post :create,
+             params: {
+               project_id: project.id,
+               meeting: {
+                 title: 'Foobar',
+                 duration: '1.0',
+               }.merge(params)
+              }
       end
 
       describe 'invalid start_date' do
