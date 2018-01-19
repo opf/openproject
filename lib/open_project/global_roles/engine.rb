@@ -34,9 +34,13 @@ module OpenProject::GlobalRoles
     patches [:Principal, :Role, :User, :RolesController, :UsersController]
     patch_with_namespace :BasicData, :RoleSeeder
 
+    add_tab_entry :user,
+                  name: 'global_roles',
+                  partial: 'users/global_roles',
+                  label: :global_roles
+
     initializer 'patch helper' do
       require_relative 'patches/roles_helper_patch'
-      require_relative 'patches/users_helper_patch'
     end
 
     global_roles_attributes = [:id, :principal_id, :role_id, role_ids: []]
