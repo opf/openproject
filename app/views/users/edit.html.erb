@@ -33,4 +33,4 @@ See doc/COPYRIGHT.rdoc for more details.
 <% local_assigns[:additional_breadcrumb] = @user.name %>
 <%= render partial: 'toolbar', locals: { new_user: false } %>
 
-<%= render_tabs user_settings_tabs %>
+<%= render_extensible_tabs :user %>

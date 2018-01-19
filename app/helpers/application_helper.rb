@@ -238,15 +238,6 @@ module ApplicationHelper
     end
   end
 
-  # Renders tabs and their content
-  def render_tabs(tabs)
-    if tabs.any?
-      render partial: 'common/tabs', locals: { tabs: tabs }
-    else
-      content_tag 'p', l(:label_no_data), class: 'nodata'
-    end
-  end
-
   def project_tree_options_for_select(projects, selected: nil, disabled: {}, &_block)
     options = ''.html_safe
     Project.project_level_list(projects).each do |element|

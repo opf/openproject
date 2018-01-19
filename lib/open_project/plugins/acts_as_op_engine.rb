@@ -26,6 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_dependency 'open_project/ui/extensible_tabs'
+
 module OpenProject::Plugins
   module ActsAsOpEngine
     def self.included(base)
@@ -184,6 +186,12 @@ module OpenProject::Plugins
             end
           end
         end
+      end
+
+      ##
+      # Add a tab entry to an extensible tab
+      def add_tab_entry(key, name:, partial:, label:, only_if: nil)
+        ::OpenProject::Ui::ExtensibleTabs.add(key, name: name, partial: partial, label: label, only_if: only_if)
       end
 
       def add_api_path(path_name, &block)
