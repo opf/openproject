@@ -7,3 +7,5 @@ it:
   label_not_changeable: (non modificabile)
   label_no_assignable_role: Nessun ruolo globale disponibile per l'assegnazione
   label_global: Globale
+  seeders:
+    default_role_project_creator: 'Project creator'

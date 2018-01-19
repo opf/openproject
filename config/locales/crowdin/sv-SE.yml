@@ -7,3 +7,5 @@ sv:
   label_not_changeable: (kan inte ändras)
   label_no_assignable_role: Ingen global roll tillgänglig för tilldelning
   label_global: Global
+  seeders:
+    default_role_project_creator: 'Project creator'
