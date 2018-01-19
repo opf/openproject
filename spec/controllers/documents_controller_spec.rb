@@ -72,7 +72,7 @@ describe DocumentsController do
 
     before do
       document.update_attributes(description: long_description)
-      get :index, project_id: project.identifier
+      get :index,  params: { project_id: project.identifier }
     end
 
     it "should render the index-template successfully" do
@@ -96,7 +96,7 @@ describe DocumentsController do
 
   describe 'new' do
     before do
-      get :new, project_id: project.id
+      get :new,  params: { project_id: project.id }
     end
 
     it 'show the new document form' do
@@ -174,7 +174,7 @@ describe DocumentsController do
   describe 'show' do
     before do
       document
-      get :show, id: document.id
+      get :show,  params: { id: document.id }
     end
 
     it "should delete the document and redirect back to documents-page of the project" do
