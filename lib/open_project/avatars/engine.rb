@@ -46,6 +46,12 @@ module OpenProject::Avatars
       require_dependency 'project'
     end
 
+    add_tab_entry :user,
+                  name: 'avatar',
+                  partial: 'avatars/users/avatar_tab',
+                  label: :label_avatar,
+                  only_if: ->(*) { ::OpenProject::Avatars::AvatarManager.avatars_enabled? }
+
     initializer 'patch avatar helper' do
       # This is required to be an initializer,
       # since the helpers are included as soon as the ApplicationController
@@ -53,7 +59,6 @@ module OpenProject::Avatars
       require_relative 'patches/avatar_helper_patch'
     end
 
-    patches %i[User
-               UsersHelper]
+    patches %i[User]
   end
 end
