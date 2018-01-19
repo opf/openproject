@@ -95,9 +95,10 @@ module OpenProject::Costs
     patch_with_namespace :BasicData, :SettingSeeder
     patch_with_namespace :ActiveSupport, :NumberHelper, :NumberToCurrencyConverter
 
-    initializer 'patch helpers' do
-      require_relative('patches/users_helper_patch')
-    end
+    add_tab_entry :user,
+                  name: 'rates',
+                  partial: 'users/rates',
+                  label: :caption_rate_history
 
     add_api_attribute on: :work_package, ar_name: :cost_object_id
 
