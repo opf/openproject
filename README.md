@@ -59,6 +59,28 @@ OPENPROJECT_2FA_SNS_ACCESS__KEY__ID="keyid"
 OPENPROJECT_2FA_SNS_SECRET__ACCESS__KEY='secret'
 ```
 
+
+### Allowing remember-me functionality 
+
+Optionally, you can configure to remember the machine the user has logged in to for a number of days.
+To do this, set the `:allow_remember_for_days` configuration:
+
+``` yaml
+2fa:
+  active_strategies: [totp]
+  enforced: false
+  allow_remember_for_days: 30
+```
+
+This will allow the user to set a checkbox upon entering her OTP to store an encrypted cookie
+on the machine to identify the second factor for these number of days.
+
+To configure via environment variables, set the following option
+```
+OPENPROJECT_2FA_ALLOW__REMEMBER__FOR__DAYS=30
+```
+
+
 ## Deinstallation
 
 Remove the line
