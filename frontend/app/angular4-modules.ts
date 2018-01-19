@@ -64,6 +64,8 @@ import {
   $rootScopeToken, columnsModalToken, focusHelperToken, I18nToken, NotificationsServiceToken, upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
+import {WpWorkflowButtonComponent} from 'core-components/wp-workflow-buttons/wp-workflow-button/wp-workflow-button.component';
+import {WpWorkflowButtonsComponent} from 'core-components/wp-workflow-buttons/wp-workflow-buttons.component';
 
 @NgModule({
   imports: [
@@ -103,6 +105,8 @@ import {
     WorkPackageTimelineTableController,
     WorkPackagesTableController,
     WpResizerDirectiveUpgraded,
+    WpWorkflowButtonComponent,
+    WpWorkflowButtonsComponent,
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
     HasDropdownMenuDirective,
@@ -111,7 +115,8 @@ import {
   entryComponents: [
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
-    TablePaginationComponent
+    TablePaginationComponent,
+    WpWorkflowButtonsComponent
   ]
 })
 export class OpenProjectModule {
