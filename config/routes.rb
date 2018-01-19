@@ -38,7 +38,7 @@ OpenProject::Application.routes.draw do
     scope 'projects/:project_id', as: 'project' do
       resources :backlogs,         controller: :rb_master_backlogs,  only: :index
 
-      resources :sprints,          controller: :rb_sprints,          only: :update do
+      resources :sprints,          controller: :rb_sprints,          only: [:show, :update] do
         resource :query,            controller: :rb_queries,          only: :show
 
         resource :taskboard,        controller: :rb_taskboards,       only: :show

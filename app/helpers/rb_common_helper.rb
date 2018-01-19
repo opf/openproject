@@ -98,7 +98,11 @@ module RbCommonHelper
   def sprint_link_or_empty(item)
     item_id = item.id.to_s
     text = (item_id.length > 8 ? "#{item_id[0..1]}...#{item_id[-4..-1]}" : item_id)
-    item.new_record? ? '' : link_to(text, { controller: '/sprint', action: 'show', id: item }, class: 'prevent_edit')
+    if item.new_record?
+      ''
+    else
+      link_to(text, backlogs_project_sprint_path(id: item.id, project_id: item.project.identifier), class: 'prevent_edit')
+    end
   end
 
   def mark_if_closed(story)
