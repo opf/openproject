@@ -36,7 +36,13 @@ module OpenProject::TwoFactorAuthentication
       )
     end
 
-    patches %i[User UsersHelper]
+    patches %i[User]
+
+    add_tab_entry :user,
+                  name: 'two_factor_authentication',
+                  partial: 'users/two_factor_authentication',
+                  label: 'two_factor_authentication.label_two_factor_authentication',
+                  only_if: ->(*) { OpenProject::TwoFactorAuthentication::TokenStrategyManager.enabled? }
 
     config.to_prepare do
       # Verify the validity of the configuration
