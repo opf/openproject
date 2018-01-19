@@ -37,23 +37,92 @@ describe 'Workflow buttons', type: :feature, js: true do
                        member_in_project: project)
   end
   let(:project) { FactoryGirl.create(:project) }
-  let(:work_package) { FactoryGirl.create(:work_package, project: project) }
+  let(:work_package) do
+    FactoryGirl.create(:work_package,
+                       project: project,
+                       assigned_to: user,
+                       priority: default_priority,
+                       status: default_status)
+  end
+
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
+  let(:default_priority) do
+    FactoryGirl.create(:default_priority)
+  end
+  let(:immediate_priority) do
+    FactoryGirl.create(:issue_priority, name: 'At once', position: IssuePriority.maximum(:position) + 1)
+  end
+  let(:default_status) do
+    FactoryGirl.create(:default_status)
+  end
+  let(:closed_status) do
+    FactoryGirl.create(:closed_status)
+  end
+  let(:workflows) do
+    FactoryGirl.create(:workflow,
+                       old_status: work_package.status,
+                       new_status: closed_status,
+                       role: role,
+                       type: work_package.type)
+
+    FactoryGirl.create(:workflow,
+                       new_status: work_package.status,
+                       old_status: closed_status,
+                       role: role,
+                       type: work_package.type)
+  end
 
   before do
     login_as(user)
+
+    work_package
+    immediate_priority
+    workflows
 
     wp_page.visit!
   end
 
   scenario 'viewing workflow buttons' do
     expect(page)
-      .to have_selector('.workflow-button', text: 'To review')
+      .to have_selector('.workflow-button', text: 'Unassign')
     expect(page)
       .to have_selector('.workflow-button', text: 'Close')
     expect(page)
       .to have_selector('.workflow-button', text: 'Escalate')
     expect(page)
       .to have_selector('.workflow-button', text: 'Reset')
+
+    within('.workflow-buttons') do
+      click_button('Unassign')
+    end
+
+    wp_page.expect_attributes assignee: '-'
+    wp_page.expect_notification message: 'Successful update'
+    wp_page.dismiss_notification!
+
+    within('.workflow-buttons') do
+      click_button('Escalate')
+    end
+
+    wp_page.expect_attributes priority: immediate_priority.name
+    wp_page.expect_notification message: 'Successful update'
+    wp_page.dismiss_notification!
+
+    within('.workflow-buttons') do
+      click_button('Close')
+    end
+
+    wp_page.expect_attributes status: closed_status.name
+    wp_page.expect_notification message: 'Successful update'
+    wp_page.dismiss_notification!
+
+    within('.workflow-buttons') do
+      click_button('Reset')
+    end
+
+    wp_page.expect_attributes priority: default_priority.name,
+                              status: default_status.name,
+                              assignee: user.name
+    wp_page.expect_notification message: 'Successful update'
   end
 end

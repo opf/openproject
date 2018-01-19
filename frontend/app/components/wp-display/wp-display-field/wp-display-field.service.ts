@@ -27,7 +27,6 @@
 // ++
 
 import {DisplayFieldFactory} from './wp-display-field.module';
-import {DisplayField} from "./wp-display-field.module";
 import {WorkPackageFieldService} from "../../wp-field/wp-field.service"
 
 export class WorkPackageDisplayFieldService extends WorkPackageFieldService {

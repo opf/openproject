@@ -66,6 +66,8 @@ import {
 } from './angular4-transition-utils';
 import {WpWorkflowButtonComponent} from 'core-components/wp-workflow-buttons/wp-workflow-button/wp-workflow-button.component';
 import {WpWorkflowButtonsComponent} from 'core-components/wp-workflow-buttons/wp-workflow-buttons.component';
+import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 
 @NgModule({
   imports: [
@@ -87,6 +89,8 @@ import {WpWorkflowButtonsComponent} from 'core-components/wp-workflow-buttons/wp
     upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
     upgradeService('wpTableColumns', WorkPackageTableColumnsService),
     upgradeService('contextMenu', ContextMenuService),
+    upgradeService('halRequest', HalRequestService),
+    upgradeService('wpCacheService', WorkPackageCacheService),
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),

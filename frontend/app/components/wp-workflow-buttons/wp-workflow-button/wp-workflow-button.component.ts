@@ -28,19 +28,34 @@
 
 import {opUiComponentsModule} from '../../../angular-modules';
 import {Component} from '@angular/core';
-import {OnInit, Inject, Input, EventEmitter, Output} from '@angular/core';
-import {I18nToken} from '../../../angular4-transition-utils';
+import {OnInit, Input} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
+import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 
 @Component({
   selector: 'wp-workflow-button',
   template: require('!!raw-loader!./wp-workflow-button.component.html')
 })
-export class WpWorkflowButtonComponent implements OnInit {
+export class WpWorkflowButtonComponent {
 
   @Input() title:String;
+  @Input() workPackage:WorkPackageResourceInterface;
+  @Input() link:Number;
 
-  ngOnInit():void {
+  constructor(private halRequest:HalRequestService,
+              private wpCacheService:WorkPackageCacheService,
+              private wpNotificationsService:WorkPackageNotificationService) { }
+
+  public update() {
+    this.halRequest.post('/api/v3/work_packages/' + this.workPackage.id + '/custom_actions/' + this.link, {})
+      .then((savedWp:WorkPackageResourceInterface) => {
+        this.wpNotificationsService.showSave(savedWp, false);
+        this.workPackage = savedWp;
+        this.wpCacheService.updateWorkPackage(savedWp);
+      });
   }
 }
 

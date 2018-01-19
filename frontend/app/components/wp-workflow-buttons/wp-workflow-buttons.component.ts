@@ -30,17 +30,15 @@ import {opUiComponentsModule} from '../../angular-modules';
 import {Component} from '@angular/core';
 import {OnInit, Input} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
+import {WorkPackageResource} from "core-components/api/api-v3/hal-resources/work-package-resource.service";
 
 @Component({
   selector: 'wp-workflow-buttons',
   template: require('!!raw-loader!./wp-workflow-buttons.component.html')
 })
-export class WpWorkflowButtonsComponent implements OnInit {
+export class WpWorkflowButtonsComponent {
 
-  @Input() title:String;
-
-  ngOnInit():void {
-  }
+  @Input() workPackage:WorkPackageResource;
 }
 
 opUiComponentsModule.directive(

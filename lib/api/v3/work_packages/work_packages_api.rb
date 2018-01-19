@@ -36,7 +36,7 @@ module API
         resources :work_packages do
           helpers ::API::V3::WorkPackages::CreateWorkPackages
 
-          # The enpoint needs to be mounted before the GET :work_packages/:id.
+          # The endpoint needs to be mounted before the GET :work_packages/:id.
           # Otherwise, the matcher for the :id also seems to match available_projects.
           # This is also true when the :id param is declared to be of type: Integer.
           mount ::API::V3::WorkPackages::AvailableProjectsOnCreateAPI
@@ -136,6 +136,7 @@ module API
             mount ::API::V3::WorkPackages::AvailableProjectsOnEditAPI
             mount ::API::V3::WorkPackages::AvailableRelationCandidatesAPI
             mount ::API::V3::WorkPackages::WorkPackageRelationsAPI
+            mount ::API::V3::WorkPackages::CustomActions::CustomActionsAPI
           end
 
           mount ::API::V3::WorkPackages::CreateFormAPI
