@@ -46,7 +46,9 @@ OpenProject::Application.routes.draw do
 
   # Add catch method for Rack OmniAuth to allow route helpers
   # Note: This renders a 404 in rails but is caught by omniauth in Rack before
+  get '/auth/failure', to: 'account#omniauth_failure'
   get '/auth/:provider', to: proc { [404, {}, ['']] }, as: 'omniauth_start'
+  match '/auth/:provider/callback', to: 'account#omniauth_login', as: 'omniauth_login', via: [:get, :post]
 
   scope controller: 'account' do
     get '/account/force_password_change', action: 'force_password_change'
@@ -54,12 +56,6 @@ OpenProject::Application.routes.draw do
     match '/account/lost_password', action: 'lost_password', via: [:get, :post]
     match '/account/register', action: 'register', via: [:get, :post, :patch]
     get '/account/activate', action: 'activate'
-
-    # omniauth routes
-    match '/auth/:provider/callback', action: 'omniauth_login',
-                                      as: 'omniauth_login',
-                                      via: [:get, :post]
-    get '/auth/failure', action: 'omniauth_failure'
 
     match '/login', action: 'login',  as: 'signin', via: [:get, :post]
     get '/logout', action: 'logout', as: 'signout'
