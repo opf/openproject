@@ -33,15 +33,13 @@ See doc/COPYRIGHT.rdoc for more details.
 
 <% OpenProject::Plugins::AuthPlugin.providers.each do |pro| %>
   <%
-    opts = {
-      :controller => '/auth',
-      :action => pro[:name]
-    }
+    opts = {}
+
     if params['back_url']
       opts[:origin] = params['back_url']
     end
   %>
-  <a href="<%= url_for opts %>" class="auth-provider auth-provider-<%= pro[:name] %> button">
+  <a href="<%= omniauth_start_path(pro[:name], opts) %>" class="auth-provider auth-provider-<%= pro[:name] %> button">
     <% if pro[:icon] %>
       <%= content_for :header_tags do %>
         <style type="text/css">
