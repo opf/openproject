@@ -39,7 +39,7 @@ class UserMailer < BaseMailer
   default from: Proc.new { Setting.mail_from }
 
   def test_mail(user)
-    @welcome_url = url_for(controller: '/welcome')
+    @welcome_url = url_for(controller: '/homescreen')
 
     headers['X-OpenProject-Type'] = 'Test'
 

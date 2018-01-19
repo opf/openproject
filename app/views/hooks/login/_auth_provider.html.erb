@@ -28,7 +28,7 @@ See doc/COPYRIGHT.rdoc for more details.
 ++#%>
 
 <% unless Rails.env.production? %>
-  <a href="<%= url_for controller: '/auth', action: 'developer' %>" class="auth-provider auth-provider-developer button">
+  <a href="<%= omniauth_start_path(:developer) %>" class="auth-provider auth-provider-developer button">
     <span class="auth-provider-name">Omniauth Developer</span>
   </a>
 <% end %>

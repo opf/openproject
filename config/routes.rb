@@ -44,11 +44,16 @@ OpenProject::Application.routes.draw do
   get '/wp(/)'    => redirect("#{rails_relative_url_root}/work_packages")
   get '/wp/*rest' => redirect { |params, _req| "#{rails_relative_url_root}/work_packages/#{URI.escape(params[:rest])}" }
 
+  # Add catch method for Rack OmniAuth to allow route helpers
+  # Note: This renders a 404 in rails but is caught by omniauth in Rack before
+  get '/auth/:provider', to: proc { [404, {}, ['']] }, as: 'omniauth_start'
+
   scope controller: 'account' do
     get '/account/force_password_change', action: 'force_password_change'
     post '/account/change_password', action: 'change_password'
     match '/account/lost_password', action: 'lost_password', via: [:get, :post]
     match '/account/register', action: 'register', via: [:get, :post, :patch]
+    get '/account/activate', action: 'activate'
 
     # omniauth routes
     match '/auth/:provider/callback', action: 'omniauth_login',
@@ -478,8 +483,9 @@ OpenProject::Application.routes.draw do
 
   scope controller: 'sys' do
     match '/sys/repo_auth', action: 'repo_auth', via: [:get, :post]
-    match '/sys/projects.:format', action: 'projects', via: :get
-    match '/sys/projects/:id/repository/update_storage', action: 'update_required_storage', via: :get
+    get '/sys/projects', action: 'projects'
+    get '/sys/fetch_changesets', action: 'fetch_changesets'
+    get '/sys/projects/:id/repository/update_storage', action: 'update_required_storage'
   end
 
   # alternate routes for the current user

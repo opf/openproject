@@ -431,7 +431,7 @@ describe ProjectsController, type: :controller do
   it 'should post destroy' do
     session[:user_id] = 1 # admin
     delete :destroy, params: { id: 1, confirm: 1 }
-    assert_redirected_to '/admin/projects'
+    assert_redirected_to '/projects'
     assert_nil Project.find_by(id: 1)
   end
 

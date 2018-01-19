@@ -63,23 +63,11 @@ describe SysController, type: :controller do
       get :fetch_changesets, params: { id: 'unknown' }
       assert_response 404
     end
-
-    describe 'api key', with_settings: { sys_api_key: 'my_secret_key' } do
-      it 'should api key' do
-        get :projects, params: { key: 'my_secret_key' }
-        assert_response :success
-      end
-
-      it 'should wrong key should respond with 403 error' do
-        get :projects, params: { key: 'wrong_key' }
-        assert_response 403
-      end
-    end
   end
 
   describe 'when disabled', with_settings: { sys_api_enabled?: false } do
     it 'should disabled ws should respond with 403 error' do
-      get :projects
+      get :fetch_changesets, params: { id: 'unknown' }
       assert_response 403
     end
   end

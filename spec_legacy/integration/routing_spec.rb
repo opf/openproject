@@ -795,7 +795,7 @@ describe 'routing', type: :routing do
   end
 
   context 'administration panel' do
-    it { is_expected.to route(:get, '/admin/projects').to(controller: 'admin', action: 'projects') }
+    it { is_expected.to route(:get, '/projects').to(controller: 'projects', action: 'index') }
   end
 
   context 'groups' do
