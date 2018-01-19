@@ -132,7 +132,7 @@ describe MyProjectsOverviewsController, type: :controller do
 
   describe '#render_attachments' do
     before do
-      get :render_attachments, xhr: true
+      get :render_attachments, params: params, xhr: true
     end
 
     it 'renders the attachments partial' do
