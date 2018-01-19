@@ -1633,11 +1633,11 @@ ru:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Вызов макроса create_work_package_link из контекста за
+          рамками проекта.
+        invalid_type: Тип с именем «%{type}» в проекте «%{project}» не найден.
       link_name: Новый пакет работ
-      link_name_type: New %{type_name}
+      link_name_type: Новое %{type_name}
   mail:
     actions: Действия
   mail_body_account_activation_request: 'Новый пользователь (%{value}) зарегистрирован.
@@ -2633,7 +2633,7 @@ ru:
         или имеет неправильный формат.
       multipart_body_error: Тело запроса не содержит ожидаемых частей.
       multiple_errors: Для нескольких полей были нарушены ограничения.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Вложение не может быть создано
       render:
         context_not_parsable: Предоставленного контекста не является ссылка на ресурс.
         unsupported_context: Ресурс не поддерживается как контекст.

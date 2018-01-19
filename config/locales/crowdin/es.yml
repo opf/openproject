@@ -1645,7 +1645,8 @@ es:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
           context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        invalid_type: No se ha encontrado ningún tipo con nombre '%{type}' en el proyecto
+          '%{project}'.
       link_name: Nuevo paquete de trabajo
       link_name_type: New %{type_name}
   mail:
