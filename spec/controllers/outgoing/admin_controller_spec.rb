@@ -140,7 +140,7 @@ describe ::Webhooks::Outgoing::AdminController, type: :controller do
 
     describe 'when not found' do
       it 'renders an error' do
-        put :update, params: { foo: 'bar' }
+        put :update, params: { webhook_id: 'bar' }
         expect(response).not_to be_success
         expect(response.status).to eq 404
       end
