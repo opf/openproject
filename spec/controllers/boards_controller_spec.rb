@@ -30,7 +30,7 @@ require 'spec_helper'
 
 describe BoardsController, type: :controller do
   let(:user) { FactoryGirl.build(:user) }
-  let(:project) { FactoryGirl.build(:project) }
+  let(:project) { FactoryGirl.create(:project) }
   let!(:board) {
     FactoryGirl.build(:board,
                       project: project)
@@ -41,7 +41,7 @@ describe BoardsController, type: :controller do
   end
 
   describe '#create' do
-    let(:params) { { board: board_params } }
+    let(:params) { { project_id: project.id, board: board_params } }
     let(:board_params) { { name: 'my board', description: 'awesome board' } }
 
     before do
