@@ -31,6 +31,12 @@ require 'spec_helper'
 describe 'users/edit', type: :view do
   let(:admin) { FactoryGirl.build :admin }
 
+  before do
+    # The url_for is missing the users id that is usually taken
+    # from request parameters
+    controller.request.path_parameters[:id] = user.id
+  end
+
   context 'authentication provider' do
     let(:user) do
       FactoryGirl.build :user, id: 1, # id is required to create route to edit
