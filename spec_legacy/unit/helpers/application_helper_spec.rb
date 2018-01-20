@@ -29,6 +29,7 @@
 require 'legacy_spec_helper'
 
 describe ApplicationHelper, type: :helper do
+  include OpenProject::StaticRouting
   include WorkPackagesHelper
 
   before do
