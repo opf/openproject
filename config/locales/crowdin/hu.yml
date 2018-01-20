@@ -340,7 +340,7 @@ hu:
         is_milestone: Mérföldkő
         color: Szín
       user:
-        admin: Alkalmazásgazda
+        admin: Adminisztrátor
         auth_source: Hitelesítési mód
         current_password: Jelenlegi jelszó
         force_password_change: Kötelező jelszóváltás a következő bejelentkezéskor
@@ -877,8 +877,8 @@ hu:
 '
   description_available_columns: Elérhető oszlopok
   description_choose_project: Projektek
-  description_compare_from: Compare from
-  description_compare_to: Compare to
+  description_compare_from: Összehasonlítás ezzel
+  description_compare_to: Összehasonlítás ehhez
   description_current_position: 'Itt vagy:'
   description_date_from: Adja meg a kezdő dátumot
   description_date_range_interval: 'Válasszon időszakot a kezdő és befejező időpont
@@ -1067,7 +1067,7 @@ hu:
   label_all_time: minden alkalommal
   label_all_words: Minden szó
   label_always_visible: Mindig látható
-  label_announcement: Hírdetmény
+  label_announcement: Hirdetmény
   label_and_its_subprojects: "%{value} és az alprojektjei"
   label_api_access_key: API-hozzáférés kulcs
   label_api_access_key_created_on: 'APIhozzáférési kulcs készítette: %{value} ezelőtt'
@@ -1991,7 +1991,7 @@ hu:
       cannot_annotate: Ez a fájl nem annotálható.
   search_input_placeholder: Keresés ...
   setting_email_delivery_method: E-mail küldés módja
-  setting_sendmail_location: Location of the sendmail executable
+  setting_sendmail_location: A sendmail program elérési útja
   setting_smtp_enable_starttls_auto: Automatikus STARTTLS, ha rendelkezésre áll
   setting_smtp_address: SMTP-kiszolgáló
   setting_smtp_port: SMTP-port

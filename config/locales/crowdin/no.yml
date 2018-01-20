@@ -858,7 +858,7 @@
   default_role_reader: Leser
   default_role_member: Medlem
   default_type: Arbeidspakke
-  default_type_bug: Feil
+  default_type_bug: Avvik
   default_type_deliverable: Leverbar
   default_type_epic: Episk
   default_type_feature: Funksjon
@@ -2077,7 +2077,7 @@
   setting_session_ttl: Tidsavbrudd for sesjon etter inaktivitet
   setting_session_ttl_hint: Verdi under 5 fungerer som deaktivering
   setting_session_ttl_enabled: Sesjonen utløper
-  setting_start_of_week: Week starts on
+  setting_start_of_week: Uken starter på
   setting_sys_api_enabled: Aktiver web-tjeneste for pakkebrønn
   setting_sys_api_description: Pakkebrønn web-tjenesten sørger for integrasjon og
     bruker autentisering for tilgang til pakkebrønner.
@@ -2140,9 +2140,9 @@
     activated per work package type and per project.
 
 '
-  text_custom_logo_instructions: 'A white logo on transparent background is recommended.
-    For best results on both, conventional and retina displays, make sure your image''s
-    dimensions are 460px by 60px.
+  text_custom_logo_instructions: 'En hvit logo på gjennomsiktig bakgrunn anbefales.
+    For best resultat på både konvensjonelle og retina skjermer, kontroller at bildets
+    størrelse er 460x60 px.
 
 '
   text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser
