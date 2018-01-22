@@ -55,11 +55,17 @@ export class WpWorkflowButtonComponent {
               private wpNotificationsService:WorkPackageNotificationService) { }
 
   public update() {
-    this.halRequest.post(this.link.href, {})
+    let payload = {
+      lockVersion: this.workPackage.lockVersion
+    }
+
+    this.halRequest.post(this.link.href, payload)
       .then((savedWp:WorkPackageResourceInterface) => {
         this.wpNotificationsService.showSave(savedWp, false);
         this.workPackage = savedWp;
         this.wpCacheService.updateWorkPackage(savedWp);
+      }).catch((errorResource:any) => {
+        this.wpNotificationsService.handleErrorResponse(errorResource, this.workPackage);
       });
   }
 }

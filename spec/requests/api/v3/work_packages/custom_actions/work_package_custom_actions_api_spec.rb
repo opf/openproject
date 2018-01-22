@@ -52,19 +52,25 @@ describe 'API::V3::WorkPackages::CustomActions::CustomActionsAPI', type: :reques
     OpenStruct.new(id: 1)
   end
   let(:parameters) do
-    {}
+    {
+      lockVersion: work_package.lock_version
+    }
   end
 
   before do
     login_as(user)
   end
 
-  context 'for an existing action' do
+  shared_context 'post request' do
     before do
       post api_v3_paths.work_package_custom_action(work_package.id, action.id),
            parameters.to_json,
            'CONTENT_TYPE' => 'application/json'
     end
+  end
+
+  context 'for an existing action' do
+    include_context 'post request'
 
     it 'is a 200 OK' do
       expect(last_response.status)
@@ -82,5 +88,32 @@ describe 'API::V3::WorkPackages::CustomActions::CustomActionsAPI', type: :reques
         .to be_json_eql(work_package.lock_version + 1)
         .at_path('lockVersion')
     end
+  end
+
+  context 'on a conflict' do
+    let(:parameters) do
+      {
+        lockVersion: 0
+      }
+    end
+
+    before do
+      # bump lock version
+      WorkPackage.where(id: work_package.id).update_all(lock_version: 1)
+    end
+
+    include_context 'post request'
+
+    it_behaves_like 'update conflict'
+  end
+
+  context 'without a lock version' do
+    let(:parameters) do
+      {}
+    end
+
+    include_context 'post request'
+
+    it_behaves_like 'update conflict'
   end
 end

@@ -37,15 +37,22 @@ module API
             end
             route_param :action_id do
               post do
+                # TODO: check how this can be merged with work_packages_shared_helpers
+                @work_package.lock_version = nil
+                payload = ::API::V3::WorkPackages::WorkPackageLockVersionPayloadRepresenter.new(@work_package, current_user: current_user)
+                @work_package = payload.from_hash(Hash(request_body))
+
                 attributes = case params[:action_id]
                              when 1
                                { assigned_to: nil }
                              when 2
-                               { status: @work_package.new_statuses_allowed_to(current_user).detect(&:is_closed) || Status.default }
+                               { status: @work_package.new_statuses_allowed_to(current_user).detect(&:is_closed) ||
+                                         Status.default }
                              when 3
                                { priority: IssuePriority.reorder(position: :desc).limit(1).first }
                              else
-                               { status: @work_package.new_statuses_allowed_to(current_user).detect { |s| !s.is_closed } || Status.default,
+                               { status: @work_package.new_statuses_allowed_to(current_user).detect { |s| !s.is_closed } ||
+                                         Status.default,
                                  priority: IssuePriority.default,
                                  assigned_to: @work_package.project.users.first }
                              end

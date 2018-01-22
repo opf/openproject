@@ -100,6 +100,17 @@ describe 'Workflow buttons', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
+    # Bump the lockVersion and by that force a conflict.
+    WorkPackage.where(id: work_package.id).update_all(lock_version: 10)
+
+    within('.workflow-buttons') do
+      click_button('Escalate')
+    end
+
+    wp_page.expect_notification type: :error, message: I18n.t('api_v3.errors.code_409')
+
+    wp_page.visit!
+
     within('.workflow-buttons') do
       click_button('Escalate')
     end
