@@ -33,5 +33,9 @@ module OpenProject
     def safe_query_params(whitelist = [])
       request.query_parameters.select { |k, _| whitelist.include?(k) }
     end
+
+    def pagination_params_whitelist
+      safe_query_params %w(per_page page)
+    end
   end
 end
