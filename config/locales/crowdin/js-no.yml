@@ -222,7 +222,7 @@
       work_package_belongs_to: This work package belongs to project %{projectname}.
       click_to_switch_context: Open this work package in that project.
       autocompleter:
-        label: Project autocompletion
+        label: Prosjektet autofullføring
     text_are_you_sure: Er du sikker?
     types:
       attribute_groups:
