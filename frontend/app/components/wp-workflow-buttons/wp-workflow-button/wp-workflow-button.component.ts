@@ -35,22 +35,27 @@ import {WorkPackageResourceInterface} from 'core-components/api/api-v3/hal-resou
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 
+interface CustomActionLink {
+  href:string;
+  title:string;
+  method:string;
+}
+
 @Component({
   selector: 'wp-workflow-button',
   template: require('!!raw-loader!./wp-workflow-button.component.html')
 })
 export class WpWorkflowButtonComponent {
 
-  @Input() title:String;
   @Input() workPackage:WorkPackageResourceInterface;
-  @Input() link:Number;
+  @Input() link:CustomActionLink;
 
   constructor(private halRequest:HalRequestService,
               private wpCacheService:WorkPackageCacheService,
               private wpNotificationsService:WorkPackageNotificationService) { }
 
   public update() {
-    this.halRequest.post('/api/v3/work_packages/' + this.workPackage.id + '/custom_actions/' + this.link, {})
+    this.halRequest.post(this.link.href, {})
       .then((savedWp:WorkPackageResourceInterface) => {
         this.wpNotificationsService.showSave(savedWp, false);
         this.workPackage = savedWp;

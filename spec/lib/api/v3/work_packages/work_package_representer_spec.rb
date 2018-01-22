@@ -899,6 +899,37 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           end
         end
       end
+
+      describe 'customActions' do
+        it 'has a collection of customActions' do
+          expected = [
+            {
+              href: api_v3_paths.work_package_custom_action(work_package.id, 1),
+              method: 'POST',
+              title: 'Unassign'
+            },
+            {
+              href: api_v3_paths.work_package_custom_action(work_package.id, 2),
+              method: 'POST',
+              title: 'Close'
+            },
+            {
+              href: api_v3_paths.work_package_custom_action(work_package.id, 3),
+              method: 'POST',
+              title: 'Escalate'
+            },
+            {
+              href: api_v3_paths.work_package_custom_action(work_package.id, 4),
+              method: 'POST',
+              title: 'Reset'
+            }
+          ]
+
+          is_expected
+            .to be_json_eql(expected.to_json)
+            .at_path('_links/customActions')
+        end
+      end
     end
 
     describe '_embedded' do

@@ -1,4 +1,1 @@
-<wp-workflow-button [workPackage]="workPackage" [link]="1" class="workflow-button" [title]="'Unassign'"></wp-workflow-button>
-<wp-workflow-button [workPackage]="workPackage" [link]="2" class="workflow-button" [title]="'Close'"></wp-workflow-button>
-<wp-workflow-button [workPackage]="workPackage" [link]="3" class="workflow-button" [title]="'Escalate'"></wp-workflow-button>
-<wp-workflow-button [workPackage]="workPackage" [link]="4" class="workflow-button" [title]="'Reset'"></wp-workflow-button>
+<wp-workflow-button *ngFor="let action of actions" [workPackage]="workPackage" [link]="action" class="workflow-button"></wp-workflow-button>

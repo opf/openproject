@@ -39,6 +39,10 @@ import {WorkPackageResource} from "core-components/api/api-v3/hal-resources/work
 export class WpWorkflowButtonsComponent {
 
   @Input() workPackage:WorkPackageResource;
+
+  public get actions() {
+    return this.workPackage.customActions;
+  }
 }
 
 opUiComponentsModule.directive(
