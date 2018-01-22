@@ -68,42 +68,48 @@ export class TableRowEditContext implements WorkPackageEditContext {
   }
 
   public activateField(form:WorkPackageEditForm, field:EditField, fieldName:string, errors:string[]):ng.IPromise<WorkPackageEditFieldHandler> {
-    const cell = this.findContainer(fieldName);
+    const deferred = this.$q.defer<WorkPackageEditFieldHandler>();
 
-    // Forcibly set the width since the edit field may otherwise
-    // be given more width
-    const td = this.findCell(fieldName);
-    const width = td.css('width');
-    td.css('max-width', width);
-    td.css('width', width);
+    this.waitForContainer(fieldName)
+      .then((cell) => {
 
-    // Create a field handler for the newly active field
-    const fieldHandler = new WorkPackageEditFieldHandler(
-      form,
-      fieldName,
-      field,
-      cell,
-      errors
-    );
+        // Forcibly set the width since the edit field may otherwise
+        // be given more width
+        const td = this.findCell(fieldName);
+        const width = td.css('width');
+        td.css('max-width', width);
+        td.css('width', width);
 
-    fieldHandler.$scope = this.templateRenderer.createRenderScope();
-    const promise = this.templateRenderer.renderIsolated(
-      // Replace the current cell
-      cell,
-      fieldHandler.$scope,
-      '/components/wp-edit-form/wp-edit-form.template.html',
-      {
-        vm: fieldHandler,
-      }
-    );
+        // Create a field handler for the newly active field
+        const fieldHandler = new WorkPackageEditFieldHandler(
+          form,
+          fieldName,
+          field,
+          cell,
+          errors
+        );
 
-    return promise.then(() => {
-      // Assure the element is visible
-      return this.$timeout(() => {
-        fieldHandler.focus();
-        return fieldHandler;
-      });
-    });
+        fieldHandler.$scope = this.templateRenderer.createRenderScope();
+        const promise = this.templateRenderer.renderIsolated(
+          // Replace the current cell
+          cell,
+          fieldHandler.$scope,
+          '/components/wp-edit-form/wp-edit-form.template.html',
+          {
+            vm: fieldHandler,
+          }
+        );
+
+        promise.then(() => {
+          // Assure the element is visible
+          this.$timeout(() => {
+            fieldHandler.focus();
+            deferred.resolve(fieldHandler);
+          });
+        }).catch(deferred.reject);
+    }).catch(deferred.reject);
+
+    return deferred.promise;
   }
 
   public refreshField(field:EditField, handler:WorkPackageEditFieldHandler) {
@@ -124,7 +130,7 @@ export class TableRowEditContext implements WorkPackageEditContext {
     }
   }
 
-  public requireVisible(fieldName:string):Promise<undefined> {
+  public requireVisible(fieldName:string):Promise<any> {
     this.wpTableColumns.addColumn(fieldName);
     return this.waitForContainer(fieldName);
   }
@@ -139,15 +145,15 @@ export class TableRowEditContext implements WorkPackageEditContext {
 
   // Ensure the given field is visible.
   // We may want to look into MutationObserver if we need this in several places.
-  private waitForContainer(fieldName:string):Promise<undefined> {
-    const deferred = this.$q.defer<undefined>();
+  private waitForContainer(fieldName:string):Promise<JQuery> {
+    const deferred = this.$q.defer<JQuery>();
 
     const interval = setInterval(() => {
       const container = this.findContainer(fieldName);
 
       if (container.length > 0) {
         clearInterval(interval);
-        deferred.resolve();
+        deferred.resolve(container);
       }
     }, 100);
 
