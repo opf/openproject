@@ -108,7 +108,9 @@ RSpec.feature 'Work package create children', js: true, selenium: true do
 
     type_field.expect_active!
     expect(type_field.input_element).to have_selector('option[selected]', text: 'Please select')
-    child_work_package_page.expect_current_path
+    expect(page).to have_current_path(new_work_packages_path(parent_id: original_work_package.id))
+
+    child_work_package_page.update_attributes Project: original_work_package.project.name
 
     child_work_package_page.update_attributes Subject: 'Child work package',
                                               Type: 'None'

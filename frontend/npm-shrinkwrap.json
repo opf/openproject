@@ -172,10 +172,20 @@
       "resolved": "https://registry.npmjs.org/@types/webpack-env/-/webpack-env-1.13.0.tgz",
       "integrity": "sha1-MEQ4FkfhHulzxa8uklMjkw9pHYA="
     },
-    "@uirouter/core": {
-      "version": "5.0.3",
-      "resolved": "https://registry.npmjs.org/@uirouter/core/-/core-5.0.3.tgz",
-      "integrity": "sha1-4rWx5FGQ4gxnuk4VwBPeXU4MyrM="
+    "@uirouter/angularjs": {
+      "version": "1.0.13",
+      "resolved": "https://registry.npmjs.org/@uirouter/angularjs/-/angularjs-1.0.13.tgz",
+      "integrity": "sha512-SXsJJRgOkTZrugV1KOR8RDnXHCLY+DYFYCZYsGZpVuotrsuIPNIXNjLvbiYDlRaj9vwIMksPUeLrCoM0I1v8hw==",
+      "requires": {
+        "@uirouter/core": "5.0.14"
+      },
+      "dependencies": {
+        "@uirouter/core": {
+          "version": "5.0.14",
+          "resolved": "https://registry.npmjs.org/@uirouter/core/-/core-5.0.14.tgz",
+          "integrity": "sha512-wfNpvwmaVj4FU1QFtQRrr4xKtd79iA/O7Qf+prLCEZFFeBoKteBPxNmzsiD5lQXHhTK23WVabQ11lHsSincsjg=="
+        }
+      }
     },
     "accepts": {
       "version": "1.3.3",
@@ -317,14 +327,6 @@
       "version": "2.5.0",
       "resolved": "https://registry.npmjs.org/angular-ui-bootstrap/-/angular-ui-bootstrap-2.5.0.tgz",
       "integrity": "sha1-L6zvuRU4ZlXcX0QVAlgDJRcjbQE="
-    },
-    "angular-ui-router": {
-      "version": "1.0.3",
-      "resolved": "https://registry.npmjs.org/angular-ui-router/-/angular-ui-router-1.0.3.tgz",
-      "integrity": "sha1-vySUyq6Vw3zwGvN2HYl0fP7S20U=",
-      "requires": {
-        "@uirouter/core": "5.0.3"
-      }
     },
     "animation-frame-polyfill": {
       "version": "1.0.1",

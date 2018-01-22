@@ -202,7 +202,7 @@ openprojectModule
         firstRoute:FirstRouteService,
         $timeout:ng.ITimeoutService,
         $rootScope:ng.IRootScopeService,
-        $state:ng.ui.IStateService,
+        $transitions:ng.ui.Trans
         $window:ng.IWindowService) => {
 
     // Our application is still a hybrid one, meaning most routes are still
@@ -230,7 +230,7 @@ openprojectModule
       if (!toParams.projects && projectIdentifier) {
         const newParams = _.clone(toParams);
         _.assign(newParams, { projectPath: projectIdentifier, projects: 'projects' });
-        $state.go(toState, newParams);
+        $state.go(toState, newParams, { location: 'replace' });
       }
     });
   }

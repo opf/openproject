@@ -100,8 +100,7 @@ export class WorkPackageRelationsHierarchyService {
         const args = [
           'work-packages.list.new',
           {
-            parent_id: workPackage.id,
-            projectPath: workPackage.project.identifier
+            parent_id: workPackage.id
           }
         ];
 
