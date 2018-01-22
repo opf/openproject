@@ -142,7 +142,7 @@ describe ApplicationHelper, type: :helper do
         expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized('By controller/action',
                                           controller: 'work_packages',
-                                          action: 'shop',
+                                          action: 'show',
                                           id: issue.id)
       end
 
