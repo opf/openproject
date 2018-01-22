@@ -47,12 +47,10 @@ module SimpleBenchmark
 end
 
 require 'rails/all'
+require 'active_support'
+require 'active_support/dependencies'
 
 if defined?(Bundler)
-  # Require the gems listed in Gemfile, including any gems
-  # you've limited to :test, :development, or :production.
-  Bundler.require(*Rails.groups(:opf_plugins))
-
   # lib directory has to be added to the load path so that
   # the open_project/plugins files can be found (places under lib).
   # Now it would be possible to remove that and use require with
@@ -64,6 +62,11 @@ if defined?(Bundler)
   # layer here. One might remove this later.
   $LOAD_PATH.unshift File.dirname(__FILE__) + '/../lib'
   require 'open_project/plugins'
+
+  # Require the gems listed in Gemfile, including any gems
+  # you've limited to :test, :development, or :production.
+  Bundler.require(*Rails.groups(:opf_plugins))
+
 end
 
 require File.dirname(__FILE__) + '/../lib/open_project/configuration'
