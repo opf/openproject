@@ -38,6 +38,17 @@ class CostQuery::Filter::CostTypeId < Report::Filter::Base
     @display
   end
 
+  def field
+    # prevent setting an extra cost type constraint
+    # WHERE cost_type_id IN (...)
+    # when money value is requested
+    if values == ["0"]
+      []
+    else
+      super
+    end
+  end
+
   def self.available_values(*)
     [[::I18n.t(:caption_labor), -1]] + CostType.order('name').pluck(:name, :id)
   end
