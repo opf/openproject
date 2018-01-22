@@ -23,7 +23,7 @@ describe ::API::V3::Queries::Schemas::CostObjectFilterDependencyRepresenter, cle
   include ::API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.build_stubbed(:project) }
-  let(:filter) { OpenProject::Costs::WorkPackageFilter.new(context: project) }
+  let(:filter) { OpenProject::Costs::WorkPackageFilter.create!(context: project) }
   let(:form_embedded) { false }
 
   let(:instance) do
