@@ -397,8 +397,8 @@ describe ::Query::Results, type: :model do
       let(:work_package8) { FactoryGirl.create(:work_package, project: project_1, subject: '8') }
       let(:work_package9) { FactoryGirl.create(:work_package, project: project_1, parent: work_package8, subject: '9') }
 
-      # have to sort by a second criteria as the order within each level (except for the first)
-      # is undefined without
+      # While we set a second sort criteria, it will be ignored as the sorting works solely on the id of the ancestors and
+      # the work package itself
       let(:sort_by) { [['parent', 'asc'], ['subject', 'asc']] }
 
       before do
@@ -416,30 +416,24 @@ describe ::Query::Results, type: :model do
         work_package7
       end
 
-      it 'sorts breadth first by parent where each level, except for the first, is orderd by the second criteria' do
+      it 'sorts depth first by parent (id) where the second criteria is unfortunately ignored' do
+        expected_order = [work_package8,
+                          work_package9,
+                          work_package1,
+                          work_package4,
+                          work_package5,
+                          work_package6,
+                          work_package2,
+                          work_package3,
+                          work_package7]
+
         expect(query_results.sorted_work_packages)
-          .to match [work_package8,
-                     work_package9,
-                     work_package1,
-                     work_package2,
-                     work_package4,
-                     work_package3,
-                     work_package5,
-                     work_package6,
-                     work_package7]
+          .to match expected_order
 
         query.sort_criteria = [['parent', 'desc'], ['subject', 'asc']]
 
         expect(query_results.sorted_work_packages)
-          .to match [work_package7,
-                     work_package3,
-                     work_package5,
-                     work_package6,
-                     work_package2,
-                     work_package4,
-                     work_package1,
-                     work_package9,
-                     work_package8]
+          .to match expected_order.reverse
       end
     end
 
