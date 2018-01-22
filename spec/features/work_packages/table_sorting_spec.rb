@@ -89,17 +89,17 @@ describe 'Select work package row', type: :feature, js: true do
       wp_table.visit!
     end
 
-    it 'provides the default sortation and allows second criterion after parent (Regression WP#26792)' do
+    it 'provides the default sortation and allows using the value at another level (Regression WP#26792)' do
       # Expect current criteria
-      sort_by.expect_criteria(['Parent', 'asc'], ['ID', 'asc'])
+      sort_by.expect_criteria(['Parent', 'asc'])
 
       # Expect we can change the criteria and reuse that value
       sort_by.open_modal
-      sort_by.update_nth_criteria(1, 'Type')
       sort_by.update_nth_criteria(0, 'ID', descending: true)
+      sort_by.update_nth_criteria(1, 'Parent')
 
       sort_by.apply_changes
-      sort_by.expect_criteria(['ID', 'desc'], ['Type', 'asc'])
+      sort_by.expect_criteria(['ID', 'desc'], ['Parent', 'asc'])
     end
   end
 
@@ -113,44 +113,46 @@ describe 'Select work package row', type: :feature, js: true do
     let(:child1) do
       FactoryGirl.create :work_package,
                          project: project,
-                         parent: parent,
-                         start_date: Date.today,
-                         due_date: (Date.today + 2.days)
+                         parent: parent
     end
     let(:child2) do
       FactoryGirl.create :work_package,
                          project: project,
-                         parent: parent,
-                         start_date: (Date.today + 1.days),
-                         due_date: (Date.today + 4.days)
+                         parent: parent
     end
-    let(:child3) do
+    let(:grand_child1) do
       FactoryGirl.create :work_package,
                          project: project,
-                         parent: parent,
-                         start_date: (Date.today + 2.days),
-                         due_date: (Date.today + 5.days)
+                         parent: child1
+    end
+    let(:grand_child2) do
+      FactoryGirl.create :work_package,
+                         project: project,
+                         parent: child2
+    end
+    let(:grand_child3) do
+      FactoryGirl.create :work_package,
+                         project: project,
+                         parent: child1
     end
 
     before do
+      allow(Setting).to receive(:per_page_options).and_return '4'
+
       parent
       child1
+      grand_child1
       child2
-      child3
+      grand_child2
+      grand_child3
 
       login_as user
       wp_table.visit!
     end
 
-    it 'provides the default sortation and allows second criterion after parent' do
-      wp_table.expect_work_package_listed parent, child1, child2, child3
-      wp_table.expect_work_package_order parent.id, child1.id, child2.id, child3.id
-
-      sort_by.expect_criteria(['Parent', 'asc'], ['ID', 'asc'])
-      sort_by.update_criteria(['Parent', 'asc'], ['Start date', 'desc'])
-
-      wp_table.expect_work_package_listed parent, child1, child2, child3
-      wp_table.expect_work_package_order parent.id, child3.id, child2.id, child1.id
+    it 'default sortation (parent) orders depth first' do
+      wp_table.expect_work_package_listed parent, child1, grand_child1, grand_child3
+      wp_table.expect_work_package_order parent.id, child1.id, grand_child1.id, grand_child3.id
     end
   end
 end

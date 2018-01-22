@@ -62,3 +62,22 @@ TypedDag::Configuration.set node_class_name: 'WorkPackage',
                                           all_from: :all_required_by,
                                           all_to: :all_requires }
                             }
+
+# Hacking the after_* callbacks to be positioned after the callbacks
+# for the typed_dag so that the transitive relations are properly adapted before
+# the path is build.
+module RelationHierarchyIncluder
+  def self.prepended(base)
+    included_block = base.instance_variable_get(:@_included_block)
+
+    new_includer = Proc.new do
+      class_eval(&included_block)
+
+      include Relation::HierarchyPaths
+    end
+
+    base.instance_variable_set(:@_included_block, new_includer)
+  end
+end
+
+TypedDag::Edge::ClosureMaintenance.prepend(RelationHierarchyIncluder)
