@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Refreshing in inline-create row', js: true do
+describe 'Refreshing in inline-create row', flaky: true, js: true do
   let(:user) { FactoryGirl.create :admin }
   let(:project) { FactoryGirl.create :project }
 
@@ -23,17 +23,14 @@ describe 'Refreshing in inline-create row', js: true do
 
 
   it 'correctly updates the set of active columns' do
-    skip 'Fails on Travis'
     expect(page).to have_selector('.wp--row', count: 0)
 
-    retry_block do
-      wp_table.click_inline_create
-      expect(page).to have_selector('.wp--row', count: 1)
+    wp_table.click_inline_create
+    expect(page).to have_selector('.wp--row', count: 1)
 
-      expect(page).to have_selector('.wp-inline-create-row')
-      expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.subject')
-      expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.category')
-    end
+    expect(page).to have_selector('.wp-inline-create-row')
+    expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.subject')
+    expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.category')
 
     work_packages_page.add_column! 'Progress (%)'
     expect(page).to have_selector('.wp-inline-create-row .wp-table--cell-td.wp-table--cell-td.percentageDone')

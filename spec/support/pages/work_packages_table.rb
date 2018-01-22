@@ -93,6 +93,12 @@ module Pages
     end
 
     def click_inline_create
+
+      ##
+      # When using the inline create on initial page load,
+      # there is a delay on travis where inline create can be clicked.
+      sleep 3
+
       find('.wp-inline-create--add-link').click
       expect(page).to have_selector('.wp-inline-create-row', wait: 10)
     end
