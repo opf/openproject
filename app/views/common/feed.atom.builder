@@ -35,7 +35,7 @@ xml.feed "xmlns" => "http://www.w3.org/2005/Atom" do
   xml.title   truncate_single_line(@title, :length => 100)
   xml.link    "rel" => "self", "href" => url_for(only_path: false)
   xml.link    "rel" => "alternate", "href" => url_for(only_path: false, format: nil, key: nil)
-  xml.id      url_for(:controller => '/welcome', :only_path => false)
+  xml.id      url_for(controller: '/homescreen', action: :index, only_path: false)
   xml.updated(updated_time.xmlschema)
   xml.author  { xml.name "#{Setting.app_title}" }
   xml.generator(:uri => OpenProject::Info.url) { xml.text! OpenProject::Info.app_name; }

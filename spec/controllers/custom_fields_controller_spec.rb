@@ -29,7 +29,7 @@
 require 'spec_helper'
 
 describe CustomFieldsController, type: :controller do
-  let(:custom_field) { FactoryGirl.build(:custom_field) }
+  let(:custom_field) { FactoryGirl.build_stubbed(:custom_field) }
 
   before do
     allow(@controller).to receive(:authorize)
@@ -40,6 +40,7 @@ describe CustomFieldsController, type: :controller do
   describe 'POST edit' do
     before do
       allow(CustomField).to receive(:find).and_return(custom_field)
+      allow(custom_field).to receive(:save).and_return(true)
     end
 
     describe 'WITH all ok params' do
@@ -50,7 +51,7 @@ describe CustomFieldsController, type: :controller do
       end
 
       before do
-        put :update, params: params
+        put :update, params: params.merge(id: custom_field.id)
       end
 
       it 'works' do

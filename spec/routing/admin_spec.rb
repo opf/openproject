@@ -34,9 +34,9 @@ describe 'admin routes', type: :routing do
       .to route_to('admin#index')
   end
 
-  it 'connects GET /admin/projects to admin#projects' do
-    expect(get('/admin/projects'))
-      .to route_to('admin#projects')
+  it 'connects GET /projects to projects#index' do
+    expect(get('/projects'))
+      .to route_to('projects#index')
   end
 
   it 'connects GET /admin/plugins to admin#plugins' do

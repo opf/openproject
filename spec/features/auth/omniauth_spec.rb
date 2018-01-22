@@ -89,9 +89,7 @@ describe 'Omniauth authentication', type: :feature do
             with_config: { omniauth_direct_login_provider: 'developer' } do
 
       it 'should go directly to the developer sign in and then redirect to the back url' do
-        url = 'http://www.example.com/my/account'
-
-        visit url
+        visit my_account_path
         # requires login, redirects to developer login which is why we see the login form now
 
         fill_in('first_name', with: user.firstname)
@@ -99,7 +97,7 @@ describe 'Omniauth authentication', type: :feature do
         fill_in('email', with: user.mail)
         click_link_or_button 'Sign In'
 
-        expect(current_url).to eql url
+        expect(current_path).to eql my_account_path
       end
     end
   end

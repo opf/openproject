@@ -214,12 +214,12 @@ describe MyController, type: :controller do
     end
   end
 
-  describe 'index' do
+  describe 'page' do
     render_views
 
     before do
       allow_any_instance_of(User).to receive(:reported_work_package_count).and_return(42)
-      get :index
+      get :page
     end
 
     it 'should show the number of reported packages' do

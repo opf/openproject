@@ -231,7 +231,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
       format.html do
         flash[:notice] = l(:notice_successful_delete)
-        redirect_to controller: '/admin', action: 'projects'
+        redirect_to controller: 'projects', action: 'index'
       end
     end
 

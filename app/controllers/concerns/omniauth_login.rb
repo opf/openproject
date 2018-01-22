@@ -80,7 +80,7 @@ module Concerns::OmniauthLogin
   end
 
   def direct_login_provider_url(params = {})
-    url_for params.merge(controller: '/auth', action: direct_login_provider)
+    omniauth_start_url(direct_login_provider, params)
   end
 
   private

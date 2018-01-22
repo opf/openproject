@@ -199,17 +199,17 @@ describe MessagesController, type: :controller do
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [content] }
-      let(:preview_params) { { message: { content: content } } }
+      let(:preview_params) { { board_id: board.id, message: { content: content } } }
     end
 
     it_behaves_like 'valid preview' do
       let(:preview_texts) { [content] }
-      let(:preview_params) { { reply: { content: content } } }
+      let(:preview_params) { { board_id: board.id, reply: { content: content } } }
     end
 
     it_behaves_like 'authorizes object access' do
       let(:message) { FactoryGirl.create :message, board: board }
-      let(:preview_params) { { id: message.id, message: {} } }
+      let(:preview_params) { { board_id: board.id, id: message.id, message: {} } }
     end
   end
 end

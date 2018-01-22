@@ -37,12 +37,6 @@ describe MyController, type: :controller do
     session[:user_id] = 2
   end
 
-  it 'should index' do
-    get :index
-    assert_response :success
-    assert_template 'page'
-  end
-
   it 'should page' do
     get :page
     assert_response :success

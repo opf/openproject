@@ -109,7 +109,7 @@ describe ApplicationHelper, type: :helper do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized('link_content', {
-                                            controller: 'issues',
+                                            controller: 'work_packages',
                                             action: 'show',
                                             id: issue },
                                           class: 'fancy_css_class')
@@ -126,7 +126,7 @@ describe ApplicationHelper, type: :helper do
       before do
         expect(self).to receive(:authorize_for).and_return(false)
         @response = link_to_if_authorized('link_content', {
-                                            controller: 'issues',
+                                            controller: 'work_packages',
                                             action: 'show',
                                             id: issue },
                                           class: 'fancy_css_class')
@@ -141,8 +141,8 @@ describe ApplicationHelper, type: :helper do
       before do
         expect(self).to receive(:authorize_for).and_return(true)
         @response = link_to_if_authorized('By controller/action',
-                                          controller: 'issues',
-                                          action: 'edit',
+                                          controller: 'work_packages',
+                                          action: 'show',
                                           id: issue.id)
       end
 

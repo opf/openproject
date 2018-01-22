@@ -45,17 +45,6 @@ See doc/COPYRIGHT.rdoc for more details.
         <%= t(:setting_mail_handler_api_description) %>
       </div>
     </div>
-    <div class="form--field"><%= setting_text_field :mail_handler_api_key, size: 30,
-                                                 id: 'settings_mail_handler_api_key',
-                                                 disabled: !Setting.mail_handler_api_enabled? %>
-      <span class="form--field-extra-actions">
-        <%= link_to_function t(:label_generate_key),
-                             %{ if (!jQuery('#settings_mail_handler_api_key').prop('disabled')) {
-                                  jQuery('#settings_mail_handler_api_key').val(randomKey(20))
-                                }
-                             } %>
-      </span>
-    </div>
   </section>
   <%= styled_button_tag t(:button_save), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>
