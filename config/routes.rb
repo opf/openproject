@@ -353,6 +353,8 @@ OpenProject::Application.routes.draw do
         get :test_connection
       end
     end
+
+    resources :custom_actions, only: %i(index new create)
   end
 
   # We should fix this crappy routing (split up and rename controller methods)

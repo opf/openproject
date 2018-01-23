@@ -1,0 +1,12 @@
+<% html_title l(:label_administration), 'Custom actions (placeholder)' -%>
+<%= toolbar title: 'Custom actions (placeholder)' do %>
+  <li class="toolbar-item">
+    <%= link_to new_custom_action_path,
+                { class: 'button -alt-highlight',
+                  aria: { label: 'Custom action (placeholder)' },
+                  title: 'Custom action (placeholder)' } do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('Custom action (placeholer)') %></span>
+    <% end %>
+  </li>
+<% end %>

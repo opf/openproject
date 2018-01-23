@@ -31,6 +31,7 @@ require 'spec_helper'
 describe 'Workflow buttons', type: :feature, js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages) }
   let(:role) { FactoryGirl.create(:role, permissions: permissions )}
+  let(:admin) { FactoryGirl.create(:admin) }
   let(:user) do
     FactoryGirl.create(:user,
                        member_through_role: role,
@@ -73,16 +74,36 @@ describe 'Workflow buttons', type: :feature, js: true do
   end
 
   before do
-    login_as(user)
+    login_as(admin)
 
     work_package
     immediate_priority
     workflows
-
-    wp_page.visit!
   end
 
   scenario 'viewing workflow buttons' do
+    # create custom actions
+    visit custom_actions_path
+
+    within '.toolbar-items' do
+      click_link 'Custom action'
+    end
+
+    fill_in 'Name', with: 'Unassign'
+
+    click_button 'Create'
+
+    expect(page)
+      .to have_current_path(custom_actions_path)
+
+    expect(page)
+      .to have_content 'Unassign'
+
+    # use custom actions
+    login_as(user)
+
+    wp_page.visit!
+
     expect(page)
       .to have_selector('.workflow-button', text: 'Unassign')
     expect(page)
