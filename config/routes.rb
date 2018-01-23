@@ -48,16 +48,16 @@ OpenProject::Application.routes.draw do
   # Note: This renders a 404 in rails but is caught by omniauth in Rack before
   get '/auth/failure', to: 'account#omniauth_failure'
   get '/auth/:provider', to: proc { [404, {}, ['']] }, as: 'omniauth_start'
-  match '/auth/:provider/callback', to: 'account#omniauth_login', as: 'omniauth_login', via: [:get, :post]
+  match '/auth/:provider/callback', to: 'account#omniauth_login', as: 'omniauth_login', via: %i[get post]
 
   scope controller: 'account' do
     get '/account/force_password_change', action: 'force_password_change'
     post '/account/change_password', action: 'change_password'
-    match '/account/lost_password', action: 'lost_password', via: [:get, :post]
-    match '/account/register', action: 'register', via: [:get, :post, :patch]
+    match '/account/lost_password', action: 'lost_password', via: %i[get post]
+    match '/account/register', action: 'register', via: %i[get post patch]
     get '/account/activate', action: 'activate'
 
-    match '/login', action: 'login',  as: 'signin', via: [:get, :post]
+    match '/login', action: 'login',  as: 'signin', via: %i[get post]
     get '/logout', action: 'logout', as: 'signout'
 
     get '/sso', action: 'auth_source_sso_failed', as: 'sso_failure'
@@ -80,7 +80,7 @@ OpenProject::Application.routes.draw do
         as: "edit_type_tab"
   match '/types/:id/update/:tab' => "types#update",
         as: "update_type_tab",
-        via: [:post, :patch]
+        via: %i[post patch]
   resources :types do
     post 'move/:id', action: 'move', on: :collection
   end
@@ -122,7 +122,7 @@ OpenProject::Application.routes.draw do
 
   # REVIEW: review those wiki routes
   scope 'projects/:project_id/wiki/:id' do
-    resource :wiki_menu_item, only: [:edit, :update]
+    resource :wiki_menu_item, only: %i[edit update]
   end
 
   # generic route for adding/removing watchers.
@@ -168,9 +168,9 @@ OpenProject::Application.routes.draw do
       get :level_list
     end
 
-    resource :enumerations, controller: 'project_enumerations', only: [:update, :destroy]
+    resource :enumerations, controller: 'project_enumerations', only: %i[update destroy]
 
-    resources :versions, only: [:new, :create] do
+    resources :versions, only: %i[new create] do
       collection do
         put :close_completed
       end
@@ -181,7 +181,7 @@ OpenProject::Application.routes.draw do
     # this could probably be rewritten with a resource as: 'roadmap'
     match '/roadmap' => 'versions#index', via: :get
 
-    resources :news, only: [:index, :new, :create]
+    resources :news, only: %i[index new create]
 
     namespace :time_entries do
       resource :report, controller: 'reports', only: [:show]
@@ -193,7 +193,7 @@ OpenProject::Application.routes.draw do
     # .txt and .html
     resources :wiki,
               constraints: { id: /([^\/]+(?=\.txt|\.html)|[^\/]+)/ },
-              except: [:index, :create] do
+              except: %i[index create] do
       collection do
         post '/new' => 'wiki#create', as: 'create'
         get :export
@@ -208,7 +208,7 @@ OpenProject::Application.routes.draw do
         get '/diff(/:version)' => 'wiki#diff', as: 'wiki_diff'
         get '/annotate/:version' => 'wiki#annotate', as: 'wiki_annotate'
         get '/toc' => 'wiki#index'
-        match :rename, via: [:get, :patch]
+        match :rename, via: %i[get patch]
         get :parent_page, action: 'edit_parent_page'
         patch :parent_page, action: 'update_parent_page'
         get :history
@@ -256,12 +256,12 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :categories, except: [:index, :show], shallow: true
+    resources :categories, except: %i[index show], shallow: true
 
-    resources :members, only: [:index, :create, :update, :destroy], shallow: true do
+    resources :members, only: %i[index create update destroy], shallow: true do
       collection do
         get :paginate_users
-        match :autocomplete_for_member, via: [:get, :post]
+        match :autocomplete_for_member, via: %i[get post]
       end
     end
 
@@ -313,9 +313,9 @@ OpenProject::Application.routes.draw do
   end
 
   scope 'admin' do
-    resource :announcements, only: [:edit, :update]
+    resource :announcements, only: %i[edit update]
     constraints(Enterprise) do
-      resource :enterprise, only: [:show, :create, :destroy]
+      resource :enterprise, only: %i[show create destroy]
     end
     resources :enumerations
 
@@ -324,7 +324,7 @@ OpenProject::Application.routes.draw do
     delete 'design/touch_icon' => 'custom_styles#touch_icon_delete', as: 'custom_style_touch_icon_delete'
     get 'design/upsale' => 'custom_styles#upsale', as: 'custom_style_upsale'
     post 'design/colors' => 'custom_styles#update_colors', as: 'update_design_colors'
-    resource :custom_style, only: [:update, :show, :create], path: 'design'
+    resource :custom_style, only: %i[update show create], path: 'design'
 
     resources :attribute_help_texts, only: %i(index new create edit update destroy)
 
@@ -341,7 +341,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :roles, only: [:index, :new, :create, :edit, :update, :destroy] do
+    resources :roles, only: %i[index new create edit update destroy] do
       collection do
         put '/' => 'roles#bulk_update'
         get :report
@@ -360,21 +360,21 @@ OpenProject::Application.routes.draw do
   # We should fix this crappy routing (split up and rename controller methods)
   get '/settings' => 'settings#index'
   scope 'settings', controller: 'settings' do
-    match 'edit', action: 'edit', via: [:get, :post]
-    match 'plugin/:id', action: 'plugin', via: [:get, :post]
+    match 'edit', action: 'edit', via: %i[get post]
+    match 'plugin/:id', action: 'plugin', via: %i[get post]
   end
 
   # We should fix this crappy routing (split up and rename controller methods)
   get '/workflows' => 'workflows#index'
   scope 'workflows', controller: 'workflows' do
-    match 'edit', action: 'edit', via: [:get, :post]
-    match 'copy', action: 'copy', via: [:get, :post]
+    match 'edit', action: 'edit', via: %i[get post]
+    match 'copy', action: 'copy', via: %i[get post]
   end
 
   namespace :work_packages do
-    match 'auto_complete' => 'auto_completes#index', via: [:get, :post]
+    match 'auto_complete' => 'auto_completes#index', via: %i[get post]
     resources :calendar, controller: 'calendars', only: [:index]
-    resource :bulk, controller: 'bulk', only: [:edit, :update, :destroy]
+    resource :bulk, controller: 'bulk', only: %i[edit update destroy]
     # FIXME: this is kind of evil!! We need to remove this soonest and
     # cover the functionality. Route is being used in work-package-service.js:331
     get '/bulk' => 'bulk#destroy'
@@ -387,7 +387,7 @@ OpenProject::Application.routes.draw do
     get 'move/new' => 'work_packages/moves#new', on: :collection, as: 'new_move'
     post 'move' => 'work_packages/moves#create', on: :collection, as: 'move'
     # move individual wp
-    resource :move, controller: 'work_packages/moves', only: [:new, :create]
+    resource :move, controller: 'work_packages/moves', only: %i[new create]
 
     # this duplicate mapping is required for the timelog_helper
     namespace :time_entries do
@@ -406,7 +406,7 @@ OpenProject::Application.routes.draw do
     get '/edit' => 'work_packages#show', on: :member, as: 'edit'
   end
 
-  resources :versions, only: [:show, :edit, :update, :destroy] do
+  resources :versions, only: %i[show edit update destroy] do
     member do
       get :status_by
     end
@@ -422,7 +422,7 @@ OpenProject::Application.routes.draw do
   resources :activity, :activities, only: :index, controller: 'activities'
 
   resources :users do
-    resources :memberships, controller: 'users/memberships', only: [:update, :create, :destroy]
+    resources :memberships, controller: 'users/memberships', only: %i[update create destroy]
 
     member do
       match '/edit/:tab' => 'users#edit', via: :get, as: 'tab_edit'
@@ -445,8 +445,8 @@ OpenProject::Application.routes.draw do
     end
   end
 
-  resources :news, only: [:index, :destroy, :update, :edit, :show] do
-    resources :comments, controller: 'news/comments', only: [:create, :destroy], shallow: true
+  resources :news, only: %i[index destroy update edit show] do
+    resources :comments, controller: 'news/comments', only: %i[create destroy], shallow: true
 
     post :preview, on: :member
     post :preview, on: :collection
@@ -480,7 +480,7 @@ OpenProject::Application.routes.draw do
   end
 
   scope controller: 'sys' do
-    match '/sys/repo_auth', action: 'repo_auth', via: [:get, :post]
+    match '/sys/repo_auth', action: 'repo_auth', via: %i[get post]
     get '/sys/projects', action: 'projects'
     get '/sys/fetch_changesets', action: 'fetch_changesets'
     get '/sys/projects/:id/repository/update_storage', action: 'update_required_storage'
@@ -499,9 +499,9 @@ OpenProject::Application.routes.draw do
     get '/my/password', action: 'password'
     post '/my/change_password', action: 'change_password'
     get '/my/page', action: 'page'
-    match '/my/account', action: 'account', via: [:get, :patch]
-    match '/my/settings', action: 'settings', via: [:get, :patch]
-    match '/my/mail_notifications', action: 'mail_notifications', via: [:get, :patch]
+    match '/my/account', action: 'account', via: %i[get patch]
+    match '/my/settings', action: 'settings', via: %i[get patch]
+    match '/my/mail_notifications', action: 'mail_notifications', via: %i[get patch]
     post '/my/generate_rss_key', action: 'generate_rss_key'
     post '/my/generate_api_key', action: 'generate_api_key'
     get '/my/access_token', action: 'access_token'
@@ -524,7 +524,7 @@ OpenProject::Application.routes.draw do
       post :move
     end
 
-    resources :projects, only: [:index, :show], controller: 'projects'
+    resources :projects, only: %i[index show], controller: 'projects'
   end
 
   # This route should probably be removed, but it's used at least by one cuke and we don't
