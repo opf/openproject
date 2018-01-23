@@ -28,6 +28,7 @@
 
 import {openprojectModule} from '../../angular-modules';
 import {FirstRouteService} from 'app/components/routing/first-route-service';
+import {Transition, TransitionService} from '@uirouter/core';
 
 const panels = {
   get overview() {
@@ -202,36 +203,40 @@ openprojectModule
         firstRoute:FirstRouteService,
         $timeout:ng.ITimeoutService,
         $rootScope:ng.IRootScopeService,
-        $transitions:ng.ui.Trans
+        $transitions:TransitionService,
         $window:ng.IWindowService) => {
 
-    // Our application is still a hybrid one, meaning most routes are still
-    // handled by Rails. As such, we disable the default link-hijacking that
-    // Angular's HTML5-mode turns on.
-    $rootElement.off('click');
+      // Our application is still a hybrid one, meaning most routes are still
+      // handled by Rails. As such, we disable the default link-hijacking that
+      // Angular's HTML5-mode turns on.
+      $rootElement.off('click');
 
-    // Prevent angular handling clicks on href="#" links from other libraries
-    // (especially jquery-ui and its datepicker) from routing to <base url>/#
-    angular.element('body').on('click', 'a[href="#"]', function(evt) {
-      evt.preventDefault();
+      // Prevent angular handling clicks on href="#" links from other libraries
+      // (especially jquery-ui and its datepicker) from routing to <base url>/#
+      angular.element('body').on('click', 'a[href="#"]', function (evt) {
+        evt.preventDefault();
+      });
+
+      $transitions.onStart({}, function (transition:Transition) {
+        const $state = transition.router.stateService;
+        const toParams = transition.params('to');
+        const toState = transition.to();
+
+        // We need to distinguish between actions that should run on the initial page load
+        // (ie. openining a new tab in the details view should focus on the element in the table)
+        // so we need to know which route we visited initially
+        firstRoute.setIfFirst(toState.name, toParams);
+
+        $rootScope.$emit('notifications.clearAll');
+
+        const projectIdentifier = toParams.projectPath || ($rootScope as any)['projectIdentifier'];
+
+        if (!toParams.projects && projectIdentifier) {
+          const newParams = _.clone(toParams);
+          _.assign(newParams, {projectPath: projectIdentifier, projects: 'projects'});
+          return $state.target(toState, newParams, {location: 'replace'});
+        }
+
+        return true;
+      });
     });
-
-
-    $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
-      // We need to distinguish between actions that should run on the initial page load
-      // (ie. openining a new tab in the details view should focus on the element in the table)
-      // so we need to know which route we visited initially
-      firstRoute.setIfFirst(toState, toParams);
-
-      $rootScope.$emit('notifications.clearAll');
-
-      const projectIdentifier = toParams.projectPath || ($rootScope as any)['projectIdentifier'];
-
-      if (!toParams.projects && projectIdentifier) {
-        const newParams = _.clone(toParams);
-        _.assign(newParams, { projectPath: projectIdentifier, projects: 'projects' });
-        $state.go(toState, newParams, { location: 'replace' });
-      }
-    });
-  }
-  );
