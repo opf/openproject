@@ -32,7 +32,9 @@ See doc/COPYRIGHT.rdoc for more details.
 <% local_assigns[:additional_breadcrumb] = t('custom_actions.new') %>
 <%= breadcrumb_toolbar t('custom_actions.new') %>
 
-<%= labelled_tabular_form_for @custom_action, as: :custom_action, url: custom_actions_path do |f| %>
+<%= error_messages_for @custom_action %>
+
+<%= labelled_tabular_form_for @custom_action do |f| %>
   <%= render partial: 'form', locals: { f: f } %>
   <%= styled_button_tag l(:button_create), class: '-highlight -with-icon icon-checkmark' %>
 <% end %>

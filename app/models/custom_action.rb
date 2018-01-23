@@ -27,24 +27,10 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
+class CustomAction < ActiveRecord::Base
+  validates :name, length: { maximum: 255, minimum: 1 }
 
-  def index
-    @custom_actions = CustomAction.order_by_name
-  end
-
-  def new
-    @custom_action = CustomAction.new
-  end
-
-  def create
-    @custom_action = CustomAction.new permitted_params.custom_action
-
-    if @custom_action.save
-      redirect_to custom_actions_path
-    else
-      render action: :new
-    end
+  def self.order_by_name
+    order(:name)
   end
 end

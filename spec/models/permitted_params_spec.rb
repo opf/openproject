@@ -355,6 +355,15 @@ describe PermittedParams, type: :model do
     it_behaves_like 'allows params'
   end
 
+  describe '#custom_action' do
+    let(:attribute) { :custom_action }
+    let(:hash) do
+      { 'name' => 'blubs' }
+    end
+
+    it_behaves_like 'allows params'
+  end
+
   describe "#update_work_package" do
     let(:attribute) { :update_work_package }
     let(:hash_key) { 'work_package' }

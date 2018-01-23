@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,24 +26,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
-
-  def index
-    @custom_actions = CustomAction.order_by_name
-  end
-
-  def new
-    @custom_action = CustomAction.new
-  end
-
-  def create
-    @custom_action = CustomAction.new permitted_params.custom_action
-
-    if @custom_action.save
-      redirect_to custom_actions_path
-    else
-      render action: :new
-    end
+FactoryGirl.define do
+  factory :custom_action do
+    sequence(:name) { |n| "Custom action #{n}" }
   end
 end

@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,24 +26,54 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
+require 'spec_helper'
 
-  def index
-    @custom_actions = CustomAction.order_by_name
+describe CustomAction, type: :model do
+  let(:stubbed_instance) { FactoryGirl.build_stubbed :custom_action }
+  let(:instance) { FactoryGirl.create :custom_action, name: 'zzzzzzzzz' }
+  let(:other_instance) { FactoryGirl.create :custom_action, name: 'aaaaa' }
+
+  describe '#name' do
+    it 'can be set and read' do
+      stubbed_instance.name = 'blubs'
+
+      expect(stubbed_instance.name)
+        .to eql 'blubs'
+    end
   end
 
-  def new
-    @custom_action = CustomAction.new
+  describe 'validations' do
+    it 'is invalid with a name longer than 255 chars' do
+      stubbed_instance.name = 'a' * 256
+
+      expect(stubbed_instance)
+        .to be_invalid
+    end
+
+    it 'is invalid with a nil name' do
+      stubbed_instance.name = nil
+
+      expect(stubbed_instance)
+        .to be_invalid
+    end
+
+    it 'is invalid with an empty name' do
+      stubbed_instance.name = ''
+
+      expect(stubbed_instance)
+        .to be_invalid
+    end
   end
 
-  def create
-    @custom_action = CustomAction.new permitted_params.custom_action
+  describe '.order_by_name' do
+    before do
+      instance
+      other_instance
+    end
 
-    if @custom_action.save
-      redirect_to custom_actions_path
-    else
-      render action: :new
+    it 'returns the actions ordered by name' do
+      expect(described_class.order_by_name.to_a)
+        .to eql [other_instance, instance]
     end
   end
 end

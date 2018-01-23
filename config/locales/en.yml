@@ -82,6 +82,10 @@ en:
     show:
       no_results_title_text: There are currently no posts for the board.
 
+  custom_actions:
+    plural: 'Custom actions'
+    new: 'New custom action'
+
   custom_fields:
     text_add_new_custom_field: >
       To add new custom fields to a project you first need to create them before
@@ -546,6 +550,7 @@ en:
       attribute_help_text: "Attribute help text"
       board: "Forum"
       comment: "Comment"
+      custom_action: "Custom action"
       custom_field: "Custom field"
       group: "Group"
       category: "Category"

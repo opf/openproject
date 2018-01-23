@@ -89,6 +89,10 @@ class PermittedParams
     params.require(:custom_field).permit(*self.class.permitted_attributes[:custom_field])
   end
 
+  def custom_action
+    params.require(:custom_action).permit(*self.class.permitted_attributes[:custom_action])
+  end
+
   def custom_field_type
     params.require(:type)
   end
@@ -454,6 +458,9 @@ class PermittedParams
           :name,
           :hexcode,
           :move_to
+        ],
+        custom_action: [
+          :name
         ],
         custom_field: [
           :editable,

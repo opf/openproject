@@ -31,8 +31,18 @@ require 'spec_helper'
 describe CustomActionsController, type: :controller do
   let(:admin) { FactoryGirl.build(:admin) }
   let(:non_admin) { FactoryGirl.build(:user) }
+  let(:action) { FactoryGirl.build_stubbed(:custom_action) }
+  let(:params) do
+    { custom_action: { name: 'blubs' } }
+  end
 
   describe '#index' do
+    before do
+      allow(CustomAction)
+        .to receive(:order_by_name)
+        .and_return([action])
+    end
+
     context 'for admins' do
       before do
         login_as(admin)
@@ -48,6 +58,11 @@ describe CustomActionsController, type: :controller do
       it 'renders index template' do
         expect(response)
           .to render_template('index')
+      end
+
+      it 'assigns the custom actions' do
+        expect(assigns(:custom_actions))
+          .to match_array [action]
       end
     end
 
@@ -69,6 +84,10 @@ describe CustomActionsController, type: :controller do
       before do
         login_as(admin)
 
+        allow(CustomAction)
+          .to receive(:new)
+          .and_return(action)
+
         get :new
       end
 
@@ -84,7 +103,7 @@ describe CustomActionsController, type: :controller do
 
       it 'assigns custom_action' do
         expect(assigns(:custom_action))
-          .not_to be_nil
+          .to eql action
       end
     end
 
@@ -102,16 +121,44 @@ describe CustomActionsController, type: :controller do
   end
 
   describe '#create' do
+    let(:current_user) { admin }
+    let(:save_success) { true }
+    let(:permitted_params) do
+      ActionController::Parameters.new(params).require(:custom_action).permit(%i(name))
+    end
+
+    before do
+      allow(CustomAction)
+        .to receive(:new)
+        .with(permitted_params)
+        .and_return(action)
+    end
+
     context 'for admins' do
       before do
-        login_as(admin)
+        expect(action)
+          .to receive(:save)
+          .and_return(save_success)
 
-        post :create
+        login_as(current_user)
+
+        post :create, params: params
       end
 
-      it 'redirects to index' do
-        expect(response)
-          .to redirect_to(custom_actions_path)
+      context 'on successful saving' do
+        it 'redirects to index' do
+          expect(response)
+            .to redirect_to(custom_actions_path)
+        end
+      end
+
+      context 'on unsuccessful saving' do
+        let(:save_success) { false }
+
+        it 'rerenders new action' do
+          expect(response)
+            .to render_template('new')
+        end
       end
     end
 
