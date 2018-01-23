@@ -39,6 +39,7 @@ import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-sele
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-create/wp-create.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {Transition, TransitionService} from '@uirouter/core';
 
 export class WorkPackageEditFieldGroupController {
   public workPackage:WorkPackageResourceInterface;
@@ -59,26 +60,33 @@ export class WorkPackageEditFieldGroupController {
               protected wpTableFocus:WorkPackageTableFocusService,
               protected $rootScope:ng.IRootScopeService,
               protected $window:ng.IWindowService,
+              protected $transitions:TransitionService,
               protected ConfigurationService:any,
               protected $q:ng.IQService,
               protected I18n:op.I18n) {
     const confirmText = I18n.t('js.work_packages.confirm_edit_cancel');
     const requiresConfirmation = ConfigurationService.warnOnLeavingUnsaved();
 
-    this.unregisterListener = $rootScope.$on('$stateChangeStart', (event, toState, toParams, fromState, fromParams) => {
+    this.unregisterListener = $transitions.onStart({}, (transition:Transition) => {
       if (!this.editMode) {
         return;
       }
 
       // Show confirmation message when transitioning to a new state
       // that's not withing the edit mode.
+      const toState = transition.to();
+      const fromState = transition.from();
+      const fromParams = transition.params('from');
+      const toParams = transition.params('to');
       if (!this.allowedStateChange(toState, toParams, fromState, fromParams)) {
         if (requiresConfirmation && !$window.confirm(confirmText)) {
-          return event.preventDefault();
+          return false;
         }
 
         this.stop();
       }
+
+      return true;
     });
 
     $scope.$on('$destroy', () => {
