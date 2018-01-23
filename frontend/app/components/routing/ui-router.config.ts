@@ -228,7 +228,10 @@ openprojectModule
         // so we need to know which route we visited initially
         firstRoute.setIfFirst(toState.name, toParams);
 
-        $rootScope.$emit('notifications.clearAll');
+
+        if (transition.options().notify !== false) {
+          $rootScope.$emit('notifications.clearAll');
+        }
 
         const projectIdentifier = toParams.projectPath || ($rootScope as any)['projectIdentifier'];
 
