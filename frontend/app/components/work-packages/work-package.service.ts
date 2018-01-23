@@ -28,6 +28,7 @@
 
 import {States} from "../states.service";
 import {WorkPackageTableRefreshService} from '../wp-table/wp-table-refresh-request.service';
+import {StateService} from '@uirouter/angularjs';
 
 angular
     .module('openproject.services')
@@ -36,7 +37,7 @@ angular
 function WorkPackageService($http:ng.IHttpService,
                             $window:ng.IWindowService,
                             $cacheFactory:any,
-                            $state:ng.ui.IStateService,
+                            $state:StateService,
                             states:States,
                             I18n:op.I18n,
                             PathHelper:any,

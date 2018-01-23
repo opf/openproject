@@ -30,13 +30,14 @@ import {opWorkPackagesModule} from "../../../angular-modules";
 import {scopedObservable} from "../../../helpers/angular-rx-utils";
 import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageCacheService} from "../work-package-cache.service";
+import {StateParams} from '@uirouter/angularjs';
 
 export class WorkPackageSubjectController {
 
   public workPackage: WorkPackageResource;
 
   constructor(protected $scope:ng.IScope,
-              protected $stateParams:ng.ui.IStateParamsService,
+              protected $stateParams:StateParams,
               protected wpCacheService:WorkPackageCacheService) {
     if (!this.workPackage) {
       scopedObservable(

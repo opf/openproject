@@ -42,6 +42,7 @@ import {WorkPackageEditFieldController} from '../wp-edit/wp-edit-field/wp-edit-f
 import {WorkPackageEditFieldGroupController} from '../wp-edit/wp-edit-field/wp-edit-field-group.directive';
 import {WorkPackageNotificationService} from '../wp-edit/wp-notification.service';
 import {WorkPackageTableSelection} from '../wp-fast-table/state/wp-table-selection.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class SingleViewEditContext implements WorkPackageEditContext {
 
@@ -52,7 +53,7 @@ export class SingleViewEditContext implements WorkPackageEditContext {
   public $q:ng.IQService;
   public $timeout:ng.ITimeoutService;
   public templateRenderer:SimpleTemplateRenderer;
-  public $state:ng.ui.IStateService;
+  public $state:StateService;
   public wpNotificationsService:WorkPackageNotificationService;
   protected wpTableSelection:WorkPackageTableSelection;
 

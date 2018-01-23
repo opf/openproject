@@ -39,7 +39,7 @@ import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-sele
 import {WorkPackageNotificationService} from '../wp-notification.service';
 import {WorkPackageCreateService} from './../../wp-create/wp-create.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
-import {Transition, TransitionService} from '@uirouter/core';
+import {StateService, Transition, TransitionService} from '@uirouter/core';
 
 export class WorkPackageEditFieldGroupController {
   public workPackage:WorkPackageResourceInterface;
@@ -51,7 +51,7 @@ export class WorkPackageEditFieldGroupController {
   private unregisterListener:Function;
 
   constructor(protected $scope:ng.IScope,
-              protected $state:ng.ui.IStateService,
+              protected $state:StateService,
               protected states:States,
               protected wpCreate:WorkPackageCreateService,
               protected wpEditing:WorkPackageEditingService,

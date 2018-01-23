@@ -34,6 +34,7 @@ import {
   QueryMenuEvent,
   QueryMenuService
 } from 'core-components/wp-query-menu/wp-query-menu.service';
+import {StateService, StateParams} from '@uirouter/angularjs';
 
 export const QUERY_MENU_ITEM_TYPE = 'query-menu-item';
 
@@ -43,9 +44,9 @@ export class WpQueryMenuController {
   private container:ng.IAugmentedJQuery;
 
   constructor(protected $element:IAugmentedJQuery,
-              protected $state:ng.ui.IStateService,
+              protected $state:StateService,
               protected $scope:ng.IScope,
-              protected $stateParams:ng.ui.IStateParamsService,
+              protected $stateParams:StateParams,
               protected queryMenu:QueryMenuService,
               protected $animate:any,
               protected wpListChecksumService:WorkPackagesListChecksumService) {

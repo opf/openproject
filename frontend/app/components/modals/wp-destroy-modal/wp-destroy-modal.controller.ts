@@ -27,13 +27,10 @@
 //++
 
 import {wpControllersModule} from '../../../angular-modules';
-import {WorkPackagesListService} from '../../wp-list/wp-list.service';
 import {States} from '../../states.service';
-import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.service';
-import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
-import {QueryDmService} from '../../api/api-v3/hal-resource-dms/query-dm.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageDestroyModalController {
   public text:any;
@@ -41,7 +38,7 @@ export class WorkPackageDestroyModalController {
   public workPackageLabel:string;
 
   constructor(private $scope:any,
-              private $state:ng.ui.IStateService,
+              private $state:StateService,
               private states:States,
               private WorkPackageService:any,
               private wpTableFocus:WorkPackageTableFocusService,

@@ -27,13 +27,13 @@
 // ++
 
 import {ReplaySubject} from "rxjs";
-import {Transition, TransitionService} from '@uirouter/core';
+import {Transition, StateService, TransitionService} from '@uirouter/angularjs';
 export class KeepTabService {
   protected currentTab:string = 'overview';
 
   protected subject = new ReplaySubject<{ [tab: string]: string; }>(1);
 
-  constructor(public $state:ng.ui.IStateService,
+  constructor(public $state:StateService,
               protected $transitions:TransitionService) {
     'ngInject';
 

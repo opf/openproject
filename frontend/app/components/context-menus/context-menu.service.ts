@@ -26,7 +26,7 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {TransitionService} from '@uirouter/core';
+import {TransitionService} from '@uirouter/angularjs';
 
 interface ContextMenu {
   close(disableFocus?:boolean):Promise<void>;
@@ -47,7 +47,7 @@ export class ContextMenuService {
   constructor(public $window:ng.IWindowService,
               public $injector:ng.auto.IInjectorService,
               public $q:ng.IQService,
-              $transitions:TransitionService,
+              public $transitions:TransitionService,
               public $timeout:ng.ITimeoutService,
               public $rootScope:ng.IRootScopeService) {
     "ngInject";

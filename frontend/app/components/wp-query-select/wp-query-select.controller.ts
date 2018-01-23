@@ -33,6 +33,7 @@ import {WorkPackagesListService} from '../wp-list/wp-list.service';
 import {ContextMenuService} from '../context-menus/context-menu.service';
 import {LoadingIndicatorService} from '../common/loading-indicator/loading-indicator.service';
 import {WorkPackagesListChecksumService} from '../wp-list/wp-list-checksum.service';
+import {StateService} from '@uirouter/angularjs';
 
 interface IAutocompleteItem {
   label:string;
@@ -59,7 +60,7 @@ interface MyI18n {
 export class WorkPackageQuerySelectController {
   constructor(private $scope:MyScope,
               private QueryDm:QueryDmService,
-              private $state:ng.ui.IStateService,
+              private $state:StateService,
               private states:States,
               private wpListService:WorkPackagesListService,
               private contextMenu:ContextMenuService,

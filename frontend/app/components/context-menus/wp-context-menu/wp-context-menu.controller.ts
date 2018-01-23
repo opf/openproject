@@ -28,17 +28,13 @@
 
 import {WorkPackageTableSelection} from '../../wp-fast-table/state/wp-table-selection.service';
 import {ContextMenuService} from '../context-menu.service';
-import {WorkPackageTable} from "../../wp-fast-table/wp-fast-table";
-import {
-  WorkPackageResource,
-  WorkPackageResourceInterface
-} from "../../api/api-v3/hal-resources/work-package-resource.service";
 import {WorkPackageRelationsHierarchyService} from "../../wp-relations/wp-relations-hierarchy/wp-relations-hierarchy.service";
 import {States} from '../../states.service';
+import {StateService} from '@uirouter/angularjs';
 
 function wpContextMenuController($scope:any,
                                  $rootScope:ng.IRootScopeService,
-                                 $state:ng.ui.IStateService,
+                                 $state:StateService,
                                  states:States,
                                  WorkPackageContextMenuHelper:any,
                                  WorkPackageService:any,

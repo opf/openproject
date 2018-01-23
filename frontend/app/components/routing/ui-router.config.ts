@@ -29,6 +29,7 @@
 import {openprojectModule} from '../../angular-modules';
 import {FirstRouteService} from 'app/components/routing/first-route-service';
 import {Transition, TransitionService} from '@uirouter/core';
+import {StateProvider, UrlMatcherFactory, UrlRouterProvider} from '@uirouter/angularjs';
 
 const panels = {
   get overview() {
@@ -75,9 +76,9 @@ const panels = {
 };
 
 openprojectModule
-  .config(($stateProvider:ng.ui.IStateProvider,
-           $urlRouterProvider:ng.ui.IUrlRouterProvider,
-           $urlMatcherFactoryProvider:ng.ui.IUrlMatcherFactory) => {
+  .config(($stateProvider:StateProvider,
+           $urlRouterProvider:UrlRouterProvider,
+           $urlMatcherFactoryProvider:UrlMatcherFactory) => {
     $urlMatcherFactoryProvider.strictMode(false);
 
     // Prepend the baseurl to the route to avoid using a base tag

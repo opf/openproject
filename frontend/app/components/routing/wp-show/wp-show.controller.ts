@@ -34,6 +34,7 @@ import {WorkPackageViewController} from "../wp-view-base/wp-view-base.controller
 import {WorkPackagesListChecksumService} from "../../wp-list/wp-list-checksum.service";
 import {WorkPackageMoreMenuService} from '../../work-packages/work-package-more-menu.service'
 import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageShowController extends WorkPackageViewController {
 
@@ -52,7 +53,7 @@ export class WorkPackageShowController extends WorkPackageViewController {
   private wpMoreMenu:WorkPackageMoreMenuService;
 
   constructor(public $scope:any,
-              public $state:ng.ui.IStateService,
+              public $state:StateService,
               public wpTableFocus:WorkPackageTableFocusService,
               protected wpMoreMenuService:WorkPackageMoreMenuService) {
     super($scope, $state.params['workPackageId']);

@@ -26,15 +26,15 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {QueryMenuService} from 'core-components/wp-query-menu/wp-query-menu.service';
+import {StateService, StateParams} from '@uirouter/angularjs';
 
 angular
   .module('openproject.workPackages.controllers')
   .controller('WorkPackagesController', WorkPackagesController);
 
 function WorkPackagesController($scope:ng.IScope,
-                                $state:ng.ui.IStateService,
-                                $stateParams:ng.ui.IStateParamsService) {
+                                $state:StateService,
+                                $stateParams:StateParams) {
 
   // Setup
   $scope.$state = $state;

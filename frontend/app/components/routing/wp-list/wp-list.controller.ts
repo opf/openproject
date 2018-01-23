@@ -46,9 +46,10 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {debugLog} from '../../../helpers/debug_output';
 import {WorkPackageTableRelationColumnsService} from '../../wp-fast-table/state/wp-table-relation-columns.service';
 import {combine} from 'reactivestates';
+import {StateService} from '@uirouter/angularjs';
 
 function WorkPackagesListController($scope:any,
-                                    $state:ng.ui.IStateService,
+                                    $state:StateService,
                                     AuthorisationService:any,
                                     states:States,
                                     wpTableRefresh:WorkPackageTableRefreshService,

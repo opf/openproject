@@ -52,6 +52,7 @@
     "@types/urijs": "^1.15.31",
     "@types/webpack-env": "^1.13.0",
     "@uirouter/angularjs": "^1.0.13",
+    "@uirouter/core": "^5.0.14",
     "URIjs": "^1.14.1",
     "amdefine": "^1.0.0",
     "angular": "~1.5.9",

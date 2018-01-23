@@ -27,11 +27,12 @@
 // ++
 
 import {KeepTabService} from './keep-tab.service';
+import {StateService} from '@uirouter/angularjs';
 
 var expect = chai.expect;
 
 describe('keepTab service', () => {
-  var $state:ng.ui.IStateService;
+  var $state:StateService;
   var keepTab:KeepTabService;
 
   var defaults = {
