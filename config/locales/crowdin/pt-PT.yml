@@ -7,5 +7,3 @@ pt:
   label_not_changeable: (não mutável)
   label_no_assignable_role: Nenhum papel global disponível para atribuição
   label_global: Global
-  seeders:
-    default_role_project_creator: 'Project creator'

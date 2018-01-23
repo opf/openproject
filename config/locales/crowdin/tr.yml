@@ -7,5 +7,3 @@ tr:
   label_not_changeable: (değiştirilemez)
   label_no_assignable_role: Atanabilir küresel rolü mevcut değil
   label_global: Küresel
-  seeders:
-    default_role_project_creator: 'Project creator'

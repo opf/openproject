@@ -7,5 +7,3 @@ et:
   label_not_changeable: (pole muudetav)
   label_no_assignable_role: Määramiseks pole saadaval ühtegi üldist rolli
   label_global: Üldine
-  seeders:
-    default_role_project_creator: 'Project creator'
