@@ -32,7 +32,6 @@ var expect = chai.expect;
 
 describe('keepTab service', () => {
   var $state:ng.ui.IStateService;
-  var $rootScope:ng.IRootScopeService;
   var keepTab:KeepTabService;
 
   var defaults = {
@@ -42,9 +41,8 @@ describe('keepTab service', () => {
 
   beforeEach(angular.mock.module('openproject.wpButtons'));
 
-  beforeEach(angular.mock.inject((_$state_:any, _$rootScope_:any, _keepTab_:any) => {
+  beforeEach(angular.mock.inject((_$state_:any, _keepTab_:any) => {
     $state = _$state_;
-    $rootScope = _$rootScope_;
     keepTab = _keepTab_;
   }));
 
@@ -69,7 +67,7 @@ describe('keepTab service', () => {
       includes.withArgs('work-packages.list.details.*').returns(false);
 
       $state.current.name = 'work-packages.show.relations';
-      $rootScope.$emit('$stateChangeSuccess');
+      keepTab.updateTabs();
     });
 
     it('should update the currentShowTab value', () => {
@@ -98,7 +96,7 @@ describe('keepTab service', () => {
       includes.withArgs('work-packages.list.details.*').returns(true);
 
       $state.current.name = 'work-packages.list.details.overview';
-      $rootScope.$emit('$stateChangeSuccess');
+      keepTab.updateTabs();
 
 
       expect(keepTab.currentShowState).to.eq('work-packages.show.activity');
@@ -115,7 +113,7 @@ describe('keepTab service', () => {
       includes.withArgs('work-packages.list.details.*').returns(false);
 
       $state.current.name = 'work-packages.show.activity';
-      $rootScope.$emit('$stateChangeSuccess', $state.current);
+      keepTab.updateTabs('work-packages.show.activity');
     });
 
     it('should set the tab to overview', () => {
@@ -130,7 +128,7 @@ describe('keepTab service', () => {
       includes.withArgs('work-packages.show.*').returns(false);
 
       $state.current.name = 'work-packages.list.details.activity';
-      $rootScope.$emit('$stateChangeSuccess');
+      keepTab.updateTabs();
     });
 
     it('should update the currentShowTab value', () => {
@@ -155,7 +153,7 @@ describe('keepTab service', () => {
       keepTab.observable.subscribe(cb);
       expect(cb).to.have.been.calledWith(expected);
 
-      $rootScope.$emit('$stateChangeSuccess');
+      keepTab.updateTabs();
 
       expect(cb).to.have.been.calledTwice;
     });
