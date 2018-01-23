@@ -30,7 +30,7 @@ declare const I18n: op.I18n;
 
 // global
 export const opUiComponentsModule = angular.module('openproject.uiComponents',
-  ['ui.select', 'ui.router', 'ui.router.state.events', 'openproject.workPackages.services'])
+  ['ui.select', 'ui.router', 'openproject.workPackages.services'])
   .run(['$rootScope', function ($rootScope:ng.IRootScopeService) {
     ($rootScope as any)['I18n'] = I18n;
   }]);
@@ -114,8 +114,7 @@ angular.module('openproject.timeEntries.controllers', []);
 
 angular.module('openproject.layout', [
   'openproject.layout.controllers',
-  'ui.router',
-  'ui.router.state.events'
+  'ui.router'
 ]);
 angular.module('openproject.layout.controllers', []);
 
@@ -139,14 +138,13 @@ export const filtersModule = angular.module('openproject.filters', [
 ]);
 
 export const wpButtonsModule = angular.module('openproject.wpButtons',
-  ['ui.router', 'ui.router.state.events', 'openproject.services']);
+  ['ui.router', 'openproject.services']);
 
 // main app
 var angularDragula:any = require('angular-dragula');
 
 export const openprojectModule = angular.module('openproject', [
   'ui.router',
-  'ui.router.state.events',
   'openproject.animations',
   'openproject.config',
   'openproject.uiComponents',
