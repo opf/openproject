@@ -70,24 +70,12 @@ import {
     UpgradeModule
   ],
   providers: [
-    upgradeService('wpRelations', WorkPackageRelationsService),
-    upgradeService('states', States),
     upgradeService('paginationService', PaginationService),
     upgradeService('wpTablePagination', WorkPackageTablePaginationService),
-    upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
-    upgradeService('wpTableTimeline', WorkPackageTableTimelineService),
-    upgradeService('wpNotificationsService', WorkPackageNotificationService),
-    upgradeService('wpTableHierarchies', WorkPackageTableHierarchiesService),
-    upgradeService('wpTableSortBy', WorkPackageTableSortByService),
-    upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
-    upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
-    upgradeService('wpTableColumns', WorkPackageTableColumnsService),
-    upgradeService('contextMenu', ContextMenuService),
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
-    upgradeServiceWithToken('columnsModal', columnsModalToken),
-    upgradeServiceWithToken('FocusHelper', focusHelperToken)
+    upgradeService('contextMenu', ContextMenuService),
   ],
   declarations: [
     OpIcon,
