@@ -96,7 +96,7 @@ describe 'Work package table context menu', js: true do
       wp_table.expect_work_package_listed(work_package2)
 
       # Select both
-      wp_table.table_container.send_keys [:control, 'a']
+      find('body').send_keys [:control, 'a']
     end
 
     it 'shows a subset of the available menu items' do
