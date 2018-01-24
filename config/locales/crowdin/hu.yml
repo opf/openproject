@@ -7,3 +7,5 @@ hu:
   label_not_changeable: (nem módosítható)
   label_no_assignable_role: Nincs hozzárendelhető globális szerep
   label_global: Globális
+  seeders:
+    default_role_project_creator: 'Project creator'
