@@ -75,7 +75,8 @@ de:
     label_activity_with_comment_no: 'Aktivitäts-Nummer: %{activityNo}. Hat einen Benutzerkommentar.'
     label_add_columns: Spalte hinzufügen
     label_add_comment: Kommentar hinzufügen
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Kommentieren und @-Zeichen eingeben, um andere Nutzer
+      zu informieren
     label_add_selected_columns: Ausgewählte Spalten hinzufügen
     label_added_by: hinzugefügt von
     label_added_time_by: Von %{author} %{age} hinzugefügt
@@ -223,7 +224,7 @@ de:
       work_package_belongs_to: Dieses Arbeitspaket gehört zum Projekt %{projectname}.
       click_to_switch_context: Dieses Arbeitspaket in dem Projekt öffnen.
       autocompleter:
-        label: Project autocompletion
+        label: Projekt Auto-Vervollständigung
     text_are_you_sure: Sind Sie sicher?
     types:
       attribute_groups:

@@ -330,19 +330,19 @@ lol:
       planning_element_type_color:
         hexcode: crwdns92541:0crwdne92541:0
       project_association:
-        description: crwdns95465:0crwdne95465:0
-        project_b: crwdns95466:0crwdne95466:0
+        description: crwdns95488:0crwdne95488:0
+        project_b: crwdns95489:0crwdne95489:0
       project_type:
-        allows_association: crwdns95467:0crwdne95467:0
-        reported_project_statuses: crwdns95468:0crwdne95468:0
+        allows_association: crwdns95490:0crwdne95490:0
+        reported_project_statuses: crwdns95491:0crwdne95491:0
         position: crwdns92546:0crwdne92546:0
       timeline:
-        options: crwdns95469:0crwdne95469:0
+        options: crwdns95492:0crwdne95492:0
       reporting:
-        reported_project_status_comment: crwdns95470:0crwdne95470:0
-        reporting_to_project: crwdns95471:0crwdne95471:0
-        reported_project_status: crwdns95472:0crwdne95472:0
-        created_at: crwdns95473:0crwdne95473:0
+        reported_project_status_comment: crwdns95493:0crwdne95493:0
+        reporting_to_project: crwdns95494:0crwdne95494:0
+        reported_project_status: crwdns95495:0crwdne95495:0
+        created_at: crwdns95496:0crwdne95496:0
       work_package:
         begin_insertion: crwdns92552:0crwdne92552:0
         begin_deletion: crwdns92553:0crwdne92553:0
@@ -417,8 +417,8 @@ lol:
             types:
               in_use_by_work_packages: crwdns92607:0%{types}crwdne92607:0
         project_association:
-          identical_projects: crwdns95474:0crwdne95474:0
-          project_association_not_allowed: crwdns95475:0crwdne95475:0
+          identical_projects: crwdns95497:0crwdne95497:0
+          project_association_not_allowed: crwdns95498:0crwdne95498:0
         query:
           attributes:
             project:
@@ -1635,7 +1635,7 @@ lol:
   permission_delete_work_packages: crwdns93673:0crwdne93673:0
   permission_delete_messages: crwdns93674:0crwdne93674:0
   permission_delete_own_messages: crwdns93675:0crwdne93675:0
-  permission_delete_project_associations: crwdns95476:0crwdne95476:0
+  permission_delete_project_associations: crwdns95499:0crwdne95499:0
   permission_delete_reportings: crwdns93677:0crwdne93677:0
   permission_delete_timelines: crwdns93678:0crwdne93678:0
   permission_delete_wiki_pages: crwdns93679:0crwdne93679:0
@@ -1647,7 +1647,7 @@ lol:
   permission_edit_own_messages: crwdns93685:0crwdne93685:0
   permission_edit_own_time_entries: crwdns93686:0crwdne93686:0
   permission_edit_project: crwdns93687:0crwdne93687:0
-  permission_edit_project_associations: crwdns95477:0crwdne95477:0
+  permission_edit_project_associations: crwdns95500:0crwdne95500:0
   permission_edit_reportings: crwdns93689:0crwdne93689:0
   permission_edit_time_entries: crwdns93690:0crwdne93690:0
   permission_edit_timelines: crwdns93691:0crwdne93691:0
@@ -1681,7 +1681,7 @@ lol:
   permission_view_work_packages: crwdns93719:0crwdne93719:0
   permission_view_messages: crwdns93720:0crwdne93720:0
   permission_view_members: crwdns93721:0crwdne93721:0
-  permission_view_project_associations: crwdns95478:0crwdne95478:0
+  permission_view_project_associations: crwdns95501:0crwdne95501:0
   permission_view_reportings: crwdns93723:0crwdne93723:0
   permission_view_time_entries: crwdns93724:0crwdne93724:0
   permission_view_timelines: crwdns93725:0crwdne93725:0
@@ -2055,11 +2055,11 @@ lol:
       project_type: crwdns94051:0crwdne94051:0
       project_types: crwdns94052:0crwdne94052:0
     project_menu:
-      project_associations: crwdns95479:0crwdne95479:0
+      project_associations: crwdns95502:0crwdne95502:0
       reportings: crwdns94054:0crwdne94054:0
       reports: crwdns94055:0crwdne94055:0
       timelines: crwdns94056:0crwdne94056:0
-    add_project_association: crwdns95480:0crwdne95480:0
+    add_project_association: crwdns95503:0crwdne95503:0
     associations: crwdns94058:0crwdne94058:0
     board_could_not_be_saved: crwdns94059:0crwdne94059:0
     button_delete_all: crwdns94060:0crwdne94060:0
@@ -2189,10 +2189,10 @@ lol:
       show: crwdns94172:0%{comment}crwdne94172:0
     planning_element_update: crwdns94173:0%{title}crwdne94173:0
     work_packages_are_displayed_in_aggregations: crwdns94174:0crwdne94174:0
-    project_association_new: crwdns95481:0crwdne95481:0
-    project_association_new_for_with: crwdns95482:0%{project_a}crwdne95482:0
-    project_association_with_other: crwdns95483:0%{project_a}crwdnd95483:0%{project_b}crwdne95483:0
-    project_association_of_type: crwdns95484:0%{type}crwdne95484:0
+    project_association_new: crwdns95504:0crwdne95504:0
+    project_association_new_for_with: crwdns95505:0%{project_a}crwdne95505:0
+    project_association_with_other: crwdns95506:0%{project_a}crwdnd95506:0%{project_b}crwdne95506:0
+    project_association_of_type: crwdns95507:0%{type}crwdne95507:0
     project_type_could_not_be_saved: crwdns94179:0crwdne94179:0
     type_could_not_be_saved: crwdns94180:0crwdne94180:0
     reporting_could_not_be_saved: crwdns94181:0crwdne94181:0
@@ -2200,7 +2200,7 @@ lol:
     really_delete_color: 'crwdns94183:0crwdne94183:0
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'crwdns95485:0%{project_a}crwdnd95485:0%{project_b}crwdne95485:0
+    really_delete_project_association_between_project_a_and_project_b: 'crwdns95508:0%{project_a}crwdnd95508:0%{project_b}crwdne95508:0
 
 '
     really_delete_project_type: 'crwdns94185:0crwdne94185:0

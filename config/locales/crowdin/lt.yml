@@ -1629,11 +1629,11 @@ lt:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Kviesti create_work_package_link makrokomandą projekto
+          konteksto išorėje.
+        invalid_type: Tipas „%{type}“ nerastas projekte „%{project}“.
       link_name: Naujas darbų paketas
-      link_name_type: New %{type_name}
+      link_name_type: Naujas %{type_name}
   mail:
     actions: Veiksmai
   mail_body_account_activation_request: 'Užsiregistravo naujas vartotojas (%{value}).
@@ -2636,7 +2636,7 @@ lt:
         arba yra neteisingai suformuluotas.
       multipart_body_error: Užklausos turinys neturi laukiamų dalių.
       multiple_errors: Buvo pažeista daug laukelio apribojimų.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Nepavyko sukurti priedo
       render:
         context_not_parsable: Duotas kontekstas nėra nuoroda į resursą.
         unsupported_context: Duotas resursas nėra palaikomas kaip kontekstas.
