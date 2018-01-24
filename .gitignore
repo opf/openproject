@@ -90,3 +90,4 @@ npm-debug.log*
 /frontend/dist/
 /frontend/tests/*.gif
 node_modules/
+text_extractor.yml

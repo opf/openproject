@@ -27,24 +27,11 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::AttachmentContentFilter < Queries::WorkPackages::Filter::AttachmentBaseFilter
-  def self.key
-    :attachment_content
-  end
-
-  def name
-    :attachment_content
-  end
-
-  def human_name
-    I18n.t('label_attachment_content')
-  end
-
-  def search_column
-    'fulltext'
-  end
-
-  def order
-    8
+module OpenProject
+  # This module provides utility methods to work with PostgreSQL's full-text capabilities (TSVECTOR)
+  module FullTextSearch
+    def self.normalize_text(text)
+      I18n.transliterate(text.to_s.downcase)
+    end
   end
 end

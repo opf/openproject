@@ -27,11 +27,7 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::AttachmentFileNameFilter < Queries::WorkPackages::Filter::WorkPackageFilter
-  def type
-    :text
-  end
-
+class Queries::WorkPackages::Filter::AttachmentFileNameFilter < Queries::WorkPackages::Filter::AttachmentBaseFilter
   def self.key
     :attachment_file_name
   end
@@ -44,12 +40,8 @@ class Queries::WorkPackages::Filter::AttachmentFileNameFilter < Queries::WorkPac
     I18n.t('label_attachment_file_name')
   end
 
-  def includes
-    :attachments
-  end
-
-  def where
-    operator_strategy.sql_for_field(values, 'attachments', 'file')
+  def search_column
+    'file'
   end
 
   def order

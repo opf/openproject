@@ -27,24 +27,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class Queries::WorkPackages::Filter::AttachmentContentFilter < Queries::WorkPackages::Filter::AttachmentBaseFilter
-  def self.key
-    :attachment_content
+class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  def type
+    :text
   end
 
-  def name
-    :attachment_content
-  end
-
-  def human_name
-    I18n.t('label_attachment_content')
+  def includes
+    :attachments
   end
 
   def search_column
-    'fulltext'
+    raise NotImplementedError
   end
 
-  def order
-    8
+  def where
+    if OpenProject::Database.allows_tsv?
+      language = OpenProject::Configuration.main_content_language
+
+      where_condition = <<-SQL
+        "attachments"."%s_tsv" @@ to_tsquery('%s', '%s')
+      SQL
+
+      ActiveRecord::Base.send(
+        :sanitize_sql_array,
+        [where_condition, search_column, language, tokenize]
+      )
+    else
+      # Fallback when No TSVECTOR is available
+      operator_strategy.sql_for_field(values, 'attachments', search_column)
+    end
+  end
+
+  private
+
+  def tokenize
+    terms = I18n.transliterate(values.first.downcase).split /\s/
+
+    case operator
+      when '~'
+        terms.join ' & '
+      when '!~'
+        '! ' + terms.join(' & ! ')
+    end
   end
 end
