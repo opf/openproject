@@ -58,7 +58,6 @@ import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/time
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
 import {
   WorkPackagesTableController,
-  WorkPackagesTableControllerHolder
 } from 'core-components/wp-table/wp-table.directive';
 import {
   $rootScopeToken, columnsModalToken, focusHelperToken, I18nToken, NotificationsServiceToken, upgradeService,
@@ -71,7 +70,6 @@ import {
     UpgradeModule
   ],
   providers: [
-    WorkPackagesTableControllerHolder,
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('states', States),
     upgradeService('paginationService', PaginationService),

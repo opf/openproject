@@ -47,19 +47,6 @@ import {WpTableHoverSync} from './wp-table-hover-sync';
 import {createScrollSync} from './wp-table-scroll-sync';
 
 
-/**
- * TODO remove once the transition to Angular4 is completed
- */
-@Injectable()
-export class WorkPackagesTableControllerHolder {
-  instance:WorkPackagesTableController;
-}
-
-openprojectModule.factory(
-  'workPackagesTableControllerHolder',
-  downgradeInjectable(WorkPackagesTableControllerHolder));
-
-
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html')
 })
@@ -100,15 +87,12 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   constructor(private elementRef:ElementRef,
               @Inject(columnsModalToken) private columnsModal:any,
               private contextMenu:ContextMenuService,
-              private workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
               private states:States,
               @Inject($rootScopeToken) private $rootScope:IRootScopeService,
               @Inject(I18nToken) private I18n:op.I18n,
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpTableColumns:WorkPackageTableColumnsService) {
-
-    workPackagesTableControllerHolder.instance = this;
   }
 
   ngOnInit():void {

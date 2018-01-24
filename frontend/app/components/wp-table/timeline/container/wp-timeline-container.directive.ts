@@ -26,11 +26,9 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {AfterViewInit, Component, ElementRef, Inject, Injectable, OnDestroy} from '@angular/core';
-import {downgradeComponent, downgradeInjectable} from '@angular/upgrade/static';
+import {AfterViewInit, Component, ElementRef, Inject, OnDestroy} from '@angular/core';
 import {Moment} from 'moment';
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
-import {openprojectModule} from '../../../../angular-modules';
 import {I18nToken, NotificationsServiceToken} from '../../../../angular4-transition-utils';
 import {debugLog, timeOutput} from '../../../../helpers/debug_output';
 import {TypeResource} from '../../../api/api-v3/hal-resources/type-resource.service';
@@ -43,9 +41,8 @@ import {WorkPackageTableTimelineService} from '../../../wp-fast-table/state/wp-t
 import {WorkPackageTable} from '../../../wp-fast-table/wp-fast-table';
 import {WorkPackageTableTimelineState} from '../../../wp-fast-table/wp-table-timeline';
 import {WorkPackageRelationsService} from '../../../wp-relations/wp-relations.service';
-
 import {selectorTimelineSide} from '../../wp-table-scroll-sync';
-import {WorkPackagesTableController, WorkPackagesTableControllerHolder} from '../../wp-table.directive';
+import {WorkPackagesTableController} from '../../wp-table.directive';
 import {WorkPackageTimelineCell} from '../cells/wp-timeline-cell';
 import {WorkPackageTimelineCellsRenderer} from '../cells/wp-timeline-cells-renderer';
 import {
@@ -66,8 +63,6 @@ import moment = require('moment');
 export class WorkPackageTimelineTableController implements AfterViewInit, OnDestroy {
 
   private $element:JQuery;
-
-  public wpTableDirective:WorkPackagesTableController;
 
   public workPackageTable:WorkPackageTable;
 
@@ -95,7 +90,7 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
   constructor(private elementRef:ElementRef,
               private states:States,
-              workPackagesTableControllerHolder:WorkPackagesTableControllerHolder,
+              public wpTableDirective:WorkPackagesTableController,
               @Inject(NotificationsServiceToken) private NotificationsService:any,
               private wpTableTimeline:WorkPackageTableTimelineService,
               private wpNotificationsService:WorkPackageNotificationService,
@@ -103,8 +98,6 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
               private wpTableHierarchies:WorkPackageTableHierarchiesService,
               @Inject(I18nToken) private I18n:op.I18n) {
     'ngInject';
-
-    this.wpTableDirective = workPackagesTableControllerHolder.instance;
   }
 
   ngAfterViewInit() {
@@ -364,9 +357,9 @@ export class WorkPackageTimelineTableController implements AfterViewInit, OnDest
 
       // We may still have a reference to a row that, e.g., just got deleted
       const workPackage = this.states.workPackages.get(wpId).value!;
-      const startDate = workPackage.startDate ? moment(workPackage.startDate) : currentParams.now;
-      const dueDate = workPackage.dueDate ? moment(workPackage.dueDate) : currentParams.now;
-      const date = workPackage.date ? moment(workPackage.date) : currentParams.now;
+      const startDate = workPackage.startDate ? moment(workPackage.startDate) :currentParams.now;
+      const dueDate = workPackage.dueDate ? moment(workPackage.dueDate) :currentParams.now;
+      const date = workPackage.date ? moment(workPackage.date) :currentParams.now;
 
       // start date
       newParams.dateDisplayStart = moment.min(
