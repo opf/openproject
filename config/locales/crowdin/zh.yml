@@ -331,6 +331,8 @@ zh:
         hexcode: 十六进制代码
       project_type:
         position: 位置
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: 开始插入
         begin_deletion: 开始删除
@@ -350,6 +352,16 @@ zh:
         time_entries: 记录时间
         type: 类型
         watcher: 关注者
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: 必须接受。
@@ -479,6 +491,9 @@ zh:
         member:
           principal_blank: 请选择至少一个用户或组。
           role_blank: 请选择至少一个角色。
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 请检查以下字段：
         header:
@@ -2054,6 +2069,7 @@ zh:
       reportings: 状态报告
       reports: 时间线报表
       timelines: 时间线
+      project_associations: ''
     associations: 依赖项
     board_could_not_be_saved: 面板不能被保存
     button_delete_all: 删除所有
@@ -2215,6 +2231,12 @@ zh:
       months: 月
       quarters: 季度
       years: 年
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: 从项目中移除所邀请的用户并删除他/她。
   tooltip_resend_invitation: '旧邀请电子邮件过期或用户未收到之前的电子邮件时，再发送一封邀请电子邮件。也可由活跃用户用于选择新的身份验证方法。活跃用户使用时，状态会更改为“已邀请”。
 
@@ -2327,3 +2349,6 @@ zh:
       writing_read_only_attributes: 你不能写入只读属性。
     resources:
       schema: 方案
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

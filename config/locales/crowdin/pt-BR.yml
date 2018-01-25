@@ -374,6 +374,8 @@ pt-BR:
         hexcode: Código hexadecimal
       project_type:
         position: Posição
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Início da inserção
         begin_deletion: Início da exclusão
@@ -393,6 +395,16 @@ pt-BR:
         time_entries: Registro de tempo
         type: Tipo
         watcher: Observador
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: deve ser aceito.
@@ -536,6 +548,9 @@ pt-BR:
         member:
           principal_blank: Por favor, escolha ao menos um usuário ou grupo.
           role_blank: Por favor, escolha ao menos um papel.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Por favor, verifique os seguintes campos:'
         header:
@@ -2291,6 +2306,7 @@ pt-BR:
       reportings: Relatórios de situação
       reports: Relatórios de cronograma
       timelines: Cronogramas
+      project_associations: ''
     associations: Dependências
     board_could_not_be_saved: Painel não pôde ser salvo
     button_delete_all: Apagar tudo
@@ -2471,6 +2487,12 @@ pt-BR:
       months: Meses
       quarters: Trimestres
       years: Anos
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Remover o usuário convidado do projeto e excluí-lo.
   tooltip_resend_invitation: 'Envia outro e-mail de convite com um novo token, caso
     o antigo tenha expirado ou o usuário não tenha recebido o e-mail original. Também
@@ -2608,3 +2630,6 @@ pt-BR:
       writing_read_only_attributes: Você não pode escrever um atributo somente leitura.
     resources:
       schema: Esquema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

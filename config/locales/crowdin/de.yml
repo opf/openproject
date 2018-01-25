@@ -384,6 +384,8 @@ de:
         hexcode: Fabcode (Hex)
       project_type:
         position: Position
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Beginn der Einfügung
         begin_deletion: Beginn des Löschvorgangs
@@ -403,6 +405,16 @@ de:
         time_entries: Zeit buchen
         type: Typ
         watcher: Beobachter
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: muss akzeptiert werden.
@@ -552,6 +564,9 @@ de:
         member:
           principal_blank: Bitte wählen Sie mindestens einen Benutzer oder eine Gruppe.
           role_blank: Bitte wählen Sie mindestens eine Rolle.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Bitte überprüfen Sie die folgenden Felder:'
         header:
@@ -2322,6 +2337,7 @@ de:
       reportings: Statusberichte
       reports: Zeitplan-Reporte
       timelines: Zeitpläne
+      project_associations: ''
     associations: Abhängigkeiten
     board_could_not_be_saved: Forum konnte nicht gespeichert werden
     button_delete_all: Alle löschen
@@ -2501,6 +2517,12 @@ de:
       months: Monate
       quarters: Quartale
       years: Jahre
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Den eingeladenen Benutzer aus dem Projekt entfernen
     und löschen.
   tooltip_resend_invitation: 'Sendet eine weitere Einladungs-Email mit einem neuen
@@ -2649,3 +2671,6 @@ de:
         werden.
     resources:
       schema: Schema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

@@ -75,7 +75,7 @@ hu:
       Felhasználói megjegyzéssel.
     label_add_columns: Oszlopok hozzáadása
     label_add_comment: Megjegyzés hozzáadása
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: "@név beírásával értesíthetsz másokat a hozzászólásodról"
     label_add_selected_columns: A kiválasztott oszlopok hozzáadása
     label_added_by: Hozzáadta
     label_added_time_by: Hozzáadva %{author} %{age}
@@ -140,7 +140,7 @@ hu:
     label_not_equals: nem
     label_on: be
     label_open_menu: Menü megnyitása
-    label_open_work_packages: kinyit
+    label_open_work_packages: nyitott
     label_password: Jelszó
     label_previous: Korábbi
     label_per_page: 'Oldalanként:'
@@ -223,7 +223,7 @@ hu:
         tartozik.
       click_to_switch_context: Munkacsomag megnyitása a projektben.
       autocompleter:
-        label: Project autocompletion
+        label: Projektnevek automatikus kiegészítése
     text_are_you_sure: Biztos vagy benne?
     types:
       attribute_groups:
@@ -254,10 +254,10 @@ hu:
       relates: Kapcsolódó
       duplicates: Ismétlődések
       duplicated: Ismétlődések szerint
-      blocks: Blokkok
+      blocks: Blokkolja
       blocked: Blokkolta
       precedes: Megelőzi
-      follows: Következik
+      follows: Követi ezt
       includes: Tartalmazza
       partof: Része
       requires: Kötelező

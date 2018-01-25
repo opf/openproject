@@ -371,6 +371,8 @@ tr:
         hexcode: Hex kodu
       project_type:
         position: Pozisyon
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Eklemeye başlama
         begin_deletion: Silme işleminin başlangıcı
@@ -390,6 +392,16 @@ tr:
         time_entries: Günlük süresi
         type: Tür
         watcher: Takipçi
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: kabul edilmelidir.
@@ -533,6 +545,9 @@ tr:
         member:
           principal_blank: Lütfen en az bir kullanıcı veya grup seçin.
           role_blank: Lütfen en az bir rol seçin.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Lütfen aşağıdaki alanları kontrol edin:'
         header:
@@ -2260,6 +2275,7 @@ tr:
       reportings: Durum raporları
       reports: Zaman çizelgesi raporu
       timelines: Zaman çizelgeleri
+      project_associations: ''
     associations: Bağımlılıklar
     board_could_not_be_saved: Kurul kaydedilemedi
     button_delete_all: Tümünü sil
@@ -2436,6 +2452,12 @@ tr:
       months: Ay
       quarters: Üç aylık
       years: Yıl
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Davet edilen kullanıcıyı projeden çıkarın ve onu silin.
   tooltip_resend_invitation: 'Eskisi geçersiz olduysa ya da orjinal e-posta alınamadıysa
     yeni bir davet anahtarı gönderir. Aynı zamanda bu işlevi aktif kullanıcıların
@@ -2572,3 +2594,6 @@ tr:
       writing_read_only_attributes: Salt okunur bir nitelik yazmamalısınız.
     resources:
       schema: Şema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''
