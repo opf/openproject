@@ -30,5 +30,5 @@ web:
   <<: *ruby
   ports:
     - "80:8080"
-  command: "apt-get install poppler-utils unrtf catdoc && ./docker/web"
+  command: "./docker/web"
   memory: 1024

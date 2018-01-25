@@ -6,6 +6,14 @@ ENV BUNDLER_VERSION="1.11.2"
 # install node + npm
 RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
+USER root
+RUN apt-get update -qq && \
+	DEBIAN_FRONTEND=noninteractive apt-get install -y \
+		poppler-utils \
+		unrtf \
+		catdoc && \
+	apt-get clean && rm -rf /var/lib/apt/lists/*
+
 # Using /home/app since npm cache and other stuff will be put there when running npm install
 # We don't want to pollute any locally-mounted directory
 RUN useradd -d /home/app -m app
