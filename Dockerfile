@@ -8,7 +8,7 @@ RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x6
 
 RUN apt-get update -qq && \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y \
-	    postgresql-client \
+	    postgresql-client-9.6 \
     	mysql-client \
     	sqlite \
 		poppler-utils \
