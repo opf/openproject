@@ -132,6 +132,10 @@ class Queries::Filters::Base
     nil
   end
 
+  def includes
+    nil
+  end
+
   validate :validate_inclusion_of_operator,
            :validate_presence_of_values,
            :validate_values
