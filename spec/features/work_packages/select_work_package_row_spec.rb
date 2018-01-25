@@ -101,12 +101,12 @@ describe 'Select work package row', type: :feature, js:true, selenium: true do
   end
 
   def check_all
-    wp_table.table_container.send_keys [:control, 'a']
+    find('body').send_keys [:control, 'a']
     expect_row_checked(1, 2, 3)
   end
 
   def uncheck_all
-    wp_table.table_container.send_keys [:control, 'd']
+    find('body').send_keys [:control, 'd']
     expect_row_unchecked(1, 2, 3)
   end
 
