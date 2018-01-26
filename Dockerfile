@@ -6,9 +6,11 @@ ENV BUNDLER_VERSION="1.11.2"
 # install node + npm
 RUN curl https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.gz | tar xzf - -C /usr/local --strip-components=1
 
+RUN
+
 RUN apt-get update -qq && \
 	DEBIAN_FRONTEND=noninteractive apt-get install -y \
-	    postgresql-client-9.6 \
+	    postgresql-client \
     	mysql-client \
     	sqlite \
 		poppler-utils \
