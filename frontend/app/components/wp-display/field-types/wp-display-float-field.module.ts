@@ -44,6 +44,10 @@ export class FloatDisplayField extends DisplayField {
   }
 
   public get valueString():string {
+    if (this.value == null) {
+      return '';
+    }
+
     return this.value.toLocaleString(
       this.$locale.id,
       { useGrouping: true, maximumFractionDigits: 20 }
