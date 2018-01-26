@@ -1020,7 +1020,7 @@ hu:
       faq: GY. I. K.
       glossary: Szószedet
       shortcuts: Parancsikonok
-      forums: fórumok
+      forums: Fórumok
       blog: OpenProject blog
       boards: Közösségi fórum
       newsletter: Biztonsági figyelmeztetések / hírlevél
@@ -1097,7 +1097,7 @@ hu:
   label_blog: Blog
   label_board_locked: Zárolva
   label_board_new: Új fórum
-  label_board_plural: fórumok
+  label_board_plural: Fórumok
   label_board_sticky: Kiemelt
   label_boolean: Logikai
   label_branch: Branch
@@ -1461,7 +1461,7 @@ hu:
   label_this_year: Ebben az évben
   label_time_entry_plural: Eltöltött idő
   label_time_sheet_menu: Munkaidő-kimutatás
-  label_time_tracking: Követési idő
+  label_time_tracking: Munkaidő követése
   label_today: Ma
   label_top_menu: Felső menü
   label_topic_plural: Témakörök
@@ -1612,7 +1612,7 @@ hu:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
           context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        invalid_type: 'Nem található ''%{type}%'' nevű típus ebben a projektben: ''%{project}''.'
       link_name: Új munkacsomag
       link_name_type: Új %{type_name}
   mail:
@@ -1700,8 +1700,8 @@ hu:
   notice_not_authorized: Ön nem jogosult a lap eléréséhez.
   notice_not_authorized_archived_project: Az elérni kivánt projekt archiválva.
   notice_password_confirmation_failed: A jelszó nem megfelelő. Nem lehet folytatni.
-  notice_principals_found_multiple: "There are %{number} results found. \n Tab to
-    focus the first result."
+  notice_principals_found_multiple: "%{number} találat. \n Tab-al tudsz az első találatra
+    fókuszálni."
   notice_principals_found_single: |-
     Egyetlen találat van.
     A Tab billentyű megnyomásával ugrik rá a fókusz.
@@ -1837,12 +1837,12 @@ hu:
     archive:
       are_you_sure: Biztosan szeretnéd arhiválni a projektet '%{name}'?
   project_module_activity: Tevékenység
-  project_module_boards: fórumok
+  project_module_boards: Fórumok
   project_module_calendar: Naptár
   project_module_work_package_tracking: A munkacsomag nyomon követése
   project_module_news: Hírek
   project_module_repository: Csomagtároló
-  project_module_time_tracking: Követési idő
+  project_module_time_tracking: Munkaidő követése
   project_module_timelines: Idővonalak
   project_module_wiki: Wiki
   query:
@@ -2231,7 +2231,8 @@ hu:
     van engedélyezve, és kisbetűvel kell kezdődnie.
   text_reassign: 'A munkacsomag ismételt hozzárendelése:'
   text_regexp_info: pl. ^[A-Z0-9]+$
-  text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
+  text_regexp_multiline: A reguláris kifejezés többsoros módban legyen alkalmazva.
+    pld. ^---\s+
   text_repository_usernames_mapping: Jelölje be, vagy frissítse az alkalmazás felhasználóit,
     minden felhasználónév eltárolva, megtalálhatóak a csomagtároló naplóban. A felhasználók
     ugyanazzal az alkalmazási és csomagtárolói felhasználó névvel vagy email címmel
@@ -2472,16 +2473,18 @@ hu:
     really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
-  tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
-    case the old one expired or the user did not get the original email. Can also
-    be used for active users to choose a new authentication method. When used with
-    active users their status will be changed to ''invited''.
+  tooltip_resend_invitation: 'Új meghívó e-mail küldése egy új tokennel. Ez abban
+    az esetben hasznos, ha a felhasználó nem érvényesítette meghívóját időben (lejárt
+    a tokenje) vagy nem kapta meg az meghívó e-mailt. Aktív felhasználóknak is küldhetsz
+    újra meghívót, ha meg akarják változtatni a bejelentkezési módjukat. Ebben az
+    esetben a meghívó kiküldése után a felhasználók állapota ''Meghívva'' lesz.
 
 '
   tooltip:
-    setting_email_login: 'If enabled a user will be unable to chose a login during
-      registration. Instead their given e-mail address will serve as the login. An
-      administrator may still change the login separately.
+    setting_email_login: 'Ha ez az opció engedélyezve van a regisztráció során nem
+      lehet majd felhasználónevet megadni, hanem a felhasználók az e-mail címükkel
+      fognak tudni bejelentkezni. Az adminisztrátorok továbbra is tudnak felhasználónevet
+      módosítani.
 
 '
   queries:
@@ -2516,8 +2519,8 @@ hu:
       a következő hiba miatt: %{errors}'
     invite: Felhasználó meghívása email-ben
     invited: meghívott
-    lock: Zárolva
-    locked: zárolva
+    lock: Fiók végleges zárolása
+    locked: fiók végleges zárolása
     no_login: Ez a felhasználó a bejelentkezési jelszóval  hitelesít magát. Mivel
       le van tiltva,  nem tud bejelentkezni.
     password_change_unsupported: A jelszó módosítása nem támogatott.

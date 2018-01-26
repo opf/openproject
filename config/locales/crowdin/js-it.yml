@@ -76,7 +76,7 @@ it:
       da un utente.
     label_add_columns: Aggiungi colonne
     label_add_comment: Aggiungi un commento
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: Commenta e digita @ per notificare altre persone
     label_add_selected_columns: Aggiungi colonne selezionate
     label_added_by: aggiunto da
     label_added_time_by: Aggiunto da %{author} %{age}
@@ -226,7 +226,7 @@ it:
       work_package_belongs_to: Questa macro-attività appartiene al progetto %{projectname}.
       click_to_switch_context: Apri questa macro-attività nel progetto.
       autocompleter:
-        label: Project autocompletion
+        label: Autocompletamento del progetto
     text_are_you_sure: Sei sicuro?
     types:
       attribute_groups:
