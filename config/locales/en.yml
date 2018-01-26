@@ -1185,6 +1185,7 @@ en:
   label_greater_or_equal: ">="
   label_group_by: "Group by"
   label_group_new: "New group"
+  label_group: "Group"
   label_group_plural: "Groups"
   label_help: "Help"
   label_here: here
