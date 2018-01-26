@@ -29,11 +29,13 @@
 import {opWorkPackagesModule} from '../../../angular-modules';
 import {WorkPackageCreateService} from '../../wp-create/wp-create.service';
 import {CollectionResource} from '../../api/api-v3/hal-resources/collection-resource.service';
+import {StateService} from '@uirouter/angularjs';
+
 
 class TypesContextMenuController {
   public types:CollectionResource[] = [];
 
-  constructor(protected $state:ng.ui.IStateService,
+  constructor(protected $state:StateService,
               protected $timeout:ng.ITimeoutService,
               protected $scope:any,
               protected wpCreate:WorkPackageCreateService) {

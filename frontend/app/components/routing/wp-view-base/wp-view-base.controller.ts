@@ -36,11 +36,12 @@ import {WorkPackageTableRefreshService} from '../../wp-table/wp-table-refresh-re
 import {$injectFields} from '../../angular/angular-injector-bridge.functions';
 import {WorkPackageEditingService} from '../../wp-edit-form/work-package-editing-service';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageViewController {
 
   protected $q:ng.IQService;
-  protected $state:ng.ui.IStateService;
+  protected $state:StateService;
   protected states:States;
   protected $rootScope:ng.IRootScopeService;
   protected keepTab:KeepTabService;

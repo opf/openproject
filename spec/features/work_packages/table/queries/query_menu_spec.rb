@@ -83,7 +83,7 @@ describe 'Query menu item', js: true do
       expect(wp_table).to have_work_packages_listed [work_package_with_version, work_package_without_version]
 
       # Locate query
-      query_item = page.find(".query-menu-item[object-id='#{last_query.id}']")
+      query_item = page.find(".query-menu-item[data-query-id='#{last_query.id}']")
       query_item.click
 
       # Overrides the query_props
@@ -93,6 +93,7 @@ describe 'Query menu item', js: true do
       expect(wp_table).not_to have_work_packages_listed [work_package_without_version]
 
       filters.expect_filter_count 2
+      filters.open
       filters.expect_filter_by('Version', 'is', version.name)
 
       # Removing the filter and returning to query restores it
@@ -100,11 +101,12 @@ describe 'Query menu item', js: true do
       filters.expect_filter_count 1
       expect(page.current_url).to include('query_props')
 
-      query_item = page.find(".query-menu-item[object-id='#{last_query.id}']")
+      query_item = page.find(".query-menu-item[data-query-id='#{last_query.id}']")
       query_item.click
 
       expect(page.current_url).not_to include('query_props')
       filters.expect_filter_count 2
+      filters.open
       filters.expect_filter_by('Version', 'is', version.name)
     end
   end

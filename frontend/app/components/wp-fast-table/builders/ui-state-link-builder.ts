@@ -1,11 +1,13 @@
 import {injectorBridge} from '../../angular/angular-injector-bridge.functions';
 import {KeepTabService} from '../../wp-panels/keep-tab/keep-tab.service';
+import {StateService} from '@uirouter/angularjs';
+
 export const uiStateLinkClass = '__ui-state-link';
 export const checkedClassName = '-checked';
 
 export class UiStateLinkBuilder {
   // Injected dependencies
-  public $state:ng.ui.IStateService;
+  public $state:StateService;
   public keepTab:KeepTabService;
 
   constructor() {

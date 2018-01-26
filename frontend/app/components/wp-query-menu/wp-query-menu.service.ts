@@ -1,13 +1,12 @@
-
-// -- copyright
+//-- copyright
 // OpenProject is a project management system.
-// Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
+// Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License version 3.
 //
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
-// Copyright (C) 2006-2013 Jean-Philippe Lang
+// Copyright (C) 2006-2017 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
 //
 // This program is free software; you can redistribute it and/or
@@ -25,24 +24,44 @@
 // Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 //
 // See doc/COPYRIGHT.rdoc for more details.
-// ++
+//++
 
-import {opServicesModule} from '../../angular-modules';
+import {wpServicesModule} from '../../angular-modules';
+import {input} from 'reactivestates';
 
-export class FirstRouteService {
-  public name:string;
-  public params:any;
+export type QueryMenuEvent = {
+  event:'add'|'remove'|'rename';
+  queryId:string;
+  path?:string;
+  label?:string;
+};
 
-  constructor() {}
+export class QueryMenuService {
+  private events = input<QueryMenuEvent>();
 
-  public setIfFirst(stateName:string|undefined, params:any) {
-    if (this.name || !stateName) {
-      return;
-    }
+  /**
+   * Add a query menu item
+   * @param {string} queryId
+   * @param {string} name
+   */
+  public add(name:string, path:string, queryId:string) {
+    this.events.putValue({ event: 'add', queryId: queryId, path: path, label: name });
+  }
 
-    this.name = stateName;
-    this.params = params;
+  public rename(queryId:string, name:string) {
+    this.events.putValue({ event: 'rename', queryId: queryId, label: name });
+  }
+
+  public remove(queryId:string) {
+    this.events.putValue({ event: 'remove', queryId: queryId, label: queryId });
+  }
+
+  public on(type:string) {
+    return this.events
+      .values$()
+      .filter((e:QueryMenuEvent) => e.event === type)
+      .distinctUntilChanged();
   }
 }
 
-opServicesModule.service('firstRoute', FirstRouteService);
+wpServicesModule.service('queryMenu', QueryMenuService)

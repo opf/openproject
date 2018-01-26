@@ -30,8 +30,9 @@ import {WorkPackageResource} from '../api/api-v3/hal-resources/work-package-reso
 import {States} from '../states.service';
 import {$injectFields} from '../angular/angular-injector-bridge.functions';
 import {PathHelperFunctions} from 'core-components/common/path-helper/path-helper.functions';
+import {StateService} from '@uirouter/angularjs';
 
-var $state:ng.ui.IStateService;
+var $state:StateService;
 var $window:ng.IWindowService;
 var $location:ng.ILocationService;
 var states:States;

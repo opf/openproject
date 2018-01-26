@@ -27,6 +27,7 @@
 // ++
 
 import {opDirective} from '../open-project.module';
+import {StateService} from '@uirouter/angularjs';
 
 export interface ButtonControllerText {
   activate:string;
@@ -94,7 +95,7 @@ export abstract class WorkPackageNavigationButtonController extends WorkPackageB
   public activeState:string;
   public accessKey:number;
 
-  constructor(public $state:ng.ui.IStateService, public I18n:op.I18n) {
+  constructor(public $state:StateService, public I18n:op.I18n) {
     super(I18n);
   }
 

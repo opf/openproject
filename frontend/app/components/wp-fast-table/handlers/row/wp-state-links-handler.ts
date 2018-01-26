@@ -8,10 +8,11 @@ import {tableRowClassName} from "../../builders/rows/single-row-builder";
 import {States} from "../../../states.service";
 import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {StateService} from '@uirouter/angularjs';
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
   // Injections
-  public $state:ng.ui.IStateService;
+  public $state:StateService;
   public keepTab:KeepTabService;
   public states:States;
   public wpTableSelection:WorkPackageTableSelection;

@@ -28,10 +28,12 @@
 
 import {QueryResource} from '../api/api-v3/hal-resources/query-resource.service';
 import {WorkPackageTablePagination} from '../wp-fast-table/wp-table-pagination';
+import {StateService} from '@uirouter/angularjs';
+
 
 export class WorkPackagesListChecksumService {
   constructor(protected UrlParamsHelper:any,
-              protected $state:ng.ui.IStateService) {
+              protected $state:StateService) {
   }
 
   public id:number | null;

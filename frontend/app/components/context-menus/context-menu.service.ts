@@ -26,6 +26,8 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
+import {TransitionService} from '@uirouter/angularjs';
+
 interface ContextMenu {
   close(disableFocus?:boolean):Promise<void>;
   open(nextTo:JQuery,locals:Object):Promise<JQuery>;
@@ -45,12 +47,13 @@ export class ContextMenuService {
   constructor(public $window:ng.IWindowService,
               public $injector:ng.auto.IInjectorService,
               public $q:ng.IQService,
+              public $transitions:TransitionService,
               public $timeout:ng.ITimeoutService,
               public $rootScope:ng.IRootScopeService) {
     "ngInject";
 
     // Close context menus on state change
-    $rootScope.$on('$stateChangeStart', () => this.close());
+    $transitions.onStart({}, () => this.close());
 
     $rootScope.$on('repositionDropdown', () => {
       this.repositionCurrentElement && this.repositionCurrentElement();

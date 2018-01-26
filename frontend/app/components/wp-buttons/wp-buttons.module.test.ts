@@ -27,6 +27,7 @@
 // ++
 
 import {WorkPackageNavigationButtonController} from './wp-buttons.module';
+import {StateService} from '@uirouter/angularjs';
 
 var expect = chai.expect;
 
@@ -37,7 +38,7 @@ class GenericWpButtonController extends WorkPackageNavigationButtonController {
   public buttonId:string = 'some-button-id';
   public iconClass:string = 'some-icon-class';
 
-  constructor(public $state:ng.ui.IStateService, public I18n:op.I18n) {
+  constructor(public $state:StateService, public I18n:op.I18n) {
     super($state, I18n);
   }
 
@@ -77,7 +78,7 @@ describe('WP button directives', () => {
   beforeEach(angular.mock.module('openproject.wpButtons', 'openproject.templates'));
 
   beforeEach(angular.mock.inject(($compile:ng.ICompileService, $rootScope:ng.IRootScopeService,
-                                  _$state_:ng.ui.IStateService, _I18n_:any) => {
+                                  _$state_:StateService, _I18n_:any) => {
 
     var html = '<generic-wp-button disabled="disabled"></generic-wp-button>';
 
