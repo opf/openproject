@@ -182,24 +182,17 @@ class Attachment < ActiveRecord::Base
   end
 
   def extract_fulltext
-    if OpenProject::Configuration['enable_attachment_search']
-      job = ExtractFulltextJob.new(id)
-      Delayed::Job::enqueue job
-    end
+    job = ExtractFulltextJob.new(id)
+    Delayed::Job::enqueue job
   end
 
 
-  # attempts to extract the fulltext of any attachments that do not have a
-  # fulltext set currently. This runs inline, does not enqueue any background
-  # jobs.
+  # Extract the fulltext of any attachments where fulltext is still nil.
+  # This runs inline and not in a asynchronous worker.
   def self.extract_fulltext
-    if OpenProject::Configuration['enable_fulltext_search']
-      Attachment.where(fulltext: nil).pluck(:id).each do |id|
-        job = ExtractFulltextJob.new(id)
-        job.perform
-      end
-    else
-      logger.info "fulltext search is disabled, check configuration.yml"
+    Attachment.where(fulltext: nil).pluck(:id).each do |id|
+      job = ExtractFulltextJob.new(id)
+      job.perform
     end
   end
 end

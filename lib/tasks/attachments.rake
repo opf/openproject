@@ -106,4 +106,10 @@ namespace :attachments do
     target_attachment.mount_uploader :file, target_uploader
     target_attachment.store_all! attachments
   end
+
+  desc 'Extract text content from attachment that were not extracted yet.'
+  task extract_fulltext: [:environment] do
+    Attachment.extract_fulltext
+  end
+
 end

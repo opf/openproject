@@ -226,6 +226,15 @@ The actual upgrade commands are as follows:
 [openproject@debian]# touch tmp/restart.txt
 ```
 
+To make sure that all work package attachments are indexed, so that their content can be used in work package filters
+run:
+
+```bash
+[openproject@debian]# RAILS_ENV="production" rake attachments:extract_fulltext
+```
+
+
+
 *Side note:* If you are using `RAILS_ENV="development"` the task `bundle exec rake assets:webpack` needs to be run. This step is not necessary for `production` because it is part of the `asset:precompile` tasks.
 
 **NOTE** `db:seed` can also be invoked with a 'LOCALE' environment variable defined, specifying the language in which to seed. Note however, that specifying different locales for calls to `db:seed` might lead to a mixture of languages in your data. It is therefore advisable to use the same language for all calls to `db:seed`.

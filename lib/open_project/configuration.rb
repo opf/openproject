@@ -113,7 +113,6 @@ module OpenProject
       'after_login_default_redirect_url' => nil,
       'after_first_login_redirect_url' => nil,
 
-      'enable_attachment_search' => true,
       'main_content_language' => 'english'
     }
 

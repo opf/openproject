@@ -37,7 +37,7 @@ class ExtractFulltextJob < ApplicationJob
   end
 
   def perform
-    attachment = find_attachment(@attachment_id)
+    return unless attachment = find_attachment(@attachment_id)
 
     text = TextExtractor::Resolver.new(attachment.diskfile, attachment.content_type).text if attachment.readable?
 
