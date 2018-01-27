@@ -7,5 +7,3 @@ nl:
   label_not_changeable: (niet wijzigbaar)
   label_no_assignable_role: Geen globale rol toewijsbaar
   label_global: Globaal
-  seeders:
-    default_role_project_creator: 'Project creator'

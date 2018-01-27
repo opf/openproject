@@ -7,5 +7,3 @@ ar:
   label_not_changeable: (غير قابل للتغيير)
   label_no_assignable_role: لا يوجد دور عالمي متاح للمهمة
   label_global: عالمي
-  seeders:
-    default_role_project_creator: 'Project creator'

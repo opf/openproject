@@ -7,5 +7,3 @@ sk:
   label_not_changeable: (nemodifikovateľná)
   label_no_assignable_role: Nie je dostupná žiadna globálna rola pre priradenie
   label_global: Globálna
-  seeders:
-    default_role_project_creator: 'Project creator'
