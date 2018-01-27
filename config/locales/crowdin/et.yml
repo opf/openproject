@@ -373,19 +373,19 @@ et:
       planning_element_type_color:
         hexcode: Hex kood
       project_association:
-        description: Põhjus
-        project_b: Sõltuv projekt
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Võimaldab seoste loomist
-        reported_project_statuses: Esitatud projektiolekuid
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Positsioon
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Oleku kommentaar
-        reporting_to_project: Projekti aruanded
-        reported_project_status: Projekti olek
-        created_at: Loodud
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -465,7 +465,7 @@ et:
         project_association:
           identical_projects: Dependency cannot be created between one project and
             itself.
-          project_association_not_allowed: ei luba seoseid.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1221,6 +1221,7 @@ et:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_new: Uus rühm
+  label_group: Grupp
   label_group_plural: Rühmad
   label_help: Abi
   label_here: here
@@ -1755,7 +1756,7 @@ et:
   permission_delete_work_packages: Teemasid kustutada
   permission_delete_messages: Postitusi kustutada
   permission_delete_own_messages: Omi postitusi kustutada
-  permission_delete_project_associations: Projektide sõltuvusi kustutada
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Teadaandeid kustutada
   permission_delete_timelines: Kustutada ajakavasid
   permission_delete_wiki_pages: Kustutada vikilehti
@@ -1767,7 +1768,7 @@ et:
   permission_edit_own_messages: Muuta enda sõnumeid
   permission_edit_own_time_entries: Muuta enda ajalogisid
   permission_edit_project: Muuta projekti
-  permission_edit_project_associations: Muuta projektide sõltuvusi
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Muuta teadaandeid
   permission_edit_time_entries: Muuta ajalogisid
   permission_edit_timelines: Muuta ajakavasid
@@ -1802,7 +1803,7 @@ et:
   permission_view_work_packages: View work packages
   permission_view_messages: Kuva sõnumeid
   permission_view_members: View members
-  permission_view_project_associations: Kuva projekti sõltuvusi
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Kuvada teadaandeid
   permission_view_time_entries: Kuva ajakulu
   permission_view_timelines: Kuvada ajakavu
@@ -2270,11 +2271,11 @@ et:
       project_type: Projekti tüüp
       project_types: Projekti tüübid
     project_menu:
-      project_associations: Projekti sõltuvused
+      project_associations: Dependencies
       reportings: Olekute aruandlused
       reports: Ajakavade aruandlused
       timelines: Ajakavad
-    add_project_association: Lisa sõltuvussuhe
+    add_project_association: Add dependency
     associations: Projekti sõltuvused
     board_could_not_be_saved: "(?) ei saa salvestada"
     button_delete_all: Kustuta kõik
@@ -2410,11 +2411,11 @@ et:
       show: 'Olek: %{comment}'
     planning_element_update: 'Muudatus: %{title}'
     work_packages_are_displayed_in_aggregations: Teemad näidetakse koondatuna
-    project_association_new: Lisa projekti sõltuvus
-    project_association_new_for_with: Sea projektile “%{project_a}” sõltuvus
-    project_association_with_other: Sõltuvus projektide “%{project_a}” ja “%{project_b}”
-      vahel
-    project_association_of_type: Sõltuvus projekti tüübile “%{type}”
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Projekti tüüpi ei saa salvestada
     type_could_not_be_saved: Tüüpi ei saa salvestada
     reporting_could_not_be_saved: Aruandlust ei saa salvestada
@@ -2423,8 +2424,8 @@ et:
       mis seda värvi kasutavad, jäävad alles.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Kas oled kindel,
-      et tahad kustutada sõltuvuse projektide “%{project_a}” ja “%{project_b}” vahel?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Kas sa oled kindel, et tahad kustutada selle projektitüübi?

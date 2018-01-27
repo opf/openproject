@@ -342,19 +342,19 @@ zh-TW:
       planning_element_type_color:
         hexcode: 十六進位碼
       project_association:
-        description: 原因
-        project_b: 依屬專案
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: 允許建立關聯
-        reported_project_statuses: 報告的專案狀態
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: 位置
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: 狀態注釋
-        reporting_to_project: 專案的報告
-        reported_project_status: 專案狀態
-        created_at: 已建立
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: 開始插入
         begin_deletion: 開始刪除
@@ -430,8 +430,9 @@ zh-TW:
             types:
               in_use_by_work_packages: "%{types} 仍在被工作項目使用中"
         project_association:
-          identical_projects: 依賴關係無法在一個專案與自己間建立
-          project_association_not_allowed: 不允許建立關聯
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1158,6 +1159,7 @@ zh-TW:
   label_greater_or_equal: ">="
   label_group_by: 分組依據
   label_group_new: 新增群組
+  label_group: 群組
   label_group_plural: 群組
   label_help: 説明
   label_here: 這裡
@@ -1671,7 +1673,7 @@ zh-TW:
   permission_delete_work_packages: 刪除工作項目
   permission_delete_messages: 刪除訊息
   permission_delete_own_messages: 刪除自己張貼的訊息
-  permission_delete_project_associations: 刪除專案依賴項目
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: 刪除報表
   permission_delete_timelines: 刪除時間軸
   permission_delete_wiki_pages: 刪除維基頁面
@@ -1683,7 +1685,7 @@ zh-TW:
   permission_edit_own_messages: 編輯自己張貼的訊息
   permission_edit_own_time_entries: 編輯自己的時間日誌
   permission_edit_project: 編輯專案
-  permission_edit_project_associations: 編輯專案的依賴項目
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: 編輯報表
   permission_edit_time_entries: 編輯時間日誌
   permission_edit_timelines: 編輯時間軸
@@ -1717,7 +1719,7 @@ zh-TW:
   permission_view_work_packages: View work packages
   permission_view_messages: 檢視訊息
   permission_view_members: View members
-  permission_view_project_associations: 檢視專案依賴項目
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: 檢視報表
   permission_view_time_entries: 檢視耗時
   permission_view_timelines: 檢視時間軸
@@ -2137,11 +2139,11 @@ zh-TW:
       project_type: 專案類型
       project_types: 專案類型
     project_menu:
-      project_associations: 依賴相依
+      project_associations: Dependencies
       reportings: 狀態報表
       reports: 時間軸報表
       timelines: 時間軸
-    add_project_association: 添加相依
+    add_project_association: Add dependency
     associations: 依賴相依
     board_could_not_be_saved: 無法儲存看板
     button_delete_all: 全部删除
@@ -2283,7 +2285,7 @@ zh-TW:
       show: 狀態： %{comment}
     planning_element_update: 更新：%{title}
     work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_association_new: 添加專案的相依
+    project_association_new: Add project dependency
     project_association_new_for_with: Set dependency for “%{project_a}” with
     project_association_with_other: Project dependency between “%{project_a}” and
       “%{project_b}”

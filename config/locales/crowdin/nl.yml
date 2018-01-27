@@ -381,19 +381,19 @@ nl:
       planning_element_type_color:
         hexcode: Hexadecimale code
       project_association:
-        description: Oorzaak
-        project_b: Afhankelijk project
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Sta associatie toe
-        reported_project_statuses: Gerapporteerde projectstatussen
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Positie
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status reactie
-        reporting_to_project: Project verslagen
-        reported_project_status: Projectstatus
-        created_at: Gemaakt
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Begin van het invoegen
         begin_deletion: Begin van de verwijdering
@@ -472,9 +472,9 @@ nl:
               in_use_by_work_packages: 'nog steeds in gebruik door werkpakketten:
                 %{types}'
         project_association:
-          identical_projects: Afhankelijkheid kan niet worden gecreëerd tussen een
-            project en hetzelf.
-          project_association_not_allowed: staat geen associaties toe.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1234,6 +1234,7 @@ nl:
   label_greater_or_equal: ">="
   label_group_by: Groeperen op
   label_group_new: Nieuwe groep
+  label_group: Groep
   label_group_plural: Groepen
   label_help: Help
   label_here: hier
@@ -1786,7 +1787,7 @@ nl:
   permission_delete_work_packages: Werkpakketten verwijderen
   permission_delete_messages: Berichten verwijderen
   permission_delete_own_messages: Eigen berichten verwijderen
-  permission_delete_project_associations: Project afhankelijkheden verwijderen
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Rapporteringen verwijderen
   permission_delete_timelines: Tijdlijnen verwijderen
   permission_delete_wiki_pages: Wiki pagina's verwijderen
@@ -1798,7 +1799,7 @@ nl:
   permission_edit_own_messages: Eigen berichten bewerken
   permission_edit_own_time_entries: Bewerk de logboeken van de eigen tijd
   permission_edit_project: Project bewerken
-  permission_edit_project_associations: Afhankelijkheden tussen projecten bewerken
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Rapporteringen bewerken
   permission_edit_time_entries: Bewerk de logboeken van de tijd
   permission_edit_timelines: Bewerken van tijdlijnen
@@ -1832,7 +1833,7 @@ nl:
   permission_view_work_packages: Bekijk werkpakketten
   permission_view_messages: Berichten weergeven
   permission_view_members: Bekijk leden
-  permission_view_project_associations: Weergave project afhankelijkheden
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Weergave rapporteringen
   permission_view_time_entries: Verbruikte tijd weergeven
   permission_view_timelines: Weergave tijdlijnen
@@ -2315,11 +2316,11 @@ nl:
       project_type: Projecttype
       project_types: Projecttypes
     project_menu:
-      project_associations: Afhankelijkheden
+      project_associations: Dependencies
       reportings: Status rapporteringen
       reports: Tijdlijn rapporten
       timelines: Tijdlijnen
-    add_project_association: Afhankelijkheid toevoegen
+    add_project_association: Add dependency
     associations: Afhankelijkheden
     board_could_not_be_saved: Bord kon niet opgeslagen worden
     button_delete_all: Alles verwijderen
@@ -2464,12 +2465,11 @@ nl:
     planning_element_update: 'Bijgewerkt: %{title}'
     work_packages_are_displayed_in_aggregations: Werkpakketten worden weergegeven
       in samenvoegingen
-    project_association_new: Voeg project afhankelijkheid toe
-    project_association_new_for_with: Afhankelijkheid voor "%{project_a}" instellen
-      met
-    project_association_with_other: Project afhankelijkheid tussen "%{project_a}"
-      en "%{project_b}"
-    project_association_of_type: Afhankelijkheid van project van het type "%{type}"
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Projecttype kan niet worden opgeslagen
     type_could_not_be_saved: Type kan niet worden opgeslagen
     reporting_could_not_be_saved: Rapportage kan niet worden opgeslagen
@@ -2478,8 +2478,8 @@ nl:
       Typen van deze kleur zullen niet worden verwijderd.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Weet u zeker,
-      dat u van de afhankelijkheid tussen "%{project_a}" en "%{project_b}"wilt verwijderen?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Weet u zeker, dat u de volgende projecttype wilt

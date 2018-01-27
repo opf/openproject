@@ -373,19 +373,19 @@ ru:
       planning_element_type_color:
         hexcode: Шестнадцатеричный код
       project_association:
-        description: Причина
-        project_b: Зависимый проект
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Разрешает ассоциирование
-        reported_project_statuses: Сообщения о состояниях проектов
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Позиция
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Коментарий о состоянии
-        reporting_to_project: Отчеты проекта
-        reported_project_status: Состояние проекта
-        created_at: Создан
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Начало вставки
         begin_deletion: Начало удаления
@@ -464,8 +464,9 @@ ru:
             types:
               in_use_by_work_packages: 'всё ещё используются в пакетах работ: %{types}'
         project_association:
-          identical_projects: У проекта не можеть быть зависимости с самим собой.
-          project_association_not_allowed: не разрешает ассоциаций.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1240,6 +1241,7 @@ ru:
   label_greater_or_equal: ">="
   label_group_by: Группировать по
   label_group_new: Новая группа
+  label_group: Группа
   label_group_plural: Группы
   label_help: Справка
   label_here: здесь
@@ -1795,7 +1797,7 @@ ru:
   permission_delete_work_packages: Удалить пакеты работ
   permission_delete_messages: Удалить сообщения
   permission_delete_own_messages: Удалить свои сообщения
-  permission_delete_project_associations: Удалить зависимости проекта
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Удалить отчеты
   permission_delete_timelines: Удалить графики
   permission_delete_wiki_pages: Удалить wiki-страницы
@@ -1807,7 +1809,7 @@ ru:
   permission_edit_own_messages: Редактировать свои сообщения
   permission_edit_own_time_entries: Редактировать собственные учетные записи о времени
   permission_edit_project: Редактировать проект
-  permission_edit_project_associations: Редактировать зависимости проекта
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Редактировать отчеты
   permission_edit_time_entries: Редактировать записи о времени
   permission_edit_timelines: Редактировать графики
@@ -1842,7 +1844,7 @@ ru:
   permission_view_work_packages: Просмотр пакетов работ
   permission_view_messages: Просмотр сообщений
   permission_view_members: Просмотреть участников
-  permission_view_project_associations: Просмотр зависимостей проекта
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Просмотр отчетов
   permission_view_time_entries: Просмотр потраченного времени
   permission_view_timelines: Просмотр графиков
@@ -2322,11 +2324,11 @@ ru:
       project_type: Тип проекта
       project_types: Типы проекта
     project_menu:
-      project_associations: Связи
+      project_associations: Dependencies
       reportings: Отчетность
       reports: Отчеты по графикам
       timelines: Графики
-    add_project_association: Добавить связь
+    add_project_association: Add dependency
     associations: Связи
     board_could_not_be_saved: Форум сохранён быть не может
     button_delete_all: Удалить всё
@@ -2467,10 +2469,11 @@ ru:
       show: 'Статус: %{comment}'
     planning_element_update: 'Последняя сводка: %{title}'
     work_packages_are_displayed_in_aggregations: Пакеты работ отображаются в агрегациях
-    project_association_new: Добавление зависимостей проекта
-    project_association_new_for_with: Установить зависимость  «%{project_a}» от
-    project_association_with_other: Зависимость между проектами «%{project_a}» и «%{project_b}»
-    project_association_of_type: Зависимость  типа «%{type}» от проекта
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Тип проекта не может быть сохранен
     type_could_not_be_saved: Тип не может быть сохранен
     reporting_could_not_be_saved: Отчетность не может быть сохранена
@@ -2479,8 +2482,8 @@ ru:
       этот цвет удалены не будут.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Вы уверены,
-      что хотите удалить зависимость между «%{project_a}» и «%{project_b}»?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Вы действительно хотите удалить следующий тип проекта?

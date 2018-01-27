@@ -370,7 +370,7 @@ lv:
       planning_element_type_color:
         hexcode: Hex code
       project_association:
-        description: Iemesls
+        description: Cause
         project_b: Dependent project
       project_type:
         allows_association: Allows association
@@ -379,10 +379,10 @@ lv:
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Statusa komentārs
-        reporting_to_project: Projekta pārskati
-        reported_project_status: Projekta statuss
-        created_at: Izveidots
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Ievietošanas sākums
         begin_deletion: Dzēšanas sākums
@@ -462,7 +462,7 @@ lv:
         project_association:
           identical_projects: Dependency cannot be created between one project and
             itself.
-          project_association_not_allowed: nepieļauj sasaisti.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1231,6 +1231,7 @@ lv:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_new: New group
+  label_group: Group
   label_group_plural: Groups
   label_help: Palīdzība
   label_here: here

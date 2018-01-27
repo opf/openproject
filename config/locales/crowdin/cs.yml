@@ -376,19 +376,19 @@ cs:
       planning_element_type_color:
         hexcode: Hex kód
       project_association:
-        description: Příčina
+        description: Cause
         project_b: Dependent project
       project_type:
-        allows_association: Umožňuje asociace
+        allows_association: Allows association
         reported_project_statuses: Reported project statuses
         position: Pozice
       timeline:
         options: ''
       reporting:
         reported_project_status_comment: Status comment
-        reporting_to_project: Zprávy o projektu
-        reported_project_status: Stav projektu
-        created_at: Vytvořeno
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -1237,6 +1237,7 @@ cs:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_new: New group
+  label_group: Skupina
   label_group_plural: Skupiny
   label_help: Nápověda
   label_here: here
@@ -1831,7 +1832,7 @@ cs:
   permission_view_work_packages: View work packages
   permission_view_messages: Zobrazit zprávy
   permission_view_members: View members
-  permission_view_project_associations: Zobrazit závislosti projektů
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: View reportings
   permission_view_time_entries: Zobrazit strávený čas
   permission_view_timelines: Zobrazit časové osy
@@ -2443,7 +2444,7 @@ cs:
       show: 'Status: %{comment}'
     planning_element_update: 'Aktualizováno: %{title}'
     work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_association_new: Přidat závislost
+    project_association_new: Add project dependency
     project_association_new_for_with: Set dependency for “%{project_a}” with
     project_association_with_other: Project dependency between “%{project_a}” and
       “%{project_b}”

@@ -373,19 +373,19 @@ fa:
       planning_element_type_color:
         hexcode: کد هگزا
       project_association:
-        description: علت
-        project_b: پروژه وابسته
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: به انجمن اجازه می دهد
-        reported_project_statuses: وضعیت پروژه گزارش شده
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: جایگاه
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: وضعیت نظر
-        reporting_to_project: گزارش به پروژه
-        reported_project_status: وضعیت پروژه
-        created_at: ایجاد شد
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -463,7 +463,8 @@ fa:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
         project_association:
-          identical_projects: قادر به ایجاد وابستگی بین یک پروژه و خود نمی باشد.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
           project_association_not_allowed: does not allow associations.
         query:
           attributes:
@@ -1218,6 +1219,7 @@ fa:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_new: New group
+  label_group: Group
   label_group_plural: Groups
   label_help: Help
   label_here: here

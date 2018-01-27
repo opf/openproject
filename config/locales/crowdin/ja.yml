@@ -332,19 +332,19 @@ ja:
       planning_element_type_color:
         hexcode: 16進コード
       project_association:
-        description: 原因
-        project_b: 依存するプロジェクト
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: 関連付けが可能
-        reported_project_statuses: 報告されたプロジェクトのステータス
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: 位置
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: ステータスのコメント
-        reporting_to_project: プロジェクトに直属する
-        reported_project_status: プロジェクトの進捗状況
-        created_at: 作成日時
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: 挿入の始まり
         begin_deletion: 削除の始まり
@@ -419,8 +419,9 @@ ja:
             types:
               in_use_by_work_packages: 'まだ作業項目によって使用されています: %{types}'
         project_association:
-          identical_projects: 同一プロジェクトと依存関係を作成できません。
-          project_association_not_allowed: 関連付けを許可していません。
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1139,6 +1140,7 @@ ja:
   label_greater_or_equal: ">="
   label_group_by: グループ化
   label_group_new: 新規グループ
+  label_group: グループ
   label_group_plural: グループ
   label_help: ヘルプ
   label_here: こちら
@@ -1644,7 +1646,7 @@ ja:
   permission_delete_work_packages: 作業項目の削除
   permission_delete_messages: メッセージの削除
   permission_delete_own_messages: 自身が投稿したメッセージの削除
-  permission_delete_project_associations: プロジェクトの依存関係の削除
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: レポートの削除
   permission_delete_timelines: タイムラインの削除
   permission_delete_wiki_pages: Wikiページの削除
@@ -1656,7 +1658,7 @@ ja:
   permission_edit_own_messages: 自分の投稿したメッセージの編集
   permission_edit_own_time_entries: 自分が記入した作業時間の編集
   permission_edit_project: プロジェクトの編集
-  permission_edit_project_associations: プロジェクトの依存関係の編集
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: レポートの編集
   permission_edit_time_entries: 作業時間記録の編集
   permission_edit_timelines: タイムラインの編集
@@ -1690,7 +1692,7 @@ ja:
   permission_view_work_packages: 作業項目の表示
   permission_view_messages: メッセージの閲覧
   permission_view_members: メンバーを表示
-  permission_view_project_associations: プロジェクトの依存関係の閲覧
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: レポートの閲覧
   permission_view_time_entries: 作業時間記録の閲覧
   permission_view_timelines: タイムラインの閲覧
@@ -2092,11 +2094,11 @@ ja:
       project_type: プロジェクトの種類
       project_types: プロジェクトの種類
     project_menu:
-      project_associations: 依存関係
+      project_associations: Dependencies
       reportings: 進捗レポート
       reports: タイムラインレポート
       timelines: タイムライン
-    add_project_association: 依存関係を追加
+    add_project_association: Add dependency
     associations: 依存関係
     board_could_not_be_saved: ボードを保存できませんでした。
     button_delete_all: 全ての削除
@@ -2227,10 +2229,11 @@ ja:
       show: ステータス:%{comment}
     planning_element_update: 更新:%{title}
     work_packages_are_displayed_in_aggregations: 集計に表示
-    project_association_new: プロジェクトの依存関係を追加する
-    project_association_new_for_with: "「“%{project_a}” 」の依存関係を設定する"
-    project_association_with_other: "「%{project_a}」と「%{project_b}」間のプロジェクトの依存関係"
-    project_association_of_type: "「%{type}」種類のプロジェクトへの依存性"
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: プロジェクトの種類を保存できませんでした。
     type_could_not_be_saved: 作業項目の型を保存できませんでした。
     reporting_could_not_be_saved: レポートを保存できませんでした。
@@ -2238,7 +2241,10 @@ ja:
     really_delete_color: '次の色を削除してもよろしいですか。この色を使用している作業項目は削除されません。
 
 '
-    really_delete_project_association_between_project_a_and_project_b: "%{project_a}”と“%{project_b}”の間の依存関係を削除してもよろしいですか？\n"
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+
+'
     really_delete_project_type: 'このプロジェクトの種類を削除してもよろしいですか。この種類を使用しているプロジェクトは削除されません。
 
 '

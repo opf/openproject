@@ -372,19 +372,19 @@ lt:
       planning_element_type_color:
         hexcode: Šešioliktainis kodas
       project_association:
-        description: Priežastis
-        project_b: Priklausomas projektas
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Leidžia asociacijas
-        reported_project_statuses: Praneštos projekto būsenos
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Vieta
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Būsenos komentaras
-        reporting_to_project: Ataskaitos projektui
-        reported_project_status: Projekto būsena
-        created_at: Sukurta
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Įterpimo pradžioje
         begin_deletion: Ištrynimo pradžioje
@@ -462,9 +462,9 @@ lt:
             types:
               in_use_by_work_packages: 'vis dar naudojama darbų paketuose: %{types}'
         project_association:
-          identical_projects: Negali sukurti priklausomybės ryšio tarp projekto ir
-            jo paties.
-          project_association_not_allowed: neleidžia sąsajų.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1235,6 +1235,7 @@ lt:
   label_greater_or_equal: ">="
   label_group_by: Grupuoti pagal
   label_group_new: Nauja grupė
+  label_group: Grupė
   label_group_plural: Grupės
   label_help: Pagalba
   label_here: čia
@@ -1793,7 +1794,7 @@ lt:
   permission_delete_work_packages: Pašalinti darbų paketus
   permission_delete_messages: Pašalinti pranešimus
   permission_delete_own_messages: Pašalinti savo pranešimus
-  permission_delete_project_associations: Pašalinti projekto priklausomybes
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Šalinti ataskaitas
   permission_delete_timelines: Šalinti laiko juostas
   permission_delete_wiki_pages: Pašalinti wiki puslapius
@@ -1805,7 +1806,7 @@ lt:
   permission_edit_own_messages: Redaguoti savo pranešimus
   permission_edit_own_time_entries: Redaguoti savo laiko įrašus
   permission_edit_project: Redaguoti projektą
-  permission_edit_project_associations: Redaguoti projekto priklausomybes
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Redaguoti ataskaitas
   permission_edit_time_entries: Redaguoti laiko įrašus
   permission_edit_timelines: Redaguoti tvarkaraščius
@@ -1840,7 +1841,7 @@ lt:
   permission_view_work_packages: Rodyti darbų paketus
   permission_view_messages: Peržiūrėti žinutes
   permission_view_members: Rodyti narius
-  permission_view_project_associations: Peržiūrėti projekto priklausomybes
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Peržiūrėti ataskaitas
   permission_view_time_entries: Peržiūrėti dirbtą laiką
   permission_view_timelines: Peržiūrėti laiko juostas
@@ -2324,11 +2325,11 @@ lt:
       project_type: Projekto tipas
       project_types: Projekto tipai
     project_menu:
-      project_associations: Priklausomybės
+      project_associations: Dependencies
       reportings: Būsenos ataskaitos
       reports: Laiko juostos ataskaitos
       timelines: Laiko juostos
-    add_project_association: Pridėti priklausomybę
+    add_project_association: Add dependency
     associations: Priklausomybės
     board_could_not_be_saved: Skelbimų lenta negalėjo būti išsaugota
     button_delete_all: Ištrinti viską
@@ -2466,11 +2467,11 @@ lt:
       show: 'Būsena: %{comment}'
     planning_element_update: 'Atnaujinimas: %{title}'
     work_packages_are_displayed_in_aggregations: Darbų paketai rodomi masėse
-    project_association_new: Pridėti projekto priklausomybę
-    project_association_new_for_with: Nustatysi priklausomybę „%{project_a}“ su
-    project_association_with_other: Projekto priklausomybė tarp „%{project_a}“ ir
-      „%{project_b}“
-    project_association_of_type: Priklausomybė tipo „%{type}“ projektui
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Projekto tipas negalėjo būti išsaugotas
     type_could_not_be_saved: Tipas negalėjo būti išsaugotas
     reporting_could_not_be_saved: Ataskaita negalėjo būti išsaugota
@@ -2479,8 +2480,8 @@ lt:
       nebus ištrinti.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Ar Jūs tikrai
-      norite ištrinti priklausomybę tarp „%{project_a}“ ir „%{project_b}“?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Ar tikrai norite ištrinti šį projekto tipą? Jį naudojantys

@@ -379,19 +379,19 @@ sk:
       planning_element_type_color:
         hexcode: Hex kód
       project_association:
-        description: Príčina
-        project_b: Závislý projekt
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Povoliť asociácie
-        reported_project_statuses: Hlásené stavy projektu
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Pozícia
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Komentár stavu
-        reporting_to_project: Správy o projekte
-        reported_project_status: Stav projektu
-        created_at: Vytvorený
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Začiatok vkladania
         begin_deletion: Začiatok odstraňovania
@@ -470,8 +470,9 @@ sk:
               in_use_by_work_packages: 'stále používané týmito pracovnými balíkmi:
                 %{types}'
         project_association:
-          identical_projects: Závislosť nemožno vytvoriť medzi projekt a sámým sebou.
-          project_association_not_allowed: nedovoľuje vytváranie väzieb na iné projekty.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1246,6 +1247,7 @@ sk:
   label_greater_or_equal: ">="
   label_group_by: Zoskupiť podľa
   label_group_new: Nová skupina
+  label_group: Skupina
   label_group_plural: Skupiny
   label_help: Nápoveda
   label_here: tu
@@ -1502,39 +1504,40 @@ sk:
   label_user: Užívateľ(ka)
   label_user_activity: Aktivita používateľa %{value}
   label_user_anonymous: Anonymný
-  label_user_mail_option_all: For any event on all my projects
+  label_user_mail_option_all: Pre všetky udalosti všetkých mojich projektov
   label_user_mail_option_none: Žiadne udalosti
   label_user_mail_option_only_assigned: Len pre veci, na ktoré som priradený
-  label_user_mail_option_only_my_events: Only for things I watch or I'm involved in
-  label_user_mail_option_only_owner: Only for things I am the owner of
+  label_user_mail_option_only_my_events: Len pre veci, ktoré sledujem, alebo v ktorých
+    som zapojený
+  label_user_mail_option_only_owner: Len pre veci, ktorých som vlastníkom
   label_user_mail_option_selected: For any event on the selected projects only
-  label_user_new: New user
-  label_user_plural: Users
-  label_user_search: Search for user
+  label_user_new: Nový uživateľ
+  label_user_plural: Užívatelia
+  label_user_search: Hľadať používateľa
   label_version_new: Nová verzia
   label_version_plural: Verzie
-  label_version_sharing_descendants: With subprojects
-  label_version_sharing_hierarchy: With project hierarchy
-  label_version_sharing_none: Not shared
-  label_version_sharing_system: With all projects
-  label_version_sharing_tree: With project tree
+  label_version_sharing_descendants: S podprojektmi
+  label_version_sharing_hierarchy: S hierarchiou projektu
+  label_version_sharing_none: Nezdieľané
+  label_version_sharing_system: So všetkými projektmi
+  label_version_sharing_tree: S projektovým stromom
   label_video: Video
   label_view_all_revisions: Zobraziť všetky revízie
-  label_view_diff: View differences
+  label_view_diff: Zobraziť rozdiely
   label_view_revisions: Zobraziť revízie
-  label_watched_work_packages: Watched work packages
-  label_week: Week
-  label_wiki_content_added: Wiki page added
-  label_wiki_content_updated: Wiki page updated
+  label_watched_work_packages: Pozorované pracovné balíčky
+  label_week: Týždeň
+  label_wiki_content_added: Wikistránka bola pridaná
+  label_wiki_content_updated: Wikistránka bola aktualizovaná
   label_wiki_toc: Obsah
-  label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
-  label_wiki_edit: Wiki edit
-  label_wiki_edit_plural: Wiki edits
+  label_wiki_dont_show_menu_item: Nezobrazovať túto wikistránku v navigácií projektu
+  label_wiki_edit: Wiki úprava
+  label_wiki_edit_plural: Wiki úpravy
   label_wiki_page_attachments: Prílohy wiki stránky
   label_wiki_page_id: Wiki page ID
-  label_wiki_navigation: Wiki navigation
+  label_wiki_navigation: Wiki navigácia
   label_wiki_page: Wiki stránka
-  label_wiki_page_plural: Wiki pages
+  label_wiki_page_plural: Wikistránky
   label_wiki_show_index_page_link: Show submenu item 'Table of Contents'
   label_wiki_show_menu_item: Show as menu item in project navigation
   label_wiki_show_new_page_link: Show submenu item 'Create new child page'
@@ -1566,7 +1569,7 @@ sk:
   label_work_package_view_all_watched: Zobraziť všetky sledované pracovné balíčky
   label_work_package_watchers: Pozorovatelia
   label_workflow: Pracovný postup
-  label_workflow_plural: Workflows
+  label_workflow_plural: Pracovné postupy
   label_workflow_summary: Zhrnutie
   label_x_closed_work_packages_abbr:
     one: 1 uzatvorený
@@ -1629,10 +1632,10 @@ sk:
   label_visible_elements: Viditeľné prvky
   auth_source:
     using_abstract_auth_source: Can't use an abstract authentication source.
-    ldap_error: 'LDAP-Error: %{error_message}'
-    ldap_auth_failed: Could not authenticate at the LDAP-Server.
+    ldap_error: 'LDAP-Chyba: %{error_message}'
+    ldap_auth_failed: Nemožno overiť v LDAP-Serveri.
   macro_execution_error: Error executing the macro %{macro_name}
-  macro_unavailable: Macro %{macro_name} cannot be displayed.
+  macro_unavailable: Makro %{macro_name} sa nedá zobraziť.
   macros:
     create_work_package_link:
       errors:
@@ -1643,34 +1646,33 @@ sk:
       link_name_type: New %{type_name}
   mail:
     actions: Akcie
-  mail_body_account_activation_request: 'A new user (%{value}) has registered. The
-    account is pending your approval:'
-  mail_body_account_information: Your account information
-  mail_body_account_information_external: You can use your %{value} account to log
-    in.
-  mail_body_lost_password: 'To change your password, click on the following link:'
-  mail_body_register: 'To activate your account, click on the following link:'
+  mail_body_account_activation_request: 'Bol zaregistrovaný nový používateľ (%{value}).
+    Účet čaká na vaše schválenie:'
+  mail_body_account_information: Informácie o vašom účte
+  mail_body_account_information_external: Môžete sa prihlásiť pomocou vášho účtu %{value}.
+  mail_body_lost_password: 'Na zmenu hesla kliknite na nasledujúci odkaz:'
+  mail_body_register: 'Ak si želáte aktivovať váš účet, kliknite na nasledujúci odkaz:'
   mail_body_reminder: "%{count} pracovné balíčky (balíček), ktoré sú priradené vám
     a finišujú v najbližších %{days} dňoch:"
-  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
-  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
-  mail_subject_account_activation_request: "%{value} account activation request"
-  mail_subject_lost_password: Your %{value} password
-  mail_subject_register: Your %{value} account activation
+  mail_body_wiki_content_added: Používateľ %{author} pridal wikistránku '%{id}'.
+  mail_body_wiki_content_updated: Používateľ %{author} aktualizoval wikistránku '%{id}'.
+  mail_subject_account_activation_request: Požiadavka na aktiváciu účtu %{value}
+  mail_subject_lost_password: Vaše heslo %{value}
+  mail_subject_register: Aktivácia vášho účtu %{value}
   mail_subject_reminder: "%{count} pracovných balíčkov, ktoré finišujú v najbližších
     %{days} dňoch"
-  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
-  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
-  more_actions: More functions
+  mail_subject_wiki_content_added: Bola pridaná wikistránka '%{id}'
+  mail_subject_wiki_content_updated: Wikistránka '%{id}' bola aktualizovaná
+  more_actions: Ďalšie funkcie
   noscript_description: Musíte aktivovať JavaScript, aby ste mohli používať OpenProject!
-  noscript_heading: JavaScript disabled
-  noscript_learn_more: Learn more
+  noscript_heading: JavaScript vypnutý
+  noscript_learn_more: Zistiť viac
   notice_accessibility_mode: Režim prístupov môžete sprístupniť vo vašich [account
     settings](url).
-  notice_account_activated: Your account has been activated. You can now log in.
+  notice_account_activated: Váš účet bol aktivovaný. Teraz se môžete prihlásiť.
   notice_account_already_activated: The account has already been activated.
   notice_account_invalid_token: Invalid activation token
-  notice_account_invalid_credentials: Invalid user or password
+  notice_account_invalid_credentials: Nesprávne meno alebo heslo
   notice_account_invalid_credentials_or_blocked: Invalid user or password or the account
     is blocked due to multiple failed login attempts. If so, it will be unblocked
     automatically in a short time.
@@ -2312,7 +2314,7 @@ sk:
       project_type: Typ projektu
       project_types: Typy projektov
     project_menu:
-      project_associations: Závislosti
+      project_associations: Dependencies
       reportings: Status reportings
       reports: Timeline reports
       timelines: Timelines

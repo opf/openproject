@@ -247,8 +247,8 @@ es:
       login_verification:
         other: Escriba el %{name} de inicio de sesión para verificar la eliminación.
           Después del envío, se le pedirá que confirme la contraseña.
-        self: Escriba su %{name} de inicio de sesión para verificar la eliminación.
-          Después del envío, se le pedirá que confirme la contraseña.
+        self: Introducir el %{name} de inicio de sesión para verificar la eliminación.
+          Una vez que se envíe, se le pedirá confirmar la contraseña.
     error_inactive_activation_by_mail: 'Su cuenta aún no está activada. Para activar
       su cuenta, haga clic en el enlace que fue enviado por correo electrónico.
 
@@ -387,19 +387,19 @@ es:
       planning_element_type_color:
         hexcode: Código hexadecimal
       project_association:
-        description: Causa
-        project_b: Proyecto dependiente
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Permite asociar
-        reported_project_statuses: Estado de proyectos reportados
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Posición
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Comentario de estado
-        reporting_to_project: Informes del proyecto
-        reported_project_status: Estado del proyecto
-        created_at: Creado
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Inicio de la inserción
         begin_deletion: Inicio de la eliminación
@@ -479,9 +479,9 @@ es:
               in_use_by_work_packages: 'todavia en uso por los paquetes de trabajo:
                 %{types}'
         project_association:
-          identical_projects: Una dependencia no se puede crear entre un proyecto
-            y sí mismo.
-          project_association_not_allowed: no permite asociaciones.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -497,7 +497,7 @@ es:
               invalid: El campo personalizado no es válido en el contexto válido.
         relation:
           typed_dag:
-            circular_dependency: La relación crea un círculo de relaciones.
+            circular_dependency: La relación crea un bucle de relaciones.
           attributes:
             to:
               error_not_found: el paquete de trabajo en posición 'a' no se ha encontrado
@@ -512,8 +512,8 @@ es:
         repository:
           not_available: El proveedor SMC no está disponible
           not_whitelisted: no está permitido por la configuración.
-          invalid_url: no es una dirección URL o ruta de acceso válida a un repositorio.
-          must_not_be_ssh: no debe ser una dirección URL para SSH.
+          invalid_url: no es una dirección URL o ruta válida para un repositorio.
+          must_not_be_ssh: no debe usarse una URL de SSH.
           no_directory: no es un directorio.
         work_package:
           is_not_a_valid_target_for_time_entries: 'Paquete de trabajo #%{id} no es
@@ -731,7 +731,7 @@ es:
     failed: No se puede copiar proyecto %{source_project_name}
     succeeded: Proyecto creado %{target_project_name}
     errors: Error
-    project_custom_fields: Campos personalizados en el proyecto
+    project_custom_fields: Campos personalizados del proyecto
     text:
       failed: No se pudo copiar el proyecto "%{source_project_name}" al proyecto "%{target_project_name}".
       succeeded: Proyecto copiado de "%{source_project_name}" a "%{target_project_name}".
@@ -939,8 +939,8 @@ es:
   enumeration_work_package_priorities: Prioridades del paquete de trabajo
   enumeration_system_activity: Actividad del sistema
   enumeration_reported_project_statuses: Estatus del proyecto reportado
-  error_auth_source_sso_failed: El inicio de sesión único (SSO) del usuario “%{value}”
-    produjo errores
+  error_auth_source_sso_failed: El intento de inicio de sesión único (SSO) para el
+    usuario “%{value}” falló
   error_can_not_archive_project: El proyecto no se puede archivar
   error_can_not_delete_entry: No se puede eliminar la entrada
   error_can_not_delete_custom_field: Imposible eliminar el campo seleccionado
@@ -1052,7 +1052,7 @@ es:
       forums: Foros
       blog: Blog de OpenProject
       boards: Foro de la comunidad
-      newsletter: Alertas de seguridad/boletín
+      newsletter: Alertas de seguridad / boletín
   instructions_after_registration: Podras entrar tan pronto como tu cuenta halla sido
     activada haciendo clic sobre %{signin}.
   instructions_after_logout: Puedes entrar nuevamente haciendo clic sobre  %{signin}.
@@ -1238,7 +1238,7 @@ es:
   label_file_plural: Archivos
   label_filter_add: Añadir filtro
   label_filter_plural: Filtros
-  label_filters_toggle: Mostrar/Ocultar filtro
+  label_filters_toggle: Mostrar/Ocultar filtros
   label_float: Desprender
   label_folder: Carpeta
   label_follows: sigue
@@ -1251,6 +1251,7 @@ es:
   label_greater_or_equal: ">="
   label_group_by: Agrupar por
   label_group_new: Nuevo grupo
+  label_group: Grupo
   label_group_plural: Grupos
   label_help: Ayuda
   label_here: aqui
@@ -1643,12 +1644,12 @@ es:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
+        no_project_context: Invocando la macro create_work_package_link desde el contexto
+          del proyecto externo.
         invalid_type: No se ha encontrado ningún tipo con nombre '%{type}' en el proyecto
           '%{project}'.
       link_name: Nuevo paquete de trabajo
-      link_name_type: New %{type_name}
+      link_name_type: "%{type_name} nuevo"
   mail:
     actions: Acciones
   mail_body_account_activation_request: 'Ha registrado un nuevo usuario (%{value}).
@@ -1811,7 +1812,7 @@ es:
   permission_delete_work_packages: Eliminar paquetes de trabajo
   permission_delete_messages: Eliminar mensajes
   permission_delete_own_messages: Borrar los mensajes propios
-  permission_delete_project_associations: Eliminar dependencias de proyecto
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Eliminar reportes
   permission_delete_timelines: Eliminar líneas de tiempo
   permission_delete_wiki_pages: Eliminar wiki página
@@ -1823,7 +1824,7 @@ es:
   permission_edit_own_messages: Editar mensajes propios
   permission_edit_own_time_entries: Editar registros de tiempo propios
   permission_edit_project: Editar proyecto
-  permission_edit_project_associations: Editar dependencias de proyecto
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Editar reportes
   permission_edit_time_entries: Editar registros de tiempo
   permission_edit_timelines: Editar líneas de tiempo
@@ -1858,7 +1859,7 @@ es:
   permission_view_work_packages: Ver paquetes de trabajo
   permission_view_messages: Ver mensajes
   permission_view_members: Ver miembros
-  permission_view_project_associations: Ver dependencias de proyecto
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Ver reportes
   permission_view_time_entries: Ver tiempo empleado
   permission_view_timelines: Ver líneas de tiempo
@@ -2359,11 +2360,11 @@ es:
       project_type: Tipo de proyecto
       project_types: Tipos de proyecto
     project_menu:
-      project_associations: Dependencias
+      project_associations: Dependencies
       reportings: Informes de estado
       reports: Informes de cronograma
       timelines: Líneas de tiempo
-    add_project_association: Añadir dependencia
+    add_project_association: Add dependency
     associations: Dependencias
     board_could_not_be_saved: La tarjeta no a sido grabada
     button_delete_all: Borrar todo
@@ -2507,19 +2508,21 @@ es:
     planning_element_update: 'Actualizado: %{title}'
     work_packages_are_displayed_in_aggregations: Los paquetes de trabajo aparecen
       en agregaciones
-    project_association_new: Añadir dependencia de proyectos
-    project_association_new_for_with: Establecer dependencia para “%{project_a}” con
-    project_association_with_other: Dependencia de proyectos entre “%{project_a}”
-      y “%{project_b}”
-    project_association_of_type: Dependencia a proyecto de tipo "%{type}"
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: No se pudo guardar el tipo de proyecto
     type_could_not_be_saved: No se pudo guardar el tipo
     reporting_could_not_be_saved: No se ha podido guardar el informe
     properties: Propiedades
     really_delete_color: "¿Esta seguro que desea eliminar el siguiente color? Los
       tipos que usan este color no se eliminarán.\n"
-    really_delete_project_association_between_project_a_and_project_b: "¿Esta seguro
-      que desea eliminar la dependencia entre '%{project_a}' y '%{project_b}'?\n"
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+
+'
     really_delete_project_type: "¿Estás seguro que desea eliminar el siguiente tipo
       de proyecto? Los proyectos que usan este tipo no se eliminarán.\n"
     really_delete_timeline: "¿Estás seguro que desea eliminar el siguiente informe
@@ -2667,7 +2670,7 @@ es:
       multipart_body_error: El cuerpo de la solicitud no contiene las partes multiparts
         previstas.
       multiple_errors: Múltiples limitaciones de campo han sido violadas.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: No se pudo crear el adjunto
       render:
         context_not_parsable: El contexto proporcionado no es un enlace a un recurso.
         unsupported_context: El recurso dado no es soportado como contexto.

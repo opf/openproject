@@ -383,19 +383,19 @@ ro:
       planning_element_type_color:
         hexcode: Cod hexa
       project_association:
-        description: Cauză
-        project_b: Proiect dependent
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Permite asociere
-        reported_project_statuses: Stari proiect raportat
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Poziţie
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Stare comentariu
-        reporting_to_project: Raportează la proiectul
-        reported_project_status: Stare proiect
-        created_at: Creat pe
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Început de inserare
         begin_deletion: Început de ștergere
@@ -473,8 +473,9 @@ ro:
             types:
               in_use_by_work_packages: 'încă în uz în pachetele de lucru: %{types}'
         project_association:
-          identical_projects: Un proiect nu poate avea o dependență de sine însuși.
-          project_association_not_allowed: nu permite asocieri.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1243,6 +1244,7 @@ ro:
   label_greater_or_equal: ">="
   label_group_by: Grupare după
   label_group_new: Grupare nouă
+  label_group: Grup
   label_group_plural: Grupuri
   label_help: Asistenţă
   label_here: aici
@@ -1794,7 +1796,7 @@ ro:
   permission_delete_work_packages: Ștergere pachete de lucru
   permission_delete_messages: Ștergere mesaje
   permission_delete_own_messages: Ștergere mesaje proprii
-  permission_delete_project_associations: Eliminare dependențe proiect
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Ștergere raportări
   permission_delete_timelines: Ștergere linii de timp
   permission_delete_wiki_pages: Ștergere pagini wiki
@@ -1806,7 +1808,7 @@ ro:
   permission_edit_own_messages: Editare mesaje proprii
   permission_edit_own_time_entries: Editare jurnale de timp proprii
   permission_edit_project: Editare proiect
-  permission_edit_project_associations: Editare dependențe proiect
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Editare raportări
   permission_edit_time_entries: Editare jurnale de timp
   permission_edit_timelines: Editare linii de timp
@@ -1840,7 +1842,7 @@ ro:
   permission_view_work_packages: Vizualizare pachete de lucru
   permission_view_messages: Vizualizare mesaje
   permission_view_members: View members
-  permission_view_project_associations: Vizualizare dependențe proiect
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Vizualizare raportări
   permission_view_time_entries: Vizualizare timp consumat
   permission_view_timelines: Vizualizare linii de timp
@@ -2330,11 +2332,11 @@ ro:
       project_type: Tip proiect
       project_types: Tipuri de proiect
     project_menu:
-      project_associations: Dependenţe
+      project_associations: Dependencies
       reportings: Raportări de stare
       reports: Raportări de interval
       timelines: Planificări
-    add_project_association: Adăugare condiționare
+    add_project_association: Add dependency
     associations: Dependenţe
     board_could_not_be_saved: Forumul nu a putut fi salvat
     button_delete_all: Șterge tot
@@ -2478,10 +2480,11 @@ ro:
       show: 'Stare: %{comment}'
     planning_element_update: 'Actualizare: %{title}'
     work_packages_are_displayed_in_aggregations: Afișare pachete de lucru în agregări
-    project_association_new: Adăugare dependență proiect
-    project_association_new_for_with: Setare dependență pentru “%{project_a}” cu
-    project_association_with_other: Dependență proiect între "%{project_a}" şi "%{project_b}"
-    project_association_of_type: Dependență la proiect de tip “%{type}”
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Nu a putut fi salvat tipul de proiect
     type_could_not_be_saved: Tipul nu a putut fi salvat
     reporting_could_not_be_saved: Raportarea nu a putut fi salvată
@@ -2490,8 +2493,8 @@ ro:
       Tipurile care folosesc această culoare nu vor fi şterse.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Sunteţi sigur
-      că doriţi să ştergeţi dependenţa între "%{project_a}" şi "%{project_b}"?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Sunteţi sigur că doriţi să ştergeţi următorul tip

@@ -380,19 +380,19 @@ it:
       planning_element_type_color:
         hexcode: Codice esadecimale
       project_association:
-        description: Causa
-        project_b: Progetto subordinato
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Consenti associazioni
-        reported_project_statuses: Stati di progetto segnalati
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Posizione
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Commento sullo stato
-        reporting_to_project: Segnala al progetto
-        reported_project_status: Stato del progetto
-        created_at: Creato
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Inizio inserimento
         begin_deletion: Inizio cancellazione
@@ -471,9 +471,9 @@ it:
             types:
               in_use_by_work_packages: 'ancora in uso dalla macro-attività: %{types}'
         project_association:
-          identical_projects: Non può essere creata una dipendenza di un progetto
-            con se stesso.
-          project_association_not_allowed: non consente associazioni.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1244,6 +1244,7 @@ it:
   label_greater_or_equal: ">="
   label_group_by: Raggruppa per
   label_group_new: Nuovo gruppo
+  label_group: Gruppo
   label_group_plural: Gruppi
   label_help: Aiuto
   label_here: qui
@@ -1640,11 +1641,10 @@ it:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: Chiamando dal contesto progettuale esterno la macro crea_lavoro_pacchetto_link.
+        invalid_type: Nessun tipo trovato con nome '%{type}' nel progetto '%{project}'.
       link_name: Nuova macro-attività (work package)
-      link_name_type: New %{type_name}
+      link_name_type: Nuovo %{type_name}
   mail:
     actions: Azioni
   mail_body_account_activation_request: 'Un nuovo utente (%{value}) si è registrato.
@@ -1803,7 +1803,7 @@ it:
   permission_delete_work_packages: Cancellare macro-attività (work package)
   permission_delete_messages: Cancellare messaggi
   permission_delete_own_messages: Cancellare i propri messaggi
-  permission_delete_project_associations: Eliminare le dipendenze del progetto
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Eliminare prospetti
   permission_delete_timelines: Elimina cronologie
   permission_delete_wiki_pages: Eliminare pagine wiki
@@ -1815,7 +1815,7 @@ it:
   permission_edit_own_messages: Modificare i propri messaggi
   permission_edit_own_time_entries: Modificare i propri registri di orario effettuato
   permission_edit_project: Modificare un progetto
-  permission_edit_project_associations: Modificare le dipendenze di un progetto
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Modificare prospetti
   permission_edit_time_entries: Modificare le registrazioni dell'orario effettuato
   permission_edit_timelines: Modificare cronologie
@@ -1851,7 +1851,7 @@ it:
   permission_view_work_packages: Visualizza le macro-attività
   permission_view_messages: Visualizza i messaggi
   permission_view_members: Mostra membri
-  permission_view_project_associations: Visualizzare le dipendenze del progetto
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Visualizzare prospetti
   permission_view_time_entries: Visualizza il tempo impiegato
   permission_view_timelines: Visualizza le cronologie
@@ -2357,11 +2357,11 @@ it:
       project_type: Tipo di progetto
       project_types: Tipi di progetto
     project_menu:
-      project_associations: Dipendenze
+      project_associations: Dependencies
       reportings: Prospetti sullo stato
       reports: Rapporti tempistiche
       timelines: Tempistiche
-    add_project_association: Aggiungi dipendenza
+    add_project_association: Add dependency
     associations: Dipendenze
     board_could_not_be_saved: Il quadro non può essere salvato
     button_delete_all: Cancella tutti
@@ -2510,10 +2510,11 @@ it:
     planning_element_update: 'Aggiorna: %{title}'
     work_packages_are_displayed_in_aggregations: Le macro-attività (work package)
       vengono visualizzate nelle aggregazioni
-    project_association_new: Aggiungi dipendenza del progetto
-    project_association_new_for_with: Imposta una dipendenza per %{project_a} con
-    project_association_with_other: Dipendenza del progetto tra "%{project_a}" e "%{project_b}"
-    project_association_of_type: Dipendenza ai progetti di tipo "%{type}"
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Il tipo del progetto non può essere salvato
     type_could_not_be_saved: Il tipo non può essere salvato
     reporting_could_not_be_saved: Il prospetto non può essere salvato
@@ -2522,8 +2523,8 @@ it:
       tipi che utilizzano questo colore non verranno eliminati.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Sei sicuro
-      di che voler eliminare la dipendenza tra "%{project_a}" e "%{project_b}"?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Sei sicuro di voler eliminare il seguente tipo del
@@ -2675,7 +2676,7 @@ it:
         o non valido.
       multipart_body_error: Il corpo della richiesta non contiene le multipart previste.
       multiple_errors: Più vincoli di campo sono stati violati.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Il tema potrebbe non essere creato
       render:
         context_not_parsable: Il contesto fornito non è un collegamento a una risorsa.
         unsupported_context: La risorsa non è supportata come contesto.

@@ -153,7 +153,7 @@ af:
       no_results_title_text: There are currently no types.
       no_results_content_text: Create a new type
     edit:
-      settings: Settings
+      settings: Instellings
       form_configuration: Vorm konfigurasie
       projects: Projekte
       enabled_projects: Enabled projects
@@ -375,19 +375,19 @@ af:
       planning_element_type_color:
         hexcode: Hex kode
       project_association:
-        description: Oorsaak
-        project_b: Afhanklike projek
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Laat assosiasie toe
-        reported_project_statuses: Gerapporteerde projekstatusse
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Posisie
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status kommentaar
-        reporting_to_project: Gee verslag aan projek
-        reported_project_status: Projek status
-        created_at: Geskep
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -465,8 +465,8 @@ af:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
         project_association:
-          identical_projects: Afhanklikheid kan nie tussen een projek en ditself geskep
-            word nie.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
           project_association_not_allowed: does not allow associations.
         query:
           attributes:
@@ -1228,6 +1228,7 @@ af:
   label_greater_or_equal: ">="
   label_group_by: Groepeer volgens
   label_group_new: Nuwe groep
+  label_group: Groep
   label_group_plural: Groepe
   label_help: Help
   label_here: hier
@@ -1317,7 +1318,7 @@ af:
   label_news_edit: Edit news
   label_news_plural: Nuus
   label_news_view_all: View all news
-  label_next: Next
+  label_next: Volgende
   label_next_week: Volgende week
   label_no_change_option: "(Geen verandering)"
   label_no_data: Geen data om te wys
@@ -1377,15 +1378,15 @@ af:
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: Bekyk alle projekte
   label_project_show_details: Show project details
-  label_project_hide_details: Hide project details
+  label_project_hide_details: Versteek projekdetails
   label_public_projects: Openbare projekte
   label_query_new: New query
   label_query_plural: Custom queries
   label_query_menu_item: Query menu item
   label_read: Read...
-  label_register: Create a new account
-  label_register_with_developer: Register as developer
-  label_registered_on: Registered on
+  label_register: Skep ’n nuwe rekening
+  label_register_with_developer: Registreer as ontwikkelaar
+  label_registered_on: Geregistreer op
   label_registration_activation_by_email: account activation by email
   label_registration_automatic_activation: automatic account activation
   label_registration_manual_activation: manual account activation
@@ -1429,7 +1430,7 @@ af:
   label_search_titles_only: Search titles only
   label_send_information: Send account information to the user
   label_send_test_email: Send a test email
-  label_settings: Settings
+  label_settings: Instellings
   label_system_settings: System settings
   label_show_completed_versions: Show completed versions
   label_sort: Rangskik
@@ -1437,12 +1438,12 @@ af:
   label_sorted_by: sorted by %{value}
   label_sort_higher: Move up
   label_sort_highest: Move to top
-  label_sort_lower: Move down
-  label_sort_lowest: Move to bottom
+  label_sort_lower: Skuif af
+  label_sort_lowest: Skuif na onder
   label_spent_time: Tyd gespandeer
   label_start_to_end: start to end
   label_start_to_start: start to start
-  label_statistics: Statistics
+  label_statistics: Statistiek
   label_status: Status
   label_status_updated: Work package status updated
   label_stay_logged_in: Stay logged in
@@ -1453,24 +1454,24 @@ af:
   label_string: Teks
   label_subproject: Sub-projek
   label_subproject_new: New subproject
-  label_subproject_plural: Subprojects
-  label_subtask_plural: Subtasks
+  label_subproject_plural: Subprojekte
+  label_subtask_plural: Subtake
   label_summary: Opsomming
-  label_system: System
+  label_system: Stelsel
   label_system_storage: Storage information
-  label_table_of_contents: Table of Contents
+  label_table_of_contents: Inhoudsopgawe
   label_tag: Tag
   label_text: Long text
-  label_this_month: this month
-  label_this_week: this week
-  label_this_year: this year
+  label_this_month: vandeesmaand
+  label_this_week: vandeesweek
+  label_this_year: vandeesjaar
   label_time_entry_plural: Tyd gespandeer
   label_time_sheet_menu: Time sheet
   label_time_tracking: Time tracking
-  label_today: today
+  label_today: vandag
   label_top_menu: Top Menu
-  label_topic_plural: Topics
-  label_total: Total
+  label_topic_plural: Onderwerpe
+  label_total: Totaal
   label_type_new: New type
   label_type_plural: Soorte
   label_type_default_new_projects: Type activated for new projects by default
@@ -1510,7 +1511,7 @@ af:
   label_week: Week
   label_wiki_content_added: Wiki page added
   label_wiki_content_updated: Wiki page updated
-  label_wiki_toc: Table of Contents
+  label_wiki_toc: Inhoudsopgawe
   label_wiki_dont_show_menu_item: Do not show this wikipage in project navigation
   label_wiki_edit: Wiki edit
   label_wiki_edit_plural: Wiki edits
@@ -1569,10 +1570,10 @@ af:
     zero: 0 open / %{total}
   label_x_projects:
     one: 1 project
-    other: "%{count} projects"
+    other: "%{count} projekte"
     zero: no projects
-  label_year: Year
-  label_yesterday: yesterday
+  label_year: Jaar
+  label_yesterday: gister
   label_keyboard_function: Function
   label_keyboard_shortcut: Shortcut
   label_keyboard_accesskey: Accesskey

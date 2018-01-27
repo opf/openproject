@@ -373,19 +373,19 @@ sv-SE:
       planning_element_type_color:
         hexcode: Hex-kod
       project_association:
-        description: Orsak
-        project_b: Underordnat projekt
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Tillåter projektberoenden
-        reported_project_statuses: Rapporterad projektstatus
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Position
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status kommentar
-        reporting_to_project: Projektrapporter
-        reported_project_status: Projektstatus
-        created_at: Skapad
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Början av införandet
         begin_deletion: Början av raderingen
@@ -462,9 +462,9 @@ sv-SE:
             types:
               in_use_by_work_packages: 'används fortfarande av arbetspaket: %{types}'
         project_association:
-          identical_projects: Beroende kan inte skapas mellan ett projekt och sig
-            själv.
-          project_association_not_allowed: tillåter inte förbindelser.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1219,6 +1219,7 @@ sv-SE:
   label_greater_or_equal: ">="
   label_group_by: Gruppera efter
   label_group_new: Ny grupp
+  label_group: Grupp
   label_group_plural: Grupper
   label_help: Hjälp
   label_here: här
@@ -1759,7 +1760,7 @@ sv-SE:
   permission_delete_work_packages: Ta bort arbetspaket
   permission_delete_messages: Ta bort meddelanden
   permission_delete_own_messages: Ta bort egna meddelanden
-  permission_delete_project_associations: Ta bort projektberoenden
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Ta bort rapporter
   permission_delete_timelines: Ta bort tidslinjer
   permission_delete_wiki_pages: Ta bort wikisidor
@@ -1771,7 +1772,7 @@ sv-SE:
   permission_edit_own_messages: Redigera egna meddelanden
   permission_edit_own_time_entries: Redigera egna tidrapporter
   permission_edit_project: Redigera projekt
-  permission_edit_project_associations: Redigera projektberoenden
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Redigera rapporter
   permission_edit_time_entries: Redigera tidrapporter
   permission_edit_timelines: Redigera tidslinjer
@@ -1806,7 +1807,7 @@ sv-SE:
   permission_view_work_packages: Visa arbetspaket
   permission_view_messages: Visa meddelanden
   permission_view_members: Visa medlemmar
-  permission_view_project_associations: Visa projektberoenden
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Visa rapporter
   permission_view_time_entries: Visa förbrukad tid
   permission_view_timelines: Visa tidslinjer
@@ -2269,11 +2270,11 @@ sv-SE:
       project_type: Projekttyp
       project_types: Typer av projekt
     project_menu:
-      project_associations: Beroenden
+      project_associations: Dependencies
       reportings: Statusrapporter
       reports: Tidslinjerapporter
       timelines: Tidslinjer
-    add_project_association: Lägg till beroende
+    add_project_association: Add dependency
     associations: Beroenden
     board_could_not_be_saved: Anslagstavlan kunde inte sparas
     button_delete_all: Ta bort alla
@@ -2414,10 +2415,11 @@ sv-SE:
       show: 'Status: %{comment}'
     planning_element_update: 'Uppdaterad: %{title}'
     work_packages_are_displayed_in_aggregations: Arbetspaket visas i aggregeringar
-    project_association_new: Lägg till projektberoende
-    project_association_new_for_with: Ange beroenden för "%{project_a}" med
-    project_association_with_other: Projektetberoende mellan "%{project_a}" och "%{project_b}"
-    project_association_of_type: Beroende till projekt av typ "%{type}"
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Projekttypen kunde inte sparas
     type_could_not_be_saved: Typen kunde inte sparas
     reporting_could_not_be_saved: Rapportering kunde inte sparas
@@ -2426,8 +2428,8 @@ sv-SE:
       med den här färgen kommer inte att raderas.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Är du säker
-      på att du vill ta bort beroendet mellan "%{project_a}" och "%{project_b}"?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Är du säker på att du vill ta bort följande projekttyp?

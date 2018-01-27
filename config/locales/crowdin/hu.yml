@@ -219,7 +219,7 @@ hu:
       heading: Felhasználói hozzáférés törlése %{name}
       info:
         other: A felhasználói hozzáférés törlése visszafordíthatatlan művelet.
-        self: A felhasználói hozzáférésed törlése visszafordíthatatlan művelet.
+        self: A felhasználói hozzáférésed törlése nem visszavonható művelet.
       login_consequences:
         other: A felhasználói hozzáférés törlődni fog a rendszerből. Ezért, a felhasználó
           nem tud bejelentkezni a jelenlegi hozzáférésével. Ő dönt, hogy a felhasználó
@@ -348,10 +348,10 @@ hu:
         last_login_on: Utolsó bejelentkezés
         mail_notification: Email értesítés
         new_password: Új jelszó
-        password_confirmation: Megerősítés
+        password_confirmation: Új jelszó újra
       user_preference:
-        comments_sorting: Megjelenő  megjegyzések
-        hide_mail: Rejtsd el az email címem
+        comments_sorting: Hozzászólások megjelenítése
+        hide_mail: E-mail címem elrejtése
         impaired: Kisegítő mód
         time_zone: Idő zóna
         auto_hide_popups: Siker értesítések automatikus elrejtése
@@ -370,19 +370,19 @@ hu:
       planning_element_type_color:
         hexcode: Hexa kód
       project_association:
-        description: Rendben
-        project_b: Függő projekt
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Elfogadja a hozzárendelést
-        reported_project_statuses: Projekt állapot jelentések
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Pozició
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Állapot megjegyzés
-        reporting_to_project: Projekt jelentések
-        reported_project_status: Projekt állapot
-        created_at: Létrehoz
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Beillesztés kezdete
         begin_deletion: Törlés kezdete
@@ -460,9 +460,9 @@ hu:
             types:
               in_use_by_work_packages: 'munkacsomagok használatban vannak: %{types}'
         project_association:
-          identical_projects: Egy projekt, és saját maga között nem hozható létre
-            függőség.
-          project_association_not_allowed: nem elfogadható hozzárendelés.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -607,8 +607,8 @@ hu:
     description: Leírás
     display_sums: Megjelenitendő összegek
     due_date: Lejárati időpont
-    estimated_hours: Tervezett időpont
-    estimated_time: Tervezett időpont
+    estimated_hours: Becsült idő (óra)
+    estimated_time: Becsült idő (óra)
     firstname: Keresztnév
     group: Csoport
     groups: Csoportok
@@ -973,7 +973,7 @@ hu:
     próbálja meg újra.
   events:
     project: Projekt szerkesztve
-    changeset: A változások szerkesztve
+    changeset: Commit szerkesztve
     message: Üzenet szerkesztve
     news: Hírek
     reply: Válaszolt
@@ -1021,7 +1021,7 @@ hu:
       faq: GY. I. K.
       glossary: Szószedet
       shortcuts: Parancsikonok
-      forums: fórumok
+      forums: Fórumok
       blog: OpenProject blog
       boards: Közösségi fórum
       newsletter: Biztonsági figyelmeztetések / hírlevél
@@ -1094,11 +1094,11 @@ hu:
   label_api_documentation: API dokumentáció
   label_between: között
   label_blocked_by: blokkolta
-  label_blocks: blokkol
+  label_blocks: blokkolja
   label_blog: Blog
   label_board_locked: Zárolva
   label_board_new: Új fórum
-  label_board_plural: fórumok
+  label_board_plural: Fórumok
   label_board_sticky: Kiemelt
   label_boolean: Logikai
   label_branch: Branch
@@ -1118,9 +1118,9 @@ hu:
   label_change_status_of_user: "#{username} állapotának módosítása"
   label_change_view_all: Az összes változtatás megtekintése
   label_changes_details: Minden változás adatai
-  label_changeset: Changeset
-  label_changeset_id: Changeset ID
-  label_changeset_plural: Változáskészlet
+  label_changeset: Commit
+  label_changeset_id: Commit ID
+  label_changeset_plural: Commit-ok
   label_checked: Ellenőrzött
   label_check_uncheck_all_in_column: Megjelöl/Jelölést töröl minden oszlopban
   label_check_uncheck_all_in_row: Megjelöl/Jelölést töröl minden sorban
@@ -1136,7 +1136,7 @@ hu:
   label_comment_plural: Vélemény
   label_commits_per_author: Szerzönként vállalja
   label_commits_per_month: Havonként vállalja
-  label_confirmation: Megerősítés
+  label_confirmation: Új jelszó újra
   label_contains: tartalmaznak
   label_content: Tartalom
   label_copied: másolva
@@ -1173,7 +1173,7 @@ hu:
   label_diff_inline: beágyazott
   label_diff_side_by_side: egymás mellett
   label_disabled: letiltva
-  label_display: Megjelenít
+  label_display: Megjelenítés
   label_display_per_page: 'Oldalanként: %{value}'
   label_display_used_statuses_only: Csak azok a megjelenítési állapotok, melyeket
     ez a típusú használt
@@ -1214,7 +1214,7 @@ hu:
   label_filters_toggle: Szűrők mutatása/elrejtése
   label_float: Mozgó
   label_folder: Mappa
-  label_follows: következik
+  label_follows: követi ezt
   label_force_user_language_to_default: Nyelv beállitása a felhasználóknak, amelyeknél
     nem az alapértelmezett nyelv az elfogadott
   label_form_configuration: Űrlap konfiguráció
@@ -1224,6 +1224,7 @@ hu:
   label_greater_or_equal: ">="
   label_group_by: Csoportosítás a következők szerint
   label_group_new: Új csoport
+  label_group: Csoport
   label_group_plural: Csoportok
   label_help: Segítség
   label_here: itt
@@ -1326,8 +1327,8 @@ hu:
   label_notify_member_plural: E-mail frissítések
   label_on: be
   label_open_menu: Menü megnyitása
-  label_open_work_packages: kinyit
-  label_open_work_packages_plural: kinyit
+  label_open_work_packages: nyitott
+  label_open_work_packages_plural: nyitott
   label_optional_description: Leírás
   label_options: Beállítások
   label_other: Egyéb
@@ -1462,7 +1463,7 @@ hu:
   label_this_year: Ebben az évben
   label_time_entry_plural: Eltöltött idő
   label_time_sheet_menu: Munkaidő-kimutatás
-  label_time_tracking: Követési idő
+  label_time_tracking: Munkaidő követése
   label_today: Ma
   label_top_menu: Felső menü
   label_topic_plural: Témakörök
@@ -1482,7 +1483,7 @@ hu:
   label_user_activity: "%{value} tevékenység"
   label_user_anonymous: Anonymous
   label_user_mail_option_all: Minden saját projektet érintő esetben
-  label_user_mail_option_none: Nincs esemény
+  label_user_mail_option_none: Nem kérek értesítéseket
   label_user_mail_option_only_assigned: Csak a hozzám rendelt feladatokról
   label_user_mail_option_only_my_events: Csak a megfigyelt feladatok vagy amelyben
     részt veszek
@@ -1613,9 +1614,9 @@ hu:
       errors:
         no_project_context: Calling create_work_package_link macro from outside project
           context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        invalid_type: 'Nem található ''%{type}%'' nevű típus ebben a projektben: ''%{project}''.'
       link_name: Új munkacsomag
-      link_name_type: New %{type_name}
+      link_name_type: Új %{type_name}
   mail:
     actions: Műveletek
   mail_body_account_activation_request: 'Új felhasználó (%{value}) regisztrálva van.
@@ -1655,14 +1656,14 @@ hu:
   notice_account_password_expired: Jelszava lejár %{days} nap után . Kérjük, állítson
     be egy újat.
   notice_account_password_updated: Jelszó sikeresen frissült.
-  notice_account_pending: A hozzáférése létre jött, és most rendszergazdai jóváhagyásra
+  notice_account_pending: A hozzáférésed létrejött, és most rendszergazdai jóváhagyásra
     vár.
   notice_account_register_done: Fiók létrehozása sikeresen megtörtént. A fiók aktiválásához
     kattintson az emilben kapott linkre.
   notice_account_unknown_email: Ismeretlen felhasználó.
   notice_account_update_failed: A felhasználói beállítások nem menthetők. Kérem, vessen
     egy pillantást a fiók oldalra.
-  notice_account_updated: A hozzáférése volt sikeresen frissítve.
+  notice_account_updated: A hozzáférési adatok sikeresen frissítve.
   notice_account_wrong_password: Hibás jelszó
   notice_account_registered_and_logged_in: Üdvözöljük a fiókja aktiválva van. Most
     bejelentkezhet.
@@ -1701,9 +1702,11 @@ hu:
   notice_not_authorized: Ön nem jogosult a lap eléréséhez.
   notice_not_authorized_archived_project: Az elérni kivánt projekt archiválva.
   notice_password_confirmation_failed: A jelszó nem megfelelő. Nem lehet folytatni.
-  notice_principals_found_multiple: "There are %{number} results found. \n Tab to
-    focus the first result."
-  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_principals_found_multiple: "%{number} találat. \n Tab-al tudsz az első találatra
+    fókuszálni."
+  notice_principals_found_single: |-
+    Egyetlen találat van.
+    A Tab billentyű megnyomásával ugrik rá a fókusz.
   notice_project_not_deleted: A projekt nem lett törölve.
   notice_successful_connection: Sikeresen létrejött a kapcsolat.
   notice_successful_create: Sikeres létrehozás.
@@ -1770,7 +1773,7 @@ hu:
   permission_delete_work_packages: Törölje a munkacsomagokat
   permission_delete_messages: Üzenetek törlése
   permission_delete_own_messages: Saját üzenetek törlése
-  permission_delete_project_associations: Projekt függöségek törlése
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Jelentések törlése
   permission_delete_timelines: Idővonalak törlése
   permission_delete_wiki_pages: Wiki oldalak törlése
@@ -1782,7 +1785,7 @@ hu:
   permission_edit_own_messages: Saját üzenetek szerkesztése
   permission_edit_own_time_entries: Rögzített eltöltött időim szerkesztése
   permission_edit_project: Projekt szerkesztése
-  permission_edit_project_associations: Projekt függöségek szerkesztése
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Jelentések szerkesztése
   permission_edit_time_entries: Eltöltött idők szerkesztése
   permission_edit_timelines: Idővonalak szerkesztése
@@ -1816,7 +1819,7 @@ hu:
   permission_view_work_packages: Munkacsomagok megtekintése
   permission_view_messages: Üzenetek megtekintése
   permission_view_members: Tagok megtekintése
-  permission_view_project_associations: Projekt függőségeinek megtekintése
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Jelentések megtekintése
   permission_view_time_entries: Az eltöltött idő megtekintése
   permission_view_timelines: Az idővonalak megtekintése
@@ -1839,12 +1842,12 @@ hu:
     archive:
       are_you_sure: Biztosan szeretnéd arhiválni a projektet '%{name}'?
   project_module_activity: Tevékenység
-  project_module_boards: fórumok
+  project_module_boards: Fórumok
   project_module_calendar: Naptár
   project_module_work_package_tracking: A munkacsomag nyomon követése
   project_module_news: Hírek
   project_module_repository: Csomagtároló
-  project_module_time_tracking: Követési idő
+  project_module_time_tracking: Munkaidő követése
   project_module_timelines: Idővonalak
   project_module_wiki: Wiki
   query:
@@ -2233,19 +2236,20 @@ hu:
     van engedélyezve, és kisbetűvel kell kezdődnie.
   text_reassign: 'A munkacsomag ismételt hozzárendelése:'
   text_regexp_info: pl. ^[A-Z0-9]+$
-  text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
+  text_regexp_multiline: A reguláris kifejezés többsoros módban legyen alkalmazva.
+    pld. ^---\s+
   text_repository_usernames_mapping: Jelölje be, vagy frissítse az alkalmazás felhasználóit,
     minden felhasználónév eltárolva, megtalálhatóak a csomagtároló naplóban. A felhasználók
     ugyanazzal az alkalmazási és csomagtárolói felhasználó névvel vagy email címmel
     automatikusan tárolódnak.
   text_select_mail_notifications: Válassza ki a tevékenységeket, amelyekről e-mail
     értesítést kell küldeni.
-  text_status_changed_by_changeset: "%{value} változások alkalmazása."
+  text_status_changed_by_changeset: A %{value} commit-ban hozzáadva.
   text_table_difference_description: In this table the single %{entries} are shown.
     You can view the difference between any two entries by first selecting the according
     checkboxes in the table. When clicking on the button below the table the differences
     are shown.
-  text_time_logged_by_changeset: "%{value} változások alkalmazása."
+  text_time_logged_by_changeset: A %{value} commit-ban hozzáadva.
   text_tip_work_package_begin_day: ezen a napon kezdődik a munkacsomag
   text_tip_work_package_begin_end_day: Ezen a napon kezdődik és zárodik a munkacsomag
   text_tip_work_package_end_day: ezen a napon zárul a munkacsomag
@@ -2285,11 +2289,11 @@ hu:
       project_type: Projekt típus
       project_types: Projekt típusok
     project_menu:
-      project_associations: Szükséges összetevők
+      project_associations: Dependencies
       reportings: Állapot jelentés
       reports: Jelentések az idővonalakról
       timelines: Idővonalak
-    add_project_association: A függőség hozzáadása
+    add_project_association: Add dependency
     associations: Szükséges összetevők
     board_could_not_be_saved: A tábla nem menthető
     button_delete_all: Összes törlése
@@ -2431,11 +2435,11 @@ hu:
       show: 'Állapot: %{comment}'
     planning_element_update: 'Frissítve: %{title}'
     work_packages_are_displayed_in_aggregations: Munkacsomagok megjelenítése csoportokban
-    project_association_new: Projekt függőségek hozzáadása
-    project_association_new_for_with: '"%{project_a}" függőségeinek a beállítása'
-    project_association_with_other: Projekt függősége "%{project_a}" és "%{project_b}"
-      között
-    project_association_of_type: Projekt típus "%{type}" függőségei
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Projekt típusát nem lehet menteni
     type_could_not_be_saved: A típust nem lehet menteni
     reporting_could_not_be_saved: A jelentés mentése nem sikerült
@@ -2444,8 +2448,8 @@ hu:
       egy típus, igy nem törlhető.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Biztos, hogy
-      törli a függőséget "%{project_a}" és "%{project_b}" között?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Biztos, hogy törli a következő projekt-típust?Egy
@@ -2478,16 +2482,18 @@ hu:
       years: Évek
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
-  tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
-    case the old one expired or the user did not get the original email. Can also
-    be used for active users to choose a new authentication method. When used with
-    active users their status will be changed to ''invited''.
+  tooltip_resend_invitation: 'Új meghívó e-mail küldése egy új tokennel. Ez abban
+    az esetben hasznos, ha a felhasználó nem érvényesítette meghívóját időben (lejárt
+    a tokenje) vagy nem kapta meg az meghívó e-mailt. Aktív felhasználóknak is küldhetsz
+    újra meghívót, ha meg akarják változtatni a bejelentkezési módjukat. Ebben az
+    esetben a meghívó kiküldése után a felhasználók állapota ''Meghívva'' lesz.
 
 '
   tooltip:
-    setting_email_login: 'If enabled a user will be unable to chose a login during
-      registration. Instead their given e-mail address will serve as the login. An
-      administrator may still change the login separately.
+    setting_email_login: 'Ha ez az opció engedélyezve van a regisztráció során nem
+      lehet majd felhasználónevet megadni, hanem a felhasználók az e-mail címükkel
+      fognak tudni bejelentkezni. Az adminisztrátorok továbbra is tudnak felhasználónevet
+      módosítani.
 
 '
   queries:
@@ -2522,8 +2528,8 @@ hu:
       a következő hiba miatt: %{errors}'
     invite: Felhasználó meghívása email-ben
     invited: meghívott
-    lock: Zárolva
-    locked: zárolva
+    lock: Fiók végleges zárolása
+    locked: fiók végleges zárolása
     no_login: Ez a felhasználó a bejelentkezési jelszóval  hitelesít magát. Mivel
       le van tiltva,  nem tud bejelentkezni.
     password_change_unsupported: A jelszó módosítása nem támogatott.
@@ -2543,7 +2549,7 @@ hu:
       bejelentkezéskor
   version_status_closed: Lezárva
   version_status_locked: Zárolt
-  version_status_open: kinyit
+  version_status_open: nyitott
   note: Szöveg
   note_password_login_disabled: Bejelentkezési jelszót a %{configuration} letiltotta.
   warning: Figyelem
@@ -2581,7 +2587,7 @@ hu:
       code_500: Belső hiba történt.
       expected:
         date: ÉÉÉÉ-HH-NN (ISO 8601 dátum kötelező)
-        duration: ISO 8601 duration
+        duration: ISO 8601 időtartam
       invalid_content_type: A várt CONTENT-TYPE '%{content_type}', a kapott '%{actual}'.
       invalid_format: 'Érvénytelen formátum tulajdonság "%{property}": várható formátum
         "%{expected_format}", de "%{actual}" kapott.'
@@ -2597,7 +2603,7 @@ hu:
         or malformed.
       multipart_body_error: A kérelem nem tartalmazott várható többrészes elemet.
       multiple_errors: Több mező megszorítás is megszegésre került.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Csatolmány mentése sikertelen
       render:
         context_not_parsable: A megadott kontextus nem erőforrásra hivatkozik.
         unsupported_context: A megadott erőforrás nem támogatott kontextus.

@@ -374,19 +374,19 @@ da:
       planning_element_type_color:
         hexcode: Hex kode
       project_association:
-        description: Årsag
-        project_b: Afhængigt projekt
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: Tillader sammenknytning
-        reported_project_statuses: Rapporterede statusser for projekt
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: Placering
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Kommentar til status
-        reporting_to_project: Rapporter til projekt
-        reported_project_status: Projektstatus
-        created_at: Oprettet
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -464,9 +464,9 @@ da:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
         project_association:
-          identical_projects: Afhængighed kan ikke oprettes mellem ét projekt og sig
-            selv.
-          project_association_not_allowed: tillader ikke forbindelser.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1219,6 +1219,7 @@ da:
   label_greater_or_equal: ">="
   label_group_by: Gruppér efter
   label_group_new: Ny gruppe
+  label_group: Gruppe
   label_group_plural: Grupper
   label_help: Hjælp
   label_here: her
@@ -1761,7 +1762,7 @@ da:
   permission_delete_work_packages: Slet arbejdspakker
   permission_delete_messages: Slet meddelelser
   permission_delete_own_messages: Slet egne meddelelser
-  permission_delete_project_associations: Slet projektets aflæggere
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Slet rapporteringer
   permission_delete_timelines: Slet tidslinjer
   permission_delete_wiki_pages: Slet wiki-sider
@@ -1773,7 +1774,7 @@ da:
   permission_edit_own_messages: Rediger egne meddelelser
   permission_edit_own_time_entries: Rediger egne tidsregistringer
   permission_edit_project: Rediger projekt
-  permission_edit_project_associations: Rediger projektets aflæggere
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Rediger rapporteringer
   permission_edit_time_entries: Rediger tidsregistringer
   permission_edit_timelines: Rediger tidslinjer
@@ -1807,7 +1808,7 @@ da:
   permission_view_work_packages: View work packages
   permission_view_messages: Vis meddelelser
   permission_view_members: Vis medlemmer
-  permission_view_project_associations: Vis projektets aflæggere
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: Vis rapporteringer
   permission_view_time_entries: Vis anvendt tid
   permission_view_timelines: Vis tidslinjer
@@ -2274,11 +2275,11 @@ da:
       project_type: Projekttype
       project_types: Projekttyper
     project_menu:
-      project_associations: Aflæggere
+      project_associations: Dependencies
       reportings: Statusrapporteringer
       reports: Tidslinjerapporter
       timelines: Tidslinjer
-    add_project_association: Tilføj afhængighed
+    add_project_association: Add dependency
     associations: Aflæggere
     board_could_not_be_saved: Tavle kan ikke gemmes
     button_delete_all: Slet alt
@@ -2419,10 +2420,11 @@ da:
       show: 'Status: %{comment}'
     planning_element_update: 'Updatering:  %{title}'
     work_packages_are_displayed_in_aggregations: Arbejdspakker er vist i sammensætninger
-    project_association_new: Tilføj projektafhængighed
-    project_association_new_for_with: Indstil afhængighed for "%{project_a}" med
-    project_association_with_other: Projektafhængighed mellem "%{project_a}" og "%{project_b}"
-    project_association_of_type: Afhængighed til projekt af type "%{type}"
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Projekttypen kan ikke gemmes
     type_could_not_be_saved: Typen kan ikke gemmes
     reporting_could_not_be_saved: Rapportering kan ikke gemmes
@@ -2431,8 +2433,8 @@ da:
       med denne farve vil ikke blive slettet.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Er du sikker
-      på, du vil slette afhængigheden mellem "%{project_a}" og "%{project_b}"?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Er du sikker på, du vil slette den følgende projekttype?

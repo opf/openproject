@@ -343,19 +343,19 @@ ko:
       planning_element_type_color:
         hexcode: 16진수 코드
       project_association:
-        description: 원인
-        project_b: 종속 프로젝트
+        description: Cause
+        project_b: Dependent project
       project_type:
-        allows_association: 연결 허용
-        reported_project_statuses: 보고된 프로젝트 상태
+        allows_association: Allows association
+        reported_project_statuses: Reported project statuses
         position: 위치
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: 상태 코멘트
-        reporting_to_project: 프로젝트에 대한 보고서
-        reported_project_status: 프로젝트 상태
-        created_at: 생성됨
+        reported_project_status_comment: Status comment
+        reporting_to_project: Reports to project
+        reported_project_status: Project status
+        created_at: Created
       work_package:
         begin_insertion: 삽입 시작
         begin_deletion: 삭제 시작
@@ -431,8 +431,9 @@ ko:
             types:
               in_use_by_work_packages: '아직 작업 패키지에 사용됨: %{types}'
         project_association:
-          identical_projects: 한 프로젝트와 자체 간에 종속 관계를 만들 수 없습니다.
-          project_association_not_allowed: 이(가) 연계를 허용하지 않습니다.
+          identical_projects: Dependency cannot be created between one project and
+            itself.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1183,6 +1184,7 @@ ko:
   label_greater_or_equal: ">="
   label_group_by: 그룹화 기준
   label_group_new: 새 그룹
+  label_group: 그룹
   label_group_plural: 그룹
   label_help: 도움말
   label_here: 여기
@@ -1708,7 +1710,7 @@ ko:
   permission_delete_work_packages: 작업 패키지 삭제
   permission_delete_messages: 메시지 삭제
   permission_delete_own_messages: 내 메시지 삭제
-  permission_delete_project_associations: 프로젝트 종속성 삭제
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: 보고 삭제
   permission_delete_timelines: 타임라인 삭제
   permission_delete_wiki_pages: 위키 페이지 삭제
@@ -1720,7 +1722,7 @@ ko:
   permission_edit_own_messages: 내 메시지 편집
   permission_edit_own_time_entries: 내 시간 로그 편집
   permission_edit_project: 프로젝트 편집
-  permission_edit_project_associations: 프로젝트 종속성 편집
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: 보고 편집
   permission_edit_time_entries: 시간 로그 편집
   permission_edit_timelines: 타임라인 편집
@@ -1754,7 +1756,7 @@ ko:
   permission_view_work_packages: 작업 패키지 보기
   permission_view_messages: 메시지 보기
   permission_view_members: 멤버 보기
-  permission_view_project_associations: 프로젝트 종속성 보기
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: 보고 보기
   permission_view_time_entries: 소요 시간 보기
   permission_view_timelines: 타임라인 보기
@@ -2169,11 +2171,11 @@ ko:
       project_type: 프로젝트 형식
       project_types: 프로젝트 유형
     project_menu:
-      project_associations: 종속성
+      project_associations: Dependencies
       reportings: 상태 보고
       reports: 타임라인 보고서
       timelines: 타임라인
-    add_project_association: 종속성 추가
+    add_project_association: Add dependency
     associations: 종속성
     board_could_not_be_saved: 보드를 저장할 수 없습니다.
     button_delete_all: 모두 삭제
@@ -2307,10 +2309,11 @@ ko:
       show: '상태: %{comment}'
     planning_element_update: '업데이트: %{title}'
     work_packages_are_displayed_in_aggregations: 작업 패키지가 집계에 표시됩니다.
-    project_association_new: 프로젝트 종속성 추가
-    project_association_new_for_with: '다음으로 "%{project_a}"에 대한 종속성 설정:'
-    project_association_with_other: '"%{project_a}" 및 "%{project_b}" 간 프로젝트 종속성'
-    project_association_of_type: '"%{type}" 유형의 프로젝트에 대한 종속성'
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: 프로젝트 유형을 저장할 수 없습니다.
     type_could_not_be_saved: 유형을 저장할 수 없습니다.
     reporting_could_not_be_saved: 보고를 저장할 수 없습니다.
@@ -2318,8 +2321,8 @@ ko:
     really_delete_color: '다음 색상을 삭제하시겠습니까? 이 색상을 사용하는 유형은 삭제되지 않습니다.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: '"%{project_a}"
-      및 "%{project_b}" 간의 종속성을 삭제하시겠습니까?
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: '다음 프로젝트 유형을 삭제하시겠습니까? 이 유형을 사용하는 프로젝트는 삭제되지 않습니다.

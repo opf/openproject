@@ -75,7 +75,7 @@ hu:
       Felhasználói megjegyzéssel.
     label_add_columns: Oszlopok hozzáadása
     label_add_comment: Megjegyzés hozzáadása
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: "@név beírásával értesíthetsz másokat a hozzászólásodról"
     label_add_selected_columns: A kiválasztott oszlopok hozzáadása
     label_added_by: Hozzáadta
     label_added_time_by: Hozzáadva %{author} %{age}
@@ -140,7 +140,7 @@ hu:
     label_not_equals: nem
     label_on: be
     label_open_menu: Menü megnyitása
-    label_open_work_packages: kinyit
+    label_open_work_packages: nyitott
     label_password: Jelszó
     label_previous: Korábbi
     label_per_page: 'Oldalanként:'
@@ -223,7 +223,7 @@ hu:
         tartozik.
       click_to_switch_context: Munkacsomag megnyitása a projektben.
       autocompleter:
-        label: Project autocompletion
+        label: Projektnevek automatikus kiegészítése
     text_are_you_sure: Biztos vagy benne?
     types:
       attribute_groups:
@@ -254,10 +254,10 @@ hu:
       relates: Kapcsolódó
       duplicates: Ismétlődések
       duplicated: Ismétlődések szerint
-      blocks: Blokkok
+      blocks: Blokkolja
       blocked: Blokkolta
       precedes: Megelőzi
-      follows: Következik
+      follows: Követi ezt
       includes: Tartalmazza
       partof: Része
       requires: Kötelező
@@ -446,12 +446,12 @@ hu:
       label_switch_to_multi_select: Váltás a többszörös kiválasztásra
       message_error_during_bulk_delete: Hiba történt a munkacsomag törlése közben.
       message_successful_bulk_delete: Sikerült törölni a munkacsomagokat.
-      message_successful_show_in_fullscreen: Click here to open this work package
-        in fullscreen view.
+      message_successful_show_in_fullscreen: Ide kattintva a munkacsomag részletei
+        teljes képernyős nézeten jeleníthetőek meg.
       message_view_spent_time: Munkacsomaggal töltött idő megjelenítése
       no_value: Nincs érték
       inline_create:
-        title: Click here to add a new work package to this list
+        title: Ide kattintva adhatsz új munkacsomagot a listához
       create:
         header: Új %{type}
         header_no_type: Új munkacsomag (a típus még nem meghatározott)
@@ -471,8 +471,8 @@ hu:
         description: A lekérdezése hibás, és nem sikerült feldolgozni.
       no_results:
         title: Nincs megjelenítendő munkacsomag.
-        description: Either none have been created or all work packages are filtered
-          out.
+        description: Vagy nincs még ilyen munkacsomag, vagy a szűrők miatt nem jeleníthető
+          meg.
       property_groups:
         details: Részletek
         people: Személyek
@@ -485,7 +485,7 @@ hu:
         description: Leírás
         date: Dátum
         dueDate: Lejárati időpont
-        estimatedTime: Tervezett időpont
+        estimatedTime: Becsült idő (óra)
         spentTime: Eltöltött idő
         category: Kategória
         percentageDone: Százalékosan elkészült
