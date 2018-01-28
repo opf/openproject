@@ -88,7 +88,7 @@ ar:
     label_board_locked: مقفل
     label_board_sticky: مثبت
     label_create_work_package: إنشاء حزمة جديدة
-    label_created_by: Created by
+    label_created_by: أنشئ بواسطة
     label_date: التاريخ
     label_date_with_format: 'أدخل %{date_attribute} باستخدام التنسيق التالي: %{format}'
     label_deactivate: تعطيل
@@ -211,7 +211,7 @@ ar:
       default: "-"
       subject: Enter subject here
       selection: من فضلك اختر
-      relation_description: Click to add description for this relation
+      relation_description: انقر لإضافة وصف لهذه العلاقة
     project:
       required_outside_context: You are not within a project context. Please choose
         the project context first in order to select type and status
@@ -254,33 +254,33 @@ ar:
       blocked: محظور من قِبَل
       precedes: يسبق
       follows: يتبع
-      includes: Includes
-      partof: Part of
-      requires: Requires
-      required: Required by
-      relation_type: relation type
+      includes: يتضمن
+      partof: جزء من
+      requires: يتطلّب
+      required: مطلوب من قبل
+      relation_type: نوع العلاقة
     relations_hierarchy:
-      hierarchy_headline: hierarchy
+      hierarchy_headline: تسلسل هرمي
     relation_buttons:
       change_parent: تغيير الوالد
-      remove_parent: Remove parent
-      group_by_wp_type: Group by work package type
-      group_by_relation_type: Group by relation type
-      add_parent: Add existing parent
-      add_new_child: Create new child
-      add_existing_child: Add existing child
-      remove_child: Remove child
-      add_new_relation: Create new relation
-      update_description: Set or update description of this relation
+      remove_parent: إزالة والد
+      group_by_wp_type: تصنيفحسب نوع حزمة العمل
+      group_by_relation_type: تصنيف حسب نوع العلاقة
+      add_parent: إضافة والد موجود مسبقًا
+      add_new_child: إنشاء طفل جديد
+      add_existing_child: إضافة طقل موجود مسبقًا
+      remove_child: إزالة طفل
+      add_new_relation: إنشاء علاقة جديدة
+      update_description: تغيير أو تحديث وصف هذة لعلاقة
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
       add_follower: Add follower
       add_predecessor: Add predecessor
       remove: حذف علاقة
-      save: Save relation
-      abort: Abort
+      save: إحفظ العلاقة
+      abort: إلغاء
     relations_autocomplete:
-      placeholder: Enter the related work package id
+      placeholder: أدخل معرّف حزمة العمل ذات الصلة
     repositories:
       select_tag: حدد العلامة
       select_branch: اختر فرع
@@ -448,14 +448,14 @@ ar:
       message_successful_bulk_delete: تم حذف مجموعات العمل بنجاح.
       message_successful_show_in_fullscreen: اضغط هنا لفتح مجموعة العمل هذه بعرض كامل
         الشاشة.
-      message_view_spent_time: Show spent time for this work package
+      message_view_spent_time: أظهر الوقت المنقضي في رزمة العمل هذه
       no_value: لا توجد قيمة
       inline_create:
         title: اضغط هنا لإضافة مجموعة عمل جديدة للقائمة
       create:
-        header: New %{type}
-        header_no_type: New work package (Type not yet set)
-        header_with_parent: 'New %{type} (Child of %{parent_type} #%{id})'
+        header: "%{type} جديد"
+        header_no_type: حزمة عمل جديدة (النوع لم يحدد بعد)
+        header_with_parent: "%{type} جديد (طفل %{parent_type} #%{id})"
         button: إنشاء
       hierarchy:
         show: Show hierarchy mode
@@ -527,7 +527,7 @@ ar:
         display_sums: عرض المبالغ
         errors:
           unretrievable_query: غير قادر على استرداد الاستعلام من URL
-          not_found: There is no such query
+          not_found: لا يوجد مثل هذا الإستعلام
         text_no_results: No matching queries were found.
       table:
         summary: أسطر الجدول كتب عمل والاعمدة واصفات لكتب العمل.

@@ -464,7 +464,7 @@ ar:
         query:
           attributes:
             project:
-              error_not_found: not found
+              error_not_found: لم يتم العثور
             public:
               error_unauthorized: "- The user has no permission to create public queries."
           group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
@@ -479,10 +479,10 @@ ar:
           attributes:
             to:
               error_not_found: work package in `to` position not found or not visible
-              error_readonly: an existing relation's `to` link is immutable
+              error_readonly: الإرتباطات الحالية غير قابلة للتغيير
             from:
               error_not_found: work package in `from` position not found or not visible
-              error_readonly: علاقة الارتباط هذه غير ممكن تغييرها
+              error_readonly: علاقة الارتباط هذه عير قابلة للتغيير
         repository:
           not_available: بائع SCM غير متاح
           not_whitelisted: غير مسموح بالتكوين.
@@ -548,7 +548,7 @@ ar:
             status:
               invalid_on_create: ليس حالة صحيحة للمستخدمين الجدد.
             auth_source:
-              error_not_found: not found
+              error_not_found: لم يتم العثور
         member:
           principal_blank: يرجى اختيار مستخدم واحد على الأقل أو مجموعة.
           role_blank: من فضلك قم باختيار دور واحد على الأقل.
@@ -1023,9 +1023,8 @@ ar:
   error_workflow_copy_target: الرجاء تحديد نوع(انواع) الهدف ودور (أدوار)
   error_menu_item_not_created: لا يمكن إضافة عنصر للقائمة
   error_menu_item_not_saved: لا يمكن حفظ عنصر القائمة
-  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}"
-    due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}"
-    (%{existing_identifier}).
+  error_wiki_root_menu_item_conflict: 'لا يمكن تغيير الإسم من "%{old_name}" إلى "%{new_name}"
+    بسبب التداخل في قائمة الناتجة مع القائمة الحالية (%{existing_identifier}) "%{existing_caption}".
 
 '
   error_external_authentication_failed: حدث خطأ أثناء المصادقة الخارجية. الرجاء المحاولة
@@ -1237,7 +1236,7 @@ ar:
   label_download_plural: "%{count} تنزيلات"
   label_downloads_abbr: D/L
   label_duplicated_by: مكرر بواسطة
-  label_duplicate: duplicate
+  label_duplicate: مكرر
   label_duplicates: التكرارات
   label_edit: تعديل
   label_enable_multi_select: تبديل متعدد الخيارات
@@ -1248,7 +1247,7 @@ ar:
   label_end_to_end: نهاية إلى نهاية
   label_end_to_start: نهاية إلى بداية
   label_enumeration_new: قيمة تعداد جديد
-  label_enumeration_value: Enumeration value
+  label_enumeration_value: إحصائيات
   label_enumerations: تعدادات
   label_enterprise: Enterprise
   label_enterprise_edition: Enterprise Edition
@@ -1304,7 +1303,7 @@ ar:
   label_invite_user: دعوة مستخدم
   label_show_hide: إظهار / إخفاء
   label_show_all_registered_users: Show all registered users
-  label_journal: Journal
+  label_journal: يوميات
   label_journal_diff: مقارنة التوصيف
   label_language: اللغة
   label_jump_to_a_project: الانتقال بسرعة إلى مشروع...
@@ -1339,7 +1338,7 @@ ar:
   label_member_plural: أعضاء
   label_view_all_members: عرض جميع الأعضاء
   label_menu_item_name: اسم عنصر من القائمة
-  label_message: Message
+  label_message: رسالة
   label_message_last: الرسالة الأخيرة
   label_message_new: رسالة جديدة
   label_message_plural: رسائل
@@ -1765,9 +1764,12 @@ ar:
   notice_not_authorized: غير مسموح لك بالوصول إلى هذه الصفحة.
   notice_not_authorized_archived_project: المشروع الذي تحاول الوصول إليه تمت أرشفته.
   notice_password_confirmation_failed: Your password is not correct. Cannot continue.
-  notice_principals_found_multiple: "There are %{number} results found. \n Tab to
-    focus the first result."
-  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_principals_found_multiple: |-
+    وُجِد %{number} من النتائج.
+    إضغط كي تحدد على النتيجة الأولى.
+  notice_principals_found_single: |-
+    هنالك نتيجة واحدة.
+    إضغط لتحديدها.
   notice_project_not_deleted: لم يتم حذف المشروع.
   notice_successful_connection: اتصال ناجح.
   notice_successful_create: إنشاء ناجح.
