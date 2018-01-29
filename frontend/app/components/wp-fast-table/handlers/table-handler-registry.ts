@@ -1,4 +1,5 @@
 import {Injector} from '@angular/core';
+import {State} from 'reactivestates';
 import {WorkPackageTable} from '../wp-fast-table';
 import {EditCellHandler} from './cell/edit-cell-handler';
 import {RelationsCellHandler} from './cell/relations-cell-handler';
@@ -25,6 +26,11 @@ export interface TableEventHandler {
 
   eventScope(table:WorkPackageTable):JQuery;
 }
+
+type StateTransformers = {
+  // noinspection JSUnusedLocalSymbols
+  new(injector:Injector, table:WorkPackageTable):any;
+};
 
 export class TableHandlerRegistry {
 
@@ -54,7 +60,7 @@ export class TableHandlerRegistry {
     t => new RelationsCellHandler(this.injector, t)
   ];
 
-  private readonly stateTransformers:{ new(injector:Injector,table:WorkPackageTable):any }[] = [
+  private readonly stateTransformers:StateTransformers[] = [
     SelectionTransformer,
     RowsTransformer,
     ColumnsTransformer,
