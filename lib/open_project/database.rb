@@ -51,10 +51,12 @@ module OpenProject
       {
         postgresql: {
           numeric: 90500, # PG_VERSION_NUM
-          string: '9.5.0'
+          string: '9.5.0',
+          enforced: true
         },
         mysql: {
-          string: '5.6.0'
+          string: '5.6.0',
+          enforced: false
         }
       }
     end
@@ -63,14 +65,17 @@ module OpenProject
     # Check the database version compatibility.
     # Raises an +InsufficientVersionError+ when the version is incompatible
     def self.check_version!
-      required = required_versions[name][:string]
+      required = required_versions[name]
       current = version
 
-      unless version_matches?
-        raise InsufficientVersionError.new(
-          "Database server version mismatch: Required version is #{required}, " \
-          "but current version is #{current}"
-        )
+      return if version_matches?
+      message = "Database server version mismatch: Required version is #{required[:string]}, " \
+                "but current version is #{current}"
+
+      if required[:enforced]
+        raise InsufficientVersionError.new message
+      else
+        warn "#{message}. Version is not enforced for this database however, so continuing with this version."
       end
     end
 
