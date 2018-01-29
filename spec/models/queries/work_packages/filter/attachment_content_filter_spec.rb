@@ -29,6 +29,11 @@
 require 'spec_helper'
 
 describe Queries::WorkPackages::Filter::AttachmentContentFilter, type: :model do
+  before do
+    allow(EnterpriseToken).to receive(:allows_to?).and_return(false)
+    allow(EnterpriseToken).to receive(:allows_to?).with(:attachment_filters).and_return(true)
+  end
+
   it_behaves_like 'basic query filter' do
     let(:order) { 8 }
     let(:type) { :text }
