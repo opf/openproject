@@ -29,6 +29,7 @@
 import {NgModule} from '@angular/core';
 import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
+import { FormsModule } from '@angular/forms';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
 import {OpIcon} from 'core-components/common/icon/op-icon';
@@ -68,13 +69,29 @@ import {WpWorkflowButtonComponent} from 'core-components/wp-workflow-buttons/wp-
 import {WpWorkflowButtonsComponent} from 'core-components/wp-workflow-buttons/wp-workflow-buttons.component';
 import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
+import {HideSectionsComponent} from 'core-components/common/hide-sections/hide-sections.component';
+import {Angular4WrapperComponent} from 'core-components/common/angular4-wrapper/angular4-wrapper.component';
+import {HideSectionComponent} from 'core-components/common/hide-section/hide-section.component';
+import {HideSectionsService} from 'core-components/common/hide-sections/hide-sections.service';
+
+@NgModule({
+  declarations: [
+    Angular4WrapperComponent
+  ],
+  exports: [
+    Angular4WrapperComponent
+  ]
+})
+export class Angular4Wrapper { }
 
 @NgModule({
   imports: [
     BrowserModule,
-    UpgradeModule
+    UpgradeModule,
+    FormsModule
   ],
   providers: [
+    HideSectionsService,
     WorkPackagesTableControllerHolder,
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('states', States),
@@ -114,13 +131,17 @@ import {WorkPackageCacheService} from 'core-components/work-packages/work-packag
     WorkPackageTableSumsRowController,
     SortHeaderDirective,
     HasDropdownMenuDirective,
-    WpInlineCreateDirectiveUpgraded
+    WpInlineCreateDirectiveUpgraded,
+    HideSectionsComponent,
+    HideSectionComponent
   ],
   entryComponents: [
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
     TablePaginationComponent,
-    WpWorkflowButtonsComponent
+    WpWorkflowButtonsComponent,
+    HideSectionsComponent,
+    HideSectionComponent
   ]
 })
 export class OpenProjectModule {

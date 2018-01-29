@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,32 +26,66 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
-
-  def index
-    @custom_actions = CustomAction.order_by_name
+shared_examples_for 'associated custom action' do
+  let(:instance) do
+    described_class.new
   end
-
-  def new
-    @custom_action = CustomAction.new
-
-    @query = Query.new
-  end
-
-  def create
-    call = CustomActions::CreateService
-           .new
-           .call(attributes: permitted_params.custom_action)
-
-    @custom_action = call.result
-
-    if call.success
-      redirect_to custom_actions_path
+  let(:expected_key) do
+    if defined?(key)
+      key
     else
-      render action: :new
+      raise ":key needs to be defined"
     end
   end
 
-  helper_method :gon
+  describe '.all' do
+    it 'is an array with the class itself' do
+      expect(described_class.all)
+        .to match_array [described_class]
+    end
+  end
+
+  describe '.key' do
+    it 'is the expected key' do
+      expect(described_class.key)
+        .to eql(expected_key)
+    end
+  end
+
+  describe '#key' do
+    it 'is :status' do
+      expect(instance.key)
+        .to eql(expected_key)
+    end
+  end
+
+  describe '#value' do
+    it 'can be provided on initialization' do
+      i = described_class.new(1)
+
+      expect(i.value)
+        .to eql 1
+    end
+
+    it 'can be set and read' do
+      instance.value = 1
+
+      expect(instance.value)
+        .to eql 1
+    end
+  end
+
+  describe '#human_name' do
+    it 'is the human_attribute_name' do
+      expect(instance.human_name)
+        .to eql(WorkPackage.human_attribute_name(expected_key))
+    end
+  end
+
+  describe '#type' do
+    it 'is :associated_property' do
+      expect(instance.type)
+        .to eql(:associated_property)
+    end
+  end
 end

@@ -1,11 +1,3 @@
-#-- encoding: UTF-8
-#-- copyright
-# OpenProject is a project management system.
-# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
-#
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License version 3.
-#
 # OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 # Copyright (C) 2006-2017 Jean-Philippe Lang
 # Copyright (C) 2010-2013 the ChiliProject Team
@@ -27,32 +19,15 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
-
-  def index
-    @custom_actions = CustomAction.order_by_name
+module CustomActions::Strategies::Boolean
+  def allowed_values
+    [
+      { label: I18n.t(:general_text_yes), value: CustomValue::BoolStrategy::DB_VALUE_TRUE },
+      { label: I18n.t(:general_text_no), value: CustomValue::BoolStrategy::DB_VALUE_FALSE }
+    ]
   end
 
-  def new
-    @custom_action = CustomAction.new
-
-    @query = Query.new
+  def type
+    :boolean
   end
-
-  def create
-    call = CustomActions::CreateService
-           .new
-           .call(attributes: permitted_params.custom_action)
-
-    @custom_action = call.result
-
-    if call.success
-      redirect_to custom_actions_path
-    else
-      render action: :new
-    end
-  end
-
-  helper_method :gon
 end

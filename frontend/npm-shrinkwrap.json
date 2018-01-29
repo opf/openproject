@@ -28,6 +28,14 @@
         "tslib": "1.8.0"
       }
     },
+    "@angular/forms": {
+      "version": "4.4.6",
+      "resolved": "https://registry.npmjs.org/@angular/forms/-/forms-4.4.6.tgz",
+      "integrity": "sha1-/mSs5CQ1wbgPSQNLfEHOjK8UpEo=",
+      "requires": {
+        "tslib": "1.8.0"
+      }
+    },
     "@angular/platform-browser": {
       "version": "4.4.6",
       "resolved": "https://registry.npmjs.org/@angular/platform-browser/-/platform-browser-4.4.6.tgz",

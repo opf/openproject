@@ -902,26 +902,18 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
 
       describe 'customActions' do
         it 'has a collection of customActions' do
+          unassign_action = FactoryGirl.build_stubbed(:custom_action,
+                                                      actions: [CustomActions::AssignedToAction.new(value: nil)],
+                                                      name: 'Unassign')
+          allow(work_package)
+            .to receive(:custom_actions)
+            .and_return([unassign_action])
+
           expected = [
             {
-              href: api_v3_paths.work_package_custom_action(work_package.id, 1),
+              href: api_v3_paths.work_package_custom_action(work_package.id, unassign_action.id),
               method: 'POST',
-              title: 'Unassign'
-            },
-            {
-              href: api_v3_paths.work_package_custom_action(work_package.id, 2),
-              method: 'POST',
-              title: 'Close'
-            },
-            {
-              href: api_v3_paths.work_package_custom_action(work_package.id, 3),
-              method: 'POST',
-              title: 'Escalate'
-            },
-            {
-              href: api_v3_paths.work_package_custom_action(work_package.id, 4),
-              method: 'POST',
-              title: 'Reset'
+              title: unassign_action.name
             }
           ]
 

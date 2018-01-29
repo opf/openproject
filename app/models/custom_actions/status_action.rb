@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,32 +28,23 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
+class CustomActions::StatusAction < CustomActions::Base
+  include CustomActions::Strategies::Associated
 
-  def index
-    @custom_actions = CustomAction.order_by_name
+  private
+
+  def associated
+    Status
+      .select(:id, :name)
+      .order(:name)
+      .map { |u| [u.id, u.name] }
   end
 
-  def new
-    @custom_action = CustomAction.new
-
-    @query = Query.new
+  def required?
+    true
   end
 
-  def create
-    call = CustomActions::CreateService
-           .new
-           .call(attributes: permitted_params.custom_action)
-
-    @custom_action = call.result
-
-    if call.success
-      redirect_to custom_actions_path
-    else
-      render action: :new
-    end
+  def self.key
+    :status
   end
-
-  helper_method :gon
 end

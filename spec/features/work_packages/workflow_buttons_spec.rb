@@ -30,10 +30,12 @@ require 'spec_helper'
 
 describe 'Workflow buttons', type: :feature, js: true do
   let(:permissions) { %i(view_work_packages edit_work_packages) }
-  let(:role) { FactoryGirl.create(:role, permissions: permissions )}
+  let(:role) { FactoryGirl.create(:role, permissions: permissions ) }
   let(:admin) { FactoryGirl.create(:admin) }
   let(:user) do
     FactoryGirl.create(:user,
+                       firstname: 'A',
+                       lastname: 'User',
                        member_through_role: role,
                        member_in_project: project)
   end
@@ -51,13 +53,15 @@ describe 'Workflow buttons', type: :feature, js: true do
     FactoryGirl.create(:default_priority)
   end
   let(:immediate_priority) do
-    FactoryGirl.create(:issue_priority, name: 'At once', position: IssuePriority.maximum(:position) + 1)
+    FactoryGirl.create(:issue_priority,
+                       name: 'At once',
+                       position: IssuePriority.maximum(:position) + 1)
   end
   let(:default_status) do
     FactoryGirl.create(:default_status)
   end
   let(:closed_status) do
-    FactoryGirl.create(:closed_status)
+    FactoryGirl.create(:closed_status, name: 'Closed')
   end
   let(:workflows) do
     FactoryGirl.create(:workflow,
@@ -82,7 +86,7 @@ describe 'Workflow buttons', type: :feature, js: true do
   end
 
   scenario 'viewing workflow buttons' do
-    # create custom actions
+    # create custom action 'Unassign'
     visit custom_actions_path
 
     within '.toolbar-items' do
@@ -91,6 +95,10 @@ describe 'Workflow buttons', type: :feature, js: true do
 
     fill_in 'Name', with: 'Unassign'
 
+    within '#custom-actions-form--actions' do
+      select '-', from: 'Assignee'
+    end
+
     click_button 'Create'
 
     expect(page)
@@ -98,6 +106,68 @@ describe 'Workflow buttons', type: :feature, js: true do
 
     expect(page)
       .to have_content 'Unassign'
+
+    # create custom action 'Close'
+
+    within '.toolbar-items' do
+      click_link 'Custom action'
+    end
+
+    fill_in 'Name', with: 'Close'
+
+    within '#custom-actions-form--actions' do
+      select 'Close', from: 'Status'
+    end
+
+    click_button 'Create'
+
+    expect(page)
+      .to have_current_path(custom_actions_path)
+
+    expect(page)
+      .to have_content 'Close'
+
+    # create custom action 'Escalate'
+
+    within '.toolbar-items' do
+      click_link 'Custom action'
+    end
+
+    fill_in 'Name', with: 'Escalate'
+
+    within '#custom-actions-form--actions' do
+      select immediate_priority.name, from: 'Priority'
+    end
+
+    click_button 'Create'
+
+    expect(page)
+      .to have_current_path(custom_actions_path)
+
+    expect(page)
+      .to have_content 'Escalate'
+
+    # create custom action 'Reset'
+
+    within '.toolbar-items' do
+      click_link 'Custom action'
+    end
+
+    fill_in 'Name', with: 'Reset'
+
+    within '#custom-actions-form--actions' do
+      select default_priority.name, from: 'Priority'
+      select default_status.name, from: 'Status'
+      select user.name, from: 'Assignee'
+    end
+
+    click_button 'Create'
+
+    expect(page)
+      .to have_current_path(custom_actions_path)
+
+    expect(page)
+      .to have_content 'Reset'
 
     # use custom actions
     login_as(user)
@@ -121,7 +191,7 @@ describe 'Workflow buttons', type: :feature, js: true do
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
-    # Bump the lockVersion and by that force a conflict.
+    ## Bump the lockVersion and by that force a conflict.
     WorkPackage.where(id: work_package.id).update_all(lock_version: 10)
 
     within('.workflow-buttons') do
@@ -136,7 +206,9 @@ describe 'Workflow buttons', type: :feature, js: true do
       click_button('Escalate')
     end
 
-    wp_page.expect_attributes priority: immediate_priority.name
+    wp_page.expect_attributes priority: immediate_priority.name,
+                              status: default_status.name,
+                              assignee: '-'
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 
@@ -144,7 +216,8 @@ describe 'Workflow buttons', type: :feature, js: true do
       click_button('Close')
     end
 
-    wp_page.expect_attributes status: closed_status.name
+    wp_page.expect_attributes status: closed_status.name,
+                              priority: immediate_priority.name
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
 

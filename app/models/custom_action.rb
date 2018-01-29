@@ -29,8 +29,48 @@
 
 class CustomAction < ActiveRecord::Base
   validates :name, length: { maximum: 255, minimum: 1 }
+  serialize :actions, CustomActions::ActionSerializer
+
+  def initialize(*args)
+    ret = super
+
+    if actions.nil?
+      self.actions = []
+    end
+
+    ret
+  end
 
   def self.order_by_name
     order(:name)
   end
+
+  def add_action(key, value)
+    # TODO handle unknown key
+    self.actions ||= []
+    actions << available_actions.detect { |a| a.key == key }.new(value)
+  end
+
+  def all_actions
+    available_actions.map do |action|
+      existing_action = actions.detect { |a| a.key == action.key }
+
+      if existing_action
+        existing_action
+      else
+        action.new
+      end
+    end
+  end
+
+  private
+
+  def available_actions
+    ::CustomActions::Register.actions.map(&:all).flatten
+  end
 end
+
+CustomActions::Register.action(CustomActions::AssignedToAction)
+CustomActions::Register.action(CustomActions::StatusAction)
+CustomActions::Register.action(CustomActions::PriorityAction)
+CustomActions::Register.action(CustomActions::CustomFieldAction)

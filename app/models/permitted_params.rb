@@ -90,7 +90,11 @@ class PermittedParams
   end
 
   def custom_action
-    params.require(:custom_action).permit(*self.class.permitted_attributes[:custom_action])
+    whitelisted = params
+                  .require(:custom_action)
+                  .permit(*self.class.permitted_attributes[:custom_action])
+
+    whitelisted.merge(params[:custom_action].slice(:actions).permit!)
   end
 
   def custom_field_type

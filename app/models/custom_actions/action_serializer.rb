@@ -27,32 +27,20 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
-
-  def index
-    @custom_actions = CustomAction.order_by_name
-  end
-
-  def new
-    @custom_action = CustomAction.new
-
-    @query = Query.new
-  end
-
-  def create
-    call = CustomActions::CreateService
-           .new
-           .call(attributes: permitted_params.custom_action)
-
-    @custom_action = call.result
-
-    if call.success
-      redirect_to custom_actions_path
-    else
-      render action: :new
+class CustomActions::ActionSerializer
+  def self.load(value)
+    return [] unless value
+    YAML
+      .load(value)
+      .map do |key, value|
+      CustomActions::Register
+        .actions
+        .detect { |a| a.key == key }
+        .new(value)
     end
   end
 
-  helper_method :gon
+  def self.dump(actions)
+    YAML::dump(actions.map { |a| [a.key, a.value] })
+  end
 end

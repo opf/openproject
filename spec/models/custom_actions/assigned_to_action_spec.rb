@@ -1,4 +1,3 @@
-#-- encoding: UTF-8
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -26,33 +25,26 @@
 #
 # See doc/COPYRIGHT.rdoc for more details.
 #++
+require 'spec_helper'
+require_relative 'shared_expectations'
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
+describe CustomActions::AssignedToAction, type: :model do
+  it_behaves_like 'associated custom action' do
+    let(:key) { :assigned_to }
 
-  def index
-    @custom_actions = CustomAction.order_by_name
-  end
+    describe '#allowed_values' do
+      it 'is the list of all users' do
+        users = [FactoryGirl.build_stubbed(:user),
+                 FactoryGirl.build_stubbed(:user)]
+        allow(User)
+          .to receive_message_chain(:not_builtin, :select, :order_by_name)
+          .and_return(users)
 
-  def new
-    @custom_action = CustomAction.new
-
-    @query = Query.new
-  end
-
-  def create
-    call = CustomActions::CreateService
-           .new
-           .call(attributes: permitted_params.custom_action)
-
-    @custom_action = call.result
-
-    if call.success
-      redirect_to custom_actions_path
-    else
-      render action: :new
+        expect(instance.allowed_values)
+          .to eql([{ value: nil, label: '-' },
+                   { value: users.first.id, label: users.first.name },
+                   { value: users.last.id, label: users.last.name }])
+      end
     end
   end
-
-  helper_method :gon
 end

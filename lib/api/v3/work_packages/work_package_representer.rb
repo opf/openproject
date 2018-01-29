@@ -328,29 +328,10 @@ module API
         end
 
         links :customActions do
-          actions = [
+          represented.custom_actions.map do |action|
             {
-              id: 1,
-              name: 'Unassign'
-            },
-            {
-              id: 2,
-              name: 'Close'
-            },
-            {
-              id: 3,
-              name: 'Escalate'
-            },
-            {
-              id: 4,
-              name: 'Reset'
-            }
-          ]
-
-          actions.map do |action|
-            {
-              href: api_v3_paths.work_package_custom_action(represented.id, action[:id]),
-              title: action[:name],
+              href: api_v3_paths.work_package_custom_action(represented.id, action.id),
+              title: action.name,
               method: 'POST'
             }
           end

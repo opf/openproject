@@ -76,4 +76,43 @@ describe CustomAction, type: :model do
         .to eql [other_instance, instance]
     end
   end
+
+  describe '.actions' do
+    it 'is empty initially' do
+      expect(stubbed_instance.actions)
+        .to be_empty
+    end
+
+    it 'can be set and read' do
+      stubbed_instance.add_action(:assigned_to, nil)
+
+      expect(stubbed_instance.actions.map { |a| [a.key, a.value] })
+        .to match_array [[:assigned_to, nil]]
+    end
+
+    it 'can be persisted' do
+      instance.add_action(:assigned_to, 1)
+
+      instance.save!
+
+      expect(CustomAction.find(instance.id).actions.map { |a| [a.key, a.value]})
+        .to match_array [[:assigned_to, 1]]
+    end
+  end
+
+  describe '.all_actions' do
+    it 'returns all available actions with the default value initialized' do
+      expect(stubbed_instance.all_actions.map { |a| [a.key, a.value] })
+        .to match_array [[:assigned_to, nil],
+                               [:status, nil]]
+    end
+
+    it 'returns the activated actions with their selected value and all other with the default value' do
+      stubbed_instance.add_action(:assigned_to, 1)
+
+      expect(stubbed_instance.all_actions.map { |a| [a.key, a.value] })
+        .to match_array [[:assigned_to, 1],
+                         [:status, nil]]
+    end
+  end
 end

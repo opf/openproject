@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,32 +28,53 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
-
-  def index
-    @custom_actions = CustomAction.order_by_name
+class CustomActions::CustomFieldAction < CustomActions::Base
+  def self.key
+    :"custom_field_#{custom_field.id}"
   end
 
-  def new
-    @custom_action = CustomAction.new
-
-    @query = Query.new
+  def self.custom_field
+    raise NotImplementedError
   end
 
-  def create
-    call = CustomActions::CreateService
-           .new
-           .call(attributes: permitted_params.custom_action)
+  def custom_field
+    self.class.custom_field
+  end
 
-    @custom_action = call.result
+  def human_name
+    custom_field.name
+  end
 
-    if call.success
-      redirect_to custom_actions_path
-    else
-      render action: :new
+  def self.all
+    WorkPackageCustomField
+      .order(:name)
+      .map do |cf|
+        klass = Class.new(CustomActions::CustomFieldAction)
+        klass.define_singleton_method(:custom_field) do
+          cf
+        end
+
+        klass.prepend(strategy(cf))
+        klass
+      end
+  end
+
+  def self.strategy(custom_field)
+    case custom_field.field_format
+    when 'string'
+      CustomActions::Strategies::String
+    when 'text'
+      CustomActions::Strategies::Text
+    when 'int'
+      CustomActions::Strategies::Integer
+    when 'float'
+      CustomActions::Strategies::Float
+    when 'date'
+      CustomActions::Strategies::Date
+    when 'bool'
+      CustomActions::Strategies::Boolean
+    when 'list', 'version', 'user'
+      CustomActions::Strategies::AssociatedCustomField
     end
   end
-
-  helper_method :gon
 end

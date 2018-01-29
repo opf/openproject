@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,32 +28,30 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActionsController < ApplicationController
-  before_action :require_admin
+class CustomActions::AssignedToAction < CustomActions::Base
+  include CustomActions::Strategies::Associated
 
-  def index
-    @custom_actions = CustomAction.order_by_name
+  def associated
+    # TODO handle groups
+    User
+      .not_builtin
+      .select(:id, :firstname, :lastname)
+      .order_by_name
+      .map { |u| [u.id, u.name] }
+      #values = principal_loader.user_values
+
+      #if Setting.work_package_group_assignment?
+      #  values += principal_loader.group_values
+      #end
+
+      #me_allowed_value + values.sort
   end
 
-  def new
-    @custom_action = CustomAction.new
-
-    @query = Query.new
+  def required?
+    false
   end
 
-  def create
-    call = CustomActions::CreateService
-           .new
-           .call(attributes: permitted_params.custom_action)
-
-    @custom_action = call.result
-
-    if call.success
-      redirect_to custom_actions_path
-    else
-      render action: :new
-    end
+  def self.key
+    :assigned_to
   end
-
-  helper_method :gon
 end

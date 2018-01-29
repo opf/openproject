@@ -33,7 +33,8 @@ describe CustomActionsController, type: :controller do
   let(:non_admin) { FactoryGirl.build(:user) }
   let(:action) { FactoryGirl.build_stubbed(:custom_action) }
   let(:params) do
-    { custom_action: { name: 'blubs' } }
+    { custom_action: { name: 'blubs',
+                       actions: { assigned_to: 1 } } }
   end
 
   describe '#index' do
@@ -124,7 +125,11 @@ describe CustomActionsController, type: :controller do
     let(:current_user) { admin }
     let(:save_success) { true }
     let(:permitted_params) do
-      ActionController::Parameters.new(params).require(:custom_action).permit(%i(name))
+      ActionController::Parameters
+        .new(params)
+        .require(:custom_action)
+        .permit(:name)
+        .merge(ActionController::Parameters.new(actions: { assigned_to: "1" }).permit!)
     end
 
     before do
