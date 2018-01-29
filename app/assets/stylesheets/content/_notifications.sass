@@ -67,19 +67,19 @@ $nm-upload-file-status-icon-size: rem-calc(12)
 $nm-upload-box-padding: rem-calc(15) rem-calc(25)
 
 %nm-icon-error
-  @extend .icon-error:before
+  @include icon-mixin-error
   color: $nm-color-error-icon
 
 %nm-icon-success
-  @extend .icon-checkmark:before
+  @include icon-mixin-checkmark
   color: $nm-color-success-icon
 
 %nm-icon-warning
-  @extend .icon-attention:before
+  @include icon-mixin-attention
   color: $nm-color-warning-icon
 
 %nm-icon-info
-  @extend .icon-info1:before
+  @include icon-mixin-info1
   color: $nm-color-info-icon
 
 %error-placeholder

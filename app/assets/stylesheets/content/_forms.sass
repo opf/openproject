@@ -262,12 +262,12 @@ fieldset.form--fieldset
     font-size: 0.75rem
 
     .form--fieldset.-collapsible > &
-      @extend .icon-arrow-up1:before
+      @include icon-mixin-arrow-up1
       padding:   0.625rem 0.25rem 0 0.25rem
 
     .form--fieldset.-collapsible.-collapsed > &,
     .form--fieldset.-collapsible.collapsed  > &
-      @extend .icon-arrow-down1:before
+      @include icon-mixin-arrow-down1
       padding:   0.625rem 0.25rem 0 0.25rem
 
 #sidebar .form--fieldset-legend
@@ -566,17 +566,16 @@ input[readonly].-clickable
 .form--text-field,
 .form--select
   &.-tiny
-    font-size: 0.7rem
+    @include form--input-field-mixin--tiny
 
   &.-small
-    font-size: 0.8rem
+    @include form--input-field-mixin--small
 
   &.-large
-    font-size: 1.3rem
+    @include form--input-field-mixin--large
 
   &.-narrow
-    width: auto
-    max-width: 100%
+    @include form--input-field-mixin--narrow
 
   .form &
     margin-bottom: 0rem
@@ -729,8 +728,7 @@ input[readonly].-clickable
     border-left:  0
 
   &.-transparent
-    background: none
-    border: none
+    @include form--field-affix-mixin--transparent
 
 .form--tooltip-container
   flex: 0 0 auto

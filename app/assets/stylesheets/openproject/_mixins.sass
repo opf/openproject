@@ -91,3 +91,24 @@
   background: $widget-box-block-bg-color
   border: 1px solid $widget-box-block-border-color
   margin: 10px
+
+
+// These mixins are necessary so that other classes can inherit     the styles.
+// In future Sass versions a doubled inheritance like @extend classA.classB will not work any more.
+// See https://github.com/sass/sass/issues/1599
+@mixin form--input-field-mixin--tiny
+  font-size: 0.7rem
+
+@mixin form--input-field-mixin--small
+  font-size: 0.8rem
+
+@mixin form--input-field-mixin--narrow
+  width: auto
+  max-width: 100%
+
+@mixin form--input-field-mixin--large
+  font-size: 1.3rem
+
+@mixin form--field-affix-mixin--transparent
+  background: none
+  border: none

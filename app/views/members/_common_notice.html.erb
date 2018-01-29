@@ -27,7 +27,7 @@ See doc/COPYRIGHT.rdoc for more details.
 
 ++#%>
 
-<div class="flash notice icon icon-notice <%= User.current.pref.auto_hide_popups? ? 'autohide-notification' : '' %>"
+<div class="flash notice icon icon-yes <%= User.current.pref.auto_hide_popups? ? 'autohide-notification' : '' %>"
      role="alert">
   <%= h message %>
   <span class="close-handler" role="button" tabindex="0" aria-label="{{ ::I18n.t('js.close_popup_title') }}">
