@@ -36,6 +36,11 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
     :attachments
   end
 
+  def available?
+    EnterpriseToken.allows_to?(:attachment_filters)
+  end
+
+
   def search_column
     raise NotImplementedError
   end

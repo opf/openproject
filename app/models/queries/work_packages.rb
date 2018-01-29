@@ -34,10 +34,8 @@ module Queries::WorkPackages
 
   register.filter Query, filters_module::AssignedToFilter
   register.filter Query, filters_module::AssigneeOrGroupFilter
-  if EnterpriseToken.allows_to?(:attachment_filters)
-    register.filter Query, filters_module::AttachmentContentFilter
-    register.filter Query, filters_module::AttachmentFileNameFilter
-  end
+  register.filter Query, filters_module::AttachmentContentFilter
+  register.filter Query, filters_module::AttachmentFileNameFilter
   register.filter Query, filters_module::AuthorFilter
   register.filter Query, filters_module::CategoryFilter
   register.filter Query, filters_module::CreatedAtFilter
