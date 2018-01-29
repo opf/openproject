@@ -58,7 +58,9 @@
       <tbody *ngIf="!!tableElement"
              wpInlineCreate
              [wp-inline-create--table]="workPackageTable"
-             [wp-inline-create--project-identifier]="projectIdentifier">
+             [wp-inline-create--project-identifier]="projectIdentifier"
+             [wp-inline-create--hierarchical-injector]="injector"
+      >
       </tbody>
       <tfoot>
       <tr wpTableSumsRow></tr>

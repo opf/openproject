@@ -1,8 +1,9 @@
 import {InputState} from 'reactivestates';
-import {States} from '../states.service';
 import {opServicesModule} from '../../angular-modules';
+import {States} from '../states.service';
 
 export class WorkPackageTableRefreshService {
+
   constructor(public states:States) {
   }
 

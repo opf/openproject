@@ -1,18 +1,17 @@
+import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
+import {relationCellIndicatorClassName, relationCellTdClassName} from '../../builders/relation-cell-builder';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
+import {WorkPackageTableRelationColumnsService} from '../../state/wp-table-relation-columns.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {TableEventHandler} from '../table-handler-registry';
-import {
-  relationCellIndicatorClassName,
-  relationCellTdClassName
-} from '../../builders/relation-cell-builder';
-import {WorkPackageTableRelationColumnsService} from '../../state/wp-table-relation-columns.service';
 
 export class RelationsCellHandler extends ClickOrEnterHandler implements TableEventHandler {
+
   // Injections
-  public wpTableRelationColumns:WorkPackageTableRelationColumnsService;
+  public wpTableRelationColumns:WorkPackageTableRelationColumnsService =
+    this.injector.get(WorkPackageTableRelationColumnsService);
 
   public get EVENT() {
     return 'click.table.relationsCell, keydown.table.relationsCell';
@@ -26,9 +25,10 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
     return jQuery(table.container);
   }
 
-  constructor(table:WorkPackageTable) {
+  constructor(public readonly injector:Injector,
+              table:WorkPackageTable) {
     super();
-    $injectFields(this, 'wpTableRelationColumns');
+    // $injectFields(this, 'wpTableRelationColumns');
   }
 
   protected processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {

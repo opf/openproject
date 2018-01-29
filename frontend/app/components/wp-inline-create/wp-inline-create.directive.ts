@@ -46,7 +46,8 @@ import {WorkPackageTableColumnsService} from '../wp-fast-table/state/wp-table-co
 import {WorkPackageTableFiltersService} from '../wp-fast-table/state/wp-table-filters.service';
 import {WorkPackageTable} from '../wp-fast-table/wp-fast-table';
 import {
-  inlineCreateCancelClassName, InlineCreateRowBuilder,
+  inlineCreateCancelClassName,
+  InlineCreateRowBuilder,
   inlineCreateRowClassName
 } from './inline-create-row-builder';
 
@@ -57,6 +58,8 @@ export class WorkPackageInlineCreateController {
   public projectIdentifier:string;
 
   public table:WorkPackageTable;
+
+  public hierarchicalInjector:Injector;
 
   // inner state
 
@@ -167,7 +170,8 @@ export class WorkPackageInlineCreateController {
         this.wpCacheService.updateWorkPackage(this.currentWorkPackage!);
 
         // Set editing context to table
-        const context = new TableRowEditContext(wp.id, this.rowBuilder.classIdentifier(wp));
+        const context = new TableRowEditContext(
+          this.hierarchicalInjector, wp.id, this.rowBuilder.classIdentifier(wp));
         this.workPackageEditForm = WorkPackageEditForm.createInContext(context, wp, false);
         this.workPackageEditForm.changeset.clear();
 
@@ -244,6 +248,7 @@ export class WpInlineCreateDirectiveUpgraded extends UpgradeComponent {
 
   @Input('wp-inline-create--table') table:WorkPackageTable;
   @Input('wp-inline-create--project-identifier') projectIdentifier:string;
+  @Input('wp-inline-create--hierarchical-injector') hierarchicalInjector:string;
 
   constructor(elementRef:ElementRef, injector:Injector) {
     super('wpInlineCreate', elementRef, injector);

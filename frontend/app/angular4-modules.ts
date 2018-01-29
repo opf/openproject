@@ -31,21 +31,27 @@ import {BrowserModule} from '@angular/platform-browser';
 import {UpgradeModule} from '@angular/upgrade/static';
 import {TablePaginationComponent} from 'core-app/components/table-pagination/table-pagination.component';
 import {AccessibleByKeyboardDirectiveUpgraded} from 'core-app/ui_components/accessible-by-keyboard-directive-upgraded';
+import {SimpleTemplateRenderer} from 'core-components/angular/simple-template-renderer';
 import {OpIcon} from 'core-components/common/icon/op-icon';
 import {ContextMenuService} from 'core-components/context-menus/context-menu.service';
 import {HasDropdownMenuDirective} from 'core-components/context-menus/has-dropdown-menu/has-dropdown-menu-directive';
 import {States} from 'core-components/states.service';
 import {PaginationService} from 'core-components/table-pagination/pagination-service';
+import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
 import {WorkPackageDisplayFieldService} from 'core-components/wp-display/wp-display-field/wp-display-field.service';
+import {WorkPackageEditingService} from 'core-components/wp-edit-form/work-package-editing-service';
 import {WorkPackageNotificationService} from 'core-components/wp-edit/wp-notification.service';
 import {WorkPackageTableColumnsService} from 'core-components/wp-fast-table/state/wp-table-columns.service';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 import {WorkPackageTableGroupByService} from 'core-components/wp-fast-table/state/wp-table-group-by.service';
 import {WorkPackageTableHierarchiesService} from 'core-components/wp-fast-table/state/wp-table-hierarchy.service';
 import {WorkPackageTablePaginationService} from 'core-components/wp-fast-table/state/wp-table-pagination.service';
 import {WorkPackageTableRelationColumnsService} from 'core-components/wp-fast-table/state/wp-table-relation-columns.service';
+import {WorkPackageTableSelection} from 'core-components/wp-fast-table/state/wp-table-selection.service';
 import {WorkPackageTableSortByService} from 'core-components/wp-fast-table/state/wp-table-sort-by.service';
 import {WorkPackageTableTimelineService} from 'core-components/wp-fast-table/state/wp-table-timeline.service';
 import {WpInlineCreateDirectiveUpgraded} from 'core-components/wp-inline-create/wp-inline-create.directive';
+import {KeepTabService} from 'core-components/wp-panels/keep-tab/keep-tab.service';
 import {WorkPackageRelationsService} from 'core-components/wp-relations/wp-relations.service';
 import {WpResizerDirectiveUpgraded} from 'core-components/wp-resizer/wp-resizer.directive';
 import {SortHeaderDirective} from 'core-components/wp-table/sort-header/sort-header.directive';
@@ -55,12 +61,17 @@ import {WorkPackageTableTimelineRelations} from 'core-components/wp-table/timeli
 import {WorkPackageTableTimelineStaticElements} from 'core-components/wp-table/timeline/global-elements/wp-timeline-static-elements.directive';
 import {WorkPackageTableTimelineGrid} from 'core-components/wp-table/timeline/grid/wp-timeline-grid.directive';
 import {WorkPackageTimelineHeaderController} from 'core-components/wp-table/timeline/header/wp-timeline-header.directive';
+import {WorkPackageTableRefreshService} from 'core-components/wp-table/wp-table-refresh-request.service';
 import {WorkPackageTableSumsRowController} from 'core-components/wp-table/wp-table-sums-row/wp-table-sums-row.directive';
+import {WorkPackagesTableController,} from 'core-components/wp-table/wp-table.directive';
 import {
-  WorkPackagesTableController,
-} from 'core-components/wp-table/wp-table.directive';
-import {
-  $rootScopeToken, columnsModalToken, focusHelperToken, I18nToken, NotificationsServiceToken, upgradeService,
+  $qToken,
+  $rootScopeToken, $stateToken, $timeoutToken,
+  columnsModalToken,
+  FocusHelperToken, halRequestToken,
+  I18nToken,
+  NotificationsServiceToken, PathHelperToken,
+  upgradeService,
   upgradeServiceWithToken
 } from './angular4-transition-utils';
 
@@ -70,11 +81,36 @@ import {
     UpgradeModule
   ],
   providers: [
-    upgradeService('paginationService', PaginationService),
-    upgradeService('wpTablePagination', WorkPackageTablePaginationService),
     upgradeServiceWithToken('$rootScope', $rootScopeToken),
     upgradeServiceWithToken('I18n', I18nToken),
+    upgradeServiceWithToken('$q', $qToken),
+    upgradeServiceWithToken('$timeout', $timeoutToken),
+    upgradeServiceWithToken('$state', $stateToken),
     upgradeServiceWithToken('NotificationsService', NotificationsServiceToken),
+    upgradeServiceWithToken('columnsModal', columnsModalToken),
+    upgradeServiceWithToken('FocusHelper', FocusHelperToken),
+    upgradeServiceWithToken('PathHelper', PathHelperToken),
+    upgradeServiceWithToken('halRequest', halRequestToken),
+
+    upgradeService('wpRelations', WorkPackageRelationsService),
+    upgradeService('wpCacheService', WorkPackageCacheService),
+    upgradeService('wpEditing', WorkPackageEditingService),
+    upgradeService('states', States),
+    upgradeService('paginationService', PaginationService),
+    upgradeService('keepTab', KeepTabService),
+    upgradeService('wpTableSelection', WorkPackageTableSelection),
+    upgradeService('wpTableFocus', WorkPackageTableFocusService),
+    upgradeService('wpTablePagination', WorkPackageTablePaginationService),
+    upgradeService('templateRenderer', SimpleTemplateRenderer),
+    upgradeService('wpTableRefresh', WorkPackageTableRefreshService),
+    upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
+    upgradeService('wpTableTimeline', WorkPackageTableTimelineService),
+    upgradeService('wpNotificationsService', WorkPackageNotificationService),
+    upgradeService('wpTableHierarchies', WorkPackageTableHierarchiesService),
+    upgradeService('wpTableSortBy', WorkPackageTableSortByService),
+    upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
+    upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
+    upgradeService('wpTableColumns', WorkPackageTableColumnsService),
     upgradeService('contextMenu', ContextMenuService),
   ],
   declarations: [

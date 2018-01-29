@@ -1,13 +1,15 @@
-import {States} from "../../../states.service";
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
-import {WorkPackageTable} from "../../wp-fast-table";
-import {WorkPackageTableTimelineState} from "../../wp-table-timeline";
+import {Injector} from '@angular/core';
+import {States} from '../../../states.service';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {WorkPackageTableTimelineState} from '../../wp-table-timeline';
 
 export class TimelineTransformer {
-  public states:States;
 
-  constructor(table:WorkPackageTable) {
-    injectorBridge(this);
+  public states:States = this.injector.get(States);
+
+  constructor(public readonly injector:Injector,
+              table:WorkPackageTable) {
+    // injectorBridge(this);
 
     this.states.table.timelineVisible.values$()
       .takeUntil(this.states.table.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineState) => {
@@ -24,4 +26,4 @@ export class TimelineTransformer {
   }
 }
 
-TimelineTransformer.$inject = ['states'];
+// TimelineTransformer.$inject = ['states'];

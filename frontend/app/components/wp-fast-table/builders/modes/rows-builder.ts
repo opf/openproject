@@ -1,11 +1,13 @@
+import {Injector} from '@angular/core';
 import {States} from '../../../states.service';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {PrimaryRenderPass} from '../primary-render-pass';
 
 export abstract class RowsBuilder {
-  public states:States;
 
-  constructor(public workPackageTable:WorkPackageTable) {
+  public states:States = this.injector.get(States);
+
+  constructor(public readonly injector:Injector, public workPackageTable:WorkPackageTable) {
   }
 
   /**
@@ -21,4 +23,4 @@ export abstract class RowsBuilder {
   }
 }
 
-RowsBuilder.$inject = ['states'];
+// RowsBuilder.$inject = ['states'];

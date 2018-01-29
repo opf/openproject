@@ -1,12 +1,12 @@
-import {injectorBridge} from "../../../angular/angular-injector-bridge.functions";
-import {WorkPackageTable} from "../../wp-fast-table";
-import {tableRowClassName} from "../../builders/rows/single-row-builder";
-import {ContextMenuService} from "../../../context-menus/context-menu.service";
-import {keyCodes} from "../../../common/keyCodes.enum";
-import {ContextMenuHandler} from "./context-menu-handler";
+import {Injector} from '@angular/core';
+import {keyCodes} from '../../../common/keyCodes.enum';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {ContextMenuHandler} from './context-menu-handler';
 
 export class ContextMenuKeyboardHandler extends ContextMenuHandler {
-  constructor(table:WorkPackageTable) {
+
+  constructor(public readonly injector:Injector,
+              table:WorkPackageTable) {
     super(table);
   }
 
@@ -33,7 +33,7 @@ export class ContextMenuKeyboardHandler extends ContextMenuHandler {
     const wpId = element.data('workPackageId');
 
     // Set position args to open at element
-    let position = { of: target };
+    let position = {of: target};
 
     super.openContextMenu(evt, wpId, position);
 

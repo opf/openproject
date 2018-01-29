@@ -1,53 +1,60 @@
-import {TimelineTransformer} from "./state/timeline-transformer";
-import {HierarchyTransformer} from "./state/hierarchy-transformer";
-import {WorkPackageTable} from "../wp-fast-table";
-import {SelectionTransformer} from "./state/selection-transformer";
-import {RowsTransformer} from "./state/rows-transformer";
-import {ColumnsTransformer} from "./state/columns-transformer";
-import {ContextMenuKeyboardHandler} from "./context-menu/context-menu-keyboard-handler";
-import {GroupRowHandler} from "./row/group-row-handler";
-import {RowDoubleClickHandler} from "./row/double-click-handler";
-import {RowClickHandler} from "./row/click-handler";
-import {WorkPackageStateLinksHandler} from "./row/wp-state-links-handler";
-import {EditCellHandler} from "./cell/edit-cell-handler";
-import {HierarchyClickHandler} from "./row/hierarchy-click-handler";
+import {Injector} from '@angular/core';
+import {WorkPackageTable} from '../wp-fast-table';
+import {EditCellHandler} from './cell/edit-cell-handler';
 import {RelationsCellHandler} from './cell/relations-cell-handler';
+import {ContextMenuClickHandler} from './context-menu/context-menu-click-handler';
+import {ContextMenuKeyboardHandler} from './context-menu/context-menu-keyboard-handler';
+import {ContextMenuRightClickHandler} from './context-menu/context-menu-rightclick-handler';
+import {RowClickHandler} from './row/click-handler';
+import {RowDoubleClickHandler} from './row/double-click-handler';
+import {GroupRowHandler} from './row/group-row-handler';
+import {HierarchyClickHandler} from './row/hierarchy-click-handler';
+import {WorkPackageStateLinksHandler} from './row/wp-state-links-handler';
+import {ColumnsTransformer} from './state/columns-transformer';
+import {HierarchyTransformer} from './state/hierarchy-transformer';
 import {RelationsTransformer} from './state/relations-transformer';
-import {ContextMenuRightClickHandler} from "./context-menu/context-menu-rightclick-handler";
-import {ContextMenuClickHandler} from "./context-menu/context-menu-click-handler";
+import {RowsTransformer} from './state/rows-transformer';
+import {SelectionTransformer} from './state/selection-transformer';
+import {TimelineTransformer} from './state/timeline-transformer';
 
 export interface TableEventHandler {
   EVENT:string;
   SELECTOR:string;
+
   handleEvent(table:WorkPackageTable, evt:JQueryEventObject):void;
+
   eventScope(table:WorkPackageTable):JQuery;
 }
 
 export class TableHandlerRegistry {
-  static eventHandlers: ((t: WorkPackageTable) => TableEventHandler)[] = [
+
+  constructor(public readonly injector:Injector) {
+  }
+
+  private eventHandlers:((t:WorkPackageTable) => TableEventHandler)[] = [
     // Hierarchy expansion/collapsing
-    t => new HierarchyClickHandler(t),
+    t => new HierarchyClickHandler(this.injector, t),
     // Clicking or pressing Enter on a single cell, editable or not
-    t => new EditCellHandler(t),
+    t => new EditCellHandler(this.injector, t),
     // Clicking on the details view
-    t => new WorkPackageStateLinksHandler(t),
+    t => new WorkPackageStateLinksHandler(this.injector, t),
     // Clicking on the row (not within a cell)
-    t => new RowClickHandler(t),
+    t => new RowClickHandler(this.injector, t),
     // Double Clicking on the row (not within a cell)
-    t => new RowDoubleClickHandler(t),
+    t => new RowDoubleClickHandler(this.injector, t),
     // Clicking on group headers
-    t => new GroupRowHandler(t),
+    t => new GroupRowHandler(this.injector, t),
     // Right clicking on rows
     t => new ContextMenuRightClickHandler(t),
     // Left clicking on the dropdown icon
-    t => new ContextMenuClickHandler(t),
+    t => new ContextMenuClickHandler(this.injector, t),
     // SHIFT+ALT+F10 on rows
-    t => new ContextMenuKeyboardHandler(t),
+    t => new ContextMenuKeyboardHandler(this.injector, t),
     // Clicking on relations cells
-    t => new RelationsCellHandler(t)
+    t => new RelationsCellHandler(this.injector, t)
   ];
 
-  static stateTransformers = [
+  private readonly stateTransformers:{ new(injector:Injector,table:WorkPackageTable):any }[] = [
     SelectionTransformer,
     RowsTransformer,
     ColumnsTransformer,
@@ -56,9 +63,9 @@ export class TableHandlerRegistry {
     RelationsTransformer
   ];
 
-  static attachTo(table: WorkPackageTable) {
+  attachTo(table:WorkPackageTable) {
     this.stateTransformers.map((cls) => {
-      return new cls(table);
+      return new cls(this.injector, table);
     });
 
     this.eventHandlers.map(factory => {

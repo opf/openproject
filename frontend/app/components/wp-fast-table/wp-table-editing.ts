@@ -1,3 +1,4 @@
+import {Injector} from '@angular/core';
 import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
 import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
 import {TableRowEditContext} from "../wp-edit-form/table-row-edit-context";
@@ -6,10 +7,11 @@ import {$injectFields} from "../angular/angular-injector-bridge.functions";
 import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
 
 export class WorkPackageTableEditingContext {
-  public wpEditing:WorkPackageEditingService;
 
-  constructor() {
-    $injectFields(this, 'wpEditing');
+  public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
+
+  constructor(private readonly injector:Injector) {
+    // $injectFields(this, 'wpEditing');
   }
 
   public forms:{[wpId:string]:WorkPackageEditForm} = {};
@@ -41,7 +43,7 @@ export class WorkPackageTableEditingContext {
     }
 
     // Get any existing edit state for this work package
-    const editContext = new TableRowEditContext(wpId, classIdentifier);
+    const editContext = new TableRowEditContext(this.injector, wpId, classIdentifier);
     return this.forms[wpId] = WorkPackageEditForm.createInContext(editContext, workPackage, false);
   }
 }

@@ -1,3 +1,5 @@
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
 import {States} from '../../../../states.service';
 import {WorkPackageTableHierarchiesService} from '../../../state/wp-table-hierarchy.service';
@@ -8,18 +10,19 @@ import {HierarchyRenderPass} from './hierarchy-render-pass';
 import {RowsBuilder} from '../rows-builder';
 
 export class HierarchyRowsBuilder extends RowsBuilder {
+
   // Injections
-  public states:States;
-  public wpTableColumns:WorkPackageTableColumnsService;
-  public wpTableHierarchies:WorkPackageTableHierarchiesService;
-  public I18n:op.I18n;
+  public states:States = this.injector.get(States);
+  public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
+  public wpTableHierarchies:WorkPackageTableHierarchiesService = this.injector.get(WorkPackageTableHierarchiesService);
+  public I18n:op.I18n = this.injector.get(I18nToken);
 
   protected rowBuilder:SingleHierarchyRowBuilder;
 
   // The group expansion state
-  constructor(public workPackageTable:WorkPackageTable) {
-    super(workPackageTable);
-    injectorBridge(this);
+  constructor(public readonly injector:Injector, public workPackageTable:WorkPackageTable) {
+    super(injector,workPackageTable);
+    // injectorBridge(this);
     this.rowBuilder = new SingleHierarchyRowBuilder(this.workPackageTable);
   }
 
@@ -38,4 +41,4 @@ export class HierarchyRowsBuilder extends RowsBuilder {
   }
 }
 
-HierarchyRowsBuilder.$inject = ['wpTableColumns', 'wpTableHierarchies', 'states', 'I18n'];
+// HierarchyRowsBuilder.$inject = ['wpTableColumns', 'wpTableHierarchies', 'states', 'I18n'];

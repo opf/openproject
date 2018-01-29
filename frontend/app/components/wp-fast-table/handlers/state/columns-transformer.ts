@@ -1,15 +1,18 @@
+import {Injector} from '@angular/core';
 import {debugLog} from '../../../../helpers/debug_output';
-import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
 import {States} from '../../../states.service';
-import {WorkPackageTable} from '../../wp-fast-table';
 import {WorkPackageTableColumnsService} from '../../state/wp-table-columns.service';
+import {WorkPackageTable} from '../../wp-fast-table';
 
 export class ColumnsTransformer {
-  public states:States;
-  public wpTableColumns:WorkPackageTableColumnsService;
 
-  constructor(public table: WorkPackageTable) {
-    $injectFields(this, 'states', 'wpTableColumns');
+  public states:States = this.injector.get(States);
+  public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
+
+  constructor(public readonly injector:Injector,
+              public table:WorkPackageTable) {
+
+    // $injectFields(this, 'states', 'wpTableColumns');
 
     this.states.updates.columnsUpdates
       .values$('Refreshing columns on user request')
@@ -24,8 +27,8 @@ export class ColumnsTransformer {
 
           var t1 = performance.now();
 
-          debugLog("column redraw took " + (t1 - t0) + " milliseconds.");
+          debugLog('column redraw took ' + (t1 - t0) + ' milliseconds.');
         }
-    });
+      });
   }
 }

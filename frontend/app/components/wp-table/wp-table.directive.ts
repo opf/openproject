@@ -26,28 +26,11 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {Component, ElementRef, Inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, ElementRef, Inject, Injector, Input, OnDestroy, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {IRootScopeService} from 'angular';
-import {
-  $rootScopeToken,
-  columnsModalToken,
-  focusHelperToken,
-  I18nToken,
-  NotificationsServiceToken,
-  upgradeService,
-  upgradeServiceWithToken
-} from 'core-app/angular4-transition-utils';
+import {columnsModalToken, I18nToken} from 'core-app/angular4-transition-utils';
 import {QueryResource} from 'core-components/api/api-v3/hal-resources/query-resource.service';
 import {GroupObject} from 'core-components/api/api-v3/hal-resources/wp-collection-resource.service';
-import {PaginationService} from "core-components/table-pagination/pagination-service";
-import {WorkPackageDisplayFieldService} from "core-components/wp-display/wp-display-field/wp-display-field.service";
-import {WorkPackageNotificationService} from "core-components/wp-edit/wp-notification.service";
-import {WorkPackageTableHierarchiesService} from "core-components/wp-fast-table/state/wp-table-hierarchy.service";
-import {WorkPackageTablePaginationService} from "core-components/wp-fast-table/state/wp-table-pagination.service";
-import {WorkPackageTableRelationColumnsService} from "core-components/wp-fast-table/state/wp-table-relation-columns.service";
-import {WorkPackageTableSortByService} from "core-components/wp-fast-table/state/wp-table-sort-by.service";
-import {WorkPackageRelationsService} from "core-components/wp-relations/wp-relations.service";
 import {componentDestroyed} from 'ng2-rx-componentdestroyed';
 import {Observable} from 'rxjs/Observable';
 import {debugLog} from '../../helpers/debug_output';
@@ -64,20 +47,7 @@ import {createScrollSync} from './wp-table-scroll-sync';
 
 @Component({
   template: require('!!raw-loader!./wp-table.directive.html'),
-  providers: [
-    upgradeService('states', States),
-    upgradeService('wpRelations', WorkPackageRelationsService),
-    upgradeService('wpDisplayField', WorkPackageDisplayFieldService),
-    upgradeService('wpTableTimeline', WorkPackageTableTimelineService),
-    upgradeService('wpNotificationsService', WorkPackageNotificationService),
-    upgradeService('wpTableHierarchies', WorkPackageTableHierarchiesService),
-    upgradeService('wpTableSortBy', WorkPackageTableSortByService),
-    upgradeService('wpTableRelationColumns', WorkPackageTableRelationColumnsService),
-    upgradeService('wpTableGroupBy', WorkPackageTableGroupByService),
-    upgradeService('wpTableColumns', WorkPackageTableColumnsService),
-    upgradeServiceWithToken('columnsModal', columnsModalToken),
-    upgradeServiceWithToken('FocusHelper', focusHelperToken)
-  ]
+  providers: []
 })
 export class WorkPackagesTableController implements OnInit, OnDestroy {
 
@@ -114,10 +84,11 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
   public timelineVisible:boolean;
 
   constructor(private elementRef:ElementRef,
+              public injector:Injector,
               @Inject(columnsModalToken) private columnsModal:any,
               private contextMenu:ContextMenuService,
               private states:States,
-              @Inject($rootScopeToken) private $rootScope:IRootScopeService,
+              // @Inject($rootScopeToken) private $rootScope:IRootScopeService,
               @Inject(I18nToken) private I18n:op.I18n,
               private wpTableGroupBy:WorkPackageTableGroupByService,
               private wpTableTimeline:WorkPackageTableTimelineService,
@@ -189,15 +160,16 @@ export class WorkPackagesTableController implements OnInit, OnDestroy {
     this.wpTableHoverSync.deactivate();
   }
 
-  public cancelInlineWorkPackage(index:number, row:any) {
-    this.$rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
-  };
+  // RR: seems to be unused. Delete once valided.
+  // public cancelInlineWorkPackage(index:number, row:any) {
+  //   this.$rootScope.$emit('inlineWorkPackageCreateCancelled', index, row);
+  // }
 
   public registerTimeline(controller:WorkPackageTimelineTableController, body:HTMLElement) {
     let t0 = performance.now();
 
     const tbody = this.$element.find('.work-package--results-tbody');
-    this.workPackageTable = new WorkPackageTable(this.$element[0], tbody[0], body, controller);
+    this.workPackageTable = new WorkPackageTable(this.injector, this.$element[0], tbody[0], body, controller);
     this.tbody = tbody;
     controller.workPackageTable = this.workPackageTable;
 

@@ -1,21 +1,24 @@
-import {$injectFields} from "../../../angular/angular-injector-bridge.functions";
-import {States} from "../../../states.service";
-import {tableRowClassName} from "../../builders/rows/single-row-builder";
-import {checkedClassName} from "../../builders/ui-state-link-builder";
-import {rowId, locateTableRow, scrollTableRowIntoView} from "../../helpers/wp-table-row-helpers";
-import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
-import {WorkPackageTable} from "../../wp-fast-table";
-import {WPTableRowSelectionState} from "../../wp-table.interfaces";
-import {WorkPackageTableFocusService} from "core-components/wp-fast-table/state/wp-table-focus.service";
+import {Injector} from '@angular/core';
+import {FocusHelperToken} from 'core-app/angular4-transition-utils';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {States} from '../../../states.service';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
+import {checkedClassName} from '../../builders/ui-state-link-builder';
+import {locateTableRow, scrollTableRowIntoView} from '../../helpers/wp-table-row-helpers';
+import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {WPTableRowSelectionState} from '../../wp-table.interfaces';
 
 export class SelectionTransformer {
-  public wpTableSelection:WorkPackageTableSelection;
-  public wpTableFocus:WorkPackageTableFocusService;
-  public states:States;
-  public FocusHelper:any;
 
-  constructor(table:WorkPackageTable) {
-    $injectFields(this, 'wpTableSelection', 'wpTableFocus', 'states', 'FocusHelper');
+  public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
+  public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
+  public states:States = this.injector.get(States);
+  public FocusHelper:any = this.injector.get(FocusHelperToken);
+
+  constructor(public readonly injector:Injector,
+              table:WorkPackageTable) {
+    // $injectFields(this, 'wpTableSelection', 'wpTableFocus', 'states', 'FocusHelper');
 
     // Focus a single selection when active
     this.states.table.rendered.values$()
@@ -29,13 +32,13 @@ export class SelectionTransformer {
             this.FocusHelper.focusElement(element, true);
           }
         });
-    });
+      });
 
 
     // Update selection state
     this.wpTableSelection.selectionState.values$()
       .takeUntil(this.states.table.stopAllSubscriptions)
-      .subscribe((state: WPTableRowSelectionState) => {
+      .subscribe((state:WPTableRowSelectionState) => {
         this.renderSelectionState(state);
       });
 
@@ -61,7 +64,7 @@ export class SelectionTransformer {
   private renderSelectionState(state:WPTableRowSelectionState) {
     jQuery(`.${tableRowClassName}.${checkedClassName}`).removeClass(checkedClassName);
 
-    _.each(state.selected, (selected: boolean, workPackageId:any) => {
+    _.each(state.selected, (selected:boolean, workPackageId:any) => {
       jQuery(`.${tableRowClassName}[data-work-package-id="${workPackageId}"]`).toggleClass(checkedClassName, selected);
     });
   }

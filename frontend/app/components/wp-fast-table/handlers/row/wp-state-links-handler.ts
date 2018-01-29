@@ -1,24 +1,27 @@
-import {$injectFields, injectorBridge} from '../../../angular/angular-injector-bridge.functions';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {TableEventHandler} from '../table-handler-registry';
-import {KeepTabService} from '../../../wp-panels/keep-tab/keep-tab.service';
-import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
-import {tableRowClassName} from "../../builders/rows/single-row-builder";
-import {States} from "../../../states.service";
-import {WorkPackageTableSelection} from "../../state/wp-table-selection.service";
+import {Injector} from '@angular/core';
+import {$stateToken} from 'core-app/angular4-transition-utils';
 import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
+import {WorkPackageResource} from '../../../api/api-v3/hal-resources/work-package-resource.service';
+import {States} from '../../../states.service';
+import {KeepTabService} from '../../../wp-panels/keep-tab/keep-tab.service';
+import {tableRowClassName} from '../../builders/rows/single-row-builder';
+import {uiStateLinkClass} from '../../builders/ui-state-link-builder';
+import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
+import {WorkPackageTable} from '../../wp-fast-table';
+import {TableEventHandler} from '../table-handler-registry';
 
 export class WorkPackageStateLinksHandler implements TableEventHandler {
-  // Injections
-  public $state:ng.ui.IStateService;
-  public keepTab:KeepTabService;
-  public states:States;
-  public wpTableSelection:WorkPackageTableSelection;
-  public wpTableFocus:WorkPackageTableFocusService;
 
-  constructor(table: WorkPackageTable) {
-    $injectFields(this, '$state', 'keepTab', 'states', 'wpTableSelection', 'wpTableFocus');
+  // Injections
+  public $state:ng.ui.IStateService = this.injector.get($stateToken);
+  public keepTab:KeepTabService = this.injector.get(KeepTabService);
+  public states:States = this.injector.get(States);
+  public wpTableSelection:WorkPackageTableSelection = this.injector.get(WorkPackageTableSelection);
+  public wpTableFocus:WorkPackageTableFocusService = this.injector.get(WorkPackageTableFocusService);
+
+  constructor(public readonly injector:Injector,
+              table:WorkPackageTable) {
+    // $injectFields(this, '$state', 'keepTab', 'states', 'wpTableSelection', 'wpTableFocus');
   }
 
   public get EVENT() {
@@ -35,7 +38,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
   protected workPackage:WorkPackageResource;
 
-  public handleEvent(table: WorkPackageTable, evt:JQueryEventObject) {
+  public handleEvent(table:WorkPackageTable, evt:JQueryEventObject) {
     // Avoid the state capture when clicking with modifier
     if (evt.shiftKey || evt.ctrlKey || evt.metaKey || evt.altKey) {
       return true;
@@ -65,7 +68,7 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
     this.$state.go(
       (this.keepTab as any)[state],
-      { workPackageId: workPackageId, focus: true }
+      {workPackageId: workPackageId, focus: true}
     );
 
     evt.preventDefault();

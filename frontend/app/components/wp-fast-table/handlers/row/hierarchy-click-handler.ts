@@ -1,3 +1,4 @@
+import {Injector} from '@angular/core';
 import {ClickOrEnterHandler} from '../click-or-enter-handler';
 import {WorkPackageTableHierarchiesService} from '../../state/wp-table-hierarchy.service';
 import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
@@ -8,12 +9,12 @@ import {tableRowClassName} from '../../builders/rows/single-row-builder';
 
 export class HierarchyClickHandler extends ClickOrEnterHandler implements TableEventHandler {
   // Injections
-  public states:States;
-  public wpTableHierarchies:WorkPackageTableHierarchiesService;
+  public states:States = this.injector.get(States);
+  public wpTableHierarchies:WorkPackageTableHierarchiesService = this.injector.get(WorkPackageTableHierarchiesService);
 
-  constructor(table: WorkPackageTable) {
+  constructor(public readonly injector:Injector, table: WorkPackageTable) {
     super();
-    injectorBridge(this);
+    // injectorBridge(this);
   }
 
   public get EVENT() {
@@ -43,4 +44,4 @@ export class HierarchyClickHandler extends ClickOrEnterHandler implements TableE
   }
 }
 
-HierarchyClickHandler.$inject = ['states', 'wpTableHierarchies'];
+// HierarchyClickHandler.$inject = ['states', 'wpTableHierarchies'];

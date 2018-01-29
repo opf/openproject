@@ -1,28 +1,30 @@
-import {RowsBuilder} from '../rows-builder';
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
 import {States} from '../../../../states.service';
 import {WorkPackageTableColumnsService} from '../../../state/wp-table-columns.service';
 import {WorkPackageTable} from '../../../wp-fast-table';
-import {injectorBridge} from '../../../../angular/angular-injector-bridge.functions';
-import {GroupObject} from '../../../../api/api-v3/hal-resources/wp-collection-resource.service';
+import {tableRowClassName} from '../../rows/single-row-builder';
+import {RowsBuilder} from '../rows-builder';
+import {GroupHeaderBuilder} from './group-header-builder';
 import {GroupedRenderPass} from './grouped-render-pass';
 import {groupedRowClassName, groupIdentifier} from './grouped-rows-helpers';
-import {GroupHeaderBuilder} from './group-header-builder';
-import {tableRowClassName} from '../../rows/single-row-builder';
 
 export const rowGroupClassName = 'wp-table--group-header';
 export const collapsedRowClass = '-collapsed';
 
 export class GroupedRowsBuilder extends RowsBuilder {
+
   // Injections
-  public states:States;
-  public wpTableColumns:WorkPackageTableColumnsService;
-  public I18n:op.I18n;
+  public states:States = this.injector.get(States);
+  public wpTableColumns:WorkPackageTableColumnsService = this.injector.get(WorkPackageTableColumnsService);
+  public I18n:op.I18n = this.injector.get(I18nToken);
 
   private headerBuilder:GroupHeaderBuilder;
 
-  constructor(workPackageTable:WorkPackageTable) {
-    super(workPackageTable);
-    injectorBridge(this);
+  constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
+    super(injector, workPackageTable);
+    // injectorBridge(this);
 
     this.headerBuilder = new GroupHeaderBuilder();
   }
@@ -113,4 +115,4 @@ export class GroupedRowsBuilder extends RowsBuilder {
   }
 }
 
-GroupedRowsBuilder.$inject = ['wpTableColumns', 'states', 'I18n'];
+// GroupedRowsBuilder.$inject = ['wpTableColumns', 'states', 'I18n'];
