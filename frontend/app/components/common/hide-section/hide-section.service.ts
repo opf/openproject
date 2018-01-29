@@ -8,7 +8,6 @@
 // OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
 // Copyright (C) 2006-2013 Jean-Philippe Lang
 // Copyright (C) 2010-2013 the ChiliProject Team
-//
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
 // as published by the Free Software Foundation; either version 2
@@ -27,35 +26,44 @@
 // ++
 
 import {Injectable} from '@angular/core';
+import {GonRef} from 'core-components/common/gon-ref/gon-ref';
+
+export interface HideSectionDefinition {
+  key: string,
+  label: string
+}
 
 @Injectable()
-export class HideSectionsService {
-  protected availableSections:string[] = [];
-  protected displayedSections:string[] = [];
+export class HideSectionService {
+  protected availableSections:HideSectionDefinition[] = [];
+  protected displayedSections:HideSectionDefinition[] = [];
 
-  constructor() {
-    console.log('HideSectionsService constructed');
+  constructor(protected gonRef:GonRef) {
+    this.availableSections = gonRef.get('hideSections').sort((a:HideSectionDefinition, b:HideSectionDefinition) => a.label.localeCompare(b.label));
   }
 
-  isDisplayed(name:string) {
-    return this.displayedSections.indexOf(name) > 0;
+  isDisplayed(key:string) {
+    return _.some(this.displayedSections, (candidate) => candidate.key === key);
   }
 
-  hide(name:string) {
-
+  hide(key:string) {
+    let section = _.remove(this.displayedSections, (candidate) => candidate.key === key);
+    this.availableSections.push(_.first(section));
+    this.availableSections.sort((a, b) => a.label.localeCompare(b.label));
   }
 
-  show(name:string) {
-    this.displayedSections.push(name);
-    _.remove(this.availableSections, (candidate) => candidate === name);
-    console.log(this.displayedSections);
-  }
-
-  set all(available:string[]) {
-    this.availableSections = available;
+  show(section:HideSectionDefinition) {
+    _.remove(this.availableSections, (candidate) => candidate === section);
+    this.displayedSections.push(section);
   }
 
   get available() {
     return this.availableSections;
+  }
+
+  hideByName(sectionName:string) {
+    let section = _.remove(this.displayedSections, (candidate) => candidate.key === sectionName);
+    this.availableSections.push(_.first(section));
+    this.availableSections.sort((a, b) => a.label.localeCompare(b.label));
   }
 }

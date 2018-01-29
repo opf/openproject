@@ -26,34 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../../angular-modules';
-import {Component} from '@angular/core';
-import {OnInit, Input} from '@angular/core';
-import {downgradeComponent} from '@angular/upgrade/static';
-import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
+import { Injectable } from '@angular/core';
 
-@Component({
-  selector: 'hide-section',
-  template: '<span *ngIf="isDisplayed()"><ng-content></ng-content></span>'
-
-})
-export class HideSectionComponent implements OnInit {
-  displayed:boolean = true;
-
-  @Input('sectionName') sectionName:string;
-
-  constructor(protected hideSection:HideSectionService) {
-  }
-
-  ngOnInit() {
-  }
-
-  isDisplayed() {
-    return this.hideSection.isDisplayed(this.sectionName);
-  }
+interface GonWindow extends Window {
+  gon:{}
 }
 
-opUiComponentsModule.directive(
-  'hideSection',
-  downgradeComponent({component: HideSectionComponent})
-);
+function _gon() : any {
+  return (<GonWindow> window).gon;
+}
+
+@Injectable()
+export class GonRef {
+  get(name:string) : any {
+    return _gon()[name];
+  }
+}

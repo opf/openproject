@@ -76,6 +76,7 @@ describe 'Workflow buttons', type: :feature, js: true do
                        role: role,
                        type: work_package.type)
   end
+  let(:ca_page) { Pages::Admin::NewCustomAction.new }
 
   before do
     login_as(admin)
@@ -93,13 +94,9 @@ describe 'Workflow buttons', type: :feature, js: true do
       click_link 'Custom action'
     end
 
-    fill_in 'Name', with: 'Unassign'
-
-    within '#custom-actions-form--actions' do
-      select '-', from: 'Assignee'
-    end
-
-    click_button 'Create'
+    ca_page.set_name('Unassign')
+    ca_page.add_action('Assignee', '-')
+    ca_page.create
 
     expect(page)
       .to have_current_path(custom_actions_path)
@@ -113,13 +110,9 @@ describe 'Workflow buttons', type: :feature, js: true do
       click_link 'Custom action'
     end
 
-    fill_in 'Name', with: 'Close'
-
-    within '#custom-actions-form--actions' do
-      select 'Close', from: 'Status'
-    end
-
-    click_button 'Create'
+    ca_page.set_name('Close')
+    ca_page.add_action('Status', 'Close')
+    ca_page.create
 
     expect(page)
       .to have_current_path(custom_actions_path)
@@ -133,13 +126,9 @@ describe 'Workflow buttons', type: :feature, js: true do
       click_link 'Custom action'
     end
 
-    fill_in 'Name', with: 'Escalate'
-
-    within '#custom-actions-form--actions' do
-      select immediate_priority.name, from: 'Priority'
-    end
-
-    click_button 'Create'
+    ca_page.set_name('Escalate')
+    ca_page.add_action('Priority', immediate_priority.name)
+    ca_page.create
 
     expect(page)
       .to have_current_path(custom_actions_path)
@@ -153,15 +142,11 @@ describe 'Workflow buttons', type: :feature, js: true do
       click_link 'Custom action'
     end
 
-    fill_in 'Name', with: 'Reset'
-
-    within '#custom-actions-form--actions' do
-      select default_priority.name, from: 'Priority'
-      select default_status.name, from: 'Status'
-      select user.name, from: 'Assignee'
-    end
-
-    click_button 'Create'
+    ca_page.set_name('Reset')
+    ca_page.add_action('Priority', default_priority.name)
+    ca_page.add_action('Status', default_status.name)
+    ca_page.add_action('Assignee', user.name)
+    ca_page.create
 
     expect(page)
       .to have_current_path(custom_actions_path)

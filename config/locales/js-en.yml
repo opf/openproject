@@ -39,6 +39,9 @@ en:
       browser_error: "Your browser doesn't support copying to clipboard. Please copy the selected text manually."
       copied_successful: "Sucessfully copied to clipboard!"
 
+    custom_actions:
+      add: "Add"
+
     button_add_watcher: "Add watcher"
     button_back_to_list_view: "Back to list view"
     button_cancel: "Cancel"

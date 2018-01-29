@@ -26,34 +26,42 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../../angular-modules';
-import {Component} from '@angular/core';
-import {OnInit, Input} from '@angular/core';
+import {opUiComponentsModule} from '../../../../angular-modules';
+import {Component, Inject, OnInit} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
+import {HideSectionDefinition, HideSectionService} from 'core-components/common/hide-section/hide-section.service';
+import {I18nToken} from 'core-app/angular4-transition-utils';
 
 @Component({
-  selector: 'hide-section',
-  template: '<span *ngIf="isDisplayed()"><ng-content></ng-content></span>'
-
+  selector: 'add-section-dropdown',
+  template: require('!!raw-loader!./add-section-dropdown.component.html')
 })
-export class HideSectionComponent implements OnInit {
-  displayed:boolean = true;
+export class AddSectionDropdownComponent implements OnInit {
+  selectable:HideSectionDefinition[] = [];
+  turnedActive:HideSectionDefinition|null = null;
+  texts: { [key:string]: string } = {};
 
-  @Input('sectionName') sectionName:string;
-
-  constructor(protected hideSection:HideSectionService) {
+  constructor(protected hideSections:HideSectionService,
+              @Inject(I18nToken) protected I18n:op.I18n) {
+    this.texts = {
+      placeholder: I18n.t('js.placeholders.default'),
+      add: I18n.t('js.custom_actions.add')
+    };
   }
 
   ngOnInit() {
+    this.selectable = this.hideSections.available;
   }
 
-  isDisplayed() {
-    return this.hideSection.isDisplayed(this.sectionName);
+  show() {
+    if (this.turnedActive) {
+      this.hideSections.show(this.turnedActive);
+      setTimeout(() => { this.turnedActive = null } );
+    }
   }
 }
 
 opUiComponentsModule.directive(
-  'hideSection',
-  downgradeComponent({component: HideSectionComponent})
+  'addSectionDropdown',
+  downgradeComponent({component: AddSectionDropdownComponent})
 );

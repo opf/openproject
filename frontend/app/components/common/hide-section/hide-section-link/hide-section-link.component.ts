@@ -26,45 +26,33 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {opUiComponentsModule} from '../../../angular-modules';
+import {opUiComponentsModule} from '../../../../angular-modules';
 import {Component} from '@angular/core';
 import {OnInit, Input} from '@angular/core';
 import {downgradeComponent} from '@angular/upgrade/static';
-import {HideSectionsService} from 'core-components/common/hide-sections/hide-sections.service';
+import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
 
 @Component({
-  selector: 'hide-sections',
-  template: require('!!raw-loader!./hide-sections.component.html')
-
+  selector: 'hide-section-link',
+  template: require('!!raw-loader!./hide-section-link.component.html')
 })
-export class HideSectionsComponent implements OnInit {
-  selectable:string[] = [];
-  //active:string[] = ['Some'];
-  turnedActive:string;
+export class HideSectionLinkComponent implements OnInit {
+  displayed:boolean = true;
 
-  @Input('availableSections') rawAvailableSections:string = '';
+  @Input('sectionName') sectionName:string;
 
-  constructor(protected hideSections:HideSectionsService) {
-  }
+  constructor(protected hideSections:HideSectionService) {}
 
   ngOnInit() {
-    // using _.map(this.rawAvailableSections.split(','), _.trim) works but the typescript compiler believes
-    // the return values to be boolean[];
-    this.hideSections.all = _.map(this.rawAvailableSections.split(','), (name) => _.trim(name));
-    this.selectable = this.hideSections.available;
   }
 
-  show(name:string) {
-    this.hideSections.show(name);
+  hideSection() {
+    this.hideSections.hideByName(this.sectionName);
+    return false;
   }
-
-  //sectionDisplayed(name:string) {
-  //  console.log(name);
-  //  return this.hideSections.isDisplayed(name);
-  //}
 }
 
 opUiComponentsModule.directive(
-  'hideSections',
-  downgradeComponent({component: HideSectionsComponent})
+  'hideSectionLink',
+  downgradeComponent({component: HideSectionLinkComponent})
 );

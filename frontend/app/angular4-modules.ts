@@ -69,20 +69,11 @@ import {WpWorkflowButtonComponent} from 'core-components/wp-workflow-buttons/wp-
 import {WpWorkflowButtonsComponent} from 'core-components/wp-workflow-buttons/wp-workflow-buttons.component';
 import {HalRequestService} from 'core-components/api/api-v3/hal-request/hal-request.service';
 import {WorkPackageCacheService} from 'core-components/work-packages/work-package-cache.service';
-import {HideSectionsComponent} from 'core-components/common/hide-sections/hide-sections.component';
-import {Angular4WrapperComponent} from 'core-components/common/angular4-wrapper/angular4-wrapper.component';
 import {HideSectionComponent} from 'core-components/common/hide-section/hide-section.component';
-import {HideSectionsService} from 'core-components/common/hide-sections/hide-sections.service';
-
-@NgModule({
-  declarations: [
-    Angular4WrapperComponent
-  ],
-  exports: [
-    Angular4WrapperComponent
-  ]
-})
-export class Angular4Wrapper { }
+import {HideSectionService} from 'core-components/common/hide-section/hide-section.service';
+import {AddSectionDropdownComponent} from 'core-components/common/hide-section/add-section-dropdown/add-section-dropdown.component';
+import {HideSectionLinkComponent} from 'core-components/common/hide-section/hide-section-link/hide-section-link.component';
+import {GonRef} from 'core-components/common/gon-ref/gon-ref';
 
 @NgModule({
   imports: [
@@ -91,7 +82,8 @@ export class Angular4Wrapper { }
     FormsModule
   ],
   providers: [
-    HideSectionsService,
+    GonRef,
+    HideSectionService,
     WorkPackagesTableControllerHolder,
     upgradeService('wpRelations', WorkPackageRelationsService),
     upgradeService('states', States),
@@ -132,16 +124,18 @@ export class Angular4Wrapper { }
     SortHeaderDirective,
     HasDropdownMenuDirective,
     WpInlineCreateDirectiveUpgraded,
-    HideSectionsComponent,
-    HideSectionComponent
+    HideSectionComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent
   ],
   entryComponents: [
     WorkPackageTablePaginationComponent,
     WorkPackagesTableController,
     TablePaginationComponent,
     WpWorkflowButtonsComponent,
-    HideSectionsComponent,
-    HideSectionComponent
+    HideSectionComponent,
+    HideSectionLinkComponent,
+    AddSectionDropdownComponent
   ]
 })
 export class OpenProjectModule {
