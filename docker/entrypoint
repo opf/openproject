@@ -3,10 +3,10 @@
 set -e
 set -o pipefail
 
-PGDATA=${PGDATA:=/var/lib/postgresql/9.4/main}
+PGDATA=${PGDATA:=/var/lib/postgresql/9.6/main}
 PGUSER=${PGUSER:=postgres}
 PGPASSWORD=${PGPASSWORD:=postgres}
-PGBIN="/usr/lib/postgresql/9.4/bin"
+PGBIN="/usr/lib/postgresql/9.6/bin"
 
 if [ ! -z "$ATTACHMENTS_STORAGE_PATH" ]; then
 	mkdir -p "$ATTACHMENTS_STORAGE_PATH"
