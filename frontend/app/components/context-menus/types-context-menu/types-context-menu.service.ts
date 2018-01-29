@@ -32,6 +32,7 @@ import {CollectionResource} from '../../api/api-v3/hal-resources/collection-reso
 
 class TypesContextMenuController {
   public types:CollectionResource[] = [];
+  public isMobile:Boolean;
 
   constructor(protected $state:ng.ui.IStateService,
               protected $timeout:ng.ITimeoutService,
@@ -39,6 +40,7 @@ class TypesContextMenuController {
               protected wpCreate:WorkPackageCreateService) {
     const project = $scope.projectIdentifier;
     $scope.$ctrl = this;
+    this.isMobile = document.documentElement.classList.contains('-browser-mobile');
 
     wpCreate.getEmptyForm(project).then((form:any) => {
       this.types = form.schema.type.allowedValues;
