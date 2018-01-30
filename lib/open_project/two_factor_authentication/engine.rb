@@ -10,8 +10,12 @@ module OpenProject::TwoFactorAuthentication
              author_url: 'http://openproject.com',
              settings: {
                default: {
+                 # Only app-based 2FA allowed per default
+                 active_strategies: [:totp],
+                 # Don't force users to register device
                  enforced: false,
-                 active_strategies: []
+                 # Don't allow remember cookie
+                 allow_remember_for_days: 0
                }
              },
              requires_openproject: '>= 4.0.0' do
