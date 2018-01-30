@@ -370,19 +370,19 @@ hu:
       planning_element_type_color:
         hexcode: Hexa kód
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Rendben
+        project_b: Függő projekt
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Elfogadja a hozzárendelést
+        reported_project_statuses: Projekt állapot jelentések
         position: Pozició
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Állapot megjegyzés
+        reporting_to_project: Projekt jelentések
+        reported_project_status: Projekt állapot
+        created_at: Létrehoz
       work_package:
         begin_insertion: Beillesztés kezdete
         begin_deletion: Törlés kezdete
@@ -460,9 +460,9 @@ hu:
             types:
               in_use_by_work_packages: 'munkacsomagok használatban vannak: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: Egy projekt, és saját maga között nem hozható létre
+            függőség.
+          project_association_not_allowed: nem elfogadható hozzárendelés.
         query:
           attributes:
             project:
@@ -1773,7 +1773,7 @@ hu:
   permission_delete_work_packages: Törölje a munkacsomagokat
   permission_delete_messages: Üzenetek törlése
   permission_delete_own_messages: Saját üzenetek törlése
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: Projekt függöségek törlése
   permission_delete_reportings: Jelentések törlése
   permission_delete_timelines: Idővonalak törlése
   permission_delete_wiki_pages: Wiki oldalak törlése
@@ -1785,7 +1785,7 @@ hu:
   permission_edit_own_messages: Saját üzenetek szerkesztése
   permission_edit_own_time_entries: Rögzített eltöltött időim szerkesztése
   permission_edit_project: Projekt szerkesztése
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: Projekt függöségek szerkesztése
   permission_edit_reportings: Jelentések szerkesztése
   permission_edit_time_entries: Eltöltött idők szerkesztése
   permission_edit_timelines: Idővonalak szerkesztése
@@ -1819,7 +1819,7 @@ hu:
   permission_view_work_packages: Munkacsomagok megtekintése
   permission_view_messages: Üzenetek megtekintése
   permission_view_members: Tagok megtekintése
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: Projekt függőségeinek megtekintése
   permission_view_reportings: Jelentések megtekintése
   permission_view_time_entries: Az eltöltött idő megtekintése
   permission_view_timelines: Az idővonalak megtekintése
@@ -2289,11 +2289,11 @@ hu:
       project_type: Projekt típus
       project_types: Projekt típusok
     project_menu:
-      project_associations: Dependencies
+      project_associations: Szükséges összetevők
       reportings: Állapot jelentés
       reports: Jelentések az idővonalakról
       timelines: Idővonalak
-    add_project_association: Add dependency
+    add_project_association: A függőség hozzáadása
     associations: Szükséges összetevők
     board_could_not_be_saved: A tábla nem menthető
     button_delete_all: Összes törlése
@@ -2435,11 +2435,11 @@ hu:
       show: 'Állapot: %{comment}'
     planning_element_update: 'Frissítve: %{title}'
     work_packages_are_displayed_in_aggregations: Munkacsomagok megjelenítése csoportokban
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_new: Projekt függőségek hozzáadása
+    project_association_new_for_with: '"%{project_a}" függőségeinek a beállítása'
+    project_association_with_other: Projekt függősége "%{project_a}" és "%{project_b}"
+      között
+    project_association_of_type: Projekt típus "%{type}" függőségei
     project_type_could_not_be_saved: Projekt típusát nem lehet menteni
     type_could_not_be_saved: A típust nem lehet menteni
     reporting_could_not_be_saved: A jelentés mentése nem sikerült
@@ -2448,8 +2448,8 @@ hu:
       egy típus, igy nem törlhető.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: 'Biztos, hogy
+      törli a függőséget "%{project_a}" és "%{project_b}" között?
 
 '
     really_delete_project_type: 'Biztos, hogy törli a következő projekt-típust?Egy

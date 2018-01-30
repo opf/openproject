@@ -375,19 +375,19 @@ af:
       planning_element_type_color:
         hexcode: Hex kode
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Oorsaak
+        project_b: Afhanklike projek
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Laat assosiasie toe
+        reported_project_statuses: Gerapporteerde projekstatusse
         position: Posisie
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Status kommentaar
+        reporting_to_project: Gee verslag aan projek
+        reported_project_status: Projek status
+        created_at: Geskep
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -465,8 +465,8 @@ af:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
+          identical_projects: Afhanklikheid kan nie tussen een projek en ditself geskep
+            word nie.
           project_association_not_allowed: does not allow associations.
         query:
           attributes:

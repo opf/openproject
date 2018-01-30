@@ -330,19 +330,19 @@ zh:
       planning_element_type_color:
         hexcode: 十六进制代码
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: 原因
+        project_b: 依赖的项目
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: 允许关联
+        reported_project_statuses: 报告的项目状态
         position: 位置
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: 状态注释
+        reporting_to_project: 报告到项目
+        reported_project_status: 项目状态
+        created_at: 已创建
       work_package:
         begin_insertion: 开始插入
         begin_deletion: 开始删除
@@ -417,9 +417,8 @@ zh:
             types:
               in_use_by_work_packages: '仍在使用的工作包: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: 项目无法与自身创建依赖关系。
+          project_association_not_allowed: 不允许关联。
         query:
           attributes:
             project:
@@ -1515,11 +1514,10 @@ zh:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: 从外部项目上下文调用 create_work_package_link 宏。
+        invalid_type: 在项目 "%{project}" 中找不到名称为 "%{type}" 的类型。
       link_name: 新工作包
-      link_name_type: New %{type_name}
+      link_name_type: 新%{type_name}
   mail:
     actions: 操作
   mail_body_account_activation_request: 一个新的用户 (%{value}) 注册。该帐户正在等待您的批准：
@@ -1647,7 +1645,7 @@ zh:
   permission_delete_work_packages: 删除工作包
   permission_delete_messages: 删除消息
   permission_delete_own_messages: 删除自己的消息
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: 删除项目依赖项
   permission_delete_reportings: 删除报告
   permission_delete_timelines: 删除时间线
   permission_delete_wiki_pages: 删除 wiki 页面
@@ -1659,7 +1657,7 @@ zh:
   permission_edit_own_messages: 编辑自己的消息
   permission_edit_own_time_entries: 编辑自己的时间记录
   permission_edit_project: 编辑项目
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: 编辑项目依赖项
   permission_edit_reportings: 编辑报告
   permission_edit_time_entries: 编辑时间记录
   permission_edit_timelines: 编辑时间线
@@ -1693,7 +1691,7 @@ zh:
   permission_view_work_packages: 查看工作包
   permission_view_messages: 查看消息
   permission_view_members: 查看成员
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: 查看项目依赖项
   permission_view_reportings: 查看报告
   permission_view_time_entries: 查看消耗时间
   permission_view_timelines: 查看时间线
@@ -2071,11 +2069,11 @@ zh:
       project_type: 项目类型
       project_types: 项目类型
     project_menu:
-      project_associations: Dependencies
+      project_associations: 依赖项
       reportings: 状态报告
       reports: 时间线报表
       timelines: 时间线
-    add_project_association: Add dependency
+    add_project_association: 添加依赖关系
     associations: 依赖项
     board_could_not_be_saved: 面板不能被保存
     button_delete_all: 删除所有
@@ -2206,11 +2204,10 @@ zh:
       show: 状态：%{comment}
     planning_element_update: 更新：%{title}
     work_packages_are_displayed_in_aggregations: 项目包显示为聚合
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_new: 添加项目依赖项
+    project_association_new_for_with: 为 %{project_a} 设置依赖项
+    project_association_with_other: 项目"%{project_a}"与"%{project_b}"之间的依赖关系
+    project_association_of_type: 类型为"%{type}"的项目的依赖项
     project_type_could_not_be_saved: 项目类型不能保存
     type_could_not_be_saved: 无法保存类型
     reporting_could_not_be_saved: 不能保存报告
@@ -2218,8 +2215,7 @@ zh:
     really_delete_color: '您确定您要删除以下颜色？使用这种颜色的类型不会被删除。
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: '您确定您要删除"%{project_a}"和"%{project_b}"之间的依赖关系吗?
 
 '
     really_delete_project_type: '您确定你要删除以下项目类型？使用这种类型的项目不会被删除。
@@ -2344,7 +2340,7 @@ zh:
       missing_or_malformed_parameter: 查询参数“%{parameter}”缺失或不正确。
       multipart_body_error: 请求正文中不包含所需要的多段部分。
       multiple_errors: 违反了多个字段的约束。
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: 无法创建附件
       render:
         context_not_parsable: 所提供的上下文环境并不是指向资源的链接。
         unsupported_context: 所提供的资源不被上下文环境所支持。

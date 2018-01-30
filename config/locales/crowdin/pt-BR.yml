@@ -373,19 +373,19 @@ pt-BR:
       planning_element_type_color:
         hexcode: Código hexadecimal
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Causa
+        project_b: Projeto dependente
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Permitir associação
+        reported_project_statuses: Situações do projeto relatadas
         position: Posição
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Comentário da situação
+        reporting_to_project: Relatar para projeto
+        reported_project_status: Situação do projeto
+        created_at: Criado
       work_package:
         begin_insertion: Início da inserção
         begin_deletion: Início da exclusão
@@ -461,9 +461,9 @@ pt-BR:
             types:
               in_use_by_work_packages: 'ainda em uso pelos pacotes de trabalho: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: Dependência não pode ser criada entre um projeto e ele
+            mesmo.
+          project_association_not_allowed: não permite associações.
         query:
           attributes:
             project:
@@ -1616,8 +1616,8 @@ pt-BR:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
+        no_project_context: Chamando macro create_work_package_link fora do contexto
+          do projeto.
         invalid_type: Nenhum tipo com o nome '%{type}' encontrado no projeto '%{project}'.
       link_name: Novo pacote de trabalho
       link_name_type: Novo %{type_name}
@@ -1778,7 +1778,7 @@ pt-BR:
   permission_delete_work_packages: Excluir pacotes de trabalho
   permission_delete_messages: Excluir mensagens
   permission_delete_own_messages: Apagar as próprias mensagens
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: Excluir dependências de projeto
   permission_delete_reportings: Excluir os relatórios
   permission_delete_timelines: Excluir cronogramas
   permission_delete_wiki_pages: Excluir páginas da wiki
@@ -1790,7 +1790,7 @@ pt-BR:
   permission_edit_own_messages: Editar as próprias mensagens
   permission_edit_own_time_entries: Editar os próprios registros de tempo
   permission_edit_project: Editar Projeto
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: Editar dependências de projeto
   permission_edit_reportings: Editar relatórios
   permission_edit_time_entries: Editar registros de tempo
   permission_edit_timelines: Editar cronogramas
@@ -1824,7 +1824,7 @@ pt-BR:
   permission_view_work_packages: Ver pacotes de trabalho
   permission_view_messages: Ver mensagens
   permission_view_members: Visualizar membros
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: Ver dependências de projeto
   permission_view_reportings: Ver relatórios
   permission_view_time_entries: Ver tempo gasto
   permission_view_timelines: Ver cronogramas
@@ -2308,11 +2308,11 @@ pt-BR:
       project_type: Tipo de projeto
       project_types: Tipo de projeto
     project_menu:
-      project_associations: Dependencies
+      project_associations: Dependências
       reportings: Relatórios de situação
       reports: Relatórios de cronograma
       timelines: Cronogramas
-    add_project_association: Add dependency
+    add_project_association: Adicionar dependência
     associations: Dependências
     board_could_not_be_saved: Painel não pôde ser salvo
     button_delete_all: Apagar tudo
@@ -2456,11 +2456,11 @@ pt-BR:
     planning_element_update: 'Atualização: %{title}'
     work_packages_are_displayed_in_aggregations: Pacotes de trabalho são exibidos
       em agregações
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
+    project_association_new: Adicionar dependência de projeto
+    project_association_new_for_with: Configurar dependência para "%{project_a}" com
+    project_association_with_other: Dependência de projeto entre “%{project_a}” e
       “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_of_type: Dependência ao projeto do tipo "%{type}"
     project_type_could_not_be_saved: Tipo de projeto não pôde ser salvo.
     type_could_not_be_saved: Tipo não pôde ser salvo
     reporting_could_not_be_saved: Relatórios não podem ser salvos
@@ -2469,8 +2469,8 @@ pt-BR:
       essa cor não serão excluídos.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: 'Tens a certeza
+      que deseja excluir a dependência entre "%{project_a}" e "%{project_b}"?
 
 '
     really_delete_project_type: 'Tem certeza que deseja excluir o seguinte tipo de

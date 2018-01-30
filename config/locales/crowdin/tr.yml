@@ -370,19 +370,19 @@ tr:
       planning_element_type_color:
         hexcode: Hex kodu
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Sebep
+        project_b: Bağımlı proje
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: İlişkisi sağlar
+        reported_project_statuses: Bildirilen proje durumları
         position: Pozisyon
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Durum yorumu
+        reporting_to_project: Proje raporları
+        reported_project_status: Proje Durumu
+        created_at: Oluşturuldu
       work_package:
         begin_insertion: Eklemeye başlama
         begin_deletion: Silme işleminin başlangıcı
@@ -460,9 +460,8 @@ tr:
             types:
               in_use_by_work_packages: hala iş paketleri tarafından kullanılmaktadır:%{types}
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: Bağımlılık bir proje ve kendisi arasında yaratılamaz.
+          project_association_not_allowed: ilişkilere izin vermez.
         query:
           attributes:
             project:
@@ -1761,7 +1760,7 @@ tr:
   permission_delete_work_packages: İş paketi silmek
   permission_delete_messages: İleti silmek
   permission_delete_own_messages: Kendi iletilerini silmek
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: Proje bağımlılıklarını silmek
   permission_delete_reportings: Raporları silmek
   permission_delete_timelines: Zaman akışını silmek
   permission_delete_wiki_pages: Wiki sayfalarını silmek
@@ -1773,7 +1772,7 @@ tr:
   permission_edit_own_messages: Kendi iletilerini düzenlemek
   permission_edit_own_time_entries: Kendi zaman kayıtlarını düzenlemek
   permission_edit_project: Proje düzenlemek
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: Proje bağımlılıklarını düzenlemek
   permission_edit_reportings: Raporlamayı düzenlemek
   permission_edit_time_entries: Zaman kayıtlarını düzenlemek
   permission_edit_timelines: Zaman akışını düzenlemek
@@ -1807,7 +1806,7 @@ tr:
   permission_view_work_packages: İş paketlerini görüntüle
   permission_view_messages: İletileri görüntüle
   permission_view_members: Üyeleri gör
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: Proje bağımlılıklarını görüntüleyin
   permission_view_reportings: Raporları görüntüle
   permission_view_time_entries: Harcanan süreyi görüntüleme
   permission_view_timelines: Zaman çizelgelerini görüntüle
@@ -2277,11 +2276,11 @@ tr:
       project_type: Proje türü
       project_types: Proje türü
     project_menu:
-      project_associations: Dependencies
+      project_associations: Bağımlılıklar
       reportings: Durum raporları
       reports: Zaman çizelgesi raporu
       timelines: Zaman çizelgeleri
-    add_project_association: Add dependency
+    add_project_association: Bağımlılık ekle
     associations: Bağımlılıklar
     board_could_not_be_saved: Kurul kaydedilemedi
     button_delete_all: Tümünü sil
@@ -2423,7 +2422,7 @@ tr:
       show: 'Durum: %{comment}'
     planning_element_update: 'Güncelleme: %{title}'
     work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_association_new: Add project dependency
+    project_association_new: Proje bağımlılık Ekle
     project_association_new_for_with: Set dependency for “%{project_a}” with
     project_association_with_other: Project dependency between “%{project_a}” and
       “%{project_b}”
@@ -2436,10 +2435,8 @@ tr:
       kullanan türler silinmeyecek.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
-
-'
+    really_delete_project_association_between_project_a_and_project_b: "%{project_a}
+      ve %{project_b} arasındaki bağımlılığı silmek istediğinizden emin misiniz?\n"
     really_delete_project_type: 'Aşağıdaki proje türünü silmek istediğinizden emin
       misiniz? Bu türü kullanan projeler silinmeyecek.
 

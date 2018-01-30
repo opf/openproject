@@ -264,14 +264,14 @@ ar:
     relation_buttons:
       change_parent: تغيير الوالد
       remove_parent: إزالة والد
-      group_by_wp_type: تصنيفحسب نوع حزمة العمل
+      group_by_wp_type: تجميع حسب نوع حزمة العمل
       group_by_relation_type: تصنيف حسب نوع العلاقة
       add_parent: إضافة والد موجود مسبقًا
       add_new_child: إنشاء طفل جديد
-      add_existing_child: إضافة طقل موجود مسبقًا
+      add_existing_child: Add existing child
       remove_child: إزالة طفل
       add_new_relation: إنشاء علاقة جديدة
-      update_description: تغيير أو تحديث وصف هذة لعلاقة
+      update_description: Set or update description of this relation
       toggle_description: Toggle relation description
       update_relation: Click to change the relation type
       add_follower: Add follower

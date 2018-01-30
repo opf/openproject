@@ -384,19 +384,19 @@ ca:
       planning_element_type_color:
         hexcode: Codi hexadecimal
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Causa
+        project_b: Projecte dependent
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Permet l'associació
+        reported_project_statuses: Estats de projecte notificats
         position: Posició
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Comentari de l'estat
+        reporting_to_project: Informes de projecte
+        reported_project_status: Estat del projecte
+        created_at: Creat
       work_package:
         begin_insertion: Inici de la inserció
         begin_deletion: Inici de la supressió
@@ -473,9 +473,9 @@ ca:
             types:
               in_use_by_work_packages: 'encara en ús pels paquets de treball: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: No es pot crear una dependència entre el projecte i
+            ell mateix.
+          project_association_not_allowed: no permet associacions.
         query:
           attributes:
             project:
@@ -1792,7 +1792,7 @@ ca:
   permission_delete_work_packages: Eliminar paquets de treball
   permission_delete_messages: Esborrar missatges
   permission_delete_own_messages: Suprimir els missatges propis
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: Eliminar les dependències del projecte
   permission_delete_reportings: Suprimir informes
   permission_delete_timelines: Suprimir les línies de temps
   permission_delete_wiki_pages: Suprimir les pàgines wiki
@@ -1804,7 +1804,7 @@ ca:
   permission_edit_own_messages: Editar missatges propis
   permission_edit_own_time_entries: Editar els registres de temps propis
   permission_edit_project: Editar projecte
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: Editar les dependències del projecte
   permission_edit_reportings: Editar informes
   permission_edit_time_entries: Editar els registres de temps
   permission_edit_timelines: Editar les línies de temps
@@ -1840,7 +1840,7 @@ ca:
   permission_view_work_packages: Veure els paquets de treball
   permission_view_messages: Visualitzar els missatges
   permission_view_members: View members
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: Veure les dependències del projecte
   permission_view_reportings: Veure els informes
   permission_view_time_entries: Visualitzar el temps invertit
   permission_view_timelines: Veure els terminis
@@ -2336,11 +2336,11 @@ ca:
       project_type: Tipus de projecte
       project_types: Tipus de projecte
     project_menu:
-      project_associations: Dependencies
+      project_associations: Dependències
       reportings: Informes d'estat
       reports: Cronologia d'informes
       timelines: Terminis
-    add_project_association: Add dependency
+    add_project_association: Afegir la dependència
     associations: Dependències
     board_could_not_be_saved: No es pot desar el tauler
     button_delete_all: Esborrar tot
@@ -2484,11 +2484,11 @@ ca:
     planning_element_update: 'Actualitzat: %{title}'
     work_packages_are_displayed_in_aggregations: Paquets de treball es mostren en
       agregació
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_new: Afegir dependència del projecte
+    project_association_new_for_with: Establir dependència per a "%{project_a}" amb
+    project_association_with_other: Dependència de projectes entre "%{project_a}"
+      i "%{project_b}"
+    project_association_of_type: Dependència al projecte del tipus "%{type}"
     project_type_could_not_be_saved: El tipus de projecte no s'han pogut desar
     type_could_not_be_saved: No s'han pogut desar el tipus
     reporting_could_not_be_saved: No s'ha pogut desar l'informe
@@ -2497,8 +2497,8 @@ ca:
       amb aquest color no es suprimiran.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: 'Esteu segur
+      que voleu suprimir la dependència entre "%{project_a}" i "%{project_b}"?
 
 '
     really_delete_project_type: 'Esteu segur que voleu suprimir el següent tipus de

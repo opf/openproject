@@ -376,19 +376,19 @@ bg:
       planning_element_type_color:
         hexcode: Шестнадесетичен код
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Причина
+        project_b: Зависим проект
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Позволи асоциация
+        reported_project_statuses: Докладвани статуси на проект
         position: Позиция
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Коментар на статус
+        reporting_to_project: Доклади за проекта
+        reported_project_status: Статус на проекта
+        created_at: Създадено
       work_package:
         begin_insertion: Начало на вмъкване
         begin_deletion: Начало на изтриване
@@ -466,9 +466,9 @@ bg:
             types:
               in_use_by_work_packages: 'все още се използва от работни пакети: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: Зависимост не може да бъде създадена между проект и
+            самият него.
+          project_association_not_allowed: не позволява асоциации.
         query:
           attributes:
             project:

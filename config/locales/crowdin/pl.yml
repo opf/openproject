@@ -370,19 +370,19 @@ pl:
       planning_element_type_color:
         hexcode: Kod szesnastkowy
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Przyczyna
+        project_b: Zależny projekt
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Umożliwiaj skojarzenia
+        reported_project_statuses: Statusy zgłoszonych projektów
         position: Pozycja
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Stan komentarza
+        reporting_to_project: Raporty do projektu
+        reported_project_status: Stan projektu
+        created_at: Utworzono
       work_package:
         begin_insertion: Początek wstawiania
         begin_deletion: Początek usuwania
@@ -460,9 +460,9 @@ pl:
             types:
               in_use_by_work_packages: 'nadal w użyciu przez Zestawy zadań: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: Zależność nie może powstać pomiędzy projektem a nim
+            samym.
+          project_association_not_allowed: niedozwolone połączenia.
         query:
           attributes:
             project:
@@ -1793,7 +1793,7 @@ pl:
   permission_delete_work_packages: Usuwanie pakietów roboczych
   permission_delete_messages: Usuwanie wiadomości
   permission_delete_own_messages: Usuwanie własnych wiadomości
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: Usuwanie zależności projektu
   permission_delete_reportings: Usuwanie raportów
   permission_delete_timelines: Usuwanie osi czasu
   permission_delete_wiki_pages: Usuwanie stron wiki
@@ -1805,7 +1805,7 @@ pl:
   permission_edit_own_messages: Edycja własnych wiadomości
   permission_edit_own_time_entries: Edycja własnych wpisów dziennika
   permission_edit_project: Edycja projektu
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: Edycja zależności projektu
   permission_edit_reportings: Edycja raportów
   permission_edit_time_entries: Edycja wpisów dziennika
   permission_edit_timelines: Edycja osi czasu
@@ -1839,7 +1839,7 @@ pl:
   permission_view_work_packages: Pokaż pakiety robocze
   permission_view_messages: Widok wiadomości
   permission_view_members: Przeglądaj członków
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: Widok zależności projektu
   permission_view_reportings: Widok zgłoszeń
   permission_view_time_entries: Widok czasu pracy
   permission_view_timelines: Widok osi czasu
@@ -2313,11 +2313,11 @@ pl:
       project_type: Typ projektu
       project_types: Typy projektów
     project_menu:
-      project_associations: Dependencies
+      project_associations: Zależności
       reportings: Raporty statusów
       reports: Sprawozdania terminów
       timelines: Terminarz
-    add_project_association: Add dependency
+    add_project_association: Dodawanie zależności
     associations: Zależności
     board_could_not_be_saved: Pulpit nie może być zapisany
     button_delete_all: Usuń wszystkie
@@ -2462,10 +2462,9 @@ pl:
     work_packages_are_displayed_in_aggregations: Pakiety robocze są wyświetlane w
       agregacjach
     project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_new_for_with: Ustaw zależność dla "%{project_a}" z
+    project_association_with_other: Zależność projektu między "%{project_a}" i "%{project_b}"
+    project_association_of_type: Zależność do projektu typu "%{type}"
     project_type_could_not_be_saved: Nie można zapisać typu projektu
     type_could_not_be_saved: Typ nie może być zapisany
     reporting_could_not_be_saved: Zgłoszenie nie może być zapisane
@@ -2474,8 +2473,8 @@ pl:
       tego koloru nie zostaną usunięte.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: 'Czy na pewno
+      chcesz usunąć zależność między "%{project_a}" i "%{project_b}"?
 
 '
     really_delete_project_type: 'Czy na pewno chcesz usunąć następujący typ projektu?

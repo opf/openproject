@@ -376,19 +376,19 @@ hr:
       planning_element_type_color:
         hexcode: Heksadecimalni kod
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Uzrok
+        project_b: U ovisnosti o projektu
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Omogućava udruženje
+        reported_project_statuses: Priopćeni statusi projekta
         position: Pozicija
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Komentar statusa
+        reporting_to_project: Izvješća za projekt
+        reported_project_status: Status projekta
+        created_at: Kreirano
       work_package:
         begin_insertion: Početak umetanja
         begin_deletion: Početak brisanja
@@ -467,9 +467,9 @@ hr:
               in_use_by_work_packages: 'još uvijek u uporabi od strane radnih paketa:
                 %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: Nije moguće stvoriti ovisnost između projekta i samoga
+            sebe.
+          project_association_not_allowed: ne dozvoljava udruživanje.
         query:
           attributes:
             project:
@@ -1799,7 +1799,7 @@ hr:
   permission_delete_work_packages: Izbriši radne pakete
   permission_delete_messages: Obriši poruke
   permission_delete_own_messages: Obriši vlastite poruke
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: Obriši ovisnosti projekta
   permission_delete_reportings: Izbriši izvještaje
   permission_delete_timelines: Izbriši kronologiju
   permission_delete_wiki_pages: Izbriši wiki stranice
@@ -1811,7 +1811,7 @@ hr:
   permission_edit_own_messages: Uredi vlastite poruke
   permission_edit_own_time_entries: Uređivanje vaših zapisa o vremenu
   permission_edit_project: Uredi projekt
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: Uredite ovisnosti projekta
   permission_edit_reportings: Uredi izvješćivanje
   permission_edit_time_entries: Uredi zapise o vremenu
   permission_edit_timelines: Uredi kronologiju
@@ -1845,7 +1845,7 @@ hr:
   permission_view_work_packages: Prikaz radnih paketa
   permission_view_messages: Prikaži poruke
   permission_view_members: View members
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: Prikaži ovisnosti projekta
   permission_view_reportings: Prikaži izvještaje
   permission_view_time_entries: Prikaži utrošeno vrijeme
   permission_view_timelines: Prikaži kronologiju
@@ -2315,11 +2315,11 @@ hr:
       project_type: Tip projekta
       project_types: Tipovi projekta
     project_menu:
-      project_associations: Dependencies
+      project_associations: Ovisnosti
       reportings: Izvješća statusa
       reports: Izvješća vremenskog tijeka
       timelines: Kronologija
-    add_project_association: Add dependency
+    add_project_association: Dodaj ovisnost
     associations: Ovisnosti
     board_could_not_be_saved: Forum nije moguće spremiti
     button_delete_all: Obriši sve
@@ -2461,11 +2461,11 @@ hr:
       show: 'Status: %{comment}'
     planning_element_update: 'Ažurirano: %{title}'
     work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_new: Dodaj ovisnost projekta
+    project_association_new_for_with: Postavite ovisnost za projekt "%{project_a}"
+      s
+    project_association_with_other: Ovisnost projekta između "%{project_a}" i "%{project_b}"
+    project_association_of_type: Ovisnost o projektu tipa "%{type}"
     project_type_could_not_be_saved: Tip projekta nije moguće spremiti
     type_could_not_be_saved: Tip nije moguće spremiti
     reporting_could_not_be_saved: Izvještavanje nije moguće spremiti
@@ -2474,8 +2474,8 @@ hr:
       koji koriste ovu boju neće biti izbrisani.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: 'Da li ste
+      sigurni da želite izbrisati ovisnost između "%{project_a}" i "%{project_b}"?
 
 '
     really_delete_project_type: 'Da li ste sigurni da želite izbrisati sljedeći tip

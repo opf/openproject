@@ -369,19 +369,19 @@ ar:
       planning_element_type_color:
         hexcode: رمز Hex
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: السبب
+        project_b: مشروع تابع
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: يسمح بالترابط
+        reported_project_statuses: أوضاع المشروع المبلّغ عنها
         position: الموقع
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: تعليق الحالة
+        reporting_to_project: يُبلّغ للمشروع
+        reported_project_status: حالة المشروع
+        created_at: تم إنشاؤه
       work_package:
         begin_insertion: البدء بالإدراج
         begin_deletion: البدء بالحذف
@@ -458,9 +458,8 @@ ar:
               in_use_by_work_packages: 'لا يزال قيد الاستخدام من قبل مجموعات العمل:
                 %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: لا يمكن إنشاء تبعية بين مشروع واحد ونفسه.
+          project_association_not_allowed: لا يسمح للجمعيات.
         query:
           attributes:
             project:
@@ -482,7 +481,7 @@ ar:
               error_readonly: الإرتباطات الحالية غير قابلة للتغيير
             from:
               error_not_found: work package in `from` position not found or not visible
-              error_readonly: علاقة الارتباط هذه عير قابلة للتغيير
+              error_readonly: علاقة الارتباط هذه غير ممكن تغييرها
         repository:
           not_available: بائع SCM غير متاح
           not_whitelisted: غير مسموح بالتكوين.
@@ -1023,8 +1022,9 @@ ar:
   error_workflow_copy_target: الرجاء تحديد نوع(انواع) الهدف ودور (أدوار)
   error_menu_item_not_created: لا يمكن إضافة عنصر للقائمة
   error_menu_item_not_saved: لا يمكن حفظ عنصر القائمة
-  error_wiki_root_menu_item_conflict: 'لا يمكن تغيير الإسم من "%{old_name}" إلى "%{new_name}"
-    بسبب التداخل في قائمة الناتجة مع القائمة الحالية (%{existing_identifier}) "%{existing_caption}".
+  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}"
+    due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}"
+    (%{existing_identifier}).
 
 '
   error_external_authentication_failed: حدث خطأ أثناء المصادقة الخارجية. الرجاء المحاولة
@@ -1839,7 +1839,7 @@ ar:
   permission_delete_work_packages: حذف مجموعات العمل
   permission_delete_messages: حذف الرسائل
   permission_delete_own_messages: حذف الرسائل الخاصة
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: حذف تبعيات المشروع
   permission_delete_reportings: حذف التقرير
   permission_delete_timelines: حذف الجداول الزمنية
   permission_delete_wiki_pages: حذف صفحات wiki
@@ -1851,7 +1851,7 @@ ar:
   permission_edit_own_messages: تحرير الرسائل الخاصة
   permission_edit_own_time_entries: تحرير سجلات الوقت الخاصة
   permission_edit_project: تحرير المشروع
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: تحرير تبعيات المشروع
   permission_edit_reportings: تحرير التقرير
   permission_edit_time_entries: تحرير سجلات الوقت
   permission_edit_timelines: تحرير الجداول الزمنية
@@ -1885,7 +1885,7 @@ ar:
   permission_view_work_packages: عرض كتب العمل
   permission_view_messages: عرض الرسائل
   permission_view_members: عرض الأعضاء
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: عرض تبعيات المشروع
   permission_view_reportings: عرض التقارير
   permission_view_time_entries: عرض الوقت المنقضي
   permission_view_timelines: عرض الخطوط الزمنية
@@ -2341,11 +2341,11 @@ ar:
       project_type: نوع المشروع
       project_types: أنواع المشاريع
     project_menu:
-      project_associations: Dependencies
+      project_associations: الاعتماديات
       reportings: تقارير الحالة
       reports: تقارير الجدول الزمني
       timelines: الخطوط الزمنية
-    add_project_association: Add dependency
+    add_project_association: إضافة اعتمادية
     associations: الاعتماديات
     board_could_not_be_saved: لا يمكن حفظ عنصر
     button_delete_all: حذف الكل
@@ -2484,11 +2484,10 @@ ar:
       show: 'الحالة: %{comment}'
     planning_element_update: 'التحديث: %{title}'
     work_packages_are_displayed_in_aggregations: حزم العمل المعروضة في التجميع
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_new: إضافة تبعية المشروع
+    project_association_new_for_with: تعيين تبعية على "%{project_a}" مع
+    project_association_with_other: تبعية المشروع بين "%{project_a}" و "%{project_b}"
+    project_association_of_type: التبعية لمشروع نوع "%{type}"
     project_type_could_not_be_saved: تعذر حفظ نوع المشروع
     type_could_not_be_saved: لا يمكن حفظ عنصر القائمة
     reporting_could_not_be_saved: التقرير غير قابل للحفظ
@@ -2497,8 +2496,8 @@ ar:
       استخدام هذا اللون.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: 'هل أنت متأكد
+      أنك تريد حذف التبعية بين "%{project_a}" و "%{project_b}"؟
 
 '
     really_delete_project_type: 'هل أنت متأكد أنك تريد حذف نوع المشروع التالية؟ لن

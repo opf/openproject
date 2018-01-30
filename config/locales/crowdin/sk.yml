@@ -379,19 +379,19 @@ sk:
       planning_element_type_color:
         hexcode: Hex kód
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Príčina
+        project_b: Závislý projekt
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Povoliť asociácie
+        reported_project_statuses: Hlásené stavy projektu
         position: Pozícia
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Komentár stavu
+        reporting_to_project: Správy o projekte
+        reported_project_status: Stav projektu
+        created_at: Vytvorený
       work_package:
         begin_insertion: Začiatok vkladania
         begin_deletion: Začiatok odstraňovania
@@ -470,9 +470,8 @@ sk:
               in_use_by_work_packages: 'stále používané týmito pracovnými balíkmi:
                 %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: Závislosť nemožno vytvoriť medzi projekt a sámým sebou.
+          project_association_not_allowed: nedovoľuje vytváranie väzieb na iné projekty.
         query:
           attributes:
             project:
@@ -2314,7 +2313,7 @@ sk:
       project_type: Typ projektu
       project_types: Typy projektov
     project_menu:
-      project_associations: Dependencies
+      project_associations: Závislosti
       reportings: Status reportings
       reports: Timeline reports
       timelines: Timelines

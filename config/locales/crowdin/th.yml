@@ -371,19 +371,19 @@ th:
       planning_element_type_color:
         hexcode: Hex code
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: สาเหตุ
+        project_b: ขึ้นอยู่กับโครงการ
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: อนุญาตให้เกี่ยวข้อง
+        reported_project_statuses: รายงานสถานะโครงการ
         position: ตำแหน่ง
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: ความคิดเห็นเกี่ยวกับสถานะ
+        reporting_to_project: รายงานถึงโครงการ
+        reported_project_status: สถานะของโครงการ
+        created_at: ที่ถูกสร้างขึ้น
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -461,8 +461,7 @@ th:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
+          identical_projects: อ้างอิงไม่ตรงกันระหว่างโครงการหนึ่งและตัวเอง
           project_association_not_allowed: does not allow associations.
         query:
           attributes:
@@ -1734,7 +1733,7 @@ th:
   permission_delete_work_packages: ลบชุดภารกิจ
   permission_delete_messages: ลบข้อความ
   permission_delete_own_messages: ลบข้อความของคุณ
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: ลบการอ้างอิงของโครงการ
   permission_delete_reportings: ลบรายงาน
   permission_delete_timelines: ลบแผนผังเวลา
   permission_delete_wiki_pages: ลบหน้าวิกิ
@@ -1746,7 +1745,7 @@ th:
   permission_edit_own_messages: แก้ไขข้อความของตัวเอง
   permission_edit_own_time_entries: แก้ไขบันทึกเวลาของตนเอง
   permission_edit_project: แก้ไขโครงการ
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: แก้ไขการอ้างอิงของโครงการ
   permission_edit_reportings: แก้ไขรายงาน
   permission_edit_time_entries: แก้ไขบันทึกเวลา
   permission_edit_timelines: แก้ไขแผนภูมิเวลา
@@ -1780,7 +1779,7 @@ th:
   permission_view_work_packages: View work packages
   permission_view_messages: ดูข้อความ
   permission_view_members: View members
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: ดูการอ้างอิงของโครงการ
   permission_view_reportings: ดูรายงาน
   permission_view_time_entries: ดูเวลาที่ใช้
   permission_view_timelines: ดูแผนภูมิเวลา
@@ -2234,11 +2233,11 @@ th:
       project_type: ประเภทของโครงการ
       project_types: ประเภทของโครงการ
     project_menu:
-      project_associations: Dependencies
+      project_associations: ส่วนที่อ้างอิง
       reportings: รายงานสถานะ
       reports: แผนภูมิเวลา
       timelines: เส้นเวลา
-    add_project_association: Add dependency
+    add_project_association: เพิ่มการอ้างอิง
     associations: ส่วนที่อ้างอิง
     board_could_not_be_saved: ไม่สามารถบันทึกคณะกรรมการ
     button_delete_all: ลบทั้งหมด
@@ -2370,11 +2369,11 @@ th:
       show: 'สถานะ: %{comment}'
     planning_element_update: 'แก้ไข: %{title}'
     work_packages_are_displayed_in_aggregations: ชุดภารกิจแสดงผลในภาพรวม
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_new: เพิ่มการอ้างอิงโครงการ
+    project_association_new_for_with: ตั้งค่าการอ้างอิงสำหรับ "%{project_a}" ด้วย
+    project_association_with_other: การเชื่อมโยงระหว่างโครงการ "%{project_a}" และโครงการ
+      "%{project_b}"
+    project_association_of_type: การอ้างอิงไปยังโครงการของประเภท "%{type}"
     project_type_could_not_be_saved: ไม่สามารถบันทึกชนิดของโครงการได้
     type_could_not_be_saved: ไม่สามารถบันทึกชนิดได้
     reporting_could_not_be_saved: ไม่สามารถบันทึกรายงานได้
@@ -2382,8 +2381,8 @@ th:
     really_delete_color: 'คุณแน่ใจว่าจะลบสีดังต่อไปนี้หรือไม่? ประเภทที่ใช้สีเหล่านี้จะไม่ถูกลบไปด้วย
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: 'คุณแน่ใจหรือว่าจะลบการเชื่อมโยงระหว่างโครงการ
+      "%{project_a}" และโครงการ "%{project_b}" ?
 
 '
     really_delete_project_type: 'คุณแน่ใจหรือว่าจะลบประเภทโครงการนี้? โครงการที่ใช้ประเภทนี้จะไม่ถูกลบไปด้วย

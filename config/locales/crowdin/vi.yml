@@ -375,19 +375,19 @@ vi:
       planning_element_type_color:
         hexcode: Mã Hex
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Nguyên nhân
+        project_b: Dự án phụ thuộc
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Cho phép liên kết
+        reported_project_statuses: Tình trạng dự án đã báo cáo
         position: Vị trí
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Tình trạng bình luận
+        reporting_to_project: Báo cáo dự án
+        reported_project_status: Tình trạng dự án
+        created_at: Đã tạo
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -465,8 +465,8 @@ vi:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
+          identical_projects: Sự phụ thuộc không thể được tạo ra giữa một dự án và
+            chính nó.
           project_association_not_allowed: does not allow associations.
         query:
           attributes:

@@ -374,19 +374,19 @@
       planning_element_type_color:
         hexcode: Hexadesimalkode
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Årsak
+        project_b: Avhengig av prosjektet
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Tillater assosiasjoner
+        reported_project_statuses: Rapporterte prosjektstatuser
         position: Plassering
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Statuskommentar
+        reporting_to_project: Prosjektrapporter
+        reported_project_status: Prosjektstatus
+        created_at: Opprettet
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -463,8 +463,7 @@
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
+          identical_projects: Avhengighet kan ikke opprette innbyrdes ett prosjekt.
           project_association_not_allowed: does not allow associations.
         query:
           attributes:
@@ -1759,7 +1758,7 @@
   permission_delete_work_packages: Slett arbeidspakker
   permission_delete_messages: Slett meldinger
   permission_delete_own_messages: Slette egne meldinger
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: Slett prosjektavhengigheter
   permission_delete_reportings: Slett rapporteringer
   permission_delete_timelines: Slett tidslinjer
   permission_delete_wiki_pages: Slett wiki-sider
@@ -1771,7 +1770,7 @@
   permission_edit_own_messages: Rediger egne meldinger
   permission_edit_own_time_entries: Rediger egne tidsrapporter
   permission_edit_project: Rediger prosjekt
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: Rediger prosjektavhengigheter
   permission_edit_reportings: Rediger rapporteringer
   permission_edit_time_entries: Rediger tidsrapporter
   permission_edit_timelines: Rediger tidslinjer
@@ -1805,7 +1804,7 @@
   permission_view_work_packages: View work packages
   permission_view_messages: Vis meldinger
   permission_view_members: View members
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: Vis prosjektavhengigheter
   permission_view_reportings: Vis rapporteringer
   permission_view_time_entries: Vis tidsbruk
   permission_view_timelines: Vis tidslinjer
@@ -2274,11 +2273,11 @@
       project_type: Prosjekttype
       project_types: Prosjekttyper
     project_menu:
-      project_associations: Dependencies
+      project_associations: Avhengigheter
       reportings: Statusrapporteringer
       reports: Tidslinjerapporter
       timelines: Tidslinjer
-    add_project_association: Add dependency
+    add_project_association: Legg til avhengighet
     associations: Avhengigheter
     board_could_not_be_saved: Forum kunne ikke lagres
     button_delete_all: Slett alle
@@ -2419,11 +2418,10 @@
       show: 'Status: %{comment}'
     planning_element_update: 'Oppdater: %{title}'
     work_packages_are_displayed_in_aggregations: Arbeidspakker vises i samlinger
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_new: Legg til prosjektavhengighet
+    project_association_new_for_with: Sett avhengighet for "%{project_a}" med
+    project_association_with_other: Prosjektavhengighet mellom "%{project_a}" og "%{project_b}"
+    project_association_of_type: Avhengighet til prosjekt av type "%{type}"
     project_type_could_not_be_saved: Prosjekttype kunne ikke lagres
     type_could_not_be_saved: Type kunne ikke lagres
     reporting_could_not_be_saved: Rapportering kunne ikke lagres
@@ -2432,8 +2430,8 @@
       bruker denne fargen vil ikke bli slettet.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: 'Er du sikker
+      på at du vil slette avhengigheten mellom "%{project_a}" og "%{project_b}"?
 
 '
     really_delete_project_type: 'Er du sikker på at du vil slette følgende prosjekttype?

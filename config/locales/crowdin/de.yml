@@ -383,19 +383,19 @@ de:
       planning_element_type_color:
         hexcode: Fabcode (Hex)
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: Begründung
+        project_b: Abhängiges Projekt
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: Erlaubt Projekt-Abhängigkeiten
+        reported_project_statuses: Gemeldeter Projekt-Status
         position: Position
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: Status-Kommentar
+        reporting_to_project: Beziehung zu Projekt
+        reported_project_status: Projekt-Status
+        created_at: Angelegt
       work_package:
         begin_insertion: Beginn der Einfügung
         begin_deletion: Beginn des Löschvorgangs
@@ -476,9 +476,9 @@ de:
               in_use_by_work_packages: 'wird noch genutzt von folgenden Arbeitspaketen:
                 %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
-          project_association_not_allowed: does not allow associations.
+          identical_projects: Abhängigkeit kann nicht zwischen dem Projekt und sich
+            selbst erstellt werden.
+          project_association_not_allowed: erlaubt keine Projekt-Abhängigkeiten.
         query:
           attributes:
             project:
@@ -1803,7 +1803,7 @@ de:
   permission_delete_work_packages: Arbeitspakete löschen
   permission_delete_messages: Forenbeiträge löschen
   permission_delete_own_messages: Eigene Forenbeiträge löschen
-  permission_delete_project_associations: Delete project dependencies
+  permission_delete_project_associations: Projektabhängigkeiten löschen
   permission_delete_reportings: Statusberichte löschen
   permission_delete_timelines: Zeitplan-Reporte löschen
   permission_delete_wiki_pages: Wiki-Seiten löschen
@@ -1815,7 +1815,7 @@ de:
   permission_edit_own_messages: Eigene Forenbeiträge bearbeiten
   permission_edit_own_time_entries: Selbstgebuchte Aufwände bearbeiten
   permission_edit_project: Projekt bearbeiten
-  permission_edit_project_associations: Edit project dependencies
+  permission_edit_project_associations: Projektabhängigkeiten bearbeiten
   permission_edit_reportings: Statusberichte bearbeiten
   permission_edit_time_entries: Gebuchte Aufwände bearbeiten
   permission_edit_timelines: Zeitplan-Reporte bearbeiten
@@ -1849,7 +1849,7 @@ de:
   permission_view_work_packages: Arbeitspakete anzeigen
   permission_view_messages: Forenbeiträge ansehen
   permission_view_members: Mitglieder ansehen
-  permission_view_project_associations: View project dependencies
+  permission_view_project_associations: Projektabhängigkeiten ansehen
   permission_view_reportings: Statusberichte ansehen
   permission_view_time_entries: Gebuchte Aufwände ansehen
   permission_view_timelines: Zeitplan-Reporte anzeigen
@@ -2339,11 +2339,11 @@ de:
       project_type: Projekttyp
       project_types: Projekt-Typen
     project_menu:
-      project_associations: Dependencies
+      project_associations: Abhängigkeiten
       reportings: Statusberichte
       reports: Zeitplan-Reporte
       timelines: Zeitpläne
-    add_project_association: Add dependency
+    add_project_association: Projekt-Abhängigkeit erstellen
     associations: Abhängigkeiten
     board_could_not_be_saved: Forum konnte nicht gespeichert werden
     button_delete_all: Alle löschen
@@ -2488,11 +2488,12 @@ de:
     planning_element_update: 'Aktualisiert: %{title}'
     work_packages_are_displayed_in_aggregations: Arbeitspakete werden in Aggregation
       angezeigt
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
+    project_association_new: Projekt-Abhängigkeit hinzufügen
+    project_association_new_for_with: Anlegen der Projekt-Abhängigkeit von “%{project_a}”
+      zu
+    project_association_with_other: Projekt-Abhängigkeit zwischen “%{project_a}” und
       “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
+    project_association_of_type: Projekt-Abhängigkeit zu Projekt des Typs “%{type}”
     project_type_could_not_be_saved: Projekt-Typ konnte nicht gespeichert werden.
     type_could_not_be_saved: Typ konnte nicht gespeichert werden.
     reporting_could_not_be_saved: Statusbericht konnte nicht gespeichert werden.
@@ -2501,8 +2502,9 @@ de:
       die diese Farbe verwenden, bleiben erhalten.
 
 '
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+    really_delete_project_association_between_project_a_and_project_b: 'Möchten Sie
+      die Projekt-Abhängigkeit zwischen „%{project_a}“ und „%{project_b}“ wirklich
+      löschen?
 
 '
     really_delete_project_type: 'Möchten Sie den folgenden Projekt-Typ wirklich löschen?

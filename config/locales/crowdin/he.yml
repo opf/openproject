@@ -372,19 +372,19 @@ he:
       planning_element_type_color:
         hexcode: קוד hex
       project_association:
-        description: Cause
-        project_b: Dependent project
+        description: סיבה
+        project_b: פרוייקט תלוי
       project_type:
-        allows_association: Allows association
-        reported_project_statuses: Reported project statuses
+        allows_association: אפשר שיוך
+        reported_project_statuses: סטטוסים של הפרויקט המדווח
         position: מיקום
       timeline:
         options: ''
       reporting:
-        reported_project_status_comment: Status comment
-        reporting_to_project: Reports to project
-        reported_project_status: Project status
-        created_at: Created
+        reported_project_status_comment: מצב ההערה
+        reporting_to_project: דוחות לפרויקט
+        reported_project_status: מצב הפרוייקט
+        created_at: נוצר
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -462,8 +462,7 @@ he:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
         project_association:
-          identical_projects: Dependency cannot be created between one project and
-            itself.
+          identical_projects: אין אפשרות ליצור תלות בין פרויקט לבין עצמו.
           project_association_not_allowed: does not allow associations.
         query:
           attributes:
