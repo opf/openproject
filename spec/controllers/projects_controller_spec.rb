@@ -161,67 +161,76 @@ describe ProjectsController, type: :controller do
     end
   end
 
-  describe 'index' do
+  describe 'index.html' do
+    let(:project_a) { FactoryGirl.create(:project, name: 'Project A', is_public: false, status: true) }
+    let(:project_b) { FactoryGirl.create(:project, name: 'Project B', is_public: false, status: true) }
+    let(:project_c) { FactoryGirl.create(:project, name: 'Project C', is_public: true, status: true)  }
+    let(:project_d) { FactoryGirl.create(:project, name: 'Project D', is_public: true, status: false) }
+
+    let(:projects) { [project_a, project_b, project_c, project_d] }
+
     before do
-      @project_a = FactoryGirl.create(:project, name: 'Project A', is_public: false, status: true)
-      @project_b = FactoryGirl.create(:project, name: 'Project B', is_public: false, status: true)
-      @project_c = FactoryGirl.create(:project, name: 'Project C', is_public: true, status: true)
-      @project_d = FactoryGirl.create(:project, name: 'Project D', is_public: true, status: false)
+      Role.anonymous
+      projects
+      login_as(user)
+      get 'index'
+    end
+
+    shared_examples_for 'successful index' do
+      it 'is success' do
+        expect(response).to be_success
+      end
+
+      it 'renders the index template' do
+        expect(response).to render_template 'index'
+      end
     end
 
     context 'as admin' do
       let(:user) { FactoryGirl.build(:admin) }
 
-      before do
-        allow(User).to receive(:current).and_return user
-        get 'index'
-        expect(response).to be_success
-        expect(response).to render_template 'index'
-      end
+      it_behaves_like 'successful index'
 
       it "shows all active projects" do
-        expect(assigns(:projects)).to include(@project_a)
-        expect(assigns(:projects)).to include(@project_b)
-        expect(assigns(:projects)).to include(@project_c)
-        expect(assigns(:projects)).not_to include(@project_d)
+        expect(assigns[:projects])
+          .to match_array [project_a, project_b, project_c]
       end
     end
 
     context 'as anonymous user' do
       let(:user) { User.anonymous }
 
-      before do
-        Role.anonymous
-        allow(User).to receive(:current).and_return user
-        get 'index'
-        expect(response).to be_success
-        expect(response).to render_template 'index'
-      end
+      it_behaves_like 'successful index'
 
       it "shows only (active) public projects" do
-        expect(assigns(:projects)).not_to include(@project_a)
-        expect(assigns(:projects)).not_to include(@project_b)
-        expect(assigns(:projects)).to include(@project_c)
-        expect(assigns(:projects)).not_to include(@project_d)
+        expect(assigns[:projects])
+          .to match_array [project_c]
       end
     end
 
     context 'as user' do
-      let(:user) { FactoryGirl.build(:user, member_in_project: @project_b) }
+      let(:user) { FactoryGirl.build(:user, member_in_project: project_b) }
 
-      before do
-        allow(User).to receive(:current).and_return user
-        get 'index'
-        expect(response).to be_success
-        expect(response).to render_template 'index'
-      end
+      it_behaves_like 'successful index'
 
       it "shows (active) public projects and those in which the user is member of" do
-        expect(assigns(:projects)).not_to include(@project_a)
-        expect(assigns(:projects)).to include(@project_b)
-        expect(assigns(:projects)).to include(@project_c)
-        expect(assigns(:projects)).not_to include(@project_d)
+        expect(assigns[:projects])
+          .to match_array [project_b, project_c]
       end
+    end
+  end
+
+  describe 'index.html' do
+    let(:user) { FactoryGirl.build(:admin) }
+
+    before do
+      login_as(user)
+      get 'index', format: 'atom'
+    end
+
+    it 'is 410 GONE' do
+      expect(response.response_code)
+        .to eql 410
     end
   end
 

@@ -65,6 +65,15 @@ class ProjectsController < ApplicationController
 
     @projects = load_projects query
     @custom_fields = ProjectCustomField.visible(User.current)
+
+    respond_to do |format|
+      format.atom do
+        head(:gone)
+      end
+      format.html do
+        render action: :index
+      end
+    end
   end
 
   current_menu_item :index do
