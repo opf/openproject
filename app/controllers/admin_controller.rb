@@ -27,6 +27,8 @@
 # See docs/COPYRIGHT.rdoc for more details.
 #++
 
+require 'text_extractor'
+
 class AdminController < ApplicationController
   layout 'admin'
 
@@ -77,11 +79,11 @@ class AdminController < ApplicationController
     @checklist = [
       [:text_default_administrator_account_changed, User.default_admin_account_changed?],
       [:text_file_repository_writable, repository_writable],
-      # [:text_pdftotext_available,      OpenProject::TextExtractor::PdfHandler.available?],
-      # [:text_unrtf_available,          OpenProject::TextExtractor::RtfHandler.available?],
-      # [:text_catdoc_available,         OpenProject::TextExtractor::DocHandler.available?],
-      # [:text_xls2csv_available,        OpenProject::TextExtractor::XlsHandler.available?],
-      # [:text_catppt_available,         OpenProject::TextExtractor::PptHandler.available?]
+      [:text_pdftotext_available, TextExtractor::PdfHandler.available?],
+      [:text_unrtf_available,     TextExtractor::RtfHandler.available?],
+      [:text_catdoc_available,    TextExtractor::DocHandler.available?],
+      [:text_xls2csv_available,   TextExtractor::XlsHandler.available?],
+      [:text_catppt_available,    TextExtractor::PptHandler.available?]
     ]
 
     @storage_information = OpenProject::Storage.mount_information
