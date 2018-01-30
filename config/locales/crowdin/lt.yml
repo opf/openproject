@@ -7,5 +7,3 @@ lt:
   label_not_changeable: (negalima pakeisti)
   label_no_assignable_role: Jokia globali rolė nėra prieinama šiam priskyrimui
   label_global: Globali
-  seeders:
-    default_role_project_creator: 'Project creator'
