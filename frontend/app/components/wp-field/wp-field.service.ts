@@ -26,20 +26,19 @@
 // See doc/COPYRIGHT.rdoc for more details.
 // ++
 
-import {FieldFactory} from './wp-field.module';
-import {Field} from "./wp-field.module";
-import {HalResource} from '../api/api-v3/hal-resources/hal-resource.service';
+import {Field, FieldFactory} from './wp-field.module';
 
 export class WorkPackageFieldService {
+
   public static get fieldFactory() {
     return FieldFactory;
   }
 
-  public set defaultType(value:string) {
-    (this.constructor as typeof WorkPackageFieldService).fieldFactory.defaultType = value;
+  constructor(protected $injector:ng.auto.IInjectorService) {
   }
 
-  constructor(protected $injector:ng.auto.IInjectorService) {
+  public set defaultType(value:string) {
+    (this.constructor as typeof WorkPackageFieldService).fieldFactory.defaultType = value;
   }
 
   public getField(resource:any, fieldName:string, schema:op.FieldSchema):Field {

@@ -31,7 +31,6 @@ export class EditCellHandler extends ClickOrEnterHandler implements TableEventHa
 
   constructor(public readonly injector:Injector, table:WorkPackageTable) {
     super();
-    // $injectFields(this, 'states', 'wpEditing');
   }
 
   protected processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {

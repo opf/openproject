@@ -9,7 +9,7 @@ export class ContextMenuClickHandler extends ContextMenuHandler {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    super(table);
+    super(injector, table);
   }
 
   public get EVENT() {

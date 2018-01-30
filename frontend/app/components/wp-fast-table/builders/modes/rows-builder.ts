@@ -22,5 +22,3 @@ export abstract class RowsBuilder {
     return true;
   }
 }
-
-// RowsBuilder.$inject = ['states'];

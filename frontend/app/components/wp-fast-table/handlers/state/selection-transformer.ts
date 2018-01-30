@@ -18,7 +18,6 @@ export class SelectionTransformer {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    // $injectFields(this, 'wpTableSelection', 'wpTableFocus', 'states', 'FocusHelper');
 
     // Focus a single selection when active
     this.states.table.rendered.values$()

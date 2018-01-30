@@ -10,8 +10,7 @@ import {TableEventHandler} from '../table-handler-registry';
 export class RelationsCellHandler extends ClickOrEnterHandler implements TableEventHandler {
 
   // Injections
-  public wpTableRelationColumns:WorkPackageTableRelationColumnsService =
-    this.injector.get(WorkPackageTableRelationColumnsService);
+  public wpTableRelationColumns = this.injector.get(WorkPackageTableRelationColumnsService);
 
   public get EVENT() {
     return 'click.table.relationsCell, keydown.table.relationsCell';
@@ -28,7 +27,6 @@ export class RelationsCellHandler extends ClickOrEnterHandler implements TableEv
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
     super();
-    // $injectFields(this, 'wpTableRelationColumns');
   }
 
   protected processEvent(table:WorkPackageTable, evt:JQueryEventObject):boolean {

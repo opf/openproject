@@ -48,7 +48,6 @@ export class WorkPackageTable {
               public tbody:HTMLElement,
               public timelineBody:HTMLElement,
               public timelineController:WorkPackageTimelineTableController) {
-    // injectorBridge(this);
 
     new TableHandlerRegistry(this.injector).attachTo(this);
     // TableHandlerRegistry.attachTo(this);
@@ -143,5 +142,3 @@ export class WorkPackageTable {
     });
   }
 }
-
-// WorkPackageTable.$inject = ['wpCacheService', 'states', 'I18n'];

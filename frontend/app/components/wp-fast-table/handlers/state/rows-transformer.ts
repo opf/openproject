@@ -11,7 +11,6 @@ export class RowsTransformer {
 
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {
-    // injectorBridge(this);
 
     // Redraw table if the current row state changed
     this.states.query.context.fireOnTransition(this.states.table.rows, 'Query loaded')
@@ -39,5 +38,3 @@ export class RowsTransformer {
       });
   }
 }
-
-// RowsTransformer.$inject = ['states'];

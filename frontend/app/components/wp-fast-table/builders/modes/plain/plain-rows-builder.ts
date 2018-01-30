@@ -16,17 +16,13 @@ export class PlainRowsBuilder extends RowsBuilder {
   // The group expansion state
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);
-    // injectorBridge(this);
-
-    this.rowBuilder = new SingleRowBuilder(this.workPackageTable);
+    this.rowBuilder = new SingleRowBuilder(injector, this.workPackageTable);
   }
 
   /**
    * Rebuild the entire grouped tbody from the given table
    */
   public buildRows():PrimaryRenderPass {
-    return new PlainRenderPass(this.workPackageTable, this.rowBuilder).render();
+    return new PlainRenderPass(this.injector, this.workPackageTable, this.rowBuilder).render();
   }
 }
-
-// PlainRowsBuilder.$inject = ['states', 'I18n'];

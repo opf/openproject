@@ -9,7 +9,6 @@ export class TimelineTransformer {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    // injectorBridge(this);
 
     this.states.table.timelineVisible.values$()
       .takeUntil(this.states.table.stopAllSubscriptions).subscribe((state:WorkPackageTableTimelineState) => {
@@ -25,5 +24,3 @@ export class TimelineTransformer {
     jQuery('.work-packages-tabletimeline--table-side').toggleClass('-timeline-visible', visible);
   }
 }
-
-// TimelineTransformer.$inject = ['states'];

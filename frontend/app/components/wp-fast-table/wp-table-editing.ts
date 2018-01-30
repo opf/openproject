@@ -1,27 +1,25 @@
 import {Injector} from '@angular/core';
-import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageEditForm} from "../wp-edit-form/work-package-edit-form";
-import {TableRowEditContext} from "../wp-edit-form/table-row-edit-context";
-import {WorkPackageEditingService} from "../wp-edit-form/work-package-editing-service";
-import {$injectFields} from "../angular/angular-injector-bridge.functions";
 import {WorkPackageChangeset} from 'core-components/wp-edit-form/work-package-changeset';
+import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-package-resource.service';
+import {TableRowEditContext} from '../wp-edit-form/table-row-edit-context';
+import {WorkPackageEditForm} from '../wp-edit-form/work-package-edit-form';
+import {WorkPackageEditingService} from '../wp-edit-form/work-package-editing-service';
 
 export class WorkPackageTableEditingContext {
 
   public wpEditing:WorkPackageEditingService = this.injector.get(WorkPackageEditingService);
 
   constructor(private readonly injector:Injector) {
-    // $injectFields(this, 'wpEditing');
   }
 
-  public forms:{[wpId:string]:WorkPackageEditForm} = {};
+  public forms:{ [wpId:string]:WorkPackageEditForm } = {};
 
   public reset() {
     _.each(this.forms, (form) => form.destroy());
     this.forms = {};
   }
 
-  public changeset(workPackageId:string):WorkPackageChangeset|undefined {
+  public changeset(workPackageId:string):WorkPackageChangeset | undefined {
     return this.wpEditing.state(workPackageId).value;
   }
 

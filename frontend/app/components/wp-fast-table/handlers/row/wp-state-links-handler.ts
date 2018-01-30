@@ -21,7 +21,6 @@ export class WorkPackageStateLinksHandler implements TableEventHandler {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    // $injectFields(this, '$state', 'keepTab', 'states', 'wpTableSelection', 'wpTableFocus');
   }
 
   public get EVENT() {

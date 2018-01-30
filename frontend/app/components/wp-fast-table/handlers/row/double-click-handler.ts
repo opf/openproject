@@ -19,7 +19,6 @@ export class RowDoubleClickHandler implements TableEventHandler {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    // $injectFields(this, '$state', 'states', 'wpTableSelection', 'wpTableFocus');
   }
 
   public get EVENT() {

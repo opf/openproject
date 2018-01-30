@@ -1,19 +1,16 @@
+import {Injector} from '@angular/core';
+import {I18nToken} from 'core-app/angular4-transition-utils';
+import {RelationResource} from '../../../api/api-v3/hal-resources/relation-resource.service';
 import {
   WorkPackageResource,
   WorkPackageResourceInterface
 } from '../../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageTable} from '../../wp-fast-table';
-import {tableRowClassName, SingleRowBuilder, commonRowClassName} from '../rows/single-row-builder';
-import {
-  DenormalizedRelationData,
-  RelationResource
-} from '../../../api/api-v3/hal-resources/relation-resource.service';
-import {UiStateLinkBuilder} from '../ui-state-link-builder';
-import {isRelationColumn, QueryColumn, queryColumnTypes} from '../../../wp-query/query-column';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
-import {RelationColumnType} from '../../state/wp-table-relation-columns.service';
 import {States} from '../../../states.service';
+import {isRelationColumn, QueryColumn} from '../../../wp-query/query-column';
+import {RelationColumnType} from '../../state/wp-table-relation-columns.service';
+import {WorkPackageTable} from '../../wp-fast-table';
 import {wpCellTdClassName} from '../cell-builder';
+import {commonRowClassName, SingleRowBuilder, tableRowClassName} from '../rows/single-row-builder';
 
 export function relationGroupClass(workPackageId:string) {
   return `__relations-expanded-from-${workPackageId}`;
@@ -26,12 +23,14 @@ export function relationIdentifier(targetId:string, workPackageId:string) {
 export const relationCellClassName = 'wp-table--relation-cell-td';
 
 export class RelationRowBuilder extends SingleRowBuilder {
-  public states:States;
-  public I18n:op.I18n;
 
-  constructor(protected workPackageTable:WorkPackageTable) {
-    super(workPackageTable);
-    $injectFields(this, 'I18n', 'states');
+  public states:States = this.injector.get(States);
+  public I18n:op.I18n = this.injector.get(I18nToken);
+
+  constructor(public readonly injector:Injector,
+              protected workPackageTable:WorkPackageTable) {
+
+    super(injector, workPackageTable);
   }
 
   /**
@@ -65,6 +64,7 @@ export class RelationRowBuilder extends SingleRowBuilder {
 
     return [tr, to];
   }
+
   /**
    * Create an empty unattached row element for the given work package
    * @param workPackage

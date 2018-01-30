@@ -24,7 +24,6 @@ export class RowClickHandler implements TableEventHandler {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    // $injectFields(this, 'keepTab', '$state', 'states', 'wpTableSelection', 'wpTableFocus');
   }
 
   public get EVENT() {

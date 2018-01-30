@@ -1,22 +1,23 @@
-import {WorkPackageTable} from '../../wp-fast-table';
-import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
+import {Injector} from '@angular/core';
 import {States} from '../../../states.service';
-import {WorkPackageTableTimelineService} from '../../state/wp-table-timeline.service';
 import {WorkPackageCacheService} from '../../../work-packages/work-package-cache.service';
+import {WorkPackageTableTimelineService} from '../../state/wp-table-timeline.service';
+import {WorkPackageTable} from '../../wp-fast-table';
 import {commonRowClassName} from '../rows/single-row-builder';
 
 export const timelineCellClassName = 'wp-timeline-cell';
 
 export class TimelineRowBuilder {
-  public states:States;
-  public wpTableTimeline:WorkPackageTableTimelineService;
-  public wpCacheService:WorkPackageCacheService;
 
-  constructor(protected workPackageTable:WorkPackageTable) {
-    $injectFields(this, 'states', 'wpTableTimeline', 'wpCacheService');
+  public states = this.injector.get(States);
+  public wpTableTimeline = this.injector.get(WorkPackageTableTimelineService);
+  public wpCacheService = this.injector.get(WorkPackageCacheService);
+
+  constructor(public readonly injector:Injector,
+              protected workPackageTable:WorkPackageTable) {
   }
 
-  public build(workPackageId:string|null) {
+  public build(workPackageId:string | null) {
     const cell = document.createElement('div');
     cell.classList.add(timelineCellClassName, commonRowClassName);
 

@@ -13,7 +13,6 @@ export class GroupRowHandler implements TableEventHandler {
   private builder:GroupedRowsBuilder;
 
   constructor(public readonly injector:Injector, table:WorkPackageTable) {
-    // injectorBridge(this);
     this.builder = new GroupedRowsBuilder(injector, table);
   }
 
@@ -51,5 +50,3 @@ export class GroupRowHandler implements TableEventHandler {
     return this.states.table.collapsedGroups;
   }
 }
-
-// GroupRowHandler.$inject = ['states'];

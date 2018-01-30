@@ -1,25 +1,25 @@
-import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
-import {WorkPackageDisplayFieldService} from './../../wp-display/wp-display-field/wp-display-field.service';
-import {$injectFields} from '../../angular/angular-injector-bridge.functions';
-import {States} from '../../states.service';
-import {tdClassName} from './cell-builder';
-import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
+import {Injector} from '@angular/core';
 import {RelationResource} from '../../api/api-v3/hal-resources/relation-resource.service';
+import {States} from '../../states.service';
 import {QueryColumn} from '../../wp-query/query-column';
 import {WorkPackageRelationsService} from '../../wp-relations/wp-relations.service';
+import {WorkPackageTableRelationColumnsService} from '../state/wp-table-relation-columns.service';
+import {WorkPackageResourceInterface} from './../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageDisplayFieldService} from './../../wp-display/wp-display-field/wp-display-field.service';
+import {tdClassName} from './cell-builder';
 
 export const relationCellTdClassName = 'wp-table--relation-cell-td';
 export const relationCellIndicatorClassName = 'wp-table--relation-indicator';
 
 export class RelationCellbuilder {
-  public states:States;
-  public wpRelations:WorkPackageRelationsService;
-  public wpTableRelationColumns:WorkPackageTableRelationColumnsService;
+
+  public states = this.injector.get(States);
+  public wpRelations = this.injector.get(WorkPackageRelationsService);
+  public wpTableRelationColumns = this.injector.get(WorkPackageTableRelationColumnsService);
 
   public wpDisplayField:WorkPackageDisplayFieldService;
 
-  constructor() {
-    $injectFields(this, 'states', 'wpRelations', 'wpTableRelationColumns');
+  constructor(public readonly injector:Injector) {
   }
 
   public build(workPackage:WorkPackageResourceInterface, column:QueryColumn) {
@@ -50,7 +50,7 @@ export class RelationCellbuilder {
   }
 
   private renderIndicator() {
-    const indicator = document.createElement('span')
+    const indicator = document.createElement('span');
     indicator.classList.add(relationCellIndicatorClassName);
     indicator.setAttribute('aria-hidden', 'true');
     indicator.setAttribute('tabindex', '0');

@@ -24,9 +24,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
   constructor(public readonly injector:Injector, workPackageTable:WorkPackageTable) {
     super(injector, workPackageTable);
-    // injectorBridge(this);
-
-    this.headerBuilder = new GroupHeaderBuilder();
+    this.headerBuilder = new GroupHeaderBuilder(this.injector);
   }
 
   /**
@@ -56,6 +54,7 @@ export class GroupedRowsBuilder extends RowsBuilder {
 
   public buildRows() {
     return new GroupedRenderPass(
+      this.injector,
       this.workPackageTable,
       this.getGroupData(),
       this.headerBuilder,
@@ -114,5 +113,3 @@ export class GroupedRowsBuilder extends RowsBuilder {
     });
   }
 }
-
-// GroupedRowsBuilder.$inject = ['wpTableColumns', 'states', 'I18n'];

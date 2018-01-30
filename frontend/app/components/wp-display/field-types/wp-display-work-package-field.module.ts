@@ -31,16 +31,16 @@ import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-r
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 
 export class WorkPackageDisplayField extends DisplayField {
+
   public text:{ linkTitle:string };
   private uiStateBuilder:UiStateLinkBuilder;
-
 
   constructor(public resource:WorkPackageResource,
               public name:string,
               public schema:op.FieldSchema) {
     super(resource, name, schema);
 
-    this.uiStateBuilder = new UiStateLinkBuilder();
+    this.uiStateBuilder = new UiStateLinkBuilder(this.$injector.get('$state'), this.$injector.get('keepTab'));
     this.text = {
       linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
     };

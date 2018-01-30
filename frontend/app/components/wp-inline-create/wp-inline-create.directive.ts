@@ -98,8 +98,8 @@ export class WorkPackageInlineCreateController {
       return;
     }
 
-    this.rowBuilder = new InlineCreateRowBuilder(this.table);
-    this.timelineBuilder = new TimelineRowBuilder(this.table);
+    this.rowBuilder = new InlineCreateRowBuilder(this.hierarchicalInjector, this.table);
+    this.timelineBuilder = new TimelineRowBuilder(this.hierarchicalInjector, this.table);
     this.text = {
       create: I18n.t('js.label_create_work_package')
     };

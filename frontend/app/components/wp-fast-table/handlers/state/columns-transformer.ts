@@ -12,8 +12,6 @@ export class ColumnsTransformer {
   constructor(public readonly injector:Injector,
               public table:WorkPackageTable) {
 
-    // $injectFields(this, 'states', 'wpTableColumns');
-
     this.states.updates.columnsUpdates
       .values$('Refreshing columns on user request')
       .filter(() => this.wpTableColumns.hasRelationColumns() === false)

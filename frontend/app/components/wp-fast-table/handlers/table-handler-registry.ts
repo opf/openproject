@@ -51,7 +51,7 @@ export class TableHandlerRegistry {
     // Clicking on group headers
     t => new GroupRowHandler(this.injector, t),
     // Right clicking on rows
-    t => new ContextMenuRightClickHandler(t),
+    t => new ContextMenuRightClickHandler(this.injector, t),
     // Left clicking on the dropdown icon
     t => new ContextMenuClickHandler(this.injector, t),
     // SHIFT+ALT+F10 on rows

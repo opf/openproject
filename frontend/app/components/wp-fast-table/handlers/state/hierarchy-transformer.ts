@@ -15,8 +15,6 @@ export class HierarchyTransformer {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    // injectorBridge(this);
-
     this.states.updates.hierarchyUpdates
       .values$('Refreshing hierarchies on user request')
       .takeUntil(this.states.table.stopAllSubscriptions)
@@ -93,5 +91,3 @@ export class HierarchyTransformer {
     this.states.table.rendered.putValue(rendered, 'Updated hidden state of rows after hierarchy change.');
   }
 }
-
-// HierarchyTransformer.$inject = ['wpTableHierarchies', 'states'];

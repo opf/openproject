@@ -11,7 +11,6 @@ export class RelationsTransformer {
 
   constructor(public readonly injector:Injector,
               table:WorkPackageTable) {
-    // $injectFields(this, 'wpTableRelationColumns', 'states');
 
     this.states.updates.relationUpdates
       .values$('Refreshing expanded relations on user request')
