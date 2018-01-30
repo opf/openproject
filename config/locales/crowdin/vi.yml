@@ -1220,6 +1220,7 @@ vi:
   label_greater_or_equal: ">="
   label_group_by: Nhóm theo
   label_group_new: Nhóm mới
+  label_group: Nhóm
   label_group_plural: Các Nhóm
   label_help: Trợ giúp
   label_here: đây

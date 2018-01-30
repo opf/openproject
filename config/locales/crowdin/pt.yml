@@ -1241,6 +1241,7 @@ pt:
   label_greater_or_equal: ">="
   label_group_by: Agrupar por
   label_group_new: Novo Grupo
+  label_group: Grupo
   label_group_plural: Groupos
   label_help: Ajuda
   label_here: aqui

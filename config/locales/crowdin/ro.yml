@@ -1243,6 +1243,7 @@ ro:
   label_greater_or_equal: ">="
   label_group_by: Grupare după
   label_group_new: Grupare nouă
+  label_group: Grup
   label_group_plural: Grupuri
   label_help: Asistenţă
   label_here: aici

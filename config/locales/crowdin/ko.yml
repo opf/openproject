@@ -1183,6 +1183,7 @@ ko:
   label_greater_or_equal: ">="
   label_group_by: 그룹화 기준
   label_group_new: 새 그룹
+  label_group: 그룹
   label_group_plural: 그룹
   label_help: 도움말
   label_here: 여기

@@ -1137,6 +1137,7 @@ zh:
   label_greater_or_equal: ">="
   label_group_by: 分组按照
   label_group_new: 新的组
+  label_group: 组
   label_group_plural: 组
   label_help: 帮助
   label_here: 这里
@@ -1513,11 +1514,10 @@ zh:
   macros:
     create_work_package_link:
       errors:
-        no_project_context: Calling create_work_package_link macro from outside project
-          context.
-        invalid_type: No type found with name '%{type}' in project '%{project}'.
+        no_project_context: 从外部项目上下文调用 create_work_package_link 宏。
+        invalid_type: 在项目 "%{project}" 中找不到名称为 "%{type}" 的类型。
       link_name: 新工作包
-      link_name_type: New %{type_name}
+      link_name_type: 新%{type_name}
   mail:
     actions: 操作
   mail_body_account_activation_request: 一个新的用户 (%{value}) 注册。该帐户正在等待您的批准：
@@ -2335,7 +2335,7 @@ zh:
       missing_or_malformed_parameter: 查询参数“%{parameter}”缺失或不正确。
       multipart_body_error: 请求正文中不包含所需要的多段部分。
       multiple_errors: 违反了多个字段的约束。
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: 无法创建附件
       render:
         context_not_parsable: 所提供的上下文环境并不是指向资源的链接。
         unsupported_context: 所提供的资源不被上下文环境所支持。

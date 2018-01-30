@@ -1158,6 +1158,7 @@ zh-TW:
   label_greater_or_equal: ">="
   label_group_by: 分組依據
   label_group_new: 新增群組
+  label_group: 群組
   label_group_plural: 群組
   label_help: 説明
   label_here: 這裡

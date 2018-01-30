@@ -1216,6 +1216,7 @@ fi:
   label_greater_or_equal: ">="
   label_group_by: Ryhmittely
   label_group_new: Uusi ryhmä
+  label_group: Ryhmä
   label_group_plural: Ryhmät
   label_help: Ohjeet
   label_here: tässä

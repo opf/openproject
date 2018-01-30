@@ -1240,6 +1240,7 @@ ru:
   label_greater_or_equal: ">="
   label_group_by: Группировать по
   label_group_new: Новая группа
+  label_group: Группа
   label_group_plural: Группы
   label_help: Справка
   label_here: здесь

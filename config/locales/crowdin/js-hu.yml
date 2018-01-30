@@ -485,7 +485,7 @@ hu:
         description: Leírás
         date: Dátum
         dueDate: Lejárati időpont
-        estimatedTime: Tervezett időpont
+        estimatedTime: Becsült idő (óra)
         spentTime: Eltöltött idő
         category: Kategória
         percentageDone: Százalékosan elkészült

@@ -1236,6 +1236,7 @@ cs:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_new: New group
+  label_group: Skupina
   label_group_plural: Skupiny
   label_help: Nápověda
   label_here: here

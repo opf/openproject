@@ -1218,6 +1218,7 @@ tr:
   label_greater_or_equal: ">="
   label_group_by: Grupla
   label_group_new: Yeni grup
+  label_group: Grup
   label_group_plural: Gruplar
   label_help: Yardım
   label_here: buraya

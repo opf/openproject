@@ -1234,6 +1234,7 @@ ca:
   label_greater_or_equal: ">="
   label_group_by: Agrupa per
   label_group_new: Nou grup
+  label_group: Grup
   label_group_plural: Grups
   label_help: Ajuda
   label_here: aquí

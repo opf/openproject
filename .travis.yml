@@ -122,5 +122,5 @@ addons:
   # Setting latest here due to the switch from old selenium bindings
   # to Marionette. At the date of this writing, ESR is Firefox 52 and has
   # bad support for it. Thus we use latest (57.0 as of this writing)
-  firefox: "latest"
+  firefox: "57.0"
   postgresql: "9.6"

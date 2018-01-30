@@ -1234,6 +1234,7 @@ lt:
   label_greater_or_equal: ">="
   label_group_by: Grupuoti pagal
   label_group_new: Nauja grupė
+  label_group: Grupė
   label_group_plural: Grupės
   label_help: Pagalba
   label_here: čia

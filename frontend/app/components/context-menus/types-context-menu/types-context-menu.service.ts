@@ -34,6 +34,7 @@ import {StateService} from '@uirouter/angularjs';
 
 class TypesContextMenuController {
   public types:CollectionResource[] = [];
+  public isMobile:Boolean;
 
   constructor(protected $state:StateService,
               protected $timeout:ng.ITimeoutService,
@@ -41,6 +42,7 @@ class TypesContextMenuController {
               protected wpCreate:WorkPackageCreateService) {
     const project = $scope.projectIdentifier;
     $scope.$ctrl = this;
+    this.isMobile = document.documentElement.classList.contains('-browser-mobile');
 
     wpCreate.getEmptyForm(project).then((form:any) => {
       this.types = form.schema.type.allowedValues;

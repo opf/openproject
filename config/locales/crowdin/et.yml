@@ -1220,6 +1220,7 @@ et:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_new: Uus rühm
+  label_group: Grupp
   label_group_plural: Rühmad
   label_help: Abi
   label_here: here

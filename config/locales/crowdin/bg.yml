@@ -1224,6 +1224,7 @@ bg:
   label_greater_or_equal: ">="
   label_group_by: Групиране по
   label_group_new: Нова група
+  label_group: Група
   label_group_plural: Групи
   label_help: Помощ
   label_here: тук

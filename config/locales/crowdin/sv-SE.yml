@@ -1218,6 +1218,7 @@ sv-SE:
   label_greater_or_equal: ">="
   label_group_by: Gruppera efter
   label_group_new: Ny grupp
+  label_group: Grupp
   label_group_plural: Grupper
   label_help: Hjälp
   label_here: här

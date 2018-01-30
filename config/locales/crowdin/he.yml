@@ -1238,6 +1238,7 @@ he:
   label_greater_or_equal: ">="
   label_group_by: קבץ לפי
   label_group_new: קבוצה חדשה
+  label_group: קבוצה
   label_group_plural: קבוצות
   label_help: עזרה
   label_here: here

@@ -1218,6 +1218,7 @@ da:
   label_greater_or_equal: ">="
   label_group_by: Gruppér efter
   label_group_new: Ny gruppe
+  label_group: Gruppe
   label_group_plural: Grupper
   label_help: Hjælp
   label_here: her

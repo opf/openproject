@@ -1139,6 +1139,7 @@ ja:
   label_greater_or_equal: ">="
   label_group_by: グループ化
   label_group_new: 新規グループ
+  label_group: グループ
   label_group_plural: グループ
   label_help: ヘルプ
   label_here: こちら

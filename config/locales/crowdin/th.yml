@@ -1205,6 +1205,7 @@ th:
   label_greater_or_equal: ">="
   label_group_by: Group by
   label_group_new: กลุ่มใหม่
+  label_group: กลุ่ม
   label_group_plural: กลุ่ม
   label_help: วิธีใช้
   label_here: ที่นี่

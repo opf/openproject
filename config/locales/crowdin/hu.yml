@@ -606,8 +606,8 @@ hu:
     description: Leírás
     display_sums: Megjelenitendő összegek
     due_date: Lejárati időpont
-    estimated_hours: Tervezett időpont
-    estimated_time: Tervezett időpont
+    estimated_hours: Becsült idő (óra)
+    estimated_time: Becsült idő (óra)
     firstname: Keresztnév
     group: Csoport
     groups: Csoportok
@@ -1223,6 +1223,7 @@ hu:
   label_greater_or_equal: ">="
   label_group_by: Csoportosítás a következők szerint
   label_group_new: Új csoport
+  label_group: Csoport
   label_group_plural: Csoportok
   label_help: Segítség
   label_here: itt

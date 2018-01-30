@@ -374,10 +374,20 @@ af:
         redirect_existing_links: Herlei bestaande skakels
       planning_element_type_color:
         hexcode: Hex kode
+      project_association:
+        description: Oorsaak
+        project_b: Afhanklike projek
       project_type:
+        allows_association: Laat assosiasie toe
+        reported_project_statuses: Gerapporteerde projekstatusse
         position: Posisie
-        allows_association: ''
-        reported_project_statuses: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: Status kommentaar
+        reporting_to_project: Gee verslag aan projek
+        reported_project_status: Projek status
+        created_at: Geskep
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -397,16 +407,6 @@ af:
         time_entries: Log tyd
         type: Soort
         watcher: Dophouer
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: must be accepted.
@@ -429,7 +429,7 @@ af:
           begindatum.
         inclusion: is not set to one of the allowed values.
         invalid: is invalid.
-        invalid_url: is not a valid URL.
+        invalid_url: is ’n ongeldige bronadres.
         invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
         less_than_or_equal_to: must be less than or equal to %{count}.
         not_a_date: is not a valid date.
@@ -464,6 +464,10 @@ af:
           attributes:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
+        project_association:
+          identical_projects: Afhanklikheid kan nie tussen een projek en ditself geskep
+            word nie.
+          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -549,9 +553,6 @@ af:
         member:
           principal_blank: Kies asseblief ten minste een gebruiker of groep.
           role_blank: Kies asseblief ten minste een rol.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'Kontroleer asseblief die volgende velde:'
         header:
@@ -1114,7 +1115,7 @@ af:
   label_select_main_menu_item: Kies nuwe hoofkieslysitem
   label_select_project: Select a project
   label_required_disk_storage: Required disk storage
-  label_send_invitation: Send invitation
+  label_send_invitation: Stuur uitnodiging
   label_change_plural: Veranderinge
   label_change_properties: Verander eienskappe
   label_change_status: Verander status
@@ -1227,6 +1228,7 @@ af:
   label_greater_or_equal: ">="
   label_group_by: Groepeer volgens
   label_group_new: Nuwe groep
+  label_group: Groep
   label_group_plural: Groepe
   label_help: Help
   label_here: hier
@@ -1375,7 +1377,7 @@ af:
   label_project_settings: Projek-instellings
   label_projects_storage_information: "%{count} projects using %{storage} disk storage"
   label_project_view_all: Bekyk alle projekte
-  label_project_show_details: Show project details
+  label_project_show_details: Toon projekdetails
   label_project_hide_details: Versteek projekdetails
   label_public_projects: Openbare projekte
   label_query_new: New query
@@ -1614,7 +1616,7 @@ af:
           context.
         invalid_type: No type found with name '%{type}' in project '%{project}'.
       link_name: Nuwe werkspakket
-      link_name_type: New %{type_name}
+      link_name_type: Nuwe %{type_name}
   mail:
     actions: Actions
   mail_body_account_activation_request: 'A new user (%{value}) has registered. The
@@ -1770,6 +1772,7 @@ af:
   permission_delete_work_packages: Delete work packages
   permission_delete_messages: Delete messages
   permission_delete_own_messages: Delete own messages
+  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Delete reportings
   permission_delete_timelines: Delete timelines
   permission_delete_wiki_pages: Delete wiki pages
@@ -1781,6 +1784,7 @@ af:
   permission_edit_own_messages: Edit own messages
   permission_edit_own_time_entries: Edit own time logs
   permission_edit_project: Edit project
+  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Edit reportings
   permission_edit_time_entries: Edit time logs
   permission_edit_timelines: Edit timelines
@@ -1814,6 +1818,7 @@ af:
   permission_view_work_packages: View work packages
   permission_view_messages: View messages
   permission_view_members: View members
+  permission_view_project_associations: View project dependencies
   permission_view_reportings: View reportings
   permission_view_time_entries: View spent time
   permission_view_timelines: View timelines
@@ -1847,12 +1852,12 @@ af:
   query:
     attribute_and_direction: "%{attribute} (%{direction})"
   query_fields:
-    active_or_archived: Active or archived
+    active_or_archived: Aktief of geargiveer
     assigned_to_role: Assignee's role
     member_of_group: Assignee's group
     assignee_or_group: Assignee or belonging group
     subproject_id: Sub-projek
-    name_or_identifier: Name or identifier
+    name_or_identifier: Naam of identifiseerder
   repositories:
     at_identifier: at %{identifier}
     atom_revision_feed: Atom revision feed
@@ -2111,7 +2116,7 @@ af:
     brute_force_prevention: Automated user blocking
   show_hide_project_menu: Vergroot/verklein projek kieslys
   status_active: active
-  status_archived: archived
+  status_archived: geargiveer
   status_invited: invited
   status_locked: locked
   status_registered: registered
@@ -2280,10 +2285,11 @@ af:
       project_type: Projek soort
       project_types: Project types
     project_menu:
+      project_associations: Dependencies
       reportings: Status reportings
       reports: Timeline reports
       timelines: Timelines
-      project_associations: ''
+    add_project_association: Add dependency
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
@@ -2425,12 +2431,21 @@ af:
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
     work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Properties
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
+
+'
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Are you sure, you want to delete the following project
@@ -2460,12 +2475,6 @@ af:
       months: Months
       quarters: Quarters
       years: Years
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2587,7 +2596,7 @@ af:
       multipart_body_error: Die versoekliggaam het nie die verwagte multipartdele
         bevat nie.
       multiple_errors: Verskeie veld beperkinge is oortree.
-      unable_to_create_attachment: The attachment could not be created
+      unable_to_create_attachment: Die aanhangsel kon nie geskep word nie
       render:
         context_not_parsable: Die konteks voorsien is nie 'n skakel na 'n hulpbron
           nie.
@@ -2604,6 +2613,3 @@ af:
       writing_read_only_attributes: Jy mag nie 'n leesalleen kenmerk skryf nie.
     resources:
       schema: Skema
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

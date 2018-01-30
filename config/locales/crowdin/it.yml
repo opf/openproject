@@ -1243,6 +1243,7 @@ it:
   label_greater_or_equal: ">="
   label_group_by: Raggruppa per
   label_group_new: Nuovo gruppo
+  label_group: Gruppo
   label_group_plural: Gruppi
   label_help: Aiuto
   label_here: qui

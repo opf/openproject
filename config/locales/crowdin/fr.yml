@@ -1246,6 +1246,7 @@ fr:
   label_greater_or_equal: ">="
   label_group_by: Grouper par
   label_group_new: Nouveau groupe
+  label_group: Groupe
   label_group_plural: Groupes
   label_help: Aide
   label_here: ici

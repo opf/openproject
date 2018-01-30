@@ -1233,6 +1233,7 @@ nl:
   label_greater_or_equal: ">="
   label_group_by: Groeperen op
   label_group_new: Nieuwe groep
+  label_group: Groep
   label_group_plural: Groepen
   label_help: Help
   label_here: hier

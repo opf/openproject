@@ -1238,6 +1238,7 @@ hr:
   label_greater_or_equal: ">="
   label_group_by: Grupiraj po
   label_group_new: Nova grupa
+  label_group: Grupa
   label_group_plural: Grupe
   label_help: Pomoć
   label_here: ovdje

@@ -72,7 +72,7 @@ zh:
     label_activity_with_comment_no: 活动条目编号 %{activityNo}，有用户评论。
     label_add_columns: 增添列
     label_add_comment: 添加评论
-    label_add_comment_title: Comment and type @ to notify other people
+    label_add_comment_title: 写下评论并输入@ 以通知其他人
     label_add_selected_columns: 添加所选的列
     label_added_by: 添加人
     label_added_time_by: 由 %{author} %{age} 添加
@@ -215,7 +215,7 @@ zh:
       work_package_belongs_to: 此工作包属于项目%{projectname}。
       click_to_switch_context: 在该项目中打开此工作包。
       autocompleter:
-        label: Project autocompletion
+        label: 项目自动补全
     text_are_you_sure: 是否确定？
     types:
       attribute_groups:
