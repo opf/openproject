@@ -162,7 +162,8 @@ gem 'carrierwave', '~> 1.2.2'
 gem 'aws-sdk', '~> 2.10.1'
 
 gem 'openproject-token', '~> 1.0.1'
-gem 'text-extractor', git: 'https://github.com/planio-gmbh/text-extractor'
+
+gem 'text-extractor', git: 'https://github.com/planio-gmbh/text-extractor', ref: '5990eb5'
 
 group :test do
   gem 'rack-test', '~> 0.6.3'

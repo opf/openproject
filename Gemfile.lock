@@ -70,6 +70,7 @@ GIT
 GIT
   remote: https://github.com/planio-gmbh/text-extractor
   revision: 5990eb52180bd8169b875f82ed39e6af11adca1a
+  ref: 5990eb5
   specs:
     text-extractor (0.1.0)
       activesupport (> 2.2.1)
