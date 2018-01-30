@@ -1,0 +1,88 @@
+version: 1
+
+dn: ou=groups,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: groups
+
+dn: ou=people,dc=example,dc=com
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: cn=foo,ou=groups,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: foo
+member: uid=aa729,ou=people,dc=example,dc=com
+
+dn: cn=bar,ou=groups,dc=example,dc=com
+objectClass: groupOfNames
+objectClass: top
+cn: bar
+member: uid=aa729,ou=people,dc=example,dc=com
+member: uid=bb459,ou=people,dc=example,dc=com
+member: uid=cc414,ou=people,dc=example,dc=com
+
+dn: uid=bb459,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Belle Baldwin
+sn: Baldwin
+givenName: Belle
+mail: belle@example.org
+uid: bb459
+# Password is "niwdlab"
+userpassword:: e1NIQX1MUmlmMk4rNVREU2FPL3Jka0gySEhGOGZGNzQ9
+
+dn: uid=dd945,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Dorothy Dawson
+sn: Dawson
+givenName: Dorothy
+mail: dorothy@example.org
+uid: dd945
+userpassword:: e1NIQX1EMFVsY1RmYkNkZEZMd2loMDRpZzRERWlsQWM9
+
+dn: uid=cc414,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Claire Carpenter
+sn: Carpenter
+givenName: Claire
+mail: claire@example.org
+uid: cc414
+userpassword:: e1NIQX1VTC9pUysyUjdHaHdiaFhPV29USGQ0L3FvTUE9
+
+dn: uid=xx396,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Xara Xiong
+sn: Xiong
+givenName: Xara
+mail: xara@example.org
+uid: xx396
+userpassword:: e1NIQX1ZYzJFbjJSL3NiZGpsRU9pdGtMbGt3WTRqQVk9
+
+dn: uid=aa729,ou=people,dc=example,dc=com
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: person
+objectClass: top
+cn: Alexandra Adams
+sn: Adams
+givenName: Alexandra
+mail: alexandra@example.org
+uid: aa729
+# Password is "smada"
+userpassword:: e1NIQX1wR2xtWlgxVk9FZEhIYjMwSFplemVWTkZ4R009
+

@@ -1,0 +1,55 @@
+<% html_title(t(:label_administration), t('ldap_groups.synchronized_groups.plural')) -%>
+
+<%= breadcrumb_toolbar t('ldap_groups.synchronized_groups.plural') do %>
+  <li class="toolbar-item">
+    <%= link_to new_ldap_groups_synchronized_group_path,
+                { class: 'button -alt-highlight',
+                  aria: {label: t('ldap_groups.synchronized_groups.singular')},
+                  title: t('ldap_groups.synchronized_groups.add_new')} do %>
+      <%= op_icon('button--icon icon-add') %>
+      <span class="button--text"><%= t('ldap_groups.synchronized_groups.singular') %></span>
+    <% end %>
+  </li>
+<% end %>
+
+
+<section class="admin--edit-section">
+  <%= styled_form_tag(update_settings_ldap_groups_synchronized_groups_path,
+                      method: :post,
+                      id: 'update-ldap-group-settings-form') do %>
+    <fieldset class="form--fieldset">
+      <legend class="form--fieldset-legend"><%= t(:label_settings) %></legend>
+      <div class="form--field">
+        <label class="form--label" for='group_key'><%= t('ldap_groups.settings.group_key') %></label>
+        <div class="form--field-container ">
+          <%= styled_text_field_tag 'group_key',
+                                    ::OpenProject::LdapGroups.group_key,
+                                    container_class: '-middle',
+                                    required: true,
+                                    placeholder: 'e.g., uid' %>
+        </div>
+        <div class="form--field-instructions">
+          <%= I18n.t('ldap_groups.settings.group_key_text') %>
+        </div>
+      </div>
+      <div class="form--field">
+        <label class="form--label" for='group_base'><%= t('ldap_groups.settings.group_base') %></label>
+        <div class="form--field-container">
+          <%= styled_text_field_tag 'group_base',
+                                    ::OpenProject::LdapGroups.group_base,
+                                    container_class: '-middle',
+                                    placeholder: 'ou=people,dc=example,dc=com' %>
+        </div>
+        <div class="form--field-instructions">
+          <%= I18n.t('ldap_groups.settings.group_key_text') %>
+        </div>
+      </div>
+    </fieldset>
+    <%= styled_submit_tag l(:button_apply), class: '-highlight' %>
+  <% end %>
+</section>
+
+<section class="admin--edit-section">
+  <%= cell ::LdapGroups::SynchronizedGroups::TableCell, @groups %>
+</section>
+

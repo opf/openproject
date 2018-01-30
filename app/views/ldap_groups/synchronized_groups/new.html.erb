@@ -1,0 +1,56 @@
+<% html_title(t(:label_administration), t('ldap_groups.synchronized_groups.add_new')) -%>
+
+<%= error_messages_for @group %>
+
+<%= toolbar title: t('ldap_groups.synchronized_groups.add_new') %>
+
+<%= labelled_tabular_form_for @group,
+                              as: :synchronized_group,
+                              url: { action: :create } do |f| %>
+
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= @group.class.human_attribute_name 'auth_source'  %></legend>
+
+    <div class="form--field">
+      <%= f.select :auth_source_id,
+                   LdapAuthSource.pluck(:name, :id),
+                   required: true,
+                   include_blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
+                   container_class: '-middle' %>
+      <div class="form--field-instructions">
+        <%= t('ldap_groups.synchronized_groups.form.auth_source_text') %>
+      </div>
+    </div>
+  </fieldset>
+  <fieldset class="form--fieldset">
+    <legend class="form--fieldset-legend"><%= @group.class.model_name.human  %></legend>
+
+    <div class="form--field">
+      <%= f.text_field :entry,
+                       required: true,
+                       container_class: '-middle',
+                       prefix: "#{::OpenProject::LdapGroups.group_key || '[group key]'}=",
+                       suffix: ",#{::OpenProject::LdapGroups.group_base || '[group base]'}" %>
+      <div class="form--field-instructions">
+        <%= t('ldap_groups.synchronized_groups.form.entry_text') %>
+      </div>
+    </div>
+
+    <div class="form--field">
+      <%= f.select :group_id,
+                   Group.pluck(:lastname, :id),
+                   required: true,
+                   include_blank: "--- #{t(:actionview_instancetag_blank_option)} ---",
+                   container_class: '-middle' %>
+      <div class="form--field-instructions">
+        <%= t('ldap_groups.synchronized_groups.form.group_text') %>
+      </div>
+    </div>
+  </fieldset>
+
+  <p>
+    <%= styled_button_tag t(:button_create), class: '-highlight -with-icon icon-checkmark' %>
+    <%= link_to t(:button_cancel), url_for(action: :index), class: 'button' %>
+  </p>
+<% end %>
+

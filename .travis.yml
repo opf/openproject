@@ -1,0 +1,126 @@
+#-- copyright
+# OpenProject is a project management system.
+# Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License version 3.
+#
+# OpenProject is a fork of ChiliProject, which is a fork of Redmine. The copyright follows:
+# Copyright (C) 2006-2017 Jean-Philippe Lang
+# Copyright (C) 2010-2013 the ChiliProject Team
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+# See doc/COPYRIGHT.rdoc for more details.
+#++
+
+language: ruby
+
+rvm:
+  - 2.4.2
+
+sudo: required
+dist: trusty
+
+cache:
+  bundler: true
+  directories:
+    - frontend/node_modules
+
+branches:
+  only:
+    - master
+    - dev
+    - /^(stable|release)\/.*$/
+
+env:
+  global:
+    - CI=true
+    - RAILS_ENV=test
+    - GECKODRIVER_VERSION="0.19.1"
+
+  matrix:
+    - "TEST_SUITE=plugins:specs     DB=mysql    GROUP_SIZE=1 GROUP=1"
+    - "TEST_SUITE=plugins:features  DB=mysql    GROUP_SIZE=1 GROUP=1"
+    - "TEST_SUITE=npm"
+    - "TEST_SUITE=spec_legacy       DB=mysql"
+    - "TEST_SUITE=cucumber          DB=mysql     GROUP_SIZE=1  GROUP=1"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=4  GROUP=1"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=4  GROUP=2"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=4  GROUP=3"
+    - "TEST_SUITE=specs             DB=mysql     GROUP_SIZE=4  GROUP=4"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=1"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=2"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=3"
+    - "TEST_SUITE=features          DB=mysql     GROUP_SIZE=4  GROUP=4"
+
+
+
+before_install:
+  ## Custom plugin instructions follow.
+  # Move the plugin into a subfolder. The plugin-provided Gemfile.plugins
+  # must refer to this folder.
+  - mkdir -p plugins/this
+  - echo `ls -a | tail -n+3 | grep -v plugins` plugins/this/ | xargs mv
+
+  # Get OpenProject.
+  # Doing the fetch detour as you cannot clone into the current directory.
+  - git init
+  - git remote add openproject https://github.com/opf/openproject.git
+  - git fetch --depth=1 openproject
+  - git checkout openproject/$TRAVIS_BRANCH
+
+  - "echo `firefox -v`"
+  - "export DISPLAY=:99.0"
+  - "/sbin/start-stop-daemon --start -v --pidfile ./tmp/custom_xvfb_99.pid --make-pidfile --background --exec /usr/bin/Xvfb -- :99 -ac -screen 0 1920x1080x16"
+  - "echo `xdpyinfo -display :99 | grep 'dimensions' | awk '{ print $2 }'`"
+  # Install geckodriver
+  - echo "Installing geckodriver ${GECKODRIVER_VERSION}"
+  - wget https://github.com/mozilla/geckodriver/releases/download/v${GECKODRIVER_VERSION}/geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v${GECKODRIVER_VERSION}-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
+  - echo `geckodriver --version`
+  # Install Node LTS Boron (6.9.1)
+  - "nvm install 6.9.1"
+
+bundler_args: --binstubs --without development production docker
+
+before_script:
+  - sh script/ci_setup.sh $TEST_SUITE $DB
+
+script:
+  - sh script/ci_runner.sh
+
+notifications:
+  email: false
+  slack:
+    on_success: change
+    on_failure: always
+    on_pull_requests: false
+    rooms:
+      # CE
+      - secure: "mQqyZRjOix72MAAcjIanPOCfzMlQOqMhYOEd+6SNCcK7nb9ku0rPtFYWtifvp3+ajA5YKVJZ/W2qRn+Flw99zg8SfhPBV89SALXapUnjuZW0rcPexP0vrQW/AR6176DG3+WQOM8BFOYmN1yuGsz7YZK3xZo7yPp8XHKwzWoEYS6BOEUyfyE5T8dGJGqIKwpGEnnpBJf+CVsXeX56xg6wL+9CPVIEDb7IcrPoYQ5K6Kh9gq+7Ube7I7lbsSpdm1TAS4si7G9A6IaJ4WD1QvnUDrajGz2IM/bkP0zs50kGSrbagm707QMC8P4aLzJ64aUOfziyeYA1BSiDl5dZCUc3/dJtjMkUoRlmErwe6x8N5mwn6iVQ5LtWQeJIiy+wrBvjnghkl2/B7z3iZvEsDl6Uip6Dtv7ccmSskkh0ulsEykxWdAsRddpSaEYHv5pqex9aVgIMljM8o3DFTQclhVyGM0nrryDiMjhkCR5spighp/uR7nHEULlmJMGilyjqy6iB3/S6O1CXY110jpgYEAqhxkY9VA1hYYVLsoKV90uUGlnJcQRqQPoP3q1OqUGlRT5Y2ydM2FTBvsBGB+bhMQgZhZORqlkfIYzWDoUs4v6vM9v16XsP6TeXzNd0BPCZ+WamtOZBpwvSXZl85lqIEFONZ12uIr1R/sPsv6bQndN6gLk="
+      # EE
+      - secure: "P6co7i4H73ZBjH/zRt5a+OuZp+x0aDUOorXRKO3RmCfgR2cu02+MB0nHkXrbKsfzFMBLjEEi3nqVUBhC2vxW+vpPrYuhlxp3it7hVwGhTgghjRjI1/0ybAUZjxYgeTt+QhUJsKEuE3tlwPq/YQ5hqhcO/AtEpORn9W11oi0NGaCmSzcKKoXgPWSfiU1DZZV//lpvkGzxaaYWL9GgmiQOEKN8PSRT0RH1HjAYug7X3D6fkPdyYkwmzL5buBO6r1/hJb+zCXtoak5xbCSy2dT3qN3FSbjlUZc2r5mgXSYgThM6KCHuQiT8zI1eRhHXMPxY47SpEGk1NuRMFqhSUkbYe+CgbLo9qjVG4mbt2We6MCbNmAW1lYDAvFefxOP5Kg6kjp1t7Ghs26IWcqlWHP200ujrPbl28bO3FtBKvhXDf/DXNQfVSk1G3EaDq9UgF/XlDZc2LScj8iuu03iJNdLJLL9WDj6FM3z1F9zMd8zYwPq9VHoZHqJbYc8GVfaeV3PQQk56GU4GsfeemH8oqSyVQkFLQDtVPEAHputJ85I0JR67VNFEdUklb9Ab3Xqs8iCtZvFx/Frfqsfh99SCm+Z4ABKOOTWepVigPKp4JH0t03zXiVmgNwd92UBvYcw0cc1rHr2GhROzGx0qUDdrK+6gOskBl8TvQLWkpmNsSlRGYzo="
+      # MP
+      - secure: "dkVCNYSedLfeuqTboRPx/iWmXldhoHZpSp83cpkG6ZL81Psut2ZEHg6aBiWgqQWdfNAca4a51hWXs6utRqdgnxo51YAB/pMy0/b+jEOjZvuShOVz6TVqn5W5JLTNZJeVZL+BgvwXZWbIujH/cSuUv+h7GTnS+8Y4b2ZrCYilP35sAck2bbbAsKzbuW2yZZqK7X0UnSjoxg+KeT9DuK1zjjJJ6CZig1/n5ZjciQIv7JD50hmqFxBgjyBi71Loh/iohUF89EoQRXm0KkSmEhCINld5s+7SP4jSmnqyrNamNNw2ZGCgg3OXhcvDqOHjPwpCNNhrtzTExt/Z2cTzHz4FnV9ncJj9i1pkbjveuudVUTeaSHHXjw/X496OKLP3LwEZYggUCyc3nu9qR2zSs6zdG4ijhclOVzNrXDDixjpYGmOg8mVunG2cwFUSjtmX8nyPNXQvRnvsfnVYalprqXJHGmQW07nFE/2lbjdmnQiCEExNsKXO5vqrqo6RYOtTfka9B5s3ZkTkXgZkTWuEgWbaMC/fZhi0NCu2Ow3XOzQrs8hVLF4w1zngjqOLjk+LftqWwT42D47RKW3SZfVEVm8Vw+JGfh/uJUNAsPsu+Mybw8k0aDmLjPTlRZD+dYvQ2EPizgc2+cf+0GVoaGzKZF+cJ8I0ut8kO13M9ZmjiHU0se4="
+
+addons:
+  # Setting latest here due to the switch from old selenium bindings
+  # to Marionette. At the date of this writing, ESR is Firefox 52 and has
+  # bad support for it. Thus we use latest (57.0 as of this writing)
+  firefox: "latest"
+  postgresql: "9.6"
