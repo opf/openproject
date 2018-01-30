@@ -29,6 +29,7 @@ module ::TwoFactorAuthentication
         cookies.encrypted[remember_cookie_name] = {
           value: new_token!(@authenticated_user),
           httponly: true,
+          expires: remember_2fa_days.days.from_now,
           secure: Setting.protocol == 'https'
         }
       end
