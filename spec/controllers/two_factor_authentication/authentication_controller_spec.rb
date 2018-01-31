@@ -24,6 +24,9 @@ describe ::TwoFactorAuthentication::AuthenticationController, with_2fa_ee: true,
 
   describe 'with no active strategy, but 2FA enforced as configuration', with_config: { '2fa' => { active_strategies: [], enforced: true } } do
     before do
+      allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+        .to receive(:add_default_strategy?)
+        .and_return false
       session[:authenticated_user_id] = user.id
       get :request_otp
     end

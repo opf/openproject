@@ -10,17 +10,30 @@ module OpenProject::TwoFactorAuthentication
              author_url: 'http://openproject.com',
              settings: {
                default: {
+                 # Only app-based 2FA allowed per default
+                 # (will be added in token strategy manager)
+                 active_strategies: [],
+                 # Don't force users to register device
                  enforced: false,
-                 active_strategies: []
+                 # Don't allow remember cookie
+                 allow_remember_for_days: 0
                }
              },
-             requires_openproject: '>= 4.0.0' do
+             requires_openproject: '>= 7.2.0' do
                menu :my_menu,
                     :two_factor_authentication,
                     { controller: 'two_factor_authentication/my/two_factor_devices', action: :index },
                     caption: ->(*) { I18n.t('two_factor_authentication.label_two_factor_authentication') },
                     after: :password,
                     if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.enabled? },
+                    icon: 'icon2 icon-types'
+
+               menu :admin_menu,
+                    :two_factor_authentication,
+                    { controller: 'two_factor_authentication/settings', action: :show },
+                    caption: ->(*) { I18n.t('two_factor_authentication.label_two_factor_authentication') },
+                    after: :ldap_authentication,
+                    if: ->(*) { ::OpenProject::TwoFactorAuthentication::TokenStrategyManager.configurable_by_ui? },
                     icon: 'icon2 icon-types'
              end
 

@@ -25,6 +25,12 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
       let(:active_strategies) { [] }
 
       context 'when enforced' do
+        before do
+          allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+            .to receive(:add_default_strategy?)
+            .and_return false
+        end
+
         let(:enforced) { true }
         it 'requires a token' do
           expect(subject.requires_token?).to be_truthy
@@ -38,6 +44,12 @@ describe ::TwoFactorAuthentication::TokenService, with_2fa_ee: true do
 
       context 'when not enforced' do
         let(:enforced) { false }
+        before do
+          allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+            .to receive(:add_default_strategy?)
+            .and_return false
+        end
+
         it 'requires no token' do
           expect(subject.requires_token?).to be_falsey
         end
