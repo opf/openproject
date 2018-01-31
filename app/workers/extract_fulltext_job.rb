@@ -39,10 +39,12 @@ class ExtractFulltextJob < ApplicationJob
   def perform
     return unless attachment = find_attachment(@attachment_id)
 
-    text = TextExtractor::Resolver.new(attachment.diskfile, attachment.content_type).text if attachment.readable?
+    carrierwave_uploader = attachment.file
+
+    text = TextExtractor::Resolver.new(carrierwave_uploader.local_file, attachment.content_type).text if attachment.readable?
 
     if OpenProject::Database.allows_tsv?
-      attachment_filename = attachment.file.file.filename
+      attachment_filename = carrierwave_uploader.file.filename
       update_with_tsv(attachment.id, attachment_filename, text)
     else
       attachment.update(fulltext: text)
