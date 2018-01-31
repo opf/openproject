@@ -122,6 +122,11 @@ describe ::OpenProject::TwoFactorAuthentication::TokenStrategyManager do
       subject { described_class.validate_active_strategies! }
       context 'when no strategy is set' do
         let(:active_strategies) { [] }
+        before do
+          allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+            .to receive(:add_default_strategy?)
+            .and_return false
+        end
 
         context 'and enforced is false' do
           let(:enforced) { false }

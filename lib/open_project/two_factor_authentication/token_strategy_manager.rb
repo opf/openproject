@@ -54,6 +54,12 @@ module OpenProject::TwoFactorAuthentication
         !!configuration[:enforced]
       end
 
+      ##
+      # Determine whether the plugin settings can be changed from the UI
+      def configurable_by_ui?
+        !configuration[:hide_settings_menu_item]
+      end
+
       def allow_remember_for_days
         configuration[:allow_remember_for_days].to_i
       end
@@ -68,6 +74,8 @@ module OpenProject::TwoFactorAuthentication
       # Fetch all active strategies
       def active_strategies
         configuration.fetch(:active_strategies, [])
+          .map(&:to_s)
+          .uniq
           .map { |strategy| lookup_active_strategy strategy }
       end
 
@@ -100,16 +108,32 @@ module OpenProject::TwoFactorAuthentication
         config
       end
 
-      def merge_with_settings!(config, settings)
-        # Allow enforcing from settings if not true in configuration
-        unless config[:enforced]
-          config[:enforced] = settings[:enforced]
-        end
+      def enforced_by_configuration?(key)
+        (OpenProject::Configuration['2fa'] || {}).has_key? key
+      end
 
+      def merge_with_settings!(config, settings)
         predefined_strategies = config.fetch(:active_strategies, [])
         additional_strategies = settings.fetch(:active_strategies, [])
 
         config[:active_strategies] = predefined_strategies | additional_strategies
+        # Always enable totp if nothing is enabled
+        config[:active_strategies] << :totp if add_default_strategy?(config)
+        # Allow enforcing from settings if not true in configuration
+        config[:enforced] ||= settings[:enforced]
+        config[:allow_remember_for_days] = config.fetch(:allow_remember_for_days, settings[:allow_remember_for_days])
+      end
+
+      def add_default_strategy?(config)
+        config[:active_strategies].empty?
+      end
+
+      def available_strategies
+        {
+          totp: I18n.t("activerecord.models.two_factor_authentication/device/totp"),
+          sns: I18n.t("activerecord.models.two_factor_authentication/device/sms"),
+          restdt: I18n.t("activerecord.models.two_factor_authentication/device/restdt")
+        }
       end
 
       def lookup_active_strategy(klazz)

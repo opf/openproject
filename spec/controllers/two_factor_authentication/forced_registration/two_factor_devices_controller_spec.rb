@@ -20,6 +20,9 @@ describe ::TwoFactorAuthentication::ForcedRegistration::TwoFactorDevicesControll
     allow(OpenProject::Configuration)
       .to receive(:[]).with('2fa')
       .and_return({ active_strategies: active_strategies }.merge(config).with_indifferent_access)
+    allow(OpenProject::TwoFactorAuthentication::TokenStrategyManager)
+      .to receive(:add_default_strategy?)
+      .and_return false
   end
 
   describe 'accessing' do
