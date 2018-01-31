@@ -64,3 +64,6 @@ https://www.postgresql.org/download/
  
  
  ### Upgrade OpenProject
+ 
+You can now continue with the regular upgrading guide as detailed on these pages:
+[https://www.openproject.org/operations/upgrading/](https://www.openproject.org/operations/upgrading/)
