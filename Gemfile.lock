@@ -568,7 +568,7 @@ GEM
     tilt (2.0.7)
     timecop (0.9.1)
     ttfunk (1.5.0)
-    typed_dag (2.0.1)
+    typed_dag (2.0.2)
       rails (>= 5.0.4)
     tzinfo (1.2.3)
       thread_safe (~> 0.1)
@@ -719,7 +719,7 @@ DEPENDENCIES
   thin (~> 1.7.2)
   timecop (~> 0.9.0)
   transactional_lock!
-  typed_dag (~> 2.0.1)
+  typed_dag (~> 2.0.2)
   tzinfo-data (~> 1.2017.2)
   unicorn
   unicorn-worker-killer
@@ -732,4 +732,4 @@ RUBY VERSION
    ruby 2.4.2p198
 
 BUNDLED WITH
-   1.16.0
+   1.16.1
