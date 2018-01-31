@@ -16,6 +16,9 @@ module ::TwoFactorAuthentication
       before_action :check_password_confirmation,
                     only: [:make_default, :destroy]
 
+      # Delete remember token on destroy
+      before_action :clear_remember_token!, only: [:destroy]
+
       layout 'my'
       menu_item :two_factor_authentication
 
