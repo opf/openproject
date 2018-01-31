@@ -31,7 +31,7 @@ class CustomActionsController < ApplicationController
   before_action :require_admin
 
   self._model_object = CustomAction
-  before_action :find_model_object, only: %i(edit update)
+  before_action :find_model_object, only: %i(edit update destroy)
 
   layout 'admin'
 
@@ -77,5 +77,11 @@ class CustomActionsController < ApplicationController
         render action: :edit
       end
     end
+  end
+
+  def destroy
+    @custom_action.destroy
+
+    redirect_to custom_actions_path
   end
 end

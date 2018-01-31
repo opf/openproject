@@ -183,7 +183,7 @@ describe CustomActionsController, type: :controller do
     context 'for non admins' do
       before do
         login_as(non_admin)
-        get :new
+        post :create, params: params
       end
 
       it 'returns 403' do
@@ -351,7 +351,68 @@ describe CustomActionsController, type: :controller do
     context 'for non admins' do
       before do
         login_as(non_admin)
-        get :new
+        patch :update, params: params
+      end
+
+      it 'returns 403' do
+        expect(response.response_code)
+          .to eql 403
+      end
+    end
+  end
+
+  describe '#destroy' do
+    let(:current_user) { admin }
+    let(:params) do
+      { id: "42" }
+    end
+
+    before do
+      allow(CustomAction)
+        .to receive(:find)
+              .with(params[:id])
+              .and_return(action)
+    end
+
+    context 'for admins' do
+      before do
+        expect(action)
+          .to receive(:destroy)
+          .and_return(true)
+
+        login_as(current_user)
+
+        delete :destroy, params: params
+      end
+
+      it 'redirects to index' do
+        expect(response)
+          .to redirect_to(custom_actions_path)
+      end
+    end
+
+    context 'for admins on invalid id' do
+      before do
+        allow(CustomAction)
+          .to receive(:find)
+                .with(params[:id])
+                .and_raise(ActiveRecord::RecordNotFound)
+
+        login_as(current_user)
+
+        delete :destroy, params: params
+      end
+
+      it 'returns 404 NOT FOUND' do
+        expect(response.response_code)
+          .to eql 404
+      end
+    end
+
+    context 'for non admins' do
+      before do
+        login_as(non_admin)
+        delete :destroy, params: params
       end
 
       it 'returns 403' do

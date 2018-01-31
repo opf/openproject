@@ -41,6 +41,7 @@
             <%= link_to l(:button_edit),
                         edit_custom_action_path(action),
                         class: 'icon icon-edit' %>
+            <%= delete_link custom_action_path(action) %>
           </td>
         </tr>
       <% end %>

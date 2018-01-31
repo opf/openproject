@@ -63,4 +63,11 @@ describe 'custom_actions routes', type: :routing do
         .to route_to('custom_actions#update', id: "42")
     end
   end
+
+  describe 'delete' do
+    it 'links DELETE /admin/custom_actions/:id' do
+      expect(delete('/admin/custom_actions/42'))
+        .to route_to('custom_actions#destroy', id: "42")
+    end
+  end
 end

@@ -41,17 +41,21 @@ module Pages
         end
 
         def edit(name)
-          within 'table' do
-            row = find('tr', text: name)
-
-            within row.find('.buttons') do
-              click_link 'Edit'
-            end
+          within_buttons_of name do
+            click_link 'Edit'
           end
 
           custom_action = CustomAction.find_by(name: name)
 
           Pages::Admin::CustomActions::Edit.new(custom_action)
+        end
+
+        def delete(name)
+          within_buttons_of name do
+            click_link 'Delete'
+
+            accept_alert_dialog!
+          end
         end
 
         def expect_listed(*names)
@@ -65,6 +69,18 @@ module Pages
 
         def path
           custom_actions_path
+        end
+
+        private
+
+        def within_buttons_of(name)
+          within 'table' do
+            row = find('tr', text: name)
+
+            within row.find('.buttons') do
+              yield
+            end
+          end
         end
       end
     end

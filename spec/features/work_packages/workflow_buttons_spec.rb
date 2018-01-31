@@ -240,5 +240,28 @@ describe 'Workflow buttons', type: :feature, js: true do
                               priority: default_priority.name
     wp_page.expect_notification message: 'Successful update'
     wp_page.dismiss_notification!
+
+    # Delete 'Reject' from list of actions
+    login_as(admin)
+
+    index_ca_page.visit!
+
+    index_ca_page.delete('Reject')
+
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign', 'Close', 'Escalate')
+
+    login_as(user)
+
+    wp_page.visit!
+
+    expect(page)
+      .to have_selector('.workflow-button', text: 'Unassign')
+    expect(page)
+      .to have_selector('.workflow-button', text: 'Close')
+    expect(page)
+      .to have_selector('.workflow-button', text: 'Escalate')
+    expect(page)
+      .to have_no_selector('.workflow-button', text: 'Reject')
   end
 end
