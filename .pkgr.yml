@@ -21,6 +21,7 @@ targets:
       - sqlite3-devel
 before_precompile: "packaging/setup"
 crons:
+  - packaging/cron/openproject-hourly-tasks
   - packaging/cron/openproject-clear-old-sessions
   - packaging/cron/openproject-clear-uploaded-files
 services:
