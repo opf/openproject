@@ -30,8 +30,6 @@
 require 'text_extractor'
 
 class ExtractFulltextJob < ApplicationJob
-  # queue_as :text_extraction
-
   def initialize(attachment_id)
     @attachment_id = attachment_id
   end
