@@ -38,6 +38,9 @@
             <%= action.name %>
           </td>
           <td class="buttons">
+            <%= link_to l(:button_edit),
+                        edit_custom_action_path(action),
+                        class: 'icon icon-edit' %>
           </td>
         </tr>
       <% end %>

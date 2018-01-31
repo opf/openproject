@@ -30,25 +30,39 @@ require 'support/pages/page'
 
 module Pages
   module Admin
-    class NewCustomAction < ::Pages::Page
-      def set_name(name)
-        fill_in 'Name', with: name
-      end
-
-      def add_action(name, value)
-        within '#custom-actions-form--actions' do
-          select name, from: 'Add'
-
-          select value, from: name
+    module CustomActions
+      class Form < ::Pages::Page
+        def set_name(name)
+          fill_in 'Name', with: name
         end
-      end
 
-      def create
-        click_button 'Create'
-      end
+        def add_action(name, value)
+          within '#custom-actions-form--actions' do
+            select name, from: 'Add'
 
-      def path
-        new_custom_action_path
+            select value, from: name
+          end
+        end
+
+        def remove_action(name)
+          within '#custom-actions-form--active-actions' do
+            find('.form--field', text: name)
+              .find('.icon-close')
+              .click
+          end
+        end
+
+        def set_action(name, value)
+          within '#custom-actions-form--active-actions' do
+            field = find('.form--field', text: name)
+            within field do
+              select value, from: name
+            end
+          end
+
+        rescue Capybara::ElementNotFound
+          add_action(name, value)
+        end
       end
     end
   end

@@ -28,17 +28,13 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::CreateService
+class CustomActions::CreateService < CustomActions::BaseService
+  def initialize(user:)
+    self.user = user
+  end
+
   def call(attributes:,
            action: CustomAction.new)
-    actions = attributes.delete(:actions)
-    action.attributes = attributes
-
-    actions.each do |k, v|
-      action.add_action(k.to_sym, v)
-    end
-
-    ServiceResult.new success: action.save,
-                      result: action
+    super
   end
 end

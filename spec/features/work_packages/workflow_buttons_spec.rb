@@ -50,7 +50,7 @@ describe 'Workflow buttons', type: :feature, js: true do
 
   let(:wp_page) { Pages::FullWorkPackage.new(work_package) }
   let(:default_priority) do
-    FactoryGirl.create(:default_priority)
+    FactoryGirl.create(:default_priority, name: 'Normal')
   end
   let(:immediate_priority) do
     FactoryGirl.create(:issue_priority,
@@ -62,6 +62,9 @@ describe 'Workflow buttons', type: :feature, js: true do
   end
   let(:closed_status) do
     FactoryGirl.create(:closed_status, name: 'Closed')
+  end
+  let(:rejected_status) do
+    FactoryGirl.create(:closed_status, name: 'Rejected')
   end
   let(:workflows) do
     FactoryGirl.create(:workflow,
@@ -75,8 +78,13 @@ describe 'Workflow buttons', type: :feature, js: true do
                        old_status: closed_status,
                        role: role,
                        type: work_package.type)
+    FactoryGirl.create(:workflow,
+                       old_status: work_package.status,
+                       new_status: rejected_status,
+                       role: role,
+                       type: work_package.type)
   end
-  let(:ca_page) { Pages::Admin::NewCustomAction.new }
+  let(:index_ca_page) { Pages::Admin::CustomActions::Index.new }
 
   before do
     login_as(admin)
@@ -88,71 +96,47 @@ describe 'Workflow buttons', type: :feature, js: true do
 
   scenario 'viewing workflow buttons' do
     # create custom action 'Unassign'
-    visit custom_actions_path
+    index_ca_page.visit!
 
-    within '.toolbar-items' do
-      click_link 'Custom action'
-    end
+    new_ca_page = index_ca_page.new
+    new_ca_page.set_name('Unassign')
+    new_ca_page.add_action('Assignee', '-')
+    new_ca_page.create
 
-    ca_page.set_name('Unassign')
-    ca_page.add_action('Assignee', '-')
-    ca_page.create
-
-    expect(page)
-      .to have_current_path(custom_actions_path)
-
-    expect(page)
-      .to have_content 'Unassign'
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign')
 
     # create custom action 'Close'
 
-    within '.toolbar-items' do
-      click_link 'Custom action'
-    end
+    new_ca_page = index_ca_page.new
+    new_ca_page.set_name('Close')
+    new_ca_page.add_action('Status', 'Close')
+    new_ca_page.create
 
-    ca_page.set_name('Close')
-    ca_page.add_action('Status', 'Close')
-    ca_page.create
-
-    expect(page)
-      .to have_current_path(custom_actions_path)
-
-    expect(page)
-      .to have_content 'Close'
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign', 'Close')
 
     # create custom action 'Escalate'
+    new_ca_page = index_ca_page.new
+    new_ca_page.set_name('Escalate')
+    new_ca_page.add_action('Priority', immediate_priority.name)
+    new_ca_page.create
 
-    within '.toolbar-items' do
-      click_link 'Custom action'
-    end
-
-    ca_page.set_name('Escalate')
-    ca_page.add_action('Priority', immediate_priority.name)
-    ca_page.create
-
-    expect(page)
-      .to have_current_path(custom_actions_path)
-
-    expect(page)
-      .to have_content 'Escalate'
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign', 'Close', 'Escalate')
 
     # create custom action 'Reset'
 
-    within '.toolbar-items' do
-      click_link 'Custom action'
-    end
+    new_ca_page = index_ca_page.new
 
-    ca_page.set_name('Reset')
-    ca_page.add_action('Priority', default_priority.name)
-    ca_page.add_action('Status', default_status.name)
-    ca_page.add_action('Assignee', user.name)
-    ca_page.create
+    new_ca_page.set_name('Reset')
+    new_ca_page.add_action('Priority', default_priority.name)
+    new_ca_page.add_action('Status', default_status.name)
+    new_ca_page.add_action('Assignee', user.name)
+    new_ca_page.create
 
-    expect(page)
-      .to have_current_path(custom_actions_path)
-
-    expect(page)
-      .to have_content 'Reset'
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reset')
 
     # use custom actions
     login_as(user)
@@ -214,5 +198,47 @@ describe 'Workflow buttons', type: :feature, js: true do
                               status: default_status.name,
                               assignee: user.name
     wp_page.expect_notification message: 'Successful update'
+
+    # edit 'Reset' to now be named 'Reject' which sets the status to 'Rejected'
+    login_as(admin)
+
+    index_ca_page.visit!
+
+    edit_ca_page = index_ca_page.edit('Reset')
+
+    edit_ca_page.set_name 'Reject'
+    edit_ca_page.remove_action 'Priority'
+    edit_ca_page.set_action 'Assignee', '-'
+    edit_ca_page.set_action 'Status', rejected_status.name
+    edit_ca_page.save
+
+    index_ca_page.expect_current_path
+    index_ca_page.expect_listed('Unassign', 'Close', 'Escalate', 'Reject')
+
+    # Check the altered button
+    login_as(user)
+
+    wp_page.visit!
+
+    expect(page)
+      .to have_selector('.workflow-button', text: 'Unassign')
+    expect(page)
+      .to have_selector('.workflow-button', text: 'Close')
+    expect(page)
+      .to have_selector('.workflow-button', text: 'Escalate')
+    expect(page)
+      .to have_selector('.workflow-button', text: 'Reject')
+    expect(page)
+      .to have_no_selector('.workflow-button', text: 'Reset')
+
+    within('.workflow-buttons') do
+      click_button('Reject')
+    end
+
+    wp_page.expect_attributes assignee: '-',
+                              status: rejected_status.name,
+                              priority: default_priority.name
+    wp_page.expect_notification message: 'Successful update'
+    wp_page.dismiss_notification!
   end
 end

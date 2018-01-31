@@ -45,12 +45,6 @@ class CustomAction < ActiveRecord::Base
     order(:name)
   end
 
-  def add_action(key, value)
-    # TODO handle unknown key
-    self.actions ||= []
-    actions << available_actions.detect { |a| a.key == key }.new(value)
-  end
-
   def all_actions
     available_actions.map do |action|
       existing_action = actions.detect { |a| a.key == action.key }
@@ -62,8 +56,6 @@ class CustomAction < ActiveRecord::Base
       end
     end
   end
-
-  private
 
   def available_actions
     ::CustomActions::Register.actions.map(&:all).flatten

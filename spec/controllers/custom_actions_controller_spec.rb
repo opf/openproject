@@ -123,7 +123,7 @@ describe CustomActionsController, type: :controller do
 
   describe '#create' do
     let(:current_user) { admin }
-    let(:save_success) { true }
+    let(:service_success) { true }
     let(:permitted_params) do
       ActionController::Parameters
         .new(params)
@@ -131,39 +131,220 @@ describe CustomActionsController, type: :controller do
         .permit(:name)
         .merge(ActionController::Parameters.new(actions: { assigned_to: "1" }).permit!)
     end
+    let!(:service) do
+      service = double('create service')
 
-    before do
-      allow(CustomAction)
+      allow(CustomActions::CreateService)
         .to receive(:new)
-        .with(permitted_params)
-        .and_return(action)
+        .with(user: admin)
+        .and_return(service)
+
+      allow(service)
+        .to receive(:call)
+        .with(attributes: permitted_params.to_h)
+        .and_yield(service_result)
+
+      service
+    end
+    let(:service_result) do
+      ServiceResult.new(success: service_success,
+                        result: action)
     end
 
     context 'for admins' do
       before do
-        expect(action)
-          .to receive(:save)
-          .and_return(save_success)
-
         login_as(current_user)
 
         post :create, params: params
       end
 
-      context 'on successful saving' do
+      context 'on success' do
         it 'redirects to index' do
           expect(response)
             .to redirect_to(custom_actions_path)
         end
       end
 
-      context 'on unsuccessful saving' do
-        let(:save_success) { false }
+      context 'on failure' do
+        let(:service_success) { false }
 
-        it 'rerenders new action' do
+        it 'renders new' do
           expect(response)
-            .to render_template('new')
+            .to render_template(:new)
         end
+
+        it 'assigns custom action' do
+          expect(assigns[:custom_action])
+            .to eql action
+        end
+      end
+    end
+
+    context 'for non admins' do
+      before do
+        login_as(non_admin)
+        get :new
+      end
+
+      it 'returns 403' do
+        expect(response.response_code)
+          .to eql 403
+      end
+    end
+  end
+
+  describe '#edit' do
+    let(:params) do
+      { id: "42" }
+    end
+
+    before do
+      allow(CustomAction)
+        .to receive(:find)
+        .with(params[:id])
+        .and_return(action)
+    end
+
+    context 'for admins' do
+      before do
+        login_as(admin)
+
+        get :edit, params: params
+      end
+
+      it 'returns 200' do
+        expect(response.response_code)
+          .to eql 200
+      end
+
+      it 'renders edit template' do
+        expect(response)
+          .to render_template('edit')
+      end
+
+      it 'assigns custom_action' do
+        expect(assigns(:custom_action))
+          .to eql action
+      end
+    end
+
+    context 'for admins on invalid id' do
+      before do
+        allow(CustomAction)
+          .to receive(:find)
+          .with(params[:id])
+          .and_raise(ActiveRecord::RecordNotFound)
+
+        login_as(admin)
+
+        get :edit, params: params
+      end
+
+      it 'returns 404 NOT FOUND' do
+        expect(response.response_code)
+          .to eql 404
+      end
+    end
+
+    context 'for non admins' do
+      before do
+        login_as(non_admin)
+        get :edit, params: params
+      end
+
+      it 'returns 403' do
+        expect(response.response_code)
+          .to eql 403
+      end
+    end
+  end
+
+  describe '#update' do
+    let(:current_user) { admin }
+    let(:service_success) { true }
+    let(:permitted_params) do
+      ActionController::Parameters
+        .new(params)
+        .require(:custom_action)
+        .permit(:name)
+        .merge(ActionController::Parameters.new(actions: { assigned_to: "1" }).permit!)
+    end
+    let(:params) do
+      { custom_action: { name: 'blubs',
+                         actions: { assigned_to: 1 } },
+        id: "42" }
+    end
+    let!(:service) do
+      service = double('update service')
+
+      allow(CustomActions::UpdateService)
+        .to receive(:new)
+        .with(user: admin, action: action)
+        .and_return(service)
+
+      allow(service)
+        .to receive(:call)
+        .with(attributes: permitted_params.to_h)
+        .and_yield(service_result)
+
+      service
+    end
+    let(:service_result) do
+      ServiceResult.new(success: service_success,
+                        result: action)
+    end
+
+    before do
+      allow(CustomAction)
+        .to receive(:find)
+        .with(params[:id])
+        .and_return(action)
+    end
+
+    context 'for admins' do
+      before do
+        login_as(current_user)
+
+        patch :update, params: params
+      end
+
+      context 'on success' do
+        it 'redirects to index' do
+          expect(response)
+            .to redirect_to(custom_actions_path)
+        end
+      end
+
+      context 'on failure' do
+        let(:service_success) { false }
+
+        it 'rerenders edit action' do
+          expect(response)
+            .to render_template(:edit)
+        end
+
+        it 'assigns the action' do
+          expect(assigns[:custom_action])
+            .to eql(action)
+        end
+      end
+    end
+
+    context 'for admins on invalid id' do
+      before do
+        allow(CustomAction)
+          .to receive(:find)
+          .with(params[:id])
+          .and_raise(ActiveRecord::RecordNotFound)
+
+        login_as(current_user)
+
+        patch :update, params: params
+      end
+
+      it 'returns 404 NOT FOUND' do
+        expect(response.response_code)
+          .to eql 404
       end
     end
 

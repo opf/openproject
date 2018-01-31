@@ -83,6 +83,14 @@ class ServiceResult
     self.dependent_results += inner_results
   end
 
+  def on_success(&block)
+    yield if success?
+  end
+
+  def on_failure(&block)
+    yield if failure?
+  end
+
   private
 
   def merge_success!(other)

@@ -29,7 +29,13 @@
 
 class CustomActionsController < ApplicationController
   before_action :require_admin
+
+  self._model_object = CustomAction
+  before_action :find_model_object, only: %i(edit update)
+
   layout 'admin'
+
+  helper_method :gon
 
   def index
     @custom_actions = CustomAction.order_by_name
@@ -37,23 +43,39 @@ class CustomActionsController < ApplicationController
 
   def new
     @custom_action = CustomAction.new
-
-    @query = Query.new
   end
 
   def create
-    call = CustomActions::CreateService
-           .new
-           .call(attributes: permitted_params.custom_action)
+    CustomActions::CreateService
+      .new(user: current_user)
+      .call(attributes: permitted_params.custom_action.to_h) do |call|
 
-    @custom_action = call.result
+      call.on_success do
+        redirect_to custom_actions_path
+      end
 
-    if call.success
-      redirect_to custom_actions_path
-    else
-      render action: :new
+      call.on_failure do
+        @custom_action = call.result
+        render action: :new
+      end
     end
   end
 
-  helper_method :gon
+  def edit; end
+
+  def update
+    CustomActions::UpdateService
+      .new(action: @custom_action, user: current_user)
+      .call(attributes: permitted_params.custom_action.to_h) do |call|
+
+      call.on_success do
+        redirect_to custom_actions_path
+      end
+
+      call.on_failure do
+        @custom_action = call.result
+        render action: :edit
+      end
+    end
+  end
 end

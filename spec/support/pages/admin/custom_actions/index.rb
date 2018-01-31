@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,40 +26,47 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::Base
-  attr_accessor :value
+require 'support/pages/page'
 
-  def initialize(value = nil)
-    self.value = value
-  end
+module Pages
+  module Admin
+    module CustomActions
+      class Index < ::Pages::Page
+        def new
+          within '.toolbar-items' do
+            click_link 'Custom action'
+          end
 
-  def allowed_values
-    raise NotImplementedError
-  end
+          Pages::Admin::CustomActions::New.new
+        end
 
-  def type
-    raise NotImplementedError
-  end
+        def edit(name)
+          within 'table' do
+            row = find('tr', text: name)
 
-  def human_name
-    WorkPackage.human_attribute_name(self.class.key)
-  end
+            within row.find('.buttons') do
+              click_link 'Edit'
+            end
+          end
 
-  def self.key
-    raise NotImplementedError
-  end
+          custom_action = CustomAction.find_by(name: name)
 
-  def self.all
-    [self]
-  end
+          Pages::Admin::CustomActions::Edit.new(custom_action)
+        end
 
-  def self.for(key)
-    if key == self.key
-      self
+        def expect_listed(*names)
+          within 'table' do
+            Array(names).each do |name|
+              expect(page)
+                .to have_content name
+            end
+          end
+        end
+
+        def path
+          custom_actions_path
+        end
+      end
     end
-  end
-
-  def key
-    self.class.key
   end
 end

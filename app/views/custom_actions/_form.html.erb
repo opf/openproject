@@ -1,7 +1,10 @@
 
 <%
 gon.push({
-  hide_sections: @custom_action.all_actions.map { |a| { key: a.key, label: a.human_name } }
+  hide_sections: {
+    all: @custom_action.all_actions.map { |a| { key: a.key, label: a.human_name } },
+    active: @custom_action.actions.map { |a| { key: a.key, label: a.human_name } }
+  }
 })
   %>
 
@@ -16,7 +19,7 @@ gon.push({
     <%= t('custom_actions.actions') %>
   </legend>
 
-  <hide-sections>
+  <div id="custom-actions-form--active-actions">
     <% @custom_action.all_actions.each do |action| %>
       <hide-section section-name="<%= action.key %>">
         <div class="form--field">
@@ -51,7 +54,7 @@ gon.push({
         </div>
       </hide-section>
     <% end %>
-  </hide-sections>
+  </div>
 
-  <add-section-dropdown></add-section-dropdown>
+  <add-section-dropdown id="custom-actions-form--selectable-actions"></add-section-dropdown>
 </fieldset>

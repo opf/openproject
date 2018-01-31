@@ -49,4 +49,18 @@ describe 'custom_actions routes', type: :routing do
         .to route_to('custom_actions#create')
     end
   end
+
+  describe 'edit' do
+    it 'links GET /admin/custom_actions/:id/edit' do
+      expect(get('/admin/custom_actions/42/edit'))
+        .to route_to('custom_actions#edit', id: "42")
+    end
+  end
+
+  describe 'update' do
+    it 'links PATCH /admin/custom_actions/:id' do
+      expect(patch('/admin/custom_actions/42'))
+        .to route_to('custom_actions#update', id: "42")
+    end
+  end
 end

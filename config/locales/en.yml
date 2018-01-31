@@ -86,6 +86,7 @@ en:
     actions: 'Actions'
     plural: 'Custom actions'
     new: 'New custom action'
+    edit: 'Edit custom action %{name}'
 
   custom_fields:
     text_add_new_custom_field: >

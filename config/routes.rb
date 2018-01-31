@@ -354,7 +354,7 @@ OpenProject::Application.routes.draw do
       end
     end
 
-    resources :custom_actions, only: %i(index new create)
+    resources :custom_actions, only: %i(index new create edit update)
   end
 
   # We should fix this crappy routing (split up and rename controller methods)

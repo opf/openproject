@@ -49,15 +49,28 @@ class CustomActions::CustomFieldAction < CustomActions::Base
     WorkPackageCustomField
       .order(:name)
       .map do |cf|
-        klass = Class.new(CustomActions::CustomFieldAction)
-        klass.define_singleton_method(:custom_field) do
-          cf
-        end
-
-        klass.prepend(strategy(cf))
-        klass
+        create_subclass(cf)
       end
   end
+
+  def self.for(key)
+    match_result = key.match /custom_field_(\d+)/
+
+    if match_result && (cf = CustomField.find_by(id: match_result[0]))
+      create_subclass(cf)
+    end
+  end
+
+  def self.create_subclass(custom_field)
+    klass = Class.new(CustomActions::CustomFieldAction)
+    klass.define_singleton_method(:custom_field) do
+      custom_field
+    end
+
+    klass.prepend(strategy(custom_field))
+    klass
+  end
+  private_class_method :create_subclass
 
   def self.strategy(custom_field)
     case custom_field.field_format
@@ -77,4 +90,6 @@ class CustomActions::CustomFieldAction < CustomActions::Base
       CustomActions::Strategies::AssociatedCustomField
     end
   end
+
+  private_class_method :strategy
 end

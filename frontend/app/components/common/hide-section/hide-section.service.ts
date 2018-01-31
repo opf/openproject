@@ -39,7 +39,11 @@ export class HideSectionService {
   protected displayedSections:HideSectionDefinition[] = [];
 
   constructor(protected gonRef:GonRef) {
-    this.availableSections = gonRef.get('hideSections').sort((a:HideSectionDefinition, b:HideSectionDefinition) => a.label.localeCompare(b.label));
+    let allSections = gonRef.get('hideSections').all;
+
+    this.displayedSections = gonRef.get('hideSections').active;
+    this.availableSections = _.without(allSections, ...this.displayedSections);
+    this.availableSections.sort((a:HideSectionDefinition, b:HideSectionDefinition) => a.label.localeCompare(b.label));
   }
 
   isDisplayed(key:string) {

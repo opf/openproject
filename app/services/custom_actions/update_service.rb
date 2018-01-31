@@ -28,40 +28,16 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::Base
-  attr_accessor :value
+class CustomActions::UpdateService < CustomActions::BaseService
+  attr_accessor :user,
+                :action
 
-  def initialize(value = nil)
-    self.value = value
+  def initialize(action:, user:)
+    self.action = action
+    self.user = user
   end
 
-  def allowed_values
-    raise NotImplementedError
-  end
-
-  def type
-    raise NotImplementedError
-  end
-
-  def human_name
-    WorkPackage.human_attribute_name(self.class.key)
-  end
-
-  def self.key
-    raise NotImplementedError
-  end
-
-  def self.all
-    [self]
-  end
-
-  def self.for(key)
-    if key == self.key
-      self
-    end
-  end
-
-  def key
-    self.class.key
+  def call(attributes:, &block)
+    super(attributes: attributes, action: action, &block)
   end
 end

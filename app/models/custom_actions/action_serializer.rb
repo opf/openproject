@@ -33,11 +33,11 @@ class CustomActions::ActionSerializer
     YAML
       .load(value)
       .map do |key, value|
-      CustomActions::Register
-        .actions
-        .detect { |a| a.key == key }
-        .new(value)
-    end
+      klass = CustomActions::Register
+              .actions
+              .detect { |a| a.for(key) }
+      klass.new(value) if klass
+    end.compact
   end
 
   def self.dump(actions)

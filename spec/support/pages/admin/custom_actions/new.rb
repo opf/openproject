@@ -1,5 +1,3 @@
-#-- encoding: UTF-8
-
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,40 +26,22 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-class CustomActions::Base
-  attr_accessor :value
+require 'support/pages/page'
 
-  def initialize(value = nil)
-    self.value = value
-  end
+require_relative 'form'
 
-  def allowed_values
-    raise NotImplementedError
-  end
+module Pages
+  module Admin
+    module CustomActions
+      class New < Form
+        def create
+          click_button 'Create'
+        end
 
-  def type
-    raise NotImplementedError
-  end
-
-  def human_name
-    WorkPackage.human_attribute_name(self.class.key)
-  end
-
-  def self.key
-    raise NotImplementedError
-  end
-
-  def self.all
-    [self]
-  end
-
-  def self.for(key)
-    if key == self.key
-      self
+        def path
+          new_custom_action_path
+        end
+      end
     end
-  end
-
-  def key
-    self.class.key
   end
 end
