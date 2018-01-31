@@ -33,5 +33,14 @@ module OpenProject
     def self.normalize_text(text)
       I18n.transliterate(text.to_s.downcase)
     end
+
+    def self.normalize_filename(filename)
+      name_in_words = to_words filename.to_s.downcase
+      I18n.transliterate(name_in_words)
+    end
+
+    def to_words(text)
+      text.gsub /[^[:alnum:]]/, ' '
+    end
   end
 end

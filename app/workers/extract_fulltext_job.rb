@@ -68,7 +68,7 @@ class ExtractFulltextJob < ApplicationJob
        language,
        OpenProject::FullTextSearch.normalize_text(text),
        language,
-       OpenProject::FullTextSearch.normalize_text(filename),
+       OpenProject::FullTextSearch.normalize_filename(filename),
        id]
     )
   end

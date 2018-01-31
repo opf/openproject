@@ -47,4 +47,10 @@ class Queries::WorkPackages::Filter::AttachmentFileNameFilter < Queries::WorkPac
   def order
     8
   end
+
+  private
+
+  def normalize_text(text)
+    OpenProject::FullTextSearch.normalize_filename(text)
+  end
 end

@@ -66,7 +66,7 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   private
 
   def tokenize
-    terms = I18n.transliterate(values.first.downcase).split /\s/
+    terms = normalize_text(values.first).split /\s/
 
     case operator
       when '~'
@@ -74,5 +74,9 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
       when '!~'
         '! ' + terms.join(' & ! ')
     end
+  end
+
+  def normalize_text(text)
+    OpenProject::FullTextSearch.normalize_text(text)
   end
 end
