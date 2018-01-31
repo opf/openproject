@@ -7,3 +7,5 @@ ko:
   label_not_changeable: (변경할 수 없음)
   label_no_assignable_role: 할당을 위해 글로벌 역할을 사용할 수 없음
   label_global: 글로벌
+  seeders:
+    default_role_project_creator: 'Project creator'
