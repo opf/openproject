@@ -59,7 +59,6 @@ module Pages
               select value, from: name
             end
           end
-
         rescue Capybara::ElementNotFound
           add_action(name, value)
         end

@@ -29,8 +29,8 @@ import {Injectable} from '@angular/core';
 import {GonRef} from 'core-components/common/gon-ref/gon-ref';
 
 export interface HideSectionDefinition {
-  key: string,
-  label: string
+  key:string;
+  label:string;
 }
 
 @Injectable()

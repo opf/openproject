@@ -36,15 +36,12 @@ import {HideSectionService} from 'core-components/common/hide-section/hide-secti
   selector: 'hide-section-link',
   template: require('!!raw-loader!./hide-section-link.component.html')
 })
-export class HideSectionLinkComponent implements OnInit {
+export class HideSectionLinkComponent {
   displayed:boolean = true;
 
   @Input('sectionName') sectionName:string;
 
   constructor(protected hideSections:HideSectionService) {}
-
-  ngOnInit() {
-  }
 
   hideSection() {
     this.hideSections.hideByName(this.sectionName);

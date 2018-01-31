@@ -47,5 +47,5 @@ export class WpWorkflowButtonsComponent {
 
 opUiComponentsModule.directive(
   'wpWorkflowButtons',
-  downgradeComponent({component: WpWorkflowButtonsComponent})
+  downgradeComponent({component:WpWorkflowButtonsComponent})
 );

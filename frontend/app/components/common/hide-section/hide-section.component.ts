@@ -37,15 +37,12 @@ import {HideSectionService} from 'core-components/common/hide-section/hide-secti
   template: '<span *ngIf="isDisplayed()"><ng-content></ng-content></span>'
 
 })
-export class HideSectionComponent implements OnInit {
+export class HideSectionComponent {
   displayed:boolean = true;
 
   @Input('sectionName') sectionName:string;
 
   constructor(protected hideSection:HideSectionService) {
-  }
-
-  ngOnInit() {
   }
 
   isDisplayed() {

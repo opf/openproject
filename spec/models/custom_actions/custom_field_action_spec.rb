@@ -29,31 +29,31 @@ require 'spec_helper'
 
 describe CustomActions::CustomFieldAction, type: :model do
   let(:list_custom_field) do
-    FactoryGirl.build(:list_wp_custom_field)
+    FactoryGirl.build_stubbed(:list_wp_custom_field)
   end
   let(:version_custom_field) do
-    FactoryGirl.build(:version_wp_custom_field)
+    FactoryGirl.build_stubbed(:version_wp_custom_field)
   end
   let(:bool_custom_field) do
-    FactoryGirl.build(:bool_wp_custom_field)
+    FactoryGirl.build_stubbed(:bool_wp_custom_field)
   end
   let(:user_custom_field) do
-    FactoryGirl.build(:user_wp_custom_field)
+    FactoryGirl.build_stubbed(:user_wp_custom_field)
   end
   let(:int_custom_field) do
-    FactoryGirl.build(:int_wp_custom_field)
+    FactoryGirl.build_stubbed(:int_wp_custom_field)
   end
   let(:float_custom_field) do
-    FactoryGirl.build(:float_wp_custom_field)
+    FactoryGirl.build_stubbed(:float_wp_custom_field)
   end
   let(:text_custom_field) do
-    FactoryGirl.build(:text_wp_custom_field)
+    FactoryGirl.build_stubbed(:text_wp_custom_field)
   end
   let(:string_custom_field) do
-    FactoryGirl.build(:string_wp_custom_field)
+    FactoryGirl.build_stubbed(:string_wp_custom_field)
   end
   let(:date_custom_field) do
-    FactoryGirl.build(:date_wp_custom_field)
+    FactoryGirl.build_stubbed(:date_wp_custom_field)
   end
 
   let(:custom_field) do
@@ -72,10 +72,11 @@ describe CustomActions::CustomFieldAction, type: :model do
   end
   let(:klass) do
     allow(WorkPackageCustomField)
-      .to receive(:order)
-      .and_return(custom_fields)
+      .to receive(:find_by)
+      .with(id: custom_field.id.to_s)
+      .and_return(custom_field)
 
-    described_class.all.first
+    described_class.for(:"custom_field_#{custom_field.id}")
   end
   let(:instance) do
     klass.new
@@ -139,9 +140,20 @@ describe CustomActions::CustomFieldAction, type: :model do
 
   describe '#type' do
     context 'for a list custom field' do
-      it 'is :list' do
+      it 'is :associated_property' do
         expect(instance.type)
           .to eql(:associated_property)
+      end
+    end
+
+    context 'for a list custom field allowing multiple values' do
+      let(:custom_field) do
+        FactoryGirl.build_stubbed(:list_wp_custom_field, multi_value: true)
+      end
+
+      it 'is :associated_property_multi' do
+        expect(instance.type)
+          .to eql(:associated_property_multi)
       end
     end
 

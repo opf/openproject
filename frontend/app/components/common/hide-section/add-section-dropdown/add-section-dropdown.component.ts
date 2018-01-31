@@ -39,7 +39,7 @@ import {I18nToken} from 'core-app/angular4-transition-utils';
 export class AddSectionDropdownComponent implements OnInit {
   selectable:HideSectionDefinition[] = [];
   turnedActive:HideSectionDefinition|null = null;
-  texts: { [key:string]: string } = {};
+  texts: { [key:string]:string } = {};
 
   constructor(protected hideSections:HideSectionService,
               @Inject(I18nToken) protected I18n:op.I18n) {
@@ -56,12 +56,12 @@ export class AddSectionDropdownComponent implements OnInit {
   show() {
     if (this.turnedActive) {
       this.hideSections.show(this.turnedActive);
-      setTimeout(() => { this.turnedActive = null } );
+      setTimeout(() => { this.turnedActive = null; } );
     }
   }
 }
 
 opUiComponentsModule.directive(
   'addSectionDropdown',
-  downgradeComponent({component: AddSectionDropdownComponent})
+  downgradeComponent({component:AddSectionDropdownComponent})
 );

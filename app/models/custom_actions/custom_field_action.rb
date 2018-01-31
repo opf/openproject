@@ -56,7 +56,7 @@ class CustomActions::CustomFieldAction < CustomActions::Base
   def self.for(key)
     match_result = key.match /custom_field_(\d+)/
 
-    if match_result && (cf = CustomField.find_by(id: match_result[0]))
+    if match_result && (cf = WorkPackageCustomField.find_by(id: match_result[1]))
       create_subclass(cf)
     end
   end

@@ -32,13 +32,13 @@ interface GonWindow extends Window {
   gon:{}
 }
 
-function _gon() : any {
+function _gon():any {
   return (<GonWindow> window).gon;
 }
 
 @Injectable()
 export class GonRef {
-  get(name:string) : any {
+  get(name:string):any {
     return _gon()[name];
   }
 }
