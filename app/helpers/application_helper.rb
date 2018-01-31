@@ -523,13 +523,14 @@ module ApplicationHelper
     done   = (pcts[1] || closed) - closed
     width = options[:width] || '100px;'
     legend = options[:legend] || ''
+    total_progress = options[:hide_total_progress] ? '' : t(:total_progress)
 
     content_tag :span do
       progress = content_tag :span, class: 'progress-bar', style: "width: #{width}" do
         concat content_tag(:span, '', class: 'inner-progress closed', style: "width: #{closed}%")
         concat content_tag(:span, '', class: 'inner-progress done',   style: "width: #{done}%")
       end
-      progress + content_tag(:span, "#{legend}% #{l(:total_progress)}", class: 'progress-bar-legend')
+      progress + content_tag(:span, "#{legend}% #{total_progress}", class: 'progress-bar-legend')
     end
   end
 
