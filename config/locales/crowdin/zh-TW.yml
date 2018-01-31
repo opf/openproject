@@ -343,8 +343,6 @@ zh-TW:
         hexcode: 十六進位碼
       project_type:
         position: 位置
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: 開始插入
         begin_deletion: 開始刪除
@@ -364,16 +362,6 @@ zh-TW:
         time_entries: 日誌的時間
         type: 類型
         watcher: 監看者
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: 必須被接受
@@ -507,9 +495,6 @@ zh-TW:
         member:
           principal_blank: 請至少選擇一個使用者或群組。
           role_blank: 請至少選擇一個角色。
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 請檢查下列欄位：
         header:
@@ -2138,7 +2123,6 @@ zh-TW:
       reportings: 狀態報表
       reports: 時間軸報表
       timelines: 時間軸
-      project_associations: ''
     associations: 依賴相依
     board_could_not_be_saved: 無法儲存看板
     button_delete_all: 全部删除
@@ -2312,12 +2296,6 @@ zh-TW:
       months: 月
       quarters: 季
       years: 年
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: 從專案移除已被邀請的使用者別且刪除他/她
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
@@ -2457,6 +2435,3 @@ zh-TW:
         您不可寫入唯讀的屬性。
     resources:
       schema: 架構
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

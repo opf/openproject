@@ -374,8 +374,6 @@ ru:
         hexcode: Шестнадцатеричный код
       project_type:
         position: Позиция
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: Начало вставки
         begin_deletion: Начало удаления
@@ -395,16 +393,6 @@ ru:
         time_entries: Учет времени
         type: Тип
         watcher: Наблюдатель
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: нужно подтвердить.
@@ -554,9 +542,6 @@ ru:
           principal_blank: Пожалуйста, выберите по крайней мере одного пользователя
             или группу.
           role_blank: Пожалуйста, выберите по крайней мере одну роль.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'Пожалуйста, проверьте следующие поля:'
         header:
@@ -2323,7 +2308,6 @@ ru:
       reportings: Отчетность
       reports: Отчеты по графикам
       timelines: Графики
-      project_associations: ''
     associations: Связи
     board_could_not_be_saved: Форум сохранён быть не может
     button_delete_all: Удалить всё
@@ -2499,12 +2483,6 @@ ru:
       months: Месяцы
       quarters: Кварталы
       years: Годы
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Исключить из проекта приглашенного пользователя и
     удалить его.
   tooltip_resend_invitation: 'Отправляет по электронной почте другое приглашение со
@@ -2647,6 +2625,3 @@ ru:
         только для чтения.
     resources:
       schema: Схема
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

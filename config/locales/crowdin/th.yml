@@ -372,8 +372,6 @@ th:
         hexcode: Hex code
       project_type:
         position: ตำแหน่ง
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -393,16 +391,6 @@ th:
         time_entries: เวลาที่ถูกบันทึก
         type: ประเภท
         watcher: ผู้ดูข้อมูล
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: must be accepted.
@@ -542,9 +530,6 @@ th:
         member:
           principal_blank: โปรดเลือกอย่างน้อยหนึ่งผู้ใช้หรือหนึ่งกลุ่ม
           role_blank: โปรดเลือกอย่างน้อยหนึ่งบทบาท
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'กรุณาตรวจสอบฟิลด์ต่อไปนี้:'
         header:
@@ -2233,7 +2218,6 @@ th:
       reportings: รายงานสถานะ
       reports: แผนภูมิเวลา
       timelines: เส้นเวลา
-      project_associations: ''
     associations: ส่วนที่อ้างอิง
     board_could_not_be_saved: ไม่สามารถบันทึกคณะกรรมการ
     button_delete_all: ลบทั้งหมด
@@ -2396,12 +2380,6 @@ th:
       months: เดือน
       quarters: ไตรมาส
       years: ปี
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2535,6 +2513,3 @@ th:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

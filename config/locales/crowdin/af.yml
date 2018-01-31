@@ -374,20 +374,8 @@ af:
         redirect_existing_links: Herlei bestaande skakels
       planning_element_type_color:
         hexcode: Hex kode
-      project_association:
-        description: Oorsaak
-        project_b: Afhanklike projek
       project_type:
-        allows_association: Laat assosiasie toe
-        reported_project_statuses: Gerapporteerde projekstatusse
         position: Posisie
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: Status kommentaar
-        reporting_to_project: Gee verslag aan projek
-        reported_project_status: Projek status
-        created_at: Geskep
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -464,10 +452,6 @@ af:
           attributes:
             types:
               in_use_by_work_packages: 'still in use by work packages: %{types}'
-        project_association:
-          identical_projects: Afhanklikheid kan nie tussen een projek en ditself geskep
-            word nie.
-          project_association_not_allowed: does not allow associations.
         query:
           attributes:
             project:
@@ -1772,7 +1756,6 @@ af:
   permission_delete_work_packages: Delete work packages
   permission_delete_messages: Delete messages
   permission_delete_own_messages: Delete own messages
-  permission_delete_project_associations: Delete project dependencies
   permission_delete_reportings: Delete reportings
   permission_delete_timelines: Delete timelines
   permission_delete_wiki_pages: Delete wiki pages
@@ -1784,7 +1767,6 @@ af:
   permission_edit_own_messages: Edit own messages
   permission_edit_own_time_entries: Edit own time logs
   permission_edit_project: Edit project
-  permission_edit_project_associations: Edit project dependencies
   permission_edit_reportings: Edit reportings
   permission_edit_time_entries: Edit time logs
   permission_edit_timelines: Edit timelines
@@ -1818,7 +1800,6 @@ af:
   permission_view_work_packages: View work packages
   permission_view_messages: View messages
   permission_view_members: View members
-  permission_view_project_associations: View project dependencies
   permission_view_reportings: View reportings
   permission_view_time_entries: View spent time
   permission_view_timelines: View timelines
@@ -2285,11 +2266,9 @@ af:
       project_type: Projek soort
       project_types: Project types
     project_menu:
-      project_associations: Dependencies
       reportings: Status reportings
       reports: Timeline reports
       timelines: Timelines
-    add_project_association: Add dependency
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
@@ -2431,21 +2410,12 @@ af:
       show: 'Status: %{comment}'
     planning_element_update: 'Update: %{title}'
     work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
-    project_association_new: Add project dependency
-    project_association_new_for_with: Set dependency for “%{project_a}” with
-    project_association_with_other: Project dependency between “%{project_a}” and
-      “%{project_b}”
-    project_association_of_type: Dependency to project of type “%{type}”
     project_type_could_not_be_saved: Project type could not be saved
     type_could_not_be_saved: Type could not be saved
     reporting_could_not_be_saved: Reporting could not be saved
     properties: Properties
     really_delete_color: 'Are you sure, you want to delete the following color? Types
       using this color will not be deleted.
-
-'
-    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
-      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
 
 '
     really_delete_project_type: 'Are you sure, you want to delete the following project

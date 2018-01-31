@@ -371,8 +371,6 @@ id:
         hexcode: Kode Hexa
       project_type:
         position: Posisi
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -392,16 +390,6 @@ id:
         time_entries: Catatan waktu
         type: Tipe
         watcher: Pemantau
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: harus disetujui.
@@ -546,9 +534,6 @@ id:
         member:
           principal_blank: Silakan pilih setidaknya satu user atau grup.
           role_blank: Silakan pilih setidaknya satu Role.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 'Silakan periksa isian berikut :'
         header:
@@ -2270,7 +2255,6 @@ id:
       reportings: Status reporting
       reports: Laporan Timeline
       timelines: Timeline
-      project_associations: ''
     associations: Dependensi
     board_could_not_be_saved: Board tidak dapat disimpan
     button_delete_all: Hapus semua
@@ -2446,12 +2430,6 @@ id:
       months: Bulan
       quarters: Kuartal
       years: Tahun
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_resend_invitation: 'Kirim email undangan lain dengan token yang baru dalam
@@ -2586,6 +2564,3 @@ id:
       writing_read_only_attributes: Anda tidak harus menulis hanya-baca atribut.
     resources:
       schema: Schema
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''

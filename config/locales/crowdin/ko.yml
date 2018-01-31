@@ -344,8 +344,6 @@ ko:
         hexcode: 16진수 코드
       project_type:
         position: 위치
-        allows_association: ''
-        reported_project_statuses: ''
       work_package:
         begin_insertion: 삽입 시작
         begin_deletion: 삭제 시작
@@ -365,16 +363,6 @@ ko:
         time_entries: 작업시간 기록
         type: 타입
         watcher: 주시자
-      project_association:
-        description: ''
-        project_b: ''
-      timeline:
-        options: ''
-      reporting:
-        reported_project_status_comment: ''
-        reporting_to_project: ''
-        reported_project_status: ''
-        created_at: ''
     errors:
       messages:
         accepted: 허용 되어야 합니다.
@@ -509,9 +497,6 @@ ko:
         member:
           principal_blank: 하나 이상의 사용자 또는 그룹을 선택 하십시오.
           role_blank: 하나 이상의 역할을 선택 하십시오.
-        project_association:
-          identical_projects: ''
-          project_association_not_allowed: ''
       template:
         body: 다음 필드를 확인 하십시오.
         header:
@@ -2170,7 +2155,6 @@ ko:
       reportings: 상태 보고
       reports: 타임라인 보고서
       timelines: 타임라인
-      project_associations: ''
     associations: 종속성
     board_could_not_be_saved: 보드를 저장할 수 없습니다.
     button_delete_all: 모두 삭제
@@ -2335,12 +2319,6 @@ ko:
       months: 개월
       quarters: 분기
       years: 년
-    add_project_association: ''
-    project_association_new: ''
-    project_association_new_for_with: ''
-    project_association_with_other: ''
-    project_association_of_type: ''
-    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: 초대받은 사용자를 프로젝트에서 제거하고 해당 사용자를 삭제하세요.
   tooltip_resend_invitation: '이전의 토큰이 만료되거나 사용자가 기존 메일을 받지 않았을 수 있기 때문에 새로운 토큰으로 다른
     초대 메일을 보냅니다. 이것은 활성화된 사용자들이 새로운 인증 방식을 선택할 때 사용될 수도 있습니다. 활성화된 사용자들이 사용할 때 그들의
@@ -2463,6 +2441,3 @@ ko:
       writing_read_only_attributes: 읽기 전용 특성은 변경할 수 없습니다.
     resources:
       schema: 스키마
-  permission_delete_project_associations: ''
-  permission_edit_project_associations: ''
-  permission_view_project_associations: ''
