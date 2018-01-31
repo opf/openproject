@@ -21,6 +21,7 @@ require 'csv'
 
 module CostObjectsHelper
   include ApplicationHelper
+  include ActionView::Helpers::NumberHelper
 
   # Check if the current user is allowed to manage the budget.  Based on Role
   # permissions.
