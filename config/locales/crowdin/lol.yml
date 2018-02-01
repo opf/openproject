@@ -331,6 +331,8 @@ lol:
         hexcode: crwdns92541:0crwdne92541:0
       project_type:
         position: crwdns92546:0crwdne92546:0
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: crwdns92552:0crwdne92552:0
         begin_deletion: crwdns92553:0crwdne92553:0
@@ -350,6 +352,16 @@ lol:
         time_entries: crwdns92567:0crwdne92567:0
         type: crwdns92568:0crwdne92568:0
         watcher: crwdns92569:0crwdne92569:0
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: crwdns92570:0crwdne92570:0
@@ -478,6 +490,9 @@ lol:
         member:
           principal_blank: crwdns92641:0crwdne92641:0
           role_blank: crwdns92642:0crwdne92642:0
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: crwdns92643:0crwdne92643:0
         header:
@@ -927,6 +942,8 @@ lol:
       blog: crwdns93021:0crwdne93021:0
       boards: crwdns93022:0crwdne93022:0
       newsletter: crwdns93023:0crwdne93023:0
+  links:
+    configuration_guide: crwdns95570:0crwdne95570:0
   instructions_after_registration: crwdns93024:0%{signin}crwdne93024:0
   instructions_after_logout: crwdns93025:0%{signin}crwdne93025:0
   instructions_after_error: crwdns93026:0%{signin}crwdne93026:0
@@ -2041,6 +2058,7 @@ lol:
       reportings: crwdns94054:0crwdne94054:0
       reports: crwdns94055:0crwdne94055:0
       timelines: crwdns94056:0crwdne94056:0
+      project_associations: ''
     associations: crwdns94058:0crwdne94058:0
     board_could_not_be_saved: crwdns94059:0crwdne94059:0
     button_delete_all: crwdns94060:0crwdne94060:0
@@ -2201,6 +2219,12 @@ lol:
       months: crwdns94199:0crwdne94199:0
       quarters: crwdns94200:0crwdne94200:0
       years: crwdns94201:0crwdne94201:0
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: crwdns94202:0crwdne94202:0
   tooltip_resend_invitation: 'crwdns94203:0crwdne94203:0
 
@@ -2312,3 +2336,6 @@ lol:
       writing_read_only_attributes: crwdns94284:0crwdne94284:0
     resources:
       schema: crwdns94285:0crwdne94285:0
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

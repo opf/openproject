@@ -371,6 +371,8 @@ pl:
         hexcode: Kod szesnastkowy
       project_type:
         position: Pozycja
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Początek wstawiania
         begin_deletion: Początek usuwania
@@ -390,6 +392,16 @@ pl:
         time_entries: Rejestruj czas pracy
         type: Typ
         watcher: Obserwator
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: musi być zaakceptowane.
@@ -534,6 +546,9 @@ pl:
         member:
           principal_blank: Wybierz co najmniej jeden użytkownik lub Grupa.
           role_blank: Proszę wybrać przynajmniej jedną rolę.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Sprawdź następujące pola:'
         header:
@@ -1022,6 +1037,8 @@ pl:
       blog: Blog OpenProject
       boards: Forum społeczności
       newsletter: Powiadomienia bezpieczeństwa / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Możesz się zalogować w momencie gdy Twoje konto
     zostanie aktywowane poprzez kliknięcie %{signin}.
   instructions_after_logout: Możesz zalogować się ponownie klikając %{signin}.
@@ -2297,6 +2314,7 @@ pl:
       reportings: Raporty statusów
       reports: Sprawozdania terminów
       timelines: Terminarz
+      project_associations: ''
     associations: Zależności
     board_could_not_be_saved: Pulpit nie może być zapisany
     button_delete_all: Usuń wszystkie
@@ -2475,6 +2493,12 @@ pl:
       months: Miesiące
       quarters: Kwartały
       years: Lata
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Usuń dotychczasowego użytkownika z projektu i usuń
     go.
   tooltip_resend_invitation: 'Wysyła kolejne zaproszenie mailowe ze świeżym tokenem
@@ -2613,3 +2637,6 @@ pl:
       writing_read_only_attributes: Nie możesz zapisać atrybutu tylko do odczytu.
     resources:
       schema: Schemat
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

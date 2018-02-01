@@ -378,9 +378,9 @@ hu:
         in: Nagyítás
         out: Kicsinyítés
         auto: Automatikus nagyítás
-        days: Napok
+        days: Nap
         weeks: Hetek
-        months: Hónapok
+        months: Hónap
         quarters: Negyedek
         years: Évek
         slider: Nagyítás/kicsinyítés
@@ -545,9 +545,9 @@ hu:
         watchers: Megfigyelők
         attachments: Csatolmány
       time_relative:
-        days: napok
+        days: nap
         weeks: hetek
-        months: hónapok
+        months: hónap
     toolbar:
       settings:
         columns: Oszlopok...

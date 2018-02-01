@@ -377,6 +377,8 @@ uk:
         hexcode: Hex code
       project_type:
         position: Position
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Begin of the insertion
         begin_deletion: Begin of the deletion
@@ -396,6 +398,16 @@ uk:
         time_entries: Log time
         type: Type
         watcher: Watcher
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: must be accepted.
@@ -540,6 +552,9 @@ uk:
         member:
           principal_blank: Please choose at least one user or group.
           role_blank: Please choose at least one role.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Please check the following fields:'
         header:
@@ -1025,6 +1040,8 @@ uk:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
     activated by clicking %{signin}.
   instructions_after_logout: You can sign in again by clicking %{signin}.
@@ -2281,6 +2298,7 @@ uk:
       reportings: Status reportings
       reports: Timeline reports
       timelines: Timelines
+      project_associations: ''
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
@@ -2458,6 +2476,12 @@ uk:
       months: Months
       quarters: Quarters
       years: Years
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2595,3 +2619,6 @@ uk:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

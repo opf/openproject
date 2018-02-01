@@ -382,6 +382,8 @@ nl:
         hexcode: Hexadecimale code
       project_type:
         position: Positie
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Begin van het invoegen
         begin_deletion: Begin van de verwijdering
@@ -401,6 +403,16 @@ nl:
         time_entries: Gelogde tijd
         type: Type
         watcher: Kijker
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: moet geaccepteerd worden.
@@ -546,6 +558,9 @@ nl:
         member:
           principal_blank: Kies ten minste één gebruiker of groep.
           role_blank: Kies ten minste één rol.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Controleer de volgende velden:'
         header:
@@ -1020,6 +1035,8 @@ nl:
       blog: OpenProject blog
       boards: Gemeenschapsforum
       newsletter: Beveiligingswaarschuwingen / nieuwsbrief
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: U kan inloggen zodra uw account geactiveerd is
     door te klikken op %{signin}.
   instructions_after_logout: U kan terug inloggen door op %{signin} te klikken.
@@ -2300,6 +2317,7 @@ nl:
       reportings: Status rapporteringen
       reports: Tijdlijn rapporten
       timelines: Tijdlijnen
+      project_associations: ''
     associations: Afhankelijkheden
     board_could_not_be_saved: Bord kon niet opgeslagen worden
     button_delete_all: Alles verwijderen
@@ -2480,6 +2498,12 @@ nl:
       months: Maanden
       quarters: Kwartalen
       years: Jaren
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: De uitgenodigde gebruiker uit het project verwijderen
     en verwijder hem/haar.
   tooltip_resend_invitation: 'Verzendt een andere uitnodiging e-mail met een nieuw
@@ -2622,3 +2646,6 @@ nl:
       writing_read_only_attributes: U mag geen read-only attribuut schrijven.
     resources:
       schema: Schema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

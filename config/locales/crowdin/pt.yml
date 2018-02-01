@@ -385,6 +385,8 @@ pt:
         hexcode: Código hex
       project_type:
         position: Posição
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Início da inserção
         begin_deletion: Início da exclusão
@@ -404,6 +406,16 @@ pt:
         time_entries: Tempo de registro
         type: Tipo
         watcher: Monitor
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: deve ser aceite.
@@ -548,6 +560,9 @@ pt:
         member:
           principal_blank: Por favor, escolha pelo menos um utilizador ou grupo.
           role_blank: Por favor, escolha pelo menos um papel.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Por favor, verifique os seguintes campos:'
         header:
@@ -1028,6 +1043,8 @@ pt:
       blog: Blog de OpenProject
       boards: Fórum da Comunidade
       newsletter: Alertas de segurança / Boletim informativo
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Pode iniciar a sessão assim que a sua conta for
     ativada ao clicar em %{signin}.
   instructions_after_logout: Pode iniciar sessão novamente ao clicar em %{signin}.
@@ -2313,6 +2330,7 @@ pt:
       reportings: Relatórios de estado
       reports: Relatório de linha temporal
       timelines: Cronogramas
+      project_associations: ''
     associations: Dependências
     board_could_not_be_saved: Não foi possível guardar o quadro
     button_delete_all: Eliminar tudo
@@ -2491,6 +2509,12 @@ pt:
       months: Meses
       quarters: Trimestres
       years: Anos
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Remova o utilizador convidado do projeto e apague-o/a.
   tooltip_resend_invitation: 'Envia outra mensagem de correio eletrónico de convite
     com um novo token, caso o antigo tenha expirado ou o utilizador não tenha recebido
@@ -2632,3 +2656,6 @@ pt:
         leitura.
     resources:
       schema: Esquema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

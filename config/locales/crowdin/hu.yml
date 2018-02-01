@@ -371,6 +371,8 @@ hu:
         hexcode: Hexa kód
       project_type:
         position: Pozició
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Beillesztés kezdete
         begin_deletion: Törlés kezdete
@@ -390,6 +392,16 @@ hu:
         time_entries: Eltöltött idő rögzítése
         type: Típus
         watcher: Megfigyelő
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: el kell fogadni.
@@ -534,6 +546,9 @@ hu:
         member:
           principal_blank: Kérem, válasszon legalább egy felhasználót vagy csoportot.
           role_blank: kérem, válasszon legalább egy szerepkört.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Kérjük, ellenőrizze az alábbi mezőket:'
         header:
@@ -638,7 +653,7 @@ hu:
   button_clear: Törlés
   button_close: Bezár
   button_collapse_all: Az összes bezárása
-  button_configure: Beállít
+  button_configure: Beállítások
   button_copy: Másol
   button_copy_and_follow: Másol és folytat
   button_create: Létrehoz
@@ -1009,6 +1024,8 @@ hu:
       blog: OpenProject blog
       boards: Közösségi fórum
       newsletter: Biztonsági figyelmeztetések / hírlevél
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Be tud jelentkezni, amint fiókját aktiválta ide
     %{signin} kattintva.
   instructions_after_logout: Újra be tud jelentkezni ide  %{signin} kattintva.
@@ -1039,10 +1056,10 @@ hu:
   label_add_subtask: Alfeladat hozzáadása
   label_added: Hozzáadva
   label_added_time_by: Hozzáadva  %{author} %{age} ezelőtt.
-  label_additional_workflow_transitions_for_assignee: További átmenetek megengedettek,
-    ha a felhasználó jogosult rá.
-  label_additional_workflow_transitions_for_author: A további áttűnések engedélyezett,
-    ha a felhasználó a szerző
+  label_additional_workflow_transitions_for_assignee: A következő státuszváltások
+    engedélyezettek ha a felhasználó jogosult rá
+  label_additional_workflow_transitions_for_author: A következő státuszváltások engedélyezettek
+    a szerzők számára
   label_administration: Adminisztráció
   label_advanced_settings: Speciális beállítások
   label_age: Életkor
@@ -1144,7 +1161,7 @@ hu:
   label_date_from_to: "%{start}-tól %{end}-ig"
   label_date_range: Dátum intervallum
   label_date_to: Címzettek
-  label_day_plural: napok
+  label_day_plural: nap
   label_default: Alapértelmezett
   label_delete_user: Felhasználó törlése
   label_delete_project: Projekt törlése
@@ -1290,7 +1307,7 @@ hu:
   label_my_projects: Az én projektjeim
   label_my_queries: Az én egyéni lekérdezéseim
   label_new: Új
-  label_new_statuses_allowed: Új státuszok engedélyezve
+  label_new_statuses_allowed: Létrehozás engedélyezett az alábbi státuszokkal
   label_news_added: Hírek hozzáadva
   label_news_comment_added: Megjegyzés hozzáadása a hírekhet
   label_news_latest: Legfrissebb hírek
@@ -1983,7 +2000,7 @@ hu:
   setting_smtp_domain: SMTP HELLO-tartomány
   setting_smtp_user_name: SMTP-Felhasználónév
   setting_smtp_password: SMTP-jelszó
-  setting_activity_days_default: A napok megjelenitése a projekttevékenységben
+  setting_activity_days_default: Ennyi nap megjelenítése a projekttevékenységekben
   setting_app_subtitle: Alkalmazás felirat
   setting_app_title: Alkalmazás címe
   setting_attachment_max_size: Melléklet max. méret
@@ -2034,7 +2051,7 @@ hu:
   setting_log_requesting_user: Jelentkezzen be a felhasználóként, név és e-mail cím
     minden lekéréshez
   setting_login_required: Hitelesítés szükséges
-  setting_mail_from: Kibocsátási e-mail cím
+  setting_mail_from: Értesítő e-mailek feladója
   setting_mail_handler_api_enabled: Bejövő e-mail szolgáltatás engedélyezése
   setting_mail_handler_api_description: Az e-mail web kezelő lehetővé teszi, hogy
     az OpenProject különböző utasításokat tartalmazó e-maileket fogadjon és végrehajtson
@@ -2273,6 +2290,7 @@ hu:
       reportings: Állapot jelentés
       reports: Jelentések az idővonalakról
       timelines: Idővonalak
+      project_associations: ''
     associations: Szükséges összetevők
     board_could_not_be_saved: A tábla nem menthető
     button_delete_all: Összes törlése
@@ -2344,9 +2362,9 @@ hu:
         compare_relative_suffix: óta
         compare_absolute: Hasonlítsa össze a jelenlegi tervezési  %{date} időpont
       time_relative:
-        days: napok
+        days: nap
         weeks: hetek
-        months: hónapok
+        months: hónap
       exclude_own_work_packages: Ettől a projekttől a munkacsomagok elrejtése
       exclude_reporters: Más projektek elrejtése
       exclude_empty: Üres projektek elrejtése
@@ -2445,11 +2463,17 @@ hu:
     zoom:
       in: Nagyítás
       out: Kicsinyítés
-      days: Napok
+      days: Nap
       weeks: Hetek
-      months: Hónapok
+      months: Hónap
       quarters: Negyedek
       years: Évek
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Távolítsa el a meghívott felhasználót a projektből,
     és törölje őt.
   tooltip_resend_invitation: 'Új meghívó e-mail küldése egy új tokennel. Ez abban
@@ -2589,3 +2613,6 @@ hu:
       writing_read_only_attributes: Nem írhat egy csak olvasható tulajdonságot.
     resources:
       schema: Séma
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

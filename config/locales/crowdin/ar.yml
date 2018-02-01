@@ -370,6 +370,8 @@ ar:
         hexcode: رمز Hex
       project_type:
         position: الموقع
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: البدء بالإدراج
         begin_deletion: البدء بالحذف
@@ -389,6 +391,16 @@ ar:
         time_entries: وقت السجل
         type: النّوع
         watcher: المشاهد
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: يجب أن تقبل.
@@ -536,6 +548,9 @@ ar:
         member:
           principal_blank: يرجى اختيار مستخدم واحد على الأقل أو مجموعة.
           role_blank: من فضلك قم باختيار دور واحد على الأقل.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'من فضلك تحقّقْ من الحقول التالية:'
         header:
@@ -1068,6 +1083,8 @@ ar:
       blog: مدونة أوبِن بروجِكت
       boards: منتدى المجتمع
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: يمكنك تسجيل الدخول بمجرد أن تم تنشيط الحساب الخاص
     بك عن طريق النقر فوق %{signin}.
   instructions_after_logout: يمكنك تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}.
@@ -2326,6 +2343,7 @@ ar:
       reportings: تقارير الحالة
       reports: تقارير الجدول الزمني
       timelines: الخطوط الزمنية
+      project_associations: ''
     associations: الاعتماديات
     board_could_not_be_saved: لا يمكن حفظ عنصر
     button_delete_all: حذف الكل
@@ -2499,6 +2517,12 @@ ar:
       months: أشهر
       quarters: أرباع
       years: السنوات
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: قم بإزالة المستخدم المدعوين من المشروع وحذفه/حذفها.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
     case the old one expired or the user did not get the original email. Can also
@@ -2640,3 +2664,6 @@ ar:
       writing_read_only_attributes: لا يجب أن تكتب على سمة للقراءة فقط.
     resources:
       schema: مخطّط
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

@@ -333,6 +333,8 @@ ja:
         hexcode: 16進コード
       project_type:
         position: 位置
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: 挿入の始まり
         begin_deletion: 削除の始まり
@@ -352,6 +354,16 @@ ja:
         time_entries: 時間を記録
         type: 種別
         watcher: ウォッチャー
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: は受諾しなければなりません。
@@ -481,6 +493,9 @@ ja:
         member:
           principal_blank: 一つ以上のユーザまたはグループを選択してください。
           role_blank: 1つ以上のロールを選択してください。
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 次のフィールドをチェックしてください：
         header:
@@ -933,6 +948,8 @@ ja:
       blog: OpenProject ブログ
       boards: コミュニティ フォーラム
       newsletter: セキュリティアラート / ニュースレター
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: "%{signin}をクリックして、アカウントが有効された後にログインできます。"
   instructions_after_logout: "%{signin}をクリックして再びログインできます。"
   instructions_after_error: "%{signin} をクリックして再びログインを試行できます。エラーが解決しない場合は、管理者にお問い合わせください。"
@@ -2078,6 +2095,7 @@ ja:
       reportings: 進捗レポート
       reports: タイムラインレポート
       timelines: タイムライン
+      project_associations: ''
     associations: 依存関係
     board_could_not_be_saved: ボードを保存できませんでした。
     button_delete_all: 全ての削除
@@ -2239,6 +2257,12 @@ ja:
       months: 月
       quarters: 四半期ごと
       years: " 年"
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: プロジェクトから招待済のユーザを削除し、彼/彼女を削除します。
   tooltip_resend_invitation: '古いメールの有効期限が切れた、またはユーザーが元のメールを受け取っていない場合に、新しいトークンで別の招待メールを送信します。アクティブなユーザーに新しい認証方法を選択するために使用することもできます。アクティブなユーザーに使用する場合、彼らの
     ステータスが ''招待'' に変更されます。
@@ -2353,3 +2377,6 @@ ja:
       writing_read_only_attributes: 読み取り専用の属性を書き込みできません。
     resources:
       schema: スキーマ
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

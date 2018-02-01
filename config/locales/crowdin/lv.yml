@@ -371,6 +371,8 @@ lv:
         hexcode: Hex code
       project_type:
         position: Position
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Ievietošanas sākums
         begin_deletion: Dzēšanas sākums
@@ -390,6 +392,16 @@ lv:
         time_entries: Log time
         type: Veids
         watcher: Watcher
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: ir jāapstiprina.
@@ -534,6 +546,9 @@ lv:
         member:
           principal_blank: Please choose at least one user or group.
           role_blank: Please choose at least one role.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Please check the following fields:'
         header:
@@ -1018,6 +1033,8 @@ lv:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
     activated by clicking %{signin}.
   instructions_after_logout: You can sign in again by clicking %{signin}.
@@ -2271,6 +2288,7 @@ lv:
       reportings: Status reportings
       reports: Timeline reports
       timelines: Ganta skats
+      project_associations: ''
     associations: Dependencies
     board_could_not_be_saved: Board could not be saved
     button_delete_all: Delete all
@@ -2448,6 +2466,12 @@ lv:
       months: Months
       quarters: Quarters
       years: Years
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Remove the invited user from the project and delete
     him/her.
   tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
@@ -2585,3 +2609,6 @@ lv:
       writing_read_only_attributes: You must not write a read-only attribute.
     resources:
       schema: Schema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''

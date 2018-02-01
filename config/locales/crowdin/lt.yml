@@ -373,6 +373,8 @@ lt:
         hexcode: Šešioliktainis kodas
       project_type:
         position: Vieta
+        allows_association: ''
+        reported_project_statuses: ''
       work_package:
         begin_insertion: Įterpimo pradžioje
         begin_deletion: Ištrynimo pradžioje
@@ -392,6 +394,16 @@ lt:
         time_entries: Registruoti laiką
         type: Tipas
         watcher: Stebėtojas
+      project_association:
+        description: ''
+        project_b: ''
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ''
+        reporting_to_project: ''
+        reported_project_status: ''
+        created_at: ''
     errors:
       messages:
         accepted: turi būti patvirtinta.
@@ -535,6 +547,9 @@ lt:
         member:
           principal_blank: Prašome pasirinkti bent vieną vartotoją ar grupę.
           role_blank: Prašome pasirinkti bent vieną rolę.
+        project_association:
+          identical_projects: ''
+          project_association_not_allowed: ''
       template:
         body: 'Prašome patikrinti šiuos laukelius:'
         header:
@@ -1022,6 +1037,8 @@ lt:
       blog: OpenProject blogas
       boards: Bendruomenės forumas
       newsletter: Saugos įspėjimai / Naujienos
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Galėsite prisijungti, kai tik jūsų paskyra bus
     aktyvuota paspaudžiant %{signin}.
   instructions_after_logout: Galite vėl prisijungti paspausdami %{signin}.
@@ -2309,6 +2326,7 @@ lt:
       reportings: Būsenos ataskaitos
       reports: Laiko juostos ataskaitos
       timelines: Laiko juostos
+      project_associations: ''
     associations: Priklausomybės
     board_could_not_be_saved: Skelbimų lenta negalėjo būti išsaugota
     button_delete_all: Ištrinti viską
@@ -2482,6 +2500,12 @@ lt:
       months: Mėnesiai(-ių)
       quarters: Ketvirčiai
       years: Metai(-ų)
+    add_project_association: ''
+    project_association_new: ''
+    project_association_new_for_with: ''
+    project_association_with_other: ''
+    project_association_of_type: ''
+    really_delete_project_association_between_project_a_and_project_b: ''
   title_remove_and_delete_user: Pašalinti pakviestą vartotoją iš projekto ir ištrinti
     jį/ją.
   tooltip_resend_invitation: 'Siunčia naują pakvietimo laišką su nauju atpažinimo
@@ -2624,3 +2648,6 @@ lt:
       writing_read_only_attributes: Jūs neturėtumėte įrašyti atributą „tik skaitomas“.
     resources:
       schema: Schema
+  permission_delete_project_associations: ''
+  permission_edit_project_associations: ''
+  permission_view_project_associations: ''
