@@ -39,7 +39,7 @@ module OpenProject
       I18n.transliterate(name_in_words)
     end
 
-    def to_words(text)
+    def self.to_words(text)
       text.gsub /[^[:alnum:]]/, ' '
     end
   end
