@@ -180,7 +180,7 @@ $toggler-width: 40px
     display: block
     position: relative
     height: $main-menu-item-height
-    color: $main-menu-font-color
+    @include varprop(color, main-menu-font-color)
     font-family: $body-font-family
     font-weight: normal
     font-size: $main-menu-font-size
@@ -255,7 +255,7 @@ $toggler-width: 40px
   margin: 30px 0 0 0
   padding: 0 17px 0 17px
   width: auto
-  color: $main-menu-sidebar-font-color
+  @include varprop(color, main-menu-sidebar-font-color)
   font-family: $body-font-family
   font-style: normal
   overflow: hidden
@@ -265,7 +265,7 @@ $toggler-width: 40px
   h3
     display: block
     border: none
-    color: $main-menu-sidebar-h3-color
+    @include varprop(color, main-menu-sidebar-h3-color)
     font-weight: normal
     font-size: $main-menu-sidebar-h3-font-size
     margin: 30px 0 8px 0
@@ -277,7 +277,7 @@ $toggler-width: 40px
     margin-top: 0
 
   a, a:link
-    color: $main-menu-sidebar-link-color
+    @include varprop(color, main-menu-sidebar-link-color)
     display: inline
     position: static
     text-decoration: underline
@@ -286,7 +286,7 @@ $toggler-width: 40px
     text-decoration: underline
 
   label
-    color: $main-menu-sidebar-font-color
+    @include varprop(color, main-menu-sidebar-font-color)
     max-width: 80%
     vertical-align: top
 

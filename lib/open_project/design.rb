@@ -113,9 +113,9 @@ module OpenProject
       'main-menu-child-font-size'                            => "12px",
       'main-menu-child-hover-font-color'                     => "$main-menu-hover-font-color",
       'main-menu-child-selected-font-color'                  => "$main-menu-selected-font-color",
-      'main-menu-sidebar-font-color'                         => "#333333",
-      'main-menu-sidebar-h3-color'                           => "#333333",
-      'main-menu-sidebar-link-color'                         => "#333333",
+      'main-menu-sidebar-font-color'                         => "$main-menu-font-color",
+      'main-menu-sidebar-h3-color'                           => "$main-menu-font-color",
+      'main-menu-sidebar-link-color'                         => "$main-menu-font-color",
       'main-menu-sidebar-h3-border-top-color'                => "#1F4654",
       'main-menu-sidebar-h3-font-size'                       => "15px",
       'toolbar-title-color'                                  => "#5F5F5F",
@@ -279,7 +279,8 @@ module OpenProject
           header-item-bg-hover-color
           header-border-bottom-color
           content-link-color
-          main-menu-bg-color )
+          main-menu-bg-color
+          main-menu-font-color )
     end
   end
 end
