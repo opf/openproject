@@ -32,49 +32,46 @@ require 'text_extractor'
 class ExtractFulltextJob < ApplicationJob
   def initialize(attachment_id)
     @attachment_id = attachment_id
+    @attachment = nil
+    @text = nil
+    @file = nil
+    @filename = nil
+    @language = OpenProject::Configuration.main_content_language
   end
 
   def perform
-    return unless attachment = find_attachment(@attachment_id)
+    return unless @attachment = find_attachment(@attachment_id)
 
-    carrierwave_uploader = attachment.file
-
-    text = TextExtractor::Resolver.new(carrierwave_uploader.local_file, attachment.content_type).text if attachment.readable?
+    init
 
     if OpenProject::Database.allows_tsv?
-      attachment_filename = carrierwave_uploader.file.filename
-      update_with_tsv(attachment.id, attachment_filename, text)
+      update
     else
-      attachment.update(fulltext: text)
+      attachment.update(fulltext: @text)
     end
   end
 
   private
 
-  def update_with_tsv(id, filename, text)
-    language = OpenProject::Configuration.main_content_language
-    update_sql = <<-SQL
-          UPDATE "attachments" SET
-            fulltext = '%s',
-            "fulltext_tsv" = to_tsvector('%s', '%s'),
-            "file_tsv" = to_tsvector('%s', '%s')
-          WHERE ID = %s;
-    SQL
+  def init
+    carrierwave_uploader = @attachment.file
+    @file = carrierwave_uploader.local_file
+    @filename = carrierwave_uploader.file.filename
+    @text = TextExtractor::Resolver.new(@file, @attachment.content_type).text if @attachment.readable?
+  end
 
-    ActiveRecord::Base.connection.execute ActiveRecord::Base.send(
-      :sanitize_sql_array,
-      [update_sql,
-       text,
-       language,
-       OpenProject::FullTextSearch.normalize_text(text),
-       language,
-       OpenProject::FullTextSearch.normalize_filename(filename),
-       id]
-    )
+  def update
+    Attachment
+      .where(id: @attachment_id)
+      .update_all(['fulltext = ?, fulltext_tsv = to_tsvector(?, ?), file_tsv = to_tsvector(?, ?)',
+                   @text,
+                   @language,
+                   OpenProject::FullTextSearch.normalize_text(@text),
+                   @language,
+                   OpenProject::FullTextSearch.normalize_filename(@filename)])
   end
 
   def find_attachment(id)
     Attachment.find_by_id id
   end
-
 end
