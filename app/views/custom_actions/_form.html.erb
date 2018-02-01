@@ -54,12 +54,13 @@ gon.push({
                                   multiple: action.type == :associated_property_multi,
                                   container_class: '-middle' %>
           <% elsif %i(date_property).include?(action.type) %>
-            <%= styled_text_field_tag input_name,
-                                      action.values,
-                                      id: "on-date-value-#{action.key}",
-                                      container_class: '-slim',
-                                      size: '10' %>
-            <%= calendar_for("on-date-value-#{action.key}") %>
+            <op-date-picker>
+              <%= styled_text_field_tag input_name,
+                                        action.values,
+                                        id: "on-date-value-#{action.key}",
+                                        container_class: '-slim',
+                                        size: '10' %>
+            </op-date-picker>
           <% elsif %i(string_property text_property).include?(action.type) %>
             <%= styled_text_field_tag input_name,
                                       action.values,
