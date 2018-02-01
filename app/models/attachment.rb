@@ -189,8 +189,15 @@ class Attachment < ActiveRecord::Base
 
   # Extract the fulltext of any attachments where fulltext is still nil.
   # This runs inline and not in a asynchronous worker.
-  def self.extract_fulltext
+  def self.extract_fulltext_where_missing
     Attachment.where(fulltext: nil).pluck(:id).each do |id|
+      job = ExtractFulltextJob.new(id)
+      job.perform
+    end
+  end
+
+  def self.force_extract_fulltext
+    Attachment.pluck(:id).each do |id|
       job = ExtractFulltextJob.new(id)
       job.perform
     end

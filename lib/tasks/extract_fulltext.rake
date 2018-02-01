@@ -27,7 +27,12 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-desc 'Makes existing attachments fulltext searchable'
-task extract_fulltext: :environment do
-  Attachment.extract_fulltext
+desc 'Extracts fulltext of attachments that were not extracted yet and provide it for attachment filter.'
+task extract_fulltext_where_missing: :environment do
+  Attachment.extract_fulltext_where_missing
+end
+
+desc 'Extracts fulltext of all attachments and provide it for attachment filter even if that attachment has been extracted before.'
+task force_extract_fulltext: :environment do
+  Attachment.force_extract_fulltext
 end
