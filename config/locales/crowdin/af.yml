@@ -1030,6 +1030,8 @@ af:
       blog: OpenProject blog
       boards: Gemeenskap forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Jy kan inteken sodra jou rekening geaktiveer is
     deur %{signin} te kliek.
   instructions_after_logout: Jy kan weer inteken deur %{signin} te kliek.

@@ -1049,6 +1049,8 @@ sk:
       blog: OpenProject blog
       boards: Komunitné fórum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Môžete prihlásiť ihneď potom, ako váš účet bude
     aktivovaný. Akciu iniciujete kliknutí na %{signin}.
   instructions_after_logout: Môžete znovu prihlásiť kliknutím na tlačidlo %{signin}.

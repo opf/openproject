@@ -991,6 +991,8 @@ ko:
       blog: OpenProject 블로그
       boards: 커뮤니티 포럼
       newsletter: 보안 알림/뉴스레터
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: "%{signin}을(를) 클릭하여 계정이 활성화되면 바로 로그인할 수 있습니다."
   instructions_after_logout: "%{signin}을(를) 클릭하면 다시 로그인할 수 있습니다."
   instructions_after_error: "%{signin}을(를) 클릭하여 다시 로그인해 볼 수 있습니다. 오류가 계속되면 관리자에게 도움을

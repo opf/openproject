@@ -1024,6 +1024,8 @@ vi:
       blog: OpenProject blog
       boards: Diễn đàn cộng đồng
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Bạn có thể đăng nhập ngay sau khi tài khoản của
     bạn đã được kích hoạt bằng cách nhấn vào %{signin}.
   instructions_after_logout: Bạn có thể đăng nhập một lần nữa bằng cách nhấp vào %{signin}.

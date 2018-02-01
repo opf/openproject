@@ -1044,6 +1044,8 @@ pt:
       blog: Blog de OpenProject
       boards: Fórum da Comunidade
       newsletter: Alertas de segurança / Boletim informativo
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Pode iniciar a sessão assim que a sua conta for
     ativada ao clicar em %{signin}.
   instructions_after_logout: Pode iniciar sessão novamente ao clicar em %{signin}.

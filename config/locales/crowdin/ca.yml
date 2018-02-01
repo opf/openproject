@@ -1037,6 +1037,8 @@ ca:
       blog: Blog OpenProject
       boards: Fòrum de la comunitat
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Vostè podrà entrar tan aviat com hagi activat el
     seu compte fent clic a %{signin}.
   instructions_after_logout: Vostè es pot inscriure altre vegada fent clic a %{signin}.

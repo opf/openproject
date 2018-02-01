@@ -967,6 +967,8 @@ zh-TW:
       blog: OpenProject blog
       boards: Community forum
       newsletter: 安全警報 / 消息
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: 帳號啟用後即可點擊 %{signin} 登入
   instructions_after_logout: 您可點擊 %{signin} 再次登入。
   instructions_after_error: 你可以試著再按一次 %{signin} 來嘗試登入。如果持續發生錯誤，請向您的管理員尋求幫助。

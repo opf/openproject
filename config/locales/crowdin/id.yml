@@ -1021,6 +1021,8 @@ id:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Peringatan keamanan / Jurnal berkala
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Anda dapat login setelah akun Anda diaktifkan,
     klik %{signin}.
   instructions_after_logout: Anda dapat login kembali dengan mengklik %{signin}.

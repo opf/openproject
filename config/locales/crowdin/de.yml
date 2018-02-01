@@ -1048,6 +1048,8 @@ de:
       blog: OpenProject Blog
       boards: Community Forum
       newsletter: Sicherheitswarnungen / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Sie können sich anmelden, sobald Ihr Konto aktiviert
     wurde, indem Sie auf %{signin} klicken.
   instructions_after_logout: Sie können wieder anmelden indem Sie auf %{signin} klicken.

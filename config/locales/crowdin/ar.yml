@@ -1083,6 +1083,8 @@ ar:
       blog: مدونة أوبِن بروجِكت
       boards: منتدى المجتمع
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: يمكنك تسجيل الدخول بمجرد أن تم تنشيط الحساب الخاص
     بك عن طريق النقر فوق %{signin}.
   instructions_after_logout: يمكنك تسجيل الدخول مرة أخرى بواسطة النقر فوق %{signin}.

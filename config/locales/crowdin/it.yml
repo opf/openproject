@@ -1046,6 +1046,8 @@ it:
       blog: Blog OpenProject
       boards: Forum della Comunità
       newsletter: Avvisi di sicurezza / Notizie
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Puoi accedere non appena il tuo account è stato
     attivato cliccando %{signin}.
   instructions_after_logout: Può accedere nuovamente cliccando %{signin}.

@@ -1021,6 +1021,8 @@ fa:
       blog: OpenProject blog
       boards: Community forum
       newsletter: هشدارهای امنیتی / عضویت در خبرنامه
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: You can sign in as soon as your account has been
     activated by clicking %{signin}.
   instructions_after_logout: You can sign in again by clicking %{signin}.

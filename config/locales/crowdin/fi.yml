@@ -1019,6 +1019,8 @@ fi:
       blog: OpenProject blogi
       boards: Keskustelupalsta
       newsletter: Suojausvaroitukset / uutiskirje
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Heti kun tilisi on aktivoitu voit kirjatua painamalla
     %{signin}.
   instructions_after_logout: Voit kirjautua sisään uudelleen napsauttamalla %{signin}.

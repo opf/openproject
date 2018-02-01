@@ -1041,6 +1041,8 @@ he:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: באפשרותך להיכנס ברגע חשבונך הופעל על-ידי לחיצה
     על %{signin}.
   instructions_after_logout: אתה יכול להיכנס שוב על ידי לחיצה על %{signin}.

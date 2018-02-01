@@ -1020,6 +1020,8 @@ tr:
       blog: OpenProject blog
       boards: Toplum Forumu
       newsletter: Güvenlik uyarıları / haber bülteni
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: "%{signin} düğmesini tıklayarak hesabınız etkinleştirildiğinde
     hemen oturum açabilirsiniz."
   instructions_after_logout: "%{signin} düğmesini tıklayarak tekrar oturum açabilirsiniz."

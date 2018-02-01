@@ -378,9 +378,9 @@ hu:
         in: Nagyítás
         out: Kicsinyítés
         auto: Automatikus nagyítás
-        days: Napok
+        days: Nap
         weeks: Hetek
-        months: Hónapok
+        months: Hónap
         quarters: Negyedek
         years: Évek
         slider: Nagyítás/kicsinyítés
@@ -428,11 +428,11 @@ hu:
       description_options_hide: Beállítások elrejtése
       description_options_show: Beállítások megjelenítése
       error:
-        edit_prohibited: Editing %{attribute} is blocked for this work package. Either
-          this attribute is derived from relations (e.g, children) or otherwise not
-          configurable.
+        edit_prohibited: A (z) %{attribute} attribútum nem szerkeszthető. Vagy azért
+          mert ez valamelyik kapcsolatból származik (gyerekektől), vagy más okból
+          nem módosítható.
         format:
-          date: "%{attribute} is no valid date - YYYY-MM-DD expected."
+          date: A(z) %{attribute} nem felel meg az -ÉÉÉÉ-HH-NN- dátumformátumnak.
         general: Hiba történt.
       edit_attribute: "%{attribute} - szerkesztés"
       key_value: "%{key}: %{value}"
@@ -545,9 +545,9 @@ hu:
         watchers: Megfigyelők
         attachments: Csatolmány
       time_relative:
-        days: napok
+        days: nap
         weeks: hetek
-        months: hónapok
+        months: hónap
     toolbar:
       settings:
         columns: Oszlopok...

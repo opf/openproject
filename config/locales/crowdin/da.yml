@@ -1023,6 +1023,8 @@ da:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Du kan logge ind så snart din konto er blevet aktiveret
     ved at klikke %{signin}.
   instructions_after_logout: Du kan logge ind igen ved at klikke %{signin}.

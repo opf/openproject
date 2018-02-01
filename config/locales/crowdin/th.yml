@@ -1011,6 +1011,8 @@ th:
       blog: OpenProject blog
       boards: Community forum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: คุณสามารถเข้าสู่ระบบได้ทันทีมีการเปิดใช้งานบัญชีผู้ใช้ของคุณ
     โดยคลิก %{signin}.
   instructions_after_logout: คุณสามารถเข้าสู่ระบบอีกครั้งโดยคลิก %{signin}

@@ -1021,6 +1021,8 @@
       blog: OpenProject blogg
       boards: Brukerforum
       newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
   instructions_after_registration: Du kan logge inn ved å trykke på %{signin} så fort
     kontoen din er aktivert.
   instructions_after_logout: Du kan logge inn på nytt ved å trykke %{signin}.
