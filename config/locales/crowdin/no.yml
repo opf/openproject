@@ -1,4 +1,4 @@
-no:
+"no":
   activerecord:
     attributes:
       two_factor_authentication/device:
