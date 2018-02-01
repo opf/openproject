@@ -175,27 +175,5 @@ describe ::API::V3::Users::UserRepresenter do
         end
       end
     end
-
-    describe 'avatar', with_settings: { gravatar_enabled?: true, protocol: 'http' } do
-      before do
-        user.mail = 'foo@bar.com'
-      end
-
-      it 'should have an url to gravatar if settings permit and mail is set' do
-        expect(parse_json(subject, 'avatar')).to start_with('http://gravatar.com/avatar')
-      end
-
-      it 'should be blank if gravatar is disabled' do
-        allow(Setting).to receive(:gravatar_enabled?).and_return(false)
-
-        expect(parse_json(subject, 'avatar')).to be_blank
-      end
-
-      it 'should be blank if email is missing (e.g. anonymous)' do
-        user.mail = nil
-
-        expect(parse_json(subject, 'avatar')).to be_blank
-      end
-    end
   end
 end

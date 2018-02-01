@@ -46,6 +46,10 @@ class UsersController < ApplicationController
   before_action :check_if_deletion_allowed, only: [:deletion_info,
                                                    :destroy]
 
+  # Password confirmation helpers and actions
+  include Concerns::PasswordConfirmation
+  before_action :check_password_confirmation, only: [:destroy]
+
   accept_key_auth :index, :show, :create, :update, :destroy
 
   include SortHelper

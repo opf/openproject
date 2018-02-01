@@ -33,17 +33,16 @@ ruby '~> 2.4.2'
 gem 'actionpack-xml_parser', '~> 2.0.0'
 gem 'activemodel-serializers-xml', '~> 1.0.1'
 gem 'activerecord-session_store', '~> 1.1.0'
-gem 'rails', '~> 5.0.4'
+gem 'rails', '~> 5.0.6'
 gem 'responders', '~> 2.4'
 
-gem 'coderay', '~> 1.1.0'
+gem 'coderay', '~> 1.1.2'
 gem 'rubytree', git: 'https://github.com/dr0verride/RubyTree.git', ref: '06f53ee'
 gem 'rdoc', '>= 2.4.2'
 
 gem 'globalize', git: 'https://github.com/globalize/globalize', ref: '38443bcd', require: false
 gem 'omniauth', git: 'https://github.com/oliverguenther/omniauth', ref: '40c6f5f751d2da7cce5444bbd96c390c450440a9'
 gem 'request_store', '~> 1.3.1'
-gem 'gravatar_image_tag', '~> 1.2.0'
 
 gem 'warden', '~> 1.2'
 gem 'warden-basic_auth', '~> 0.2.1'
@@ -54,9 +53,10 @@ gem 'will_paginate', '~> 3.1.0'
 
 gem 'friendly_id', '~> 5.2.1'
 
-gem 'acts_as_list', '~> 0.9.7'
-gem 'acts_as_tree', '~> 2.6.1'
+gem 'acts_as_list', '~> 0.9.9'
+gem 'acts_as_tree', '~> 2.7.0'
 gem 'awesome_nested_set', '~> 3.1.3'
+gem 'typed_dag', '~> 2.0.2'
 
 gem 'color-tools', '~> 1.3.0', require: 'color'
 
@@ -108,7 +108,7 @@ gem 'okcomputer', '~> 1.16.0'
 # Patch Rails HTML whitelisting for Angular curly braces
 gem 'rails-angular-xss', git: 'https://github.com/opf/rails-angular-xss', ref: 'a45267d5'
 
-gem 'gon', '~> 6.1.0'
+gem 'gon', '~> 6.2.0'
 gem "syck", '~> 1.3.0', require: false
 
 # catch exceptions and send them to any airbrake compatible backend
@@ -124,7 +124,7 @@ gem 'prawn-table', '~> 0.2.2'
 gem 'cells-rails', '~> 0.0.6'
 gem 'cells-erb', '~> 0.0.8'
 
-gem 'meta-tags', '~> 2.4.1'
+gem 'meta-tags', '~> 2.6.0'
 
 group :production do
   # we use dalli as standard memcache client
@@ -136,7 +136,7 @@ group :production do
   gem 'unicorn-worker-killer', require: false
 end
 
-gem 'autoprefixer-rails', '~> 7.1.2.3'
+gem 'autoprefixer-rails', '~> 7.1.5'
 gem 'bourbon', '~> 4.3.4'
 gem 'i18n-js', '~> 3.0.0'
 gem 'sass', '3.5.1'
@@ -156,7 +156,10 @@ gem 'nokogiri', '~> 1.8.1'
 # fog dependency chain. We only need aws here, so we can avoid it
 # at the cost of referencing carrierwave#master for now.
 gem 'fog-aws'
-gem 'carrierwave', git: 'https://github.com/carrierwaveuploader/carrierwave', branch: 'master'
+gem 'carrierwave', '~> 1.2.2'
+
+# Require aws-sdk for SMS and other features
+gem 'aws-sdk', '~> 2.10.1'
 
 gem 'openproject-token', '~> 1.0.1'
 
@@ -176,8 +179,8 @@ group :test do
   # and other niceties
   gem 'test-prof'
 
-  gem 'cucumber', '~> 2.4.0'
-  gem 'cucumber-rails', '~> 1.4.4', require: false
+  gem 'cucumber', '~> 3.0.0'
+  gem 'cucumber-rails', '~> 1.5.0', require: false
   gem 'database_cleaner', '~> 1.6'
   gem 'rack_session_access'
   # not possible to upgrade to 3.6+ until rails is 5.1+
@@ -188,7 +191,7 @@ group :test do
 
   # Retry failures within the same environment
   gem 'retriable', '~> 3.0'
-  gem 'rspec-retry', '~> 0.5.2'
+  gem 'rspec-retry', '~> 0.5.5'
 
   gem 'rspec-example_disabler', git: 'https://github.com/finnlabs/rspec-example_disabler.git'
   gem 'rspec-legacy_formatters', '~> 1.0.1', require: false
@@ -196,15 +199,14 @@ group :test do
   # brings back testing for 'assigns' and 'assert_template' extracted in rails 5
   gem 'rails-controller-testing', '~> 1.0.2'
 
-  gem 'aws-sdk', '~> 2.10.1'
-  gem 'capybara', '~> 2.14.0'
+  gem 'capybara', '~> 2.15.0'
   gem 'capybara-screenshot', '~> 1.0.14'
   gem 'fuubar', '~> 2.2.0'
   gem 'capybara-select2', git: 'https://github.com/goodwill/capybara-select2', ref: '585192e'
   gem 'capybara-ng', '~> 0.2.7'
-  gem 'selenium-webdriver', '~> 3.4'
+  gem 'selenium-webdriver', '~> 3.6'
   gem 'timecop', '~> 0.9.0'
-  gem 'webmock', '~> 3.0.0', require: false
+  gem 'webmock', '~> 3.1.0', require: false
 
   gem 'simplecov', '~> 0.14.0', require: false
   gem 'shoulda-matchers', '~> 3.1', require: nil
@@ -234,7 +236,6 @@ group :development, :test do
   gem 'pry-stack_explorer', '~> 0.4.9.2'
   gem 'pry-rescue', '~> 1.4.5'
   gem 'pry-byebug', '~> 3.4.2', platforms: [:mri]
-  gem 'pry-doc', '~> 0.10'
   gem 'bootsnap', '~> 1.1.2', require: false
 end
 
@@ -255,26 +256,11 @@ platforms :mri, :mingw, :x64_mingw do
   end
 end
 
-platforms :jruby do
-  gem 'jruby-openssl'
-
-  group :mysql do
-    gem 'activerecord-jdbcmysql-adapter'
-  end
-
-  group :postgres do
-    gem 'activerecord-jdbcpostgresql-adapter'
-  end
-end
-
 group :opf_plugins do
-  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'stable/7'
+  gem 'openproject-translations', git: 'https://github.com/opf/openproject-translations.git', branch: 'translations-in-core'
 end
 
-# TODO: Make this group :optional when bundler v10.x
-# is matured enough that we can use this everywhere
-# http://bundler.io/blog/2015/06/24/version-1-10-released.html
-group :docker do
+group :docker, optional: true do
   gem 'passenger'
 
   # Used to easily precompile assets

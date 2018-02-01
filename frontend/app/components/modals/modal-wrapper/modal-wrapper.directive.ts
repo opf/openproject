@@ -52,7 +52,7 @@ export class ModalWrapperController {
 
     // Find activation link
     var activationLink = $element.find('.modal-wrapper--activation-link');
-    if(this.activationLinkId) {
+    if (this.activationLinkId) {
       activationLink = jQuery(this.activationLinkId);
     }
 

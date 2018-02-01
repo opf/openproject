@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2015 the OpenProject Foundation (OPF)
@@ -33,17 +34,14 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   include Rack::Test::Methods
   include API::V3::Utilities::PathHelper
 
-  let(:path) { api_v3_paths.create_work_package_form }
-  let(:status) { FactoryGirl.create(:default_status) }
-  let(:priority) { FactoryGirl.create(:default_priority) }
-  let(:user) { FactoryGirl.build(:admin) }
-  let(:project) { FactoryGirl.create(:project_with_types) }
+  shared_let(:path) { api_v3_paths.create_work_package_form }
+  shared_let(:status) { FactoryGirl.create(:default_status) }
+  shared_let(:priority) { FactoryGirl.create(:default_priority) }
+  shared_let(:user) { FactoryGirl.build(:admin) }
+  shared_let(:project) { FactoryGirl.create(:project_with_types) }
   let(:parameters) { {} }
 
   before do
-    status
-    priority
-    project
     login_as(user)
     post path, parameters.to_json, 'CONTENT_TYPE' => 'application/json'
   end
@@ -83,8 +81,8 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
   end
 
   describe 'with all minimum parameters' do
-    let(:type) { project.types.order(:position).first }
-    let(:parameters) {
+    let(:type) { project.types.default.first }
+    let(:parameters) do
       {
         _links: {
           project: {
@@ -93,13 +91,13 @@ describe ::API::V3::WorkPackages::CreateProjectFormAPI do
         },
         subject: 'lorem ipsum'
       }
-    }
+    end
 
     it 'has 0 validation errors' do
       expect(subject.body).to have_json_size(0).at_path('_embedded/validationErrors')
     end
 
-    it 'has the first type active in the project set' do
+    it 'has the default type active in the project set' do
       type_link = {
         href: "/api/v3/types/#{type.id}",
         title: type.name

@@ -125,6 +125,10 @@ export class PathHelperService {
     return this.staticBase + '/time_entries/' + timeEntryIdentifier;
   }
 
+  public timeEntryEditPath(timeEntryIdentifier:string) {
+    return this.timeEntryPath(timeEntryIdentifier) + '/edit';
+  }
+
   public usersPath() {
     return this.staticBase + '/users';
   }
@@ -169,6 +173,10 @@ export class PathHelperService {
   // API V2
   public apiV2ProjectsPath() {
     return this.apiV2 + '/projects';
+  }
+
+  public apiV2ProjectsList() {
+    return this.apiV2ProjectsPath() +  '/level_list.json';
   }
 
   // API V3

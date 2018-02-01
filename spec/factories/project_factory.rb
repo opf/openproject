@@ -57,11 +57,17 @@ FactoryGirl.define do
     end
 
     factory :project_with_types do
-      callback(:after_build) do |project|
-        project.types << FactoryGirl.build(:type)
-      end
-      callback(:after_create) do |project|
-        project.types.each(&:save!)
+      # using initialize_with types to prevent
+      # the project's initialize function looking for the default type
+      # when we will be setting the type later on anyway
+      initialize_with do
+        types = if instance_variable_get(:@build_strategy).is_a?(FactoryGirl::Strategy::Stub)
+                  [FactoryGirl.build_stubbed(:type)]
+                else
+                  [FactoryGirl.build(:type)]
+                end
+
+        new(types: types)
       end
 
       factory :valid_project do

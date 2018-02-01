@@ -41,7 +41,7 @@ When /^I click(?:| on) hidden "([^"]*)"$/ do |name|
   # I had no luck with find(name, visible: false).click.
   # Capybara still complained about the element not being visible.
   # That's why I reverted to using JavaScript directly...
-  page.evaluate_script("jQuery('#{name}').trigger('click')")
+  page.execute_script("jQuery('#{name}').trigger('click')")
 end
 
 When /^I click(?:| on) "([^"]*)"$/ do |name|

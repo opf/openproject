@@ -196,6 +196,10 @@ describe CustomField, type: :model do
         allow(project)
           .to receive(:users)
           .and_return([user1, user2])
+
+        allow(Principal)
+          .to receive(:in_visible_project_or_me)
+          .and_return([user2])
       end
 
       context 'for a project' do
@@ -216,12 +220,10 @@ describe CustomField, type: :model do
         end
       end
 
-      context 'for anything else' do
-        it 'is empty' do
-          object = OpenStruct.new
-
-          expect(field.possible_values_options(object))
-            .to be_empty
+      context 'for nil' do
+        it 'returns all principles visible to me' do
+          expect(field.possible_values_options)
+            .to match_array [[user2.name, user2.id.to_s]]
         end
       end
     end

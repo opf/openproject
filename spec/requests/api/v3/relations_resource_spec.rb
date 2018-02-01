@@ -34,38 +34,38 @@ describe 'API v3 Relation resource', type: :request do
   include API::V3::Utilities::PathHelper
 
   let(:project) { FactoryGirl.create(:project_with_types) }
-  let(:current_user) {
+  let(:current_user) do
     FactoryGirl.create(:user,
                        member_in_project: project,
                        member_through_role: role)
-  }
+  end
   let(:permissions) { [] }
   let(:role) { FactoryGirl.create(:role, permissions: permissions) }
 
-  let(:work_package) {
+  let(:work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
                        type: project.types.first)
-  }
-  let(:visible_work_package) {
+  end
+  let(:visible_work_package) do
     FactoryGirl.create(:work_package,
                        project: project,
                        type: project.types.first)
-  }
-  let(:invisible_work_package) {
+  end
+  let(:invisible_work_package) do
     # will be inside another project
     FactoryGirl.create(:work_package)
-  }
-  let(:visible_relation) {
+  end
+  let(:visible_relation) do
     FactoryGirl.create(:relation,
                        from: work_package,
                        to: visible_work_package)
-  }
-  let(:invisible_relation) {
+  end
+  let(:invisible_relation) do
     FactoryGirl.create(:relation,
                        from: work_package,
                        to: invisible_work_package)
-  }
+  end
 
   before do
     allow(User).to receive(:current).and_return current_user

@@ -50,15 +50,15 @@ module API
             route_param :id do
               get do
                 ar_id = convert_to_ar(params[:id])
-
                 filter_class = Query.find_registered_filter(ar_id)
 
-                if filter_class
-                  filter = filter_class.new
-                  filter.name = ar_id
+                raise API::Errors::NotFound unless filter_class
 
+                begin
+                  filter = filter_class.create! name: ar_id
                   ::API::V3::Queries::Filters::QueryFilterRepresenter.new(filter)
-                else
+                rescue ::Queries::Filters::InvalidError
+                  Rails.logger.error "Failed to instantiate filter #{ar_id} through API"
                   raise API::Errors::NotFound
                 end
               end

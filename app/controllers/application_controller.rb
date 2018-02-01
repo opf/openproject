@@ -43,6 +43,7 @@ class ApplicationController < ActionController::Base
   include Redmine::I18n
   include HookHelper
   include ::OpenProject::Authentication::SessionExpiry
+  include AdditionalUrlHelpers
 
   layout 'base'
 

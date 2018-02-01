@@ -268,7 +268,11 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
         end
 
         context 'setting disabled' do
-          before do allow(Setting).to receive(:work_package_done_ratio).and_return('disabled') end
+          before do
+            allow(Setting)
+              .to receive(:work_package_done_ratio)
+              .and_return('disabled')
+          end
 
           it { is_expected.to_not have_json_path('percentageDone') }
         end
@@ -714,7 +718,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:work_package) do
               FactoryGirl.create(:work_package,
                                  project: project,
-                                 parent_id: visible_parent.id)
+                                 parent: visible_parent)
             end
 
             it_behaves_like 'has a titled link' do
@@ -732,7 +736,7 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             let(:work_package) do
               FactoryGirl.create(:work_package,
                                  project: project,
-                                 parent_id: invisible_parent.id)
+                                 parent: invisible_parent)
             end
 
             it_behaves_like 'has no link' do
@@ -783,17 +787,17 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
           let!(:forbidden_work_package) {
             FactoryGirl.create(:work_package,
                                project: forbidden_project,
-                               parent_id: work_package.id)
+                               parent: work_package)
           }
 
           it { expect(subject).not_to have_json_path('_links/children') }
 
           describe 'visible and invisible children' do
-            let!(:child) {
+            let!(:child) do
               FactoryGirl.create(:work_package,
                                  project: project,
-                                 parent_id: work_package.id)
-            }
+                                 parent: work_package)
+            end
 
             it { expect(subject).to have_json_size(1).at_path('_links/children') }
 
@@ -929,51 +933,15 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
       end
 
       describe 'relations' do
-        let(:visible_work_package) do
-          wp = FactoryGirl.build_stubbed(:work_package)
-
-          allow(wp)
-            .to receive(:visible?)
-            .and_return true
-
-          wp
-        end
-        let(:visible_relation) do
-          relation = FactoryGirl.build_stubbed(:relation,
-                                               from: work_package)
-
-          allow(relation)
-            .to receive(:other_work_package)
-            .with(work_package)
-            .and_return(visible_work_package)
-
-          relation
-        end
-        let(:invisible_work_package) do
-          wp = FactoryGirl.build_stubbed(:work_package)
-
-          allow(wp)
-            .to receive(:visible?)
-            .and_return false
-
-          wp
-        end
-        let(:invisible_relation) do
-          relation = FactoryGirl.build_stubbed(:relation,
-                                               from: work_package)
-
-          allow(relation)
-            .to receive(:other_work_package)
-            .with(work_package)
-            .and_return(invisible_work_package)
-
-          relation
+        let(:relation) do
+          FactoryGirl.build_stubbed(:relation,
+                                    from: work_package)
         end
 
         before do
           allow(work_package)
-            .to receive(:relations)
-            .and_return([visible_relation, invisible_relation])
+            .to receive_message_chain(:relations, :visible, :non_hierarchy)
+            .and_return([relation])
         end
 
         it 'embeds a collection' do
@@ -988,13 +956,13 @@ describe ::API::V3::WorkPackages::WorkPackageRepresenter do
             .at_path('_embedded/relations/_links/self/href')
         end
 
-        it 'embeds only the visible relations' do
+        it 'embeds the visible relations' do
           is_expected
             .to be_json_eql(1.to_json)
             .at_path('_embedded/relations/total')
 
           is_expected
-            .to be_json_eql(api_v3_paths.relation(visible_relation.id).to_json)
+            .to be_json_eql(api_v3_paths.relation(relation.id).to_json)
             .at_path('_embedded/relations/_embedded/elements/0/_links/self/href')
         end
       end

@@ -56,20 +56,13 @@ module Api
       end
 
       def create
-        @planning_element = @project.work_packages.build
-        attributes = permitted_params.planning_element(project: @project).except :note
+        call = issue_create_call
 
-        @planning_element.update_attributes(lookup_custom_options(attributes))
-        @planning_element.attach_files(params[:attachments])
-
-        # The planning_element inherits from workpackage, which requires an author.
-        # Using the current_user also satisfies this demand for API-calls
-        @planning_element.author ||= current_user
-        successfully_created = @planning_element.save
+        @planning_element = call.result
 
         respond_to do |format|
           format.api do
-            if successfully_created
+            if call.success?
               redirect_url = api_v2_project_planning_element_url(
                 @project, @planning_element,
                 # TODO this probably should be (params[:format] ||'xml'), however, client code currently anticipates xml responses.
@@ -94,16 +87,13 @@ module Api
       end
 
       def update
-        @planning_element = WorkPackage.find(params[:id])
-        attributes = permitted_params.planning_element(project: @project).except :note
-        @planning_element.attributes = lookup_custom_options attributes
-        @planning_element.add_journal(User.current, permitted_params.planning_element(project: @project)[:note])
+        call = issue_update_call
 
-        successfully_updated = @planning_element.save
+        @planning_element = call.result
 
         respond_to do |format|
           format.api do
-            if successfully_updated
+            if call.success?
               no_content
             else
               render_validation_errors(@planning_element)
@@ -114,7 +104,10 @@ module Api
 
       def destroy
         @planning_element = WorkPackage.find(params[:id])
-        @planning_element.destroy
+        WorkPackages::DestroyService
+          .new(user: current_user,
+               work_package: @planning_element)
+          .call
 
         respond_to do |format|
           format.api
@@ -122,6 +115,30 @@ module Api
       end
 
       protected
+
+      def issue_create_call
+        attributes = permitted_params.planning_element(project: @project).except :note
+
+        planning_element = @project.work_packages.build
+        planning_element.attach_files(params[:attachments])
+
+        WorkPackages::CreateService
+          .new(user: current_user)
+          .call(attributes: attributes,
+                work_package: @project.work_packages.build)
+      end
+
+      def issue_update_call
+        planning_element = WorkPackage.find(params[:id])
+
+        attributes = permitted_params.planning_element(project: @project).except :note
+        attributes = lookup_custom_options attributes
+        attributes[:journal_notes] = permitted_params.planning_element(project: @project)[:note]
+
+        WorkPackages::UpdateService
+          .new(user: current_user, work_package: planning_element)
+          .call(attributes: attributes)
+      end
 
       def lookup_custom_options(attributes)
         return attributes unless attributes.include?("custom_fields")
@@ -208,7 +225,8 @@ module Api
         if planning_comparison?
           @planning_elements = convert_to_struct(historical_work_packages(projects))
         else
-          @planning_elements = convert_to_struct(current_work_packages(projects))
+          orig_planning_elements = current_work_packages(projects)
+          struct_planning_elements = convert_to_struct(orig_planning_elements)
           # only for current work_packages, the array of child-ids must be reconstructed
           # for historical packages, the re-wiring is not needed
 
@@ -220,11 +238,17 @@ module Api
           # the parent_id would thus be nil.
           # Disabling rewiring allows fetching work packages with their parent_ids
           # even when the parents are not included in the list of requested work packages.
-          rewire_ancestors unless params[:rewire_parents] == 'false'
+          if params[:rewire_parents] == 'false'
+            set_ancestors(orig_planning_elements, struct_planning_elements)
+          else
+            rewire_ancestors(orig_planning_elements, struct_planning_elements)
+          end
+
+          @planning_elements = struct_planning_elements
         end
       end
 
-      Struct.new('WorkPackage', *[WorkPackage.column_names.map(&:to_sym), :custom_values, :child_ids].flatten)
+      Struct.new('WorkPackage', *[WorkPackage.column_names.map(&:to_sym), :parent_id, :custom_values, :child_ids].flatten.uniq)
       Struct.new('CustomValue', :typed_value, *CustomValue.column_names.map(&:to_sym))
 
       def convert_wp_to_struct(work_package)
@@ -305,7 +329,12 @@ module Api
         work_packages = WorkPackage
                         .for_projects(projects)
                         .changed_since(@since)
-                        .includes(:status, :project, :type, custom_values: :custom_field)
+                        .includes(:status,
+                                  :project,
+                                  :type,
+                                  :ancestors_relations,
+                                  :descendants_relations,
+                                  custom_values: :custom_field)
                         .references(:projects)
 
         wp_ids = parse_work_package_ids
@@ -358,27 +387,38 @@ module Api
       #
       # to see the respective cases that need to be handled properly by this rewiring,
       # @see features/planning_elements/filter.feature
-      def rewire_ancestors
-        filtered_ids = @planning_elements.map(&:id)
+      def rewire_ancestors(origs, structs)
+        filtered_ids = origs.map(&:id)
 
-        @planning_elements.each do |pe|
+        origs.each do |orig|
           # re-wire the parent of this pe to the first ancestor found in the filtered set
           # re-wiring is only needed, when there is actually a parent, and the parent has been filtered out
-          if pe.parent_id && !filtered_ids.include?(pe.parent_id)
-            ancestors = @planning_elements.select { |candidate| candidate.lft < pe.lft && candidate.rgt > pe.rgt && candidate.root_id == pe.root_id }
-            # the greatest lower boundary is the first ancestor not filtered
-            pe.parent_id = ancestors.empty? ? nil : ancestors.sort_by(&:lft).last.id
+          if !orig.ancestors_relations.empty?
+            struct = structs.detect { |s| s.id == orig.id }
+            ancestor_candidates = orig.ancestors_relations.sort_by(&:hierarchy).map(&:from_id)
+            struct.parent_id = (ancestor_candidates & filtered_ids).first
           end
         end
 
         # we explicitly need to re-construct the array of child-ids
-        @planning_elements.each do |pe|
-          pe.child_ids = @planning_elements.select { |child| child.parent_id == pe.id }
-            .map(&:id)
+        structs.each do |struct|
+          struct.child_ids = structs
+                             .select { |child| child.parent_id == struct.id }
+                             .map(&:id)
         end
       end
 
       private
+
+      def set_ancestors(origs, structs)
+        origs.each do |orig|
+          struct = structs.detect { |s| s.id == orig.id }
+
+          struct.parent_id = orig.ancestors_relations.sort_by(&:hierarchy).map(&:from_id).first
+
+          struct.child_ids = orig.descendants_relations.map(&:to_id)
+        end
+      end
 
       def parse_changed_since
         @since = Time.at(Float(params[:changed_since] || 0).to_i) rescue render_400

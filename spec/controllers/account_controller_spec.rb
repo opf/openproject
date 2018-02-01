@@ -36,8 +36,25 @@ describe AccountController, type: :controller do
     User.current = nil
   end
 
+  context 'GET #login' do
+    it 'renders the view' do
+      get :login
+      expect(response).to render_template 'login'
+      expect(response).to be_success
+    end
+  end
+
   context 'POST #login' do
     let(:admin) { FactoryGirl.create(:admin) }
+
+    describe 'wrong password' do
+      it 'redirects back to login' do
+        post :login, params: { username: 'admin', password: 'bad' }
+        expect(response).to be_success
+        expect(response).to render_template 'login'
+        expect(flash[:error]).to include 'Invalid user or password'
+      end
+    end
 
     describe 'User logging in with back_url' do
       it 'should redirect to a relative path' do
@@ -173,6 +190,18 @@ describe AccountController, type: :controller do
                }
           expect(response).to redirect_to my_page_path
         end
+      end
+    end
+
+    context 'GET #logout' do
+      let(:admin) { FactoryGirl.create(:admin) }
+
+      it 'calls reset_session' do
+        expect(@controller).to receive(:reset_session).once
+
+        login_as admin
+        get :logout
+        expect(response).to be_redirect
       end
     end
 
@@ -325,7 +354,7 @@ describe AccountController, type: :controller do
     end
 
     context 'with self registration off but an ongoing invitation activation' do
-      let(:token) { FactoryGirl.create :token }
+      let(:token) { FactoryGirl.create :invitation_token }
 
       before do
         allow(Setting).to receive(:self_registration).and_return('0')
@@ -401,7 +430,7 @@ describe AccountController, type: :controller do
 
       context 'with password login enabled' do
         before do
-          Token.delete_all
+          Token::Invitation.delete_all
           post :register,
                params: {
                  user: {
@@ -421,8 +450,7 @@ describe AccountController, type: :controller do
 
         it "doesn't activate the user but sends out a token instead" do
           expect(User.find_by_login('register')).not_to be_active
-          token = Token.first
-          expect(token.action).to eq('register')
+          token = Token::Invitation.last
           expect(token.user.mail).to eq('register@example.com')
           expect(token).not_to be_expired
         end

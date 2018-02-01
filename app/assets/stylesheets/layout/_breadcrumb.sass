@@ -99,14 +99,14 @@ ul.breadcrumb
     height: initial
     li
       line-height: 20px
-      max-width: 250px
+      max-width: 420px
       overflow: hidden
       text-overflow: ellipsis
       &:first-child
         &:before
           display: none
       &.icon-arrow-right5:before
-        padding-right: 5px
+        padding-right: 8px
 
 
 // This is ugly. However, this way we do not need to touch complicated
@@ -117,3 +117,18 @@ body.action-show .wp-breadcrumb
 // Hide projects in normal mode
 body:not(.accessibility-mode) .breadcrumb .breadcrumb-project-element
   display: none
+
+@media only screen and (max-width: 679px)
+  wp-breadcrumb
+    margin-top: 40px
+  .wp-breadcrumb
+    margin: 10px 0 0 0 !important
+    ul.breadcrumb
+      line-height: 1.25
+      li
+        display: inline
+        float: unset
+        line-height: inherit
+        white-space: normal
+        margin: 0 10px 0 0
+

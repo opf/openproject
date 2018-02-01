@@ -16,8 +16,8 @@ provide any official support for them.
 | Distribution (64 bits only)     | Identifier   | init system |
 | :------------------------------ | :----------- | :---------- |
 | CentOS/RHEL 7.x                 | centos-7     | systemd     |
-| Debian 7 Wheezy                 | debian-7     | sysvinit    |
 | Debian 8 Jessie                 | debian-8     | systemd     |
+| Debian 9 Stretch                | debian-9     | systemd     |
 | Suse Linux Enterprise Server 11 | sles-11      | sysvinit    |
 | Suse Linux Enterprise Server 12 | sles-12      | sysvinit    |
 | Ubuntu 14.04 Trusty Tahr        | ubuntu-14.04 | upstart     |
@@ -32,7 +32,7 @@ provide any official support for them.
 * __Application server:__ [Phusion Passenger](https://www.phusionpassenger.com/)
   or [Unicorn](http://unicorn.bogomips.org/)
 * __Database:__ [MySQL](https://www.mysql.com/) Version >= 5.6
-  or [PostgreSQL](http://www.postgresql.org/) Version >= 9.1
+  or [PostgreSQL](http://www.postgresql.org/) Version >= 9.5
 
 Please be aware that the dependencies listed above also have a lot of
 dependencies themselves.

@@ -38,7 +38,7 @@ module WorkPackage::Ancestors
     # or use awesome_nested_set#ancestors reduced by visibility
     def visible_ancestors(user)
       if work_package_ancestors.nil?
-        WorkPackage.visible(user).merge(ancestors)
+        self.class.aggregate_ancestors(id, user)[id]
       else
         work_package_ancestors
       end
@@ -63,62 +63,25 @@ module WorkPackage::Ancestors
     end
 
     def results
-      with_work_package_ancestors.group_by(&:leaf_id)
+      default = Hash.new do |hash, id|
+        hash[id] = []
+      end
+
+      results = with_work_package_ancestors
+                .map { |wp| [wp.id, wp.ancestors] }
+                .to_h
+
+      default.merge(results)
     end
 
     private
 
     def with_work_package_ancestors
-      query = join_ancestors(wp_table)
-
-      WorkPackage.joins(query.join_sources)
-                 .select("#{wp_table.name}.id AS leaf_id")
-                 .select('ancestors.*')
-                 .order('ancestors.lft ASC')
-    end
-
-    def join_ancestors(select)
-      select
-        .join(wp_ancestors)
-        .on(ancestors_condition)
-    end
-
-    def ancestors_condition
-      nested_set_root_condition
-        .and(allowed_to_view_work_packages)
-        .and(nested_set_lft_condition)
-        .and(nested_set_rgt_condition)
-        .and(in_given_work_packages)
-    end
-
-    def in_given_work_packages
-      wp_table[:id].in(ids)
-    end
-
-    def allowed_to_view_work_packages
-      wp_ancestors[:project_id].in(
-        Project.allowed_to(user, :view_work_packages).select(:id).arel
-      )
-    end
-
-    def nested_set_root_condition
-      wp_ancestors[:root_id].eq(wp_table[:root_id])
-    end
-
-    def nested_set_lft_condition
-      wp_ancestors[:lft].lt(wp_table[:lft])
-    end
-
-    def nested_set_rgt_condition
-      wp_ancestors[:rgt].gt(wp_table[:rgt])
-    end
-
-    def wp_table
-      @wp_table ||= WorkPackage.arel_table
-    end
-
-    def wp_ancestors
-      @wp_ancestors ||= wp_table.alias('ancestors')
+      WorkPackage
+        .where(id: @ids)
+        .includes(:ancestors)
+        .where(ancestors_work_packages: { project_id: Project.allowed_to(user, :view_work_packages) })
+        .order('relations.hierarchy DESC')
     end
   end
 end

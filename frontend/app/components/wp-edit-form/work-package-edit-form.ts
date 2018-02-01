@@ -91,7 +91,7 @@ export class WorkPackageEditForm {
     this.wpSubscription = this.wpCacheService.state(workPackage.id)
       .values$()
       .subscribe((wp) => {
-        this.changeset.workPackage = wp;
+        this.workPackage = wp;
       });
 
     this.resourceSubscription = this.wpEditing.temporaryEditResource(workPackage.id)

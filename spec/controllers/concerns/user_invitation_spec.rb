@@ -49,7 +49,7 @@ describe UserInvitation do
 
   describe '.reinvite_user' do
     let(:user) { FactoryGirl.create :invited_user }
-    let!(:token) { FactoryGirl.create :token, user: user, action: UserInvitation.token_action }
+    let!(:token) { FactoryGirl.create :invitation_token, user: user }
 
     it 'notifies listeners of the re-invite' do
       expect(OpenProject::Notifications).to receive(:send) do |event, new_token|
@@ -63,7 +63,7 @@ describe UserInvitation do
       new_token = UserInvitation.reinvite_user user.id
 
       expect(new_token.value).not_to eq token.value
-      expect(Token.exists?(token.id)).to eq false
+      expect(Token::Invitation.exists?(token.id)).to eq false
     end
   end
 end

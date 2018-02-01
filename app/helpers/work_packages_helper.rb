@@ -76,7 +76,7 @@ module WorkPackagesHelper
 
     parts[:link] << h(options[:before_text].to_s) if options[:before_text]
 
-    parts[:link] << h(package.kind.to_s) if options[:type]
+    parts[:link] << h(package.type.to_s) if options[:type]
 
     parts[:link] << "##{h(package.id)}" if options[:id]
 

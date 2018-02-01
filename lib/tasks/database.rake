@@ -37,3 +37,35 @@ namespace 'db:sessions' do
     ActiveRecord::Base.connection.execute "DELETE FROM #{sessions_table} WHERE updated_at < '#{expiration_time}'"
   end
 end
+
+namespace 'openproject' do
+  namespace 'db' do
+    desc 'Ensure database version compatibility'
+    task ensure_database_compatibility: ['environment', 'db:load_config'] do
+
+      ##
+      # Ensure database server version is compatible
+      begin
+        OpenProject::Database::check_version!
+      rescue OpenProject::Database::InsufficientVersionError => e
+        warn <<~EOS
+          ---------------------------------------------------
+          DATABASE INCOMPATIBILITY ERROR
+
+          #{e.message}
+
+          For more information, visit our upgrading documentation: 
+          https://www.openproject.org/operations/upgrading/
+          ---------------------------------------------------
+        EOS
+        Kernel.exit(1)
+      rescue ActiveRecord::ActiveRecordError => e
+        warn "Failed to perform postgres version check: #{e} - #{e.message}. #{override_msg}"
+        raise e
+      end
+    end
+  end
+end
+
+Rake::Task["db:migrate"].enhance ["openproject:db:ensure_database_compatibility"]
+

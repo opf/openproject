@@ -60,7 +60,7 @@ class UpdateQueryFromParamsService
   private
 
   def apply_group_by(params)
-    query.group_by = params[:group_by] if params[:group_by]
+    query.group_by = params[:group_by] if params.key?(:group_by)
   end
 
   def apply_sort_by(params)

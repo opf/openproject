@@ -39,10 +39,14 @@ class NgConfirmationDialog
   end
 
   def confirm
-    page.find('.confirm-form-submit--continue').click
+    page.within(container) do
+      page.find('.confirm-form-submit--continue').click
+    end
   end
 
   def cancel
-    page.find('.ngdialog-close').click
+    page.within(container) do
+      page.find('.ngdialog-close').click
+    end
   end
 end

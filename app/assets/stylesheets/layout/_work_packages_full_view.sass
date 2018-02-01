@@ -77,7 +77,6 @@ body.controller-work_packages.full-create
         top: 100% !important
         right: 0px !important
         left: auto !important
-        margin-top: 0
 
         ul li
           float: none
@@ -122,9 +121,6 @@ body.controller-work_packages.full-create
 
         h3.attributes-group--header-text
           line-height: $work-package-details--tab-height - 10px
-  &.edit-all-mode
-    .work-packages--left-panel
-      height: calc(100% - 55px)
 
 .work-packages-full-view--split-right
   min-width: 420px
@@ -197,6 +193,7 @@ body.controller-work_packages.full-create
 
     .wp-table--cell-span
       white-space: normal
+      word-break: break-all
 
     li.inline-edit
       width: 100%
@@ -211,16 +208,8 @@ body.controller-work_packages.full-create
       font-size: 20px
       font-weight: bold
       line-height: 34px
-      @media only screen and (max-width: 679px)
-        // give subject full width
-        width: 100%
 
     .work-packages--subject-element
-      &.work-packages--details--subject
-        .work-packages--details--subject.-active
-          @media only screen and (max-width: 679px)
-            margin-top: 8px
-
       .wp-inline-edit--field
         height: 34px
 
@@ -229,9 +218,6 @@ body.controller-work_packages.full-create
 
 .work-packages--subject-type-row
   display: flex
-  @media only screen and (max-width: 679px)
-    // the children need to wrap on mobile as each child will be of 100% width
-    flex-wrap: wrap
 
   // Fix: align and size hover border like buttons in toolbar.
   .wp-edit-field.-no-label:not(.-active) .wp-table--cell-span
@@ -239,14 +225,11 @@ body.controller-work_packages.full-create
     padding-bottom: 3px
     margin-top: 2px
 
-.work-packages--type-selector
-  @media only screen and (max-width: 679px)
-    // Give it some space to the back button (same as below to subject)
-    margin-top: 10px
-    // full width for mobile
-    width: 100%
+.work-packages--type-selector:not(.wp-new-top-row--element)
   .wp-table--cell-span
     padding-right: 5px !important
+    &:after
+      content: ':'
 
   // Remove left padding from type
   .wp-edit-field--display-field

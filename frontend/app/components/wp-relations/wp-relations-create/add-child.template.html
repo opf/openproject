@@ -2,7 +2,7 @@
     <div class="wp-relations-create-button -full-width"
          ng-if="!$ctrl.showRelationsCreateForm">
         <div class="grid-block">
-            <div class="grid-content collapse"
+            <div class="grid-content collapse hide-when-print"
                  ng-if="$ctrl.canAddChildren">
                 <a class="wp-inline-create--add-link relation-create"
                    ng-click="$ctrl.createNewChildWorkPackage()"
@@ -12,7 +12,7 @@
                     <span>{{ ::$ctrl.text.addNewChild }}</span>
                 </a>
             </div>
-            <div class="grid-content collapse"
+            <div class="grid-content collapse hide-when-print"
                  ng-if="$ctrl.canLinkChildren">
                 <a class="wp-inline-create--add-link relation-create -focus-after-save"
                    ng-click="$ctrl.toggleRelationsCreateForm()"

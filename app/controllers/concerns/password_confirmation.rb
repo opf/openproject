@@ -37,7 +37,7 @@ module Concerns::PasswordConfirmation
     return true if password.present? && current_user.check_password?(password)
 
     flash[:error] = I18n.t(:notice_password_confirmation_failed)
-    redirect_to :back
+    redirect_back fallback_location: back_url
     false
   end
 

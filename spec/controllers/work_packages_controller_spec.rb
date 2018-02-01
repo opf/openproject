@@ -330,10 +330,10 @@ describe WorkPackagesController, type: :controller do
     let(:current_user) { FactoryGirl.create(:admin) }
 
     it 'performs a successful export' do
-      wp = work_package
+      wp = work_package.reload
 
       expect do
-        get :index, params: { format: 'csv', c: [:subject, :assignee, :updatedAt] }
+        get :index, params: { format: 'csv', c: %i(subject assignee updatedAt) }
       end.not_to raise_error
 
       data = CSV.parse(response.body)

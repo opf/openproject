@@ -94,6 +94,38 @@ module API
         SetLocalizationService.new(User.current, env['HTTP_ACCEPT_LANGUAGE']).call
       end
 
+      # Global helper to set allowed content_types
+      # This may be overriden when multipart is allowed (file uploads)
+      def allowed_content_types
+        %w(application/json application/hal+json)
+      end
+
+      def enforce_content_type
+        # Content-Type is not present in GET
+        return if request.get?
+
+        # Raise if missing header
+        content_type = request.content_type
+        error!('Missing content-type header', 406) unless content_type.present?
+
+        # Allow JSON and JSON+HAL per default
+        # and anything that each endpoint may optionally add to that
+        if content_type.present?
+          allowed_content_types.each do |mime|
+            # Content-Type header looks like this (e.g.,)
+            # application/json;encoding=utf8
+            return if content_type.start_with?(mime)
+          end
+        end
+
+        bad_type = content_type.presence || I18n.t('api_v3.errors.missing_content_type')
+        message = I18n.t('api_v3.errors.invalid_content_type',
+                         content_type: allowed_content_types.join(" "),
+                         actual: bad_type)
+
+        fail ::API::Errors::UnsupportedMediaType, message
+      end
+
       def logged_in?
         # An admin SystemUser is anonymous but still a valid user to be logged in.
         current_user && (current_user.admin? || !current_user.anonymous?)
@@ -197,6 +229,7 @@ module API
     before do
       authenticate
       set_localization
+      enforce_content_type
     end
 
     version 'v3', using: :path do

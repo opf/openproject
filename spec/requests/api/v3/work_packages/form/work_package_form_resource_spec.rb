@@ -34,17 +34,10 @@ describe 'API v3 Work package form resource', type: :request do
   include Capybara::RSpecMatchers
   include API::V3::Utilities::PathHelper
 
-  before_all do
-    @project = FactoryGirl.create(:project, is_public: false)
-    @work_package = FactoryGirl.create(:work_package, project: @project)
-    @authorized_user = FactoryGirl.create(:user, member_in_project: @project)
-    @unauthorized_user = FactoryGirl.create(:user)
-  end
-
-  let(:project) { @project }
-  let(:work_package) { @work_package.reload }
-  let(:authorized_user) { @authorized_user }
-  let(:unauthorized_user) { @unauthorized_user }
+  shared_let(:project) { FactoryGirl.create(:project, is_public: false) }
+  shared_let(:work_package, reload: true) { FactoryGirl.create(:work_package, project: @project) }
+  shared_let(:authorized_user) { FactoryGirl.create(:user, member_in_project: @project) }
+  shared_let(:unauthorized_user) { FactoryGirl.create(:user) }
 
   describe '#post' do
     let(:post_path) { api_v3_paths.work_package_form work_package.id }
@@ -135,9 +128,7 @@ describe 'API v3 Work package form resource', type: :request do
           describe 'error body' do
             let(:error_id) { 'urn:openproject-org:api:v3:errors:PropertyConstraintViolation' }
 
-            let(:error_body) {
-              parse_json(subject.body)['_embedded']['validationErrors'][property]
-            }
+            let(:error_body) { parse_json(subject.body)['_embedded']['validationErrors'][property] }
 
             it { expect(error_body['errorIdentifier']).to eq(error_id) }
           end

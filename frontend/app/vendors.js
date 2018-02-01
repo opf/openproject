@@ -78,6 +78,11 @@ require('moment/locale/en-gb.js');
 require('moment/locale/de.js');
 
 require('jquery.caret');
+// Text highlight for autocompleter
+require('mark.js/dist/jquery.mark.min.js');
+// Micro Text fuzzy search library
+require('fuse.js');
+
 require('at.js/jquery.atwho.min.js');
 
 

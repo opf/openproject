@@ -34,6 +34,12 @@ module API
       class AttachmentsByWorkPackageAPI < ::API::OpenProjectAPI
         resources :attachments do
           helpers do
+            # Global helper to set allowed content_types
+            # This may be overriden when multipart is allowed (file uploads)
+            def allowed_content_types
+              %w(multipart/form-data)
+            end
+
             def parse_metadata(json)
               return nil unless json
 
@@ -79,6 +85,9 @@ module API
                                                   description: metadata.description
             rescue ActiveRecord::RecordInvalid => error
               raise ::API::Errors::ErrorBase.create_and_merge_errors(error.record.errors)
+            rescue => e
+              Rails.logger.error "Failed to save attachment on #{@work_package.id}: #{e.class} - #{e.message}"
+              raise ::API::Errors::InternalError.new(I18n.t('api_v3.errors.unable_to_create_attachment'))
             end
 
             ::API::V3::Attachments::AttachmentRepresenter.new(attachment,

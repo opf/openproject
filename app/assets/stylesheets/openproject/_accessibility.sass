@@ -26,7 +26,21 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
+// -------------------- General hidden classes --------------------
+.hidden-for-sighted
+  position: absolute
+  left: -10000px
+  top: 0
+  width: 1px
+  height: 1px
+  overflow: hidden
+
+[hidden]
+  display: none
+
+// -------------------- Rules for accessibility mode --------------------
 body.accessibility-mode
+  // -------------------- General --------------------
   a:focus,
   input:focus,
   select:focus,
@@ -35,6 +49,10 @@ body.accessibility-mode
   *:focus
     outline: 3px solid darkblue
 
+  .hidden-for-accessibility
+    display: none !important
+
+  // Highlight invalid input fields
   .form--field-container,
   .wp-edit-field
     input:out-of-range,
@@ -46,58 +64,10 @@ body.accessibility-mode
   h3:hover a.wiki-anchor
     display: none
 
-  .ng-modal-window.columns-modal .ng-modal-inner
-    overflow: auto
-    margin-top: 5vh
-
-
-  // Mark currently selected top menu items
-  #top-menu
-    li a,
-    li.drop-down a
-      border: 1px solid transparent
-
-    li a.selected,
-    li.drop-down.selected a
-      background: $main-menu-bg-selected-background !important
-
-      &:hover
-        border-color: $main-menu-border-color
-
-  // Neccessary to have enough space for the border in IE
-  .work-packages--page-container
-    .inplace-edit .inplace-edit--read-value,
-    .inplace-edit .inplace-edit--read,
-    .inplace-edit form,
-    .id a
-      margin: 3px
-      max-width: calc(100% - 6px)
-    .inplace-edit form
-      display: block
-    .inplace-edit .inplace-edit--read-value
-      display: inline-block
-
-  // Allow a greater sensible area to click input checkboxes
-  // On the WP table this is not neccessary because the whole cell is clickable
-  table:not(.work-package-table) input[type='checkbox']
-    width: 100%
-
-  // Show WP skip links for motorically handicapped users
+  // Show skip links for motorically handicapped users
   .skip-navigation-link:focus
     top: auto
     left: auto
-
-  // Show inplace-editing icons so that they can be accessed directly
-  .inplace-editing--trigger-link
-    .inplace-editing--container
-      border-color: $inplace-edit--border-color
-    .inplace-edit--icon-wrapper
-      visibility: visible
-
-  .wp-relations-create-button .relation-create
-    width: calc(100% - 6px)
-    padding: 0
-    margin: 3px
 
   // Necessary for correct contrast ratio
   button:disabled,
@@ -111,5 +81,60 @@ body.accessibility-mode
     &:focus
       color: $body-font-color
 
+  // Show breadcrumb for better navigation
   &:not(.controller-homescreen) #breadcrumb
     display: block
+
+  // Allow a greater sensible area to click input checkboxes
+  // On the WP table this is not neccessary because the whole cell is clickable
+  table:not(.work-package-table) input[type='checkbox']
+    width: 100%
+
+
+  // -------------------- Top menu --------------------
+  // Mark currently selected top menu items
+  #top-menu
+    li a,
+    li.drop-down a
+      border: 1px solid transparent
+
+    li a.selected,
+    li.drop-down.selected a
+      background: $main-menu-bg-selected-background !important
+
+      &:hover
+        border-color: $main-menu-border-color
+
+
+  // -------------------- WP view & table --------------------
+  // Special columns modal for accessibility mode
+  .ng-modal-window.columns-modal .ng-modal-inner
+    overflow: auto
+    margin-top: 5vh
+
+  &.controller-work_packages
+    // Cancel out breadcrumb
+    #content
+      height: calc(100% - #{$breadcrumb-height})
+
+    // Neccessary to have enough space for the border in IE
+    .wp-edit-field--container .wp-inline-edit--field
+      margin: 3px
+      max-width: calc(100% - 6px)
+
+  // Show inplace-editing icons so that they can be accessed directly
+  .inplace-editing--trigger-link
+    .inplace-editing--container
+      border-color: $inplace-edit--border-color
+    .inplace-edit--icon-wrapper
+      visibility: visible
+
+  // Give space to show the border
+  .wp-relations-create-button .relation-create
+    width: calc(100% - 6px)
+    padding: 0
+    margin: 3px
+
+  .wp-status-button .button
+    @include varprop(color, body-font-color)
+    font-weight: bold

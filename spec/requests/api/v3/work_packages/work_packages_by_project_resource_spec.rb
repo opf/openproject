@@ -354,7 +354,9 @@ describe API::V3::WorkPackages::WorkPackagesByProjectAPI, type: :request do
     context 'empty parameters' do
       let(:parameters) { {} }
 
-      it_behaves_like 'multiple errors', 422
+      it_behaves_like 'constraint violation' do
+        let(:message) { "Subject can't be blank" }
+      end
 
       it 'should not create a work package' do
         expect(WorkPackage.all.count).to eq(0)

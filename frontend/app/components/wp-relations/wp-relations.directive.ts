@@ -34,7 +34,6 @@ import {WorkPackageResourceInterface} from '../api/api-v3/hal-resources/work-pac
 import {WorkPackageCacheService} from '../work-packages/work-package-cache.service';
 import {RelatedWorkPackagesGroup} from './wp-relations.interfaces';
 import {RelationsStateValue, WorkPackageRelationsService} from './wp-relations.service';
-import {LoadingIndicatorService} from '../common/loading-indicator/loading-indicator.service';
 
 export class WorkPackageRelationsController {
   public relationGroups:RelatedWorkPackagesGroup;
@@ -49,11 +48,9 @@ export class WorkPackageRelationsController {
               protected $q:ng.IQService,
               protected $state:ng.ui.IState,
               protected I18n:op.I18n,
-              protected loadingIndicator:LoadingIndicatorService,
               protected wpRelations:WorkPackageRelationsService,
               protected wpCacheService:WorkPackageCacheService) {
 
-    loadingIndicator.indicator('relation-groups').promise = this.wpRelations.require(this.workPackage.id, true);
     scopedObservable(this.$scope,
       this.wpRelations.state(this.workPackage.id).values$())
       .subscribe((relations:RelationsStateValue) => {

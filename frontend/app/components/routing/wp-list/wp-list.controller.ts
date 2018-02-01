@@ -173,7 +173,7 @@ function WorkPackagesListController($scope:any,
       .subscribe(([refreshVisibly, firstPage]) => {
         if (refreshVisibly) {
           debugLog('Refreshing work package results visibly.');
-          updateResultsVisibly(true);
+          updateResultsVisibly(firstPage);
         } else {
           debugLog('Refreshing work package results in the background.');
           updateResults();

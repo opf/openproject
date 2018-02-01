@@ -45,6 +45,10 @@ describe Activity::WorkPackageActivityProvider, type: :model do
                        role: role
   }
 
+  before do
+    allow(ActionMailer::Base).to receive(:perform_deliveries).and_return(false)
+  end
+
   describe '#event_type' do
     describe 'latest events' do
       context 'when a work package has been created' do

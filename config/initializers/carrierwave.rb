@@ -35,9 +35,16 @@ module CarrierWave
     def self.configure_fog!(credentials: OpenProject::Configuration.fog_credentials,
                             directory: OpenProject::Configuration.fog_directory,
                             public: false)
+
+      # Ensure that the provider AWS is uppercased
+      provider = credentials[:provider] || 'AWS'
+      if [:aws, 'aws'].include? provider
+        provider = 'AWS'
+      end
+
       CarrierWave.configure do |config|
         config.fog_provider    = 'fog/aws'
-        config.fog_credentials = { provider: 'AWS' }.merge(credentials)
+        config.fog_credentials = { provider: provider }.merge(credentials)
         config.fog_directory   = directory
         config.fog_public      = public
       end

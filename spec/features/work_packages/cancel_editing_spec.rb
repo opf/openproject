@@ -120,7 +120,7 @@ describe 'Cancel editing work package', js: true do
     expect_subject('foobar')
 
     # Moving back also works
-    page.evaluate_script('window.history.back()')
+    page.execute_script('window.history.back()')
 
     expect(wp_page).not_to have_alert_dialog
     expect(page).to have_selector('#wp-new-inline-edit--field-subject')

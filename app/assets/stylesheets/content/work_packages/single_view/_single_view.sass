@@ -39,9 +39,8 @@
       line-height: 1
 
 .work-packages--info-row
-  font-size: 0.8rem
-  line-height: 1.1rem
-  padding: 5px 0
+  font-size: 12px
+  padding-top: 1px
 
 .work-packages--details--title
   @include grid-block
@@ -68,12 +67,16 @@
     textarea
       overflow: hidden
 
+
 .work-package--single-view
   // Make elements in split and full view span the entire width
   // Style the edit field element when the full width is required
-  .wp-edit-formattable-field,
-  .wp-edit-field
+  .wp-edit-formattable-field
     width: 100%
+
+    // Allow only vertical resizing of the textarea
+    textarea
+      resize: vertical
 
   .panel-toggler .button
     margin-right: 0
@@ -174,7 +177,7 @@ i
   font-size: 0.9rem
 
   &:before
-    @include varprop(color, $body-font-color)
+    @include varprop(color, body-font-color)
 
 // Special styling for project context area
 .attributes-group.-project-context
@@ -209,7 +212,7 @@ i
     max-width: 55%
 
 // Implement two column layout for WP full screen view
-@media screen and (min-width: 92rem)
+@media screen and (min-width: 92rem), print
   .action-show .attributes-group,
   .full-create .attributes-group
     .-columns-2
@@ -221,6 +224,10 @@ i
         page-break-inside: avoid
         break-inside: avoid
         overflow: hidden
+        // For some reason chrome seems to treat a two column layout
+        // as if it would result in showing the backside of this element.
+        // This leads to input and select elements not showing their values.
+        backface-visibility: visible
 
       @supports (column-span: all)
         // Let some elements still span both columns
@@ -239,3 +246,31 @@ i
       .attributes-key-value--value-container
         *:focus
           outline: 1px solid $gray
+
+.wp-info-wrapper
+  display: flex
+  align-items: center
+  .wp-status-button .button
+    padding: 5px
+    margin-bottom: 0
+    @include varprop(background-color, status-selector-bg-color)
+    border: none
+    color: white
+    white-space: nowrap
+
+    &:hover
+      @include varprop(background-color, status-selector-bg-hover-color)
+
+    .button--text
+      margin: 0 5px
+
+  attribute-help-text .help-text--entry
+    line-height: 25px
+    margin: 0 10px 0 -10px
+    .icon:before
+      padding: 0
+
+.work-packages--new .wp-status-button
+  padding: 3px
+  .button
+    height: 40px

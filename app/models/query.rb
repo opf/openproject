@@ -100,6 +100,10 @@ class Query < ActiveRecord::Base
     self
   end
 
+  def to_s
+    name
+  end
+
   def add_default_filter
     return unless filters.blank?
 
@@ -388,7 +392,7 @@ class Query < ActiveRecord::Base
   end
 
   def project_limiting_filter
-    subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.new
+    subproject_filter = Queries::WorkPackages::Filter::SubprojectFilter.create!
     subproject_filter.context = self
 
     subproject_filter.operator = if Setting.display_subprojects_work_packages?

@@ -131,7 +131,7 @@ function wpContextMenuController($scope:any,
       copiedFromWorkPackageId: selected[0].id
     };
 
-    $state.transitionTo('work-packages.list.copy', params);
+    $state.go('work-packages.list.copy', params);
   }
 
   function getSelectedWorkPackages() {

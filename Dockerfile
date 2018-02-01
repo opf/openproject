@@ -1,4 +1,4 @@
-FROM ruby:2.4
+FROM ruby:2.4-stretch
 
 ENV NODE_VERSION="7.7.2"
 ENV BUNDLER_VERSION="1.11.2"
@@ -26,7 +26,7 @@ COPY vendored-plugins ./vendored-plugins
 RUN chown -R app:app /usr/src/app
 
 USER app
-RUN bundle install --jobs 8 --retry 3
+RUN bundle install --jobs 8 --retry 3 --with docker
 
 USER root
 # Then, npm install node modules

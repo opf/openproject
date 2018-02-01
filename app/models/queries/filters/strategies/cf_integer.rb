@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -28,17 +29,9 @@
 #++
 
 module Queries::Filters::Strategies
-  class CfInteger < Integer
-    private
-
-    def operator_map
-      super_value = super.dup
-      super_value['!*'] = Queries::Operators::NoneOrBlank
-      super_value['*'] = Queries::Operators::AllAndNonBlank
-      super_value['>='] = Queries::Operators::CastedGreaterOrEqual
-      super_value['<='] = Queries::Operators::CastedLessOrEqual
-
-      super_value
-    end
+  class CfInteger < BaseStrategy
+    include Queries::Filters::Strategies::Numeric
+    include Queries::Filters::Strategies::CfNumeric
+    include Queries::Filters::Strategies::IntegerNumeric
   end
 end

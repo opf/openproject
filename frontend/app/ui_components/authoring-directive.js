@@ -31,7 +31,7 @@ module.exports = function(I18n, PathHelper, TimezoneService) {
   return {
     restrict: 'E',
     replace: true,
-    scope: { createdOn: '=', author: '=', project: '=', activity: '=' },
+    scope: { createdOn: '=', author: '=', showAuthorAsLink: '=', project: '=', activity: '=' },
     templateUrl: '/templates/components/authoring.html',
     link: function(scope, element, attrs) {
       moment.locale(I18n.locale);
@@ -51,7 +51,11 @@ module.exports = function(I18n, PathHelper, TimezoneService) {
       }
 
       scope.I18n = I18n;
-      scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
+      if(scope.showAuthorAsLink === false) {
+        scope.authorLink = '<span>' + scope.author.name + '</span>';
+      } else {
+        scope.authorLink = '<a href="'+ PathHelper.userPath(scope.author.id) + '">' + scope.author.name + '</a>';
+      }
 
       if (scope.activity) {
         scope.timestamp = '<a title="' + time + '" href="' + activityFromPath(scope.project, createdOn.format('YYYY-MM-DD')) + '">' + timeago + '</a>';

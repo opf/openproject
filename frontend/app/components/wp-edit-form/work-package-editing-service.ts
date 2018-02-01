@@ -64,20 +64,24 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
 
   /**
    * Start or continue editing the work package with a given edit context
-   * @param {WorkPackageResourceInterface} workPackage
+   * @param {string} workPackageId
    * @param {WorkPackageEditContext} editContext
    * @param {boolean} editAll
-   * @param {WorkPackageChangeset} changeset
-   * @return {WorkPackageEditForm}
+   * @return {WorkPackageChangeset} changeset or null if the associated work package id does not exist
    */
-  public changesetFor(workPackage:WorkPackageResourceInterface):WorkPackageChangeset {
-    const state = this.multiState.get(workPackage.id);
+  public changesetFor(oldReference:WorkPackageResourceInterface):WorkPackageChangeset {
+    const wpId = oldReference.id;
+    const workPackage = this.wpCacheService.state(wpId).getValueOr(oldReference);
+    const state = this.multiState.get(wpId);
 
     if (state.isPristine()) {
       state.putValue(new WorkPackageChangeset(workPackage));
     }
 
-    return state.value!;
+    const changeset = state.value!;
+    changeset.workPackage = workPackage;
+
+    return changeset;
   }
 
   /**
@@ -109,7 +113,9 @@ export class WorkPackageEditingService extends StateCacheService<WorkPackageChan
 
   public stopEditing(workPackageId:string) {
     const state = this.multiState.get(workPackageId);
-    state && state.clear();
+    if (state && state.value) {
+      state.value.clear();
+    }
   }
 
   public saveChanges(workPackageId:string):Promise<WorkPackageResourceInterface | void> {

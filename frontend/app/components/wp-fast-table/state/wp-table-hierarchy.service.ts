@@ -43,6 +43,7 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
   public setEnabled(active:boolean = true) {
     const state = this.currentState;
     state.current = active;
+    state.last = null;
 
     // hierarchies and group by are mutually exclusive
     if (active) {
@@ -95,6 +96,7 @@ export class WorkPackageTableHierarchiesService extends WorkPackageTableBaseServ
   private setState(wpId:string, isCollapsed:boolean):void {
     const state = this.currentState;
     state.collapsed[wpId] = isCollapsed;
+    state.last = wpId;
     this.state.putValue(state);
   }
 

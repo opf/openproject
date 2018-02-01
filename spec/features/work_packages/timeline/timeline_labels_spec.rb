@@ -67,7 +67,7 @@ RSpec.feature 'Work package timeline labels',
                        subject: 'My subject',
                        custom_field_values: { custom_field.id => custom_value_for('onions') }
   end
-  
+
   let(:milestone_work_package) do
     FactoryGirl.create :work_package,
                        project: project,

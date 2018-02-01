@@ -125,17 +125,17 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
   describe 'with a planning element having a parent' do
     let(:project) { FactoryGirl.create(:project) }
 
-    let(:parent_element)   {
-      FactoryGirl.create(:work_package,
-                         id:         1337,
-                         subject:       'Parent Element',
-                         project_id: project.id)
-    }
-    let(:planning_element) {
-      FactoryGirl.build(:work_package,
-                        parent_id:  parent_element.id,
-                        project_id: project.id)
-    }
+    let(:parent_element) do
+      FactoryGirl.build_stubbed(:work_package,
+                                id:         1337,
+                                subject:       'Parent Element',
+                                project_id: project.id)
+    end
+    let(:planning_element) do
+      FactoryGirl.build_stubbed(:work_package,
+                                parent:  parent_element,
+                                project_id: project.id)
+    end
 
     before do
       assign(:planning_element, planning_element)
@@ -150,27 +150,25 @@ describe 'api/v2/planning_elements/show.api.rabl', type: :view do
 
   describe 'with a planning element having children' do
     let(:project) { FactoryGirl.create(:project) }
-    let(:planning_element) {
-      FactoryGirl.create(:work_package,
-                         subject: 'Parent Package',
-                         id: 1338,
-                         project: project)
-    }
+    let(:child_planning_elements) do
+      [FactoryGirl.build_stubbed(:work_package,
+                                 project_id: project.id,
+                                 id:         1339,
+                                 subject:    'Child #1'),
+       FactoryGirl.build_stubbed(:work_package,
+                                 project_id: project.id,
+                                 id:         1340,
+                                 subject:    'Child #2')]
+    end
+    let(:planning_element) do
+      FactoryGirl.build_stubbed(:work_package,
+                                subject: 'Parent Package',
+                                id: 1338,
+                                children: child_planning_elements,
+                                project: project)
+    end
 
     before do
-      FactoryGirl.create(:work_package,
-                         project_id: project.id,
-                         parent_id:  planning_element.id,
-                         id:         1339,
-                         subject:    'Child #1')
-      FactoryGirl.create(:work_package,
-                         project_id: project.id,
-                         parent_id:  planning_element.id,
-                         id:         1340,
-                         subject:    'Child #2')
-
-      planning_element.reload
-
       assign(:planning_element, planning_element)
       render
     end

@@ -29,19 +29,25 @@
 #++
 
 class Queries::Columns::Base
+  attr_reader :groupable,
+              :sortable,
+              :association
+
   attr_accessor :name,
-                :sortable,
-                :groupable,
+                :sortable_join,
                 :summable,
                 :default_order
+
   alias_method :summable?, :summable
 
   def initialize(name, options = {})
     self.name = name
 
     %i(sortable
+       sortable_join
        groupable
        summable
+       association
        default_order).each do |attribute|
       send("#{attribute}=", options[attribute])
     end
@@ -57,6 +63,10 @@ class Queries::Columns::Base
 
   def sortable=(value)
     @sortable =  name_or_value_or_false(value)
+  end
+
+  def association=(value)
+    @association = value
   end
 
   # Returns true if the column is sortable, otherwise false

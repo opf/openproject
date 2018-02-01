@@ -51,6 +51,7 @@ describe WorkPackage, type: :model do
 
   let(:work_package) do
     wp = FactoryGirl.create :work_package, project: project, type: type
+    wp.reload
     wp.custom_field_values = {
       custom_field.id => custom_values
     }
@@ -62,7 +63,7 @@ describe WorkPackage, type: :model do
   let(:typed_values) { work_package.typed_custom_value_for(custom_field.id) }
 
   it 'returns the properly typed values' do
-    expect(values.map { |cv| cv.value.to_i } ).to eq(custom_values)
+    expect(values.map { |cv| cv.value.to_i }).to eq(custom_values)
     expect(typed_values).to eq(%w(ham onions pineapple))
   end
 

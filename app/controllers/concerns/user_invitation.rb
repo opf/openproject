@@ -89,13 +89,13 @@ module UserInvitation
   def reinvite_user(user_id)
     clear_tokens user_id
 
-    Token.create(user_id: user_id, action: token_action).tap do |token|
+    Token::Invitation.create!(user_id: user_id).tap do |token|
       OpenProject::Notifications.send Events.user_reinvited, token
     end
   end
 
   def clear_tokens(user_id)
-    Token.where(user_id: user_id, action: token_action).destroy_all
+    Token::Invitation.where(user_id: user_id).delete_all
   end
 
   ##
@@ -146,9 +146,7 @@ module UserInvitation
       user.invite
 
       if user.valid?
-        token = invitation_token user
-        token.save!
-
+        token = Token::Invitation.create! user: user
         user.save!
 
         return [user, token]
@@ -156,13 +154,5 @@ module UserInvitation
     end
 
     [user, nil]
-  end
-
-  def token_action
-    'invite'
-  end
-
-  def invitation_token(user)
-    Token.find_or_initialize_by user: user, action: token_action
   end
 end

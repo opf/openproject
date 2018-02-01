@@ -103,7 +103,7 @@ export class WorkPackageTimelineButtonController extends WorkPackageButtonContro
   }
 
   public getAutoZoomToggleClass():string {
-    return this.isAutoZoomEnabled() ? '-pressed' : '';
+    return this.isAutoZoomEnabled() ? '-disabled' : '';
   }
 
 }

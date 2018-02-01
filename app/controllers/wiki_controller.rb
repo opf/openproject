@@ -387,7 +387,13 @@ class WikiController < ApplicationController
     return render_403 unless page.nil? || editable?(page)
 
     attachments = page && page.attachments
-    previewed = page && page.content
+    previewed =
+      if page
+        page.content
+      else
+        build_wiki_page_and_content
+        @content
+      end
 
     text = { WikiPage.human_attribute_name(:content) => params[:content][:text] }
 

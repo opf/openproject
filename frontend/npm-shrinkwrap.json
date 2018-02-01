@@ -3178,6 +3178,11 @@
         }
       }
     },
+    "fuse.js": {
+      "version": "3.2.0",
+      "resolved": "https://registry.npmjs.org/fuse.js/-/fuse.js-3.2.0.tgz",
+      "integrity": "sha1-8ESOgGmFW/Kj5oPNwdMg5+KgfvQ="
+    },
     "generate-function": {
       "version": "2.0.0",
       "resolved": "https://registry.npmjs.org/generate-function/-/generate-function-2.0.0.tgz",
@@ -3737,9 +3742,10 @@
       }
     },
     "jquery-ui": {
-      "version": "1.12.1",
-      "resolved": "https://registry.npmjs.org/jquery-ui/-/jquery-ui-1.12.1.tgz",
-      "integrity": "sha1-vLQEXI3QU5wTS8FIjN0+dop6nlE="
+      "version": "git://github.com/jquery/jquery-ui.git#74f8a0ac952f6f45f773312292baef1c26d81300",
+      "requires": {
+        "jquery": "3.1.1"
+      }
     },
     "jquery-ujs": {
       "version": "1.2.2",
@@ -4226,6 +4232,11 @@
       "requires": {
         "es5-ext": "0.10.12"
       }
+    },
+    "mark.js": {
+      "version": "8.11.0",
+      "resolved": "https://registry.npmjs.org/mark.js/-/mark.js-8.11.0.tgz",
+      "integrity": "sha1-cOsXe5pMQffgc9fW83G3B3UQigM="
     },
     "md5.js": {
       "version": "1.3.4",

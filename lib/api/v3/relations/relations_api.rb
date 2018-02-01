@@ -29,8 +29,8 @@
 require 'api/v3/relations/relation_representer'
 require 'api/v3/relations/relation_collection_representer'
 
-require 'relations/create_relation_service'
-require 'relations/update_relation_service'
+require 'relations/create_service'
+require 'relations/update_service'
 
 module API
   module V3
@@ -40,7 +40,11 @@ module API
 
         resources :relations do
           get do
-            scope = Relation.includes(::API::V3::Relations::RelationRepresenter.to_eager_load)
+            scope = Relation
+                    .visible(current_user)
+                    .direct
+                    .non_hierarchy
+                    .includes(::API::V3::Relations::RelationRepresenter.to_eager_load)
 
             ::API::V3::Utilities::ParamsToQuery.collection_response(scope,
                                                                     current_user,
@@ -60,11 +64,11 @@ module API
             end
 
             patch do
-              rep = representer.new Relation.new, current_user: current_user
+              rep = parse_representer.new Relation.new, current_user: current_user
               relation = rep.from_json request.body.read
               attributes = filter_attributes relation
-              service = ::UpdateRelationService.new relation: Relation.find_by_id!(params[:id]),
-                                                    user: current_user
+              service = ::Relations::UpdateService.new relation: Relation.find_by_id!(params[:id]),
+                                                       user: current_user
               call = service.call attributes: attributes,
                                   send_notifications: (params[:notify] != 'false')
 

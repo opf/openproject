@@ -138,7 +138,7 @@
 // TIMELINE half of the tabletimeline flexbox
 .work-packages-tabletimeline--timeline-side
   @include varprop(border-left, timeline--separator)
-  flex: 1 1
+  flex-basis: 50%
   // Show the horizontal scrollbar _always_ (same as table)
   overflow-x: scroll
   // Show the vertical scrollbar when necessary
@@ -149,9 +149,6 @@
   will-change: transform
   // Hinter browser that the content of the flex is contained
   contain: strict
-
-.edit-all-mode .work-packages--left-panel
-  padding-bottom: 50px
 
 .work-package--attachments--files
   margin-bottom: 1rem
@@ -177,6 +174,15 @@
     word-break: break-word
     width: 90%
     vertical-align: middle
+
+    .work-package--attachments--info
+      display: inline-block
+      margin-left: 5px
+      font-size: 12px
+      @include varprop(color, body-font-color)
+      font-style: italic
+      &:hover
+        text-decoration: none
 
 .work-package--attachments--drop-box
   border: 2px dashed $light-gray
@@ -205,34 +211,9 @@
     margin: 0 0 0 10px
     text-align: left
 
-.work-package--attachments--hint
-  font-size: 85%
-
 .controller-work_packages
-  #work-packages-query-selection
-    .select2-container
-      margin-left: 5px
-
   .icon-button, .sort-header, .action-icon
     cursor: pointer
-
-  select, input
-    &.to-validate.ng-dirty.ng-valid
-      border: 1px solid Green
-    &.to-validate.ng-dirty.ng-valid ~ span.ok
-      color: green
-      display: inline
-    &.to-validate.ng-dirty.ng-invalid
-      border: 1px solid Red
-    &.to-validate.ng-dirty.ng-invalid ~ span.ok
-      color: red
-      display: inline
-
-  .work_package
-    tr
-      line-height: $user-avatar-mini-width
-  .avatar-mini
-    float: left
 
   #attributes
     .form--field-container

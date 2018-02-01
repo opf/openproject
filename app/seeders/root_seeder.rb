@@ -29,12 +29,14 @@
 
 # Seeds the minimum data required to run OpenProject (BasicDataSeeder, AdminUserSeeder)
 # as well as optional demo data (DemoDataSeeder) to give a user some orientation.
+
 class RootSeeder < Seeder
   include Redmine::I18n
 
   def initialize
     require 'basic_data_seeder'
     require 'demo_data_seeder'
+    require 'development_data_seeder'
 
     rails_engines.each { |engine| load_engine_seeders! engine }
   end
@@ -58,6 +60,15 @@ class RootSeeder < Seeder
 
       puts '*** Seeding demo data'
       DemoDataSeeder.new.seed!
+
+      if Rails.env.development?
+        puts '*** Seeding development data'
+        require 'factory_girl'
+        # Load FactoryGirl factories
+        ::FactoryGirl.find_definitions
+
+        DevelopmentDataSeeder.new.seed!
+      end
 
       rails_engines.each do |engine|
         puts "*** Loading #{engine.engine_name} seed data"

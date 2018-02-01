@@ -1,8 +1,8 @@
 <div class="work-package-details-activities-activity-contents"
      tabindex="0"
      aria-label="{{ activityLabelWithComment || activityLabel  }}"
-     ng-mouseover="focus()"
-     ng-mouseout="blur()">
+     ng-mouseenter="focus()"
+     ng-mouseleave="blur()">
   <div ng-if="userAvatar">
     <img class="avatar" ng-src="{{ userAvatar }}" alt="Avatar" title="{{userName}}" />
   </div>

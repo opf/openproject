@@ -104,17 +104,25 @@ module SortHelper
       normalize!
     end
 
-    def to_param
-      @criteria.map { |k, o| k + (o ? '' : ':desc') }.join(',')
+    def to_param(format = nil)
+      if format == :json
+        to_json_param
+      else
+        to_sort_param
+      end
     end
 
     def to_sql
-      sql = @criteria.map { |k, o|
-        if s = @available_criteria[k]
-          (o ? Array(s) : Array(s).map { |c| append_desc(c) }).join(', ')
-        end
-      }.compact.join(', ')
+      sql = to_a.join(', ')
       sql.blank? ? nil : sql
+    end
+
+    def to_a
+      @criteria
+        .map { |c, o| [@available_criteria[c], o] }
+        .reject { |c, _| c.nil? }
+        .map { |c, o| append_direction(Array(c), o) }
+        .compact
     end
 
     def add!(key, asc)
@@ -158,6 +166,14 @@ module SortHelper
       self
     end
 
+    def append_direction(criterion, asc = true)
+      if asc
+        criterion
+      else
+        criterion.map { |c| append_desc(c) }
+      end
+    end
+
     # Appends DESC to the sort criterion unless it has a fixed order
     def append_desc(criterion)
       if criterion =~ / (asc|desc)\z/i
@@ -165,6 +181,14 @@ module SortHelper
       else
         "#{criterion} DESC"
       end
+    end
+
+    def to_json_param
+      JSON::dump(@criteria.map { |k, o| [k, o ? 'asc' : 'desc'] })
+    end
+
+    def to_sort_param
+      @criteria.map { |k, o| k + (o ? '' : ':desc') }.join(',')
     end
   end
 
@@ -238,10 +262,15 @@ module SortHelper
     order = order_string(column, inverted: true) || default_order
     caption ||= column.to_s.humanize
 
-    sort_options = { sort: @sort_criteria.add(column.to_s, order).to_param }
+    sort_by = html_options.delete(:param)
 
-    # relying on url_for to take the rest of the current params from the request
-    link_to_content_update(h(caption), sort_options, html_options)
+    sort_param = @sort_criteria.add(column.to_s, order).to_param(sort_by)
+    sort_key = sort_by == :json ? :sortBy : :sort
+
+    sort_options = { sort_key => sort_param }
+
+    # Don't lose other params.
+    link_to_content_update(h(caption), safe_query_params(%w{filters page per_page expand}).merge(sort_options), html_options)
   end
 
   # Returns a table header <th> tag with a sort link for the named column
@@ -259,8 +288,8 @@ module SortHelper
   #
   #   Generates (for the users controller and if the table is sorted by the column)
   #     <th>
-  #       <div class="generic-table--sort-header-outer'>
-  #         <div class="generic-table--sort-header'>
+  #       <div class="generic-table--sort-header-outer">
+  #         <div class="generic-table--sort-header">
   #           <span class="sort asc">
   #             <a href="/users?sort=id:desc%3Adesc">Id</a>
   #           </span>
@@ -273,11 +302,12 @@ module SortHelper
 
     default_order = options.delete(:default_order) || 'asc'
     lang = options.delete(:lang) || nil
+    param = options.delete(:param) || :sort
 
     options[:title] = sort_header_title(column, caption, options)
 
     within_sort_header_tag_hierarchy(options, sort_class(column)) do
-      sort_link(column, caption, default_order, lang: lang, title: options[:title])
+      sort_link(column, caption, default_order, param: param, lang: lang, title: options[:title])
     end
   end
 

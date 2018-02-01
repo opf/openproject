@@ -40,34 +40,34 @@ class WorkPackages::MovesController < ApplicationController
     prepare_for_work_package_move
 
     new_type = params[:new_type_id].blank? ? nil : @target_project.types.find_by(id: params[:new_type_id])
+
     unsaved_work_package_ids = []
     moved_work_packages = []
+
     @work_packages.each do |work_package|
       work_package.reload
 
-      call_hook(:controller_work_packages_move_before_save,  params: params, work_package: work_package, target_project: @target_project, copy: !!@copy)
+      call_hook(:controller_work_packages_move_before_save,
+                params: params,
+                work_package: work_package,
+                target_project: @target_project,
+                copy: !!@copy)
 
-      permitted_params = params.permit(:copy,
-                                       :assigned_to_id,
-                                       :responsible_id,
-                                       :start_date,
-                                       :due_date,
-                                       :status_id,
-                                       :priority_id,
-                                       :follow,
-                                       :new_type_id,
-                                       :new_project_id,
-                                       ids: [])
+      service_call = WorkPackages::MoveService
+                     .new(work_package, current_user)
+                     .call(@target_project,
+                           new_type,
+                           copy: @copy,
+                           attributes: permitted_create_params,
+                           journal_note: @notes)
 
-      move_service = MoveWorkPackageService.new(work_package, current_user)
-      if r = move_service.call(@target_project, new_type, copy: @copy,
-                                                          attributes: permitted_params,
-                                                          journal_note: @notes)
-        moved_work_packages << r
+      if service_call.success?
+        moved_work_packages << service_call.result
       else
         unsaved_work_package_ids << work_package.id
       end
     end
+
     set_flash_from_bulk_work_package_save(@work_packages, unsaved_work_package_ids)
 
     if params[:follow]
@@ -83,7 +83,7 @@ class WorkPackages::MovesController < ApplicationController
 
   def set_flash_from_bulk_work_package_save(work_packages, unsaved_work_package_ids)
     if unsaved_work_package_ids.empty? and not work_packages.empty?
-      flash[:notice] = (@copy) ? l(:notice_successful_create) : l(:notice_successful_update)
+      flash[:notice] = @copy ? l(:notice_successful_create) : l(:notice_successful_update)
     else
       flash[:error] = l(:notice_failed_to_save_work_packages,
                         count: unsaved_work_package_ids.size,
@@ -117,5 +117,17 @@ class WorkPackages::MovesController < ApplicationController
     @available_statuses = Workflow.available_statuses(@project)
     @notes = params[:notes]
     @notes ||= ''
+  end
+
+  def permitted_create_params
+    params
+      .permit(:assigned_to_id,
+              :responsible_id,
+              :start_date,
+              :due_date,
+              :status_id,
+              :priority_id)
+      .to_h
+      .reject { |_, v| v.blank? }
   end
 end

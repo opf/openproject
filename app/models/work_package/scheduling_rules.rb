@@ -31,66 +31,38 @@
 module WorkPackage::SchedulingRules
   extend ActiveSupport::Concern
 
-  included do
-    # add class-methods (validations, scope) here
-  end
-
-  def reschedule_by(delta)
-    return if delta.zero?
-
-    if leaf?
-      # Avoid setting the dates if either is unset
-      return if (start_date.nil? || due_date.nil?)
-
-      # HACK: On some more deeply nested settings (not sure what causes it)
-      # the work package can already have been updated by one of the other after_save hooks.
-      # To prevent a stale object error, we reload the lock preemptively.
-      set_current_lock_version
-
-      current_buffer = soonest_start - start_date
-
-      max_allowed_delta = if current_buffer < delta
-                            delta
-                          else
-                            current_buffer
-                          end
-
-      self.start_date += max_allowed_delta
-      self.due_date += max_allowed_delta
-
-      save(validate: false)
-    else
-      leaves.each do |leaf|
-        # this depends on the "update_parent_attributes" after save hook
-        # updating the start/end date of each work package between leaf and self
-        leaf.reschedule_by(delta)
-      end
-    end
-  end
-
   def reschedule_after(date)
-    return if date.nil?
-    if leaf?
-      if start_date.nil? || start_date < date
+    WorkPackages::RescheduleService
+      .new(user: User.current,
+           work_package: self)
+      .call(date)
+  end
 
-        # HACK: On some more deeply nested settings (not sure what causes it)
-        # the work package can already have been updated by one of the other after_save hooks.
-        # To prevent a stale object error, we reload the lock preemptively.
-        set_current_lock_version
-
-        # order is important here as the calculation for duration factors in start and due date
-        self.due_date = date + duration - 1
-        self.start_date = date
-
-        save(validate: false)
-      end
-    else
-      leaves.each do |leaf|
-        # this depends on the "update_parent_attributes" after save hook
-        # updating the start/end date of each work package between leaf and self
-        leaf.reschedule_after(date)
-      end
-    end
+  # Calculates the minimum date that
+  # will not violate the precedes relations (max(due date, start date) + delay)
+  # of this work package or its ancestors
+  # e.g.
+  # AP(due_date: 2017/07/24, delay: 1)-precedes-A
+  #                                             |
+  #                                           parent
+  #                                             |
+  # BP(due_date: 2017/07/22, delay: 2)-precedes-B
+  #                                             |
+  #                                           parent
+  #                                             |
+  # CP(due_date: 2017/07/25, delay: 2)-precedes-C
+  #
+  # Then soonest_start for:
+  #   C is 2017/07/27
+  #   B is 2017/07/25
+  #   A is 2017/07/25
+  def soonest_start
+    @soonest_start ||=
+      Relation.from_work_package_or_ancestors(self)
+              .follows
+              .map(&:successor_soonest_start)
+              .compact
+              .max
   end
 
   # Returns the time scheduled for this work package.
@@ -106,11 +78,5 @@ module WorkPackage::SchedulingRules
     else
       1
     end
-  end
-
-  def set_current_lock_version
-    # Refrain from using reload(select: :lock_version) as this would cause unperisted attribute
-    # information to be lost.
-    self.lock_version = WorkPackage.where(id: id).pluck(:lock_version).first || 0
   end
 end

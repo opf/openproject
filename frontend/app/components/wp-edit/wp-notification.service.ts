@@ -59,12 +59,12 @@ export class WorkPackageNotificationService {
       return this.handleErrorResponse(resource, workPackage);
     }
 
-    this.showGeneralError();
+    this.showGeneralError(response);
   }
 
   public handleErrorResponse(errorResource:any, workPackage?:WorkPackageResourceInterface) {
     if (!(errorResource instanceof ErrorResource)) {
-      return this.showGeneralError();
+      return this.showGeneralError(errorResource);
     }
 
     if (workPackage) {
@@ -78,8 +78,14 @@ export class WorkPackageNotificationService {
     this.showCustomError(errorResource, workPackage) || this.showApiErrorMessages(errorResource);
   }
 
-  public showGeneralError() {
-    this.NotificationsService.addError(this.I18n.t('js.error.internal'));
+  public showGeneralError(message?:string) {
+    let error = this.I18n.t('js.error.internal');
+
+    if (message) {
+      error += ' ' + message;
+    }
+
+    this.NotificationsService.addError(error);
   }
 
   public showEditingBlockedError(attribute:string) {

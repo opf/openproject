@@ -35,6 +35,7 @@ export class ShareModalController {
   public query:QueryResource;
   public name:string = 'Share';
 
+  public isBusy:boolean = false;
   public isStarred:boolean;
   public isPublic:boolean;
 
@@ -69,6 +70,11 @@ export class ShareModalController {
   }
 
   public saveQuery() {
+    if (this.isBusy) {
+      return console.warn('Skipping additional save');
+    }
+
+    this.isBusy = true;
     let promises = [];
 
     if (this.query.public !== this.isPublic) {
@@ -83,8 +89,8 @@ export class ShareModalController {
 
     this.$q.all(promises).then(() => {
       this.shareModal.deactivate();
-    });
-  };
+    }).finally(() => this.isBusy = false);
+  }
 }
 
 wpControllersModule.controller('ShareModalController', ShareModalController);

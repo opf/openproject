@@ -88,6 +88,9 @@ table.generic-table
       line-height: 34px
       padding: 0
 
+      &.-right
+        text-align: right
+
       a
         text-decoration: none
         color: $body-font-color
@@ -240,10 +243,12 @@ html.-supports-sticky-headers
   display: flex
 
   & > a
-    flex: 1 1 0
+    flex: 1 1
     width: 100%
     font-weight: bold
-
+    &.-inactive
+      color: $button--active-font-color
+      
   & > op-icon
     flex: 0 0 0
     padding-left: 15px

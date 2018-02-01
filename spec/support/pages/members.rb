@@ -166,7 +166,7 @@ module Pages
     end
 
     def search_principal!(query)
-      input = find '.select2-search-field input#s2id_autogen3'
+      input = find '#members_add_form .select2-search-field input'
       input.set query
     end
 

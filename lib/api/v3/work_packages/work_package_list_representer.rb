@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -27,16 +28,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
-require 'roar/decorator'
-require 'roar/json'
-require 'roar/json/collection'
-require 'roar/json/hal'
-
 module API
   module V3
     module WorkPackages
       class WorkPackageListRepresenter < ::API::Decorators::UnpaginatedCollection
+        include ::API::V3::WorkPackages::WorkPackageCollectionEagerLoading
+
         element_decorator ::API::V3::WorkPackages::WorkPackageRepresenter
+
+        def initialize(models, self_link, current_user:)
+          super
+
+          @represented = full_work_packages(represented)
+        end
       end
     end
   end

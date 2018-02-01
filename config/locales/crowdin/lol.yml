@@ -1,0 +1,2343 @@
+---
+lol:
+  no_results_title_text: crwdns92319:0crwdne92319:0
+  activities:
+    index:
+      no_results_title_text: crwdns92320:0crwdne92320:0
+  admin:
+    plugins:
+      no_results_title_text: crwdns92323:0crwdne92323:0
+    custom_styles:
+      custom_colors: crwdns92324:0crwdne92324:0
+      customize: crwdns92325:0crwdne92325:0
+      enterprise_notice: crwdns92326:0crwdne92326:0
+      manage_colors: crwdns92327:0crwdne92327:0
+      instructions:
+        alternative_color: crwdns92328:0crwdne92328:0
+        content_link_color: crwdns92329:0crwdne92329:0
+        primary_color: crwdns92330:0crwdne92330:0
+        primary_color_dark: crwdns92331:0crwdne92331:0
+        header_bg_color: crwdns92332:0crwdne92332:0
+        header_item_bg_hover_color: crwdns92333:0crwdne92333:0
+        header_item_font_color: crwdns92334:0crwdne92334:0
+        header_item_font_hover_color: crwdns92335:0crwdne92335:0
+        header_border_bottom_color: crwdns92336:0crwdne92336:0
+        main_menu_bg_color: crwdns92337:0crwdne92337:0
+    enterprise:
+      upgrade_to_ee: crwdns92338:0crwdne92338:0
+      add_token: crwdns92339:0crwdne92339:0
+      replace_token: crwdns92340:0crwdne92340:0
+      order: crwdns92341:0crwdne92341:0
+      paste: crwdns92342:0crwdne92342:0
+      required_for_feature: crwdns92343:0crwdne92343:0
+      enterprise_link: crwdns92344:0crwdne92344:0
+  announcements:
+    show_until: crwdns92345:0crwdne92345:0
+    is_active: crwdns92346:0crwdne92346:0
+    is_inactive: crwdns92347:0crwdne92347:0
+  attribute_help_texts:
+    text_overview: crwdns92348:0crwdne92348:0
+    label_plural: crwdns92349:0crwdne92349:0
+    show_preview: crwdns92350:0crwdne92350:0
+    add_new: crwdns92351:0crwdne92351:0
+    edit: crwdns92352:0%{attribute_caption}crwdne92352:0
+  auth_sources:
+    index:
+      no_results_content_title: crwdns92353:0crwdne92353:0
+      no_results_content_text: crwdns92354:0crwdne92354:0
+  boards:
+    show:
+      no_results_title_text: crwdns92355:0crwdne92355:0
+  custom_fields:
+    text_add_new_custom_field: 'crwdns92356:0crwdne92356:0
+
+'
+    is_enabled_globally: crwdns92357:0crwdne92357:0
+    enabled_in_project: crwdns92358:0crwdne92358:0
+    contained_in_type: crwdns92359:0crwdne92359:0
+    confirm_destroy_option: crwdns92360:0crwdne92360:0
+    tab:
+      no_results_title_text: crwdns92361:0crwdne92361:0
+      no_results_content_text: crwdns92362:0crwdne92362:0
+  deprecations:
+    old_timeline:
+      replacement: crwdns92363:0crwdne92363:0
+      removal: crwdns92364:0crwdne92364:0
+      further_information_before: crwdns92365:0crwdne92365:0
+      link_name: crwdns92366:0crwdne92366:0
+      further_information_after: crwdns92367:0crwdne92367:0
+    calendar:
+      removal: crwdns92368:0crwdne92368:0
+  groups:
+    index:
+      no_results_title_text: crwdns92369:0crwdne92369:0
+      no_results_content_text: crwdns92370:0crwdne92370:0
+    users:
+      no_results_title_text: crwdns92371:0crwdne92371:0
+    memberships:
+      no_results_title_text: crwdns92372:0crwdne92372:0
+  planning_element_type_colors:
+    index:
+      no_results_title_text: crwdns92373:0crwdne92373:0
+      no_results_content_text: crwdns92374:0crwdne92374:0
+  projects:
+    index:
+      no_results_title_text: crwdns92375:0crwdne92375:0
+      no_results_content_text: crwdns94791:0crwdne94791:0
+    settings:
+      activities:
+        no_results_title_text: crwdns92376:0crwdne92376:0
+      boards:
+        no_results_title_text: crwdns92377:0crwdne92377:0
+        no_results_content_text: crwdns92378:0crwdne92378:0
+      categories:
+        no_results_title_text: crwdns92379:0crwdne92379:0
+        no_results_content_text: crwdns92380:0crwdne92380:0
+      custom_fields:
+        no_results_title_text: crwdns92381:0crwdne92381:0
+      types:
+        no_results_title_text: crwdns92382:0crwdne92382:0
+      versions:
+        no_results_title_text: crwdns92383:0crwdne92383:0
+        no_results_content_text: crwdns92384:0crwdne92384:0
+  project_types:
+    index:
+      no_results_title_text: crwdns92385:0crwdne92385:0
+      no_results_content_text: crwdns92386:0crwdne92386:0
+  members:
+    index:
+      no_results_title_text: crwdns92387:0crwdne92387:0
+      no_results_content_text: crwdns92388:0crwdne92388:0
+  my:
+    access_token:
+      failed_to_reset_token: crwdns94799:0%{error}crwdne94799:0
+      notice_reset_token: crwdns94800:0%{type}crwdne94800:0
+      token_value_warning: crwdns94801:0crwdne94801:0
+      no_results_title_text: crwdns92389:0crwdne92389:0
+  news:
+    index:
+      no_results_title_text: crwdns92390:0crwdne92390:0
+      no_results_content_text: crwdns92391:0crwdne92391:0
+    my_page:
+      no_results_title_text: crwdns92392:0crwdne92392:0
+  users:
+    memberships:
+      no_results_title_text: crwdns92393:0crwdne92393:0
+  reportings:
+    index:
+      no_results_title_text: crwdns92394:0crwdne92394:0
+      no_results_content_text: crwdns92395:0crwdne92395:0
+  statuses:
+    index:
+      no_results_title_text: crwdns92396:0crwdne92396:0
+      no_results_content_text: crwdns92397:0crwdne92397:0
+  types:
+    index:
+      no_results_title_text: crwdns92398:0crwdne92398:0
+      no_results_content_text: crwdns92399:0crwdne92399:0
+    edit:
+      settings: crwdns92400:0crwdne92400:0
+      form_configuration: crwdns92401:0crwdne92401:0
+      projects: crwdns92402:0crwdne92402:0
+      enabled_projects: crwdns92403:0crwdne92403:0
+      add_group: crwdns92404:0crwdne92404:0
+      reset: crwdns92405:0crwdne92405:0
+  versions:
+    overview:
+      no_results_title_text: crwdns92406:0crwdne92406:0
+  wiki:
+    no_results_title_text: crwdns92407:0crwdne92407:0
+    index:
+      no_results_content_text: crwdns92408:0crwdne92408:0
+  work_flows:
+    index:
+      no_results_title_text: crwdns92409:0crwdne92409:0
+  work_packages:
+    move:
+      unsupported_for_multiple_projects: crwdns92410:0crwdne92410:0
+    list_simple:
+      assigned:
+        no_results_title_text: crwdns92411:0crwdne92411:0
+      reported:
+        no_results_title_text: crwdns92412:0crwdne92412:0
+      responsible:
+        no_results_title_text: crwdns92413:0crwdne92413:0
+      watched:
+        no_results_title_text: crwdns92414:0crwdne92414:0
+    summary:
+      reports:
+        category:
+          no_results_title_text: crwdns92415:0crwdne92415:0
+        assigned_to:
+          no_results_title_text: crwdns92416:0crwdne92416:0
+        responsible:
+          no_results_title_text: crwdns92417:0crwdne92417:0
+        author:
+          no_results_title_text: crwdns92418:0crwdne92418:0
+        priority:
+          no_results_title_text: crwdns92419:0crwdne92419:0
+        type:
+          no_results_title_text: crwdns92420:0crwdne92420:0
+        version:
+          no_results_title_text: crwdns92421:0crwdne92421:0
+  label_invitation: crwdns92422:0crwdne92422:0
+  account:
+    delete: crwdns92423:0crwdne92423:0
+    delete_confirmation: crwdns92424:0crwdne92424:0
+    deleted: crwdns92425:0crwdne92425:0
+    deletion_info:
+      data_consequences:
+        other: crwdns92426:0crwdne92426:0
+        self: crwdns92427:0crwdne92427:0
+      heading: crwdns92428:0%{name}crwdne92428:0
+      info:
+        other: crwdns92429:0crwdne92429:0
+        self: crwdns92430:0crwdne92430:0
+      login_consequences:
+        other: crwdns92431:0crwdne92431:0
+        self: crwdns92432:0crwdne92432:0
+      login_verification:
+        other: crwdns95445:0%{name}crwdne95445:0
+        self: crwdns95446:0%{name}crwdne95446:0
+    error_inactive_activation_by_mail: 'crwdns92435:0crwdne92435:0
+
+'
+    error_inactive_manual_activation: 'crwdns92436:0crwdne92436:0
+
+'
+    error_self_registration_disabled: 'crwdns92437:0crwdne92437:0
+
+'
+    login_with_auth_provider: crwdns92438:0crwdne92438:0
+    signup_with_auth_provider: crwdns92439:0crwdne92439:0
+    auth_source_login: crwdns92440:0%{login}crwdne92440:0
+    omniauth_login: crwdns92441:0crwdne92441:0
+  actionview_instancetag_blank_option: crwdns92442:0crwdne92442:0
+  activerecord:
+    attributes:
+      announcements:
+        show_until: crwdns92454:0crwdne92454:0
+      attachment:
+        downloads: crwdns92455:0crwdne92455:0
+        file: crwdns92456:0crwdne92456:0
+        filename: crwdns92457:0crwdne92457:0
+        filesize: crwdns92458:0crwdne92458:0
+      attribute_help_text:
+        attribute_name: crwdns92459:0crwdne92459:0
+        help_text: crwdns92460:0crwdne92460:0
+      auth_source:
+        account: crwdns92461:0crwdne92461:0
+        attr_firstname: crwdns92462:0crwdne92462:0
+        attr_lastname: crwdns92463:0crwdne92463:0
+        attr_login: crwdns92464:0crwdne92464:0
+        attr_mail: crwdns92465:0crwdne92465:0
+        base_dn: crwdns92466:0crwdne92466:0
+        host: crwdns92467:0crwdne92467:0
+        onthefly: crwdns92468:0crwdne92468:0
+        port: crwdns92469:0crwdne92469:0
+      changeset:
+        repository: crwdns92470:0crwdne92470:0
+      comment:
+        commented: crwdns92471:0crwdne92471:0
+      custom_field:
+        default_value: crwdns92472:0crwdne92472:0
+        editable: crwdns92473:0crwdne92473:0
+        field_format: crwdns92474:0crwdne92474:0
+        is_filter: crwdns92475:0crwdne92475:0
+        is_required: crwdns92476:0crwdne92476:0
+        max_length: crwdns92477:0crwdne92477:0
+        min_length: crwdns92478:0crwdne92478:0
+        multi_value: crwdns92479:0crwdne92479:0
+        possible_values: crwdns92480:0crwdne92480:0
+        regexp: crwdns92481:0crwdne92481:0
+        searchable: crwdns92482:0crwdne92482:0
+        visible: crwdns92483:0crwdne92483:0
+      custom_value:
+        value: crwdns92484:0crwdne92484:0
+      enterprise_token:
+        starts_at: crwdns92485:0crwdne92485:0
+        expires_at: crwdns92486:0crwdne92486:0
+        subscriber: crwdns92487:0crwdne92487:0
+        encoded_token: crwdns92488:0crwdne92488:0
+      relation:
+        delay: crwdns92489:0crwdne92489:0
+        from: crwdns94795:0crwdne94795:0
+        to: crwdns92491:0crwdne92491:0
+      status:
+        is_closed: crwdns92492:0crwdne92492:0
+      journal:
+        notes: crwdns92493:0crwdne92493:0
+      member:
+        roles: crwdns92494:0crwdne92494:0
+      project:
+        identifier: crwdns92495:0crwdne92495:0
+        latest_activity_at: crwdns92496:0crwdne92496:0
+        parent: crwdns92497:0crwdne92497:0
+        project_type: crwdns92498:0crwdne92498:0
+        queries: crwdns92499:0crwdne92499:0
+        responsible: crwdns92500:0crwdne92500:0
+        types: crwdns92501:0crwdne92501:0
+        versions: crwdns92502:0crwdne92502:0
+        work_packages: crwdns92503:0crwdne92503:0
+      query:
+        column_names: crwdns92504:0crwdne92504:0
+        relations_to_type_column: crwdns92505:0%{type}crwdne92505:0
+        relations_of_type_column: crwdns92506:0%{type}crwdne92506:0
+        group_by: crwdns92507:0crwdne92507:0
+        filters: crwdns92508:0crwdne92508:0
+        timeline_labels: crwdns92509:0crwdne92509:0
+      repository:
+        url: crwdns92510:0crwdne92510:0
+      role:
+        assignable: crwdns92511:0crwdne92511:0
+      time_entry:
+        activity: crwdns92512:0crwdne92512:0
+        hours: crwdns92513:0crwdne92513:0
+        spent_on: crwdns92514:0crwdne92514:0
+        type: crwdns92515:0crwdne92515:0
+      type:
+        is_in_roadmap: crwdns92516:0crwdne92516:0
+        in_aggregation: crwdns92517:0crwdne92517:0
+        is_milestone: crwdns92518:0crwdne92518:0
+        color: crwdns92519:0crwdne92519:0
+      user:
+        admin: crwdns92520:0crwdne92520:0
+        auth_source: crwdns92521:0crwdne92521:0
+        current_password: crwdns92522:0crwdne92522:0
+        force_password_change: crwdns92523:0crwdne92523:0
+        language: crwdns92524:0crwdne92524:0
+        last_login_on: crwdns92525:0crwdne92525:0
+        mail_notification: crwdns92526:0crwdne92526:0
+        new_password: crwdns92527:0crwdne92527:0
+        password_confirmation: crwdns92528:0crwdne92528:0
+      user_preference:
+        comments_sorting: crwdns92529:0crwdne92529:0
+        hide_mail: crwdns92530:0crwdne92530:0
+        impaired: crwdns92531:0crwdne92531:0
+        time_zone: crwdns92532:0crwdne92532:0
+        auto_hide_popups: crwdns92533:0crwdne92533:0
+        warn_on_leaving_unsaved: crwdns92534:0crwdne92534:0
+      version:
+        effective_date: crwdns92535:0crwdne92535:0
+        sharing: crwdns92536:0crwdne92536:0
+      wiki:
+        start_page: crwdns92537:0crwdne92537:0
+      wiki_content:
+        text: crwdns92538:0crwdne92538:0
+      wiki_page:
+        parent_title: crwdns92539:0crwdne92539:0
+        redirect_existing_links: crwdns92540:0crwdne92540:0
+      planning_element_type_color:
+        hexcode: crwdns92541:0crwdne92541:0
+      project_association:
+        description: crwdns95571:0crwdne95571:0
+        project_b: crwdns95572:0crwdne95572:0
+      project_type:
+        allows_association: crwdns95573:0crwdne95573:0
+        reported_project_statuses: crwdns95574:0crwdne95574:0
+        position: crwdns92546:0crwdne92546:0
+      timeline:
+        options: crwdns95575:0crwdne95575:0
+      reporting:
+        reported_project_status_comment: crwdns95576:0crwdne95576:0
+        reporting_to_project: crwdns95577:0crwdne95577:0
+        reported_project_status: crwdns95578:0crwdne95578:0
+        created_at: crwdns95579:0crwdne95579:0
+      work_package:
+        begin_insertion: crwdns92552:0crwdne92552:0
+        begin_deletion: crwdns92553:0crwdne92553:0
+        done_ratio: crwdns92554:0crwdne92554:0
+        end_insertion: crwdns92555:0crwdne92555:0
+        end_deletion: crwdns92556:0crwdne92556:0
+        fixed_version: crwdns92557:0crwdne92557:0
+        parent: crwdns92558:0crwdne92558:0
+        parent_issue: crwdns92559:0crwdne92559:0
+        parent_work_package: crwdns92560:0crwdne92560:0
+        priority: crwdns92561:0crwdne92561:0
+        progress: crwdns92562:0crwdne92562:0
+        responsible: crwdns92563:0crwdne92563:0
+        spent_hours: crwdns92564:0crwdne92564:0
+        spent_time: crwdns92565:0crwdne92565:0
+        subproject: crwdns92566:0crwdne92566:0
+        time_entries: crwdns92567:0crwdne92567:0
+        type: crwdns92568:0crwdne92568:0
+        watcher: crwdns92569:0crwdne92569:0
+    errors:
+      messages:
+        accepted: crwdns92570:0crwdne92570:0
+        blank: crwdns92571:0crwdne92571:0
+        cant_link_a_work_package_with_a_descendant: crwdns92572:0crwdne92572:0
+        circular_dependency: crwdns92573:0crwdne92573:0
+        confirmation: crwdns92574:0%{attribute}crwdne92574:0
+        does_not_exist: crwdns92575:0crwdne92575:0
+        empty: crwdns92576:0crwdne92576:0
+        even: crwdns92577:0crwdne92577:0
+        exclusion: crwdns92578:0crwdne92578:0
+        file_too_large: crwdns92579:0%{count}crwdne92579:0
+        greater_than: crwdns92580:0%{count}crwdne92580:0
+        greater_than_or_equal_to: crwdns92581:0%{count}crwdne92581:0
+        smaller_than_or_equal_to_max_length: crwdns92582:0crwdne92582:0
+        greater_than_start_date: crwdns92583:0crwdne92583:0
+        greater_than_or_equal_to_start_date: crwdns92584:0crwdne92584:0
+        inclusion: crwdns92585:0crwdne92585:0
+        invalid: crwdns92586:0crwdne92586:0
+        invalid_url: crwdns95447:0crwdne95447:0
+        invalid_url_scheme: crwdns95448:0%{allowed_schemes}crwdne95448:0
+        less_than_or_equal_to: crwdns92587:0%{count}crwdne92587:0
+        not_a_date: crwdns92588:0crwdne92588:0
+        not_a_datetime: crwdns92589:0crwdne92589:0
+        not_an_iso_date: crwdns92590:0crwdne92590:0
+        not_a_number: crwdns92591:0crwdne92591:0
+        not_an_integer: crwdns92592:0crwdne92592:0
+        not_same_project: crwdns92593:0crwdne92593:0
+        odd: crwdns92594:0crwdne92594:0
+        taken: crwdns92595:0crwdne92595:0
+        too_long: crwdns92596:0%{count}crwdne92596:0
+        too_short: crwdns92597:0%{count}crwdne92597:0
+        wrong_length: crwdns92598:0%{count}crwdne92598:0
+        after: crwdns92599:0%{date}crwdne92599:0
+        after_or_equal_to: crwdns92600:0%{date}crwdne92600:0
+        before: crwdns92601:0%{date}crwdne92601:0
+        before_or_equal_to: crwdns92602:0%{date}crwdne92602:0
+        could_not_be_copied: crwdns92603:0crwdne92603:0
+        regex_invalid: crwdns92604:0crwdne92604:0
+      models:
+        custom_field:
+          at_least_one_custom_option: crwdns92605:0crwdne92605:0
+        enterprise_token:
+          unreadable: crwdns92606:0crwdne92606:0
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: crwdns95408:0crwdne95408:0
+              invalid_values: crwdns95409:0crwdne95409:0
+              id_filter_required: crwdns95410:0crwdne95410:0
+        project:
+          attributes:
+            types:
+              in_use_by_work_packages: crwdns92607:0%{types}crwdne92607:0
+        project_association:
+          identical_projects: crwdns95580:0crwdne95580:0
+          project_association_not_allowed: crwdns95581:0crwdne95581:0
+        query:
+          attributes:
+            project:
+              error_not_found: crwdns95411:0crwdne95411:0
+            public:
+              error_unauthorized: crwdns95412:0crwdne95412:0
+          group_by_hierarchies_exclusive: crwdns92610:0%{group_by}crwdne92610:0
+          filters:
+            custom_fields:
+              inexistent: crwdns92611:0crwdne92611:0
+              invalid: crwdns92612:0crwdne92612:0
+        relation:
+          typed_dag:
+            circular_dependency: crwdns95422:0crwdne95422:0
+          attributes:
+            to:
+              error_not_found: crwdns95413:0crwdne95413:0
+              error_readonly: crwdns95414:0crwdne95414:0
+            from:
+              error_not_found: crwdns95415:0crwdne95415:0
+              error_readonly: crwdns95416:0crwdne95416:0
+        repository:
+          not_available: crwdns92613:0crwdne92613:0
+          not_whitelisted: crwdns92614:0crwdne92614:0
+          invalid_url: crwdns92615:0crwdne92615:0
+          must_not_be_ssh: crwdns92616:0crwdne92616:0
+          no_directory: crwdns92617:0crwdne92617:0
+        work_package:
+          is_not_a_valid_target_for_time_entries: crwdns92618:0%{id}crwdne92618:0
+          attributes:
+            due_date:
+              not_start_date: crwdns92619:0crwdne92619:0
+            parent:
+              cannot_be_milestone: crwdns94796:0crwdne94796:0
+              cannot_be_in_another_project: crwdns94797:0crwdne94797:0
+              not_a_valid_parent: crwdns94798:0crwdne94798:0
+            start_date:
+              violates_relationships: crwdns92623:0%{soonest_start}crwdne92623:0
+            status_id:
+              status_transition_invalid: crwdns92625:0crwdne92625:0
+            priority_id:
+              only_active_priorities_allowed: crwdns92626:0crwdne92626:0
+            category:
+              only_same_project_categories_allowed: crwdns92627:0crwdne92627:0
+              does_not_exist: crwdns92628:0crwdne92628:0
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: crwdns92629:0crwdne92629:0
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: crwdns92630:0crwdne92630:0
+              duplicate_group: crwdns92631:0%{group}crwdne92631:0
+              attribute_unknown: crwdns92632:0crwdne92632:0
+        user:
+          attributes:
+            password:
+              weak: crwdns92633:0%{min_count}crwdnd92633:0%{all_count}crwdnd92633:0%{rules}crwdne92633:0
+              lowercase: crwdns92634:0crwdne92634:0
+              uppercase: crwdns92635:0crwdne92635:0
+              numeric: crwdns92636:0crwdne92636:0
+              special: crwdns92637:0crwdne92637:0
+              reused:
+                one: crwdns92638:0crwdne92638:0
+                other: crwdns92638:1%{count}crwdne92638:1
+              match:
+                confirm: crwdns92639:0crwdne92639:0
+                description: crwdns92640:0crwdne92640:0
+            status:
+              invalid_on_create: crwdns95417:0crwdne95417:0
+            auth_source:
+              error_not_found: crwdns95418:0crwdne95418:0
+        member:
+          principal_blank: crwdns92641:0crwdne92641:0
+          role_blank: crwdns92642:0crwdne92642:0
+      template:
+        body: crwdns92643:0crwdne92643:0
+        header:
+          one: crwdns92644:0%{model}crwdne92644:0
+          other: crwdns92644:1%{count}crwdnd92644:1%{model}crwdne92644:1
+    models:
+      attachment: crwdns92645:0crwdne92645:0
+      attribute_help_text: crwdns92646:0crwdne92646:0
+      board: crwdns92647:0crwdne92647:0
+      comment: crwdns92648:0crwdne92648:0
+      custom_field: crwdns92649:0crwdne92649:0
+      group: crwdns92650:0crwdne92650:0
+      category: crwdns92651:0crwdne92651:0
+      status: crwdns92652:0crwdne92652:0
+      member: crwdns92653:0crwdne92653:0
+      news: crwdns92654:0crwdne92654:0
+      project: crwdns92655:0crwdne92655:0
+      query: crwdns92656:0crwdne92656:0
+      role:
+        one: crwdns92657:0crwdne92657:0
+        other: crwdns92657:1crwdne92657:1
+      type: crwdns92658:0crwdne92658:0
+      project_type: crwdns92659:0crwdne92659:0
+      user: crwdns92660:0crwdne92660:0
+      version: crwdns92661:0crwdne92661:0
+      wiki: crwdns92662:0crwdne92662:0
+      wiki_page: crwdns92663:0crwdne92663:0
+      workflow: crwdns92664:0crwdne92664:0
+      work_package: crwdns92665:0crwdne92665:0
+  errors:
+    header_invalid_fields: crwdns92666:0crwdne92666:0
+    field_erroneous_label: crwdns92667:0%{full_errors}crwdne92667:0
+  activity:
+    created: crwdns92668:0%{title}crwdne92668:0
+    updated: crwdns92669:0%{title}crwdne92669:0
+  attributes:
+    active: crwdns92670:0crwdne92670:0
+    assigned_to: crwdns92671:0crwdne92671:0
+    assignee: crwdns92672:0crwdne92672:0
+    attachments: crwdns92673:0crwdne92673:0
+    author: crwdns92674:0crwdne92674:0
+    base: crwdns92675:0crwdne92675:0
+    blocks_ids: crwdns92676:0crwdne92676:0
+    category: crwdns92677:0crwdne92677:0
+    comment: crwdns92678:0crwdne92678:0
+    comments: crwdns92679:0crwdne92679:0
+    content: crwdns92680:0crwdne92680:0
+    created_at: crwdns92681:0crwdne92681:0
+    created_on: crwdns92682:0crwdne92682:0
+    custom_options: crwdns92683:0crwdne92683:0
+    custom_values: crwdns92684:0crwdne92684:0
+    date: crwdns92685:0crwdne92685:0
+    default_columns: crwdns92686:0crwdne92686:0
+    description: crwdns92687:0crwdne92687:0
+    display_sums: crwdns92688:0crwdne92688:0
+    due_date: crwdns92689:0crwdne92689:0
+    estimated_hours: crwdns92690:0crwdne92690:0
+    estimated_time: crwdns92691:0crwdne92691:0
+    firstname: crwdns92692:0crwdne92692:0
+    group: crwdns92693:0crwdne92693:0
+    groups: crwdns92694:0crwdne92694:0
+    groupname: crwdns92695:0crwdne92695:0
+    id: crwdns92696:0crwdne92696:0
+    is_default: crwdns92697:0crwdne92697:0
+    is_for_all: crwdns92698:0crwdne92698:0
+    is_public: crwdns92699:0crwdne92699:0
+    issue: crwdns92700:0crwdne92700:0
+    lastname: crwdns92701:0crwdne92701:0
+    login: crwdns92702:0crwdne92702:0
+    mail: crwdns92703:0crwdne92703:0
+    name: crwdns92704:0crwdne92704:0
+    password: crwdns92705:0crwdne92705:0
+    priority: crwdns92706:0crwdne92706:0
+    project: crwdns92707:0crwdne92707:0
+    responsible: crwdns92708:0crwdne92708:0
+    role: crwdns92709:0crwdne92709:0
+    roles: crwdns92710:0crwdne92710:0
+    start_date: crwdns92711:0crwdne92711:0
+    status: crwdns92712:0crwdne92712:0
+    subject: crwdns92713:0crwdne92713:0
+    summary: crwdns92714:0crwdne92714:0
+    title: crwdns92715:0crwdne92715:0
+    type: crwdns92716:0crwdne92716:0
+    updated_at: crwdns92717:0crwdne92717:0
+    updated_on: crwdns92718:0crwdne92718:0
+    user: crwdns92719:0crwdne92719:0
+    version: crwdns92720:0crwdne92720:0
+    work_package: crwdns92721:0crwdne92721:0
+  button_add: crwdns92722:0crwdne92722:0
+  button_add_member: crwdns92723:0crwdne92723:0
+  button_add_watcher: crwdns92724:0crwdne92724:0
+  button_annotate: crwdns92725:0crwdne92725:0
+  button_apply: crwdns92726:0crwdne92726:0
+  button_archive: crwdns92727:0crwdne92727:0
+  button_back: crwdns92728:0crwdne92728:0
+  button_cancel: crwdns92729:0crwdne92729:0
+  button_change: crwdns92730:0crwdne92730:0
+  button_change_parent_page: crwdns92731:0crwdne92731:0
+  button_change_password: crwdns92732:0crwdne92732:0
+  button_check_all: crwdns92733:0crwdne92733:0
+  button_clear: crwdns92734:0crwdne92734:0
+  button_close: crwdns95449:0crwdne95449:0
+  button_collapse_all: crwdns92735:0crwdne92735:0
+  button_configure: crwdns92736:0crwdne92736:0
+  button_copy: crwdns92737:0crwdne92737:0
+  button_copy_and_follow: crwdns92738:0crwdne92738:0
+  button_create: crwdns92739:0crwdne92739:0
+  button_create_and_continue: crwdns92740:0crwdne92740:0
+  button_delete: crwdns92741:0crwdne92741:0
+  button_delete_watcher: crwdns92742:0%{name}crwdne92742:0
+  button_download: crwdns92743:0crwdne92743:0
+  button_duplicate: crwdns92744:0crwdne92744:0
+  button_edit: crwdns92745:0crwdne92745:0
+  button_edit_associated_wikipage: crwdns92746:0%{page_title}crwdne92746:0
+  button_expand_all: crwdns92747:0crwdne92747:0
+  button_filter: crwdns95437:0crwdne95437:0
+  button_generate: crwdns92748:0crwdne92748:0
+  button_list: crwdns92749:0crwdne92749:0
+  button_lock: crwdns92750:0crwdne92750:0
+  button_log_time: crwdns92751:0crwdne92751:0
+  button_login: crwdns92752:0crwdne92752:0
+  button_move: crwdns92753:0crwdne92753:0
+  button_move_and_follow: crwdns92754:0crwdne92754:0
+  button_print: crwdns95443:0crwdne95443:0
+  button_quote: crwdns92755:0crwdne92755:0
+  button_remove: crwdns92756:0crwdne92756:0
+  button_remove_widget: crwdns92757:0crwdne92757:0
+  button_rename: crwdns92758:0crwdne92758:0
+  button_replace: crwdns92759:0crwdne92759:0
+  button_reply: crwdns92760:0crwdne92760:0
+  button_reset: crwdns92761:0crwdne92761:0
+  button_rollback: crwdns92762:0crwdne92762:0
+  button_save: crwdns92763:0crwdne92763:0
+  button_save_back: crwdns92764:0crwdne92764:0
+  button_show: crwdns92765:0crwdne92765:0
+  button_sort: crwdns92766:0crwdne92766:0
+  button_submit: crwdns92767:0crwdne92767:0
+  button_test: crwdns92768:0crwdne92768:0
+  button_unarchive: crwdns92769:0crwdne92769:0
+  button_uncheck_all: crwdns92770:0crwdne92770:0
+  button_unlock: crwdns92771:0crwdne92771:0
+  button_unwatch: crwdns92772:0crwdne92772:0
+  button_update: crwdns92773:0crwdne92773:0
+  button_upload: crwdns92774:0crwdne92774:0
+  button_view: crwdns92775:0crwdne92775:0
+  button_watch: crwdns92776:0crwdne92776:0
+  button_manage_menu_entry: crwdns92777:0crwdne92777:0
+  button_add_menu_entry: crwdns92778:0crwdne92778:0
+  button_configure_menu_entry: crwdns92779:0crwdne92779:0
+  button_delete_menu_entry: crwdns92780:0crwdne92780:0
+  copy_project:
+    started: crwdns92781:0%{source_project_name}crwdnd92781:0%{target_project_name}crwdnd92781:0%{target_project_name}crwdne92781:0
+    failed: crwdns92782:0%{source_project_name}crwdne92782:0
+    succeeded: crwdns92783:0%{target_project_name}crwdne92783:0
+    errors: crwdns92784:0crwdne92784:0
+    project_custom_fields: crwdns95419:0crwdne95419:0
+    text:
+      failed: crwdns92785:0%{source_project_name}crwdnd92785:0%{target_project_name}crwdne92785:0
+      succeeded: crwdns92786:0%{source_project_name}crwdnd92786:0%{target_project_name}crwdne92786:0
+  create_new_page: crwdns92787:0crwdne92787:0
+  date:
+    abbr_day_names:
+    - crwdns92788:0crwdne92788:0
+    - crwdns92789:0crwdne92789:0
+    - crwdns92790:0crwdne92790:0
+    - crwdns92791:0crwdne92791:0
+    - crwdns92792:0crwdne92792:0
+    - crwdns92793:0crwdne92793:0
+    - crwdns92794:0crwdne92794:0
+    abbr_month_names:
+    - 
+    - crwdns92795:0crwdne92795:0
+    - crwdns92796:0crwdne92796:0
+    - crwdns92797:0crwdne92797:0
+    - crwdns92798:0crwdne92798:0
+    - crwdns92799:0crwdne92799:0
+    - crwdns92800:0crwdne92800:0
+    - crwdns92801:0crwdne92801:0
+    - crwdns92802:0crwdne92802:0
+    - crwdns92803:0crwdne92803:0
+    - crwdns92804:0crwdne92804:0
+    - crwdns92805:0crwdne92805:0
+    - crwdns92806:0crwdne92806:0
+    day_names:
+    - crwdns92807:0crwdne92807:0
+    - crwdns92808:0crwdne92808:0
+    - crwdns92809:0crwdne92809:0
+    - crwdns92810:0crwdne92810:0
+    - crwdns92811:0crwdne92811:0
+    - crwdns92812:0crwdne92812:0
+    - crwdns92813:0crwdne92813:0
+    formats:
+      default: crwdns92814:0%mcrwdnd92814:0%dcrwdnd92814:0%Ycrwdne92814:0
+      long: crwdns92815:0%Bcrwdnd92815:0%dcrwdnd92815:0%Ycrwdne92815:0
+      short: crwdns92816:0%bcrwdnd92816:0%dcrwdne92816:0
+    month_names:
+    - 
+    - crwdns92817:0crwdne92817:0
+    - crwdns92818:0crwdne92818:0
+    - crwdns92819:0crwdne92819:0
+    - crwdns92820:0crwdne92820:0
+    - crwdns92821:0crwdne92821:0
+    - crwdns92822:0crwdne92822:0
+    - crwdns92823:0crwdne92823:0
+    - crwdns92824:0crwdne92824:0
+    - crwdns92825:0crwdne92825:0
+    - crwdns92826:0crwdne92826:0
+    - crwdns92827:0crwdne92827:0
+    - crwdns92828:0crwdne92828:0
+    order:
+    - crwdns92829:0crwdne92829:0
+    - crwdns92830:0crwdne92830:0
+    - crwdns92831:0crwdne92831:0
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: crwdns92832:0crwdne92832:0
+        other: crwdns92832:1%{count}crwdne92832:1
+      about_x_months:
+        one: crwdns92833:0crwdne92833:0
+        other: crwdns92833:1%{count}crwdne92833:1
+      about_x_years:
+        one: crwdns92834:0crwdne92834:0
+        other: crwdns92834:1%{count}crwdne92834:1
+      almost_x_years:
+        one: crwdns92835:0crwdne92835:0
+        other: crwdns92835:1%{count}crwdne92835:1
+      half_a_minute: crwdns92836:0crwdne92836:0
+      less_than_x_minutes:
+        one: crwdns92837:0crwdne92837:0
+        other: crwdns92837:1%{count}crwdne92837:1
+      less_than_x_seconds:
+        one: crwdns92838:0crwdne92838:0
+        other: crwdns92838:1%{count}crwdne92838:1
+      over_x_years:
+        one: crwdns92839:0crwdne92839:0
+        other: crwdns92839:1%{count}crwdne92839:1
+      x_days:
+        one: crwdns92840:0crwdne92840:0
+        other: crwdns92840:1%{count}crwdne92840:1
+      x_minutes:
+        one: crwdns92841:0crwdne92841:0
+        other: crwdns92841:1%{count}crwdne92841:1
+      x_months:
+        one: crwdns92842:0crwdne92842:0
+        other: crwdns92842:1%{count}crwdne92842:1
+      x_seconds:
+        one: crwdns92843:0crwdne92843:0
+        other: crwdns92843:1%{count}crwdne92843:1
+    units:
+      hour:
+        one: crwdns92844:0crwdne92844:0
+        other: crwdns92844:1crwdne92844:1
+  default_activity_development: crwdns92845:0crwdne92845:0
+  default_activity_management: crwdns92846:0crwdne92846:0
+  default_activity_other: crwdns92847:0crwdne92847:0
+  default_activity_specification: crwdns92848:0crwdne92848:0
+  default_activity_support: crwdns92849:0crwdne92849:0
+  default_activity_testing: crwdns92850:0crwdne92850:0
+  default_color_black: crwdns92851:0crwdne92851:0
+  default_color_blue: crwdns92852:0crwdne92852:0
+  default_color_blue_dark: crwdns92853:0crwdne92853:0
+  default_color_blue_light: crwdns92854:0crwdne92854:0
+  default_color_green_dark: crwdns92855:0crwdne92855:0
+  default_color_green_light: crwdns92856:0crwdne92856:0
+  default_color_grey_dark: crwdns92857:0crwdne92857:0
+  default_color_grey_light: crwdns92858:0crwdne92858:0
+  default_color_grey: crwdns92859:0crwdne92859:0
+  default_color_magenta: crwdns92860:0crwdne92860:0
+  default_color_orange: crwdns92861:0crwdne92861:0
+  default_color_red: crwdns92862:0crwdne92862:0
+  default_color_white: crwdns92863:0crwdne92863:0
+  default_color_yellow: crwdns92864:0crwdne92864:0
+  default_status_closed: crwdns92865:0crwdne92865:0
+  default_status_confirmed: crwdns92866:0crwdne92866:0
+  default_status_developed: crwdns92867:0crwdne92867:0
+  default_status_in_development: crwdns92868:0crwdne92868:0
+  default_status_in_progress: crwdns92869:0crwdne92869:0
+  default_status_in_specification: crwdns92870:0crwdne92870:0
+  default_status_in_testing: crwdns92871:0crwdne92871:0
+  default_status_new: crwdns92872:0crwdne92872:0
+  default_status_on_hold: crwdns92873:0crwdne92873:0
+  default_status_rejected: crwdns92874:0crwdne92874:0
+  default_status_scheduled: crwdns92875:0crwdne92875:0
+  default_status_specified: crwdns92876:0crwdne92876:0
+  default_status_tested: crwdns92877:0crwdne92877:0
+  default_status_test_failed: crwdns92878:0crwdne92878:0
+  default_status_to_be_scheduled: crwdns92879:0crwdne92879:0
+  default_priority_low: crwdns92880:0crwdne92880:0
+  default_priority_normal: crwdns92881:0crwdne92881:0
+  default_priority_high: crwdns92882:0crwdne92882:0
+  default_priority_immediate: crwdns92883:0crwdne92883:0
+  default_project_type_scrum: crwdns92884:0crwdne92884:0
+  default_project_type_standard: crwdns92885:0crwdne92885:0
+  default_reported_project_status_green: crwdns92886:0crwdne92886:0
+  default_reported_project_status_amber: crwdns92887:0crwdne92887:0
+  default_reported_project_status_red: crwdns92888:0crwdne92888:0
+  default_role_anonymous: crwdns92889:0crwdne92889:0
+  default_role_developer: crwdns92890:0crwdne92890:0
+  default_role_project_admin: crwdns92891:0crwdne92891:0
+  default_role_non_member: crwdns92892:0crwdne92892:0
+  default_role_reader: crwdns92893:0crwdne92893:0
+  default_role_member: crwdns92894:0crwdne92894:0
+  default_type: crwdns92895:0crwdne92895:0
+  default_type_bug: crwdns92896:0crwdne92896:0
+  default_type_deliverable: crwdns92897:0crwdne92897:0
+  default_type_epic: crwdns92898:0crwdne92898:0
+  default_type_feature: crwdns92899:0crwdne92899:0
+  default_type_milestone: crwdns92900:0crwdne92900:0
+  default_type_phase: crwdns92901:0crwdne92901:0
+  default_type_task: crwdns92902:0crwdne92902:0
+  default_type_user_story: crwdns92903:0crwdne92903:0
+  description_active: crwdns92904:0crwdne92904:0
+  description_attachment_toggle: crwdns92905:0crwdne92905:0
+  description_autocomplete: 'crwdns92906:0crwdne92906:0
+
+'
+  description_available_columns: crwdns92907:0crwdne92907:0
+  description_choose_project: crwdns92908:0crwdne92908:0
+  description_compare_from: crwdns92909:0crwdne92909:0
+  description_compare_to: crwdns92910:0crwdne92910:0
+  description_current_position: crwdns92911:0crwdne92911:0
+  description_date_from: crwdns92912:0crwdne92912:0
+  description_date_range_interval: crwdns92913:0crwdne92913:0
+  description_date_range_list: crwdns92914:0crwdne92914:0
+  description_date_to: crwdns92915:0crwdne92915:0
+  description_enter_number: crwdns92916:0crwdne92916:0
+  description_enter_text: crwdns92917:0crwdne92917:0
+  description_filter: crwdns92918:0crwdne92918:0
+  description_filter_toggle: crwdns92919:0crwdne92919:0
+  description_category_reassign: crwdns92920:0crwdne92920:0
+  description_message_content: crwdns92921:0crwdne92921:0
+  description_my_project: crwdns92922:0crwdne92922:0
+  description_notes: crwdns92923:0crwdne92923:0
+  description_parent_work_package: crwdns92924:0crwdne92924:0
+  description_project_scope: crwdns92925:0crwdne92925:0
+  description_query_sort_criteria_attribute: crwdns92926:0crwdne92926:0
+  description_query_sort_criteria_direction: crwdns92927:0crwdne92927:0
+  description_search: crwdns92928:0crwdne92928:0
+  description_select_work_package: crwdns92929:0crwdne92929:0
+  description_selected_columns: crwdns92930:0crwdne92930:0
+  description_sub_work_package: crwdns92931:0crwdne92931:0
+  description_toc_toggle: crwdns92932:0crwdne92932:0
+  description_wiki_subpages_reassign: crwdns92933:0crwdne92933:0
+  direction: crwdns92934:0crwdne92934:0
+  ee:
+    upsale:
+      form_configuration:
+        description: crwdns92935:0crwdne92935:0
+        add_groups: crwdns92936:0crwdne92936:0
+        rename_groups: crwdns92937:0crwdne92937:0
+      project_filters:
+        description_html: crwdns95438:0%{link}crwdne95438:0
+  enumeration_activities: crwdns92938:0crwdne92938:0
+  enumeration_work_package_priorities: crwdns92939:0crwdne92939:0
+  enumeration_system_activity: crwdns92940:0crwdne92940:0
+  enumeration_reported_project_statuses: crwdns92941:0crwdne92941:0
+  error_auth_source_sso_failed: crwdns92942:0%{value}crwdne92942:0
+  error_can_not_archive_project: crwdns92943:0crwdne92943:0
+  error_can_not_delete_entry: crwdns92944:0crwdne92944:0
+  error_can_not_delete_custom_field: crwdns92945:0crwdne92945:0
+  error_can_not_delete_type: crwdns92946:0crwdne92946:0
+  error_can_not_delete_standard_type: crwdns92947:0crwdne92947:0
+  error_can_not_invite_user: crwdns92948:0crwdne92948:0
+  error_can_not_remove_role: crwdns92949:0crwdne92949:0
+  error_can_not_reopen_work_package_on_closed_version: crwdns92950:0crwdne92950:0
+  error_check_user_and_role: crwdns92951:0crwdne92951:0
+  error_cookie_missing: crwdns92952:0crwdne92952:0
+  error_custom_option_not_found: crwdns92953:0crwdne92953:0
+  error_failed_to_delete_entry: crwdns92954:0crwdne92954:0
+  error_invalid_group_by: crwdns92955:0%{value}crwdne92955:0
+  error_invalid_query_column: crwdns92956:0%{value}crwdne92956:0
+  error_invalid_sort_criterion: crwdns92957:0%{value}crwdne92957:0
+  error_pdf_export_too_many_columns: crwdns92958:0crwdne92958:0
+  error_token_authenticity: crwdns92959:0crwdne92959:0
+  error_work_package_done_ratios_not_updated: crwdns92960:0crwdne92960:0
+  error_work_package_not_found_in_project: crwdns92961:0crwdne92961:0
+  error_must_be_project_member: crwdns92962:0crwdne92962:0
+  error_no_default_work_package_status: crwdns92963:0crwdne92963:0
+  error_no_type_in_project: crwdns92964:0crwdne92964:0
+  error_omniauth_registration_timed_out: crwdns92965:0crwdne92965:0
+  error_scm_command_failed: crwdns92966:0%{value}crwdne92966:0
+  error_scm_not_found: crwdns92967:0crwdne92967:0
+  error_unable_delete_status: crwdns92968:0crwdne92968:0
+  error_unable_delete_default_status: crwdns92969:0crwdne92969:0
+  error_unable_to_connect: crwdns92970:0%{value}crwdne92970:0
+  error_unable_delete_wiki: crwdns92971:0crwdne92971:0
+  error_unable_update_wiki: crwdns92972:0crwdne92972:0
+  error_workflow_copy_source: crwdns92973:0crwdne92973:0
+  error_workflow_copy_target: crwdns92974:0crwdne92974:0
+  error_menu_item_not_created: crwdns92975:0crwdne92975:0
+  error_menu_item_not_saved: crwdns92976:0crwdne92976:0
+  error_wiki_root_menu_item_conflict: 'crwdns92977:0%{old_name}crwdnd92977:0%{new_name}crwdnd92977:0%{existing_caption}crwdnd92977:0%{existing_identifier}crwdne92977:0
+
+'
+  error_external_authentication_failed: crwdns92978:0crwdne92978:0
+  events:
+    project: crwdns92979:0crwdne92979:0
+    changeset: crwdns92980:0crwdne92980:0
+    message: crwdns92981:0crwdne92981:0
+    news: crwdns92982:0crwdne92982:0
+    reply: crwdns92983:0crwdne92983:0
+    time_entry: crwdns92984:0crwdne92984:0
+    wiki_page: crwdns92985:0crwdne92985:0
+    work_package_closed: crwdns92986:0crwdne92986:0
+    work_package_edit: crwdns92987:0crwdne92987:0
+    work_package_note: crwdns92988:0crwdne92988:0
+  export:
+    format:
+      atom: crwdns92989:0crwdne92989:0
+      csv: crwdns92990:0crwdne92990:0
+      pdf: crwdns92991:0crwdne92991:0
+      pdf_with_descriptions: crwdns92992:0crwdne92992:0
+  general_csv_decimal_separator: crwdns92993:0crwdne92993:0
+  general_csv_encoding: crwdns92994:0crwdne92994:0
+  general_csv_separator: crwdns92995:0crwdne92995:0
+  general_first_day_of_week: crwdns92996:0crwdne92996:0
+  general_lang_name: crwdns92997:0crwdne92997:0
+  general_pdf_encoding: crwdns92998:0crwdne92998:0
+  general_text_no: crwdns92999:0crwdne92999:0
+  general_text_yes: crwdns93000:0crwdne93000:0
+  general_text_No: crwdns93001:0crwdne93001:0
+  general_text_Yes: crwdns93002:0crwdne93002:0
+  gui_validation_error: crwdns93003:0crwdne93003:0
+  gui_validation_error_plural: crwdns93004:0%{count}crwdne93004:0
+  homescreen:
+    additional:
+      projects: crwdns93005:0crwdne93005:0
+      users: crwdns93006:0crwdne93006:0
+    blocks:
+      community: crwdns93007:0crwdne93007:0
+      upsale:
+        become_hero: crwdns93008:0crwdne93008:0
+        title: crwdns93009:0crwdne93009:0
+        description: crwdns93010:0crwdne93010:0
+        more_info: crwdns93011:0crwdne93011:0
+        additional_features: crwdns93012:0crwdne93012:0
+        professional_support: crwdns93013:0crwdne93013:0
+        you_contribute: crwdns93014:0crwdne93014:0
+    links:
+      upgrade_enterprise_edition: crwdns93015:0crwdne93015:0
+      user_guides: crwdns93016:0crwdne93016:0
+      faq: crwdns93017:0crwdne93017:0
+      glossary: crwdns93018:0crwdne93018:0
+      shortcuts: crwdns93019:0crwdne93019:0
+      forums: crwdns93020:0crwdne93020:0
+      blog: crwdns93021:0crwdne93021:0
+      boards: crwdns93022:0crwdne93022:0
+      newsletter: crwdns93023:0crwdne93023:0
+  links:
+    configuration_guide: crwdns95570:0crwdne95570:0
+  instructions_after_registration: crwdns93024:0%{signin}crwdne93024:0
+  instructions_after_logout: crwdns93025:0%{signin}crwdne93025:0
+  instructions_after_error: crwdns93026:0%{signin}crwdne93026:0
+  my_account:
+    access_tokens:
+      no_results:
+        title: crwdns93027:0crwdne93027:0
+        description: crwdns93028:0crwdne93028:0
+      access_token: crwdns93029:0crwdne93029:0
+      headers:
+        action: crwdns93030:0crwdne93030:0
+        expiration: crwdns93031:0crwdne93031:0
+      indefinite_expiration: crwdns93032:0crwdne93032:0
+  label_accessibility: crwdns93033:0crwdne93033:0
+  label_account: crwdns93034:0crwdne93034:0
+  label_active: crwdns93035:0crwdne93035:0
+  label_activate_user: crwdns93036:0crwdne93036:0
+  label_active_in_new_projects: crwdns93037:0crwdne93037:0
+  label_activity: crwdns93038:0crwdne93038:0
+  label_add_edit_translations: crwdns93039:0crwdne93039:0
+  label_add_another_file: crwdns93040:0crwdne93040:0
+  label_add_columns: crwdns93041:0crwdne93041:0
+  label_add_note: crwdns93042:0crwdne93042:0
+  label_add_related_work_packages: crwdns93043:0crwdne93043:0
+  label_add_subtask: crwdns93044:0crwdne93044:0
+  label_added: crwdns93045:0crwdne93045:0
+  label_added_time_by: crwdns93046:0%{author}crwdnd93046:0%{age}crwdne93046:0
+  label_additional_workflow_transitions_for_assignee: crwdns93047:0crwdne93047:0
+  label_additional_workflow_transitions_for_author: crwdns93048:0crwdne93048:0
+  label_administration: crwdns93049:0crwdne93049:0
+  label_advanced_settings: crwdns93050:0crwdne93050:0
+  label_age: crwdns93051:0crwdne93051:0
+  label_ago: crwdns93052:0crwdne93052:0
+  label_all: crwdns93053:0crwdne93053:0
+  label_all_time: crwdns93054:0crwdne93054:0
+  label_all_words: crwdns93055:0crwdne93055:0
+  label_always_visible: crwdns93056:0crwdne93056:0
+  label_announcement: crwdns93057:0crwdne93057:0
+  label_and_its_subprojects: crwdns93058:0%{value}crwdne93058:0
+  label_api_access_key: crwdns93059:0crwdne93059:0
+  label_api_access_key_created_on: crwdns93060:0%{value}crwdne93060:0
+  label_api_access_key_type: crwdns93061:0crwdne93061:0
+  label_applied_status: crwdns93062:0crwdne93062:0
+  label_archive_project: crwdns93063:0crwdne93063:0
+  label_ascending: crwdns93064:0crwdne93064:0
+  label_assigned_to_me_work_packages: crwdns93065:0crwdne93065:0
+  label_associated_revisions: crwdns93066:0crwdne93066:0
+  label_attachment_delete: crwdns93067:0crwdne93067:0
+  label_attachment_new: crwdns93068:0crwdne93068:0
+  label_attachment_plural: crwdns93069:0crwdne93069:0
+  label_attribute: crwdns93070:0crwdne93070:0
+  label_attribute_plural: crwdns93071:0crwdne93071:0
+  label_auth_source: crwdns93072:0crwdne93072:0
+  label_auth_source_new: crwdns93073:0crwdne93073:0
+  label_auth_source_plural: crwdns93074:0crwdne93074:0
+  label_authentication: crwdns93075:0crwdne93075:0
+  label_available_project_work_package_categories: crwdns93076:0crwdne93076:0
+  label_available_project_boards: crwdns93077:0crwdne93077:0
+  label_available_project_versions: crwdns93078:0crwdne93078:0
+  label_available_project_repositories: crwdns93079:0crwdne93079:0
+  label_api_documentation: crwdns93080:0crwdne93080:0
+  label_between: crwdns93081:0crwdne93081:0
+  label_blocked_by: crwdns93082:0crwdne93082:0
+  label_blocks: crwdns93083:0crwdne93083:0
+  label_blog: crwdns93084:0crwdne93084:0
+  label_board_locked: crwdns93085:0crwdne93085:0
+  label_board_new: crwdns93086:0crwdne93086:0
+  label_board_plural: crwdns93087:0crwdne93087:0
+  label_board_sticky: crwdns93088:0crwdne93088:0
+  label_boolean: crwdns93089:0crwdne93089:0
+  label_branch: crwdns93090:0crwdne93090:0
+  label_browse: crwdns93091:0crwdne93091:0
+  label_bulk_edit_selected_work_packages: crwdns93092:0crwdne93092:0
+  label_calendar: crwdns93093:0crwdne93093:0
+  label_calendar_show: crwdns93094:0crwdne93094:0
+  label_category: crwdns93095:0crwdne93095:0
+  label_wiki_menu_item: crwdns93096:0crwdne93096:0
+  label_select_main_menu_item: crwdns93097:0crwdne93097:0
+  label_select_project: crwdns93098:0crwdne93098:0
+  label_required_disk_storage: crwdns93099:0crwdne93099:0
+  label_send_invitation: crwdns95420:0crwdne95420:0
+  label_change_plural: crwdns93101:0crwdne93101:0
+  label_change_properties: crwdns93102:0crwdne93102:0
+  label_change_status: crwdns93103:0crwdne93103:0
+  label_change_status_of_user: crwdns93104:0#{username}crwdne93104:0
+  label_change_view_all: crwdns93105:0crwdne93105:0
+  label_changes_details: crwdns93106:0crwdne93106:0
+  label_changeset: crwdns93107:0crwdne93107:0
+  label_changeset_id: crwdns93108:0crwdne93108:0
+  label_changeset_plural: crwdns93109:0crwdne93109:0
+  label_checked: crwdns93110:0crwdne93110:0
+  label_check_uncheck_all_in_column: crwdns93111:0crwdne93111:0
+  label_check_uncheck_all_in_row: crwdns93112:0crwdne93112:0
+  label_child_element: crwdns93113:0crwdne93113:0
+  label_chronological_order: crwdns93114:0crwdne93114:0
+  label_close_versions: crwdns93115:0crwdne93115:0
+  label_closed_work_packages: crwdns93116:0crwdne93116:0
+  label_collapse: crwdns93117:0crwdne93117:0
+  label_configuration: crwdns93118:0crwdne93118:0
+  label_comment_add: crwdns93119:0crwdne93119:0
+  label_comment_added: crwdns93120:0crwdne93120:0
+  label_comment_delete: crwdns93121:0crwdne93121:0
+  label_comment_plural: crwdns93122:0crwdne93122:0
+  label_commits_per_author: crwdns93123:0crwdne93123:0
+  label_commits_per_month: crwdns93124:0crwdne93124:0
+  label_confirmation: crwdns93125:0crwdne93125:0
+  label_contains: crwdns93126:0crwdne93126:0
+  label_content: crwdns93127:0crwdne93127:0
+  label_copied: crwdns93128:0crwdne93128:0
+  label_copy_to_clipboard: crwdns93129:0crwdne93129:0
+  label_copy_same_as_target: crwdns93130:0crwdne93130:0
+  label_copy_source: crwdns93131:0crwdne93131:0
+  label_copy_target: crwdns93132:0crwdne93132:0
+  label_copy_workflow_from: crwdns93133:0crwdne93133:0
+  label_copy_project: crwdns93134:0crwdne93134:0
+  label_core_version: crwdns93135:0crwdne93135:0
+  label_current_status: crwdns93136:0crwdne93136:0
+  label_current_version: crwdns93137:0crwdne93137:0
+  label_custom_field_add_no_type: crwdns93138:0crwdne93138:0
+  label_custom_field_new: crwdns93139:0crwdne93139:0
+  label_custom_field_plural: crwdns93140:0crwdne93140:0
+  label_custom_field_default_type: crwdns93141:0crwdne93141:0
+  label_custom_style: crwdns93142:0crwdne93142:0
+  label_date: crwdns93143:0crwdne93143:0
+  label_date_and_time: crwdns93144:0crwdne93144:0
+  label_date_from: crwdns93145:0crwdne93145:0
+  label_date_from_to: crwdns93146:0%{start}crwdnd93146:0%{end}crwdne93146:0
+  label_date_range: crwdns93147:0crwdne93147:0
+  label_date_to: crwdns93148:0crwdne93148:0
+  label_day_plural: crwdns93149:0crwdne93149:0
+  label_default: crwdns93150:0crwdne93150:0
+  label_delete_user: crwdns93151:0crwdne93151:0
+  label_delete_project: crwdns93152:0crwdne93152:0
+  label_deleted: crwdns93153:0crwdne93153:0
+  label_deleted_custom_field: crwdns93154:0crwdne93154:0
+  label_descending: crwdns93155:0crwdne93155:0
+  label_details: crwdns93156:0crwdne93156:0
+  label_development_roadmap: crwdns93157:0crwdne93157:0
+  label_diff: crwdns93158:0crwdne93158:0
+  label_diff_inline: crwdns93159:0crwdne93159:0
+  label_diff_side_by_side: crwdns93160:0crwdne93160:0
+  label_disabled: crwdns93161:0crwdne93161:0
+  label_display: crwdns93162:0crwdne93162:0
+  label_display_per_page: crwdns93163:0%{value}crwdne93163:0
+  label_display_used_statuses_only: crwdns93164:0crwdne93164:0
+  label_download: crwdns93165:0%{count}crwdne93165:0
+  label_download_plural: crwdns93166:0%{count}crwdne93166:0
+  label_downloads_abbr: crwdns93167:0crwdne93167:0
+  label_duplicated_by: crwdns93168:0crwdne93168:0
+  label_duplicate: crwdns93169:0crwdne93169:0
+  label_duplicates: crwdns93170:0crwdne93170:0
+  label_edit: crwdns93171:0crwdne93171:0
+  label_enable_multi_select: crwdns93172:0crwdne93172:0
+  label_enabled_project_custom_fields: crwdns93173:0crwdne93173:0
+  label_enabled_project_types: crwdns93174:0crwdne93174:0
+  label_enabled_project_modules: crwdns93175:0crwdne93175:0
+  label_enabled_project_activities: crwdns93176:0crwdne93176:0
+  label_end_to_end: crwdns93177:0crwdne93177:0
+  label_end_to_start: crwdns93178:0crwdne93178:0
+  label_enumeration_new: crwdns93179:0crwdne93179:0
+  label_enumeration_value: crwdns93180:0crwdne93180:0
+  label_enumerations: crwdns93181:0crwdne93181:0
+  label_enterprise: crwdns93182:0crwdne93182:0
+  label_enterprise_edition: crwdns93183:0crwdne93183:0
+  label_environment: crwdns93184:0crwdne93184:0
+  label_estimates_and_time: crwdns93185:0crwdne93185:0
+  label_equals: crwdns93186:0crwdne93186:0
+  label_example: crwdns93187:0crwdne93187:0
+  label_export_to: crwdns93188:0crwdne93188:0
+  label_f_hour: crwdns93189:0%{value}crwdne93189:0
+  label_f_hour_plural: crwdns93190:0%{value}crwdne93190:0
+  label_feed_plural: crwdns93191:0crwdne93191:0
+  label_feeds_access_key: crwdns93192:0crwdne93192:0
+  label_feeds_access_key_created_on: crwdns93193:0%{value}crwdne93193:0
+  label_feeds_access_key_type: crwdns93194:0crwdne93194:0
+  label_file_added: crwdns93195:0crwdne93195:0
+  label_file_plural: crwdns93196:0crwdne93196:0
+  label_filter_add: crwdns93197:0crwdne93197:0
+  label_filter_plural: crwdns93198:0crwdne93198:0
+  label_filters_toggle: crwdns95439:0crwdne95439:0
+  label_float: crwdns93199:0crwdne93199:0
+  label_folder: crwdns93200:0crwdne93200:0
+  label_follows: crwdns93201:0crwdne93201:0
+  label_force_user_language_to_default: crwdns93202:0crwdne93202:0
+  label_form_configuration: crwdns93203:0crwdne93203:0
+  label_general: crwdns93204:0crwdne93204:0
+  label_generate_key: crwdns93205:0crwdne93205:0
+  label_git_path: crwdns93206:0crwdne93206:0
+  label_greater_or_equal: crwdns93207:0crwdne93207:0
+  label_group_by: crwdns93208:0crwdne93208:0
+  label_group_new: crwdns93209:0crwdne93209:0
+  label_group: crwdns95522:0crwdne95522:0
+  label_group_plural: crwdns93210:0crwdne93210:0
+  label_help: crwdns93211:0crwdne93211:0
+  label_here: crwdns93212:0crwdne93212:0
+  label_hide: crwdns93213:0crwdne93213:0
+  label_history: crwdns93214:0crwdne93214:0
+  label_home: crwdns93215:0crwdne93215:0
+  label_in: crwdns93216:0crwdne93216:0
+  label_in_less_than: crwdns93217:0crwdne93217:0
+  label_in_more_than: crwdns93218:0crwdne93218:0
+  label_inactive: crwdns93219:0crwdne93219:0
+  label_incoming_emails: crwdns93220:0crwdne93220:0
+  label_includes: crwdns93221:0crwdne93221:0
+  label_index_by_date: crwdns93222:0crwdne93222:0
+  label_index_by_title: crwdns93223:0crwdne93223:0
+  label_information: crwdns93224:0crwdne93224:0
+  label_information_plural: crwdns93225:0crwdne93225:0
+  label_integer: crwdns93226:0crwdne93226:0
+  label_internal: crwdns93227:0crwdne93227:0
+  label_invite_user: crwdns93228:0crwdne93228:0
+  label_show_hide: crwdns93229:0crwdne93229:0
+  label_show_all_registered_users: crwdns93230:0crwdne93230:0
+  label_journal: crwdns93231:0crwdne93231:0
+  label_journal_diff: crwdns93232:0crwdne93232:0
+  label_language: crwdns93233:0crwdne93233:0
+  label_jump_to_a_project: crwdns93234:0crwdne93234:0
+  label_language_based: crwdns93235:0crwdne93235:0
+  label_last_activity: crwdns93236:0crwdne93236:0
+  label_last_change_on: crwdns93237:0crwdne93237:0
+  label_last_changes: crwdns93238:0%{count}crwdne93238:0
+  label_last_login: crwdns93239:0crwdne93239:0
+  label_last_month: crwdns93240:0crwdne93240:0
+  label_last_n_days: crwdns93241:0%{count}crwdne93241:0
+  label_last_week: crwdns93242:0crwdne93242:0
+  label_latest_revision: crwdns93243:0crwdne93243:0
+  label_latest_revision_plural: crwdns93244:0crwdne93244:0
+  label_ldap_authentication: crwdns93245:0crwdne93245:0
+  label_less_or_equal: crwdns93246:0crwdne93246:0
+  label_less_than_ago: crwdns93247:0crwdne93247:0
+  label_list: crwdns93248:0crwdne93248:0
+  label_loading: crwdns93249:0crwdne93249:0
+  label_lock_user: crwdns93250:0crwdne93250:0
+  label_logged_as: crwdns93251:0crwdne93251:0
+  label_login: crwdns93252:0crwdne93252:0
+  label_custom_logo: crwdns93253:0crwdne93253:0
+  label_custom_favicon: crwdns93254:0crwdne93254:0
+  label_custom_touch_icon: crwdns93255:0crwdne93255:0
+  label_logout: crwdns93256:0crwdne93256:0
+  label_main_menu: crwdns93257:0crwdne93257:0
+  label_manage_groups: crwdns93258:0crwdne93258:0
+  label_managed_repositories_vendor: crwdns93259:0%{vendor}crwdne93259:0
+  label_max_size: crwdns93260:0crwdne93260:0
+  label_me: crwdns93261:0crwdne93261:0
+  label_member_new: crwdns93262:0crwdne93262:0
+  label_member_plural: crwdns93263:0crwdne93263:0
+  label_view_all_members: crwdns93264:0crwdne93264:0
+  label_menu_item_name: crwdns93265:0crwdne93265:0
+  label_message: crwdns93266:0crwdne93266:0
+  label_message_last: crwdns93267:0crwdne93267:0
+  label_message_new: crwdns93268:0crwdne93268:0
+  label_message_plural: crwdns93269:0crwdne93269:0
+  label_message_posted: crwdns93270:0crwdne93270:0
+  label_min_max_length: crwdns93271:0crwdne93271:0
+  label_minute_plural: crwdns93272:0crwdne93272:0
+  label_missing_api_access_key: crwdns93273:0crwdne93273:0
+  label_missing_feeds_access_key: crwdns93274:0crwdne93274:0
+  label_modification: crwdns93275:0%{count}crwdne93275:0
+  label_modified: crwdns93276:0crwdne93276:0
+  label_module_plural: crwdns93277:0crwdne93277:0
+  label_modules: crwdns93278:0crwdne93278:0
+  label_month: crwdns93279:0crwdne93279:0
+  label_months_from: crwdns93280:0crwdne93280:0
+  label_more: crwdns93281:0crwdne93281:0
+  label_more_than_ago: crwdns93282:0crwdne93282:0
+  label_move_work_package: crwdns93283:0crwdne93283:0
+  label_my_account: crwdns93284:0crwdne93284:0
+  label_my_account_data: crwdns93285:0crwdne93285:0
+  label_my_page: crwdns93286:0crwdne93286:0
+  label_my_page_block: crwdns93287:0crwdne93287:0
+  label_my_projects: crwdns93288:0crwdne93288:0
+  label_my_queries: crwdns93289:0crwdne93289:0
+  label_new: crwdns93290:0crwdne93290:0
+  label_new_statuses_allowed: crwdns93291:0crwdne93291:0
+  label_news_added: crwdns93292:0crwdne93292:0
+  label_news_comment_added: crwdns93293:0crwdne93293:0
+  label_news_latest: crwdns93294:0crwdne93294:0
+  label_news_new: crwdns93295:0crwdne93295:0
+  label_news_edit: crwdns93296:0crwdne93296:0
+  label_news_plural: crwdns93297:0crwdne93297:0
+  label_news_view_all: crwdns93298:0crwdne93298:0
+  label_next: crwdns93299:0crwdne93299:0
+  label_next_week: crwdns93300:0crwdne93300:0
+  label_no_change_option: crwdns93301:0crwdne93301:0
+  label_no_data: crwdns93302:0crwdne93302:0
+  label_nothing_display: crwdns93303:0crwdne93303:0
+  label_nobody: crwdns93304:0crwdne93304:0
+  label_none: crwdns93305:0crwdne93305:0
+  label_none_parentheses: crwdns93306:0crwdne93306:0
+  label_not_contains: crwdns93307:0crwdne93307:0
+  label_not_equals: crwdns93308:0crwdne93308:0
+  label_notify_member_plural: crwdns93309:0crwdne93309:0
+  label_on: crwdns93310:0crwdne93310:0
+  label_open_menu: crwdns93311:0crwdne93311:0
+  label_open_work_packages: crwdns93312:0crwdne93312:0
+  label_open_work_packages_plural: crwdns93313:0crwdne93313:0
+  label_optional_description: crwdns93314:0crwdne93314:0
+  label_options: crwdns93315:0crwdne93315:0
+  label_other: crwdns93316:0crwdne93316:0
+  label_overall_activity: crwdns93317:0crwdne93317:0
+  label_overall_spent_time: crwdns93318:0crwdne93318:0
+  label_overview: crwdns93319:0crwdne93319:0
+  label_part_of: crwdns93320:0crwdne93320:0
+  label_password_lost: crwdns93321:0crwdne93321:0
+  label_password_rule_lowercase: crwdns93322:0crwdne93322:0
+  label_password_rule_numeric: crwdns93323:0crwdne93323:0
+  label_password_rule_special: crwdns93324:0crwdne93324:0
+  label_password_rule_uppercase: crwdns93325:0crwdne93325:0
+  label_path_encoding: crwdns93326:0crwdne93326:0
+  label_pdf_with_descriptions: crwdns93327:0crwdne93327:0
+  label_per_page: crwdns93328:0crwdne93328:0
+  label_people: crwdns93329:0crwdne93329:0
+  label_permissions: crwdns93330:0crwdne93330:0
+  label_permissions_report: crwdns93331:0crwdne93331:0
+  label_personalize_page: crwdns93332:0crwdne93332:0
+  label_planning: crwdns93333:0crwdne93333:0
+  label_please_login: crwdns93334:0crwdne93334:0
+  label_plugins: crwdns93335:0crwdne93335:0
+  label_precedes: crwdns93336:0crwdne93336:0
+  label_preferences: crwdns93337:0crwdne93337:0
+  label_preview: crwdns93338:0crwdne93338:0
+  label_previous: crwdns93339:0crwdne93339:0
+  label_previous_week: crwdns93340:0crwdne93340:0
+  label_principal_invite_via_email: crwdns93341:0crwdne93341:0
+  label_principal_search: crwdns93342:0crwdne93342:0
+  label_product_version: crwdns93343:0crwdne93343:0
+  label_professional_support: crwdns93344:0crwdne93344:0
+  label_profile: crwdns93345:0crwdne93345:0
+  label_project_all: crwdns93346:0crwdne93346:0
+  label_project_count: crwdns93347:0crwdne93347:0
+  label_project_copy_notifications: crwdns93348:0crwdne93348:0
+  label_project_latest: crwdns93349:0crwdne93349:0
+  label_project_default_type: crwdns93350:0crwdne93350:0
+  label_project_hierarchy: crwdns93351:0crwdne93351:0
+  label_project_new: crwdns93352:0crwdne93352:0
+  label_project_plural: crwdns93353:0crwdne93353:0
+  label_project_settings: crwdns93354:0crwdne93354:0
+  label_projects_storage_information: crwdns93355:0%{count}crwdnd93355:0%{storage}crwdne93355:0
+  label_project_view_all: crwdns93356:0crwdne93356:0
+  label_project_show_details: crwdns94792:0crwdne94792:0
+  label_project_hide_details: crwdns94793:0crwdne94793:0
+  label_public_projects: crwdns93357:0crwdne93357:0
+  label_query_new: crwdns93358:0crwdne93358:0
+  label_query_plural: crwdns93359:0crwdne93359:0
+  label_query_menu_item: crwdns93360:0crwdne93360:0
+  label_read: crwdns93361:0crwdne93361:0
+  label_register: crwdns93362:0crwdne93362:0
+  label_register_with_developer: crwdns93363:0crwdne93363:0
+  label_registered_on: crwdns93364:0crwdne93364:0
+  label_registration_activation_by_email: crwdns93365:0crwdne93365:0
+  label_registration_automatic_activation: crwdns93366:0crwdne93366:0
+  label_registration_manual_activation: crwdns93367:0crwdne93367:0
+  label_related_work_packages: crwdns93368:0crwdne93368:0
+  label_relates: crwdns93369:0crwdne93369:0
+  label_relates_to: crwdns93370:0crwdne93370:0
+  label_relation_delete: crwdns93371:0crwdne93371:0
+  label_relation_new: crwdns93372:0crwdne93372:0
+  label_release_notes: crwdns93373:0crwdne93373:0
+  label_remove_columns: crwdns93374:0crwdne93374:0
+  label_renamed: crwdns93375:0crwdne93375:0
+  label_reply_plural: crwdns93376:0crwdne93376:0
+  label_report: crwdns93377:0crwdne93377:0
+  label_report_bug: crwdns93378:0crwdne93378:0
+  label_report_plural: crwdns93379:0crwdne93379:0
+  label_reported_work_packages: crwdns93380:0crwdne93380:0
+  label_reporting: crwdns93381:0crwdne93381:0
+  label_reporting_plural: crwdns93382:0crwdne93382:0
+  label_repository: crwdns93383:0crwdne93383:0
+  label_repository_root: crwdns93384:0crwdne93384:0
+  label_repository_plural: crwdns93385:0crwdne93385:0
+  label_required: crwdns93386:0crwdne93386:0
+  label_requires: crwdns93387:0crwdne93387:0
+  label_responsible_for_work_packages: crwdns93388:0crwdne93388:0
+  label_result_plural: crwdns93389:0crwdne93389:0
+  label_reverse_chronological_order: crwdns93390:0crwdne93390:0
+  label_revision: crwdns93391:0crwdne93391:0
+  label_revision_id: crwdns93392:0%{value}crwdne93392:0
+  label_revision_plural: crwdns93393:0crwdne93393:0
+  label_roadmap: crwdns93394:0crwdne93394:0
+  label_roadmap_edit: crwdns93395:0%{name}crwdne93395:0
+  label_roadmap_due_in: crwdns93396:0%{value}crwdne93396:0
+  label_roadmap_no_work_packages: crwdns93397:0crwdne93397:0
+  label_roadmap_overdue: crwdns93398:0%{value}crwdne93398:0
+  label_role_and_permissions: crwdns93399:0crwdne93399:0
+  label_role_new: crwdns93400:0crwdne93400:0
+  label_role_plural: crwdns93401:0crwdne93401:0
+  label_role_search: crwdns93402:0crwdne93402:0
+  label_scm: crwdns93403:0crwdne93403:0
+  label_search: crwdns93404:0crwdne93404:0
+  label_search_titles_only: crwdns93405:0crwdne93405:0
+  label_send_information: crwdns93406:0crwdne93406:0
+  label_send_test_email: crwdns93407:0crwdne93407:0
+  label_settings: crwdns93408:0crwdne93408:0
+  label_system_settings: crwdns93409:0crwdne93409:0
+  label_show_completed_versions: crwdns93410:0crwdne93410:0
+  label_sort: crwdns93411:0crwdne93411:0
+  label_sort_by: crwdns93412:0%{value}crwdne93412:0
+  label_sorted_by: crwdns93413:0%{value}crwdne93413:0
+  label_sort_higher: crwdns93414:0crwdne93414:0
+  label_sort_highest: crwdns93415:0crwdne93415:0
+  label_sort_lower: crwdns93416:0crwdne93416:0
+  label_sort_lowest: crwdns93417:0crwdne93417:0
+  label_spent_time: crwdns93418:0crwdne93418:0
+  label_start_to_end: crwdns93419:0crwdne93419:0
+  label_start_to_start: crwdns93420:0crwdne93420:0
+  label_statistics: crwdns93421:0crwdne93421:0
+  label_status: crwdns93422:0crwdne93422:0
+  label_status_updated: crwdns93423:0crwdne93423:0
+  label_stay_logged_in: crwdns93424:0crwdne93424:0
+  label_storage_free_space: crwdns93425:0crwdne93425:0
+  label_storage_used_space: crwdns93426:0crwdne93426:0
+  label_storage_group: crwdns93427:0%{identifier}crwdne93427:0
+  label_storage_for: crwdns93428:0crwdne93428:0
+  label_string: crwdns93429:0crwdne93429:0
+  label_subproject: crwdns93430:0crwdne93430:0
+  label_subproject_new: crwdns93431:0crwdne93431:0
+  label_subproject_plural: crwdns93432:0crwdne93432:0
+  label_subtask_plural: crwdns93433:0crwdne93433:0
+  label_summary: crwdns93434:0crwdne93434:0
+  label_system: crwdns93435:0crwdne93435:0
+  label_system_storage: crwdns93436:0crwdne93436:0
+  label_table_of_contents: crwdns93437:0crwdne93437:0
+  label_tag: crwdns93438:0crwdne93438:0
+  label_text: crwdns93439:0crwdne93439:0
+  label_this_month: crwdns93440:0crwdne93440:0
+  label_this_week: crwdns93441:0crwdne93441:0
+  label_this_year: crwdns93442:0crwdne93442:0
+  label_time_entry_plural: crwdns93443:0crwdne93443:0
+  label_time_sheet_menu: crwdns93444:0crwdne93444:0
+  label_time_tracking: crwdns93445:0crwdne93445:0
+  label_today: crwdns93446:0crwdne93446:0
+  label_top_menu: crwdns93447:0crwdne93447:0
+  label_topic_plural: crwdns93448:0crwdne93448:0
+  label_total: crwdns93449:0crwdne93449:0
+  label_type_new: crwdns93450:0crwdne93450:0
+  label_type_plural: crwdns93451:0crwdne93451:0
+  label_type_default_new_projects: crwdns93452:0crwdne93452:0
+  label_ui: crwdns93453:0crwdne93453:0
+  label_update_work_package_done_ratios: crwdns93454:0crwdne93454:0
+  label_updated_time: crwdns93455:0%{value}crwdne93455:0
+  label_updated_time_at: crwdns93456:0%{author}crwdnd93456:0%{age}crwdne93456:0
+  label_updated_time_by: crwdns93457:0%{author}crwdnd93457:0%{age}crwdne93457:0
+  label_used_by: crwdns93458:0crwdne93458:0
+  label_used_by_types: crwdns93459:0crwdne93459:0
+  label_used_in_projects: crwdns93460:0crwdne93460:0
+  label_user: crwdns93461:0crwdne93461:0
+  label_user_activity: crwdns93462:0%{value}crwdne93462:0
+  label_user_anonymous: crwdns93463:0crwdne93463:0
+  label_user_mail_option_all: crwdns93464:0crwdne93464:0
+  label_user_mail_option_none: crwdns93465:0crwdne93465:0
+  label_user_mail_option_only_assigned: crwdns93466:0crwdne93466:0
+  label_user_mail_option_only_my_events: crwdns93467:0crwdne93467:0
+  label_user_mail_option_only_owner: crwdns93468:0crwdne93468:0
+  label_user_mail_option_selected: crwdns93469:0crwdne93469:0
+  label_user_new: crwdns93470:0crwdne93470:0
+  label_user_plural: crwdns93471:0crwdne93471:0
+  label_user_search: crwdns93472:0crwdne93472:0
+  label_version_new: crwdns93473:0crwdne93473:0
+  label_version_plural: crwdns93474:0crwdne93474:0
+  label_version_sharing_descendants: crwdns93475:0crwdne93475:0
+  label_version_sharing_hierarchy: crwdns93476:0crwdne93476:0
+  label_version_sharing_none: crwdns93477:0crwdne93477:0
+  label_version_sharing_system: crwdns93478:0crwdne93478:0
+  label_version_sharing_tree: crwdns93479:0crwdne93479:0
+  label_video: crwdns93480:0crwdne93480:0
+  label_view_all_revisions: crwdns93481:0crwdne93481:0
+  label_view_diff: crwdns93482:0crwdne93482:0
+  label_view_revisions: crwdns93483:0crwdne93483:0
+  label_watched_work_packages: crwdns93484:0crwdne93484:0
+  label_week: crwdns93485:0crwdne93485:0
+  label_wiki_content_added: crwdns93486:0crwdne93486:0
+  label_wiki_content_updated: crwdns93487:0crwdne93487:0
+  label_wiki_toc: crwdns93488:0crwdne93488:0
+  label_wiki_dont_show_menu_item: crwdns93489:0crwdne93489:0
+  label_wiki_edit: crwdns93490:0crwdne93490:0
+  label_wiki_edit_plural: crwdns93491:0crwdne93491:0
+  label_wiki_page_attachments: crwdns93492:0crwdne93492:0
+  label_wiki_page_id: crwdns93493:0crwdne93493:0
+  label_wiki_navigation: crwdns93494:0crwdne93494:0
+  label_wiki_page: crwdns93495:0crwdne93495:0
+  label_wiki_page_plural: crwdns93496:0crwdne93496:0
+  label_wiki_show_index_page_link: crwdns93497:0crwdne93497:0
+  label_wiki_show_menu_item: crwdns93498:0crwdne93498:0
+  label_wiki_show_new_page_link: crwdns93499:0crwdne93499:0
+  label_wiki_show_submenu_item: crwdns93500:0crwdne93500:0
+  label_work_package: crwdns93501:0crwdne93501:0
+  label_work_package_added: crwdns93502:0crwdne93502:0
+  label_work_package_attachments: crwdns93503:0crwdne93503:0
+  label_work_package_category_new: crwdns93504:0crwdne93504:0
+  label_work_package_category_plural: crwdns93505:0crwdne93505:0
+  label_work_package_hierarchy: crwdns93506:0crwdne93506:0
+  label_work_package_new: crwdns93507:0crwdne93507:0
+  label_work_package_note_added: crwdns93508:0crwdne93508:0
+  label_work_package_edit: crwdns93509:0%{name}crwdne93509:0
+  label_work_package_plural: crwdns93510:0crwdne93510:0
+  label_work_package_priority_updated: crwdns93511:0crwdne93511:0
+  label_work_package_status: crwdns93512:0crwdne93512:0
+  label_work_package_status_new: crwdns93513:0crwdne93513:0
+  label_work_package_status_plural: crwdns93514:0crwdne93514:0
+  label_work_package_types: crwdns93515:0crwdne93515:0
+  label_work_package_updated: crwdns93516:0crwdne93516:0
+  label_work_package_tracking: crwdns93517:0crwdne93517:0
+  label_work_package_view_all: crwdns93518:0crwdne93518:0
+  label_work_package_view_all_assigned_to_me: crwdns93519:0crwdne93519:0
+  label_work_package_view_all_reported_by_me: crwdns93520:0crwdne93520:0
+  label_work_package_view_all_responsible_for: crwdns93521:0crwdne93521:0
+  label_work_package_view_all_watched: crwdns93522:0crwdne93522:0
+  label_work_package_watchers: crwdns93523:0crwdne93523:0
+  label_workflow: crwdns93524:0crwdne93524:0
+  label_workflow_plural: crwdns93525:0crwdne93525:0
+  label_workflow_summary: crwdns93526:0crwdne93526:0
+  label_x_closed_work_packages_abbr:
+    one: crwdns93527:0crwdne93527:0
+    other: crwdns93527:1%{count}crwdne93527:1
+    zero: 0 closed
+  label_x_comments:
+    one: crwdns93528:0crwdne93528:0
+    other: crwdns93528:1%{count}crwdne93528:1
+    zero: no comments
+  label_x_open_work_packages_abbr:
+    one: crwdns93529:0crwdne93529:0
+    other: crwdns93529:1%{count}crwdne93529:1
+    zero: 0 open
+  label_x_open_work_packages_abbr_on_total:
+    one: crwdns93530:0%{total}crwdne93530:0
+    other: crwdns93530:1%{count}crwdnd93530:1%{total}crwdne93530:1
+    zero: 0 open / %{total}
+  label_x_projects:
+    one: crwdns93531:0crwdne93531:0
+    other: crwdns93531:1%{count}crwdne93531:1
+    zero: no projects
+  label_year: crwdns93532:0crwdne93532:0
+  label_yesterday: crwdns93533:0crwdne93533:0
+  label_keyboard_function: crwdns93534:0crwdne93534:0
+  label_keyboard_shortcut: crwdns93535:0crwdne93535:0
+  label_keyboard_accesskey: crwdns93536:0crwdne93536:0
+  label_keyboard_shortcut_help_heading: crwdns93537:0crwdne93537:0
+  label_keyboard_shortcut_within_project: crwdns93538:0crwdne93538:0
+  label_keyboard_shortcut_global_shortcuts: crwdns93539:0crwdne93539:0
+  label_keyboard_shortcut_some_pages_only: crwdns93540:0crwdne93540:0
+  label_keyboard_shortcut_search_global: crwdns93541:0crwdne93541:0
+  label_keyboard_shortcut_search_project: crwdns93542:0crwdne93542:0
+  label_keyboard_shortcut_go_my_page: crwdns93543:0crwdne93543:0
+  label_keyboard_shortcut_show_help: crwdns93544:0crwdne93544:0
+  label_keyboard_shortcut_go_overview: crwdns93545:0crwdne93545:0
+  label_keyboard_shortcut_go_work_package: crwdns93546:0crwdne93546:0
+  label_keyboard_shortcut_go_wiki: crwdns93547:0crwdne93547:0
+  label_keyboard_shortcut_go_activity: crwdns93548:0crwdne93548:0
+  label_keyboard_shortcut_go_calendar: crwdns93549:0crwdne93549:0
+  label_keyboard_shortcut_go_news: crwdns93550:0crwdne93550:0
+  label_keyboard_shortcut_go_timelines: crwdns93551:0crwdne93551:0
+  label_keyboard_shortcut_new_work_package: crwdns93552:0crwdne93552:0
+  label_keyboard_shortcut_details_package: crwdns93553:0crwdne93553:0
+  label_keyboard_shortcut_go_edit: crwdns93554:0crwdne93554:0
+  label_keyboard_shortcut_open_more_menu: crwdns93555:0crwdne93555:0
+  label_keyboard_shortcut_go_preview: crwdns93556:0crwdne93556:0
+  label_keyboard_shortcut_focus_previous_item: crwdns93557:0crwdne93557:0
+  label_keyboard_shortcut_focus_next_item: crwdns93558:0crwdne93558:0
+  label_visible_elements: crwdns93559:0crwdne93559:0
+  auth_source:
+    using_abstract_auth_source: crwdns93560:0crwdne93560:0
+    ldap_error: crwdns93561:0%{error_message}crwdne93561:0
+    ldap_auth_failed: crwdns93562:0crwdne93562:0
+  macro_execution_error: crwdns93563:0%{macro_name}crwdne93563:0
+  macro_unavailable: crwdns93564:0%{macro_name}crwdne93564:0
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: crwdns95450:0crwdne95450:0
+        invalid_type: crwdns95451:0%{type}crwdnd95451:0%{project}crwdne95451:0
+      link_name: crwdns95452:0crwdne95452:0
+      link_name_type: crwdns95453:0%{type_name}crwdne95453:0
+  mail:
+    actions: crwdns93565:0crwdne93565:0
+  mail_body_account_activation_request: crwdns93566:0%{value}crwdne93566:0
+  mail_body_account_information: crwdns93567:0crwdne93567:0
+  mail_body_account_information_external: crwdns93568:0%{value}crwdne93568:0
+  mail_body_lost_password: crwdns93569:0crwdne93569:0
+  mail_body_register: crwdns93570:0crwdne93570:0
+  mail_body_reminder: crwdns93571:0%{count}crwdnd93571:0%{days}crwdne93571:0
+  mail_body_wiki_content_added: crwdns93572:0%{id}crwdnd93572:0%{author}crwdne93572:0
+  mail_body_wiki_content_updated: crwdns93573:0%{id}crwdnd93573:0%{author}crwdne93573:0
+  mail_subject_account_activation_request: crwdns93574:0%{value}crwdne93574:0
+  mail_subject_lost_password: crwdns93575:0%{value}crwdne93575:0
+  mail_subject_register: crwdns93576:0%{value}crwdne93576:0
+  mail_subject_reminder: crwdns93577:0%{count}crwdnd93577:0%{days}crwdne93577:0
+  mail_subject_wiki_content_added: crwdns93578:0%{id}crwdne93578:0
+  mail_subject_wiki_content_updated: crwdns93579:0%{id}crwdne93579:0
+  more_actions: crwdns93580:0crwdne93580:0
+  noscript_description: crwdns93581:0crwdne93581:0
+  noscript_heading: crwdns93582:0crwdne93582:0
+  noscript_learn_more: crwdns93583:0crwdne93583:0
+  notice_accessibility_mode: crwdns93584:0crwdne93584:0
+  notice_account_activated: crwdns93585:0crwdne93585:0
+  notice_account_already_activated: crwdns93586:0crwdne93586:0
+  notice_account_invalid_token: crwdns93587:0crwdne93587:0
+  notice_account_invalid_credentials: crwdns93588:0crwdne93588:0
+  notice_account_invalid_credentials_or_blocked: crwdns93589:0crwdne93589:0
+  notice_account_lost_email_sent: crwdns93590:0crwdne93590:0
+  notice_account_new_password_forced: crwdns93591:0crwdne93591:0
+  notice_account_password_expired: crwdns93592:0%{days}crwdne93592:0
+  notice_account_password_updated: crwdns93593:0crwdne93593:0
+  notice_account_pending: crwdns93594:0crwdne93594:0
+  notice_account_register_done: crwdns93595:0crwdne93595:0
+  notice_account_unknown_email: crwdns93596:0crwdne93596:0
+  notice_account_update_failed: crwdns93597:0crwdne93597:0
+  notice_account_updated: crwdns93598:0crwdne93598:0
+  notice_account_wrong_password: crwdns93599:0crwdne93599:0
+  notice_account_registered_and_logged_in: crwdns93600:0crwdne93600:0
+  notice_activation_failed: crwdns93601:0crwdne93601:0
+  notice_auth_stage_verification_error: crwdns94803:0%{stage}crwdne94803:0
+  notice_auth_stage_wrong_stage: crwdns94804:0%{expected}crwdnd94804:0%{actual}crwdne94804:0
+  notice_auth_stage_error: crwdns94805:0%{stage}crwdne94805:0
+  notice_can_t_change_password: crwdns93604:0crwdne93604:0
+  notice_custom_options_deleted: crwdns93605:0%{option_value}crwdnd93605:0%{num_deleted}crwdne93605:0
+  notice_email_error: crwdns93606:0%{value}crwdne93606:0
+  notice_email_sent: crwdns93607:0%{value}crwdne93607:0
+  notice_failed_to_save_work_packages: crwdns93608:0%{count}crwdnd93608:0%{total}crwdnd93608:0%{ids}crwdne93608:0
+  notice_failed_to_save_members: crwdns93609:0%{errors}crwdne93609:0
+  notice_file_not_found: crwdns93612:0crwdne93612:0
+  notice_forced_logout: crwdns93613:0%{ttl_time}crwdne93613:0
+  notice_internal_server_error: crwdns93614:0%{app_title}crwdne93614:0
+  notice_work_package_done_ratios_updated: crwdns93615:0crwdne93615:0
+  notice_locking_conflict: crwdns93616:0crwdne93616:0
+  notice_locking_conflict_additional_information: crwdns93617:0%{users}crwdne93617:0
+  notice_locking_conflict_reload_page: crwdns93618:0crwdne93618:0
+  notice_member_added: crwdns93619:0%{name}crwdne93619:0
+  notice_members_added: crwdns93620:0%{number}crwdne93620:0
+  notice_member_removed: crwdns93621:0%{user}crwdne93621:0
+  notice_member_deleted: crwdns93622:0%{user}crwdne93622:0
+  notice_no_principals_found: crwdns93623:0crwdne93623:0
+  notice_bad_request: crwdns93624:0crwdne93624:0
+  notice_not_authorized: crwdns93625:0crwdne93625:0
+  notice_not_authorized_archived_project: crwdns93626:0crwdne93626:0
+  notice_password_confirmation_failed: crwdns95444:0crwdne95444:0
+  notice_principals_found_multiple: crwdns93628:0%{number}crwdne93628:0
+  notice_principals_found_single: crwdns93629:0crwdne93629:0
+  notice_project_not_deleted: crwdns93630:0crwdne93630:0
+  notice_successful_connection: crwdns93631:0crwdne93631:0
+  notice_successful_create: crwdns93632:0crwdne93632:0
+  notice_successful_delete: crwdns93633:0crwdne93633:0
+  notice_successful_update: crwdns93634:0crwdne93634:0
+  notice_to_many_principals_to_display: crwdns93635:0crwdne93635:0
+  notice_unable_delete_time_entry: crwdns93636:0crwdne93636:0
+  notice_unable_delete_version: crwdns93637:0crwdne93637:0
+  notice_user_missing_authentication_method: crwdns93638:0crwdne93638:0
+  notice_user_invitation_resent: crwdns95421:0%{email}crwdne95421:0
+  present_access_key_value: crwdns93640:0%{key_name}crwdnd93640:0%{value}crwdne93640:0
+  notice_automatic_set_of_standard_type: crwdns93641:0crwdne93641:0
+  notice_logged_out: crwdns93642:0crwdne93642:0
+  notice_wont_delete_auth_source: crwdns93643:0crwdne93643:0
+  notice_project_cannot_update_custom_fields: crwdns93644:0%{errors}crwdne93644:0
+  notice_attachment_migration_wiki_page: 'crwdns93645:0%{container_type}crwdnd93645:0%{container_name}crwdne93645:0
+
+'
+  number:
+    format:
+      delimiter: crwdns93646:0crwdne93646:0
+      precision: 0
+      separator: crwdns93648:0crwdne93648:0
+    human:
+      format:
+        delimiter: crwdns93649:0crwdne93649:0
+        precision: 0
+      storage_units:
+        format: crwdns93651:0%ncrwdnd93651:0%ucrwdne93651:0
+        units:
+          byte:
+            one: crwdns93652:0crwdne93652:0
+            other: crwdns93652:1crwdne93652:1
+          gb: crwdns93653:0crwdne93653:0
+          kb: crwdns93654:0crwdne93654:0
+          mb: crwdns93655:0crwdne93655:0
+          tb: crwdns93656:0crwdne93656:0
+  onboarding:
+    heading_getting_started: crwdns93657:0crwdne93657:0
+    text_getting_started_description: crwdns93658:0crwdne93658:0
+    text_show_again: crwdns93659:0crwdne93659:0
+    welcome: crwdns93660:0crwdne93660:0
+  permission_add_work_package_notes: crwdns93661:0crwdne93661:0
+  permission_add_work_packages: crwdns93662:0crwdne93662:0
+  permission_add_messages: crwdns93663:0crwdne93663:0
+  permission_add_project: crwdns93664:0crwdne93664:0
+  permission_add_subprojects: crwdns93665:0crwdne93665:0
+  permission_add_work_package_watchers: crwdns93666:0crwdne93666:0
+  permission_browse_repository: crwdns93667:0crwdne93667:0
+  permission_change_wiki_parent_page: crwdns93668:0crwdne93668:0
+  permission_comment_news: crwdns93669:0crwdne93669:0
+  permission_commit_access: crwdns93670:0crwdne93670:0
+  permission_copy_projects: crwdns93671:0crwdne93671:0
+  permission_delete_work_package_watchers: crwdns93672:0crwdne93672:0
+  permission_delete_work_packages: crwdns93673:0crwdne93673:0
+  permission_delete_messages: crwdns93674:0crwdne93674:0
+  permission_delete_own_messages: crwdns93675:0crwdne93675:0
+  permission_delete_project_associations: crwdns95582:0crwdne95582:0
+  permission_delete_reportings: crwdns93677:0crwdne93677:0
+  permission_delete_timelines: crwdns93678:0crwdne93678:0
+  permission_delete_wiki_pages: crwdns93679:0crwdne93679:0
+  permission_delete_wiki_pages_attachments: crwdns93680:0crwdne93680:0
+  permission_edit_work_package_notes: crwdns93681:0crwdne93681:0
+  permission_edit_work_packages: crwdns93682:0crwdne93682:0
+  permission_edit_messages: crwdns93683:0crwdne93683:0
+  permission_edit_own_work_package_notes: crwdns93684:0crwdne93684:0
+  permission_edit_own_messages: crwdns93685:0crwdne93685:0
+  permission_edit_own_time_entries: crwdns93686:0crwdne93686:0
+  permission_edit_project: crwdns93687:0crwdne93687:0
+  permission_edit_project_associations: crwdns95583:0crwdne95583:0
+  permission_edit_reportings: crwdns93689:0crwdne93689:0
+  permission_edit_time_entries: crwdns93690:0crwdne93690:0
+  permission_edit_timelines: crwdns93691:0crwdne93691:0
+  permission_edit_wiki_pages: crwdns93692:0crwdne93692:0
+  permission_export_work_packages: crwdns93693:0crwdne93693:0
+  permission_export_wiki_pages: crwdns93694:0crwdne93694:0
+  permission_list_attachments: crwdns93695:0crwdne93695:0
+  permission_log_time: crwdns93696:0crwdne93696:0
+  permission_manage_boards: crwdns93697:0crwdne93697:0
+  permission_manage_categories: crwdns93698:0crwdne93698:0
+  permission_manage_work_package_relations: crwdns93699:0crwdne93699:0
+  permission_manage_members: crwdns93700:0crwdne93700:0
+  permission_manage_news: crwdns93701:0crwdne93701:0
+  permission_manage_project_activities: crwdns93702:0crwdne93702:0
+  permission_manage_public_queries: crwdns93703:0crwdne93703:0
+  permission_manage_repository: crwdns93704:0crwdne93704:0
+  permission_manage_subtasks: crwdns93705:0crwdne93705:0
+  permission_manage_versions: crwdns93706:0crwdne93706:0
+  permission_manage_wiki: crwdns93707:0crwdne93707:0
+  permission_manage_wiki_menu: crwdns93708:0crwdne93708:0
+  permission_move_work_packages: crwdns93709:0crwdne93709:0
+  permission_protect_wiki_pages: crwdns93710:0crwdne93710:0
+  permission_rename_wiki_pages: crwdns93711:0crwdne93711:0
+  permission_save_queries: crwdns93712:0crwdne93712:0
+  permission_select_project_modules: crwdns93713:0crwdne93713:0
+  permission_manage_types: crwdns93714:0crwdne93714:0
+  permission_view_calendar: crwdns93715:0crwdne93715:0
+  permission_view_changesets: crwdns93716:0crwdne93716:0
+  permission_view_commit_author_statistics: crwdns93717:0crwdne93717:0
+  permission_view_work_package_watchers: crwdns93718:0crwdne93718:0
+  permission_view_work_packages: crwdns93719:0crwdne93719:0
+  permission_view_messages: crwdns93720:0crwdne93720:0
+  permission_view_members: crwdns93721:0crwdne93721:0
+  permission_view_project_associations: crwdns95584:0crwdne95584:0
+  permission_view_reportings: crwdns93723:0crwdne93723:0
+  permission_view_time_entries: crwdns93724:0crwdne93724:0
+  permission_view_timelines: crwdns93725:0crwdne93725:0
+  permission_view_wiki_edits: crwdns93726:0crwdne93726:0
+  permission_view_wiki_pages: crwdns93727:0crwdne93727:0
+  placeholders:
+    default: crwdns93728:0crwdne93728:0
+  project:
+    destroy:
+      confirmation: crwdns93729:0%{identifier}crwdne93729:0
+      info: crwdns93730:0crwdne93730:0
+      project_verification: crwdns93731:0%{name}crwdne93731:0
+      subprojects_confirmation: crwdns93732:0%{value}crwdne93732:0
+      title: crwdns93733:0%{name}crwdne93733:0
+    identifier:
+      warning_one: crwdns93734:0crwdne93734:0
+      warning_two: crwdns93735:0crwdne93735:0
+      title: crwdns93736:0crwdne93736:0
+    archive:
+      are_you_sure: crwdns93737:0%{name}crwdne93737:0
+  project_module_activity: crwdns93738:0crwdne93738:0
+  project_module_boards: crwdns93739:0crwdne93739:0
+  project_module_calendar: crwdns93740:0crwdne93740:0
+  project_module_work_package_tracking: crwdns93741:0crwdne93741:0
+  project_module_news: crwdns93742:0crwdne93742:0
+  project_module_repository: crwdns93743:0crwdne93743:0
+  project_module_time_tracking: crwdns93744:0crwdne93744:0
+  project_module_timelines: crwdns93745:0crwdne93745:0
+  project_module_wiki: crwdns93746:0crwdne93746:0
+  query:
+    attribute_and_direction: crwdns93747:0%{attribute}crwdnd93747:0%{direction}crwdne93747:0
+  query_fields:
+    active_or_archived: crwdns95440:0crwdne95440:0
+    assigned_to_role: crwdns93748:0crwdne93748:0
+    member_of_group: crwdns93749:0crwdne93749:0
+    assignee_or_group: crwdns93750:0crwdne93750:0
+    subproject_id: crwdns93751:0crwdne93751:0
+    name_or_identifier: crwdns95441:0crwdne95441:0
+  repositories:
+    at_identifier: crwdns93752:0%{identifier}crwdne93752:0
+    atom_revision_feed: crwdns93753:0crwdne93753:0
+    autofetch_information: crwdns93754:0crwdne93754:0
+    checkout:
+      access:
+        readwrite: crwdns93755:0crwdne93755:0
+        read: crwdns93756:0crwdne93756:0
+        none: crwdns93757:0crwdne93757:0
+      access_permission: crwdns93758:0crwdne93758:0
+      url: crwdns93759:0crwdne93759:0
+      base_url_text: crwdns93760:0crwdne93760:0
+      default_instructions:
+        git: crwdns93761:0crwdne93761:0
+        subversion: crwdns93762:0crwdne93762:0
+      enable_instructions_text: crwdns93763:0crwdne93763:0
+      instructions: crwdns93764:0crwdne93764:0
+      show_instructions: crwdns93765:0crwdne93765:0
+      text_instructions: crwdns93766:0crwdne93766:0
+      not_available: crwdns93767:0crwdne93767:0
+    create_managed_delay: crwdns93768:0crwdne93768:0
+    create_successful: crwdns93769:0crwdne93769:0
+    delete_sucessful: crwdns93770:0crwdne93770:0
+    destroy:
+      confirmation: crwdns93771:0crwdne93771:0
+      info: crwdns93772:0crwdne93772:0
+      info_not_managed: crwdns93773:0crwdne93773:0
+      managed_path_note: crwdns93774:0%{path}crwdne93774:0
+      repository_verification: crwdns93775:0%{identifier}crwdne93775:0
+      subtitle: crwdns93776:0%{repository_type}crwdnd93776:0%{project_name}crwdne93776:0
+      subtitle_not_managed: crwdns93777:0%{repository_type}crwdnd93777:0%{url}crwdnd93777:0%{project_name}crwdne93777:0
+      title: crwdns93778:0%{repository_type}crwdne93778:0
+      title_not_managed: crwdns93779:0%{repository_type}crwdne93779:0
+    errors:
+      build_failed: crwdns93780:0%{reason}crwdne93780:0
+      managed_delete: crwdns93781:0crwdne93781:0
+      managed_delete_local: crwdns93782:0%{path}crwdnd93782:0%{error_message}crwdne93782:0
+      empty_repository: crwdns93783:0crwdne93783:0
+      exists_on_filesystem: crwdns93784:0crwdne93784:0
+      filesystem_access_failed: crwdns93785:0%{message}crwdne93785:0
+      not_manageable: crwdns93786:0crwdne93786:0
+      path_permission_failed: crwdns93787:0%{path}crwdne93787:0
+      unauthorized: crwdns93788:0crwdne93788:0
+      unavailable: crwdns93789:0crwdne93789:0
+      exception_title: crwdns93790:0%{message}crwdne93790:0
+      disabled_or_unknown_type: crwdns93791:0%{type}crwdnd93791:0%{vendor}crwdne93791:0
+      disabled_or_unknown_vendor: crwdns93792:0%{vendor}crwdne93792:0
+      remote_call_failed: crwdns93793:0%{message}crwdnd93793:0%{code}crwdne93793:0
+      remote_invalid_response: crwdns93794:0crwdne93794:0
+      remote_save_failed: crwdns93795:0crwdne93795:0
+    git:
+      instructions:
+        managed_url: crwdns93796:0crwdne93796:0
+        path: crwdns93797:0%{example_path}crwdne93797:0
+        path_encoding: crwdns93798:0crwdne93798:0
+      local_title: crwdns93799:0crwdne93799:0
+      local_url: crwdns93800:0crwdne93800:0
+      local_introduction: crwdns93801:0crwdne93801:0
+      managed_introduction: crwdns93802:0crwdne93802:0
+      managed_title: crwdns93803:0crwdne93803:0
+      managed_url: crwdns93804:0crwdne93804:0
+      path: crwdns93805:0crwdne93805:0
+      path_encoding: crwdns93806:0crwdne93806:0
+    go_to_revision: crwdns93807:0crwdne93807:0
+    managed_remote: crwdns93808:0crwdne93808:0
+    managed_remote_note: crwdns93809:0crwdne93809:0
+    managed_url: crwdns93810:0crwdne93810:0
+    settings:
+      automatic_managed_repos_disabled: crwdns93811:0crwdne93811:0
+      automatic_managed_repos: crwdns93812:0crwdne93812:0
+      automatic_managed_repos_text: crwdns93813:0crwdne93813:0
+    scm_vendor: crwdns93814:0crwdne93814:0
+    scm_type: crwdns93815:0crwdne93815:0
+    scm_types:
+      local: crwdns93816:0crwdne93816:0
+      existing: crwdns93817:0crwdne93817:0
+      managed: crwdns93818:0crwdne93818:0
+    storage:
+      not_available: crwdns93819:0crwdne93819:0
+      update_timeout: crwdns93820:0crwdne93820:0
+    subversion:
+      existing_title: crwdns93821:0crwdne93821:0
+      existing_introduction: crwdns93822:0crwdne93822:0
+      existing_url: crwdns93823:0crwdne93823:0
+      instructions:
+        managed_url: crwdns93824:0crwdne93824:0
+        url: crwdns93825:0%{local_proto}crwdne93825:0
+      managed_title: crwdns93826:0crwdne93826:0
+      managed_introduction: crwdns93827:0crwdne93827:0
+      managed_url: crwdns93828:0crwdne93828:0
+      password: crwdns93829:0crwdne93829:0
+      username: crwdns93830:0crwdne93830:0
+    truncated: crwdns93831:0%{limit}crwdnd93831:0%{truncated}crwdne93831:0
+    named_repository: crwdns93832:0%{vendor_name}crwdne93832:0
+    update_settings_successful: crwdns93833:0crwdne93833:0
+    url: crwdns93834:0crwdne93834:0
+    warnings:
+      cannot_annotate: crwdns93835:0crwdne93835:0
+  search_input_placeholder: crwdns93836:0crwdne93836:0
+  setting_email_delivery_method: crwdns93837:0crwdne93837:0
+  setting_sendmail_location: crwdns93838:0crwdne93838:0
+  setting_smtp_enable_starttls_auto: crwdns93839:0crwdne93839:0
+  setting_smtp_address: crwdns93840:0crwdne93840:0
+  setting_smtp_port: crwdns93841:0crwdne93841:0
+  setting_smtp_authentication: crwdns93842:0crwdne93842:0
+  setting_smtp_domain: crwdns93843:0crwdne93843:0
+  setting_smtp_user_name: crwdns93844:0crwdne93844:0
+  setting_smtp_password: crwdns93845:0crwdne93845:0
+  setting_activity_days_default: crwdns93846:0crwdne93846:0
+  setting_app_subtitle: crwdns93847:0crwdne93847:0
+  setting_app_title: crwdns93848:0crwdne93848:0
+  setting_attachment_max_size: crwdns93849:0crwdne93849:0
+  setting_autofetch_changesets: crwdns93850:0crwdne93850:0
+  setting_autologin: crwdns93851:0crwdne93851:0
+  setting_available_languages: crwdns93852:0crwdne93852:0
+  setting_bcc_recipients: crwdns93853:0crwdne93853:0
+  setting_brute_force_block_after_failed_logins: crwdns93854:0crwdne93854:0
+  setting_brute_force_block_minutes: crwdns93855:0crwdne93855:0
+  setting_cache_formatted_text: crwdns93856:0crwdne93856:0
+  setting_column_options: crwdns93857:0crwdne93857:0
+  setting_commit_fix_keywords: crwdns93858:0crwdne93858:0
+  setting_commit_logs_encoding: crwdns93859:0crwdne93859:0
+  setting_commit_logtime_activity_id: crwdns93860:0crwdne93860:0
+  setting_commit_logtime_enabled: crwdns93861:0crwdne93861:0
+  setting_commit_ref_keywords: crwdns93862:0crwdne93862:0
+  setting_cross_project_work_package_relations: crwdns93863:0crwdne93863:0
+  setting_date_format: crwdns93864:0crwdne93864:0
+  setting_default_language: crwdns93865:0crwdne93865:0
+  setting_default_notification_option: crwdns93866:0crwdne93866:0
+  setting_default_projects_modules: crwdns93867:0crwdne93867:0
+  setting_default_projects_public: crwdns93868:0crwdne93868:0
+  setting_diff_max_lines_displayed: crwdns93869:0crwdne93869:0
+  setting_display_subprojects_work_packages: crwdns93870:0crwdne93870:0
+  setting_emails_footer: crwdns93871:0crwdne93871:0
+  setting_emails_header: crwdns93872:0crwdne93872:0
+  setting_email_login: crwdns93873:0crwdne93873:0
+  setting_enabled_scm: crwdns93874:0crwdne93874:0
+  setting_feeds_enabled: crwdns93875:0crwdne93875:0
+  setting_feeds_limit: crwdns93876:0crwdne93876:0
+  setting_file_max_size_displayed: crwdns93877:0crwdne93877:0
+  setting_host_name: crwdns93880:0crwdne93880:0
+  setting_work_package_done_ratio: crwdns93881:0crwdne93881:0
+  setting_work_package_done_ratio_field: crwdns93882:0crwdne93882:0
+  setting_work_package_done_ratio_status: crwdns93883:0crwdne93883:0
+  setting_work_package_done_ratio_disabled: crwdns93884:0crwdne93884:0
+  setting_work_package_list_default_columns: crwdns93885:0crwdne93885:0
+  setting_work_package_list_summable_columns: crwdns93886:0crwdne93886:0
+  setting_work_package_properties: crwdns93887:0crwdne93887:0
+  setting_work_package_startdate_is_adddate: crwdns93888:0crwdne93888:0
+  setting_work_packages_export_limit: crwdns93889:0crwdne93889:0
+  setting_journal_aggregation_time_minutes: crwdns93890:0crwdne93890:0
+  setting_log_requesting_user: crwdns93891:0crwdne93891:0
+  setting_login_required: crwdns93892:0crwdne93892:0
+  setting_mail_from: crwdns93893:0crwdne93893:0
+  setting_mail_handler_api_enabled: crwdns93894:0crwdne93894:0
+  setting_mail_handler_api_description: crwdns93895:0crwdne93895:0
+  setting_mail_handler_api_key: crwdns93896:0crwdne93896:0
+  setting_mail_handler_body_delimiters: crwdns93897:0crwdne93897:0
+  setting_mail_handler_body_delimiter_regex: crwdns93898:0crwdne93898:0
+  setting_new_project_user_role_id: crwdns93899:0crwdne93899:0
+  setting_password_active_rules: crwdns93900:0crwdne93900:0
+  setting_password_count_former_banned: crwdns93901:0crwdne93901:0
+  setting_password_days_valid: crwdns93902:0crwdne93902:0
+  setting_password_min_length: crwdns93903:0crwdne93903:0
+  setting_password_min_adhered_rules: crwdns93904:0crwdne93904:0
+  setting_per_page_options: crwdns93905:0crwdne93905:0
+  setting_plain_text_mail: crwdns93906:0crwdne93906:0
+  setting_protocol: crwdns93907:0crwdne93907:0
+  setting_registration_footer: crwdns93908:0crwdne93908:0
+  setting_repositories_automatic_managed_vendor: crwdns93909:0crwdne93909:0
+  setting_repositories_encodings: crwdns93910:0crwdne93910:0
+  setting_repository_authentication_caching_enabled: crwdns93911:0crwdne93911:0
+  setting_repository_storage_cache_minutes: crwdns93912:0crwdne93912:0
+  setting_repository_checkout_display: crwdns93913:0crwdne93913:0
+  setting_repository_checkout_base_url: crwdns93914:0crwdne93914:0
+  setting_repository_checkout_text: crwdns93915:0crwdne93915:0
+  setting_repository_log_display_limit: crwdns93916:0crwdne93916:0
+  setting_repository_truncate_at: crwdns93917:0crwdne93917:0
+  setting_rest_api_enabled: crwdns93918:0crwdne93918:0
+  setting_self_registration: crwdns93919:0crwdne93919:0
+  setting_sequential_project_identifiers: crwdns93920:0crwdne93920:0
+  setting_session_ttl: crwdns93921:0crwdne93921:0
+  setting_session_ttl_hint: crwdns93922:0crwdne93922:0
+  setting_session_ttl_enabled: crwdns93923:0crwdne93923:0
+  setting_start_of_week: crwdns93924:0crwdne93924:0
+  setting_sys_api_enabled: crwdns93925:0crwdne93925:0
+  setting_sys_api_description: crwdns93926:0crwdne93926:0
+  setting_text_formatting: crwdns93927:0crwdne93927:0
+  setting_time_format: crwdns93928:0crwdne93928:0
+  setting_accessibility_mode_for_anonymous: crwdns93929:0crwdne93929:0
+  setting_user_format: crwdns93930:0crwdne93930:0
+  setting_users_deletable_by_admins: crwdns93931:0crwdne93931:0
+  setting_users_deletable_by_self: crwdns93932:0crwdne93932:0
+  setting_welcome_text: crwdns93933:0crwdne93933:0
+  setting_welcome_title: crwdns93934:0crwdne93934:0
+  setting_welcome_on_homescreen: crwdns93935:0crwdne93935:0
+  setting_welcome_on_projects_page: crwdns93936:0crwdne93936:0
+  setting_wiki_compression: crwdns93937:0crwdne93937:0
+  setting_work_package_group_assignment: crwdns93938:0crwdne93938:0
+  settings:
+    general: crwdns93939:0crwdne93939:0
+    other: crwdns93940:0crwdne93940:0
+    passwords: crwdns93941:0crwdne93941:0
+    session: crwdns93942:0crwdne93942:0
+    brute_force_prevention: crwdns93943:0crwdne93943:0
+  show_hide_project_menu: crwdns93944:0crwdne93944:0
+  status_active: crwdns93945:0crwdne93945:0
+  status_archived: crwdns95442:0crwdne95442:0
+  status_invited: crwdns93946:0crwdne93946:0
+  status_locked: crwdns93947:0crwdne93947:0
+  status_registered: crwdns93948:0crwdne93948:0
+  support:
+    array:
+      sentence_connector: crwdns93949:0crwdne93949:0
+      skip_last_comma: crwdns93950:0crwdne93950:0
+  text_accessibility_hint: crwdns93951:0crwdne93951:0
+  text_access_token_hint: crwdns93952:0crwdne93952:0
+  text_analyze: crwdns93953:0%{subject}crwdne93953:0
+  text_are_you_sure: crwdns93954:0crwdne93954:0
+  text_are_you_sure_with_children: crwdns93955:0crwdne93955:0
+  text_assign_to_project: crwdns93956:0crwdne93956:0
+  text_form_configuration: 'crwdns93957:0crwdne93957:0
+
+'
+  text_form_configuration_drag_to_activate: crwdns93958:0crwdne93958:0
+  text_form_configuration_required_attribute: crwdns93959:0crwdne93959:0
+  text_caracters_maximum: crwdns93960:0%{count}crwdne93960:0
+  text_caracters_minimum: crwdns93961:0%{count}crwdne93961:0
+  text_comma_separated: crwdns93962:0crwdne93962:0
+  text_comment_wiki_page: crwdns93963:0%{page}crwdne93963:0
+  text_custom_field_possible_values_info: crwdns93964:0crwdne93964:0
+  text_custom_field_hint_activate_per_project: 'crwdns93965:0crwdne93965:0
+
+'
+  text_custom_field_hint_activate_per_project_and_type: 'crwdns93966:0crwdne93966:0
+
+'
+  text_custom_logo_instructions: 'crwdns93967:0crwdne93967:0
+
+'
+  text_custom_favicon_instructions: 'crwdns93968:0crwdne93968:0
+
+'
+  text_custom_touch_icon_instructions: 'crwdns93969:0crwdne93969:0
+
+'
+  text_default_administrator_account_changed: crwdns93970:0crwdne93970:0
+  text_default_encoding: crwdns93971:0crwdne93971:0
+  text_destroy: crwdns93972:0crwdne93972:0
+  text_destroy_with_associated: crwdns93973:0crwdne93973:0
+  text_destroy_what_to_do: crwdns93974:0crwdne93974:0
+  text_diff_truncated: crwdns93975:0crwdne93975:0
+  text_email_delivery_not_configured: crwdns93976:0crwdne93976:0
+  text_enumeration_category_reassign_to: crwdns93977:0crwdne93977:0
+  text_enumeration_destroy_question: crwdns93978:0%{count}crwdne93978:0
+  text_file_repository_writable: crwdns93979:0crwdne93979:0
+  text_git_repo_example: crwdns93980:0crwdne93980:0
+  text_hint_date_format: crwdns93981:0crwdne93981:0
+  text_hint_disable_with_0: crwdns93982:0crwdne93982:0
+  text_hours_between: crwdns93983:0%{min}crwdnd93983:0%{max}crwdne93983:0
+  text_work_package_added: crwdns93984:0%{id}crwdnd93984:0%{author}crwdne93984:0
+  text_work_package_category_destroy_assignments: crwdns93985:0crwdne93985:0
+  text_work_package_category_destroy_question: crwdns93986:0%{count}crwdne93986:0
+  text_work_package_category_reassign_to: crwdns93987:0crwdne93987:0
+  text_work_package_updated: crwdns93988:0%{id}crwdnd93988:0%{author}crwdne93988:0
+  text_work_package_watcher_added: crwdns93989:0%{id}crwdnd93989:0%{watcher_setter}crwdne93989:0
+  text_work_packages_destroy_confirmation: crwdns93990:0crwdne93990:0
+  text_work_packages_ref_in_commit_messages: crwdns93991:0crwdne93991:0
+  text_journal_added: crwdns93992:0%{label}crwdnd93992:0%{value}crwdne93992:0
+  text_journal_aggregation_time_explanation: crwdns93993:0crwdne93993:0
+  text_journal_changed: crwdns93994:0%{label}crwdnd93994:0%{old}crwdnd93994:0%{new}crwdne93994:0
+  text_journal_changed_no_detail: crwdns93995:0%{label}crwdne93995:0
+  text_journal_changed_with_diff: crwdns93996:0%{label}crwdnd93996:0%{link}crwdne93996:0
+  text_journal_deleted: crwdns93997:0%{label}crwdnd93997:0%{old}crwdne93997:0
+  text_journal_deleted_with_diff: crwdns93998:0%{label}crwdnd93998:0%{link}crwdne93998:0
+  text_journal_set_to: crwdns93999:0%{label}crwdnd93999:0%{value}crwdne93999:0
+  text_journal_set_with_diff: crwdns94000:0%{label}crwdnd94000:0%{link}crwdne94000:0
+  text_latest_note: crwdns94001:0%{note}crwdne94001:0
+  text_length_between: crwdns94002:0%{min}crwdnd94002:0%{max}crwdne94002:0
+  text_line_separated: crwdns94003:0crwdne94003:0
+  text_load_default_configuration: crwdns94004:0crwdne94004:0
+  text_min_max_length_info: crwdns94005:0crwdne94005:0
+  text_no_roles_defined: crwdns94006:0crwdne94006:0
+  text_no_access_tokens_configurable: crwdns94007:0crwdne94007:0
+  text_no_configuration_data: crwdns94008:0crwdne94008:0
+  text_no_notes: crwdns94009:0crwdne94009:0
+  text_notice_too_many_values_are_inperformant: crwdns94010:0crwdne94010:0
+  text_own_membership_delete_confirmation: crwdns94011:0crwdne94011:0
+  text_plugin_assets_writable: crwdns94012:0crwdne94012:0
+  text_powered_by: crwdns94013:0%{link}crwdne94013:0
+  text_project_identifier_info: crwdns94014:0crwdne94014:0
+  text_reassign: crwdns94015:0crwdne94015:0
+  text_regexp_info: crwdns94016:0[A-Z0-9]crwdne94016:0
+  text_regexp_multiline: crwdns94017:0crwdne94017:0
+  text_repository_usernames_mapping: crwdns94018:0crwdne94018:0
+  text_select_mail_notifications: crwdns94019:0crwdne94019:0
+  text_status_changed_by_changeset: crwdns94020:0%{value}crwdne94020:0
+  text_table_difference_description: crwdns94021:0%{entries}crwdne94021:0
+  text_time_logged_by_changeset: crwdns94022:0%{value}crwdne94022:0
+  text_tip_work_package_begin_day: crwdns94023:0crwdne94023:0
+  text_tip_work_package_begin_end_day: crwdns94024:0crwdne94024:0
+  text_tip_work_package_end_day: crwdns94025:0crwdne94025:0
+  text_type_no_workflow: crwdns94026:0crwdne94026:0
+  text_unallowed_characters: crwdns94027:0crwdne94027:0
+  text_user_invited: crwdns94028:0crwdne94028:0
+  text_user_wrote: crwdns94029:0%{value}crwdne94029:0
+  text_warn_on_leaving_unsaved: crwdns94030:0crwdne94030:0
+  text_wiki_destroy_confirmation: crwdns94031:0crwdne94031:0
+  text_wiki_page_destroy_children: crwdns94032:0crwdne94032:0
+  text_wiki_page_destroy_question: crwdns94033:0%{descendants}crwdne94033:0
+  text_wiki_page_nullify_children: crwdns94034:0crwdne94034:0
+  text_wiki_page_reassign_children: crwdns94035:0crwdne94035:0
+  text_workflow_edit: crwdns94036:0crwdne94036:0
+  text_zoom_in: crwdns94037:0crwdne94037:0
+  text_zoom_out: crwdns94038:0crwdne94038:0
+  text_setup_mail_configuration: crwdns94039:0crwdne94039:0
+  time:
+    am: crwdns94040:0crwdne94040:0
+    formats:
+      default: crwdns94041:0%mcrwdnd94041:0%dcrwdnd94041:0%Y %Icrwdnd94041:0%Mcrwdnd94041:0%pcrwdne94041:0
+      long: crwdns94042:0%Bcrwdnd94042:0%dcrwdnd94042:0%Ycrwdnd94042:0%H:%Mcrwdne94042:0
+      short: crwdns94043:0%dcrwdnd94043:0%bcrwdnd94043:0%H:%Mcrwdne94043:0
+      time: crwdns94044:0%I:%Mcrwdnd94044:0%pcrwdne94044:0
+    pm: crwdns94045:0crwdne94045:0
+  timeframe:
+    show: crwdns94046:0crwdne94046:0
+    end: crwdns94047:0crwdne94047:0
+    start: crwdns94048:0crwdne94048:0
+  timelines:
+    admin_menu:
+      color: crwdns94049:0crwdne94049:0
+      colors: crwdns94050:0crwdne94050:0
+      project_type: crwdns94051:0crwdne94051:0
+      project_types: crwdns94052:0crwdne94052:0
+    project_menu:
+      project_associations: crwdns95585:0crwdne95585:0
+      reportings: crwdns94054:0crwdne94054:0
+      reports: crwdns94055:0crwdne94055:0
+      timelines: crwdns94056:0crwdne94056:0
+    add_project_association: crwdns95586:0crwdne95586:0
+    associations: crwdns94058:0crwdne94058:0
+    board_could_not_be_saved: crwdns94059:0crwdne94059:0
+    button_delete_all: crwdns94060:0crwdne94060:0
+    change: crwdns94061:0crwdne94061:0
+    children: crwdns94062:0crwdne94062:0
+    color_could_not_be_saved: crwdns94063:0crwdne94063:0
+    current_planning: crwdns94064:0crwdne94064:0
+    dates: crwdns94065:0crwdne94065:0
+    dates_are_calculated_based_on_sub_elements: crwdns94066:0crwdne94066:0
+    delete_all: crwdns94067:0crwdne94067:0
+    delete_thing: crwdns94068:0crwdne94068:0
+    duration: crwdns94069:0crwdne94069:0
+    duration_days:
+      one: crwdns94070:0crwdne94070:0
+      other: crwdns94070:1%{count}crwdne94070:1
+    edit_color: crwdns94071:0crwdne94071:0
+    edit_project_type: crwdns94072:0crwdne94072:0
+    edit_thing: crwdns94073:0crwdne94073:0
+    edit_timeline: crwdns94074:0%{timeline}crwdne94074:0
+    delete_timeline: crwdns94075:0%{timeline}crwdne94075:0
+    empty: crwdns94076:0crwdne94076:0
+    enable_type_in_project: crwdns94077:0%{type}crwdne94077:0
+    end: crwdns94078:0crwdne94078:0
+    errors:
+      not_implemented: crwdns94079:0crwdne94079:0
+      report_comparison: crwdns94080:0crwdne94080:0
+      report_epicfail: crwdns94081:0crwdne94081:0
+      report_timeout: crwdns94082:0crwdne94082:0
+    filter:
+      errors:
+        timeframe_start: crwdns94083:0crwdne94083:0
+        timeframe_end: crwdns94084:0crwdne94084:0
+        compare_to_relative: crwdns94085:0crwdne94085:0
+        compare_to_absolute: crwdns94086:0crwdne94086:0
+        planning_element_time_relative_one: crwdns94087:0crwdne94087:0
+        planning_element_time_relative_two: crwdns94088:0crwdne94088:0
+        planning_element_time_absolute_one: crwdns94089:0crwdne94089:0
+        planning_element_time_absolute_two: crwdns94090:0crwdne94090:0
+      sort:
+        sortation: crwdns94091:0crwdne94091:0
+        alphabet: crwdns94092:0crwdne94092:0
+        explicit_order: crwdns94093:0crwdne94093:0
+        project_sortation: crwdns94094:0crwdne94094:0
+        date: crwdns94095:0crwdne94095:0
+        default: crwdns94096:0crwdne94096:0
+      column:
+        assigned_to: crwdns94097:0crwdne94097:0
+        type: crwdns94098:0crwdne94098:0
+        due_date: crwdns94099:0crwdne94099:0
+        name: crwdns94100:0crwdne94100:0
+        status: crwdns94101:0crwdne94101:0
+        responsible: crwdns94102:0crwdne94102:0
+        start_date: crwdns94103:0crwdne94103:0
+      columns: crwdns94104:0crwdne94104:0
+      comparisons: crwdns94105:0crwdne94105:0
+      comparison:
+        absolute: crwdns94106:0crwdne94106:0
+        none: crwdns94107:0crwdne94107:0
+        relative: crwdns94108:0crwdne94108:0
+        compare_relative_prefix: crwdns94109:0crwdne94109:0
+        compare_relative_suffix: crwdns94110:0crwdne94110:0
+        compare_absolute: crwdns94111:0%{date}crwdne94111:0
+      time_relative:
+        days: crwdns94112:0crwdne94112:0
+        weeks: crwdns94113:0crwdne94113:0
+        months: crwdns94114:0crwdne94114:0
+      exclude_own_work_packages: crwdns94115:0crwdne94115:0
+      exclude_reporters: crwdns94116:0crwdne94116:0
+      exclude_empty: crwdns94117:0crwdne94117:0
+      grouping: crwdns94118:0crwdne94118:0
+      grouping_hide_group: crwdns94119:0%{group}crwdne94119:0
+      grouping_one: crwdns94120:0crwdne94120:0
+      grouping_one_phrase: crwdns94121:0crwdne94121:0
+      grouping_other: crwdns94122:0crwdne94122:0
+      hide_chart: crwdns94123:0crwdne94123:0
+      noneElement: crwdns94124:0crwdne94124:0
+      noneSelection: crwdns94125:0crwdne94125:0
+      outline: crwdns94126:0crwdne94126:0
+      parent: crwdns94127:0crwdne94127:0
+      work_package_filters: crwdns94128:0crwdne94128:0
+      work_package_responsible: crwdns94129:0crwdne94129:0
+      work_package_assignee: crwdns94130:0crwdne94130:0
+      types: crwdns94131:0crwdne94131:0
+      status: crwdns94132:0crwdne94132:0
+      project_time_filter: crwdns94133:0crwdne94133:0
+      project_time_filter_timeframe: crwdns94134:0crwdne94134:0
+      project_time_filter_historical_from: crwdns94135:0crwdne94135:0
+      project_time_filter_historical_to: crwdns94136:0crwdne94136:0
+      project_time_filter_historical: crwdns94137:0%{start_label}crwdnd94137:0%{startdate}crwdnd94137:0%{end_label}crwdnd94137:0%{enddate}crwdne94137:0
+      project_time_filter_relative: crwdns94138:0%{start_label}crwdnd94138:0%{startspan}crwdnd94138:0%{startspanunit}crwdnd94138:0%{end_label}crwdnd94138:0%{endspan}crwdnd94138:0%{endspanunit}crwdne94138:0
+      project_filters: crwdns94139:0crwdne94139:0
+      project_responsible: crwdns94140:0crwdne94140:0
+      project_status: crwdns94141:0crwdne94141:0
+      project_types: crwdns94142:0crwdne94142:0
+      timeframe: crwdns94143:0crwdne94143:0
+      timeframe_end: crwdns94144:0crwdne94144:0
+      timeframe_start: crwdns94145:0crwdne94145:0
+      timeline: crwdns94146:0crwdne94146:0
+      zoom: crwdns94147:0crwdne94147:0
+    history: crwdns94148:0crwdne94148:0
+    new_color: crwdns94149:0crwdne94149:0
+    new_association: crwdns94150:0crwdne94150:0
+    new_work_package: crwdns94151:0crwdne94151:0
+    new_project_type: crwdns94152:0crwdne94152:0
+    new_reporting: crwdns94153:0crwdne94153:0
+    new_timeline: crwdns94154:0crwdne94154:0
+    no_projects_for_reporting_available: crwdns94155:0crwdne94155:0
+    no_right_to_view_timeline: crwdns94156:0crwdne94156:0
+    no_timeline_for_id: crwdns94157:0%{id}crwdne94157:0
+    notice_successful_deleted_all_elements: crwdns94158:0crwdne94158:0
+    outline: crwdns94159:0crwdne94159:0
+    outlines:
+      aggregation: crwdns94160:0crwdne94160:0
+      level1: crwdns94161:0crwdne94161:0
+      level2: crwdns94162:0crwdne94162:0
+      level3: crwdns94163:0crwdne94163:0
+      level4: crwdns94164:0crwdne94164:0
+      level5: crwdns94165:0crwdne94165:0
+      all: crwdns94166:0crwdne94166:0
+    reporting_for_project:
+      show: crwdns94167:0%{title}crwdne94167:0
+      edit_delete: crwdns94168:0%{title}crwdne94168:0
+      history: crwdns94169:0%{title}crwdne94169:0
+    reporting:
+      delete: crwdns94170:0%{comment}crwdne94170:0
+      edit: crwdns94171:0%{comment}crwdne94171:0
+      show: crwdns94172:0%{comment}crwdne94172:0
+    planning_element_update: crwdns94173:0%{title}crwdne94173:0
+    work_packages_are_displayed_in_aggregations: crwdns94174:0crwdne94174:0
+    project_association_new: crwdns95587:0crwdne95587:0
+    project_association_new_for_with: crwdns95588:0%{project_a}crwdne95588:0
+    project_association_with_other: crwdns95589:0%{project_a}crwdnd95589:0%{project_b}crwdne95589:0
+    project_association_of_type: crwdns95590:0%{type}crwdne95590:0
+    project_type_could_not_be_saved: crwdns94179:0crwdne94179:0
+    type_could_not_be_saved: crwdns94180:0crwdne94180:0
+    reporting_could_not_be_saved: crwdns94181:0crwdne94181:0
+    properties: crwdns94182:0crwdne94182:0
+    really_delete_color: 'crwdns94183:0crwdne94183:0
+
+'
+    really_delete_project_association_between_project_a_and_project_b: 'crwdns95591:0%{project_a}crwdnd95591:0%{project_b}crwdne95591:0
+
+'
+    really_delete_project_type: 'crwdns94185:0crwdne94185:0
+
+'
+    really_delete_timeline: 'crwdns94186:0crwdne94186:0
+
+'
+    really_delete_reporting: 'crwdns94187:0crwdne94187:0
+
+'
+    start: crwdns94188:0crwdne94188:0
+    timeline: crwdns94189:0crwdne94189:0
+    timelines: crwdns94190:0crwdne94190:0
+    settings: crwdns94191:0crwdne94191:0
+    vertical_work_package: crwdns94192:0crwdne94192:0
+    without_project_type: crwdns94193:0crwdne94193:0
+    you_are_viewing_the_selected_timeline: crwdns94194:0crwdne94194:0
+    zoom:
+      in: crwdns94195:0crwdne94195:0
+      out: crwdns94196:0crwdne94196:0
+      days: crwdns94197:0crwdne94197:0
+      weeks: crwdns94198:0crwdne94198:0
+      months: crwdns94199:0crwdne94199:0
+      quarters: crwdns94200:0crwdne94200:0
+      years: crwdns94201:0crwdne94201:0
+  title_remove_and_delete_user: crwdns94202:0crwdne94202:0
+  tooltip_resend_invitation: 'crwdns94203:0crwdne94203:0
+
+'
+  tooltip:
+    setting_email_login: 'crwdns94204:0crwdne94204:0
+
+'
+  queries:
+    apply_filter: crwdns94205:0crwdne94205:0
+  top_menu:
+    additional_resources: crwdns94206:0crwdne94206:0
+    getting_started: crwdns94207:0crwdne94207:0
+    help_and_support: crwdns94208:0crwdne94208:0
+  total_progress: crwdns94209:0crwdne94209:0
+  user:
+    all: crwdns94210:0crwdne94210:0
+    active: crwdns94211:0crwdne94211:0
+    activate: crwdns94212:0crwdne94212:0
+    activate_and_reset_failed_logins: crwdns94213:0crwdne94213:0
+    authentication_provider: crwdns94214:0crwdne94214:0
+    authentication_settings_disabled_due_to_external_authentication: 'crwdns94215:0crwdne94215:0
+
+'
+    authorization_rejected: crwdns94216:0crwdne94216:0
+    assign_random_password: crwdns94217:0crwdne94217:0
+    blocked: crwdns94218:0crwdne94218:0
+    blocked_num_failed_logins:
+      one: crwdns94219:0crwdne94219:0
+      other: crwdns94219:1%{count}crwdne94219:1
+    confirm_status_change: crwdns94220:0%{name}crwdne94220:0
+    deleted: crwdns94221:0crwdne94221:0
+    error_status_change_failed: crwdns94222:0%{errors}crwdne94222:0
+    invite: crwdns94223:0crwdne94223:0
+    invited: crwdns94224:0crwdne94224:0
+    lock: crwdns94225:0crwdne94225:0
+    locked: crwdns94226:0crwdne94226:0
+    no_login: crwdns94227:0crwdne94227:0
+    password_change_unsupported: crwdns94228:0crwdne94228:0
+    registered: crwdns94229:0crwdne94229:0
+    reset_failed_logins: crwdns94230:0crwdne94230:0
+    settings:
+      mail_notifications: crwdns94231:0crwdne94231:0
+      mail_project_explanaition: crwdns94232:0crwdne94232:0
+      mail_self_notified: crwdns94233:0crwdne94233:0
+    status_user_and_brute_force: crwdns94234:0%{user}crwdnd94234:0%{brute_force}crwdne94234:0
+    status_change: crwdns94235:0crwdne94235:0
+    unlock: crwdns94236:0crwdne94236:0
+    unlock_and_reset_failed_logins: crwdns94237:0crwdne94237:0
+  version_status_closed: crwdns94238:0crwdne94238:0
+  version_status_locked: crwdns94239:0crwdne94239:0
+  version_status_open: crwdns94240:0crwdne94240:0
+  note: crwdns94241:0crwdne94241:0
+  note_password_login_disabled: crwdns94242:0%{configuration}crwdne94242:0
+  warning: crwdns94243:0crwdne94243:0
+  warning_attachments_not_saved: crwdns94244:0%{count}crwdne94244:0
+  menu_item: crwdns94245:0crwdne94245:0
+  menu_item_setting: crwdns94246:0crwdne94246:0
+  wiki_menu_item_for: crwdns94247:0%{title}crwdne94247:0
+  wiki_menu_item_setting: crwdns94248:0crwdne94248:0
+  wiki_menu_item_new_main_item_explanation: 'crwdns94249:0crwdne94249:0
+
+'
+  wiki_menu_item_delete_not_permitted: crwdns94250:0crwdne94250:0
+  query_menu_item_for: crwdns94251:0%{title}crwdne94251:0
+  work_package:
+    updated_automatically_by_child_changes: 'crwdns94252:0%{child}crwdne94252:0
+
+'
+    destroy:
+      info: crwdns94253:0crwdne94253:0
+      title: crwdns94254:0crwdne94254:0
+  nothing_to_preview: crwdns94255:0crwdne94255:0
+  api_v3:
+    attributes:
+      lock_version: crwdns94256:0crwdne94256:0
+    errors:
+      code_401: crwdns94257:0crwdne94257:0
+      code_401_wrong_credentials: crwdns94258:0crwdne94258:0
+      code_403: crwdns94259:0crwdne94259:0
+      code_404: crwdns94260:0crwdne94260:0
+      code_409: crwdns94261:0crwdne94261:0
+      code_500: crwdns94262:0crwdne94262:0
+      expected:
+        date: crwdns94263:0crwdne94263:0
+        duration: crwdns94264:0crwdne94264:0
+      invalid_content_type: crwdns94265:0%{content_type}crwdnd94265:0%{actual}crwdne94265:0
+      invalid_format: crwdns94266:0%{property}crwdnd94266:0%{expected_format}crwdnd94266:0%{actual}crwdne94266:0
+      invalid_json: crwdns94267:0crwdne94267:0
+      invalid_relation: crwdns94268:0crwdne94268:0
+      invalid_resource: crwdns94269:0%{property}crwdnd94269:0%{expected}crwdnd94269:0%{actual}crwdne94269:0
+      invalid_user_status_transition: crwdns94270:0crwdne94270:0
+      missing_content_type: crwdns94271:0crwdne94271:0
+      missing_request_body: crwdns94272:0crwdne94272:0
+      missing_or_malformed_parameter: crwdns94273:0%{parameter}crwdne94273:0
+      multipart_body_error: crwdns94274:0crwdne94274:0
+      multiple_errors: crwdns94275:0crwdne94275:0
+      unable_to_create_attachment: crwdns95454:0crwdne95454:0
+      render:
+        context_not_parsable: crwdns94276:0crwdne94276:0
+        unsupported_context: crwdns94277:0crwdne94277:0
+        context_object_not_found: crwdns94278:0crwdne94278:0
+      validation:
+        done_ratio: crwdns94279:0crwdne94279:0
+        due_date: crwdns94280:0crwdne94280:0
+        estimated_hours: crwdns94281:0crwdne94281:0
+        invalid_user_assigned_to_work_package: crwdns94282:0%{property}crwdne94282:0
+        start_date: crwdns94283:0crwdne94283:0
+      writing_read_only_attributes: crwdns94284:0crwdne94284:0
+    resources:
+      schema: crwdns94285:0crwdne94285:0

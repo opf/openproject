@@ -1,20 +1,22 @@
 import {debugLog} from '../../../../helpers/debug_output';
-import {injectorBridge} from '../../../angular/angular-injector-bridge.functions';
+import {$injectFields} from '../../../angular/angular-injector-bridge.functions';
 import {WorkPackageTable} from '../../wp-fast-table';
 import {States} from '../../../states.service';
 import {TableEventHandler} from '../table-handler-registry';
 import {WorkPackageTableSelection} from '../../state/wp-table-selection.service';
 import {tableRowClassName} from '../../builders/rows/single-row-builder';
 import {tdClassName} from '../../builders/cell-builder';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class RowDoubleClickHandler implements TableEventHandler {
   // Injections
   public $state:ng.ui.IStateService;
   public states:States;
   public wpTableSelection:WorkPackageTableSelection;
+  public wpTableFocus:WorkPackageTableFocusService;
 
-  constructor(table: WorkPackageTable) {
-    injectorBridge(this);
+  constructor(table:WorkPackageTable) {
+    $injectFields(this, '$state', 'states', 'wpTableSelection', 'wpTableFocus');
   }
 
   public get EVENT() {
@@ -49,7 +51,7 @@ export class RowDoubleClickHandler implements TableEventHandler {
     }
 
     // Save the currently focused work package
-    this.states.focusedWorkPackage.putValue(wpId);
+    this.wpTableFocus.updateFocus(wpId);
 
     this.$state.go(
       'work-packages.show',
@@ -60,4 +62,3 @@ export class RowDoubleClickHandler implements TableEventHandler {
   }
 }
 
-RowDoubleClickHandler.$inject = ['$state', 'states', 'wpTableSelection'];

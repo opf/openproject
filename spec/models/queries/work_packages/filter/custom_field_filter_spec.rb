@@ -31,12 +31,9 @@ require 'spec_helper'
 describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   let(:project) { FactoryGirl.build_stubbed(:project) }
   let(:query) { FactoryGirl.build_stubbed(:query, project: project) }
+  let(:cf_accessor) { "cf_#{custom_field.id}" }
   let(:instance) do
-    filter = described_class.new
-    filter.name = "cf_#{custom_field.id}"
-    filter.operator = '='
-    filter.context = query
-    filter
+    described_class.create!(name: cf_accessor, operator: '=', context: query)
   end
   let(:instance_key) { nil }
   let(:name) { field.name }
@@ -65,11 +62,17 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   end
 
   before do
-    all_custom_fields.each do |cf|
-      allow(WorkPackageCustomField)
-        .to receive(:find_by_id)
-        .with(cf.id)
-        .and_return(cf)
+    allow(WorkPackageCustomField).to receive(:find_by) do |args|
+      all_custom_fields.detect { |stubbed| stubbed.id == args[:id] }
+    end
+  end
+
+  describe 'invalid custom field' do
+    let(:cf_accessor) { 'cf_100' }
+    let(:all_custom_fields) { [] }
+
+    it 'raises exception' do
+      expect { instance }.to raise_error(::Queries::Filters::InvalidError)
     end
   end
 
@@ -89,17 +92,6 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
           .to receive_message_chain(:filter, :for_all, :where, :not, :exists?)
           .and_return(true)
       end
-    end
-
-    it 'is invalid without a custom field' do
-      allow(WorkPackageCustomField)
-        .to receive(:find_by_id)
-        .with(100)
-        .and_return(nil)
-
-      instance.name = 'cf_100'
-
-      expect(instance).to_not be_valid
     end
 
     shared_examples_for 'custom field type dependent validity' do
@@ -190,79 +182,96 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
     end
   end
 
-  describe '#name' do
-    it 'is the custom fields id prefixed with cf_' do
+  describe 'instance attributes' do
+    it 'are valid' do
       all_custom_fields.each do |cf|
-        filter = described_class.new
-        filter.name = "cf_#{cf.id}"
+        name = "cf_#{cf.id}"
+        filter = described_class.create!(name: name)
         expect(filter.name).to eql(:"cf_#{cf.id}")
-      end
-    end
-  end
-
-  describe '#order' do
-    it 'is 20' do
-      all_custom_fields.each do |cf|
-        filter = described_class.new
-        filter.name = "cf_#{cf.id}"
         expect(filter.order).to eql(20)
       end
     end
   end
 
   describe '#type' do
-    it 'is integer for an integer' do
-      instance.name = "cf_#{int_wp_custom_field.id}"
-      expect(instance.type)
-        .to eql(:integer)
+    context 'integer' do
+      let(:cf_accessor) { "cf_#{int_wp_custom_field.id}" }
+
+      it 'is integer for an integer' do
+        expect(instance.type)
+          .to eql(:integer)
+      end
     end
 
-    it 'is integer for a float' do
-      instance.name = "cf_#{float_wp_custom_field.id}"
-      expect(instance.type)
-        .to eql(:integer)
+    context 'float' do
+      let(:cf_accessor) { "cf_#{float_wp_custom_field.id}" }
+
+      it 'is integer for a float' do
+        expect(instance.type)
+          .to eql(:float)
+      end
     end
 
-    it 'is text for a text' do
-      instance.name = "cf_#{text_wp_custom_field.id}"
-      expect(instance.type)
-        .to eql(:text)
+    context 'text' do
+      let(:cf_accessor) { "cf_#{text_wp_custom_field.id}" }
+
+      it 'is text for a text' do
+        expect(instance.type)
+          .to eql(:text)
+      end
     end
 
-    it 'is list_optional for a list' do
-      instance.name = "cf_#{list_wp_custom_field.id}"
-      expect(instance.type)
-        .to eql(:list_optional)
+    context 'list optional' do
+      let(:cf_accessor) { "cf_#{list_wp_custom_field.id}" }
+
+      it 'is list_optional for a list' do
+        expect(instance.type)
+          .to eql(:list_optional)
+      end
     end
 
-    it 'is list_optional for a user' do
-      instance.name = "cf_#{user_wp_custom_field.id}"
-      expect(instance.type)
-        .to eql(:list_optional)
+    context 'user' do
+      let(:cf_accessor) { "cf_#{user_wp_custom_field.id}" }
+      it 'is list_optional for a user' do
+        expect(instance.type)
+          .to eql(:list_optional)
+      end
     end
 
-    it 'is list_optional for a version' do
-      instance.name = "cf_#{version_wp_custom_field.id}"
-      expect(instance.type)
-        .to eql(:list_optional)
+    context 'version' do
+      let(:cf_accessor) { "cf_#{version_wp_custom_field.id}" }
+
+      it 'is list_optional for a version' do
+        expect(instance.type)
+          .to eql(:list_optional)
+      end
     end
 
-    it 'is date for a date' do
-      instance.name = "cf_#{date_wp_custom_field.id}"
-      expect(instance.type)
-        .to eql(:date)
+    context 'version' do
+      let(:cf_accessor) { "cf_#{date_wp_custom_field.id}" }
+
+      it 'is date for a date' do
+        expect(instance.type)
+          .to eql(:date)
+      end
     end
 
-    it 'is list for a bool' do
-      instance.name = "cf_#{bool_wp_custom_field.id}"
-      expect(instance.type)
-        .to eql(:list)
+    context 'bool' do
+      let(:cf_accessor) { "cf_#{bool_wp_custom_field.id}" }
+
+      it 'is list for a bool' do
+        expect(instance.type)
+          .to eql(:list)
+      end
     end
 
-    it 'is string for a string' do
-      instance.name = "cf_#{string_wp_custom_field.id}"
-      expect(instance.type)
-        .to eql(:string)
+    context 'string' do
+      let(:cf_accessor) { "cf_#{string_wp_custom_field.id}" }
+
+      it 'is string for a string' do
+        expect(instance.type)
+          .to eql(:string)
+      end
     end
   end
 
@@ -274,88 +283,99 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
   end
 
   describe '#allowed_values' do
-    it 'is nil for an integer' do
-      instance.name = "cf_#{int_wp_custom_field.id}"
-      expect(instance.allowed_values)
-        .to be_nil
-    end
+    context 'integer' do
+      let(:cf_accessor) { "cf_#{int_wp_custom_field.id}" }
 
-    it 'is integer for a float' do
-      instance.name = "cf_#{float_wp_custom_field.id}"
-      expect(instance.allowed_values)
-        .to be_nil
-    end
-
-    it 'is text for a text' do
-      instance.name = "cf_#{text_wp_custom_field.id}"
-      expect(instance.allowed_values)
-        .to be_nil
-    end
-
-    it 'is list_optional for a list' do
-      instance.name = "cf_#{list_wp_custom_field.id}"
-      expect(instance.allowed_values)
-        .to match_array(list_wp_custom_field.custom_options.map { |co| [co.value, co.id.to_s] })
-    end
-
-    it 'is list_optional for a user' do
-      bogus_return_value = ['user1', 'user2']
-      allow(user_wp_custom_field)
-        .to receive(:possible_values_options)
-        .with(project)
-        .and_return(bogus_return_value)
-
-      instance.context = project
-      instance.name = "cf_#{user_wp_custom_field.id}"
-      expect(instance.allowed_values)
-        .to match_array bogus_return_value
-    end
-
-    it 'is list_optional for a version' do
-      bogus_return_value = ['version1', 'version2']
-      allow(version_wp_custom_field)
-        .to receive(:possible_values_options)
-        .with(project)
-        .and_return(bogus_return_value)
-
-      instance.context = project
-      instance.name = "cf_#{version_wp_custom_field.id}"
-      expect(instance.allowed_values)
-        .to match_array bogus_return_value
-    end
-
-    it 'is nil for a date' do
-      instance.name = "cf_#{date_wp_custom_field.id}"
-      expect(instance.allowed_values)
-        .to be_nil
-    end
-
-    it 'is list for a bool' do
-      instance.name = "cf_#{bool_wp_custom_field.id}"
-      expect(instance.allowed_values)
-        .to match_array [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
-                         [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
-    end
-
-    it 'is nil for a string' do
-      instance.name = "cf_#{string_wp_custom_field.id}"
-      expect(instance.allowed_values)
-        .to be_nil
-    end
-  end
-
-  describe '#available?' do
-    context 'for an existing custom field' do
-      it 'is true' do
-        instance.custom_field = list_wp_custom_field
-        expect(instance).to be_available
+      it 'is nil for an integer' do
+        expect(instance.allowed_values)
+          .to be_nil
       end
     end
 
-    context 'for a non existing custom field (deleted)' do
-      it 'is false' do
-        instance.custom_field = nil
-        expect(instance).not_to be_available
+    context 'float' do
+      let(:cf_accessor) { "cf_#{float_wp_custom_field.id}" }
+
+      it 'is integer for a float' do
+        expect(instance.allowed_values)
+          .to be_nil
+      end
+    end
+
+    context 'text' do
+      let(:cf_accessor) { "cf_#{text_wp_custom_field.id}" }
+
+      it 'is text for a text' do
+        expect(instance.allowed_values)
+          .to be_nil
+      end
+    end
+
+    context 'list' do
+      let(:cf_accessor) { "cf_#{list_wp_custom_field.id}" }
+
+      it 'is list_optional for a list' do
+        expect(instance.allowed_values)
+          .to match_array(list_wp_custom_field.custom_options.map { |co| [co.value, co.id.to_s] })
+      end
+    end
+
+    context 'user' do
+      let(:cf_accessor) { "cf_#{user_wp_custom_field.id}" }
+
+      it 'is list_optional for a user' do
+        bogus_return_value = ['user1', 'user2']
+        allow(user_wp_custom_field)
+          .to receive(:possible_values_options)
+          .with(project)
+          .and_return(bogus_return_value)
+
+        instance.context = project
+        expect(instance.allowed_values)
+          .to match_array bogus_return_value
+      end
+    end
+
+    context 'version' do
+      let(:cf_accessor) { "cf_#{version_wp_custom_field.id}" }
+
+      it 'is list_optional for a version' do
+        bogus_return_value = ['version1', 'version2']
+        allow(version_wp_custom_field)
+          .to receive(:possible_values_options)
+          .with(project)
+          .and_return(bogus_return_value)
+
+        instance.context = project
+        expect(instance.allowed_values)
+          .to match_array bogus_return_value
+      end
+    end
+
+    context 'date' do
+      let(:cf_accessor) { "cf_#{date_wp_custom_field.id}" }
+
+      it 'is nil for a date' do
+        expect(instance.allowed_values)
+          .to be_nil
+      end
+    end
+
+    context 'bool' do
+      let(:cf_accessor) { "cf_#{bool_wp_custom_field.id}" }
+
+      it 'is list for a bool' do
+        expect(instance.allowed_values)
+          .to match_array [[I18n.t(:general_text_yes), CustomValue::BoolStrategy::DB_VALUE_TRUE],
+                           [I18n.t(:general_text_no), CustomValue::BoolStrategy::DB_VALUE_FALSE]]
+      end
+    end
+
+    context 'string' do
+      let(:cf_accessor) { "cf_#{string_wp_custom_field.id}" }
+
+      it 'is nil for a string' do
+        expect(instance.allowed_values)
+          .to be_nil
       end
     end
   end
@@ -483,7 +503,7 @@ describe Queries::WorkPackages::Filter::CustomFieldFilter, type: :model do
         let(:user2) { FactoryGirl.build_stubbed(:user) }
 
         before do
-          allow(User)
+          allow(Principal)
             .to receive(:where)
             .with(id: [user1.id.to_s, user2.id.to_s])
             .and_return([user1, user2])

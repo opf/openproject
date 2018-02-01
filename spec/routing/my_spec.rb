@@ -49,11 +49,11 @@ describe 'my routes', type: :routing do
     expect(patch('/my/account')).to route_to('my#account')
   end
 
-  it '/my/reset_rss_key POST routes to my#reset_rss_key' do
-    expect(post('/my/reset_rss_key')).to route_to('my#reset_rss_key')
+  it '/my/generate_rss_key POST routes to my#generate_rss_key' do
+    expect(post('/my/generate_rss_key')).to route_to('my#generate_rss_key')
   end
 
-  it '/my/reset_api_key POST routes to my#reset_api_key' do
-    expect(post('/my/reset_api_key')).to route_to('my#reset_api_key')
+  it '/my/generate_api_key POST routes to my#generate_api_key' do
+    expect(post('/my/generate_api_key')).to route_to('my#generate_api_key')
   end
 end

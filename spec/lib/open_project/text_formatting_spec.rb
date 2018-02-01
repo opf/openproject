@@ -675,52 +675,6 @@ WIKI_TEXT
 
     subject(:html) { format_text(wiki_text) }
 
-    context 'w/ request present' do
-      let(:request) {
-        ActionDispatch::TestRequest.new(
-          Rack::MockRequest.env_for('/test',
-            'HTTP_HOST'       => 'test.host',
-            'REMOTE_ADDR'     => '0.0.0.0',
-            'HTTP_USER_AGENT' => 'Rails Testing')
-        )
-      }
-
-      it 'emits a table of contents for headings h1-h4 with links present' do
-        expect(html).to be_html_eql(%{
-          <fieldset class='form--fieldset -collapsible'>
-            <legend class='form--fieldset-legend' title='Show/Hide table of contents' onclick='toggleFieldset(this);'>
-              <a href='javascript:'>Table of Contents</a>
-            </legend>
-            <div>
-              <ul class="toc">
-                <li>
-                  <a href="/test#Orange">Orange</a>
-                  <ul>
-                    <li>
-                      <a href="/test#Varietes">Varietes</a>
-                      <ul>
-                        <li>
-                          <a href="/test#Common-Oranges">Common Oranges</a>
-                          <ul>
-                            <li><a href="/test#Valencia">Valencia</a></li>
-                            <li><a href="/test#Harts-Tardiff-Valencia">Hart's Tardiff Valencia</a></li>
-                          </ul>
-                        </li>
-                        <li><a href="/test#Navel-Oranges">Navel Oranges</a></li>
-                        <li><a href="/test#Blood-Oranges">Blood Oranges</a></li>
-                        <li><a href="/test#Acidless-Oranges">Acidless Oranges</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="/test#Attributes">Attributes</a></li>
-                  </ul>
-                </li>
-              </ul>
-            </div>
-          </fieldset>
-        }).at_path('fieldset')
-      end
-    end
-
     context 'w/o request present' do
       let(:request) { nil }
 

@@ -7,7 +7,7 @@
     <div class="toolbar-container">
       <div id="toolbar">
         <div class="wp-show--header-container">
-          <div class="wp-show--back-button">
+          <div class="wp-show--back-button hide-when-print">
               <accessible-by-keyboard execute="$ctrl.goToList()"
                               link-class="work-packages-list-view-button button"
                               link-aria-label="{{ ::$ctrl.text.goToList }}"
@@ -21,8 +21,8 @@
             </li>
           </ul>
         </div>
-        <ul id="toolbar-items" class="toolbar-items">
-          <li class="toolbar-item">
+        <ul id="toolbar-items" class="toolbar-items hide-when-print">
+          <li class="toolbar-item hidden-for-mobile">
             <wp-create-button project-identifier="$ctrl.projectIdentifier"
                               allowed="!!$ctrl.workPackage.addChild"
                               state-name="work-packages.new"></wp-create-button>

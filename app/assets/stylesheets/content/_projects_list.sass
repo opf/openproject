@@ -26,59 +26,151 @@
 // See doc/COPYRIGHT.rdoc for more details.
 //++
 
-ul.projects
-  margin: 0
-  padding-left: 1em
+$project-table--start-indentation: 0.5em
+$project-table--child-indentation: 1.1em
+$project-table--icon-distance: 5px
+$project-table--description-indention: 9px
 
-  &.root
-    margin: 0
-    padding: 0
+@mixin calc-indentation-name($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} - #{$project-table--icon-distance})
 
-  ul
-    border: none
-    &.projects
-      border-left: 3px solid #e0e0e0
+@mixin calc-indentation-description($indentation)
+  // This does not work for big font-sizes
+  padding-left: calc(#{$indentation} * #{$project-table--child-indentation} + #{$project-table--start-indentation} + #{$project-table--description-indention})
 
-  li
-    &.root
-      list-style-type: none
-      margin-bottom: 1em
-    &.child
-      list-style-type: none
-      margin-top: 1em
+form.project-filters
+  display: none
+  &.-expanded
+    display: block
+  .advanced-filters--filter-value
+    // visibility based on operator type
+    &.hidden
+      display: none
 
-  a
-    font-weight: bold
+    // visibility for list value selectors
+    .multi-select
+      display: none
+    .single-select
+      display: block
+    &.multi-value
+      .multi-select
+        display: block
+      .single-select
+        display: none
 
-  .description
-    max-height: 100px
-    position: relative
-    overflow-y: hidden
+    // visibility for datetime_past value selectors
+    &.between-dates
+      >.on-date,
+      >.days
+        display: none
+    &.on-date
+      >.between-dates,
+      >.days
+        display: none
+    &.days
+      >.on-date,
+      >.between-dates
+        display: none
 
-    &:after
-      position: absolute
-      bottom: 0
-      height: 100%
-      width: 100%
-      content: ""
-      background: linear-gradient(to top, rgba(255,255,255, 1) 10%, rgba(255,255,255, 0) 80%)
-      pointer-events: none
+    // Special input field styles
+    &.between-dates
+      input[type="text"]
+        display: inline-block
+        max-width: 10rem
 
-  div.root
-    margin-bottom: 12px
+  .advanced-filters--controls
+    margin-left: 1rem
+    margin-right: 1rem
+    margin-top: 1rem
+  margin-bottom: 1rem
 
-    a.project
-      font-weight: bold
-      margin: 0 0 10px 0
-      font-family: inherit
+.projects-table--hierarchy-icon
+  display: none
 
-  .nosidebar &
-    margin: 24px 0 0
+  &:before
+    @include icon-font-common
+    @include icon-mixin-arrow-right5
+    @extend .icon-small
 
-    ul
-      margin: 0
+  tr.idnt &
+    display: initial
 
-    li
-      list-style: none outside none
-      background: none
+#project-table
+  tr.basics
+    &.-expanded
+      .buttons
+        .collapse
+          display: inline
+        .expand
+          display: none
+    td.format-text
+      min-width: 160px
+    td.format-user
+      min-width: 120px
+    .buttons
+      .collapse
+        display: none
+      .expand
+        display: inline
 
+      .project-actions
+        display: inline-block
+        margin: 0
+        .menu-drop-down-container
+          text-align: left
+    .archived
+      color: $gray-dark
+      span.archived-label
+        text-transform: uppercase
+
+  .project-description
+    display: none
+    td
+      padding-top: 0
+      padding-bottom: 1rem
+      p
+        font-size: inherit
+        padding-left: 0
+        max-width: 800px // improve readability
+      // Hide everything else than text for now to avoid a too large table
+      .flash, pre
+        display: none !important
+
+  .project-description.-expanded
+    display: table-row
+
+  // Avoid hover effect
+  .generic-table--sort-header-outer:hover,
+  .generic-table--header-outer:hover
+    background: initial
+
+  td.name a
+    white-space: nowrap
+
+  td.project--hierarchy
+    white-space: nowrap
+
+  @for $i from 1 through 9
+    tr.idnt-#{$i} td.project--hierarchy
+      @include calc-indentation-name($i)
+    tr.idnt-#{$i}.project-description td.project--hierarchy
+      @include calc-indentation-description($i)
+
+#project-table--hierarchy-header
+  font-size: 1rem
+  max-width: 0.875rem
+
+  .generic-table--sort-header
+    min-width: 1rem
+    max-width: 1rem
+
+// Ugly hack for now, so expanded more-menus do not get cut off. Actually that
+// should be handled from the drop down implementation with absolute positions
+// just as in the work package table.
+body.controller-projects.action-index
+  #content
+    overflow: visible
+    .generic-table--container
+      min-height: 1
+      overflow: visible

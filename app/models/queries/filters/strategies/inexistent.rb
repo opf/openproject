@@ -29,6 +29,6 @@
 
 module Queries::Filters::Strategies
   class Inexistent < BaseStrategy
-    supported_operator_list []
+    self.supported_operators = []
   end
 end

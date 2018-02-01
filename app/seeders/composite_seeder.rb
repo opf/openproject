@@ -27,17 +27,19 @@
 # See doc/COPYRIGHT.rdoc for more details.
 class CompositeSeeder < Seeder
   def seed_data!
-    data_seeders.each do |seeder|
-      puts " ↳ #{seeder.class.name.demodulize}"
-      seeder.seed!
-    end
+    ActiveRecord::Base.transaction do
+      data_seeders.each do |seeder|
+        puts " ↳ #{seeder.class.name.demodulize}"
+        seeder.seed!
+      end
 
-    return if discovered_seeders.empty?
+      return if discovered_seeders.empty?
 
-    puts "   Loading discovered seeders: "
-    discovered_seeders.each do |seeder|
-      puts " ↳ #{seeder.class.name.demodulize}"
-      seeder.seed!
+      puts "   Loading discovered seeders: "
+      discovered_seeders.each do |seeder|
+        puts " ↳ #{seeder.class.name.demodulize}"
+        seeder.seed!
+      end
     end
   end
 

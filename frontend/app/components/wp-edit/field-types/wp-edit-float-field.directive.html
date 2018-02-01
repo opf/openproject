@@ -1,4 +1,5 @@
-<input type="text"
+<input type="number"
+       step="any"
        class="wp-inline-edit--field"
        wp-edit-field-requirements="vm.field.schema"
        ng-model="vm.field.value"
@@ -6,6 +7,6 @@
        ng-focus="vm.handleUserFocus()"
        ng-blur="vm.handleUserBlur()"
        ng-keydown="vm.handleUserKeydown($event)"
-       transform-float-value
+       lang="{{ I18n.locale }}"
        ng-disabled="vm.field.inFlight"
        ng-attr-id="{{vm.htmlId}}" />

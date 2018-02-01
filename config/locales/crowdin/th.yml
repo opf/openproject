@@ -1,0 +1,2546 @@
+---
+th:
+  no_results_title_text: There is currently nothing to display.
+  activities:
+    index:
+      no_results_title_text: There has not been any activity for the project.
+  admin:
+    plugins:
+      no_results_title_text: ขณะนี้ยังไม่มีปลั๊กอินที่พร้อมใช้งาน
+    custom_styles:
+      custom_colors: Custom colors
+      customize: 'Customize your OpenProject installation with your own logo. Note:
+        This logo will be publicly accessible.'
+      enterprise_notice: As a special 'Thank you!' for their financial contribution
+        to develop OpenProject, this tiny feature is only available for Enterprise
+        Edition support subscribers.
+      manage_colors: Edit color select options
+      instructions:
+        alternative_color: Strong accent color, typically used for most the important
+          button on a screen.
+        content_link_color: Font color of most of the links.
+        primary_color: Main color.
+        primary_color_dark: Typically a darker version of the main color used for
+          hover effects.
+        header_bg_color: Background color of the header.
+        header_item_bg_hover_color: Background color of clickable header items when
+          hovered with the mouse.
+        header_item_font_color: Font color of clickable header items.
+        header_item_font_hover_color: Font color of clickable header items when hovered
+          with the mouse.
+        header_border_bottom_color: Thin line under the header. Leave this field empty
+          if you don't want any line.
+        main_menu_bg_color: Left side menu's background color.
+    enterprise:
+      upgrade_to_ee: Upgrade to Enterprise Edition
+      add_token: Upload an Enterprise Edition support token
+      replace_token: Replace your current support token
+      order: Order Enterprise Edition
+      paste: Paste your Enterprise Edition support token
+      required_for_feature: This feature is only available with an active Enterprise
+        Edition support token.
+      enterprise_link: For more information, click here.
+  announcements:
+    show_until: Show until
+    is_active: currently displayed
+    is_inactive: currently not displayed
+  attribute_help_texts:
+    text_overview: In this view, you can create custom help texts for attributes view.
+      When defined, these texts can be shown by clicking the help icon next to its
+      belonging attribute.
+    label_plural: Attribute help texts
+    show_preview: Preview text
+    add_new: Add help text
+    edit: Edit help text for %{attribute_caption}
+  auth_sources:
+    index:
+      no_results_content_title: There are currently no authentication modes.
+      no_results_content_text: Create a new authentication mode
+  boards:
+    show:
+      no_results_title_text: There are currently no posts for the board.
+  custom_fields:
+    text_add_new_custom_field: 'To add new custom fields to a project you first need
+      to create them before you can add them to this project.
+
+'
+    is_enabled_globally: Is enabled globally
+    enabled_in_project: Enabled in project
+    contained_in_type: Contained in type
+    confirm_destroy_option: Deleting an option will delete all of its occurrences
+      (e.g. in work packages). Are you sure you want to delete it?
+    tab:
+      no_results_title_text: There are currently no custom fields.
+      no_results_content_text: Create a new custom field
+  deprecations:
+    old_timeline:
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
+      further_information_after: ''
+    calendar:
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  groups:
+    index:
+      no_results_title_text: ขณะนี้ยังไม่มีกลุ่มใดๆ
+      no_results_content_text: สร้างกลุ่มใหม่
+    users:
+      no_results_title_text: ขณะนี้ยังไม่มีผู้ใช้เป็นสมาชิกของกลุ่มนี้
+    memberships:
+      no_results_title_text: ขณะนี้ยังไม่มีโครงการที่เป็นส่วนหนึ่งของกลุ่มนี้
+  planning_element_type_colors:
+    index:
+      no_results_title_text: ขณะนี้ยังไม่มีสีใดๆ
+      no_results_content_text: Create a new color
+  projects:
+    index:
+      no_results_title_text: ขณะนี้ยังไม่มีโครงการใดๆ
+      no_results_content_text: สร้างโครงการใหม่
+    settings:
+      activities:
+        no_results_title_text: There are currently no activities available.
+      boards:
+        no_results_title_text: There are currently no boards for the project.
+        no_results_content_text: Create a new board
+      categories:
+        no_results_title_text: There are currently no work package categories.
+        no_results_content_text: Create a new work package category
+      custom_fields:
+        no_results_title_text: There are currently no custom fields available.
+      types:
+        no_results_title_text: There are currently no types available.
+      versions:
+        no_results_title_text: There are currently no versions for the project.
+        no_results_content_text: Create a new version
+  project_types:
+    index:
+      no_results_title_text: ขณะนี้ยังไม่มีประเภทโครงการ
+      no_results_content_text: สร้างประเภทของโครงการใหม่
+  members:
+    index:
+      no_results_title_text: There are currently no members part of this project.
+      no_results_content_text: Add a member to the project
+  my:
+    access_token:
+      failed_to_reset_token: 'Failed to reset access token: %{error}'
+      notice_reset_token: 'A new %{type} token has been generated. Your access token
+        is:'
+      token_value_warning: 'Note: This is the only time you will see this token, make
+        sure to copy it now.'
+      no_results_title_text: There are currently no access tokens available.
+  news:
+    index:
+      no_results_title_text: There is currently no news to report.
+      no_results_content_text: Add a news item
+    my_page:
+      no_results_title_text: Nothing new to report.
+  users:
+    memberships:
+      no_results_title_text: This user is currently not a member of a project.
+  reportings:
+    index:
+      no_results_title_text: ขณะนี้ยังไม่มีรายงานสถานะใดๆ
+      no_results_content_text: เพิ่มรายงานสถานะ
+  statuses:
+    index:
+      no_results_title_text: There are currently no work package statuses.
+      no_results_content_text: เพิ่มสถานะใหม่
+  types:
+    index:
+      no_results_title_text: There are currently no types.
+      no_results_content_text: Create a new type
+    edit:
+      settings: การตั้งค่า
+      form_configuration: Form configuration
+      projects: โครงการ
+      enabled_projects: Enabled projects
+      add_group: Add group
+      reset: Reset to defaults
+  versions:
+    overview:
+      no_results_title_text: There are currently no work packages assigned to this
+        version.
+  wiki:
+    no_results_title_text: ขณะนี้ยังไม่มีหน้าวิกิใดๆ
+    index:
+      no_results_content_text: เพิ่มหน้าวิกิใหม่
+  work_flows:
+    index:
+      no_results_title_text: There are currently no workflows.
+  work_packages:
+    move:
+      unsupported_for_multiple_projects: Bulk move/copy is not supported for work
+        packages from multiple projects
+    list_simple:
+      assigned:
+        no_results_title_text: There are currently no work packages assigned to me.
+      reported:
+        no_results_title_text: There are currently no work packages that I have reported.
+      responsible:
+        no_results_title_text: There are currently no work packages that I am responsible
+          for.
+      watched:
+        no_results_title_text: There are currently no work packages that I am watching.
+    summary:
+      reports:
+        category:
+          no_results_title_text: There are currently no categories available.
+        assigned_to:
+          no_results_title_text: There are currently no members part of this project.
+        responsible:
+          no_results_title_text: There are currently no members part of this project.
+        author:
+          no_results_title_text: There are currently no members part of this project.
+        priority:
+          no_results_title_text: There are currently no priorities available.
+        type:
+          no_results_title_text: There are currently no types available.
+        version:
+          no_results_title_text: There are currently no versions available.
+  label_invitation: Invitation
+  account:
+    delete: ลบบัญชีผู้ใช้
+    delete_confirmation: คุณแน่ใจหรือไม่ว่าจะลบบัญชีผู้ใช้ ?
+    deleted: ลบบัญชีผู้ใช้เรียบร้อยแล้ว
+    deletion_info:
+      data_consequences:
+        other: Of the data the user created (e.g. email, preferences, work packages,
+          wiki entries) as much as possible will be deleted. Note however, that data
+          like work packages and wiki entries can not be deleted without impeding
+          the work of the other users. Such data is hence reassigned to an account
+          called "Deleted user". As the data of every deleted account is reassigned
+          to this account it will not be possible to distinguish the data the user
+          created from the data of another deleted account.
+        self: Of the data you created (e.g. email, preferences, work packages, wiki
+          entries) as much as possible will be deleted. Note however, that data like
+          work packages and wiki entries can not be deleted without impeding the work
+          of the other users. Such data is hence reassigned to an account called "Deleted
+          user". As the data of every deleted account is reassigned to this account
+          it will not be possible to distinguish the data you created from the data
+          of another deleted account.
+      heading: ลบบัญชี %{name}
+      info:
+        other: การลบบัญชีผู้ใช้ ไม่สามารถกลับมาแก้ไขได้อีก.
+        self: การลบบัญชีผู้ใช้ ไม่สามารถกลับมาแก้ไขได้อีก
+      login_consequences:
+        other: บัญชีผู้ใช้จะถูกลบออกจากระบบ เพราะฉะนั้น ผู้ใช้ที่ไม่สามารถล็อกอินได้อีกต่อไป
+          จะยังสามารถเป็นผู้ใช้ในแอปพลิเคชั่นนี้ได้อีกครั้งโดยการอนุญาตให้ใช้งาน
+        self: บัญชีผู้ใช้ของคุณจะถูกลบออกจากระบบ เพราะฉะนั้น คุณจะไม่สามารถล็อกอินได้อีกต่อไป
+          หากคุณต้องการกลับมาเป็นผู้ใช้แอปพลิเคชั่นนี้ใหม่อีกครั้ง คุณสามารถทำได้โดยวิธีการอนุญาตให้ใช้งานแอปพลิเคชั่น
+      login_verification:
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+    error_inactive_activation_by_mail: 'บัญชีของคุณได้ไม่ได้เปิดการใช้งาน กรุณาคลิกที่ลิงค์ที่ถูกส่งไปยังอีเมลของคุณ
+      เพื่อเปิดการใช้งาน
+
+'
+    error_inactive_manual_activation: 'บัญชีผู้ใช้ของคุณยังไม่ได้เปิดใช้งาน กรุณารอเพื่อให้ผู้ดูแลระบบ
+      เปิดใช้งานบัญชีผู้ใช้ของคุณเสียก่อน
+
+'
+    error_self_registration_disabled: 'ระบบไม่ได้เปิดให้ผู้ใช้ลงทะเบียนใช้งานด้วยตัวเอง
+      โปรดสอบถามผู้ดูแลระบบให้สร้างบัญชีผู้ใช้ให้กับคุณ
+
+'
+    login_with_auth_provider: หรือเข้าสู่ระบบ ด้วยบัญชีผู้ใช้ที่คุณมีอยู่แล้ว
+    signup_with_auth_provider: or sign up using
+    auth_source_login: Please login as <em>%{login}</em> to activate your account.
+    omniauth_login: Please login to activate your account.
+  actionview_instancetag_blank_option: โปรดเลือก
+  activerecord:
+    attributes:
+      announcements:
+        show_until: Display until
+      attachment:
+        downloads: ดาวน์โหลด
+        file: ไฟล์
+        filename: ไฟล์
+        filesize: ขนาด
+      attribute_help_text:
+        attribute_name: คุณลักษณะ
+        help_text: Help text
+      auth_source:
+        account: บัญชี
+        attr_firstname: แอตทริบิวต์ของชื่อ
+        attr_lastname: คุณสมบัติของนามสกุล
+        attr_login: คุณสมบัติของล็อกอิน
+        attr_mail: คุณสมบัติของอีเมล
+        base_dn: Base DN
+        host: โฮสต์
+        onthefly: การสร้างผู้ใช้อย่างรวดเร็ว
+        port: พอร์ต
+      changeset:
+        repository: ที่เก็บ
+      comment:
+        commented: แสดงความเห็น
+      custom_field:
+        default_value: ค่าเริ่มต้น
+        editable: สามารถแก้ไขได้
+        field_format: รูปแบบ
+        is_filter: ถูกใช้เป็นตัวกรอง
+        is_required: จำเป็นต้องระบุ
+        max_length: ความยาวตัวอักษรสูงสุด
+        min_length: จำนวนตัวอักษรขั้นต่ำ
+        multi_value: Allow multi-select
+        possible_values: ค่าที่เป็นไปได้
+        regexp: สูตรโดยทั่วไป
+        searchable: สามารถค้นหาได้
+        visible: มองเห็นได้
+      custom_value:
+        value: ค่า
+      enterprise_token:
+        starts_at: Valid since
+        expires_at: Expires at
+        subscriber: Subscriber
+        encoded_token: Enterprise support token
+      relation:
+        delay: ล่าช้า
+        from: ชุดภารกิจ
+        to: ชุดภารกิจที่เกี่ยวข้อง
+      status:
+        is_closed: ปิดชุดภารกิจแล้ว
+      journal:
+        notes: หมายเหตุ
+      member:
+        roles: บทบาท
+      project:
+        identifier: รหัส
+        latest_activity_at: Latest activity at
+        parent: โครงการย่อยของ
+        project_type: ประเภทของโครงการ
+        queries: การสอบถาม
+        responsible: รับผิดชอบ
+        types: ประเภท
+        versions: รุ่น
+        work_packages: ชุดภารกิจ
+      query:
+        column_names: คอลัมน์
+        relations_to_type_column: Relations to %{type}
+        relations_of_type_column: "%{type} relations"
+        group_by: จัดกลุ่มผลลัพธ์โดย
+        filters: ตัวกรอง
+        timeline_labels: Timeline labels
+      repository:
+        url: URL
+      role:
+        assignable: Work packages can be assigned to users and groups in possession
+          of this role in the respective project
+      time_entry:
+        activity: กิจกรรม
+        hours: ชั่วโมง
+        spent_on: วันที่
+        type: ประเภท
+      type:
+        is_in_roadmap: In roadmap
+        in_aggregation: In aggregation
+        is_milestone: Is milestone
+        color: สี
+      user:
+        admin: ผู้ดูแลระบบ
+        auth_source: โหมดการระบุตัวตนผู้ใช้
+        current_password: รหัสผ่านเดิม
+        force_password_change: บังคับให้เปลี่ยนรหัสผ่านเมื่อมีการเข้าสู่ระบบครั้งถัดไป
+        language: ภาษา
+        last_login_on: ล็อกอินครั้งสุดท้าย
+        mail_notification: อีเมล์แจ้งเตือน
+        new_password: รหัสผ่านใหม่
+        password_confirmation: ยืนยันรหัสผ่าน
+      user_preference:
+        comments_sorting: แสดงความคิดเห็น
+        hide_mail: ซ่อนอีเมลของฉัน
+        impaired: โหมดสำหรับผู้พิการ
+        time_zone: โซนเวลา
+        auto_hide_popups: Auto-hide success notifications
+        warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
+          changes
+      version:
+        effective_date: วันครบกำหนด
+        sharing: แบ่งปัน
+      wiki:
+        start_page: เพจเริ่มต้น
+      wiki_content:
+        text: ข้อความ
+      wiki_page:
+        parent_title: หน้าหลัก
+        redirect_existing_links: Redirect Link ที่ใช้อยู่
+      planning_element_type_color:
+        hexcode: Hex code
+      project_association:
+        description: สาเหตุ
+        project_b: ขึ้นอยู่กับโครงการ
+      project_type:
+        allows_association: อนุญาตให้เกี่ยวข้อง
+        reported_project_statuses: รายงานสถานะโครงการ
+        position: ตำแหน่ง
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: ความคิดเห็นเกี่ยวกับสถานะ
+        reporting_to_project: รายงานถึงโครงการ
+        reported_project_status: สถานะของโครงการ
+        created_at: ที่ถูกสร้างขึ้น
+      work_package:
+        begin_insertion: Begin of the insertion
+        begin_deletion: Begin of the deletion
+        done_ratio: Progress (%)
+        end_insertion: End of the insertion
+        end_deletion: End of the deletion
+        fixed_version: เวอร์ชัน
+        parent: ค่าหลัก
+        parent_issue: ค่าหลัก
+        parent_work_package: ค่าหลัก
+        priority: ระดับความสำคัญ
+        progress: Progress (%)
+        responsible: รับผิดชอบ
+        spent_hours: เวลาที่ใช้
+        spent_time: เวลาที่ใช้
+        subproject: โครงการย่อย
+        time_entries: เวลาที่ถูกบันทึก
+        type: ประเภท
+        watcher: ผู้ดูข้อมูล
+    errors:
+      messages:
+        accepted: must be accepted.
+        blank: can't be blank.
+        cant_link_a_work_package_with_a_descendant: A work package cannot be linked
+          to one of its subtasks.
+        circular_dependency: This relation would create a circular dependency.
+        confirmation: doesn't match %{attribute}.
+        does_not_exist: does not exist.
+        empty: can't be empty.
+        even: must be even.
+        exclusion: is reserved.
+        file_too_large: ใหญ่เกินไป (ขนาดสูงสุดคือ %{count} ไบต์)
+        greater_than: must be greater than %{count}.
+        greater_than_or_equal_to: must be greater than or equal to %{count}.
+        smaller_than_or_equal_to_max_length: must be smaller than or equal to maximum
+          length.
+        greater_than_start_date: must be greater than the start date.
+        greater_than_or_equal_to_start_date: must be greater than or equal to the
+          start date.
+        inclusion: is not set to one of the allowed values.
+        invalid: is invalid.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        less_than_or_equal_to: must be less than or equal to %{count}.
+        not_a_date: is not a valid date.
+        not_a_datetime: is not a valid date time.
+        not_an_iso_date: 'is not a valid date. Required format: YYYY-MM-DD.'
+        not_a_number: is not a number.
+        not_an_integer: is not an integer.
+        not_same_project: doesn't belong to the same project.
+        odd: must be odd.
+        taken: has already been taken.
+        too_long: is too long (maximum is %{count} characters).
+        too_short: is too short (minimum is %{count} characters).
+        wrong_length: is the wrong length (should be %{count} characters).
+        after: must be after %{date}.
+        after_or_equal_to: must be after or equal to %{date}.
+        before: must be before %{date}.
+        before_or_equal_to: must be before or equal to %{date}.
+        could_not_be_copied: could not be (fully) copied.
+        regex_invalid: could not be validated with the associated regular expression.
+      models:
+        custom_field:
+          at_least_one_custom_option: At least one option needs to be available.
+        enterprise_token:
+          unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: A value is invalid.
+              id_filter_required: An 'id' filter is required.
+        project:
+          attributes:
+            types:
+              in_use_by_work_packages: 'still in use by work packages: %{types}'
+        project_association:
+          identical_projects: อ้างอิงไม่ตรงกันระหว่างโครงการหนึ่งและตัวเอง
+          project_association_not_allowed: does not allow associations.
+        query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
+          group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
+            You cannot activate both.
+          filters:
+            custom_fields:
+              inexistent: There is no custom field for the filter.
+              invalid: The custom field is not valid in the given context.
+        relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
+        repository:
+          not_available: SCM vendor is not available
+          not_whitelisted: is not allowed by the configuration.
+          invalid_url: is not a valid repository URL or path.
+          must_not_be_ssh: must not be an SSH url.
+          no_directory: is not a directory.
+        work_package:
+          is_not_a_valid_target_for_time_entries: 'ชุดภารกิจ #%{id} ไม่ใช่เป้าหมายที่ถูกต้องสำหรับการกำหนดรายการเวลา'
+          attributes:
+            due_date:
+              not_start_date: is not on start date, although this is required for
+                milestones.
+            parent:
+              cannot_be_milestone: cannot be a milestone.
+              cannot_be_in_another_project: cannot be in another project.
+              not_a_valid_parent: is invalid.
+            start_date:
+              violates_relationships: can only be set to %{soonest_start} or later
+                so as not to violate the work package's relationships.
+            status_id:
+              status_transition_invalid: is invalid because no valid transition exists
+                from old to new status for the current user's roles.
+            priority_id:
+              only_active_priorities_allowed: needs to be active.
+            category:
+              only_same_project_categories_allowed: ประเภทของแพคเกจการทำงานต้องมีภายในโครงการเดียวกันเป็นแพคเกจทำงาน
+              does_not_exist: ไม่มีประเภทที่ระบุ
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: must be >= 0.
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: Unnamed groups are not allowed.
+              duplicate_group: The group name %{group} is used more than once. Group
+                names must be unique.
+              attribute_unknown: Invalid work package attribute used.
+        user:
+          attributes:
+            password:
+              weak: 'Must contain characters of the following classes (at least %{min_count}
+                of %{all_count}): %{rules}.'
+              lowercase: ตัวพิมพ์เล็ก (เช่น 'a')
+              uppercase: ตัวพิมพ์ใหญ่ (เช่น ' A')
+              numeric: ตัวเลข (เช่น ' 1')
+              special: อักขระพิเศษ (เช่น '%')
+              reused:
+                one: has been used before. Please choose one that is different from
+                  your last one.
+                other: รหัสผ่านนี้ถูกใช้ไปแล้ว โปรดเลือกรหัสผ่านใหม่ที่แตกต่างจากรหัสเมื่อ
+                  %{count} ครั้งที่ผ่านมา.
+              match:
+                confirm: ยืนยันรหัสผ่านใหม่.
+                description: "'รหัสผ่าน' ควรตรงกับข้อมูลใน 'รหัสผ่านใหม่' ฟิลด์"
+            status:
+              invalid_on_create: ไม่ใช่สถานะที่ถูกต้องสำหรับผู้ใช้ใหม่
+            auth_source:
+              error_not_found: not found
+        member:
+          principal_blank: โปรดเลือกอย่างน้อยหนึ่งผู้ใช้หรือหนึ่งกลุ่ม
+          role_blank: โปรดเลือกอย่างน้อยหนึ่งบทบาท
+      template:
+        body: 'กรุณาตรวจสอบฟิลด์ต่อไปนี้:'
+        header:
+          one: 1 error prohibited this %{model} from being saved
+          other: ข้อผิดพลาด %{count} %{model} นี้ห้ามมิให้มีการบันทึก
+    models:
+      attachment: ไฟล์
+      attribute_help_text: Attribute help text
+      board: ฟอรั่ม
+      comment: ความคิดเห็น
+      custom_field: ฟิลด์ที่กำหนดเอง
+      group: กลุ่ม
+      category: ประเภท
+      status: สถานะของชุดภารกิจ
+      member: สมาชิก
+      news: ข่าวสาร
+      project: โครงการ
+      query: การสอบถามที่กำหนดเอง
+      role:
+        one: Role
+        other: บทบาท
+      type: ประเภท
+      project_type: ประเภทของโครงการ
+      user: ผู้ใช้
+      version: เวอร์ชัน
+      wiki: วิกิ
+      wiki_page: หน้าวิกิ
+      workflow: กระบวนการทำงาน
+      work_package: ชุดภารกิจ
+  errors:
+    header_invalid_fields: 'มีปัญหากับฟิลด์ต่อไปนี้:'
+    field_erroneous_label: |-
+      This field is invalid: %{full_errors}
+      Please enter a valid value.
+  activity:
+    created: 'สร้างแล้ว: %{title}'
+    updated: 'แก้ไขแล้ว: %{title}'
+  attributes:
+    active: ใช้งานอยู่
+    assigned_to: ผู้ได้รับมอบหมาย
+    assignee: ผู้ได้รับมอบหมาย
+    attachments: ไฟล์แนบ
+    author: ผู้เขียน
+    base: 'ข้อผิดพลาดทั่วไป:'
+    blocks_ids: Id ของแพคเกจการทำงานที่ถูกบล็อก
+    category: ประเภท
+    comment: ความคิดเห็น
+    comments: ความคิดเห็น
+    content: เนื้อหา
+    created_at: สร้างเมื่อ
+    created_on: สร้างเมื่อ
+    custom_options: ค่าที่เป็นไปได้
+    custom_values: ฟิลด์ที่กำหนดเอง
+    date: วันที่
+    default_columns: คอลัมน์เริ่มต้น
+    description: คำอธิบาย
+    display_sums: แสดงยอดรวม
+    due_date: วันครบกำหนด
+    estimated_hours: ระยะเวลาโดยประมาณ
+    estimated_time: ระยะเวลาโดยประมาณ
+    firstname: ชื่อ
+    group: กลุ่ม
+    groups: กลุ่ม
+    groupname: ชื่อกลุ่ม
+    id: ID
+    is_default: ค่าเริ่มต้น
+    is_for_all: สำหรับทุกโครงการ
+    is_public: สาธารณะ
+    issue: ชุดภารกิจ
+    lastname: นามสกุล
+    login: ล็อคอิน
+    mail: อีเมล
+    name: ชื่อ
+    password: รหัสผ่าน
+    priority: ระดับความสำคัญ
+    project: โครงการ
+    responsible: รับผิดชอบ
+    role: บทบาท
+    roles: บทบาท
+    start_date: วันเริ่มต้น
+    status: สถานะ
+    subject: หัวข้อ
+    summary: สรุป
+    title: ชื่อเรื่อง
+    type: ประเภท
+    updated_at: แก้ไขเมื่อ
+    updated_on: แก้ไขเมื่อ
+    user: ผู้ใช้
+    version: เวอร์ชัน
+    work_package: ชุดภารกิจ
+  button_add: เพิ่ม
+  button_add_member: Add member
+  button_add_watcher: เพิ่มผู้ดูข้อมูล
+  button_annotate: ใส่คำอธิบายประกอบ
+  button_apply: นำไปใช้
+  button_archive: คลังเก็บข้อมูล
+  button_back: ย้อนกลับ
+  button_cancel: ยกเลิก
+  button_change: เปลี่ยนแปลง
+  button_change_parent_page: เปลี่ยนหน้าหลัก
+  button_change_password: เปลี่ยนรหัสผ่าน
+  button_check_all: ตรวจสอบทั้งหมด
+  button_clear: ล้างข้อมูล
+  button_close: Close
+  button_collapse_all: ยุบทั้งหมด
+  button_configure: กำหนดค่า
+  button_copy: คัดลอก
+  button_copy_and_follow: คัดลอก และปฏิบัติตาม
+  button_create: สร้าง
+  button_create_and_continue: สร้าง และดำเนินการต่อ
+  button_delete: ลบ
+  button_delete_watcher: ลบผู้ดูข้อมูล คุณ %{name}
+  button_download: ดาวน์โหลด
+  button_duplicate: ทำซ้ำ
+  button_edit: แก้ไข
+  button_edit_associated_wikipage: 'แก้ไขหน้าวิกิที่เกี่ยวข้อง: %{page_title}'
+  button_expand_all: ขยายทั้งหมด
+  button_filter: ตัวกรอง
+  button_generate: Generate
+  button_list: รายการ
+  button_lock: ล็อค
+  button_log_time: เวลาที่ถูกบันทึก
+  button_login: ล็อคอิน
+  button_move: ย้าย
+  button_move_and_follow: ย้าย และทำตาม
+  button_print: Print
+  button_quote: อ้างถึง
+  button_remove: Remove
+  button_remove_widget: เอาเครื่องมือออก
+  button_rename: เปลี่ยนชื่อ
+  button_replace: Replace
+  button_reply: ตอบกลับ
+  button_reset: ตั้งค่าใหม่
+  button_rollback: ย้อนกลับมาที่รุ่นนี้
+  button_save: บันทึก
+  button_save_back: Save and back
+  button_show: แสดง
+  button_sort: เรียงลำดับ
+  button_submit: ส่งข้อมูล
+  button_test: ทดสอบ
+  button_unarchive: เอาออกจากอาร์ไคฟ์
+  button_uncheck_all: ไม่เลือกเลย
+  button_unlock: ปลดล็อก
+  button_unwatch: ไม่เข้าชม
+  button_update: ปรับปรุง
+  button_upload: Upload
+  button_view: ดู
+  button_watch: ดู
+  button_manage_menu_entry: ตั้งค่าเมนู
+  button_add_menu_entry: เพิ่มเมนู
+  button_configure_menu_entry: ตั้งค่าเมนู
+  button_delete_menu_entry: ลบเมนู
+  copy_project:
+    started: Started to copy project "%{source_project_name}" to "%{target_project_name}".
+      You will be informed by mail as soon as "%{target_project_name}" is available.
+    failed: ไม่สามารถดำเนินการคัดลอกโครงการ %{source_project_name} ได้
+    succeeded: สร้างโครงการ %{target_project_name} แล้ว
+    errors: ข้อผิดพลาด
+    project_custom_fields: Custom fields on project
+    text:
+      failed: ไม่สามารถดำเนินการคัดลอก "%{source_project_name}" ไปยังโครงการ "%{target_project_name}"
+        ได้
+      succeeded: ระบบได้คัดลอกโครงการ "%{source_project_name}" ไปที่โครงการ "%{target_project_name}"
+        แล้ว
+  create_new_page: หน้าวิกิ
+  date:
+    abbr_day_names:
+    - อา.
+    - จ.
+    - อ.
+    - พ.
+    - พฤ.
+    - ศ.
+    - ส.
+    abbr_month_names:
+    - 
+    - ม.ค.
+    - ก.พ.
+    - มี.ค.
+    - เม.ย.
+    - พ.ค.
+    - มิ.ย.
+    - ก.ค.
+    - ส.ค.
+    - ก.ย.
+    - ต.ค.
+    - พ.ย.
+    - ธ.ค.
+    day_names:
+    - อาทิตย์
+    - จันทร์
+    - อังคาร
+    - พุธ
+    - พฤหัสบดี
+    - ศุกร์
+    - เสาร์
+    formats:
+      default: "%m/%d/%Y"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    - 
+    - มกราคม
+    - กุมภาพันธ์
+    - มีนาคม
+    - เมษายน
+    - พ.ค.
+    - มิถุนายน
+    - กรกฎาคม
+    - สิงหาคม
+    - กันยายน
+    - ตุลาคม
+    - พฤศจิกายน
+    - ธันวาคม
+    order:
+    - ": ปี"
+    - ": เดือน"
+    - ": วัน"
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: about 1 hour
+        other: ประมาณ %{count} ชั่วโมง
+      about_x_months:
+        one: about 1 month
+        other: เกี่ยวกับ %{count} เดือน
+      about_x_years:
+        one: about 1 year
+        other: เกี่ยวกับปี %{count}
+      almost_x_years:
+        one: almost 1 year
+        other: เกือบ %{count} ปี
+      half_a_minute: ครึ่งนาที
+      less_than_x_minutes:
+        one: less than a minute
+        other: น้อยกว่า %{count} นาที
+      less_than_x_seconds:
+        one: less than 1 second
+        other: น้อยกว่า %{count} วินาที
+      over_x_years:
+        one: over 1 year
+        other: เกิน %{count} ปี
+      x_days:
+        one: 1 day
+        other: "%{count} วัน"
+      x_minutes:
+        one: 1 minute
+        other: "%{count} นาที"
+      x_months:
+        one: 1 month
+        other: "%{count} เดือน"
+      x_seconds:
+        one: 1 second
+        other: "%{count} วินาที"
+    units:
+      hour:
+        one: hour
+        other: ชั่วโมง
+  default_activity_development: การพัฒนา
+  default_activity_management: การจัดการ
+  default_activity_other: อื่น ๆ
+  default_activity_specification: ข้อมูลจำเพาะ
+  default_activity_support: สนับสนุน
+  default_activity_testing: กำลังทดสอบ
+  default_color_black: สีดำ
+  default_color_blue: Blue
+  default_color_blue_dark: สีฟ้า (เข้ม)
+  default_color_blue_light: สีฟ้า (แสง)
+  default_color_green_dark: สีเขียว (เข้ม)
+  default_color_green_light: เขียว (แสง)
+  default_color_grey_dark: สีเทา (เข้ม)
+  default_color_grey_light: เทา (แสง)
+  default_color_grey: เทา
+  default_color_magenta: ม่วงแดง
+  default_color_orange: ส้ม
+  default_color_red: สีแดง
+  default_color_white: ขาว
+  default_color_yellow: สีเหลือง
+  default_status_closed: ปิดไปแล้ว
+  default_status_confirmed: ยืนยันแล้ว
+  default_status_developed: พัฒนา
+  default_status_in_development: ในการพัฒนา
+  default_status_in_progress: อยู่ระหว่างดำเนินการ
+  default_status_in_specification: In specification
+  default_status_in_testing: In testing
+  default_status_new: ใหม่
+  default_status_on_hold: On hold
+  default_status_rejected: ถูกปฏิเสธ
+  default_status_scheduled: Scheduled
+  default_status_specified: Specified
+  default_status_tested: Tested
+  default_status_test_failed: Test failed
+  default_status_to_be_scheduled: To be scheduled
+  default_priority_low: ต่ำ
+  default_priority_normal: ปกติ
+  default_priority_high: สูง
+  default_priority_immediate: ทันที
+  default_project_type_scrum: Scrum team
+  default_project_type_standard: Standard project
+  default_reported_project_status_green: Green
+  default_reported_project_status_amber: Amber
+  default_reported_project_status_red: สีแดง
+  default_role_anonymous: ไม่ระบุชื่อ
+  default_role_developer: ผู้พัฒนา
+  default_role_project_admin: Project admin
+  default_role_non_member: ผู้ไม่ได้เป็นสมาชิก
+  default_role_reader: Reader
+  default_role_member: สมาชิก
+  default_type: ชุดภารกิจ
+  default_type_bug: ข้อผิดพลาด
+  default_type_deliverable: Deliverable
+  default_type_epic: Epic
+  default_type_feature: ลักษณะการทำงาน
+  default_type_milestone: ไมล์สโตน
+  default_type_phase: ขั้นตอนการ
+  default_type_task: Task
+  default_type_user_story: User story
+  description_active: ใช้งานอยู่หรือไม่?
+  description_attachment_toggle: แสดง/ซ่อนไฟล์แนบ
+  description_autocomplete: 'ฟิลด์นี้ใช้ฟังก์ชั่น autocomplete ในขณะที่พิมพ์บางส่วนของชุดภารกิจ
+    คุณจะมองเห็นชื่อของชุดภารกิจที่มีคำตามที่พิมพ์ โปรดเลือกชุดภารกิจโดยใช้ลูกศรขึ้นและลง
+    และเลือกโดยกดปุ่ม Tab หรือ Enter หรืออีกวิธีหนึ่งคือคุณสามารถพิมพ์เลขที่ชุดภารกิจเข้าไปได้โดยตรง
+
+'
+  description_available_columns: คอลัมน์ที่มีอยู่
+  description_choose_project: โครงการ
+  description_compare_from: เปรียบเทียบจาก
+  description_compare_to: เปรียบเทียบ
+  description_current_position: 'คุณอยู่ที่นี่:'
+  description_date_from: ระบุวันเริ่มต้น
+  description_date_range_interval: เลือกช่วง โดยเลือกวันเริ่มต้นและสิ้นสุด
+  description_date_range_list: เลือกช่วงจากรายการ
+  description_date_to: ป้อนวันสิ้นสุด
+  description_enter_number: ป้อนหมายเลข
+  description_enter_text: ป้อนข้อความ
+  description_filter: ตัวกรอง
+  description_filter_toggle: แสดง/ซ่อนตัวกรอง
+  description_category_reassign: เลือกประเภท
+  description_message_content: เนื้อหาข้อความ
+  description_my_project: คุณเป็นสมาชิกของ
+  description_notes: หมายเหตุ
+  description_parent_work_package: ชุดภารกิจหลัก
+  description_project_scope: ขอบเขตการค้นหา
+  description_query_sort_criteria_attribute: จัดเรียงแอตทริบิวต์
+  description_query_sort_criteria_direction: รูปแบบการเรียง
+  description_search: ฟิลด์สำหรับค้นหา
+  description_select_work_package: เลือกชุดภารกิจ
+  description_selected_columns: คอลัมน์ที่เลือก
+  description_sub_work_package: ชุดภารกิจย่อย
+  description_toc_toggle: แสดง/ซ่อนสารบัญ
+  description_wiki_subpages_reassign: เลือกหน้าหลักใหม่
+  direction: ltr
+  ee:
+    upsale:
+      form_configuration:
+        description: 'Customize the form configuration with these additional features:'
+        add_groups: Add new attribute groups
+        rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
+  enumeration_activities: กิจกรรม (ติดตามการใชเวลา)
+  enumeration_work_package_priorities: ระดับความสำคัญของชุดภารกิจ
+  enumeration_system_activity: กิจกรรมของระบบ
+  enumeration_reported_project_statuses: สถานะโครงการที่รายงานแล้ว
+  error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
+  error_can_not_archive_project: โครงการนี้ไม่ได้ถูกเก็บถาวร
+  error_can_not_delete_entry: Unable to delete entry
+  error_can_not_delete_custom_field: ไม่สามารถลบฟิลด์ที่กำหนดเองได้
+  error_can_not_delete_type: ประเภทนี้มีชุดภารกิจและไม่สามารถลบได้
+  error_can_not_delete_standard_type: ไม่สามารถลบประเภทมาตรฐานได้
+  error_can_not_invite_user: Failed to send invitation to user.
+  error_can_not_remove_role: บทบาทนี้ถูกใช้อยู่และไม่สามารถลบได้
+  error_can_not_reopen_work_package_on_closed_version: มีการมอบหมายชุดภารกิจนี้ไปยังเวอร์ชั่นที่ปิดแล้ว
+    ซึ่งไม่สามารถเปิดใหม่ได้
+  error_check_user_and_role: โปรดเลือกผู้ใช้และบทบาท
+  error_cookie_missing: The OpenProject cookie is missing. Please ensure that cookies
+    are enabled, as this application will not properly function without.
+  error_custom_option_not_found: Option does not exist.
+  error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_group_by: 'Can''t group by: %{value}'
+  error_invalid_query_column: 'Invalid query column: %{value}'
+  error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
+  error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
+    Please reduce the number of columns.
+  error_token_authenticity: Unable to verify Cross-Site Request Forgery token.
+  error_work_package_done_ratios_not_updated: ชุดภารกิจที่เสร็จแล้ว ไม่สามารถปรับปรุงอัตราส่วนได้
+  error_work_package_not_found_in_project: ไม่พบชุดภารกิจ หรือชุดภารกิจไม่ได้เป็นของโครงการนี้
+  error_must_be_project_member: ต้องเป็นสมาชิกโครงการ
+  error_no_default_work_package_status: ไม่ได้กำหนดค่าเริ่มต้นสถานะของชุดภารกิจ โปรดตรวจสอบการตั้งค่าของคุณ
+    (ไปที่ "การจัดการระบบ -> สถานะชุดภารกิจ")
+  error_no_type_in_project: ไม่พบประเภทที่เกี่ยวข้องกับโครงการนี้ โปรดตรวจสอบการตั้งค่าโครงการ
+  error_omniauth_registration_timed_out: หมดเวลาของการลงทะเบียนผ่านผู้ให้บริการการรับรองความถูกต้องภายนอก
+    กรุณาลองใหม่อีกครั้ง
+  error_scm_command_failed: 'เกิดข้อผิดพลาดเมื่อพยายามเข้าถึงที่เก็บข้อมูล: %{value}'
+  error_scm_not_found: ไม่พบรายการการปรับปรุงในที่เก็บข้อมูล
+  error_unable_delete_status: The work package status cannot be deleted since it is
+    used by at least one work package.
+  error_unable_delete_default_status: Unable to delete the default work package status.
+    Please select another default work package status before deleting the current
+    one.
+  error_unable_to_connect: ไม่สามารถเชื่อมต่อ (%{value}) ได้
+  error_unable_delete_wiki: ไม่สามารถลบหน้าวิกิได้
+  error_unable_update_wiki: Unable to update the wiki page.
+  error_workflow_copy_source: กรุณาเลือกประเภทของแหล่งหรือบทบาท
+  error_workflow_copy_target: กรุณาเลือกประเภทเป้าหมายและบทบาท
+  error_menu_item_not_created: ไม่สามารถเพิ่มรายการเมนูได้
+  error_menu_item_not_saved: ไม่สามารถบันทึกรายการเมนูได้
+  error_wiki_root_menu_item_conflict: 'ไม่สามารถเปลี่ยนชื่อ "%{old_name}" เป็น "%{new_name}"
+    ได้เนื่องจากขัดแย้งกับรายการเมนูที่มีอยู่แล้ว "%{existing_caption}" (%{existing_identifier})
+
+'
+  error_external_authentication_failed: พบข้อผิดพลาดระหว่างการตรวจสอบตัวตนภายนอก กรุณาลองใหม่อีกครั้ง
+  events:
+    project: โครงการได้รับการแก้ไขแล้ว
+    changeset: แก้ไขชุดการเปลี่ยนแปลงแล้ว
+    message: ข้อความได้รับการแก้ไขแล้ว
+    news: ข่าวสาร
+    reply: ตอบกลับ
+    time_entry: บันทึกเวลาได้รับการแก้ไขแล้ว
+    wiki_page: หน้าวิกิได้รับการแก้ไขแล้ว
+    work_package_closed: ปิดชุดภารกิจแล้ว
+    work_package_edit: แก้ไขชุดภารกิจแล้ว
+    work_package_note: เพิ่มหมายเหตุชุดภารกิจ
+  export:
+    format:
+      atom: Atom
+      csv: CSV
+      pdf: PDF
+      pdf_with_descriptions: ไฟล์ PDF พร้อมคำอธิบาย
+  general_csv_decimal_separator: "."
+  general_csv_encoding: UTF-8
+  general_csv_separator: ","
+  general_first_day_of_week: '7'
+  general_lang_name: ไทย
+  general_pdf_encoding: ISO-8859-1
+  general_text_no: ไม่ใช่
+  general_text_yes: ใช่
+  general_text_No: ไม่ใช่
+  general_text_Yes: ใช่
+  gui_validation_error: พบ 1 ข้อผิดพลาด
+  gui_validation_error_plural: พบ %{count} ข้อผิดพลาด
+  homescreen:
+    additional:
+      projects: Newest visible projects in this instance.
+      users: Newest registered users in this instance.
+    blocks:
+      community: OpenProject community
+      upsale:
+        become_hero: Become a hero!
+        title: Upgrade to Enterprise Edition
+        description: Boost your productivity with the Enterprise Edition
+        more_info: More information
+        additional_features: Additional powerful premium features
+        professional_support: Professional support from the OpenProject experts
+        you_contribute: Developers need to pay their bills, too. With Enterprise Edition
+          you substantially contribute to this Open-Source community effort.
+    links:
+      upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      user_guides: User guides
+      faq: FAQ
+      glossary: Glossary
+      shortcuts: Shortcuts
+      forums: กระทู้
+      blog: OpenProject blog
+      boards: Community forum
+      newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
+  instructions_after_registration: คุณสามารถเข้าสู่ระบบได้ทันทีมีการเปิดใช้งานบัญชีผู้ใช้ของคุณ
+    โดยคลิก %{signin}.
+  instructions_after_logout: คุณสามารถเข้าสู่ระบบอีกครั้งโดยคลิก %{signin}
+  instructions_after_error: คุณสามารถลองเข้าสู่ระบบอีกครั้งโดยคลิก %{signin} หากยังพบข้อผิดพลาด
+    โปรดสอบถามผู้ดูแลระบบเพื่อขอความช่วยเหลือ
+  my_account:
+    access_tokens:
+      no_results:
+        title: No access tokens to display
+        description: All of them have been disabled. They can be re-enabled in the
+          administration menu.
+      access_token: Access token
+      headers:
+        action: Action
+        expiration: Expires
+      indefinite_expiration: Never
+  label_accessibility: Accessibility
+  label_account: บัญชี
+  label_active: ใช้งานอยู่
+  label_activate_user: Activate user
+  label_active_in_new_projects: Active in new projects
+  label_activity: กิจกรรม
+  label_add_edit_translations: Add and edit translations
+  label_add_another_file: เพิ่มไฟล์อื่น
+  label_add_columns: เพิ่มคอลัมน์ที่เลือก
+  label_add_note: เพิ่มหมายเหตุ
+  label_add_related_work_packages: เพิ่มชุดภารกิจที่เกี่ยวข้อง
+  label_add_subtask: เพิ่มงานย่อย
+  label_added: เพิ่มแล้ว
+  label_added_time_by: ถูกเพิ่มโดย %{author} เมื่อ %{age} ที่ผ่านมา
+  label_additional_workflow_transitions_for_assignee: ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้ได้รับมอบหมายความรับผิดชอบ
+  label_additional_workflow_transitions_for_author: ยินยอมให้มีการเปลี่ยนแปลงได้เพิ่มขึ้นเมื่อผู้ใช้เป็นผู้สร้าง
+  label_administration: การจัดการระบบ
+  label_advanced_settings: Advanced settings
+  label_age: ระยะเวลา
+  label_ago: วันที่ผ่านมา
+  label_all: ทั้งหมด
+  label_all_time: ตลอดเวลา
+  label_all_words: ทุกคำ
+  label_always_visible: Always displayed
+  label_announcement: Announcement
+  label_and_its_subprojects: "%{value} และโครงการย่อยที่เกี่ยวข้องทั้งหมด"
+  label_api_access_key: คีย์การเข้าถึง API
+  label_api_access_key_created_on: คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา
+  label_api_access_key_type: API
+  label_applied_status: ใช้สถานะ
+  label_archive_project: Archive project
+  label_ascending: จากน้อยไปมาก
+  label_assigned_to_me_work_packages: ชุดภารกิจที่ฉันได้รับมอบหมาย
+  label_associated_revisions: การปรับปรุงที่เกี่ยวข้อง
+  label_attachment_delete: ลบไฟล์
+  label_attachment_new: ไฟล์ใหม่
+  label_attachment_plural: ไฟล์
+  label_attribute: คุณลักษณะ
+  label_attribute_plural: คุณลักษณะ
+  label_auth_source: โหมดการระบุตัวตนผู้ใช้
+  label_auth_source_new: โหมดการระบุตัวตนผู้ใช้ใหม่
+  label_auth_source_plural: โหมดการระบุตัวตนผู้ใช้
+  label_authentication: การระบุตัวตนผู้ใช้
+  label_available_project_work_package_categories: Available work package categories
+  label_available_project_boards: Available boards
+  label_available_project_versions: Available versions
+  label_available_project_repositories: Available repositories
+  label_api_documentation: API documentation
+  label_between: between
+  label_blocked_by: ถูกบล็อคโดย
+  label_blocks: บล็อก
+  label_blog: Blog
+  label_board_locked: ล็อค
+  label_board_new: กระทู้ใหม่
+  label_board_plural: กระทู้
+  label_board_sticky: ปักหมุด
+  label_boolean: ถูกหรือผิด
+  label_branch: สาขา
+  label_browse: เรียกดู
+  label_bulk_edit_selected_work_packages: แก้ไขชุดภารกิจที่เลือกพร้อมกัน
+  label_calendar: ปฏิทิน
+  label_calendar_show: แสดงปฏิทิน
+  label_category: ประเภท
+  label_wiki_menu_item: รายการเมนูวิกิ
+  label_select_main_menu_item: เลือกรายการเมนูหลักใหม่
+  label_select_project: Select a project
+  label_required_disk_storage: Required disk storage
+  label_send_invitation: Send invitation
+  label_change_plural: การเปลี่ยนแปลง
+  label_change_properties: เปลี่ยนแปลงคุณสมบัติ
+  label_change_status: เปลี่ยนสถานะ
+  label_change_status_of_user: 'Change status of #{username}'
+  label_change_view_all: ดูการเปลี่ยนแปลงทั้งหมด
+  label_changes_details: รายละเอียดของการเปลี่ยนแปลงทั้งหมด
+  label_changeset: Changeset
+  label_changeset_id: Changeset ID
+  label_changeset_plural: ชุดการเปลี่ยนแปลง
+  label_checked: ตรวจสอบแล้ว
+  label_check_uncheck_all_in_column: เลือก/ไม่เลือก ทั้งหมดในคอลัมน์
+  label_check_uncheck_all_in_row: เลือก/ไม่เลือก ทั้งหมดในแถว
+  label_child_element: Child element
+  label_chronological_order: เรียงตามลำดับเวลา
+  label_close_versions: ปิดเวอร์ชั่นที่เสร็จแล้ว
+  label_closed_work_packages: ปิด
+  label_collapse: ยุบ
+  label_configuration: การกำหนดค่า
+  label_comment_add: เพิ่มความคิดเห็น
+  label_comment_added: เพิ่มความคิดเห็นแล้ว
+  label_comment_delete: ลบความคิดเห็น
+  label_comment_plural: ความคิดเห็น
+  label_commits_per_author: ที่ต้องทำต่อผู้เขียน
+  label_commits_per_month: ทำต่อเดือน
+  label_confirmation: ยืนยันรหัสผ่าน
+  label_contains: ประกอบด้วย
+  label_content: เนื้อหา
+  label_copied: คัดลอกแล้ว
+  label_copy_to_clipboard: คัดลอกไปยังคลิปบอร์ด
+  label_copy_same_as_target: เหมือนกับเป้าหมาย
+  label_copy_source: แหล่งที่มา
+  label_copy_target: เป้าหมาย
+  label_copy_workflow_from: คัดลอกกระบวนการทำงานจาก
+  label_copy_project: คัดลอกโครงการ
+  label_core_version: เวอร์ชั่นหลัก
+  label_current_status: สถานะปัจจุบัน
+  label_current_version: เวอร์ชันปัจจุบัน
+  label_custom_field_add_no_type: Add this field to a work package type
+  label_custom_field_new: ฟิลด์ที่กำหนดเองใหม่
+  label_custom_field_plural: ฟิลด์ที่กำหนดเอง
+  label_custom_field_default_type: ชนิดว่าง
+  label_custom_style: Design
+  label_date: วันที่
+  label_date_and_time: Date and time
+  label_date_from: จาก
+  label_date_from_to: ตั้งแต่ %{start} จนถึง %{end}
+  label_date_range: ช่วงวันที่
+  label_date_to: ถึงวันที่
+  label_day_plural: วัน
+  label_default: ค่าเริ่มต้น
+  label_delete_user: Delete user
+  label_delete_project: Delete project
+  label_deleted: ถูกลบ
+  label_deleted_custom_field: "(ฟิลด์ที่กำหนดเองที่ถูกลบ)"
+  label_descending: มากไปน้อย
+  label_details: รายละเอียด
+  label_development_roadmap: Development roadmap
+  label_diff: ผลต่าง
+  label_diff_inline: แบบอินไลน์
+  label_diff_side_by_side: แสดงคู่กัน
+  label_disabled: ปิดการใช้งาน
+  label_display: การแสดงผล
+  label_display_per_page: 'ต่อหน้า: %{value}'
+  label_display_used_statuses_only: แสดงเฉพาะสถานะที่ใช้โดยชนิดนี้เท่านั้น
+  label_download: มี %{count} ดาวโหลด
+  label_download_plural: มี %{count} ดาวโหลด
+  label_downloads_abbr: D/L
+  label_duplicated_by: ทำซ้ำโดย
+  label_duplicate: duplicate
+  label_duplicates: ซ้ำ
+  label_edit: แก้ไข
+  label_enable_multi_select: สลับไปเลือกหลายค่า
+  label_enabled_project_custom_fields: Enabled custom fields
+  label_enabled_project_types: Enabled types
+  label_enabled_project_modules: Enabled modules
+  label_enabled_project_activities: Enabled time tracking activities
+  label_end_to_end: ตลอด
+  label_end_to_start: สิ้นสุดไปยังเริ่มต้น
+  label_enumeration_new: ค่าการแจกแจงใหม่
+  label_enumeration_value: Enumeration value
+  label_enumerations: การระบุหมายเลข
+  label_enterprise: Enterprise
+  label_enterprise_edition: Enterprise Edition
+  label_environment: สภาพแวดล้อม
+  label_estimates_and_time: Estimates and time
+  label_equals: เป็น
+  label_example: ตัวอย่าง
+  label_export_to: 'ยังสามารถพบใน:'
+  label_f_hour: "%{value} ชั่วโมง"
+  label_f_hour_plural: "%{value} ชั่วโมง"
+  label_feed_plural: ตัวดึงข้อมูล
+  label_feeds_access_key: คีย์การเข้าถึง RSS
+  label_feeds_access_key_created_on: คีย์การเข้าถึง API ซึ่งสร้างเมื่อ %{value} ที่ผ่านมา
+  label_feeds_access_key_type: RSS
+  label_file_added: ไฟล์ที่เพิ่ม
+  label_file_plural: ไฟล์
+  label_filter_add: เพิ่มตัวกรอง
+  label_filter_plural: ตัวกรอง
+  label_filters_toggle: Show/hide filters
+  label_float: ลอย
+  label_folder: Folder
+  label_follows: ดังต่อไปนี้
+  label_force_user_language_to_default: พบภาษาที่ไม่อนุญาตให้ใช้เป็นค่าเริ่มต้น ในชุดภาษาของผู้ใช้
+  label_form_configuration: Form configuration
+  label_general: ทั่วไป
+  label_generate_key: สร้างคีย์
+  label_git_path: เส้นทางไปยังไดเรคทอรี่ ของไฟล์ .git
+  label_greater_or_equal: ">="
+  label_group_by: Group by
+  label_group_new: กลุ่มใหม่
+  label_group: กลุ่ม
+  label_group_plural: กลุ่ม
+  label_help: วิธีใช้
+  label_here: ที่นี่
+  label_hide: ซ่อน
+  label_history: ประวัติย้อนหลัง
+  label_home: หน้าหลัก
+  label_in: ใน
+  label_in_less_than: ในไม่เกิน
+  label_in_more_than: ในมากกว่า
+  label_inactive: Inactive
+  label_incoming_emails: อีเมลขาเข้า
+  label_includes: includes
+  label_index_by_date: จัดเรียงตามวันที่
+  label_index_by_title: จัดเรียงตามชื่อเรื่อง
+  label_information: ข้อมูล
+  label_information_plural: ข้อมูล
+  label_integer: จำนวนเต็ม
+  label_internal: ภายใน
+  label_invite_user: Invite user
+  label_show_hide: แสดง/ซ่อน
+  label_show_all_registered_users: Show all registered users
+  label_journal: Journal
+  label_journal_diff: เปรียบเทียบคำอธิบาย
+  label_language: ภาษา
+  label_jump_to_a_project: ไปยังโครงการ...
+  label_language_based: ตามภาษาของผู้ใช้
+  label_last_activity: Last activity
+  label_last_change_on: Last change on
+  label_last_changes: ที่เปลี่ยนเมื่อ %{count} ครั้งที่ผ่านมา
+  label_last_login: ล็อกอินครั้งสุดท้าย
+  label_last_month: เดือนก่อน
+  label_last_n_days: เมื่อ %{count} วันก่อน
+  label_last_week: สัปดาห์ที่แล้ว
+  label_latest_revision: ปรับปรุงล่าสุด
+  label_latest_revision_plural: ปรับปรุงล่าสุด
+  label_ldap_authentication: การระบุตัวตนผู้ใช้ระบบโดย LDAP
+  label_less_or_equal: "<="
+  label_less_than_ago: น้อยกว่าสามวันที่ผ่านมา
+  label_list: รายการ
+  label_loading: กำลังโหลด...
+  label_lock_user: Lock user
+  label_logged_as: เข้าสู่ระบบในนาม
+  label_login: ล็อคอิน
+  label_custom_logo: Custom logo
+  label_custom_favicon: Custom favicon
+  label_custom_touch_icon: Custom touch icon
+  label_logout: ออกจากระบบ
+  label_main_menu: เมนูด้านข้าง
+  label_manage_groups: จัดการกลุ่ม
+  label_managed_repositories_vendor: Managed %{vendor} repositories
+  label_max_size: ความยาวสูงสุด
+  label_me: ฉัน
+  label_member_new: สมาชิกใหม่
+  label_member_plural: สมาชิก
+  label_view_all_members: View all members
+  label_menu_item_name: ชื่อของรายการเมนู
+  label_message: ข้อความ
+  label_message_last: ข้อความล่าสุด
+  label_message_new: ข้อความใหม่
+  label_message_plural: ข้อความ
+  label_message_posted: เพิ่มข้อความแล้ว
+  label_min_max_length: ความยาวสูงสุด - ต่ำสุด
+  label_minute_plural: minutes
+  label_missing_api_access_key: Missing API access key
+  label_missing_feeds_access_key: Missing RSS access key
+  label_modification: เปลี่ยนแปลง %{count} รายการ
+  label_modified: ถูกแก้ไข
+  label_module_plural: โมดูล
+  label_modules: โมดูล
+  label_month: เดือน
+  label_months_from: เดือนจาก
+  label_more: เพิ่มเติม
+  label_more_than_ago: มากกว่าวันที่ผ่านมา
+  label_move_work_package: ย้ายชุดภารกิจ
+  label_my_account: บัญชีของฉัน
+  label_my_account_data: ข้อมูลบัญชีของฉัน
+  label_my_page: หน้าของฉัน
+  label_my_page_block: หน้าบล็อกของฉัน
+  label_my_projects: โครงการของฉัน
+  label_my_queries: แบบสอบถามแบบกำหนดเองของฉัน
+  label_new: ใหม่
+  label_new_statuses_allowed: อนุญาติให้ใช้สถานะใหม่แล้ว
+  label_news_added: เพิ่มข่าวแล้ว
+  label_news_comment_added: เพิ่มความเห็นไปยังข่าวแล้ว
+  label_news_latest: ข่าวล่าสุด
+  label_news_new: เพิ่มข่าวสาร
+  label_news_edit: แก้ไขข่าว
+  label_news_plural: ข่าวสาร
+  label_news_view_all: ดูข่าวทั้งหมด
+  label_next: ถัดไป
+  label_next_week: อาทิตย์ถัดไป
+  label_no_change_option: "(ไม่เปลี่ยนแปลง)"
+  label_no_data: ไม่มีข้อมูลให้แสดง
+  label_nothing_display: Nothing to display
+  label_nobody: ไม่มีใคร
+  label_none: ไม่มี
+  label_none_parentheses: "(ไม่มี)"
+  label_not_contains: ไม่ประกอบด้วยการ
+  label_not_equals: ไม่
+  label_notify_member_plural: ปรับปรุงอีเมล
+  label_on: 'on'
+  label_open_menu: เปิดเมนู
+  label_open_work_packages: เปิด
+  label_open_work_packages_plural: เปิด
+  label_optional_description: คำอธิบาย
+  label_options: ตัวเลือก
+  label_other: อื่น ๆ
+  label_overall_activity: กิจกรรมในภาพรวม
+  label_overall_spent_time: เวลาที่ใช้โดยรวม
+  label_overview: ภาพรวม
+  label_part_of: part of
+  label_password_lost: ลืมรหัสผ่าน
+  label_password_rule_lowercase: ตัวพิมพ์เล็ก
+  label_password_rule_numeric: ตัวเลข
+  label_password_rule_special: อักขระพิเศษ
+  label_password_rule_uppercase: ตัวพิมพ์ใหญ่
+  label_path_encoding: การเข้ารหัสเส้นทาง
+  label_pdf_with_descriptions: ไฟล์ PDF พร้อมคำอธิบาย
+  label_per_page: ต่อหน้า
+  label_people: People
+  label_permissions: สิทธิ์
+  label_permissions_report: รายงานสิทธิ์
+  label_personalize_page: ปรับปรุงหน้านี้ให้เป็นส่วนตัว
+  label_planning: การวางแผน
+  label_please_login: กรุณาเข้าสู่ระบบ
+  label_plugins: ปลั๊กอิน
+  label_precedes: มาก่อน
+  label_preferences: กำหนดคุณลักษณะ
+  label_preview: แสดงตัวอย่าง
+  label_previous: ก่อนหน้านี้
+  label_previous_week: สัปดาห์ก่อนหน้านี้
+  label_principal_invite_via_email: " or invite new users via email"
+  label_principal_search: Add existing users or groups
+  label_product_version: Product version
+  label_professional_support: Professional support
+  label_profile: ข้อมูลส่วนตัว
+  label_project_all: โครงการทั้งหมด
+  label_project_count: Total number of projects
+  label_project_copy_notifications: ส่งอีเมล์แจ้งเตือนในระหว่างที่คัดลอกโครงการ
+  label_project_latest: โครงการล่าสุด
+  label_project_default_type: อนุญาตให้ใช้ชนิดว่าง
+  label_project_hierarchy: Project hierarchy
+  label_project_new: โครงการใหม่
+  label_project_plural: โครงการ
+  label_project_settings: การตั้งค่าโครงการ
+  label_projects_storage_information: "%{count} projects using %{storage} disk storage"
+  label_project_view_all: ดูโครงการทั้งหมด
+  label_project_show_details: Show project details
+  label_project_hide_details: Hide project details
+  label_public_projects: โครงการสาธารณะ
+  label_query_new: แบบสอบถามใหม่
+  label_query_plural: แบบสอบถามแบบกำหนดเอง
+  label_query_menu_item: เมนูแบบสอบถาม
+  label_read: อ่าน...
+  label_register: ลงทะเบียน
+  label_register_with_developer: ลงทะเบียนในฐานะผู้พัฒนา
+  label_registered_on: ได้ลงทะเบียนใน
+  label_registration_activation_by_email: เปิดใช้งานบัญชีทางอีเมล์
+  label_registration_automatic_activation: เปิดใช้งานบัญชีโดยอัตโนมัติ
+  label_registration_manual_activation: เปิดใช้งานบัญชีด้วยตนเอง
+  label_related_work_packages: ชุดภารกิจที่เกี่ยวข้อง
+  label_relates: ที่เกี่ยวข้องกับ
+  label_relates_to: ที่เกี่ยวข้องกับ
+  label_relation_delete: ลบความสัมพันธ์
+  label_relation_new: ความสัมพันธ์ใหม่
+  label_release_notes: Release notes
+  label_remove_columns: ลบคอลัมน์ที่เลือก
+  label_renamed: เปลี่ยนชื่อ
+  label_reply_plural: ตอบกลับ
+  label_report: รายงาน
+  label_report_bug: Report a bug
+  label_report_plural: รายงาน
+  label_reported_work_packages: ชุดภารกิจที่รายงานแล้ว
+  label_reporting: รายงาน
+  label_reporting_plural: Reportings
+  label_repository: ที่เก็บ
+  label_repository_root: Repository root
+  label_repository_plural: ที่เก็บ
+  label_required: required
+  label_requires: requires
+  label_responsible_for_work_packages: ชุดภารกิจที่ฉันรับผิดชอบ
+  label_result_plural: ผลลัพธ์
+  label_reverse_chronological_order: ในลำดับที่สลับ
+  label_revision: การปรับปรุง
+  label_revision_id: ปรับปรุงค่า %{value}
+  label_revision_plural: การปรับปรุง
+  label_roadmap: แผนงาน
+  label_roadmap_edit: แก้ไขแผนงาน %{name}
+  label_roadmap_due_in: ครบกำหนดเมื่อ %{value}
+  label_roadmap_no_work_packages: ไม่พบชุดภารกิจในเวอร์ชั่นนี้
+  label_roadmap_overdue: "%{value} ล่าช้า"
+  label_role_and_permissions: บทบาทและสิทธิ
+  label_role_new: บทบาทใหม่
+  label_role_plural: บทบาท
+  label_role_search: Assign role to new members
+  label_scm: SCM
+  label_search: ค้นหา
+  label_search_titles_only: ค้นหาเฉพาะชื่อ
+  label_send_information: ส่งข้อมูลบัญชีให้ผู้ใช้
+  label_send_test_email: ส่งอีเมลทดสอบ
+  label_settings: การตั้งค่า
+  label_system_settings: System settings
+  label_show_completed_versions: แสดงเวอร์ชันที่เสร็จสมบูรณ์
+  label_sort: เรียงลำดับ
+  label_sort_by: เรียงตาม %{value}
+  label_sorted_by: เรียงตาม %{value}
+  label_sort_higher: เลื่อนขึ้น
+  label_sort_highest: เลื่อนไว้บนสุด
+  label_sort_lower: เลื่อนลง
+  label_sort_lowest: เลื่อนไปล่างสุด
+  label_spent_time: เวลาที่ใช้
+  label_start_to_end: ตั้งแต่เริ่มถึงสิ้นสุด
+  label_start_to_start: จุดเริ่มต้นไปยังจุดเริ่มต้น
+  label_statistics: สถิติ
+  label_status: สถานะ
+  label_status_updated: มีการปรับปรุงสถานะของชุดภารกิจแล้ว
+  label_stay_logged_in: คงอยู่ในระบบ
+  label_storage_free_space: Remaining disk space
+  label_storage_used_space: Used disk space
+  label_storage_group: Storage filesystem %{identifier}
+  label_storage_for: Encompasses storage for
+  label_string: ข้อความ
+  label_subproject: โครงการย่อย
+  label_subproject_new: โครงการย่อยใหม่
+  label_subproject_plural: โครงการย่อย
+  label_subtask_plural: งานย่อย
+  label_summary: สรุป
+  label_system: ระบบ
+  label_system_storage: Storage information
+  label_table_of_contents: สารบัญ
+  label_tag: แท็ก
+  label_text: ข้อความแบบยาว
+  label_this_month: เดือนนี้
+  label_this_week: สัปดาห์นี้
+  label_this_year: ปีนี้
+  label_time_entry_plural: เวลาที่ใช้
+  label_time_sheet_menu: Time sheet
+  label_time_tracking: ติดตามเวลาที่ใช้
+  label_today: วันนี้
+  label_top_menu: เมนูด้านบน
+  label_topic_plural: หัวข้อ
+  label_total: ผลรวม
+  label_type_new: ชนิดใหม่
+  label_type_plural: ประเภท
+  label_type_default_new_projects: Type activated for new projects by default
+  label_ui: ส่วนติดต่อผู้ใช้งาน
+  label_update_work_package_done_ratios: ปรับปรุงอัตราส่วนชุดภารกิจที่ทำแล้ว
+  label_updated_time: ปรับปรุงเมื่อ %{value} ที่ผ่านมา
+  label_updated_time_at: "%{author} %{age}"
+  label_updated_time_by: ปรับปรุงโดย %{author} เมื่อ %{age} ที่ผ่านมา
+  label_used_by: ใช้โดย
+  label_used_by_types: Used by types
+  label_used_in_projects: Used in projects
+  label_user: ผู้ใช้
+  label_user_activity: กิจกรรมของ %{value}
+  label_user_anonymous: ไม่ระบุชื่อ
+  label_user_mail_option_all: สำหรับเหตุการณ์ใด ๆ ก็ตามในโครงการทั้งหมดของฉัน
+  label_user_mail_option_none: ไม่พบเหตุการณ์
+  label_user_mail_option_only_assigned: เฉพาะสิ่งที่ฉันได้รับมอบหมาย
+  label_user_mail_option_only_my_events: เฉพาะสิ่งที่ฉันเฝ้าดูหรือมีความเกี่ยวข้องด้วย
+  label_user_mail_option_only_owner: เฉพาะสิ่งที่ฉันเป็นเจ้าของ
+  label_user_mail_option_selected: For any event on the selected projects only
+  label_user_new: ผู้ใช้ใหม่
+  label_user_plural: ผู้ใช้
+  label_user_search: ค้นหาผู้ใช้
+  label_version_new: เวอร์ชั่นใหม่
+  label_version_plural: รุ่น
+  label_version_sharing_descendants: พร้อมด้วยโครงการย่อย
+  label_version_sharing_hierarchy: พร้อมด้วยลำดับชั้นของโครงการ
+  label_version_sharing_none: ไม่ได้แบ่งปัน
+  label_version_sharing_system: พร้อมด้วยทุกโครงการ
+  label_version_sharing_tree: พร้อมด้วยแผนผังโครงการ
+  label_video: วิดีโอ
+  label_view_all_revisions: ดูการปรับปรุงทั้งหมด
+  label_view_diff: ดูผลต่าง
+  label_view_revisions: ดูการปรับปรุง
+  label_watched_work_packages: เฝ้าดูชุดภารกิจ
+  label_week: สัปดาห์
+  label_wiki_content_added: เพิ่มหน้าวิกิแล้ว
+  label_wiki_content_updated: ปรับปรุงหน้าวิกิแล้ว
+  label_wiki_toc: สารบัญ
+  label_wiki_dont_show_menu_item: ไม่แสดงหน้าวิกินี้ในการนำทางของโครงการ
+  label_wiki_edit: แก้ไขวิกิ
+  label_wiki_edit_plural: แก้ไขวิกิ
+  label_wiki_page_attachments: Wiki page attachments
+  label_wiki_page_id: Wiki page ID
+  label_wiki_navigation: การทำทางของวิกิ
+  label_wiki_page: หน้าวิกิ
+  label_wiki_page_plural: หน้าวิกิ
+  label_wiki_show_index_page_link: แสดงเมนูย่อยของ 'สารบัญ'
+  label_wiki_show_menu_item: แสดงเป็นเมนูในการนำทางของโครงการ
+  label_wiki_show_new_page_link: แสดงรายการเมนูย่อย 'สร้างหน้าย่อยใหม่'
+  label_wiki_show_submenu_item: แสดงเป็นรายการเมนูย่อยของ 
+  label_work_package: ชุดภารกิจ
+  label_work_package_added: ชุดภารกิจที่เพิ่ม
+  label_work_package_attachments: Work package attachments
+  label_work_package_category_new: ประเภทใหม่
+  label_work_package_category_plural: ประเภทของชุดภารกิจ
+  label_work_package_hierarchy: Work package hierarchy
+  label_work_package_new: ชุดภารกิจใหม่
+  label_work_package_note_added: เพิ่มหมายเหตุชุดภารกิจ
+  label_work_package_edit: แก้ไขชุดภารกิจ %{name}
+  label_work_package_plural: ชุดภารกิจ
+  label_work_package_priority_updated: ปรับปรุงระดับความสำคัญของชุดภารกิจ
+  label_work_package_status: สถานะของชุดภารกิจ
+  label_work_package_status_new: สถานะใหม่
+  label_work_package_status_plural: สถานะของชุดภารกิจ
+  label_work_package_types: Work package types
+  label_work_package_updated: ปรับปรุงข้อมูลชุดภารกิจ
+  label_work_package_tracking: ติดตามผลชุดภารกิจ
+  label_work_package_view_all: ดูรายการภารกิจทั้งหมด
+  label_work_package_view_all_assigned_to_me: ดูชุดภารกิจที่ฉันได้รับมอบหมาย
+  label_work_package_view_all_reported_by_me: ดูชุดภารกิจทั้งหมดที่รายงาน โดยฉัน
+  label_work_package_view_all_responsible_for: View all work packages that I am responsible
+    for
+  label_work_package_view_all_watched: ดูชุดภารกิจที่เฝ้าดู
+  label_work_package_watchers: ผู้เฝ้าดู
+  label_workflow: กระบวนการทำงาน
+  label_workflow_plural: กระบวนการทำงาน
+  label_workflow_summary: สรุป
+  label_x_closed_work_packages_abbr:
+    one: 1 closed
+    other: "%{count} closed"
+    zero: 0 closed
+  label_x_comments:
+    one: 1 comment
+    other: มี %{count} ความคิดเห็น
+    zero: no comments
+  label_x_open_work_packages_abbr:
+    one: 1 open
+    other: "%{count} open"
+    zero: 0 open
+  label_x_open_work_packages_abbr_on_total:
+    one: 1 open / %{total}
+    other: "%{count} open / %{total}"
+    zero: 0 open / %{total}
+  label_x_projects:
+    one: 1 project
+    other: "%{count} projects"
+    zero: no projects
+  label_year: ปี
+  label_yesterday: เมื่อวานนี้
+  label_keyboard_function: ฟังก์ชัน
+  label_keyboard_shortcut: ทางลัด
+  label_keyboard_accesskey: แป้นลัด
+  label_keyboard_shortcut_help_heading: แป้นพิมพ์ลัดที่สามารถใช้ได้
+  label_keyboard_shortcut_within_project: 'แป้นพิมพ์ลัดที่เกี่ยวกับโครงการ:'
+  label_keyboard_shortcut_global_shortcuts: 'แป้นพิมพ์ลัดที่ใช้ได้ทั่วไป:'
+  label_keyboard_shortcut_some_pages_only: 'ทางลัดพิเศษ:'
+  label_keyboard_shortcut_search_global: การค้นหา
+  label_keyboard_shortcut_search_project: ค้นหาโครงการ
+  label_keyboard_shortcut_go_my_page: Go to my page
+  label_keyboard_shortcut_show_help: แสดงข้อความช่วยเหลือนี้
+  label_keyboard_shortcut_go_overview: ไปยังภาพรวมของโครงการ
+  label_keyboard_shortcut_go_work_package: ไปยังชุดภารกิจของโครงการ
+  label_keyboard_shortcut_go_wiki: ไปยังวิกิของโครงการ
+  label_keyboard_shortcut_go_activity: ไปยังกิจกรรมของโครงการ
+  label_keyboard_shortcut_go_calendar: ไปยังปฏิทินของโครงการ
+  label_keyboard_shortcut_go_news: ไปยังข่าวสารของโครงการ
+  label_keyboard_shortcut_go_timelines: ไปยังแผนภูมิเวลาของโครงการ
+  label_keyboard_shortcut_new_work_package: สร้างชุดภารกิจใหม่
+  label_keyboard_shortcut_details_package: Show work packages details pane
+  label_keyboard_shortcut_go_edit: ไปแก้ไขรายการปัจจุบัน (ในหน้ารายละเอียดเท่านั้น)
+  label_keyboard_shortcut_open_more_menu: เปิดเมนูเพิ่มเติม (ในหน้ารายละเอียดเท่านั้น)
+  label_keyboard_shortcut_go_preview: ไปดูตัวอย่างการแก้ไขปัจจุบัน (ในหน้าแก้ไขเท่านั้น)
+  label_keyboard_shortcut_focus_previous_item: เน้นรายการองค์ประกอบก่อนหน้านี้ (ในบางรายการเท่านั้น)
+  label_keyboard_shortcut_focus_next_item: เน้นรายการองค์ประกอบถัดไป (ในบางรายการเท่านั้น)
+  label_visible_elements: Visible elements
+  auth_source:
+    using_abstract_auth_source: Can't use an abstract authentication source.
+    ldap_error: 'LDAP-Error: %{error_message}'
+    ldap_auth_failed: Could not authenticate at the LDAP-Server.
+  macro_execution_error: ข้อผิดพลาดในการรันมาโคร %{macro_name}
+  macro_unavailable: Macro %{macro_name} cannot be displayed.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: ชุดภารกิจใหม่
+      link_name_type: New %{type_name}
+  mail:
+    actions: Actions
+  mail_body_account_activation_request: 'มีผู้ใช้ใหม่ (%{value}) ได้ลงทะเบียนเข้ามา
+    ขณะนี้บัญชีอยู่ระหว่างการพิจารณาอนุมัติของคุณ:'
+  mail_body_account_information: ข้อมูลบัญชีของคุณ
+  mail_body_account_information_external: คุณสามารถใช้บัญชีของคุณ %{value} เพื่อเข้าสู่ระบบ
+  mail_body_lost_password: 'คลิกที่ลิงค์ต่อไปนี้เพื่อเปลี่ยนรหัสผ่านของคุณ :'
+  mail_body_register: 'คลิกที่ลิ้งค์ต่อไปนี้เพื่อเปิดการใช้งานบัญชีของคุณ:'
+  mail_body_reminder: 'มี %{count} ลำดับภารกิจที่การมอบหมายมาให้คุณรับผิดชอบ กำลังจะครบกำหนดในอีก
+    %{days} วัน:'
+  mail_body_wiki_content_added: มีการเพิ่มหน้าวิกิ '%{id}' โดย %{author}
+  mail_body_wiki_content_updated: มีการปรับปรุงหน้าวิกิ '%{id}' โดย %{author}
+  mail_subject_account_activation_request: มี %{value} คำขอเปิดใช้บัญชี
+  mail_subject_lost_password: รหัสผ่าน %{value} ของคุณ
+  mail_subject_register: การเปิดใช้บัญชี %{value} ของคุณ
+  mail_subject_reminder: มี %{count} ชุดภารกิจกำลังจะครบกำหนดในอีก %{days} วัน
+  mail_subject_wiki_content_added: มีการเพิ่มหน้าวิกิ '%{id}' แล้ว
+  mail_subject_wiki_content_updated: มีการปรับปรุงหน้าวิกิ '%{id}' แล้ว
+  more_actions: ฟังก์ชันเพิ่มเติม
+  noscript_description: คุณจำเป็นต้องเปิดใช้ JavaSript เพื่อใช้งาน OpenProject ก่อน!
+  noscript_heading: ไม่ได้เปิดใช้ JavaScript
+  noscript_learn_more: เรียนรู้เพิ่มเติม
+  notice_accessibility_mode: The accessibility mode can be enabled in your [account
+    settings](url).
+  notice_account_activated: มีการเปิดใช้บัญชีของคุณแล้ว ตอนนี้คุณสามารถเข้าสู่ระบบได้แล้ว
+  notice_account_already_activated: The account has already been activated.
+  notice_account_invalid_token: Invalid activation token
+  notice_account_invalid_credentials: บัญชีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+  notice_account_invalid_credentials_or_blocked: บัญชีผู้ใช้หรือรหัสผ่านไม่ถูกต้อง
+    หรือบัญชีผู้ใช้ถูกบล็อกไว้เนื่องจากความพยายามเข้าสู่ระบบล้มเหลว ซึ่งหากเป็นเช่นนั้น
+    บัญชีของคุณจะปลดล็อคในเร็วๆ นี้
+  notice_account_lost_email_sent: มีการส่งอีเมล์พร้อมขั้นตอนในการเลือกรหัสผ่านไปให้คุณแล้ว
+  notice_account_new_password_forced: จำเป็นต้องระบุรหัสผ่านใหม่
+  notice_account_password_expired: รหัสผ่านของคุณหมดอายุไปเมื่อ  %{days} วันที่ผ่านมา
+    โปรดตั้งรหัสผ่านใหม่
+  notice_account_password_updated: มีการปรับปรุงรหัสผ่านเรียบร้อยแล้ว
+  notice_account_pending: บัญชีของคุณถูกสร้างแล้ว และกำลังรอการอนุมัติจากผู้ดูแลระบบ
+  notice_account_register_done: บัญชีของคุณถูกสร้างแล้ว โปรดคลิกที่ลิ้งค์ที่ส่งไปยังอีเมลของคุณเพื่อเปิดใช้งานบัญชี
+  notice_account_unknown_email: ไม่ทราบผู้ใช้
+  notice_account_update_failed: Account setting could not be saved. Please have a
+    look at your account page.
+  notice_account_updated: ปรับปรุงบัญชีสำเร็จ
+  notice_account_wrong_password: รหัสผ่านไม่ถูกต้อง
+  notice_account_registered_and_logged_in: ยินดีต้อนรับ, ได้มีการเปิดใช้บัญชีของคุณแล้ว
+    คุณสามารถล็อกอินได้ทันที
+  notice_activation_failed: The account could not be activated.
+  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
+  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
+    but '%{actual}' returned.
+  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_can_t_change_password: ไม่สามารถเปลี่ยนรหัสผ่านได้ เนื่องจากบัญชีผู้ใช้นี้
+    ใช้การระบุตัวตนจากแหล่งภายนอก
+  notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
+    were deleted.
+  notice_email_error: พบข้อผิดพลาดระหว่างการส่งอีเมล์ (%{value})
+  notice_email_sent: ส่งอีเมล์ไปยัง %{value} แล้ว
+  notice_failed_to_save_work_packages: 'ไม่สามารถบันทึก %{count} ชุดภารกิจใน %{total}
+    ที่เลือก: %{ids}'
+  notice_failed_to_save_members: 'ไม่สามารถบันทึกสมาชิก: %{errors}'
+  notice_file_not_found: เพจที่คุณกำลังพยายามเข้าถึงไม่มีอยู่ หรือถูกลบออก
+  notice_forced_logout: คุณได้ออกจากระบบโดยอัตโนมัติเนื่องจากจากไม่มีกิจกรรมใดๆ ในระบบเป็นเวลา
+    %{ttl_time} นาที
+  notice_internal_server_error: เกิดข้อผิดพลาดบนเพจที่คุณกำลังพยายามเข้าถึง หากคุณยังพบปัญหากรุณาติดต่อผู้ดูแลระบบ
+    %{app_title} เพื่อขอความช่วยเหลือ
+  notice_work_package_done_ratios_updated: ปรับปรุงอัตราส่วนชุดภารกิจแล้ว
+  notice_locking_conflict: มีการปรับปรุงข้อมูลจากผู้ใช้อย่างน้อยหนึ่งคนในเวลาเดียวกัน
+  notice_locking_conflict_additional_information: การปรับปรุงข้อมูลมาจากผู้ใช้ %{users}
+  notice_locking_conflict_reload_page: กรุณาโหลดหน้าเพจใหม่ เพื่อตรวจสอบว่ามีการเปลี่ยนแปลงและปรับปรุงแล้ว
+  notice_member_added: เพิ่ม %{name} ไปยังโครงการ
+  notice_members_added: เพิ่มผู้ใช้ %{number} คนในโครงการแล้ว
+  notice_member_removed: Removed %{user} from project.
+  notice_member_deleted: "%{user} has been removed from the project and deleted."
+  notice_no_principals_found: ไม่พบผลลัพธ์
+  notice_bad_request: คำขอไม่ถูกต้อง
+  notice_not_authorized: คุณไม่ได้รับอนุญาตให้เข้าถึงเพจนี้
+  notice_not_authorized_archived_project: โครงการที่คุณกำลังพยายามเข้าถึงถูกเก็บถาวรแล้ว
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_principals_found_multiple: "There are %{number} results found. \n Tab to
+    focus the first result."
+  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_project_not_deleted: ไม่ได้ลบโครงการ
+  notice_successful_connection: การเชื่อมต่อสำเร็จ
+  notice_successful_create: สร้างเรียบร้อยแล้ว
+  notice_successful_delete: ลบเรียบร้อยแล้ว
+  notice_successful_update: ปรับปรุงข้อมูลเรียบร้อยแล้ว
+  notice_to_many_principals_to_display: เจอผลลัพธ์มากเกินไป \n โปรดทำให้ขอบเขตการค้นหาแคบลงโดยพิมพ์ชื่อของสมาชิกใหม่
+    (หรือกลุ่มใหม่) ลงไป
+  notice_unable_delete_time_entry: ไม่สามารถลบรายการบันทึกเวลา
+  notice_unable_delete_version: ไม่สามารถลบเวอร์ชั่น
+  notice_user_missing_authentication_method: User has yet to choose a password or
+    another way to sign in.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  present_access_key_value: 'Your %{key_name} is: %{value}'
+  notice_automatic_set_of_standard_type: ตั้งค่าชนิดมาตรฐานโดยอัตโนมัติ
+  notice_logged_out: คุณได้ออกจากระบบแล้ว
+  notice_wont_delete_auth_source: The authentication mode cannot be deleted as long
+    as there are still users using it.
+  notice_project_cannot_update_custom_fields: 'You cannot update the project''s available
+    custom fields. The project is invalid: %{errors}'
+  notice_attachment_migration_wiki_page: 'This page was generated automatically during
+    the update of OpenProject. It contains all attachments previously associated with
+    the %{container_type} "%{container_name}".
+
+'
+  number:
+    format:
+      delimiter: ''
+      precision: 3
+      separator: "."
+    human:
+      format:
+        delimiter: ''
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: ไบต์
+          gb: กิกะไบต์
+          kb: กิโลไบต์
+          mb: เมกะไบต์
+          tb: เทราไบต์
+  onboarding:
+    heading_getting_started: Get an overview
+    text_getting_started_description: Get a quick overview of project management and
+      team collaboration with OpenProject.
+    text_show_again: คุณสามารถเริ่มเล่นวิดีโอนี้ใหม่ได้จากเมนูวิธีใช้
+    welcome: Welcome to OpenProject
+  permission_add_work_package_notes: เพิ่มหมายเหตุ
+  permission_add_work_packages: Add work packages (also allows to add attachments
+    to all work packages)
+  permission_add_messages: โพสต์ข้อความ
+  permission_add_project: สร้างโครงการ
+  permission_add_subprojects: สร้างโครงการย่อย
+  permission_add_work_package_watchers: เพิ่มผู้เฝ้าดู
+  permission_browse_repository: Read-only access to repository (browse and checkout)
+  permission_change_wiki_parent_page: เปลี่ยนแปลงหลักหน้าวิกิ
+  permission_comment_news: แสดงความคิดเห็นเกี่ยวกับข่าว
+  permission_commit_access: Read/write access to repository (commit)
+  permission_copy_projects: คัดลอกโครงการ
+  permission_delete_work_package_watchers: ลบผู้เฝ้าดู
+  permission_delete_work_packages: ลบชุดภารกิจ
+  permission_delete_messages: ลบข้อความ
+  permission_delete_own_messages: ลบข้อความของคุณ
+  permission_delete_project_associations: ลบการอ้างอิงของโครงการ
+  permission_delete_reportings: ลบรายงาน
+  permission_delete_timelines: ลบแผนผังเวลา
+  permission_delete_wiki_pages: ลบหน้าวิกิ
+  permission_delete_wiki_pages_attachments: ลบไฟล์แนบ
+  permission_edit_work_package_notes: แก้ไขหมายเหตุ
+  permission_edit_work_packages: แก้ไขชุดภารกิจ
+  permission_edit_messages: แก้ไขข้อความ
+  permission_edit_own_work_package_notes: แก้ไขหมายเหตุ
+  permission_edit_own_messages: แก้ไขข้อความของตัวเอง
+  permission_edit_own_time_entries: แก้ไขบันทึกเวลาของตนเอง
+  permission_edit_project: แก้ไขโครงการ
+  permission_edit_project_associations: แก้ไขการอ้างอิงของโครงการ
+  permission_edit_reportings: แก้ไขรายงาน
+  permission_edit_time_entries: แก้ไขบันทึกเวลา
+  permission_edit_timelines: แก้ไขแผนภูมิเวลา
+  permission_edit_wiki_pages: แก้ไขหน้าวิกิ
+  permission_export_work_packages: Export work packages
+  permission_export_wiki_pages: เอกซ์ปอร์ตหน้าวิกิ
+  permission_list_attachments: รายการสิ่งที่แนบมา
+  permission_log_time: บันทึกเวลาที่ใช้
+  permission_manage_boards: จัดการกระทู้
+  permission_manage_categories: จัดการประเภทของชุดภารกิจ
+  permission_manage_work_package_relations: จัดการความสัมพันธ์ของชุดภารกิจ
+  permission_manage_members: จัดการสมาชิก
+  permission_manage_news: จัดการข่าวสาร
+  permission_manage_project_activities: จัดกิจกรรมของโครงการ
+  permission_manage_public_queries: จัดการแบบสอบถามสาธารณะ
+  permission_manage_repository: จัดการที่เก็บข้อมูล
+  permission_manage_subtasks: จัดการงานย่อย
+  permission_manage_versions: จัดการเวอร์ชั่น
+  permission_manage_wiki: จัดการวิกิ
+  permission_manage_wiki_menu: จัดการเมนูวิกิ
+  permission_move_work_packages: ย้ายชุดภารกิจ
+  permission_protect_wiki_pages: ป้องกันหน้าวิกิ
+  permission_rename_wiki_pages: เปลี่ยนชื่อหน้าวิกิ
+  permission_save_queries: บันทึกแบบสอบถาม
+  permission_select_project_modules: เลือกโมดูลของโครงการ
+  permission_manage_types: เลือกชนิด
+  permission_view_calendar: ดูปฏิทิน
+  permission_view_changesets: View repository revisions in OpenProject
+  permission_view_commit_author_statistics: ดูการส่งมอบสถิติผู้เขียน
+  permission_view_work_package_watchers: ดูรายชื่อผู้เฝ้าดู
+  permission_view_work_packages: View work packages
+  permission_view_messages: ดูข้อความ
+  permission_view_members: View members
+  permission_view_project_associations: ดูการอ้างอิงของโครงการ
+  permission_view_reportings: ดูรายงาน
+  permission_view_time_entries: ดูเวลาที่ใช้
+  permission_view_timelines: ดูแผนภูมิเวลา
+  permission_view_wiki_edits: ดูประวัติวิกิ
+  permission_view_wiki_pages: ดูวิกิ
+  placeholders:
+    default: "-"
+  project:
+    destroy:
+      confirmation: If you continue, the project %{identifier} and all related data
+        will be permanently destroyed.
+      info: Deleting the project is an irreversible action.
+      project_verification: Enter the project's name %{name} to verify the deletion.
+      subprojects_confirmation: 'Its subproject(s): %{value} will also be deleted.'
+      title: Delete the project %{name}
+    identifier:
+      warning_one: Members of the project will have to relocate the project's repositories.
+      warning_two: Existing links to the project will no longer work.
+      title: Change the project's identifier
+    archive:
+      are_you_sure: Are you sure you want to archive the project '%{name}'?
+  project_module_activity: กิจกรรม
+  project_module_boards: กระทู้
+  project_module_calendar: ปฏิทิน
+  project_module_work_package_tracking: ติดตามผลชุดภารกิจ
+  project_module_news: ข่าวสาร
+  project_module_repository: ที่เก็บ
+  project_module_time_tracking: ติดตามเวลาที่ใช้
+  project_module_timelines: เส้นเวลา
+  project_module_wiki: วิกิ
+  query:
+    attribute_and_direction: "%{attribute} (%{direction})"
+  query_fields:
+    active_or_archived: Active or archived
+    assigned_to_role: บทบาทของผู้รับผิดชอบ
+    member_of_group: กลุ่มของผู้รับผิดชอบ
+    assignee_or_group: Assignee or belonging group
+    subproject_id: โครงการย่อย
+    name_or_identifier: Name or identifier
+  repositories:
+    at_identifier: at %{identifier}
+    atom_revision_feed: Atom revision feed
+    autofetch_information: |-
+      Check this if you want repositories to be updated automatically when accessing the repository module page.
+      This encompasses the retrieval of commits from the repository and refreshing the required disk storage.
+    checkout:
+      access:
+        readwrite: Read + Write
+        read: Read-only
+        none: No checkout access, you may only view the repository through this application.
+      access_permission: Your permissions on this repository
+      url: Checkout URL
+      base_url_text: |-
+        The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).
+        Note: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered.
+      default_instructions:
+        git: |-
+          The data contained in this repository can be downloaded to your computer with Git.
+          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+        subversion: |-
+          The data contained in this repository can be downloaded to your computer with Subversion.
+          Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
+      enable_instructions_text: Displays checkout instructions defined below on all
+        repository-related pages.
+      instructions: Checkout instructions
+      show_instructions: Display checkout instructions
+      text_instructions: This text is displayed alongside the checkout URL for guidance
+        on how to check out the repository.
+      not_available: Checkout instructions are not defined for this repository. Ask
+        your administrator to enable them for this repository in the system settings.
+    create_managed_delay: 'Please note: The repository is managed, it is created asynchronously
+      on the disk and will be available shortly.'
+    create_successful: The repository has been registered.
+    delete_sucessful: The repository has been deleted.
+    destroy:
+      confirmation: If you continue, this will permanently delete the managed repository.
+      info: Deleting the repository is an irreversible action.
+      info_not_managed: 'Note: This will NOT delete the contents of this repository,
+        as it is not managed by OpenProject.'
+      managed_path_note: 'The following directory will be erased: %{path}'
+      repository_verification: Enter the project's identifier %{identifier} to verify
+        the deletion of its repository.
+      subtitle: Do you really want to delete the %{repository_type} of the project
+        %{project_name}?
+      subtitle_not_managed: Do you really want to remove the linked %{repository_type}
+        %{url} from the project %{project_name}?
+      title: Delete the %{repository_type}
+      title_not_managed: Remove the linked %{repository_type}?
+    errors:
+      build_failed: Unable to create the repository with the selected configuration.
+        %{reason}
+      managed_delete: Unable to delete the managed repository.
+      managed_delete_local: 'Unable to delete the local repository on filesystem at
+        ''%{path}'': %{error_message}'
+      empty_repository: The repository exists, but is empty. It does not contain any
+        revisions yet.
+      exists_on_filesystem: The repository directory already exists in the filesystem.
+      filesystem_access_failed: 'An error occurred while accessing the repository
+        in the filesystem: %{message}'
+      not_manageable: This repository vendor cannot be managed by OpenProject.
+      path_permission_failed: 'An error occurred trying to create the following path:
+        %{path}. Please ensure that OpenProject may write to that folder.'
+      unauthorized: You're not authorized to access the repository or the credentials
+        are invalid.
+      unavailable: The repository is unavailable.
+      exception_title: 'Cannot access the repository: %{message}'
+      disabled_or_unknown_type: The selected type %{type} is disabled or no longer
+        available for the SCM vendor %{vendor}.
+      disabled_or_unknown_vendor: The SCM vendor %{vendor} is disabled or no longer
+        available.
+      remote_call_failed: 'Calling the managed remote failed with message ''%{message}''
+        (Code: %{code})'
+      remote_invalid_response: Received an invalid response from the managed remote.
+      remote_save_failed: Could not save the repository with the parameters retrieved
+        from the remote.
+    git:
+      instructions:
+        managed_url: This is the URL of the managed (local) Git repository.
+        path: Specify the path to your local Git repository ( e.g., %{example_path}
+          ). You can also use remote repositories which are cloned to a local copy
+          by using a value starting with http(s):// or file://.
+        path_encoding: 'Override Git path encoding (Default: UTF-8)'
+      local_title: Link existing local Git repository
+      local_url: Local URL
+      local_introduction: If you have an existing local Git repository, you can link
+        it with OpenProject to access it from within the application.
+      managed_introduction: Let OpenProject create and integrate a local Git repository
+        automatically.
+      managed_title: Git repository integrated into OpenProject
+      managed_url: Managed URL
+      path: Path to Git repository
+      path_encoding: การเข้ารหัสเส้นทาง
+    go_to_revision: Go to revision
+    managed_remote: Managed repositories for this vendor are handled remotely.
+    managed_remote_note: Information on the URL and path of this repository is not
+      available prior to its creation.
+    managed_url: Managed URL
+    settings:
+      automatic_managed_repos_disabled: Disable automatic creation
+      automatic_managed_repos: Automatic creation of managed repositories
+      automatic_managed_repos_text: By setting a vendor here, newly created projects
+        will automatically receive a managed repository of this vendor.
+    scm_vendor: Source control management system
+    scm_type: Repository type
+    scm_types:
+      local: Link existing local repository
+      existing: Link existing repository
+      managed: Create new repository in OpenProject
+    storage:
+      not_available: Disk storage consumption is not available for this repository.
+      update_timeout: |-
+        Keep the last required disk space information for a repository for N minutes.
+        As counting the required disk space of a repository may be costly, increase this value to reduce performance impact.
+    subversion:
+      existing_title: Existing Subversion repository
+      existing_introduction: If you have an existing Subversion repository, you can
+        link it with OpenProject to access it from within the application.
+      existing_url: Existing URL
+      instructions:
+        managed_url: This is the URL of the managed (local) Subversion repository.
+        url: |-
+          Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.
+          The following URL schemes are supported:
+      managed_title: Subversion repository integrated into OpenProject
+      managed_introduction: Let OpenProject create and integrate a local Subversion
+        repository automatically.
+      managed_url: Managed URL
+      password: Repository Password
+      username: Repository username
+    truncated: Sorry, we had to truncate this directory to %{limit} files. %{truncated}
+      entries were omitted from the list.
+    named_repository: "%{vendor_name} repository"
+    update_settings_successful: The settings have been sucessfully saved.
+    url: URL to repository
+    warnings:
+      cannot_annotate: This file cannot be annotated.
+  search_input_placeholder: ค้นหา...
+  setting_email_delivery_method: Email delivery method
+  setting_sendmail_location: Location of the sendmail executable
+  setting_smtp_enable_starttls_auto: Automatically use STARTTLS if available
+  setting_smtp_address: SMTP server
+  setting_smtp_port: SMTP port
+  setting_smtp_authentication: SMTP authentication
+  setting_smtp_domain: SMTP HELLO domain
+  setting_smtp_user_name: SMTP username
+  setting_smtp_password: SMTP password
+  setting_activity_days_default: จำนวนวันที่แสดงในกิจกรรมของโครงการ
+  setting_app_subtitle: หัวข้อย่อยของแอบพลิเคชั่น
+  setting_app_title: หัวข้อแอบพลิเคชั่น
+  setting_attachment_max_size: ขนาดสูงสุดของไฟล์แนบ
+  setting_autofetch_changesets: Autofetch repository changes
+  setting_autologin: การล็อคอินอัตโนมัติ
+  setting_available_languages: ภาษาที่ใช้ได้
+  setting_bcc_recipients: ผู้รับสำเนาลับ (bcc)
+  setting_brute_force_block_after_failed_logins: Block user after this number of failed
+    login attempts
+  setting_brute_force_block_minutes: Time the user is blocked for
+  setting_cache_formatted_text: ข้อความที่กำหนดรูปแบบที่มีการเก็บแคชไว้
+  setting_column_options: กำหนดรูปแบบการแสดงผลของรายการชุดภารกิจ
+  setting_commit_fix_keywords: แก้ไขคำสำคัญ
+  setting_commit_logs_encoding: มีการเข้ารหัสข้อความที่ส่ง
+  setting_commit_logtime_activity_id: กิจกรรมสำหรับเวลาที่บันทึก
+  setting_commit_logtime_enabled: เปิดใช้การบันทึกเวลา
+  setting_commit_ref_keywords: คำสำคัญที่ใช้อ้างอิง
+  setting_cross_project_work_package_relations: อนุญาติให้มีความเกี่ยวข้องกันระหว่างชุดภารกิจในโครงการ
+  setting_date_format: รูปแบบวันที่
+  setting_default_language: ภาษาเริ่มต้น
+  setting_default_notification_option: ตัวเลือกการแจ้งเตือนเริ่มต้น
+  setting_default_projects_modules: ค่าเริ่มต้นของโมดูลที่เปิดใช้สำหรับโครงการใหม่
+  setting_default_projects_public: โดยเริ่มแรก โครงการใหม่จะเป็นสาธารณะ
+  setting_diff_max_lines_displayed: จำนวนบรรทัดที่แตกต่างที่แสดงได้สูงสุด
+  setting_display_subprojects_work_packages: ค่าเริ่มต้น จะแสดงชุดภารกิจของโครงการย่อย
+    ในโครงการหลัก
+  setting_emails_footer: ส่วนท้ายของอีเมล์
+  setting_emails_header: ส่วนหัวอีเมล
+  setting_email_login: Use e-mail as login
+  setting_enabled_scm: เปิดใช้ SCM
+  setting_feeds_enabled: เปิดใช้ Feeds
+  setting_feeds_limit: จำกัดเนื้อหาของ Feed
+  setting_file_max_size_displayed: ความยาวสูงสุดของไฟล์ตัวอักษรแสดงในบรรทัด
+  setting_host_name: ชื่อโฮสต์
+  setting_work_package_done_ratio: คำนวณอัตราส่วนของชุดภารกิจที่เสร็จแล้วกับ
+  setting_work_package_done_ratio_field: ใช้ฟิลด์ของชุดภารกิจ
+  setting_work_package_done_ratio_status: ใช้สถานะของชุดภารกิจ
+  setting_work_package_done_ratio_disabled: ปิดการใช้งาน (ซ่อนความคืบหน้า)
+  setting_work_package_list_default_columns: แสดงเป็นค่าเริ่มต้น
+  setting_work_package_list_summable_columns: สามารถรวมกันได้
+  setting_work_package_properties: คุณสมบัติของชุดภารกิจ
+  setting_work_package_startdate_is_adddate: ใช้วันปัจจุบันเป็นวันเริ่มต้นสำหรับชุดภารกิจใหม่
+  setting_work_packages_export_limit: การจำกัดการเอกซ์ปอร์ตชุดภารกิจ
+  setting_journal_aggregation_time_minutes: Display journals as aggregated within
+  setting_log_requesting_user: เก็บข้อมูลการล็อกอิน ชื่อ และอีเมล์ของผู้ใช้สำหรับทุกคำขอ
+  setting_login_required: จำเป็นต้องระบุตัวตนผู้ใช้
+  setting_mail_from: การเผยแพร่ที่อยู่อีเมล
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: The email web handler enables OpenProject
+    to receive emails containing specific commands as an instrumentation mechanism
+    (e.g., to create and update work packages).
+  setting_mail_handler_api_key: คีย์ API
+  setting_mail_handler_body_delimiters: ตัดข้อความอีเมลหลังจากเส้นนี้
+  setting_mail_handler_body_delimiter_regex: Truncate emails matching this regex
+  setting_new_project_user_role_id: 'บทบาทที่ให้กับผู้ใช้ที่สร้างโครงการ ซึ่งไม่ใช่ผู้ดูแลระบบ '
+  setting_password_active_rules: ประเภทของตัวอักษรที่ใช้งานได้
+  setting_password_count_former_banned: 'จำนวนรหัสผ่านที่ใช้ล่าสุดที่ห้ามนำมาใช้ซ้ำ '
+  setting_password_days_valid: Number of days, after which to enforce a password change
+  setting_password_min_length: จำนวนตัวอักษรขั้นต่ำ
+  setting_password_min_adhered_rules: จำนวน class ขั้นต่ำที่จำเป็น
+  setting_per_page_options: ตัวเลือกออบเจคต่อหน้าเพจ
+  setting_plain_text_mail: จดหมายข้อความล้วน (ไม่ใช้ HTML)
+  setting_protocol: โปรโทคอล
+  setting_registration_footer: Registration footer
+  setting_repositories_automatic_managed_vendor: Automatic repository vendor type
+  setting_repositories_encodings: แหล่งเก็บข้อมูลที่มีการเข้ารหัส
+  setting_repository_authentication_caching_enabled: Enable caching for authentication
+    request of version control software
+  setting_repository_storage_cache_minutes: Repository disk size cache
+  setting_repository_checkout_display: Show checkout instructions
+  setting_repository_checkout_base_url: Checkout base URL
+  setting_repository_checkout_text: Checkout instruction text
+  setting_repository_log_display_limit: จำนวนการปรับปรุงสูงสุดที่แสดงในไฟล์ log
+  setting_repository_truncate_at: Maximum number of files displayed in the repository
+    browser
+  setting_rest_api_enabled: 'เปิดใช้งานเว็บเซอร์วิส REST '
+  setting_self_registration: การลงทะเบียนด้วยตนเอง
+  setting_sequential_project_identifiers: สร้างรหัสของโครงการตามลำดับ
+  setting_session_ttl: ระยะเวลาที่หมดอายุการใช้งาน หลังจากไม่มีกิจกรรมใดๆ ในระบบ
+  setting_session_ttl_hint: ค่าต่ำกว่า 5 จะทำงานเหมือนกับ การปิดการใช้งาน
+  setting_session_ttl_enabled: เซสชันหมดอายุ
+  setting_start_of_week: Week starts on
+  setting_sys_api_enabled: Enable repository management web service
+  setting_sys_api_description: The repository management web service provides integration
+    and user authorization for accessing repositories.
+  setting_text_formatting: การจัดรูปแบบข้อความ
+  setting_time_format: รูปแบบเวลา
+  setting_accessibility_mode_for_anonymous: เปิดใช้งาน "โหมดจำกัดการใช้งาน" สำหรับผู้ใช้ที่ไม่ระบุชื่อ
+  setting_user_format: รูปแบบการแสดงผลของผู้ใช้
+  setting_users_deletable_by_admins: บัญชีผู้ใช้ที่สามารถลบโดยผู้ดูแลระบบ
+  setting_users_deletable_by_self: ยินยอมให้ผู้ใช้ลบบัญชีของตนเองได้
+  setting_welcome_text: Welcome block text
+  setting_welcome_title: Welcome block title
+  setting_welcome_on_homescreen: Display welcome block on homescreen
+  setting_welcome_on_projects_page: Display welcome block on project overview
+  setting_wiki_compression: การบีบอัดไฟล์ประวัติของวิกิ
+  setting_work_package_group_assignment: อนุญาตให้มอบหมายไปยังกลุ่ม
+  settings:
+    general: ทั่วไป
+    other: อื่น ๆ
+    passwords: รหัสผ่าน
+    session: เซสชั่น
+    brute_force_prevention: การบล็อกผู้ใช้อัตโนมัติ
+  show_hide_project_menu: ขยาย/ยุบเมนูโครงการ
+  status_active: ใช้งานอยู่
+  status_archived: archived
+  status_invited: invited
+  status_locked: ล็อก
+  status_registered: ลงทะเบียน
+  support:
+    array:
+      sentence_connector: และ
+      skip_last_comma: เป็นเท็จ
+  text_accessibility_hint: The accessibility mode is designed for users who are blind,
+    motorically handicaped or have a bad eyesight. For the latter focused elements
+    are specially highlighted. Please notice, that the Backlogs module is not available
+    in this mode.
+  text_access_token_hint: Access tokens allow you to grant external applications access
+    to resources in OpenProject.
+  text_analyze: 'การวิเคราะห์เพิ่มเติม: %{subject}'
+  text_are_you_sure: คุณแน่ใจหรือไม่ ?
+  text_are_you_sure_with_children: ลบชุดภารกิจและ ชุดภารกิจย่อยที่เกี่ยวข้องทั้งหมดหรือไม่?
+  text_assign_to_project: กำหนดไปยังโครงการ
+  text_form_configuration: 'You can customize which fields will be displayed in work
+    package forms. You can freely group the fields to reflect the needs for your domain.
+
+'
+  text_form_configuration_drag_to_activate: Drag fields from here to activate them
+  text_form_configuration_required_attribute: Attribute is marked required and thus
+    always shown
+  text_caracters_maximum: สูงสุด %{count} ตัวอักษร
+  text_caracters_minimum: ต้องมีความยาวอย่างน้อย %{count} ตัวอักษร
+  text_comma_separated: สามารถระบุได้หลายค่า (คั่นด้วยเครื่องหมาย comma)
+  text_comment_wiki_page: 'Comment to wiki page: %{page}'
+  text_custom_field_possible_values_info: หนึ่งค่าต่อหนึ่งบรรทัด
+  text_custom_field_hint_activate_per_project: 'When using custom fields: Keep in
+    mind that custom fields need to be activated per project, too.
+
+'
+  text_custom_field_hint_activate_per_project_and_type: 'Custom fields need to be
+    activated per work package type and per project.
+
+'
+  text_custom_logo_instructions: 'A white logo on transparent background is recommended.
+    For best results on both, conventional and retina displays, make sure your image''s
+    dimensions are 460px by 60px.
+
+'
+  text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser
+    window/tab next to the page''s title. It''s needs to be a squared 32 by 32 pixels
+    sized PNG image file with a transparent background.
+
+'
+  text_custom_touch_icon_instructions: 'This is the icon that appears in your mobile
+    or tablet when you place a bookmark on your homescreen. It''s needs to be a squared
+    180 by 180 pixels sized PNG image file. Please make sure the image''s background
+    is not transparent otherwise it will look bad on iOS.
+
+'
+  text_default_administrator_account_changed: มีการเปลี่ยนค่าตั้งต้นของผู้ดูแลระบบ
+  text_default_encoding: 'ค่าเริ่มต้น: UTF-8'
+  text_destroy: ลบ
+  text_destroy_with_associated: 'มีการลบออบเจคต์ที่เกี่ยวข้องกับชุดภารกิจ ซึ่งเป็นประเภทดังต่อไปนี้:'
+  text_destroy_what_to_do: คุณต้องการจะทำอะไร ?
+  text_diff_truncated: "... มีการตัดผลต่างเนื่องจากมีความยาวเกินกว่าที่สามารถแสดงผลได้"
+  text_email_delivery_not_configured: ยังไม่มีการกำหนดค่าการส่งอีเมล์ และมีการปิดการใช้งานการแจ้งเตือน
+    \n กำหนดค่า SMTP server ใน config/configuration.yml และเริ่มแอบพลิเคชั่นใหม่ เพื่อเปิดการใช้งาน
+  text_enumeration_category_reassign_to: 'มอบหมายใหม่ให้กับ:'
+  text_enumeration_destroy_question: มีการมอบหมาย %{count} ออบเจคต์ ให้กับค่านี้
+  text_file_repository_writable: สามารถบันทึกในไดเรกทอรี่ของไฟล์แนบได้
+  text_git_repo_example: แหล่งเก็บข้อมูลทั่วไป (เช่น /gitrepo, c:\gitrepo)
+  text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
+    be changed to an unwanted date.
+  text_hint_disable_with_0: 'Note: Disable with 0'
+  text_hours_between: Between %{min} and %{max} hours.
+  text_work_package_added: มีการรายงาน ชุดภารกิจ %{id} โดย %{author}
+  text_work_package_category_destroy_assignments: เอาการกำหนดประเภทออก
+  text_work_package_category_destroy_question: มีการมอบหมาย (%{count}) ชุดภารกิจ ไปที่ประเภทนี้
+    คุณต้องการจะทำอะไร ?
+  text_work_package_category_reassign_to: มอบหมายชุดภารกิจ ใหม่ไปยังประเภทนี้
+  text_work_package_updated: มีการรายงาน ชุดภารกิจ %{id} โดย %{author}.
+  text_work_package_watcher_added: You have been added as a watcher to Work package
+    %{id} by %{watcher_setter}.
+  text_work_packages_destroy_confirmation: คุณแน่ใจหรือไม่ว่าจะลบชุดภารกิจที่เลือก
+    ?
+  text_work_packages_ref_in_commit_messages: อ้างอิงและแก้ไขชุดภารกิจในข้อความยืนยัน
+  text_journal_added: "%{label} %{value} ถูกเพิ่มแล้ว"
+  text_journal_aggregation_time_explanation: Combine journals for display if their
+    age difference is less than the specified timespan. This will also delay mail
+    notifications by the same amount of time.
+  text_journal_changed: มีการเปลี่ยนแปลง %{label} จากเดิม %{old} เป็น %{new}
+  text_journal_changed_no_detail: มีการแก้ไข %{label} แล้ว
+  text_journal_changed_with_diff: มีการเปลี่ยนแปลง %{label} (%{link})
+  text_journal_deleted: "%{label} ถูกลบแล้ว (%{old})"
+  text_journal_deleted_with_diff: "%{label} ถูกลบแล้ว (%{link})"
+  text_journal_set_to: กำหนดค่า %{label} เป็น %{value}
+  text_journal_set_with_diff: มีการกำหนดค่า %{label} (%{link})
+  text_latest_note: 'ความคิดเห็นล่าสุดคือ: %{note}'
+  text_length_between: ความยาวระหว่าง %{min} จนถึง %{max} ตัวอักษร
+  text_line_separated: อนุญาตให้มีหลายค่าได้ (หนึ่งค่าต่อหนึ่งบรรทัด)
+  text_load_default_configuration: โหลดการกำหนดค่าเริ่มต้น
+  text_min_max_length_info: 0 หมายถึง ไม่มีข้อจำกัด
+  text_no_roles_defined: There are no roles defined.
+  text_no_access_tokens_configurable: There are no access tokens which can be configured.
+  text_no_configuration_data: ยังไม่ได้มีการกำหนดค่า บาทบาท, ประเภท, สถานะของชุดภารกิจ
+    \n ขอแนะนำให้โหลดค่าเริ่มต้นของการตั้งค่ามาใช้ ซึ่งคุณสามารถปรับเปลี่ยนได้หลังจากที่โหลดแล้ว
+  text_no_notes: There are no comments available for this work package.
+  text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
+    per page can increase the page load time.'
+  text_own_membership_delete_confirmation: คุณกำลังลบการอนุญาตบางส่วนหรือทั้งหมด และไม่สามารถแก้ไขโครงการได้หลังจากนั้น
+    \n คุณแน่ใจว่าจะดำเนินการต่อหรือไม่?
+  text_plugin_assets_writable: สามารถบันทึก ไดเรคทอรี่ของ Plugin asset ได้
+  text_powered_by: ดำเนินการโดย %{link}
+  text_project_identifier_info: ใช้ได้เฉพาะตัวพิมพ์เล็ก (a-z), ตัวเลข เส้นประ และขีดใต้
+    โดย ต้องเริ่มต้น ด้วยตัวอักษรพิมพ์เล็กเท่านั้น
+  text_reassign: 'Reassign to work package:'
+  text_regexp_info: ต.ย. เช่น ^[A-Z0-9]+$
+  text_regexp_multiline: The regex is applied in a multi-line mode. e.g., ^---\s+
+  text_repository_usernames_mapping: เลือกหรือปรับปรุงผู้ใช้ของ OpenProject มีการจับคู่แต่ละ
+    username ที่พบในบันทึกที่เก็บข้อมูล \n จะมีการจับคู่อัตโนมัติให้กับผู้ใช้ที่มี
+    username เข้า OpenProject หรือที่เก็บข้อมูล หรืออีเมล์ที่ตรงกัน
+  text_select_mail_notifications: เลือกการดำเนินการสำหรับอีเมล์ที่ควรส่งการแจ้งเตือน
+  text_status_changed_by_changeset: ใช้งานในชุดการเปลี่ยนแปลง %{value}
+  text_table_difference_description: In this table the single %{entries} are shown.
+    You can view the difference between any two entries by first selecting the according
+    checkboxes in the table. When clicking on the button below the table the differences
+    are shown.
+  text_time_logged_by_changeset: ใช้งานในชุดการเปลี่ยนแปลง %{value}
+  text_tip_work_package_begin_day: ชุดภารกิจเริ่มวันนี้
+  text_tip_work_package_begin_end_day: ชุดภารกิจเริ่มต้นและสิ้นสุดวันนี้
+  text_tip_work_package_end_day: ชุดภารกิจสิ้นสุดวันนี้
+  text_type_no_workflow: ไม่มีการกำหนดกระบวนการทำงานสำหรับประเภทนี้
+  text_unallowed_characters: ตัวอักษรที่ไม่อนุญาตให้ใช้
+  text_user_invited: The user has been invited and is pending registration.
+  text_user_wrote: "%{value} เขียนว่า:"
+  text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
+    lost if you leave this page.
+  text_wiki_destroy_confirmation: คุณแน่ใจหรือว่าจะลบวิกิและเนื้อหาของวิกินี้ ?
+  text_wiki_page_destroy_children: ลบเพจลูกและเพจที่เกี่ยวข้องทั้งหมด
+  text_wiki_page_destroy_question: เพจนี้มี เพจย่อย %{descendants} และเพจที่เกี่ยวข้องอื่นๆ
+    อีก คุณต้องการจะทำอย่างไร ?
+  text_wiki_page_nullify_children: ใช้หน้าเพจย่อยเป็นหน้าหลัก
+  text_wiki_page_reassign_children: กำหนดหน้าเพจย่อยเป็นหน้าหลักของเพจนี้
+  text_workflow_edit: เลือกบทบาทและประเภทในการแก้ไขกระบวนการทำงาน
+  text_zoom_in: ขยาย
+  text_zoom_out: ซูมออก
+  text_setup_mail_configuration: Configure your email provider
+  time:
+    am: น.
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+      time: "%I:%M %p"
+    pm: น.
+  timeframe:
+    show: แสดงกรอบเวลา
+    end: ถึง
+    start: จาก
+  timelines:
+    admin_menu:
+      color: สี
+      colors: สี
+      project_type: ประเภทของโครงการ
+      project_types: ประเภทของโครงการ
+    project_menu:
+      project_associations: ส่วนที่อ้างอิง
+      reportings: รายงานสถานะ
+      reports: แผนภูมิเวลา
+      timelines: เส้นเวลา
+    add_project_association: เพิ่มการอ้างอิง
+    associations: ส่วนที่อ้างอิง
+    board_could_not_be_saved: ไม่สามารถบันทึกคณะกรรมการ
+    button_delete_all: ลบทั้งหมด
+    change: การเปลี่ยนแปลงในการวางแผน
+    children: องค์ประกอบย่อย
+    color_could_not_be_saved: ไม่สามารถบันทึกสีได้
+    current_planning: การวางแผนปัจจุบัน
+    dates: วันที่
+    dates_are_calculated_based_on_sub_elements: คำนวณวันตามองค์ประกอบย่อย
+    delete_all: ลบทั้งหมด
+    delete_thing: ลบ
+    duration: ระยะเวลา
+    duration_days:
+      one: 1 day
+      other: "%{count} วัน"
+    edit_color: แก้ไขสี
+    edit_project_type: แก้ไขชนิดของโครงการ
+    edit_thing: แก้ไข
+    edit_timeline: แก้ไขรายงานแผนภูมิเวลา
+    delete_timeline: ลบแผนภูมิเวลา
+    empty: "(ว่าง)"
+    enable_type_in_project: เปิดใช้งานชนิด "%{type}"
+    end: สิ้นสุด
+    errors:
+      not_implemented: ไม่สามารถร่างแผนภูมิเวลา (timeline) ได้เนื่องจากใช้คุณลักษณะที่ยังไม่ได้มีการนำมาใช้ในระบบ
+      report_comparison: แผนภูมิเวลาไม่สามารถร่างการเปรียบเทียบที่กำหนดไว้ กรุณาตรวจสอบส่วนต่างๆ
+        ในการตั้งค่าให้เหมาะสม หรือลองรีเซตค่าใหม่เพื่อแก้ไขปัญหา
+      report_epicfail: พบข้อผิดพลาด ไม่สามารถโหลดแผนภูมิเวลา ได้
+      report_timeout: ไม่สามารถโหลดแผนภูมิเวลาในระยะเวลาที่เหมาะสมได้
+    filter:
+      errors:
+        timeframe_start: เริ่มกรอบเวลา
+        timeframe_end: สิ้นสุดกรอบเวลา
+        compare_to_relative: 'ค่าของการเปรียบเทียบสัมพันธ์ '
+        compare_to_absolute: 'ค่าของการเปรียบเทียบสัมบูรณ์ '
+        planning_element_time_relative_one: การเริ่มต้นของชุดภารกิจในกรอบเวลาที่แน่นอน
+        planning_element_time_relative_two: การสิ้นสุดของชุดภารกิจในกรอบเวลาที่แน่นอน
+        planning_element_time_absolute_one: การเริ่มต้นของชุดภารกิจในกรอบเวลาที่แน่นอน  
+        planning_element_time_absolute_two: การสิ้นสุดของชุดภารกิจในกรอบเวลาที่แน่นอน  
+      sort:
+        sortation: เรียงลำดับโดย
+        alphabet: ตัวอักษร
+        explicit_order: ลำดับชัดเจน
+        project_sortation: เรียงลำดับโครงการตาม
+        date: วันที่
+        default: ค่าเริ่มต้น
+      column:
+        assigned_to: ผู้ได้รับมอบหมาย
+        type: ประเภท
+        due_date: วันสิ้นสุด
+        name: ชื่อ
+        status: สถานะ
+        responsible: รับผิดชอบ
+        start_date: วันเริ่มต้น
+      columns: คอลัมน์
+      comparisons: เปรียบเทียบ
+      comparison:
+        absolute: แน่นอน
+        none: ไม่มี
+        relative: ความสัมพันธ์
+        compare_relative_prefix: Compare current planning to
+        compare_relative_suffix: ago
+        compare_absolute: เปรียบเทียบการวางแผนปัจจุบัน กับ %{date}
+      time_relative:
+        days: วัน
+        weeks: สัปดาห์
+        months: เดือน
+      exclude_own_work_packages: ซ่อนชุดภารกิจจากโครงการนี้
+      exclude_reporters: ซ่อนโครงการอื่น ๆ
+      exclude_empty: ซ่อนโครงการว่าง
+      grouping: การจัดกลุ่ม
+      grouping_hide_group: ซ่อนกลุ่ม "%{group}"
+      grouping_one: เงื่อนไขในการจัดกลุ่มแรก
+      grouping_one_phrase: เป็นโครงการย่อยของ
+      grouping_other: อื่น ๆ
+      hide_chart: ซ่อนแผนภูมิ
+      noneElement: "(ไม่มี)"
+      noneSelection: "(ไม่มี)"
+      outline: การขยายโครงร่างขั้นต้น
+      parent: แสดงโครงการย่อยของ
+      work_package_filters: กรองชุดภารกิจ
+      work_package_responsible: แสดงชุดภารกิจตามความรับผิดชอบ
+      work_package_assignee: แสดงชุดภารกิจตามผู้ได้รับมอบหมาย
+      types: แสดงชนิด
+      status: แสดงสถานะ
+      project_time_filter: โครงการที่มีชุดภารกิจของประเภทที่แน่นอนในกรอบเวลาที่แน่นอน
+      project_time_filter_timeframe: Timeframe
+      project_time_filter_historical_from: จาก
+      project_time_filter_historical_to: ถึง
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ที่ผ่านมา,
+        %{end_label} %{endspan}%{endspanunit} ตั้งแต่บัดนี้"
+      project_filters: ตัวกรองโครงการ
+      project_responsible: แสดงโครงการตามความรับผิดชอบ
+      project_status: แสดงสถานะของโครงการ
+      project_types: แสดงประเภทของโครงการ
+      timeframe: แสดงกรอบเวลา
+      timeframe_end: ถึง
+      timeframe_start: จาก
+      timeline: การตั้งค่าทั่วไป
+      zoom: ปัจจัยการขยาย
+    history: ประวัติย้อนหลัง
+    new_color: สีใหม่
+    new_association: การอ้างอิงใหม่
+    new_work_package: ชุดภารกิจใหม่
+    new_project_type: ประเภทโครงการใหม่
+    new_reporting: รายงานใหม่
+    new_timeline: รายงานแผนภูมิเวลาใหม่
+    no_projects_for_reporting_available: ไม่มีโครงการที่ความเกี่ยวข้องของรายงานสามารถสร้างได้
+    no_right_to_view_timeline: คุณไม่มีสิทธิ์เพียงพอในการดูแผนภูมิเวลาที่เชื่อมโยง
+    no_timeline_for_id: ไม่พบแผนภูมิเวลาจาก ID %{id}
+    notice_successful_deleted_all_elements: ลบองค์ประกอบทั้งหมดเรียบร้อย
+    outline: ตั้งค่าโครงร่างใหม่
+    outlines:
+      aggregation: แสดงรวมเท่านั้น
+      level1: ขยายระดับ 1
+      level2: ขยายระดับ 2
+      level3: ขยายระดับ 3
+      level4: ขยายระดับ 4
+      level5: ขยายระดับ 5
+      all: แสดงทั้งหมด
+    reporting_for_project:
+      show: 'มีการรายงานสถานะไปยังโครงการ: %{title}'
+      edit_delete: 'รายงานสถานะสำหรับโครงการ: %{title}'
+      history: 'ประวัติของสถานะสำหรับโครงการ: %{title}'
+    reporting:
+      delete: 'ลบสถานะ: %{comment}'
+      edit: 'แก้ไขสถานะ: %{comment}'
+      show: 'สถานะ: %{comment}'
+    planning_element_update: 'แก้ไข: %{title}'
+    work_packages_are_displayed_in_aggregations: ชุดภารกิจแสดงผลในภาพรวม
+    project_association_new: เพิ่มการอ้างอิงโครงการ
+    project_association_new_for_with: ตั้งค่าการอ้างอิงสำหรับ "%{project_a}" ด้วย
+    project_association_with_other: การเชื่อมโยงระหว่างโครงการ "%{project_a}" และโครงการ
+      "%{project_b}"
+    project_association_of_type: การอ้างอิงไปยังโครงการของประเภท "%{type}"
+    project_type_could_not_be_saved: ไม่สามารถบันทึกชนิดของโครงการได้
+    type_could_not_be_saved: ไม่สามารถบันทึกชนิดได้
+    reporting_could_not_be_saved: ไม่สามารถบันทึกรายงานได้
+    properties: คุณสมบัติ
+    really_delete_color: 'คุณแน่ใจว่าจะลบสีดังต่อไปนี้หรือไม่? ประเภทที่ใช้สีเหล่านี้จะไม่ถูกลบไปด้วย
+
+'
+    really_delete_project_association_between_project_a_and_project_b: 'คุณแน่ใจหรือว่าจะลบการเชื่อมโยงระหว่างโครงการ
+      "%{project_a}" และโครงการ "%{project_b}" ?
+
+'
+    really_delete_project_type: 'คุณแน่ใจหรือว่าจะลบประเภทโครงการนี้? โครงการที่ใช้ประเภทนี้จะไม่ถูกลบไปด้วย
+
+'
+    really_delete_timeline: 'คุณแน่ใจหรือว่าจะลบรายงานแผนภูมิเวลานี้? ชุดภารกิจที่แสดงในแผนภูมิเวลาจะไม่ถูกลบไปด้วย
+
+'
+    really_delete_reporting: 'คุณแน่ใจหรือว่าจะลบรายงานนี้? เนื่องจากสถานะของรายงานก่อนหน้านี้จะถูกลบไปด้วย
+
+'
+    start: เริ่มต้น
+    timeline: แผนภูมิเวลา
+    timelines: แผนภูมิเวลา
+    settings: เส้นเวลา
+    vertical_work_package: ชุดภารกิจแนวตั้ง
+    without_project_type: โดยปราศจากประเภทโครงการ
+    you_are_viewing_the_selected_timeline: คุณกำลังชมรายงานแผนภูมิเวลาที่เลือก
+    zoom:
+      in: ขยาย
+      out: ซูมออก
+      days: วัน
+      weeks: สัปดาห์
+      months: เดือน
+      quarters: ไตรมาส
+      years: ปี
+  title_remove_and_delete_user: Remove the invited user from the project and delete
+    him/her.
+  tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
+    case the old one expired or the user did not get the original email. Can also
+    be used for active users to choose a new authentication method. When used with
+    active users their status will be changed to ''invited''.
+
+'
+  tooltip:
+    setting_email_login: 'If enabled a user will be unable to chose a login during
+      registration. Instead their given e-mail address will serve as the login. An
+      administrator may still change the login separately.
+
+'
+  queries:
+    apply_filter: ใช้ตัวกรองที่กำหนดไว้ล่วงหน้า
+  top_menu:
+    additional_resources: Additional resources
+    getting_started: Getting started
+    help_and_support: Help and support
+  total_progress: ความคืบหน้าทั้งหมด
+  user:
+    all: ทั้งหมด
+    active: ใช้งานอยู่
+    activate: เปิดใช้งาน
+    activate_and_reset_failed_logins: เปิดใช้งานและรีเซตการล็อคอินที่ล้มเหลว
+    authentication_provider: ผู้ให้บริการการรับรองความถูกต้องของการระบุตัวตน
+    authentication_settings_disabled_due_to_external_authentication: 'ผู้ใช้นี้ได้รับการรับรองความถูกต้องจากภายนอก
+      ดังนั้นจึงไม่มีรหัสผ่านใน OpenProject ที่สามารถเปลี่ยนแปลงได้
+
+'
+    authorization_rejected: You are not allowed to sign in.
+    assign_random_password: Assign random password (sent to user via email)
+    blocked: ล็อคชั่วคราว
+    blocked_num_failed_logins:
+      one: locked temporarily (one failed login attempt)
+      other: locked temporarily (%{count} failed login attempts)
+    confirm_status_change: You are about to change the status of '%{name}'. Are you
+      sure you want to continue?
+    deleted: ผู้ใช้ที่ถูกลบ
+    error_status_change_failed: 'ล้มเหลวในการเปลี่ยนสถานะของผู้ใช้เนื่องจากข้อผิดพลาดต่อไปนี้:
+      %{errors}'
+    invite: Invite user via email
+    invited: invited
+    lock: ล็อคอย่างถาวร
+    locked: ถูกล็อคอย่างถาวร
+    no_login: This user authenticates through login by password. Since it is disabled,
+      they cannot log in.
+    password_change_unsupported: Change of password is not supported.
+    registered: ลงทะเบียน
+    reset_failed_logins: รีเซ็ตล็อกอินที่ล้มเหลว
+    settings:
+      mail_notifications: Send email notifications
+      mail_project_explanaition: For unselected projects, you will only receive notifications
+        about things you watch or you're involved in (e.g. work packages you're the
+        author or assignee of).
+      mail_self_notified: I want to be notified of changes that I make myself
+    status_user_and_brute_force: "%{user} และ %{brute_force}"
+    status_change: Status change
+    unlock: ปลดล็อก
+    unlock_and_reset_failed_logins: ปลดล็อค และรีเซตค่าล็อกอินที่ล้มเหลว
+  version_status_closed: ปิด
+  version_status_locked: ล็อก
+  version_status_open: เปิด
+  note: Note
+  note_password_login_disabled: Password login has been disabled by %{configuration}.
+  warning: Warning
+  warning_attachments_not_saved: มี %{count} ไฟล์ที่ไม่สามารถบันทึกได้
+  menu_item: เมนู
+  menu_item_setting: การมองเห็น
+  wiki_menu_item_for: เมนูสำหรับหน้าวิกิ "%{title}"
+  wiki_menu_item_setting: การมองเห็น
+  wiki_menu_item_new_main_item_explanation: 'คุณกำลังลบเฉพาะเมนูของวิกิหลัก ตอนนี้คุณต้องเลือกหน้าวิกิที่ไอเทมหลักจะถูกสร้าง
+    ในการลบวิกิ ผู้ดูแลโครงการสามารถระงับการใช้งานโมดูลวิกิได้
+
+'
+  wiki_menu_item_delete_not_permitted: ไม่สามารถลบแค่เมนูของวิกิในหน้าวิกิเท่านั้น
+  query_menu_item_for: เมนูของแบบสอบถาม "%{title}"
+  work_package:
+    updated_automatically_by_child_changes: '_ถูกอัพเดทโดยอัตโนมัติ โดยการเปลี่ยนค่าในชุดภารกิจย่อย
+      %{child}_
+
+'
+    destroy:
+      info: Deleting the work package is an irreversible action.
+      title: Delete the work package
+  nothing_to_preview: ไม่มีอะไรให้แสดงเป็นตัวอย่าง
+  api_v3:
+    attributes:
+      lock_version: Lock Version
+    errors:
+      code_401: You need to be authenticated to access this resource.
+      code_401_wrong_credentials: You did not provide the correct credentials.
+      code_403: You are not authorized to access this resource.
+      code_404: The requested resource could not be found.
+      code_409: Couldn't update the resource because of conflicting modifications.
+      code_500: An internal error has occured.
+      expected:
+        date: YYYY-MM-DD (ISO 8601 date only)
+        duration: ISO 8601 duration
+      invalid_content_type: Expected CONTENT-TYPE to be '%{content_type}' but got
+        '%{actual}'.
+      invalid_format: 'Invalid format for property ''%{property}'': Expected format
+        like ''%{expected_format}'', but got ''%{actual}''.'
+      invalid_json: The request could not be parsed as JSON.
+      invalid_relation: The relation is invalid.
+      invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
+        but got '%{actual}'.
+      invalid_user_status_transition: The current user account status does not allow
+        this operation.
+      missing_content_type: not specified
+      missing_request_body: There was no request body.
+      missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
+        or malformed.
+      multipart_body_error: The request body did not contain the expected multipart
+        parts.
+      multiple_errors: Multiple field constraints have been violated.
+      unable_to_create_attachment: The attachment could not be created
+      render:
+        context_not_parsable: The context provided is not a link to a resource.
+        unsupported_context: The resource given is not supported as context.
+        context_object_not_found: Cannot find the resource given as the context.
+      validation:
+        done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
+          by status or when it is disabled.
+        due_date: Due date cannot be set on parent work packages.
+        estimated_hours: Estimated hours cannot be set on parent work packages.
+        invalid_user_assigned_to_work_package: The chosen user is not allowed to be
+          '%{property}' for this work package.
+        start_date: Start date cannot be set on parent work packages.
+      writing_read_only_attributes: You must not write a read-only attribute.
+    resources:
+      schema: Schema

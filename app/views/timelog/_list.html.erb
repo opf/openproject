@@ -129,7 +129,10 @@ See doc/COPYRIGHT.rdoc for more details.
           <td class="project"><a ng-href="{{PathHelper.projectPath(timeEntry.project.id)}}">{{timeEntry.project.name}}</a></td>
           <td class="subject">
             <div ng-if="timeEntry.work_package !== undefined" style="width:150px;overflow:hidden;text-overflow:ellipsis;">
-              <a ng-if="timeEntry.work_package.isVisible == true" ng-href="{{PathHelper.workPackagePath(timeEntry.work_package.id)}}">{{timeEntry.work_package.subject}}</a>
+              <a ng-if="timeEntry.work_package.isVisible == true"
+                 ng-href="{{PathHelper.workPackagePath(timeEntry.work_package.id)}}">
+                 #{{ timeEntry.work_package.id }} {{ timeEntry.work_package.subject }}</a>
+              </a>
               <span ng-if="timeEntry.work_package.isVisible == false">#{{timeEntry.work_package.id}}</span>
             </div>
           </td>
@@ -148,6 +151,5 @@ See doc/COPYRIGHT.rdoc for more details.
         </tr>
       </tbody>
     </table>
-    
   </div>
 </div>

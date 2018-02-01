@@ -1,0 +1,2611 @@
+---
+bg:
+  no_results_title_text: В момента няма нищо за показване.
+  activities:
+    index:
+      no_results_title_text: Не е имало дейност по проекта.
+  admin:
+    plugins:
+      no_results_title_text: В момента има няма плъгини на разположение.
+    custom_styles:
+      custom_colors: Custom colors
+      customize: 'Customize your OpenProject installation with your own logo. Note:
+        This logo will be publicly accessible.'
+      enterprise_notice: As a special 'Thank you!' for their financial contribution
+        to develop OpenProject, this tiny feature is only available for Enterprise
+        Edition support subscribers.
+      manage_colors: Edit color select options
+      instructions:
+        alternative_color: Strong accent color, typically used for most the important
+          button on a screen.
+        content_link_color: Font color of most of the links.
+        primary_color: Main color.
+        primary_color_dark: Typically a darker version of the main color used for
+          hover effects.
+        header_bg_color: Background color of the header.
+        header_item_bg_hover_color: Background color of clickable header items when
+          hovered with the mouse.
+        header_item_font_color: Font color of clickable header items.
+        header_item_font_hover_color: Font color of clickable header items when hovered
+          with the mouse.
+        header_border_bottom_color: Thin line under the header. Leave this field empty
+          if you don't want any line.
+        main_menu_bg_color: Left side menu's background color.
+    enterprise:
+      upgrade_to_ee: Upgrade to Enterprise Edition
+      add_token: Upload an Enterprise Edition support token
+      replace_token: Replace your current support token
+      order: Order Enterprise Edition
+      paste: Paste your Enterprise Edition support token
+      required_for_feature: This feature is only available with an active Enterprise
+        Edition support token.
+      enterprise_link: For more information, click here.
+  announcements:
+    show_until: Покажи до
+    is_active: в момента е показан
+    is_inactive: в момента не се показват
+  attribute_help_texts:
+    text_overview: In this view, you can create custom help texts for attributes view.
+      When defined, these texts can be shown by clicking the help icon next to its
+      belonging attribute.
+    label_plural: Attribute help texts
+    show_preview: Preview text
+    add_new: Add help text
+    edit: Edit help text for %{attribute_caption}
+  auth_sources:
+    index:
+      no_results_content_title: В момента има няма режими на удостоверяване.
+      no_results_content_text: Създаване на нов режим на удостоверяване
+  boards:
+    show:
+      no_results_title_text: Понастоящем няма съобщения на дъската.
+  custom_fields:
+    text_add_new_custom_field: 'To add new custom fields to a project you first need
+      to create them before you can add them to this project.
+
+'
+    is_enabled_globally: Is enabled globally
+    enabled_in_project: Enabled in project
+    contained_in_type: Contained in type
+    confirm_destroy_option: Deleting an option will delete all of its occurrences
+      (e.g. in work packages). Are you sure you want to delete it?
+    tab:
+      no_results_title_text: В момента няма потребителски полета.
+      no_results_content_text: Създаване на ново персонализирано поле
+  deprecations:
+    old_timeline:
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
+      further_information_after: ''
+    calendar:
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  groups:
+    index:
+      no_results_title_text: В момента няма групи.
+      no_results_content_text: Създаване на нова група
+    users:
+      no_results_title_text: Има в момента няма потребители част от тази група.
+    memberships:
+      no_results_title_text: В момента има няма проекти част от тази група.
+  planning_element_type_colors:
+    index:
+      no_results_title_text: В момента има няма цветове.
+      no_results_content_text: Създайте нов цвят
+  projects:
+    index:
+      no_results_title_text: В момента няма проекти
+      no_results_content_text: Създаване на нов проект
+    settings:
+      activities:
+        no_results_title_text: В момента има няма дейности на разположение.
+      boards:
+        no_results_title_text: В момента има няма информационни дъски за проекта.
+        no_results_content_text: Създаване на нова дъска
+      categories:
+        no_results_title_text: В момента има няма категории работни пакети.
+        no_results_content_text: Създаване на нова категория работни пакети
+      custom_fields:
+        no_results_title_text: В момента няма налични потребителски полета.
+      types:
+        no_results_title_text: В момента има няма типове на разположение.
+      versions:
+        no_results_title_text: В момента няма версии за проекта.
+        no_results_content_text: Създаване на нова версия
+  project_types:
+    index:
+      no_results_title_text: В момента няма типове за проекти.
+      no_results_content_text: Създаване на нов тип проект
+  members:
+    index:
+      no_results_title_text: В момента има няма членове част от този проект.
+      no_results_content_text: Добавяне на член към проекта
+  my:
+    access_token:
+      failed_to_reset_token: 'Failed to reset access token: %{error}'
+      notice_reset_token: 'A new %{type} token has been generated. Your access token
+        is:'
+      token_value_warning: 'Note: This is the only time you will see this token, make
+        sure to copy it now.'
+      no_results_title_text: В момента няма възможност за достъп на повече потребители.
+  news:
+    index:
+      no_results_title_text: Няма новини за докладване.
+      no_results_content_text: Добави новина
+    my_page:
+      no_results_title_text: Нищо ново за отчитане.
+  users:
+    memberships:
+      no_results_title_text: Този потребител в момента не е член на проекта.
+  reportings:
+    index:
+      no_results_title_text: В момента няма отчети за статуси.
+      no_results_content_text: Добавете отчет за статус
+  statuses:
+    index:
+      no_results_title_text: Има в момента няма статуси за работни пакети.
+      no_results_content_text: Добавяне на ново състояние
+  types:
+    index:
+      no_results_title_text: В момента няма типове.
+      no_results_content_text: Създаване на нов тип
+    edit:
+      settings: Настройки
+      form_configuration: Конфигурация на формата
+      projects: Проекти
+      enabled_projects: Enabled projects
+      add_group: Add group
+      reset: Reset to defaults
+  versions:
+    overview:
+      no_results_title_text: В момента има няма работни пакети, присвоен на тази версия.
+  wiki:
+    no_results_title_text: Няма в момента wiki страници.
+    index:
+      no_results_content_text: Добавяне на нова wiki страница
+  work_flows:
+    index:
+      no_results_title_text: В момента няма работни потоци.
+  work_packages:
+    move:
+      unsupported_for_multiple_projects: Масово преместване/копиране не се поддържа
+        за работни пакети от множество проекти
+    list_simple:
+      assigned:
+        no_results_title_text: В момента няма работни пакети, възложени на мен.
+      reported:
+        no_results_title_text: В момента няма работни пакети, които са докладвани.
+      responsible:
+        no_results_title_text: В момента няма работни пакети, за които аз съм отговорен.
+      watched:
+        no_results_title_text: В момента няма работни пакети, на които съм наблюдател.
+    summary:
+      reports:
+        category:
+          no_results_title_text: В момента няма категории на разположение.
+        assigned_to:
+          no_results_title_text: В момента има няма членове част от този проект.
+        responsible:
+          no_results_title_text: В момента има няма членове част от този проект.
+        author:
+          no_results_title_text: В момента има няма членове част от този проект.
+        priority:
+          no_results_title_text: Има в момента няма налични приоритети.
+        type:
+          no_results_title_text: В момента има няма типове на разположение.
+        version:
+          no_results_title_text: В момента няма налични версии.
+  label_invitation: Покана
+  account:
+    delete: Изтриване на профил
+    delete_confirmation: Наистина ли искате да изтриете акаунта?
+    deleted: Профилът е успешно изтрит
+    deletion_info:
+      data_consequences:
+        other: От данните, създадени от потребителя (например, електронна поща, предпочитания,
+          работни пакети, уики страници), колкото е възможно, ще бъдат изтрити. Имайте
+          предвид обаче, че данните като работни пакети и уики страници не могат да
+          бъдат изтрити без възпрепятстване на работата на другите потребители. Такива
+          данни се преразпределят към профил, наречен "Изтрит потребител". Тъй като
+          данните от всеки изтрит профил се записват в този профил, то няма да бъде
+          възможно да се разграничат данните създадени от потребителя от данни от
+          друг изтрит профил.
+        self: От данните, които сте създадли (например електронна поща, предпочитания,
+          работни пакети, уики статии), колкото е възможно ще бъдат изтрити. Имайте
+          предвид обаче, че данните като работни пакети и уики записи не могат да
+          бъдат изтрити без възпрепятстване на работата на другите потребители. Такива
+          данни ще се пренасочат към профил наречен "Изтрит потребител". Тъй като
+          данните от всеки изтрит профил се записват в този профил, то няма да бъде
+          възможно да се разграничат данните, създадени вас от данни на друг изтрит
+          потребител.
+      heading: Изтрий акаунта на %{name}
+      info:
+        other: Изтриването на акаунта е необратим процес.
+        self: Изтриване на потребителския ви акаунт е необратимо действие.
+      login_consequences:
+        other: Акаунтът ще бъде изтрит от системата. Следователно потребителят няма
+          да може да влезне с неговите текущи идентификационни данни. Той/тя може
+          да избере да стане потребител на това приложение отново чрез възможностите,
+          които това приложение предоставя.
+        self: Акаунта ще бъдат изтрити от системата. Следователно вие няма да можете
+          да влезете с вашите текущи идентификационни данни. Ако решите да станете
+          потребител на това приложение отново, можете да го направите с помощта на
+          средствата, които предоставя това приложение.
+      login_verification:
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+    error_inactive_activation_by_mail: 'Все още не е активиран вашия акаунт. За да
+      активирате вашия акаунт, щракнете върху връзката, която е била изпратена към
+      Вас.
+
+'
+    error_inactive_manual_activation: 'Все още не е активиран вашия акаунт. Моля изчакайте
+      администратор да активирате профила Ви.
+
+'
+    error_self_registration_disabled: 'Регистрация на потребител е забранена на тази
+      система. Помолете администратора да създадете акаунт за вас.
+
+'
+    login_with_auth_provider: или влезте със съществуващ акаунт
+    signup_with_auth_provider: или се регистрирайте за използване
+    auth_source_login: Моля, влезте като <em>%{login}</em> да активирате профила си.
+    omniauth_login: Моля влезте за да активирате профила си.
+  actionview_instancetag_blank_option: Моля изберете
+  activerecord:
+    attributes:
+      announcements:
+        show_until: Показване до
+      attachment:
+        downloads: Файлове за изтегляне
+        file: Файл
+        filename: Файл
+        filesize: Размер
+      attribute_help_text:
+        attribute_name: Атрибут
+        help_text: Help text
+      auth_source:
+        account: Акаунт
+        attr_firstname: Лично име атрибут
+        attr_lastname: Фамилно име атрибут
+        attr_login: Логин атрибут
+        attr_mail: Имейл атрибут
+        base_dn: Базов DN
+        host: Хост
+        onthefly: Създаване на потребител на момента
+        port: Порт
+      changeset:
+        repository: Хранилище
+      comment:
+        commented: Коментирани
+      custom_field:
+        default_value: Стойност по подразбиране
+        editable: Редактируемо
+        field_format: Формат
+        is_filter: Се използва като филтър
+        is_required: Задължително
+        max_length: Максимална дължина
+        min_length: Минимална дължина
+        multi_value: Allow multi-select
+        possible_values: Възможните стойности
+        regexp: Регулярен израз
+        searchable: Търсене
+        visible: Видимо
+      custom_value:
+        value: Стойност
+      enterprise_token:
+        starts_at: Valid since
+        expires_at: Expires at
+        subscriber: Subscriber
+        encoded_token: Enterprise support token
+      relation:
+        delay: Забавяне
+        from: Работен пакет
+        to: Свързани работени пакети
+      status:
+        is_closed: Работният пакет е затворен
+      journal:
+        notes: Бележки
+      member:
+        roles: Роли
+      project:
+        identifier: Идентификатор
+        latest_activity_at: Последна активност на
+        parent: Подпроект на
+        project_type: Тип проект
+        queries: Търсения
+        responsible: Отговорен
+        types: Видове
+        versions: Версии
+        work_packages: Работен пакет
+      query:
+        column_names: Колони
+        relations_to_type_column: Relations to %{type}
+        relations_of_type_column: "%{type} relations"
+        group_by: Групай резултатите по
+        filters: Филтри
+        timeline_labels: Timeline labels
+      repository:
+        url: URL АДРЕС
+      role:
+        assignable: Work packages can be assigned to users and groups in possession
+          of this role in the respective project
+      time_entry:
+        activity: Активност
+        hours: Часове
+        spent_on: Дата
+        type: Тип
+      type:
+        is_in_roadmap: В пътната карта
+        in_aggregation: В сумиране
+        is_milestone: Е крайъгълен камък
+        color: Цвят
+      user:
+        admin: Администратор
+        auth_source: Режим на удостоверяване
+        current_password: Текуща парола
+        force_password_change: Смяна на паролата при следващото влизане
+        language: Език
+        last_login_on: Последно влизане
+        mail_notification: Известия по имейл
+        new_password: Нова парола
+        password_confirmation: Потвърждение
+      user_preference:
+        comments_sorting: Покажи коментарите
+        hide_mail: Скрий моя имейл адрес
+        impaired: Достъпен режим
+        time_zone: Часова зона
+        auto_hide_popups: Auto-hide success notifications
+        warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
+          changes
+      version:
+        effective_date: Дата на падеж
+        sharing: Споделяне
+      wiki:
+        start_page: Начална страница
+      wiki_content:
+        text: Текст
+      wiki_page:
+        parent_title: Предишна страница
+        redirect_existing_links: Пренасочи съществуващи връзки
+      planning_element_type_color:
+        hexcode: Шестнадесетичен код
+      project_association:
+        description: Причина
+        project_b: Зависим проект
+      project_type:
+        allows_association: Позволи асоциация
+        reported_project_statuses: Докладвани статуси на проект
+        position: Позиция
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: Коментар на статус
+        reporting_to_project: Доклади за проекта
+        reported_project_status: Статус на проекта
+        created_at: Създадено
+      work_package:
+        begin_insertion: Начало на вмъкване
+        begin_deletion: Начало на изтриване
+        done_ratio: Прогрес (%)
+        end_insertion: Край на вмъкване
+        end_deletion: Края на изтриване
+        fixed_version: Версия
+        parent: Горна категория
+        parent_issue: Горна категория
+        parent_work_package: Горна категория
+        priority: Приоритет
+        progress: Прогрес (%)
+        responsible: Отговорен
+        spent_hours: Отработено време
+        spent_time: Отработено време
+        subproject: Подпроект
+        time_entries: Отчетено време
+        type: Тип
+        watcher: Наблюдател
+    errors:
+      messages:
+        accepted: трябва да бъде одобрено.
+        blank: не може да бъде празно.
+        cant_link_a_work_package_with_a_descendant: Работния пакет не може да бъде
+          свързан с една от неговите подзадачи.
+        circular_dependency: Тази връзка ще доведе до циклична зависимост.
+        confirmation: не съвпада с %{attribute}.
+        does_not_exist: не съществува.
+        empty: не може да бъде празно.
+        even: трябва да бъде четно число.
+        exclusion: е запазено.
+        file_too_large: е твърде голям (максимален размер %{count} байта).
+        greater_than: трябва да бъде по-голямо от %{count}.
+        greater_than_or_equal_to: трябва да бъде по-голямо от или равно на %{count}.
+        smaller_than_or_equal_to_max_length: трябва да бъде по-малка от или равна
+          на максималната дължина.
+        greater_than_start_date: трябва да бъде по-голяма от началната дата.
+        greater_than_or_equal_to_start_date: трябва да бъде по-голяма от или равна
+          на началната дата.
+        inclusion: не е зададена, като позволена стойност.
+        invalid: е невалиден.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        less_than_or_equal_to: трябва да бъде по-малка или равна на %{count}.
+        not_a_date: is not a valid date.
+        not_a_datetime: is not a valid date time.
+        not_an_iso_date: 'не е валидна дата. Изискван формат: ГГГГ-ММ-ДД.'
+        not_a_number: не е число.
+        not_an_integer: не е цяло число.
+        not_same_project: не принадлежат към един и същ проект.
+        odd: трябва да бъде нечетен.
+        taken: вече съществува.
+        too_long: е твърде дълго (максимума е %{count} знаци).
+        too_short: е твърде кратък (минимум е %{count} знаци).
+        wrong_length: е грешна дължина (трябва да бъде %{count} знаци).
+        after: трябва да бъде след %{date}.
+        after_or_equal_to: трябва да бъде след или равно на %{date}.
+        before: трябва да бъде преди %{date}.
+        before_or_equal_to: трябва да бъде преди или е равно на %{date}.
+        could_not_be_copied: не можа да бъде копиран (изцяло).
+        regex_invalid: could not be validated with the associated regular expression.
+      models:
+        custom_field:
+          at_least_one_custom_option: At least one option needs to be available.
+        enterprise_token:
+          unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: A value is invalid.
+              id_filter_required: An 'id' filter is required.
+        project:
+          attributes:
+            types:
+              in_use_by_work_packages: 'все още се използва от работни пакети: %{types}'
+        project_association:
+          identical_projects: Зависимост не може да бъде създадена между проект и
+            самият него.
+          project_association_not_allowed: не позволява асоциации.
+        query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
+          group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
+            You cannot activate both.
+          filters:
+            custom_fields:
+              inexistent: There is no custom field for the filter.
+              invalid: The custom field is not valid in the given context.
+        relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
+        repository:
+          not_available: SCM доставчик не е наличен
+          not_whitelisted: не е позволено от конфигурацията.
+          invalid_url: is not a valid repository URL or path.
+          must_not_be_ssh: must not be an SSH url.
+          no_directory: не е директория.
+        work_package:
+          is_not_a_valid_target_for_time_entries: 'Работен пакет #%{id} не е валидна
+            цел за преразпределяне на времевите записи.'
+          attributes:
+            due_date:
+              not_start_date: не е на начална дата, въпреки че това е необходимо за
+                важни събития.
+            parent:
+              cannot_be_milestone: не може да бъде крайъгълен камък.
+              cannot_be_in_another_project: не може да бъде в друг проект.
+              not_a_valid_parent: е невалиден.
+            start_date:
+              violates_relationships: може да се зададе само до %{soonest_start} или
+                по-късно, за да не нарушават взаймоотношения на работни пакети.
+            status_id:
+              status_transition_invalid: е невалидно, защото не съществува валиден
+                преход от старото към новото състояние за текущите потребителски роли.
+            priority_id:
+              only_active_priorities_allowed: трябва да бъде активен.
+            category:
+              only_same_project_categories_allowed: Категорията на работен пакет трябва
+                да бъде в същия проект като работния пакет.
+              does_not_exist: Определената категория не съществува.
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: трябва да бъде > = 0.
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: Unnamed groups are not allowed.
+              duplicate_group: The group name %{group} is used more than once. Group
+                names must be unique.
+              attribute_unknown: Invalid work package attribute used.
+        user:
+          attributes:
+            password:
+              weak: 'Трябва да съдържа знаци от следните класове (най-малко %{min_count}
+                на %{all_count}): %{rules}.'
+              lowercase: малки букви (например "а")
+              uppercase: главни (например "А")
+              numeric: цифрова (например ' 1')
+              special: специални (например ' %')
+              reused:
+                one: е бил използван преди. Моля изберете такъв, който е различен
+                  от последно използваният.
+                other: е бил използван преди. Моля изберете такъв, който е различен
+                  от последно използваните %{count}.
+              match:
+                confirm: Потвърдете новата парола.
+                description: '"Потвърждаване на паролата" трябва да съответства на
+                  въведеното в поле "нова парола".'
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: not found
+        member:
+          principal_blank: Моля изберете поне един потребител или група.
+          role_blank: Моля, изберете поне една роля.
+      template:
+        body: 'Моля проверете следните полета:'
+        header:
+          one: 1 грешка забранява този %{model} да се запише
+          other: "%{count} грешки забраняват този %{model} да се запише"
+    models:
+      attachment: Файл
+      attribute_help_text: Attribute help text
+      board: Форум
+      comment: Коментар
+      custom_field: Потребителски полета
+      group: Група
+      category: Категория
+      status: Статус на работен пакет
+      member: Член
+      news: Новини
+      project: Проект
+      query: Потребителска заявка
+      role:
+        one: Роля
+        other: Роли
+      type: Тип
+      project_type: Тип проект
+      user: Потребител
+      version: Версия
+      wiki: Wiki
+      wiki_page: Wiki страница
+      workflow: Работен поток
+      work_package: Работен пакет
+  errors:
+    header_invalid_fields: 'Имаше проблеми със следните полета:'
+    field_erroneous_label: 'Това поле е невалиднo: %{full_errors} Моля, въведете валидна
+      стойност.'
+  activity:
+    created: 'Създадено: %{title}'
+    updated: 'Актуализиран: %{title}'
+  attributes:
+    active: Активен
+    assigned_to: Изпълнител
+    assignee: Изпълнител
+    attachments: Прикачени файлове
+    author: Автор
+    base: 'Обща грешка:'
+    blocks_ids: ИД на блокираните работни пакети
+    category: Категория
+    comment: Коментар
+    comments: Коментар
+    content: Съдържание
+    created_at: Създаден на
+    created_on: Създаден на
+    custom_options: Възможните стойности
+    custom_values: допълнителни полета
+    date: Дата
+    default_columns: Колони по подразбиране
+    description: Описание
+    display_sums: Показване на суми
+    due_date: Дата на падеж
+    estimated_hours: Очаквано време
+    estimated_time: Очаквано време
+    firstname: Собствено име
+    group: Група
+    groups: Групи
+    groupname: Име на групата
+    id: ID
+    is_default: Стойност по подразбиране
+    is_for_all: За всички проекти
+    is_public: Публичен
+    issue: Работен пакет
+    lastname: Фамилно име
+    login: Вход
+    mail: E-mail
+    name: Име
+    password: Парола
+    priority: Приоритет
+    project: Проект
+    responsible: Отговорен
+    role: Роля
+    roles: Роли
+    start_date: Начална дата
+    status: Състояние
+    subject: Заглавие
+    summary: Обобщение
+    title: Заглавие
+    type: Тип
+    updated_at: Актуализиран на
+    updated_on: Актуализиран на
+    user: Потребител
+    version: Версия
+    work_package: Работен пакет
+  button_add: Добави
+  button_add_member: Добавяне на член
+  button_add_watcher: Добавяне на наблюдател
+  button_annotate: Добавяне на обяснителни бележки
+  button_apply: Приложи
+  button_archive: Архивиране
+  button_back: Назад
+  button_cancel: Отказ
+  button_change: Промени
+  button_change_parent_page: Промяна родителската страница
+  button_change_password: Смяна на паролата
+  button_check_all: Избери всички
+  button_clear: Изчистване
+  button_close: Close
+  button_collapse_all: Свиване на всички
+  button_configure: Конфигуриране
+  button_copy: Копиране
+  button_copy_and_follow: Копирате и следвайте
+  button_create: Създаване
+  button_create_and_continue: Създаване и продължи
+  button_delete: Изтрий
+  button_delete_watcher: Изтриване на наблюдател %{name}
+  button_download: Изтегли
+  button_duplicate: Дублиране
+  button_edit: Редактиране
+  button_edit_associated_wikipage: 'Редактиране на свързани Wiki страница: %{page_title}'
+  button_expand_all: Разгъване на всички
+  button_filter: Филтър
+  button_generate: Генерирай
+  button_list: Списък
+  button_lock: Заключи
+  button_log_time: Отчетено време
+  button_login: Влизане
+  button_move: Премести
+  button_move_and_follow: Преместване и последване
+  button_print: Print
+  button_quote: Цитат
+  button_remove: Премахване
+  button_remove_widget: Премахване на притурка
+  button_rename: Преименуване
+  button_replace: Replace
+  button_reply: Отговор
+  button_reset: Нулиране
+  button_rollback: Връщане към тази версия
+  button_save: Запази
+  button_save_back: Записване и обратно
+  button_show: Покажи
+  button_sort: Сортиране
+  button_submit: Изпрати
+  button_test: Тест
+  button_unarchive: Разархивиране
+  button_uncheck_all: Размаркирай всички
+  button_unlock: Отключване
+  button_unwatch: Спри наблюдение
+  button_update: Обнови
+  button_upload: Upload
+  button_view: Изглед
+  button_watch: Наблюдавай
+  button_manage_menu_entry: Конфигуриране на елемент от меню
+  button_add_menu_entry: Добавяне на елемент на меню
+  button_configure_menu_entry: Конфигуриране на елемент от меню
+  button_delete_menu_entry: Изтриване на елемент от меню
+  copy_project:
+    started: Започна копиране на проект "%{source_project_name}" в "%{target_project_name}".
+      Ще бъдете информирани по пощата веднага, след като "%{target_project_name}"
+      е достъпен.
+    failed: Не може да се копира проект %{source_project_name}
+    succeeded: Създаден проект %{target_project_name}
+    errors: Грешка
+    project_custom_fields: Custom fields on project
+    text:
+      failed: Не можа да се копира проект "%{source_project_name}" в проект "%{target_project_name}".
+      succeeded: Копиран проект "%{source_project_name}" в "%{target_project_name}".
+  create_new_page: Wiki страница
+  date:
+    abbr_day_names:
+    - нд
+    - пн
+    - вт
+    - ср
+    - чт
+    - пт
+    - сб
+    abbr_month_names:
+    - 
+    - яну
+    - фев
+    - мар
+    - апр
+    - май
+    - юни
+    - юли
+    - авг
+    - сеп
+    - окт
+    - ное
+    - Декември
+    day_names:
+    - Неделя
+    - Понеделник
+    - Вторник
+    - Сряда
+    - Четвъртък
+    - Петък
+    - Събота
+    formats:
+      default: "%m/%d/%Y"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    - 
+    - Януари
+    - Февруари
+    - Март
+    - Април
+    - май
+    - Юни
+    - Юли
+    - Август
+    - Септември
+    - Октомври
+    - Ноември
+    - Декември
+    order:
+    - ":година"
+    - ": месец"
+    - ": ден"
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: около 1 час
+        other: около %{count} часа
+      about_x_months:
+        one: за 1 месец
+        other: за %{count} месеца
+      about_x_years:
+        one: за 1 година
+        other: за %{count} години
+      almost_x_years:
+        one: почти 1 година
+        other: почти %{count} години
+      half_a_minute: половин минута
+      less_than_x_minutes:
+        one: по-малко от 1 минута
+        other: по-малко от %{count} минути
+      less_than_x_seconds:
+        one: по-малко от 1 секунда
+        other: по-малко от %{count} секунди
+      over_x_years:
+        one: над 1 година
+        other: над %{count} години
+      x_days:
+        one: 1 ден
+        other: "%{count} дни"
+      x_minutes:
+        one: 1 минута
+        other: "%{count} минути"
+      x_months:
+        one: 1 месец
+        other: "%{count} месеца"
+      x_seconds:
+        one: 1 секунда
+        other: "%{count} секунди"
+    units:
+      hour:
+        one: час
+        other: Часове
+  default_activity_development: Разработване
+  default_activity_management: Управление
+  default_activity_other: Други
+  default_activity_specification: Спецификации
+  default_activity_support: Поддръжка
+  default_activity_testing: Тестване
+  default_color_black: Черно
+  default_color_blue: Синьо
+  default_color_blue_dark: Тъмно синьо
+  default_color_blue_light: Светло синьо
+  default_color_green_dark: Тъмно зелено
+  default_color_green_light: Светло зелено
+  default_color_grey_dark: Тъмно сиво
+  default_color_grey_light: Светло сиво
+  default_color_grey: Сиво
+  default_color_magenta: Магента
+  default_color_orange: Оранжево
+  default_color_red: Червен
+  default_color_white: Бяло
+  default_color_yellow: Жълто
+  default_status_closed: Затворен
+  default_status_confirmed: Потвърден
+  default_status_developed: Разработен
+  default_status_in_development: В разработка
+  default_status_in_progress: В изпълнение
+  default_status_in_specification: В процес на специфициране
+  default_status_in_testing: В процес на тестване
+  default_status_new: Нов
+  default_status_on_hold: Задържан
+  default_status_rejected: Отхвърлен
+  default_status_scheduled: Планиран
+  default_status_specified: Определен
+  default_status_tested: Тестван
+  default_status_test_failed: Неуспешен тест
+  default_status_to_be_scheduled: Да бъде планирано
+  default_priority_low: Нисък
+  default_priority_normal: Нормален
+  default_priority_high: Висок
+  default_priority_immediate: Незабавно
+  default_project_type_scrum: Scrum екип
+  default_project_type_standard: Стандартен проект
+  default_reported_project_status_green: Зелен
+  default_reported_project_status_amber: Амбър
+  default_reported_project_status_red: Червен
+  default_role_anonymous: Анонимен
+  default_role_developer: Разработчик
+  default_role_project_admin: Администратор на проект
+  default_role_non_member: Не е член
+  default_role_reader: Четящ
+  default_role_member: Член
+  default_type: Работен пакет
+  default_type_bug: Грешка
+  default_type_deliverable: Доставка
+  default_type_epic: Със сериозно значение
+  default_type_feature: Функция
+  default_type_milestone: Етап
+  default_type_phase: Фаза
+  default_type_task: Задачата
+  default_type_user_story: Потребителска история
+  description_active: Активен?
+  description_attachment_toggle: Показване/скриване на прикачени файлове
+  description_autocomplete: 'Това поле използва Автодовършване. Докато пишете заглавието
+    на работен пакет ще получите списък на възможните кандидати. Изберете един използване
+    на стрелка и стрелка надолу ключ и го изберете с tab или въведете. Като алтернатива
+    можете да въведете номера на работния пакет директно.
+
+'
+  description_available_columns: Достъпни колони
+  description_choose_project: Проекти
+  description_compare_from: Compare from
+  description_compare_to: Compare to
+  description_current_position: 'Вие сте тук:'
+  description_date_from: Въведете начална дата
+  description_date_range_interval: Изберете периода, чрез избиране на начална и крайна
+    дата
+  description_date_range_list: Изберете период от списък
+  description_date_to: Въведете крайна дата
+  description_enter_number: Въведете номер
+  description_enter_text: Въведи текст
+  description_filter: Филтър
+  description_filter_toggle: Покажи/Скрий филтър
+  description_category_reassign: Изберете категория
+  description_message_content: Съдържание на съобщенията
+  description_my_project: Вие сте член
+  description_notes: Бележки
+  description_parent_work_package: Главен работен пакет на настоящият
+  description_project_scope: Обхват на търсене
+  description_query_sort_criteria_attribute: Атрибут за сортиране
+  description_query_sort_criteria_direction: Посока на сортиране
+  description_search: Поле за търсене
+  description_select_work_package: Изберете работен пакет
+  description_selected_columns: Избрани колони
+  description_sub_work_package: Подработен пакет на настоящият
+  description_toc_toggle: Покажи/Скрий съдържанието
+  description_wiki_subpages_reassign: Изберете нова родителска страница
+  direction: отляво надясно
+  ee:
+    upsale:
+      form_configuration:
+        description: 'Customize the form configuration with these additional features:'
+        add_groups: Add new attribute groups
+        rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
+  enumeration_activities: Дейности (проследяване по време)
+  enumeration_work_package_priorities: Приоритети на работни пакети
+  enumeration_system_activity: Системна дейност
+  enumeration_reported_project_statuses: Докладвани статуси на проект
+  error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
+  error_can_not_archive_project: Този проект не може да се архивира
+  error_can_not_delete_entry: Unable to delete entry
+  error_can_not_delete_custom_field: Не може да изтриете това потребителско поле
+  error_can_not_delete_type: Този тип съдържа работни пакети и не може да бъде изтрит.
+  error_can_not_delete_standard_type: Стандартни типове не могат да бъдат изтрити.
+  error_can_not_invite_user: Failed to send invitation to user.
+  error_can_not_remove_role: Тази роля се използва и не може да бъде изтрита.
+  error_can_not_reopen_work_package_on_closed_version: Работен пакет, присвоен към
+    затворена версия, не може да бъде отворен наново
+  error_check_user_and_role: Моля, изберете потребител и роля.
+  error_cookie_missing: '"Бисквитката" на OpenProject липсва. Моля уверете се че cookies
+    са активирани, тъй като това приложение не функционира правилно без тях.'
+  error_custom_option_not_found: Option does not exist.
+  error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_group_by: 'Can''t group by: %{value}'
+  error_invalid_query_column: 'Invalid query column: %{value}'
+  error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
+  error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
+    Please reduce the number of columns.
+  error_token_authenticity: Не може да удостовери аутентикацията между сайтовете.
+  error_work_package_done_ratios_not_updated: Не са актуализирани нивата на завършване
+    в работният пакет.
+  error_work_package_not_found_in_project: Работен пакет не е намерен или не принадлежи
+    на този проект
+  error_must_be_project_member: трябва да бъде член проекта
+  error_no_default_work_package_status: Не е дефиниран работен пакет по подразбиране.
+    Моля проверете конфигурацията ( Отидете на Администрация -> Статуси на работни
+    пакети).
+  error_no_type_in_project: Няма тип свързан към този проект. Моля проверете проектните
+    настройки.
+  error_omniauth_registration_timed_out: Изтече времето на изчакване за регистриране
+    чрез удостоверяване на външен доставчик. Моля, опитайте отново.
+  error_scm_command_failed: 'Възникна грешка при опит за достъп до хранилището: %{value}'
+  error_scm_not_found: Търсеното или негова версия не е намерено в хранилището.
+  error_unable_delete_status: Състоянието на работният пакет не може да бъде изтрито,
+    тъй като се използва от най-малко един работен пакет.
+  error_unable_delete_default_status: Не може да се изтрие статуса на работният пакет
+    по подразбиране. Моля изберете друг статус по подразбиране за работен пакет преди
+    да изтриете настоящият.
+  error_unable_to_connect: Не може да се свърже (%{value})
+  error_unable_delete_wiki: Не може да изтрие wiki страницата.
+  error_unable_update_wiki: Не може да актуализира wiki страницата.
+  error_workflow_copy_source: Моля изберете тип източник или роля
+  error_workflow_copy_target: Моля изберете целеви тип(ове) и роля(и)
+  error_menu_item_not_created: Не можа да бъде добавен елемент към менюто
+  error_menu_item_not_saved: Елементът от менюто не може да бъде записан
+  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}"
+    due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}"
+    (%{existing_identifier}).
+
+'
+  error_external_authentication_failed: Възникна грешка при външно удостовяряване.
+    Моля, опитайте отново.
+  events:
+    project: Проекта е редактиран
+    changeset: Редактиран пакет промени
+    message: Съобщението е редактирано
+    news: Новини
+    reply: Отговорено
+    time_entry: Редактирани записи по време
+    wiki_page: Wiki страница редактирана
+    work_package_closed: Работният пакет е затворен
+    work_package_edit: Работният пакет е редактиран
+    work_package_note: Добавена бележка за работен пакет
+  export:
+    format:
+      atom: Атом
+      csv: CSV
+      pdf: PDF
+      pdf_with_descriptions: PDF с описания
+  general_csv_decimal_separator: "."
+  general_csv_encoding: UTF-8
+  general_csv_separator: ","
+  general_first_day_of_week: '7'
+  general_lang_name: Български
+  general_pdf_encoding: ISO-8859-1
+  general_text_no: Не
+  general_text_yes: Да
+  general_text_No: Не
+  general_text_Yes: Да
+  gui_validation_error: 1 грешка
+  gui_validation_error_plural: "%{count} грешки"
+  homescreen:
+    additional:
+      projects: Най-новите проекти, видими в този случай.
+      users: Най-новите регистрирани потребители в този случай.
+    blocks:
+      community: OpenProject Общността
+      upsale:
+        become_hero: Become a hero!
+        title: Upgrade to Enterprise Edition
+        description: Boost your productivity with the Enterprise Edition
+        more_info: More information
+        additional_features: Additional powerful premium features
+        professional_support: Professional support from the OpenProject experts
+        you_contribute: Developers need to pay their bills, too. With Enterprise Edition
+          you substantially contribute to this Open-Source community effort.
+    links:
+      upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      user_guides: Ръководства за потребителя
+      faq: Често задавани въпроси
+      glossary: Терминологичен речник
+      shortcuts: Кратки клавишни комбинации
+      forums: Форуми
+      blog: OpenProject блог
+      boards: Форум на Общността
+      newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
+  instructions_after_registration: Можете да влезете веднага след като вашият акаунт
+    е бил активиран като щракнете %{signin}.
+  instructions_after_logout: Можете да влезете в отново като щракнете %{signin}.
+  instructions_after_error: Можете да опитате да влезете отново като щракнете %{signin}.
+    Ако грешката продължава, помолете вашия администратор за помощ.
+  my_account:
+    access_tokens:
+      no_results:
+        title: Няма налични билети за показване
+        description: Всички от тях са забранени. Те могат да бъдат повторно разрешени
+          в меню за администриране.
+      access_token: Маркер за достъп
+      headers:
+        action: Действие
+        expiration: Изтича на
+      indefinite_expiration: Никога
+  label_accessibility: Accessibility
+  label_account: Акаунт
+  label_active: Активен
+  label_activate_user: Activate user
+  label_active_in_new_projects: Active in new projects
+  label_activity: Активност
+  label_add_edit_translations: Добавяне и редактиране на преводи
+  label_add_another_file: Добавяне на друг файл
+  label_add_columns: Добавяне на избраните колони
+  label_add_note: Добавяне на бележка
+  label_add_related_work_packages: Добави свързани работни пакети
+  label_add_subtask: Добави подзадача
+  label_added: добавено
+  label_added_time_by: Добавено от %{author} преди %{age}
+  label_additional_workflow_transitions_for_assignee: Допълнителни промени са рарзрешени,
+    когато потребителят е назначен към задачата
+  label_additional_workflow_transitions_for_author: Допълнителни промени са рарзрешени,
+    когато потребителят е автор
+  label_administration: Администрация
+  label_advanced_settings: Разширени настройки
+  label_age: Възраст
+  label_ago: преди
+  label_all: всички
+  label_all_time: всички времена
+  label_all_words: Всички думи
+  label_always_visible: Винаги се показват
+  label_announcement: Известие
+  label_and_its_subprojects: "%{value} и неговите подпроекти"
+  label_api_access_key: API ключ за достъп
+  label_api_access_key_created_on: API ключ за достъп е създаден преди %{value}
+  label_api_access_key_type: API
+  label_applied_status: Приложен статус
+  label_archive_project: Archive project
+  label_ascending: Възходящо
+  label_assigned_to_me_work_packages: Работни пакети, възложени на мен
+  label_associated_revisions: Асоциирани ревизии
+  label_attachment_delete: Изтрий файла
+  label_attachment_new: Нов файл
+  label_attachment_plural: Файлове
+  label_attribute: Атрибут
+  label_attribute_plural: Атрибути
+  label_auth_source: Режим на удостоверяване
+  label_auth_source_new: Нов начин на оторизация
+  label_auth_source_plural: Начини на оторизация
+  label_authentication: Оторизация
+  label_available_project_work_package_categories: Налични категории работни пакети
+  label_available_project_boards: Налични табла
+  label_available_project_versions: Налични версии
+  label_available_project_repositories: Достъпни хранилища
+  label_api_documentation: API документация
+  label_between: between
+  label_blocked_by: блокирано от
+  label_blocks: блокировки
+  label_blog: Блог
+  label_board_locked: Заключен
+  label_board_new: Нов форум
+  label_board_plural: Форуми
+  label_board_sticky: Лепкава
+  label_boolean: Булев
+  label_branch: Клон
+  label_browse: Преглед
+  label_bulk_edit_selected_work_packages: Групово редактиране на избраните работни
+    пакети
+  label_calendar: Календар
+  label_calendar_show: Показване на календар
+  label_category: Категория
+  label_wiki_menu_item: Wiki елемент от меню
+  label_select_main_menu_item: Изберете нов елемент от главното меню
+  label_select_project: Select a project
+  label_required_disk_storage: Необходимо дисково пространство
+  label_send_invitation: Send invitation
+  label_change_plural: Промени
+  label_change_properties: Промяна на свойствата
+  label_change_status: Промяна на статуса
+  label_change_status_of_user: 'Change status of #{username}'
+  label_change_view_all: Покажи всички промени
+  label_changes_details: Подробности за всички промени
+  label_changeset: Changeset
+  label_changeset_id: Changeset ID
+  label_changeset_plural: Набори от промени
+  label_checked: проверени
+  label_check_uncheck_all_in_column: Проверете/махнете отметката на всички в колона
+  label_check_uncheck_all_in_row: Проверете/махнете отметката на всички в реда
+  label_child_element: Елемент наследник
+  label_chronological_order: В хронологичен ред
+  label_close_versions: Затвори завършени версии
+  label_closed_work_packages: затворен
+  label_collapse: Свий
+  label_configuration: конфигурация
+  label_comment_add: Добави коментар
+  label_comment_added: Добавен коментар
+  label_comment_delete: Изтриване на коментари
+  label_comment_plural: Коментари
+  label_commits_per_author: Вписвания от автор
+  label_commits_per_month: Вписвания за месец
+  label_confirmation: Потвърждение
+  label_contains: съдържа
+  label_content: Съдържание
+  label_copied: копирани
+  label_copy_to_clipboard: Копирай в буфер
+  label_copy_same_as_target: Също като целта
+  label_copy_source: Източник
+  label_copy_target: Цел
+  label_copy_workflow_from: Копиране на работен поток от
+  label_copy_project: Копирай проекта
+  label_core_version: Версия на ядрото
+  label_current_status: Текущо състояние
+  label_current_version: Настояща версия
+  label_custom_field_add_no_type: Add this field to a work package type
+  label_custom_field_new: Ново потребителско поле
+  label_custom_field_plural: допълнителни полета
+  label_custom_field_default_type: Празен тип
+  label_custom_style: Design
+  label_date: Дата
+  label_date_and_time: Date and time
+  label_date_from: От
+  label_date_from_to: От %{start} до %{end}
+  label_date_range: Период
+  label_date_to: До
+  label_day_plural: дни
+  label_default: По подразбиране
+  label_delete_user: Delete user
+  label_delete_project: Delete project
+  label_deleted: изтрит
+  label_deleted_custom_field: "(изтрито потребителско поле)"
+  label_descending: Низходящо
+  label_details: Подробности
+  label_development_roadmap: Развитие на пътната карта
+  label_diff: разл
+  label_diff_inline: инлайн
+  label_diff_side_by_side: един до друг
+  label_disabled: забранен
+  label_display: Покажи
+  label_display_per_page: 'На страница: %{value}'
+  label_display_used_statuses_only: Показване само на статуси, които се използват
+    от този тип
+  label_download: "%{count} изтегляне"
+  label_download_plural: "%{count} изтегляния"
+  label_downloads_abbr: D/L
+  label_duplicated_by: дублирано от
+  label_duplicate: duplicate
+  label_duplicates: дублирания
+  label_edit: Редактиране
+  label_enable_multi_select: Превключване към множествен избор
+  label_enabled_project_custom_fields: Разрешени потребителски полета
+  label_enabled_project_types: Разрешени типове
+  label_enabled_project_modules: Разрешени модули
+  label_enabled_project_activities: Включеное проследяване за време на активност
+  label_end_to_end: край до край
+  label_end_to_start: край към начало
+  label_enumeration_new: Нова списъчна стойност
+  label_enumeration_value: Enumeration value
+  label_enumerations: Списъци
+  label_enterprise: Enterprise
+  label_enterprise_edition: Enterprise Edition
+  label_environment: Среда
+  label_estimates_and_time: Estimates and time
+  label_equals: е
+  label_example: Пример
+  label_export_to: 'Also available in:'
+  label_f_hour: "%{value} час"
+  label_f_hour_plural: "%{value} часа"
+  label_feed_plural: Информационни канали
+  label_feeds_access_key: RSS ключ за достъп
+  label_feeds_access_key_created_on: RSS ключ за достъп създаден преди %{value}
+  label_feeds_access_key_type: RSS
+  label_file_added: Файлът е добавен
+  label_file_plural: Файлове
+  label_filter_add: Добавяне на филтър
+  label_filter_plural: Филтри
+  label_filters_toggle: Show/hide filters
+  label_float: Плаващ
+  label_folder: Папка
+  label_follows: следва
+  label_force_user_language_to_default: Задаване на език по подразбиране за потребителите
+    с липсващи в системата езици
+  label_form_configuration: Конфигурация на формата
+  label_general: Общ
+  label_generate_key: Генериране на ключ
+  label_git_path: Път до .git директория
+  label_greater_or_equal: ">="
+  label_group_by: Групиране по
+  label_group_new: Нова група
+  label_group: Група
+  label_group_plural: Групи
+  label_help: Помощ
+  label_here: тук
+  label_hide: Скрий
+  label_history: История
+  label_home: Начална страница
+  label_in: в
+  label_in_less_than: в по-малко от
+  label_in_more_than: в повече от
+  label_inactive: Inactive
+  label_incoming_emails: Входящи имейли
+  label_includes: includes
+  label_index_by_date: Индекс по дата
+  label_index_by_title: Индекс по заглавие
+  label_information: Информация
+  label_information_plural: Информация
+  label_integer: Цяло число
+  label_internal: Вътрешен
+  label_invite_user: Покани потребител
+  label_show_hide: Покажи/Скрий
+  label_show_all_registered_users: Show all registered users
+  label_journal: Journal
+  label_journal_diff: Сравнение на описание
+  label_language: Език
+  label_jump_to_a_project: Отиди на проект...
+  label_language_based: Въз основа на езика на потребителя
+  label_last_activity: Последна активност
+  label_last_change_on: 'Последна промяна на:'
+  label_last_changes: последните %{count} промени
+  label_last_login: Последно влизане
+  label_last_month: миналия месец
+  label_last_n_days: последните %{count} дни
+  label_last_week: Миналата седмица
+  label_latest_revision: Последна редакция
+  label_latest_revision_plural: Последни редакции
+  label_ldap_authentication: Удостоверяване LDAP
+  label_less_or_equal: "<="
+  label_less_than_ago: по-скоро от няколко дни
+  label_list: Списък
+  label_loading: Зареждане...
+  label_lock_user: Lock user
+  label_logged_as: Влезли сте като
+  label_login: Влизане
+  label_custom_logo: Custom logo
+  label_custom_favicon: Custom favicon
+  label_custom_touch_icon: Custom touch icon
+  label_logout: Изход
+  label_main_menu: Главното меню
+  label_manage_groups: Управление на групи
+  label_managed_repositories_vendor: Управлявани %{vendor} хранилища
+  label_max_size: Максимален размер
+  label_me: мен
+  label_member_new: Нов потребител
+  label_member_plural: Потребители
+  label_view_all_members: Покажи всички членове
+  label_menu_item_name: Име на елемент от меню
+  label_message: Message
+  label_message_last: Последно съобщение
+  label_message_new: Ново съобщение
+  label_message_plural: Съобщения
+  label_message_posted: Съобщение добавено
+  label_min_max_length: Мин - Макс дължина
+  label_minute_plural: минути
+  label_missing_api_access_key: Липсва API ключ за достъп
+  label_missing_feeds_access_key: Липсва RSS ключ за достъп
+  label_modification: "%{count} промяна"
+  label_modified: променени
+  label_module_plural: Модули
+  label_modules: Модули
+  label_month: Месец
+  label_months_from: месеца от
+  label_more: Повече
+  label_more_than_ago: повече от преди дни
+  label_move_work_package: Премести работен пакет
+  label_my_account: Моят профил
+  label_my_account_data: Данни за моят акаунт
+  label_my_page: Моята страница
+  label_my_page_block: Блок Моята страница
+  label_my_projects: Моите проекти
+  label_my_queries: Моите потребителски заявки
+  label_new: Нов
+  label_new_statuses_allowed: Новите статуси за разрешени
+  label_news_added: Добавени новини
+  label_news_comment_added: Коментар, добавен към новини
+  label_news_latest: Последни новини
+  label_news_new: Добави новина
+  label_news_edit: Редактиране на новини
+  label_news_plural: Новини
+  label_news_view_all: Покажи всички новини
+  label_next: Следващо
+  label_next_week: Следващата седмица
+  label_no_change_option: "(No change)"
+  label_no_data: Няма данни за показване
+  label_nothing_display: Нищо за показване
+  label_nobody: nobody
+  label_none: none
+  label_none_parentheses: "(none)"
+  label_not_contains: doesn't contain
+  label_not_equals: is not
+  label_notify_member_plural: Email updates
+  label_on: на
+  label_open_menu: Open menu
+  label_open_work_packages: open
+  label_open_work_packages_plural: open
+  label_optional_description: Описание
+  label_options: Опции
+  label_other: Други
+  label_overall_activity: Overall activity
+  label_overall_spent_time: Overall spent time
+  label_overview: Общ преглед
+  label_part_of: part of
+  label_password_lost: Forgot your password?
+  label_password_rule_lowercase: Lowercase
+  label_password_rule_numeric: Numeric Characters
+  label_password_rule_special: Special Characters
+  label_password_rule_uppercase: Uppercase
+  label_path_encoding: Path encoding
+  label_pdf_with_descriptions: PDF с описания
+  label_per_page: На страница
+  label_people: Участници
+  label_permissions: Права
+  label_permissions_report: Доклади за права
+  label_personalize_page: Персонализирай тази страница
+  label_planning: Планиране
+  label_please_login: Моля влез в профила си
+  label_plugins: Плъгини
+  label_precedes: предхожда
+  label_preferences: Предпочитания
+  label_preview: Предварителен преглед
+  label_previous: Предишен
+  label_previous_week: Предишната седмица
+  label_principal_invite_via_email: " или покани нови потребители по имейл"
+  label_principal_search: Добавяне на съществуващи потребители или групи
+  label_product_version: Версия на продукта
+  label_professional_support: Професионална поддръжка
+  label_profile: Профил
+  label_project_all: Всички проекти
+  label_project_count: Общ брой на проектите
+  label_project_copy_notifications: Изпраща имейл известия по време на копиране на
+    проект
+  label_project_latest: Последни проекти
+  label_project_default_type: Разреши празни типове
+  label_project_hierarchy: Йерархия на проекта
+  label_project_new: Нов проект
+  label_project_plural: Проекти
+  label_project_settings: Настройки на проекта
+  label_projects_storage_information: "%{count} проекти с помощта на %{storage} диск
+    за съхранение на данни"
+  label_project_view_all: Покажи всички проекти
+  label_project_show_details: Show project details
+  label_project_hide_details: Hide project details
+  label_public_projects: Публични проекти
+  label_query_new: Ново търсене
+  label_query_plural: Потребителско търсене
+  label_query_menu_item: Търсене на елемент от менюто
+  label_read: Прочитане...
+  label_register: Регистрирайте нов профил
+  label_register_with_developer: Регистрирайте се като разработчик
+  label_registered_on: Регистриран на
+  label_registration_activation_by_email: активиране на профила по имейл
+  label_registration_automatic_activation: автоматично активиране на акаунт
+  label_registration_manual_activation: ръчно активиране на акаунт
+  label_related_work_packages: Свързани работени пакети
+  label_relates: свързани с
+  label_relates_to: свързани с
+  label_relation_delete: Изтриване на връзка
+  label_relation_new: Нова връзка
+  label_release_notes: Бележки по изданието
+  label_remove_columns: Премахване на избраните колони
+  label_renamed: преименуван
+  label_reply_plural: Отговори
+  label_report: Отчет
+  label_report_bug: Докладвай за бъг
+  label_report_plural: Отчети
+  label_reported_work_packages: Докладваните работни пакети
+  label_reporting: Докладване
+  label_reporting_plural: Докладване
+  label_repository: Хранилище
+  label_repository_root: Корен на хранилище
+  label_repository_plural: Хранилища
+  label_required: required
+  label_requires: requires
+  label_responsible_for_work_packages: Работни пакети, за които съм отговорен
+  label_result_plural: Резултати
+  label_reverse_chronological_order: В обратен хронологичен ред
+  label_revision: Преразглеждане
+  label_revision_id: Редакция %{value}
+  label_revision_plural: Ревизии
+  label_roadmap: Пътна карта
+  label_roadmap_edit: Редактиране на пътната карта %{name}
+  label_roadmap_due_in: Излиза след %{value}
+  label_roadmap_no_work_packages: Няма работни пакети за тази версия
+  label_roadmap_overdue: "%{value} закъснение"
+  label_role_and_permissions: Роли и права
+  label_role_new: Нова роля
+  label_role_plural: Роли
+  label_role_search: Assign role to new members
+  label_scm: SCM
+  label_search: Търсене
+  label_search_titles_only: Търси само заглавия
+  label_send_information: Изпрати информация за акаунта на този потребител
+  label_send_test_email: Изпрати пробен имейл
+  label_settings: Настройки
+  label_system_settings: Системни настройки
+  label_show_completed_versions: Покажи завършени версии
+  label_sort: Сортиране
+  label_sort_by: Sort by %{value}
+  label_sorted_by: сортирани по %{value}
+  label_sort_higher: Премести нагоре
+  label_sort_highest: Премести най-горе
+  label_sort_lower: Премести надолу
+  label_sort_lowest: Премести до края
+  label_spent_time: Отработено време
+  label_start_to_end: start to end
+  label_start_to_start: start to start
+  label_statistics: Статистика
+  label_status: Състояние
+  label_status_updated: Work package status updated
+  label_stay_logged_in: Stay logged in
+  label_storage_free_space: Оставащо дисково пространство
+  label_storage_used_space: Използвано дисково пространство
+  label_storage_group: Файлова система на хранилището %{identifier}
+  label_storage_for: Обхваща съхранение за
+  label_string: Текст
+  label_subproject: Подпроект
+  label_subproject_new: Нов подпроект
+  label_subproject_plural: Подпроекти
+  label_subtask_plural: Subtasks
+  label_summary: Обобщение
+  label_system: Система
+  label_system_storage: Информация за хранилището
+  label_table_of_contents: Таблица на съдържанието
+  label_tag: Етикет
+  label_text: Дълъг текст
+  label_this_month: този месец
+  label_this_week: тази седмица
+  label_this_year: тази година
+  label_time_entry_plural: Отработено време
+  label_time_sheet_menu: Времеви график
+  label_time_tracking: Проследяване по време
+  label_today: днес
+  label_top_menu: Главно меню
+  label_topic_plural: Tеми
+  label_total: Oбщо
+  label_type_new: Нов тип
+  label_type_plural: Видове
+  label_type_default_new_projects: Активирани типове по подразбиране за нови проекти
+  label_ui: Потребителски интерфейс
+  label_update_work_package_done_ratios: Актуализиране на готовност на работни пакети
+  label_updated_time: Актуализиран преди %{value}
+  label_updated_time_at: "%{author} %{age}"
+  label_updated_time_by: Актуализирана от %{author} преди %{age}
+  label_used_by: Използван от
+  label_used_by_types: Used by types
+  label_used_in_projects: Used in projects
+  label_user: Потребител
+  label_user_activity: дейност на %{value}
+  label_user_anonymous: Анонимен
+  label_user_mail_option_all: За всяко събитие на всичките ми проекти
+  label_user_mail_option_none: Няма събития
+  label_user_mail_option_only_assigned: Само за неща, възложени на мен
+  label_user_mail_option_only_my_events: Само за неща, които наблюдавам или съм включен
+    в тях
+  label_user_mail_option_only_owner: Само за неща, на които аз съм собственик
+  label_user_mail_option_selected: За всяко събитие само в избраните проекти
+  label_user_new: Нов потребител
+  label_user_plural: Потребители
+  label_user_search: Търсене на потребител
+  label_version_new: Нова версия
+  label_version_plural: Версии
+  label_version_sharing_descendants: С подпроектите
+  label_version_sharing_hierarchy: С проектна йерархия
+  label_version_sharing_none: Не е споделен
+  label_version_sharing_system: С всички проекти
+  label_version_sharing_tree: С проектно дърво
+  label_video: Видео
+  label_view_all_revisions: Покажи всички ревизии
+  label_view_diff: Прегледай различията
+  label_view_revisions: Изглед ревизии
+  label_watched_work_packages: Наблюдавани работни пакети
+  label_week: Седмица
+  label_wiki_content_added: Wiki страница добавена
+  label_wiki_content_updated: Wiki страница обновена
+  label_wiki_toc: Таблица на съдържанието
+  label_wiki_dont_show_menu_item: Не показвай този wikipage в проектната навигация
+  label_wiki_edit: Редактиране на Wiki
+  label_wiki_edit_plural: Wiki редакции
+  label_wiki_page_attachments: Wiki page attachments
+  label_wiki_page_id: Wiki page ID
+  label_wiki_navigation: Wiki навигация
+  label_wiki_page: Wiki страница
+  label_wiki_page_plural: Wiki страници
+  label_wiki_show_index_page_link: Показване на елемент от подменюто "Съдържание"
+  label_wiki_show_menu_item: Покажи като меню в проектната навигация
+  label_wiki_show_new_page_link: Показване на елемент от подменю "Създай нова подстраница"
+  label_wiki_show_submenu_item: 'Покажи като елемент от подменюто на '
+  label_work_package: Работен пакет
+  label_work_package_added: Работния пакет е добавен
+  label_work_package_attachments: Work package attachments
+  label_work_package_category_new: Нова категория
+  label_work_package_category_plural: Категории работни пакети
+  label_work_package_hierarchy: Work package hierarchy
+  label_work_package_new: Нов работен пакет
+  label_work_package_note_added: Бележка за работен пакет добавена
+  label_work_package_edit: Редактиране на работен пакет %{name}
+  label_work_package_plural: Работни пакети
+  label_work_package_priority_updated: Приоритет на работни пакети актуализиран
+  label_work_package_status: Статус на работен пакет
+  label_work_package_status_new: Ново състояние
+  label_work_package_status_plural: Статуси на работни пакети
+  label_work_package_types: Видове работни пакети
+  label_work_package_updated: Актуализиран работен пакет
+  label_work_package_tracking: Проследяване на работен пакет
+  label_work_package_view_all: Покажи всички работни пакети
+  label_work_package_view_all_assigned_to_me: Покажи всички работни пакети, възложени
+    на мен
+  label_work_package_view_all_reported_by_me: Покажи всички работни пакети, докладвани
+    от мен
+  label_work_package_view_all_responsible_for: Покажи всички работни пакети, за които
+    аз съм отговорен
+  label_work_package_view_all_watched: Покажи всички наблюдавани работни пакети
+  label_work_package_watchers: Наблюдатели
+  label_workflow: Работен поток
+  label_workflow_plural: Работни потоци
+  label_workflow_summary: Обобщение
+  label_x_closed_work_packages_abbr:
+    one: 1 затворен
+    other: "%{count} затворени"
+    zero: 0 closed
+  label_x_comments:
+    one: 1 коментар
+    other: "%{count} коментари"
+    zero: no comments
+  label_x_open_work_packages_abbr:
+    one: 1 отворен
+    other: "%{count} отворени"
+    zero: 0 open
+  label_x_open_work_packages_abbr_on_total:
+    one: 1 отворен / %{total}
+    other: "%{count} отворени / %{total}"
+    zero: 0 open / %{total}
+  label_x_projects:
+    one: 1 проект
+    other: "%{count} проекти"
+    zero: no projects
+  label_year: Година
+  label_yesterday: вчера
+  label_keyboard_function: Функция
+  label_keyboard_shortcut: Пряк път
+  label_keyboard_accesskey: Код за достъп
+  label_keyboard_shortcut_help_heading: Налични клавишни комбинации
+  label_keyboard_shortcut_within_project: 'Кратки команди за проекта:'
+  label_keyboard_shortcut_global_shortcuts: 'Глобални клавишни комбинации:'
+  label_keyboard_shortcut_some_pages_only: 'Специални клавишни комбинации:'
+  label_keyboard_shortcut_search_global: Глобално търсене
+  label_keyboard_shortcut_search_project: Намери проект
+  label_keyboard_shortcut_go_my_page: Отваряне на Моята страница
+  label_keyboard_shortcut_show_help: Покажи това съобщение за помощ
+  label_keyboard_shortcut_go_overview: Към преглед на проекта
+  label_keyboard_shortcut_go_work_package: Отиди на работни пакети за проекта
+  label_keyboard_shortcut_go_wiki: Отидете в проектното wiki
+  label_keyboard_shortcut_go_activity: Отидете на дейности по проекта
+  label_keyboard_shortcut_go_calendar: Отиди на календар на проекта
+  label_keyboard_shortcut_go_news: Отваряне на новини от проекта
+  label_keyboard_shortcut_go_timelines: Отидете на времеви линии
+  label_keyboard_shortcut_new_work_package: Създаване на нов работен пакет
+  label_keyboard_shortcut_details_package: Показване на подробности за работните пакети
+  label_keyboard_shortcut_go_edit: Отидете да редактирате текущия елемент (само на
+    детайлните страници)
+  label_keyboard_shortcut_open_more_menu: Отворен подробно меню (само на детайлна
+    страница)
+  label_keyboard_shortcut_go_preview: Go to preview the current edit (on edit pages
+    only)
+  label_keyboard_shortcut_focus_previous_item: Focus previous list element (on some
+    lists only)
+  label_keyboard_shortcut_focus_next_item: Focus next list element (on some lists
+    only)
+  label_visible_elements: Видими елементи
+  auth_source:
+    using_abstract_auth_source: Can't use an abstract authentication source.
+    ldap_error: 'LDAP-Error: %{error_message}'
+    ldap_auth_failed: Could not authenticate at the LDAP-Server.
+  macro_execution_error: Error executing the macro %{macro_name}
+  macro_unavailable: Macro %{macro_name} cannot be displayed.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Нов работен пакет
+      link_name_type: New %{type_name}
+  mail:
+    actions: Actions
+  mail_body_account_activation_request: 'Регистриран е нов потребител (%{value}).
+    Акаунтът очаква Вашето одобрение:'
+  mail_body_account_information: Информация за Вашия акаунт
+  mail_body_account_information_external: Можете да използвате Вашия %{value} профил
+    за да се впишете.
+  mail_body_lost_password: 'За да промените паролата си, използвайте следния линк:'
+  mail_body_register: 'За да активирате профила си използвайте следния линк:'
+  mail_body_reminder: "%{count} work package(s) that are assigned to you are due in
+    the next %{days} days:"
+  mail_body_wiki_content_added: The '%{id}' wiki page has been added by %{author}.
+  mail_body_wiki_content_updated: The '%{id}' wiki page has been updated by %{author}.
+  mail_subject_account_activation_request: "%{value} account activation request"
+  mail_subject_lost_password: Your %{value} password
+  mail_subject_register: Your %{value} account activation
+  mail_subject_reminder: "%{count} work package(s) due in the next %{days} days"
+  mail_subject_wiki_content_added: "'%{id}' wiki page has been added"
+  mail_subject_wiki_content_updated: "'%{id}' wiki page has been updated"
+  more_actions: More functions
+  noscript_description: Трябва да активирате JavaScript за да ползвате OpenProject!
+  noscript_heading: JavaScript disabled
+  noscript_learn_more: Научете повече
+  notice_accessibility_mode: Режим на достъпност може да бъде активиран във вашия
+    профил [settings](url).
+  notice_account_activated: Your account has been activated. You can now log in.
+  notice_account_already_activated: Този потребител вече е потвърден.
+  notice_account_invalid_token: Невалиден маркер за активиране
+  notice_account_invalid_credentials: Invalid user or password
+  notice_account_invalid_credentials_or_blocked: Invalid user or password or the account
+    is blocked due to multiple failed login attempts. If so, it will be unblocked
+    automatically in a short time.
+  notice_account_lost_email_sent: An email with instructions to choose a new password
+    has been sent to you.
+  notice_account_new_password_forced: A new password is required.
+  notice_account_password_expired: Your password expired after %{days} days. Please
+    set a new one.
+  notice_account_password_updated: Password was successfully updated.
+  notice_account_pending: Your account was created and is now pending administrator
+    approval.
+  notice_account_register_done: Account was successfully created. To activate your
+    account, click on the link that was emailed to you.
+  notice_account_unknown_email: Неизвестен потребител.
+  notice_account_update_failed: Настройка на акаунт не могат да бъдат записани. Моля
+    погледнете страницата на акаунта си.
+  notice_account_updated: Account was successfully updated.
+  notice_account_wrong_password: Грешна парола
+  notice_account_registered_and_logged_in: Добре дошли вашият акаунт е активиран.
+    Вие сте влезли в момента.
+  notice_activation_failed: Акаунтът не може да бъде активиран.
+  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
+  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
+    but '%{actual}' returned.
+  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_can_t_change_password: Този профил е с външен метод за аутентикация. Невъзможна
+    смяна на паролата.
+  notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
+    were deleted.
+  notice_email_error: Възникна грешка при изпращане на поща (%{value})
+  notice_email_sent: Имейл е изпратен до %{value}
+  notice_failed_to_save_work_packages: 'Неуспешно записване на %{count} работни пакети
+    от %{total} избрани: %{ids}.'
+  notice_failed_to_save_members: 'Неуспешно записване на членовете: %{errors}.'
+  notice_file_not_found: Несъществуваща или преместена страница.
+  notice_forced_logout: Вие автоматично излязохте след %{ttl_time} минути на неактивност.
+  notice_internal_server_error: Възникна грешка в страницата, до която се опитвате
+    да получите достъп. Ако продължавате да имате проблеми свържете %{app_title} администратор
+    за съдействие.
+  notice_work_package_done_ratios_updated: Актуализирано ниво на завършване на работен
+    пакет.
+  notice_locking_conflict: Информацията е актуализирана от поне един друг потребител
+    в същото време.
+  notice_locking_conflict_additional_information: Обновленията са от %{users}.
+  notice_locking_conflict_reload_page: Моля презаредете страницата, прегледайте промените
+    и приложете отново вашите обновления.
+  notice_member_added: Добавен %{name} в проекта.
+  notice_members_added: Added %{number} users to the project.
+  notice_member_removed: Премахнат %{user} от проект.
+  notice_member_deleted: "%{user} е отстранен от проекта и изтрит."
+  notice_no_principals_found: Не са намерени разултати.
+  notice_bad_request: Грешна заявка.
+  notice_not_authorized: Нямате право на достъп до тази страница.
+  notice_not_authorized_archived_project: Проектът, до който се опитвате да получите
+    достъп е бил архивиран.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_principals_found_multiple: "There are %{number} results found. \n Tab to
+    focus the first result."
+  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_project_not_deleted: Проектът не е изтрит.
+  notice_successful_connection: Успешна връзка.
+  notice_successful_create: Успешно създаване.
+  notice_successful_delete: Успешно изтриване.
+  notice_successful_update: Успешно обновяване.
+  notice_to_many_principals_to_display: Има твърде много резултати. Стесните търсенето,
+    като въведете името на нов член (или група).
+  notice_unable_delete_time_entry: Не може да изтриете запис в регистъра на време.
+  notice_unable_delete_version: Не може да изтриете версия.
+  notice_user_missing_authentication_method: Потребителят все още не е избрал парола
+    или друг начин за влизане.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  present_access_key_value: 'Your %{key_name} is: %{value}'
+  notice_automatic_set_of_standard_type: Задаване на стандартен тип автоматично.
+  notice_logged_out: Вие излязохте.
+  notice_wont_delete_auth_source: Режим на удостоверяване не може да бъде изтрит,
+    докато все още има потребители, които го използват.
+  notice_project_cannot_update_custom_fields: 'Не можете да актуализирате наличните
+    потребителски полета на проекта. Проектът е невалиден: %{errors}'
+  notice_attachment_migration_wiki_page: 'This page was generated automatically during
+    the update of OpenProject. It contains all attachments previously associated with
+    the %{container_type} "%{container_name}".
+
+'
+  number:
+    format:
+      delimiter: ''
+      precision: 3
+      separator: "."
+    human:
+      format:
+        delimiter: ''
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Байт
+            other: байта
+          gb: GB
+          kb: kB
+          mb: МB
+          tb: TB
+  onboarding:
+    heading_getting_started: Get an overview
+    text_getting_started_description: Get a quick overview of project management and
+      team collaboration with OpenProject.
+    text_show_again: Можете да рестартирате това видео от менюто помощ
+    welcome: Welcome to OpenProject
+  permission_add_work_package_notes: Добавяне на бележки
+  permission_add_work_packages: Add work packages (also allows to add attachments
+    to all work packages)
+  permission_add_messages: Post messages
+  permission_add_project: Създаване на проект
+  permission_add_subprojects: Create subprojects
+  permission_add_work_package_watchers: Добавяне на наблюдатели
+  permission_browse_repository: Read-only access to repository (browse and checkout)
+  permission_change_wiki_parent_page: Change parent wiki page
+  permission_comment_news: Comment news
+  permission_commit_access: Read/write access to repository (commit)
+  permission_copy_projects: Copy projects
+  permission_delete_work_package_watchers: Изтриване на наблюдатели
+  permission_delete_work_packages: Delete work packages
+  permission_delete_messages: Delete messages
+  permission_delete_own_messages: Delete own messages
+  permission_delete_project_associations: Delete project dependencies
+  permission_delete_reportings: Delete reportings
+  permission_delete_timelines: Delete timelines
+  permission_delete_wiki_pages: Delete wiki pages
+  permission_delete_wiki_pages_attachments: Delete attachments
+  permission_edit_work_package_notes: Edit notes
+  permission_edit_work_packages: Edit work packages
+  permission_edit_messages: Редактиране на съобщенията
+  permission_edit_own_work_package_notes: Edit own notes
+  permission_edit_own_messages: Edit own messages
+  permission_edit_own_time_entries: Edit own time logs
+  permission_edit_project: Edit project
+  permission_edit_project_associations: Edit project dependencies
+  permission_edit_reportings: Edit reportings
+  permission_edit_time_entries: Edit time logs
+  permission_edit_timelines: Edit timelines
+  permission_edit_wiki_pages: Edit wiki pages
+  permission_export_work_packages: Export work packages
+  permission_export_wiki_pages: Export wiki pages
+  permission_list_attachments: List attachments
+  permission_log_time: Log spent time
+  permission_manage_boards: Manage forums
+  permission_manage_categories: Manage work package categories
+  permission_manage_work_package_relations: Manage work package relations
+  permission_manage_members: Manage members
+  permission_manage_news: Manage news
+  permission_manage_project_activities: Manage project activities
+  permission_manage_public_queries: Manage public queries
+  permission_manage_repository: Manage repository
+  permission_manage_subtasks: Manage subtasks
+  permission_manage_versions: Manage versions
+  permission_manage_wiki: Manage wiki
+  permission_manage_wiki_menu: Manage wiki menu
+  permission_move_work_packages: Move work packages
+  permission_protect_wiki_pages: Protect wiki pages
+  permission_rename_wiki_pages: Rename wiki pages
+  permission_save_queries: Save queries
+  permission_select_project_modules: Select project modules
+  permission_manage_types: Select types
+  permission_view_calendar: Преглед на календара
+  permission_view_changesets: View repository revisions in OpenProject
+  permission_view_commit_author_statistics: View commit author statistics
+  permission_view_work_package_watchers: View watchers list
+  permission_view_work_packages: View work packages
+  permission_view_messages: View messages
+  permission_view_members: View members
+  permission_view_project_associations: View project dependencies
+  permission_view_reportings: View reportings
+  permission_view_time_entries: View spent time
+  permission_view_timelines: View timelines
+  permission_view_wiki_edits: View wiki history
+  permission_view_wiki_pages: View wiki
+  placeholders:
+    default: "-"
+  project:
+    destroy:
+      confirmation: If you continue, the project %{identifier} and all related data
+        will be permanently destroyed.
+      info: Deleting the project is an irreversible action.
+      project_verification: Enter the project's name %{name} to verify the deletion.
+      subprojects_confirmation: 'Its subproject(s): %{value} will also be deleted.'
+      title: Delete the project %{name}
+    identifier:
+      warning_one: Members of the project will have to relocate the project's repositories.
+      warning_two: Existing links to the project will no longer work.
+      title: Change the project's identifier
+    archive:
+      are_you_sure: Наистина ли искате да архивирате на проекта "%{name}"?
+  project_module_activity: Активност
+  project_module_boards: Форуми
+  project_module_calendar: Календар
+  project_module_work_package_tracking: Проследяване на работен пакет
+  project_module_news: Новини
+  project_module_repository: Хранилище
+  project_module_time_tracking: Проследяване по време
+  project_module_timelines: Timelines
+  project_module_wiki: Wiki
+  query:
+    attribute_and_direction: "%{attribute} (%{direction})"
+  query_fields:
+    active_or_archived: Active or archived
+    assigned_to_role: Assignee's role
+    member_of_group: Assignee's group
+    assignee_or_group: Assignee or belonging group
+    subproject_id: Подпроект
+    name_or_identifier: Name or identifier
+  repositories:
+    at_identifier: at %{identifier}
+    atom_revision_feed: Atom revision feed
+    autofetch_information: |-
+      Check this if you want repositories to be updated automatically when accessing the repository module page.
+      This encompasses the retrieval of commits from the repository and refreshing the required disk storage.
+    checkout:
+      access:
+        readwrite: Read + Write
+        read: Read-only
+        none: No checkout access, you may only view the repository through this application.
+      access_permission: Your permissions on this repository
+      url: Checkout URL
+      base_url_text: |-
+        The base URL to use for generating checkout URLs (e.g., https://myserver.example.org/repos/).
+        Note: The base URL is only used for rewriting checkout URLs in managed repositories. Other repositories are not altered.
+      default_instructions:
+        git: |-
+          The data contained in this repository can be downloaded to your computer with Git.
+          Please consult the documentation of Git if you need more information on the checkout procedure and available clients.
+        subversion: |-
+          The data contained in this repository can be downloaded to your computer with Subversion.
+          Please consult the documentation of Subversion if you need more information on the checkout procedure and available clients.
+      enable_instructions_text: Displays checkout instructions defined below on all
+        repository-related pages.
+      instructions: Checkout instructions
+      show_instructions: Display checkout instructions
+      text_instructions: This text is displayed alongside the checkout URL for guidance
+        on how to check out the repository.
+      not_available: Checkout instructions are not defined for this repository. Ask
+        your administrator to enable them for this repository in the system settings.
+    create_managed_delay: 'Please note: The repository is managed, it is created asynchronously
+      on the disk and will be available shortly.'
+    create_successful: The repository has been registered.
+    delete_sucessful: The repository has been deleted.
+    destroy:
+      confirmation: If you continue, this will permanently delete the managed repository.
+      info: Deleting the repository is an irreversible action.
+      info_not_managed: 'Note: This will NOT delete the contents of this repository,
+        as it is not managed by OpenProject.'
+      managed_path_note: 'The following directory will be erased: %{path}'
+      repository_verification: Enter the project's identifier %{identifier} to verify
+        the deletion of its repository.
+      subtitle: Наистина ли искате да изтриете %{repository_type} на проекта %{project_name}?
+      subtitle_not_managed: Наистина ли искате да премахнете свързаните %{repository_type}
+        %{url} от %{project_name} проект?
+      title: Изтриване на %{repository_type}
+      title_not_managed: Премахнете свързаните %{repository_type}?
+    errors:
+      build_failed: Не може да създаде хранилище с избраната конфигурация. %{reason}
+      managed_delete: Не може да изтриете управляваното хранилище.
+      managed_delete_local: 'Не може да изтрие местно хранилище на файловата система
+        в "%{path}": %{error_message}'
+      empty_repository: Хранилището съществува, но е празно. То не съдържа никакви
+        корекции все още.
+      exists_on_filesystem: Директорията на хранилище вече съществува във файловата
+        система.
+      filesystem_access_failed: 'Възникна грешка при достъп до хранилището в файловата
+        система: %{message}'
+      not_manageable: Този доставчик на хранилище не може да се управлява от OpenProject.
+      path_permission_failed: 'Възникна грешка при опит да се създаде следния път:
+        %{path}. Убедете се, че OpenProject има права за писане в тази папка.'
+      unauthorized: Вие не сте упълномощени за достъп до хранилището или аутентикиращите
+        данни са невалидни.
+      unavailable: Хранилището е недостъпно.
+      exception_title: 'Няма достъп до хранилището: %{message}'
+      disabled_or_unknown_type: Избраният тип %{type} е забранен или вече не е наличен
+        за SCM доставчик %{vendor}.
+      disabled_or_unknown_vendor: SCM доставчик %{vendor} е забранен или вече не е
+        наличен.
+      remote_call_failed: 'Извикване на отдалеченото управление пропадна със съобщение
+        "%{message}" (код: %{code})'
+      remote_invalid_response: Получил Невалиден отговор от отдалечено управление.
+      remote_save_failed: Не може да запише хранилище с параметри, получени от отдалеченото.
+    git:
+      instructions:
+        managed_url: Това е URL на управлявано (локално) Git хранилище.
+        path: Specify the path to your local Git repository ( e.g., %{example_path}
+          ). You can also use remote repositories which are cloned to a local copy
+          by using a value starting with http(s):// or file://.
+        path_encoding: 'Замени Git път кодиране (по подразбиране: UTF-8)'
+      local_title: Връзка към съществуващите локални хранилище Git
+      local_url: Local URL
+      local_introduction: If you have an existing local Git repository, you can link
+        it with OpenProject to access it from within the application.
+      managed_introduction: Let OpenProject create and integrate a local Git repository
+        automatically.
+      managed_title: Git repository integrated into OpenProject
+      managed_url: Managed URL
+      path: Path to Git repository
+      path_encoding: Path encoding
+    go_to_revision: Go to revision
+    managed_remote: Managed repositories for this vendor are handled remotely.
+    managed_remote_note: Information on the URL and path of this repository is not
+      available prior to its creation.
+    managed_url: Managed URL
+    settings:
+      automatic_managed_repos_disabled: Disable automatic creation
+      automatic_managed_repos: Automatic creation of managed repositories
+      automatic_managed_repos_text: Като зададете доставчик тук, новосъздадени проекти
+        ще получат автоматично управлявано хранилище на този доставчик.
+    scm_vendor: Система управлявана от източника
+    scm_type: Тип хранилище
+    scm_types:
+      local: Връзка към локални места за съхранение
+      existing: Връзка към съществуващо място за съхранение
+      managed: Създаване на ново хранилище в OpenProject
+    storage:
+      not_available: Диск за съхранение на потреблението не е наличен за това хранилище.
+      update_timeout: Запази последният изисква информация за дисково пространство
+        за хранилище за N минути. Като броим нужното пространство на хранилище може
+        да бъде скъпо, увеличи тази стойност да се намали влиянието върху производителността.
+    subversion:
+      existing_title: Съществуващо хранилище за подверсии
+      existing_introduction: Ако имате съществуваща хранилище за подверсии, можете
+        да го свържете с OpenProject за достъп до него от приложението.
+      existing_url: Existing URL
+      instructions:
+        managed_url: Това е URL на управляваните (локални) хранилища за подпроекти.
+        url: |-
+          Enter the repository URL. This may either target a local repository (starting with %{local_proto} ), or a remote repository.
+          The following URL schemes are supported:
+      managed_title: Subversion repository integrated into OpenProject
+      managed_introduction: Let OpenProject create and integrate a local Subversion
+        repository automatically.
+      managed_url: Managed URL
+      password: Repository Password
+      username: Repository username
+    truncated: Sorry, we had to truncate this directory to %{limit} files. %{truncated}
+      entries were omitted from the list.
+    named_repository: "%{vendor_name} repository"
+    update_settings_successful: The settings have been sucessfully saved.
+    url: URL to repository
+    warnings:
+      cannot_annotate: This file cannot be annotated.
+  search_input_placeholder: Search ...
+  setting_email_delivery_method: Метод за доставка на имейл
+  setting_sendmail_location: Местоположение на sendmail програма
+  setting_smtp_enable_starttls_auto: Автоматично използвай STARTTLS ако е налично
+  setting_smtp_address: SMTP сървър
+  setting_smtp_port: SMTP порт
+  setting_smtp_authentication: SMTP Удостоверяване
+  setting_smtp_domain: SMTP HELLO домейн
+  setting_smtp_user_name: SMTP потребителско име
+  setting_smtp_password: SMTP парола
+  setting_activity_days_default: Days displayed on project activity
+  setting_app_subtitle: Application subtitle
+  setting_app_title: Application title
+  setting_attachment_max_size: Attachment max. size
+  setting_autofetch_changesets: Autofetch repository changes
+  setting_autologin: Autologin
+  setting_available_languages: Налични езици
+  setting_bcc_recipients: Blind carbon copy recipients (bcc)
+  setting_brute_force_block_after_failed_logins: Block user after this number of failed
+    login attempts
+  setting_brute_force_block_minutes: Time the user is blocked for
+  setting_cache_formatted_text: Cache formatted text
+  setting_column_options: Customize the appearance of the work package lists
+  setting_commit_fix_keywords: Fixing keywords
+  setting_commit_logs_encoding: Commit messages encoding
+  setting_commit_logtime_activity_id: Activity for logged time
+  setting_commit_logtime_enabled: Enable time logging
+  setting_commit_ref_keywords: Referencing keywords
+  setting_cross_project_work_package_relations: Allow cross-project work package relations
+  setting_date_format: Date format
+  setting_default_language: Default language
+  setting_default_notification_option: Default notification option
+  setting_default_projects_modules: Default enabled modules for new projects
+  setting_default_projects_public: New projects are public by default
+  setting_diff_max_lines_displayed: Max number of diff lines displayed
+  setting_display_subprojects_work_packages: Display subprojects work packages on
+    main projects by default
+  setting_emails_footer: Emails footer
+  setting_emails_header: Emails header
+  setting_email_login: Use e-mail as login
+  setting_enabled_scm: Enabled SCM
+  setting_feeds_enabled: Enable Feeds
+  setting_feeds_limit: Feed content limit
+  setting_file_max_size_displayed: Max size of text files displayed inline
+  setting_host_name: Име на хост
+  setting_work_package_done_ratio: Calculate the work package done ratio with
+  setting_work_package_done_ratio_field: Use the work package field
+  setting_work_package_done_ratio_status: Use the work package status
+  setting_work_package_done_ratio_disabled: Disable (hide the progress)
+  setting_work_package_list_default_columns: Display by default
+  setting_work_package_list_summable_columns: Summable
+  setting_work_package_properties: Work package properties
+  setting_work_package_startdate_is_adddate: Use current date as start date for new
+    work packages
+  setting_work_packages_export_limit: Work packages export limit
+  setting_journal_aggregation_time_minutes: Display journals as aggregated within
+  setting_log_requesting_user: Log user login, name, and mail address for all requests
+  setting_login_required: Authentication required
+  setting_mail_from: Emission email address
+  setting_mail_handler_api_enabled: Enable incoming email web service
+  setting_mail_handler_api_description: Имейл уеб манипулаторът позволява на OpenProject
+    да получава имейли, съдържащи конкретни команди като инструментален механизъм
+    (например, за да създава и актуализира работни пакети).
+  setting_mail_handler_api_key: API ключ
+  setting_mail_handler_body_delimiters: Truncate emails after one of these lines
+  setting_mail_handler_body_delimiter_regex: Съкрати мейл адресите от една област
+  setting_new_project_user_role_id: Role given to a non-admin user who creates a project
+  setting_password_active_rules: Active character classes
+  setting_password_count_former_banned: Number of most recently used passwords banned
+    for reuse
+  setting_password_days_valid: Number of days, after which to enforce a password change
+  setting_password_min_length: Минимална дължина
+  setting_password_min_adhered_rules: Minimum number of required classes
+  setting_per_page_options: Objects per page options
+  setting_plain_text_mail: Plain text mail (no HTML)
+  setting_protocol: Протокол
+  setting_registration_footer: Registration footer
+  setting_repositories_automatic_managed_vendor: Automatic repository vendor type
+  setting_repositories_encodings: Repositories encodings
+  setting_repository_authentication_caching_enabled: Enable caching for authentication
+    request of version control software
+  setting_repository_storage_cache_minutes: Repository disk size cache
+  setting_repository_checkout_display: Show checkout instructions
+  setting_repository_checkout_base_url: Checkout base URL
+  setting_repository_checkout_text: Checkout instruction text
+  setting_repository_log_display_limit: Maximum number of revisions displayed on file
+    log
+  setting_repository_truncate_at: Maximum number of files displayed in the repository
+    browser
+  setting_rest_api_enabled: Enable REST web service
+  setting_self_registration: Self-registration
+  setting_sequential_project_identifiers: Generate sequential project identifiers
+  setting_session_ttl: Session expiry time after inactivity
+  setting_session_ttl_hint: Value below 5 works like disabled
+  setting_session_ttl_enabled: Session expires
+  setting_start_of_week: Week starts on
+  setting_sys_api_enabled: Enable repository management web service
+  setting_sys_api_description: The repository management web service provides integration
+    and user authorization for accessing repositories.
+  setting_text_formatting: Text formatting
+  setting_time_format: Time format
+  setting_accessibility_mode_for_anonymous: Разрешаване на достъпен режим за анонимни
+    потребители
+  setting_user_format: Users display format
+  setting_users_deletable_by_admins: User accounts deletable by admins
+  setting_users_deletable_by_self: Потребителите могат да изтриват профилите си
+  setting_welcome_text: Welcome block text
+  setting_welcome_title: Welcome block title
+  setting_welcome_on_homescreen: Display welcome block on homescreen
+  setting_welcome_on_projects_page: Показване на началния блок при преглед на проекта
+  setting_wiki_compression: Wiki history compression
+  setting_work_package_group_assignment: Allow assignment to groups
+  settings:
+    general: Общ
+    other: Други
+    passwords: Пароли
+    session: Сесия
+    brute_force_prevention: Automated user blocking
+  show_hide_project_menu: Разгъване/свиване на проектното меню
+  status_active: active
+  status_archived: archived
+  status_invited: invited
+  status_locked: locked
+  status_registered: registered
+  support:
+    array:
+      sentence_connector: и
+      skip_last_comma: 'false'
+  text_accessibility_hint: The accessibility mode is designed for users who are blind,
+    motorically handicaped or have a bad eyesight. For the latter focused elements
+    are specially highlighted. Please notice, that the Backlogs module is not available
+    in this mode.
+  text_access_token_hint: Access tokens allow you to grant external applications access
+    to resources in OpenProject.
+  text_analyze: 'Further analyze: %{subject}'
+  text_are_you_sure: Сигурни ли сте?
+  text_are_you_sure_with_children: Delete work package and all child work packages?
+  text_assign_to_project: Assign to the project
+  text_form_configuration: 'You can customize which fields will be displayed in work
+    package forms. You can freely group the fields to reflect the needs for your domain.
+
+'
+  text_form_configuration_drag_to_activate: Drag fields from here to activate them
+  text_form_configuration_required_attribute: Attribute is marked required and thus
+    always shown
+  text_caracters_maximum: "%{count} characters maximum."
+  text_caracters_minimum: Must be at least %{count} characters long.
+  text_comma_separated: Multiple values allowed (comma separated).
+  text_comment_wiki_page: 'Коментар към wiki страница: %{page}'
+  text_custom_field_possible_values_info: One line for each value
+  text_custom_field_hint_activate_per_project: 'When using custom fields: Keep in
+    mind that custom fields need to be activated per project, too.
+
+'
+  text_custom_field_hint_activate_per_project_and_type: 'Custom fields need to be
+    activated per work package type and per project.
+
+'
+  text_custom_logo_instructions: 'A white logo on transparent background is recommended.
+    For best results on both, conventional and retina displays, make sure your image''s
+    dimensions are 460px by 60px.
+
+'
+  text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser
+    window/tab next to the page''s title. It''s needs to be a squared 32 by 32 pixels
+    sized PNG image file with a transparent background.
+
+'
+  text_custom_touch_icon_instructions: 'This is the icon that appears in your mobile
+    or tablet when you place a bookmark on your homescreen. It''s needs to be a squared
+    180 by 180 pixels sized PNG image file. Please make sure the image''s background
+    is not transparent otherwise it will look bad on iOS.
+
+'
+  text_default_administrator_account_changed: Default administrator account changed
+  text_default_encoding: 'Default: UTF-8'
+  text_destroy: Изтрий
+  text_destroy_with_associated: 'There are additional objects assossociated with the
+    work package(s) that are to be deleted. Those objects are of the following types:'
+  text_destroy_what_to_do: Какво искате да правите?
+  text_diff_truncated: "... This diff was truncated because it exceeds the maximum
+    size that can be displayed."
+  text_email_delivery_not_configured: |-
+    Email delivery is not configured, and notifications are disabled.
+    Configure your SMTP server in config/configuration.yml and restart the application to enable them.
+  text_enumeration_category_reassign_to: 'Reassign them to this value:'
+  text_enumeration_destroy_question: "%{count} objects are assigned to this value."
+  text_file_repository_writable: Attachments directory writable
+  text_git_repo_example: a bare and local repository (e.g. /gitrepo, c:\gitrepo)
+  text_hint_date_format: Enter a date in the form of YYYY-MM-DD. Other formats may
+    be changed to an unwanted date.
+  text_hint_disable_with_0: 'Note: Disable with 0'
+  text_hours_between: Между %{min} и %{max} часа.
+  text_work_package_added: Work package %{id} has been reported by %{author}.
+  text_work_package_category_destroy_assignments: Remove category assignments
+  text_work_package_category_destroy_question: Some work packages (%{count}) are assigned
+    to this category. What do you want to do?
+  text_work_package_category_reassign_to: Reassign work packages to this category
+  text_work_package_updated: Work package %{id} has been updated by %{author}.
+  text_work_package_watcher_added: You have been added as a watcher to Work package
+    %{id} by %{watcher_setter}.
+  text_work_packages_destroy_confirmation: Are you sure you want to delete the selected
+    work package(s)?
+  text_work_packages_ref_in_commit_messages: Referencing and fixing work packages
+    in commit messages
+  text_journal_added: "%{label} %{value} added"
+  text_journal_aggregation_time_explanation: Combine journals for display if their
+    age difference is less than the specified timespan. This will also delay mail
+    notifications by the same amount of time.
+  text_journal_changed: "%{label} changed from %{old} to %{new}"
+  text_journal_changed_no_detail: "%{label} updated"
+  text_journal_changed_with_diff: "%{label} changed (%{link})"
+  text_journal_deleted: "%{label} deleted (%{old})"
+  text_journal_deleted_with_diff: "%{label} deleted (%{link})"
+  text_journal_set_to: "%{label} set to %{value}"
+  text_journal_set_with_diff: "%{label} set (%{link})"
+  text_latest_note: 'The latest comment is: %{note}'
+  text_length_between: Length between %{min} and %{max} characters.
+  text_line_separated: Multiple values allowed (one line for each value).
+  text_load_default_configuration: Load the default configuration
+  text_min_max_length_info: 0 means no restriction
+  text_no_roles_defined: There are no roles defined.
+  text_no_access_tokens_configurable: There are no access tokens which can be configured.
+  text_no_configuration_data: |-
+    Roles, types, work package statuses and workflow have not been configured yet.
+    It is highly recommended to load the default configuration. You will be able to modify it once loaded.
+  text_no_notes: There are no comments available for this work package.
+  text_notice_too_many_values_are_inperformant: 'Note: Displaying more than 100 items
+    per page can increase the page load time.'
+  text_own_membership_delete_confirmation: |-
+    You are about to remove some or all of your permissions and may no longer be able to edit this project after that.
+    Are you sure you want to continue?
+  text_plugin_assets_writable: Plugin assets directory writable
+  text_powered_by: Powered by %{link}
+  text_project_identifier_info: Only lower case letters (a-z), numbers, dashes and
+    underscores are allowed, must start with a lower case letter.
+  text_reassign: 'Reassign to work package:'
+  text_regexp_info: eg. ^[A-Z0-9]+$
+  text_regexp_multiline: Уеднаквяването се прилага в многоредов режим. например ^---\s+
+  text_repository_usernames_mapping: |-
+    Select or update the OpenProject user mapped to each username found in the repository log.
+    Users with the same OpenProject and repository username or email are automatically mapped.
+  text_select_mail_notifications: Select actions for which email notifications should
+    be sent.
+  text_status_changed_by_changeset: Applied in changeset %{value}.
+  text_table_difference_description: In this table the single %{entries} are shown.
+    You can view the difference between any two entries by first selecting the according
+    checkboxes in the table. When clicking on the button below the table the differences
+    are shown.
+  text_time_logged_by_changeset: Applied in changeset %{value}.
+  text_tip_work_package_begin_day: work package beginning this day
+  text_tip_work_package_begin_end_day: work package beginning and ending this day
+  text_tip_work_package_end_day: work package ending this day
+  text_type_no_workflow: No workflow defined for this type
+  text_unallowed_characters: Unallowed characters
+  text_user_invited: The user has been invited and is pending registration.
+  text_user_wrote: "%{value} wrote:"
+  text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
+    lost if you leave this page.
+  text_wiki_destroy_confirmation: Are you sure you want to delete this wiki and all
+    its content?
+  text_wiki_page_destroy_children: Delete child pages and all their descendants
+  text_wiki_page_destroy_question: This page has %{descendants} child page(s) and
+    descendant(s). What do you want to do?
+  text_wiki_page_nullify_children: Keep child pages as root pages
+  text_wiki_page_reassign_children: Reassign child pages to this parent page
+  text_workflow_edit: Select a role and a type to edit the workflow
+  text_zoom_in: Приближаване
+  text_zoom_out: Отдалечаване
+  text_setup_mail_configuration: Конфигуриране на вашия имейл доставчик
+  time:
+    am: сутрин
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+      time: "%I:%M %p"
+    pm: вечер
+  timeframe:
+    show: Show timeframe
+    end: до
+    start: от
+  timelines:
+    admin_menu:
+      color: Цвят
+      colors: Цветове
+      project_type: Тип проект
+      project_types: Project types
+    project_menu:
+      project_associations: Dependencies
+      reportings: Status reportings
+      reports: Timeline reports
+      timelines: Timelines
+    add_project_association: Add dependency
+    associations: Dependencies
+    board_could_not_be_saved: Board could not be saved
+    button_delete_all: Изтриване на всичко
+    change: Change in planning
+    children: Дъщерни елементи
+    color_could_not_be_saved: Color could not be saved
+    current_planning: Current planning
+    dates: Dates
+    dates_are_calculated_based_on_sub_elements: Dates are calculated based on sub
+      elements.
+    delete_all: Изтриване на всичко
+    delete_thing: Изтрий
+    duration: Продължителност
+    duration_days:
+      one: 1 ден
+      other: "%{count} дни"
+    edit_color: Edit color
+    edit_project_type: Edit project type
+    edit_thing: Редактиране
+    edit_timeline: Edit timeline report %{timeline}
+    delete_timeline: Delete timeline report %{timeline}
+    empty: "(empty)"
+    enable_type_in_project: Enable type "%{type}"
+    end: Край
+    errors:
+      not_implemented: The timeline could not be rendered because it uses a feature
+        that is not yet implemented.
+      report_comparison: The timeline could not render the configured comparisons.
+        Please check the appropriate section in the configuration, resetting it can
+        help solve this problem.
+      report_epicfail: The timeline could not be loaded due to an unexpected error.
+      report_timeout: The timeline could not be loaded in a reasonable amount of time.
+    filter:
+      errors:
+        timeframe_start: 'The timeframe start '
+        timeframe_end: 'The timeframe end '
+        compare_to_relative: 'The value of the relative comparison '
+        compare_to_absolute: 'The value of the absolute comparison '
+        planning_element_time_relative_one: 'The start for work packages in a certain
+          timeframe '
+        planning_element_time_relative_two: 'The end for work packages in a certain
+          timeframe '
+        planning_element_time_absolute_one: 'The start for work packages in a certain
+          timeframe  '
+        planning_element_time_absolute_two: 'The end for work packages in a certain
+          timeframe  '
+      sort:
+        sortation: Подреждане по
+        alphabet: азбучно
+        explicit_order: explicit order
+        project_sortation: Sort projects by
+        date: дата
+        default: default
+      column:
+        assigned_to: Изпълнител
+        type: Тип
+        due_date: Крайна дата
+        name: Име
+        status: Състояние
+        responsible: Отговорен
+        start_date: Начална дата
+      columns: Колони
+      comparisons: Comparisons
+      comparison:
+        absolute: Absolute
+        none: None
+        relative: Relative
+        compare_relative_prefix: Compare current planning to
+        compare_relative_suffix: ago
+        compare_absolute: Compare current planning to %{date}
+      time_relative:
+        days: дни
+        weeks: седмици
+        months: месеци
+      exclude_own_work_packages: Hide work packages from this project
+      exclude_reporters: Hide other projects
+      exclude_empty: Hide empty projects
+      grouping: Групиране
+      grouping_hide_group: Hide group "%{group}"
+      grouping_one: First grouping criterion
+      grouping_one_phrase: Is a subproject of
+      grouping_other: Други
+      hide_chart: Hide chart
+      noneElement: "(none)"
+      noneSelection: "(none)"
+      outline: Initial outline expansion
+      parent: Show subprojects of
+      work_package_filters: Filter work packages
+      work_package_responsible: Show work packages with responsible
+      work_package_assignee: Show work packages with assignee
+      types: Show types
+      status: Show status
+      project_time_filter: Projects with a work package of a certain type in a certain
+        timeframe
+      project_time_filter_timeframe: Timeframe
+      project_time_filter_historical_from: от
+      project_time_filter_historical_to: до
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} ago,
+        %{end_label} %{endspan}%{endspanunit} from now"
+      project_filters: Filter projects
+      project_responsible: Show projects with responsible
+      project_status: Show project status
+      project_types: Show project types
+      timeframe: Show timeframe
+      timeframe_end: до
+      timeframe_start: от
+      timeline: General Settings
+      zoom: Zoom factor
+    history: История
+    new_color: Нов цвят
+    new_association: Нова зависимост
+    new_work_package: Нов работен пакет
+    new_project_type: Нов тип проекти
+    new_reporting: New reporting
+    new_timeline: New timeline report
+    no_projects_for_reporting_available: There are no projects to which a reporting
+      association can be created.
+    no_right_to_view_timeline: You do not have the necessary permission to view the
+      linked timeline.
+    no_timeline_for_id: There is no timeline with ID %{id}.
+    notice_successful_deleted_all_elements: Successfully deleted all elements
+    outline: Reset Outline
+    outlines:
+      aggregation: Show aggregations only
+      level1: Expand level 1
+      level2: Expand level 2
+      level3: Expand level 3
+      level4: Expand level 4
+      level5: Expand level 5
+      all: Show all
+    reporting_for_project:
+      show: 'Status reported to project: %{title}'
+      edit_delete: 'status report for project: %{title}'
+      history: 'History for status for project: %{title}'
+    reporting:
+      delete: 'Delete status: %{comment}'
+      edit: 'Edit status: %{comment}'
+      show: 'Status: %{comment}'
+    planning_element_update: 'Update: %{title}'
+    work_packages_are_displayed_in_aggregations: Work packages are displayed in aggregations
+    project_association_new: Add project dependency
+    project_association_new_for_with: Set dependency for “%{project_a}” with
+    project_association_with_other: Project dependency between “%{project_a}” and
+      “%{project_b}”
+    project_association_of_type: Dependency to project of type “%{type}”
+    project_type_could_not_be_saved: Project type could not be saved
+    type_could_not_be_saved: Type could not be saved
+    reporting_could_not_be_saved: Reporting could not be saved
+    properties: Свойства
+    really_delete_color: 'Are you sure, you want to delete the following color? Types
+      using this color will not be deleted.
+
+'
+    really_delete_project_association_between_project_a_and_project_b: 'Are you sure,
+      you want to delete the dependency between “%{project_a}” and “%{project_b}”?
+
+'
+    really_delete_project_type: 'Are you sure, you want to delete the following project
+      type? Projects using this type will not be deleted.
+
+'
+    really_delete_timeline: 'Are you sure, you want to delete the following timeline
+      report? Work packages shown in this timeline report will not be deleted.
+
+'
+    really_delete_reporting: 'Are you sure, you want to delete the following reporting?
+      Previous reporting statuses will be deleted, too.
+
+'
+    start: Start
+    timeline: Timeline report
+    timelines: Timeline reports
+    settings: Timelines
+    vertical_work_package: Vertical work packages
+    without_project_type: Without project type
+    you_are_viewing_the_selected_timeline: You are viewing the selected timeline report
+    zoom:
+      in: Приближаване
+      out: Отдалечаване
+      days: Дни
+      weeks: Седмици
+      months: Месеци
+      quarters: Tримесечие
+      years: Години
+  title_remove_and_delete_user: Remove the invited user from the project and delete
+    him/her.
+  tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
+    case the old one expired or the user did not get the original email. Can also
+    be used for active users to choose a new authentication method. When used with
+    active users their status will be changed to ''invited''.
+
+'
+  tooltip:
+    setting_email_login: 'If enabled a user will be unable to chose a login during
+      registration. Instead their given e-mail address will serve as the login. An
+      administrator may still change the login separately.
+
+'
+  queries:
+    apply_filter: Apply preconfigured filter
+  top_menu:
+    additional_resources: Допълнителни ресурси
+    getting_started: Първи стъпки
+    help_and_support: Помощ и поддръжка
+  total_progress: Total progress
+  user:
+    all: всички
+    active: active
+    activate: Activate
+    activate_and_reset_failed_logins: Activate and reset failed logins
+    authentication_provider: Authentication Provider
+    authentication_settings_disabled_due_to_external_authentication: 'This user authenticates
+      via an external authentication provider, so there is no password in OpenProject
+      to be changed.
+
+'
+    authorization_rejected: You are not allowed to sign in.
+    assign_random_password: Assign random password (sent to user via email)
+    blocked: locked temporarily
+    blocked_num_failed_logins:
+      one: locked temporarily (one failed login attempt)
+      other: locked temporarily (%{count} failed login attempts)
+    confirm_status_change: You are about to change the status of '%{name}'. Are you
+      sure you want to continue?
+    deleted: Deleted user
+    error_status_change_failed: 'Changing the user status failed due to the following
+      errors: %{errors}'
+    invite: Invite user via email
+    invited: invited
+    lock: Lock permanently
+    locked: locked permanently
+    no_login: This user authenticates through login by password. Since it is disabled,
+      they cannot log in.
+    password_change_unsupported: Change of password is not supported.
+    registered: registered
+    reset_failed_logins: Reset failed logins
+    settings:
+      mail_notifications: Изпращане на email уведомления
+      mail_project_explanaition: За неизбраните проекти, ще получавате известия само
+        за наблюдавани дейности или в които участвате (т.е. авторски или предназначени
+        за Вас).
+      mail_self_notified: Искам да бъдете уведомявани за промени, които аз правя
+    status_user_and_brute_force: "%{user} and %{brute_force}"
+    status_change: Status change
+    unlock: Отключване
+    unlock_and_reset_failed_logins: Unlock and reset failed logins
+  version_status_closed: затворен
+  version_status_locked: locked
+  version_status_open: open
+  note: Note
+  note_password_login_disabled: Password login has been disabled by %{configuration}.
+  warning: Предупреждение
+  warning_attachments_not_saved: "%{count} file(s) could not be saved."
+  menu_item: Menu item
+  menu_item_setting: Видимост
+  wiki_menu_item_for: Menu item for wikipage "%{title}"
+  wiki_menu_item_setting: Видимост
+  wiki_menu_item_new_main_item_explanation: 'You are deleting the only main wiki menu
+    item. You now have to choose a wiki page for which a new main item will be generated.
+    To delete the wiki the wiki module can be deactivated by project administrators.
+
+'
+  wiki_menu_item_delete_not_permitted: The wiki menu item of the only wiki page cannot
+    be deleted.
+  query_menu_item_for: Menu item for query "%{title}"
+  work_package:
+    updated_automatically_by_child_changes: '_Updated automatically by changing values
+      within child work package %{child}_
+
+'
+    destroy:
+      info: Deleting the work package is an irreversible action.
+      title: Delete the work package
+  nothing_to_preview: Nothing to preview
+  api_v3:
+    attributes:
+      lock_version: Lock Version
+    errors:
+      code_401: You need to be authenticated to access this resource.
+      code_401_wrong_credentials: You did not provide the correct credentials.
+      code_403: You are not authorized to access this resource.
+      code_404: The requested resource could not be found.
+      code_409: Couldn't update the resource because of conflicting modifications.
+      code_500: An internal error has occured.
+      expected:
+        date: ГГГГ-ММ-ДД (само за дата ISO 8601)
+        duration: ISO 8601 продължителност
+      invalid_content_type: Expected CONTENT-TYPE to be '%{content_type}' but got
+        '%{actual}'.
+      invalid_format: 'Invalid format for property ''%{property}'': Expected format
+        like ''%{expected_format}'', but got ''%{actual}''.'
+      invalid_json: The request could not be parsed as JSON.
+      invalid_relation: The relation is invalid.
+      invalid_resource: For property '%{property}' a link like '%{expected}' is expected,
+        but got '%{actual}'.
+      invalid_user_status_transition: The current user account status does not allow
+        this operation.
+      missing_content_type: not specified
+      missing_request_body: There was no request body.
+      missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
+        or malformed.
+      multipart_body_error: The request body did not contain the expected multipart
+        parts.
+      multiple_errors: Multiple field constraints have been violated.
+      unable_to_create_attachment: The attachment could not be created
+      render:
+        context_not_parsable: The context provided is not a link to a resource.
+        unsupported_context: The resource given is not supported as context.
+        context_object_not_found: Cannot find the resource given as the context.
+      validation:
+        done_ratio: Done ratio cannot be set on parent work packages, when it is inferred
+          by status or when it is disabled.
+        due_date: Due date cannot be set on parent work packages.
+        estimated_hours: Estimated hours cannot be set on parent work packages.
+        invalid_user_assigned_to_work_package: The chosen user is not allowed to be
+          '%{property}' for this work package.
+        start_date: Start date cannot be set on parent work packages.
+      writing_read_only_attributes: You must not write a read-only attribute.
+    resources:
+      schema: Схема

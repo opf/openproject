@@ -49,30 +49,23 @@ Feature: Copying a work package
     And there is a issuepriority with:
       | name   | Immediate |
     And I am working in project "project_1"
-    And there are the following issue status:
-      | name        | is_closed  | is_default  |
-      | New         | false      | true        |
     And the project "project_1" has the following types:
       | name    | position |
       | Bug     |     1    |
-    And there is a default issuepriority with:
-      | name   | Normal |
-    And there is a issuepriority with:
-      | name   | High |
-    And there is a issuepriority with:
-      | name   | Immediate |
     And there is a role "member"
     And the role "member" may have the following rights:
       | view_work_packages |
       | move_work_packages |
+      | add_work_packages  |
+      | manage_subtasks    |
     And there is 1 user with the following:
       | login | bob |
     And the user "bob" is a "member" in the project "project_1"
     And the user "bob" is a "member" in the project "project_2"
     And there are the following issues in project "project_1":
-      | subject | type |
-      | issue1  | Bug  |
-      | issue2  | Bug  |
+      | subject | type | assignee | responsible |
+      | issue1  | Bug  | bob      | bob         |
+      | issue2  | Bug  | bob      | bob         |
     And there are the following issues in project "project_2":
       | subject | type    |
       | issue3  | Feature |

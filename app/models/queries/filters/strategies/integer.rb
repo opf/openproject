@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,24 +30,7 @@
 
 module Queries::Filters::Strategies
   class Integer < BaseStrategy
-    supported_operator_list ['=', '!', '>=', '<=', '!*', '*']
-
-    def validate
-      validate_values_all_integer
-    end
-
-    private
-
-    def validate_values_all_integer
-      if operator && operator.requires_value? && values.any? { |value| !integer?(value) }
-        errors.add(:values, I18n.t('activerecord.errors.messages.not_an_integer'))
-      end
-    end
-
-    def integer?(str)
-      true if Object.send('Integer', str)
-    rescue ArgumentError
-      false
-    end
+    include Queries::Filters::Strategies::Numeric
+    include Queries::Filters::Strategies::IntegerNumeric
   end
 end

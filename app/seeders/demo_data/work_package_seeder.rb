@@ -67,7 +67,8 @@ module DemoData
           type:          Type.find_by!(name: I18n.t(attributes[:type_name])),
           start_date:    start_date,
           due_date:      calculate_due_date(start_date, attributes[:duration]),
-          fixed_version: version
+          fixed_version: version,
+          priority:      IssuePriority.default
         )
 
         attributes[:children].each do |child_attributes|
@@ -84,7 +85,8 @@ module DemoData
             type:          Type.find_by!(name: I18n.t(child_attributes[:type_name])),
             start_date:    start_date,
             due_date:      calculate_due_date(start_date, child_attributes[:duration]),
-            fixed_version: version
+            fixed_version: version,
+            priority:      IssuePriority.default
           )
 
           child.parent = work_package

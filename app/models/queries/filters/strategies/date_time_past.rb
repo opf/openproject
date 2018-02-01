@@ -1,4 +1,5 @@
 #-- encoding: UTF-8
+
 #-- copyright
 # OpenProject is a project management system.
 # Copyright (C) 2012-2017 the OpenProject Foundation (OPF)
@@ -29,7 +30,8 @@
 
 module Queries::Filters::Strategies
   class DateTimePast < Queries::Filters::Strategies::Integer
-    supported_operator_list ['>t-', '<t-', 't-', 't', 'w', '=d', '<>d']
+    self.supported_operators = ['>t-', '<t-', 't-', 't', 'w', '=d', '<>d']
+    self.default_operator = '>t-'
 
     def validate
       if operator == Queries::Operators::OnDateTime ||

@@ -57,6 +57,9 @@ OpenProject::Application.routes.draw do
     get '/logout', action: 'logout', as: 'signout'
 
     get '/sso', action: 'auth_source_sso_failed', as: 'sso_failure'
+
+    get '/login/:stage/failure', action: 'stage_failure', as: 'stage_failure'
+    get '/login/:stage/:secret', action: 'stage_success', as: 'stage_success'
   end
 
   namespace :api do
@@ -361,7 +364,6 @@ OpenProject::Application.routes.draw do
 
   resources :admin, controller: :admin, only: :index do
     collection do
-      get :projects
       get :plugins
       get :info
       post :force_user_language
@@ -556,9 +558,7 @@ OpenProject::Application.routes.draw do
     match '/my/account', action: 'account', via: [:get, :patch]
     match '/my/settings', action: 'settings', via: [:get, :patch]
     match '/my/mail_notifications', action: 'mail_notifications', via: [:get, :patch]
-    post '/my/reset_rss_key', action: 'reset_rss_key'
     post '/my/generate_rss_key', action: 'generate_rss_key'
-    post '/my/reset_api_key', action: 'reset_api_key'
     post '/my/generate_api_key', action: 'generate_api_key'
     get '/my/access_token', action: 'access_token'
   end

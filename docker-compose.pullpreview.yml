@@ -1,5 +1,5 @@
 db:
-  image: postgres:9.4.5
+  image: postgres:9.6.3
   environment:
     POSTGRES_USER: app
     POSTGRES_PASSWORD: p4ssw0rd

@@ -85,7 +85,7 @@ module OpenProject
 
       # it is OK if more languages exist
       it 'has a language for every language file' do
-        lang_files_count = Dir.glob(Rails.root.join('config/locales/*.yml'))
+        lang_files_count = Dir.glob(Rails.root.join('config/locales/**/*.yml'))
                            .map { |f| File.basename(f) }
                            .reject { |b| b.starts_with? 'js' }
                            .size

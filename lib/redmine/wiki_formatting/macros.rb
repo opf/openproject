@@ -93,6 +93,7 @@ module Redmine
         end
 
         include OpenProject::WikiFormatting::Macros::Default
+        include OpenProject::WikiFormatting::Macros::WorkPackageButton
       end
     end
   end

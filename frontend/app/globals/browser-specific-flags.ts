@@ -27,7 +27,7 @@
 //++
 
 jQuery(function() {
-  if (bowser.chrome && bowser.version >= '58') {
+  if (bowser.chrome && bowser.version >= '58' || bowser.firefox && bowser.version >= '59') {
     document.documentElement.classList.add('-browser-chrome', '-supports-sticky-headers');
   }
 

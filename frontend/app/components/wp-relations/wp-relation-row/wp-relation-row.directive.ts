@@ -7,11 +7,13 @@ import {
   RelationResourceInterface
 } from '../../api/api-v3/hal-resources/relation-resource.service';
 import {WorkPackageRelationsService} from '../wp-relations.service';
+import {keyCodes} from 'core-components/common/keyCodes.enum';
 
 class WpRelationRowDirectiveController {
   public workPackage:WorkPackageResourceInterface;
   public relatedWorkPackage:WorkPackageResourceInterface;
   public relationType:string;
+  public groupByWorkPackageType:boolean;
   public showRelationInfo:boolean = false;
   public showEditForm:boolean = false;
   public availableRelationTypes:{ name:string }[];
@@ -59,9 +61,9 @@ class WpRelationRowDirectiveController {
     };
 
     this.userInputs.newRelationText = this.relation.description || '';
-    this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(true);
+    this.availableRelationTypes = RelationResource.LOCALIZED_RELATION_TYPES(false);
     this.selectedRelationType = _.find(this.availableRelationTypes,
-      {'name': this.relation.type}) as RelationResourceInterface;
+      {'name': this.relation.normalizedType(this.workPackage)}) as RelationResourceInterface;
   };
 
   /**
@@ -103,7 +105,6 @@ class WpRelationRowDirectiveController {
 
   public saveDescription() {
     this.wpRelations.updateRelation(
-      this.workPackage.id,
       this.relation,
       {description: this.userInputs.newRelationText})
       .then((savedRelation:RelationResourceInterface) => {
@@ -118,18 +119,32 @@ class WpRelationRowDirectiveController {
     return this.userInputs.showRelationInfo || this.relation.description;
   }
 
+  public activateRelationTypeEdit() {
+    if (this.groupByWorkPackageType) {
+      this.userInputs.showRelationTypesForm = true;
+    }
+  }
+
+  public cancelRelationTypeEditOnEscape(evt:JQueryEventObject) {
+    if (evt.which === keyCodes.ESCAPE) {
+      this.userInputs.showRelationTypesForm = false;
+    }
+  }
+
   public saveRelationType() {
-    this.wpRelations.updateRelation(
-      this.workPackage.id,
+    this.wpRelations.updateRelationType(
+      this.workPackage,
+      this.relatedWorkPackage,
       this.relation,
-      {type: this.selectedRelationType.name})
+      this.selectedRelationType.name)
       .then((savedRelation:RelationResourceInterface) => {
         this.wpNotificationsService.showSave(this.relatedWorkPackage);
         this.relatedWorkPackage.relatedBy = savedRelation;
         this.relation = savedRelation;
 
         this.userInputs.showRelationTypesForm = false;
-      });
+      })
+      .catch((error) => this.wpNotificationsService.handleErrorResponse(error, this.workPackage));
   }
 
   public toggleUserDescriptionForm() {

@@ -98,13 +98,17 @@ export class CommentFieldDirectiveController {
     this.$timeout(() => this.$element.find('.wp-inline-edit--field').focus());
   }
 
+  public get project() {
+    return this.workPackage.project;
+  }
+
   public resetField(withText?:string) {
     this.field = new WorkPackageCommentField(this.workPackage, I18n);
     this.field.initializeFieldValue(withText);
   }
 
   public handleUserSubmit() {
-    if (this.field.isEmpty()) {
+    if (this.field.isBusy || this.field.isEmpty()) {
       return;
     }
 

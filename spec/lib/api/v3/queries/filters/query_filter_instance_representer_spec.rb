@@ -37,7 +37,11 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
   let(:status) { FactoryGirl.build_stubbed(:status) }
 
   let(:filter) do
-    Queries::WorkPackages::Filter::StatusFilter.new(operator: operator, values: values)
+    f = Queries::WorkPackages::Filter::StatusFilter.create!
+    f.operator = operator
+    f.values = values
+
+    f
   end
 
   let(:representer) { described_class.new(filter) }
@@ -95,7 +99,11 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
 
     context 'with an invalid value_objects' do
       let(:filter) do
-        Queries::WorkPackages::Filter::AssignedToFilter.new(operator: operator, values: values)
+        f = Queries::WorkPackages::Filter::AssignedToFilter.create!
+        f.operator = operator
+        f.values = values
+
+        f
       end
       let(:values) { ['1'] }
 
@@ -120,7 +128,11 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     context 'with a non ar object filter' do
       let(:values) { ['lorem ipsum'] }
       let(:filter) do
-        Queries::WorkPackages::Filter::SubjectFilter.new(operator: operator, values: values)
+        f = Queries::WorkPackages::Filter::SubjectFilter.create!
+        f.operator = operator
+        f.values = values
+
+        f
       end
 
       describe '_links' do
@@ -138,11 +150,9 @@ describe ::API::V3::Queries::Filters::QueryFilterInstanceRepresenter do
     end
 
     context 'with a bool custom field filter' do
-      let(:bool_cf) { FactoryGirl.build_stubbed(:bool_wp_custom_field) }
+      let(:bool_cf) { FactoryGirl.create(:bool_wp_custom_field) }
       let(:filter) do
-        filter = Queries::WorkPackages::Filter::CustomFieldFilter.new(operator: operator, values: values)
-        filter.custom_field = bool_cf
-        filter
+        Queries::WorkPackages::Filter::CustomFieldFilter.create!(name: "cf_#{bool_cf.id}", operator: operator, values: values)
       end
 
       context "with 't' as filter value" do

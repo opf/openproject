@@ -52,6 +52,10 @@ module OpenProject::Plugins
           app.config.plugins_to_test_paths << root
         end
 
+        initializer "#{engine_name}.i18n_load_paths" do |app|
+          app.config.i18n.load_path += Dir[config.root.join('config', 'locales', 'crowdin', '*.{rb,yml}').to_s]
+        end
+
         initializer "#{engine_name}.register_cell_view_paths" do |_app|
           pathname = config.root.join("app/cells/views")
 

@@ -31,7 +31,7 @@ import {WorkPackageResource} from "../../api/api-v3/hal-resources/work-package-r
 import {UiStateLinkBuilder} from '../../wp-fast-table/builders/ui-state-link-builder';
 
 export class WorkPackageDisplayField extends DisplayField {
-  public text:{ linkTitle:string };
+  public text:{ linkTitle:string, none:string };
   private uiStateBuilder:UiStateLinkBuilder;
 
 
@@ -42,12 +42,14 @@ export class WorkPackageDisplayField extends DisplayField {
 
     this.uiStateBuilder = new UiStateLinkBuilder();
     this.text = {
-      linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen')
+      linkTitle: this.I18n.t('js.work_packages.message_successful_show_in_fullscreen'),
+      none: this.I18n.t('js.filter.noneElement')
     };
   }
 
   public render(element:HTMLElement, displayText:string): void {
-    if (!this.value) {
+    if (this.isEmpty()) {
+      element.innerText = this.placeholder;
       return;
     }
 
@@ -65,7 +67,19 @@ export class WorkPackageDisplayField extends DisplayField {
     return this.resource[this.name];
   }
 
+  public get title() {
+    if (this.isEmpty()) {
+      return this.text.none;
+    } else {
+      return this.value.name;
+    }
+  }
+
   public get wpId() {
+    if (this.isEmpty()) {
+      return null;
+    }
+
     if (this.value.$loaded) {
       return this.value.id;
     }

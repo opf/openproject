@@ -28,6 +28,8 @@
 # See doc/COPYRIGHT.rdoc for more details.
 #++
 
+require_dependency 'queries/filters'
+
 module Queries::AvailableFilters
   def self.included(base)
     base.extend(ClassMethods)
@@ -56,13 +58,26 @@ module Queries::AvailableFilters
   end
 
   def filter_for(key, no_memoization = false)
-    filter_instance = get_initialized_filter(key, no_memoization) || Queries::NotExistingFilter.new
-    filter_instance.name = key
+    filter = get_initialized_filter(key, no_memoization)
 
-    filter_instance
+    raise ::Queries::Filters::MissingError if filter.nil?
+
+    filter
+  rescue ::Queries::Filters::InvalidError => e
+    Rails.logger.error "Failed to register filter for #{key}: #{e} \n" \
+                       "Falling back to non-existing filter."
+    non_existing_filter(key)
+  rescue ::Queries::Filters::MissingError => e
+    Rails.logger.error "Failed to find filter for #{key}: #{e} \n" \
+                       "Falling back to non-existing filter."
+    non_existing_filter(key)
   end
 
   private
+
+  def non_existing_filter(key)
+    Queries::NotExistingFilter.create!(name: key)
+  end
 
   def get_initialized_filter(key, no_memoization)
     filter = find_registered_filter(key)
@@ -70,7 +85,7 @@ module Queries::AvailableFilters
     return unless filter
 
     if no_memoization
-      filter.new
+      filter.create!(name: key)
     else
       initialize_filter(filter)
 

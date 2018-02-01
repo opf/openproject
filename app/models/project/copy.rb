@@ -36,7 +36,7 @@ module Project::Copy
     base.not_to_copy ['id', 'created_on', 'updated_on', 'name', 'identifier', 'status', 'lft', 'rgt']
 
     # specify the order of associations to copy
-    base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki']
+    base.copy_precedence ['members', 'versions', 'categories', 'work_packages', 'wiki', 'custom_values']
   end
 
   module CopyMethods
@@ -45,12 +45,13 @@ module Project::Copy
       with_model(project) do |project|
         self.enabled_module_names = project.enabled_module_names
         self.types = project.types
-        self.custom_values = project.custom_values.map(&:clone)
         self.work_package_custom_fields = project.work_package_custom_fields
+        self.custom_field_values = project.custom_value_attributes
       end
-      return self
+
+      self
     rescue ActiveRecord::RecordNotFound
-      return nil
+      nil
     end
 
     def copy_associations(from_model, options = {})
@@ -58,6 +59,11 @@ module Project::Copy
     end
 
     private
+
+    # Copies custom values from +project+
+    def copy_custom_values(project, selected_copies = [])
+      self.custom_values = project.custom_values.map(&:dup)
+    end
 
     # Copies wiki from +project+
     def copy_wiki(project, selected_copies = [])
@@ -142,48 +148,42 @@ module Project::Copy
       # value.  Used to map the two together for issue relations.
       work_packages_map = {}
 
-      # Get issues sorted by root_id, lft so that parent issues
-      # get copied before their children
-      project.work_packages.reorder('root_id, lft').each do |issue|
-        new_issue = WorkPackage.new
-        new_issue.copy_from(issue)
-        new_issue.project = self
-        # Reassign author to the current user
-        new_issue.author = User.current
-        # Reassign fixed_versions by name, since names are unique per
-        # project and the versions for self are not yet saved
-        if issue.fixed_version
-          new_version = versions.detect { |v| v.name == issue.fixed_version.name }
-          if new_version
-            new_issue.skip_fixed_version_validation = true
-            new_issue.fixed_version = new_version
-          end
-        end
-        # Reassign the category by name, since names are unique per
-        # project and the categories for self are not yet saved
-        if issue.category
-          new_issue.category = categories.detect { |c| c.name == issue.category.name }
-        end
-        # Parent issue
-        if issue.parent_id
-          if (copied_parent = work_packages_map[issue.parent_id]) && copied_parent.reload
-            new_issue.parent_id = copied_parent.id
-          end
-        end
-        work_packages << new_issue
+      # Get issues sorted by their depth in the hierarchy tree
+      # so that parents get copied before their children.
+      to_copy = project
+                .work_packages
+                .order_by_ancestors('asc')
 
-        if new_issue.new_record?
-          logger.info "Project#copy_work_packages: work unit ##{issue.id} could not be copied: #{new_issue.errors.full_messages}" if logger && logger.info
-        else
-          work_packages_map[issue.id] = new_issue unless new_issue.new_record?
+      to_copy.each do |issue|
+        parent_id = (work_packages_map[issue.parent_id] && work_packages_map[issue.parent_id].id) || issue.parent_id
+
+        overrides = { project: self,
+                      parent_id: parent_id,
+                      fixed_version: issue.fixed_version && versions.detect { |v| v.name == issue.fixed_version.name } }
+
+        service_call = WorkPackages::CopyService
+                       .new(user: User.current,
+                            work_package: issue,
+                            contract: WorkPackages::CopyProjectContract)
+                       .call(attributes: overrides)
+
+        if service_call.success?
+          new_work_package = service_call.result
+
+          work_packages_map[issue.id] = new_work_package
+        elsif logger && logger.info
+          compiled_errors << service_call.errors
+          logger.info <<-MSG
+            Project#copy_work_packages: work package ##{issue.id} could not be copied: #{service_call.errors.full_messages}
+          MSG
         end
       end
 
       # reload all work_packages in our map, they might be modified by movement in their tree
-      work_packages_map.each do |_, v| v.reload end
+      work_packages_map.each_value(&:reload)
 
       # Relations and attachments after in case issues related each other
-      project.work_packages.each do |issue|
+      to_copy.each do |issue|
         new_issue = work_packages_map[issue.id]
         unless new_issue
           # Issue was not copied
@@ -196,9 +196,9 @@ module Project::Copy
         end
 
         # Relations
-        issue.relations_from.each do |source_relation|
+        issue.relations_to.non_hierarchy.direct.each do |source_relation|
           new_relation = Relation.new
-          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
+          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
           new_relation.to = work_packages_map[source_relation.to_id]
           if new_relation.to.nil? && Setting.cross_project_work_package_relations?
             new_relation.to = source_relation.to
@@ -207,9 +207,9 @@ module Project::Copy
           new_relation.save
         end
 
-        issue.relations_to.each do |source_relation|
+        issue.relations_from.non_hierarchy.direct.each do |source_relation|
           new_relation = Relation.new
-          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id')
+          new_relation.attributes = source_relation.attributes.dup.except('id', 'from_id', 'to_id', 'relation_type')
           new_relation.from = work_packages_map[source_relation.from_id]
           if new_relation.from.nil? && Setting.cross_project_work_package_relations?
             new_relation.from = source_relation.from

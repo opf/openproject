@@ -35,7 +35,10 @@ class Authorization::EnterpriseService
                        multiselect_custom_fields
                        edit_attribute_groups
                        work_package_query_relation_columns
-                       attribute_help_texts).freeze
+                       attribute_help_texts
+                       two_factor_authentication
+                       ldap_groups
+                       custom_fields_in_projects_list).freeze
 
   def initialize(token)
     self.token = token

@@ -31,8 +31,9 @@ module API
     class ParseQueryParamsService
       def call(params)
         parsed_params = {}
+        skip_empty = []
 
-        parsed_params[:group_by] = group_by_from_params(params)
+        parsed_params[:group_by] = group_by_from_params(params, skip_empty)
 
         error_result = with_service_error_on_json_parse_error do
           parsed_params[:filters] = filters_from_params(params)
@@ -53,12 +54,21 @@ module API
 
         parsed_params[:show_hierarchies] = boolearize(params[:showHierarchies])
 
-        ServiceResult.new(success: true,
-                          result: without_empty(parsed_params, params.keys))
+        allow_empty = params.keys + skip_empty
+        ServiceResult.new(success: true, result: without_empty(parsed_params, allow_empty))
       end
 
-      def group_by_from_params(params)
-        convert_attribute(params[:group_by] || params[:groupBy] || params[:g])
+      def group_by_from_params(params, skip_empty)
+        return nil unless params_exist?(params, %i(group_by groupBy g))
+
+        attribute = params[:group_by] || params[:groupBy] || params[:g]
+        if attribute.present?
+          convert_attribute attribute
+        else
+          # Group by explicitly set to empty
+          skip_empty << :group_by
+          nil
+        end
       end
 
       def sort_by_from_params(params)
@@ -173,6 +183,20 @@ module API
         result = ServiceResult.new
         result.errors.add(:base, error.message)
         return result
+      end
+
+      def params_exist?(params, symbols)
+        unsafe_params(params).detect { |k, _| symbols.include? k.to_sym }
+      end
+
+      ##
+      # Access the parameters as a hash, which has been deprecated
+      def unsafe_params(params)
+        if params.is_a? ActionController::Parameters
+          params.to_unsafe_h
+        else
+          params
+        end
       end
 
       def without_empty(hash, exceptions)

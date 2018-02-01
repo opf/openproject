@@ -52,7 +52,7 @@ describe 'Work package attribute help texts', type: :feature, js: true do
 
   shared_examples 'allows to view help texts' do
     it 'shows an indicator for whatever help text exists' do
-      expect(page).to have_selector('.attributes-key-value--key .help-text--for-status')
+      expect(page).to have_selector('.work-package--single-view .help-text--for-status')
 
       # Open help text modal
       modal.open!

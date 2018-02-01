@@ -33,6 +33,7 @@ import {WorkPackageNotificationService} from '../../wp-edit/wp-notification.serv
 import {QueryResource} from '../../api/api-v3/hal-resources/query-resource.service';
 import {QueryDmService} from '../../api/api-v3/hal-resource-dms/query-dm.service';
 import {WorkPackageResourceInterface} from '../../api/api-v3/hal-resources/work-package-resource.service';
+import {WorkPackageTableFocusService} from 'core-components/wp-fast-table/state/wp-table-focus.service';
 
 export class WorkPackageDestroyModalController {
   public text:any;
@@ -43,6 +44,7 @@ export class WorkPackageDestroyModalController {
               private $state:ng.ui.IStateService,
               private states:States,
               private WorkPackageService:any,
+              private wpTableFocus:WorkPackageTableFocusService,
               private I18n:op.I18n,
               private wpDestroyModal:any) {
 
@@ -73,15 +75,19 @@ export class WorkPackageDestroyModalController {
   }
 
   public close() {
-    this.wpDestroyModal.deactivate();
+    try {
+      this.wpDestroyModal.deactivate();
+    } catch(e) {
+      console.error("Failed to close deletion modal: " + e);
+    }
   }
 
   public confirmDeletion() {
     this.wpDestroyModal.deactivate();
     this.WorkPackageService.performBulkDelete(this.workPackages.map(el => el.id), true)
       .then(() => {
-        this.close()
-        this.states.focusedWorkPackage.clear();
+        this.close();
+        this.wpTableFocus.clear();
         this.$state.go('work-packages.list');
       });
   }

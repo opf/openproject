@@ -86,9 +86,13 @@ describe CustomValue do
 
     describe 'date custom value' do
       let(:format) { 'date' }
-      let(:value) { Date.today }
+      let(:value) { Date.new(2016,12,1) }
 
       it { expect(subject.typed_value).to eql(value) }
+
+      context 'date format', with_settings: { date_format: '%Y/%m/%d' } do
+        it { expect(subject.formatted_value).to eq('2016/12/01') }
+      end
     end
   end
 

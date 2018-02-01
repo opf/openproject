@@ -1,0 +1,2675 @@
+---
+ca:
+  no_results_title_text: Actualment hi ha res a mostrar.
+  activities:
+    index:
+      no_results_title_text: No hi ha cap activitat per al projecte.
+  admin:
+    plugins:
+      no_results_title_text: Actualment no hi ha plugins disponibles.
+    custom_styles:
+      custom_colors: Custom colors
+      customize: 'Customize your OpenProject installation with your own logo. Note:
+        This logo will be publicly accessible.'
+      enterprise_notice: As a special 'Thank you!' for their financial contribution
+        to develop OpenProject, this tiny feature is only available for Enterprise
+        Edition support subscribers.
+      manage_colors: Edit color select options
+      instructions:
+        alternative_color: Strong accent color, typically used for most the important
+          button on a screen.
+        content_link_color: Font color of most of the links.
+        primary_color: Main color.
+        primary_color_dark: Typically a darker version of the main color used for
+          hover effects.
+        header_bg_color: Background color of the header.
+        header_item_bg_hover_color: Background color of clickable header items when
+          hovered with the mouse.
+        header_item_font_color: Font color of clickable header items.
+        header_item_font_hover_color: Font color of clickable header items when hovered
+          with the mouse.
+        header_border_bottom_color: Thin line under the header. Leave this field empty
+          if you don't want any line.
+        main_menu_bg_color: Left side menu's background color.
+    enterprise:
+      upgrade_to_ee: Upgrade to Enterprise Edition
+      add_token: Upload an Enterprise Edition support token
+      replace_token: Replace your current support token
+      order: Order Enterprise Edition
+      paste: Paste your Enterprise Edition support token
+      required_for_feature: This feature is only available with an active Enterprise
+        Edition support token.
+      enterprise_link: For more information, click here.
+  announcements:
+    show_until: Mostra fins
+    is_active: actualment mostrant
+    is_inactive: actualment no es mostren
+  attribute_help_texts:
+    text_overview: In this view, you can create custom help texts for attributes view.
+      When defined, these texts can be shown by clicking the help icon next to its
+      belonging attribute.
+    label_plural: Attribute help texts
+    show_preview: Preview text
+    add_new: Add help text
+    edit: Edit help text for %{attribute_caption}
+  auth_sources:
+    index:
+      no_results_content_title: Actualment no hi ha cap mode d'autenticació.
+      no_results_content_text: Crear un nou mode d'autenticació
+  boards:
+    show:
+      no_results_title_text: Actualment no hi ha cap entrada al tauler.
+  custom_fields:
+    text_add_new_custom_field: 'To add new custom fields to a project you first need
+      to create them before you can add them to this project.
+
+'
+    is_enabled_globally: Is enabled globally
+    enabled_in_project: Enabled in project
+    contained_in_type: Contained in type
+    confirm_destroy_option: Deleting an option will delete all of its occurrences
+      (e.g. in work packages). Are you sure you want to delete it?
+    tab:
+      no_results_title_text: Actualment no hi ha camps personalitzats.
+      no_results_content_text: Crear un camp personalitzat nou
+  deprecations:
+    old_timeline:
+      replacement: This timelines module is being replaced by the interactive timeline
+        embedded into the work packages module.
+      removal: This module is going to be removed with OpenProject 8.0. The configuration
+        for this view will NOT be migrated to the work package view.
+      further_information_before: Please take a look at
+      link_name: how to migrate to the new timeline.
+      further_information_after: ''
+    calendar:
+      removal: 'Please note: This module is going to be removed with OpenProject 8.0.'
+  groups:
+    index:
+      no_results_title_text: Actualment no hi ha cap grup.
+      no_results_content_text: Crear un nou grup
+    users:
+      no_results_title_text: Actualment cap usuari forma part d'aquest grup.
+    memberships:
+      no_results_title_text: Actualment no hi ha projectes que formin part d'aquest
+        grup.
+  planning_element_type_colors:
+    index:
+      no_results_title_text: Actualment no hi ha cap color.
+      no_results_content_text: Crear un nou color
+  projects:
+    index:
+      no_results_title_text: Actualment no hi ha projectes
+      no_results_content_text: Crear un nou projecte
+    settings:
+      activities:
+        no_results_title_text: Actualment no hi ha activitats disponibles.
+      boards:
+        no_results_title_text: Actualment no hi ha cap tauler per al projecte.
+        no_results_content_text: Crear una nou tauler
+      categories:
+        no_results_title_text: Actualment no hi ha cap categoria de paquet de treball.
+        no_results_content_text: Crear una nova categoria de paquet de treball
+      custom_fields:
+        no_results_title_text: Actualment no hi ha cap camp personalitzat disponible.
+      types:
+        no_results_title_text: Actualment no hi ha cap tipus disponible.
+      versions:
+        no_results_title_text: Actualment no hi ha cap versió per al projecte.
+        no_results_content_text: Crear una nova versió
+  project_types:
+    index:
+      no_results_title_text: Actualment no hi ha cap tipus de projecte.
+      no_results_content_text: Crear un nou tipus de projecte
+  members:
+    index:
+      no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest
+        projecte.
+      no_results_content_text: Afegeix un membre al projecte
+  my:
+    access_token:
+      failed_to_reset_token: 'Failed to reset access token: %{error}'
+      notice_reset_token: 'A new %{type} token has been generated. Your access token
+        is:'
+      token_value_warning: 'Note: This is the only time you will see this token, make
+        sure to copy it now.'
+      no_results_title_text: Actualment no hi ha cap token d'accés disponible.
+  news:
+    index:
+      no_results_title_text: Actualment no hi ha cap novetat per a informar.
+      no_results_content_text: Afegir una notícia
+    my_page:
+      no_results_title_text: Res de nou a informar.
+  users:
+    memberships:
+      no_results_title_text: Aquest usuari no és actualment membre de cap projecte.
+  reportings:
+    index:
+      no_results_title_text: Actualment no hi ha cap informe d'estat.
+      no_results_content_text: Afegir un informe d'estat
+  statuses:
+    index:
+      no_results_title_text: Actualment no hi ha cap estat de paquet de treball.
+      no_results_content_text: Afegir un nou estat
+  types:
+    index:
+      no_results_title_text: Actualment no hi ha cap tipus.
+      no_results_content_text: Crear un nou tipus
+    edit:
+      settings: Configuració
+      form_configuration: Configuració del formulari
+      projects: Projectes
+      enabled_projects: Enabled projects
+      add_group: Add group
+      reset: Reset to defaults
+  versions:
+    overview:
+      no_results_title_text: Actualment no hi ha cap paquet de treball assignat a
+        aquesta versió.
+  wiki:
+    no_results_title_text: Actualment no hi ha cap pàgina wiki.
+    index:
+      no_results_content_text: Afegiu una nova pàgina wiki
+  work_flows:
+    index:
+      no_results_title_text: Actualment no hi ha cap flux de treball.
+  work_packages:
+    move:
+      unsupported_for_multiple_projects: Moure o copiar en massa no està soportat
+        per paquets de treball de múltiples projectes
+    list_simple:
+      assigned:
+        no_results_title_text: Actualment no hi ha cap paquet de treball assignat
+          a mi.
+      reported:
+        no_results_title_text: Actualment no he informat cap paquet de treball.
+      responsible:
+        no_results_title_text: Actualment no sóc responsable de cap paquet de treball.
+      watched:
+        no_results_title_text: Actualment no estic seguint cap paquet de treball.
+    summary:
+      reports:
+        category:
+          no_results_title_text: Actualment hi ha cap categoria disponible.
+        assigned_to:
+          no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest
+            projecte.
+        responsible:
+          no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest
+            projecte.
+        author:
+          no_results_title_text: Actualment no hi ha cap membre que formi part d'aquest
+            projecte.
+        priority:
+          no_results_title_text: Actualment no hi ha prioritats disponibles.
+        type:
+          no_results_title_text: Actualment no hi ha cap tipus disponible.
+        version:
+          no_results_title_text: Hi ha actualment cap versió disponible.
+  label_invitation: Invitació
+  account:
+    delete: Elimina el compte
+    delete_confirmation: Segur que voleu eliminar aquest compte?
+    deleted: Compte suprimit amb èxit
+    deletion_info:
+      data_consequences:
+        other: De les dades de l'usuari ha creat (per exemple, correu electrònic,
+          preferències, paquets de treball, wiki entrades) se n'esborraran tantes
+          com sigui possible. Fixeu-vos que dades com paquets de treball i entrades
+          de la wiki no es poden suprimir sense que obstaculitzin la feina d'altres
+          usuaris. Aquestes dades es reassignaran a un compte genèric anomenat "Usuari
+          esborrat". Com que les dades de cada usuari suprimit es reassignen sempre
+          a aquest compte genèric no serà possible distingir les dades d'aquest usuari
+          de les dades d'un altre usuari esborrat.
+        self: De les dades que has creat (per exemple, correu electrònic, preferències,
+          paquets de treball, wiki entrades) se n'esborraran tantes com sigui possible.
+          Fixa't que dades com paquets de treball i entrades de la wiki no es poden
+          suprimir sense que obstaculitzin la feina d'altres usuaris. Aquestes dades
+          es reassignaran a un compte genèric anomenat "Usuari esborrat". Com que
+          les dades de cada usuari suprimit es reassignen sempre a aquest compte genèric
+          no serà possible distingir les teves dades de les dades d'un altre usuari
+          esborrat.
+      heading: Suprimir el compte %{name}
+      info:
+        other: Suprimir el compte d'usuari és una acció irreversible.
+        self: Suprimir el compte d'usuari és una acció irreversible.
+      login_consequences:
+        other: El compte es suprimirà del sistema. Per tant, l'usuari ja no podrà
+          iniciar la sessió amb les seves credencials actuals. Ell/ella pot decidir
+          convertir-se en un usuari d'aquesta aplicació una altra vegada pels mitjans
+          que aquesta aplicació ofereix.
+        self: El seu compte es suprimirà del sistema. Per tant, ja no podreu accedir
+          amb les vostres credencials actuals. Si vostè vol convertir-se en un usuari
+          d'aquesta aplicació una altra vegada, pot fer-ho utilitzant els mitjans
+          que l'aplicació proporciona.
+      login_verification:
+        other: Enter the login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+        self: Enter your login %{name} to verify the deletion. Once submitted, you
+          will be ask to confirm your password.
+    error_inactive_activation_by_mail: 'El teu compte encara no ha estat activat.
+      Per activar el compte, feu clic a l''enllaç que se us va enviar per e-mail.
+
+'
+    error_inactive_manual_activation: 'El seu compte encara no ha estat activat. Espereu
+      a que un administrador activi el vostre compte.
+
+'
+    error_self_registration_disabled: 'El registre d''usuaris està deshabilitat en
+      aquest sistema. Demaneu a un administrador que us creï un compte.
+
+'
+    login_with_auth_provider: o inicieu la sessió amb el vostre compte
+    signup_with_auth_provider: o registra't mitjançant
+    auth_source_login: Si us plau entra com a <em>%{login}</em> per activar el teu
+      compte.
+    omniauth_login: Si us plau entra per activar el teu compte.
+  actionview_instancetag_blank_option: Si us plau, selecciona
+  activerecord:
+    attributes:
+      announcements:
+        show_until: Mostrar fins
+      attachment:
+        downloads: Descàrregues
+        file: Fitxer
+        filename: Fitxer
+        filesize: Mida
+      attribute_help_text:
+        attribute_name: Atribut
+        help_text: Help text
+      auth_source:
+        account: Compte
+        attr_firstname: Atribut Nom
+        attr_lastname: Atribut Cognom
+        attr_login: Atribut de Login
+        attr_mail: Atribut de Correu electrònic
+        base_dn: Base DN
+        host: Servidor
+        onthefly: Creació d'usuaris «al vol»
+        port: Port
+      changeset:
+        repository: Repositori
+      comment:
+        commented: Comentat
+      custom_field:
+        default_value: Valor per defecte
+        editable: Editable
+        field_format: Format
+        is_filter: Utilitzat com a filtre
+        is_required: Obligatori
+        max_length: Longitud màxima
+        min_length: Longitud mínima
+        multi_value: Allow multi-select
+        possible_values: Valors possibles
+        regexp: Expressió regular
+        searchable: Es pot cercar
+        visible: Visible
+      custom_value:
+        value: Valor
+      enterprise_token:
+        starts_at: Valid since
+        expires_at: Expires at
+        subscriber: Subscriber
+        encoded_token: Enterprise support token
+      relation:
+        delay: Retard
+        from: Paquet de treball
+        to: Paquet de treball relacionat
+      status:
+        is_closed: Paquet de treball tancat
+      journal:
+        notes: Notes
+      member:
+        roles: Rols
+      project:
+        identifier: Identificador
+        latest_activity_at: Última activitat al
+        parent: Subprojecte de
+        project_type: Tipus de projecte
+        queries: Consultes
+        responsible: Responsable
+        types: Tipus
+        versions: Versions
+        work_packages: Paquets de treball
+      query:
+        column_names: Columnes
+        relations_to_type_column: Relations to %{type}
+        relations_of_type_column: "%{type} relations"
+        group_by: Agrupa els resultats per
+        filters: Filtres
+        timeline_labels: Timeline labels
+      repository:
+        url: URL
+      role:
+        assignable: Work packages can be assigned to users and groups in possession
+          of this role in the respective project
+      time_entry:
+        activity: Activitat
+        hours: Hores
+        spent_on: Data
+        type: Tipus
+      type:
+        is_in_roadmap: A la fulla de ruta
+        in_aggregation: En l'agregació
+        is_milestone: És una fita
+        color: Color
+      user:
+        admin: Administrador
+        auth_source: Mode d'autenticació
+        current_password: Contrassenya actual
+        force_password_change: Forçar el canvi de contrasenya en el proper inici de
+          sessió
+        language: Idioma
+        last_login_on: Darrer inici de sessió
+        mail_notification: Avisos de correu electrònic
+        new_password: Nova contrasenya
+        password_confirmation: Confirmació
+      user_preference:
+        comments_sorting: Mostra els comentaris
+        hide_mail: Oculta la meva adreça de correu electrònic
+        impaired: Mode d'accessibilitat
+        time_zone: Zona horària
+        auto_hide_popups: Auto-hide success notifications
+        warn_on_leaving_unsaved: Warn me when leaving a work package with unsaved
+          changes
+      version:
+        effective_date: Data de venciment
+        sharing: Compartint
+      wiki:
+        start_page: Pàgina d'inici
+      wiki_content:
+        text: Text
+      wiki_page:
+        parent_title: Pàgina principal
+        redirect_existing_links: Redirigeix els enllaços existents
+      planning_element_type_color:
+        hexcode: Codi hexadecimal
+      project_association:
+        description: Causa
+        project_b: Projecte dependent
+      project_type:
+        allows_association: Permet l'associació
+        reported_project_statuses: Estats de projecte notificats
+        position: Posició
+      timeline:
+        options: ''
+      reporting:
+        reported_project_status_comment: Comentari de l'estat
+        reporting_to_project: Informes de projecte
+        reported_project_status: Estat del projecte
+        created_at: Creat
+      work_package:
+        begin_insertion: Inici de la inserció
+        begin_deletion: Inici de la supressió
+        done_ratio: Progrés (%)
+        end_insertion: Final de la inserció
+        end_deletion: Final de la supressió
+        fixed_version: Versió
+        parent: Pare
+        parent_issue: Pare
+        parent_work_package: Pare
+        priority: Prioritat
+        progress: Progrés (%)
+        responsible: Responsable
+        spent_hours: Temps invertit
+        spent_time: Temps invertit
+        subproject: Subprojecte
+        time_entries: Temps de registre
+        type: Tipus
+        watcher: Observador
+    errors:
+      messages:
+        accepted: hauran de ser acceptats.
+        blank: no pot estar en blanc.
+        cant_link_a_work_package_with_a_descendant: Un paquet de treball no es pot
+          enllaçar a una de les seves subtasques.
+        circular_dependency: Aquesta relació crearia una dependència circular.
+        confirmation: no coincideix amb el %{attribute}.
+        does_not_exist: no existeix.
+        empty: no pot estar buit.
+        even: ha de ser parell.
+        exclusion: està reservat.
+        file_too_large: és massa gran (la mida màxima és de %{count} Bytes).
+        greater_than: ha de ser més gran que %{count}.
+        greater_than_or_equal_to: ha de ser més gran o igual a %{count}.
+        smaller_than_or_equal_to_max_length: ha de ser inferior o igual a la longitud
+          màxima.
+        greater_than_start_date: ha de ser major que la data d'inici.
+        greater_than_or_equal_to_start_date: ha de ser major o igual a la data d'inici.
+        inclusion: no està establert a un dels valors permesos.
+        invalid: no és vàlid.
+        invalid_url: is not a valid URL.
+        invalid_url_scheme: 'is not a supported protocol (allowed: %{allowed_schemes}).'
+        less_than_or_equal_to: ha de ser menor o igual a %{count}.
+        not_a_date: is not a valid date.
+        not_a_datetime: is not a valid date time.
+        not_an_iso_date: 'no és una data vàlida. Format requerit: AAAA-MM-DD.'
+        not_a_number: no és un número.
+        not_an_integer: no és un enter.
+        not_same_project: no pertany al mateix projecte.
+        odd: ha de ser senar.
+        taken: ja s'està utilitzant.
+        too_long: és massa llarg (el màxim són %{count} caràcters).
+        too_short: és massa curt (el mínim són %{count} caràcters).
+        wrong_length: la longitud és incorrecta (haurien de ser %{count} caràcters).
+        after: ha de ser després de %{date}.
+        after_or_equal_to: ha de ser igual o després de %{date}.
+        before: ha de ser abans de %{date}.
+        before_or_equal_to: ha de ser igual o abans de %{date}.
+        could_not_be_copied: no pot ser (completament) copiat.
+        regex_invalid: could not be validated with the associated regular expression.
+      models:
+        custom_field:
+          at_least_one_custom_option: At least one option needs to be available.
+        enterprise_token:
+          unreadable: can't be read. Are you sure it is a support token?
+        parse_schema_filter_params_service:
+          attributes:
+            base:
+              unsupported_operator: The operator is not supported.
+              invalid_values: A value is invalid.
+              id_filter_required: An 'id' filter is required.
+        project:
+          attributes:
+            types:
+              in_use_by_work_packages: 'encara en ús pels paquets de treball: %{types}'
+        project_association:
+          identical_projects: No es pot crear una dependència entre el projecte i
+            ell mateix.
+          project_association_not_allowed: no permet associacions.
+        query:
+          attributes:
+            project:
+              error_not_found: not found
+            public:
+              error_unauthorized: "- The user has no permission to create public queries."
+          group_by_hierarchies_exclusive: is mutually exclusive with group by '%{group_by}'.
+            You cannot activate both.
+          filters:
+            custom_fields:
+              inexistent: There is no custom field for the filter.
+              invalid: The custom field is not valid in the given context.
+        relation:
+          typed_dag:
+            circular_dependency: The relationship creates a circle of relationships.
+          attributes:
+            to:
+              error_not_found: work package in `to` position not found or not visible
+              error_readonly: an existing relation's `to` link is immutable
+            from:
+              error_not_found: work package in `from` position not found or not visible
+              error_readonly: an existing relation's `from` link is immutable
+        repository:
+          not_available: El proveïdor SCM no està disponible
+          not_whitelisted: no està permès per la configuració.
+          invalid_url: is not a valid repository URL or path.
+          must_not_be_ssh: must not be an SSH url.
+          no_directory: no és un directori.
+        work_package:
+          is_not_a_valid_target_for_time_entries: 'Treball paquet #%{id} no és un
+            objectiu vàlid per a reassignar les entrades de temps.'
+          attributes:
+            due_date:
+              not_start_date: no és en la data d'inici, tot i que és necessari per
+                les fites.
+            parent:
+              cannot_be_milestone: no pot ser una fita.
+              cannot_be_in_another_project: no pot estar en un altre projecte.
+              not_a_valid_parent: no és vàlid.
+            start_date:
+              violates_relationships: només es pot posar a %{soonest_start} o més
+                tard per tal de no es violar les relacions del paquet de treball.
+            status_id:
+              status_transition_invalid: no és vàlida perquè no hi ha una transició
+                vàlida des d'estat antic a nou estat per al rol de l'usuari actual.
+            priority_id:
+              only_active_priorities_allowed: ha de ser activa.
+            category:
+              only_same_project_categories_allowed: La categoria d'un paquet de treball
+                ha d'estar al mateix projecte que el paquet de treball.
+              does_not_exist: La categoria especificada no existeix.
+            estimated_hours:
+              only_values_greater_or_equal_zeroes_allowed: ha de ser > = 0.
+        type:
+          attributes:
+            attribute_groups:
+              group_without_name: Unnamed groups are not allowed.
+              duplicate_group: The group name %{group} is used more than once. Group
+                names must be unique.
+              attribute_unknown: Invalid work package attribute used.
+        user:
+          attributes:
+            password:
+              weak: 'Ha de contenir caràcters de les següents classes (com a mínim
+                %{min_count} de %{all_count}): %{rules}.'
+              lowercase: minúscules (ex. "a")
+              uppercase: majúscules (p. ex. ' A')
+              numeric: numèric (p. ex. "1")
+              special: especials (per exemple "%")
+              reused:
+                one: s'ha utilitzat abans. Si us plau triïn algun de diferent al darrer.
+                other: s'ha utilitzat abans. Si us plau triïn algun que sigui diferent
+                  dels anteriors %{count}.
+              match:
+                confirm: Confirmar nova contrasenya.
+                description: "'Confirmació de la contrasenya' ha de coincidir amb
+                  la introduïda al camp 'Nova contrasenya'."
+            status:
+              invalid_on_create: is not a valid status for new users.
+            auth_source:
+              error_not_found: not found
+        member:
+          principal_blank: Trieu com a mínim un usuari o grup.
+          role_blank: Seleccioneu almenys un rol.
+      template:
+        body: 'Si us plau, revisi els camps següents:'
+        header:
+          one: no s'ha pogut desar aquest %{model} perquè s'ha trobat 1 error
+          other: no s'ha pogut desar aquest %{model} perquè s'han trobat %{count}
+            errors
+    models:
+      attachment: Fitxer
+      attribute_help_text: Attribute help text
+      board: Fòrum
+      comment: Comentari
+      custom_field: Camp personalitzat
+      group: Grup
+      category: Categoria
+      status: Estat del paquet de treball
+      member: Membre
+      news: Notícies
+      project: Projecte
+      query: Consulta personalitzada
+      role:
+        one: Rol
+        other: Rol
+      type: Tipus
+      project_type: Tipus de projecte
+      user: Usuari
+      version: Versió
+      wiki: Wiki
+      wiki_page: Pàgina wiki
+      workflow: Flux de treball
+      work_package: Paquet de treball
+  errors:
+    header_invalid_fields: 'S''han detectat problemes en els camps següents:'
+    field_erroneous_label: 'Aquest camp no és vàlid: %{full_errors} si us plau, introduïu
+      un valor correcte.'
+  activity:
+    created: 'Creat: %{title}'
+    updated: 'Actualitzat: %{title}'
+  attributes:
+    active: Actiu
+    assigned_to: Assignat a
+    assignee: Assignat a
+    attachments: Fitxers adjunts
+    author: Autor/a
+    base: 'Error General:'
+    blocks_ids: Identificadors dels paquets de treball bloquejats
+    category: Categoria
+    comment: Comentari
+    comments: Comentari
+    content: Contingut
+    created_at: Creat el
+    created_on: Creat el
+    custom_options: Valors possibles
+    custom_values: Camps personalitzats
+    date: Data
+    default_columns: Columnes predeterminades
+    description: Descripció
+    display_sums: Mostra les sumes
+    due_date: Data de venciment
+    estimated_hours: Temps estimat
+    estimated_time: Temps estimat
+    firstname: Nom
+    group: Grup
+    groups: Grups
+    groupname: Nom del grup
+    id: Id
+    is_default: Valor per defecte
+    is_for_all: Per tots els projectes
+    is_public: Públic
+    issue: Paquet de treball
+    lastname: Cognom
+    login: Entrar
+    mail: Correu electrònic
+    name: Nom
+    password: Contrasenya
+    priority: Prioritat
+    project: Projecte
+    responsible: Responsable
+    role: Rol
+    roles: Rols
+    start_date: Data d'inici
+    status: Estat
+    subject: Assumpte
+    summary: Resum
+    title: Títol
+    type: Tipus
+    updated_at: Actualitzat el
+    updated_on: Actualitzat el
+    user: Usuari
+    version: Versió
+    work_package: Paquet de treball
+  button_add: Afegir
+  button_add_member: Afegir un membre
+  button_add_watcher: Afegir observador
+  button_annotate: Anotar
+  button_apply: Aplicar
+  button_archive: Arxivar
+  button_back: Endarrere
+  button_cancel: Cancel·la
+  button_change: Canvia
+  button_change_parent_page: Canvia la pàgina principal
+  button_change_password: Canviar contrasenya
+  button_check_all: Marcar-ho tot
+  button_clear: Netejar
+  button_close: Close
+  button_collapse_all: Replega-ho tot
+  button_configure: Configurar
+  button_copy: Copiar
+  button_copy_and_follow: Copiar i continuar
+  button_create: Crear
+  button_create_and_continue: Crear i continuar
+  button_delete: Esborrar
+  button_delete_watcher: Suprimir l'observador %{name}
+  button_download: Descàrrega
+  button_duplicate: Duplicar
+  button_edit: Editar
+  button_edit_associated_wikipage: 'Editar pàgines Wiki associades: %{page_title}'
+  button_expand_all: Expandeix tot
+  button_filter: Filtre
+  button_generate: Generar
+  button_list: Llista
+  button_lock: Bloquejar
+  button_log_time: Temps de registre
+  button_login: Iniciar sessió
+  button_move: Moure
+  button_move_and_follow: Moure i continuar
+  button_print: Print
+  button_quote: Citar
+  button_remove: Suprimir
+  button_remove_widget: Treure els widgets
+  button_rename: Renombrar
+  button_replace: Replace
+  button_reply: Respon
+  button_reset: Restablir
+  button_rollback: Tornar a aquesta versió
+  button_save: Desa
+  button_save_back: Desar i tornar
+  button_show: Mostra
+  button_sort: Ordena
+  button_submit: Enviar
+  button_test: Prova
+  button_unarchive: Desarxivar
+  button_uncheck_all: Desmarca-ho tot
+  button_unlock: Desbloquejar
+  button_unwatch: Deixa de Seguir
+  button_update: Actualitza
+  button_upload: Upload
+  button_view: Mostra
+  button_watch: Observa
+  button_manage_menu_entry: Configurar l'element de menú
+  button_add_menu_entry: Afegir l'element de menú
+  button_configure_menu_entry: Configurar l'element de menú
+  button_delete_menu_entry: Suprimeix element de menú
+  copy_project:
+    started: S'ha començat a copiar el projecte "%{source_project_name}" a "%{target_project_name}".
+      Se li comunicarà per correu electrònic tan aviat com "%{target_project_name}"
+      estigui disponible.
+    failed: No es pot copiar el projecte %{source_project_name}
+    succeeded: Projecte %{target_project_name} creat
+    errors: Error
+    project_custom_fields: Custom fields on project
+    text:
+      failed: No s'ha pogut copiar el projecte "%{source_project_name}" al projecte
+        "%{target_project_name}".
+      succeeded: Projecte "%{source_project_name}" copiat a "%{target_project_name}".
+  create_new_page: Pàgina wiki
+  date:
+    abbr_day_names:
+    - Dg
+    - Dl
+    - Dima
+    - Dime
+    - Dj
+    - Dv
+    - Ds
+    abbr_month_names:
+    - 
+    - Gen
+    - Feb
+    - Mar
+    - Abr
+    - Mai
+    - Jun
+    - Jul
+    - Ago
+    - Set
+    - Oct
+    - Nov
+    - Des
+    day_names:
+    - Diumenge
+    - Dilluns
+    - Dimarts
+    - Dimecres
+    - Dijous
+    - Divendres
+    - Dissabte
+    formats:
+      default: "%m/%d/%Y"
+      long: "%B %d, %Y"
+      short: "%b %d"
+    month_names:
+    - 
+    - Gener
+    - Febrer
+    - Març
+    - Abril
+    - Mai
+    - Juny
+    - Juliol
+    - Agost
+    - Setembre
+    - Octubre
+    - Novembre
+    - Desembre
+    order:
+    - :any
+    - :mes
+    - :dia
+  datetime:
+    distance_in_words:
+      about_x_hours:
+        one: aproximadament 1 hora
+        other: aproximadament %{count} hores
+      about_x_months:
+        one: aproximadament 1 mes
+        other: aproximadament %{count} mesos
+      about_x_years:
+        one: aproximadament 1 any
+        other: aproximadament %{count} anys
+      almost_x_years:
+        one: gairebé 1 any
+        other: gairebé %{count} anys
+      half_a_minute: mig minut
+      less_than_x_minutes:
+        one: menys d'un minut
+        other: menys de %{count} minuts
+      less_than_x_seconds:
+        one: menys d'un segon
+        other: menys de %{count} segons
+      over_x_years:
+        one: més d'un any
+        other: més de %{count} anys
+      x_days:
+        one: 1 dia
+        other: "%{count} dies"
+      x_minutes:
+        one: 1 minut
+        other: "%{count} minuts"
+      x_months:
+        one: 1 mes
+        other: "%{count} mesos"
+      x_seconds:
+        one: 1 segon
+        other: "%{count} segons"
+    units:
+      hour:
+        one: hora
+        other: hores
+  default_activity_development: Desenvolupament
+  default_activity_management: Administració
+  default_activity_other: Altres
+  default_activity_specification: Especificació
+  default_activity_support: Assistència
+  default_activity_testing: Proves
+  default_color_black: Negre
+  default_color_blue: Blau
+  default_color_blue_dark: Blau (fosc)
+  default_color_blue_light: Blau (clar)
+  default_color_green_dark: Verd (fosca)
+  default_color_green_light: Verd (clar)
+  default_color_grey_dark: Gris (fosc)
+  default_color_grey_light: Gris (clar)
+  default_color_grey: Gris
+  default_color_magenta: Magenta
+  default_color_orange: Taronja
+  default_color_red: Vermell
+  default_color_white: Blanc
+  default_color_yellow: Groc
+  default_status_closed: Tancat
+  default_status_confirmed: Confirmat
+  default_status_developed: Desenvolupat
+  default_status_in_development: En desenvolupament
+  default_status_in_progress: En progrés
+  default_status_in_specification: En l'especificació
+  default_status_in_testing: En proves
+  default_status_new: Nou
+  default_status_on_hold: En espera
+  default_status_rejected: Rebutjat
+  default_status_scheduled: Programat
+  default_status_specified: Especificat
+  default_status_tested: Provat
+  default_status_test_failed: Ha fallat la prova
+  default_status_to_be_scheduled: Per planificar
+  default_priority_low: Baixa
+  default_priority_normal: Normal
+  default_priority_high: Alta
+  default_priority_immediate: Immediata
+  default_project_type_scrum: Equip Scrum
+  default_project_type_standard: Projecte estàndard
+  default_reported_project_status_green: Verd
+  default_reported_project_status_amber: Ambre
+  default_reported_project_status_red: Vermell
+  default_role_anonymous: Anònim
+  default_role_developer: Desenvolupador
+  default_role_project_admin: Administrador del projecte
+  default_role_non_member: No membre
+  default_role_reader: Lector
+  default_role_member: Membre
+  default_type: Paquet de treball
+  default_type_bug: Error
+  default_type_deliverable: Lliurable
+  default_type_epic: Èpica
+  default_type_feature: Característica
+  default_type_milestone: Fita
+  default_type_phase: Fase
+  default_type_task: Tasca
+  default_type_user_story: Història d'usuari
+  description_active: Actiu?
+  description_attachment_toggle: Mostra o amaga els fitxers adjunts
+  description_autocomplete: 'Aquest camp utilitza l''emplenament automàtic. Mentre
+    escriu el títol d''un paquet de treball veurà una llista dels possibles candidats.
+    Pot escollir-ne un utilitzant les tecles de fletxa cap amunt o cap avall i seleccionar-lo
+    amb tabulador o enter. Alternativament podeu introduir el número de paquet de
+    treball directament.
+
+'
+  description_available_columns: Columnes disponibles
+  description_choose_project: Projectes
+  description_compare_from: Compare from
+  description_compare_to: Compare to
+  description_current_position: 'Sou aquí:'
+  description_date_from: Introduir data d'inici
+  description_date_range_interval: Escollir un rang seleccionat de dates d'inici i
+    fi
+  description_date_range_list: Escollir un rang de la llista
+  description_date_to: Introduir data final
+  description_enter_number: Introduïu número
+  description_enter_text: Introduïu text
+  description_filter: Filtre
+  description_filter_toggle: Mostra o amaga el filtre
+  description_category_reassign: Triar categoria
+  description_message_content: Contingut del missatge
+  description_my_project: Ets membre
+  description_notes: Notes
+  description_parent_work_package: Paquet de treball pare de l'actual
+  description_project_scope: Àmbit de cerca
+  description_query_sort_criteria_attribute: Atribut d'ordenació
+  description_query_sort_criteria_direction: Ordre d'ordenació
+  description_search: Camp de cerca
+  description_select_work_package: Selecciona el paquet de treball
+  description_selected_columns: Columnes seleccionades
+  description_sub_work_package: Paquet de treball subordinat de l'actual
+  description_toc_toggle: Mostra o amaga la taula de continguts
+  description_wiki_subpages_reassign: Esculli la nova pagina pare
+  direction: ltr
+  ee:
+    upsale:
+      form_configuration:
+        description: 'Customize the form configuration with these additional features:'
+        add_groups: Add new attribute groups
+        rename_groups: Rename attributes groups
+      project_filters:
+        description_html: Upgrade to %{link} to filter and sort on custom fields
+  enumeration_activities: Activitats (seguidor de temps)
+  enumeration_work_package_priorities: Prioritats dels paquets de treball
+  enumeration_system_activity: Activitat del sistema
+  enumeration_reported_project_statuses: Estats de projecte notificats
+  error_auth_source_sso_failed: Single Sign-On (SSO) for user '%{value}' failed
+  error_can_not_archive_project: Aquest projecte no es pot arxivar
+  error_can_not_delete_entry: Unable to delete entry
+  error_can_not_delete_custom_field: No s'ha pogut suprimir el camp personalitat
+  error_can_not_delete_type: Aquest tipus conté paquets de treball i no es pot suprimir.
+  error_can_not_delete_standard_type: No es poden suprimir els tipus estàndard.
+  error_can_not_invite_user: Failed to send invitation to user.
+  error_can_not_remove_role: Aquest rol s'està utilitzant i no es pot suprimir.
+  error_can_not_reopen_work_package_on_closed_version: Un paquet de treball assignat
+    a una versió tancada no es pot reobrir
+  error_check_user_and_role: Trieu un usuari i un rol.
+  error_cookie_missing: La cookie d'OpenProject no s'ha trobat. Assegureu-vos que
+    les cookies estan habilitades, ja que aquesta aplicació no pot funcionar correctament
+    sense.
+  error_custom_option_not_found: Option does not exist.
+  error_failed_to_delete_entry: Failed to delete this entry.
+  error_invalid_group_by: 'Can''t group by: %{value}'
+  error_invalid_query_column: 'Invalid query column: %{value}'
+  error_invalid_sort_criterion: 'Can''t sort by column: %{value}'
+  error_pdf_export_too_many_columns: Too many columns selected for the PDF export.
+    Please reduce the number of columns.
+  error_token_authenticity: No es pot verificar token de Cross-Site Request Forgery.
+  error_work_package_done_ratios_not_updated: Ratios d'execució de paquets de treball
+    no actualitzats.
+  error_work_package_not_found_in_project: El paquet de treball no s'ha trobat o no
+    pertany a aquest projecte
+  error_must_be_project_member: ha de ser membre del projecte
+  error_no_default_work_package_status: No hi ha cap estat de paquet de treball definit
+    per defecte. Comproveu la configuració ("Administració-> Estats dels paquets de
+    treball").
+  error_no_type_in_project: Aquest projecte no té cap tipus associat. Comproveu els
+    paràmetres del projecte.
+  error_omniauth_registration_timed_out: S'ha esgotat el temps d'espera per a la inscripció
+    mitjançant un proveïdor d'autenticació externa. Torneu-ho a provar.
+  error_scm_command_failed: 'S''ha produït un error en intentar accedir al repositori:
+    %{value}'
+  error_scm_not_found: No s'ha trobat l'entrada o la revisió en el repositori.
+  error_unable_delete_status: No es pot suprimir l'estat del paquet de treball ja
+    que és utilitzat per almenys un paquet de treball.
+  error_unable_delete_default_status: No es pot suprimir l'estat per defecte del paquet
+    de treball. Seleccioneu un altre estat de paquet de treball per defecte abans
+    de suprimir l'actual.
+  error_unable_to_connect: No s'ha pogut connectar (%{value})
+  error_unable_delete_wiki: No es pot suprimir la pàgina wiki.
+  error_unable_update_wiki: No es pot actualitzar la pàgina wiki.
+  error_workflow_copy_source: Seleccioneu un tipus de font o rol
+  error_workflow_copy_target: Si us plau seleccioni tipus objectiu(s) i rol(s)
+  error_menu_item_not_created: No es pot afegir l'element de menú
+  error_menu_item_not_saved: No es pot desar l'element de menú
+  error_wiki_root_menu_item_conflict: 'Can''t rename "%{old_name}" to "%{new_name}"
+    due to a conflict in the resulting menu item with the existing menu item "%{existing_caption}"
+    (%{existing_identifier}).
+
+'
+  error_external_authentication_failed: S'ha produït un error durant l'autenticació
+    externa. Torneu-ho a provar.
+  events:
+    project: Projecte editat
+    changeset: Conjunt de canvis editat
+    message: Missatge editat
+    news: Notícies
+    reply: Respost
+    time_entry: Registre horari editat
+    wiki_page: Pàgina wiki editada
+    work_package_closed: Paquet de treball tancat
+    work_package_edit: Paquet de treball editat
+    work_package_note: Afegida nota al paquet de treball
+  export:
+    format:
+      atom: Atom
+      csv: CSV
+      pdf: PDF
+      pdf_with_descriptions: PDF amb descripcions
+  general_csv_decimal_separator: "."
+  general_csv_encoding: UTF-8
+  general_csv_separator: ","
+  general_first_day_of_week: '7'
+  general_lang_name: Anglès
+  general_pdf_encoding: ISO-8859-1
+  general_text_no: 'no'
+  general_text_yes: sí
+  general_text_No: 'No'
+  general_text_Yes: Sí
+  gui_validation_error: 1 error
+  gui_validation_error_plural: "%{count} errors"
+  homescreen:
+    additional:
+      projects: Els projectes més visibles en aquesta instància.
+      users: Els usuaris més nous registrats en aquesta instància.
+    blocks:
+      community: Comunitat OpenProject
+      upsale:
+        become_hero: Become a hero!
+        title: Upgrade to Enterprise Edition
+        description: Boost your productivity with the Enterprise Edition
+        more_info: More information
+        additional_features: Additional powerful premium features
+        professional_support: Professional support from the OpenProject experts
+        you_contribute: Developers need to pay their bills, too. With Enterprise Edition
+          you substantially contribute to this Open-Source community effort.
+    links:
+      upgrade_enterprise_edition: Upgrade to Enterprise Edition
+      user_guides: Guies d'usuari
+      faq: Preguntes Més Freqüents
+      glossary: Glossari
+      shortcuts: Dreceres
+      forums: Fòrums
+      blog: Blog OpenProject
+      boards: Fòrum de la comunitat
+      newsletter: Security alerts / Newsletter
+  links:
+    configuration_guide: Configuration guide
+  instructions_after_registration: Vostè podrà entrar tan aviat com hagi activat el
+    seu compte fent clic a %{signin}.
+  instructions_after_logout: Vostè es pot inscriure altre vegada fent clic a %{signin}.
+  instructions_after_error: Pot intentar iniciar sessió fent clic a %{signin}. Si
+    l'error continua, demaneu ajuda al vostre administrador.
+  my_account:
+    access_tokens:
+      no_results:
+        title: No hi ha tokens d'accés per mostrar
+        description: Tots ells s'han dehabilitat. Es poden tornar a habilitar al menú
+          d'administració.
+      access_token: Token d'accés
+      headers:
+        action: Acció
+        expiration: Caduca
+      indefinite_expiration: Mai
+  label_accessibility: Accessibility
+  label_account: Compte
+  label_active: Actiu
+  label_activate_user: Activate user
+  label_active_in_new_projects: Active in new projects
+  label_activity: Activitat
+  label_add_edit_translations: Afegeixi i editi traduccions
+  label_add_another_file: Afegeix un altre fitxer
+  label_add_columns: Afegir columnes seleccionades
+  label_add_note: Afegir una nota
+  label_add_related_work_packages: Afegir paquets de treball relacionats
+  label_add_subtask: Afegir subtasca
+  label_added: afegit
+  label_added_time_by: Afegit per %{author} fa %{age}
+  label_additional_workflow_transitions_for_assignee: Transicions addicionals permeses
+    quan l'usuari és l'assignat
+  label_additional_workflow_transitions_for_author: Transicions addicionals permeses
+    quan l'usuari és l'autor
+  label_administration: Administració
+  label_advanced_settings: Configuració avançada
+  label_age: Edat
+  label_ago: dies abans
+  label_all: tot
+  label_all_time: tot el temps
+  label_all_words: Totes les paraules
+  label_always_visible: Sempre es mostren
+  label_announcement: Avisos
+  label_and_its_subprojects: "%{value} i els seus subprojectes"
+  label_api_access_key: Clau d'accés API
+  label_api_access_key_created_on: Clau d'accés API creada fa %{value}
+  label_api_access_key_type: API
+  label_applied_status: Estat aplicat
+  label_archive_project: Archive project
+  label_ascending: Ascendent
+  label_assigned_to_me_work_packages: Paquets de treball assignats a mi
+  label_associated_revisions: Revisions associades
+  label_attachment_delete: Suprimir fitxer
+  label_attachment_new: Nou fitxer
+  label_attachment_plural: Arxius
+  label_attribute: Atribut
+  label_attribute_plural: Atributs
+  label_auth_source: Mode d'autenticació
+  label_auth_source_new: Nou mode d'autenticació
+  label_auth_source_plural: Modes d'autenticació
+  label_authentication: Autenticació
+  label_available_project_work_package_categories: Categories de paquet de treball
+    disponibles
+  label_available_project_boards: Taulers disponibles
+  label_available_project_versions: Versions disponibles
+  label_available_project_repositories: Repositòris disponibles
+  label_api_documentation: Documentació d'API
+  label_between: between
+  label_blocked_by: bloquejats per
+  label_blocks: blocs
+  label_blog: Blog
+  label_board_locked: Bloquejat
+  label_board_new: Nou fòrum
+  label_board_plural: Fòrums
+  label_board_sticky: Fixa't
+  label_boolean: Booleà
+  label_branch: Branca
+  label_browse: Navegar
+  label_bulk_edit_selected_work_packages: Edició massiva de paquets de treball
+  label_calendar: Calendari
+  label_calendar_show: Mostreu el calendari
+  label_category: Categoria
+  label_wiki_menu_item: Element de menú Wiki
+  label_select_main_menu_item: Seleccioneu nou element de menú principal
+  label_select_project: Select a project
+  label_required_disk_storage: Emmagatzematge de disc necessari
+  label_send_invitation: Send invitation
+  label_change_plural: Canvis
+  label_change_properties: Canvia les propietats
+  label_change_status: Canvia l'estat
+  label_change_status_of_user: 'Change status of #{username}'
+  label_change_view_all: Visualitza tots els canvis
+  label_changes_details: Detalls de tots els canvis
+  label_changeset: Changeset
+  label_changeset_id: Changeset ID
+  label_changeset_plural: Conjunt de canvis
+  label_checked: comprovat
+  label_check_uncheck_all_in_column: Marca/desmarca tot a la columna
+  label_check_uncheck_all_in_row: Marca/desmarca tot a la fila
+  label_child_element: Element fill
+  label_chronological_order: En ordre cronològic
+  label_close_versions: Tancar versions completades
+  label_closed_work_packages: tancat
+  label_collapse: Replega
+  label_configuration: configuració
+  label_comment_add: Afegir un comentari
+  label_comment_added: Comentari afegit
+  label_comment_delete: Suprimir comentaris
+  label_comment_plural: Moderació dels comentaris
+  label_commits_per_author: Publicacions per autor
+  label_commits_per_month: Publicacions per mes
+  label_confirmation: Confirmació
+  label_contains: conté
+  label_content: Contingut
+  label_copied: copiat
+  label_copy_to_clipboard: Copiar al porta-retalls
+  label_copy_same_as_target: El mateix que l'objectiu
+  label_copy_source: Origen
+  label_copy_target: Destí
+  label_copy_workflow_from: Copia el flux de treball des de
+  label_copy_project: Copiar projecte
+  label_core_version: Versió base
+  label_current_status: Estat actual
+  label_current_version: Versió actual
+  label_custom_field_add_no_type: Add this field to a work package type
+  label_custom_field_new: Nou camp personalitzat
+  label_custom_field_plural: Camps personalitzats
+  label_custom_field_default_type: Tipus buit
+  label_custom_style: Design
+  label_date: Data
+  label_date_and_time: Date and time
+  label_date_from: De
+  label_date_from_to: Des de %{start} a %{end}
+  label_date_range: Interval de dates
+  label_date_to: Fins
+  label_day_plural: dies
+  label_default: Per defecte
+  label_delete_user: Delete user
+  label_delete_project: Delete project
+  label_deleted: suprimit
+  label_deleted_custom_field: "(camp personalitzat suprimit)"
+  label_descending: Descendent
+  label_details: Detalls
+  label_development_roadmap: Full de ruta de desenvolupament
+  label_diff: diferencies
+  label_diff_inline: en línia
+  label_diff_side_by_side: costat per costat
+  label_disabled: desactivada
+  label_display: Mostrar
+  label_display_per_page: 'Per pàgina: %{value}'
+  label_display_used_statuses_only: Mostra només els estats que utilitza aquest tipus
+  label_download: "%{count} de descàrrega"
+  label_download_plural: "%{count} descàrregues"
+  label_downloads_abbr: D/L
+  label_duplicated_by: duplicat per
+  label_duplicate: duplicate
+  label_duplicates: duplicats
+  label_edit: Editar
+  label_enable_multi_select: Activa/desactiva selecció múltiple
+  label_enabled_project_custom_fields: Habilita camps personalitzats
+  label_enabled_project_types: Tipus habilitats
+  label_enabled_project_modules: Mòduls habilitats
+  label_enabled_project_activities: Activitats de seguiment de temps habilitades
+  label_end_to_end: de punta a punta
+  label_end_to_start: de final a principi
+  label_enumeration_new: Nou valor d'enumeració
+  label_enumeration_value: Enumeration value
+  label_enumerations: Enumeracions
+  label_enterprise: Enterprise
+  label_enterprise_edition: Enterprise Edition
+  label_environment: Entorn
+  label_estimates_and_time: Estimates and time
+  label_equals: és
+  label_example: Exemple
+  label_export_to: 'També disponible en:'
+  label_f_hour: "%{value} hora"
+  label_f_hour_plural: "%{value} hores"
+  label_feed_plural: Canals
+  label_feeds_access_key: Clau d'accés RSS
+  label_feeds_access_key_created_on: Clau d'accés RSS creada fa %{value}
+  label_feeds_access_key_type: RSS
+  label_file_added: Fitxer afegit
+  label_file_plural: Arxius
+  label_filter_add: Afegir un filtre
+  label_filter_plural: Filtres
+  label_filters_toggle: Show/hide filters
+  label_float: Flotant
+  label_folder: Carpeta
+  label_follows: segueix
+  label_force_user_language_to_default: Definir la llengua pels usuaris que tenen
+    una llengua per defecte no permesa
+  label_form_configuration: Configuració del formulari
+  label_general: General
+  label_generate_key: Generar una clau
+  label_git_path: Ruta del directori de .git
+  label_greater_or_equal: ">="
+  label_group_by: Agrupa per
+  label_group_new: Nou grup
+  label_group: Grup
+  label_group_plural: Grups
+  label_help: Ajuda
+  label_here: aquí
+  label_hide: Amagar
+  label_history: Història
+  label_home: Inici
+  label_in: en
+  label_in_less_than: en menys de
+  label_in_more_than: en més de
+  label_inactive: Inactive
+  label_incoming_emails: Correu electrònics d'entrada
+  label_includes: includes
+  label_index_by_date: Índex per data
+  label_index_by_title: Índex per títol
+  label_information: Informació
+  label_information_plural: Informació
+  label_integer: Enter
+  label_internal: Intern
+  label_invite_user: Invitar usuari
+  label_show_hide: Mostrae/ocultar
+  label_show_all_registered_users: Show all registered users
+  label_journal: Journal
+  label_journal_diff: Descripció de comparació
+  label_language: Idioma
+  label_jump_to_a_project: Anar al projecte...
+  label_language_based: Basat en l'idioma de l'usuari
+  label_last_activity: Darrera activitat
+  label_last_change_on: Darrer canvi en
+  label_last_changes: últims %{count} canvis
+  label_last_login: Darrer inici de sessió
+  label_last_month: l'últim més
+  label_last_n_days: els últims %{count} dies
+  label_last_week: l'última setmana
+  label_latest_revision: Última revisió
+  label_latest_revision_plural: Últimes revisions
+  label_ldap_authentication: Autenticació LDAP
+  label_less_or_equal: "<="
+  label_less_than_ago: fa menys de
+  label_list: Llista
+  label_loading: Carregant...
+  label_lock_user: Lock user
+  label_logged_as: Connectat com a
+  label_login: Iniciar sessió
+  label_custom_logo: Custom logo
+  label_custom_favicon: Custom favicon
+  label_custom_touch_icon: Custom touch icon
+  label_logout: Tancar sessió
+  label_main_menu: Menú lateral
+  label_manage_groups: Administrar grups
+  label_managed_repositories_vendor: Administrar repositoris de %{vendor}
+  label_max_size: Mida màxima
+  label_me: jo mateix
+  label_member_new: Nou membre
+  label_member_plural: Membres
+  label_view_all_members: Veure tots els membres
+  label_menu_item_name: Nom de l'element de menú
+  label_message: Message
+  label_message_last: Darrer missatge
+  label_message_new: Nou missatge
+  label_message_plural: Missatges
+  label_message_posted: Missatge afegit
+  label_min_max_length: Longitud mín - max
+  label_minute_plural: minuts
+  label_missing_api_access_key: Manca la clau d'accés API
+  label_missing_feeds_access_key: Manca la clau d'accés RSS
+  label_modification: Canvi de %{count}
+  label_modified: modificat
+  label_module_plural: Mòduls
+  label_modules: Mòduls
+  label_month: Mes
+  label_months_from: mesos des de
+  label_more: Més
+  label_more_than_ago: fa més dies
+  label_move_work_package: Moure el paquet de treball
+  label_my_account: El meu compte
+  label_my_account_data: Dades del meu compte
+  label_my_page: La meva pàgina
+  label_my_page_block: El meu bloc de pàgina
+  label_my_projects: Els meus projectes
+  label_my_queries: Les meves consultes personalitzades
+  label_new: Nou
+  label_new_statuses_allowed: Nous estats permesos
+  label_news_added: Notícies afegides
+  label_news_comment_added: S'ha afegit un comentari a la notícia
+  label_news_latest: Últimes noticies
+  label_news_new: Afegir notícies
+  label_news_edit: Editar notícies
+  label_news_plural: Notícies
+  label_news_view_all: Visualitza totes les notícies
+  label_next: Següent
+  label_next_week: Setmana següent
+  label_no_change_option: "(sense canvis)"
+  label_no_data: No hi ha dades per mostrar
+  label_nothing_display: Res a mostrar
+  label_nobody: ningú
+  label_none: cap
+  label_none_parentheses: "(cap)"
+  label_not_contains: no conté
+  label_not_equals: no és
+  label_notify_member_plural: Actualitzacions per correu electrònic
+  label_on: en
+  label_open_menu: Obrir menú
+  label_open_work_packages: obrir
+  label_open_work_packages_plural: obrir
+  label_optional_description: Descripció
+  label_options: Opcions
+  label_other: Altres
+  label_overall_activity: Activitat global
+  label_overall_spent_time: Temps total invertit
+  label_overview: Visió general
+  label_part_of: part of
+  label_password_lost: Heu oblidat la contrasenya?
+  label_password_rule_lowercase: Minúscula
+  label_password_rule_numeric: Caràcters numèrics
+  label_password_rule_special: Caràcters especials
+  label_password_rule_uppercase: Majúscules
+  label_path_encoding: Codificació de les rutes
+  label_pdf_with_descriptions: PDF amb descripcions
+  label_per_page: Per pàgina
+  label_people: Persones
+  label_permissions: Permisos
+  label_permissions_report: Informe de permisos
+  label_personalize_page: Personalitza aquesta pàgina
+  label_planning: Planificació
+  label_please_login: Si us plau, inicieu sessió
+  label_plugins: Complements
+  label_precedes: precedeix
+  label_preferences: Preferències
+  label_preview: Previsualitzar
+  label_previous: Anterior
+  label_previous_week: Setmana anterior
+  label_principal_invite_via_email: " o convidar a nous usuaris per correu electrònic"
+  label_principal_search: Afegir usuaris o grups existents
+  label_product_version: Versió del producte
+  label_professional_support: Suport professional
+  label_profile: Perfil
+  label_project_all: Tots els projectes
+  label_project_count: Nombre total de projectes
+  label_project_copy_notifications: Envia notificacions de correu electrònic durant
+    la còpia del projecte
+  label_project_latest: Últims projectes
+  label_project_default_type: Permetre tipus buit
+  label_project_hierarchy: Jerarquia de projectes
+  label_project_new: Nou projecte
+  label_project_plural: Projectes
+  label_project_settings: Configuració del projecte
+  label_projects_storage_information: "%{count} projectes utilitzen %{storage} d'emmagatzematge
+    a disc"
+  label_project_view_all: Veure tots els projectes
+  label_project_show_details: Show project details
+  label_project_hide_details: Hide project details
+  label_public_projects: Projectes públics
+  label_query_new: Nova consulta
+  label_query_plural: Consultes personalitzades
+  label_query_menu_item: Element de menú de consulta
+  label_read: Llegir...
+  label_register: Crea un nou compte
+  label_register_with_developer: Registrar com a desenvolupador
+  label_registered_on: Registrat a
+  label_registration_activation_by_email: activació del compte per correu electrònic
+  label_registration_automatic_activation: activació del compte automàtica
+  label_registration_manual_activation: activació del compte manual
+  label_related_work_packages: Paquets de treball relacionats
+  label_relates: relacionat amb
+  label_relates_to: relacionat amb
+  label_relation_delete: Suprimir relació
+  label_relation_new: Nova Relació
+  label_release_notes: Notes de llançament
+  label_remove_columns: Treure les columnes seleccionades
+  label_renamed: reanomenat
+  label_reply_plural: Respostes
+  label_report: Informe
+  label_report_bug: Notificar un error
+  label_report_plural: Informes
+  label_reported_work_packages: Paquets de treball informats
+  label_reporting: Informar
+  label_reporting_plural: Informes
+  label_repository: Repositori
+  label_repository_root: Arrel del repositori
+  label_repository_plural: Repositoris
+  label_required: required
+  label_requires: requires
+  label_responsible_for_work_packages: Paquets de treball dels que en sóc responsable
+  label_result_plural: Resultats
+  label_reverse_chronological_order: En ordre cronològic invers
+  label_revision: Revisió
+  label_revision_id: Revisió %{value}
+  label_revision_plural: Revisions
+  label_roadmap: Full de ruta
+  label_roadmap_edit: Editar el full de ruta %{name}
+  label_roadmap_due_in: Venç el %{value}
+  label_roadmap_no_work_packages: No hi ha paquets de treball per a aquesta versió
+  label_roadmap_overdue: "%{value} tard"
+  label_role_and_permissions: Rols i permisos
+  label_role_new: Nou rol
+  label_role_plural: Rols
+  label_role_search: Assign role to new members
+  label_scm: SCM
+  label_search: Cercar
+  label_search_titles_only: Cerca només per títol
+  label_send_information: Envia la informació del compte a l'usuari
+  label_send_test_email: Enviar correu electrònic de prova
+  label_settings: Configuració
+  label_system_settings: Configuració del Sistema
+  label_show_completed_versions: Mostra les versions acabades
+  label_sort: Ordena
+  label_sort_by: Ordenar per %{value}
+  label_sorted_by: ordenats per %{value}
+  label_sort_higher: Mou amunt
+  label_sort_highest: Moure al principi
+  label_sort_lower: Mou cap avall
+  label_sort_lowest: Moure al final
+  label_spent_time: Temps invertit
+  label_start_to_end: de principi a fi
+  label_start_to_start: de principi a principi
+  label_statistics: Estadí­stiques
+  label_status: Estat
+  label_status_updated: Paquet de treball actualitzat
+  label_stay_logged_in: Manté l'entrada
+  label_storage_free_space: Espai de disc restant
+  label_storage_used_space: Espai de disc utilitzat
+  label_storage_group: Sistema de fitxers %{identifier}
+  label_storage_for: Abasta l'emmagatzematge de
+  label_string: Text
+  label_subproject: Subprojecte
+  label_subproject_new: Nou subprojecte
+  label_subproject_plural: Subprojectes
+  label_subtask_plural: Subtasques
+  label_summary: Resum
+  label_system: Sistema
+  label_system_storage: Informació d'emmagatzematge
+  label_table_of_contents: Taula de continguts
+  label_tag: Etiqueta
+  label_text: Text llarg
+  label_this_month: aquest més
+  label_this_week: aquesta setmana
+  label_this_year: aquest any
+  label_time_entry_plural: Temps invertit
+  label_time_sheet_menu: Full de temps
+  label_time_tracking: Seguiment de temps
+  label_today: avui
+  label_top_menu: Menú superior
+  label_topic_plural: Temes
+  label_total: Total
+  label_type_new: Nou tipus
+  label_type_plural: Tipus
+  label_type_default_new_projects: Tipus activat per defecte per a nous projectes
+  label_ui: Interifície d'usuari
+  label_update_work_package_done_ratios: Actualitzar el ratio de paquets de treball
+    fets
+  label_updated_time: Actualitzat fa %{value}
+  label_updated_time_at: "%{author} %{age}"
+  label_updated_time_by: Actualitzat per %{author} fa %{age}
+  label_used_by: Utilitzat per
+  label_used_by_types: Used by types
+  label_used_in_projects: Used in projects
+  label_user: Usuari
+  label_user_activity: Activitat de %{value}
+  label_user_anonymous: Anònim
+  label_user_mail_option_all: Per qualsevol esdeveniment en tots els meus projectes
+  label_user_mail_option_none: No hi ha esdeveniments
+  label_user_mail_option_only_assigned: Només pels objectes on estic assignat
+  label_user_mail_option_only_my_events: Només pels objectes que estic en observant
+    o involucrat
+  label_user_mail_option_only_owner: Només pels objectes dels que en sóc propietari
+  label_user_mail_option_selected: Només per qualsevol esdeveniment dels projectes
+    seleccionats
+  label_user_new: Nou usuari
+  label_user_plural: Usuaris
+  label_user_search: Cercar per usuari
+  label_version_new: Nova versió
+  label_version_plural: Versions
+  label_version_sharing_descendants: Amb subprojectes
+  label_version_sharing_hierarchy: Amb la jerarquia de projecte
+  label_version_sharing_none: No compartit
+  label_version_sharing_system: Amb tots els projectes
+  label_version_sharing_tree: Amb l'arbre de projecte
+  label_video: Vídeo
+  label_view_all_revisions: Mostra totes les revisions
+  label_view_diff: Visualitza les diferències
+  label_view_revisions: Visualitzar revisions
+  label_watched_work_packages: Paquets de treball observats
+  label_week: Setmana
+  label_wiki_content_added: S'ha afegit la pàgina wiki
+  label_wiki_content_updated: S'ha actualitzat la pàgina wiki
+  label_wiki_toc: Taula de continguts
+  label_wiki_dont_show_menu_item: No mostris aquest pàgina wiki en la navegació del
+    projecte
+  label_wiki_edit: Edició wiki
+  label_wiki_edit_plural: Edicions wiki
+  label_wiki_page_attachments: Wiki page attachments
+  label_wiki_page_id: Wiki page ID
+  label_wiki_navigation: Navegació del wiki
+  label_wiki_page: Pàgina wiki
+  label_wiki_page_plural: Pàgines wiki
+  label_wiki_show_index_page_link: Mostra l'element del submenú 'Taula de continguts'
+  label_wiki_show_menu_item: Mostrar com a element de menú en la navegació del projecte
+  label_wiki_show_new_page_link: Mostra l'element submenú 'Crea nova pàgina fill'
+  label_wiki_show_submenu_item: 'Mostrar com element de submenú de '
+  label_work_package: Paquet de treball
+  label_work_package_added: Paquet de treball afegit
+  label_work_package_attachments: Work package attachments
+  label_work_package_category_new: Nova categoria
+  label_work_package_category_plural: Categories de paquet de treball
+  label_work_package_hierarchy: Work package hierarchy
+  label_work_package_new: Paquet de treball nou
+  label_work_package_note_added: Afegida nota al paquet de treball
+  label_work_package_edit: Editar paquet de treball %{name}
+  label_work_package_plural: Paquets de treball
+  label_work_package_priority_updated: Actualitzada la prioritat del paquet de treball
+  label_work_package_status: Estat del paquet de treball
+  label_work_package_status_new: Nou estat
+  label_work_package_status_plural: Estats de paquet de treball
+  label_work_package_types: Tipus de paquets de treball
+  label_work_package_updated: Paquet de treball actualitzat
+  label_work_package_tracking: Paquet de treball de seguiment
+  label_work_package_view_all: Veure tots els paquets de treball
+  label_work_package_view_all_assigned_to_me: Veure tots els paquets de treball assignats
+    a mi
+  label_work_package_view_all_reported_by_me: Veure tots els paquets de treball comunicats
+    per mi
+  label_work_package_view_all_responsible_for: Veure tots els paquets de treball dels
+    que sóc responsable
+  label_work_package_view_all_watched: Veure tots els paquets de treball observats
+  label_work_package_watchers: Observadors
+  label_workflow: Flux de treball
+  label_workflow_plural: Fluxos de treball
+  label_workflow_summary: Resum
+  label_x_closed_work_packages_abbr:
+    one: 1 tancat
+    other: "%{count} tancats"
+    zero: 0 closed
+  label_x_comments:
+    one: 1 comentari
+    other: "%{count} comentaris"
+    zero: no comments
+  label_x_open_work_packages_abbr:
+    one: 1 obert
+    other: "%{count} oberts"
+    zero: 0 open
+  label_x_open_work_packages_abbr_on_total:
+    one: 1 obert / %{total}
+    other: "%{count} oberts / %{total}"
+    zero: 0 open / %{total}
+  label_x_projects:
+    one: 1 projecte
+    other: "%{count} projectes"
+    zero: no projects
+  label_year: Any
+  label_yesterday: ahir
+  label_keyboard_function: Funció
+  label_keyboard_shortcut: Drecera
+  label_keyboard_accesskey: Clau d'accés
+  label_keyboard_shortcut_help_heading: Dreceres de teclat disponibles
+  label_keyboard_shortcut_within_project: 'Dreceres relacionades amb el projecte:'
+  label_keyboard_shortcut_global_shortcuts: 'Dreceres globals:'
+  label_keyboard_shortcut_some_pages_only: 'Dreceres especials:'
+  label_keyboard_shortcut_search_global: Cerca global
+  label_keyboard_shortcut_search_project: Trobar un projecte
+  label_keyboard_shortcut_go_my_page: Anar a la meva pàgina
+  label_keyboard_shortcut_show_help: Mostra aquest missatge d'ajuda
+  label_keyboard_shortcut_go_overview: Anar a la visió general del projecte
+  label_keyboard_shortcut_go_work_package: Anar a paquets de treball del projecte
+  label_keyboard_shortcut_go_wiki: Anar a la wiki del projecte
+  label_keyboard_shortcut_go_activity: Anar a les activitats del projecte
+  label_keyboard_shortcut_go_calendar: Anar al calendari del projecte
+  label_keyboard_shortcut_go_news: Anar a notícies del projecte
+  label_keyboard_shortcut_go_timelines: Anar a terminis
+  label_keyboard_shortcut_new_work_package: Crear paquet de treball nou
+  label_keyboard_shortcut_details_package: Mostra el panell de detalls de paquets
+    de treball
+  label_keyboard_shortcut_go_edit: Anar a editar l'element actual (només en pàgines
+    de detall)
+  label_keyboard_shortcut_open_more_menu: Obrir el menú addicional (només en pàgines
+    de detall)
+  label_keyboard_shortcut_go_preview: Anar a vista prèvia de l'esició actual (només
+    en pàgines d'edició)
+  label_keyboard_shortcut_focus_previous_item: Activar l'element anterior de la llista
+    (només en algunes llistes)
+  label_keyboard_shortcut_focus_next_item: Activar l'element següent de la llista
+    (només en algunes llistes)
+  label_visible_elements: Elements visibles
+  auth_source:
+    using_abstract_auth_source: No podeu utilitzar una font d'autenticació abstracte.
+    ldap_error: 'Error LDAP: %{error_message}'
+    ldap_auth_failed: No s'ha pogut autenticar en el servidor de LDAP.
+  macro_execution_error: Error en l'execució de la macro %{macro_name}
+  macro_unavailable: No es pot mostrar la macro %{macro_name}.
+  macros:
+    create_work_package_link:
+      errors:
+        no_project_context: Calling create_work_package_link macro from outside project
+          context.
+        invalid_type: No type found with name '%{type}' in project '%{project}'.
+      link_name: Paquet de treball nou
+      link_name_type: New %{type_name}
+  mail:
+    actions: Actions
+  mail_body_account_activation_request: 'S''ha registrat un usuari nou (%{value}).
+    El seu compte està pendent d''aprovació:'
+  mail_body_account_information: Informació del vostre compte
+  mail_body_account_information_external: Podeu utilitzar el compte «%{value}» per
+    entrar.
+  mail_body_lost_password: 'Per a canviar la contrasenya, feu clic en l''enllaç següent:'
+  mail_body_register: 'Per a activar el compte, feu clic en l''enllaç següent:'
+  mail_body_reminder: "%{count} paquet(s) de treball que teniu assignats venceran
+    en els propers %{days} dies:"
+  mail_body_wiki_content_added: En %{author} ha afegit la pàgina wiki «%{id}».
+  mail_body_wiki_content_updated: L'autor %{author} ha actualitzat la pàgina wiki
+    «%{id}».
+  mail_subject_account_activation_request: Sol·licitud d'activació del compte de %{value}
+  mail_subject_lost_password: La vostra contrasenya %{value}
+  mail_subject_register: L'activació del compte %{value}
+  mail_subject_reminder: "%{count} paquet(s) de treball pendents en els següents %{days}
+    dies"
+  mail_subject_wiki_content_added: S'ha afegit la pàgina wiki «%{id}»
+  mail_subject_wiki_content_updated: S'ha actualitzat la pàgina wiki «%{id}»
+  more_actions: Més funcions
+  noscript_description: Cal activar JavaScript per utilitzar OpenProject!
+  noscript_heading: JavaScript desactivat
+  noscript_learn_more: Saber-ne més
+  notice_accessibility_mode: El mode d'accessibilitat pot ser activat a la configuració
+    del seu compte [configuració del compte](url).
+  notice_account_activated: El vostre compte s'ha activat correctament. Ara ja podeu
+    entrar.
+  notice_account_already_activated: El compte ja ha estat activat.
+  notice_account_invalid_token: Token d'activació no vàlid
+  notice_account_invalid_credentials: Usuari o contrasenya no vàlids
+  notice_account_invalid_credentials_or_blocked: Usuari o contrasenya no vàlids o
+    el compte està bloquejat a causa de múltiples intents de connexió fracassats.
+    Si és així, es desbloquejarà automàticament en poc temps.
+  notice_account_lost_email_sent: S'ha enviat un correu electrònic amb instruccions
+    per a seleccionar una contrasenya nova.
+  notice_account_new_password_forced: Cal una nova contrasenya.
+  notice_account_password_expired: La contrasenya ha expirat després de %{days} dies.
+    Si us plau escrigui'n una de nova.
+  notice_account_password_updated: La contrasenya s'ha modificat correctament.
+  notice_account_pending: S'ha creat el compte i ara està pendent de l'aprovació de
+    l'administrador.
+  notice_account_register_done: El compte s'ha creat correctament. Per activar el
+    compte, feu clic a l'enllaç que se us ha enviat per e-mail.
+  notice_account_unknown_email: Usuari desconegut.
+  notice_account_update_failed: No s'ha pogut desar la configuració del compte. Si
+    us plau, revisi la pàgina del compte.
+  notice_account_updated: El compte s'ha actualitzat correctament.
+  notice_account_wrong_password: Contrasenya errònia
+  notice_account_registered_and_logged_in: Benvingut, el seu compte s'ha activat.
+    Ara ja està vostè connectat.
+  notice_activation_failed: El compte no es pot activar.
+  notice_auth_stage_verification_error: Could not verify stage '%{stage}'.
+  notice_auth_stage_wrong_stage: Expected to finish authentication stage '%{expected}',
+    but '%{actual}' returned.
+  notice_auth_stage_error: Authentication stage '%{stage}' failed.
+  notice_can_t_change_password: Aquest compte utilitza una font d'autenticació externa.
+    No és possible canviar la contrasenya.
+  notice_custom_options_deleted: Option '%{option_value}' and its %{num_deleted} occurrences
+    were deleted.
+  notice_email_error: S'ha produït un error en enviar el correu (%{value})
+  notice_email_sent: S'ha enviat un correu electrònic a %{value}
+  notice_failed_to_save_work_packages: 'No s''han pogut desar %{count} paquet(s) de
+    treball de %{total} seleccionats: %{ids}.'
+  notice_failed_to_save_members: 'No s''han pogut desar els membre(s): %{errors}.'
+  notice_file_not_found: La pàgina a la que intenteu accedir no existeix o s'ha suprimit.
+  notice_forced_logout: Vostè té estat automàticament desconnectant després %{ttl_time}
+    minuts d'inactivitat.
+  notice_internal_server_error: S'ha produït un error a la pàgina a la que intenteu
+    accedir. Si continueu tenint problemes contacteu amb el vostre administrador %{app_title}
+    per obtenir ajuda.
+  notice_work_package_done_ratios_updated: S'han actualitzars els ràtios de paquets
+    de treball fets.
+  notice_locking_conflict: La informació s'ha actualitzat per almenys un altre usuari
+    mentrestant.
+  notice_locking_conflict_additional_information: Les actualitzacions provenen de
+    %{users}.
+  notice_locking_conflict_reload_page: Si us plau, recarregueu la pàgina, reviseu
+    els canvis i torneu a aplicar les actualitzacions.
+  notice_member_added: "%{name} afegit al projecte."
+  notice_members_added: Added %{number} users to the project.
+  notice_member_removed: "%{user} esborrat del projecte."
+  notice_member_deleted: "%{user} s'ha eliminat del projecte i s'ha esborrat."
+  notice_no_principals_found: No s'han trobat resultats.
+  notice_bad_request: Sol·licitud incorrecte.
+  notice_not_authorized: No teniu permís per accedir a aquesta pàgina.
+  notice_not_authorized_archived_project: El projecte al que intenta accedir esta
+    arxivat.
+  notice_password_confirmation_failed: Your password is not correct. Cannot continue.
+  notice_principals_found_multiple: "There are %{number} results found. \n Tab to
+    focus the first result."
+  notice_principals_found_single: "There is one result. \n Tab to focus it."
+  notice_project_not_deleted: El projecte no s'ha suprimit.
+  notice_successful_connection: S'ha connectat correctament.
+  notice_successful_create: Creat correctament.
+  notice_successful_delete: Esborrat correctament.
+  notice_successful_update: S'ha modificat correctament.
+  notice_to_many_principals_to_display: |-
+    Hi ha massa resultats.
+    Afini la cerca escrivint el nom del nou membre (o grup).
+  notice_unable_delete_time_entry: No s'ha pogut suprimir l'entrada del registre de
+    temps.
+  notice_unable_delete_version: No s'ha pogut suprimir la versió.
+  notice_user_missing_authentication_method: L'usuari encara ha de triar una contrassenya
+    o una altra manera d'iniciar la sessió.
+  notice_user_invitation_resent: An invitation has been sent to %{email}.
+  present_access_key_value: 'El seu %{key_name} és: %{value}'
+  notice_automatic_set_of_standard_type: Establir tipus estàndard automàticament.
+  notice_logged_out: S'ha tancat la sessió.
+  notice_wont_delete_auth_source: El mode d'autenticació no es pot suprimir mentre
+    encara hi ha usuaris utilitzant-lo.
+  notice_project_cannot_update_custom_fields: 'No pot actualitzar els camps personalitzats
+    disponibles del projecte. El projecte no és vàlid: %{errors}'
+  notice_attachment_migration_wiki_page: 'This page was generated automatically during
+    the update of OpenProject. It contains all attachments previously associated with
+    the %{container_type} "%{container_name}".
+
+'
+  number:
+    format:
+      delimiter: ''
+      precision: 3
+      separator: "."
+    human:
+      format:
+        delimiter: ''
+        precision: 1
+      storage_units:
+        format: "%n %u"
+        units:
+          byte:
+            one: Byte
+            other: Bytes
+          gb: GB
+          kb: kB
+          mb: Mb
+          tb: TB
+  onboarding:
+    heading_getting_started: Get an overview
+    text_getting_started_description: Get a quick overview of project management and
+      team collaboration with OpenProject.
+    text_show_again: Pot reprendre aquest vídeo des del menú d'ajuda
+    welcome: Welcome to OpenProject
+  permission_add_work_package_notes: Afegir notes
+  permission_add_work_packages: Afegir paquets de treball (també permet afegir fitxers
+    adjunts a tots els paquets de treball)
+  permission_add_messages: Publicar missatges
+  permission_add_project: Crear un projecte
+  permission_add_subprojects: Crear subprojectes
+  permission_add_work_package_watchers: Afegir observadors
+  permission_browse_repository: Accés de només lectura al repositori (navegar i checkout)
+  permission_change_wiki_parent_page: Canviar la pàgina de pare de la wiki
+  permission_comment_news: Comentar noticies
+  permission_commit_access: Accés de lectura/escriptura al repositori (commit)
+  permission_copy_projects: Copiar projectes
+  permission_delete_work_package_watchers: Suprimir observadors
+  permission_delete_work_packages: Eliminar paquets de treball
+  permission_delete_messages: Esborrar missatges
+  permission_delete_own_messages: Suprimir els missatges propis
+  permission_delete_project_associations: Eliminar les dependències del projecte
+  permission_delete_reportings: Suprimir informes
+  permission_delete_timelines: Suprimir les línies de temps
+  permission_delete_wiki_pages: Suprimir les pàgines wiki
+  permission_delete_wiki_pages_attachments: Suprimir adjunts
+  permission_edit_work_package_notes: Editar notes
+  permission_edit_work_packages: Editar paquets de treball
+  permission_edit_messages: Editar missatges
+  permission_edit_own_work_package_notes: Editar notes pròpies
+  permission_edit_own_messages: Editar missatges propis
+  permission_edit_own_time_entries: Editar els registres de temps propis
+  permission_edit_project: Editar projecte
+  permission_edit_project_associations: Editar les dependències del projecte
+  permission_edit_reportings: Editar informes
+  permission_edit_time_entries: Editar els registres de temps
+  permission_edit_timelines: Editar les línies de temps
+  permission_edit_wiki_pages: Editar les pàgines wiki
+  permission_export_work_packages: Exportar paquets de treball
+  permission_export_wiki_pages: Exportar les pàgines wiki
+  permission_list_attachments: Llista d'adjunts
+  permission_log_time: Registrar el temps invertit
+  permission_manage_boards: Gestionar els taulers
+  permission_manage_categories: Gestionar les categories del paquet de treball
+  permission_manage_work_package_relations: Gestionar les relacions del paquet de
+    treball
+  permission_manage_members: Gestionar els membres
+  permission_manage_news: Gestionar noticies
+  permission_manage_project_activities: Gestionar les activitats del projecte
+  permission_manage_public_queries: Gestionar consultes públiques
+  permission_manage_repository: Gestionar el repositori
+  permission_manage_subtasks: Gestionar subtasques
+  permission_manage_versions: Gestionar les versions
+  permission_manage_wiki: Gestionar la wiki
+  permission_manage_wiki_menu: Gestionar el menú wiki
+  permission_move_work_packages: Moure paquets de treball
+  permission_protect_wiki_pages: Protegir les pàgines wiki
+  permission_rename_wiki_pages: Canviar el nom de les pàgines wiki
+  permission_save_queries: Desar consultes
+  permission_select_project_modules: Selecciona els mòduls del projecte
+  permission_manage_types: Seleccioneu tipus
+  permission_view_calendar: Visualitzar calendari
+  permission_view_changesets: Veure les revisions del repositori a OpenProject
+  permission_view_commit_author_statistics: Veure les estadístiques de commits de
+    l'autor
+  permission_view_work_package_watchers: Veure la llista d'observadors
+  permission_view_work_packages: Veure els paquets de treball
+  permission_view_messages: Visualitzar els missatges
+  permission_view_members: View members
+  permission_view_project_associations: Veure les dependències del projecte
+  permission_view_reportings: Veure els informes
+  permission_view_time_entries: Visualitzar el temps invertit
+  permission_view_timelines: Veure els terminis
+  permission_view_wiki_edits: Visualitza l'historial de la wiki
+  permission_view_wiki_pages: Visualitzar la wiki
+  placeholders:
+    default: "-"
+  project:
+    destroy:
+      confirmation: Si continueu, el projecte %{identifier} i totes les dades associades
+        es destruiran permanentment.
+      info: Suprimir el projecte és una acció irreversible.
+      project_verification: Introdueixi el nom del projecte %{name} per verificar
+        la supressió.
+      subprojects_confirmation: 'Els subproject(s): %{value} també es suprimiran.'
+      title: Suprimir el projecte %{name}
+    identifier:
+      warning_one: Els membres del projecte hauran de reubicar els repositoris del
+        projecte.
+      warning_two: Els vncles existents al projecte ja no funcionaran.
+      title: Canviar l'identificador del projecte
+    archive:
+      are_you_sure: Esteu segur que voleu arxivar el projecte "%{name}"?
+  project_module_activity: Activitat
+  project_module_boards: Fòrums
+  project_module_calendar: Calendari
+  project_module_work_package_tracking: Paquet de treball de seguiment
+  project_module_news: Notícies
+  project_module_repository: Repositori
+  project_module_time_tracking: Seguiment de temps
+  project_module_timelines: Terminis
+  project_module_wiki: Wiki
+  query:
+    attribute_and_direction: "%{attribute} (%{direction})"
+  query_fields:
+    active_or_archived: Active or archived
+    assigned_to_role: Rol de l'assignat
+    member_of_group: Grup de l'assignat
+    assignee_or_group: Assignee or belonging group
+    subproject_id: Subprojecte
+    name_or_identifier: Name or identifier
+  repositories:
+    at_identifier: a %{identifier}
+    atom_revision_feed: Feed de revisió d'Atom
+    autofetch_information: Marca aquí si vols que els repositoris s'actualitzin automàticament
+      quan s'accedeixi a la pàgina del mòdul del repositori. Això inclou la recuperació
+      de commits des del repositori i l'actualització de l'emmagatzematge de discs
+      necessari.
+    checkout:
+      access:
+        readwrite: Lectura / Escriptura
+        read: Només lectura
+        none: No pot fer checkout, a través d'aquesta aplicació només pot veure el
+          dipòsit.
+      access_permission: Els vostres permissos en aquest repositori
+      url: URL de checkout
+      base_url_text: 'L''URL base a utilitzar per a la generació d''URL de checkout
+        (per exemple, https://myserver.example.org/repos/). Nota: L''URL base només
+        s''utilitza per a la reescriptura de l''URL de checkout per dipòsits administrats.
+        Els altres repositoris no es modifiquen.'
+      default_instructions:
+        git: Les dades contingudes en aquest repositori es poden descarregar al seu
+          ordinador amb Git. Si us plau, consulteu la documentació de Git si necessiteu
+          més informació sobre el procediment de checkout i clients disponibles.
+        subversion: Les dades contingudes en aquest repositori es poden descarregar
+          al seu ordinador amb Subversion. Si us plau, consulteu la documentació de
+          Subversion si necessiteu més informació sobre el procediment de checkout
+          i clients disponibles.
+      enable_instructions_text: Mostra les instruccions de checkout definides més
+        avall per totes les pàgines relacionades amb repositoris.
+      instructions: Instruccions de checkout
+      show_instructions: Mostra les instruccions de checkout
+      text_instructions: Aquest text apareix al costat de l'URL de checkout per indicar
+        com fer el checkout del repositori.
+      not_available: Les instruccions de checkout no estan definides per aquest repositori.
+        Sol·liciteu al vostre administrador que les habiliti per aquest repositori
+        en la configuració del sistema.
+    create_managed_delay: 'Tingueu en compte: el repositori es administrat, es crearà
+      de manera asíncrona al disc i estarà disponible en breu.'
+    create_successful: El repositori s'ha registrat.
+    delete_sucessful: El repositori s'ha suprimit.
+    destroy:
+      confirmation: Si continueu, s'eliminarà permanentment el repositori administrat.
+      info: Eliminar el repositori és una acció irreversible.
+      info_not_managed: 'Nota: Això no suprimirà el contingut d''aquest repositori
+        perquè no és administrat per OpenProject.'
+      managed_path_note: 'S''esborrarà el directori següent: %{path}'
+      repository_verification: Introduir l'identificador del projecte %{identifier}
+        per verificar la supressió del seu repositori.
+      subtitle: Esteu segur de voler suprimir el %{repository_type} del %{project_name}
+        projecte?
+      subtitle_not_managed: Esteu segur de voler treure l'enllaç %{repository_type}
+        %{url} del projecte %{project_name}?
+      title: Suprimir el %{repository_type}
+      title_not_managed: Eliminar la %{repository_type} enllaçat?
+    errors:
+      build_failed: No es pot crear el repositori amb la configuració seleccionada.
+        %{reason}
+      managed_delete: No es pot suprimir el repositori administrat.
+      managed_delete_local: 'No es pot suprimir el repositori local en el sistema
+        de fitxers a "%{path}": %{error_message}'
+      empty_repository: El repositori existeix, però és buit. No conté cap revisió
+        encara.
+      exists_on_filesystem: El directori del repositori ja existeix en el sistema
+        de fitxers.
+      filesystem_access_failed: 'S''ha produït un error a l''accedir al repositori
+        al sistema de fitxers: %{message}'
+      not_manageable: Aquest tipus de repositori no pot ser gestionat per OpenProject.
+      path_permission_failed: 'S''ha produït un error en intentar crear la ruta següent:
+        %{path}. Si us plau, assegureu-vos que OpenProject pot escriure en aquesta
+        carpeta.'
+      unauthorized: Vostè no està autoritzat a accedir al repositori o les credencials
+        no són vàlides.
+      unavailable: El repositori no està disponible.
+      exception_title: 'No es pot accedir al repositori: %{message}'
+      disabled_or_unknown_type: El tipus seleccionat %{type} està deshabilitat o ja
+        no està disponible per al proveïdor SCM %{vendor}.
+      disabled_or_unknown_vendor: El proveïdor SCM %{vendor} està deshabilitat o ja
+        no està disponible.
+      remote_call_failed: 'La crida a l''administrador remot a fallat amb el missatge
+        "%{message}" (codi: %{code})'
+      remote_invalid_response: S'ha rebut una resposta no vàlida des de l'administració
+        remota.
+      remote_save_failed: No ha pogut desar el repositori amb els paràmetres obtinguts
+        des del remot.
+    git:
+      instructions:
+        managed_url: Aquesta és l'URL del repositori Git (local) gestionat.
+        path: Specify the path to your local Git repository ( e.g., %{example_path}
+          ). You can also use remote repositories which are cloned to a local copy
+          by using a value starting with http(s):// or file://.
+        path_encoding: 'Modificar la codificació de la ruta d''accés GIT (per defecte:
+          UTF-8)'
+      local_title: Enllaç al repositori existent Git existent
+      local_url: URL local
+      local_introduction: Si ja teniu un repositori de Git, podeu enllaçar-lo amb
+        OpenProject per accedir-hi des de l'aplicació.
+      managed_introduction: Permetre a OpenProject crear i integrar un repositori
+        Git local automàticament.
+      managed_title: Repositori Git integrat en OpenProject
+      managed_url: URL gestionada
+      path: Camí d'accés al Repositori Git
+      path_encoding: Codificació de les rutes
+    go_to_revision: Anar a la revisió
+    managed_remote: Els repositoris administrats per aquest proveïdor es gestionen
+      remotament.
+    managed_remote_note: La informació sobre la URL i ruta d'accés d'aquest repositori
+      no està disponible abans de la seva creació.
+    managed_url: URL gestionada
+    settings:
+      automatic_managed_repos_disabled: Deshabilita la creació automàtica
+      automatic_managed_repos: Creació automàtica de repositoris gestionats
+      automatic_managed_repos_text: Establint un proveïdor aquí, els projectes nous
+        creats rebran automàticament un repositori gestionat amb aquest proveïdor.
+    scm_vendor: Sistema de gestió de control de font
+    scm_type: Tipus de repositori
+    scm_types:
+      local: Enllaçar a repositori local existent
+      existing: Enllaçar a repositori existent
+      managed: Crear nou repositori a OpenProject
+    storage:
+      not_available: El consum d'emmagatzematge de disc no està disponible per a aquest
+        repositori.
+      update_timeout: Mantenir la darrera informació d'espai de disc necessari per
+        a un dipòsit durant N minuts. Ja que comptar l'espai de disc necessari per
+        un repostori pot ser costós, augmenteu aquest valor per reduir l'impacte en
+        el rendiment.
+    subversion:
+      existing_title: Repositori de Subversion existent
+      existing_introduction: Si ja teniu un repositori de Subversion, podeu enllaçar-lo
+        amb OpenProject per accedir-hi des de l'aplicació.
+      existing_url: URL existent
+      instructions:
+        managed_url: Aquesta és l'URL del repositori (local) de Subversion administrat.
+        url: 'Introduïu l''URL del repositori. Això pot apuntar a un repositori local
+          (començant amb %{local_proto}), o a un dipòsit remot. Es suporten els següents
+          esquemes d''URL:'
+      managed_title: Repositori Subversion integrat a OpenProject
+      managed_introduction: Permetre OpenProject crear i integrar automàticament un
+        repositori Subversion local.
+      managed_url: URL gestionada
+      password: Contrasenya del repositori
+      username: Nom d'usuari del repositori
+    truncated: Sorry, we had to truncate this directory to %{limit} files. %{truncated}
+      entries were omitted from the list.
+    named_repository: repositori %{vendor_name}
+    update_settings_successful: S'ha desat la configuració correctament.
+    url: URL del repositori
+    warnings:
+      cannot_annotate: No es poden fer notes d'aquest fitxer.
+  search_input_placeholder: Search ...
+  setting_email_delivery_method: Mètode de lliurament del correu electrònic
+  setting_sendmail_location: Localització de l'executable de sendmail
+  setting_smtp_enable_starttls_auto: Utilitza STARTTLS automàticament si està disponible
+  setting_smtp_address: Servidor SMTP
+  setting_smtp_port: Port SMTP
+  setting_smtp_authentication: Autenticació SMTP
+  setting_smtp_domain: domini HELLO SMTP
+  setting_smtp_user_name: Nom d'usuari SMTP
+  setting_smtp_password: Contrasenya SMTP
+  setting_activity_days_default: Dies a mostrar a l'activitat del projecte
+  setting_app_subtitle: Subtítol de l'aplicació
+  setting_app_title: Títol de l'aplicació
+  setting_attachment_max_size: Mida màxima dels fitxers adjunts
+  setting_autofetch_changesets: Recopliació automàtica de canvis en el repositori
+  setting_autologin: Entrada automàtica
+  setting_available_languages: Idiomes disponibles
+  setting_bcc_recipients: Vincula els destinataris de les còpies amb carbó (bcc)
+  setting_brute_force_block_after_failed_logins: Bloqueja l'usuari després d'aquest
+    nombre d'intents fracassats de connexió
+  setting_brute_force_block_minutes: Temps de bloqueig de l'usuari
+  setting_cache_formatted_text: Text amb format de la caché
+  setting_column_options: Personalitzar l'aparença de les llistes de paquets de treball
+  setting_commit_fix_keywords: Paraules claus per a la correcció
+  setting_commit_logs_encoding: Codificació dels missatges dels commits
+  setting_commit_logtime_activity_id: Activitat dels temps registrats
+  setting_commit_logtime_enabled: Habilitar registre d'hores
+  setting_commit_ref_keywords: Paraules clau de referència
+  setting_cross_project_work_package_relations: Permetre les relacions creuades entre
+    projectes pels paquets de treball
+  setting_date_format: Format de data
+  setting_default_language: Idioma per defecte
+  setting_default_notification_option: Opció de notificació per defecte
+  setting_default_projects_modules: Mòduls activats per defecte en els projectes nous
+  setting_default_projects_public: Els projectes nous són públics per defecte
+  setting_diff_max_lines_displayed: Nombre màxim de línies mostrades pels diff
+  setting_display_subprojects_work_packages: Mostrae els paquets de treball dels subprojectes
+    en els projectes principals per defecte
+  setting_emails_footer: Peu dels correus electrònics
+  setting_emails_header: Encapçalament dels correus
+  setting_email_login: Use e-mail as login
+  setting_enabled_scm: Activar SCM
+  setting_feeds_enabled: Habilita els canals
+  setting_feeds_limit: Límit de contingut del canals
+  setting_file_max_size_displayed: Mida màxima dels fitxers de text mostrats en línia
+  setting_host_name: Nom del servidor
+  setting_work_package_done_ratio: Calcular la ratio d'execució del paquet de treball
+    amb
+  setting_work_package_done_ratio_field: Utilitzar el camp de paquet de treball
+  setting_work_package_done_ratio_status: Utilitzar l'estat de paquet de treball
+  setting_work_package_done_ratio_disabled: Deshabilitar (amagar el progrés)
+  setting_work_package_list_default_columns: Mostrar per defecte
+  setting_work_package_list_summable_columns: Sumable
+  setting_work_package_properties: Propietats de paquet de treball
+  setting_work_package_startdate_is_adddate: Utilitzar la data actual com a data d'inici
+    dels paquets de treball nous
+  setting_work_packages_export_limit: Límit d'exportació de paquets de treball
+  setting_journal_aggregation_time_minutes: Ensenyar informes agregats per
+  setting_log_requesting_user: Registrar login d'usuari, nom i adreça de correu electrònic
+    de totes les sol·licituds
+  setting_login_required: Es necessita autenticació
+  setting_mail_from: Adreça de correu electrònic d'emissió
+  setting_mail_handler_api_enabled: Habilitar el servei web de correus electrònics
+    entrants
+  setting_mail_handler_api_description: El controlador de correu web permet a OpenProject
+    rebre missatges de correu electrònic que continguin ordres específiques com un
+    mecanisme d'instrumentació (per exemple, per crear i actualitzar els paquets de
+    treball).
+  setting_mail_handler_api_key: Clau API
+  setting_mail_handler_body_delimiters: Trunca els missatges de correu electrònic
+    després d'una d'aquestes línies
+  setting_mail_handler_body_delimiter_regex: Trunca els missatges de correu electrònic
+    que coincideixen amb aquesta expressió regular
+  setting_new_project_user_role_id: Rol donat per un usuari no-admin que crea un projecte
+  setting_password_active_rules: Classes de caràcters actius
+  setting_password_count_former_banned: Nombre de contrasenyes utilitzades més recentment
+    prohibides per a la reutilització
+  setting_password_days_valid: Nombre de dies, després dels que exigir un canvi de
+    contrasenya
+  setting_password_min_length: Longitud mínima
+  setting_password_min_adhered_rules: Nombre mínim de classes exigides
+  setting_per_page_options: Opcions d'objectes per pàgina
+  setting_plain_text_mail: Només text pla (no HTML)
+  setting_protocol: Protocol
+  setting_registration_footer: Registration footer
+  setting_repositories_automatic_managed_vendor: Tipus de proveïdor de repositori
+    automàtic
+  setting_repositories_encodings: Codificacions dels repositoris
+  setting_repository_authentication_caching_enabled: Habilitar la memòria cau per
+    les peticions d'autenticació del programari de control de versions
+  setting_repository_storage_cache_minutes: Mida de la caché de disc del repositori
+  setting_repository_checkout_display: Mostra les instruccions de checkout
+  setting_repository_checkout_base_url: URL base de checkout
+  setting_repository_checkout_text: Text d'instrucció de checkout
+  setting_repository_log_display_limit: Número màxim de revisions que es mostren al
+    registre de fitxers
+  setting_repository_truncate_at: Maximum number of files displayed in the repository
+    browser
+  setting_rest_api_enabled: Habilita el servei web REST
+  setting_self_registration: Registre automàtic
+  setting_sequential_project_identifiers: Genera identificadors de projecte seqüencials
+  setting_session_ttl: Temps d'expiració de la sessió per inactivitat
+  setting_session_ttl_hint: Valor per sota de 5 funciona com a deshabilitat
+  setting_session_ttl_enabled: La sessió expira
+  setting_start_of_week: Week starts on
+  setting_sys_api_enabled: Activar el servei web de gestió del repositori
+  setting_sys_api_description: La gestió del repositori per servei web proporciona
+    integració i autorització d'usuaris per l'accés a repositoris.
+  setting_text_formatting: Format del text
+  setting_time_format: Format d'hora
+  setting_accessibility_mode_for_anonymous: Activar el mode d'accessibilitat per a
+    usuaris anònims
+  setting_user_format: Format de com mostrar l'usuari
+  setting_users_deletable_by_admins: Comptes d'usuari esborrables pels administradors
+  setting_users_deletable_by_self: Els usuaris poden suprimir els seus comptes
+  setting_welcome_text: Bloc de text de benvinguda
+  setting_welcome_title: Títol del bloc de benvinguda
+  setting_welcome_on_homescreen: Mostrar el bloc de benvinguda a la pàgina d'inici
+  setting_welcome_on_projects_page: Mostrar el bloc de benvinguda a la vista general
+    del projecte
+  setting_wiki_compression: Compressió de l'historial de la wiki
+  setting_work_package_group_assignment: Permeten l'assignació als grups
+  settings:
+    general: General
+    other: Altres
+    passwords: Contrasenyes
+    session: Sessió
+    brute_force_prevention: Bloqueig automàtic d'usuari
+  show_hide_project_menu: Expandeix/contrau menú de projecte
+  status_active: actiu
+  status_archived: archived
+  status_invited: convidat
+  status_locked: bloquejat
+  status_registered: registrat
+  support:
+    array:
+      sentence_connector: i
+      skip_last_comma: fals
+  text_accessibility_hint: The accessibility mode is designed for users who are blind,
+    motorically handicaped or have a bad eyesight. For the latter focused elements
+    are specially highlighted. Please notice, that the Backlogs module is not available
+    in this mode.
+  text_access_token_hint: Els token d'accés permeten que aplicacions externes accedeixin
+    als recursos d'OpenProject.
+  text_analyze: 'Analitzar més en profunditat: %{subject}'
+  text_are_you_sure: N'esteu segur?
+  text_are_you_sure_with_children: Voleu suprimir el paquet de treball i tots els
+    paquets de treball fills?
+  text_assign_to_project: Assignar al projecte
+  text_form_configuration: 'You can customize which fields will be displayed in work
+    package forms. You can freely group the fields to reflect the needs for your domain.
+
+'
+  text_form_configuration_drag_to_activate: Drag fields from here to activate them
+  text_form_configuration_required_attribute: Attribute is marked required and thus
+    always shown
+  text_caracters_maximum: "%{count} caràcters com a màxim."
+  text_caracters_minimum: Com a mínim ha de tenir %{count} caràcters.
+  text_comma_separated: Es permeten valors múltiples (separats per una coma).
+  text_comment_wiki_page: 'Comentari a la pàgina wiki: %{page}'
+  text_custom_field_possible_values_info: Una línia per a cada valor
+  text_custom_field_hint_activate_per_project: 'When using custom fields: Keep in
+    mind that custom fields need to be activated per project, too.
+
+'
+  text_custom_field_hint_activate_per_project_and_type: 'Custom fields need to be
+    activated per work package type and per project.
+
+'
+  text_custom_logo_instructions: 'A white logo on transparent background is recommended.
+    For best results on both, conventional and retina displays, make sure your image''s
+    dimensions are 460px by 60px.
+
+'
+  text_custom_favicon_instructions: 'This is the tiny icon that appears in your browser
+    window/tab next to the page''s title. It''s needs to be a squared 32 by 32 pixels
+    sized PNG image file with a transparent background.
+
+'
+  text_custom_touch_icon_instructions: 'This is the icon that appears in your mobile
+    or tablet when you place a bookmark on your homescreen. It''s needs to be a squared
+    180 by 180 pixels sized PNG image file. Please make sure the image''s background
+    is not transparent otherwise it will look bad on iOS.
+
+'
+  text_default_administrator_account_changed: S'ha canviat el compte d'administrador
+    predeterminat
+  text_default_encoding: 'Per defecte: UTF-8'
+  text_destroy: Esborrar
+  text_destroy_with_associated: 'Hi ha objectes addicionals associats amb el(s) paquet(s)
+    de treball que es suprimiran. Aquests objectes són dels tipus següents:'
+  text_destroy_what_to_do: Què voleu fer?
+  text_diff_truncated: "... Aquestes diferències s'han truncat perquè excedeixen la
+    mida màxima que es pot mostrar."
+  text_email_delivery_not_configured: |-
+    El lliurament per correu electrònic no està configurat i les notificacions estan inhabilitades.
+    Configureu el servidor SMTP a config/configuration.yml i reinicieu l'aplicació per habilitar-lo.
+  text_enumeration_category_reassign_to: 'Torna a assignar-los a aquest valor:'
+  text_enumeration_destroy_question: objectes %{count} estan assignades a aquest valor.
+  text_file_repository_writable: Es pot escriure en el repositori de fitxers adjunts
+  text_git_repo_example: un repositori local i buit (p. ex. /gitrepo, c:\gitrepo)
+  text_hint_date_format: Introduïu una data en format AAAA-MM-DD. Altres formats es
+    podrien convertir en una data no desitjada.
+  text_hint_disable_with_0: 'Nota: Desactivar amb 0'
+  text_hours_between: Entre %{min} i %{max} hores.
+  text_work_package_added: El paquet de treball %{id} ha estat informat per %{author}.
+  text_work_package_category_destroy_assignments: Suprimir les assignacions de la
+    categoria
+  text_work_package_category_destroy_question: Alguns paquets de treball (%{count})
+    estan assignats a aquesta categoria. Què voleu fer?
+  text_work_package_category_reassign_to: Tornar a assignar els paquets de treball
+    a aquesta categoria
+  text_work_package_updated: El paquet de treball %{id} ha estat actualitzat per %{author}.
+  text_work_package_watcher_added: Vostè ha estat afegit com a observador pel paquet
+    de treball %{id} per %{watcher_setter}.
+  text_work_packages_destroy_confirmation: "¿Està segur que desitja eliminar el(s)
+    paquet(s) de treball seleccionat(s)?"
+  text_work_packages_ref_in_commit_messages: Referència i arregla els paquets de treball
+    en els missatges dels commits
+  text_journal_added: S'ha afegit %{label} %{value}
+  text_journal_aggregation_time_explanation: Combina diaris per mostrar si la seva
+    diferència de data és inferior el període especificat. Això retardarà també les
+    notificacions de correu per la mateixa quantitat de temps.
+  text_journal_changed: "%{label} ha canviat de %{old} a %{new}"
+  text_journal_changed_no_detail: S'ha actualitzat %{label}
+  text_journal_changed_with_diff: "%{label} canviat (%{link})"
+  text_journal_deleted: "%{label} s'ha suprimit (%{old})"
+  text_journal_deleted_with_diff: "%{label} suprimit (%{link})"
+  text_journal_set_to: "%{label} s'ha establert a %{value}"
+  text_journal_set_with_diff: "%{label} canviat (%{link})"
+  text_latest_note: 'L''últim comentari és: %{note}'
+  text_length_between: Longitud entre %{min} i %{max} caràcters.
+  text_line_separated: Es permeten diversos valors (una línia per cada valor).
+  text_load_default_configuration: Carregar la configuració predeterminada
+  text_min_max_length_info: 0 significa sense restricció
+  text_no_roles_defined: No hi ha rols definits.
+  text_no_access_tokens_configurable: No hi ha tokens d'accés que siguin configurables.
+  text_no_configuration_data: |-
+    Encara no s'han configurat els rols, tipus, estats dels paquet de treball i flux de treball.
+    És altament recomanable que carregueu la configuració predeterminada. Podreu modificar-la un cop carregada.
+  text_no_notes: No hi ha cap comentari disponible per a aquest paquet de treball.
+  text_notice_too_many_values_are_inperformant: 'Nota: Mostrar més de 100 articles
+    per pàgina pot augmentar el temps de càrrega de la pàgina.'
+  text_own_membership_delete_confirmation: |-
+    Esteu a punt de suprimir algun o tots els vostres permisos i potser no podreu editar més aquest projecte.
+    Segur que voleu continuar?
+  text_plugin_assets_writable: Es pot escriure als complements actius
+  text_powered_by: Desenvolupat per %{link}
+  text_project_identifier_info: Només es permeten lletres minúscules (a-z), números,
+    guions i guions baixos, i ha de començar amb una lletra minúscula.
+  text_reassign: 'Reassigna al paquet de treball:'
+  text_regexp_info: ex. ^[A-Z0-9]+$
+  text_regexp_multiline: S'aplica l'expressió regular en mode de múltilínia. Per exemple,
+    ^---\s+
+  text_repository_usernames_mapping: |-
+    Seleccioneu l'assignació entre els usuaris del OpenProject i cada nom d'usuari trobat al repositori.
+    Els usuaris amb el mateix nom d'usuari o correu del OpenProject i del repositori s'assignaran automàticament.
+  text_select_mail_notifications: Seleccionar les accions per les quals s'hauria d'enviar
+    una notificació per correu electrònic.
+  text_status_changed_by_changeset: Aplicat en el conjunt de canvis %{value}.
+  text_table_difference_description: In this table the single %{entries} are shown.
+    You can view the difference between any two entries by first selecting the according
+    checkboxes in the table. When clicking on the button below the table the differences
+    are shown.
+  text_time_logged_by_changeset: Aplicat en el conjunt de canvis %{value}.
+  text_tip_work_package_begin_day: el paquet de treball comença aquest dia
+  text_tip_work_package_begin_end_day: treball paquet iniciant i acabant aquest dia
+  text_tip_work_package_end_day: paquet de treball finalitza aquest dia
+  text_type_no_workflow: Cap flux de treball definit per a aquest tipus
+  text_unallowed_characters: Caràcters no permesos
+  text_user_invited: L'usuari ja ha estat convidat i està pendent de que es registri.
+  text_user_wrote: "%{value} va escriure:"
+  text_warn_on_leaving_unsaved: The work package contains unsaved text that will be
+    lost if you leave this page.
+  text_wiki_destroy_confirmation: Segur que voleu suprimir aquesta wiki i tot el seu
+    contingut?
+  text_wiki_page_destroy_children: Suprimir les pàgines filles i tots els seus descendents
+  text_wiki_page_destroy_question: Aquesta pàgina té %{descendants} pàgines fill(es)
+    i descendent(s). Què voleu fer?
+  text_wiki_page_nullify_children: Deixar les pàgines filles com a pàgines arrel
+  text_wiki_page_reassign_children: Reasignar les pàgines filles a aquesta pàgina
+    pare
+  text_workflow_edit: Seleccioneu un rol i un tipus per editar el flux de treball
+  text_zoom_in: Ampliar
+  text_zoom_out: Allunyar
+  text_setup_mail_configuration: Configurar el vostre proveïdor de correu electrònic
+  time:
+    am: AM
+    formats:
+      default: "%m/%d/%Y %I:%M %p"
+      long: "%B %d, %Y %H:%M"
+      short: "%d %b %H:%M"
+      time: "%I:%M %p"
+    pm: PM
+  timeframe:
+    show: Mostra el calendari
+    end: a
+    start: de
+  timelines:
+    admin_menu:
+      color: Color
+      colors: Colors
+      project_type: Tipus de projecte
+      project_types: Tipus de projecte
+    project_menu:
+      project_associations: Dependències
+      reportings: Informes d'estat
+      reports: Cronologia d'informes
+      timelines: Terminis
+    add_project_association: Afegir la dependència
+    associations: Dependències
+    board_could_not_be_saved: No es pot desar el tauler
+    button_delete_all: Esborrar tot
+    change: Canvi en la planificació
+    children: Elements fill
+    color_could_not_be_saved: No s'ha pogut desar el color
+    current_planning: Planificació actual
+    dates: Dates
+    dates_are_calculated_based_on_sub_elements: El Càlcul de les dates es basa en
+      els sotselements.
+    delete_all: Esborrar tot
+    delete_thing: Esborrar
+    duration: Durada
+    duration_days:
+      one: 1 dia
+      other: "%{count} dies"
+    edit_color: Editar el color
+    edit_project_type: Editar tipus de projecte
+    edit_thing: Editar
+    edit_timeline: Editar l'informe de terminis %{timeline}
+    delete_timeline: Esborrar l'informe de terminis %{timeline}
+    empty: "(buit)"
+    enable_type_in_project: Permetre tipus "%{type}"
+    end: Fi
+    errors:
+      not_implemented: La línea de temps no es pot renderitzar perquè utilitza una
+        característica encara no implementada.
+      report_comparison: La línia de temps no pot renderitzar les comparacions configurades.
+        Consulteu la secció adequada a la configuració, reiniciar-la podria resoldre
+        aquest problema.
+      report_epicfail: No es pot carregar la línia de temps degut a un error inesperat.
+      report_timeout: No s'ha pogut carregar la línia de temps en una quantitat raonable
+        de temps.
+    filter:
+      errors:
+        timeframe_start: 'L''inici del termini '
+        timeframe_end: 'La fi del termini '
+        compare_to_relative: 'El valor de la comparació relativa '
+        compare_to_absolute: 'El valor de la comparació absoluta '
+        planning_element_time_relative_one: 'L''inici per a paquets de treball en
+          un període de temps determinat '
+        planning_element_time_relative_two: 'La fi per a paquets de treball en un
+          període de temps determinat '
+        planning_element_time_absolute_one: 'L''inici per a paquets de treball en
+          un període de temps determinat  '
+        planning_element_time_absolute_two: 'La fi per a paquets de treball en un
+          període de temps determinat  '
+      sort:
+        sortation: Ordena per
+        alphabet: alfabet
+        explicit_order: ordre explícita
+        project_sortation: Classificar projectes mitjançant
+        date: data
+        default: per defecte
+      column:
+        assigned_to: Assignat a
+        type: Tipus
+        due_date: Data de fi
+        name: Nom
+        status: Estat
+        responsible: Responsable
+        start_date: Data d'inici
+      columns: Columnes
+      comparisons: Comparacions
+      comparison:
+        absolute: Absolut
+        none: Cap
+        relative: Relatiu
+        compare_relative_prefix: Comparar l'actual planificació amb
+        compare_relative_suffix: fa
+        compare_absolute: Comparar la planificació actual a %{date}
+      time_relative:
+        days: dies
+        weeks: setmanes
+        months: mesos
+      exclude_own_work_packages: Amagar els paquets de treball d'aquest projecte
+      exclude_reporters: Amaga altres projectes
+      exclude_empty: Amaga projectes buits
+      grouping: Agrupació
+      grouping_hide_group: Amagar el grup "%{group}"
+      grouping_one: Primer criteri d'agrupació
+      grouping_one_phrase: És un subprojecte de
+      grouping_other: Altres
+      hide_chart: Amaga gràfic
+      noneElement: "(cap)"
+      noneSelection: "(cap)"
+      outline: Expansió de l'esquema inicial
+      parent: Mostra els subprojectes de
+      work_package_filters: Filtrar paquets de treball
+      work_package_responsible: Mostra els paquets de treball amb responsables
+      work_package_assignee: Mostra els paquest de treball amb assignat
+      types: Mostra el tipus
+      status: Mostra l'estat
+      project_time_filter: Projectes amb un paquet de treball d'un cert tipus en un
+        període de temps determinat
+      project_time_filter_timeframe: Marc temporal
+      project_time_filter_historical_from: de
+      project_time_filter_historical_to: a
+      project_time_filter_historical: "%{start_label} %{startdate} %{end_label} %{enddate}"
+      project_time_filter_relative: "%{start_label} %{startspan}%{startspanunit} fa
+        %{end_label} %{endspan}%{endspanunit} des d'ara"
+      project_filters: Filtrar projectes
+      project_responsible: Mostrar projectes amb responsable
+      project_status: Mostra l'estat del projecte
+      project_types: Mostra el tipus de projecte
+      timeframe: Mostra el calendari
+      timeframe_end: a
+      timeframe_start: de
+      timeline: Configuració general
+      zoom: Factor de zoom
+    history: Història
+    new_color: Nou color
+    new_association: Nova dependència
+    new_work_package: Paquet de treball nou
+    new_project_type: Nou tipus de projecte
+    new_reporting: Nou informe
+    new_timeline: Nou informe de terminis
+    no_projects_for_reporting_available: No hi ha cap projecte pel qual es pot crear
+      una associació d'informes.
+    no_right_to_view_timeline: No teniu permisos suficients per a veure el termini
+      enllaçat.
+    no_timeline_for_id: No hi ha termini amb ID %{id}.
+    notice_successful_deleted_all_elements: Suprimits amb èxit tots els elements
+    outline: Restablir el marc
+    outlines:
+      aggregation: Mostrar només agregacions
+      level1: Ampliar el nivell 1
+      level2: Ampliar el nivell 2
+      level3: Ampliar el nivell 3
+      level4: Ampliar el nivell 4
+      level5: Ampliar el nivell 5
+      all: Mostrar tots
+    reporting_for_project:
+      show: 'Estat informat al projecte: %{title}'
+      edit_delete: 'informe d''estat per al projecte: %{title}'
+      history: 'Historial de l''estat del projecte: %{title}'
+    reporting:
+      delete: 'Suprimir l''estat: %{comment}'
+      edit: 'Editar l''estat: %{comment}'
+      show: 'Estat: %{comment}'
+    planning_element_update: 'Actualitzat: %{title}'
+    work_packages_are_displayed_in_aggregations: Paquets de treball es mostren en
+      agregació
+    project_association_new: Afegir dependència del projecte
+    project_association_new_for_with: Establir dependència per a "%{project_a}" amb
+    project_association_with_other: Dependència de projectes entre "%{project_a}"
+      i "%{project_b}"
+    project_association_of_type: Dependència al projecte del tipus "%{type}"
+    project_type_could_not_be_saved: El tipus de projecte no s'han pogut desar
+    type_could_not_be_saved: No s'han pogut desar el tipus
+    reporting_could_not_be_saved: No s'ha pogut desar l'informe
+    properties: Propietats
+    really_delete_color: 'Esteu segur que voleu suprimir el següent color? Els tipus
+      amb aquest color no es suprimiran.
+
+'
+    really_delete_project_association_between_project_a_and_project_b: 'Esteu segur
+      que voleu suprimir la dependència entre "%{project_a}" i "%{project_b}"?
+
+'
+    really_delete_project_type: 'Esteu segur que voleu suprimir el següent tipus de
+      projecte? Els projectes amb aquest tipus no es suprimiran.
+
+'
+    really_delete_timeline: 'Esteu segur que voleu suprimir el següent informe de
+      terminis? Els paquets de treball que apareixen en aquest informe de terminis
+      no es suprimiran.
+
+'
+    really_delete_reporting: 'Esteu segur que voleu suprimir el següent informe? Els
+      informes d''estat anteriors també seran eliminats.
+
+'
+    start: Inici
+    timeline: Informe de terminis
+    timelines: Cronologia d'informes
+    settings: Terminis
+    vertical_work_package: Paquets de treball vertical
+    without_project_type: Sense tipus de projecte
+    you_are_viewing_the_selected_timeline: Esteu visualitzant l'informe de terminis
+      selecciont
+    zoom:
+      in: Ampliar
+      out: Allunyar
+      days: Dies
+      weeks: Setmanes
+      months: Mesos
+      quarters: Quatrimestres
+      years: Anys
+  title_remove_and_delete_user: Eliminar l'usuari convidat del projecte i suprimir
+    l'usuari.
+  tooltip_resend_invitation: 'Sends another invitation email with a fresh token in
+    case the old one expired or the user did not get the original email. Can also
+    be used for active users to choose a new authentication method. When used with
+    active users their status will be changed to ''invited''.
+
+'
+  tooltip:
+    setting_email_login: 'If enabled a user will be unable to chose a login during
+      registration. Instead their given e-mail address will serve as the login. An
+      administrator may still change the login separately.
+
+'
+  queries:
+    apply_filter: Aplicar filtre preconfigurat
+  top_menu:
+    additional_resources: Recursos addicionals
+    getting_started: Primers passos
+    help_and_support: Ajuda i suport
+  total_progress: Progrés total
+  user:
+    all: tot
+    active: actiu
+    activate: Activar
+    activate_and_reset_failed_logins: Activar i restaurar inicis de sessió erronis
+    authentication_provider: Proveïdor d'autenticació
+    authentication_settings_disabled_due_to_external_authentication: 'Aquest usuari
+      s''autentica mitjançant un proveïdor d''autenticació externa i no hi ha cap
+      contrasenya a OpenProject per canviar.
+
+'
+    authorization_rejected: No podeu iniciar la sessió.
+    assign_random_password: Assignar contrasenya aleatòria (enviada a usuari mitjançant
+      e-mail)
+    blocked: bloquejat temporalment
+    blocked_num_failed_logins:
+      one: bloquejat temporalment (un intent fallit de connexió)
+      other: bloquejat temporalment (%{count} d'intents de connexió)
+    confirm_status_change: You are about to change the status of '%{name}'. Are you
+      sure you want to continue?
+    deleted: Usuari eliminat
+    error_status_change_failed: 'Canviant l''estat de l''usuari ha fallat a causa
+      dels errors següents: %{errors}'
+    invite: Invita l'usuari mitjançant e-mail
+    invited: convidat
+    lock: Bloquejar permanentment
+    locked: bloquejat permanentment
+    no_login: Aquest usuari s'autentica a través de connexió per contrasenya. Ja que
+      està inhabilitat, no pot iniciar sessió.
+    password_change_unsupported: El s'admet el canvi de contrasenya.
+    registered: registrat
+    reset_failed_logins: Reiniciar inicis de sessió fallits
+    settings:
+      mail_notifications: Enviar notificacions per correu electrònic
+      mail_project_explanaition: Per als projectes no seleccionats, només rebreu notificacions
+        sobre les coses que vigileu o que hi esteu implicat (ex. assumptes dels que
+        en sou l'autor o hi esteu assignat).
+      mail_self_notified: Vull ser notificat de canvis que faig jo mateix
+    status_user_and_brute_force: "%{user} i %{brute_force}"
+    status_change: Status change
+    unlock: Desbloquejar
+    unlock_and_reset_failed_logins: Desbloquejar i reiniciar inicis de sessió fallits
+  version_status_closed: tancat
+  version_status_locked: bloquejat
+  version_status_open: obrir
+  note: Nota
+  note_password_login_disabled: La connexió amb contrasenya s'ha deshabilitat per
+    %{configuration}.
+  warning: Alerta
+  warning_attachments_not_saved: No s'han pogut desar %{count} fitxer(s).
+  menu_item: Element de menú
+  menu_item_setting: Visibilitat
+  wiki_menu_item_for: Element de menú per a la pàgina wiki "%{title}"
+  wiki_menu_item_setting: Visibilitat
+  wiki_menu_item_new_main_item_explanation: 'Esteu Suprimint l''únic l''element de
+    menú principal wiki. Ara cal triar una pàgina wiki per a la qual es generarà un
+    nou element principal. Per suprimir la wiki, els administradors del projecte poden
+    desactivar el mòdul wiki.
+
+'
+  wiki_menu_item_delete_not_permitted: No es pot suprimir l'element de menú de wiki
+    de la única pàgina wiki.
+  query_menu_item_for: Element de menú per a la consulta "%{title}"
+  work_package:
+    updated_automatically_by_child_changes: '_Actualitzat automàticament canviant
+      els valors dins del fill del paquet de treball %{child}_
+
+'
+    destroy:
+      info: Suprimir el paquet de treball és una acció irreversible.
+      title: Suprimir el paquet de treball
+  nothing_to_preview: Res per previsualitzar
+  api_v3:
+    attributes:
+      lock_version: Bloquejar versió
+    errors:
+      code_401: Cal que esteu autenticat per accedir a aquest recurs.
+      code_401_wrong_credentials: No heu proporcionat les credencials correctes.
+      code_403: No està autoritzat a accedir a aquest recurs.
+      code_404: El recurs sol·licitat no s'ha trobat.
+      code_409: No s'ha pogut actualitzar el recurs a causa de modificacions en conflicte.
+      code_500: S'ha produït un error intern.
+      expected:
+        date: AAAA-MM-DD ( només dates ISO 8601)
+        duration: durada ISO 8601
+      invalid_content_type: El TIPUS-DE-CONTINGUT esperat és '%{content_type}' però
+        s'ha trobat "%{actual}".
+      invalid_format: 'Format no vàlid per a la propietat ''%{property}'': el format
+        esperat és com "%{expected_format}", però s''ha trobat "%{actual}".'
+      invalid_json: La petició no es pot analitzar com a JSON.
+      invalid_relation: La relació no és vàlida.
+      invalid_resource: Per la propietat '%{property}' s'espera un enllaç com '%{expected}',
+        però s'ha trobat "%{actual}".
+      invalid_user_status_transition: L'estat de compte de l'usuari actual no permet
+        aquesta operació.
+      missing_content_type: no especificat
+      missing_request_body: Hi havia cos a la petició.
+      missing_or_malformed_parameter: The query parameter '%{parameter}' is missing
+        or malformed.
+      multipart_body_error: El cos de la sol·licitud no conté les parts de multiparts
+        que s'esperava.
+      multiple_errors: Diverses restriccions de camp han estat violades.
+      unable_to_create_attachment: The attachment could not be created
+      render:
+        context_not_parsable: El context proporcionat no és un enllaç a un recurs.
+        unsupported_context: El recurs proporcionat no s'admet com a context.
+        context_object_not_found: No puc trobar el recurs proporionat com al context.
+      validation:
+        done_ratio: El ràtio de compleció no es pot definir per paquets de treball
+          del pare, quan s'infereix de l'estat o quan està deshabilitat.
+        due_date: La data de venciment no es pot definir per paquets de treball del
+          pare.
+        estimated_hours: Les hores estimades no es poden definir per paquets de treball
+          del pare.
+        invalid_user_assigned_to_work_package: L'usuari escollit no pot ser "%{property}"
+          per a aquest paquet de treball.
+        start_date: La data d'inici no es pot definir per paquets de treball del pare.
+      writing_read_only_attributes: No s'ha d'escriure en un atribut de només de lectura.
+    resources:
+      schema: Esquema

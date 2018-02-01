@@ -64,14 +64,6 @@ describe ProjectsController, type: :controller do
     assert_select('a', { content: /Private child of eCookbook/ }, false)
   end
 
-  it 'should index atom' do
-    get :index, format: 'atom'
-    assert_response :success
-    assert_template 'common/feed'
-    assert_select 'feed>title', text: 'OpenProject: Latest projects'
-    assert_select 'feed>entry', count: Project.visible(User.current).count
-  end
-
   context '#index' do
     context 'by non-admin user without view_time_entries permission' do
       before do
@@ -446,7 +438,7 @@ describe ProjectsController, type: :controller do
   it 'should archive' do
     session[:user_id] = 1 # admin
     put :archive, params: { id: 1 }
-    assert_redirected_to '/admin/projects'
+    assert_redirected_to '/projects'
     assert !Project.find(1).active?
   end
 
@@ -454,7 +446,7 @@ describe ProjectsController, type: :controller do
     session[:user_id] = 1 # admin
     Project.find(1).archive
     put :unarchive, params: { id: 1 }
-    assert_redirected_to '/admin/projects'
+    assert_redirected_to '/projects'
     assert Project.find(1).active?
   end
 

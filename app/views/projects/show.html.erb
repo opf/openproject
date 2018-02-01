@@ -67,7 +67,6 @@ See doc/COPYRIGHT.rdoc for more details.
             <% end %>
           </ul>
           <div>
-            <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, class: 'button -highlight' %>
             <%= link_to new_project_work_packages_path(@project),
               { class: 'button -alt-highlight',
                 aria: {label: t(:label_work_package_new)},
@@ -75,6 +74,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <%= op_icon('button--icon icon-add') %>
               <span class="button--text"><%= l('activerecord.models.work_package') %></span>
             <% end %>
+            <%= link_to l(:label_work_package_view_all), {controller: :work_packages, action: :index, project_id: @project}, class: 'button -highlight-inverted' %>
           </div>
         </div>
       <% end %>
@@ -92,7 +92,6 @@ See doc/COPYRIGHT.rdoc for more details.
           </h3>
           <%= render partial: 'news/news', collection: @news %>
           <div>
-            <%= link_to l(:label_news_view_all), {controller: '/news', action: 'index', project_id: @project}, class: 'button -highlight' %>
             <%= link_to new_project_news_path(@project),
               { class: 'button -alt-highlight',
                 aria: {label: t(:label_news_new)},
@@ -100,6 +99,7 @@ See doc/COPYRIGHT.rdoc for more details.
               <%= op_icon('button--icon icon-add') %>
               <span class="button--text"><%= l('activerecord.models.news') %></span>
             <% end %>
+            <%= link_to l(:label_news_view_all), {controller: '/news', action: 'index', project_id: @project}, class: 'button -highlight-inverted' %>
           </div>
         </div>
       <% end %>

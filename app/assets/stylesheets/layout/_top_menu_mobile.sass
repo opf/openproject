@@ -54,15 +54,12 @@
 
       .button
         margin-right: 0
-    ul,
-    li > a
-      height: $header-height-mobile
-      line-height: $header-height-mobile
     li > a:before
       font-size: 1.25rem !important
       vertical-align: text-bottom
     li > ul.drop-down--projects
-      min-width: 0
+      width: 100vw
+      border-right: none
 
   #account-nav-right
     > li
@@ -102,20 +99,25 @@
     #projects-menu
       font-size: 15px
       .button--dropdown-text
-        // Viewport minus #account-nav-right when logged out minus padding
-        // (french: Connexion).
-        max-width: calc(100vW - 150px - 49px)
+        // Viewport minus #account-nav-right when logged out
+        // Long login translation: "Connexion" (French) to test
+        max-width: calc(100vW - 165px - 49px)
     .drop-down
-      // Viewport minus #account-nav-right when logged out (french: Connexion)
-      max-width: calc(100vW - 150px)
+      // Viewport minus #account-nav-right when logged out
+      // Long login translation: "Connexion" (French) to test
+      max-width: calc(100vW - 165px)
       ul
-        width: 100vw
+        width: 100vw !important
         border: none
         top: $header-height-mobile
 
-  #select2-drop.project-search-results
+  .project-search-results
     width: 100vw !important
     left: 0 !important
     border-right: 0
-    .select2-search:before
-      right: 44px
+
+    .project-menu-autocomplete--input-container
+      border-right: none !important
+    .project-menu-autocomplete--results
+      border-bottom: 2px solid $header-drop-down-border-color !important
+

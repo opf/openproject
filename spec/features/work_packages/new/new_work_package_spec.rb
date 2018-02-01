@@ -30,9 +30,7 @@ describe 'new work package', js: true do
   end
 
   def save_work_package!(expect_success = true)
-    within '.work-packages--edit-actions' do
-      click_button 'Save'
-    end
+    scroll_to_and_click find('#work-packages--edit-actions-save')
 
     if expect_success
       notification.expect_success('Successful creation.')

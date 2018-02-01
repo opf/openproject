@@ -31,9 +31,17 @@
   padding: rem-calc(10px)
   max-height: 50vh
   overflow-y: auto
+  position: relative
 
   &.collapsed
     display: none
+
+  .advanced-filters--close
+    position: absolute
+    top: 0.75rem
+    right: 0.75rem
+    width: 1rem
+    z-index: 2
 
 @mixin advanced-filters--sizing()
   @include grid-block()
@@ -86,6 +94,8 @@
   white-space: nowrap
   text-overflow: ellipsis
   font-size: 0.9rem
+  min-width: 156px
+  padding-right: 0
 
 .advanced-filters--filter-operator
   @include grid-content()
@@ -114,6 +124,9 @@
 
   a
     display: block
+    &:hover
+      text-decoration: none
+
 
 .advanced-filters--remove-filter-icon
   @extend .icon-close, .icon4
@@ -126,19 +139,32 @@
   padding:          0.25rem 0
 
 .advanced-filters--add-filter-label
-  @include grid-content(shrink)
-  font-size: 0.9rem
+  @extend .advanced-filters--filter-name
 
 .advanced-filters--add-filter-label-icon
   @extend .icon-add, .icon4
 
 .advanced-filters--add-filter-value
-  @include grid-content(3)
+  @include grid-content()
+  @include grid-visible-overflow
+  min-width: 120px
+  max-width: 200px
+
+.advanced-filters--add-filter-info
+  @include grid-content()
+  @include grid-visible-overflow
+
 
 .advanced-filters--spacer
   border-top:   1px solid $filters--border-color
   height: 1px
   margin:          0.75rem 1rem
+
+.advanced-filters--spacer,
+.advanced-filters--filter
+  &.hidden
+    display: none
+
 
 
 fieldset#date-range p

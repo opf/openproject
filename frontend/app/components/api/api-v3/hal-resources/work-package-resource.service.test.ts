@@ -142,13 +142,13 @@ describe('WorkPackageResource service', () => {
     const expectCacheUpdate = () => {
       it('should update the work package cache', () => {
         result.then(() => {
-          expect(updateWorkPackageStub.calledWith(workPackage)).to.be.true;
+          expect(updateWorkPackageStub.calledWith(workPackage.id)).to.be.true;
         });
       });
     };
 
     beforeEach(() => {
-      updateWorkPackageStub = sinon.stub(wpCacheService, 'updateWorkPackage');
+      updateWorkPackageStub = sinon.stub(wpCacheService, 'touch');
     });
 
     afterEach(() => {

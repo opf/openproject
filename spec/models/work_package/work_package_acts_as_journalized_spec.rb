@@ -31,19 +31,19 @@ require 'spec_helper'
 describe WorkPackage, type: :model do
   describe '#journal' do
     let(:type) { FactoryGirl.create :type }
-    let(:project) {
+    let(:project) do
       FactoryGirl.create :project,
                          types: [type]
-    }
+    end
     let(:status) { FactoryGirl.create :default_status }
     let(:priority) { FactoryGirl.create :priority }
-    let(:work_package) {
+    let(:work_package) do
       FactoryGirl.create(:work_package,
                          project_id: project.id,
                          type: type,
                          description: 'Description',
                          priority: priority)
-    }
+    end
     let(:current_user) { FactoryGirl.create(:user) }
 
     before do
@@ -58,10 +58,27 @@ describe WorkPackage, type: :model do
       it 'has a journal entry' do
         expect(Journal.first.journable).to eq(work_package)
       end
+
+      it 'notes the changes to subject' do
+        expect(Journal.first.details[:subject])
+          .to match_array [nil, work_package.subject]
+      end
+
+      it 'notes the changes to project' do
+        expect(Journal.first.details[:project_id])
+          .to match_array [nil, work_package.project_id]
+      end
+
+      it 'notes the description to project' do
+        expect(Journal.first.details[:description])
+          .to match_array [nil, work_package.description]
+      end
     end
 
     context 'nothing is changed' do
-      before do work_package.save! end
+      before do
+        work_package.save!
+      end
 
       it { expect(Journal.all.count).to eq(1) }
     end
@@ -73,22 +90,24 @@ describe WorkPackage, type: :model do
       end
 
       it 'is not created' do
-        expect { work_package.save! }.not_to change { work_package.journals.length }
+        expect { work_package.save! }.not_to(change { work_package.journals.reload.length })
       end
     end
 
     context 'different newlines' do
       let(:description) { "Description\n\nwith newlines\n\nembedded" }
       let(:changed_description) { description.gsub("\n", "\r\n") }
-      let!(:work_package_1) {
+      let!(:work_package_1) do
         FactoryGirl.create(:work_package,
                            project_id: project.id,
                            type: type,
                            description: description,
                            priority: priority)
-      }
+      end
 
-      before do work_package_1.description = changed_description end
+      before do
+        work_package_1.description = changed_description
+      end
 
       context 'when a new journal is created tracking a simultaneously applied change' do
         before do
@@ -111,34 +130,34 @@ describe WorkPackage, type: :model do
       end
 
       context 'when there is a legacy journal containing non-escaped newlines' do
-        let!(:work_package_journal_1) {
+        let!(:work_package_journal_1) do
           FactoryGirl.create(:work_package_journal,
                              journable_id: work_package_1.id,
                              version: 2,
                              data: FactoryGirl.build(:journal_work_package_journal,
                                                      description: description))
-        }
-        let!(:work_package_journal_2) {
+        end
+        let!(:work_package_journal_2) do
           FactoryGirl.create(:work_package_journal,
                              journable_id: work_package_1.id,
                              version: 3,
                              data: FactoryGirl.build(:journal_work_package_journal,
                                                      description: changed_description))
-        }
+        end
 
-        subject { work_package_1.journals.last.details }
+        subject { work_package_1.journals.reload.last.details }
 
         it { is_expected.not_to have_key :description }
       end
     end
 
     context 'on work package change' do
-      let(:parent_work_package) {
+      let(:parent_work_package) do
         FactoryGirl.create(:work_package,
                            project_id: project.id,
                            type: type,
                            priority: priority)
-      }
+      end
       let(:type_2) { FactoryGirl.create :type }
       let(:status_2) { FactoryGirl.create :status }
       let(:priority_2) { FactoryGirl.create :priority }
@@ -162,12 +181,12 @@ describe WorkPackage, type: :model do
       end
 
       context 'last created journal' do
-        subject { work_package.journals.last.details }
+        subject { work_package.journals.reload.last.details }
 
         it 'contains all changes' do
-          [:subject, :description, :type_id, :status_id, :priority_id,
-           :start_date, :due_date, :estimated_hours, :assigned_to_id,
-           :responsible_id, :parent_id].each do |a|
+          %i(subject description type_id status_id priority_id
+             start_date due_date estimated_hours assigned_to_id
+             responsible_id parent_id).each do |a|
             expect(subject).to have_key(a.to_s), "Missing change for #{a}"
           end
         end
@@ -206,12 +225,12 @@ describe WorkPackage, type: :model do
       describe 'adding journal with a missing journal and an existing journal' do
         before do
           allow(WorkPackages::UpdateContract).to receive(:new).and_return(NoopContract.new)
-          service = UpdateWorkPackageService.new(user: current_user, work_package: work_package)
+          service = WorkPackages::UpdateService.new(user: current_user, work_package: work_package)
           service.call(attributes: { journal_notes: 'note to be deleted' })
           work_package.reload
           service.call(attributes: { description: 'description v2' })
           work_package.reload
-          work_package.journals.find_by(notes: 'note to be deleted').delete
+          work_package.journals.reload.find_by(notes: 'note to be deleted').delete
 
           service.call(attributes: { description: 'description v4' })
         end
@@ -234,7 +253,7 @@ describe WorkPackage, type: :model do
       end
 
       context 'new attachment' do
-        subject { work_package.journals.last.details }
+        subject { work_package.journals.reload.last.details }
 
         it { is_expected.to have_key attachment_id }
 
@@ -243,20 +262,22 @@ describe WorkPackage, type: :model do
 
       context 'attachment saved w/o change' do
         before do
-          @original_journal_count = work_package.journals.count
+          @original_journal_count = work_package.journals.reload.count
 
           attachment.save!
         end
 
-        subject { work_package.journals.count }
+        subject { work_package.journals.reload.count }
 
         it { is_expected.to eq(@original_journal_count) }
       end
 
       context 'attachment removed' do
-        before do work_package.attachments.delete(attachment) end
+        before do
+          work_package.attachments.delete(attachment)
+        end
 
-        subject { work_package.journals.last.details }
+        subject { work_package.journals.reload.last.details }
 
         it { is_expected.to have_key attachment_id }
 
@@ -266,12 +287,11 @@ describe WorkPackage, type: :model do
 
     context 'custom values' do
       let(:custom_field) { FactoryGirl.create :work_package_custom_field }
-      let(:custom_value) {
-        FactoryGirl.create :custom_value,
-                           value: 'false',
-                           customized: work_package,
-                           custom_field: custom_field
-      }
+      let(:custom_value) do
+        FactoryGirl.build :custom_value,
+                          value: 'false',
+                          custom_field: custom_field
+      end
 
       let(:custom_field_id) { "custom_fields_#{custom_value.custom_field_id}" }
 
@@ -279,7 +299,8 @@ describe WorkPackage, type: :model do
         before do
           project.work_package_custom_fields << custom_field
           type.custom_fields << custom_field
-          custom_value
+          work_package.reload
+          work_package.custom_values << custom_value
           work_package.save!
         end
       end
@@ -287,7 +308,7 @@ describe WorkPackage, type: :model do
       context 'new custom value' do
         include_context 'work package with custom value'
 
-        subject { work_package.journals.last.details }
+        subject { work_package.journals.reload.last.details }
 
         it { is_expected.to have_key custom_field_id }
 
@@ -297,17 +318,17 @@ describe WorkPackage, type: :model do
       context 'custom value modified' do
         include_context 'work package with custom value'
 
-        let(:modified_custom_value) {
+        let(:modified_custom_value) do
           FactoryGirl.create :custom_value,
                              value: 'true',
                              custom_field: custom_field
-        }
+        end
         before do
           work_package.custom_values = [modified_custom_value]
           work_package.save!
         end
 
-        subject { work_package.journals.last.details }
+        subject { work_package.journals.reload.last.details }
 
         it { is_expected.to have_key custom_field_id }
 
@@ -317,19 +338,20 @@ describe WorkPackage, type: :model do
       context 'work package saved w/o change' do
         include_context 'work package with custom value'
 
-        let(:unmodified_custom_value) {
+        let(:unmodified_custom_value) do
           FactoryGirl.create :custom_value,
                              value: 'false',
                              custom_field: custom_field
-        }
+        end
         before do
-          @original_journal_count = work_package.journals.count
+          @original_journal_count = work_package.journals.reload.count
 
           work_package.custom_values = [unmodified_custom_value]
+
           work_package.save!
         end
 
-        subject { work_package.journals.count }
+        subject { work_package.journals.reload.count }
 
         it { is_expected.to eq(@original_journal_count) }
       end
@@ -350,31 +372,31 @@ describe WorkPackage, type: :model do
       end
 
       context 'custom value did not exist before' do
-        let(:custom_field) {
+        let(:custom_field) do
           FactoryGirl.create :work_package_custom_field,
                              is_required: false,
                              field_format: 'list',
                              possible_values: ['', '1', '2', '3', '4', '5', '6', '7']
-        }
-        let(:custom_value) {
+        end
+        let(:custom_value) do
           FactoryGirl.create :custom_value,
                              value: '',
                              customized: work_package,
                              custom_field: custom_field
-        }
+        end
 
         describe 'empty values are recognized as unchanged' do
           include_context 'work package with custom value'
 
-          it { expect(work_package.journals.last.customizable_journals).to be_empty }
+          it { expect(work_package.journals.reload.last.customizable_journals).to be_empty }
 
-          it { expect(JournalManager.changed? work_package).to be_falsey }
+          it { expect(JournalManager.changed?(work_package)).to be_falsey }
         end
 
         describe 'empty values handled as non existing' do
           include_context 'work package with custom value'
 
-          it { expect(work_package.journals.last.customizable_journals.count).to eq(0) }
+          it { expect(work_package.journals.reload.last.customizable_journals.count).to eq(0) }
         end
       end
     end
@@ -405,7 +427,7 @@ describe WorkPackage, type: :model do
 
       @priority_low ||= FactoryGirl.create(:priority_low, is_default: true)
       @priority_high ||= FactoryGirl.create(:priority_high)
-      @project ||= FactoryGirl.create(:project_with_types)
+      @project ||= FactoryGirl.create(:project, no_types: true, types: [@type])
 
       @current = FactoryGirl.create(:user, login: 'user1', mail: 'user1@users.com')
       allow(User).to receive(:current).and_return(@current)
@@ -434,14 +456,11 @@ describe WorkPackage, type: :model do
       it 'should not include certain attributes' do
         recreated_journal = @issue.recreate_initial_journal!
 
-        expect(recreated_journal.details.include?('rgt')).to eq(false)
-        expect(recreated_journal.details.include?('lft')).to eq(false)
         expect(recreated_journal.details.include?('lock_version')).to eq(false)
         expect(recreated_journal.details.include?('updated_at')).to eq(false)
         expect(recreated_journal.details.include?('updated_on')).to eq(false)
         expect(recreated_journal.details.include?('id')).to eq(false)
         expect(recreated_journal.details.include?('type')).to eq(false)
-        expect(recreated_journal.details.include?('root_id')).to eq(false)
       end
 
       it 'should not include useless transitions' do

@@ -41,6 +41,7 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       groupable: false
     },
     project: {
+      association: 'project',
       sortable: "name",
       groupable: true
     },
@@ -48,36 +49,48 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       sortable: "#{WorkPackage.table_name}.subject"
     },
     type: {
+      association: 'type',
       sortable: "position",
       groupable: true
     },
     parent: {
-      sortable: ["root_id",
-                 "lft"],
-      default_order: 'asc'
+      association: 'ancestors_relations',
+      default_order: 'asc',
+      sortable: ["CONCAT_WS(',', hierarchy_paths.path, work_packages.id)"],
+      sortable_join: <<-SQL
+        LEFT OUTER JOIN
+          hierarchy_paths
+        ON
+          hierarchy_paths.work_package_id = work_packages.id
+      SQL
     },
     status: {
+      association: 'status',
       sortable: "position",
       groupable: true
     },
     priority: {
+      association: 'priority',
       sortable: "position",
       default_order: 'desc',
       groupable: true
     },
     author: {
+      association: 'author',
       sortable: ["lastname",
                  "firstname",
                  "id"],
       groupable: true
     },
     assigned_to: {
+      association: 'assigned_to',
       sortable: ["lastname",
                  "firstname",
                  "id"],
       groupable: true
     },
     responsible: {
+      association: 'responsible',
       sortable: ["lastname",
                  "firstname",
                  "id"],
@@ -88,10 +101,12 @@ class Queries::WorkPackages::Columns::PropertyColumn < Queries::WorkPackages::Co
       default_order: 'desc'
     },
     category: {
+      association: 'category',
       sortable: "name",
       groupable: true
     },
     fixed_version: {
+      association: 'fixed_version',
       sortable: ["effective_date",
                  "name"],
       default_order: 'desc',

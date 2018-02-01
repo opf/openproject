@@ -93,8 +93,14 @@ module Pages
     end
 
     def click_inline_create
+
+      ##
+      # When using the inline create on initial page load,
+      # there is a delay on travis where inline create can be clicked.
+      sleep 3
+
       find('.wp-inline-create--add-link').click
-      expect(page).to have_selector('.wp-inline-create-row')
+      expect(page).to have_selector('.wp-inline-create-row', wait: 10)
     end
 
     def create_wp_split_screen(type)
@@ -111,7 +117,8 @@ module Pages
       # Hover row to show split screen button
       row_element = row(work_package)
       row_element.hover
-      row_element.find('.wp-table--details-link').click
+
+      scroll_to_and_click(row_element.find('.wp-table--details-link'))
 
       split_page
     end

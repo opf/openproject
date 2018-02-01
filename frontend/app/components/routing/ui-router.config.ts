@@ -27,6 +27,7 @@
 // ++
 
 import {openprojectModule} from '../../angular-modules';
+import {FirstRouteService} from 'app/components/routing/first-route-service';
 
 const panels = {
   get overview() {
@@ -78,9 +79,14 @@ openprojectModule
            $urlMatcherFactoryProvider:ng.ui.IUrlMatcherFactory) => {
     $urlMatcherFactoryProvider.strictMode(false);
 
+    // Prepend the baseurl to the route to avoid using a base tag
+    // For more information, see
+    // https://github.com/angular/angular.js/issues/5519
+    // https://github.com/opf/openproject/pull/5685
+    const baseUrl = (window as any).appBasePath;
     $stateProvider
       .state('work-packages', {
-        url: '/{projects}/{projectPath}/work_packages?query_id&query_props',
+        url: baseUrl + '/{projects}/{projectPath}/work_packages?query_id&query_props',
         abstract: true,
         params: {
           // value: null makes the parameter optional
@@ -193,6 +199,7 @@ openprojectModule
 
   .run(($location:ng.ILocationService,
         $rootElement:ng.IRootElementService,
+        firstRoute:FirstRouteService,
         $timeout:ng.ITimeoutService,
         $rootScope:ng.IRootScopeService,
         $state:ng.ui.IStateService,
@@ -231,7 +238,12 @@ openprojectModule
       evt.preventDefault();
     });
 
+
     $rootScope.$on('$stateChangeStart', (event, toState, toParams) => {
+      // We need to distinguish between actions that should run on the initial page load
+      // (ie. openining a new tab in the details view should focus on the element in the table)
+      // so we need to know which route we visited initially
+      firstRoute.setIfFirst(toState, toParams);
 
       $rootScope.$emit('notifications.clearAll');
 
