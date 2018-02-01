@@ -75,7 +75,7 @@ export class WpQueryMenuController {
       });
 
     this.container.on('click', `.${QUERY_MENU_ITEM_TYPE}`, (event) => {
-      if (LinkHandling.isClickedWithModifier(event)) {
+      if (LinkHandling.isClickedWithModifier(event) || LinkHandling.isOutsideAngular()) {
         return true;
       }
 
@@ -93,7 +93,9 @@ export class WpQueryMenuController {
 
   private setSelectedState() {
     // Set WP menu to selected if no current query id set
-    this.$element.toggleClass('selected', !this.currentQueryId);
+    if (this.currentQueryId) {
+      this.$element.removeClass('selected');
+    }
 
     // Update all queries children
     const queries = this.container.find('.query-menu-item');

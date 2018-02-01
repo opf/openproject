@@ -34,4 +34,8 @@ export namespace LinkHandling {
 
     return modifier || middleButton;
   }
+
+  export function isOutsideAngular() {
+    return jQuery('[ui-view]').length == 0;
+  }
 }
