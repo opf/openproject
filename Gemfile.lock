@@ -50,11 +50,11 @@ GIT
 
 GIT
   remote: https://github.com/opf/openproject-translations.git
-  revision: d14d45a60a03a2066d31328aed4fe711a915ec74
+  revision: 52a08551cf5562f14b2eeadb31bcb64bafd303a2
   branch: translations-in-core
   specs:
     openproject-translations (7.4.0)
-      crowdin-api (~> 0.4.1)
+      crowdin-api (~> 0.5.0)
       mixlib-shellout (~> 2.1.0)
       rails (~> 5.0.0)
       rubyzip
@@ -207,8 +207,8 @@ GEM
     crack (0.4.3)
       safe_yaml (~> 1.0.0)
     crass (1.0.2)
-    crowdin-api (0.4.1)
-      rest-client (~> 1.8)
+    crowdin-api (0.5.0)
+      rest-client (~> 2.0)
     cucumber (3.0.1)
       builder (>= 2.1.2)
       cucumber-core (~> 3.0.0)
@@ -476,10 +476,10 @@ GEM
     responders (2.4.0)
       actionpack (>= 4.2.0, < 5.3)
       railties (>= 4.2.0, < 5.3)
-    rest-client (1.8.0)
+    rest-client (2.0.2)
       http-cookie (>= 1.0.2, < 2.0)
-      mime-types (>= 1.16, < 3.0)
-      netrc (~> 0.7)
+      mime-types (>= 1.16, < 4.0)
+      netrc (~> 0.8)
     retriable (3.0.2)
     roar (1.1.0)
       representable (~> 3.0.0)
