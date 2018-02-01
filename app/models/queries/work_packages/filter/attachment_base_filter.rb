@@ -28,6 +28,8 @@
 #++
 
 class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackages::Filter::WorkPackageFilter
+  DISALLOWED_CHARACTERS = /['?\\:()&|]/
+
   def type
     :text
   end
@@ -40,23 +42,22 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
     EnterpriseToken.allows_to?(:attachment_filters)
   end
 
-
   def search_column
     raise NotImplementedError
   end
 
   def where
     if OpenProject::Database.allows_tsv?
+      column = '"attachments"."' + search_column + '_tsv"'
+      query = tokenize
       language = OpenProject::Configuration.main_content_language
 
-      where_condition = <<-SQL
-        "attachments"."%s_tsv" @@ to_tsquery('%s', '%s')
-      SQL
-
       ActiveRecord::Base.send(
-        :sanitize_sql_array,
-        [where_condition, search_column, language, tokenize]
+        :sanitize_sql_array, ["#{column} @@ to_tsquery(?, ?)",
+                              language,
+                              query]
       )
+
     else
       # Fallback when No TSVECTOR is available
       operator_strategy.sql_for_field(values, 'attachments', search_column)
@@ -66,7 +67,7 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
   private
 
   def tokenize
-    terms = normalize_text(values.first).split /\s/
+    terms = normalize_text(clean_terms).split /\s/
 
     case operator
       when '~'
@@ -74,6 +75,10 @@ class Queries::WorkPackages::Filter::AttachmentBaseFilter < Queries::WorkPackage
       when '!~'
         '! ' + terms.join(' & ! ')
     end
+  end
+
+  def clean_terms
+    values.first.gsub(DISALLOWED_CHARACTERS, ' ')
   end
 
   def normalize_text(text)
